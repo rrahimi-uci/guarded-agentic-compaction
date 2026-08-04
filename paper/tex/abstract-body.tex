@@ -1,60 +1,32 @@
-\textbf{Problem.}  Mature tool-using agents can spend repeated model calls selecting the
-same read-only evidence path.  Removing those calls is unsafe by default: recurrence does
-not establish that arguments are grounded in observable state, that effects permit
-speculation, or that a replacement remains valid on future inputs.
+\textbf{Problem.}  A mature tool-using agent spends model calls reselecting the same
+read-only evidence path.  Recurrence alone does not license removing them: an argument may
+not be grounded in observable state, an effect may not permit speculation, and a
+replacement may not hold on the next input.
 
-\textbf{Gap.}  Existing systems optimize prompts, reuse workflows, compile current plans,
-or schedule tool calls.  We study a narrower unresolved question: what evidence is needed
-to replace a recurrent cross-execution region, and when must an optimizer abstain?
+\textbf{Gap.}  Prior systems tune prompts, reuse workflows, or schedule calls.  The open
+question is narrower --- what evidence licenses replacing a recurrent region, and when must
+an optimizer refuse?
 
 \textbf{Method.}  \emph{Guarded agentic compaction} (\method) reconstructs typed
-value-level provenance, treats unknown effects, writes, approvals, handoffs, and unsupported
-runtime positions as hard barriers, and synthesizes programs from a closed 23-operator
-library.  It induces replay contracts and can challenge them with caller-supplied sandboxed
-perturbations; the reported live artifact uses replay only.  A threshold selected from a
-pre-specified finite grid carries a simultaneous exact-binomial bound on registered
-contract violations under i.i.d. or conditional-i.i.d. admitted groups.  Rejection before
-emission delegates to the baseline; exact restoration after attempted execution is scoped
-to the staging-owning runner, not the model adapter.
-The compiler itself remains binary: emit a guarded artifact or retain the unchanged
-agent.  We additionally introduce a framework-neutral portfolio layer that compares only
-measured actions, applies multiplicity-corrected exact bounds to task failure and
-non-positive utility, and otherwise returns the baseline.  A selected macro is a
-human-review recommendation; macro synthesis is not implemented.
+value-level provenance, treats unknown effects, writes, approvals, handoffs, and
+unsupported dispatch positions as hard barriers, and synthesizes programs from a closed
+23-operator library.  Induced replay contracts gate execution, and a threshold from a
+pre-specified finite grid carries an exact-binomial bound on \emph{registered-contract}
+violations.  Refusal is the default output: the compiler itself remains binary --- emit a
+guarded artifact, or retain the unchanged agent.  A portfolio layer then compares only
+measured actions and otherwise returns the baseline.
 
-\textbf{Results.}  In an expanded live-provider replication, a task-level prompt names
-neither tools nor order.  Among 132 discovery runs over public GitHub records, 130 satisfy
-the exact-source contract and all use the same three-read order, but the third call's limit
-is not consistently groundable.  The compiler therefore abstains from the full region and
-emits only a two-read prefix.  On 30 fresh counterbalanced records, that partial artifact
-preserves all 30 exact task contracts while reducing requests 50.0\%, tokens 39.5\%,
-observed latency 51.7\%, and estimated cost 32.0\%.  A live hand-written composite tool
-also passes 30/30 and matches the request reduction while using fewer tools, tokens, and
-dollars; the compiler has slightly lower observed mean latency.  The structural difference
-is that the macro fuses three application reads into one task-specific interface, whereas
-the compatibility-preserving partial artifact retains all three logical reads.  An earlier, more
-aggressive three-read artifact
-saves 75.0\% of requests but passes 17/18 exact factual contracts versus 18/18 for both
-comparators.  Thus preservation is observed for the partial artifact, not established as
-an invariant of deeper compilation.
-Using the 30 independent replication groups as frozen portfolio evidence, both compiler
-and macro pass a 15\% pilot risk limit; the macro has higher weighted utility (0.489 versus
-0.327) and is selected for review.  On 12 subsequently selected, calibration-disjoint
-public issues, the reviewed choice and unchanged agent each pass 12/12 exact contracts;
-the choice reduces requests 50.0\%, tool calls 66.7\%, tokens 59.2\%, observed latency
-71.6\%, and estimated cost 40.6\%.  This is a prospective single-family pilot, not evidence
-that selection outperforms an always-macro policy across workflow families.
-On public NESTFUL data, provenance places the expected producer in the candidate set for
-96.3\% of 5,746 slots but resolves 80.7\% uniquely; held-out replay gives 24 passes, 12
-abstentions, and zero wrong executions.  No family reaches the configured requirement of
-92 zero-violation group records, so all retire; interpreting those records as independent
-remains a sampling assumption.  A live-provider conformance suite over fictional records
-covers partial compaction and refusal but supplies no real-scenario evidence.
+\textbf{Results.}  Under a task-level prompt naming neither tools nor order, 130 of 132
+real GitHub traces follow one three-read path --- yet the third argument is not groundable,
+so \method abstains from the full region and emits a two-read prefix.  That partial
+artifact holds 30/30 task contracts while cutting requests 50.0\% and estimated cost
+32.0\%.  A hand-written composite tool matches its request saving and beats it on tokens
+and dollars.  A deeper three-read artifact saves 75.0\% of requests but loses a factual
+contract (17/18).  On NESTFUL, provenance places the true producer among candidates for
+96.3\% of 5,746 slots yet resolves only 80.7\% uniquely, and every recurrent family retires
+at the gate.
 
-\textbf{Contributions.}  A trace-to-program formulation combining value provenance,
-effect and position barriers, bounded synthesis, empirical contracts, and conditional
-finite-sample admission; real-record, live-provider comparisons against both an unchanged
-agent and hand-written macro under natural tool ordering; a risk-bounded transformation
-portfolio with a prospective reviewed-action pilot; and depth-sensitive negative results
-showing that recurrence and efficiency gains do not establish factual quality, compiler
-superiority, portfolio superiority, or admission safety.
+\textbf{Contribution.}  Traces establish recurrence, not admissibility.  We specify the
+evidence a compiler needs and the barriers it must respect, and report four negative
+results: efficiency gains establish neither factual quality, nor superiority over
+hand-written code, nor portfolio superiority, nor admission safety.

@@ -8,6 +8,7 @@ import json
 import re
 import subprocess
 import tomllib
+import zipfile
 from collections import Counter, defaultdict
 from itertools import permutations
 from pathlib import Path
@@ -1086,7 +1087,8 @@ def validate_publication() -> None:
             # Assert the current title, not the method name: the phrase "Guarded Agentic
             # Compaction" still appears in the body where the method is defined, so
             # checking it would pass even if the title were dropped entirely.
-            for phrase in ("When Traces Are Not Enough", "Guarded Compilation of Tool-Using",
+            for phrase in ("Compiling Recurrent Agent Workflows",
+                           "into Guarded Programs",
                            "NESTFUL",
                            "Expanded natural-order Tier-2 replication",
                            "GEPA",
@@ -1129,6 +1131,32 @@ def validate_no_secrets() -> None:
     ok(not findings, f"publication tree contains no API-secret-shaped value ({findings})")
 
 
+def validate_slides() -> None:
+    path = PAPER / "slides/compiling-recurrent-agent-workflows-into-guarded-programs.pptx"
+    ok(path.exists() and path.stat().st_size > 0, "publication slide deck exists and is non-empty")
+    if not path.exists() or path.stat().st_size == 0:
+        return
+    try:
+        with zipfile.ZipFile(path) as package:
+            names = package.namelist()
+            slide_parts = sorted(
+                name for name in names
+                if re.fullmatch(r"ppt/slides/slide\d+\.xml", name)
+            )
+            ok(len(slide_parts) == 16, "publication slide deck contains 16 slides")
+            payload = b"\n".join(package.read(name) for name in slide_parts)
+            ok(b"Compiling Recurrent Agent" in payload
+               and b"Workflows into Guarded Programs" in payload,
+               "publication slide deck contains the current paper title")
+            ok(b"When Traces Are Not Enough" not in payload,
+               "publication slide deck contains no superseded title")
+            media = [name for name in names if name.startswith("ppt/media/")]
+            ok(all(package.getinfo(name).file_size > 0 for name in media),
+               "publication slide deck contains no empty media parts")
+    except Exception as exc:
+        errors.append(f"publication slide deck package validation: {exc}")
+
+
 def main() -> None:
     validate_sources()
     validate_live()
@@ -1143,6 +1171,7 @@ def main() -> None:
     validate_manifest()
     validate_claim_boundaries()
     validate_publication()
+    validate_slides()
     validate_no_secrets()
     summary = {
         "validator": "paper/scripts/validate_artifacts.py",

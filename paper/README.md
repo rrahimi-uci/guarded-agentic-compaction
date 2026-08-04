@@ -2,8 +2,7 @@
 
 This directory is the complete, reproducible artifact for:
 
-> **When Traces Are Not Enough:**
-> **Guarded Compilation of Tool-Using Agents**
+> **Compiling Recurrent Agent Workflows into Guarded Programs**
 
 The paper studies whether repeated model-mediated, read-only tool prefixes can be
 replaced by trace-derived deterministic programs without hiding provenance, effect,
@@ -31,6 +30,9 @@ paper/
 ├── bibliography/references.bib     primary-source bibliography
 ├── generated_figures/              script-generated PDF and PNG figures
 ├── tables/                         script-generated LaTeX tables
+├── slides/
+│   └── compiling-recurrent-agent-workflows-into-guarded-programs.pptx
+│                                    editable 16-slide research presentation
 ├── results/
 │   ├── datasets/                   pinned upstream snapshots and manifests
 │   ├── github_live/                real-record/live-provider raw results
