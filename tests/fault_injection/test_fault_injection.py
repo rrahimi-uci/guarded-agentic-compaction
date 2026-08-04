@@ -94,6 +94,29 @@ def _artifact(program: Program) -> Artifact:
     )
 
 
+def test_live_dispatch_needs_explicit_opt_in_to_evaluate_shadow_artifacts() -> None:
+    artifact = _artifact(_program())
+    artifact.lifecycle = Lifecycle.SHADOW
+    registry = Registry(name="shadow")
+    registry.add(artifact)
+    kwargs = {
+        "compatibility_key": MANIFEST.compatibility_key(),
+        "partition": {"tenant_partition": "t1"},
+        "entry_state": {"key": "x"},
+        "context": {"model": "m1", "tenant_partition": "t1"},
+        "defer_execution": True,
+    }
+    production = Dispatcher(registry=registry, catalog=CATALOG, mode=DispatchMode.LIVE)
+    assert production.decide(**kwargs).artifact is None
+    study = Dispatcher(
+        registry=registry,
+        catalog=CATALOG,
+        mode=DispatchMode.LIVE,
+        live_stages=(Lifecycle.SHADOW,),
+    )
+    assert study.decide(**kwargs).artifact is artifact
+
+
 class _World:
     def __init__(self, fail: str | None = None, write_on: str | None = None) -> None:
         self.fail = fail

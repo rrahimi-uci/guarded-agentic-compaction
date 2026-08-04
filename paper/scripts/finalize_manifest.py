@@ -43,6 +43,16 @@ def included_files() -> list[Path]:
         files.add(path)
     for base in (ROOT / "src", ROOT / "tests"):
         files.update(path for path in base.rglob("*.py") if "__pycache__" not in path.parts)
+    benchmark_root = ROOT / "benchmarks"
+    if benchmark_root.is_dir():
+        files.update(
+            path
+            for path in benchmark_root.rglob("*")
+            if path.is_file()
+            and "__pycache__" not in path.parts
+            and ".cache" not in path.parts
+            and "results" not in path.parts
+        )
     # The hand-written-macro comparator is generated from the deterministic offline
     # study. Hash its raw results and every local source needed to reproduce them; hashing
     # only the derived LaTeX table would let the evidence change undetected.
@@ -80,7 +90,13 @@ def included_files() -> list[Path]:
             path for path in tier3.rglob("*")
             if path.is_file() and "__pycache__" not in path.parts
         )
-    for name in ("pyproject.toml", "README.md", "LICENSE", "docs/gpt-5.6-report.md"):
+    for name in (
+        "pyproject.toml",
+        "README.md",
+        "LICENSE",
+        "docs/gpt-5.6-report.md",
+        "extension-plan.md",
+    ):
         path = ROOT / name
         if path.exists():
             files.add(path)

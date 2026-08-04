@@ -38,7 +38,7 @@ from typing import Any, Sequence
 
 from ..paths import content_digest, stable_int
 from ..registry.store import Registry
-from ..schema.artifacts import Artifact, DispatchOutcome
+from ..schema.artifacts import Artifact, DispatchOutcome, Lifecycle
 from ..schema.effects import EffectCatalog
 from ..schema.traces import ExecutionManifest
 from .dispatch import DispatchMode, Dispatcher
@@ -165,6 +165,7 @@ class CompactingModel(_AgentsModel):
         partition_fn: Any = None,
         context_fn: Any = None,
         allow_streaming: bool = False,
+        live_stages: tuple[Lifecycle, ...] = (Lifecycle.ACTIVE,),
     ) -> None:
         self._wrapped = wrapped
         self._registry = registry
@@ -186,7 +187,12 @@ class CompactingModel(_AgentsModel):
         # trace id and use the ContextVar only for direct/non-SDK callers.
         self._plans_by_run: dict[str, ArtifactPlan] = {}
         self._plans_lock = threading.RLock()
-        self.dispatcher = Dispatcher(registry=registry, catalog=catalog, mode=mode)
+        self.dispatcher = Dispatcher(
+            registry=registry,
+            catalog=catalog,
+            mode=mode,
+            live_stages=live_stages,
+        )
         self.shadow_log: list[dict[str, Any]] = []
         self.input_digests: list[str] = []
 

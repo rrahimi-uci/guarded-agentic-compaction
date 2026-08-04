@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-compaction.local/contracts/sec_fact.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "cik", "issuer", "taxonomy", "concept", "value", "unit",
+    "period_start", "period_end", "form", "fiscal_year", "fiscal_period",
+    "accession", "filed_date", "report_date", "amendment",
+    "applicable_accession_as_of", "companyfacts_filing_agreement", "state",
+    "sources"
+  ],
+  "properties": {
+    "cik": {"type": "string", "pattern": "^[0-9]{10}$"},
+    "issuer": {"type": "string", "minLength": 1},
+    "taxonomy": {"type": "string", "minLength": 1},
+    "concept": {"type": "string", "minLength": 1},
+    "value": {"type": ["string", "null"]},
+    "unit": {"type": ["string", "null"]},
+    "period_start": {"type": ["string", "null"], "format": "date"},
+    "period_end": {"type": ["string", "null"], "format": "date"},
+    "form": {"type": ["string", "null"]},
+    "fiscal_year": {"type": ["integer", "null"]},
+    "fiscal_period": {"type": ["string", "null"]},
+    "accession": {"type": ["string", "null"], "pattern": "^[0-9]{10}-[0-9]{2}-[0-9]{6}$"},
+    "filed_date": {"type": ["string", "null"], "format": "date"},
+    "report_date": {"type": ["string", "null"], "format": "date"},
+    "amendment": {"type": ["boolean", "null"]},
+    "applicable_accession_as_of": {"type": ["string", "null"]},
+    "companyfacts_filing_agreement": {"enum": ["AGREE", "DISAGREE", "NOT_ASSESSABLE"]},
+    "state": {"enum": ["OK", "MULTIPLE_UNITS", "MULTIPLE_CONTEXTS", "MISSING", "NOT_ASSESSABLE"]},
+    "sources": {"type": "array", "items": {"$ref": "#/$defs/source"}}
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "record_id", "url", "snapshot_digest"],
+      "properties": {
+        "source": {"type": "string", "minLength": 1},
+        "record_id": {"type": "string", "minLength": 1},
+        "url": {"type": "string", "pattern": "^https://"},
+        "snapshot_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    }
+  }
+}

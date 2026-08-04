@@ -23,6 +23,30 @@ from scripts.generate_synthetic import ENTRY_ALLOWLIST, SYNTHETIC_CATALOG, gener
 ROOT = Path(__file__).resolve().parents[2]
 
 
+def test_cli_exposes_benchmark_protocol_commands(capsys):
+    with pytest.raises(SystemExit) as exc:
+        cli_main(["benchmark", "--help"])
+    assert exc.value.code == 0
+    output = capsys.readouterr().out
+    for command in (
+        "preflight",
+        "freeze",
+        "pilot",
+        "discovery",
+        "development",
+        "artifact-calibration",
+        "portfolio-calibration",
+        "compile-grc",
+        "calibrate-grc",
+        "freeze-actions",
+        "prepare-macro-review",
+        "calibrate",
+        "test",
+        "analyze",
+    ):
+        assert command in output
+
+
 @pytest.fixture(scope="module")
 def traces_file(tmp_path_factory) -> Path:
     path = tmp_path_factory.mktemp("traces") / "synth.jsonl"

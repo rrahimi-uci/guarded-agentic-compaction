@@ -1,0 +1,44 @@
+schema: agent-compaction-source-manifest/v1
+domain: hmda
+status: normalized_real_pool_available_provider_free
+verified_at: "2026-08-04"
+required_configuration: []
+normalized_pool:
+  groups: 420
+  exact_oracle_passes: 420
+  independent_gold_passes: 420
+  variable_path_groups: 416
+  snapshot_digest: 945c176f483bfc736d9faff7f7db226091234c8f5d50f7768481e2dbf3e2dde9
+  provider_calls_executed: 0
+  years: [2023, 2024]
+  jurisdiction: RI
+  report: ../../../paper/results/multidomain/preflight/hmda/report.json
+sources:
+  - name: HMDA modified Loan/Application Register
+    url: https://ffiec.cfpb.gov/data-publication/modified-lar
+    authority: FFIEC and Consumer Financial Protection Bureau
+    access: public_no_key_privacy_modified
+    license_or_terms: https://ffiec.cfpb.gov/documentation/publications/loan-level-datasets/filing-instructions-guide
+  - name: HMDA public data browser API
+    url: https://ffiec.cfpb.gov/data-browser/
+    authority: FFIEC and Consumer Financial Protection Bureau
+    access: public_no_key_privacy_modified
+    license_or_terms: https://ffiec.cfpb.gov/documentation/
+  - name: HMDA data dictionaries and filing instructions
+    url: https://ffiec.cfpb.gov/documentation/publications/loan-level-datasets/
+    authority: FFIEC and Consumer Financial Protection Bureau
+    access: public_no_key
+    license_or_terms: https://ffiec.cfpb.gov/documentation/
+source_artifacts:
+  "2023":
+    url: https://ffiec.cfpb.gov/v2/data-browser-api/view/csv?years=2023&states=RI
+    rows: 38473
+    sha256: cc0bd55b22cd8346fc3bb1ccb2cf173722e66b8e73f718479a2252cc53c5f0b0
+  "2024":
+    url: https://ffiec.cfpb.gov/v2/data-browser-api/view/csv?years=2024&states=RI
+    rows: 41977
+    sha256: c12e37f8820c9f4e594e484614176cc8853f2a69507df9f2d8b4057e1618f9d8
+privacy_boundary:
+  modified_public_lar_only: true
+  protected_demographic_fields_exposed_to_agent_tools: false
+  reidentification_or_credit_decision: prohibited

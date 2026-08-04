@@ -156,6 +156,14 @@ def paired_ratio(
     num = sum(s.candidate for s in samples)
     den = sum(s.baseline for s in samples)
     point = num / den if den else float("nan")
+    if not den:
+        return Interval(
+            point,
+            float("nan"),
+            float("nan"),
+            level,
+            "paired_ratio_bootstrap",
+        )
     rng = random.Random(seed)
     ratios: list[float] = []
     for _ in range(n_boot):
@@ -167,6 +175,14 @@ def paired_ratio(
         if d:
             ratios.append(n / d)
     ratios.sort()
+    if not ratios:
+        return Interval(
+            point,
+            float("nan"),
+            float("nan"),
+            level,
+            "paired_ratio_bootstrap",
+        )
     lo = ratios[int((1 - level) / 2 * len(ratios))]
     hi = ratios[min(len(ratios) - 1, int((1 + level) / 2 * len(ratios)))]
     return Interval(point, lo, hi, level, "paired_ratio_bootstrap")

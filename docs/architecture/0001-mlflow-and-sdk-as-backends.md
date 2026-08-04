@@ -1,6 +1,6 @@
 # ADR 0001 — MLflow and the Agents SDK are backends, not the IR
 
-**Status:** accepted
+**Status:** superseded by [ADR 0010](0010-single-framework-adapter.md) (the IR decision stands; the MLflow adapter was removed)
 
 ## Context
 

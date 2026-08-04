@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-compaction.local/contracts/hmda_record.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "activity_year", "filer", "action_taken", "loan_type", "loan_purpose",
+    "lien_status", "occupancy_type", "property_type", "preapproval",
+    "denial_reasons", "special_states", "privacy_notice", "sources"
+  ],
+  "properties": {
+    "activity_year": {"type": "integer", "minimum": 2018},
+    "filer": {"$ref": "#/$defs/coded"},
+    "action_taken": {"$ref": "#/$defs/coded"},
+    "loan_type": {"$ref": "#/$defs/coded"},
+    "loan_purpose": {"$ref": "#/$defs/coded"},
+    "lien_status": {"$ref": "#/$defs/coded"},
+    "occupancy_type": {"$ref": "#/$defs/coded"},
+    "property_type": {"$ref": "#/$defs/coded"},
+    "preapproval": {"$ref": "#/$defs/coded"},
+    "denial_reasons": {"type": "array", "items": {"$ref": "#/$defs/coded"}},
+    "special_states": {
+      "type": "object",
+      "additionalProperties": {"enum": ["NA", "EXEMPT", "UNAVAILABLE", "NOT_APPLICABLE"]}
+    },
+    "privacy_notice": {
+      "const": "Public HMDA data are modified to protect applicant and borrower privacy; this interpretation does not reconstruct underwriting facts."
+    },
+    "sources": {"type": "array", "minItems": 3, "items": {"$ref": "#/$defs/source"}}
+  },
+  "$defs": {
+    "coded": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "label"],
+      "properties": {
+        "code": {"type": ["string", "integer"]},
+        "label": {"type": ["string", "null"]}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "record_id", "url", "snapshot_digest"],
+      "properties": {
+        "source": {"type": "string", "minLength": 1},
+        "record_id": {"type": "string", "minLength": 1},
+        "url": {"type": "string", "pattern": "^https://"},
+        "snapshot_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    }
+  }
+}

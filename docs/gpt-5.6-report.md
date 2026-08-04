@@ -7,6 +7,78 @@
 research positioning, optimization-library design, provider-backed demonstrations, and
 reproducible offline stress evaluation
 
+## Multidomain real-record implementation checkpoint (2026-08-04)
+
+The feasible provider-free portion of [`extension-plan.md`](../extension-plan.md) is now
+implemented end to end. This extension is a new prospective study and must not be confused with
+the historical GitHub live studies described below.
+
+| Evidence class | Current verified state |
+|:---|:---|
+| Vulnerability records | 420 independent real PyPI package groups; 420/420 exact macro/oracle recomputation; 48 variable-path groups; OSV, GitHub Advisory Database, PyPI, NVD annual feeds, and CISA KEV are checksum-bound. |
+| HMDA records | 420 independent real public LEI groups from privacy-modified 2023/2024 LAR data; 420/420 exact recomputation; 416 variable-path groups; protected demographic columns are not exposed to tools. |
+| SEC records | Acquisition/parser/normalizer/macro code is implemented, but zero SEC records were fetched because a compliant `SEC_USER_AGENT` contact is absent. |
+| Provider use | Zero OpenAI calls and zero `.env` API-key use for this extension. Historical live demonstrations below did use the configured key under their earlier protocol. |
+| Optimization results | Unrun. There is no current multidomain token, latency, cost, quality, determinism, or workflow-reduction result. |
+
+The implementation now includes deterministic real-source acquisition and offline replay,
+content and aggregate-size bounds, HTTP policy stops, normalized artifact checksums, exact
+oracles built independently from the evaluated macros, immutable full case/group/lineage
+freezing, counterbalanced schedules, framework-neutral
+metrics, exact paired inference, a hash-chained resumable ledger, reviewed-macro materials,
+GRC compilation and independent artifact calibration, frozen action identities, risk-bounded
+family/global portfolio selection, sealed-test analysis, determinism, construction effort, and
+amortization.
+
+The review found and fixed several issues that would otherwise have invalidated the prospective
+study:
+
+- family confidence is Bonferroni-allocated so the serialized 99% portfolio confidence is
+  truthful; with 75 groups, the zero-event upper bound is 0.0902 and one event rejects at 0.1190;
+- a missing KEV record is `NOT_ASSESSABLE`, never silently interpreted as not listed;
+- numerically equivalent SEC XBRL lexical forms compare as equal without collapsing unit or
+  context identity;
+- shadow GRC artifacts can execute only under explicit pilot/artifact-calibration opt-in, while
+  production and confirmatory portfolio/test dispatch remains `ACTIVE`-only;
+- GRC absence is a valid recorded negative result, not a fabricated execution or pipeline crash;
+- pricing binds rates, service tier, maximum billable input tokens, output-token limit, model,
+  SDK versions, and a pre-call worst-case reservation ceiling;
+- macro approvals bind the reviewed implementation digest as well as schema/effect identities;
+- source attestations verify the exact case, gold, and snapshot bytes, recompute snapshot identity,
+  and bind the current independent-gold implementation rather than trusting report metadata;
+- frozen protocols digest every model-visible case input and metadata value, so unchanged IDs
+  cannot conceal post-freeze task drift;
+- action locks bind code, prompt, tool, evaluator, registry, approval, source, model, pricing,
+  SDK, GRC stage, and the study control plane; shadow and active GRC identities are distinct.
+- the global fixed comparator now includes only actions available in every domain; it no longer
+  disguises per-domain baseline fallback as one fixed action;
+- the complete frozen-portfolio artifact is self-digested, and sealed records must match its
+  policy, action lock, and per-action identities before analysis;
+- source-path grading requires every case-specific evidence tool and validates snapshot and
+  record arguments, rather than accepting any one allowed tool call;
+- compiler inputs must be unique real-provider baseline episodes whose ledger, group, episode,
+  domain, and public-record attestations agree;
+- undefined ratio endpoints with an all-zero baseline are retained as null intervals instead of
+  crashing or emitting non-standard `NaN` JSON;
+- HMDA agent-visible schemas use the same explicit safe-field allowlist as rows; retained artifact
+  tampering, independent-gold drift, and any field outside that allowlist fail preflight.
+
+The retained provider-free evidence is under
+[`paper/results/multidomain/`](../paper/results/multidomain/), and the exact operational sequence
+is documented in [`benchmarks/README.md`](../benchmarks/README.md). The next permissible steps are
+not coding substitutions: configure a genuine SEC contact, acquire and audit 420 SEC issuers,
+obtain independent human approvals, pin real provider pricing/model token ceilings, and secure a
+positive spend cap. Until then the three-domain protocol correctly remains ineligible and no live
+claim is authorized.
+
+Latest feasible-work verification passed **305 tests**, isolated sdist/wheel construction, and the
+release/link audit. The publication workflow rebuilt 14 deterministic figures, 9 tables, and both
+LaTeX manuscripts, then passed **1,292/1,292 artifact and claim checks** over a 304-file checksum
+manifest, including the publication-tree secret scan. These checks validate implementation and
+retained evidence; they do not substitute for the gated SEC acquisition, human review, or live
+provider experiment. Clean-clone reproduction remains pending until the working tree is reviewed
+and committed.
+
 ## Publication-study addendum (2026-08-03)
 
 The publication artifact is now available under [`paper/`](../paper/README.md), with the

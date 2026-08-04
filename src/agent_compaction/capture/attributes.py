@@ -1,7 +1,8 @@
 """The application-owned facts the trace contract adds (execution-plan §6).
 
 The SDK already traces runner/task boundaries, turns, generations, functions,
-guardrails and handoffs; MLflow already captures inputs, outputs, calls and errors.
+guardrails and handoffs, and the adapter already captures inputs, outputs, calls
+and errors.
 This module carries only what neither can infer, and enforces the two rules that make
 the rest safe: the entry state is *allowlisted*, and payloads are redacted before they
 are stored.

@@ -90,6 +90,14 @@ def test_paired_ratio_recovers_a_known_ratio():
     assert iv.high == pytest.approx(0.6)
 
 
+def test_paired_ratio_reports_undefined_zero_baseline_without_crashing():
+    samples = [PairedSample(f"g{i}", baseline=0.0, candidate=0.0) for i in range(10)]
+    iv = paired_ratio(samples, n_boot=50, seed=5)
+    assert math.isnan(iv.point)
+    assert math.isnan(iv.low)
+    assert math.isnan(iv.high)
+
+
 def test_noninferiority_passes_when_equal_and_fails_on_a_real_drop():
     equal = [PairedSample(f"g{i}", 0.9, 0.9) for i in range(60)]
     res = noninferiority(equal, endpoint="q", margin=0.05, n_boot=300)

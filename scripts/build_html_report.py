@@ -600,7 +600,7 @@ flowchart TB
   subgraph CAP["1 · capture"]
     direction LR
     A1["OpenAI Agents SDK<br/>TracingProcessor"] --> A2["Episode IR<br/>envelope · manifest · entry state · outcome"]
-    A3["MLflow / JSONL"] --> A2
+    A3["JSONL episode store"] --> A2
   end
   subgraph OFF["2 · offline compilation — no production traffic"]
     direction TB
@@ -705,7 +705,7 @@ stateDiagram-v2
       [
           ["<code>paths</code>", "flatten / resolve_path / content digests", "nothing"],
           ["<code>schema</code>", "traces, effect catalog, artifacts — the frozen contract", "<code>paths</code>"],
-          ["<code>capture</code>", "entry-state contract, manifests, Agents SDK + MLflow backends", "<code>schema</code>"],
+          ["<code>capture</code>", "entry-state contract, manifests, Agents SDK adapter, JSONL store", "<code>schema</code>"],
           ["<code>graph</code>", "qualification, provenance (Alg. 1), window mining (Alg. 2)", "<code>schema</code>"],
           ["<code>grc</code>", "DSL, bindings, branches, contracts, calibration, compile orchestrator", "<code>graph</code>"],
           ["<code>tgws</code>", "route tree, greedy pruning, packaging", "<code>graph</code>"],

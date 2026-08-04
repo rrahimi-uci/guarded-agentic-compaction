@@ -88,7 +88,7 @@ mechanism; they are not production certification or a statistically powered qual
 ## Install and run
 
 ```bash
-python -m venv .venv && .venv/bin/pip install -e '.[dev,mlflow,live,figures]'
+python -m venv .venv && .venv/bin/pip install -e '.[dev,live,figures]'
 
 .venv/bin/python -m pytest                      # full test suite
 .venv/bin/python experiments/live_run.py --cases 3  # real API calls; reads .env
@@ -190,7 +190,7 @@ For agents not on the SDK, `@ac.compact(registry, catalog, manifest, mode="shado
 src/agent_compaction/
   paths.py          flatten / resolve_path / content digests (no dependencies)
   schema/           traces, effect catalog, artifacts (the frozen contract)
-  capture/          entry-state contract, manifests, MLflow + JSONL backends
+  capture/          entry-state contract, manifests, Agents SDK adapter, JSONL store
   graph/            qualification, provenance (Alg. 1), window mining (Alg. 2)
   grc/              DSL, bindings (Alg. 3), branches (Alg. 4), contracts (Alg. 5),
                     calibration (Alg. 6), the compile orchestrator
