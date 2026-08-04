@@ -1,0 +1,28 @@
+version: 1
+name: sec-frozen-snapshot
+tools:
+  get_sec_submissions:
+    effect: READ_LOCAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [snapshot_digest, cik]
+    resource: sec_snapshot
+  get_sec_companyfacts:
+    effect: READ_LOCAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [snapshot_digest, cik]
+    resource: sec_snapshot
+  list_applicable_filings:
+    effect: READ_LOCAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [snapshot_digest, cik, form, as_of_date]
+    resource: sec_snapshot
+  read_filing_xbrl_fact:
+    effect: READ_LOCAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [snapshot_digest, accession, concept, period]
+    resource: sec_snapshot
+  read_filing_metadata:
+    effect: READ_LOCAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [snapshot_digest, accession]
+    resource: sec_snapshot

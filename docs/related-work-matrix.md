@@ -8,7 +8,6 @@ reproduced as a scored condition; `reference` means read and cited only.
 | area / system | relevant capability | what remains | status here |
 |:---|:---|:---|:---|
 | [OpenAI Agents SDK](https://openai.github.io/openai-agents-python/) 0.19.2 | agent loop, tools, handoffs, guardrails, sessions, approvals, tracing | it is the execution substrate, not an offline optimizer | `adapter` — `CompactingModel` behind the seven conformance tests of proposal §5.6; handoffs/streaming reject |
-| [MLflow Tracing](https://mlflow.org/docs/latest/genai/tracing/) 3.15 (pinned ≥3.14) | automatic capture, search, evaluation, experiment lifecycle | trace substrate, not a provenance-aware compiler; previews truncate; parent/child is containment, not dataflow | `adapter` — export/load round-trip with flush and count reconciliation |
 | Hand-written composite tool (+ concurrent reads) | collapses a read prefix into one call a person can read | the model still *selects* it, so one request per invocation survives; no automatic discovery or measured maintenance story | `comparator` — scored in the five-workload offline suite and both natural GitHub studies; it is the strongest fixed-workflow baseline and the portfolio prospectively selects it for review |
 | Support-only routing (frequency without provenance) | dispatches on recurrence alone | no groundability, no ambiguity cap, no contract challenge, no calibrated gate | `comparator` — scored condition 4; H4 status reported honestly |
 | [DSPy](https://github.com/stanfordnlp/dspy) / [MIPRO](https://arxiv.org/abs/2406.11695) | instruction and demonstration optimization for LM programs | proposes prompt *text*; less explicit about effect-safe graph replacement and abstention | `reference` — an evaluation-only proposer under the same artifact gates is future work; TGWS deliberately selects existing blocks rather than generating text |
@@ -49,7 +48,7 @@ that subset is too small to matter*.
 ## Comparability notes
 
 * Versions are pinned in the run manifest (`experiments/results/run_manifest.json`).
-* Licences: Agents SDK (MIT), MLflow (Apache-2.0), DSPy (MIT), LangGraph (MIT) — none
+* Licences: Agents SDK (MIT), DSPy (MIT), LangGraph (MIT) — none
   vendored here; both optional extras are declared in `pyproject.toml`.
 * Engineering and maintenance costs were not measured in the real-record studies. The
   estimator can accept deployment-specific economics, but the paper makes no empirical

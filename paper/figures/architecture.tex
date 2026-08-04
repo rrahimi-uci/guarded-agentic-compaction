@@ -32,15 +32,18 @@
 
 % ============================================================ A -- capture
 \node[small] (sdk)    at (0,   0)   {OpenAI Agents SDK\\\textit{TracingProcessor}};
-\node[small] (mlflow) at (0,  -11)  {MLflow / JSONL\\backend};
+% Taller than the sibling node: three lines do not fit the shared 9.5mm height,
+% which clipped the descender of the second line.
+\node[small, minimum height=11mm] (store) at (0,  -11.5)
+  {JSONL episode store\\(dependency-free)};
 \node[box]   (ir)     at (40, -1.5) {\textbf{Episode IR}\\envelope $\cdot$ manifest\\
                                      entry state $z$ $\cdot$ outcome $y$};
 
 \draw[flow] (sdk.east)    -- ++(3,0) |- (ir.west);
-\draw[flow] (mlflow.east) -- ++(3,0) |- (ir.west);
+\draw[flow] (store.east) -- ++(3,0) |- (ir.west);
 
 \begin{scope}[on background layer]
-  \node[frame, fit=(sdk)(mlflow)(ir)] (fA) {};
+  \node[frame, fit=(sdk)(store)(ir)] (fA) {};
 \end{scope}
 \node[head] at ([yshift=0.6mm]fA.north west) {A\quad CAPTURE};
 

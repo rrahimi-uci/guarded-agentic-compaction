@@ -10,6 +10,13 @@ from .model import (
     SelectionConfig,
 )
 from .select import select_portfolio_action
+from .policy import PortfolioPolicy
+from .risk import (
+    RiskAllocation,
+    bonferroni_family_confidence,
+    portfolio_risk_upper,
+    required_portfolio_groups,
+)
 
 __all__ = [
     "CandidateEvidence",
@@ -18,6 +25,11 @@ __all__ = [
     "OptimizationAction",
     "PortfolioDecision",
     "PortfolioObservation",
+    "PortfolioPolicy",
+    "RiskAllocation",
     "SelectionConfig",
+    "bonferroni_family_confidence",
+    "portfolio_risk_upper",
+    "required_portfolio_groups",
     "select_portfolio_action",
 ]

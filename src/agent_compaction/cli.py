@@ -21,7 +21,7 @@ import sys
 from pathlib import Path
 from typing import Any, Sequence
 
-from .capture.mlflow_adapter import read_jsonl
+from .capture.jsonl import read_jsonl
 from .evaluation.splits import make_splits
 from .estimate.headroom import estimate
 from .graph.normalize import data_quality
@@ -30,6 +30,7 @@ from .registry.lifecycle import promote
 from .registry.store import Registry
 from .schema.artifacts import Lifecycle
 from .schema.effects import EffectCatalog
+from .benchmarking.commands import benchmark_freeze, benchmark_preflight, benchmark_script
 
 __all__ = ["main"]
 
@@ -227,6 +228,256 @@ def build_parser() -> argparse.ArgumentParser:
         help="environment variable containing the registry HMAC key",
     )
     pr.set_defaults(func=cmd_promote)
+
+    bench = sub.add_parser(
+        "benchmark", help="prospective real-record benchmark protocol commands"
+    )
+    bench_sub = bench.add_subparsers(dest="benchmark_cmd", required=True)
+
+    preflight = bench_sub.add_parser(
+        "preflight", help="validate manifests, case identity, source policy, and pool size"
+    )
+    preflight.add_argument("manifest")
+    preflight.add_argument(
+        "--cases",
+        action="append",
+        default=[],
+        metavar="DOMAIN=JSONL",
+        help="normalized case pool; repeat for every domain",
+    )
+    preflight.add_argument("--require-source-configuration", action="store_true")
+    preflight.set_defaults(func=benchmark_preflight)
+
+    freeze = bench_sub.add_parser(
+        "freeze", help="freeze deterministic group roles and lineage identities"
+    )
+    freeze.add_argument("manifest")
+    freeze.add_argument(
+        "--cases", action="append", required=True, metavar="DOMAIN=JSONL"
+    )
+    freeze.add_argument("--model", required=True, help="exact provider model identifier")
+    freeze.add_argument(
+        "--pricing", required=True, help="pinned pricing manifest for the frozen model"
+    )
+    freeze.add_argument("--out", required=True)
+    freeze.set_defaults(func=benchmark_freeze)
+
+    def add_live_command(name: str, phase: str, help_text: str) -> None:
+        command = bench_sub.add_parser(name, help=help_text)
+        command.add_argument("protocol")
+        command.add_argument("--cases", action="append", required=True, metavar="DOMAIN=JSONL")
+        command.add_argument("--pool", action="append", required=True, metavar="DOMAIN=DIR")
+        command.add_argument("--model", required=True)
+        command.add_argument("--pricing", required=True)
+        command.add_argument("--max-provider-usd", required=True, type=float)
+        command.add_argument("--reservation-usd-per-execution", required=True, type=float)
+        command.add_argument("--max-model-requests", type=int, default=8)
+        command.add_argument("--retries", type=int, default=1)
+        command.add_argument("--timeout", type=float, default=120.0)
+        command.add_argument("--registry", action="append", default=[], metavar="DOMAIN=DIR")
+        command.add_argument("--macro-approval", action="append", default=[], metavar="DOMAIN=JSON")
+        command.add_argument("--policy")
+        command.add_argument("--action-lock")
+        command.add_argument("--out", required=True)
+        command.add_argument("--dry-run", action="store_true")
+
+        def run_live(args: argparse.Namespace, frozen_phase: str = phase) -> int:
+            forwarded = [
+                "--protocol", args.protocol,
+                "--phase", frozen_phase,
+                "--model", args.model,
+                "--pricing", args.pricing,
+                "--max-provider-usd", str(args.max_provider_usd),
+                "--reservation-usd-per-execution", str(args.reservation_usd_per_execution),
+                "--max-model-requests", str(args.max_model_requests),
+                "--retries", str(args.retries),
+                "--timeout", str(args.timeout),
+                "--out", args.out,
+            ]
+            for value in args.cases:
+                forwarded.extend(("--cases", value))
+            for value in args.pool:
+                forwarded.extend(("--pool", value))
+            for value in args.registry:
+                forwarded.extend(("--registry", value))
+            for value in args.macro_approval:
+                forwarded.extend(("--macro-approval", value))
+            if args.policy:
+                forwarded.extend(("--policy", args.policy))
+            if args.action_lock:
+                forwarded.extend(("--action-lock", args.action_lock))
+            if args.dry_run:
+                forwarded.append("--dry-run")
+            args.script_name = "multidomain_study.py"
+            args.forwarded = forwarded
+            return benchmark_script(args)
+
+        command.set_defaults(func=run_live)
+
+    add_live_command("pilot", "pilot", "run or dry-run the capped 12-group real-provider pilot")
+    add_live_command(
+        "discovery",
+        "discovery",
+        "run baseline on the frozen discovery groups",
+    )
+    add_live_command(
+        "development",
+        "development",
+        "run baseline on the frozen development groups",
+    )
+    add_live_command(
+        "artifact-calibration",
+        "artifact-calibration",
+        "run baseline and GRC on frozen artifact-calibration groups",
+    )
+    add_live_command(
+        "portfolio-calibration",
+        "portfolio-calibration",
+        "run all approved actions on frozen portfolio-calibration groups",
+    )
+    add_live_command("test", "test", "run the frozen sealed test and repeat cohort")
+
+    grc = bench_sub.add_parser("compile-grc", help="compile GRC from retained discovery/development traces")
+    grc.add_argument("protocol")
+    grc.add_argument("--ledger", action="append", required=True, metavar="DOMAIN=PATH")
+    grc.add_argument("--out", required=True)
+
+    def run_grc(args: argparse.Namespace) -> int:
+        args.script_name = "compile_multidomain.py"
+        args.forwarded = ["--protocol", args.protocol, "--out", args.out]
+        for value in args.ledger:
+            args.forwarded.extend(("--ledger", value))
+        return benchmark_script(args)
+
+    grc.set_defaults(func=run_grc)
+
+    grc_calibration = bench_sub.add_parser(
+        "calibrate-grc",
+        help="calibrate shadow artifacts and emit human-approved active study registries",
+    )
+    grc_calibration.add_argument("protocol")
+    grc_calibration.add_argument(
+        "--ledger", action="append", required=True, metavar="DOMAIN=PATH"
+    )
+    grc_calibration.add_argument(
+        "--registry", action="append", required=True, metavar="DOMAIN=PATH"
+    )
+    grc_calibration.add_argument("--approved-by", required=True)
+    grc_calibration.add_argument("--job-identity", default="multidomain-optimizer")
+    grc_calibration.add_argument("--expiry-day", required=True)
+    grc_calibration.add_argument("--out", required=True)
+
+    def run_grc_calibration(args: argparse.Namespace) -> int:
+        args.script_name = "calibrate_grc_artifacts.py"
+        args.forwarded = [
+            "--protocol", args.protocol,
+            "--approved-by", args.approved_by,
+            "--job-identity", args.job_identity,
+            "--expiry-day", args.expiry_day,
+            "--out", args.out,
+        ]
+        for flag, values in (("--ledger", args.ledger), ("--registry", args.registry)):
+            for value in values:
+                args.forwarded.extend((flag, value))
+        return benchmark_script(args)
+
+    grc_calibration.set_defaults(func=run_grc_calibration)
+
+    freeze_actions = bench_sub.add_parser(
+        "freeze-actions",
+        help="freeze action, registry, approval, prompt, tool, and evaluator identities",
+    )
+    freeze_actions.add_argument("protocol")
+    freeze_actions.add_argument(
+        "--cases", action="append", required=True, metavar="DOMAIN=JSONL"
+    )
+    freeze_actions.add_argument(
+        "--pool", action="append", required=True, metavar="DOMAIN=DIR"
+    )
+    freeze_actions.add_argument("--model", required=True)
+    freeze_actions.add_argument("--pricing", required=True)
+    freeze_actions.add_argument(
+        "--grc-stage", required=True, choices=("shadow", "active")
+    )
+    freeze_actions.add_argument(
+        "--registry", action="append", required=True, metavar="DOMAIN=DIR"
+    )
+    freeze_actions.add_argument(
+        "--macro-approval", action="append", required=True, metavar="DOMAIN=JSON"
+    )
+    freeze_actions.add_argument("--out", required=True)
+
+    def run_freeze_actions(args: argparse.Namespace) -> int:
+        args.script_name = "freeze_multidomain_actions.py"
+        args.forwarded = [
+            "--protocol", args.protocol,
+            "--model", args.model,
+            "--pricing", args.pricing,
+            "--grc-stage", args.grc_stage,
+            "--out", args.out,
+        ]
+        for flag, values in (
+            ("--cases", args.cases),
+            ("--pool", args.pool),
+            ("--registry", args.registry),
+            ("--macro-approval", args.macro_approval),
+        ):
+            for value in values:
+                args.forwarded.extend((flag, value))
+        return benchmark_script(args)
+
+    freeze_actions.set_defaults(func=run_freeze_actions)
+
+    macro_review = bench_sub.add_parser(
+        "prepare-macro-review",
+        help="create provider-free macro review materials without granting approval",
+    )
+    macro_review.add_argument(
+        "--pool", action="append", required=True, metavar="DOMAIN=DIR"
+    )
+    macro_review.add_argument("--out", required=True)
+
+    def run_macro_review(args: argparse.Namespace) -> int:
+        args.script_name = "prepare_macro_review.py"
+        args.forwarded = ["--out", args.out]
+        for value in args.pool:
+            args.forwarded.extend(("--pool", value))
+        return benchmark_script(args)
+
+    macro_review.set_defaults(func=run_macro_review)
+
+    calibrate = bench_sub.add_parser("calibrate", help="freeze family and global portfolio decisions")
+    calibrate.add_argument("protocol")
+    calibrate.add_argument("--ledger", action="append", required=True)
+    calibrate.add_argument("--out", required=True)
+
+    def run_calibrate(args: argparse.Namespace) -> int:
+        args.script_name = "calibrate_multidomain.py"
+        args.forwarded = ["--protocol", args.protocol, "--out", args.out]
+        for value in args.ledger:
+            args.forwarded.extend(("--ledger", value))
+        return benchmark_script(args)
+
+    calibrate.set_defaults(func=run_calibrate)
+
+    analyze = bench_sub.add_parser("analyze", help="reproduce sealed quality/efficiency analysis")
+    analyze.add_argument("protocol")
+    analyze.add_argument("--policy", required=True)
+    analyze.add_argument("--effort", required=True)
+    analyze.add_argument("--ledger", action="append", required=True)
+    analyze.add_argument("--out", required=True)
+
+    def run_analyze(args: argparse.Namespace) -> int:
+        args.script_name = "analyze_multidomain.py"
+        args.forwarded = [
+            "--protocol", args.protocol, "--policy", args.policy, "--out", args.out,
+            "--effort", args.effort,
+        ]
+        for value in args.ledger:
+            args.forwarded.extend(("--ledger", value))
+        return benchmark_script(args)
+
+    analyze.set_defaults(func=run_analyze)
     return ap
 
 

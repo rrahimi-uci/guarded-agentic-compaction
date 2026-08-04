@@ -19,9 +19,23 @@ from __future__ import annotations
 
 from . import capture, evaluation, graph, grc, portfolio, registry, runtime, schema, tgws
 from .api import MODES, OptimizeJob, estimate, load_catalog, optimize, promote, retire, validate
-from .capture.mlflow_adapter import read_jsonl, write_jsonl
+from .capture.jsonl import read_jsonl, write_jsonl
 from .estimate.headroom import EstimateReport, break_even, required_calibration_groups
 from .evaluation.splits import Splits, make_splits
+from .evaluation.domains import (
+    BenchmarkCase,
+    BenchmarkRole,
+    DomainAdapter,
+    FrozenStudy,
+    OracleResult,
+)
+from .evaluation.evidence import CanonicalMetrics, paired_portfolio_observation
+from .evaluation.ledger import LedgerConflict, LedgerRecord, RunLedger
+from .evaluation.paired_exact import (
+    BinaryPair,
+    ExactPairedNonInferiority,
+    exact_paired_binary_noninferiority,
+)
 from .registry.store import Registry
 from .runtime.dispatch import DispatchMode, Dispatcher
 from .runtime.continuation import (
@@ -52,7 +66,12 @@ from .portfolio import (
     OptimizationAction,
     PortfolioDecision,
     PortfolioObservation,
+    PortfolioPolicy,
+    RiskAllocation,
     SelectionConfig,
+    bonferroni_family_confidence,
+    portfolio_risk_upper,
+    required_portfolio_groups,
     select_portfolio_action,
 )
 from .schema.artifacts import Artifact, Lifecycle
@@ -86,6 +105,19 @@ __all__ = [
     "required_calibration_groups",
     "Splits",
     "make_splits",
+    "BenchmarkCase",
+    "BenchmarkRole",
+    "DomainAdapter",
+    "FrozenStudy",
+    "OracleResult",
+    "CanonicalMetrics",
+    "paired_portfolio_observation",
+    "BinaryPair",
+    "ExactPairedNonInferiority",
+    "exact_paired_binary_noninferiority",
+    "LedgerConflict",
+    "LedgerRecord",
+    "RunLedger",
     "Registry",
     "Dispatcher",
     "DispatchMode",
@@ -115,7 +147,12 @@ __all__ = [
     "OptimizationAction",
     "PortfolioDecision",
     "PortfolioObservation",
+    "PortfolioPolicy",
+    "RiskAllocation",
     "SelectionConfig",
+    "bonferroni_family_confidence",
+    "portfolio_risk_upper",
+    "required_portfolio_groups",
     "select_portfolio_action",
     "Artifact",
     "Lifecycle",

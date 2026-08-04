@@ -172,7 +172,7 @@ manifest drift; review-required actions additionally need
 
 | area | implemented surface | extension contract |
 |:---|:---|:---|
-| Trace collection | JSONL, MLflow transport, OpenAI Agents SDK trace processor | normalize any framework into `Episode` |
+| Trace collection | JSONL episode store, OpenAI Agents SDK trace processor | normalize a framework trace into `Episode` |
 | Execution graph analysis | qualification, canonical order, provenance, effect barriers, bounded windows | add graph features without changing observable semantics |
 | Workflow optimization | TGWS routes and GRC deterministic read regions | `OptimizationPass` |
 | Portfolio optimization | Exact-risk selection over measured action classes; baseline abstention and macro review mode | add paired observations or custom action names |

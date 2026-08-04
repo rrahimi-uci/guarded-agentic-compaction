@@ -142,6 +142,7 @@ class Dispatcher:
     telemetry: DispatchTelemetry = field(default_factory=DispatchTelemetry)
     max_calls: int = 24
     gate_cost_ms: float = 1.0
+    live_stages: tuple[Lifecycle, ...] = (Lifecycle.ACTIVE,)
 
     def __post_init__(self) -> None:
         if self.mode not in DispatchMode.values():
@@ -150,6 +151,10 @@ class Dispatcher:
             raise ValueError("max_calls must be positive")
         if self.gate_cost_ms < 0:
             raise ValueError("gate_cost_ms must be non-negative")
+        if not self.live_stages or any(
+            stage is Lifecycle.RETIRED for stage in self.live_stages
+        ):
+            raise ValueError("live_stages must be non-empty and cannot include retired")
 
     def decide(
         self,
@@ -175,7 +180,7 @@ class Dispatcher:
         stages = (
             (Lifecycle.SHADOW, Lifecycle.APPROVED, Lifecycle.ACTIVE)
             if self.mode == DispatchMode.SHADOW
-            else (Lifecycle.ACTIVE,)
+            else self.live_stages
         )
         candidates = self.registry.resolve(
             compatibility_key, partition, kind="grc", stages=stages

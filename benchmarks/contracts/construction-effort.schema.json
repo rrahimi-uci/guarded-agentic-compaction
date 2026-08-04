@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-compaction.dev/schemas/construction-effort.schema.json",
+  "title": "Construction and amortization effort manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "revision",
+    "hourly_rate_usd",
+    "recurring_cost_usd_per_1000_executions",
+    "traffic_horizons",
+    "components",
+    "recorded_by",
+    "recorded_at"
+  ],
+  "properties": {
+    "schema": {
+      "const": "agent-compaction-construction-effort/v1"
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "hourly_rate_usd": {
+      "type": "number",
+      "minimum": 0
+    },
+    "recurring_cost_usd_per_1000_executions": {
+      "type": "number",
+      "minimum": 0
+    },
+    "traffic_horizons": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "components": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "domain", "hours", "direct_cost_usd", "notes"],
+        "properties": {
+          "name": {
+            "enum": [
+              "baseline_discovery",
+              "grc_compilation_and_calibration",
+              "macro_authoring",
+              "macro_independent_review",
+              "source_acquisition_and_normalization",
+              "evaluation_and_monitoring_setup",
+              "other"
+            ]
+          },
+          "domain": {
+            "enum": ["all", "vulnerability", "sec", "hmda"]
+          },
+          "hours": {
+            "type": "number",
+            "minimum": 0
+          },
+          "direct_cost_usd": {
+            "type": "number",
+            "minimum": 0
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "recorded_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "recorded_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

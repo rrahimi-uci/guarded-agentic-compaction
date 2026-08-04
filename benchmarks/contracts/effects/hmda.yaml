@@ -1,0 +1,28 @@
+version: 1
+name: hmda-frozen-snapshot
+tools:
+  get_public_lar_record:
+    effect: READ_LOCAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [snapshot_digest, year, lei, row_digest]
+    resource: hmda_snapshot
+  get_hmda_public_schema:
+    effect: READ_LOCAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [snapshot_digest, year]
+    resource: hmda_snapshot
+  get_hmda_field_definition:
+    effect: READ_LOCAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [snapshot_digest, year, field]
+    resource: hmda_snapshot
+  get_hmda_filer:
+    effect: READ_LOCAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [snapshot_digest, year, lei]
+    resource: hmda_snapshot
+  get_hmda_code_label:
+    effect: READ_LOCAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [snapshot_digest, year, field, value]
+    resource: hmda_snapshot

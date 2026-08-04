@@ -1,12 +1,12 @@
 # Trace contract
 
-What the application must supply, what the SDK and MLflow already give you, and why the
+What the application must supply, what the SDK already gives you, and why the
 difference is not negotiable.
 
 ## Division of labour
 
 The OpenAI Agents SDK already traces runner and task boundaries, turns, generations,
-function calls, guardrails and handoffs. MLflow already captures inputs, outputs, calls,
+function calls, guardrails and handoffs, including inputs, outputs, calls,
 errors and assessments, and makes them searchable. Neither can infer the seven facts below,
 and without them the compiler is unsound rather than merely limited.
 
@@ -66,9 +66,8 @@ is counted by group **and** principal **and** day.
 
 ## One authoritative tracer
 
-Two exporters over one span tree produce duplicated or fragmented traces, and the MLflow
-OpenAI autologger can clear existing SDK processors. `capture.configure` asserts a single
-authoritative tracer, pins the MLflow version, and returns a capture manifest recording the
+Two exporters over one span tree produce duplicated or fragmented traces, so a capture
+layer must own exactly one authoritative tracer and record a capture manifest with the
 mode (`authoritative` vs `convenience`), the sampling ratio and the allowlist.
 
 Authoritative capture also means **synchronous export or an explicit flush followed by

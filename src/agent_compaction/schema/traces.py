@@ -1,7 +1,8 @@
 """Typed trace IR (execution-plan §6, proposal §3.1-3.2).
 
 This module is the compiler's own intermediate representation. It is deliberately
-independent of MLflow and of the OpenAI Agents SDK: those are *backends* that
+independent of the OpenAI Agents SDK and of any other tracing platform: those are
+*backends* that
 produce ``Episode`` objects (see :mod:`agent_compaction.capture`).
 
 Design rules encoded here:
@@ -172,7 +173,7 @@ class ExecutionManifest:
 
 @dataclass(frozen=True, slots=True)
 class TraceEnvelope:
-    """Application-owned facts that neither the SDK nor MLflow can infer."""
+    """Application-owned facts that no tracing platform can infer."""
 
     trace_id: str
     episode_id: str

@@ -1,0 +1,25 @@
+schema: agent-compaction-source-manifest/v1
+domain: sec
+status: acquisition_implemented_configuration_gated
+verified_at: "2026-08-04"
+required_configuration: [SEC_USER_AGENT]
+normalized_pool:
+  groups: 0
+  provider_calls_executed: 0
+  block: SEC_USER_AGENT is absent; no SEC request was made
+sources:
+  - name: EDGAR submissions API
+    url: https://data.sec.gov/submissions/
+    authority: U.S. Securities and Exchange Commission
+    access: public_declared_contact_required
+    license_or_terms: https://www.sec.gov/about/webmaster-frequently-asked-questions
+  - name: EDGAR company facts API
+    url: https://data.sec.gov/api/xbrl/companyfacts/
+    authority: U.S. Securities and Exchange Commission
+    access: public_declared_contact_required
+    license_or_terms: https://www.sec.gov/search-filings/edgar-application-programming-interfaces
+  - name: EDGAR filed documents
+    url: https://www.sec.gov/Archives/edgar/data/
+    authority: U.S. Securities and Exchange Commission
+    access: public_declared_contact_required
+    license_or_terms: https://www.sec.gov/privacy

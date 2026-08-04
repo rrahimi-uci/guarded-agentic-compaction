@@ -7,7 +7,7 @@ the two failure modes that silently corrupt a mining corpus: a second exporter f
 the span tree, and a short-lived job exiting with traces still queued.
 
     python scripts/capture_smoke.py --backend jsonl
-    python scripts/capture_smoke.py --backend mlflow --tracking-uri sqlite:///mlflow.db
+    python scripts/capture_smoke.py --episodes 24
 """
 
 from __future__ import annotations
@@ -23,7 +23,7 @@ for p in (ROOT, ROOT / "src"):
     if str(p) not in sys.path:
         sys.path.insert(0, str(p))
 
-from agent_compaction.capture import mlflow_adapter
+from agent_compaction.capture import jsonl
 from agent_compaction.capture.attributes import EntryStateContract
 from agent_compaction.graph.normalize import data_quality
 from agent_compaction.schema.effects import EffectCatalog
@@ -34,10 +34,7 @@ from demos.framework import run_workload
 
 def main(argv: Sequence[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--backend", choices=("jsonl", "mlflow"), default="jsonl")
     ap.add_argument("--episodes", type=int, default=12)
-    ap.add_argument("--tracking-uri", default=None)
-    ap.add_argument("--experiment", default="agent-compaction-smoke")
     args = ap.parse_args(argv)
 
     world, specs = support.build_workload(n_episodes=args.episodes)
@@ -51,21 +48,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     if leaked:
         print(f"  not captured: {leaked}")
 
-    if args.backend == "jsonl":
-        path = Path(tempfile.mkdtemp()) / "smoke.jsonl"
-        mlflow_adapter.write_jsonl(episodes, path)
-        back = mlflow_adapter.read_jsonl(path)
-    else:
-        uri = args.tracking_uri or f"sqlite:///{Path(tempfile.mkdtemp()) / 'mlflow.db'}"
-        cfg = mlflow_adapter.configure(
-            experiment=args.experiment,
-            tracking_uri=uri,
-            entry_state_allowlist=support.ENTRY_ALLOWLIST,
-            effect_catalog=str(support.EFFECTS_PATH),
-        )
-        print(f"\ncapture manifest: {cfg}")
-        mlflow_adapter.export_episodes(episodes, experiment=args.experiment, tracking_uri=uri)
-        back = mlflow_adapter.load_episodes(experiment=args.experiment, tracking_uri=uri)
+    path = Path(tempfile.mkdtemp()) / "smoke.jsonl"
+    jsonl.write_jsonl(episodes, path)
+    back = jsonl.read_jsonl(path)
 
     print(f"\nwrote {len(episodes)} episodes, read {len(back)} back")
     ok = len(back) == len(episodes)

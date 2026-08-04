@@ -1,11 +1,9 @@
-"""Integration with the two optional backends.
+"""Integration with the persistence backend and the one framework adapter.
 
-Both are exercised for real when the extra is installed and skipped cleanly when it is
-not — the compiler core never imports either.
-
-* **MLflow** (proposal §5.5): configure one authoritative tracer, export typed episodes
-  as traces against a temporary local store, read them back, and assert the round-trip
-  preserves everything the compiler needs.
+* **JSONL store**: round-trip typed episodes through newline-delimited JSON and assert the
+  trace contract survives. This has no third-party dependency, which is the point: if the
+  IR could only be reconstructed by calling a vendor SDK, the claim that the compiler's
+  input representation is framework-independent would be circular.
 * **OpenAI Agents SDK** (proposal §5.6): drive ``CompactingModel`` against a fake wrapped
   model — no API key, no network — and assert the conformance properties: ``off`` is
   byte-identical, a hit emits schema-valid native ``function_call`` items in order,
@@ -21,7 +19,7 @@ from typing import Any
 
 import pytest
 
-from agent_compaction.capture import mlflow_adapter
+from agent_compaction.capture import jsonl
 from agent_compaction.grc.dsl import Const, Expr
 from agent_compaction.grc.program import CallStep, Program
 from agent_compaction.registry.store import Registry
@@ -34,56 +32,49 @@ from agent_compaction.schema.traces import ExecutionManifest
 from scripts.generate_synthetic import SYNTHETIC_CATALOG, generate
 
 # ---------------------------------------------------------------------------
-# MLflow
+# JSONL store
 # ---------------------------------------------------------------------------
 
-mlflow_installed = mlflow_adapter.available()
+
+def test_jsonl_roundtrip_preserves_the_trace_contract(tmp_path):
+    """The IR must survive persistence without any tracing platform present."""
+
+    episodes = generate(n_episodes=6, seed=3)
+    path = jsonl.write_jsonl(episodes, tmp_path / "episodes.jsonl")
+    back = jsonl.read_jsonl(path)
+
+    assert len(back) == len(episodes)
+    for before, after in zip(episodes, back, strict=True):
+        assert after.episode_id == before.episode_id
+        assert after.group_id == before.group_id
+        assert after.entry_state == before.entry_state
+        assert after.manifest.compatibility_key() == before.manifest.compatibility_key()
+        assert [e.kind for e in after.events] == [e.kind for e in before.events]
+        assert [e.tool for e in after.events] == [e.tool for e in before.events]
+        assert [e.input for e in after.events] == [e.input for e in before.events]
+        assert [e.output for e in after.events] == [e.output for e in before.events]
+        assert after.outcome.task_success == before.outcome.task_success
+    # A round trip must be idempotent, or replay evidence is not reproducible.
+    assert jsonl.write_jsonl(back, tmp_path / "again.jsonl").read_text() == path.read_text()
 
 
-@pytest.mark.mlflow
-@pytest.mark.skipif(not mlflow_installed, reason="mlflow extra not installed")
-def test_mlflow_roundtrip_preserves_the_trace_contract(tmp_path):
-    # MLflow 3.x puts the filesystem store in maintenance mode; use the SQL backend it
-    # recommends, which is also what proposal §5.5 calls the authoritative research mode
-    uri = f"sqlite:///{tmp_path / 'mlflow.db'}"
-    manifest = mlflow_adapter.configure(
-        experiment="ac-test",
-        tracking_uri=uri,
-        entry_state_allowlist=["tenant", "user_email"],
-        effect_catalog="configs/effects.example.yaml",
-    )
-    assert manifest["mode"] == "authoritative"
-    assert manifest["sampling_ratio"] == 1.0
+def test_jsonl_store_needs_no_third_party_import(tmp_path):
+    """Guard the framework-independence claim in code, not only in prose."""
 
-    episodes = generate(n_episodes=6, seed=2)
-    ids = mlflow_adapter.export_episodes(episodes, experiment="ac-test", tracking_uri=uri)
-    assert len(ids) == 6
+    import agent_compaction.capture.jsonl as module
 
-    back = mlflow_adapter.load_episodes(experiment="ac-test", tracking_uri=uri)
-    assert len(back) == 6
-    by_id = {ep.episode_id: ep for ep in back}
-    for ep in episodes:
-        got = by_id[ep.episode_id]
-        assert got.entry_state == ep.entry_state
-        assert got.n_requests() == ep.n_requests()
-        assert got.group_id == ep.group_id
-        assert got.manifest.compatibility_key() == ep.manifest.compatibility_key()
-        assert [e.tool for e in got.tool_calls()] == [e.tool for e in ep.tool_calls()]
+    source = Path(module.__file__).read_text(encoding="utf-8")
+    for forbidden in ("import mlflow", "import agents", "import openai"):
+        assert forbidden not in source
+    assert jsonl.read_jsonl(jsonl.write_jsonl(generate(n_episodes=2, seed=1),
+                                              tmp_path / "x.jsonl"))
 
 
-@pytest.mark.mlflow
-@pytest.mark.skipif(not mlflow_installed, reason="mlflow extra not installed")
-def test_mlflow_version_pin_is_enforced(tmp_path, monkeypatch):
-    import mlflow
-
-    monkeypatch.setattr(mlflow, "__version__", "2.9.0", raising=False)
-    with pytest.raises(mlflow_adapter.TracerConflict):
-        mlflow_adapter.configure(experiment="ac-test", tracking_uri=f"sqlite:///{tmp_path / 'm2.db'}")
-    # explicit override is allowed, and recorded
-    manifest = mlflow_adapter.configure(
-        experiment="ac-test", tracking_uri=f"sqlite:///{tmp_path / 'm2.db'}", force=True
-    )
-    assert manifest["mlflow_version"] == "2.9.0"
+def test_blank_lines_are_skipped(tmp_path):
+    path = tmp_path / "sparse.jsonl"
+    jsonl.write_jsonl(generate(n_episodes=2, seed=5), path)
+    path.write_text(path.read_text() + "\n\n", encoding="utf-8")
+    assert len(jsonl.read_jsonl(path)) == 2
 
 
 # ---------------------------------------------------------------------------

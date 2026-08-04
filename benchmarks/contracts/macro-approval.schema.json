@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-compaction.dev/schemas/macro-approval.schema.json",
+  "title": "Independent reviewed macro approval",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "domain",
+    "macro_version",
+    "author",
+    "reviewer",
+    "reviewed_at",
+    "implementation_digest",
+    "schema_digest",
+    "effect_catalog_digest",
+    "evaluator_digest",
+    "approved",
+    "notes"
+  ],
+  "properties": {
+    "domain": {
+      "enum": ["vulnerability", "sec", "hmda"]
+    },
+    "macro_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "author": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reviewer": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reviewed_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "implementation_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "schema_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "effect_catalog_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "evaluator_digest": {
+      "description": "Binds the exact schema, oracle code, independent gold constructor, retained gold, and runtime evaluator reviewed for this macro.",
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "approved": {
+      "const": true
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

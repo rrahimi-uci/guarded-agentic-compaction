@@ -184,7 +184,8 @@ selecting are both small changes, and both are future work.
   model-boundary adapter cannot un-emit a response the host has already committed to
   history (\cref{sec:runtime-scope}).}
   \Description{A three-stage architecture diagram. Stage A captures traces from the
-  OpenAI Agents SDK or MLflow into a typed episode representation. Stage B compiles
+  OpenAI Agents SDK into a typed episode representation, which the JSONL store
+  persists without any framework dependency. Stage B compiles
   offline through provenance analysis, region mining, feasibility estimation, bounded
   synthesis, contract induction and exact calibration, with a barrier band listing hard
   refusal conditions. Stage C dispatches at runtime through guard, gate, staged

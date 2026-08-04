@@ -1,0 +1,51 @@
+schema: agent-compaction-multidomain-study/v1
+study_id: multidomain-real-records-2026-08
+status: proposed_unrun
+provider_calls_executed: 0
+seed: 20260804
+minimum_pool_groups: 420
+reserve_groups: 75
+roles:
+  discovery: 40
+  development: 30
+  artifact_calibration: 100
+  portfolio_calibration: 75
+  test: 100
+actions: [baseline, grc, macro]
+statistical_contract:
+  quality_noninferiority_margin: 0.05
+  per_domain_confidence: 0.99
+  portfolio_overall_confidence: 0.99
+  portfolio_quality_risk_limit: 0.10
+  portfolio_regret_risk_limit: 0.10
+  artifact_quality_risk_limit: 0.10
+  bootstrap_resamples: 10000
+  secondary_correction: holm
+  repeat_groups: 20
+  repeats_per_group: 3
+  endpoints:
+    - model_requests
+    - input_tokens
+    - cached_input_tokens
+    - output_tokens
+    - total_tokens
+    - estimated_cost_usd
+    - wall_latency_ms
+    - critical_path_ms
+    - tool_calls
+domains:
+  vulnerability:
+    group_identity: [ecosystem, normalized_package]
+    source_manifest: manifests/sources/vulnerability.yaml
+    effect_catalog: contracts/effects/vulnerability.yaml
+    output_schema: contracts/vulnerability.schema.json
+  sec:
+    group_identity: [cik]
+    source_manifest: manifests/sources/sec.yaml
+    effect_catalog: contracts/effects/sec.yaml
+    output_schema: contracts/sec_fact.schema.json
+  hmda:
+    group_identity: [lei]
+    source_manifest: manifests/sources/hmda.yaml
+    effect_catalog: contracts/effects/hmda.yaml
+    output_schema: contracts/hmda_record.schema.json

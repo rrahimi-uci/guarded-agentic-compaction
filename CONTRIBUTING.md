@@ -7,7 +7,7 @@ an optimizer may abstain, but it must never turn missing evidence into a live re
 
 ```bash
 python -m venv .venv
-.venv/bin/pip install -e '.[dev,agents,mlflow,figures]'
+.venv/bin/pip install -e '.[dev,agents,figures]'
 .venv/bin/python -m pytest
 .venv/bin/python scripts/verify_release.py
 .venv/bin/python -m build

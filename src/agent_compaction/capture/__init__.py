@@ -1,4 +1,4 @@
-"""Capture backends. Nothing above this package imports MLflow or the Agents SDK.
+"""Capture backends. Nothing above this package imports the Agents SDK.
 
 Exports are resolved lazily (PEP 562). The sibling packages depend on each other in
 both directions at *type* level — the graph builder uses the DSL, the compiler uses the
@@ -25,12 +25,8 @@ _EXPORTS: dict[str, str] = {
     "hash_text": "manifests",
     "hash_tools": "manifests",
     "manifest_diff": "manifests",
-    "available": "mlflow_adapter",
-    "configure": "mlflow_adapter",
-    "export_episodes": "mlflow_adapter",
-    "load_episodes": "mlflow_adapter",
-    "read_jsonl": "mlflow_adapter",
-    "write_jsonl": "mlflow_adapter",
+    "read_jsonl": "jsonl",
+    "write_jsonl": "jsonl",
 }
 
 __all__ = sorted(_EXPORTS)

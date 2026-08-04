@@ -17,7 +17,8 @@ approval-gated, rapidly drifting, or unobservable workflows are intentionally po
 ## Architecture
 
 The framework-neutral typed Episode IR is the stable seam. Capture adapters normalize
-OpenAI Agents SDK and MLflow traces. Execution manifests pin prompt, policy, model, tool,
+OpenAI Agents SDK traces, persisted through a dependency-free JSONL store
+(see ADR 0010). Execution manifests pin prompt, policy, model, tool,
 guardrail, SDK, tracer, entry-contract, and effect-catalog identities. Episodes are
 qualified and partitioned before grouped splitting.
 
