@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import math
 from pathlib import Path
 from typing import Any
 
@@ -75,6 +76,58 @@ def test_blank_lines_are_skipped(tmp_path):
     jsonl.write_jsonl(generate(n_episodes=2, seed=5), path)
     path.write_text(path.read_text() + "\n\n", encoding="utf-8")
     assert len(jsonl.read_jsonl(path)) == 2
+
+
+def test_jsonl_write_is_canonical_and_atomic(tmp_path):
+    episodes = generate(n_episodes=2, seed=11)
+    path = tmp_path / "episodes.jsonl"
+    path.write_text("previous snapshot\n", encoding="utf-8")
+
+    # A late serialization error must not destroy the last valid snapshot.
+    episodes[1].attributes["not_json"] = object()
+    with pytest.raises(jsonl.EpisodeStoreError, match="is not strict JSON"):
+        jsonl.write_jsonl(episodes, path)
+    assert path.read_text(encoding="utf-8") == "previous snapshot\n"
+    assert list(tmp_path.glob(".episodes.jsonl.*.tmp")) == []
+
+    episodes[1].attributes.pop("not_json")
+    jsonl.write_jsonl(episodes, path)
+    lines = path.read_text(encoding="utf-8").splitlines()
+    assert lines[0] == json.dumps(
+        episodes[0].to_dict(),
+        allow_nan=False,
+        ensure_ascii=False,
+        separators=(",", ":"),
+        sort_keys=True,
+    )
+
+
+def test_jsonl_rejects_non_finite_numbers_and_duplicate_identity(tmp_path):
+    episodes = generate(n_episodes=2, seed=13)
+    episodes[0].attributes["bad_metric"] = math.nan
+    with pytest.raises(jsonl.EpisodeStoreError, match="strict JSON"):
+        jsonl.write_jsonl(episodes, tmp_path / "nan.jsonl")
+
+    episodes[0].attributes.pop("bad_metric")
+    episodes[1].envelope = episodes[0].envelope
+    with pytest.raises(jsonl.EpisodeStoreError, match="duplicate episode_id"):
+        jsonl.write_jsonl(episodes, tmp_path / "duplicate.jsonl")
+
+
+def test_jsonl_reader_reports_the_source_line_and_rejects_duplicates(tmp_path):
+    path = jsonl.write_jsonl(generate(n_episodes=2, seed=17), tmp_path / "episodes.jsonl")
+    first = path.read_text(encoding="utf-8").splitlines()[0]
+    path.write_text(first + "\n" + first + "\n", encoding="utf-8")
+    with pytest.raises(jsonl.EpisodeStoreError, match=r"episodes\.jsonl:2: duplicate"):
+        jsonl.read_jsonl(path)
+
+    path.write_text(first + "\n{not-json}\n", encoding="utf-8")
+    with pytest.raises(jsonl.EpisodeStoreError, match=r"episodes\.jsonl:2:"):
+        jsonl.read_jsonl(path)
+
+    path.write_text(first + "\n[]\n", encoding="utf-8")
+    with pytest.raises(jsonl.EpisodeStoreError, match="top-level value"):
+        jsonl.read_jsonl(path)
 
 
 # ---------------------------------------------------------------------------

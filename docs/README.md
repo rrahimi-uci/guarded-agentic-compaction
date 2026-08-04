@@ -1,6 +1,6 @@
 # Documentation map
 
-This directory describes the implemented `agent-compaction` 0.5.0 research library.
+This directory describes the implemented `agent-compaction` 0.6.0 research library.
 Start here rather than treating every document as an equally current specification.
 
 ## Current developer documentation
@@ -14,6 +14,7 @@ Start here rather than treating every document as an equally current specificati
 | [Operations](operations.md) | Estimate, review, shadow, promotion, monitoring, incident response, and rollback |
 | [Use cases](use-cases.md) | Evidence-labeled scenarios using the current API |
 | [Architecture decisions](architecture/README.md) | Short records of stable design choices |
+| [MLflow removal review](mlflow-removal-report.md) | Code-grounded dependency decision, custom JSONL design, trade-offs, migration, and validation |
 
 ## Evidence and research status
 

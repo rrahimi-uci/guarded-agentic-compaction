@@ -21,6 +21,7 @@ import json
 import re
 import sys
 import tomllib
+import zipfile
 from pathlib import Path
 from typing import Any
 
@@ -56,6 +57,27 @@ def main() -> int:
         (ROOT / "src" / "agent_compaction" / "py.typed").exists(),
         "typed-package marker exists",
     )
+    optional = metadata["project"].get("optional-dependencies", {})
+    check("mlflow" not in optional, "package metadata has no MLflow extra")
+    check(
+        not (ROOT / "src" / "agent_compaction" / "capture" / "mlflow_adapter.py").exists(),
+        "source package has no MLflow adapter",
+    )
+    for wheel in sorted((ROOT / "dist").glob("agent_compaction-*.whl")):
+        with zipfile.ZipFile(wheel) as archive:
+            names = archive.namelist()
+            metadata_names = [name for name in names if name.endswith(".dist-info/METADATA")]
+            wheel_metadata = "\n".join(
+                archive.read(name).decode("utf-8") for name in metadata_names
+            )
+        check(
+            not any("mlflow" in name.casefold() for name in names),
+            f"{wheel.name} contains no stale MLflow module",
+        )
+        check(
+            "Requires-Dist: mlflow" not in wheel_metadata,
+            f"{wheel.name} declares no MLflow dependency",
+        )
 
     for document in _markdown_files():
         for target in _local_links(document):

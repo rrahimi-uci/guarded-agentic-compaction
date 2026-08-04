@@ -19,7 +19,7 @@ from __future__ import annotations
 
 from . import capture, evaluation, graph, grc, portfolio, registry, runtime, schema, tgws
 from .api import MODES, OptimizeJob, estimate, load_catalog, optimize, promote, retire, validate
-from .capture.jsonl import read_jsonl, write_jsonl
+from .capture.jsonl import EpisodeStoreError, read_jsonl, write_jsonl
 from .estimate.headroom import EstimateReport, break_even, required_calibration_groups
 from .evaluation.splits import Splits, make_splits
 from .evaluation.domains import (
@@ -86,7 +86,7 @@ from .schema.traces import (
     require_compatible_manifest,
 )
 
-__version__ = "0.5.0"
+__version__ = "0.6.0"
 
 __all__ = [
     "__version__",
@@ -100,6 +100,7 @@ __all__ = [
     "load_catalog",
     "read_jsonl",
     "write_jsonl",
+    "EpisodeStoreError",
     "EstimateReport",
     "break_even",
     "required_calibration_groups",

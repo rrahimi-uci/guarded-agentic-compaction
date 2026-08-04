@@ -4,9 +4,8 @@
 
     import agent_compaction as ac
 
-    ac.capture.configure(experiment="support-agent",
-                         entry_state_allowlist=["channel", "locale", "product"],
-                         effect_catalog="configs/effects.yaml")
+    episodes = ac.read_jsonl("traces.jsonl")
+    catalog = ac.load_catalog("configs/effects.yaml")
 
     report = ac.estimate(episodes, catalog, entry_schema=[...])
     job    = ac.optimize(episodes, catalog, algorithms=["tgws", "grc"],

@@ -2,7 +2,9 @@
 
 **Status:** historical pre-implementation design record; not the current API guide
 **Date:** 2026-08-01  
-**Foundation:** OpenAI Agents SDK + MLflow Tracing  
+**Original proposed foundation:** OpenAI Agents SDK + MLflow Tracing
+
+**Implemented foundation:** OpenAI Agents SDK adapter + dependency-free canonical JSONL
 **Outcome:** a versioned, evidence-gated system that learns from historical traces and makes agent workflows smaller, faster, cheaper, and more predictable without changing model weights
 
 > **Current guidance:** This document is retained because implementation modules and tests
@@ -11,13 +13,24 @@
 > for callable APIs, [operations.md](operations.md) for deployment guidance,
 > [gpt-5.6-report.md](gpt-5.6-report.md) for current implementation/readiness, and the
 > [paper artifact](../paper/README.md) for measured claims.
+>
+> **MLflow disposition (2026-08-04):** every MLflow-specific design below is retained only
+> as proposal history. Repository reference analysis found no experiment, demonstration,
+> optimizer, or runtime consumer, so the 338-line adapter and optional dependency were
+> removed. The current boundary is documented in
+> [the removal review](mlflow-removal-report.md) and [ADR 0010](architecture/0010-single-framework-adapter.md).
 
 This plan originally synthesized `proposal.md`, `proposal.v1.md`, and the former v2.1
 use-case monograph. It records design intent and should not override implemented behavior.
 
 ## 1. Executive Summary
 
-Agent Compaction is an offline workflow optimizer for applications built with the OpenAI Agents SDK and observed through MLflow Tracing. It mines repeated execution patterns, proposes smaller strategies, validates them on grouped historical and adversarial cases, and deploys only immutable artifacts with conservative fallback to the original workflow.
+Agent Compaction is an offline workflow optimizer for applications built with the OpenAI
+Agents SDK or normalized into its typed Episode IR. The maintained SDK processor captures
+framework traces and canonical local JSONL persists them. The optimizer mines repeated
+execution patterns, proposes smaller strategies, validates them on grouped historical and
+adversarial cases, and deploys only immutable artifacts with conservative fallback to the
+original workflow.
 
 Build two complementary optimizers:
 
@@ -26,7 +39,12 @@ Build two complementary optimizers:
 
 TGWS is the faster, lower-risk product algorithm; GRC is the principal research contribution. Apply them as a ladder: simplify routing and prompt/tool surfaces first, then compile residual regions that still require repeated model-mediated control. Neither algorithm invents business logic, changes model weights, or removes external effects without an explicit declaration.
 
-Do not create a parallel instrumentation stack. The Agents SDK remains the execution substrate and source of runtime span semantics. MLflow remains the trace store, search/evaluation surface, prompt/version record, and experiment registry. Agent Compaction adds only facts neither can infer—principal, policy/effect class, external-state version, approval scope, and business outcome—and derives a typed graph offline.
+Do not create a parallel instrumentation stack. The Agents SDK remains the execution
+substrate and source of runtime span semantics. Agent Compaction normalizes those spans,
+adds application-owned facts the SDK cannot infer—principal, policy/effect class,
+external-state version, approval scope, and business outcome—and derives a typed graph
+offline. Applications may use their own observability service, but it is not a compiler
+dependency or canonical replay source.
 
 Delivery order:
 
@@ -82,7 +100,7 @@ Repository decisions:
 | Success endpoint | Request ratio `<0.90`; cost/latency secondary | v2.1 supersedes v1's universal 20% target |
 | Optimizers | TGWS plus GRC; GRC has seven bounded internal stages | Concrete v2.1 primitives replace generic v1 passes |
 | Experiment | Four scored conditions, grouped splits, sealed test | v2.1 replaces v1's seven-condition design |
-| Trace substrate | Agents SDK + MLflow; derived offline graph | No independent runtime tracer |
+| Trace substrate | Agents SDK adapter + canonical JSONL; derived offline graph | No independent runtime tracer or bundled tracking service |
 | Use-case savings | Hypotheses and power-analysis inputs only | `use-cases.md` labels values illustrative |
 | Broad transform taxonomy | Future work and baselines | Not evidence those passes exist |
 | Continuous improvement | Scheduled immutable epochs with promotion | Never live self-editing |
@@ -101,7 +119,7 @@ Agent Compaction lies between prompt optimization, agent scheduling, workflow sy
 | Area/system | Relevant capability | Remaining gap |
 |---|---|---|
 | [OpenAI Agents SDK](https://openai.github.io/openai-agents-python/) | Agent loop, tools, handoffs, guardrails, sessions, approvals, tracing | Runtime foundation, not an offline optimizer |
-| [MLflow Tracing for OpenAI Agents](https://mlflow.org/docs/latest/genai/tracing/integrations/listing/openai-agent/) | Automatic capture, search, evaluation, experiment lifecycle | Trace substrate, not a provenance-aware compiler |
+| [MLflow Tracing for OpenAI Agents](https://mlflow.org/docs/latest/genai/tracing/integrations/listing/openai-agent/) | Automatic capture, search, evaluation, experiment lifecycle | Evaluated in the original plan, then removed because the implementation did not consume this surface |
 | [DSPy](https://github.com/stanfordnlp/dspy) / [MIPRO](https://arxiv.org/abs/2406.11695) | Instruction/example optimization for LM programs | Adjacent proposer; less explicit about effect-safe graph replacement |
 | [LLMCompiler](https://proceedings.mlr.press/v235/kim24y.html) | Parallel tool-call planning/execution | Optimizes current scheduling, not historical guarded rewrites |
 | [LangGraph](https://github.com/langchain-ai/langgraph) | Explicit durable workflow graphs | Runtime/export target; does not prove a model decision removable |
@@ -121,8 +139,8 @@ Principles: one authoritative trace path; raw-trace preservation; offline optimi
 
 ```mermaid
 flowchart LR
-  A[Agents SDK app] -->|built-in spans + semantic attributes| M[MLflow Tracing]
-  M --> R[(Raw traces and manifests)]
+  A[Agents SDK app] -->|built-in spans + semantic attributes| M[SDK trace processor]
+  M --> R[(Canonical Episodes and manifests)]
   R --> Q[Qualification + graph builder]
   Q --> F[Feasibility estimator]
   F --> T[TGWS]
@@ -135,34 +153,38 @@ flowchart LR
   H --> D[Runtime dispatcher]
   D -->|eligible| O[Optimized artifact]
   D -->|abstain/deopt| B[Original agent]
-  O --> M
-  B --> M
-  M --> K[Drift/incident monitor]
+  O --> K[Drift/incident monitor]
+  B --> K
   K -->|retire| H
 ```
 
 | Component | Responsibility | Initial choice |
 |---|---|---|
-| Capture | Configure tracing and semantic attributes | Agents SDK tracing + `mlflow.openai.autolog()` or one composed processor |
-| Store | Raw traces, manifests, labels, artifact links | MLflow backend + object storage/Parquet |
+| Capture | Normalize tracing and semantic attributes | Agents SDK `TracingProcessor` |
+| Store | Complete Episodes and manifests | strict canonical JSONL snapshots; content-addressed external payloads as needed |
 | Graph builder | Typed control/data/effect graph | Pydantic, Polars/DuckDB; NetworkX only for inspection |
 | Effect catalog | Effect, replay, auth, freshness, approval rules | CI-validated versioned YAML |
 | Estimator | Headroom, support, groundability, sample cost | Python library/CLI |
 | TGWS | Shallow route and prompt/tool pruning | Bounded tree + greedy elimination |
 | GRC | Mine, synthesize, contract, emit | Closed DSL + deterministic enumeration |
-| Evaluation | Replay, perturbation, staging, statistics | Isolated fixtures + MLflow evaluation records |
-| Registry | Artifact/evidence lifecycle | MLflow artifacts plus small SQL index |
+| Evaluation | Replay, perturbation, staging, statistics | Isolated fixtures + frozen local result manifests |
+| Registry | Artifact/evidence lifecycle | native signed registry and hash-chained study ledger |
 | Runtime | Dispatch, stage, deopt, telemetry | Custom SDK `Model`/`ModelProvider` or explicit wrapper |
 
 The control plane freezes snapshots, builds candidates, validates, approves, promotes, and retires them. The data plane loads an approved version at a controlled epoch, checks compatibility/contract, and falls back before any non-stageable effect. Lifecycle:
 
 `discovered → synthesized → replay_validated → shadow → approved → active → retired`.
 
-Any code, prompt, model, tool-schema, effect-catalog, policy, or guardrail drift invalidates the compatibility hash. MLflow stores searchable identity/evaluation/experiment records; object storage retains large payloads and normalized Parquet; the compiler graph is a reproducible derived view, not native MLflow semantics.
+Any code, prompt, model, tool-schema, effect-catalog, policy, or guardrail drift invalidates
+the compatibility hash. Canonical JSONL stores complete typed Episodes; content-addressed
+payloads and publication manifests retain larger evidence. The compiler graph is a
+reproducible derived view, not a tracing-platform semantic.
 
 ## 6. Trace Collection Design
 
-The SDK already traces runner/task boundaries, turns, generations, functions, guardrails, and handoffs. MLflow captures Agents SDK execution, inputs/outputs, calls, and guardrails. Add only application-owned facts:
+The SDK already traces runner/task boundaries, turns, generations, functions, guardrails,
+and handoffs. The maintained processor maps those events into the IR. Add only
+application-owned facts:
 
 | Field | Purpose | Rule |
 |---|---|---|
@@ -179,7 +201,7 @@ Minimum derived schema:
 ```text
 TraceEnvelope(trace_id, episode_id, group_id, entry_state_ref,
               manifest_id, outcome_ref, privacy_class)
-ExecutionManifest(commit, sdk/mlflow/model configs, prompt versions,
+ExecutionManifest(commit, sdk/tracer/model configs, prompt versions,
                   tool hashes, guardrail/policy/effect versions)
 EventNode(node_id, parent_id, kind, actor, timing, input/output refs,
           status, usage, request/call ids, attributes)
@@ -462,7 +484,7 @@ Report the break-even traffic under low/base/high cost assumptions. The v2.1 pro
 
 | Package | Deliverables | Acceptance criterion |
 |---|---|---|
-| WP1 Trace contract | Schemas, MLflow/SDK adapter, manifest, redaction, fixtures | Complete local trace reconstructs exactly; no duplicate trace path |
+| WP1 Trace contract | Schemas, SDK adapter, canonical JSONL, manifest, redaction, fixtures | Complete local trace reconstructs exactly; no duplicate trace path |
 | WP2 Effect catalog | YAML schema, decorators, CI validator, unknown-effect diagnostics | Every demo tool classified; unknown blocks compilation |
 | WP3 Graph/estimator | Normalizer, provenance edges, data report, CLI/report | Synthetic truth graph round-trips; savings ceiling matches fixtures |
 | WP4 GRC | Window miner, DSL, enumerator, decision list, contracts | Recovers planted regions and rejects planted ungroundable/effectful ones |
@@ -473,33 +495,27 @@ Report the break-even traffic under low/base/high cost assumptions. The v2.1 pro
 
 ### 10.2 Public Python interface
 
-The following block records the proposed interface at planning time. It is not executable
-against version 0.5.0; use [Library API](library-api.md) for the current interface.
+The following block is updated to the 0.6.0 interface; use
+[Library API](library-api.md) for the complete contract.
 
 ```python
 import agent_compaction as ac
 
-ac.capture.configure_mlflow(
-    experiment="support-agent",
-    entry_state_allowlist=["channel", "locale", "product"],
-    effect_catalog="configs/effects.yaml",
-)
+episodes = ac.read_jsonl("traces.jsonl")
+catalog = ac.load_catalog("configs/effects.yaml")
 
-report = ac.estimate(
-    experiment="support-agent",
-    window="2026-06-01/2026-06-30",
-    partition_by=["manifest_id", "tenant_partition", "policy_version"],
-)
+report = ac.estimate(episodes, catalog, entry_schema=["channel", "locale", "product"])
 
 job = ac.optimize(
-    report.snapshot_id,
+    episodes,
+    catalog,
     algorithms=["tgws", "grc"],
     mode="offline",
-    constraints="configs/promotion.yaml",
+    partition_by=["tenant_partition", "principal", "policy_version"],
 )
 
-ac.validate(job.candidate_id, suites=["replay", "perturbation", "shadow"])
-ac.promote(job.candidate_id, stage="shadow")
+ac.validate(job, suites=["replay", "perturbation"])
+ac.promote(job, stage="shadow")
 ```
 
 The API must expose `partition_by`, `mode`, allowed effects, literal-only fields, maximum transform depth, and terminal handoff rules. These are known gaps in the current proposal examples and cannot remain implicit.
@@ -524,7 +540,10 @@ Support two paths:
 1. an explicit `CompactingRunner` wrapper for easiest debugging and exact control around entry state;
 2. a custom Agents SDK `Model`/`ModelProvider` for applications wanting transparent interception at model-request boundaries.
 
-Start with the wrapper. It has clearer semantics when a region spans tools or handoffs. The custom model path should only intercept patterns whose deopt state is provably reconstructable. Flush traces during short-lived jobs and verify SDK/MLflow processor composition in integration tests.
+Start with the wrapper. It has clearer semantics when a region spans tools or handoffs. The
+custom model path should only intercept patterns whose deopt state is provably
+reconstructable. Flush the SDK processor during short-lived jobs and verify trace
+completeness and unique ownership in integration tests.
 
 ### 10.5 CI/CD and versioning
 
@@ -538,7 +557,12 @@ Start with the wrapper. It has clearer semantics when a region spans tools or ha
 
 ### 10.6 Testing strategy
 
-Use synthetic trace generators with planted routes, provenance, ambiguities, effects, missing spans, drift, and counterexamples. Property tests assert that no accepted expression depends on unavailable data; effect barriers are never crossed; group split membership is disjoint; and deopt before commitment is observationally equivalent to baseline entry. Golden traces cover SDK/MLflow version updates. Mutation tests intentionally change prompts/schemas/policies and must invalidate artifacts.
+Use synthetic trace generators with planted routes, provenance, ambiguities, effects,
+missing spans, drift, and counterexamples. Property tests assert that no accepted
+expression depends on unavailable data; effect barriers are never crossed; group split
+membership is disjoint; and deopt before commitment is observationally equivalent to
+baseline entry. Golden traces cover SDK and Episode-wire-contract updates. Mutation tests
+intentionally change prompts/schemas/policies and must invalidate artifacts.
 
 ## 11. Experimental Design
 
@@ -762,7 +786,7 @@ Use paired/grouped estimators, disclose missing outcomes and exclusions, publish
 | Optimization shifts work | Fewer requests but more tool calls/latency | End-to-end resource vector and critical-path measurement |
 | Artifact proliferation | Operational complexity exceeds savings | Leaf/artifact caps and maintenance penalty |
 | Sensitive trace capture | Privacy/compliance harm | Allowlist/redaction, access separation, deletion lineage, retention policy |
-| SDK/MLflow integration drift | Missing or duplicate spans | Version matrix and golden integration traces |
+| SDK integration drift | Missing or duplicate spans | Version matrix and golden integration traces |
 | Prompt/tool simplification already suffices | Compiler has no incremental value | Mandatory TGWS/handwritten/parallel baseline; stop GRC investment |
 | Low workload volume | Build cost never recovers | Estimator and economic gate before compiler work |
 | Hidden long-range dependencies | Short-window rewrite changes semantics | Conservative contract, bounded regions, fallback; reject uncertain cases |
@@ -778,7 +802,7 @@ Known design/API gaps that implementation must close:
 - field-entropy checks rather than a fragile literal stoplist;
 - terminal-emission rules around handoffs;
 - staging-owner and commit-point semantics;
-- one authoritative Agents SDK/MLflow tracing configuration;
+- one authoritative Agents SDK trace processor;
 - a precise policy for optional reasoning summaries and sensitive payloads.
 
 Fundamental limitation: empirical validation cannot prove semantic equivalence for all future inputs or external states. The contribution is selective, evidence-bounded replacement with abstention—not verified compilation in the formal-methods sense. The workload may also change faster than sufficient independent calibration evidence accumulates.
@@ -828,7 +852,12 @@ Only pursue these after the read-only system demonstrates value:
 
 ### 16.3 Staffing and dependencies
 
-Minimum core team: one compiler/ML engineer, one agents/runtime engineer, and one evaluation/research engineer, with part-time domain expert, security/privacy reviewer, and production owner. Dependencies include a representative Agents SDK application, MLflow deployment, immutable object storage, stable outcome labels, sandboxable tools, and enough traffic. Without outcome access or effect ownership, only the estimator and trace-quality tooling are feasible.
+Minimum core team: one compiler/ML engineer, one agents/runtime engineer, and one
+evaluation/research engineer, with part-time domain expert, security/privacy reviewer, and
+production owner. Dependencies include a representative Agents SDK application, controlled
+trace/object storage, stable outcome labels, sandboxable tools, and enough traffic. A
+remote experiment tracker is optional and application-owned. Without outcome access or
+effect ownership, only the estimator and trace-quality tooling are feasible.
 
 ### 16.4 Definition of done
 
@@ -846,7 +875,8 @@ agent-compaction/
 ├── execution-plan.md
 ├── src/agent_compaction/
 │   ├── capture/
-│   │   ├── mlflow_adapter.py
+│   │   ├── agents_sdk.py
+│   │   ├── jsonl.py
 │   │   ├── attributes.py
 │   │   └── manifests.py
 │   ├── schema/
@@ -919,13 +949,16 @@ agent-compaction/
     └── verify_release.py
 ```
 
-Keep raw/private traces outside Git. Commit de-identified fixtures, content hashes, and split manifests. Generated figures and tables must name their source run manifest. Architecture decisions should record why MLflow/SDK integration, read-only scope, bounded synthesis, and calibration choices were made.
+Keep raw/private traces outside Git. Commit de-identified fixtures, content hashes, and
+split manifests. Generated figures and tables must name their source run manifest.
+Architecture decisions should record capture/store boundaries, read-only scope, bounded
+synthesis, and calibration choices.
 
 ## 18. Expected Research Contributions
 
 If implemented and evaluated as specified, the work can make five defensible contributions:
 
-1. **A typed trace-to-workflow representation** that combines Agents SDK execution semantics with value provenance, effect ordering, compatibility manifests, and outcome evidence while retaining MLflow as the observability substrate.
+1. **A typed trace-to-workflow representation** that combines Agents SDK execution semantics with value provenance, effect ordering, compatibility manifests, and outcome evidence while remaining independent of the application's observability substrate.
 2. **A bounded guarded region compiler** that mines canonical windows in `O(NL)`, synthesizes arguments from a closed typed DSL, and explicitly rejects ungroundable or effect-unsafe candidates.
 3. **An interpretable workflow specializer** that jointly studies entry-state routing and route-specific prompt/tool/reasoning reduction under quality constraints.
 4. **A selective validation and deployment protocol** combining grouped splits, counterexample perturbations, exact corrected calibration, shadow execution, immutable epochs, and pre-commit fallback.
@@ -939,7 +972,7 @@ The strongest publication framing is therefore not “agents can always be compi
 
 ## Implementation Readiness Checklist
 
-- [ ] Trace semantics verified against pinned Agents SDK and MLflow versions.
+- [ ] Trace semantics verified against a pinned Agents SDK version and canonical JSONL contract.
 - [ ] One authoritative tracer configured; duplicate-span test passes.
 - [ ] Entry-state, manifest, effect, approval, freshness, and outcome schemas frozen.
 - [ ] Raw-trace retention, redaction, deletion, and access policies approved.

@@ -78,6 +78,12 @@ The validator compiles both and asserts that the architecture figure and all fou
 algorithms reach the page in each, so a wrapper that silently drops an `\input` fails
 the audit rather than shipping a short paper.
 
+The artifact has no MLflow dependency. Normalized Episodes are persisted in a strict,
+canonical, atomic local JSONL snapshot; OpenAI Agents SDK capture is the only maintained
+foreign trace adapter. The design rationale and the deliberately omitted remote-tracking
+capabilities are documented in
+[`docs/mlflow-removal-report.md`](../docs/mlflow-removal-report.md).
+
 ## Evidence classification
 
 - **NESTFUL:** real public benchmark data, deterministic executable functions, no model

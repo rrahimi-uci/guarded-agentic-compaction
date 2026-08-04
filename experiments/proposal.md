@@ -11,6 +11,11 @@ scenarios, and evidence boundaries. The longer v2.1 illustrative monograph summa
 > This proposal is the historical research specification. Current callable behavior is
 > documented in [`docs/library-api.md`](../docs/library-api.md), and current empirical
 > claims are governed by the [`paper/`](../paper/README.md) artifact.
+> The proposed MLflow backend was removed in release 0.6.0 after reference analysis found
+> no experiment, demonstration, optimizer, or runtime consumer. Current capture uses the
+> OpenAI Agents SDK adapter and canonical local JSONL. See the
+> [removal review](../docs/mlflow-removal-report.md); MLflow passages below are retained as
+> design history and related-work context, not current installation instructions.
 
 ---
 
@@ -30,7 +35,7 @@ v1 was literature-aware and rigorous about *evidence*, but it was not implementa
 | 8 | Effects were to be "resolved" per call, but neither the SDK nor MLflow exposes them and v1 offered no mechanism. | Effects are a **user-declared YAML catalog**, defaulting to `UNKNOWN` (never compilable). Turns an open research problem into a 30-line config file and makes the system fail-closed by construction. | §5.3 |
 | 9 | v1 abandoned finite-sample risk control ("Dev is too small"). It gave up one step too early: a *fixed threshold grid* admits a valid multiple-testing correction. | **Bonferroni–Clopper–Pearson threshold selection** over a pre-registered grid (Alg. 6): valid for i.i.d. or conditionally i.i.d. group-level violation indicators, honestly wide, and it degrades to abstention rather than to a false guarantee. | §4.6 |
 | 10 | Seven scored conditions including faithful reimplementations of MiniCache (with speculative decoding), Agentic Plan Caching, and EvoC2F. That is three systems papers of engineering for one researcher; v1's own risk table flags the straw-baseline hazard this creates. | **Four scored conditions.** The dropped systems move to related work plus optional Train/Dev diagnostics. Episode count falls from 8,607 to ~4,200. | §8.2, §10 |
-| 11 | The Track A / Track B split meant the reference architecture (the part anyone would actually use) was never validated by anything. | **One library, two evidence levels.** The library *is* the Track A implementation; SDK/MLflow adapters are additional backends behind the same interfaces. | §5 |
+| 11 | The Track A / Track B split meant the reference architecture (the part anyone would actually use) was never validated by anything. | **One library, two evidence levels.** The library *is* the Track A implementation; the SDK adapter and JSONL store share its typed IR. | §5 |
 | 12 | Math used `\[…\]` and `\(…\)`, which do not render on GitHub or in most Markdown viewers; `\mathbb{1}` has no glyph in KaTeX; there was no notation table and no equation numbering. | All math converted to `$$…$$` / `$…$`, indicators to $\mathbf{1}[\cdot]$, equations tagged, and a notation table added. | §2 |
 
 Two things v2 does **not** change: the literature positioning (v1's is accurate and is retained) and the evidence discipline around Train/Dev/Test separation (retained and tightened).
@@ -641,13 +646,10 @@ The point of v2. Everything above is packaged as `agent-compaction` (import `com
 ```python
 import compaction as cx
 
-# ── 1. capture ────────────────────────────────────────────────────────────
-cx.enable_tracing(backend="mlflow", experiment="support-agent")
-# wraps mlflow.openai.autolog() and installs the compaction span exporter;
-# enforces the one-authoritative-tracer rule (§5.5)
+# ── 1. load normalized capture ────────────────────────────────────────────
+traces = cx.read_jsonl("traces.jsonl")
 
 # ── 2. estimate, then compile ─────────────────────────────────────────────
-traces = cx.load(backend="mlflow", experiment="support-agent", split="train")
 effects = cx.EffectCatalog.from_yaml("effects.yaml")
 
 print(cx.estimate(traces, effects))
@@ -718,7 +720,7 @@ Capabilities gate specific optimizations: `cacheable` licenses memoization, `reo
 ```text
 compaction/
   trace/    envelope.py  normalize.py  provenance.py     # Alg. 1
-            backends/{mlflow,agents_sdk,appworld,jsonl}.py
+            backends/{agents_sdk,appworld,jsonl}.py
   mine/     canon.py  regions.py  rank.py                 # Alg. 2
   synth/    library.py  bindings.py  branches.py          # Alg. 3, 4
             contracts.py  validate.py                     # Alg. 5
@@ -728,9 +730,18 @@ compaction/
   report/   estimate.py  explain.py  spans.py
 ```
 
-Roughly 6k lines including tests. Nothing in `trace/`, `mine/`, `synth/`, or `gate/` imports MLflow or the Agents SDK — they are backends behind `trace/backends/` and `runtime/adapters/`. This is what makes the paper's evaluation (which uses the AppWorld backend) and the SDK deployment the *same* code, rather than v1's two disconnected tracks.
+Nothing in `trace/`, `mine/`, `synth/`, or `gate/` imports the Agents SDK. Framework
+capture is behind `trace/backends/`; JSONL persists the IR itself. This is what makes the
+paper evaluation and SDK deployment use the same compiler rather than v1's disconnected
+tracks.
 
-### 5.5 MLflow backend
+### 5.5 Historical MLflow backend (removed)
+
+This subsection records the alternative evaluated during proposal design. It is not part
+of release 0.6.0. The implementation did not consume its search, evaluation, or tracking
+surface, so retaining it added a compatibility/privacy boundary without supporting a
+result. An application may still run its own observability service outside the compiler's
+canonical Episode path.
 
 Pin **MLflow 3.14.0** — the latest stable release in the [official archive](https://mlflow.org/releases/archive/) at the search cutoff — rather than depending on drifting `/latest/` behaviour.
 
@@ -860,7 +871,7 @@ Contrast with what is **correctly rejected**: `spotify.add_song_to_playlist` is 
 
 | Slice | Scope | Effort | Value on its own |
 |:--|:--|--:|:--|
-| **v0.1 — Estimator** | Alg. 1–2 + `estimate()`; MLflow and JSONL backends; no synthesis, no runtime | ~2 weeks | Answers "is there anything here?" for any traced agent. Publishable as a measurement study even if compaction never ships. |
+| **v0.1 — Estimator** | Alg. 1–2 + `estimate()`; SDK adapter and JSONL store; no synthesis, no runtime | ~2 weeks | Answers "is there anything here?" for any traced agent. Publishable as a measurement study even if compaction never ships. |
 | **v0.2 — Compiler** | Alg. 3–5, interpreter, `explain()`, registry | ~4 weeks | Offline artifacts + readable programs; still zero runtime risk |
 | **v0.3 — Shadow** | Alg. 6–7 in `mode="shadow"`, spans, staging attestation | ~3 weeks | Measured coverage and would-be savings on live traffic, zero behaviour change |
 | **v0.4 — Live** | `mode="live"`, `CompactingModel`, 7 conformance tests | ~3 weeks | Actual savings, single-agent local tools only |
@@ -1073,7 +1084,8 @@ Applicability guidance and instrumentation requirements — **not seven evaluate
 | Enterprise automation | MCP spans, tenant/principal, RBAC, policy, audit, residency | Read-only macros, typed routing, batched lookups | Tenant isolation, consent, residency, credential scope, auditability |
 | RAG / knowledge | Query, retrieval, rerank spans, provenance, index/ACL versions | Query and result dedup, embedding batches, citation assembly | Freshness, ACL, provenance, citation coverage, index version are key fields |
 
-Memory, human decisions, retriever internals, index versions, and policy context all require **custom spans**. Neither the SDK nor MLflow infers them.
+Memory, human decisions, retriever internals, index versions, and policy context all
+require **application-owned attributes**. The SDK cannot infer them.
 
 ---
 
@@ -1240,7 +1252,7 @@ H2 and H3 both pass; aggregate Test Normal coverage $\ge0.35$; no committed forb
 | Dev too small for a tight risk bound | Overstated guarantee | Alg. 6 is valid but wide under the registered i.i.d./conditionally i.i.d. group model; `RETIRE` when it cannot be met |
 | AppWorld forbids hardcoded API logic | Invalid leaderboard comparison | Modified non-leaderboard protocol, pinned rules and version |
 | Test inspection contaminates development | Invalid held-out evaluation | Sealed script, aggregate outputs only, failure analysis on Train/Dev |
-| MLflow auto-tracing replaces/duplicates/drops SDK spans | Biased mining and accounting | One authoritative tracer per run; pinned versions; sync/flush discipline; count and hash reconciliation |
+| SDK processor drops or duplicates spans | Biased mining and accounting | One authoritative processor per run; pinned version; sync/flush discipline; count and hash reconciliation |
 | `CompactingModel` changes history or run semantics | "Savings" are an adapter artifact | Seven conformance tests; `mode="off"` byte equality; single-agent local-tool v0.1; everything else fails closed |
 | Semantic cache crosses freshness/ACL/tenant boundaries | Incorrect or unauthorized reuse | Principal, schema, state/index version, TTL, provenance are hard key fields; similarity only *retrieves* |
 | Artifact traces certify later artifacts | Self-confirming loop | Baseline-only sentinels; source provenance preserved; time-split shadow evaluation |
@@ -1253,7 +1265,14 @@ H2 and H3 both pass; aggregate Test Normal coverage $\ge0.35$; no committed forb
 
 ## 12. Ethics, privacy, security
 
-Trace mining retains credentials, identifiers, and policy-sensitive actions — and Algorithm 1 is *specifically* a machine for finding where a credential flowed. Agents SDK generation and function spans capture sensitive payloads by default; MLflow redaction is custom and certifies nothing. The system disables unnecessary payload capture, redacts before export, encrypts controlled raw records, mines only typed projections with salted tenant-scoped identifiers, and never collects chain-of-thought. Raw access is tenant- and split-scoped. Public artifacts contain synthetic benchmark traces or redacted schemas. The worked example in §5.7 uses AppWorld's simulated credentials.
+Trace mining retains credentials, identifiers, and policy-sensitive actions — and
+Algorithm 1 is *specifically* a machine for finding where a credential flowed. Agents SDK
+generation and function spans can capture sensitive payloads; no exporter or local store
+certifies redaction automatically. The system disables unnecessary payload capture,
+redacts before persistence, encrypts controlled raw records, mines only typed projections
+with salted tenant-scoped identifiers, and never collects chain-of-thought. Raw access is
+tenant- and split-scoped. Public artifacts contain synthetic benchmark traces or redacted
+schemas. The worked example in §5.7 uses AppWorld's simulated credentials.
 
 Compilation makes errors faster and more consistent. Permissions, policy checks, confirmations, and consent steps survive even when most source traces take the same branch. The scored condition excludes irreversible mutation precisely because post-hoc fallback cannot undo it. The compiler is an execution optimizer, never an authority for consequential decisions.
 
@@ -1263,7 +1282,19 @@ AppWorld is simulated. Success shows benchmark feasibility, not production readi
 
 ## 13. Reproducibility
 
-Release: the versioned Compaction Trace Profile, source adapters, raw-export schema, and boundary instrumentation (raw exports for Train/Dev and synthetic fixtures only; Test releases limited to approved aggregates, manifests, and digests); pinned Agents SDK and MLflow 3.14.0 versions with processor, flush, redaction, and span-completeness fixtures; **the transform library, effect-catalog schema, and capability policy**; **hand-labelled provenance ground truth**; scenario-grouped folds committed before Dev/Test; the full library (miner, synthesizer, interpreter, gate, verifier, runtime); immutable artifact manifests with provenance and readable `explain()` output; baseline behaviour specifications and conformance tests; perturbation suites and ablation configs; aggregate Test metrics plus per-task Train/Dev data where licensing permits; raw token counts, timings, CPU measurements, dated prices; preregistration and statistical scripts; exact environment/model/code/data hashes; **rejected artifacts and rejection reasons**; paginated canonical trace exports with count and digest manifests.
+Release: the versioned Compaction Trace Profile, source adapters, canonical JSONL schema,
+and boundary instrumentation (raw exports for Train/Dev and synthetic fixtures only; Test
+releases limited to approved aggregates, manifests, and digests); a pinned Agents SDK
+version with processor, flush, redaction, and span-completeness fixtures; **the transform
+library, effect-catalog schema, and capability policy**; **hand-labelled provenance ground
+truth**; scenario-grouped folds committed before Dev/Test; the full library (miner,
+synthesizer, interpreter, gate, verifier, runtime); immutable artifact manifests with
+provenance and readable `explain()` output; baseline behaviour specifications and
+conformance tests; perturbation suites and ablation configs; aggregate Test metrics plus
+per-task Train/Dev data where licensing permits; raw token counts, timings, CPU
+measurements, dated prices; preregistration and statistical scripts; exact
+environment/model/code/data hashes; **rejected artifacts and rejection reasons**;
+canonical trace exports with count and digest manifests.
 
 One end-to-end reproduction command, plus a check-only mode that verifies hashes, split separation, and artifact provenance without paid inference.
 
@@ -1312,7 +1343,9 @@ CPU suffices for mining and bounded enumeration; one optional GPU for the small 
 3. **A synthesis method sized to the problem** — bounded version spaces and decision lists rather than general program synthesis, with the closed transform library published as the exact statement of expressive power.
 4. **A valid, honestly wide admission guarantee** (Alg. 6, Eq. 18) that retires artifacts rather than overclaiming when data is thin.
 5. **The feasibility frontier** (Eq. 10) — a closed form that tells any practitioner, before building anything, whether compaction can reach their savings target. This alone would have prevented v1's incompatible endpoints.
-6. **`agent-compaction`** — a working library over MLflow and the OpenAI Agents SDK whose v0.1 estimator answers "is there anything here?" for any traced agent in an afternoon.
+6. **`agent-compaction`** — a working library over a typed Episode IR with an OpenAI
+   Agents SDK adapter and canonical JSONL store whose estimator answers "is there anything
+   here?" before compilation investment.
 7. **A negative-result boundary** — which regions are rejected, and whether because of hidden state, undeclared effects, ungrounded slots, ambiguity, or insufficient support.
 
 A rigorous negative result is worth publishing. If apparent repetition dissolves under scenario grouping, unseen values, deployable contracts, and full cost accounting, that shows precisely where the attractive "agents compile themselves" story currently fails — and Eq. (10) plus the estimator make the failure legible instead of anecdotal.

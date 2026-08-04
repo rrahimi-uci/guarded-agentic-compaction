@@ -95,6 +95,9 @@ def included_files() -> list[Path]:
         "README.md",
         "LICENSE",
         "docs/gpt-5.6-report.md",
+        "docs/mlflow-removal-report.md",
+        "docs/architecture/0010-single-framework-adapter.md",
+        "scripts/verify_release.py",
         "extension-plan.md",
     ):
         path = ROOT / name

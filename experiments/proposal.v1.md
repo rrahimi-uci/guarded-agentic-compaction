@@ -4,6 +4,12 @@
 
 **Feasible paper proposal — 1 August 2026**
 
+> **Archived v1 design:** MLflow was evaluated here as a reference observability plane but
+> was removed from release 0.6.0 after code-usage analysis found no maintained consumer.
+> Current capture uses the OpenAI Agents SDK adapter and canonical local JSONL. See the
+> [removal review](../docs/mlflow-removal-report.md). All MLflow passages below are
+> historical proposal context, not current installation or reproduction steps.
+
 ## Feasibility verdict
 
 The original idea is compelling, but the broad claim—agents should learn to compile repeated behavior into deterministic programs—is already occupied by a fast-moving literature. [Agent Workflow Optimization (AWO)](https://arxiv.org/abs/2601.22037) mines recurring tool sequences into deterministic meta-tools. [EvoC2F](https://openreview.net/forum?id=ZSGB91kMOG) combines a compiler IR, effect annotations, contract checks, regression tests, and verification-gated trajectory-to-function evolution. [MiniCache](https://arxiv.org/abs/2607.20507) converts recurring programs into parameterized executable cache objects with semantic variable extraction, validation, and fallback; [Agentic Plan Caching](https://proceedings.neurips.cc/paper_files/paper/2025/hash/9549f7d06700f0966d5f938f1d11022a-Abstract-Conference.html) reuses plans from completed executions. Programmatic-skill systems already induce executable functions from experience, and program-synthesis work predates LLM agents entirely.

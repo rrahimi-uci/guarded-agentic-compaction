@@ -15,3 +15,6 @@ that were rejected and what evidence would reverse them.
 | [0008](0008-live-provider-demos.md) | provider-backed demos are primary; simulation remains an offline stress layer |
 | [0009](0009-measured-action-portfolio.md) | select only among paired measured actions; abstain on missing evidence and require review for macros |
 | [0010](0010-single-framework-adapter.md) | one framework adapter (Agents SDK) plus a dependency-free JSONL store; MLflow removed |
+
+The implementation and dependency evidence behind ADR 0010 is in the
+[MLflow removal review](../mlflow-removal-report.md).
