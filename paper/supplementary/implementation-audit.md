@@ -31,6 +31,9 @@ Two optimization passes share the IR:
 The runtime separates hard admission (manifest, effect, guard, lifecycle, isolation),
 statistical admission (gate), staged execution, postcondition verification, and commit.
 Clean pre-commit misses fall back; dirty failures become incidents.
+GRC's optimization choice remains compile-or-retire. A separate portfolio module now
+selects among measured actions under exact group-level quality and regret-risk bounds. It
+can emit a review-required macro recommendation but does not synthesize macro code.
 
 ## Correctness assessment by component
 
@@ -46,6 +49,7 @@ Clean pre-commit misses fall back; dirty failures become incidents.
 | Registry | Lifecycle, compatibility lookup, kill switch, rollback fields | Shared-secret signing; mutable objects; directory save not atomic as a unit |
 | Dispatcher | Fail-closed checks, staging, verifier, clean fallback | Freshness/quota snapshots are supplied rather than independently attested |
 | Continuation guard | Caller-defined output contract, checked renderer, revalidated baseline, secret-safe telemetry | Task semantics remain caller-owned; live latency/cost and cross-domain behavior are unmeasured |
+| Decision policy | Compiler emits or retires; portfolio ranks measured actions, abstains to baseline, invalidates on compatibility drift, and marks macros for review | No macro synthesis, cache evidence, engineering-cost model, or learned cross-family policy |
 | SDK capture | Natural processor-based trace integration | SDK cannot infer business outcomes/effects/isolation keys |
 | SDK runtime | Real local-function execution through a custom Model | Not a drop-in Runner; bypasses streaming, hosted/MCP tools, handoffs, loops |
 | TGWS | Readable bounded routing and measured pruning | Search uses aggregate point estimates; package coverage is weak |
@@ -70,17 +74,19 @@ a verified runtime region-position key and resumable state, not merely relaxing 
 
 - The full test count is regenerated with each validation pass; it includes legacy,
   natural-workflow, replication-oracle, and continuation fail-closed regressions.
-- Measured statement coverage is 75.84% over 11,544 statements; adding both paid-study
-  drivers expands the measured denominator and exposes their provider paths as gaps.
+- Measured statement coverage is 76.28% over 12,014 statements; adding the prospective
+  paid-study driver expands the denominator while its provider path remains only partly
+  exercised by the provider-free suite.
 - `pip check` reports no broken requirements.
 - `scripts/verify_release.py` passes all repository checks.
 - The publication artifact validator passes source hashes, result claims, cohort
   disjointness, generated-artifact checksums, PDF content, and secret-pattern scans.
-- No `.git` metadata exists, so commit/branch/remote/CI claims are unavailable.
+- The public repository now has an initial versioned snapshot; experimental history before
+  that snapshot and historical CI claims remain unavailable.
 
-Coverage gaps are concentrated in TGWS packaging (28%), the outer runner (62%), replay
-(65%), the fixed live-study driver (26%), the natural-workflow driver (31%), and
-report/capture utilities. High line coverage in provenance, windows, effects,
+Coverage gaps are concentrated in TGWS packaging (27.7%), the outer runner (64.5%), replay
+(65.5%), the older live-study drivers (30--31%), and report/capture utilities. The
+prospective portfolio driver is at 54.1%. High line coverage in provenance, windows, effects,
 schemas, registry, dispatcher, and statistics supports—but does not prove—the core path.
 
 ## Production-readiness verdict

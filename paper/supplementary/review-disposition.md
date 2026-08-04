@@ -14,6 +14,13 @@ implemented where no new paid evidence was required. This update supersedes olde
 and GEPA are verified and cited; the default test collection includes the oracle tests;
 and the publication validator covers raw comparator evidence and claim boundaries.
 
+A later clarity pass separated compiler admission from the macro-derived portfolio
+direction. That boundary has now advanced: GAC remains compile-or-retire, while a separate
+exact-risk portfolio module selects among measured actions and marks macro choices for
+human review. A prospective real-record/live-provider pilot freezes 30 calibration groups,
+selects the macro, and passes 12/12 fresh paired contracts while reducing every measured
+resource. Macro synthesis, cache evidence, and cross-family policy value remain open.
+
 A subsequent paid corrective study closed the prompt-order, narrow factuality, live-macro,
 and traffic-order findings in one domain, but its aggressive three-read artifact passed
 17/18 exact contracts versus 18/18 for both comparators. The separately sealed 30-pair
@@ -93,12 +100,12 @@ parts are still stated as limitations in §8 and future work in §7.3.
 ## 4. State after the revision
 
 ```text
-paper validator      956 checks passed; 0 failed
-repository tests     214 passed (including replication-oracle and continuation tests)
+paper validator      1,034 checks passed; 0 failed
+repository tests     227 passed (including portfolio, replication-oracle, and continuation tests)
 verify_release.py    all checks passed
-article.pdf          38 pp.  0 overfull hbox, 0 overfull vbox
-main.pdf             20 pp.  0 overfull hbox, 0 overfull vbox
-publication manifest 207 files, including both natural studies, checkpoint, continuation, Tier-3, and comparator evidence
+article.pdf          43 pp.  0 overfull hbox, 0 overfull vbox
+main.pdf             23 pp.  0 overfull hbox, 0 overfull vbox
+publication manifest 218 files, including the portfolio pilot, both natural studies, checkpoint, continuation, Tier-3, and comparator evidence
 ```
 
 (State after both reviews were dispositioned; see the second-review section below.)
@@ -110,11 +117,12 @@ replay did not prevent one downstream exact-factuality failure.
 
 ---
 
-# Second review: `../../claude-report.md`
+# Second review (archived source)
 
-A separate, sharper review (M1–M14). Same method: verify first, then apply. It found several
-things the first review missed, including three self-inconsistencies in text written in
-response to the *first* review.
+A separate, sharper root-level review (M1–M14) was dispositioned in full, then removed as
+a redundant working document. Its findings and their verified resolutions are preserved
+below. It found several things the first review missed, including three self-inconsistencies
+in text written in response to the *first* review.
 
 ## Verified true and applied
 

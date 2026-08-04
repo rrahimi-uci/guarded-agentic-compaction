@@ -1,8 +1,10 @@
 # Specification review
 
-What implementing `execution-plan.md`, `proposal.md`, `proposal.v1.md` and `use-cases.md`
-end to end surfaced. Each finding says where the specification is ambiguous, wrong, or
-under-determined, what the implementation does instead, and where to see it.
+Historical implementation record: what implementing the original `execution-plan.md`,
+`proposal.md`, `proposal.v1.md`, and v2.1 use-case monograph surfaced. The current
+[use-cases.md](use-cases.md) has replaced that monograph with tested APIs and scoped
+evidence. Each finding below preserves the original discrepancy, the implemented
+resolution, and where to verify it; it is not a current API guide.
 
 Findings are grouped: **S** = specification conflict or error, **G** = gap the specs
 already flag as needing closure, **D** = discovered while implementing (not in the

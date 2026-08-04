@@ -1,6 +1,6 @@
 """The feasibility estimator: Eq. (10) before any compiler runs.
 
-``cx.estimate()`` is the cheapest useful thing in the system. It answers "is there
+``ac.estimate()`` is the cheapest useful thing in the system. It answers "is there
 anything here?" from traces alone and can return a decisive *no* for the price of an
 afternoon (use-cases, adoption recipe step 3).
 

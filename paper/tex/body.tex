@@ -51,6 +51,9 @@ Our research questions are:
   support is inadequate?
   \item[RQ4.] Which failure modes remain after structural compilation, and what does
   compaction \emph{not} improve?
+  \item[RQ5.] Can group-level paired evidence select a risk-bounded optimization action
+  before a fresh real-record cohort, and does that choice preserve the registered task
+  contract while reducing resource use?
 \end{description}
 
 The paper makes four contributions:
@@ -66,11 +69,18 @@ The paper makes four contributions:
   \item An external NESTFUL study that reports provenance success, synthesis abstention,
   and a scientifically useful negative result: recurrence is not sufficient for risk
   certification.
+  \item A framework-neutral transformation portfolio that compares measured actions under
+  exact quality and regret-risk bounds, emits human-review macro recommendations, and is
+  exercised prospectively on fresh public records.
 \end{enumerate}
 
 We do \emph{not} claim universal semantic equivalence, production certification,
 cross-domain generalization, fewer necessary tool calls, or deterministic natural-language
 generation.  Those boundaries are part of the result.
+The region compiler still chooses only between a guarded compiled artifact and the
+unchanged agent.  The new portfolio layer can select a measured compiler or recommend a
+measured macro for review; it neither synthesizes macros nor has evidence for caching,
+unseen actions, or cross-family superiority.
 
 \paragraph{Roadmap.}
 \Cref{sec:problem} formalizes episodes, candidate regions, the position invariant, and the
@@ -139,6 +149,11 @@ to bounded selective risk:
 \end{align}
 where $B$ is the unchanged agent.  The implementation may return no artifact
 (\retire); this is a valid optimizer output.
+
+At the compiler layer the implemented action set is $\{B,A\}$: retain the baseline or
+admit one compiled artifact.  The separate portfolio layer in
+\cref{sec:portfolio-method} consumes paired measurements for arbitrary named actions.  It
+does not weaken compiler admission or turn an unevaluated macro into deployable code.
 
 \Cref{eq:objective} is a design target, not a problem the implementation solves.
 \Cref{alg:compile} ranks families by \eqref{eq:score} and returns the \emph{first} family
@@ -347,6 +362,44 @@ property.
 
 \input{../figures/alg-calibrate.tex}
 
+\subsection{Risk-bounded transformation portfolio}
+\label{sec:portfolio-method}
+
+The compiler's admission question and the application's engineering choice are different.
+After candidate actions have been measured on the same independent workflow groups, the
+portfolio layer compares $\mathcal{A}=\{B,K,C,M,\ldots\}$: unchanged baseline, cache,
+compiler, reviewed macro, or an application-defined action.  Missing evidence creates no
+candidate row and therefore cannot be imputed into a recommendation.
+
+For group $g$ and action $a$, let $r_{g,j}(a)=1-C_{g,j}(a)/C_{g,j}(B)$ be the paired
+reduction for metric $j$, and define
+\begin{equation}
+  U_g(a)=\sum_j w_j r_{g,j}(a), \qquad \sum_j w_j=1,\quad w_j\geq0.
+  \label{eq:portfolio-utility}
+\end{equation}
+The pilot assigns weights 0.35, 0.25, 0.20, and 0.20 to cost, latency, tokens, and tool
+calls, respectively. It records a quality violation whenever the candidate's task
+contract fails and a regret event whenever $U_g(a)\leq U_{\min}$.  Repeated executions of
+one issue are averaged within that issue; they never increase the independent-group count.
+For every observed non-baseline action, we compute one-sided Clopper--Pearson bounds for
+quality and regret, denoted $R^+_{\rm quality}(a)$ and $R^+_{\rm regret}(a)$.  The
+confidence error budget is split across both bounds and all compared actions.  The
+admitted set is
+\begin{equation}
+  \begin{aligned}
+  \mathcal{A}_{\rm ok}=\{a:\;&R^+_{\rm quality}(a)\leq\alpha_q,\quad
+  R^+_{\rm regret}(a)\leq\alpha_u,\\
+  &n_a\geq n_{\min},\quad M_a=M_*\}.
+  \end{aligned}
+  \label{eq:portfolio-admission}
+\end{equation}
+The selector returns $\arg\max_{a\in\mathcal{A}_{\rm ok}}\bar U(a)$, or $B$ if the set is
+empty.  Manifest mismatch invalidates the decision at runtime.  Macros default to
+\emph{human review}; the library returns a decision record, evidence, and rationale, not
+generated application code.  Exact bounds cover the registered binary endpoints under
+the same group assumptions as compiler calibration.  They do not make the weighted
+utility canonical, price engineering effort, or prove optimality over an unmeasured action.
+
 \subsection{Runtime and framework integration}
 
 \input{../figures/alg-dispatch.tex}
@@ -397,13 +450,15 @@ We use three non-overlapping evidence tiers, ordered by what each can license.
 \textbf{Tier 1 --- external executable benchmark.}  NESTFUL tests dependency
 reconstruction, synthesis, and refusal on public data with no model calls at all.
 
-\textbf{Tier 2 --- real records, live provider.}  Three GitHub protocols use actual public
+\textbf{Tier 2 --- real records, live provider.}  Four GitHub protocols use actual public
 issue records, deterministic local reads over a pinned snapshot, and live OpenAI provider
 calls.  The first prescribes a fixed prefix as a conformance ablation.  The review-driven
 follow-up names required facts but neither tool functions nor order, grades exact source
 facts independently of the trace, and adds a live composite-tool baseline.  An expanded
 replication seals 132 discovery and 30 balanced test records, exercises compiler abstention
-from an ungroundable third call, and repeats all three conditions.  They are
+from an ungroundable third call, and repeats all three conditions.  A prospective portfolio
+pilot freezes the replication as selection evidence, chooses one reviewed action, and runs
+only it and the unchanged agent on 12 fresh records.  They are
 evidence about agent control flow on real records, not live GitHub service reliability.
 
 \textbf{Tier 3 --- controlled demonstration suite.}  Six workflow \emph{shapes} are run
@@ -422,11 +477,16 @@ candidate set for more than 90\% of executable nested dependency slots --- a rec
 statement, reported alongside unique-resolution and precision rates so it cannot be read
 as exact reconstruction; (H2) the compiled condition reduces provider requests and total
 tokens; (H3) no observed quality loss occurs on the sealed task; (H4) families below
-the exact-gate sample requirement retire; and and (H5) a condition that must refuse
+the exact-gate sample requirement retire; and (H5) a condition that must refuse
 reproduces the baseline model-call count and quality.  H5 is deliberately \emph{not}
 stated in dollars: \cref{sec:demos-results} shows refusing conditions costing more than
 baseline, for prompt-cache reasons unrelated to whether the refusal was correct.  H3 is an observed-sample hypothesis,
 not a population equivalence claim.
+The portfolio pilot was designed after the replication was known but before its fresh
+cohort was selected or executed.  Its prospective hypothesis (H6) is therefore narrower:
+the frozen selector's chosen action will pass all observed fresh task contracts and reduce
+its weighted resource objective relative to baseline.  H6 was not externally preregistered
+and cannot establish that selection beats an always-macro policy.
 
 \subsection{External benchmark: NESTFUL}
 
@@ -538,6 +598,26 @@ provider-free: all original outputs and measurements remain bound to the paid di
 checkpoint, while 212 prior quality objects are preserved under
 \code{online\_quality}.
 
+\subsection{Prospective portfolio pilot}
+\label{sec:portfolio-methodology}
+
+The portfolio calibration consumes only the 30 independent primary issue groups from the
+expanded replication.  Compiler and macro observations are paired with the unchanged arm;
+ten repeated executions are averaged within their issue and do not increase support.  We
+fix $U_{\min}=0$, $n_{\min}=30$, $\alpha_q=\alpha_u=.15$, and 95\% familywise confidence
+split over two actions and two exact bounds.  This 15\% pilot limit is intentionally looser
+than the compiler's 5\% registered-contract bound and must not be conflated with it.
+
+Before any prospective call, the script stores the decision and hashes the calibration
+file.  A stable hash then selects 12 previously unused public issues: four bugs, four
+enhancements, and four ``other'' records.  All eligible question records had already been
+consumed by earlier sealed protocols, so reusing them would have violated the prospective
+boundary.  Each issue runs baseline and the selected reviewed action once; order is
+counterbalanced six each way.  The non-selected action is not executed on this cohort.
+The provider-backed script requires an explicit macro-review flag, records 24 unique native
+traces, and serializes no credential.  This evaluates a pre-data action choice on a fresh
+cohort, but only within one workflow family and one model configuration.
+
 \subsection{Demonstration suite: workflow shapes}
 \label{sec:demos}
 
@@ -574,6 +654,11 @@ requests by exactly $-3$, so the difference is deterministic and a rank test on 
 artifact of degeneracy rather than evidence.  Secondary $p$-values are descriptive and unadjusted.  Determinism is
 reported as decision, tool-trace, and byte-exact answer agreement.  Peak memory and
 runtime are measured for the provider-free NESTFUL compiler stage.
+For portfolio admission, quality failures and non-positive group utilities are separate
+binary endpoints.  Their one-sided exact bounds split 5\% error across two actions and two
+endpoints; mean utility ranks only actions that pass both gates.  The 12-record prospective
+cohort is an outcome evaluation, not additional calibration evidence.  Its paired
+bootstrap intervals and signed-rank tests are descriptive and unadjusted.
 
 \section{Results}
 \label{sec:results}
@@ -593,6 +678,8 @@ while the older offline suite
 shows the macro winning three of five workloads (\cref{sec:comparator}).  Structural compaction fixes structural nondeterminism only --- an archived
 pilot shows that request savings obtained at the wrong execution position are not an
 improvement at all (\cref{sec:pilot}).
+The portfolio pilot then turns the comparator result into a pre-data decision and tests the
+selected reviewed action on a fresh cohort (\cref{sec:portfolio-results}).
 
 \subsection{RQ1 and RQ3: provenance succeeds more often than certification}
 \label{sec:rq1}
@@ -965,6 +1052,64 @@ hand-written composite is available and its effects are understood, write it.  \
 earns its complexity only when the region is not economically maintainable as a manual
 macro, is branch-dependent, or requires guards a macro would otherwise assume implicitly.
 
+The result has a direct mechanistic explanation and a testable hypothesis.  The macro is
+allowed to redesign the application interface: it fuses three reads, returns a
+task-specific sufficient record, and exposes one tool schema.  The compiler is constrained
+to preserve existing interfaces, provenance, intermediate evidence, and fallback
+semantics; in the expanded run its groundability proof permits only a two-read prefix and
+all three logical reads remain necessary.  We therefore hypothesize that manual macros
+dominate on stable, low-entropy workflows, while guarded compilation earns its cost across
+branching or changing workflow families for which manual discovery and maintenance do not
+amortize.  This study establishes the structural facts behind that hypothesis, but it does
+not measure engineering effort, drift response, or the cross-workflow break-even.
+
+\subsection{RQ5: prospective portfolio selection}
+\label{sec:portfolio-results}
+
+\begin{table}[t]
+  \centering
+  \caption{Risk-bounded portfolio calibration and fresh-cohort outcome.  $\bar U$ is the
+  weighted mean of paired reductions in cost, latency, tokens, and tool calls.  Both
+  calibration bounds split 95\% familywise confidence across two actions and two
+  endpoints.  The fresh cohort is evaluation evidence, not additional calibration.}
+  \label{tab:portfolio}
+  \small
+  \input{../tables/portfolio_results.tex}
+\end{table}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{../generated_figures/portfolio_selection.pdf}
+  \caption{The frozen portfolio evidence admits both measured actions but recommends the
+  higher-utility macro for human review before the fresh records are selected.}
+  \Description{Horizontal bars show mean paired portfolio utility of 32.7 percentage
+  points for compilation and 48.9 for the macro; the macro is marked selected for review.}
+  \label{fig:portfolio}
+\end{figure}
+
+Both actions record zero quality failures and zero non-positive-utility groups among 30
+independent calibration issues.  With the multiplicity split, each one-sided upper bound
+is 0.1359, below the pilot limit 0.15.  The compiler's mean utility is 0.327 and the
+macro's is 0.489, so the selector emits a macro recommendation and requires explicit
+review.  The decision, objective weights, compatibility key, source-result digest, and
+fresh issue identifiers are stored before provider execution.
+
+On the 12 calibration-disjoint issues, baseline and selected macro both pass 12/12 exact
+factual and full task contracts with no infrastructure failure.  The selected action
+changes every workflow from four to two provider responses and from three to one tool call.
+Aggregate reductions are 59.2\% for total tokens, 71.6\% for observed wall latency, and
+40.6\% for estimated cost.  The paired macro-minus-baseline intervals are
+$[-2831.0,-2203.3]$ tokens, $[-12.174,-3.706]$ seconds, and
+$[-\$0.000445,-\$0.000267]$ per issue; all corresponding unadjusted signed-rank
+$p$-values are 0.00049.  H6 is supported on its observed-sample terms.
+
+This result is more informative than another retrospective arm because the action is fixed
+before the test records are chosen.  It is not a general portfolio demonstration: one
+workflow family supplies both calibration and test, no cache candidate has measured
+evidence, and the selected action is the same macro that a static always-macro policy would
+choose.  Showing value from \emph{selection} requires multiple families on which different
+actions are optimal, measured construction and maintenance costs, and time-forward drift.
+
 \subsection{RQ4: failed pilot and determinism}
 \label{sec:pilot}
 
@@ -1145,6 +1290,17 @@ selective prediction --- and the contribution is that an agent guard needs all f
 Contribution~(v) is currently the weakest: as \cref{sec:limits} reports, no study here
 exercises it as a discriminator.
 
+The portfolio adds a second, narrower composition: selection across transformation
+\emph{classes} rather than configurations within one declared graph, with separate exact
+bounds on task failure and non-positive paired utility, compatibility invalidation, and a
+human-review deployment mode.  FlowCompile already constructs reusable accuracy--latency
+configuration sets and downstream routing; GEPA evolves residual prompts; AWO and Agent
+JIT generate reusable or task-specific execution structures.  We therefore do not claim
+that portfolio search itself is new.  The distinct object here is an evidence-gated choice
+among baseline, compiler, and reviewed application-interface redesign.  Its current
+evidence is only one family and does not demonstrate that this choice rule beats a fixed
+macro policy.
+
 The NESTFUL result is as important as the live saving.  A system that emitted all 32
 recurrent families would look more productive, yet none has the 92 zero-violation group
 records required by the configured calculation.  Treating those records as independent is
@@ -1173,6 +1329,17 @@ break-even in \cref{sec:rq2} should be computed against the \emph{cached} baseli
 rather than the list input price, so that a workload whose baseline is already
 cache-dominated is reported as having little dollar headroom before a compiler is built
 for it.
+
+\paragraph{Portfolio optimization beyond the pilot.}
+The implemented layer selects among measured actions and can recommend a macro for review;
+it does not synthesize the macro, execute cache-only or model-routing candidates, estimate
+developer effort, or learn a policy across workflow families.  The next experiment must
+include families deliberately spanning stable bundles, branching prefixes, cache-dominated
+routes, unsafe effects, and low-support abstention.  It should measure construction,
+review, maintenance, invalidation, and drift costs and compare against always-macro,
+always-compile, cache-only, FlowCompile-style configuration selection, and a learned
+contextual policy.  Only then can the central selection claim be stronger than ``the pilot
+correctly chose the already stronger macro.''
 
 The reusable library boundary is the typed Episode IR plus an optimization-pass API.
 Near-term extensions include: (1) e-graph or counterexample-guided synthesis within the
@@ -1276,22 +1443,38 @@ in \cref{sec:method} are therefore capabilities of the registry, not properties 
 experiment demonstrates.
 
 \paragraph{Empirical scope.}
-Each live test contains only 18 issues from one repository/domain and one model configuration.
+The confirmatory compiler study contains 30 primary issues and the prospective portfolio
+pilot contains 12, all from one repository/domain and one model configuration.
 It uses a frozen public snapshot, not the live GitHub API, so network/service behavior,
 concurrent mutation, rate limits, and authentication are absent.  The two exact gates have
-92 and 45 calibration records, but task quality has only 18 sealed pairs per protocol.
-The natural test contains no question-labelled issue after strict prior-record exclusion.
+92 and 45 calibration records, while the portfolio has only 30 selection groups and uses a
+looser 15\% risk limit.  The fresh portfolio test contains no question-labelled issue after
+strict prior-record exclusion.
 There is no human study of
 productivity or user experience and no multi-domain production canary.
 
 \paragraph{Baseline scope.}
 The natural study runs both the unchanged SDK loop and a live hand-written composite tool.
-The macro preserves all factual contracts, uses one local tool call rather than three, and
-is cheaper than the unchanged agent; \method saves one more provider request and more
-tokens but records a factual miss.  The offline suite independently gives the macro the
-lower request ratio on three of five workloads.  We still do not run AWO, AWM,
+In the expanded partial-compilation study, the macro and compiler each use two provider
+requests and pass 30/30, but the macro uses one local tool call rather than three and is
+better on tokens and estimated cost.  In the earlier aggressive study, \method saves one
+more provider request and more tokens but records a factual miss.  The offline suite
+independently gives the macro the lower request ratio on three of five workloads.  The
+compiler itself remains compile-or-retire; the new portfolio layer selects the measured
+macro and emits a review-required recommendation.  It does not synthesize that macro, and
+on a single family the result is indistinguishable from an always-macro rule.  We still do not run AWO, AWM,
 LLMCompiler, FlowCompile, or plan caching.  The evidence establishes an intervention and
 engineering trade-off, not state-of-the-art superiority.
+
+\paragraph{Portfolio scope.}
+The weighted utility is a declared operator preference, not a universal scientific metric.
+Its current dimensions omit construction time, review effort, maintenance, drift, cache
+fragmentation, and authorization changes.  Both measured actions pass both binary gates,
+so exact risk controls admission but does not explain the choice; the utility weights do.
+The prospective result validates the chosen arm against baseline, not the selector against
+alternative selection algorithms.  A claim that the portfolio advances the state of the
+art requires multi-family decisions, closer learned baselines, sensitivity to the weights,
+and time-forward evaluation under drift.
 
 \paragraph{Statistical scope.}
 The pilot and final cohort are separated, but the study was not externally preregistered.
@@ -1310,9 +1493,10 @@ version is read-only, does not parallelize synthesized calls, and the narrow SDK
 bypasses streaming, hosted tools, MCP, handoffs, and loops.
 
 \paragraph{Reproducibility scope.}
-The checkout contains no \code{.git} metadata, so the repository commit, branch, remote,
-and CI state cannot be verified.  Dataset revisions and file hashes are pinned, raw
-results are retained, and the full local suite passes on Python 3.14.4; nevertheless,
+The original experimental workspace did not retain prior \code{.git} history.  The public
+artifact begins from a later initial snapshot, so pre-snapshot commit ancestry and CI state
+cannot be reconstructed.  Dataset revisions and file hashes are pinned, raw results are
+retained, and the full local suite passes on Python 3.14.4; nevertheless,
 provider responses and latency will not be byte-identical on rerun.  API access and the
 named model are required to repeat the live study.
 
@@ -1334,6 +1518,13 @@ but is resolved uniquely for 80.7\%; every family retires at the configured gate
 failed suffix pilot, the evidence argues for a specific design principle: an agent
 optimizer should be judged not only by what it compresses, but by whether it can explain
 and enforce when it must not compile.
+The implemented portfolio extends that principle across measured transformation classes:
+it admits compiler and macro on 30 groups, recommends the higher-utility macro for review,
+then preserves 12/12 exact contracts on fresh records while cutting requests, tools,
+tokens, latency, and cost.  That prospective pilot establishes the mechanism, not general
+selection value: one family cannot distinguish the policy from always choosing its macro.
+The next scientific threshold is a multi-family, time-forward comparison that includes
+cache, construction and maintenance effort, drift, and closer learned optimizers.
 
 \section*{Artifact Availability and Ethical Considerations}
 

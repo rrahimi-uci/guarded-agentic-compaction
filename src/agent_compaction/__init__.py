@@ -1,6 +1,6 @@
 """agent-compaction: guarded, evidence-gated workflow optimization for LLM agents.
 
-Two optimizers over one typed trace contract:
+Two transformation engines and one evidence selector over a typed trace contract:
 
 * **TGWS** (:mod:`agent_compaction.tgws`) — learn a shallow route from entry-state
   facts to a specialist prompt and a minimal tool surface, and abstain when the route
@@ -8,6 +8,8 @@ Two optimizers over one typed trace contract:
 * **GRC** (:mod:`agent_compaction.grc`) — find repeated read-only regions, prove every
   tool argument derives from entry state or earlier observations, synthesize a bounded
   deterministic program, and dispatch only under a calibrated contract gate.
+* **Portfolio** (:mod:`agent_compaction.portfolio`) — compare measured transformation
+  candidates under separate exact quality and regret bounds, otherwise abstain.
 
 Neither invents business logic, changes model weights, or removes an external effect.
 Abstention is the default output, and "do not compact" is the common and correct one.
@@ -15,7 +17,7 @@ Abstention is the default output, and "do not compact" is the common and correct
 
 from __future__ import annotations
 
-from . import capture, evaluation, graph, grc, registry, runtime, schema, tgws
+from . import capture, evaluation, graph, grc, portfolio, registry, runtime, schema, tgws
 from .api import MODES, OptimizeJob, estimate, load_catalog, optimize, promote, retire, validate
 from .capture.mlflow_adapter import read_jsonl, write_jsonl
 from .estimate.headroom import EstimateReport, break_even, required_calibration_groups
@@ -42,6 +44,16 @@ from .pipeline import (
     PipelineConfigurationError,
     PipelineExecutionError,
     TgwsOptimizationPass,
+)
+from .portfolio import (
+    CandidateEvidence,
+    DeploymentMode,
+    ObjectiveWeights,
+    OptimizationAction,
+    PortfolioDecision,
+    PortfolioObservation,
+    SelectionConfig,
+    select_portfolio_action,
 )
 from .schema.artifacts import Artifact, Lifecycle
 from .schema.effects import Capability, EffectCatalog, EffectClass
@@ -97,6 +109,14 @@ __all__ = [
     "PipelineConfigurationError",
     "PipelineExecutionError",
     "TgwsOptimizationPass",
+    "CandidateEvidence",
+    "DeploymentMode",
+    "ObjectiveWeights",
+    "OptimizationAction",
+    "PortfolioDecision",
+    "PortfolioObservation",
+    "SelectionConfig",
+    "select_portfolio_action",
     "Artifact",
     "Lifecycle",
     "EffectCatalog",
@@ -113,6 +133,7 @@ __all__ = [
     "evaluation",
     "graph",
     "grc",
+    "portfolio",
     "registry",
     "runtime",
     "schema",

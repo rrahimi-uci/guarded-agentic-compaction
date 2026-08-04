@@ -1,0 +1,19 @@
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X r r r >{\raggedright\arraybackslash}X@{}}
+\toprule
+Calibration action & $n$ & $\bar U$ & $R_q^+/R_u^+$ & Decision \\
+\midrule
+Compile & 30 & 0.327 & 0.136/0.136 & admitted \\
+Macro & 30 & 0.489 & 0.136/0.136 & selected; human review \\
+\midrule
+\multicolumn{5}{@{}l}{\emph{Fresh cohort: selected macro versus unchanged}} \\
+\addlinespace[2pt]
+Endpoint & $n$ & Base & Macro & Change \\
+\addlinespace[2pt]
+Exact contracts & 12 & 12/12 & 12/12 & preserved \\
+Provider requests & 12 & 4 & 2 & $-50.0\%$ \\
+Tool calls & 12 & 3 & 1 & $-66.7\%$ \\
+Total tokens & 12 & -- & -- & $-59.2\%$ \\ 
+Estimated cost & 12 & -- & -- & $-40.6\%$ \\ 
+Wall latency & 12 & -- & -- & $-71.6\%$ \\ 
+\bottomrule
+\end{tabularx}

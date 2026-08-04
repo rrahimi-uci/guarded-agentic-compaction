@@ -4,7 +4,13 @@
 
 **Revised proposal — v2.1, 1 August 2026**
 *Supersedes v1 (preserved at [proposal.v1.md](proposal.v1.md)). Changes are itemized in §0.*
-*Companion: [use-cases.md](../docs/use-cases.md) — five worked implementations and the adoption recipe.*
+*Current companion: [use-cases.md](../docs/use-cases.md) — implemented APIs, measured
+scenarios, and evidence boundaries. The longer v2.1 illustrative monograph summarized in
+§6.1 was superseded after implementation.*
+
+> This proposal is the historical research specification. Current callable behavior is
+> documented in [`docs/library-api.md`](../docs/library-api.md), and current empirical
+> claims are governed by the [`paper/`](../paper/README.md) artifact.
 
 ---
 
@@ -22,14 +28,18 @@ v1 was literature-aware and rigorous about *evidence*, but it was not implementa
 | 6 | SESE (single-entry/single-exit) was treated as the compilability condition. It is necessary but far from sufficient — it says nothing about whether the region's arguments can be *reconstructed without the model*. | Compilability restated as **live-in groundability** (Eq. 4): every argument slot must be a constant or a bounded transform of the entry state and in-region observations. | §3.3, §4.2 |
 | 7 | CEGIS + SyGuS + a general typed DSL is a multi-year systems effort, not an 18-week slice. | Synthesis narrowed to two finite, decidable subproblems: **version-space enumeration over a closed 22-op transform library** (Alg. 3) and **typed decision-list induction** (Alg. 4). No SMT solver, no unbounded search. | §4.3–4.4 |
 | 8 | Effects were to be "resolved" per call, but neither the SDK nor MLflow exposes them and v1 offered no mechanism. | Effects are a **user-declared YAML catalog**, defaulting to `UNKNOWN` (never compilable). Turns an open research problem into a 30-line config file and makes the system fail-closed by construction. | §5.3 |
-| 9 | v1 abandoned finite-sample risk control ("Dev is too small"). It gave up one step too early: a *fixed threshold grid* admits a valid multiple-testing correction. | **Bonferroni–Clopper–Pearson threshold selection** over a pre-registered grid (Alg. 6): valid under group exchangeability, honestly wide, and it degrades to abstention rather than to a false guarantee. | §4.6 |
+| 9 | v1 abandoned finite-sample risk control ("Dev is too small"). It gave up one step too early: a *fixed threshold grid* admits a valid multiple-testing correction. | **Bonferroni–Clopper–Pearson threshold selection** over a pre-registered grid (Alg. 6): valid for i.i.d. or conditionally i.i.d. group-level violation indicators, honestly wide, and it degrades to abstention rather than to a false guarantee. | §4.6 |
 | 10 | Seven scored conditions including faithful reimplementations of MiniCache (with speculative decoding), Agentic Plan Caching, and EvoC2F. That is three systems papers of engineering for one researcher; v1's own risk table flags the straw-baseline hazard this creates. | **Four scored conditions.** The dropped systems move to related work plus optional Train/Dev diagnostics. Episode count falls from 8,607 to ~4,200. | §8.2, §10 |
 | 11 | The Track A / Track B split meant the reference architecture (the part anyone would actually use) was never validated by anything. | **One library, two evidence levels.** The library *is* the Track A implementation; SDK/MLflow adapters are additional backends behind the same interfaces. | §5 |
 | 12 | Math used `\[…\]` and `\(…\)`, which do not render on GitHub or in most Markdown viewers; `\mathbb{1}` has no glyph in KaTeX; there was no notation table and no equation numbering. | All math converted to `$$…$$` / `$…$`, indicators to $\mathbf{1}[\cdot]$, equations tagged, and a notation table added. | §2 |
 
 Two things v2 does **not** change: the literature positioning (v1's is accurate and is retained) and the evidence discipline around Train/Dev/Test separation (retained and tightened).
 
-**v2.1** adds five worked implementations ([use-cases.md](../docs/use-cases.md)) and a production assessment (§6). Writing the use cases falsified three things in v2's own algorithms, which are corrected here rather than papered over.
+**v2.1** originally added five illustrative worked implementations and a production
+assessment (§6). Writing those cases falsified three things in v2's own algorithms, which
+are corrected here rather than papered over. The current [use-case guide](../docs/use-cases.md)
+now uses the implemented API and measured evidence instead of preserving the obsolete
+examples.
 
 | # | v2 defect | v2.1 correction | Section |
 |---:|:--|:--|:--|
@@ -557,7 +567,13 @@ $$
 \tag{18}
 $$
 
-**under exchangeability of Dev and Test scenario groups.** Two caveats stated in the paper, not buried: (i) with $\lvert\mathrm{Dev}\rvert=60$ episodes over 20 groups, the effective $n$ is the group count, so $R^{+}$ at $\alpha=0.05$ typically demands *zero* observed violations and yields low coverage; (ii) Test Challenge violates exchangeability by construction, so (19) does not transfer there and Challenge is reported as an abstention study only.
+**for i.i.d. or conditionally i.i.d. group-level violation indicators from the registered
+deployment distribution.** Exchangeability alone is insufficient for this exact binomial
+claim. Two caveats stated in the paper, not buried: (i) with
+$\lvert\mathrm{Dev}\rvert=60$ episodes over 20 groups, the effective $n$ is the group
+count, so $R^{+}$ at $\alpha=0.05$ typically demands *zero* observed violations and yields
+low coverage; (ii) Test Challenge is shifted by construction, so (19) does not transfer
+there and Challenge is reported as an abstention study only.
 
 ### 4.7 Algorithm 7 — Runtime dispatch with staged deoptimization
 
@@ -858,10 +874,12 @@ Start at v0.1. It is cheap, it is the Gate 0 instrument, and its output determin
 
 ### 6.1 Five worked use cases
 
-Five concrete agents are developed end to end in the companion guide
-[use-cases.md](../docs/use-cases.md): trace fragment, recovered provenance, effect catalog, synthesized
-artifact, integration code, savings arithmetic, and — longest in every case — what is rejected and
-why. That document also carries the six-step adoption recipe and the anti-use-case list.
+The original v2.1 companion developed five illustrative agents end to end: trace fragment,
+recovered provenance, effect catalog, synthesized artifact, integration code, savings
+arithmetic, and—longest in every case—what is rejected and why. That monograph used a
+pre-implementation pseudo-API and is no longer operational documentation. Its assumptions
+and numbers remain summarized below; the current [use-case guide](../docs/use-cases.md)
+provides the implemented API and measured scenarios.
 
 Each row below is the section's own Eq. (10) computation, $\Delta = \phi\rho k / n_B$. The parameters
 are illustrative, not measured; `cx.estimate()` exists so that no one has to adopt them.
@@ -902,7 +920,7 @@ cannot. This is an assessment of each against deployment, not against AppWorld.
 | **3** Bindings | Viable, low yield | 22 operators at depth 2 miss regex extraction, arithmetic across multiple fields, and unit conversion. Slots hit $\bot$ often | Accept the yield. Do **not** extend the library opportunistically: every operator added also widens Algorithm 1's spurious-match surface, so the library trades precision for coverage on both ends at once |
 | **4** Branches | **Was unsound; now corrected** | With ~3,000 atoms and ~19 examples, $\varepsilon=0$ separation occurs by chance almost always. This is the one that would have shipped silently-wrong artifacts | Fixed in §4.4: support floor of 20 groups, atoms restricted to guard-visible paths, and a permutation test over the whole search. See §6.3 for why this matters more in production than in the paper |
 | **5** Validation | **Hard blocker as written** | It replays against a live environment from a recorded entry state. You cannot re-run reads against production hundreds of times for perturbation testing, and you cannot reset production | Must be replaced for deployment. See §6.3 |
-| **6** Calibration | Viable — and *easier* in production than in the paper | Needs violation labels and exchangeability. Labels are the problem in the paper; drift is the problem in production | Shadow mode supplies the labels, and production $n$ dwarfs 20 scenario groups, so the Bonferroni–Clopper–Pearson bound of Eq. (18) stops being vacuously wide. Drift breaks exchangeability, so the L2 circuit breaker becomes mandatory rather than optional |
+| **6** Calibration | Viable only when the sampling model and labels are defensible | Needs violation labels and i.i.d. or conditionally i.i.d. group indicators. Labels and distribution drift are both deployment problems | Shadow mode can supply labels and larger $n$ can tighten the Bonferroni–Clopper–Pearson bound. Drift invalidates the registered sampling claim, so the L2 circuit breaker is mandatory rather than optional |
 | **7** Dispatch | Viable *only* within the stated scope | `stage.reversible()` cannot be truthfully attested in a distributed system. You cannot observe every quota counter, audit row, and permission cache | Never rely on the attestation. Restrict dispatch to pre-commit read-only regions, where reversibility is vacuous because nothing was committed. Treat any need for genuine reversibility as proof that you are out of scope |
 
 Four of seven are deployable today within scope; Algorithm 4 needed a real correction; Algorithm 5
@@ -1088,7 +1106,7 @@ Additional Train/Dev diagnostics: exact normalized cache; embedding semantic cac
 
 **Test Normal.** $168\times3\times4 = 2{,}016$ episodes. Raw outputs go to a sealed preregistered analysis script emitting only approved aggregates. No manual inspection of taskwise reports, trajectories, or errors.
 
-**Test Challenge.** One variant per scenario (139 tasks) $\times$ 2 conditions (1 and 3) $\times$ 1 run $= 278$ episodes. Exploratory abstention study only; excluded from H2/H3 and from the exchangeability claim of Eq. (18).
+**Test Challenge.** One variant per scenario (139 tasks) $\times$ 2 conditions (1 and 3) $\times$ 1 run $= 278$ episodes. Exploratory abstention study only; excluded from H2/H3 and from the registered i.i.d./conditionally i.i.d. sampling claim of Eq. (18).
 
 | Phase | Episodes |
 |:--|--:|
@@ -1219,7 +1237,7 @@ H2 and H3 both pass; aggregate Test Normal coverage $\ge0.35$; no committed forb
 | Scenario variants leak across folds | Inflated generalization | All folds and resampling grouped by the 250 scenario ids |
 | Hidden grader leaks into the runtime contract | Invalid deployment claim | Contracts derived from Train only; sealed evaluator |
 | Mutation or hidden commitment makes fallback unsafe | Duplicate or harmful actions | Speculatable+replayable capabilities required; staged history; digest attestation; no scored checkpoint reversion; incident over false rollback |
-| Dev too small for a tight risk bound | Overstated guarantee | Alg. 6 is valid but wide; state the exchangeability assumption; `RETIRE` when it cannot be met |
+| Dev too small for a tight risk bound | Overstated guarantee | Alg. 6 is valid but wide under the registered i.i.d./conditionally i.i.d. group model; `RETIRE` when it cannot be met |
 | AppWorld forbids hardcoded API logic | Invalid leaderboard comparison | Modified non-leaderboard protocol, pinned rules and version |
 | Test inspection contaminates development | Invalid held-out evaluation | Sealed script, aggregate outputs only, failure analysis on Train/Dev |
 | MLflow auto-tracing replaces/duplicates/drops SDK spans | Biased mining and accounting | One authoritative tracer per run; pinned versions; sync/flush discipline; count and hash reconciliation |

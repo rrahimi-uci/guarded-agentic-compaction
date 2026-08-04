@@ -35,6 +35,7 @@ paper/
 │   ├── datasets/                   pinned upstream snapshots and manifests
 │   ├── github_live/                real-record/live-provider raw results
 │   ├── github_natural_live/        free-order real-provider study and raw results
+│   ├── portfolio_live/             frozen decision and prospective fresh-cohort result
 │   ├── github_natural_replication/ expanded paid 30-pair replication
 │   ├── nestful/                    public-benchmark raw results
 │   ├── artifact_manifest.json      checksums of quantitative paper artifacts
@@ -43,6 +44,7 @@ paper/
 │   ├── github_natural_workflow_study.py  earlier aggressive natural-order experiment
 │   ├── continuation_replay.py      checked post-model replay on retained outputs
 │   ├── github_live_study.py        fixed ablation and expanded natural replication
+│   ├── portfolio_live_study.py     reviewed portfolio selection and prospective test
 │   ├── nestful_benchmark.py        provider-free external benchmark
 │   ├── build_artifacts.py          deterministic figures/tables
 │   └── validate_artifacts.py       claim and integrity audit
@@ -169,6 +171,13 @@ spends API credits and produces nondeterministic provider latency/text:
     --task-design natural-extractive-v2 --regrade-results \
     --results-path paper/results/github_natural_replication/results.json
 
+# Prospective portfolio protocol: inspect the frozen action and fresh cohort for free,
+# then explicitly approve the reviewed macro before the paid paired run.
+.venv/bin/python paper/scripts/portfolio_live_study.py \
+    --preflight --cases-per-class 4
+.venv/bin/python paper/scripts/portfolio_live_study.py \
+    --cases-per-class 4 --approve-reviewed-macro
+
 # The older controlled ablation. The explicit flags matter: the script's defaults are
 # --test-per-class 10 --repeat-cases 10, which would give 30 primary pairs and 10
 # repeats instead of this run's 18 and 6, and a correspondingly larger API bill.
@@ -245,6 +254,14 @@ reduction while saving 58.2% of tokens, 37.5% of cost, and two of three tool cal
 compiler has lower observed mean latency, but its paired interval against the macro crosses
 zero.
 
+The compiler itself remains compile-or-retire. A new portfolio layer now compares measured
+actions under exact group-level quality and regret-risk bounds. Using the 30 independent
+replication groups, it admits both compiler and macro at a 15% pilot limit and recommends
+the higher-utility macro for human review. On 12 fresh, calibration-disjoint issues, the
+reviewed selection and baseline each pass 12/12 exact contracts; the selection reduces
+requests 50.0%, tool calls 66.7%, tokens 59.2%, wall latency 71.6%, and estimated cost
+40.6%. Macro synthesis, cache evidence, and multi-family policy superiority are not claimed.
+
 The earlier aggressive natural-order study remains a depth-sensitive negative result: its
 unchanged agent and macro pass 18/18 exact factual contracts, while the three-read compiler
 passes 17/18. It saves more provider calls but does not establish preservation.
@@ -276,7 +293,8 @@ cross-domain generalization, or state-of-the-art superiority.
 - GitHub issue dataset: Apache-2.0 as declared by the pinned dataset card.
 - NESTFUL: upstream license retained at
   `results/datasets/nestful/NESTFUL-LICENSE`.
-- This checkout has no `.git` directory, so commit/remote/CI provenance cannot be
+- The public repository begins from an initial snapshot created after the experiments, so
+  current versioning is available but pre-snapshot commit/CI history cannot be
   reconstructed. Dataset file provenance is independently pinned and hashed.
 
 See `supplementary/evidence-register.md` for claim-level provenance and

@@ -131,7 +131,12 @@ def load_payload(results_dir: Path) -> dict[str, Any]:
 
 
 def load_episodes(results_dir: Path) -> dict[str, dict[str, Any]]:
-    """Index captured episodes by their envelope episode id (``scenario:condition``)."""
+    """Index captured episodes by their unique SDK trace id.
+
+    Scenario ids can intentionally recur across demonstrations (for example, the
+    TGWS router reuses fulfillment scenarios).  A ``scenario:condition`` index
+    therefore loses episodes and can attach the wrong trace to a report panel.
+    """
 
     path = results_dir / "episodes.jsonl"
     if not path.exists():
@@ -141,7 +146,10 @@ def load_episodes(results_dir: Path) -> dict[str, dict[str, Any]]:
         if not line.strip():
             continue
         episode = json.loads(line)
-        out[episode["envelope"]["episode_id"]] = episode
+        trace_id = episode["envelope"]["trace_id"]
+        if trace_id in out:
+            raise ValueError(f"duplicate trace_id in {path}: {trace_id}")
+        out[trace_id] = episode
     return out
 
 
@@ -523,7 +531,8 @@ def section_hero(payload: dict[str, Any]) -> str:
   <p class="lede">
     Mine repeated execution patterns out of agent traces, prove a smaller workflow on
     held-out groups, and deploy only immutable artifacts that fall back to the original
-    agent. Two optimizers share one trace contract, and
+    agent. Two transformation engines and one measured-action selector share a trace
+    contract, and
     <strong>abstention is the default output</strong>.
   </p>
   <div class="kpi-row">{tiles}</div>
@@ -577,8 +586,8 @@ def section_problem() -> str:
   <p>
     Only workflows that answer all three get compiled. Everything else abstains, and the
     honest observation from the measured runs below is that <strong>"do not compact" is
-    the common and correct answer</strong> — two of the six demonstrations here are
-    negative controls that are supposed to refuse, and they do.
+    a normal and correct answer</strong>. The MCP family and two fulfillment conditions
+    are explicit refusal controls, and they preserve the baseline request count.
   </p>
 </section>
 """
@@ -646,7 +655,7 @@ stateDiagram-v2
   </p>
   {figure(pipeline, "The full path from an SDK trace to a dispatched region. The estimator is a gate, not a report: a workload below the Eq. (10) ceiling never reaches the compiler.")}
 
-  <h3>2.1 Two optimizers, one trace contract</h3>
+  <h3>2.1 Two transformation engines and one selector</h3>
   <div class="grid-2">
     <div class="card">
       <h4>GRC — guarded region compilation</h4>
@@ -670,6 +679,16 @@ stateDiagram-v2
         coordinator turn. Never changes what a tool does.</p>
     </div>
   </div>
+  <div class="card">
+    <h4>Portfolio — evidence-bounded action selection</h4>
+    <p>
+      Compares only actions with paired independent-group measurements, applies separate
+      exact quality and regret bounds, and otherwise returns the unchanged baseline.
+      Macro recommendations require human review; no macro or cache behavior is inferred.
+    </p>
+    <p class="muted">The prospective public-record study is reported in the paper
+      artifact; this page visualizes the separate fictional-fixture SDK suite.</p>
+  </div>
 
   <h3>2.2 The runtime decision</h3>
   <p>
@@ -690,6 +709,7 @@ stateDiagram-v2
           ["<code>graph</code>", "qualification, provenance (Alg. 1), window mining (Alg. 2)", "<code>schema</code>"],
           ["<code>grc</code>", "DSL, bindings, branches, contracts, calibration, compile orchestrator", "<code>graph</code>"],
           ["<code>tgws</code>", "route tree, greedy pruning, packaging", "<code>graph</code>"],
+          ["<code>portfolio</code>", "exact-risk selection among paired measured actions", "<code>grc.calibrate</code>"],
           ["<code>evaluation</code>", "grouped splits, replay, perturbations, metrics, statistics", "<code>schema</code>"],
           ["<code>registry</code>", "artifact store, lifecycle, signing, kill switch, rollback", "<code>schema</code>"],
           ["<code>runtime</code>", "dispatch (Alg. 7), staging, permission facade, interpreter, SDK adapters", "<code>registry</code>"],
@@ -1163,8 +1183,8 @@ def trace_panels(
     if not baseline_run or not optimized_run:
         return ""
 
-    base_ep = episodes.get(f"{baseline_run['scenario_id']}:baseline")
-    opt_ep = episodes.get(f"{optimized_run['scenario_id']}:{optimized_name}")
+    base_ep = episodes.get(baseline_run.get("trace_id", ""))
+    opt_ep = episodes.get(optimized_run.get("trace_id", ""))
     if not base_ep or not opt_ep:
         return ""
 
@@ -1414,7 +1434,7 @@ def section_limits() -> str:
   <h3>Next milestone</h3>
   <p>
     A newly sealed, representative shadow and canary study on real traffic, under the
-    hardened controls in the readiness checklist: exact staging ownership in an outer
+    hardened controls in the operations guide and paper limitations: exact staging ownership in an outer
     runner adapter, capability negotiation for hosted and MCP surfaces, and a
     transactional write protocol that is only relaxed once prepare/validate/commit/
     compensate can be <em>attested</em> — never by declaration alone.

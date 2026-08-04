@@ -31,5 +31,5 @@ score saturates.
 
 ## What would reverse this
 
-A defensible distribution-free bound with better small-sample behaviour under the same
-exchangeability assumptions.
+A defensible bound with better small-sample behaviour under assumptions no stronger than
+the current i.i.d. or conditionally i.i.d. group-indicator model.

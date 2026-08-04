@@ -7,7 +7,8 @@ The live run manifest records macOS 26.5.2 arm64, Python 3.14.4, OpenAI Agents S
 0.19.2, OpenAI Python 2.52.0, \code{gpt-5.6-luna}, low reasoning effort, and provider
 default temperature because the selected model rejected an explicit temperature
 parameter.  The result explicitly records that the OpenAI key and Hugging Face token were
-used and that no secret was serialized.  The workspace lacks Git metadata.
+used and that no secret was serialized.  The experimental workspace did not retain prior
+Git history; the public repository starts from a later initial snapshot.
 
 The GitHub and NESTFUL revisions begin \code{e344be7b84d1} and
 \code{fc2c4123e735}, respectively.  Their complete 40-character identifiers, exact file
@@ -42,6 +43,18 @@ natural-order replication, which supplies the paper's 30-pair confirmatory resul
     --repeat-cases 10 --concurrency 8 \
     --seed 20260802
 \end{verbatim}
+The prospective portfolio pilot first seals a decision from that replication and then
+evaluates the selected, reviewed action on previously unseen public GitHub issues:
+\begin{verbatim}
+P=paper/scripts/portfolio_live_study.py
+.venv/bin/python "$P" \
+    --preflight --cases-per-class 4
+.venv/bin/python "$P" \
+    --cases-per-class 4 --approve-reviewed-macro
+\end{verbatim}
+The approval flag records an explicit experimental decision; it does not enable autonomous
+macro deployment.  The script rejects overlap with every earlier study issue and writes
+native SDK traces plus the exact frozen decision to \path{results/portfolio_live}.
 The earlier aggressive natural-order run used:
 \begin{verbatim}
 cd paper/scripts
@@ -63,13 +76,14 @@ The script never prints either value.  Use \code{--smoke} before a paid full run
 
 \section{Implementation Audit}
 
-The package contains 11,544 measured Python statements across source, tests, demos, and
-experiment drivers; the post-fix full suite collects and passes 214 tests at 76\%
+The package contains 12,014 measured Python statements across source, tests, demos, and
+experiment drivers; the post-fix full suite collects and passes 227 tests at 76.28\%
 statement coverage.  \code{pip check} and the repository release verifier pass.  Core
 provenance, windows, dispatcher, facade, schemas, registry, and statistics modules have
-strong focused coverage.  Weak areas include TGWS packaging (28\%), the outer runner
-(62\%), replay (65\%), and the live experiment drivers (26--31\%).  Coverage is evidence
-of exercised lines, not correctness.
+strong focused coverage.  Weak areas include TGWS packaging (27.7\%), the outer runner
+(64.5\%), replay (65.5\%), and the older live experiment drivers (30--31\%).  The new
+prospective portfolio driver is at 54.1\%.  Coverage is evidence of exercised lines, not
+correctness.
 
 The review found and corrected a high-severity compiler\hyp{}runtime mismatch: the miner could
 emit suffix-only regions while the shipped runtimes resolve at the initial boundary.
@@ -130,6 +144,18 @@ live-ins outside the entry schema, 4,853 partial runs, and one ungrounded-slot s
 12 synthesized families contain programs of two to five steps.  The 20 failed family
 attempts split evenly between unsupported loop-predicate synthesis and grouped-refit
 grounding failure.
+
+The portfolio selector uses the 30 independent replication issues, treating repeated
+conditions within an issue as one group.  At 95\% simultaneous confidence with separate
+15\% quality-risk and regret-risk limits, both the compiler and macro have zero observed
+violations and exact upper bounds of 0.136; their mean utilities are 0.327 and 0.489,
+respectively.  The macro is therefore recommended for human review.  On 12 fresh issues,
+baseline and macro both pass 12/12 exact-source, factual, and tool-contract checks.  The
+macro reduces provider requests by 50.0\%, tool calls by 66.7\%, total tokens by 59.2\%,
+wall latency by 71.6\%, and estimated cost by 40.6\%.  Paired two-sided Wilcoxon tests give
+$p=0.000488$ for tokens, latency, and cost.  This is a prospective within-family result,
+not evidence that selection outperforms an always-macro policy across heterogeneous
+workflows.
 
 \section{Benchmark Selection Rationale}
 

@@ -29,7 +29,10 @@ non-inferiority, broad workflow optimization, or state-of-the-art claims.
    rejects the ungroundable third argument, and the safe two-read artifact passes 30/30.
 6. The live macro makes the practical trade-off visible: it also passes 30/30 and matches
    request reduction while using fewer tools, tokens, and dollars than partial GAC.
-6. Raw evidence, regrade provenance, scripts, checksums, exact commands, and executable
+7. The paper distinguishes compile-or-retire GAC from the implemented exact-risk
+   portfolio, which recommends the measured macro for review and prospectively passes
+   12/12 fresh contracts while reducing every measured resource.
+8. Raw evidence, regrade provenance, scripts, checksums, exact commands, and executable
    claim checks make the artifact unusually auditable.
 
 ## Major concerns
@@ -44,7 +47,9 @@ non-inferiority, broad workflow optimization, or state-of-the-art claims.
    at thresholds 0.14 and 0.11. The evidence demonstrates a sample-size counter, not a
    risk--coverage frontier.
 4. **The macro is the stronger fixed-workflow baseline.** It preserves 30/30 quality,
-   combines three reads into one, and beats partial GAC on tokens and estimated cost.
+   combines three reads into one, and beats partial GAC on tokens and estimated cost. The
+   implemented portfolio correctly recommends it for review and the choice passes 12/12
+   fresh cases, but one family cannot distinguish selection from an always-macro rule.
 5. **Scope remains narrow.** Thirty records from one extractive GitHub task and one
    model do not establish performance on branching, stateful, multi-agent, browser, or
    write-bearing workflows.
@@ -90,4 +95,7 @@ The revised paper makes a defensible contribution as a guarded compiler and a st
 where trace evidence fails to justify behavioral preservation. It is substantially
 stronger than the prescribed-prefix version and is a credible research artifact. The
 appropriate main-track posture remains major revision until quality, selectivity, and
-domain breadth are established.
+domain breadth are established. The portfolio pilot deserves limited mechanism credit
+because its action was frozen before 12 fresh cases and preserved every registered
+contract while reducing all measured resources. It does not establish selection value
+across workflow families or drift.

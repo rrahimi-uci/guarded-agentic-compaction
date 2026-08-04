@@ -25,6 +25,12 @@ This register prevents claims from drifting beyond the artifacts that support th
 | A separate continuation contract can detect and repair the retained miss | `results/github_natural_live/continuation_replay.json` | Verified counterfactual replay | detects issue 6602, accepts 17/18 unchanged, checked-renders 1/18, and finishes 18/18; zero provider calls, so no live latency/cost claim |
 | Expanded free-order replication executes the sealed design | `results/github_natural_replication/results.json` | Verified on sample | 132 discovery, 30 primary and 10 repeated cases per arm; 848 provider responses; no infrastructure failures; real records and live provider |
 | Groundability limits the emitted region | expanded compiler report and artifact | Verified | all 132 discovery traces use three reads, but the inconsistent comments limit is ungroundable; compiler rejects that candidate and emits a two-read prefix |
+| The implemented optimizer chooses between compilation and retirement | compiler cascade, registry, and runtime fallback | Verified | a surviving artifact may be admitted; otherwise the unchanged agent remains active |
+| The region compiler recommends or synthesizes a macro | source and public APIs | Not implemented | GAC remains compile-or-retire; recommendation is a separate portfolio decision and synthesis is absent |
+| The implemented portfolio can recommend a measured macro | `src/agent_compaction/portfolio/`, `results/portfolio_live/results.json` | Verified on one family | both measured actions admitted on 30 groups; macro utility 0.489 vs compiler 0.327; recommendation requires human review |
+| The portfolio synthesizes macro code | source and prospective result | Not implemented | it selects an externally supplied measured action; no code or application API is generated |
+| The selected portfolio action works prospectively | `results/portfolio_live/results.json` | Verified on sample | baseline and selected macro pass 12/12 fresh exact contracts; requests -50.0%, tools -66.7%, tokens -59.2%, latency -71.6%, estimated cost -40.6% |
+| Portfolio selection beats always-macro across workflows | one-family pilot | Not established | selected action is the same macro an always-macro policy would choose; no heterogeneous action-optimal families or cache candidate |
 | Expanded partial-compilation factuality is preserved | expanded paired result | Verified on sample | baseline, compiler, and macro each pass 30/30 exact factual and full task contracts; zero-event one-sided 95% upper bound remains 9.5% |
 | Expanded partial compilation reduces provider work | expanded paired result | Verified on sample | requests 4 to 2, tokens -39.5%, observed wall latency -51.7%, estimated cost -32.0%; tools remain three |
 | Expanded macro is the stronger fixed-workflow baseline | expanded macro comparison | Verified on sample | same 2 requests and 30/30 passes; macro uses one tool, 30.9% fewer tokens and 8.0% lower cost than compiler; latency difference is uncertain |
@@ -41,5 +47,6 @@ This register prevents claims from drifting beyond the artifacts that support th
 
 `.env` variable names were inspected, but values were never printed or copied. Live
 results store boolean usage flags and `secrets_serialized: false`; the validator scans
-publication text/JSON for key-shaped values. The workspace has no `.git` metadata, so
-commit, branch, remote, CI, and upstream relationships remain unverifiable.
+publication text/JSON for key-shaped values. The public repository begins from an initial
+snapshot created after the experiments; current versioning is available, but pre-snapshot
+commit ancestry and CI history cannot be reconstructed.

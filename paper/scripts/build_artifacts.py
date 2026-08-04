@@ -31,6 +31,7 @@ TABLES = PAPER / "tables"
 LIVE_PATH = RESULTS / "github_live" / "results.json"
 NATURAL_LIVE_PATH = RESULTS / "github_natural_live" / "results.json"
 NATURAL_REPLICATION_PATH = RESULTS / "github_natural_replication" / "results.json"
+PORTFOLIO_PATH = RESULTS / "portfolio_live" / "results.json"
 PILOT_PATH = RESULTS / "github_live" / "pilot_2026-08-03" / "results.json"
 NESTFUL_PATH = RESULTS / "nestful" / "results.json"
 FAMILY_PATH = RESULTS / "nestful" / "family_results.csv"
@@ -346,6 +347,104 @@ def natural_comparison_figure(natural: dict[str, Any]) -> None:
     _outside_legend(ax)
     fig.tight_layout()
     savefig("natural_live_comparison")
+
+
+def portfolio_selection_figure(portfolio: dict[str, Any]) -> None:
+    """Calibration utility and the action selected before the prospective cohort."""
+
+    evidence = portfolio["decision"]["evidence"]
+    labels = [item["action"].capitalize() for item in evidence]
+    values = [100 * float(item["mean_utility"]) for item in evidence]
+    colors = [
+        COLORS["series2"] if item["action"] == portfolio["decision"]["selected_action"]
+        else COLORS["series1"]
+        for item in evidence
+    ]
+    fig, ax = plt.subplots(figsize=(FIG_W, 1.75))
+    bars = ax.barh(np.arange(len(values)), values, color=colors, height=0.52, zorder=3)
+    ax.set_yticks(np.arange(len(labels)), labels)
+    ax.set_xlabel("Mean paired portfolio utility (percentage points)")
+    ax.set_xlim(0, max(values) * 1.20)
+    ax.xaxis.grid(True, zorder=0)
+    ax.set_axisbelow(True)
+    for bar, item in zip(bars, evidence):
+        suffix = "  selected; review" if item["action"] == portfolio["decision"]["selected_action"] else ""
+        ax.text(
+            bar.get_width() + 1.0,
+            bar.get_y() + bar.get_height() / 2,
+            f"{bar.get_width():.1f}{suffix}",
+            va="center",
+            fontsize=8,
+            color=COLORS["ink"],
+        )
+    fig.tight_layout()
+    savefig("portfolio_selection")
+
+
+def write_portfolio_table(portfolio: dict[str, Any]) -> None:
+    decision = portfolio["decision"]
+    out = [
+        r"\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X r r r >{\raggedright\arraybackslash}X@{}}",
+        r"\toprule",
+        r"Calibration action & $n$ & $\bar U$ & $R_q^+/R_u^+$ & Decision \\",
+        r"\midrule",
+    ]
+    for item in decision["evidence"]:
+        verdict = (
+            r"selected; human review"
+            if item["action"] == decision["selected_action"]
+            else ("admitted" if item["admitted"] else "retired")
+        )
+        out.append(
+            f"{tex(item['action'].capitalize())} & {item['support_groups']} & "
+            f"{item['mean_utility']:.3f} & {item['quality_risk_upper']:.3f}/"
+            f"{item['regret_risk_upper']:.3f} & {verdict} \\\\"
+        )
+    paired = portfolio["paired_selected_vs_baseline"]
+    metrics = paired["metrics"]
+    quality = portfolio["quality"]
+    aggregate = portfolio["aggregate"]
+    baseline = aggregate["baseline"]
+    selected = aggregate[decision["selected_action"]]
+    by_condition = {
+        condition: [
+            row for row in portfolio["results"] if row["condition"] == condition
+        ]
+        for condition in ("baseline", decision["selected_action"])
+    }
+    mean_tools = {
+        condition: sum(row["metrics"]["tool_calls"] for row in rows) / len(rows)
+        for condition, rows in by_condition.items()
+    }
+    out += [
+        r"\midrule",
+        r"\multicolumn{5}{@{}l}{\emph{Fresh cohort: selected macro versus unchanged}} \\",
+        r"\addlinespace[2pt]",
+        r"Endpoint & $n$ & Base & Macro & Change \\",
+        r"\addlinespace[2pt]",
+        (
+            f"Exact contracts & {quality['paired_groups']} & "
+            f"{quality['baseline_exact']}/{quality['paired_groups']} & "
+            f"{quality['selected_exact']}/{quality['paired_groups']} & preserved \\\\"
+        ),
+        (
+            f"Provider requests & {paired['n_pairs']} & "
+            f"{baseline['provider_requests'] / baseline['n']:.0f} & "
+            f"{selected['provider_requests'] / selected['n']:.0f} & "
+            f"$-{100 * metrics['requests']['aggregate_reduction']:.1f}\\%$ \\\\"
+        ),
+        (
+            f"Tool calls & {paired['n_pairs']} & {mean_tools['baseline']:.0f} & "
+            f"{mean_tools[decision['selected_action']]:.0f} & "
+            f"$-{100 * metrics['tool_calls']['aggregate_reduction']:.1f}\\%$ \\\\"
+        ),
+        f"Total tokens & {paired['n_pairs']} & -- & -- & $-{100 * metrics['total_tokens']['aggregate_reduction']:.1f}\\%$ \\\\ ",
+        f"Estimated cost & {paired['n_pairs']} & -- & -- & $-{100 * metrics['estimated_cost_usd']['aggregate_reduction']:.1f}\\%$ \\\\ ",
+        f"Wall latency & {paired['n_pairs']} & -- & -- & $-{100 * metrics['wall_latency_ms']['aggregate_reduction']:.1f}\\%$ \\\\ ",
+        r"\bottomrule",
+        r"\end{tabularx}",
+    ]
+    (TABLES / "portfolio_results.tex").write_text("\n".join(out) + "\n", encoding="utf-8")
 
 
 #: Demonstration suite, in presentation order. ``shape`` names the property that makes
@@ -705,6 +804,9 @@ def write_claims_table() -> None:
         ("C8", "Factual summary quality is preserved", "Oracle accepts fluent fabrication", "Not evaluated"),
         ("C9", "The learned compiler dominates a hand-written macro", "Expanded live macro matches 30/30 quality and beats the partial compiler on tools, tokens, and cost", "Not supported; compiler has lower mean wall time, but its paired interval crosses zero"),
         ("C10", "A separate continuation contract can recover the retained exact-source miss", "Provider-free replay detects issue 6602 and checked-renders 1/18 cases", "Verified counterfactual; no live latency, cost, or cross-domain claim"),
+        ("C11", "The portfolio recommends a measured macro", "30 frozen independent groups; 12 fresh paired issues", "Verified on one workflow family; recommendation requires human review"),
+        ("C12", "The portfolio synthesizes a macro or evaluates a cache action", "Public portfolio API accepts externally supplied measurements only", "Not implemented"),
+        ("C13", "Portfolio selection beats an always-macro policy across workflows", "One family in which the measured macro is selected", "Not supported"),
     ]
     # Wrapping columns rather than `llll`: the prose cells give a fixed tabular a
     # natural width several times the text measure, and the only way to place that is
@@ -748,6 +850,7 @@ def main() -> None:
     live = load_json(LIVE_PATH)
     natural = load_json(NATURAL_LIVE_PATH)
     replication = load_json(NATURAL_REPLICATION_PATH)
+    portfolio = load_json(PORTFOLIO_PATH)
     pilot = load_json(PILOT_PATH)
     nestful = load_json(NESTFUL_PATH)
     live_efficiency_figure(live)
@@ -755,17 +858,19 @@ def main() -> None:
     gate_support_figure(nestful)
     pilot_figure(live, pilot)
     natural_comparison_figure(replication)
+    portfolio_selection_figure(portfolio)
     demo_suite_figure()
     write_live_table(live)
     write_natural_live_table(natural)
     write_natural_replication_table(replication)
+    write_portfolio_table(portfolio)
     write_nestful_table(nestful)
     write_related_work_table()
     write_demo_suite_table()
     write_comparator_table()
     write_claims_table()
     write_manifest([
-        LIVE_PATH, NATURAL_LIVE_PATH, NATURAL_REPLICATION_PATH,
+        LIVE_PATH, NATURAL_LIVE_PATH, NATURAL_REPLICATION_PATH, PORTFOLIO_PATH,
         PILOT_PATH, NESTFUL_PATH, FAMILY_PATH,
     ])
     print(f"wrote {len(list(FIGURES.iterdir()))} figures and {len(list(TABLES.iterdir()))} tables")

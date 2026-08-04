@@ -374,7 +374,7 @@ class Dispatcher:
 
         The fitted feature spec travels inside the artifact. Recomputing features
         from a different code path — even a plausible-looking one — would break the
-        exchangeability the Eq. (18) certificate depends on.
+        conditionally i.i.d. group-indicator model the Eq. (18) certificate depends on.
         """
 
         from ..grc.calibrate import FEATURE_NAMES, GateFeatures

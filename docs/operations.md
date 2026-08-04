@@ -43,6 +43,15 @@ One stage at a time. Promotion to `approved` or `active` requires a human approv
 identity **distinct** from the optimization job identity, and refuses the `train` and
 `calibration` splits as promotion evidence. Both rules are enforced in code.
 
+## Portfolio decisions are not deployment approval
+
+`select_portfolio_action()` compares paired measurements and may return `baseline`, an
+automatic action, or a review-required action. Before activation, call
+`decision.permits(current_compatibility_key, review_approved=...)`. It returns false after
+abstention, compatibility drift, or missing macro approval. The application remains
+responsible for resolving `selected_action` to reviewed implementation code and for the
+normal artifact lifecycle; the selector never generates or promotes a macro.
+
 ## Monitoring
 
 Per artifact, alert on:
@@ -80,6 +89,11 @@ executes nothing.
    allowlist, grouping), recompile, and re-enter at shadow.
 6. **Rollback exercise.** Practise the pointer rollback on a schedule, not during an
    incident.
+
+Exact restoration of unmodified model-visible history requires an outer controller that
+owns staging. `CompactingModel` delegates unsupported inputs safely, but an already emitted
+SDK response may be recorded in SDK-managed history; use `CompactingRunner` and a
+continuation contract when the stronger rollback claim matters.
 
 ## Rollback
 

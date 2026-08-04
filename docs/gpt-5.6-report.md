@@ -31,6 +31,17 @@ the paired interval crosses zero. The complete expanded run retains 252 agent ex
 848 provider responses, no infrastructure failures, and an estimated provider cost of
 $0.19129.
 
+The compiler itself remains compile-or-retire, but a new framework-neutral portfolio layer
+now compares measured actions with exact group-level bounds on task failure and
+non-positive utility. Using the 30 independent primary groups above, it admits both GRC and
+macro at a 15% pilot limit, then recommends the higher-utility macro for human review
+(utility 0.489 versus 0.327). On 12 subsequently selected, calibration-disjoint public
+issues, baseline and the reviewed selection pass 12/12 exact contracts; the selection
+reduces requests 50.0%, tool calls 66.7%, tokens 59.2%, wall latency 71.6%, and estimated
+cost 40.6%. This is prospective single-family evidence. Macro synthesis, cache evaluation,
+developer-effort modelling, and superiority over an always-macro policy remain unimplemented
+or unsupported.
+
 The earlier aggressive natural study retains the depth-sensitive negative result:
 unchanged, compiler, and macro pass 18/18, 17/18, and 18/18. It reduces provider requests
 75.0% and tokens 66.0%, but does not establish preservation. Its continuation replay
@@ -91,8 +102,10 @@ CI matrix are still absent.
 | **proposed** | designed here but not implemented or run |
 | **production evidence required** | cannot be established from this repository alone |
 
-No Git metadata exists in this checkout. A commit, branch, diff against a Git parent,
-remote CI status, or publication state therefore could not be verified.
+At review time, no Git metadata existed in the checkout, so a commit, branch, diff against
+a Git parent, remote CI status, or publication state could not be verified. The repository
+was subsequently initialized from a later snapshot; that does not reconstruct earlier
+history.
 
 ### Live-provider update
 
@@ -260,7 +273,7 @@ flowchart LR
 | OpenAI Agents SDK | native tracing capture and native local function calls on supported hit | documented and tested lifecycle/mode/bypass behavior | not a drop-in Runner; no exact post-emission rollback; streaming, handoffs, hosted/MCP tools, loops and assertions bypass |
 | Metrics/statistics | paired grouped ratios/differences, exact safety upper bound | added generic comparison and repeat-agreement APIs | determinism is not a first-class field in the main four-demo result schema; secondary endpoint correction is not wired through every report |
 | Reproduction | generated fixtures, four conditions, negative result, figures | added validated parallel per-demo execution with isolated outputs | created timestamps and wall-clock fields make raw files byte-different even when semantics are identical |
-| Tests | 214 tests across unit, property, golden, mutation, fault injection, backends, CLI, paper oracles, and end-to-end paths | added regression coverage for all corrections and both natural protocols | measured statement coverage is 76%; live-study drivers, TGWS packaging, replay, and the outer runner need focused coverage |
+| Tests | 227 tests across unit, property, golden, mutation, fault injection, backends, CLI, paper oracles, portfolio selection, and end-to-end paths | added regression coverage for all corrections, both natural protocols, and fail-closed portfolio decisions | measured statement coverage is 76.28%; older live-study drivers, TGWS packaging, replay, and the outer runner need focused coverage |
 
 ## 5. Correctness findings and concrete fixes
 
@@ -306,7 +319,7 @@ flowchart LR
 
 | documented promise | implementation verdict |
 |:---|:---|
-| two optimizers over one framework-neutral trace contract | implemented |
+| two transformation engines plus an exact-risk selector over one framework-neutral trace contract | implemented |
 | GRC compiles only pre-commit reads | implemented and fault-injection tested |
 | every argument is grounded | implemented within the closed transform library |
 | grouped train/dev/calibration/test protocol | implemented; post-review rerun is engineering validation, not a new preregistered confirmatory study |
@@ -567,12 +580,12 @@ test set.
 
 | check | result |
 |:---|:---|
-| full tests after the publication-study additions | 214 passed |
+| full tests after the publication-study additions | 227 passed |
 | expanded primary natural real-provider run | 252 agent executions, 848 provider responses, 0 infrastructure failures; all three primary arms pass 30/30 exact factual and task contracts |
 | earlier aggressive natural run | 134 agent executions, 446 provider requests, 0 infrastructure failures; factual passes 18/18 unchanged, 17/18 compiler, 18/18 macro |
 | fixture-based live provider executions | 22 completed; all registered scenario outcomes passed |
 | optional backends | OpenAI Agents SDK 0.19.2 and MLflow 3.15.0 tests passed, no skips |
-| measured statement coverage | 75.84% overall (displayed as 76%), 11,544 statements, 2,789 missed |
+| measured statement coverage | 76.28% overall, 12,014 statements, 2,850 missed |
 | compileall | passed |
 | editable install | package and metadata both 0.5.0 |
 | isolated PEP 517 build | sdist and universal wheel built |
@@ -580,7 +593,7 @@ test set.
 | clean CLI | help and command registration passed |
 | dependency consistency | pip check passed |
 | release audit | all package, schema, link, result, manifest, evidence, and no-write checks passed |
-| publication claim/integrity audit | 956 checks passed; 0 failed |
+| publication claim/integrity audit | 1,034 checks passed; 0 failed |
 | full reproduction | all four demos, report, figures, and audit completed in 321.0 seconds with four workers |
 | deterministic rerun | normalized semantic equality and identical digest for full support experiment |
 
@@ -688,12 +701,13 @@ The correct release label remains **Development Status: Alpha**.
 - [library-api.md](library-api.md);
 - [openai-agents-sdk.md](openai-agents-sdk.md);
 - [live-results.md](live-results.md), the provider-backed runner, and an actual stdio MCP server;
-- updated operations, readiness, related-work, results, README, and release verification;
+- updated documentation index, operations, use cases, related work, results, README, and release verification;
 - expanded unit, property, integration, mutation, golden, and fault-injection tests;
 - this report.
 
-Because the checkout is not a Git repository, this inventory is based on a before/after
-file-hash snapshot rather than Git history.
+Because the checkout was not a Git repository during the review, this inventory is based
+on a before/after file-hash snapshot rather than Git history. Later repository
+initialization does not change that evidence boundary.
 
 ## 15. Final assessment
 

@@ -16,6 +16,11 @@ pre-specified finite grid carries a simultaneous exact-binomial bound on registe
 contract violations under i.i.d. or conditional-i.i.d. admitted groups.  Rejection before
 emission delegates to the baseline; exact restoration after attempted execution is scoped
 to the staging-owning runner, not the model adapter.
+The compiler itself remains binary: emit a guarded artifact or retain the unchanged
+agent.  We additionally introduce a framework-neutral portfolio layer that compares only
+measured actions, applies multiplicity-corrected exact bounds to task failure and
+non-positive utility, and otherwise returns the baseline.  A selected macro is a
+human-review recommendation; macro synthesis is not implemented.
 
 \textbf{Results.}  In an expanded live-provider replication, a task-level prompt names
 neither tools nor order.  Among 132 discovery runs over public GitHub records, 130 satisfy
@@ -25,11 +30,20 @@ emits only a two-read prefix.  On 30 fresh counterbalanced records, that partial
 preserves all 30 exact task contracts while reducing requests 50.0\%, tokens 39.5\%,
 observed latency 51.7\%, and estimated cost 32.0\%.  A live hand-written composite tool
 also passes 30/30 and matches the request reduction while using fewer tools, tokens, and
-dollars; the compiler has slightly lower observed mean latency.  An earlier, more
+dollars; the compiler has slightly lower observed mean latency.  The structural difference
+is that the macro fuses three application reads into one task-specific interface, whereas
+the compatibility-preserving partial artifact retains all three logical reads.  An earlier, more
 aggressive three-read artifact
 saves 75.0\% of requests but passes 17/18 exact factual contracts versus 18/18 for both
 comparators.  Thus preservation is observed for the partial artifact, not established as
 an invariant of deeper compilation.
+Using the 30 independent replication groups as frozen portfolio evidence, both compiler
+and macro pass a 15\% pilot risk limit; the macro has higher weighted utility (0.489 versus
+0.327) and is selected for review.  On 12 subsequently selected, calibration-disjoint
+public issues, the reviewed choice and unchanged agent each pass 12/12 exact contracts;
+the choice reduces requests 50.0\%, tool calls 66.7\%, tokens 59.2\%, observed latency
+71.6\%, and estimated cost 40.6\%.  This is a prospective single-family pilot, not evidence
+that selection outperforms an always-macro policy across workflow families.
 On public NESTFUL data, provenance places the expected producer in the candidate set for
 96.3\% of 5,746 slots but resolves 80.7\% uniquely; held-out replay gives 24 passes, 12
 abstentions, and zero wrong executions.  No family reaches the configured requirement of
@@ -40,6 +54,7 @@ covers partial compaction and refusal but supplies no real-scenario evidence.
 \textbf{Contributions.}  A trace-to-program formulation combining value provenance,
 effect and position barriers, bounded synthesis, empirical contracts, and conditional
 finite-sample admission; real-record, live-provider comparisons against both an unchanged
-agent and hand-written macro under natural tool ordering; and depth-sensitive negative
-results showing that recurrence and efficiency gains do not establish factual quality,
-macro superiority, or admission safety.
+agent and hand-written macro under natural tool ordering; a risk-bounded transformation
+portfolio with a prospective reviewed-action pilot; and depth-sensitive negative results
+showing that recurrence and efficiency gains do not establish factual quality, compiler
+superiority, portfolio superiority, or admission safety.

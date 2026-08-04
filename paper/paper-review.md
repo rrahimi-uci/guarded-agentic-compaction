@@ -1,7 +1,7 @@
-# Fifth-Pass Independent Review and Publication Readiness Assessment
+# Sixth-Pass Independent Review and Publication Readiness Assessment
 
 **Manuscript:** *When Traces Are Not Enough: Guarded Compilation of Tool-Using Agents*  
-**Review date:** 2026-08-03  
+**Review date:** 2026-08-03
 **Scope:** LaTeX sources and PDFs, implementation, tests, sealed raw results, manifests,
 generated artifacts, supplementary material, and primary related work including
 [GEPA](https://arxiv.org/abs/2507.19457) v2  
@@ -24,7 +24,19 @@ requests 50.0%, tokens 39.5%, observed wall latency 51.7%, and estimated cost 32
 The macro matches request reduction but saves 58.2% of tokens, 37.5% of cost, and two of
 three tool calls. GAC has lower observed mean latency, but the paired interval against the
 macro crosses zero. The macro is therefore the better practical default for this fixed
-workflow.
+workflow. The manuscript now states the implementation boundary explicitly: GAC chooses
+between compilation and retirement. A new portfolio layer now admits measured actions
+under exact quality and regret-risk bounds and can emit a review-required macro
+recommendation; macro synthesis remains outside the implementation.
+
+The portfolio uses the 30 independent replication groups as frozen calibration evidence.
+Both compiler and macro pass the predeclared 15% pilot limits with zero observed quality
+and regret events; the macro has higher utility (0.489 versus 0.327) and is selected before
+the fresh cohort is chosen. On 12 calibration-disjoint real public issues, baseline and the
+reviewed selection each pass 12/12 exact contracts. The selection reduces requests 50.0%,
+tool calls 66.7%, tokens 59.2%, observed wall latency 71.6%, and estimated cost 40.6%.
+This is a real prospective improvement over a paper-only future-work proposal, but it is
+one family and cannot show that selection beats always choosing the macro.
 
 The earlier aggressive three-read study remains valuable negative evidence: baseline and
 macro pass 18/18, while GAC passes 17/18 after altering one Markdown-link excerpt. The
@@ -52,12 +64,12 @@ strongest publishable message is therefore:
 
 ### Current assessment
 
-- **Top-tier main-track readiness: 84/100**
-- **Artifact and manuscript engineering: 95/100**
+- **Top-tier main-track readiness: 87/100**
+- **Artifact and manuscript engineering: 96/100**
 
 The requested 90/100 scientific target is not yet defensible. The artifact clears that
-bar, but the empirical contribution needs greater power, domain breadth, selective-risk
-evidence, and a learned workflow baseline.
+bar, but the empirical contribution still needs action-diverse workflow families, greater
+power and domain breadth, a non-degenerate risk frontier, and a learned workflow baseline.
 
 ## 1. Verified contribution
 
@@ -82,6 +94,10 @@ Three findings are supported:
 3. **Program correctness is not answer correctness.** The earlier compiler passes all 45
    replay groups but produces one exact-source answer failure. This directly falsifies any
    interpretation of the program gate as an end-to-end behavioral certificate.
+4. **A measured transformation portfolio can act prospectively.** Exact group-level
+   quality and regret gates admit both measured candidates, select the reviewed macro, and
+   the selected action preserves 12/12 fresh contracts while reducing all measured
+   resources. This validates the mechanism on one family, not the general policy.
 
 The older fixed-prefix experiment remains useful only as a controlled conformance
 ablation. Its prompt prescribes the exact sequence, and its summary oracle accepts fluent
@@ -94,6 +110,7 @@ as the primary evidence.
 |---|---|---|
 | NESTFUL | Pinned public executable data; provenance, synthesis, replay, and retirement | Natural agent planning, semantic task quality, or distribution shift |
 | Expanded natural-order replication | 132 discovery, 30 balanced primary pairs, ten repeats, real records/provider, exact-source oracle, live macro | Live GitHub service behavior, population equivalence, multi-domain generality |
+| Prospective portfolio pilot | Selection frozen from 30 groups; 12 fresh paired real-record/live-provider cases; selected macro passes 12/12 | Cross-family selection value, cache action, always-macro superiority, drift |
 | Earlier aggressive natural study | 80 discovery and 18 counterbalanced tests; exposes continuation-level miss | Powered degradation estimate or prospective recovery |
 | Fixed-prefix GitHub ablation | Real records/provider calls; structural four-to-one intervention | Natural workflow discovery or factual summary preservation |
 | Tier-3 suite | Real SDK/provider runtime over branching, pagination, write, handoff, and refusal shapes | Real-world data: records are explicitly fictional fixtures |
@@ -196,9 +213,10 @@ requests, but the macro replaces three reads with one and uses 30.9% fewer total
 difference is uncertain. On this task the macro is the better default unless maintaining
 it is demonstrably expensive or the recurrent region is branch-dependent.
 
-**Required:** measure engineering/maintenance effort, workflow drift, number of reusable
-families, and amortization. Add a decision rule that recommends “write a macro,” “compile,”
-or “do nothing,” rather than assuming compilation is always the target.
+**Current status and remaining requirement:** the exact-risk portfolio is now implemented
+and prospectively selects the reviewed macro on one family. It still omits cache evidence,
+engineering/maintenance effort, drift, and action-diverse families. The next experiment
+must compare it against always-macro, always-compile, cache-only, and a learned selector.
 
 ### P0.5 There is no live learned-workflow comparator
 
@@ -282,8 +300,9 @@ agent compilation**:
    tool behavior as now.
 2. **Continuation layer:** certify the transformation from tool evidence to the user-facing
    answer, or replace it with a checked renderer.
-3. **Portfolio selector:** compare macro, GAC, cache, and no-op choices using expected
-   quality, maintenance cost, latency, token cost, and drift risk.
+3. **Portfolio selector:** the implemented pilot compares GAC and macro using exact
+   quality/regret gates and baseline abstention. Extend it to cache/no-op, maintenance
+   cost, drift, and multiple families where different actions are optimal.
 4. **Residual optimizer:** optionally apply GEPA-style reflective prompt evolution only to
    model decisions that remain after safe compilation.
 

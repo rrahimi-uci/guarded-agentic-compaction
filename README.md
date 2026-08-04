@@ -4,14 +4,16 @@ Guarded, evidence-gated workflow optimization for LLM agents: mine repeated exec
 patterns out of traces, propose a smaller workflow, prove the proposal on held-out
 groups, and deploy only immutable artifacts that fall back to the original agent.
 
-This repository implements the design in [execution-plan.md](docs/execution-plan.md),
-[proposal.md](experiments/proposal.md) and [use-cases.md](docs/use-cases.md) end to end — the seven GRC
-algorithms, TGWS, the trace contract, the evaluation protocol, the runtime, and four
-provider-backed demonstrations with measured results in
+This repository implements the research design in
+[proposal.md](experiments/proposal.md)—with historical decisions retained in
+[execution-plan.md](docs/execution-plan.md)—and documents the current scenarios in
+[use-cases.md](docs/use-cases.md). It includes the seven GRC algorithms, TGWS, the trace
+contract, the evaluation protocol, the runtime, and six
+provider-backed demonstration families with measured results in
 [docs/live-results.md](docs/live-results.md). The larger deterministic stress study is
 retained separately in [docs/results.md](docs/results.md).
 
-**Two optimizers, one trace contract.**
+**Two transformation engines, one evidence selector, one trace contract.**
 
 * **TGWS** — trace-guided workflow specialization. Learn a shallow, readable route from
   entry-state facts to a specialist prompt and a minimal tool surface; prune what a route
@@ -20,9 +22,21 @@ retained separately in [docs/results.md](docs/results.md).
   argument derives from entry state or earlier observations, synthesize a bounded
   deterministic program from a closed 23-operator library, induce a contract, and dispatch
   only under a calibrated gate with an exact risk bound.
+* **Portfolio selection** — compare only actions with paired group-level measurements,
+  bound task failure and non-positive utility separately, and select the highest-utility
+  admitted action. Macro selections are review-required recommendations, not generated code.
 
 Neither invents business logic, changes model weights, or removes an external effect.
 **Abstention is the default output**, and "do not compact" is the common and correct one.
+GRC itself remains compile-or-retire. The portfolio layer can now choose a measured GRC
+candidate or recommend a measured macro for human review; it does not synthesize macros,
+and cache/model-routing actions remain unsupported until real measurements are supplied.
+
+In a prospective real-record pilot, the selector used 30 prior independent GitHub issue
+groups, chose the higher-utility reviewed macro, and then ran it on 12 fresh issues. Both
+baseline and selected action passed 12/12 exact contracts; the selection reduced provider
+requests 50.0%, tool calls 66.7%, total tokens 59.2%, wall latency 71.6%, and estimated
+cost 40.6%. This is single-family evidence, not proof that selection beats always-macro.
 
 ---
 
@@ -125,9 +139,28 @@ print(job.report())
 print(job.explain())               # readable pseudocode per artifact
 ac.validate(job, suites=["replay", "perturbation"])
 ac.promote(job, stage="shadow")
+
+decision = ac.select_portfolio_action(
+    paired_observations,
+    config=ac.SelectionConfig(
+        quality_risk_limit=0.10,
+        regret_risk_limit=0.10,
+        minimum_groups=40,
+        expected_compatibility_key=manifest.compatibility_key(),
+    ),
+)
+if decision.requires_review:
+    review_approved = submit_for_review(decision)
+else:
+    review_approved = True
+if decision.permits(
+    manifest.compatibility_key(), review_approved=review_approved
+):
+    activate_selected_action(decision)
 ```
 
-Deployment has two paths (execution-plan §10.4). The wrapper comes first because it owns
+Deployment has two paths, detailed in [the SDK guide](docs/openai-agents-sdk.md). The
+wrapper comes first because it owns
 the entry-state snapshot and the staging boundary:
 
 ```python
@@ -162,6 +195,7 @@ src/agent_compaction/
   grc/              DSL, bindings (Alg. 3), branches (Alg. 4), contracts (Alg. 5),
                     calibration (Alg. 6), the compile orchestrator
   tgws/             route tree, greedy pruning, packaging
+  portfolio/        typed candidates, exact-risk admission, review-aware selection
   evaluation/       grouped splits, replay modes, perturbations, metrics, statistics
   registry/         artifact store, lifecycle, signing, kill switch, rollback
   runtime/          dispatch (Alg. 7), staging, permission facade, interpreter,
@@ -186,6 +220,7 @@ scripts/            fixture generator, capture smoke test, reproduce, verify rel
 
 | Document | What it answers |
 |:---|:---|
+| [docs/README.md](docs/README.md) | documentation source-of-truth map and evidence classes |
 | [docs/agent-compaction-report.html](docs/agent-compaction-report.html) | **illustrated report** — architecture and algorithm walkthrough, SDK integration, and before/after trace timelines rendered from the measured runs |
 | [docs/gpt-5.6-report.md](docs/gpt-5.6-report.md) | end-to-end architecture, implementation, novelty, readiness and benchmark review |
 | [docs/live-results.md](docs/live-results.md) | provider-backed paired demos, raw denominators, cost and evidence boundaries |
@@ -198,7 +233,6 @@ scripts/            fixture generator, capture smoke test, reproduce, verify rel
 | [docs/operations.md](docs/operations.md) | shadow → canary → live, monitoring, incident runbook, rollback |
 | [docs/related-work-matrix.md](docs/related-work-matrix.md) | adjacent systems, what they cover, what remains |
 | [docs/architecture/](docs/architecture/) | the decisions and the alternatives that were rejected |
-| [docs/readiness.md](docs/readiness.md) | the execution plan's readiness checklist and decision gates, answered |
 | [experiments/manifests/preregistration.md](experiments/manifests/preregistration.md) | hypotheses, margins, thresholds and stopping rules, frozen before the sealed test |
 | [paper/README.md](paper/README.md) | publication artifact: LaTeX paper, real-record live study, NESTFUL benchmark, figures, raw results, and adversarial review |
 

@@ -17,6 +17,9 @@ flowchart LR
     E --> G[GRC region compiler]
     F --> H[Evidence-bearing artifacts]
     G --> H
+    H --> P[Risk-bounded portfolio]
+    P -->|no admitted action| L
+    P -->|reviewed selection| I
     H --> I[Signed registry and lifecycle]
     I --> J[Shadow resolver]
     I --> K[Live dispatcher]
@@ -114,6 +117,57 @@ Passes may share derived analysis through `context.state`, but should expose reu
 facts as named capabilities. A pass must not mutate source episodes or silently weaken a
 guard emitted by an earlier pass.
 
+## Risk-bounded portfolio selection
+
+The portfolio consumes paired measurements; it does not guess unmeasured cache, macro, or
+model-routing performance. Repeated executions sharing a `group_id` are averaged within
+that group and do not increase statistical support.
+
+```python
+observations = [
+    ac.PortfolioObservation(
+        group_id=issue_id,
+        action="compile",
+        baseline_quality=baseline_ok,
+        candidate_quality=compiled_ok,
+        baseline_metrics=baseline_metrics,
+        candidate_metrics=compiled_metrics,
+        compatibility_key=manifest.compatibility_key(),
+    ),
+    # Add measured cache, macro, or custom actions under the same contract.
+]
+
+decision = ac.select_portfolio_action(
+    observations,
+    config=ac.SelectionConfig(
+        quality_risk_limit=0.10,
+        regret_risk_limit=0.10,
+        confidence=0.95,
+        minimum_groups=40,
+        expected_compatibility_key=manifest.compatibility_key(),
+    ),
+)
+
+review_approved = False
+if decision.requires_review:
+    review_approved = submit_candidate_for_review(decision)
+
+if decision.permits(
+    manifest.compatibility_key(), review_approved=review_approved
+):
+    activate_measured_action(decision.selected_action)
+else:
+    run_baseline()
+```
+
+Admission uses separate multiplicity-corrected one-sided exact bounds for candidate task
+failure and for groups whose weighted paired utility is non-positive. The default utility
+weights cost, wall latency, tokens, and tool calls. These weights are operator policy, not
+a universal metric. Macro actions default to `human_review`; the library does not generate
+or silently deploy macro code. `decision.permits(key)` fails closed on abstention or
+manifest drift; review-required actions additionally need
+`decision.permits(key, review_approved=True)` after application-level approval.
+
 ## Implemented components and extension points
 
 | area | implemented surface | extension contract |
@@ -121,6 +175,7 @@ guard emitted by an earlier pass.
 | Trace collection | JSONL, MLflow transport, OpenAI Agents SDK trace processor | normalize any framework into `Episode` |
 | Execution graph analysis | qualification, canonical order, provenance, effect barriers, bounded windows | add graph features without changing observable semantics |
 | Workflow optimization | TGWS routes and GRC deterministic read regions | `OptimizationPass` |
+| Portfolio optimization | Exact-risk selection over measured action classes; baseline abstention and macro review mode | add paired observations or custom action names |
 | Prompt/tool compaction | TGWS selects existing prompt blocks and tool allowlists | evaluator-backed proposer pass |
 | Agent composition | entry-state route to agent/model/reasoning/handoffs | custom `RouteConfig` producer; handoff-spanning GRC is unsupported |
 | Memory optimization | trace and pipeline contracts only | add a pass with explicit memory consistency and retention metrics |
@@ -130,7 +185,7 @@ guard emitted by an earlier pass.
 | Evaluation | grouped splits, replay, perturbation, paired intervals, negative controls | workload outcome join and comparator |
 | Registry/operations | HMAC integrity, lifecycle, expiry, kill switch, rollback | external atomic registry backend |
 
-Memory optimization, learned model routing, online adaptation, public-key signing, and
+Macro synthesis, cache measurement, memory optimization, learned model routing, online adaptation, public-key signing, and
 cross-framework runtime adapters are extension targets, not implemented production
 features. The trace IR and pass protocol are designed so these do not require changing
 the core compilers.

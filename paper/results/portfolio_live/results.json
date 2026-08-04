@@ -1,0 +1,1862 @@
+{
+  "aggregate": {
+    "baseline": {
+      "category_accuracy": 1,
+      "estimated_cost_usd": 0.01056696,
+      "factuality_exact_rate": 1,
+      "input_tokens": 48261,
+      "n": 12,
+      "output_tokens": 2300,
+      "provider_requests": 48,
+      "success_rate": 1,
+      "tool_contract_rate": 1,
+      "wall_latency_ms": 129084.083
+    },
+    "macro": {
+      "category_accuracy": 1,
+      "estimated_cost_usd": 0.00627425,
+      "factuality_exact_rate": 1,
+      "input_tokens": 18907,
+      "n": 12,
+      "output_tokens": 1724,
+      "provider_requests": 24,
+      "success_rate": 1,
+      "tool_contract_rate": 1,
+      "wall_latency_ms": 36629.507
+    }
+  },
+  "calibration": {
+    "independent_groups": 30,
+    "path": "paper/results/github_natural_replication/results.json",
+    "provider_outputs_reused": true,
+    "sha256": "415f057f0d5e036a765eb97da78df8de7b252c76a39c509c3a5d111538040722"
+  },
+  "condition_order": {
+    "assignments": {
+      "2622": [
+        "macro",
+        "baseline"
+      ],
+      "2743": [
+        "baseline",
+        "macro"
+      ],
+      "2812": [
+        "baseline",
+        "macro"
+      ],
+      "3083": [
+        "macro",
+        "baseline"
+      ],
+      "3548": [
+        "macro",
+        "baseline"
+      ],
+      "4982": [
+        "macro",
+        "baseline"
+      ],
+      "5755": [
+        "baseline",
+        "macro"
+      ],
+      "5776": [
+        "macro",
+        "baseline"
+      ],
+      "5953": [
+        "baseline",
+        "macro"
+      ],
+      "5975": [
+        "macro",
+        "baseline"
+      ],
+      "6311": [
+        "baseline",
+        "macro"
+      ],
+      "870": [
+        "baseline",
+        "macro"
+      ]
+    },
+    "batch_schedule": [
+      {
+        "condition": "baseline",
+        "issue_numbers": [
+          5953,
+          2743,
+          2812,
+          6311,
+          870,
+          5755
+        ],
+        "stage": 0
+      },
+      {
+        "condition": "macro",
+        "issue_numbers": [
+          5776,
+          3548,
+          5975,
+          2622,
+          3083,
+          4982
+        ],
+        "stage": 0
+      },
+      {
+        "condition": "macro",
+        "issue_numbers": [
+          5953,
+          2743,
+          2812,
+          6311,
+          870,
+          5755
+        ],
+        "stage": 1
+      },
+      {
+        "condition": "baseline",
+        "issue_numbers": [
+          5776,
+          3548,
+          5975,
+          2622,
+          3083,
+          4982
+        ],
+        "stage": 1
+      }
+    ],
+    "method": "two-condition-counterbalanced"
+  },
+  "decision": {
+    "abstained": false,
+    "evidence": [
+      {
+        "action": "compile",
+        "admitted": true,
+        "compatible": true,
+        "deployment_mode": "automatic",
+        "mean_reductions": {
+          "cache_write_tokens": 0.23811364811745528,
+          "cached_input_tokens": 0.29380340166974894,
+          "estimated_cost_usd": 0.388329404097043,
+          "input_tokens": 0.40391155219183933,
+          "output_tokens": 0.2737364766352418,
+          "provider_response_latency_ms": 0.4623290944485262,
+          "requests": 0.5,
+          "tool_calls": 0.0,
+          "total_tokens": 0.397665762181139,
+          "wall_latency_ms": 0.45980282634076075
+        },
+        "mean_utility": 0.32677853544902563,
+        "quality_risk_upper": 0.1359006725757287,
+        "quality_violations": 0,
+        "regret_events": 0,
+        "regret_risk_upper": 0.1359006725757287,
+        "rejection_reasons": [],
+        "support_groups": 30
+      },
+      {
+        "action": "macro",
+        "admitted": true,
+        "compatible": true,
+        "deployment_mode": "human_review",
+        "mean_reductions": {
+          "cache_write_tokens": 0.3572866619709027,
+          "cached_input_tokens": 0.9677504274487884,
+          "estimated_cost_usd": 0.3678390798152442,
+          "input_tokens": 0.6010052495306984,
+          "output_tokens": 0.26076842050891547,
+          "provider_response_latency_ms": 0.4332189778506691,
+          "requests": 0.5,
+          "tool_calls": 0.6666666666666667,
+          "total_tokens": 0.585151393488038,
+          "wall_latency_ms": 0.4328310102397626
+        },
+        "mean_utility": 0.48915919713258726,
+        "quality_risk_upper": 0.1359006725757287,
+        "quality_violations": 0,
+        "regret_events": 0,
+        "regret_risk_upper": 0.1359006725757287,
+        "rejection_reasons": [],
+        "support_groups": 30
+      }
+    ],
+    "expected_compatibility_key": "a4cdfe4b1bebe14c2d0d",
+    "rationale": "macro had the largest admitted mean utility (0.489159) under exact group-level risk bounds",
+    "requires_review": true,
+    "selected_action": "macro"
+  },
+  "failures": [],
+  "paired_selected_vs_baseline": {
+    "candidate_label": "selected_macro",
+    "metrics": {
+      "estimated_cost_usd": {
+        "aggregate_reduction": 0.4062388804348649,
+        "baseline_mean": 0.00088058,
+        "paired_difference_95pct_bootstrap_ci": [
+          -0.0004445413541666666,
+          -0.0002669013333333333
+        ],
+        "paired_difference_selected_macro_minus_baseline": -0.0003577258333333333,
+        "selected_macro_mean": 0.0005228541666666667,
+        "wilcoxon_p": 0.00048828125
+      },
+      "input_tokens": {
+        "aggregate_reduction": 0.6082343921593005,
+        "baseline_mean": 4021.75,
+        "paired_difference_95pct_bootstrap_ci": [
+          -2779.9479166666665,
+          -2156.241666666667
+        ],
+        "paired_difference_selected_macro_minus_baseline": -2446.1666666666665,
+        "selected_macro_mean": 1575.5833333333333,
+        "wilcoxon_p": 0.00048828125
+      },
+      "output_tokens": {
+        "aggregate_reduction": 0.25043478260869567,
+        "baseline_mean": 191.66666666666666,
+        "paired_difference_95pct_bootstrap_ci": [
+          -57.833333333333336,
+          -36.4979166666667
+        ],
+        "paired_difference_selected_macro_minus_baseline": -48.0,
+        "selected_macro_mean": 143.66666666666666,
+        "wilcoxon_p": 0.00048828125
+      },
+      "provider_response_latency_ms": {
+        "aggregate_reduction": 0.6455116303836179,
+        "baseline_mean": 8597.384083333332,
+        "paired_difference_95pct_bootstrap_ci": [
+          -9030.240916666664,
+          -2896.9889875000003
+        ],
+        "paired_difference_selected_macro_minus_baseline": -5549.711416666667,
+        "selected_macro_mean": 3047.672666666667,
+        "wilcoxon_p": 0.00048828125
+      },
+      "requests": {
+        "aggregate_reduction": 0.5,
+        "baseline_mean": 4.0,
+        "paired_difference_95pct_bootstrap_ci": [
+          -2.0,
+          -2.0
+        ],
+        "paired_difference_selected_macro_minus_baseline": -2.0,
+        "selected_macro_mean": 2.0,
+        "wilcoxon_p": 0.00048828125
+      },
+      "tool_calls": {
+        "aggregate_reduction": 0.6666666666666667,
+        "baseline_mean": 3.0,
+        "paired_difference_95pct_bootstrap_ci": [
+          -2.0,
+          -2.0
+        ],
+        "paired_difference_selected_macro_minus_baseline": -2.0,
+        "selected_macro_mean": 1.0,
+        "wilcoxon_p": 0.00048828125
+      },
+      "total_tokens": {
+        "aggregate_reduction": 0.5919582286742746,
+        "baseline_mean": 4213.416666666667,
+        "paired_difference_95pct_bootstrap_ci": [
+          -2831.00625,
+          -2203.3270833333336
+        ],
+        "paired_difference_selected_macro_minus_baseline": -2494.1666666666665,
+        "selected_macro_mean": 1719.25,
+        "wilcoxon_p": 0.00048828125
+      },
+      "wall_latency_ms": {
+        "aggregate_reduction": 0.7162352929291833,
+        "baseline_mean": 10757.006916666667,
+        "paired_difference_95pct_bootstrap_ci": [
+          -12174.257908333335,
+          -3706.3454229166678
+        ],
+        "paired_difference_selected_macro_minus_baseline": -7704.548000000001,
+        "selected_macro_mean": 3052.4589166666665,
+        "wilcoxon_p": 0.00048828125
+      }
+    },
+    "n_pairs": 12,
+    "quality": {
+      "category_correct": {
+        "baseline_only_successes": 0,
+        "baseline_rate": 1,
+        "mcnemar_exact_p": 1.0,
+        "paired_difference": 0,
+        "selected_macro_only_successes": 0,
+        "selected_macro_rate": 1
+      },
+      "evidence_label_correct": {
+        "baseline_only_successes": 0,
+        "baseline_rate": 1,
+        "mcnemar_exact_p": 1.0,
+        "paired_difference": 0,
+        "selected_macro_only_successes": 0,
+        "selected_macro_rate": 1
+      },
+      "factuality_exact": {
+        "baseline_only_successes": 0,
+        "baseline_rate": 1,
+        "mcnemar_exact_p": 1.0,
+        "paired_difference": 0,
+        "selected_macro_only_successes": 0,
+        "selected_macro_rate": 1
+      },
+      "overall": {
+        "baseline_only_successes": 0,
+        "baseline_rate": 1,
+        "mcnemar_exact_p": 1.0,
+        "paired_difference": 0,
+        "selected_macro_only_successes": 0,
+        "selected_macro_rate": 1
+      },
+      "tool_contract": {
+        "baseline_only_successes": 0,
+        "baseline_rate": 1,
+        "mcnemar_exact_p": 1.0,
+        "paired_difference": 0,
+        "selected_macro_only_successes": 0,
+        "selected_macro_rate": 1
+      }
+    }
+  },
+  "quality": {
+    "baseline_exact": 12,
+    "paired_groups": 12,
+    "selected_exact": 12
+  },
+  "results": [
+    {
+      "answer": {
+        "category": "other",
+        "comment_count": 8,
+        "evidence_excerpt": "Bad error message when trying to download gated dataset",
+        "evidence_label": "none",
+        "issue_number": 5953,
+        "state": "closed",
+        "title": "Bad error message when trying to download gated dataset"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:8c2fb4175fe36ba241cd4cfc54039766",
+      "issue_number": 5953,
+      "metrics": {
+        "cache_write_tokens": 1767,
+        "cached_input_tokens": 2778,
+        "estimated_cost_usd": 0.00084571,
+        "handoffs": 0,
+        "input_tokens": 5111,
+        "output_tokens": 196,
+        "provider_response_latency_ms": 23080.689,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 5307,
+        "wall_latency_ms": 23094.425
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 5953
+        },
+        {
+          "issue_number": 5953
+        },
+        {
+          "issue_number": 5953,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_44b68467754a8ca8c0835aa39a24d298"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 2,
+        "evidence_excerpt": "Dataset JSON is incorrect",
+        "evidence_label": "bug",
+        "issue_number": 2743,
+        "state": "closed",
+        "title": "Dataset JSON is incorrect"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:0b501bf67c5acb0fba7095dc3cd9486a",
+      "issue_number": 2743,
+      "metrics": {
+        "cache_write_tokens": 1431,
+        "cached_input_tokens": 2232,
+        "estimated_cost_usd": 0.00072559,
+        "handoffs": 0,
+        "input_tokens": 4229,
+        "output_tokens": 175,
+        "provider_response_latency_ms": 11468.432,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 4404,
+        "wall_latency_ms": 20037.579
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2743
+        },
+        {
+          "issue_number": 2743
+        },
+        {
+          "issue_number": 2743,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_a74ecd20a7ad5b40e11f218cbeb9d3eb"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 0,
+        "evidence_excerpt": "Therefore, loading the dataset without `ignore_verifications=True` results in a verification error.",
+        "evidence_label": "bug",
+        "issue_number": 2812,
+        "state": "open",
+        "title": "arXiv Dataset verification problem"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:f2119c3ebf7b70b454dddd3dbc1a16b6",
+      "issue_number": 2812,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0008394,
+        "handoffs": 0,
+        "input_tokens": 3027,
+        "output_tokens": 195,
+        "provider_response_latency_ms": 8873.363,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 3222,
+        "wall_latency_ms": 17468.823
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2812
+        },
+        {
+          "issue_number": 2812
+        },
+        {
+          "issue_number": 2812,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_ad5842d2b8ab91de445914b81980b924"
+    },
+    {
+      "answer": {
+        "category": "other",
+        "comment_count": 4,
+        "evidence_excerpt": "cast_column to Sequence with length=4 occur exception raise in datasets/table.py:2146",
+        "evidence_label": "none",
+        "issue_number": 6311,
+        "state": "closed",
+        "title": "cast_column to Sequence with length=4 occur exception raise in datasets/table.py:2146"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:f5ba8d06a4e48b81dafb2be93ada9788",
+      "issue_number": 6311,
+      "metrics": {
+        "cache_write_tokens": 1974,
+        "cached_input_tokens": 2944,
+        "estimated_cost_usd": 0.00090078,
+        "handoffs": 0,
+        "input_tokens": 5484,
+        "output_tokens": 196,
+        "provider_response_latency_ms": 14462.419,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 5680,
+        "wall_latency_ms": 23057.523
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6311
+        },
+        {
+          "issue_number": 6311
+        },
+        {
+          "issue_number": 6311,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_4c03665e7e191230124d009d9b0992d6"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 2,
+        "evidence_excerpt": "[Feature Request] Add optional parameter in text loading script to preserve linebreaks",
+        "evidence_label": "enhancement",
+        "issue_number": 870,
+        "state": "closed",
+        "title": "[Feature Request] Add optional parameter in text loading script to preserve linebreaks"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:260bab4df2e665f343b9e51718575c73",
+      "issue_number": 870,
+      "metrics": {
+        "cache_write_tokens": 1103,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00099475,
+        "handoffs": 0,
+        "input_tokens": 3546,
+        "output_tokens": 192,
+        "provider_response_latency_ms": 5241.651,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 3738,
+        "wall_latency_ms": 5248.984
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 870
+        },
+        {
+          "issue_number": 870
+        },
+        {
+          "issue_number": 870,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_40f4d939e4a6a17b367480b8e4e99bf3"
+    },
+    {
+      "answer": {
+        "category": "other",
+        "comment_count": 1,
+        "evidence_excerpt": "The module moved to new place?",
+        "evidence_label": "none",
+        "issue_number": 5755,
+        "state": "closed",
+        "title": "ImportError: cannot import name 'DeprecatedEnum' from 'datasets.utils.deprecation_utils' "
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:f62b0144774657122df266071ca9d0d8",
+      "issue_number": 5755,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0009,
+        "handoffs": 0,
+        "input_tokens": 3228,
+        "output_tokens": 212,
+        "provider_response_latency_ms": 5779.685,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 3440,
+        "wall_latency_ms": 5788.308
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 5755
+        },
+        {
+          "issue_number": 5755
+        },
+        {
+          "issue_number": 5755,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_82031cabea1450d0c85a7b56a81858c1"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 0,
+        "evidence_excerpt": "Instead of PyArrow's `read_json`, we should use `pd.read_json` in the JSON builder",
+        "evidence_label": "enhancement",
+        "issue_number": 5776,
+        "state": "open",
+        "title": "Use Pandas' `read_json` in the JSON builder"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:63030520952639cda8e27ebc3a837ce3",
+      "issue_number": 5776,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0004052,
+        "handoffs": 0,
+        "input_tokens": 1228,
+        "output_tokens": 133,
+        "provider_response_latency_ms": 3186.181,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1361,
+        "wall_latency_ms": 3191.067
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 5776
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_f7f27eff1b1a380a5c09cbbfdccf2a55"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 1,
+        "evidence_excerpt": "Currently if I upload a CSV with paths to audio files, the column type is string instead of Audio.",
+        "evidence_label": "enhancement",
+        "issue_number": 3548,
+        "state": "closed",
+        "title": "Specify the feature types of a dataset on the Hub without needing a dataset script"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:f2cab28a3355e48701a4449b84b2eb72",
+      "issue_number": 3548,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0004324,
+        "handoffs": 0,
+        "input_tokens": 1298,
+        "output_tokens": 144,
+        "provider_response_latency_ms": 5155.806,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1442,
+        "wall_latency_ms": 5160.737
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3548
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_deeaff4ea410599b7d2e8b088c640e6b"
+    },
+    {
+      "answer": {
+        "category": "other",
+        "comment_count": 9,
+        "evidence_excerpt": "Streaming Dataset behind Proxy - FileNotFoundError",
+        "evidence_label": "none",
+        "issue_number": 5975,
+        "state": "closed",
+        "title": "Streaming Dataset behind Proxy - FileNotFoundError"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:e0153f3d28a19ed49c9211bccb187686",
+      "issue_number": 5975,
+      "metrics": {
+        "cache_write_tokens": 1179,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00054055,
+        "handoffs": 0,
+        "input_tokens": 1658,
+        "output_tokens": 125,
+        "provider_response_latency_ms": 2565.758,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1783,
+        "wall_latency_ms": 2571.045
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 5975
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_ff09c6ca22bfe27f62c6280115f3ea25"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 2,
+        "evidence_excerpt": "Integration with AugLy",
+        "evidence_label": "enhancement",
+        "issue_number": 2622,
+        "state": "closed",
+        "title": "Integration with AugLy"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:0aa25c61f2f9bd759da048a9082ef2ef",
+      "issue_number": 2622,
+      "metrics": {
+        "cache_write_tokens": 1077,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00053905,
+        "handoffs": 0,
+        "input_tokens": 1556,
+        "output_tokens": 145,
+        "provider_response_latency_ms": 3054.8,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1701,
+        "wall_latency_ms": 3060.31
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2622
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_b339644968d07ecc804dc979e85d2ee6"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 0,
+        "evidence_excerpt": "Datasets with Audio feature raise error when loaded from cache due to _resampler parameter",
+        "evidence_label": "bug",
+        "issue_number": 3083,
+        "state": "closed",
+        "title": "Datasets with Audio feature raise error when loaded from cache due to _resampler parameter"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:161d9f6fdb8c37e54b562bb3c4c1c4f0",
+      "issue_number": 3083,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00041,
+        "handoffs": 0,
+        "input_tokens": 1252,
+        "output_tokens": 133,
+        "provider_response_latency_ms": 2411.288,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1385,
+        "wall_latency_ms": 2414.278
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3083
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_92d85477db50fa31b62d3ea50a782692"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 3,
+        "evidence_excerpt": "Create dataset_infos.json with VALIDATION and TEST splits",
+        "evidence_label": "bug",
+        "issue_number": 4982,
+        "state": "closed",
+        "title": "Create dataset_infos.json with VALIDATION and TEST splits"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:79380e3313183ebf9d226e18be8eb6c1",
+      "issue_number": 4982,
+      "metrics": {
+        "cache_write_tokens": 1674,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0006751,
+        "handoffs": 0,
+        "input_tokens": 2153,
+        "output_tokens": 134,
+        "provider_response_latency_ms": 3909.425,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2287,
+        "wall_latency_ms": 3912.737
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 4982
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_160f50f94cac45140d7168439b805e99"
+    },
+    {
+      "answer": {
+        "category": "other",
+        "comment_count": 8,
+        "evidence_excerpt": "Bad error message when trying to download gated dataset",
+        "evidence_label": "none",
+        "issue_number": 5953,
+        "state": "closed",
+        "title": "Bad error message when trying to download gated dataset"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:47545f54de5322649bf6f9990b6d04ad",
+      "issue_number": 5953,
+      "metrics": {
+        "cache_write_tokens": 1561,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00065645,
+        "handoffs": 0,
+        "input_tokens": 2040,
+        "output_tokens": 142,
+        "provider_response_latency_ms": 2765.247,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2182,
+        "wall_latency_ms": 2770.42
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 5953
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_c4a6c004b0fef28356804dd911aac774"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 2,
+        "evidence_excerpt": "The only config should be `plain_text`, but the first key in the JSON is `journalists_questions` (the dataset id) instead.",
+        "evidence_label": "bug",
+        "issue_number": 2743,
+        "state": "closed",
+        "title": "Dataset JSON is incorrect"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:72e0002d4a373b14f48cc28e60c1d376",
+      "issue_number": 2743,
+      "metrics": {
+        "cache_write_tokens": 1217,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00060765,
+        "handoffs": 0,
+        "input_tokens": 1696,
+        "output_tokens": 173,
+        "provider_response_latency_ms": 2770.018,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1869,
+        "wall_latency_ms": 2775.191
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2743
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_0f301dccafd6f4d217e96731599793fe"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 0,
+        "evidence_excerpt": "Describe the bug\r\n`dataset_infos.json` for `arxiv_dataset` contains a fixed number of training examples",
+        "evidence_label": "bug",
+        "issue_number": 2812,
+        "state": "open",
+        "title": "arXiv Dataset verification problem"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:f508e01281bc46fff927ba86265fdaae",
+      "issue_number": 2812,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0004148,
+        "handoffs": 0,
+        "input_tokens": 1156,
+        "output_tokens": 153,
+        "provider_response_latency_ms": 3023.147,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1309,
+        "wall_latency_ms": 3028.876
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2812
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_08e0bb852addeffb80ff4ee324d94aef"
+    },
+    {
+      "answer": {
+        "category": "other",
+        "comment_count": 4,
+        "evidence_excerpt": "cast_column to Sequence with length=4 occur exception raise in datasets/table.py:2146",
+        "evidence_label": "none",
+        "issue_number": 6311,
+        "state": "closed",
+        "title": "cast_column to Sequence with length=4 occur exception raise in datasets/table.py:2146"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:61ccfd0b707a42dc7e3ebd61238fdc01",
+      "issue_number": 6311,
+      "metrics": {
+        "cache_write_tokens": 1773,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00071305,
+        "handoffs": 0,
+        "input_tokens": 2252,
+        "output_tokens": 145,
+        "provider_response_latency_ms": 2596.849,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2397,
+        "wall_latency_ms": 2602.545
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6311
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_f88211b98193fb0d1ec4d3ba7f9d62c9"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 2,
+        "evidence_excerpt": "[Feature Request] Add optional parameter in text loading script to preserve linebreaks",
+        "evidence_label": "enhancement",
+        "issue_number": 870,
+        "state": "closed",
+        "title": "[Feature Request] Add optional parameter in text loading script to preserve linebreaks"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:519380ebc4c0067a0418ee486e98ab22",
+      "issue_number": 870,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0004622,
+        "handoffs": 0,
+        "input_tokens": 1381,
+        "output_tokens": 155,
+        "provider_response_latency_ms": 2649.564,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1536,
+        "wall_latency_ms": 2654.562
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 870
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_bf89edfe7e6dfb342b2c574eadfba38c"
+    },
+    {
+      "answer": {
+        "category": "other",
+        "comment_count": 1,
+        "evidence_excerpt": "The module moved to new place?",
+        "evidence_label": "none",
+        "issue_number": 5755,
+        "state": "closed",
+        "title": "ImportError: cannot import name 'DeprecatedEnum' from 'datasets.utils.deprecation_utils' "
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:0cf0946951c25b14cf90da28aa2374aa",
+      "issue_number": 5755,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0004178,
+        "handoffs": 0,
+        "input_tokens": 1237,
+        "output_tokens": 142,
+        "provider_response_latency_ms": 2483.989,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1379,
+        "wall_latency_ms": 2487.739
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 5755
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_84effb9f775595b92bb8505752a2593f"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 0,
+        "evidence_excerpt": "Instead of PyArrow's `read_json`, we should use `pd.read_json`",
+        "evidence_label": "enhancement",
+        "issue_number": 5776,
+        "state": "open",
+        "title": "Use Pandas' `read_json` in the JSON builder"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:9f286fef76152f574c16d6c0d22dd724",
+      "issue_number": 5776,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0008322,
+        "handoffs": 0,
+        "input_tokens": 3237,
+        "output_tokens": 154,
+        "provider_response_latency_ms": 5046.976,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 3391,
+        "wall_latency_ms": 5070.189
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 5776
+        },
+        {
+          "issue_number": 5776
+        },
+        {
+          "issue_number": 5776,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_fabc477d8836b4c666083a74fa84ba71"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 1,
+        "evidence_excerpt": "Currently if I upload a CSV with paths to audio files, the column type is string instead of Audio.",
+        "evidence_label": "enhancement",
+        "issue_number": 3548,
+        "state": "closed",
+        "title": "Specify the feature types of a dataset on the Hub without needing a dataset script"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:2c0fa51a2449e148b5910593641ea85e",
+      "issue_number": 3548,
+      "metrics": {
+        "cache_write_tokens": 1032,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0009554,
+        "handoffs": 0,
+        "input_tokens": 3319,
+        "output_tokens": 200,
+        "provider_response_latency_ms": 5673.989,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 3519,
+        "wall_latency_ms": 5701.674
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3548
+        },
+        {
+          "issue_number": 3548
+        },
+        {
+          "issue_number": 3548,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_f98f675ba408e4de11ba50ffe298cbf1"
+    },
+    {
+      "answer": {
+        "category": "other",
+        "comment_count": 9,
+        "evidence_excerpt": "Streaming Dataset behind Proxy - FileNotFoundError",
+        "evidence_label": "none",
+        "issue_number": 5975,
+        "state": "closed",
+        "title": "Streaming Dataset behind Proxy - FileNotFoundError"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:1ad919dd83104521ede0dc92d5b5c4d9",
+      "issue_number": 5975,
+      "metrics": {
+        "cache_write_tokens": 1398,
+        "cached_input_tokens": 2220,
+        "estimated_cost_usd": 0.0007267,
+        "handoffs": 0,
+        "input_tokens": 4184,
+        "output_tokens": 183,
+        "provider_response_latency_ms": 4914.467,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 4367,
+        "wall_latency_ms": 4945.118
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 5975
+        },
+        {
+          "issue_number": 5975
+        },
+        {
+          "issue_number": 5975,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_967ffea8c090dfdeea5702d808c504ab"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 2,
+        "evidence_excerpt": "Facebook recently launched a library, [AugLy](https://github.com/facebookresearch/AugLy)",
+        "evidence_label": "enhancement",
+        "issue_number": 2622,
+        "state": "closed",
+        "title": "Integration with AugLy"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:64ce02f7cf59fb88aae1172ab344353e",
+      "issue_number": 2622,
+      "metrics": {
+        "cache_write_tokens": 1286,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0010665,
+        "handoffs": 0,
+        "input_tokens": 3769,
+        "output_tokens": 207,
+        "provider_response_latency_ms": 8254.215,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 3976,
+        "wall_latency_ms": 8283.859
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2622
+        },
+        {
+          "issue_number": 2622
+        },
+        {
+          "issue_number": 2622,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_4cb01ec2d65c9641438ec681b2d30e20"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 0,
+        "evidence_excerpt": "when loaded from the cache, datasets containing the Audio feature raise TypeError.",
+        "evidence_label": "bug",
+        "issue_number": 3083,
+        "state": "closed",
+        "title": "Datasets with Audio feature raise error when loaded from cache due to _resampler parameter"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:464193c22e2e203d51a5ae2a9d026f68",
+      "issue_number": 3083,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0009008,
+        "handoffs": 0,
+        "input_tokens": 3310,
+        "output_tokens": 199,
+        "provider_response_latency_ms": 5057.235,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 3509,
+        "wall_latency_ms": 5064.538
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3083
+        },
+        {
+          "issue_number": 3083
+        },
+        {
+          "issue_number": 3083,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_5ddf3a9466073fc083ca0f1d923e743f"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 3,
+        "evidence_excerpt": "Create dataset_infos.json with VALIDATION and TEST splits",
+        "evidence_label": "bug",
+        "issue_number": 4982,
+        "state": "closed",
+        "title": "Create dataset_infos.json with VALIDATION and TEST splits"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:d4f6adbaec31a6cfcbd77c651a81c5b8",
+      "issue_number": 4982,
+      "metrics": {
+        "cache_write_tokens": 1877,
+        "cached_input_tokens": 3374,
+        "estimated_cost_usd": 0.00087913,
+        "handoffs": 0,
+        "input_tokens": 5817,
+        "output_tokens": 191,
+        "provider_response_latency_ms": 5315.488,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 6008,
+        "wall_latency_ms": 5323.063
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 4982
+        },
+        {
+          "issue_number": 4982
+        },
+        {
+          "issue_number": 4982,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_970813126e546ee665c883355c623ad1"
+    }
+  ],
+  "run": {
+    "evidence_class": "fresh real public records + deterministic snapshot tools + live OpenAI provider",
+    "hf_token_used_for_download": true,
+    "model": "gpt-5.6-luna",
+    "not_evidence_for": [
+      "live GitHub service reliability",
+      "multi-domain generalization",
+      "automatic macro synthesis",
+      "production deployment safety"
+    ],
+    "openai_agents_sdk": "0.19.2",
+    "openai_api_key_used": true,
+    "openai_python": "2.52.0",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "prospective_action_selection": true,
+    "python": "3.14.4",
+    "script": "paper/scripts/portfolio_live_study.py",
+    "secrets_serialized": false,
+    "shadow_nonselected_action_executed": false,
+    "task_design": "natural-extractive-v2",
+    "timestamp_utc": "2026-08-04T04:02:11+00:00"
+  },
+  "schema": "agent-compaction-portfolio-live/v1",
+  "selection": {
+    "available_fresh_category_counts": {
+      "bug": 594,
+      "enhancement": 396,
+      "other": 1669
+    },
+    "cases_per_class": 4,
+    "categories": [
+      "bug",
+      "enhancement",
+      "other"
+    ],
+    "excluded_prior_issue_count": 410,
+    "filters": {
+      "exclude_all_prior_study_records": true,
+      "exclude_pull_requests": true,
+      "exclusive_named_category": true,
+      "minimum_body_characters": 80
+    },
+    "seed": 20260804,
+    "test": [
+      {
+        "category": "bug",
+        "day": "2021-08-17",
+        "html_url": "https://github.com/huggingface/datasets/issues/2812",
+        "issue_number": 2812,
+        "labels": [
+          "bug",
+          "dataset bug"
+        ],
+        "state": "open"
+      },
+      {
+        "category": "bug",
+        "day": "2021-10-14",
+        "html_url": "https://github.com/huggingface/datasets/issues/3083",
+        "issue_number": 3083,
+        "labels": [
+          "bug"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "bug",
+        "day": "2022-09-16",
+        "html_url": "https://github.com/huggingface/datasets/issues/4982",
+        "issue_number": 4982,
+        "labels": [
+          "bug"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "bug",
+        "day": "2021-08-02",
+        "html_url": "https://github.com/huggingface/datasets/issues/2743",
+        "issue_number": 2743,
+        "labels": [
+          "bug"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "enhancement",
+        "day": "2021-07-10",
+        "html_url": "https://github.com/huggingface/datasets/issues/2622",
+        "issue_number": 2622,
+        "labels": [
+          "enhancement"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "enhancement",
+        "day": "2023-04-20",
+        "html_url": "https://github.com/huggingface/datasets/issues/5776",
+        "issue_number": 5776,
+        "labels": [
+          "enhancement"
+        ],
+        "state": "open"
+      },
+      {
+        "category": "enhancement",
+        "day": "2020-11-19",
+        "html_url": "https://github.com/huggingface/datasets/issues/870",
+        "issue_number": 870,
+        "labels": [
+          "enhancement"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "enhancement",
+        "day": "2022-01-07",
+        "html_url": "https://github.com/huggingface/datasets/issues/3548",
+        "issue_number": 3548,
+        "labels": [
+          "enhancement"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "other",
+        "day": "2023-10-18",
+        "html_url": "https://github.com/huggingface/datasets/issues/6311",
+        "issue_number": 6311,
+        "labels": [],
+        "state": "closed"
+      },
+      {
+        "category": "other",
+        "day": "2023-04-14",
+        "html_url": "https://github.com/huggingface/datasets/issues/5755",
+        "issue_number": 5755,
+        "labels": [],
+        "state": "closed"
+      },
+      {
+        "category": "other",
+        "day": "2023-06-21",
+        "html_url": "https://github.com/huggingface/datasets/issues/5975",
+        "issue_number": 5975,
+        "labels": [],
+        "state": "closed"
+      },
+      {
+        "category": "other",
+        "day": "2023-06-14",
+        "html_url": "https://github.com/huggingface/datasets/issues/5953",
+        "issue_number": 5953,
+        "labels": [],
+        "state": "closed"
+      }
+    ]
+  },
+  "selection_config": {
+    "confidence": 0.95,
+    "expected_compatibility_key": "a4cdfe4b1bebe14c2d0d",
+    "minimum_groups": 30,
+    "minimum_utility": 0.0,
+    "quality_risk_limit": 0.15,
+    "regret_risk_limit": 0.15,
+    "weights": {
+      "cost": 0.35,
+      "latency": 0.25,
+      "tokens": 0.2,
+      "tool_calls": 0.2
+    }
+  },
+  "source_manifest": {
+    "dataset": "helmo/github-issues",
+    "license": "Apache-2.0 (dataset card declaration)",
+    "parquet": {
+      "bytes": 12659096,
+      "sha256": "09453eefae39e45a969ab0bee72ca0e188fe79dc50403b0f2a78c39894f5d1a3",
+      "url": "https://huggingface.co/datasets/helmo/github-issues/resolve/e344be7b84d199661a9956036991e1fc25715a47/data/train-00000-of-00001.parquet"
+    },
+    "readme": {
+      "bytes": 15437,
+      "sha256": "cbbc587f903b60c22385ddd7a9c546ba03c505dbbbd26b4fa7d57af8fa3ac4d1"
+    },
+    "repository": "https://huggingface.co/datasets/helmo/github-issues",
+    "revision": "e344be7b84d199661a9956036991e1fc25715a47",
+    "snapshot_date": "2025-06-13"
+  },
+  "status": "complete"
+}

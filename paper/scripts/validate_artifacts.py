@@ -620,6 +620,102 @@ def validate_natural_replication() -> None:
     } <= hashed, "publication manifest hashes replication evidence, driver, and tests")
 
 
+def validate_portfolio_live() -> None:
+    """Recompute selection and outcomes for the prospective portfolio pilot."""
+
+    path = PAPER / "results/portfolio_live/results.json"
+    data = load(path)
+    if not data:
+        return
+    ok(data.get("schema") == "agent-compaction-portfolio-live/v1", "portfolio result schema")
+    ok(data.get("status") == "complete", "prospective portfolio run completed")
+    run = data.get("run", {})
+    ok(run.get("prospective_action_selection") is True,
+       "portfolio action was selected before the fresh cohort")
+    ok(run.get("shadow_nonselected_action_executed") is False,
+       "non-selected compiler was not executed on the prospective cohort")
+    ok(run.get("openai_api_key_used") is True and run.get("secrets_serialized") is False,
+       "portfolio run records provider use without serializing secrets")
+    ok(data.get("failures") == [], "prospective portfolio run has no failures")
+
+    import portfolio_live_study as study
+
+    decision, config, calibration = study.select_action(model=run.get("model", ""))
+    ok(decision.as_dict() == data.get("decision"),
+       "portfolio decision recomputes from sealed calibration")
+    ok(config.minimum_groups == 30 and config.quality_risk_limit == 0.15,
+       "portfolio support and risk limits are frozen")
+    evidence = {item.action: item for item in decision.evidence}
+    ok(set(evidence) == {"compile", "macro"}
+       and all(item.admitted for item in evidence.values()),
+       "both measured actions pass calibration gates")
+    ok(decision.selected_action == "macro" and decision.requires_review,
+       "higher-utility macro is selected as a reviewable recommendation")
+    ok(evidence["macro"].mean_utility > evidence["compile"].mean_utility,
+       "macro utility exceeds compiler utility on calibration groups")
+
+    rows = data["results"]
+    ok(len(rows) == 24 and len({row["trace_id"] for row in rows}) == 24,
+       "portfolio retains 24 unique native provider traces")
+    by_condition = {
+        condition: [row for row in rows if row["condition"] == condition]
+        for condition in ("baseline", "macro")
+    }
+    ok(all(len(values) == 12 for values in by_condition.values()),
+       "portfolio has 12 complete paired records per condition")
+    ok(all(row["quality"]["overall"] for values in by_condition.values() for row in values),
+       "all prospective exact task contracts pass")
+    ok(all(row["metrics"]["requests"] == 4 for row in by_condition["baseline"])
+       and all(row["metrics"]["requests"] == 2 for row in by_condition["macro"]),
+       "selected macro changes every fresh workflow from four to two requests")
+    ok(all(row["metrics"]["tool_calls"] == 3 for row in by_condition["baseline"])
+       and all(row["metrics"]["tool_calls"] == 1 for row in by_condition["macro"]),
+       "selected macro changes every fresh workflow from three to one tool call")
+
+    proxies = {
+        condition: [
+            SimpleNamespace(
+                issue_number=int(row["issue_number"]),
+                repeat=int(row.get("repeat", 0)),
+                metrics=row["metrics"],
+                quality=row["quality"],
+            )
+            for row in values
+        ]
+        for condition, values in by_condition.items()
+    }
+    import github_live_study as fixed
+
+    recomputed = fixed.paired_analysis(
+        proxies["baseline"], proxies["macro"],
+        candidate_label="selected_macro", baseline_label="baseline",
+    )
+    ok(recomputed == data.get("paired_selected_vs_baseline"),
+       "prospective paired portfolio statistics recompute")
+    reductions = data["paired_selected_vs_baseline"]["metrics"]
+    expected = {
+        "requests": 0.5,
+        "tool_calls": 2 / 3,
+        "total_tokens": 0.5919582286742746,
+        "wall_latency_ms": 0.7162352929291833,
+        "estimated_cost_usd": 0.4062388804348649,
+    }
+    for name, value in expected.items():
+        ok(abs(reductions[name]["aggregate_reduction"] - value) < 1e-12,
+           f"prospective portfolio metric recomputes: {name}")
+
+    prior_numbers = {
+        int(row["issue_number"])
+        for row in calibration["results"]
+        if "issue_number" in row
+    }
+    current_numbers = {int(row["issue_number"]) for row in rows}
+    ok(not (prior_numbers & current_numbers),
+       "prospective portfolio records are calibration-disjoint")
+    ok(data.get("selection", {}).get("categories") == ["bug", "enhancement", "other"],
+       "fresh portfolio cohort records its available class mix")
+
+
 def validate_continuation_replay() -> None:
     """Recompute the post-model contract replay without trusting its summary."""
 
@@ -871,6 +967,18 @@ def validate_claim_boundaries() -> None:
 
     ok("--test-per-class 6 --repeat-cases 6" in appendix,
        "appendix records the archived live-study design explicitly")
+    ok("the compiler itself remains binary" in abstract.lower(),
+       "abstract scopes compiler admission as compile-or-retain")
+    ok("portfolio optimization beyond the pilot" in body.lower(),
+       "body distinguishes the implemented pilot from extension work")
+    ok("it is not a general portfolio demonstration" in body.lower(),
+       "body rejects a cross-workflow portfolio claim")
+    claims = (PAPER / "tables/claims_register.tex").read_text(encoding="utf-8")
+    ok("The portfolio recommends a measured macro" in claims,
+       "claims register records the implemented reviewed recommendation")
+    ok("Portfolio selection beats an always-macro policy" in claims and
+       "Not supported" in claims,
+       "claims register rejects unsupported fixed-policy superiority")
     for key in ("agrawal2026gepa", "wei2026evoc2f", "winston2026agentjit"):
         ok(key in bibliography and f"\\cite{{{key}}}" in body,
            f"current related work is cited and discussed: {key}")
@@ -982,6 +1090,8 @@ def validate_publication() -> None:
                            "NESTFUL",
                            "Expanded natural-order Tier-2 replication",
                            "GEPA",
+                           "Prospective portfolio selection",
+                           "Portfolio optimization beyond the pilot",
                            "Limitations and Threats to Validity",
                            "Reproducibility Details"):
                 ok(phrase.lower() in pdf_text.lower(),
@@ -1025,6 +1135,7 @@ def main() -> None:
     validate_natural_preflight()
     validate_natural_live()
     validate_natural_replication()
+    validate_portfolio_live()
     validate_continuation_replay()
     validate_nestful()
     validate_demo_suite()

@@ -4,9 +4,9 @@
 
     import agent_compaction as ac
 
-    ac.capture.configure_mlflow(experiment="support-agent",
-                                entry_state_allowlist=["channel", "locale", "product"],
-                                effect_catalog="configs/effects.yaml")
+    ac.capture.configure(experiment="support-agent",
+                         entry_state_allowlist=["channel", "locale", "product"],
+                         effect_catalog="configs/effects.yaml")
 
     report = ac.estimate(episodes, catalog, entry_schema=[...])
     job    = ac.optimize(episodes, catalog, algorithms=["tgws", "grc"],

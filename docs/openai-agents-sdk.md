@@ -32,6 +32,24 @@ negative control. It writes provider-measured evidence to
 `experiments/live_results/` and [live-results.md](live-results.md). Fictional fixtures
 are sent to the model; the credential is not logged or persisted.
 
+## Run the real public-record portfolio study
+
+The publication study uses live SDK/provider execution over a pinned snapshot of real
+public GitHub issues. Inspect the frozen selection and fresh cohort without provider calls,
+then explicitly approve the reviewed macro for the paid paired run:
+
+```bash
+.venv/bin/python paper/scripts/portfolio_live_study.py \
+    --preflight --cases-per-class 4
+.venv/bin/python paper/scripts/portfolio_live_study.py \
+    --cases-per-class 4 --approve-reviewed-macro
+```
+
+The retained result is sufficient to rebuild the paper; repeating the second command
+spends API credits and may change latency and generated text. The tools read deterministic
+snapshot records, not the live GitHub service. See the [paper README](../paper/README.md)
+for the complete protocol and evidence boundary.
+
 ## Capture
 
 ```python

@@ -1,11 +1,19 @@
 # Agent Compaction: Execution Plan
 
-**Status:** implementation and research plan  
+**Status:** historical pre-implementation design record; not the current API guide
 **Date:** 2026-08-01  
 **Foundation:** OpenAI Agents SDK + MLflow Tracing  
 **Outcome:** a versioned, evidence-gated system that learns from historical traces and makes agent workflows smaller, faster, cheaper, and more predictable without changing model weights
 
-This plan synthesizes every Markdown document in the repository: `proposal.md`, `proposal.v1.md`, and `use-cases.md`. It distinguishes proposed work from measured evidence and resolves conflicts in favor of the current v2.1 proposal.
+> **Current guidance:** This document is retained because implementation modules and tests
+> cite its numbered invariants. Its 18-week schedule, proposed interfaces, literature
+> snapshot, and future-tense milestones are historical. Use [library-api.md](library-api.md)
+> for callable APIs, [operations.md](operations.md) for deployment guidance,
+> [gpt-5.6-report.md](gpt-5.6-report.md) for current implementation/readiness, and the
+> [paper artifact](../paper/README.md) for measured claims.
+
+This plan originally synthesized `proposal.md`, `proposal.v1.md`, and the former v2.1
+use-case monograph. It records design intent and should not override implemented behavior.
 
 ## 1. Executive Summary
 
@@ -82,8 +90,9 @@ Repository decisions:
 
 At plan inception the repository contained design documents only. The implementation,
 tests, simulated benchmarks, and adapters now live alongside this historical executable
-specification; current evidence and residual limits are tracked in `readiness.md` and
-`gpt-5.6-report.md`.
+specification; current evidence and residual limits are tracked in
+`gpt-5.6-report.md` and the paper's
+[`quality-assessment.md`](../paper/supplementary/quality-assessment.md).
 
 ## 4. Related Work
 
@@ -463,6 +472,9 @@ Report the break-even traffic under low/base/high cost assumptions. The v2.1 pro
 | WP8 Demos/paper | Three apps, datasets, dashboards, artifact bundle | One-command reproduction of tables/figures from frozen data |
 
 ### 10.2 Public Python interface
+
+The following block records the proposed interface at planning time. It is not executable
+against version 0.5.0; use [Library API](library-api.md) for the current interface.
 
 ```python
 import agent_compaction as ac

@@ -109,7 +109,8 @@ exists to show it happening.
 
 Empirical validation cannot prove semantic equivalence for all future inputs or external
 states. What it gives is *selective, evidence-bounded replacement with abstention*, plus a
-calibrated statement about the rate at which a dispatch violates its contract — under
-exchangeability of the calibration and deployment distributions, which drift breaks. That
-is why artifacts expire, why the drift monitor can retire them, and why a kill switch takes
-precedence over every other decision.
+calibrated statement about the rate at which a dispatch violates its contract—assuming
+i.i.d. or conditionally i.i.d. group-level violation indicators under the registered
+deployment distribution. Exchangeability alone is not sufficient for the exact binomial
+bound, and drift breaks the sampling claim. That is why artifacts expire, why the drift
+monitor can retire them, and why a kill switch takes precedence over every other decision.
