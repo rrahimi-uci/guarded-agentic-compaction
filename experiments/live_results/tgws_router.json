@@ -1,0 +1,552 @@
+{
+  "demo": "tgws_router",
+  "conditions": {
+    "baseline": {
+      "n_scenarios": 4,
+      "success_rate": 1.0,
+      "quality": 1.0,
+      "safety_events": 0,
+      "requests": 7.0,
+      "tool_calls": 6.0,
+      "handoffs": 0.0,
+      "input_tokens": 9775.0,
+      "cached_input_tokens": 9611.25,
+      "cache_write_tokens": 142.75,
+      "output_tokens": 233.25,
+      "total_tokens": 10008.25,
+      "wall_latency_ms": 8194.90325,
+      "provider_response_latency_ms": 8173.2074999999995,
+      "estimated_cost_usd": 0.005120125,
+      "wall_latency_ms_p50": 7038.769,
+      "wall_latency_ms_p95": 12775.377
+    },
+    "routed": {
+      "n_scenarios": 4,
+      "success_rate": 1.0,
+      "quality": 1.0,
+      "safety_events": 0,
+      "requests": 7.0,
+      "tool_calls": 6.0,
+      "handoffs": 0.0,
+      "input_tokens": 8072.25,
+      "cached_input_tokens": 4699.25,
+      "cache_write_tokens": 1465.0,
+      "output_tokens": 249.75,
+      "total_tokens": 8322.0,
+      "wall_latency_ms": 7753.83925,
+      "provider_response_latency_ms": 7731.1810000000005,
+      "estimated_cost_usd": 0.01141535,
+      "wall_latency_ms_p50": 8310.6555,
+      "wall_latency_ms_p95": 9276.244
+    }
+  },
+  "comparisons": {
+    "requests_reduction": 0.0,
+    "tool_calls_reduction": 0.0,
+    "input_tokens_reduction": 0.17419437340153454,
+    "total_tokens_reduction": 0.1684859990507831,
+    "wall_latency_ms_reduction": 0.05382174585160593,
+    "estimated_cost_usd_reduction": -1.2295061155733502,
+    "quality_delta": 0.0,
+    "success_rate_delta": 0.0
+  },
+  "primary_condition": "routed",
+  "comparisons_by_condition": {
+    "routed": {
+      "requests_reduction": 0.0,
+      "tool_calls_reduction": 0.0,
+      "input_tokens_reduction": 0.17419437340153454,
+      "total_tokens_reduction": 0.1684859990507831,
+      "wall_latency_ms_reduction": 0.05382174585160593,
+      "estimated_cost_usd_reduction": -1.2295061155733502,
+      "quality_delta": 0.0,
+      "success_rate_delta": 0.0
+    }
+  },
+  "runs": [
+    {
+      "demo": "tgws_router",
+      "condition": "baseline",
+      "scenario_id": "ful-00017",
+      "trace_id": "trace_c50df5d64bcd4576a1e84b2ab8918e77",
+      "model": "gpt-5.6-terra",
+      "metrics": {
+        "requests": 8,
+        "tool_calls": 7,
+        "handoffs": 0,
+        "input_tokens": 11836,
+        "cached_input_tokens": 11812,
+        "cache_write_tokens": 0,
+        "output_tokens": 268,
+        "total_tokens": 12104,
+        "wall_latency_ms": 12775.377,
+        "provider_response_latency_ms": 12753.972,
+        "estimated_cost_usd": 0.0056264
+      },
+      "outcome": {
+        "task_success": true,
+        "semantic_score": 1.0,
+        "safety_events": 0,
+        "business_metrics": {
+          "evidence_complete": 1.0,
+          "committed_once": 1.0,
+          "pagination_correct": 1.0
+        },
+        "label_latency_s": 0.0
+      },
+      "answer": {
+        "action": "reschedule",
+        "reason_code": "carrier_eta_within_sla",
+        "shipment_count": 5
+      },
+      "expected": {
+        "action": "reschedule",
+        "reason_code": "carrier_eta_within_sla",
+        "shipment_count": 5,
+        "escalation_queue": "ops-amer-bronze"
+      },
+      "manifest_id": "071070930753",
+      "dispatch": {
+        "route": "generalist",
+        "prompt_blocks": 7,
+        "tools": 9
+      },
+      "episode_digest": "sha256:83efa3922cd2a55def7ee97d479def95"
+    },
+    {
+      "demo": "tgws_router",
+      "condition": "routed",
+      "scenario_id": "ful-00017",
+      "trace_id": "trace_bce884bdb91d42cb8f89423f7f37d895",
+      "model": "gpt-5.6-terra",
+      "metrics": {
+        "requests": 8,
+        "tool_calls": 7,
+        "handoffs": 0,
+        "input_tokens": 10186,
+        "cached_input_tokens": 6756,
+        "cache_write_tokens": 1665,
+        "output_tokens": 282,
+        "total_tokens": 10468,
+        "wall_latency_ms": 8357.608,
+        "provider_response_latency_ms": 8333.641,
+        "estimated_cost_usd": 0.0124277
+      },
+      "outcome": {
+        "task_success": true,
+        "semantic_score": 1.0,
+        "safety_events": 0,
+        "business_metrics": {
+          "evidence_complete": 1.0,
+          "committed_once": 1.0,
+          "pagination_correct": 1.0
+        },
+        "label_latency_s": 0.0
+      },
+      "answer": {
+        "action": "reschedule",
+        "reason_code": "carrier_eta_within_sla",
+        "shipment_count": 5
+      },
+      "expected": {
+        "action": "reschedule",
+        "reason_code": "carrier_eta_within_sla",
+        "shipment_count": 5,
+        "escalation_queue": "ops-amer-bronze"
+      },
+      "manifest_id": "6e1111f22ee8",
+      "dispatch": {
+        "route": "route:carrier_delay",
+        "abstained": false,
+        "predicates": [
+          [
+            "case.exception_class",
+            "==",
+            "carrier_delay"
+          ]
+        ],
+        "support": 157,
+        "group_support": 145,
+        "purity": 1.0,
+        "coverage": 0.2617,
+        "prompt_blocks": 4,
+        "tools": 7,
+        "dropped_tools": [
+          "inventory.check",
+          "risk.score"
+        ]
+      },
+      "episode_digest": "sha256:2927a22ceb8db8d9ca39cd79a262e306"
+    },
+    {
+      "demo": "tgws_router",
+      "condition": "baseline",
+      "scenario_id": "ful-00005",
+      "trace_id": "trace_5c1e2461480646d392966eccdd4ef0e6",
+      "model": "gpt-5.6-terra",
+      "metrics": {
+        "requests": 7,
+        "tool_calls": 6,
+        "handoffs": 0,
+        "input_tokens": 9496,
+        "cached_input_tokens": 9475,
+        "cache_write_tokens": 0,
+        "output_tokens": 229,
+        "total_tokens": 9725,
+        "wall_latency_ms": 5926.698,
+        "provider_response_latency_ms": 5903.061,
+        "estimated_cost_usd": 0.004685
+      },
+      "outcome": {
+        "task_success": true,
+        "semantic_score": 1.0,
+        "safety_events": 0,
+        "business_metrics": {
+          "evidence_complete": 1.0,
+          "committed_once": 1.0,
+          "pagination_correct": 1.0
+        },
+        "label_latency_s": 0.0
+      },
+      "answer": {
+        "action": "reschedule",
+        "reason_code": "stock_available",
+        "shipment_count": 2
+      },
+      "expected": {
+        "action": "reschedule",
+        "reason_code": "stock_available",
+        "shipment_count": 2,
+        "escalation_queue": "ops-apac-silver"
+      },
+      "manifest_id": "071070930753",
+      "dispatch": {
+        "route": "generalist",
+        "prompt_blocks": 7,
+        "tools": 9
+      },
+      "episode_digest": "sha256:44853abfbc96cd9fc953558fc6fbd6a7"
+    },
+    {
+      "demo": "tgws_router",
+      "condition": "routed",
+      "scenario_id": "ful-00005",
+      "trace_id": "trace_44280af3da4a4058bf40e05e57c13b33",
+      "model": "gpt-5.6-terra",
+      "metrics": {
+        "requests": 7,
+        "tool_calls": 6,
+        "handoffs": 0,
+        "input_tokens": 8091,
+        "cached_input_tokens": 4862,
+        "cache_write_tokens": 1457,
+        "output_tokens": 247,
+        "total_tokens": 8338,
+        "wall_latency_ms": 8263.703,
+        "provider_response_latency_ms": 8239.308,
+        "estimated_cost_usd": 0.0111229
+      },
+      "outcome": {
+        "task_success": true,
+        "semantic_score": 1.0,
+        "safety_events": 0,
+        "business_metrics": {
+          "evidence_complete": 1.0,
+          "committed_once": 1.0,
+          "pagination_correct": 1.0
+        },
+        "label_latency_s": 0.0
+      },
+      "answer": {
+        "action": "reschedule",
+        "reason_code": "stock_available",
+        "shipment_count": 2
+      },
+      "expected": {
+        "action": "reschedule",
+        "reason_code": "stock_available",
+        "shipment_count": 2,
+        "escalation_queue": "ops-apac-silver"
+      },
+      "manifest_id": "99d5d1f04394",
+      "dispatch": {
+        "route": "route:stock_shortfall",
+        "abstained": false,
+        "predicates": [
+          [
+            "case.exception_class",
+            "!=",
+            "carrier_delay"
+          ],
+          [
+            "case.exception_class",
+            "==",
+            "stock_shortfall"
+          ]
+        ],
+        "support": 150,
+        "group_support": 140,
+        "purity": 1.0,
+        "coverage": 0.25,
+        "prompt_blocks": 4,
+        "tools": 7,
+        "dropped_tools": [
+          "carrier.track",
+          "risk.score"
+        ]
+      },
+      "episode_digest": "sha256:a57a4273a96b0d517b84cdc5d5cf0e7d"
+    },
+    {
+      "demo": "tgws_router",
+      "condition": "baseline",
+      "scenario_id": "ful-00011",
+      "trace_id": "trace_1c3b689e652d49d982c1bda9004db1fb",
+      "model": "gpt-5.6-terra",
+      "metrics": {
+        "requests": 7,
+        "tool_calls": 6,
+        "handoffs": 0,
+        "input_tokens": 10016,
+        "cached_input_tokens": 9907,
+        "cache_write_tokens": 88,
+        "output_tokens": 240,
+        "total_tokens": 10256,
+        "wall_latency_ms": 7168.018,
+        "provider_response_latency_ms": 7146.303,
+        "estimated_cost_usd": 0.0051234
+      },
+      "outcome": {
+        "task_success": true,
+        "semantic_score": 1.0,
+        "safety_events": 0,
+        "business_metrics": {
+          "evidence_complete": 1.0,
+          "committed_once": 1.0,
+          "pagination_correct": 1.0
+        },
+        "label_latency_s": 0.0
+      },
+      "answer": {
+        "action": "escalate",
+        "reason_code": "payment_hold_no_credit",
+        "shipment_count": 4
+      },
+      "expected": {
+        "action": "escalate",
+        "reason_code": "payment_hold_no_credit",
+        "shipment_count": 4,
+        "escalation_queue": "ops-emea-silver"
+      },
+      "manifest_id": "071070930753",
+      "dispatch": {
+        "route": "generalist",
+        "prompt_blocks": 7,
+        "tools": 9
+      },
+      "episode_digest": "sha256:e3e5112f5fc562790ea9e4f91ed172b6"
+    },
+    {
+      "demo": "tgws_router",
+      "condition": "routed",
+      "scenario_id": "ful-00011",
+      "trace_id": "trace_6d702411110442d38c0779de06f98de5",
+      "model": "gpt-5.6-terra",
+      "metrics": {
+        "requests": 7,
+        "tool_calls": 6,
+        "handoffs": 0,
+        "input_tokens": 8182,
+        "cached_input_tokens": 5014,
+        "cache_write_tokens": 1529,
+        "output_tokens": 266,
+        "total_tokens": 8448,
+        "wall_latency_ms": 9276.244,
+        "provider_response_latency_ms": 9252.156,
+        "estimated_cost_usd": 0.0112953
+      },
+      "outcome": {
+        "task_success": true,
+        "semantic_score": 1.0,
+        "safety_events": 0,
+        "business_metrics": {
+          "evidence_complete": 1.0,
+          "committed_once": 1.0,
+          "pagination_correct": 1.0
+        },
+        "label_latency_s": 0.0
+      },
+      "answer": {
+        "action": "escalate",
+        "reason_code": "payment_hold_no_credit",
+        "shipment_count": 4
+      },
+      "expected": {
+        "action": "escalate",
+        "reason_code": "payment_hold_no_credit",
+        "shipment_count": 4,
+        "escalation_queue": "ops-emea-silver"
+      },
+      "manifest_id": "f8411ec7e235",
+      "dispatch": {
+        "route": "route:payment_hold",
+        "abstained": false,
+        "predicates": [
+          [
+            "case.exception_class",
+            "!=",
+            "carrier_delay"
+          ],
+          [
+            "case.exception_class",
+            "!=",
+            "stock_shortfall"
+          ],
+          [
+            "case.exception_class",
+            "!=",
+            "address_invalid"
+          ]
+        ],
+        "support": 154,
+        "group_support": 144,
+        "purity": 1.0,
+        "coverage": 0.2567,
+        "prompt_blocks": 4,
+        "tools": 6,
+        "dropped_tools": [
+          "carrier.track",
+          "inventory.check",
+          "risk.score"
+        ]
+      },
+      "episode_digest": "sha256:010e43c20ca2f5df41fa3750972c1555"
+    },
+    {
+      "demo": "tgws_router",
+      "condition": "baseline",
+      "scenario_id": "ful-00001",
+      "trace_id": "trace_59a98ab9177a49dab970ce283563c840",
+      "model": "gpt-5.6-terra",
+      "metrics": {
+        "requests": 6,
+        "tool_calls": 5,
+        "handoffs": 0,
+        "input_tokens": 7752,
+        "cached_input_tokens": 7251,
+        "cache_write_tokens": 483,
+        "output_tokens": 196,
+        "total_tokens": 7948,
+        "wall_latency_ms": 6909.52,
+        "provider_response_latency_ms": 6889.494,
+        "estimated_cost_usd": 0.0050457
+      },
+      "outcome": {
+        "task_success": true,
+        "semantic_score": 1.0,
+        "safety_events": 0,
+        "business_metrics": {
+          "evidence_complete": 1.0,
+          "committed_once": 1.0,
+          "pagination_correct": 1.0
+        },
+        "label_latency_s": 0.0
+      },
+      "answer": {
+        "action": "escalate",
+        "reason_code": "address_unverified",
+        "shipment_count": 1
+      },
+      "expected": {
+        "action": "escalate",
+        "reason_code": "address_unverified",
+        "shipment_count": 1,
+        "escalation_queue": "ops-apac-gold"
+      },
+      "manifest_id": "071070930753",
+      "dispatch": {
+        "route": "generalist",
+        "prompt_blocks": 7,
+        "tools": 9
+      },
+      "episode_digest": "sha256:3cf3b3634bfc856f85942a6d7073692f"
+    },
+    {
+      "demo": "tgws_router",
+      "condition": "routed",
+      "scenario_id": "ful-00001",
+      "trace_id": "trace_b21d9551b71b449385ebcbf834662339",
+      "model": "gpt-5.6-terra",
+      "metrics": {
+        "requests": 6,
+        "tool_calls": 5,
+        "handoffs": 0,
+        "input_tokens": 5830,
+        "cached_input_tokens": 2165,
+        "cache_write_tokens": 1209,
+        "output_tokens": 204,
+        "total_tokens": 6034,
+        "wall_latency_ms": 5117.802,
+        "provider_response_latency_ms": 5099.619,
+        "estimated_cost_usd": 0.0108155
+      },
+      "outcome": {
+        "task_success": true,
+        "semantic_score": 1.0,
+        "safety_events": 0,
+        "business_metrics": {
+          "evidence_complete": 1.0,
+          "committed_once": 1.0,
+          "pagination_correct": 1.0
+        },
+        "label_latency_s": 0.0
+      },
+      "answer": {
+        "action": "escalate",
+        "reason_code": "address_unverified",
+        "shipment_count": 1
+      },
+      "expected": {
+        "action": "escalate",
+        "reason_code": "address_unverified",
+        "shipment_count": 1,
+        "escalation_queue": "ops-apac-gold"
+      },
+      "manifest_id": "5c34fca9fd70",
+      "dispatch": {
+        "route": "route:address_invalid",
+        "abstained": false,
+        "predicates": [
+          [
+            "case.exception_class",
+            "!=",
+            "carrier_delay"
+          ],
+          [
+            "case.exception_class",
+            "!=",
+            "stock_shortfall"
+          ],
+          [
+            "case.exception_class",
+            "==",
+            "address_invalid"
+          ]
+        ],
+        "support": 139,
+        "group_support": 133,
+        "purity": 1.0,
+        "coverage": 0.2317,
+        "prompt_blocks": 4,
+        "tools": 5,
+        "dropped_tools": [
+          "carrier.track",
+          "inventory.check",
+          "orders.reschedule",
+          "risk.score"
+        ]
+      },
+      "episode_digest": "sha256:8553ac1cb81e2b99c91a113d776b5aab"
+    }
+  ]
+}

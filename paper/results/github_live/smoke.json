@@ -1,0 +1,63 @@
+{
+  "run": {
+    "smoke": true,
+    "openai_api_key_used": true,
+    "hf_token_used_for_download": true
+  },
+  "results": [
+    {
+      "condition": "discovery",
+      "repeat": 0,
+      "issue_number": 2670,
+      "trace_id": "trace_04b1f1c8b87178f015e6614f85dcfbf7",
+      "metrics": {
+        "requests": 4,
+        "tool_calls": 3,
+        "handoffs": 0,
+        "input_tokens": 3375,
+        "cached_input_tokens": 0,
+        "cache_write_tokens": 1029,
+        "output_tokens": 120,
+        "total_tokens": 3495,
+        "wall_latency_ms": 12134.069,
+        "provider_response_latency_ms": 12114.958,
+        "estimated_cost_usd": 0.00087045
+      },
+      "answer": {
+        "issue_number": 2670,
+        "category": "enhancement",
+        "evidence_label": "enhancement",
+        "summary": "Requests parallelized Elasticsearch index creation across dataset shards and propagation of indexes to the original dataset for whole-dataset search."
+      },
+      "quality": {
+        "category_correct": true,
+        "issue_number_correct": true,
+        "evidence_label_correct": true,
+        "tool_contract": true,
+        "summary_valid": true,
+        "score": 1,
+        "overall": true
+      },
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "tool_arguments": [
+        {
+          "issue_number": 2670
+        },
+        {
+          "issue_number": 2670
+        },
+        {
+          "issue_number": 2670,
+          "limit": 3
+        }
+      ],
+      "dispatch": {},
+      "episode_digest": "sha256:66584ec39fc053e6d28a9fd83231ba3f"
+    }
+  ],
+  "failures": []
+}

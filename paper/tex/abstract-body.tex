@@ -1,0 +1,45 @@
+\textbf{Problem.}  Mature tool-using agents can spend repeated model calls selecting the
+same read-only evidence path.  Removing those calls is unsafe by default: recurrence does
+not establish that arguments are grounded in observable state, that effects permit
+speculation, or that a replacement remains valid on future inputs.
+
+\textbf{Gap.}  Existing systems optimize prompts, reuse workflows, compile current plans,
+or schedule tool calls.  We study a narrower unresolved question: what evidence is needed
+to replace a recurrent cross-execution region, and when must an optimizer abstain?
+
+\textbf{Method.}  \emph{Guarded agentic compaction} (\method) reconstructs typed
+value-level provenance, treats unknown effects, writes, approvals, handoffs, and unsupported
+runtime positions as hard barriers, and synthesizes programs from a closed 23-operator
+library.  It induces replay contracts and can challenge them with caller-supplied sandboxed
+perturbations; the reported live artifact uses replay only.  A threshold selected from a
+pre-specified finite grid carries a simultaneous exact-binomial bound on registered
+contract violations under i.i.d. or conditional-i.i.d. admitted groups.  Rejection before
+emission delegates to the baseline; exact restoration after attempted execution is scoped
+to the staging-owning runner, not the model adapter.
+
+\textbf{Results.}  In an expanded live-provider replication, a task-level prompt names
+neither tools nor order.  Among 132 discovery runs over public GitHub records, 130 satisfy
+the exact-source contract and all use the same three-read order, but the third call's limit
+is not consistently groundable.  The compiler therefore abstains from the full region and
+emits only a two-read prefix.  On 30 fresh counterbalanced records, that partial artifact
+preserves all 30 exact task contracts while reducing requests 50.0\%, tokens 39.5\%,
+observed latency 51.7\%, and estimated cost 32.0\%.  A live hand-written composite tool
+also passes 30/30 and matches the request reduction while using fewer tools, tokens, and
+dollars; the compiler has slightly lower observed mean latency.  An earlier, more
+aggressive three-read artifact
+saves 75.0\% of requests but passes 17/18 exact factual contracts versus 18/18 for both
+comparators.  Thus preservation is observed for the partial artifact, not established as
+an invariant of deeper compilation.
+On public NESTFUL data, provenance places the expected producer in the candidate set for
+96.3\% of 5,746 slots but resolves 80.7\% uniquely; held-out replay gives 24 passes, 12
+abstentions, and zero wrong executions.  No family reaches the configured requirement of
+92 zero-violation group records, so all retire; interpreting those records as independent
+remains a sampling assumption.  A live-provider conformance suite over fictional records
+covers partial compaction and refusal but supplies no real-scenario evidence.
+
+\textbf{Contributions.}  A trace-to-program formulation combining value provenance,
+effect and position barriers, bounded synthesis, empirical contracts, and conditional
+finite-sample admission; real-record, live-provider comparisons against both an unchanged
+agent and hand-written macro under natural tool ordering; and depth-sensitive negative
+results showing that recurrence and efficiency gains do not establish factual quality,
+macro superiority, or admission safety.

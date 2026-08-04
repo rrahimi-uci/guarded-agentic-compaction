@@ -1,0 +1,16 @@
+\begin{tabularx}{\linewidth}{@{}l >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X@{}}
+\toprule
+System & Source & Rewrite target & Hard safety & Admission \\
+\midrule
+LLMCompiler & Current-query scheduling & Parallel tool calls & No & No \\
+DSPy / MIPRO & Prompt\slash{}program parameters & Metric optimization & No & No \\
+GEPA & Execution + evaluation traces & Reflective prompt evolution & No & Held-out metric + Pareto \\
+AgentSlimming & Multi-agent graph & Node pruning\slash{}quantization & No & Baseline rule \\
+AWO & Trace tool sequences & Deterministic meta-tools & No & Empirical \\
+Agent JIT & Task description & Validated code + schedule & Tool pre/post invariants & Candidate validation \\
+EvoC2F & Plan IR + trajectories & DAG compiler + macro-skills & Effects + resources & Tests + contracts \\
+FlowCompile & Declared workflow & Configuration Pareto set & No & Profiled \\
+COVENANT & Declared policy & Workflow CFG & Effects & Runtime checks \\
+GAC (ours) & Observed value flow & Decision-eliding program & Provenance + effects & Exact selective bound \\
+\bottomrule
+\end{tabularx}

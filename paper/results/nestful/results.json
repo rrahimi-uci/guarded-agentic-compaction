@@ -1,0 +1,297 @@
+{
+  "compiler": {
+    "blocked_by_tool": {},
+    "blocked_window_candidates": {
+      "ambiguous_slot": 10172,
+      "live_in_not_in_entry_schema": 5341,
+      "partial_run": 4853,
+      "ungrounded_slot": 1
+    },
+    "compiler_families": {
+      "max_support": 26,
+      "n_support_ge_5": 32,
+      "n_unique": 714
+    },
+    "exact_gate": {
+      "alpha": 0.05,
+      "default_gate_outcome": "RETIRE",
+      "delta": 0.1,
+      "families_certifiable_even_with_zero_violations": 0,
+      "max_observed_family_support": 26,
+      "minimum_zero_violation_groups": 92,
+      "threshold_grid_size": 11
+    },
+    "full_window_rate": 0.8530035335689046,
+    "held_out_replay": {
+      "families_attempted": 32,
+      "families_synthesized": 12,
+      "pass_rate": 0.6666666666666666,
+      "test_abstained": 12,
+      "test_passed": 24,
+      "test_windows": 36,
+      "test_wrong": 0,
+      "wrong_rate": 0.0
+    },
+    "n_episodes": 1415,
+    "n_full_windows": 1207,
+    "n_graphs": 1415,
+    "no_full_window": {
+      "ambiguous_slot": 207,
+      "ungrounded_slot": 1
+    },
+    "provenance": {
+      "ambiguous_containing_truth_rate": 0.15576052906369647,
+      "candidate_coverage": 0.9625826662025757,
+      "candidate_edge_precision": 0.8426264472882389,
+      "candidate_edges": 6564,
+      "dependency_slots": 5746,
+      "expected_producer_ambiguous": 895,
+      "expected_producer_recall": 0.9625826662025757,
+      "expected_producer_recovered": 5531,
+      "expected_producer_unique": 4636,
+      "has_any_candidate": 5531,
+      "mark_ambiguous": 166,
+      "mark_grounded": 5531,
+      "mark_not_groundable": 49,
+      "no_candidate": 215,
+      "unique_resolution_rate": 0.8068221371388792
+    },
+    "runtime": {
+      "patg_seconds": 1.4810752909979783,
+      "peak_memory_mib": 23.308714866638184,
+      "total_seconds": 5.980512207985157
+    },
+    "synthesis_failures": {
+      "loop_predicate_unsynthesizable": 10,
+      "ungroundable_slot": 10
+    }
+  },
+  "dataset": {
+    "basic_subset_dependency_shape_support": {
+      "covered_samples_support_ge_5": 352,
+      "max_support": 27,
+      "n_families_support_ge_10": 10,
+      "n_families_support_ge_2": 219,
+      "n_families_support_ge_5": 42,
+      "n_unique": 852,
+      "top": [
+        {
+          "signature": "multiply(arg_0:entry:int,arg_1:entry:int) -> divide(arg_0:step1:result,arg_1:entry:int)",
+          "support": 27
+        },
+        {
+          "signature": "divide(arg_0:entry:int,arg_1:entry:int) -> multiply(arg_0:step1:result,arg_1:entry:int)",
+          "support": 26
+        },
+        {
+          "signature": "subtract(arg_0:entry:int,arg_1:entry:int) -> divide(arg_0:step1:result,arg_1:entry:int) -> multiply(arg_0:step1:result,arg_1:entry:int)",
+          "support": 22
+        },
+        {
+          "signature": "subtract(arg_0:entry:int,arg_1:entry:int) -> divide(arg_0:step1:result,arg_1:entry:int)",
+          "support": 15
+        },
+        {
+          "signature": "add(arg_0:entry:int,arg_1:entry:int) -> divide(arg_0:step1:result,arg_1:entry:int)",
+          "support": 14
+        },
+        {
+          "signature": "divide(arg_0:entry:int,arg_1:entry:int) -> add(arg_0:entry:int,arg_1:step1:result) -> divide(arg_0:entry:int,arg_1:step1:result)",
+          "support": 13
+        },
+        {
+          "signature": "divide(arg_0:entry:int,arg_1:entry:int) -> subtract(arg_0:entry:int,arg_1:step1:result) -> divide(arg_0:entry:int,arg_1:step1:result)",
+          "support": 12
+        },
+        {
+          "signature": "multiply(arg_0:entry:int,arg_1:entry:int) -> subtract(arg_0:entry:int,arg_1:entry:int) -> divide(arg_0:step2:result,arg_1:step1:result)",
+          "support": 11
+        },
+        {
+          "signature": "multiply(arg_0:entry:int,arg_1:entry:int) -> add(arg_0:entry:int,arg_1:entry:int) -> divide(arg_0:step2:result,arg_1:step1:result)",
+          "support": 11
+        },
+        {
+          "signature": "subtract(arg_0:entry:int,arg_1:entry:int) -> divide(arg_0:entry:int,arg_1:step1:result)",
+          "support": 10
+        },
+        {
+          "signature": "multiply(arg_0:entry:int,arg_1:entry:int) -> divide(arg_0:step1:result,arg_1:entry:int) -> multiply(arg_0:step1:result,arg_1:entry:int)",
+          "support": 9
+        },
+        {
+          "signature": "add(arg_0:entry:int,arg_1:entry:int) -> divide(arg_0:entry:int,arg_1:step1:result)",
+          "support": 8
+        }
+      ]
+    },
+    "dependency_shape_support": {
+      "covered_samples_support_ge_5": 352,
+      "max_support": 27,
+      "n_families_support_ge_10": 10,
+      "n_families_support_ge_2": 219,
+      "n_families_support_ge_5": 42,
+      "n_unique": 1297,
+      "top": [
+        {
+          "signature": "multiply(arg_0:entry:int,arg_1:entry:int) -> divide(arg_0:step1:result,arg_1:entry:int)",
+          "support": 27
+        },
+        {
+          "signature": "divide(arg_0:entry:int,arg_1:entry:int) -> multiply(arg_0:step1:result,arg_1:entry:int)",
+          "support": 26
+        },
+        {
+          "signature": "subtract(arg_0:entry:int,arg_1:entry:int) -> divide(arg_0:step1:result,arg_1:entry:int) -> multiply(arg_0:step1:result,arg_1:entry:int)",
+          "support": 22
+        },
+        {
+          "signature": "subtract(arg_0:entry:int,arg_1:entry:int) -> divide(arg_0:step1:result,arg_1:entry:int)",
+          "support": 15
+        },
+        {
+          "signature": "add(arg_0:entry:int,arg_1:entry:int) -> divide(arg_0:step1:result,arg_1:entry:int)",
+          "support": 14
+        },
+        {
+          "signature": "divide(arg_0:entry:int,arg_1:entry:int) -> add(arg_0:entry:int,arg_1:step1:result) -> divide(arg_0:entry:int,arg_1:step1:result)",
+          "support": 13
+        },
+        {
+          "signature": "divide(arg_0:entry:int,arg_1:entry:int) -> subtract(arg_0:entry:int,arg_1:step1:result) -> divide(arg_0:entry:int,arg_1:step1:result)",
+          "support": 12
+        },
+        {
+          "signature": "multiply(arg_0:entry:int,arg_1:entry:int) -> subtract(arg_0:entry:int,arg_1:entry:int) -> divide(arg_0:step2:result,arg_1:step1:result)",
+          "support": 11
+        },
+        {
+          "signature": "multiply(arg_0:entry:int,arg_1:entry:int) -> add(arg_0:entry:int,arg_1:entry:int) -> divide(arg_0:step2:result,arg_1:step1:result)",
+          "support": 11
+        },
+        {
+          "signature": "subtract(arg_0:entry:int,arg_1:entry:int) -> divide(arg_0:entry:int,arg_1:step1:result)",
+          "support": 10
+        },
+        {
+          "signature": "multiply(arg_0:entry:int,arg_1:entry:int) -> divide(arg_0:step1:result,arg_1:entry:int) -> multiply(arg_0:step1:result,arg_1:entry:int)",
+          "support": 9
+        },
+        {
+          "signature": "add(arg_0:entry:int,arg_1:entry:int) -> divide(arg_0:entry:int,arg_1:step1:result)",
+          "support": 8
+        }
+      ]
+    },
+    "exact_tool_sequence_support": {
+      "covered_samples_support_ge_5": 527,
+      "max_support": 33,
+      "n_families_support_ge_10": 17,
+      "n_families_support_ge_2": 222,
+      "n_families_support_ge_5": 56,
+      "n_unique": 1142,
+      "top": [
+        {
+          "signature": "subtract -> divide -> multiply",
+          "support": 33
+        },
+        {
+          "signature": "divide -> multiply",
+          "support": 33
+        },
+        {
+          "signature": "multiply -> divide",
+          "support": 31
+        },
+        {
+          "signature": "subtract -> divide",
+          "support": 25
+        },
+        {
+          "signature": "add -> divide",
+          "support": 22
+        },
+        {
+          "signature": "multiply -> divide -> multiply",
+          "support": 20
+        },
+        {
+          "signature": "multiply -> subtract -> divide",
+          "support": 17
+        },
+        {
+          "signature": "add -> subtract -> subtract",
+          "support": 15
+        },
+        {
+          "signature": "divide -> add -> divide",
+          "support": 13
+        },
+        {
+          "signature": "multiply -> add -> divide",
+          "support": 12
+        },
+        {
+          "signature": "multiply -> multiply -> divide",
+          "support": 12
+        },
+        {
+          "signature": "divide -> subtract -> divide",
+          "support": 12
+        }
+      ]
+    },
+    "n_basic_function_rows": 1416,
+    "n_executed_basic_rows": 1415,
+    "n_execution_failures": 1,
+    "n_rows": 1861,
+    "sequence_length": {
+      "max": 53,
+      "mean": 4.355185384202042,
+      "median": 3,
+      "min": 2
+    }
+  },
+  "execution_failures": [
+    {
+      "error": "TypeError: unsupported operand type(s) for /: 'str' and 'int'",
+      "sample_id": "4aff8129-5db0-4e78-bc36-686146925301"
+    }
+  ],
+  "run": {
+    "evidence_class": "public executable structural benchmark; recorded replay",
+    "not_evidence_for": [
+      "live provider behavior",
+      "production traffic",
+      "canary safety",
+      "end-to-end task planning quality"
+    ],
+    "python": "3.14.4 (main, Apr  7 2026, 13:13:20) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "script": "paper/scripts/nestful_benchmark.py",
+    "source_commit": "fc2c4123e73500a56185a5fb354f05d1c8b4890c",
+    "source_manifest_sha256": "0a2eff69f53ee18e5a5967ebe50b25b9ed57bd183d411b56ce08f1507b5d66f7"
+  },
+  "source_manifest": {
+    "commit": "fc2c4123e73500a56185a5fb354f05d1c8b4890c",
+    "dataset": "IBM/NESTFUL",
+    "files": {
+      "NESTFUL-LICENSE": {
+        "bytes": 11357,
+        "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+        "source_path": "LICENSE"
+      },
+      "basic_functions.py": {
+        "bytes": 11474,
+        "sha256": "db8048658f7ccd930c691a36dd0831a7d46dbffa2a275932f60af43792128212",
+        "source_path": "data_v2/executable_functions/basic_functions.py"
+      },
+      "nestful_data.jsonl": {
+        "bytes": 8373968,
+        "sha256": "e7c9999e2eaaa2bea87776bc55e2b0913a0cf089f4b6817c7644554547df22c1",
+        "source_path": "data_v2/nestful_data.jsonl"
+      }
+    },
+    "license": "Apache-2.0",
+    "repository": "https://github.com/IBM/NESTFUL"
+  }
+}

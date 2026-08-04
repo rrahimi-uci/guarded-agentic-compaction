@@ -1,0 +1,112 @@
+# effects.yaml (use-cases §4) — anything not listed defaults to UNKNOWN.
+#
+# Demo E is the hardest declared surface in the repository. Three properties that
+# the other demos do not have at once:
+#
+#   1. the read prefix contains a *conditional* call (carrier.track) that only
+#      fires for one exception class, so the compiled region has a synthesized
+#      branch and a variable call count;
+#   2. the read prefix contains a *paginated* call (shipments.list_page) whose
+#      collapsed form is a bounded ForEach, which the Model adapter must refuse
+#      while the outer runner may execute it;
+#   3. the episode always ends in an irreversible commitment, so the region can
+#      only ever be a prefix. Partial compaction is the expected outcome, not a
+#      degraded one.
+version: 1
+name: fulfillment
+tools:
+  auth.issue_ops_token:
+    effect: READ_EXTERNAL
+    capabilities: [speculatable, replayable]
+    key: []
+    freshness_s: 600
+    resource: auth
+    quota_attested: false
+    notes: >-
+      The mint is metered but writes no audit row and its counter is not part of the
+      state a staging snapshot attests over, so a discarded token leaves
+      stage.reversible() true. Flip this to true for a deployment whose mint writes an
+      audit row: the dispatcher then demands a reversibility snapshot before every live
+      dispatch, and because the CompactingModel adapter owns no staging boundary it
+      will fail closed on every boundary. Such a deployment must use CompactingRunner.
+      tests/integration/test_fulfillment_demo.py pins both directions.
+
+  orders.get:
+    effect: READ_EXTERNAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [order_ref]
+    freshness_s: 45
+    resource: orders
+
+  shipments.list_page:
+    effect: READ_EXTERNAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [order_ref, page]
+    freshness_s: 45
+    literal_only: [page]
+    resource: shipments
+    notes: >-
+      Paginated. `page` may only be an identity or a constant so that a synthesized
+      transform can never fabricate a page index the baseline never requested.
+
+  inventory.check:
+    effect: READ_EXTERNAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [sku, warehouse]
+    freshness_s: 20
+    resource: inventory
+
+  carrier.track:
+    effect: READ_EXTERNAL
+    capabilities: [speculatable, replayable]
+    key: [tracking_id]
+    freshness_s: 30
+    resource: carrier
+    notes: >-
+      Not cacheable: the carrier feed moves faster than the freshness window and a
+      cached scan would be silently stale.
+
+  sla.policy:
+    effect: READ_LOCAL
+    capabilities: [speculatable, replayable, cacheable, reorderable]
+    key: [customer_tier, region]
+    resource: policy
+
+  risk.score:
+    # Deliberately undeclared capabilities on a model-backed scorer: the ranking is
+    # not reproducible, so it can never satisfy replay equivalence.
+    effect: UNKNOWN
+    capabilities: []
+    resource: risk
+    notes: Model-backed fraud scorer with a non-deterministic ensemble. Never compiled.
+
+  orders.reschedule:
+    effect: WRITE_IRREVERSIBLE
+    capabilities: []
+    key: [order_ref, new_date]
+    resource: orders
+    notes: Commitment. Terminates every region; the decision turn before it survives.
+
+  case.escalate:
+    effect: WRITE_IRREVERSIBLE
+    capabilities: []
+    key: [case_id]
+    resource: cases
+
+  refunds.issue_credit:
+    effect: WRITE_IRREVERSIBLE
+    capabilities: []
+    approval_required: true
+    key: [order_ref, amount_cents]
+    resource: billing
+    notes: >-
+      Approval barrier. A prior approval in the same case never licenses a bypass
+      (§7.4); only the evidence prep before it is compilable.
+
+  fulfillment.evidence_bundle:
+    # The hand-written comparator of execution-plan §11.2 condition 2.
+    effect: READ_EXTERNAL
+    capabilities: [speculatable, replayable]
+    key: [order_ref, exception_class]
+    freshness_s: 20
+    resource: orders

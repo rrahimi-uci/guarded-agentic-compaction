@@ -1,0 +1,256 @@
+{
+  "demo": "mcp_ops",
+  "conditions": {
+    "baseline": {
+      "n_scenarios": 2,
+      "success_rate": 1.0,
+      "quality": 1.0,
+      "safety_events": 0,
+      "requests": 3.0,
+      "tool_calls": 2.0,
+      "handoffs": 0.0,
+      "input_tokens": 1295.0,
+      "cached_input_tokens": 0.0,
+      "cache_write_tokens": 0.0,
+      "output_tokens": 100.5,
+      "total_tokens": 1395.5,
+      "wall_latency_ms": 4819.89,
+      "provider_response_latency_ms": 4797.6535,
+      "estimated_cost_usd": 0.003796,
+      "wall_latency_ms_p50": 4819.89,
+      "wall_latency_ms_p95": 6281.549
+    },
+    "compacted_fallback": {
+      "n_scenarios": 2,
+      "success_rate": 1.0,
+      "quality": 1.0,
+      "safety_events": 0,
+      "requests": 3.0,
+      "tool_calls": 2.0,
+      "handoffs": 0.0,
+      "input_tokens": 1296.0,
+      "cached_input_tokens": 0.0,
+      "cache_write_tokens": 0.0,
+      "output_tokens": 101.0,
+      "total_tokens": 1397.0,
+      "wall_latency_ms": 3075.978,
+      "provider_response_latency_ms": 3056.3154999999997,
+      "estimated_cost_usd": 0.003804,
+      "wall_latency_ms_p50": 3075.978,
+      "wall_latency_ms_p95": 3182.402
+    }
+  },
+  "comparisons": {
+    "requests_reduction": 0.0,
+    "tool_calls_reduction": 0.0,
+    "input_tokens_reduction": -0.0007722007722008595,
+    "total_tokens_reduction": -0.001074883554281536,
+    "wall_latency_ms_reduction": 0.3618157260850352,
+    "estimated_cost_usd_reduction": -0.0021074815595363283,
+    "quality_delta": 0.0,
+    "success_rate_delta": 0.0
+  },
+  "primary_condition": "compacted_fallback",
+  "comparisons_by_condition": {
+    "compacted_fallback": {
+      "requests_reduction": 0.0,
+      "tool_calls_reduction": 0.0,
+      "input_tokens_reduction": -0.0007722007722008595,
+      "total_tokens_reduction": -0.001074883554281536,
+      "wall_latency_ms_reduction": 0.3618157260850352,
+      "estimated_cost_usd_reduction": -0.0021074815595363283,
+      "quality_delta": 0.0,
+      "success_rate_delta": 0.0
+    }
+  },
+  "runs": [
+    {
+      "demo": "mcp_ops",
+      "condition": "baseline",
+      "scenario_id": "mcp-northwind",
+      "trace_id": "trace_03b791319aaf4194bf49b0aaa7ca8dc2",
+      "model": "gpt-5.6-terra",
+      "metrics": {
+        "requests": 3,
+        "tool_calls": 2,
+        "handoffs": 0,
+        "input_tokens": 1298,
+        "cached_input_tokens": 0,
+        "cache_write_tokens": 0,
+        "output_tokens": 102,
+        "total_tokens": 1400,
+        "wall_latency_ms": 6281.549,
+        "provider_response_latency_ms": 6258.717,
+        "estimated_cost_usd": 0.00382
+      },
+      "outcome": {
+        "task_success": true,
+        "semantic_score": 1.0,
+        "safety_events": 0,
+        "business_metrics": {
+          "tenant_boundary_preserved": 1.0
+        },
+        "label_latency_s": 0.0
+      },
+      "answer": {
+        "customer_id": "cus_nw_1042",
+        "tenant": "northwind",
+        "tier": "enterprise",
+        "seats": 240
+      },
+      "expected": {
+        "customer_id": "cus_nw_1042",
+        "tenant": "northwind",
+        "tier": "enterprise",
+        "seats": 240
+      },
+      "manifest_id": "2c516822df48",
+      "dispatch": {
+        "outcome": "BASELINE",
+        "reason": "MCP tools have no human-attested effect catalog; fail closed"
+      },
+      "episode_digest": "sha256:414628c6da84ce6c720aa71f8feff590"
+    },
+    {
+      "demo": "mcp_ops",
+      "condition": "compacted_fallback",
+      "scenario_id": "mcp-northwind",
+      "trace_id": "trace_855d332576cb4718b50d18ff53878c81",
+      "model": "gpt-5.6-terra",
+      "metrics": {
+        "requests": 3,
+        "tool_calls": 2,
+        "handoffs": 0,
+        "input_tokens": 1300,
+        "cached_input_tokens": 0,
+        "cache_write_tokens": 0,
+        "output_tokens": 103,
+        "total_tokens": 1403,
+        "wall_latency_ms": 2969.554,
+        "provider_response_latency_ms": 2949.995,
+        "estimated_cost_usd": 0.003836
+      },
+      "outcome": {
+        "task_success": true,
+        "semantic_score": 1.0,
+        "safety_events": 0,
+        "business_metrics": {
+          "tenant_boundary_preserved": 1.0
+        },
+        "label_latency_s": 0.0
+      },
+      "answer": {
+        "customer_id": "cus_nw_1042",
+        "tenant": "northwind",
+        "tier": "enterprise",
+        "seats": 240
+      },
+      "expected": {
+        "customer_id": "cus_nw_1042",
+        "tenant": "northwind",
+        "tier": "enterprise",
+        "seats": 240
+      },
+      "manifest_id": "2c516822df48",
+      "dispatch": {
+        "outcome": "BASELINE",
+        "reason": "MCP tools have no human-attested effect catalog; fail closed"
+      },
+      "episode_digest": "sha256:01defd71b88517b242aef8b63641bb49"
+    },
+    {
+      "demo": "mcp_ops",
+      "condition": "baseline",
+      "scenario_id": "mcp-contoso",
+      "trace_id": "trace_a66fcbfff8d44d56822cf1208afea0a6",
+      "model": "gpt-5.6-terra",
+      "metrics": {
+        "requests": 3,
+        "tool_calls": 2,
+        "handoffs": 0,
+        "input_tokens": 1292,
+        "cached_input_tokens": 0,
+        "cache_write_tokens": 0,
+        "output_tokens": 99,
+        "total_tokens": 1391,
+        "wall_latency_ms": 3358.231,
+        "provider_response_latency_ms": 3336.59,
+        "estimated_cost_usd": 0.003772
+      },
+      "outcome": {
+        "task_success": true,
+        "semantic_score": 1.0,
+        "safety_events": 0,
+        "business_metrics": {
+          "tenant_boundary_preserved": 1.0
+        },
+        "label_latency_s": 0.0
+      },
+      "answer": {
+        "customer_id": "cus_ct_8831",
+        "tenant": "contoso",
+        "tier": "business",
+        "seats": 60
+      },
+      "expected": {
+        "customer_id": "cus_ct_8831",
+        "tenant": "contoso",
+        "tier": "business",
+        "seats": 60
+      },
+      "manifest_id": "2c516822df48",
+      "dispatch": {
+        "outcome": "BASELINE",
+        "reason": "MCP tools have no human-attested effect catalog; fail closed"
+      },
+      "episode_digest": "sha256:e4e3c7602bf8be94cce8727f05c2ce8e"
+    },
+    {
+      "demo": "mcp_ops",
+      "condition": "compacted_fallback",
+      "scenario_id": "mcp-contoso",
+      "trace_id": "trace_7d5ac145bf6342f2ac8e9ace38d54b16",
+      "model": "gpt-5.6-terra",
+      "metrics": {
+        "requests": 3,
+        "tool_calls": 2,
+        "handoffs": 0,
+        "input_tokens": 1292,
+        "cached_input_tokens": 0,
+        "cache_write_tokens": 0,
+        "output_tokens": 99,
+        "total_tokens": 1391,
+        "wall_latency_ms": 3182.402,
+        "provider_response_latency_ms": 3162.636,
+        "estimated_cost_usd": 0.003772
+      },
+      "outcome": {
+        "task_success": true,
+        "semantic_score": 1.0,
+        "safety_events": 0,
+        "business_metrics": {
+          "tenant_boundary_preserved": 1.0
+        },
+        "label_latency_s": 0.0
+      },
+      "answer": {
+        "customer_id": "cus_ct_8831",
+        "tenant": "contoso",
+        "tier": "business",
+        "seats": 60
+      },
+      "expected": {
+        "customer_id": "cus_ct_8831",
+        "tenant": "contoso",
+        "tier": "business",
+        "seats": 60
+      },
+      "manifest_id": "2c516822df48",
+      "dispatch": {
+        "outcome": "BASELINE",
+        "reason": "MCP tools have no human-attested effect catalog; fail closed"
+      },
+      "episode_digest": "sha256:dea17c4efb8671f15532b1d488c2f6f4"
+    }
+  ]
+}

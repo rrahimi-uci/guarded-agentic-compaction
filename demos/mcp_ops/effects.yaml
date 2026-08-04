@@ -1,0 +1,26 @@
+# effects/mcp_ops.yaml (use-cases §5)
+# MCP discovery gives schemas, not effects. Anything not listed here is UNKNOWN and is
+# never compiled. Two of this deployment's eight tools are declared; the rest are still
+# waiting on the teams that own them, which is the normal state of an MCP fleet and the
+# reason this workload is a negative control rather than a demonstration.
+version: 1
+name: mcp_ops
+tools:
+  auth.issue_service_token:
+    effect: READ_EXTERNAL
+    capabilities: [speculatable, replayable]
+    key: [principal]
+    resource: auth
+
+  crm.find_customer:
+    effect: READ_EXTERNAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [principal, tenant, email]
+    freshness_s: 300
+    resource: crm
+
+  crm.update_ticket:
+    effect: WRITE_IRREVERSIBLE
+    capabilities: []
+    key: [principal, tenant, ticket_id]
+    resource: crm

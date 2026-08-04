@@ -1,0 +1,155 @@
+\section{Reproducibility Details}
+\label{app:repro}
+
+\subsection{Environment and sealed evidence}
+
+The live run manifest records macOS 26.5.2 arm64, Python 3.14.4, OpenAI Agents SDK
+0.19.2, OpenAI Python 2.52.0, \code{gpt-5.6-luna}, low reasoning effort, and provider
+default temperature because the selected model rejected an explicit temperature
+parameter.  The result explicitly records that the OpenAI key and Hugging Face token were
+used and that no secret was serialized.  The workspace lacks Git metadata.
+
+The GitHub and NESTFUL revisions begin \code{e344be7b84d1} and
+\code{fc2c4123e735}, respectively.  Their complete 40-character identifiers, exact file
+digests, and byte counts are in the two \path{source_manifest.json} files.  Generated
+artifact digests are in the artifact manifest under \path{paper/results}.
+
+\subsection{Commands}
+
+The provider-free reproduction is:
+\begin{verbatim}
+.venv/bin/python paper/scripts/nestful_benchmark.py
+R=paper/results/github_natural_replication
+.venv/bin/python paper/scripts/github_live_study.py \
+    --task-design natural-extractive-v2 \
+    --regrade-results \
+    --results-path "$R/results.json"
+.venv/bin/python paper/scripts/build_artifacts.py
+.venv/bin/coverage run -m pytest -q
+.venv/bin/python scripts/verify_release.py
+TECTONIC --outdir ../build main.tex
+\end{verbatim}
+
+The live studies are intentionally separate because they incur cost.  The expanded
+natural-order replication, which supplies the paper's 30-pair confirmatory result, used:
+\begin{verbatim}
+.venv/bin/python paper/scripts/github_live_study.py \
+    --task-design natural-extractive-v2 \
+    --evaluation-order counterbalanced \
+    --include-macro --discovery-cases 132 \
+    --train-cases 16 --dev-cases 8 \
+    --calibration-cases 92 --test-per-class 10 \
+    --repeat-cases 10 --concurrency 8 \
+    --seed 20260802
+\end{verbatim}
+The earlier aggressive natural-order run used:
+\begin{verbatim}
+cd paper/scripts
+../../.venv/bin/python \
+    github_natural_workflow_study.py \
+    --discovery-cases 80 \
+    --train-cases 20 --dev-cases 10 \
+    --calibration-cases 45 \
+    --test-cases 18 --concurrency 6
+\end{verbatim}
+The explicit flags below reproduce the older archived 18-pair, six-repeat
+prescribed-prefix design; that script's defaults select a larger run:
+\begin{verbatim}
+../../.venv/bin/python github_live_study.py \
+    --test-per-class 6 --repeat-cases 6
+\end{verbatim}
+It reads \code{OPENAI\_API\_KEY} and optionally \code{HF\_TOKEN} from \code{.env}.
+The script never prints either value.  Use \code{--smoke} before a paid full run.
+
+\section{Implementation Audit}
+
+The package contains 11,544 measured Python statements across source, tests, demos, and
+experiment drivers; the post-fix full suite collects and passes 214 tests at 76\%
+statement coverage.  \code{pip check} and the repository release verifier pass.  Core
+provenance, windows, dispatcher, facade, schemas, registry, and statistics modules have
+strong focused coverage.  Weak areas include TGWS packaging (28\%), the outer runner
+(62\%), replay (65\%), and the live experiment drivers (26--31\%).  Coverage is evidence
+of exercised lines, not correctness.
+
+The review found and corrected a high-severity compiler\hyp{}runtime mismatch: the miner could
+emit suffix-only regions while the shipped runtimes resolve at the initial boundary.
+\path{GrcConfig.prefix_only} now defaults to true; the miner records
+\path{non_prefix_runtime}; and a golden-trace regression test verifies that an otherwise
+eligible suffix is rejected.  The archived pilot is retained as direct evidence of the
+impact.
+
+Residual engineering debt includes per-artifact rather than global risk control, mutable
+in-memory artifact objects, shared-secret rather than public-key registry signing,
+non-atomic directory\hyp{}level registry save, no runtime concurrency scheduler, no supported
+multi-framework runtime adapters beyond a generic wrapper, and incomplete CI/provenance
+metadata in this checkout.
+
+\section{Complete Claims Register}
+
+\begin{table*}[h]
+  \centering
+  \caption{Claim-to-evidence mapping.  Unsupported claims are included to prevent later
+  narrative drift.}
+  \small
+  \input{../tables/claims_register.tex}
+\end{table*}
+
+\section{Additional Numerical Results}
+\label{app:numerical}
+
+The final live discovery run completes 132/132 requested episodes.  Tool-contract
+eligibility is 132/132, task success is 129/132 (97.7\%), and category accuracy is
+130/132 (98.5\%).  Discovery consumes 517,185 input and 16,108 output tokens across 528
+provider requests.  All final paired-test executions complete without recorded runtime
+failure.
+
+The expanded natural-order replication retains 132 discovery and 120 evaluation outputs
+with no infrastructure failure.  Discovery produces 130/132 exact-source passes; all 132
+traces use the same three-read order, while 130 enter the compiler-eligibility pool and 116
+enter the 16/8/92 split.  The full three-read candidate is rejected because the comment
+limit is ungroundable; the selected two-read program removes two provider requests.
+Across 30 primary pairs, its mean compiled-minus-baseline differences are: input tokens
+$-1626.8$ [$-1716.2,-1541.5$], output tokens $-56.1$ [$-65.2,-47.8$], total tokens
+$-1682.9$ [$-1772.5,-1596.7$], wall latency $-3.187$ s [$-3.758,-2.660$], and estimated
+cost $-\$0.000279$ [$-\$0.000313,-\$0.000241$].  Requests change from four to two and
+tool calls remain three.  The macro also uses two requests but one tool call, 1,780.8
+tokens, 3.25 seconds, and \$0.000545 per issue, versus 2,576.5 tokens, 2.97 seconds, and
+\$0.000593 for the partial compiler.  All three primary arms pass 30/30 exact-source and
+full task contracts.  These are 10,000-sample paired bootstrap intervals; secondary tests
+are unadjusted.
+
+For the 18 primary pairs, the mean compiled-minus-baseline differences and 95\% paired
+bootstrap intervals are: input tokens $-2503.8$ [$-2749.4,-2271.4$], output tokens
+$-68.8$ [$-72.1,-66.0$], total tokens $-2572.6$ [$-2816.6,-2340.2$], provider latency
+$-8.743$ s [$-11.741,-6.139$], wall latency $-8.744$ s [$-11.742,-6.140$], and estimated
+cost $-\$0.000412$ [$-\$0.000473,-\$0.000348$].  Tool-call difference is exactly zero.
+
+NESTFUL blocked-window counters are not mutually exclusive episode counts because the
+miner enumerates multiple candidate spans: 10,172 ambiguous-slot spans, 5,341 spans with
+live-ins outside the entry schema, 4,853 partial runs, and one ungrounded-slot span.  The
+12 synthesized families contain programs of two to five steps.  The 20 failed family
+attempts split evenly between unsupported loop-predicate synthesis and grouped-refit
+grounding failure.
+
+\section{Benchmark Selection Rationale}
+
+BFCL, API-Bank, ToolSandbox, $\tau^2$-Bench, and AssistantBench are valuable end-to-end
+agent benchmarks.  They were not used for the current compiler analysis because their
+primary question is whether an agent can choose and execute tools, whereas our RQ1 needs
+gold producer references after a valid trace exists.  NESTFUL exposes those references
+directly and supplies executable nested sequences.  The GitHub study then supplies the
+missing end-to-end intervention with live provider turns and real records.
+
+This pairing still leaves write-heavy, conversational, multi-agent, and browser workloads
+untested.  A future benchmark should record entry snapshots, full argument/result payloads,
+effect and permission labels, independent grouping keys, commit boundaries, task outcomes,
+and a frozen baseline/candidate paired protocol.  Without these fields, a benchmark can
+measure tool use but cannot substantiate safe trace-derived replacement.
+
+\section{Artifact Lifecycle Boundary}
+
+The study artifact passed replay and calibration, then was activated only under
+\code{paper-protocol-lab-only} to measure its runtime path.  This does not demonstrate
+operator approval, shadow/canary health, rollback, or production monitoring.  Deployment
+must preserve shadow $\rightarrow$ canary $\rightarrow$ live and attach privacy,
+tenant-isolation, incident-response, and drift-monitoring evidence.

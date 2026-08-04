@@ -1,0 +1,500 @@
+{
+  "demo": "support",
+  "conditions": {
+    "baseline": {
+      "n_scenarios": 4,
+      "success_rate": 1.0,
+      "quality": 1.0,
+      "safety_events": 0,
+      "requests": 6.0,
+      "tool_calls": 5.0,
+      "handoffs": 0.0,
+      "input_tokens": 5787.25,
+      "cached_input_tokens": 1218.0,
+      "cache_write_tokens": 1293.0,
+      "output_tokens": 251.75,
+      "total_tokens": 6039.0,
+      "wall_latency_ms": 9275.3195,
+      "provider_response_latency_ms": 9250.235999999999,
+      "estimated_cost_usd": 0.0130496,
+      "wall_latency_ms_p50": 8842.436000000002,
+      "wall_latency_ms_p95": 11640.337
+    },
+    "compacted": {
+      "n_scenarios": 4,
+      "success_rate": 1.0,
+      "quality": 1.0,
+      "safety_events": 0,
+      "requests": 1.0,
+      "tool_calls": 5.0,
+      "handoffs": 0.0,
+      "input_tokens": 1192.75,
+      "cached_input_tokens": 0.0,
+      "cache_write_tokens": 1189.75,
+      "output_tokens": 39.0,
+      "total_tokens": 1231.75,
+      "wall_latency_ms": 1072.886,
+      "provider_response_latency_ms": 1056.81025,
+      "estimated_cost_usd": 0.003448375,
+      "wall_latency_ms_p50": 1042.489,
+      "wall_latency_ms_p95": 1259.263
+    }
+  },
+  "comparisons": {
+    "requests_reduction": 0.8333333333333334,
+    "tool_calls_reduction": 0.0,
+    "input_tokens_reduction": 0.7939003844658516,
+    "total_tokens_reduction": 0.7960341116078821,
+    "wall_latency_ms_reduction": 0.8843289441404147,
+    "estimated_cost_usd_reduction": 0.7357486053212359,
+    "quality_delta": 0.0,
+    "success_rate_delta": 0.0
+  },
+  "primary_condition": "compacted",
+  "comparisons_by_condition": {
+    "compacted": {
+      "requests_reduction": 0.8333333333333334,
+      "tool_calls_reduction": 0.0,
+      "input_tokens_reduction": 0.7939003844658516,
+      "total_tokens_reduction": 0.7960341116078821,
+      "wall_latency_ms_reduction": 0.8843289441404147,
+      "estimated_cost_usd_reduction": 0.7357486053212359,
+      "quality_delta": 0.0,
+      "success_rate_delta": 0.0
+    }
+  },
+  "runs": [
+    {
+      "demo": "support",
+      "condition": "baseline",
+      "scenario_id": "sup-00000",
+      "trace_id": "trace_601a518c63ff4da9901eeafe551452e3",
+      "model": "gpt-5.6-terra",
+      "metrics": {
+        "requests": 6,
+        "tool_calls": 5,
+        "handoffs": 0,
+        "input_tokens": 5613,
+        "cached_input_tokens": 1157,
+        "cache_write_tokens": 1231,
+        "output_tokens": 228,
+        "total_tokens": 5841,
+        "wall_latency_ms": 7776.069,
+        "provider_response_latency_ms": 7749.201,
+        "estimated_cost_usd": 0.0124949
+      },
+      "outcome": {
+        "task_success": true,
+        "semantic_score": 1.0,
+        "safety_events": 0,
+        "business_metrics": {
+          "evidence_complete": 1.0,
+          "resolved": 1.0
+        },
+        "label_latency_s": 0.0
+      },
+      "answer": {
+        "category": "upsell_explain",
+        "entitled": false,
+        "cited_invoice": "inv_2026_07_0230",
+        "tier": "team"
+      },
+      "expected": {
+        "category": "upsell_explain",
+        "entitled": false,
+        "cited_invoice": "inv_2026_07_0230",
+        "tier": "team"
+      },
+      "manifest_id": "940fdc40b599",
+      "dispatch": {},
+      "episode_digest": "sha256:b945d1aea0bccbe0e8767425337813f6"
+    },
+    {
+      "demo": "support",
+      "condition": "compacted",
+      "scenario_id": "sup-00000",
+      "trace_id": "trace_ecae8c767a474ed794fa10bfee572b14",
+      "model": "gpt-5.6-terra",
+      "metrics": {
+        "requests": 1,
+        "tool_calls": 5,
+        "handoffs": 0,
+        "input_tokens": 1151,
+        "cached_input_tokens": 0,
+        "cache_write_tokens": 1148,
+        "output_tokens": 39,
+        "total_tokens": 1190,
+        "wall_latency_ms": 1099.018,
+        "provider_response_latency_ms": 1084.141,
+        "estimated_cost_usd": 0.003344
+      },
+      "outcome": {
+        "task_success": true,
+        "semantic_score": 1.0,
+        "safety_events": 0,
+        "business_metrics": {
+          "evidence_complete": 1.0,
+          "resolved": 1.0
+        },
+        "label_latency_s": 0.0
+      },
+      "answer": {
+        "category": "upsell_explain",
+        "entitled": false,
+        "cited_invoice": "inv_2026_07_0230",
+        "tier": "team"
+      },
+      "expected": {
+        "category": "upsell_explain",
+        "entitled": false,
+        "cited_invoice": "inv_2026_07_0230",
+        "tier": "team"
+      },
+      "manifest_id": "e6c7f6f84d9c",
+      "dispatch": {
+        "attempts": 2,
+        "compacted": 1,
+        "baseline": 1,
+        "incidents": 0,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "region_already_started": 1
+        },
+        "verifier_failures": {},
+        "interp_failures": {},
+        "dispatch_attempts": 1,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_pass_rate": 1.0,
+        "boundary_dispatch_rate": 0.5,
+        "overhead_ms_total": 2.21,
+        "removed_requests_total": 5.0
+      },
+      "episode_digest": "sha256:1915c878f3f8cea7d95a0b87e4d46117"
+    },
+    {
+      "demo": "support",
+      "condition": "baseline",
+      "scenario_id": "sup-00001",
+      "trace_id": "trace_baf610dab06c486ebda76f96472f17c1",
+      "model": "gpt-5.6-terra",
+      "metrics": {
+        "requests": 6,
+        "tool_calls": 5,
+        "handoffs": 0,
+        "input_tokens": 5819,
+        "cached_input_tokens": 1242,
+        "cache_write_tokens": 1316,
+        "output_tokens": 260,
+        "total_tokens": 6079,
+        "wall_latency_ms": 11640.337,
+        "provider_response_latency_ms": 11615.65,
+        "estimated_cost_usd": 0.0131804
+      },
+      "outcome": {
+        "task_success": true,
+        "semantic_score": 1.0,
+        "safety_events": 0,
+        "business_metrics": {
+          "evidence_complete": 1.0,
+          "resolved": 1.0
+        },
+        "label_latency_s": 0.0
+      },
+      "answer": {
+        "category": "entitled_explain",
+        "entitled": true,
+        "cited_invoice": "inv_2026_07_0316",
+        "tier": "enterprise"
+      },
+      "expected": {
+        "category": "entitled_explain",
+        "entitled": true,
+        "cited_invoice": "inv_2026_07_0316",
+        "tier": "enterprise"
+      },
+      "manifest_id": "940fdc40b599",
+      "dispatch": {},
+      "episode_digest": "sha256:10acb6cf2e326b0c43f8a538f55309fd"
+    },
+    {
+      "demo": "support",
+      "condition": "compacted",
+      "scenario_id": "sup-00001",
+      "trace_id": "trace_cd5ab9c2946346a4adfe0618cf67a1d6",
+      "model": "gpt-5.6-terra",
+      "metrics": {
+        "requests": 1,
+        "tool_calls": 5,
+        "handoffs": 0,
+        "input_tokens": 1207,
+        "cached_input_tokens": 0,
+        "cache_write_tokens": 1204,
+        "output_tokens": 39,
+        "total_tokens": 1246,
+        "wall_latency_ms": 947.303,
+        "provider_response_latency_ms": 932.568,
+        "estimated_cost_usd": 0.003484
+      },
+      "outcome": {
+        "task_success": true,
+        "semantic_score": 1.0,
+        "safety_events": 0,
+        "business_metrics": {
+          "evidence_complete": 1.0,
+          "resolved": 1.0
+        },
+        "label_latency_s": 0.0
+      },
+      "answer": {
+        "category": "entitled_explain",
+        "entitled": true,
+        "cited_invoice": "inv_2026_07_0316",
+        "tier": "enterprise"
+      },
+      "expected": {
+        "category": "entitled_explain",
+        "entitled": true,
+        "cited_invoice": "inv_2026_07_0316",
+        "tier": "enterprise"
+      },
+      "manifest_id": "e6c7f6f84d9c",
+      "dispatch": {
+        "attempts": 2,
+        "compacted": 1,
+        "baseline": 1,
+        "incidents": 0,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "region_already_started": 1
+        },
+        "verifier_failures": {},
+        "interp_failures": {},
+        "dispatch_attempts": 1,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_pass_rate": 1.0,
+        "boundary_dispatch_rate": 0.5,
+        "overhead_ms_total": 2.13,
+        "removed_requests_total": 5.0
+      },
+      "episode_digest": "sha256:c64176840f5e25ea91b7e61f91577fdb"
+    },
+    {
+      "demo": "support",
+      "condition": "baseline",
+      "scenario_id": "sup-00002",
+      "trace_id": "trace_de4fbb21561046c992fe75d750c7a6f0",
+      "model": "gpt-5.6-terra",
+      "metrics": {
+        "requests": 6,
+        "tool_calls": 5,
+        "handoffs": 0,
+        "input_tokens": 5870,
+        "cached_input_tokens": 1253,
+        "cache_write_tokens": 1329,
+        "output_tokens": 268,
+        "total_tokens": 6138,
+        "wall_latency_ms": 8379.789,
+        "provider_response_latency_ms": 8358.148,
+        "estimated_cost_usd": 0.0133651
+      },
+      "outcome": {
+        "task_success": true,
+        "semantic_score": 1.0,
+        "safety_events": 0,
+        "business_metrics": {
+          "evidence_complete": 1.0,
+          "resolved": 1.0
+        },
+        "label_latency_s": 0.0
+      },
+      "answer": {
+        "category": "entitled_explain",
+        "entitled": true,
+        "cited_invoice": "inv_2026_07_0184",
+        "tier": "enterprise"
+      },
+      "expected": {
+        "category": "entitled_explain",
+        "entitled": true,
+        "cited_invoice": "inv_2026_07_0184",
+        "tier": "enterprise"
+      },
+      "manifest_id": "940fdc40b599",
+      "dispatch": {},
+      "episode_digest": "sha256:b5996354b06af3da5d8e7ae3ab48ee0f"
+    },
+    {
+      "demo": "support",
+      "condition": "compacted",
+      "scenario_id": "sup-00002",
+      "trace_id": "trace_3db9ce4a623c42c2805da79342ae5ab4",
+      "model": "gpt-5.6-terra",
+      "metrics": {
+        "requests": 1,
+        "tool_calls": 5,
+        "handoffs": 0,
+        "input_tokens": 1213,
+        "cached_input_tokens": 0,
+        "cache_write_tokens": 1210,
+        "output_tokens": 39,
+        "total_tokens": 1252,
+        "wall_latency_ms": 985.96,
+        "provider_response_latency_ms": 975.145,
+        "estimated_cost_usd": 0.003499
+      },
+      "outcome": {
+        "task_success": true,
+        "semantic_score": 1.0,
+        "safety_events": 0,
+        "business_metrics": {
+          "evidence_complete": 1.0,
+          "resolved": 1.0
+        },
+        "label_latency_s": 0.0
+      },
+      "answer": {
+        "category": "entitled_explain",
+        "entitled": true,
+        "cited_invoice": "inv_2026_07_0184",
+        "tier": "enterprise"
+      },
+      "expected": {
+        "category": "entitled_explain",
+        "entitled": true,
+        "cited_invoice": "inv_2026_07_0184",
+        "tier": "enterprise"
+      },
+      "manifest_id": "e6c7f6f84d9c",
+      "dispatch": {
+        "attempts": 2,
+        "compacted": 1,
+        "baseline": 1,
+        "incidents": 0,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "region_already_started": 1
+        },
+        "verifier_failures": {},
+        "interp_failures": {},
+        "dispatch_attempts": 1,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_pass_rate": 1.0,
+        "boundary_dispatch_rate": 0.5,
+        "overhead_ms_total": 2.09,
+        "removed_requests_total": 5.0
+      },
+      "episode_digest": "sha256:636e9643f17c3a38d1a4231325833742"
+    },
+    {
+      "demo": "support",
+      "condition": "baseline",
+      "scenario_id": "sup-00003",
+      "trace_id": "trace_952f9cca3b86461194e4f1d4bb9c41f3",
+      "model": "gpt-5.6-terra",
+      "metrics": {
+        "requests": 6,
+        "tool_calls": 5,
+        "handoffs": 0,
+        "input_tokens": 5847,
+        "cached_input_tokens": 1220,
+        "cache_write_tokens": 1296,
+        "output_tokens": 251,
+        "total_tokens": 6098,
+        "wall_latency_ms": 9305.083,
+        "provider_response_latency_ms": 9277.945,
+        "estimated_cost_usd": 0.013158
+      },
+      "outcome": {
+        "task_success": true,
+        "semantic_score": 1.0,
+        "safety_events": 0,
+        "business_metrics": {
+          "evidence_complete": 1.0,
+          "resolved": 1.0
+        },
+        "label_latency_s": 0.0
+      },
+      "answer": {
+        "category": "upsell_explain",
+        "entitled": false,
+        "cited_invoice": "inv_2026_07_0557",
+        "tier": "free"
+      },
+      "expected": {
+        "category": "upsell_explain",
+        "entitled": false,
+        "cited_invoice": "inv_2026_07_0557",
+        "tier": "free"
+      },
+      "manifest_id": "940fdc40b599",
+      "dispatch": {},
+      "episode_digest": "sha256:a448abdc8ebd5fa7d80a4cbc7a978b6a"
+    },
+    {
+      "demo": "support",
+      "condition": "compacted",
+      "scenario_id": "sup-00003",
+      "trace_id": "trace_f6066b0fb4de46689e5566f1ef7b9314",
+      "model": "gpt-5.6-terra",
+      "metrics": {
+        "requests": 1,
+        "tool_calls": 5,
+        "handoffs": 0,
+        "input_tokens": 1200,
+        "cached_input_tokens": 0,
+        "cache_write_tokens": 1197,
+        "output_tokens": 39,
+        "total_tokens": 1239,
+        "wall_latency_ms": 1259.263,
+        "provider_response_latency_ms": 1235.387,
+        "estimated_cost_usd": 0.0034665
+      },
+      "outcome": {
+        "task_success": true,
+        "semantic_score": 1.0,
+        "safety_events": 0,
+        "business_metrics": {
+          "evidence_complete": 1.0,
+          "resolved": 1.0
+        },
+        "label_latency_s": 0.0
+      },
+      "answer": {
+        "category": "upsell_explain",
+        "entitled": false,
+        "cited_invoice": "inv_2026_07_0557",
+        "tier": "free"
+      },
+      "expected": {
+        "category": "upsell_explain",
+        "entitled": false,
+        "cited_invoice": "inv_2026_07_0557",
+        "tier": "free"
+      },
+      "manifest_id": "e6c7f6f84d9c",
+      "dispatch": {
+        "attempts": 2,
+        "compacted": 1,
+        "baseline": 1,
+        "incidents": 0,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "region_already_started": 1
+        },
+        "verifier_failures": {},
+        "interp_failures": {},
+        "dispatch_attempts": 1,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_pass_rate": 1.0,
+        "boundary_dispatch_rate": 0.5,
+        "overhead_ms_total": 2.12,
+        "removed_requests_total": 5.0
+      },
+      "episode_digest": "sha256:ddf08ac420f24a914286d938405c4e89"
+    }
+  ]
+}

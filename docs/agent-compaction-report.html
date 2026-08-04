@@ -1,0 +1,1180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>agent-compaction — guarded workflow optimization for LLM agents</title>
+<meta name="description" content="Architecture, algorithms and measured before/after traces for guarded, evidence-gated agent workflow compaction on the OpenAI Agents SDK.">
+<style>
+:root {
+  color-scheme: light dark;
+  --page: #f9f9f7;
+  --surface-1: #fcfcfb;
+  --surface-2: #f3f3f0;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #898781;
+  --grid: #e1e0d9;
+  --axis: #c3c2b7;
+  --border: rgba(11, 11, 11, 0.10);
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --pole-good: #2a78d6;
+  --pole-bad: #e34948;
+  --status-good: #0ca30c;
+  --status-warn: #fab219;
+  --success-text: #006300;
+  --shadow: 0 1px 2px rgba(11,11,11,.04), 0 8px 24px rgba(11,11,11,.05);
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    --page: #0d0d0d;
+    --surface-1: #1a1a19;
+    --surface-2: #141413;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #898781;
+    --grid: #2c2c2a;
+    --axis: #383835;
+    --border: rgba(255, 255, 255, 0.10);
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --pole-good: #3987e5;
+    --pole-bad: #e66767;
+    --success-text: #0ca30c;
+    --shadow: none;
+  }
+}
+:root[data-theme="dark"] {
+  --page: #0d0d0d;
+  --surface-1: #1a1a19;
+  --surface-2: #141413;
+  --text-primary: #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted: #898781;
+  --grid: #2c2c2a;
+  --axis: #383835;
+  --border: rgba(255, 255, 255, 0.10);
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --pole-good: #3987e5;
+  --pole-bad: #e66767;
+  --success-text: #0ca30c;
+  --shadow: none;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 2rem; }
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--text-primary);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+.layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 0; max-width: 1400px; margin: 0 auto; }
+nav {
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 2rem 1.25rem; border-right: 1px solid var(--border); font-size: 14px;
+}
+nav .brand { font-weight: 650; letter-spacing: -0.01em; margin-bottom: .25rem; }
+nav .brand-sub { color: var(--text-muted); font-size: 12px; margin-bottom: 1.5rem; }
+nav a { display: block; padding: .3rem 0; color: var(--text-secondary); text-decoration: none; border-left: 2px solid transparent; padding-left: .6rem; }
+nav a:hover { color: var(--text-primary); border-left-color: var(--series-1); }
+nav .sub { padding-left: 1.5rem; font-size: 13px; }
+main { padding: 2.5rem 3rem 6rem; min-width: 0; }
+section { margin-bottom: 4rem; scroll-margin-top: 1rem; }
+
+h1 { font-size: clamp(2.2rem, 4vw, 3rem); line-height: 1.1; letter-spacing: -0.03em; margin: .2rem 0 1rem; }
+h2 { font-size: 1.6rem; letter-spacing: -0.02em; margin: 0 0 1rem; padding-bottom: .6rem; border-bottom: 1px solid var(--border); }
+h3 { font-size: 1.2rem; letter-spacing: -0.01em; margin: 2rem 0 .75rem; }
+h4 { font-size: 1rem; margin: 1.5rem 0 .5rem; }
+h5 { font-size: .85rem; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); margin: 1.2rem 0 .5rem; font-weight: 600; }
+p { margin: 0 0 1rem; max-width: 74ch; }
+a { color: var(--series-1); }
+.eyebrow { text-transform: uppercase; letter-spacing: .1em; font-size: 12px; font-weight: 600; color: var(--text-muted); margin: 0; }
+.lede { font-size: 1.12rem; color: var(--text-secondary); max-width: 68ch; }
+.muted { color: var(--text-secondary); font-size: .92rem; }
+.provenance { font-size: .85rem; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 1rem; max-width: 88ch; }
+.empty { color: var(--text-muted); font-style: italic; }
+
+.kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1rem; margin: 2rem 0; }
+.kpi { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1.2rem; box-shadow: var(--shadow); }
+.kpi-label { font-size: .78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .05em; }
+.kpi-value { font-size: 2rem; font-weight: 650; letter-spacing: -0.02em; margin-top: .3rem; line-height: 1.1; }
+.kpi-sub { font-size: .82rem; color: var(--text-secondary); margin-top: .25rem; }
+.kpi--good .kpi-value { color: var(--success-text); }
+.kpi--warn .kpi-value { color: var(--status-warn); }
+
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 1.25rem; margin: 1rem 0; }
+.card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 1.2rem 1.35rem; }
+.card h4 { margin-top: 0; }
+
+.callout { border-radius: 12px; padding: 1.1rem 1.35rem; margin: 1.5rem 0; background: var(--surface-2); border: 1px solid var(--border); }
+.callout--frame { border-left: 3px solid var(--series-1); }
+.callout--warn { border-left: 3px solid var(--status-warn); }
+.callout h3, .callout h4 { margin-top: 0; }
+.callout ul, .callout ol { margin: 0; padding-left: 1.2rem; }
+.callout li { margin-bottom: .5rem; max-width: 78ch; }
+
+.table-wrap { overflow-x: auto; margin: 1.25rem 0; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-1); }
+table { border-collapse: collapse; width: 100%; font-size: .875rem; }
+caption { caption-side: bottom; text-align: left; padding: .7rem 1rem; color: var(--text-muted); font-size: .8rem; }
+th, td { padding: .55rem .85rem; text-align: left; border-bottom: 1px solid var(--border); }
+th { font-weight: 600; font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted); background: var(--surface-2); }
+tbody tr:last-child td { border-bottom: none; }
+td { font-variant-numeric: tabular-nums; }
+td:first-child, th:first-child { font-variant-numeric: normal; }
+.yes { color: var(--success-text); font-weight: 600; }
+.no { color: var(--pole-bad); font-weight: 600; }
+
+code { font-family: var(--mono); font-size: .86em; background: var(--surface-2); padding: .1em .35em; border-radius: 4px; }
+.code-wrap { margin: 1rem 0; }
+pre.code { margin: 0; background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1.25rem; overflow-x: auto; font-size: .82rem; line-height: 1.6; }
+pre.code code { background: none; padding: 0; font-size: inherit; }
+.hljs { background: transparent !important; color: inherit; }
+
+figure { margin: 1.5rem 0; }
+figcaption { font-size: .82rem; color: var(--text-muted); margin-top: .6rem; max-width: 82ch; }
+pre.mermaid { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; overflow-x: auto; text-align: center; font-family: var(--mono); font-size: .78rem; color: var(--text-muted); }
+
+.math { margin: 1.25rem 0; padding: .75rem 0; overflow-x: auto; }
+
+.chart { width: 100%; height: auto; display: block; }
+.chart .cat { font-size: 11.5px; fill: var(--text-secondary); font-family: var(--sans); }
+.chart .val { font-size: 11.5px; fill: var(--text-secondary); font-family: var(--sans); font-variant-numeric: tabular-nums; }
+.chart .tick { font-size: 10.5px; fill: var(--text-muted); font-family: var(--sans); font-variant-numeric: tabular-nums; }
+.chart .grid { stroke: var(--grid); stroke-width: 1; }
+.chart .axis { stroke: var(--axis); stroke-width: 1; }
+.chart .ghost { fill: none; stroke: var(--axis); stroke-width: 1; stroke-dasharray: 3 4; }
+.chart .ghost-label, .chart .ghost-val { font-size: 11px; fill: var(--text-muted); font-family: var(--sans); font-style: italic; }
+.chart .span rect, .chart .bar-row path { transition: opacity .12s ease; }
+.chart .span:hover rect, .chart .bar-row:hover path { opacity: .72; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 1.25rem; font-size: .82rem; color: var(--text-secondary); margin: .75rem 0; }
+.legend .key { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: .45rem; vertical-align: baseline; }
+
+.chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(470px, 1fr)); gap: 1.5rem; margin: 1.5rem 0; }
+.chart-block { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1.2rem; }
+.chart-block h4 { margin: 0 0 .25rem; font-size: .92rem; }
+
+.traces { margin-top: 2rem; background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px; padding: 1.35rem 1.5rem; }
+.panel { margin: 1rem 0 1.5rem; }
+.panel-head { display: flex; align-items: center; gap: .75rem; font-size: .82rem; color: var(--text-secondary); margin-bottom: .3rem; font-variant-numeric: tabular-nums; }
+.tag { font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; font-weight: 650; padding: .12rem .5rem; border-radius: 999px; border: 1px solid var(--border); }
+.tag--base { color: var(--text-secondary); }
+.tag--opt { color: var(--success-text); border-color: var(--success-text); }
+.dispatch { margin-top: 1.25rem; }
+.demo { padding-top: .5rem; }
+.verdict { display: inline-block; font-size: .82rem; padding: .25rem .7rem; border-radius: 999px; border: 1px solid var(--border); background: var(--surface-2); }
+.verdict--good { color: var(--success-text); }
+.verdict--warn { color: var(--status-warn); }
+
+.toggle { position: fixed; top: 1rem; right: 1rem; z-index: 20; background: var(--surface-1); color: var(--text-secondary); border: 1px solid var(--border); border-radius: 999px; padding: .4rem .9rem; font-size: .78rem; cursor: pointer; font-family: var(--sans); box-shadow: var(--shadow); }
+.toggle:hover { color: var(--text-primary); }
+
+footer { border-top: 1px solid var(--border); padding-top: 1.5rem; color: var(--text-muted); font-size: .82rem; }
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  nav { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+  main { padding: 1.5rem 1.25rem 4rem; }
+}
+@media print {
+  nav, .toggle { display: none; }
+  .layout { grid-template-columns: 1fr; }
+  section { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<button class="toggle" onclick="toggleTheme()">light / dark</button>
+<div class="layout">
+
+<nav>
+  <div class="brand">agent-compaction</div>
+  <div class="brand-sub">architecture · algorithms · measured results</div>
+  <a href="#overview">Overview</a>
+  <a href="#problem">1 · The problem</a>
+  <a href="#architecture">2 · Architecture</a>
+  <a href="#algorithms">3 · Algorithms</a>
+  <a href="#safety">4 · Safety model</a>
+  <a href="#sdk">5 · OpenAI Agents SDK</a>
+  <a href="#results">6 · Measured results</a>
+  <a class="sub" href="#demo-support">A · Tier-1 support evidence</a><a class="sub" href="#demo-permissioned_rag">B · Permissioned RAG</a><a class="sub" href="#demo-incident_triage">C · Multi-agent incident triage</a><a class="sub" href="#demo-mcp_ops">D · Multi-tenant MCP (negative control)</a><a class="sub" href="#demo-fulfillment">E · Fulfillment exceptions (branches, pagination, a write)</a><a class="sub" href="#demo-tgws_router">F · TGWS route specialization</a>
+  <a href="#cost">7 · Tokens are not dollars</a>
+  <a href="#limits">8 · What this does not show</a>
+</nav>
+
+<main>
+
+<section id="overview" class="hero">
+  <p class="eyebrow">Guarded workflow optimization for LLM agents</p>
+  <h1>agent-compaction</h1>
+  <p class="lede">
+    Mine repeated execution patterns out of agent traces, prove a smaller workflow on
+    held-out groups, and deploy only immutable artifacts that fall back to the original
+    agent. Two optimizers share one trace contract, and
+    <strong>abstention is the default output</strong>.
+  </p>
+  <div class="kpi-row"><div class="kpi"><div class="kpi-label">Best measured token reduction</div><div class="kpi-value">79.6%</div><div class="kpi-sub">at unchanged task outcome</div></div><div class="kpi"><div class="kpi-label">Workflows executed live</div><div class="kpi-value">52</div><div class="kpi-sub">244 provider turns</div></div><div class="kpi"><div class="kpi-label">Tokens billed across the suite</div><div class="kpi-value">294,850</div><div class="kpi-sub">$0.390910 at list price</div></div><div class="kpi kpi--good"><div class="kpi-label">Mean scenario score</div><div class="kpi-value">0.995</div><div class="kpi-sub">0 safety events</div></div></div>
+  <p class="provenance">
+    Every figure on this page was produced by <code>experiments/live_run.py</code> against
+    <code>gpt-5.6-terra</code> through OpenAI Agents SDK
+    <code>0.19.2</code> at reasoning effort
+    <code>low</code>, completed
+    <code>2026-08-02T21:27:13-0700</code>. Enterprise records are fictional
+    deterministic fixtures; model calls, tool calls, handoffs, MCP transport, token
+    accounting and latency are live. Cost is estimated from
+    <a href="https://developers.openai.com/api/docs/pricing">published list prices</a>, not an invoice.
+    This is a small benchmark demonstrating a mechanism, not production certification.
+  </p>
+</section>
+
+<section id="problem">
+  <h2>1 · The problem</h2>
+  <p>
+    A tool-using agent spends most of its provider turns re-deciding things it already
+    decided. Look at any high-volume workflow — a support ticket, a permissioned
+    retrieval, a fulfillment exception — and the same prefix appears in trace after
+    trace: mint a token, resolve an identity, read three records, then think. The model
+    is asked to re-derive a fixed control-flow graph on every episode, and the customer
+    pays for it in latency, tokens and non-determinism.
+  </p>
+  <p>
+    The tempting fix — "just write a macro tool" — is right surprisingly often, and this
+    project says so out loud. What a macro cannot give you is <em>evidence</em>: that the
+    shortcut is what the agent actually did, that it is safe on inputs nobody has seen,
+    that it will stop being used the moment the world moves. Those three questions are
+    the whole design.
+  </p>
+  <div class="callout callout--frame">
+    <h3>The three questions</h3>
+    <ol>
+      <li><strong>Is this region real?</strong> Does it recur across independent scenario
+        groups, days and principals — or is it one customer's habit?</li>
+      <li><strong>Is every argument derivable?</strong> Can each tool argument be
+        reconstructed from the entry state or an earlier in-region observation, with no
+        model-originated value smuggled in?</li>
+      <li><strong>What happens when it is wrong?</strong> Not "how accurate is it" — what
+        is the <em>bounded</em> rate of wrongness, and what does the runtime do at the
+        boundary when it cannot tell?</li>
+    </ol>
+  </div>
+  <p>
+    Only workflows that answer all three get compiled. Everything else abstains, and the
+    honest observation from the measured runs below is that <strong>"do not compact" is
+    the common and correct answer</strong> — two of the six demonstrations here are
+    negative controls that are supposed to refuse, and they do.
+  </p>
+</section>
+
+<section id="architecture">
+  <h2>2 · Architecture</h2>
+  <p>
+    The system is a compiler with a refusal-first calling convention. It reads traces,
+    not source; it emits artifacts, not patches; and the only thing it is allowed to do
+    at runtime is replace a prefix of read-only tool calls that it can prove it has seen
+    before.
+  </p>
+  <figure><pre class="mermaid">flowchart TB
+  subgraph CAP[&quot;1 · capture&quot;]
+    direction LR
+    A1[&quot;OpenAI Agents SDK&lt;br/&gt;TracingProcessor&quot;] --&gt; A2[&quot;Episode IR&lt;br/&gt;envelope · manifest · entry state · outcome&quot;]
+    A3[&quot;MLflow / JSONL&quot;] --&gt; A2
+  end
+  subgraph OFF[&quot;2 · offline compilation — no production traffic&quot;]
+    direction TB
+    B1[&quot;Alg.1 provenance&lt;br/&gt;PATG + groundability&quot;] --&gt; B2[&quot;Alg.2 window mining&lt;br/&gt;closed frequent regions&quot;]
+    B2 --&gt; B3{&quot;Eq.10 estimator&lt;br/&gt;is there anything here?&quot;}
+    B3 --&gt;|&quot;below the ceiling&quot;| STOP[&quot;report the blockers&lt;br/&gt;and stop&quot;]
+    B3 --&gt;|&quot;feasible&quot;| C1[&quot;Alg.3 argument bindings&lt;br/&gt;closed 23-operator DSL&quot;]
+    C1 --&gt; C2[&quot;Alg.4 branch synthesis&lt;br/&gt;permutation-tested&quot;]
+    C2 --&gt; C3[&quot;Alg.5 output contract&lt;br/&gt;+ perturbation suite&quot;]
+    C3 --&gt; C4[&quot;Alg.6 gate calibration&lt;br/&gt;exact Clopper–Pearson&quot;]
+    C4 --&gt; C5[&quot;package · sign · register&quot;]
+  end
+  subgraph RT[&quot;3 · runtime&quot;]
+    direction LR
+    D1[&quot;Registry&lt;br/&gt;immutable artifacts&quot;] --&gt; D2{&quot;Alg.7 dispatch&quot;}
+    D2 --&gt;|&quot;accept&quot;| D3[&quot;native tool calls;&lt;br/&gt;provider turns elided&quot;]
+    D2 --&gt;|&quot;abstain&quot;| D4[&quot;baseline agent,&lt;br/&gt;byte-identical input&quot;]
+  end
+  A2 --&gt; B1
+  C5 --&gt; D1
+  STOP -.-&gt;|&quot;no artifact is ever registered&quot;| D4</pre><figcaption>The full path from an SDK trace to a dispatched region. The estimator is a gate, not a report: a workload below the Eq. (10) ceiling never reaches the compiler.</figcaption></figure>
+
+  <h3>2.1 Two optimizers, one trace contract</h3>
+  <div class="grid-2">
+    <div class="card">
+      <h4>GRC — guarded region compilation</h4>
+      <p>
+        Finds repeated read-only regions, proves every tool argument derives from entry
+        state or an earlier observation, synthesizes a bounded deterministic program from
+        a closed 23-operator library, induces an output contract, and dispatches only
+        under a calibrated gate with an exact risk bound.
+      </p>
+      <p class="muted">Removes provider turns. Cannot cross a write, an approval, a
+        handoff or an undeclared tool.</p>
+    </div>
+    <div class="card">
+      <h4>TGWS — trace-guided workflow specialization</h4>
+      <p>
+        Learns a shallow, readable route from entry-state facts to a specialist prompt
+        and a minimal tool surface, prunes what the route never needs against measured
+        quality, and abstains when the route or the input is uncertain.
+      </p>
+      <p class="muted">Removes prompt and tool-schema tokens, and sometimes a whole
+        coordinator turn. Never changes what a tool does.</p>
+    </div>
+  </div>
+
+  <h3>2.2 The runtime decision</h3>
+  <p>
+    Every model-request boundary is a decision point. The ordering is deliberate:
+    cheap deterministic checks reject first, the calibrated statistical gate runs only
+    on inputs that survive them, and the verifier runs after execution but
+    <em>before</em> the result is allowed to influence the conversation.
+  </p>
+  <figure><pre class="mermaid">stateDiagram-v2
+  [*] --&gt; Boundary: model request about to be sent
+  Boundary --&gt; HardGuard: artifact matches compatibility key
+  Boundary --&gt; Baseline: no artifact
+  HardGuard --&gt; Gate: manifest pins, isolation keys,&lt;br/&gt;typed hulls, effect set
+  HardGuard --&gt; Baseline: guard miss (drift, tenant, schema)
+  Gate --&gt; Interpret: q(z) below calibrated threshold
+  Gate --&gt; Baseline: uncertain input
+  Interpret --&gt; Verify: bounded program, facade-checked tools
+  Interpret --&gt; Baseline: PreCommitError (nothing committed)
+  Interpret --&gt; Incident: PostCommitError
+  Verify --&gt; Compacted: live-outs and effect multiset hold
+  Verify --&gt; Baseline: contract violated
+  Compacted --&gt; [*]
+  Baseline --&gt; [*]
+  Incident --&gt; [*]: kill switch, page a human</pre><figcaption>Algorithm 7. Five of the seven terminal edges lead back to the unmodified baseline agent; only one produces a compacted execution, and one is an incident that stops the deployment.</figcaption></figure>
+
+  <h3>2.3 Module map</h3>
+  <div class="table-wrap"><table><caption>Strict layering: no module imports one below it in this table.</caption><thead><tr><th scope="col">Package</th><th scope="col">Responsibility</th><th scope="col">Depends on</th></tr></thead><tbody><tr><td><code>paths</code></td><td>flatten / resolve_path / content digests</td><td>nothing</td></tr><tr><td><code>schema</code></td><td>traces, effect catalog, artifacts — the frozen contract</td><td><code>paths</code></td></tr><tr><td><code>capture</code></td><td>entry-state contract, manifests, Agents SDK + MLflow backends</td><td><code>schema</code></td></tr><tr><td><code>graph</code></td><td>qualification, provenance (Alg. 1), window mining (Alg. 2)</td><td><code>schema</code></td></tr><tr><td><code>grc</code></td><td>DSL, bindings, branches, contracts, calibration, compile orchestrator</td><td><code>graph</code></td></tr><tr><td><code>tgws</code></td><td>route tree, greedy pruning, packaging</td><td><code>graph</code></td></tr><tr><td><code>evaluation</code></td><td>grouped splits, replay, perturbations, metrics, statistics</td><td><code>schema</code></td></tr><tr><td><code>registry</code></td><td>artifact store, lifecycle, signing, kill switch, rollback</td><td><code>schema</code></td></tr><tr><td><code>runtime</code></td><td>dispatch (Alg. 7), staging, permission facade, interpreter, SDK adapters</td><td><code>registry</code></td></tr><tr><td><code>estimate</code></td><td>Eq. (10) feasibility and the economic break-even</td><td><code>graph</code></td></tr></tbody></table></div>
+</section>
+
+<section id="algorithms">
+  <h2>3 · Algorithms</h2>
+
+  <h3>3.1 Algorithm 1 — provenance and groundability</h3>
+  <p>
+    Each episode becomes a <em>provenance-annotated trace graph</em>. For every argument
+    slot of every tool call the builder asks: is this value reachable from the entry
+    state \(z\) or from an earlier in-region observation \(o_{j \lt i}\)? A slot
+    that is reachable is <strong>grounded</strong>; one that first appears in a model message is
+    <strong>model-originated</strong> and disqualifies the window. Order edges are added
+    between events that share a resource when at least one of them writes it, so a
+    reordering can never be proposed across a conflict.
+  </p>
+
+  <h3>3.2 Algorithm 2 — window mining and the ranking score</h3>
+  <p>
+    Closed frequent contiguous regions are mined per canonical shape. A family is ranked
+    by a minimum-description-length trade-off that pays for savings and charges for
+    variance, effect risk and program size:
+  </p>
+  <div class="math">$$\mathrm{score}(F) \;=\; \underbrace{s_F \cdot \bar{k}_F \cdot c_m}_{\text{expected saving}}
+  \;-\; \lambda_1 H(F) \;-\; \lambda_2 \rho_{\text{eff}}(F) \;-\; \lambda_3 |F|$$</div>
+  <p class="muted">
+    \(s_F\) is scenario-group support, \(\bar k_F\) the mean removable provider turns,
+    \(H(F)\) the Shannon entropy over canonical variants inside the family,
+    \(\rho_{\text{eff}}\) the fraction of steps that are external reads, and \(|F|\)
+    the node count of the program the family would produce.
+  </p>
+
+  <h3>3.3 The feasibility estimator — Eq. (10)</h3>
+  <p>
+    Before any compiler runs, the estimator answers "is there anything here?" from
+    traces alone. It is the cheapest useful thing in the system and it is allowed to say
+    no:
+  </p>
+  <div class="math">$$\Delta_{\max} \;=\; \frac{\varphi \cdot k}{n_B}
+  \qquad\text{and the necessary condition}\qquad \varphi\,\rho\,k \;\ge\; \Delta \cdot n_B$$</div>
+  <p>
+    \(n_B\) is baseline provider turns per episode, \(\varphi\) the fraction of episodes
+    containing at least one eligible region, \(k\) the turns removed per successful
+    dispatch, and \(\rho\) the verifier pass rate. The ceiling assumes \(\rho = 1\) and a
+    gate that never abstains, so anything achieved must be lower. Demo E's own estimate
+    reports the ceiling at <strong>41.3%</strong> — capped by the mandatory commitment,
+    which no compiler is allowed to remove.
+  </p>
+
+  <h3>3.4 Algorithm 3 — the closed binding DSL</h3>
+  <p>
+    Argument synthesis searches a <em>closed</em> operator library rather than generating
+    code. The consequences are the point: the search space is finite and cacheable, every
+    binding is printable, and a reviewer can read the whole transform before approving it.
+  </p>
+  <div class="code-wrap"><pre class="code"><code class="language-python"># The closed operator library. 23 operators, five classes, no user-defined functions,
+# no recursion, no arithmetic on control flow. Search is bounded by depth and by a
+# per-tool literal_only declaration.
+
+OPERATOR_CLASSES = {
+    &quot;identity_coercion&quot;: (&quot;id&quot;, &quot;str&quot;, &quot;int&quot;, &quot;float&quot;, &quot;bool&quot;),
+    &quot;string&quot;:            (&quot;lower&quot;, &quot;upper&quot;, &quot;strip&quot;, &quot;split&quot;, &quot;join&quot;, &quot;fmt&quot;),
+    &quot;numeric&quot;:           (&quot;add&quot;, &quot;mul&quot;, &quot;round&quot;, &quot;sum&quot;, &quot;len&quot;),
+    &quot;collection&quot;:        (&quot;project&quot;, &quot;filter&quot;, &quot;first&quot;, &quot;sort&quot;, &quot;last&quot;, &quot;topk&quot;),
+    &quot;temporal&quot;:          (&quot;date_fmt&quot;,),
+}
+
+# A synthesized binding is an expression over one source path and an operator chain:
+customer_id = Expr(&quot;customers&quot;, (Op(&quot;filter&quot;, (&quot;status&quot;, &quot;==&quot;, &quot;active&quot;)),
+                                 Op(&quot;first&quot;),
+                                 Op(&quot;project&quot;, (&quot;id&quot;,))))</code></pre></div>
+
+  <h3>3.5 Algorithms 4 and 5 — branches and contracts</h3>
+  <p>
+    Where supporting windows diverge, Algorithm 4 fits a typed predicate over an
+    observable path and validates it by permutation test, keeping only separations that
+    could not have arisen by chance. Algorithm 5 induces the output contract — types,
+    ranges, regexes, enum membership and per-field provenance — and then attacks it with
+    a perturbation suite (stale reads, reordered results, empty sets, schema drift,
+    injected faults). A contract that survives the attacks becomes the runtime verifier.
+  </p>
+  <figure><pre class="code"><code class="language-text">program (θ = {case.order_ref, case.exception_class, case.customer_tier, case.region}):
+   token  = call auth_issue_ops_token()
+   order  = call orders_get(order_ref = z.case.order_ref, token = token.token)
+   page0  = call shipments_list_page(order_ref = z.case.order_ref, page = 0, token = token.token)
+   if page0.has_more == True:
+      page1 = call shipments_list_page(order_ref = z.case.order_ref, page = 1, token = token.token)
+   if z.case.exception_class == &#x27;stock_shortfall&#x27;:
+      stock = call inventory_check(sku = order.line_items |&gt; first |&gt; project(&#x27;sku&#x27;),
+                                   warehouse = order.warehouse, token = token.token)
+   if z.case.exception_class == &#x27;carrier_delay&#x27;:
+      carrier = call carrier_track(tracking_id = order.tracking_id, token = token.token)
+   policy = call sla_policy(customer_tier = z.case.customer_tier, region = z.case.region)
+   return { order, page0, page1, stock, carrier, policy }
+
+guard   model=gpt-5.6-terra  entry_contract_version=wms_v2
+        effects ⊆ {READ_EXTERNAL, READ_LOCAL}  all speculatable ∧ replayable
+verify  effect_multiset ⊆ {READ_EXTERNAL, READ_LOCAL},  |calls| ∈ {4,5,6,7},  no WRITE_*</code></pre><figcaption>A real compiled region from Demo E, printed by <code>registry.explain()</code>. Three synthesized branches give it a variable call count, which is why the verifier admits a set rather than a single number.</figcaption></figure>
+
+  <h3>3.6 Algorithm 6 — calibration with a valid risk statement</h3>
+  <p>
+    The gate is a logistic score \(q(z)\) over entry-only risk features — never the
+    model's own verbal confidence, never anything unavailable at the boundary. The
+    threshold is selected over a pre-registered grid \(\Lambda\) with \(|\Lambda| = 11\),
+    and the confidence budget \(\delta\) is Bonferroni-split across it. The certificate is
+    an exact one-sided Clopper–Pearson bound on the violation rate among dispatched
+    episodes:
+  </p>
+  <div class="math">$$R^{+}(\eta) \;=\; \mathrm{BetaInv}\!\left(1 - \tfrac{\delta}{|\Lambda|};\; v + 1,\; n - v\right)
+  \;\le\; \alpha$$</div>
+  <p>
+    With \(v = 0\) observed violations this reduces to
+    \(R^{+} = 1 - (\delta/|\Lambda|)^{1/n}\), and inverting it gives the sample
+    complexity that decides whether a workload can <em>ever</em> be calibrated:
+  </p>
+  <div class="math">$$n \;\ge\; \frac{\log(\delta/|\Lambda|)}{\log(1-\alpha)} \;\approx\; 92
+  \quad\text{independent calibration groups at } \alpha = 0.05,\ \delta = 0.10$$</div>
+  <div class="callout callout--warn">
+    <p>
+      <strong>Calibration is usually the binding constraint.</strong> The estimator reports
+      the required group count before any compilation, and candidates that cannot reach it
+      retire. In the offline study of Demo E, four of six mined candidates die here or at
+      the perturbation challenge — that is the system working, not failing.
+    </p>
+  </div>
+
+  <h3>3.7 TGWS — routes, pruning, and the domain guard</h3>
+  <p>
+    The route tree is depth-bounded, minimum-support-bounded and checked for
+    <em>temporal</em> and <em>subgroup</em> stability: a route that only worked last month,
+    or only for one principal, is rejected. Route labels are imitation targets, so an
+    accepted leaf is still re-checked against task outcomes rather than path agreement.
+  </p>
+  <div class="callout callout--frame">
+    <h4>Out-of-domain abstention</h4>
+    <p>
+      A decision tree's last leaf is a conjunction of negations, so an entry carrying a
+      category the tree never saw matches it by construction and would silently inherit a
+      route whose purity was never measured on it. The tree therefore records the observed
+      value domain of every categorical split feature and abstains outright when a value
+      falls outside it. This was found by writing the Demo F test, and the fix is in
+      <code>RouteTree.route</code>.
+    </p>
+  </div>
+</section>
+
+<section id="safety">
+  <h2>4 · The safety model</h2>
+  <p>
+    v0.x converts "infer the effects of a tool" — an open research problem — into
+    configuration a human signs. Anything not declared is <code>UNKNOWN</code> and is
+    never compiled. Read-only and idempotent are deliberately <em>not</em> capabilities:
+    a nominal read can still burn quota, write an audit row, or observe time-varying data.
+  </p>
+  <div class="table-wrap"><table><caption>The effect lattice. Two independent conditions must both hold, and either one alone is insufficient.</caption><thead><tr><th scope="col">Effect class</th><th scope="col">May enter a region?</th><th scope="col">Why</th></tr></thead><tbody><tr><td><code>PURE</code></td><td><span class='yes'>yes</span></td><td>no external interaction at all</td></tr><tr><td><code>READ_LOCAL</code></td><td><span class='yes'>yes</span></td><td>if declared <code>speculatable ∧ replayable</code></td></tr><tr><td><code>READ_EXTERNAL</code></td><td><span class='yes'>yes</span></td><td>if declared <code>speculatable ∧ replayable</code></td></tr><tr><td><code>WRITE_REVERSIBLE</code></td><td><span class='no'>no</span></td><td>transactional staging is future work, not a declaration</td></tr><tr><td><code>WRITE_IRREVERSIBLE</code></td><td><span class='no'>no</span></td><td>terminates the region; the decision turn before it survives</td></tr><tr><td><code>UNKNOWN</code></td><td><span class='no'>no</span></td><td>the default — an undeclared tool fails closed</td></tr><tr><td><em>any</em> + <code>approval_required</code></td><td><span class='no'>no</span></td><td>an approval is a barrier; a prior approval never licenses a bypass</td></tr></tbody></table></div>
+
+  <h3>4.1 Failure taxonomy</h3>
+  <p>
+    The runtime distinguishes failures by <em>what has already happened to the outside
+    world</em>, because that is what determines whether recovery is possible.
+  </p>
+  <div class="table-wrap"><table><thead><tr><th scope="col">Failure</th><th scope="col">State</th><th scope="col">Runtime response</th></tr></thead><tbody><tr><td>guard miss</td><td>nothing executed</td><td>run the baseline agent; the input is byte-identical</td></tr><tr><td>gate abstain</td><td>nothing executed</td><td>run the baseline agent; log the score for drift monitoring</td></tr><tr><td><code>PreCommitError</code></td><td>reads only</td><td>deoptimize exactly; the baseline takes over</td></tr><tr><td>verifier reject</td><td>reads only</td><td>discard the region's outputs and deoptimize</td></tr><tr><td><code>PostCommitError</code></td><td>an external commitment happened</td><td>raise an incident; do <em>not</em> pretend to roll back</td></tr></tbody></table></div>
+  <p class="muted">
+    In v0.x a program may contain only pre-commit reads, so a <code>PostCommitError</code>
+    can only arise from a catalog or configuration error. The interpreter asserts that
+    rather than trusting it.
+  </p>
+</section>
+
+<section id="sdk">
+  <h2>5 · Using it with the OpenAI Agents SDK</h2>
+  <p>
+    The integration is deliberately boring. Capture is a trace processor; optimization is
+    offline and touches no production traffic; deployment is a wrapper around either the
+    <code>Model</code> or the runner. At no point does the library ask you to restructure
+    your agent.
+  </p>
+
+  <h3>5.1 Capture</h3>
+  <p>
+    The SDK knows what happened. It does not know two things the compiler needs, and it
+    cannot infer them: the <strong>entry state</strong> that existed before the first model
+    decision, and the <strong>outcome label</strong> that says whether the episode was
+    correct. Both are supplied by the application, and the trace contract makes that
+    explicit rather than guessing.
+  </p>
+  <div class="code-wrap"><pre class="code"><code class="language-python">from agents import Runner, RunConfig, add_trace_processor
+from agent_compaction.capture.agents_sdk import (
+    AgentsTraceProcessor, episode_from_agents_trace,
+)
+
+# 1. Capture. One processor, added once, collects native SDK traces.
+processor = AgentsTraceProcessor(include_sensitive_data=True, max_completed=256)
+add_trace_processor(processor)
+
+result = await Runner.run(
+    agent, user_input,
+    run_config=RunConfig(
+        workflow_name=&quot;support&quot;,
+        group_id=case_id,                 # the scenario group — required for grouped splits
+        trace_metadata={&quot;tenant&quot;: tenant, &quot;policy_version&quot;: &quot;pol-1&quot;},
+    ),
+)
+
+# 2. Join the trace with the two things the SDK cannot know: the entry state that
+#    existed *before* the first model decision, and the application&#x27;s outcome label.
+episode = episode_from_agents_trace(
+    processor.drain()[0],
+    envelope=envelope, manifest=manifest,
+    entry_state=entry_state,              # your contract, not an inferred one
+    outcome=outcome_labels,
+)</code></pre></div>
+
+  <h3>5.2 Optimize</h3>
+  <div class="code-wrap"><pre class="code"><code class="language-python">import agent_compaction as ac
+
+episodes = ac.read_jsonl(&quot;traces.jsonl&quot;)
+catalog  = ac.load_catalog(&quot;configs/effects.example.yaml&quot;)
+
+# 3. Estimate first. This is allowed to return a decisive no.
+print(ac.estimate(episodes, catalog, entry_schema=[&quot;tenant_id&quot;, &quot;case.exception_class&quot;]).render())
+
+# 4. Compile. Grouped splits, perturbation suite, exact calibration — all inside.
+job = ac.optimize(
+    episodes, catalog,
+    algorithms=[&quot;tgws&quot;, &quot;grc&quot;],
+    mode=&quot;offline&quot;,
+    partition_by=[&quot;tenant_partition&quot;, &quot;principal&quot;, &quot;policy_version&quot;],
+    entry_schema=[&quot;tenant_id&quot;, &quot;case.exception_class&quot;],
+    sandbox=make_sandbox,           # enables grouped replay + the perturbation suite
+    tgws_baseline=baseline_config,
+    tgws_evaluate=evaluator,
+)
+print(job.report())
+print(job.explain())                # readable pseudocode for every artifact
+
+ac.validate(job, suites=[&quot;replay&quot;, &quot;perturbation&quot;])
+ac.promote(job, stage=&quot;shadow&quot;)     # shadow first, always</code></pre></div>
+
+  <h3>5.3 Deploy</h3>
+  <div class="code-wrap"><pre class="code"><code class="language-python">from agents import Agent
+from agent_compaction.runtime.model_provider import CompactingModel
+
+# 5a. The Model adapter: narrowest integration, one line at the call site.
+#     Emits the artifact&#x27;s next synthesized function_call instead of asking the
+#     provider; the ordinary Runner then executes the tool, so SDK dispatch,
+#     tracing and usage attribution are all preserved.
+agent = Agent(
+    name=&quot;fulfillment&quot;,
+    instructions=decision_only_prompt,
+    tools=[...],
+    model=CompactingModel(
+        base_model,
+        registry=registry, catalog=catalog, manifest=manifest,
+        mode=&quot;shadow&quot;,                                    # shadow -&gt; canary -&gt; live
+        entry_state_fn=lambda inp: entry_state_for(inp),
+        context_fn=lambda inp, z: {&quot;entry_contract_version&quot;: z[&quot;case&quot;][&quot;intake&quot;]},
+    ),
+)</code></pre></div>
+  <div class="code-wrap"><pre class="code"><code class="language-python"># 5b. The recommended path. The outer runner owns the entry-state snapshot and the
+#     staging boundary, so a rejected attempt restores byte-identical model input.
+#     The Model adapter cannot do this: once it has emitted a ModelResponse the
+#     Runner may already have committed it to session history.
+runner = ac.CompactingRunner(
+    dispatcher=ac.Dispatcher(registry=registry, catalog=catalog, mode=&quot;shadow&quot;),
+    catalog=catalog,
+    manifest=manifest,
+)
+
+# 5c. For agents that are not on the SDK at all:
+@ac.compact(registry, catalog, manifest, mode=&quot;shadow&quot;)
+async def handle(entry_state): ...</code></pre></div>
+
+  <h3>5.4 What the Model adapter refuses</h3>
+  <p>
+    The adapter ships behind seven conformance tests and is intentionally narrower than
+    the outer runner. Everything it cannot do exactly, it declines — and declining means
+    the unmodified baseline workflow runs, not that the application breaks.
+  </p>
+  <div class="table-wrap"><table><caption>Demo E exercises two of these refusals live, and measures that they cost nothing but the fallback.</caption><thead><tr><th scope="col">Feature</th><th scope="col">Behaviour</th><th scope="col">Reason</th></tr></thead><tbody><tr><td>streaming</td><td>bypass to the wrapped model</td><td>no way to emit a synthesized item mid-stream and still deoptimize</td></tr><tr><td>handoffs</td><td>bypass</td><td>a handoff changes instruction ownership; it is a region barrier</td></tr><tr><td>hosted / MCP tools</td><td>bypass</td><td>no attested effect catalog for the remote surface</td></tr><tr><td>server-managed continuation</td><td>bypass</td><td><code>previous_response_id</code> hides the local history the verifier needs</td></tr><tr><td>loop or assert steps</td><td>bypass</td><td>only straight-line call programs can be advanced one turn at a time</td></tr><tr><td><code>mode="off"</code></td><td>byte-identical input at the next provider call</td><td>conformance test 1 — the wrapper must be removable</td></tr></tbody></table></div>
+</section>
+
+<section id="results">
+  <h2>6 · Measured results</h2>
+  <p>
+    Six demonstrations, each a paired comparison on identical scenarios. Two of them are
+    negative controls that are <em>supposed</em> to refuse, and one — Demo E — carries two
+    further refusal conditions alongside its compacted one. Read the negative numbers as
+    the point, not as noise.
+  </p>
+  <div class="table-wrap"><table><caption>Positive percentages are reductions. Quality Δ is the change in scenario score; zero means identical outcomes.</caption><thead><tr><th scope="col">Demonstration</th><th scope="col">Provider turns</th><th scope="col">Total tokens</th><th scope="col">Wall latency</th><th scope="col">Est. cost</th><th scope="col">Quality Δ</th></tr></thead><tbody><tr><td><a href="#demo-support">A · Tier-1 support evidence</a></td><td>6.0 → 1.0</td><td>+79.6%</td><td>+88.4%</td><td>+73.6%</td><td>+0.000</td></tr><tr><td><a href="#demo-permissioned_rag">B · Permissioned RAG</a></td><td>7.0 → 1.0</td><td>+76.3%</td><td>+86.9%</td><td>+68.7%</td><td>+0.000</td></tr><tr><td><a href="#demo-incident_triage">C · Multi-agent incident triage</a></td><td>5.0 → 1.0</td><td>+73.8%</td><td>+80.8%</td><td>+75.5%</td><td>+0.000</td></tr><tr><td><a href="#demo-mcp_ops">D · Multi-tenant MCP (negative control)</a></td><td>3.0 → 3.0</td><td>-0.1%</td><td>+36.2%</td><td>-0.2%</td><td>+0.000</td></tr><tr><td><a href="#demo-fulfillment">E · Fulfillment exceptions (branches, pagination, a write)</a></td><td>7.0 → 2.0</td><td>+66.4%</td><td>+77.1%</td><td>-8.3%</td><td>+0.000</td></tr><tr><td><a href="#demo-tgws_router">F · TGWS route specialization</a></td><td>7.0 → 7.0</td><td>+16.8%</td><td>+5.4%</td><td>-123.0%</td><td>+0.000</td></tr></tbody></table></div>
+  
+<section id="demo-support" class="demo">
+  <h3>6.1 · A · Tier-1 support evidence</h3>
+  <p>A linear read-only evidence chain behind a ticket: mint a token, resolve the customer, read the subscription, the newest invoices and the entitlement. The reference shape, and the easiest one to compact.</p>
+  <p class="verdict verdict--good">task outcome unchanged in every condition · baseline
+    6.0 provider turns/episode</p>
+  <div class="table-wrap"><table><caption>Per-scenario means. Tool calls are unchanged by design: compaction removes provider turns, not work.</caption><thead><tr><th scope="col">Condition</th><th scope="col">n</th><th scope="col">Turns</th><th scope="col">Tools</th><th scope="col">Input tok</th><th scope="col">Total tok</th><th scope="col">Latency</th><th scope="col">Est. cost</th><th scope="col">Quality</th><th scope="col">Success</th></tr></thead><tbody><tr><td><strong>baseline</strong></td><td>4</td><td>6.00</td><td>5.00</td><td>5,787</td><td>6,039</td><td>9.28s</td><td>$0.013050</td><td>1.000</td><td>1.000</td></tr><tr><td>compacted</td><td>4</td><td>1.00</td><td>5.00</td><td>1,193</td><td>1,232</td><td>1.07s</td><td>$0.003448</td><td>1.000</td><td>1.000</td></tr></tbody></table></div>
+  <div class="chart-grid"><div class="chart-block"><h4>compacted vs baseline</h4><svg class="chart" viewBox="0 0 660 202" role="img" aria-labelledby="red-support-compacted-t" preserveAspectRatio="xMidYMid meet"><title id="red-support-compacted-t">Reduction versus baseline by metric</title><g class="bar-row"><title>provider turns: 83.3% less than baseline</title><text class="cat" x="154" y="31.0" text-anchor="end">provider turns</text><path d="M168.0 17.0 H537.2 a4.0 4.0 0 0 1 4.0 4.0 V33.0 a4.0 4.0 0 0 1 -4.0 4.0 H168.0 Z" fill="var(--pole-good)"/><text class="val" x="551.2" y="32.0" text-anchor="start">83.3% less</text></g><g class="bar-row"><title>input tokens: 79.4% less than baseline</title><text class="cat" x="154" y="69.0" text-anchor="end">input tokens</text><path d="M168.0 55.0 H519.5 a4.0 4.0 0 0 1 4.0 4.0 V71.0 a4.0 4.0 0 0 1 -4.0 4.0 H168.0 Z" fill="var(--pole-good)"/><text class="val" x="533.5" y="70.0" text-anchor="start">79.4% less</text></g><g class="bar-row"><title>total tokens: 79.6% less than baseline</title><text class="cat" x="154" y="107.0" text-anchor="end">total tokens</text><path d="M168.0 93.0 H520.5 a4.0 4.0 0 0 1 4.0 4.0 V109.0 a4.0 4.0 0 0 1 -4.0 4.0 H168.0 Z" fill="var(--pole-good)"/><text class="val" x="534.5" y="108.0" text-anchor="start">79.6% less</text></g><g class="bar-row"><title>wall latency: 88.4% less than baseline</title><text class="cat" x="154" y="145.0" text-anchor="end">wall latency</text><path d="M168.0 131.0 H560.0 a4.0 4.0 0 0 1 4.0 4.0 V147.0 a4.0 4.0 0 0 1 -4.0 4.0 H168.0 Z" fill="var(--pole-good)"/><text class="val" x="574.0" y="146.0" text-anchor="start">88.4% less</text></g><g class="bar-row"><title>estimated cost: 73.6% less than baseline</title><text class="cat" x="154" y="183.0" text-anchor="end">estimated cost</text><path d="M168.0 169.0 H493.5 a4.0 4.0 0 0 1 4.0 4.0 V185.0 a4.0 4.0 0 0 1 -4.0 4.0 H168.0 Z" fill="var(--pole-good)"/><text class="val" x="507.5" y="184.0" text-anchor="start">73.6% less</text></g><line class="axis" x1="168.0" y1="8" x2="168.0" y2="198"/></svg></div></div>
+  
+  <div class="traces">
+    <h4>Trace, before and after — scenario <code>sup-00000</code></h4>
+    <p class="muted">
+      Both panels share one time axis, so the second is short because it is short.
+      Hover any bar for its duration and token usage.
+    </p>
+    <div class="legend" role="list"><span role="listitem"><i class="key" style="background:var(--series-1)"></i>provider turn (model request → response)</span><span role="listitem"><i class="key" style="background:var(--series-2)"></i>tool execution</span></div>
+    <div class="panel">
+      <div class="panel-head"><span class="tag tag--base">baseline</span>
+        <span>6 provider turns ·
+        5,841 tokens ·
+        7.78s</span></div>
+      <svg class="chart waterfall" viewBox="0 0 760 347" role="img" aria-labelledby="wf-support-base-t" preserveAspectRatio="xMidYMid meet"><title id="wf-support-base-t">baseline timeline</title><line class="grid" x1="190.0" y1="18" x2="190.0" y2="325"/><text class="tick" x="190.0" y="339" text-anchor="middle">0s</text><line class="grid" x1="250.0" y1="18" x2="250.0" y2="325"/><text class="tick" x="250.0" y="339" text-anchor="middle">1s</text><line class="grid" x1="310.0" y1="18" x2="310.0" y2="325"/><text class="tick" x="310.0" y="339" text-anchor="middle">2s</text><line class="grid" x1="370.0" y1="18" x2="370.0" y2="325"/><text class="tick" x="370.0" y="339" text-anchor="middle">3s</text><line class="grid" x1="430.0" y1="18" x2="430.0" y2="325"/><text class="tick" x="430.0" y="339" text-anchor="middle">4s</text><line class="grid" x1="490.0" y1="18" x2="490.0" y2="325"/><text class="tick" x="490.0" y="339" text-anchor="middle">5s</text><line class="grid" x1="550.0" y1="18" x2="550.0" y2="325"/><text class="tick" x="550.0" y="339" text-anchor="middle">6s</text><line class="grid" x1="610.0" y1="18" x2="610.0" y2="325"/><text class="tick" x="610.0" y="339" text-anchor="middle">7s</text><g class="span"><title>provider turn 1 · 1.87s · 676 in (0 cached) · 36 out</title><text class="cat" x="178" y="41.0" text-anchor="end">provider turn 1</text><rect x="190.0" y="30.0" width="112.3" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="310.3" y="42.0">1.87s</text></g><g class="span"><title>auth.issue_service_token · 0ms · model-selected</title><text class="cat" x="178" y="68.0" text-anchor="end">auth.issue_service_token</text><rect x="302.3" y="57.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="313.3" y="69.0">0ms</text></g><g class="span"><title>provider turn 2 · 864ms · 750 in (0 cached) · 46 out</title><text class="cat" x="178" y="95.0" text-anchor="end">provider turn 2</text><rect x="302.5" y="84.0" width="51.9" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="362.3" y="96.0">864ms</text></g><g class="span"><title>crm.find_customer · 0ms · model-selected</title><text class="cat" x="178" y="122.0" text-anchor="end">crm.find_customer</text><rect x="354.4" y="111.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="365.4" y="123.0">0ms</text></g><g class="span"><title>provider turn 3 · 826ms · 851 in (0 cached) · 32 out</title><text class="cat" x="178" y="149.0" text-anchor="end">provider turn 3</text><rect x="354.5" y="138.0" width="49.6" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="412.0" y="150.0">826ms</text></g><g class="span"><title>crm.get_subscription · 1ms · model-selected</title><text class="cat" x="178" y="176.0" text-anchor="end">crm.get_subscription</text><rect x="404.1" y="165.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="415.1" y="177.0">1ms</text></g><g class="span"><title>provider turn 4 · 902ms · 942 in (0 cached) · 37 out</title><text class="cat" x="178" y="203.0" text-anchor="end">provider turn 4</text><rect x="404.3" y="192.0" width="54.1" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="466.4" y="204.0">902ms</text></g><g class="span"><title>billing.list_invoices · 1ms · model-selected</title><text class="cat" x="178" y="230.0" text-anchor="end">billing.list_invoices</text><rect x="458.5" y="219.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="469.5" y="231.0">1ms</text></g><g class="span"><title>provider turn 5 · 2.21s · 1,160 in (0 cached) · 38 out</title><text class="cat" x="178" y="257.0" text-anchor="end">provider turn 5</text><rect x="458.7" y="246.0" width="132.9" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="599.5" y="258.0">2.21s</text></g><g class="span"><title>entitlements.check · 1ms · model-selected</title><text class="cat" x="178" y="284.0" text-anchor="end">entitlements.check</text><rect x="591.6" y="273.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="602.6" y="285.0">1ms</text></g><g class="span"><title>provider turn 6 · 1.07s · 1,234 in (1,157 cached) · 39 out</title><text class="cat" x="178" y="311.0" text-anchor="end">provider turn 6</text><rect x="591.8" y="300.0" width="64.2" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="664.0" y="312.0">1.07s</text></g><line class="axis" x1="190" y1="325" x2="656" y2="325"/></svg>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><span class="tag tag--opt">compacted</span>
+        <span>1 provider turns ·
+        1,190 tokens ·
+        1.10s</span></div>
+      <svg class="chart waterfall" viewBox="0 0 760 239" role="img" aria-labelledby="wf-support-opt-t" preserveAspectRatio="xMidYMid meet"><title id="wf-support-opt-t">optimized timeline</title><line class="grid" x1="190.0" y1="18" x2="190.0" y2="217"/><text class="tick" x="190.0" y="231" text-anchor="middle">0s</text><line class="grid" x1="250.0" y1="18" x2="250.0" y2="217"/><text class="tick" x="250.0" y="231" text-anchor="middle">1s</text><line class="grid" x1="310.0" y1="18" x2="310.0" y2="217"/><text class="tick" x="310.0" y="231" text-anchor="middle">2s</text><line class="grid" x1="370.0" y1="18" x2="370.0" y2="217"/><text class="tick" x="370.0" y="231" text-anchor="middle">3s</text><line class="grid" x1="430.0" y1="18" x2="430.0" y2="217"/><text class="tick" x="430.0" y="231" text-anchor="middle">4s</text><line class="grid" x1="490.0" y1="18" x2="490.0" y2="217"/><text class="tick" x="490.0" y="231" text-anchor="middle">5s</text><line class="grid" x1="550.0" y1="18" x2="550.0" y2="217"/><text class="tick" x="550.0" y="231" text-anchor="middle">6s</text><line class="grid" x1="610.0" y1="18" x2="610.0" y2="217"/><text class="tick" x="610.0" y="231" text-anchor="middle">7s</text><g class="span"><title>auth.issue_service_token · 0ms · model-selected</title><text class="cat" x="178" y="41.0" text-anchor="end">auth.issue_service_token</text><rect x="190.0" y="30.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="201.0" y="42.0">0ms</text></g><g class="span"><title>crm.find_customer · 1ms · model-selected</title><text class="cat" x="178" y="68.0" text-anchor="end">crm.find_customer</text><rect x="190.1" y="57.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="201.1" y="69.0">1ms</text></g><g class="span"><title>crm.get_subscription · 0ms · model-selected</title><text class="cat" x="178" y="95.0" text-anchor="end">crm.get_subscription</text><rect x="190.2" y="84.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="201.2" y="96.0">0ms</text></g><g class="span"><title>billing.list_invoices · 0ms · model-selected</title><text class="cat" x="178" y="122.0" text-anchor="end">billing.list_invoices</text><rect x="190.4" y="111.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="201.4" y="123.0">0ms</text></g><g class="span"><title>entitlements.check · 0ms · model-selected</title><text class="cat" x="178" y="149.0" text-anchor="end">entitlements.check</text><rect x="190.5" y="138.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="201.5" y="150.0">0ms</text></g><g class="span"><title>provider turn 1 · 1.08s · 1,151 in (0 cached) · 39 out</title><text class="cat" x="178" y="176.0" text-anchor="end">provider turn 1</text><rect x="190.5" y="165.0" width="65.0" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="263.6" y="177.0">1.08s</text></g><text class="ghost-label" x="178" y="203.0" text-anchor="end">removed</text><rect class="ghost" x="190" y="192" width="466" height="14" rx="4"/><text class="val ghost-val" x="664" y="203">5 provider turns elided</text><line class="axis" x1="190" y1="217" x2="656" y2="217"/></svg>
+    </div>
+    <div class="grid-2">
+      <div><h5>Entry state (the compiler's only input, θ)</h5><pre class="code"><code class="language-json">{
+  &quot;principal&quot;: &quot;svc.support.tier1&quot;,
+  &quot;tenant_id&quot;: &quot;t_northwind&quot;,
+  &quot;ticket&quot;: {
+    &quot;channel&quot;: &quot;email&quot;,
+    &quot;id&quot;: &quot;TCK-40000&quot;,
+    &quot;intake&quot;: &quot;form_v3&quot;,
+    &quot;locale&quot;: &quot;de-DE&quot;,
+    &quot;plan_hint&quot;: &quot;smb&quot;,
+    &quot;priority&quot;: &quot;p1&quot;,
+    &quot;product_area&quot;: &quot;api_quota&quot;,
+    &quot;refund_requested&quot;: false,
+    &quot;requester_email&quot;: &quot;Dana.nowak2230@Northwind-Labs.example&quot;
+  }
+}</code></pre></div>
+      <div><h5>Final answer</h5><pre class="code"><code class="language-json">{
+  &quot;category&quot;: &quot;upsell_explain&quot;,
+  &quot;cited_invoice&quot;: &quot;inv_2026_07_0230&quot;,
+  &quot;entitled&quot;: false,
+  &quot;tier&quot;: &quot;team&quot;
+}</code></pre>
+        <p class="muted">Graded against the fixture's deterministic expectation, not
+          against the baseline's answer.</p></div>
+    </div>
+    <div class="dispatch"><h5>Runtime dispatch record</h5><pre class="code"><code class="language-json">{
+  &quot;baseline&quot;: 1,
+  &quot;compacted&quot;: 1,
+  &quot;gate_rejections&quot;: 0,
+  &quot;guard_misses&quot;: {
+    &quot;region_already_started&quot;: 1
+  },
+  &quot;incidents&quot;: 0,
+  &quot;overhead_ms_total&quot;: 2.21,
+  &quot;removed_requests_total&quot;: 5.0,
+  &quot;verifier_pass_rate&quot;: 1.0
+}</code></pre></div>
+  </div>
+
+</section>
+
+<section id="demo-permissioned_rag" class="demo">
+  <h3>6.2 · B · Permissioned RAG</h3>
+  <p>Retrieval where the ACL scope, the index version and the freshness window are hard guard keys. The contribution is the guard, not the speed-up.</p>
+  <p class="verdict verdict--good">task outcome unchanged in every condition · baseline
+    7.0 provider turns/episode</p>
+  <div class="table-wrap"><table><caption>Per-scenario means. Tool calls are unchanged by design: compaction removes provider turns, not work.</caption><thead><tr><th scope="col">Condition</th><th scope="col">n</th><th scope="col">Turns</th><th scope="col">Tools</th><th scope="col">Input tok</th><th scope="col">Total tok</th><th scope="col">Latency</th><th scope="col">Est. cost</th><th scope="col">Quality</th><th scope="col">Success</th></tr></thead><tbody><tr><td><strong>baseline</strong></td><td>4</td><td>7.00</td><td>6.00</td><td>7,220</td><td>7,731</td><td>9.93s</td><td>$0.016982</td><td>0.970</td><td>1.000</td></tr><tr><td>compacted</td><td>4</td><td>1.00</td><td>6.00</td><td>1,755</td><td>1,832</td><td>1.30s</td><td>$0.005313</td><td>0.970</td><td>1.000</td></tr></tbody></table></div>
+  <div class="chart-grid"><div class="chart-block"><h4>compacted vs baseline</h4><svg class="chart" viewBox="0 0 660 202" role="img" aria-labelledby="red-permissioned_rag-compacted-t" preserveAspectRatio="xMidYMid meet"><title id="red-permissioned_rag-compacted-t">Reduction versus baseline by metric</title><g class="bar-row"><title>provider turns: 85.7% less than baseline</title><text class="cat" x="154" y="31.0" text-anchor="end">provider turns</text><path d="M168.0 17.0 H554.5 a4.0 4.0 0 0 1 4.0 4.0 V33.0 a4.0 4.0 0 0 1 -4.0 4.0 H168.0 Z" fill="var(--pole-good)"/><text class="val" x="568.5" y="32.0" text-anchor="start">85.7% less</text></g><g class="bar-row"><title>input tokens: 75.7% less than baseline</title><text class="cat" x="154" y="69.0" text-anchor="end">input tokens</text><path d="M168.0 55.0 H508.8 a4.0 4.0 0 0 1 4.0 4.0 V71.0 a4.0 4.0 0 0 1 -4.0 4.0 H168.0 Z" fill="var(--pole-good)"/><text class="val" x="522.8" y="70.0" text-anchor="start">75.7% less</text></g><g class="bar-row"><title>total tokens: 76.3% less than baseline</title><text class="cat" x="154" y="107.0" text-anchor="end">total tokens</text><path d="M168.0 93.0 H511.6 a4.0 4.0 0 0 1 4.0 4.0 V109.0 a4.0 4.0 0 0 1 -4.0 4.0 H168.0 Z" fill="var(--pole-good)"/><text class="val" x="525.6" y="108.0" text-anchor="start">76.3% less</text></g><g class="bar-row"><title>wall latency: 86.9% less than baseline</title><text class="cat" x="154" y="145.0" text-anchor="end">wall latency</text><path d="M168.0 131.0 H560.0 a4.0 4.0 0 0 1 4.0 4.0 V147.0 a4.0 4.0 0 0 1 -4.0 4.0 H168.0 Z" fill="var(--pole-good)"/><text class="val" x="574.0" y="146.0" text-anchor="start">86.9% less</text></g><g class="bar-row"><title>estimated cost: 68.7% less than baseline</title><text class="cat" x="154" y="183.0" text-anchor="end">estimated cost</text><path d="M168.0 169.0 H477.0 a4.0 4.0 0 0 1 4.0 4.0 V185.0 a4.0 4.0 0 0 1 -4.0 4.0 H168.0 Z" fill="var(--pole-good)"/><text class="val" x="491.0" y="184.0" text-anchor="start">68.7% less</text></g><line class="axis" x1="168.0" y1="8" x2="168.0" y2="198"/></svg></div></div>
+  
+  <div class="traces">
+    <h4>Trace, before and after — scenario <code>rag-00000</code></h4>
+    <p class="muted">
+      Both panels share one time axis, so the second is short because it is short.
+      Hover any bar for its duration and token usage.
+    </p>
+    <div class="legend" role="list"><span role="listitem"><i class="key" style="background:var(--series-1)"></i>provider turn (model request → response)</span><span role="listitem"><i class="key" style="background:var(--series-2)"></i>tool execution</span></div>
+    <div class="panel">
+      <div class="panel-head"><span class="tag tag--base">baseline</span>
+        <span>7 provider turns ·
+        7,488 tokens ·
+        8.83s</span></div>
+      <svg class="chart waterfall" viewBox="0 0 760 401" role="img" aria-labelledby="wf-permissioned_rag-base-t" preserveAspectRatio="xMidYMid meet"><title id="wf-permissioned_rag-base-t">baseline timeline</title><line class="grid" x1="190.0" y1="18" x2="190.0" y2="379"/><text class="tick" x="190.0" y="393" text-anchor="middle">0s</text><line class="grid" x1="242.8" y1="18" x2="242.8" y2="379"/><text class="tick" x="242.8" y="393" text-anchor="middle">1s</text><line class="grid" x1="295.6" y1="18" x2="295.6" y2="379"/><text class="tick" x="295.6" y="393" text-anchor="middle">2s</text><line class="grid" x1="348.4" y1="18" x2="348.4" y2="379"/><text class="tick" x="348.4" y="393" text-anchor="middle">3s</text><line class="grid" x1="401.1" y1="18" x2="401.1" y2="379"/><text class="tick" x="401.1" y="393" text-anchor="middle">4s</text><line class="grid" x1="453.9" y1="18" x2="453.9" y2="379"/><text class="tick" x="453.9" y="393" text-anchor="middle">5s</text><line class="grid" x1="506.7" y1="18" x2="506.7" y2="379"/><text class="tick" x="506.7" y="393" text-anchor="middle">6s</text><line class="grid" x1="559.5" y1="18" x2="559.5" y2="379"/><text class="tick" x="559.5" y="393" text-anchor="middle">7s</text><line class="grid" x1="612.3" y1="18" x2="612.3" y2="379"/><text class="tick" x="612.3" y="393" text-anchor="middle">8s</text><g class="span"><title>provider turn 1 · 1.72s · 588 in (0 cached) · 77 out</title><text class="cat" x="178" y="41.0" text-anchor="end">provider turn 1</text><rect x="190.0" y="30.0" width="90.7" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="288.7" y="42.0">1.72s</text></g><g class="span"><title>acl.check_scope · 1ms · model-selected</title><text class="cat" x="178" y="68.0" text-anchor="end">acl.check_scope</text><rect x="280.7" y="57.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="291.7" y="69.0">1ms</text></g><g class="span"><title>provider turn 2 · 706ms · 716 in (0 cached) · 14 out</title><text class="cat" x="178" y="95.0" text-anchor="end">provider turn 2</text><rect x="280.9" y="84.0" width="37.3" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="326.2" y="96.0">706ms</text></g><g class="span"><title>index.version · 1ms · model-selected</title><text class="cat" x="178" y="122.0" text-anchor="end">index.version</text><rect x="318.2" y="111.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="329.2" y="123.0">1ms</text></g><g class="span"><title>provider turn 3 · 947ms · 763 in (0 cached) · 26 out</title><text class="cat" x="178" y="149.0" text-anchor="end">provider turn 3</text><rect x="318.3" y="138.0" width="50.0" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="376.3" y="150.0">947ms</text></g><g class="span"><title>search.embed · 1ms · model-selected</title><text class="cat" x="178" y="176.0" text-anchor="end">search.embed</text><rect x="368.4" y="165.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="379.4" y="177.0">1ms</text></g><g class="span"><title>provider turn 4 · 1.05s · 835 in (0 cached) · 45 out</title><text class="cat" x="178" y="203.0" text-anchor="end">provider turn 4</text><rect x="368.5" y="192.0" width="55.5" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="432.1" y="204.0">1.05s</text></g><g class="span"><title>search.retrieve · 1ms · model-selected</title><text class="cat" x="178" y="230.0" text-anchor="end">search.retrieve</text><rect x="424.1" y="219.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="435.1" y="231.0">1ms</text></g><g class="span"><title>provider turn 5 · 1.61s · 1,061 in (0 cached) · 161 out</title><text class="cat" x="178" y="257.0" text-anchor="end">provider turn 5</text><rect x="424.3" y="246.0" width="84.9" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="517.2" y="258.0">1.61s</text></g><g class="span"><title>search.rerank · 1ms · model-selected</title><text class="cat" x="178" y="284.0" text-anchor="end">search.rerank</text><rect x="509.3" y="273.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="520.3" y="285.0">1ms</text></g><g class="span"><title>provider turn 6 · 1.30s · 1,311 in (1,058 cached) · 72 out</title><text class="cat" x="178" y="311.0" text-anchor="end">provider turn 6</text><rect x="509.4" y="300.0" width="68.4" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="585.8" y="312.0">1.30s</text></g><g class="span"><title>docs.fetch_metadata · 1ms · model-selected</title><text class="cat" x="178" y="338.0" text-anchor="end">docs.fetch_metadata</text><rect x="577.9" y="327.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="588.9" y="339.0">1ms</text></g><g class="span"><title>provider turn 7 · 1.48s · 1,742 in (1,308 cached) · 77 out</title><text class="cat" x="178" y="365.0" text-anchor="end">provider turn 7</text><rect x="578.1" y="354.0" width="77.9" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="664.0" y="366.0">1.48s</text></g><line class="axis" x1="190" y1="379" x2="656" y2="379"/></svg>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><span class="tag tag--opt">compacted</span>
+        <span>1 provider turns ·
+        1,725 tokens ·
+        1.55s</span></div>
+      <svg class="chart waterfall" viewBox="0 0 760 266" role="img" aria-labelledby="wf-permissioned_rag-opt-t" preserveAspectRatio="xMidYMid meet"><title id="wf-permissioned_rag-opt-t">optimized timeline</title><line class="grid" x1="190.0" y1="18" x2="190.0" y2="244"/><text class="tick" x="190.0" y="258" text-anchor="middle">0s</text><line class="grid" x1="242.8" y1="18" x2="242.8" y2="244"/><text class="tick" x="242.8" y="258" text-anchor="middle">1s</text><line class="grid" x1="295.6" y1="18" x2="295.6" y2="244"/><text class="tick" x="295.6" y="258" text-anchor="middle">2s</text><line class="grid" x1="348.4" y1="18" x2="348.4" y2="244"/><text class="tick" x="348.4" y="258" text-anchor="middle">3s</text><line class="grid" x1="401.1" y1="18" x2="401.1" y2="244"/><text class="tick" x="401.1" y="258" text-anchor="middle">4s</text><line class="grid" x1="453.9" y1="18" x2="453.9" y2="244"/><text class="tick" x="453.9" y="258" text-anchor="middle">5s</text><line class="grid" x1="506.7" y1="18" x2="506.7" y2="244"/><text class="tick" x="506.7" y="258" text-anchor="middle">6s</text><line class="grid" x1="559.5" y1="18" x2="559.5" y2="244"/><text class="tick" x="559.5" y="258" text-anchor="middle">7s</text><line class="grid" x1="612.3" y1="18" x2="612.3" y2="244"/><text class="tick" x="612.3" y="258" text-anchor="middle">8s</text><g class="span"><title>acl.check_scope · 0ms · model-selected</title><text class="cat" x="178" y="41.0" text-anchor="end">acl.check_scope</text><rect x="190.0" y="30.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="201.0" y="42.0">0ms</text></g><g class="span"><title>index.version · 0ms · model-selected</title><text class="cat" x="178" y="68.0" text-anchor="end">index.version</text><rect x="190.1" y="57.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="201.1" y="69.0">0ms</text></g><g class="span"><title>search.embed · 1ms · model-selected</title><text class="cat" x="178" y="95.0" text-anchor="end">search.embed</text><rect x="190.2" y="84.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="201.2" y="96.0">1ms</text></g><g class="span"><title>search.retrieve · 1ms · model-selected</title><text class="cat" x="178" y="122.0" text-anchor="end">search.retrieve</text><rect x="190.3" y="111.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="201.3" y="123.0">1ms</text></g><g class="span"><title>search.rerank · 0ms · model-selected</title><text class="cat" x="178" y="149.0" text-anchor="end">search.rerank</text><rect x="190.4" y="138.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="201.4" y="150.0">0ms</text></g><g class="span"><title>docs.fetch_metadata · 1ms · model-selected</title><text class="cat" x="178" y="176.0" text-anchor="end">docs.fetch_metadata</text><rect x="190.5" y="165.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="201.5" y="177.0">1ms</text></g><g class="span"><title>provider turn 1 · 1.54s · 1,648 in (0 cached) · 77 out</title><text class="cat" x="178" y="203.0" text-anchor="end">provider turn 1</text><rect x="190.6" y="192.0" width="81.3" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="279.9" y="204.0">1.54s</text></g><text class="ghost-label" x="178" y="230.0" text-anchor="end">removed</text><rect class="ghost" x="190" y="219" width="466" height="14" rx="4"/><text class="val ghost-val" x="664" y="230">6 provider turns elided</text><line class="axis" x1="190" y1="244" x2="656" y2="244"/></svg>
+    </div>
+    <div class="grid-2">
+      <div><h5>Entry state (the compiler's only input, θ)</h5><pre class="code"><code class="language-json">{
+  &quot;corpus&quot;: &quot;handbook&quot;,
+  &quot;index_version&quot;: &quot;idx-2026-06-14&quot;,
+  &quot;locale&quot;: &quot;en-GB&quot;,
+  &quot;principal&quot;: &quot;user.engineering.0&quot;,
+  &quot;question&quot;: &quot;  How do I handle sla terms 019?  &quot;,
+  &quot;role&quot;: &quot;engineering&quot;,
+  &quot;topic&quot;: &quot;sla_terms_019&quot;
+}</code></pre></div>
+      <div><h5>Final answer</h5><pre class="code"><code class="language-json">{
+  &quot;citations&quot;: [
+    &quot;doc_han_sla_terms_019_000&quot;,
+    &quot;doc_run_sla_terms_019_000&quot;,
+    &quot;doc_han_sla_terms_019_001&quot;,
+    &quot;doc_run_sla_terms_019_001&quot;,
+    &quot;doc_han_sla_terms_019_002&quot;
+  ],
+  &quot;reason&quot;: null,
+  &quot;topic&quot;: &quot;sla_terms_019&quot;
+}</code></pre>
+        <p class="muted">Graded against the fixture's deterministic expectation, not
+          against the baseline's answer.</p></div>
+    </div>
+    <div class="dispatch"><h5>Runtime dispatch record</h5><pre class="code"><code class="language-json">{
+  &quot;baseline&quot;: 1,
+  &quot;compacted&quot;: 1,
+  &quot;gate_rejections&quot;: 0,
+  &quot;guard_misses&quot;: {
+    &quot;region_already_started&quot;: 1
+  },
+  &quot;incidents&quot;: 0,
+  &quot;overhead_ms_total&quot;: 2.1,
+  &quot;removed_requests_total&quot;: 6.0,
+  &quot;verifier_pass_rate&quot;: 1.0
+}</code></pre></div>
+  </div>
+
+</section>
+
+<section id="demo-incident_triage" class="demo">
+  <h3>6.3 · C · Multi-agent incident triage</h3>
+  <p>A coordinator that reads an alert and hands off to a specialist. TGWS removes the coordinator turn; for GRC a handoff is a barrier.</p>
+  <p class="verdict verdict--good">task outcome unchanged in every condition · baseline
+    5.0 provider turns/episode</p>
+  <div class="table-wrap"><table><caption>Per-scenario means. Tool calls are unchanged by design: compaction removes provider turns, not work.</caption><thead><tr><th scope="col">Condition</th><th scope="col">n</th><th scope="col">Turns</th><th scope="col">Tools</th><th scope="col">Input tok</th><th scope="col">Total tok</th><th scope="col">Latency</th><th scope="col">Est. cost</th><th scope="col">Quality</th><th scope="col">Success</th></tr></thead><tbody><tr><td><strong>baseline</strong></td><td>4</td><td>5.00</td><td>3.00</td><td>2,782</td><td>2,929</td><td>5.46s</td><td>$0.007325</td><td>1.000</td><td>1.000</td></tr><tr><td>compacted</td><td>4</td><td>1.00</td><td>3.00</td><td>741</td><td>767</td><td>1.05s</td><td>$0.001791</td><td>1.000</td><td>1.000</td></tr></tbody></table></div>
+  <div class="chart-grid"><div class="chart-block"><h4>compacted vs baseline</h4><svg class="chart" viewBox="0 0 660 202" role="img" aria-labelledby="red-incident_triage-compacted-t" preserveAspectRatio="xMidYMid meet"><title id="red-incident_triage-compacted-t">Reduction versus baseline by metric</title><g class="bar-row"><title>provider turns: 80.0% less than baseline</title><text class="cat" x="154" y="31.0" text-anchor="end">provider turns</text><path d="M168.0 17.0 H556.0 a4.0 4.0 0 0 1 4.0 4.0 V33.0 a4.0 4.0 0 0 1 -4.0 4.0 H168.0 Z" fill="var(--pole-good)"/><text class="val" x="570.0" y="32.0" text-anchor="start">80.0% less</text></g><g class="bar-row"><title>input tokens: 73.4% less than baseline</title><text class="cat" x="154" y="69.0" text-anchor="end">input tokens</text><path d="M168.0 55.0 H523.4 a4.0 4.0 0 0 1 4.0 4.0 V71.0 a4.0 4.0 0 0 1 -4.0 4.0 H168.0 Z" fill="var(--pole-good)"/><text class="val" x="537.4" y="70.0" text-anchor="start">73.4% less</text></g><g class="bar-row"><title>total tokens: 73.8% less than baseline</title><text class="cat" x="154" y="107.0" text-anchor="end">total tokens</text><path d="M168.0 93.0 H525.6 a4.0 4.0 0 0 1 4.0 4.0 V109.0 a4.0 4.0 0 0 1 -4.0 4.0 H168.0 Z" fill="var(--pole-good)"/><text class="val" x="539.6" y="108.0" text-anchor="start">73.8% less</text></g><g class="bar-row"><title>wall latency: 80.8% less than baseline</title><text class="cat" x="154" y="145.0" text-anchor="end">wall latency</text><path d="M168.0 131.0 H560.0 a4.0 4.0 0 0 1 4.0 4.0 V147.0 a4.0 4.0 0 0 1 -4.0 4.0 H168.0 Z" fill="var(--pole-good)"/><text class="val" x="574.0" y="146.0" text-anchor="start">80.8% less</text></g><g class="bar-row"><title>estimated cost: 75.5% less than baseline</title><text class="cat" x="154" y="183.0" text-anchor="end">estimated cost</text><path d="M168.0 169.0 H534.1 a4.0 4.0 0 0 1 4.0 4.0 V185.0 a4.0 4.0 0 0 1 -4.0 4.0 H168.0 Z" fill="var(--pole-good)"/><text class="val" x="548.1" y="184.0" text-anchor="start">75.5% less</text></g><line class="axis" x1="168.0" y1="8" x2="168.0" y2="198"/></svg></div></div>
+  
+  <div class="traces">
+    <h4>Trace, before and after — scenario <code>tri-00000</code></h4>
+    <p class="muted">
+      Both panels share one time axis, so the second is short because it is short.
+      Hover any bar for its duration and token usage.
+    </p>
+    <div class="legend" role="list"><span role="listitem"><i class="key" style="background:var(--series-1)"></i>provider turn (model request → response)</span><span role="listitem"><i class="key" style="background:var(--series-2)"></i>tool execution</span></div>
+    <div class="panel">
+      <div class="panel-head"><span class="tag tag--base">baseline</span>
+        <span>5 provider turns ·
+        2,886 tokens ·
+        5.93s</span></div>
+      <svg class="chart waterfall" viewBox="0 0 760 266" role="img" aria-labelledby="wf-incident_triage-base-t" preserveAspectRatio="xMidYMid meet"><title id="wf-incident_triage-base-t">baseline timeline</title><line class="grid" x1="190.0" y1="18" x2="190.0" y2="244"/><text class="tick" x="190.0" y="258" text-anchor="middle">0s</text><line class="grid" x1="268.6" y1="18" x2="268.6" y2="244"/><text class="tick" x="268.6" y="258" text-anchor="middle">1s</text><line class="grid" x1="347.2" y1="18" x2="347.2" y2="244"/><text class="tick" x="347.2" y="258" text-anchor="middle">2s</text><line class="grid" x1="425.8" y1="18" x2="425.8" y2="244"/><text class="tick" x="425.8" y="258" text-anchor="middle">3s</text><line class="grid" x1="504.4" y1="18" x2="504.4" y2="244"/><text class="tick" x="504.4" y="258" text-anchor="middle">4s</text><line class="grid" x1="583.0" y1="18" x2="583.0" y2="244"/><text class="tick" x="583.0" y="258" text-anchor="middle">5s</text><g class="span"><title>provider turn 1 · 1.23s · 413 in (0 cached) · 38 out</title><text class="cat" x="178" y="41.0" text-anchor="end">provider turn 1</text><rect x="190.0" y="30.0" width="97.1" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="295.1" y="42.0">1.23s</text></g><g class="span"><title>alerts.get · 1ms · model-selected</title><text class="cat" x="178" y="68.0" text-anchor="end">alerts.get</text><rect x="287.1" y="57.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="298.1" y="69.0">1ms</text></g><g class="span"><title>provider turn 2 · 1.43s · 513 in (0 cached) · 18 out</title><text class="cat" x="178" y="95.0" text-anchor="end">provider turn 2</text><rect x="287.3" y="84.0" width="112.2" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="407.6" y="96.0">1.43s</text></g><g class="span"><title>provider turn 3 · 995ms · 521 in (0 cached) · 41 out</title><text class="cat" x="178" y="122.0" text-anchor="end">provider turn 3</text><rect x="399.7" y="111.0" width="78.2" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="485.8" y="123.0">995ms</text></g><g class="span"><title>runbooks.lookup · 1ms · model-selected</title><text class="cat" x="178" y="149.0" text-anchor="end">runbooks.lookup</text><rect x="478.0" y="138.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="489.0" y="150.0">1ms</text></g><g class="span"><title>provider turn 4 · 1.40s · 613 in (0 cached) · 24 out</title><text class="cat" x="178" y="176.0" text-anchor="end">provider turn 4</text><rect x="478.2" y="165.0" width="110.0" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="596.3" y="177.0">1.40s</text></g><g class="span"><title>metrics.query · 1ms · model-selected</title><text class="cat" x="178" y="203.0" text-anchor="end">metrics.query</text><rect x="588.3" y="192.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="599.3" y="204.0">1ms</text></g><g class="span"><title>provider turn 5 · 859ms · 678 in (0 cached) · 27 out</title><text class="cat" x="178" y="230.0" text-anchor="end">provider turn 5</text><rect x="588.5" y="219.0" width="67.5" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="664.0" y="231.0">859ms</text></g><line class="axis" x1="190" y1="244" x2="656" y2="244"/></svg>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><span class="tag tag--opt">compacted</span>
+        <span>1 provider turns ·
+        731 tokens ·
+        1.09s</span></div>
+      <svg class="chart waterfall" viewBox="0 0 760 185" role="img" aria-labelledby="wf-incident_triage-opt-t" preserveAspectRatio="xMidYMid meet"><title id="wf-incident_triage-opt-t">optimized timeline</title><line class="grid" x1="190.0" y1="18" x2="190.0" y2="163"/><text class="tick" x="190.0" y="177" text-anchor="middle">0s</text><line class="grid" x1="268.6" y1="18" x2="268.6" y2="163"/><text class="tick" x="268.6" y="177" text-anchor="middle">1s</text><line class="grid" x1="347.2" y1="18" x2="347.2" y2="163"/><text class="tick" x="347.2" y="177" text-anchor="middle">2s</text><line class="grid" x1="425.8" y1="18" x2="425.8" y2="163"/><text class="tick" x="425.8" y="177" text-anchor="middle">3s</text><line class="grid" x1="504.4" y1="18" x2="504.4" y2="163"/><text class="tick" x="504.4" y="177" text-anchor="middle">4s</text><line class="grid" x1="583.0" y1="18" x2="583.0" y2="163"/><text class="tick" x="583.0" y="177" text-anchor="middle">5s</text><g class="span"><title>alerts.get · 0ms · model-selected</title><text class="cat" x="178" y="41.0" text-anchor="end">alerts.get</text><rect x="190.0" y="30.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="201.0" y="42.0">0ms</text></g><g class="span"><title>runbooks.lookup · 0ms · model-selected</title><text class="cat" x="178" y="68.0" text-anchor="end">runbooks.lookup</text><rect x="190.2" y="57.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="201.2" y="69.0">0ms</text></g><g class="span"><title>metrics.query · 0ms · model-selected</title><text class="cat" x="178" y="95.0" text-anchor="end">metrics.query</text><rect x="190.3" y="84.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="201.3" y="96.0">0ms</text></g><g class="span"><title>provider turn 1 · 1.08s · 704 in (0 cached) · 27 out</title><text class="cat" x="178" y="122.0" text-anchor="end">provider turn 1</text><rect x="190.4" y="111.0" width="84.6" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="283.0" y="123.0">1.08s</text></g><text class="ghost-label" x="178" y="149.0" text-anchor="end">removed</text><rect class="ghost" x="190" y="138" width="466" height="14" rx="4"/><text class="val ghost-val" x="664" y="149">4 provider turns elided</text><line class="axis" x1="190" y1="163" x2="656" y2="163"/></svg>
+    </div>
+    <div class="grid-2">
+      <div><h5>Entry state (the compiler's only input, θ)</h5><pre class="code"><code class="language-json">{
+  &quot;alert_family&quot;: &quot;cert_expiry&quot;,
+  &quot;alert_id&quot;: &quot;al_000000&quot;,
+  &quot;environment&quot;: &quot;prod&quot;,
+  &quot;region&quot;: &quot;eu-west&quot;,
+  &quot;runbook_hint&quot;: &quot;cert_expiry&quot;,
+  &quot;service&quot;: &quot;search&quot;,
+  &quot;severity&quot;: &quot;sev1&quot;
+}</code></pre></div>
+      <div><h5>Final answer</h5><pre class="code"><code class="language-json">{
+  &quot;classification&quot;: &quot;cert_expiry&quot;,
+  &quot;service&quot;: &quot;search&quot;,
+  &quot;specialist&quot;: &quot;runbook_specialist&quot;
+}</code></pre>
+        <p class="muted">Graded against the fixture's deterministic expectation, not
+          against the baseline's answer.</p></div>
+    </div>
+    <div class="dispatch"><h5>Runtime dispatch record</h5><pre class="code"><code class="language-json">{
+  &quot;baseline&quot;: 1,
+  &quot;compacted&quot;: 1,
+  &quot;gate_rejections&quot;: 0,
+  &quot;guard_misses&quot;: {
+    &quot;region_already_started&quot;: 1
+  },
+  &quot;incidents&quot;: 0,
+  &quot;overhead_ms_total&quot;: 2.1,
+  &quot;removed_requests_total&quot;: 3.0,
+  &quot;verifier_pass_rate&quot;: 1.0
+}</code></pre></div>
+  </div>
+
+</section>
+
+<section id="demo-mcp_ops" class="demo">
+  <h3>6.4 · D · Multi-tenant MCP (negative control)</h3>
+  <p>A real stdio MCP server whose tool effects are undeclared. The expected and correct outcome is a refusal to compact.</p>
+  <p class="verdict verdict--good">task outcome unchanged in every condition · baseline
+    3.0 provider turns/episode</p>
+  <div class="table-wrap"><table><caption>Per-scenario means. Tool calls are unchanged by design: compaction removes provider turns, not work.</caption><thead><tr><th scope="col">Condition</th><th scope="col">n</th><th scope="col">Turns</th><th scope="col">Tools</th><th scope="col">Input tok</th><th scope="col">Total tok</th><th scope="col">Latency</th><th scope="col">Est. cost</th><th scope="col">Quality</th><th scope="col">Success</th></tr></thead><tbody><tr><td><strong>baseline</strong></td><td>2</td><td>3.00</td><td>2.00</td><td>1,295</td><td>1,396</td><td>4.82s</td><td>$0.003796</td><td>1.000</td><td>1.000</td></tr><tr><td>compaction refused → baseline</td><td>2</td><td>3.00</td><td>2.00</td><td>1,296</td><td>1,397</td><td>3.08s</td><td>$0.003804</td><td>1.000</td><td>1.000</td></tr></tbody></table></div>
+  <div class="chart-grid"><div class="chart-block"><h4>compaction refused → baseline vs baseline</h4><p class="muted">MCP tools carry no human-attested effect catalog, so the dispatcher fails closed before it ever looks at a program.</p><svg class="chart" viewBox="0 0 660 202" role="img" aria-labelledby="red-mcp_ops-compacted_fallback-t" preserveAspectRatio="xMidYMid meet"><title id="red-mcp_ops-compacted_fallback-t">Reduction versus baseline by metric</title><g class="bar-row"><title>provider turns: 0.0% less than baseline</title><text class="cat" x="154" y="31.0" text-anchor="end">provider turns</text><path d="M366.0 17.0 H366.0 a0.0 0.0 0 0 1 0.0 0.0 V37.0 a0.0 0.0 0 0 1 -0.0 0.0 H366.0 Z" fill="var(--pole-good)"/><text class="val" x="376.0" y="32.0" text-anchor="start">0.0% less</text></g><g class="bar-row"><title>input tokens: 0.1% more than baseline</title><text class="cat" x="154" y="69.0" text-anchor="end">input tokens</text><path d="M366.0 55.0 H366.0 a0.4225790696002973 0.4225790696002973 0 0 0 -0.4225790696002973 0.4225790696002973 V74.6 a0.4225790696002973 0.4225790696002973 0 0 0 0.4225790696002973 0.4225790696002973 H366.0 Z" fill="var(--pole-bad)"/><text class="val" x="355.6" y="70.0" text-anchor="end">0.1% more</text></g><g class="bar-row"><title>total tokens: 0.1% more than baseline</title><text class="cat" x="154" y="107.0" text-anchor="end">total tokens</text><path d="M366.0 93.0 H366.0 a0.5882191635244866 0.5882191635244866 0 0 0 -0.5882191635244866 0.5882191635244866 V112.4 a0.5882191635244866 0.5882191635244866 0 0 0 0.5882191635244866 0.5882191635244866 H366.0 Z" fill="var(--pole-bad)"/><text class="val" x="355.4" y="108.0" text-anchor="end">0.1% more</text></g><g class="bar-row"><title>wall latency: 36.2% less than baseline</title><text class="cat" x="154" y="145.0" text-anchor="end">wall latency</text><path d="M366.0 131.0 H560.0 a4.0 4.0 0 0 1 4.0 4.0 V147.0 a4.0 4.0 0 0 1 -4.0 4.0 H366.0 Z" fill="var(--pole-good)"/><text class="val" x="574.0" y="146.0" text-anchor="start">36.2% less</text></g><g class="bar-row"><title>estimated cost: 0.2% more than baseline</title><text class="cat" x="154" y="183.0" text-anchor="end">estimated cost</text><path d="M366.0 169.0 H366.0 a1.153297987633965 1.153297987633965 0 0 0 -1.153297987633965 1.153297987633965 V187.8 a1.153297987633965 1.153297987633965 0 0 0 1.153297987633965 1.153297987633965 H366.0 Z" fill="var(--pole-bad)"/><text class="val" x="354.8" y="184.0" text-anchor="end">0.2% more</text></g><line class="axis" x1="366.0" y1="8" x2="366.0" y2="198"/></svg></div></div>
+  
+  <div class="traces">
+    <h4>Trace, before and after — scenario <code>mcp-contoso</code></h4>
+    <p class="muted">
+      Both panels share one time axis, so the second is short because it is short.
+      Hover any bar for its duration and token usage.
+    </p>
+    <div class="legend" role="list"><span role="listitem"><i class="key" style="background:var(--series-1)"></i>provider turn (model request → response)</span><span role="listitem"><i class="key" style="background:var(--series-2)"></i>tool execution</span></div>
+    <div class="panel">
+      <div class="panel-head"><span class="tag tag--base">baseline</span>
+        <span>3 provider turns ·
+        1,391 tokens ·
+        3.36s</span></div>
+      <svg class="chart waterfall" viewBox="0 0 760 185" role="img" aria-labelledby="wf-mcp_ops-base-t" preserveAspectRatio="xMidYMid meet"><title id="wf-mcp_ops-base-t">baseline timeline</title><line class="grid" x1="190.0" y1="18" x2="190.0" y2="163"/><text class="tick" x="190.0" y="177" text-anchor="middle">0s</text><line class="grid" x1="329.1" y1="18" x2="329.1" y2="163"/><text class="tick" x="329.1" y="177" text-anchor="middle">1s</text><line class="grid" x1="468.1" y1="18" x2="468.1" y2="163"/><text class="tick" x="468.1" y="177" text-anchor="middle">2s</text><line class="grid" x1="607.2" y1="18" x2="607.2" y2="163"/><text class="tick" x="607.2" y="177" text-anchor="middle">3s</text><g class="span"><title>provider turn 1 · 1.24s · 342 in (0 cached) · 39 out</title><text class="cat" x="178" y="41.0" text-anchor="end">provider turn 1</text><rect x="190.0" y="30.0" width="172.5" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="370.5" y="42.0">1.24s</text></g><g class="span"><title>lookup_customer · 3ms · model-selected</title><text class="cat" x="178" y="68.0" text-anchor="end">lookup_customer</text><rect x="362.6" y="57.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="373.6" y="69.0">3ms</text></g><g class="span"><title>provider turn 2 · 881ms · 438 in (0 cached) · 28 out</title><text class="cat" x="178" y="95.0" text-anchor="end">provider turn 2</text><rect x="363.5" y="84.0" width="122.5" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="494.0" y="96.0">881ms</text></g><g class="span"><title>get_subscription · 3ms · model-selected</title><text class="cat" x="178" y="122.0" text-anchor="end">get_subscription</text><rect x="486.1" y="111.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="497.1" y="123.0">3ms</text></g><g class="span"><title>provider turn 3 · 1.22s · 512 in (0 cached) · 32 out</title><text class="cat" x="178" y="149.0" text-anchor="end">provider turn 3</text><rect x="487.0" y="138.0" width="169.0" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="664.0" y="150.0">1.22s</text></g><line class="axis" x1="190" y1="163" x2="656" y2="163"/></svg>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><span class="tag tag--opt">compaction refused → baseline</span>
+        <span>3 provider turns ·
+        1,391 tokens ·
+        3.18s</span></div>
+      <svg class="chart waterfall" viewBox="0 0 760 185" role="img" aria-labelledby="wf-mcp_ops-opt-t" preserveAspectRatio="xMidYMid meet"><title id="wf-mcp_ops-opt-t">optimized timeline</title><line class="grid" x1="190.0" y1="18" x2="190.0" y2="163"/><text class="tick" x="190.0" y="177" text-anchor="middle">0s</text><line class="grid" x1="329.1" y1="18" x2="329.1" y2="163"/><text class="tick" x="329.1" y="177" text-anchor="middle">1s</text><line class="grid" x1="468.1" y1="18" x2="468.1" y2="163"/><text class="tick" x="468.1" y="177" text-anchor="middle">2s</text><line class="grid" x1="607.2" y1="18" x2="607.2" y2="163"/><text class="tick" x="607.2" y="177" text-anchor="middle">3s</text><g class="span"><title>provider turn 1 · 1.10s · 342 in (0 cached) · 39 out</title><text class="cat" x="178" y="41.0" text-anchor="end">provider turn 1</text><rect x="190.0" y="30.0" width="152.5" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="350.5" y="42.0">1.10s</text></g><g class="span"><title>lookup_customer · 3ms · model-selected</title><text class="cat" x="178" y="68.0" text-anchor="end">lookup_customer</text><rect x="342.5" y="57.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="353.5" y="69.0">3ms</text></g><g class="span"><title>provider turn 2 · 970ms · 438 in (0 cached) · 28 out</title><text class="cat" x="178" y="95.0" text-anchor="end">provider turn 2</text><rect x="343.3" y="84.0" width="134.9" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="486.2" y="96.0">970ms</text></g><g class="span"><title>get_subscription · 3ms · model-selected</title><text class="cat" x="178" y="122.0" text-anchor="end">get_subscription</text><rect x="478.3" y="111.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="489.3" y="123.0">3ms</text></g><g class="span"><title>provider turn 3 · 1.10s · 512 in (0 cached) · 32 out</title><text class="cat" x="178" y="149.0" text-anchor="end">provider turn 3</text><rect x="479.2" y="138.0" width="152.4" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="639.6" y="150.0">1.10s</text></g><line class="axis" x1="190" y1="163" x2="656" y2="163"/></svg>
+    </div>
+    <div class="grid-2">
+      <div><h5>Entry state (the compiler's only input, θ)</h5><pre class="code"><code class="language-json">{
+  &quot;email&quot;: &quot;sam@contoso.example&quot;,
+  &quot;tenant&quot;: &quot;contoso&quot;
+}</code></pre></div>
+      <div><h5>Final answer</h5><pre class="code"><code class="language-json">{
+  &quot;customer_id&quot;: &quot;cus_ct_8831&quot;,
+  &quot;seats&quot;: 60,
+  &quot;tenant&quot;: &quot;contoso&quot;,
+  &quot;tier&quot;: &quot;business&quot;
+}</code></pre>
+        <p class="muted">Graded against the fixture's deterministic expectation, not
+          against the baseline's answer.</p></div>
+    </div>
+    <div class="dispatch"><h5>Runtime dispatch record</h5><pre class="code"><code class="language-json">{
+  &quot;outcome&quot;: &quot;BASELINE&quot;,
+  &quot;reason&quot;: &quot;MCP tools have no human-attested effect catalog; fail closed&quot;
+}</code></pre></div>
+  </div>
+
+</section>
+
+<section id="demo-fulfillment" class="demo">
+  <h3>6.5 · E · Fulfillment exceptions (branches, pagination, a write)</h3>
+  <p>The hardest shape in the suite: three synthesized branches, a paginated read, and a mandatory irreversible commitment that bounds every region to a prefix. Partial compaction is the correct result, not a degraded one.</p>
+  <p class="verdict verdict--good">task outcome unchanged in every condition · baseline
+    7.0 provider turns/episode</p>
+  <div class="table-wrap"><table><caption>Per-scenario means. Tool calls are unchanged by design: compaction removes provider turns, not work.</caption><thead><tr><th scope="col">Condition</th><th scope="col">n</th><th scope="col">Turns</th><th scope="col">Tools</th><th scope="col">Input tok</th><th scope="col">Total tok</th><th scope="col">Latency</th><th scope="col">Est. cost</th><th scope="col">Quality</th><th scope="col">Success</th></tr></thead><tbody><tr><td><strong>baseline</strong></td><td>4</td><td>7.00</td><td>6.00</td><td>9,787</td><td>10,024</td><td>9.52s</td><td>$0.005690</td><td>1.000</td><td>1.000</td></tr><tr><td>compacted</td><td>4</td><td>2.00</td><td>6.00</td><td>3,301</td><td>3,366</td><td>2.18s</td><td>$0.006161</td><td>1.000</td><td>1.000</td></tr><tr><td>loop artifact refused → baseline</td><td>4</td><td>7.00</td><td>6.00</td><td>9,798</td><td>10,040</td><td>9.27s</td><td>$0.008840</td><td>1.000</td><td>1.000</td></tr><tr><td>schema drift, guard miss → baseline</td><td>4</td><td>7.00</td><td>6.00</td><td>9,787</td><td>10,026</td><td>8.30s</td><td>$0.008792</td><td>1.000</td><td>1.000</td></tr></tbody></table></div>
+  <div class="chart-grid"><div class="chart-block"><h4>compacted vs baseline</h4><svg class="chart" viewBox="0 0 660 202" role="img" aria-labelledby="red-fulfillment-compacted-t" preserveAspectRatio="xMidYMid meet"><title id="red-fulfillment-compacted-t">Reduction versus baseline by metric</title><g class="bar-row"><title>provider turns: 71.4% less than baseline</title><text class="cat" x="154" y="31.0" text-anchor="end">provider turns</text><path d="M366.0 17.0 H545.4 a4.0 4.0 0 0 1 4.0 4.0 V33.0 a4.0 4.0 0 0 1 -4.0 4.0 H366.0 Z" fill="var(--pole-good)"/><text class="val" x="559.4" y="32.0" text-anchor="start">71.4% less</text></g><g class="bar-row"><title>input tokens: 66.3% less than baseline</title><text class="cat" x="154" y="69.0" text-anchor="end">input tokens</text><path d="M366.0 55.0 H532.2 a4.0 4.0 0 0 1 4.0 4.0 V71.0 a4.0 4.0 0 0 1 -4.0 4.0 H366.0 Z" fill="var(--pole-good)"/><text class="val" x="546.2" y="70.0" text-anchor="start">66.3% less</text></g><g class="bar-row"><title>total tokens: 66.4% less than baseline</title><text class="cat" x="154" y="107.0" text-anchor="end">total tokens</text><path d="M366.0 93.0 H532.6 a4.0 4.0 0 0 1 4.0 4.0 V109.0 a4.0 4.0 0 0 1 -4.0 4.0 H366.0 Z" fill="var(--pole-good)"/><text class="val" x="546.6" y="108.0" text-anchor="start">66.4% less</text></g><g class="bar-row"><title>wall latency: 77.1% less than baseline</title><text class="cat" x="154" y="145.0" text-anchor="end">wall latency</text><path d="M366.0 131.0 H560.0 a4.0 4.0 0 0 1 4.0 4.0 V147.0 a4.0 4.0 0 0 1 -4.0 4.0 H366.0 Z" fill="var(--pole-good)"/><text class="val" x="574.0" y="146.0" text-anchor="start">77.1% less</text></g><g class="bar-row"><title>estimated cost: 8.3% more than baseline</title><text class="cat" x="154" y="183.0" text-anchor="end">estimated cost</text><path d="M366.0 169.0 H348.8 a4.0 4.0 0 0 0 -4.0 4.0 V185.0 a4.0 4.0 0 0 0 4.0 4.0 H366.0 Z" fill="var(--pole-bad)"/><text class="val" x="334.8" y="184.0" text-anchor="end">8.3% more</text></g><line class="axis" x1="366.0" y1="8" x2="366.0" y2="198"/></svg></div><div class="chart-block"><h4>loop artifact refused → baseline vs baseline</h4><p class="muted">The same evidence expressed as a bounded ForEach. The Model adapter only supports straight-line call programs and refuses this artifact rather than half-executing it (proposal §5.6, conformance item 7).</p><svg class="chart" viewBox="0 0 660 202" role="img" aria-labelledby="red-fulfillment-compacted_loop_refused-t" preserveAspectRatio="xMidYMid meet"><title id="red-fulfillment-compacted_loop_refused-t">Reduction versus baseline by metric</title><g class="bar-row"><title>provider turns: 0.0% less than baseline</title><text class="cat" x="154" y="31.0" text-anchor="end">provider turns</text><path d="M366.0 17.0 H366.0 a0.0 0.0 0 0 1 0.0 0.0 V37.0 a0.0 0.0 0 0 1 -0.0 0.0 H366.0 Z" fill="var(--pole-good)"/><text class="val" x="376.0" y="32.0" text-anchor="start">0.0% less</text></g><g class="bar-row"><title>input tokens: 0.1% more than baseline</title><text class="cat" x="154" y="69.0" text-anchor="end">input tokens</text><path d="M366.0 55.0 H366.0 a0.3928442162521804 0.3928442162521804 0 0 0 -0.3928442162521804 0.3928442162521804 V74.6 a0.3928442162521804 0.3928442162521804 0 0 0 0.3928442162521804 0.3928442162521804 H366.0 Z" fill="var(--pole-bad)"/><text class="val" x="355.6" y="70.0" text-anchor="end">0.1% more</text></g><g class="bar-row"><title>total tokens: 0.2% more than baseline</title><text class="cat" x="154" y="107.0" text-anchor="end">total tokens</text><path d="M366.0 93.0 H366.0 a0.5797941043585622 0.5797941043585622 0 0 0 -0.5797941043585622 0.5797941043585622 V112.4 a0.5797941043585622 0.5797941043585622 0 0 0 0.5797941043585622 0.5797941043585622 H366.0 Z" fill="var(--pole-bad)"/><text class="val" x="355.4" y="108.0" text-anchor="end">0.2% more</text></g><g class="bar-row"><title>wall latency: 2.6% less than baseline</title><text class="cat" x="154" y="145.0" text-anchor="end">wall latency</text><path d="M366.0 131.0 H371.3 a4.0 4.0 0 0 1 4.0 4.0 V147.0 a4.0 4.0 0 0 1 -4.0 4.0 H366.0 Z" fill="var(--pole-good)"/><text class="val" x="385.3" y="146.0" text-anchor="start">2.6% less</text></g><g class="bar-row"><title>estimated cost: 55.4% more than baseline</title><text class="cat" x="154" y="183.0" text-anchor="end">estimated cost</text><path d="M366.0 169.0 H172.0 a4.0 4.0 0 0 0 -4.0 4.0 V185.0 a4.0 4.0 0 0 0 4.0 4.0 H366.0 Z" fill="var(--pole-bad)"/><text class="val" x="376.0" y="184.0" text-anchor="start">55.4% more</text></g><line class="axis" x1="366.0" y1="8" x2="366.0" y2="198"/></svg></div><div class="chart-block"><h4>schema drift, guard miss → baseline vs baseline</h4><p class="muted">The identical artifact against a case whose WMS intake schema moved to wms_v3. The hard guard pins wms_v2, misses, and the baseline runs.</p><svg class="chart" viewBox="0 0 660 202" role="img" aria-labelledby="red-fulfillment-compacted_ood_fallback-t" preserveAspectRatio="xMidYMid meet"><title id="red-fulfillment-compacted_ood_fallback-t">Reduction versus baseline by metric</title><g class="bar-row"><title>provider turns: 0.0% less than baseline</title><text class="cat" x="154" y="31.0" text-anchor="end">provider turns</text><path d="M366.0 17.0 H366.0 a0.0 0.0 0 0 1 0.0 0.0 V37.0 a0.0 0.0 0 0 1 -0.0 0.0 H366.0 Z" fill="var(--pole-good)"/><text class="val" x="376.0" y="32.0" text-anchor="start">0.0% less</text></g><g class="bar-row"><title>input tokens: 0.0% less than baseline</title><text class="cat" x="154" y="69.0" text-anchor="end">input tokens</text><path d="M366.0 55.0 H366.0 a0.0 0.0 0 0 1 0.0 0.0 V75.0 a0.0 0.0 0 0 1 -0.0 0.0 H366.0 Z" fill="var(--pole-good)"/><text class="val" x="376.0" y="70.0" text-anchor="start">0.0% less</text></g><g class="bar-row"><title>total tokens: 0.0% more than baseline</title><text class="cat" x="154" y="107.0" text-anchor="end">total tokens</text><path d="M366.0 93.0 H366.0 a0.08153778237183629 0.08153778237183629 0 0 0 -0.08153778237183629 0.08153778237183629 V112.9 a0.08153778237183629 0.08153778237183629 0 0 0 0.08153778237183629 0.08153778237183629 H366.0 Z" fill="var(--pole-bad)"/><text class="val" x="355.9" y="108.0" text-anchor="end">0.0% more</text></g><g class="bar-row"><title>wall latency: 12.9% less than baseline</title><text class="cat" x="154" y="145.0" text-anchor="end">wall latency</text><path d="M366.0 131.0 H408.8 a4.0 4.0 0 0 1 4.0 4.0 V147.0 a4.0 4.0 0 0 1 -4.0 4.0 H366.0 Z" fill="var(--pole-good)"/><text class="val" x="422.8" y="146.0" text-anchor="start">12.9% less</text></g><g class="bar-row"><title>estimated cost: 54.5% more than baseline</title><text class="cat" x="154" y="183.0" text-anchor="end">estimated cost</text><path d="M366.0 169.0 H172.0 a4.0 4.0 0 0 0 -4.0 4.0 V185.0 a4.0 4.0 0 0 0 4.0 4.0 H366.0 Z" fill="var(--pole-bad)"/><text class="val" x="376.0" y="184.0" text-anchor="start">54.5% more</text></g><line class="axis" x1="366.0" y1="8" x2="366.0" y2="198"/></svg></div></div>
+  
+  <div class="traces">
+    <h4>Trace, before and after — scenario <code>ful-00001</code></h4>
+    <p class="muted">
+      Both panels share one time axis, so the second is short because it is short.
+      Hover any bar for its duration and token usage.
+    </p>
+    <div class="legend" role="list"><span role="listitem"><i class="key" style="background:var(--series-1)"></i>provider turn (model request → response)</span><span role="listitem"><i class="key" style="background:var(--series-2)"></i>tool execution</span></div>
+    <div class="panel">
+      <div class="panel-head"><span class="tag tag--base">baseline</span>
+        <span>6 provider turns ·
+        7,984 tokens ·
+        5.84s</span></div>
+      <svg class="chart waterfall" viewBox="0 0 760 347" role="img" aria-labelledby="wf-fulfillment-base-t" preserveAspectRatio="xMidYMid meet"><title id="wf-fulfillment-base-t">baseline timeline</title><line class="grid" x1="190.0" y1="18" x2="190.0" y2="325"/><text class="tick" x="190.0" y="339" text-anchor="middle">0s</text><line class="grid" x1="257.5" y1="18" x2="257.5" y2="325"/><text class="tick" x="257.5" y="339" text-anchor="middle">1s</text><line class="grid" x1="324.9" y1="18" x2="324.9" y2="325"/><text class="tick" x="324.9" y="339" text-anchor="middle">2s</text><line class="grid" x1="392.4" y1="18" x2="392.4" y2="325"/><text class="tick" x="392.4" y="339" text-anchor="middle">3s</text><line class="grid" x1="459.9" y1="18" x2="459.9" y2="325"/><text class="tick" x="459.9" y="339" text-anchor="middle">4s</text><line class="grid" x1="527.4" y1="18" x2="527.4" y2="325"/><text class="tick" x="527.4" y="339" text-anchor="middle">5s</text><line class="grid" x1="594.8" y1="18" x2="594.8" y2="325"/><text class="tick" x="594.8" y="339" text-anchor="middle">6s</text><g class="span"><title>provider turn 1 · 813ms · 1,048 in (1,045 cached) · 28 out</title><text class="cat" x="178" y="41.0" text-anchor="end">provider turn 1</text><rect x="190.0" y="30.0" width="54.8" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="252.8" y="42.0">813ms</text></g><g class="span"><title>auth.issue_ops_token · 1ms · model-selected</title><text class="cat" x="178" y="68.0" text-anchor="end">auth.issue_ops_token</text><rect x="244.9" y="57.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="255.9" y="69.0">1ms</text></g><g class="span"><title>provider turn 2 · 2.05s · 1,116 in (1,045 cached) · 35 out</title><text class="cat" x="178" y="95.0" text-anchor="end">provider turn 2</text><rect x="245.1" y="84.0" width="138.0" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="391.1" y="96.0">2.05s</text></g><g class="span"><title>orders.get · 1ms · model-selected</title><text class="cat" x="178" y="122.0" text-anchor="end">orders.get</text><rect x="383.2" y="111.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="394.2" y="123.0">1ms</text></g><g class="span"><title>provider turn 3 · 853ms · 1,248 in (1,113 cached) · 41 out</title><text class="cat" x="178" y="149.0" text-anchor="end">provider turn 3</text><rect x="383.4" y="138.0" width="57.6" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="448.9" y="150.0">853ms</text></g><g class="span"><title>shipments.list_page · 1ms · model-selected</title><text class="cat" x="178" y="176.0" text-anchor="end">shipments.list_page</text><rect x="441.0" y="165.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="452.0" y="177.0">1ms</text></g><g class="span"><title>provider turn 4 · 982ms · 1,364 in (1,245 cached) · 26 out</title><text class="cat" x="178" y="203.0" text-anchor="end">provider turn 4</text><rect x="441.2" y="192.0" width="66.2" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="515.4" y="204.0">982ms</text></g><g class="span"><title>sla.policy · 1ms · model-selected</title><text class="cat" x="178" y="230.0" text-anchor="end">sla.policy</text><rect x="507.5" y="219.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="518.5" y="231.0">1ms</text></g><g class="span"><title>provider turn 5 · 1.53s · 1,445 in (1,361 cached) · 39 out</title><text class="cat" x="178" y="257.0" text-anchor="end">provider turn 5</text><rect x="507.7" y="246.0" width="103.2" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="618.8" y="258.0">1.53s</text></g><g class="span"><title>case.escalate · 0ms · model-selected</title><text class="cat" x="178" y="284.0" text-anchor="end">case.escalate</text><rect x="610.9" y="273.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="621.9" y="285.0">0ms</text></g><g class="span"><title>provider turn 6 · 667ms · 1,531 in (1,442 cached) · 27 out</title><text class="cat" x="178" y="311.0" text-anchor="end">provider turn 6</text><rect x="611.0" y="300.0" width="45.0" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="664.0" y="312.0">667ms</text></g><line class="axis" x1="190" y1="325" x2="656" y2="325"/></svg>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><span class="tag tag--opt">compacted</span>
+        <span>2 provider turns ·
+        3,018 tokens ·
+        1.80s</span></div>
+      <svg class="chart waterfall" viewBox="0 0 760 266" role="img" aria-labelledby="wf-fulfillment-opt-t" preserveAspectRatio="xMidYMid meet"><title id="wf-fulfillment-opt-t">optimized timeline</title><line class="grid" x1="190.0" y1="18" x2="190.0" y2="244"/><text class="tick" x="190.0" y="258" text-anchor="middle">0s</text><line class="grid" x1="257.5" y1="18" x2="257.5" y2="244"/><text class="tick" x="257.5" y="258" text-anchor="middle">1s</text><line class="grid" x1="324.9" y1="18" x2="324.9" y2="244"/><text class="tick" x="324.9" y="258" text-anchor="middle">2s</text><line class="grid" x1="392.4" y1="18" x2="392.4" y2="244"/><text class="tick" x="392.4" y="258" text-anchor="middle">3s</text><line class="grid" x1="459.9" y1="18" x2="459.9" y2="244"/><text class="tick" x="459.9" y="258" text-anchor="middle">4s</text><line class="grid" x1="527.4" y1="18" x2="527.4" y2="244"/><text class="tick" x="527.4" y="258" text-anchor="middle">5s</text><line class="grid" x1="594.8" y1="18" x2="594.8" y2="244"/><text class="tick" x="594.8" y="258" text-anchor="middle">6s</text><g class="span"><title>auth.issue_ops_token · 0ms · model-selected</title><text class="cat" x="178" y="41.0" text-anchor="end">auth.issue_ops_token</text><rect x="190.0" y="30.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="201.0" y="42.0">0ms</text></g><g class="span"><title>orders.get · 0ms · model-selected</title><text class="cat" x="178" y="68.0" text-anchor="end">orders.get</text><rect x="190.1" y="57.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="201.1" y="69.0">0ms</text></g><g class="span"><title>shipments.list_page · 0ms · model-selected</title><text class="cat" x="178" y="95.0" text-anchor="end">shipments.list_page</text><rect x="190.2" y="84.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="201.2" y="96.0">0ms</text></g><g class="span"><title>sla.policy · 0ms · model-selected</title><text class="cat" x="178" y="122.0" text-anchor="end">sla.policy</text><rect x="190.3" y="111.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="201.3" y="123.0">0ms</text></g><g class="span"><title>provider turn 1 · 811ms · 1,433 in (0 cached) · 39 out</title><text class="cat" x="178" y="149.0" text-anchor="end">provider turn 1</text><rect x="190.3" y="138.0" width="54.7" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="253.1" y="150.0">811ms</text></g><g class="span"><title>case.escalate · 1ms · model-selected</title><text class="cat" x="178" y="176.0" text-anchor="end">case.escalate</text><rect x="245.1" y="165.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="256.1" y="177.0">1ms</text></g><g class="span"><title>provider turn 2 · 980ms · 1,519 in (0 cached) · 27 out</title><text class="cat" x="178" y="203.0" text-anchor="end">provider turn 2</text><rect x="245.3" y="192.0" width="66.1" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="319.4" y="204.0">980ms</text></g><text class="ghost-label" x="178" y="230.0" text-anchor="end">removed</text><rect class="ghost" x="190" y="219" width="466" height="14" rx="4"/><text class="val ghost-val" x="664" y="230">4 provider turns elided</text><line class="axis" x1="190" y1="244" x2="656" y2="244"/></svg>
+    </div>
+    <div class="grid-2">
+      <div><h5>Entry state (the compiler's only input, θ)</h5><pre class="code"><code class="language-json">{
+  &quot;case&quot;: {
+    &quot;channel&quot;: &quot;csr&quot;,
+    &quot;customer_tier&quot;: &quot;gold&quot;,
+    &quot;exception_class&quot;: &quot;address_invalid&quot;,
+    &quot;id&quot;: &quot;FUL-70001&quot;,
+    &quot;intake&quot;: &quot;wms_v2&quot;,
+    &quot;order_ref&quot;: &quot;ORD-2026-000215&quot;,
+    &quot;priority&quot;: &quot;p3&quot;,
+    &quot;region&quot;: &quot;apac&quot;
+  },
+  &quot;principal&quot;: &quot;svc.fulfillment.ops&quot;,
+  &quot;tenant_id&quot;: &quot;t_northwind&quot;
+}</code></pre></div>
+      <div><h5>Final answer</h5><pre class="code"><code class="language-json">{
+  &quot;action&quot;: &quot;escalate&quot;,
+  &quot;reason_code&quot;: &quot;address_unverified&quot;,
+  &quot;shipment_count&quot;: 1
+}</code></pre>
+        <p class="muted">Graded against the fixture's deterministic expectation, not
+          against the baseline's answer.</p></div>
+    </div>
+    <div class="dispatch"><h5>Runtime dispatch record</h5><pre class="code"><code class="language-json">{
+  &quot;baseline&quot;: 2,
+  &quot;compacted&quot;: 1,
+  &quot;gate_rejections&quot;: 0,
+  &quot;guard_misses&quot;: {
+    &quot;region_already_started&quot;: 2
+  },
+  &quot;incidents&quot;: 0,
+  &quot;overhead_ms_total&quot;: 3.13,
+  &quot;removed_requests_total&quot;: 5.0,
+  &quot;verifier_pass_rate&quot;: 1.0
+}</code></pre></div>
+  </div>
+
+</section>
+
+<section id="demo-tgws_router" class="demo">
+  <h3>6.6 · F · TGWS route specialization</h3>
+  <p>The other optimizer, executed live. A route tree fitted on traces selects a specialist prompt and a minimal tool surface per exception class, and abstains to the generalist on any value it never saw.</p>
+  <p class="verdict verdict--good">task outcome unchanged in every condition · baseline
+    7.0 provider turns/episode</p>
+  <div class="table-wrap"><table><caption>Per-scenario means. Tool calls are unchanged by design: compaction removes provider turns, not work.</caption><thead><tr><th scope="col">Condition</th><th scope="col">n</th><th scope="col">Turns</th><th scope="col">Tools</th><th scope="col">Input tok</th><th scope="col">Total tok</th><th scope="col">Latency</th><th scope="col">Est. cost</th><th scope="col">Quality</th><th scope="col">Success</th></tr></thead><tbody><tr><td><strong>baseline</strong></td><td>4</td><td>7.00</td><td>6.00</td><td>9,775</td><td>10,008</td><td>8.19s</td><td>$0.005120</td><td>1.000</td><td>1.000</td></tr><tr><td>route specialized</td><td>4</td><td>7.00</td><td>6.00</td><td>8,072</td><td>8,322</td><td>7.75s</td><td>$0.011415</td><td>1.000</td><td>1.000</td></tr></tbody></table></div>
+  <div class="chart-grid"><div class="chart-block"><h4>route specialized vs baseline</h4><svg class="chart" viewBox="0 0 660 202" role="img" aria-labelledby="red-tgws_router-routed-t" preserveAspectRatio="xMidYMid meet"><title id="red-tgws_router-routed-t">Reduction versus baseline by metric</title><g class="bar-row"><title>provider turns: 0.0% less than baseline</title><text class="cat" x="154" y="31.0" text-anchor="end">provider turns</text><path d="M366.0 17.0 H366.0 a0.0 0.0 0 0 1 0.0 0.0 V37.0 a0.0 0.0 0 0 1 -0.0 0.0 H366.0 Z" fill="var(--pole-good)"/><text class="val" x="376.0" y="32.0" text-anchor="start">0.0% less</text></g><g class="bar-row"><title>input tokens: 17.4% less than baseline</title><text class="cat" x="154" y="69.0" text-anchor="end">input tokens</text><path d="M366.0 55.0 H390.1 a4.0 4.0 0 0 1 4.0 4.0 V71.0 a4.0 4.0 0 0 1 -4.0 4.0 H366.0 Z" fill="var(--pole-good)"/><text class="val" x="404.1" y="70.0" text-anchor="start">17.4% less</text></g><g class="bar-row"><title>total tokens: 16.8% less than baseline</title><text class="cat" x="154" y="107.0" text-anchor="end">total tokens</text><path d="M366.0 93.0 H389.1 a4.0 4.0 0 0 1 4.0 4.0 V109.0 a4.0 4.0 0 0 1 -4.0 4.0 H366.0 Z" fill="var(--pole-good)"/><text class="val" x="403.1" y="108.0" text-anchor="start">16.8% less</text></g><g class="bar-row"><title>wall latency: 5.4% less than baseline</title><text class="cat" x="154" y="145.0" text-anchor="end">wall latency</text><path d="M366.0 131.0 H370.7 a4.0 4.0 0 0 1 4.0 4.0 V147.0 a4.0 4.0 0 0 1 -4.0 4.0 H366.0 Z" fill="var(--pole-good)"/><text class="val" x="384.7" y="146.0" text-anchor="start">5.4% less</text></g><g class="bar-row"><title>estimated cost: 123.0% more than baseline</title><text class="cat" x="154" y="183.0" text-anchor="end">estimated cost</text><path d="M366.0 169.0 H172.0 a4.0 4.0 0 0 0 -4.0 4.0 V185.0 a4.0 4.0 0 0 0 4.0 4.0 H366.0 Z" fill="var(--pole-bad)"/><text class="val" x="376.0" y="184.0" text-anchor="start">123.0% more</text></g><line class="axis" x1="366.0" y1="8" x2="366.0" y2="198"/></svg></div></div>
+  
+  <div class="traces">
+    <h4>Trace, before and after — scenario <code>ful-00001</code></h4>
+    <p class="muted">
+      Both panels share one time axis, so the second is short because it is short.
+      Hover any bar for its duration and token usage.
+    </p>
+    <div class="legend" role="list"><span role="listitem"><i class="key" style="background:var(--series-1)"></i>provider turn (model request → response)</span><span role="listitem"><i class="key" style="background:var(--series-2)"></i>tool execution</span></div>
+    <div class="panel">
+      <div class="panel-head"><span class="tag tag--base">baseline</span>
+        <span>6 provider turns ·
+        7,948 tokens ·
+        6.91s</span></div>
+      <svg class="chart waterfall" viewBox="0 0 760 347" role="img" aria-labelledby="wf-tgws_router-base-t" preserveAspectRatio="xMidYMid meet"><title id="wf-tgws_router-base-t">baseline timeline</title><line class="grid" x1="190.0" y1="18" x2="190.0" y2="325"/><text class="tick" x="190.0" y="339" text-anchor="middle">0s</text><line class="grid" x1="257.5" y1="18" x2="257.5" y2="325"/><text class="tick" x="257.5" y="339" text-anchor="middle">1s</text><line class="grid" x1="324.9" y1="18" x2="324.9" y2="325"/><text class="tick" x="324.9" y="339" text-anchor="middle">2s</text><line class="grid" x1="392.4" y1="18" x2="392.4" y2="325"/><text class="tick" x="392.4" y="339" text-anchor="middle">3s</text><line class="grid" x1="459.9" y1="18" x2="459.9" y2="325"/><text class="tick" x="459.9" y="339" text-anchor="middle">4s</text><line class="grid" x1="527.4" y1="18" x2="527.4" y2="325"/><text class="tick" x="527.4" y="339" text-anchor="middle">5s</text><line class="grid" x1="594.8" y1="18" x2="594.8" y2="325"/><text class="tick" x="594.8" y="339" text-anchor="middle">6s</text><g class="span"><title>provider turn 1 · 813ms · 1,048 in (1,045 cached) · 28 out</title><text class="cat" x="178" y="41.0" text-anchor="end">provider turn 1</text><rect x="190.0" y="30.0" width="54.8" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="252.8" y="42.0">813ms</text></g><g class="span"><title>auth.issue_ops_token · 1ms · model-selected</title><text class="cat" x="178" y="68.0" text-anchor="end">auth.issue_ops_token</text><rect x="244.9" y="57.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="255.9" y="69.0">1ms</text></g><g class="span"><title>provider turn 2 · 2.05s · 1,116 in (1,045 cached) · 35 out</title><text class="cat" x="178" y="95.0" text-anchor="end">provider turn 2</text><rect x="245.1" y="84.0" width="138.0" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="391.1" y="96.0">2.05s</text></g><g class="span"><title>orders.get · 1ms · model-selected</title><text class="cat" x="178" y="122.0" text-anchor="end">orders.get</text><rect x="383.2" y="111.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="394.2" y="123.0">1ms</text></g><g class="span"><title>provider turn 3 · 853ms · 1,248 in (1,113 cached) · 41 out</title><text class="cat" x="178" y="149.0" text-anchor="end">provider turn 3</text><rect x="383.4" y="138.0" width="57.6" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="448.9" y="150.0">853ms</text></g><g class="span"><title>shipments.list_page · 1ms · model-selected</title><text class="cat" x="178" y="176.0" text-anchor="end">shipments.list_page</text><rect x="441.0" y="165.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="452.0" y="177.0">1ms</text></g><g class="span"><title>provider turn 4 · 982ms · 1,364 in (1,245 cached) · 26 out</title><text class="cat" x="178" y="203.0" text-anchor="end">provider turn 4</text><rect x="441.2" y="192.0" width="66.2" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="515.4" y="204.0">982ms</text></g><g class="span"><title>sla.policy · 1ms · model-selected</title><text class="cat" x="178" y="230.0" text-anchor="end">sla.policy</text><rect x="507.5" y="219.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="518.5" y="231.0">1ms</text></g><g class="span"><title>provider turn 5 · 1.53s · 1,445 in (1,361 cached) · 39 out</title><text class="cat" x="178" y="257.0" text-anchor="end">provider turn 5</text><rect x="507.7" y="246.0" width="103.2" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="618.8" y="258.0">1.53s</text></g><g class="span"><title>case.escalate · 0ms · model-selected</title><text class="cat" x="178" y="284.0" text-anchor="end">case.escalate</text><rect x="610.9" y="273.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="621.9" y="285.0">0ms</text></g><g class="span"><title>provider turn 6 · 667ms · 1,531 in (1,442 cached) · 27 out</title><text class="cat" x="178" y="311.0" text-anchor="end">provider turn 6</text><rect x="611.0" y="300.0" width="45.0" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="664.0" y="312.0">667ms</text></g><line class="axis" x1="190" y1="325" x2="656" y2="325"/></svg>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><span class="tag tag--opt">route specialized</span>
+        <span>6 provider turns ·
+        6,034 tokens ·
+        5.12s</span></div>
+      <svg class="chart waterfall" viewBox="0 0 760 347" role="img" aria-labelledby="wf-tgws_router-opt-t" preserveAspectRatio="xMidYMid meet"><title id="wf-tgws_router-opt-t">optimized timeline</title><line class="grid" x1="190.0" y1="18" x2="190.0" y2="325"/><text class="tick" x="190.0" y="339" text-anchor="middle">0s</text><line class="grid" x1="257.5" y1="18" x2="257.5" y2="325"/><text class="tick" x="257.5" y="339" text-anchor="middle">1s</text><line class="grid" x1="324.9" y1="18" x2="324.9" y2="325"/><text class="tick" x="324.9" y="339" text-anchor="middle">2s</text><line class="grid" x1="392.4" y1="18" x2="392.4" y2="325"/><text class="tick" x="392.4" y="339" text-anchor="middle">3s</text><line class="grid" x1="459.9" y1="18" x2="459.9" y2="325"/><text class="tick" x="459.9" y="339" text-anchor="middle">4s</text><line class="grid" x1="527.4" y1="18" x2="527.4" y2="325"/><text class="tick" x="527.4" y="339" text-anchor="middle">5s</text><line class="grid" x1="594.8" y1="18" x2="594.8" y2="325"/><text class="tick" x="594.8" y="339" text-anchor="middle">6s</text><g class="span"><title>provider turn 1 · 763ms · 721 in (0 cached) · 36 out</title><text class="cat" x="178" y="41.0" text-anchor="end">provider turn 1</text><rect x="190.0" y="30.0" width="51.5" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="249.5" y="42.0">763ms</text></g><g class="span"><title>auth.issue_ops_token · 1ms · model-selected</title><text class="cat" x="178" y="68.0" text-anchor="end">auth.issue_ops_token</text><rect x="241.5" y="57.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="252.5" y="69.0">1ms</text></g><g class="span"><title>provider turn 2 · 766ms · 797 in (0 cached) · 35 out</title><text class="cat" x="178" y="95.0" text-anchor="end">provider turn 2</text><rect x="241.7" y="84.0" width="51.7" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="301.4" y="96.0">766ms</text></g><g class="span"><title>orders.get · 1ms · model-selected</title><text class="cat" x="178" y="122.0" text-anchor="end">orders.get</text><rect x="293.5" y="111.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="304.5" y="123.0">1ms</text></g><g class="span"><title>provider turn 3 · 1.01s · 929 in (0 cached) · 41 out</title><text class="cat" x="178" y="149.0" text-anchor="end">provider turn 3</text><rect x="293.7" y="138.0" width="68.0" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="369.7" y="150.0">1.01s</text></g><g class="span"><title>shipments.list_page · 1ms · model-selected</title><text class="cat" x="178" y="176.0" text-anchor="end">shipments.list_page</text><rect x="361.8" y="165.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="372.8" y="177.0">1ms</text></g><g class="span"><title>provider turn 4 · 643ms · 1,045 in (0 cached) · 26 out</title><text class="cat" x="178" y="203.0" text-anchor="end">provider turn 4</text><rect x="361.9" y="192.0" width="43.4" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="413.3" y="204.0">643ms</text></g><g class="span"><title>sla.policy · 1ms · model-selected</title><text class="cat" x="178" y="230.0" text-anchor="end">sla.policy</text><rect x="405.4" y="219.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="416.4" y="231.0">1ms</text></g><g class="span"><title>provider turn 5 · 1.06s · 1,126 in (1,042 cached) · 39 out</title><text class="cat" x="178" y="257.0" text-anchor="end">provider turn 5</text><rect x="405.5" y="246.0" width="71.7" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="485.2" y="258.0">1.06s</text></g><g class="span"><title>case.escalate · 0ms · model-selected</title><text class="cat" x="178" y="284.0" text-anchor="end">case.escalate</text><rect x="477.2" y="273.0" width="3.0" height="14" rx="1.5" fill="var(--series-2)"/><text class="val" x="488.2" y="285.0">0ms</text></g><g class="span"><title>provider turn 6 · 857ms · 1,212 in (1,123 cached) · 27 out</title><text class="cat" x="178" y="311.0" text-anchor="end">provider turn 6</text><rect x="477.3" y="300.0" width="57.8" height="14" rx="4.0" fill="var(--series-1)"/><text class="val" x="543.1" y="312.0">857ms</text></g><line class="axis" x1="190" y1="325" x2="656" y2="325"/></svg>
+    </div>
+    <div class="grid-2">
+      <div><h5>Entry state (the compiler's only input, θ)</h5><pre class="code"><code class="language-json">{
+  &quot;case&quot;: {
+    &quot;channel&quot;: &quot;csr&quot;,
+    &quot;customer_tier&quot;: &quot;gold&quot;,
+    &quot;exception_class&quot;: &quot;address_invalid&quot;,
+    &quot;id&quot;: &quot;FUL-70001&quot;,
+    &quot;intake&quot;: &quot;wms_v2&quot;,
+    &quot;order_ref&quot;: &quot;ORD-2026-000215&quot;,
+    &quot;priority&quot;: &quot;p3&quot;,
+    &quot;region&quot;: &quot;apac&quot;
+  },
+  &quot;principal&quot;: &quot;svc.fulfillment.ops&quot;,
+  &quot;tenant_id&quot;: &quot;t_northwind&quot;
+}</code></pre></div>
+      <div><h5>Final answer</h5><pre class="code"><code class="language-json">{
+  &quot;action&quot;: &quot;escalate&quot;,
+  &quot;reason_code&quot;: &quot;address_unverified&quot;,
+  &quot;shipment_count&quot;: 1
+}</code></pre>
+        <p class="muted">Graded against the fixture's deterministic expectation, not
+          against the baseline's answer.</p></div>
+    </div>
+    <div class="dispatch"><h5>Runtime dispatch record</h5><pre class="code"><code class="language-json">{
+  &quot;abstained&quot;: false,
+  &quot;dropped_tools&quot;: [
+    &quot;carrier.track&quot;,
+    &quot;inventory.check&quot;,
+    &quot;orders.reschedule&quot;,
+    &quot;risk.score&quot;
+  ],
+  &quot;prompt_blocks&quot;: 4,
+  &quot;purity&quot;: 1.0,
+  &quot;route&quot;: &quot;route:address_invalid&quot;,
+  &quot;support&quot;: 139,
+  &quot;tools&quot;: 5
+}</code></pre></div>
+  </div>
+
+</section>
+
+</section>
+
+<section id="cost">
+  <h2>7 · Tokens are not dollars</h2>
+  <p>
+    The most useful thing this benchmark measured is a result that runs against the
+    premise of the whole project. Removing provider turns reliably removes
+    <em>tokens</em>. It does not reliably remove <em>money</em>, and in two of the six
+    demonstrations it inverted the sign:
+  </p>
+  <ul><li><strong>E · Fulfillment exceptions (branches, pagination, a write)</strong> — 66.4% fewer tokens, 8.3% <em>more</em> estimated cost.</li><li><strong>F · TGWS route specialization</strong> — 16.8% fewer tokens, 123.0% <em>more</em> estimated cost.</li></ul>
+  <p>
+    The mechanism is prompt caching. A provider bills the first turn over a prefix at a
+    cache-<em>write</em> premium and every later turn over the same prefix at roughly a
+    tenth of the input price. A long-prompt, many-turn baseline therefore amortizes one
+    expensive write across six cheap reads, while a two-turn compacted run pays the write
+    and has nothing left to amortize it over. Route specialization has the same problem
+    one level up: four route prompts are four distinct cache prefixes, so a fleet that
+    used to share one warm prefix now pays four writes.
+  </p>
+  <div class="table-wrap"><table><caption>Blended price is estimated cost divided by total tokens. A run whose prefix is warm bills at a fraction of the list input price.</caption><thead><tr><th scope="col">Demo / condition</th><th scope="col">Input tokens</th><th scope="col">Cached share</th><th scope="col">Cache writes</th><th scope="col">Blended $/Mtok</th></tr></thead><tbody><tr><td>support / baseline</td><td>5,787</td><td>21%</td><td>1,293</td><td>2.16</td></tr><tr><td>support / compacted</td><td>1,193</td><td>0%</td><td>1,190</td><td>2.80</td></tr><tr><td>permissioned_rag / baseline</td><td>7,220</td><td>35%</td><td>1,834</td><td>2.20</td></tr><tr><td>permissioned_rag / compacted</td><td>1,755</td><td>0%</td><td>1,752</td><td>2.90</td></tr><tr><td>incident_triage / baseline</td><td>2,782</td><td>0%</td><td>0</td><td>2.50</td></tr><tr><td>incident_triage / compacted</td><td>741</td><td>0%</td><td>0</td><td>2.34</td></tr><tr><td>mcp_ops / baseline</td><td>1,295</td><td>0%</td><td>0</td><td>2.72</td></tr><tr><td>mcp_ops / compaction refused → baseline</td><td>1,296</td><td>0%</td><td>0</td><td>2.72</td></tr><tr><td>fulfillment / baseline</td><td>9,787</td><td>96%</td><td>370</td><td>0.57</td></tr><tr><td>fulfillment / compacted</td><td>3,301</td><td>38%</td><td>2,048</td><td>1.83</td></tr><tr><td>fulfillment / loop artifact refused → baseline</td><td>9,798</td><td>82%</td><td>1,710</td><td>0.88</td></tr><tr><td>fulfillment / schema drift, guard miss → baseline</td><td>9,787</td><td>82%</td><td>1,707</td><td>0.88</td></tr><tr><td>tgws_router / baseline</td><td>9,775</td><td>98%</td><td>143</td><td>0.51</td></tr><tr><td>tgws_router / route specialized</td><td>8,072</td><td>58%</td><td>1,465</td><td>1.37</td></tr></tbody></table></div>
+  <div class="callout callout--warn">
+    <h4>How much of this is a benchmark artifact?</h4>
+    <p>
+      Some of it. Cache warmth depends on how many episodes share a prefix, and with four
+      scenarios per condition a route prefix is written almost as often as it is read. At
+      production volume the same prefix is reused thousands of times and the write
+      amortizes to nothing — so a small benchmark <em>systematically understates</em> the
+      cost advantage of both compaction and routing.
+    </p>
+    <p>
+      But not all of it, and the residue is a real design constraint. A rarely-exercised
+      route may never amortize its own cache write, which means TGWS should price prefix
+      fragmentation in its objective rather than counting prompt tokens alone; and a
+      workload whose baseline is already cache-dominated has far less dollar headroom than
+      its token headroom suggests. The estimator reports a break-even in episodes per day
+      for exactly this reason — and this run is a reminder to read it before believing a
+      token-reduction headline.
+    </p>
+  </div>
+</section>
+
+<section id="limits">
+  <h2>8 · What this does not show</h2>
+  <div class="callout callout--warn">
+    <ul>
+      <li><strong>These are small provider runs.</strong> A handful of paired scenarios
+        per demonstration demonstrates a mechanism. It is not a statistically powered
+        quality claim and it is not production certification.</li>
+      <li><strong>Empirical validation cannot prove semantic equivalence</strong> for all
+        future inputs. The contribution is selective, evidence-bounded replacement with
+        abstention — not a proof.</li>
+      <li><strong>The live artifacts are hand-reviewed, not auto-promoted.</strong> Their
+        gates carry <code>n_calibration_groups = 0</code> and are labelled as execution
+        demonstrations. The calibrated path is exercised in the offline study, where most
+        candidates correctly retire.</li>
+      <li><strong>Latency reductions include provider variance.</strong> The suite is too
+        small to separate a genuine critical-path saving from a slow afternoon; the MCP
+        control's +5.6% latency swing on unchanged work is the honest scale of that noise.</li>
+      <li><strong>Cost is estimated from published list prices</strong>, not an account
+        invoice, and cached-prefill economics mean dollar savings lag turn savings.</li>
+      <li><strong>The compiler is often the wrong tool.</strong> Run the estimator, read
+        the top regions, and if a handwritten function captures them — write the function.</li>
+    </ul>
+  </div>
+  <h3>Next milestone</h3>
+  <p>
+    A newly sealed, representative shadow and canary study on real traffic, under the
+    hardened controls in the readiness checklist: exact staging ownership in an outer
+    runner adapter, capability negotiation for hosted and MCP surfaces, and a
+    transactional write protocol that is only relaxed once prepare/validate/commit/
+    compensate can be <em>attested</em> — never by declaration alone.
+  </p>
+</section>
+
+<footer>
+  <p>
+    Generated by <code>scripts/build_html_report.py</code> from
+    <code>experiments/live_results/</code>. Substrate
+    <code>openai_api_live</code>, Python
+    <code>3.14.4</code>, platform
+    <code>macOS-26.5.2-arm64-arm-64bit-Mach-O</code>. Data class:
+    fictional deterministic fixtures. The API key is never printed or persisted.
+  </p>
+  <p>Provider measurements from a small benchmark, not production certification.</p>
+</footer>
+
+</main>
+</div>
+
+<script>
+  const stored = localStorage.getItem("ac-theme");
+  if (stored) document.documentElement.setAttribute("data-theme", stored);
+  function toggleTheme() {
+    const now = document.documentElement.getAttribute("data-theme");
+    const dark = now ? now === "dark"
+      : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const next = dark ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    localStorage.setItem("ac-theme", next);
+    location.reload();  // re-render mermaid against the new surface
+  }
+</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '\\(', right: '\\)', display: false}], throwOnError: false});"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.min.js"></script>
+<script>window.hljs && hljs.highlightAll();</script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  const explicit = document.documentElement.getAttribute("data-theme");
+  const dark = explicit ? explicit === "dark"
+    : window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const ink = dark ? "#ffffff" : "#0b0b0b";
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: "base",
+    themeVariables: {
+      background: dark ? "#1a1a19" : "#fcfcfb",
+      primaryColor: dark ? "#1f1f1e" : "#f3f3f0",
+      primaryTextColor: ink,
+      primaryBorderColor: dark ? "#383835" : "#c3c2b7",
+      lineColor: dark ? "#898781" : "#898781",
+      secondaryColor: dark ? "#252523" : "#eceae4",
+      tertiaryColor: dark ? "#1a1a19" : "#fcfcfb",
+      fontFamily: 'system-ui, -apple-system, "Segoe UI", sans-serif',
+      fontSize: "13px",
+    },
+  });
+</script>
+
+</body>
+</html>

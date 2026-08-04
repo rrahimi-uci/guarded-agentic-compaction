@@ -1,0 +1,36 @@
+% Algorithm 3: exact risk-gated threshold selection.
+\begin{algorithm}[t]
+\caption{\textsc{Calibrate} --- fixed-grid exact selective admission.  The grid and the
+score are frozen \emph{before} this procedure sees a calibration group, which is what
+makes the union bound legitimate.}
+\label{alg:calibrate}
+\small
+\begin{algorithmic}[1]
+\Require frozen score $q$; calibration groups $\mathcal{K}$; grid $\Lambda$
+         ($|\Lambda|=11$); risk budget $\alpha$; confidence budget $\delta$
+\Ensure threshold $\eta$ with simultaneous guarantee, or $\bot$ (\retire)
+\State $\mathcal{A}\gets\emptyset$
+       \Comment{admissible (coverage, threshold) pairs}
+\ForAll{$\eta\in\Lambda$}
+  \State $K_\eta\gets\{\,g\in\mathcal{K} : \exists z\in g,\ q(z)\le\eta
+         \ \land\ H(z)=1\,\}$
+         \Comment{groups this threshold would admit}
+  \State $n_\eta\gets|K_\eta|$
+  \State $k_\eta\gets|\{\,g\in K_\eta : g\ \text{contains a violation}\,\}|$
+         \Comment{\emph{wrong after dispatch} only, never abstention}
+  \If{$n_\eta=0$} \State \textbf{continue} \EndIf
+  \State $U_\eta\gets\operatorname{Beta}^{-1}\!\left(1-\tfrac{\delta}{|\Lambda|};\,
+         k_\eta+1,\;n_\eta-k_\eta\right)$
+         \Comment{Eq.~\eqref{eq:cp}; closed form $1-(\delta/|\Lambda|)^{1/n_\eta}$ when $k_\eta=0$}
+  \If{$U_\eta\le\alpha$}
+    \State $\mathcal{A}\gets\mathcal{A}\cup\{(n_\eta/|\mathcal{K}|,\ \eta)\}$
+  \EndIf
+\EndFor
+\If{$\mathcal{A}=\emptyset$}
+  \State \Return $\bot$
+         \Comment{with $k=0$ this needs $n_\eta\ge\log(\delta/|\Lambda|)/\log(1-\alpha)\approx 92$}
+\EndIf
+\State \Return $\arg\max_{(\text{cov},\eta)\in\mathcal{A}}\ \text{cov}$
+       \Comment{largest coverage among certified thresholds}
+\end{algorithmic}
+\end{algorithm}

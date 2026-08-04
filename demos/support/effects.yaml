@@ -1,0 +1,78 @@
+# effects/tier1-support.yaml  (use-cases §1)
+# Anything not listed defaults to UNKNOWN and is never compiled.
+# kb.search is deliberately absent: its ranking is non-deterministic across index
+# refreshes, so it cannot satisfy replay equivalence at Alg. 5 line 10.
+version: 1
+name: tier1-support
+tools:
+  auth.issue_service_token:
+    effect: READ_EXTERNAL          # mints a scoped token; returns a session handle
+    capabilities: [speculatable, replayable]
+    key: [principal]
+    resource: auth
+    notes: >-
+      No cacheable capability and no freshness window: the token is minted per
+      dispatch and never reused from a prior episode. Verified for this
+      deployment to consume no quota and write no counter in the set
+      stage.reversible() attests over; re-verify per deployment.
+
+  crm.find_customer:
+    effect: READ_EXTERNAL
+    capabilities: [speculatable, replayable, cacheable, reorderable]
+    key: [principal, tenant, email]
+    freshness_s: 300
+    resource: crm
+
+  crm.get_subscription:
+    effect: READ_EXTERNAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [principal, tenant, customer_id]
+    freshness_s: 300
+    resource: crm
+
+  billing.list_invoices:
+    effect: READ_EXTERNAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [principal, tenant, customer_id, limit]
+    freshness_s: 60
+    resource: billing
+    literal_only: [limit]
+    notes: >-
+      Short freshness because a payment can land mid-episode. reorderable is
+      withheld because an order edge is derived from the WRITE_IRREVERSIBLE /
+      READ_EXTERNAL conflict with refunds.issue on the invoice resource.
+      batchable is withheld because the endpoint takes one customer_id.
+      literal_only pins `limit`: a pagination integer must never be
+      reconstructed by a numeric coincidence (use-cases §1 AMBIGUOUS note).
+
+  entitlements.check:
+    effect: READ_EXTERNAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [principal, tenant, customer_id, feature]
+    freshness_s: 300
+    resource: entitlements
+
+  crm.update_ticket:
+    effect: WRITE_IRREVERSIBLE
+    capabilities: []
+    key: [principal, tenant, ticket_id]
+    resource: crm
+    notes: >-
+      Deliberately uncompilable. A customer-visible notification webhook fires on
+      write, so the edit cannot be undone and stage.reversible() can never
+      attest. Empty capabilities also exclude it from E_allowed.
+
+  refunds.issue:
+    effect: WRITE_IRREVERSIBLE
+    capabilities: []
+    key: [principal, tenant, invoice_id]
+    resource: billing
+    notes: Money movement. Never compiled in any mode.
+
+  support.gather_context:
+    effect: READ_EXTERNAL
+    capabilities: [speculatable, replayable, cacheable, batchable]
+    key: [principal, tenant, email, product_area]
+    freshness_s: 60
+    resource: crm
+    notes: Hand-written comparator (execution-plan §11.2 condition 2).

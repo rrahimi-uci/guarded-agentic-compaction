@@ -1,0 +1,30 @@
+# Promotion constraints. Every threshold here is pre-registered: it is chosen before
+# the sealed test is opened and is not adjustable for power (proposal §3.5).
+version: 1
+
+risk:
+  alpha: 0.05            # target contract-violation rate given dispatch
+  delta: 0.10            # confidence budget, Bonferroni-split across the grid
+  grid: [0.02, 0.05, 0.08, 0.11, 0.14, 0.17, 0.20, 0.25, 0.30, 0.40, 0.50]
+  max_incidents: 0       # any post-commit failure fails the candidate
+
+quality:
+  epsilon_q: 0.05        # substantive non-inferiority margin on the task score
+  sensitivity_epsilon_q: 0.03
+  require_safety_invariance: true
+
+coverage:
+  phi_min: 0.02          # below this a candidate is not worth its maintenance
+  rho_min: 0.90          # verifier pass rate among dispatches
+  min_calibration_groups: 92   # zero-violation exact bound at alpha=0.05, |grid|=11
+
+maintenance:
+  max_active_artifacts: 8
+  max_route_leaves: 4
+  max_complexity_multiple: 2.0
+
+lifecycle:
+  require_distinct_approver: true
+  expiry_days: 30        # artifacts are build outputs, not assets
+  shadow_window_days: 14
+  forbid_promotion_splits: [train, calibration]

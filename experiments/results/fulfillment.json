@@ -1,0 +1,979 @@
+{
+  "demo": "fulfillment",
+  "title": "Demo E \u2014 order-fulfillment exception handling",
+  "n_B": 8.844666666666667,
+  "estimate": {
+    "n_B": 8.845,
+    "phi_oracle": 1.0,
+    "phi_any": 1.0,
+    "k_mean": 3.655,
+    "delta_max": 0.4132,
+    "feasible": true,
+    "blocked_shares": {
+      "live_in_not_in_entry_schema": 0.357,
+      "effect_write": 0.28,
+      "effect_unknown": 0.082,
+      "partial_run": 0.053
+    },
+    "blocked_by_tool": {
+      "case.escalate": 7310,
+      "orders.reschedule": 5667,
+      "risk.score": 3818
+    },
+    "undeclared_tools": [],
+    "calibration_groups_required": 92,
+    "calibration_groups_available": 173,
+    "economics": {
+      "cost_per_episode_usd": 0.021921,
+      "saving_per_episode_usd": 0.003019,
+      "cache_discount": 0.333333,
+      "episodes_per_year": 28152409.226843,
+      "episodes_per_day": 77129.888293
+    },
+    "gate0_pass": true,
+    "slot_stats": {
+      "grounded": 23796,
+      "literal_only": 4167,
+      "not_groundable": 6797,
+      "transform_search": 1789,
+      "ungrounded": 1057,
+      "model_originated": 1057,
+      "transform_cache_hits": 10285,
+      "transform_cache_misses": 15663,
+      "ambiguous": 710
+    },
+    "notes": [
+      "this ceiling covers compiled read-only regions only: savings from route specialisation (removing a predictable coordinator turn or handoff) are not modelled by Eq. (10) and can exceed it"
+    ],
+    "render": "estimate report\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n n_B  = 8.8 model requests/episode  (3000 episodes, 869 groups, 1 principals, 28 days)\n ceiling: phi=1.00 (any candidate: 1.00)  k=3.7  ->  max request reduction 41.3%   [Eq. 10, oracle: rho=1]\n target \u0394=0.10 needs phi*rho*k >= 0.88  -> FEASIBLE\n blocked: 36% by live_in_not_in_entry_schema, 28% by effect_write, 8% by effect_unknown, 5% by partial_run\n blocked-window mass by tool: case.escalate(7310), orders.reschedule(5667), risk.score(3818)\n calibration: 173 groups available, 92 required for a zero-violation bound at the target \u03b1\n slots: {'grounded': 23796, 'literal_only': 4167, 'not_groundable': 6797, 'transform_search': 1789, 'ungrounded': 1057, 'model_originated': 1057, 'transform_cache_hits': 10285, 'transform_cache_misses': 15663, 'ambiguous': 710}\n   candidate ['issue_ops_token', 'get', 'list_page', 'check']  support=869 groups/28 days  k=3.7  score=3173.0\n   candidate ['issue_ops_token', 'get', 'list_page', 'track']  support=869 groups/28 days  k=3.6  score=3158.6\n   candidate ['issue_ops_token', 'get', 'list_page', 'policy']  support=467 groups/28 days  k=4.0  score=1867.0\n   candidate ['issue_ops_token', 'get', 'list_page']  support=581 groups/28 days  k=3.0  score=1742.1\n   candidate ['issue_ops_token', 'get']  support=869 groups/28 days  k=2.0  score=1737.3\n break-even: 77130 episodes/day at $0.0030 saved/episode\n note: this ceiling covers compiled read-only regions only: savings from route specialisation (removing a predictable coordinator turn or handoff) are not modelled by Eq. (10) and can exceed it"
+  },
+  "splits": {
+    "train": 274,
+    "dev": 156,
+    "calibration": 156,
+    "test": 196,
+    "shadow": 87,
+    "digest": "f98097be1511b4dd"
+  },
+  "tgws": {
+    "n_leaves": 1,
+    "artifacts": 1,
+    "rejections": {},
+    "report": "TGWS report\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nroute tree\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nexamples 963  depth\u22643  min_support=20  min_purity=0.9\n  true \u2192 path:auth.issue_ops_token|orders.get  (support=963 groups=274 purity=1.000 coverage=1.000)\nartifacts emitted 1\n  [emitted   ] true \u2192 path:auth.issue_ops_token|orders.get  (support=963 groups=274 purity=1.000 coverage=1.000)\n       requests 8.73\u21928.54  in_tokens 10370\u21927764  quality 0.9907\u21920.9920  latency 4522\u21924419ms  evals=60\n       kept blocks=['role_fulfillment_ops', 'evidence_policy', 'commitment_policy'] tools=['auth.issue_ops_token', 'inventory.check', 'carrier.track', 'sla.policy', 'orders.reschedule', 'case.escalate', 'refunds.issue_credit']",
+    "leaves": [
+      {
+        "predicates": [],
+        "label": "path:auth.issue_ops_token|orders.get",
+        "stage": "emitted",
+        "rejected": null,
+        "purity": 1.0,
+        "support": 963,
+        "baseline": {
+          "quality": 0.9906666666666666,
+          "requests": 8.733333333333333,
+          "input_tokens": 10369.733333333334,
+          "output_tokens": 604.36,
+          "latency_ms": 4522.495030500772,
+          "safety_events": 0,
+          "n_episodes": 150,
+          "success_rate": 1.0,
+          "schema_tokens": 1320.0,
+          "prompt_tokens": 1540.0,
+          "extra": {}
+        },
+        "pruned": {
+          "quality": 0.9920000000000001,
+          "requests": 8.54,
+          "input_tokens": 7763.96,
+          "output_tokens": 592.3866666666667,
+          "latency_ms": 4419.0977333961,
+          "safety_events": 0,
+          "n_episodes": 150,
+          "success_rate": 1.0,
+          "schema_tokens": 880.0,
+          "prompt_tokens": 660.0,
+          "extra": {}
+        },
+        "kept_tools": [
+          "auth.issue_ops_token",
+          "inventory.check",
+          "carrier.track",
+          "sla.policy",
+          "orders.reschedule",
+          "case.escalate",
+          "refunds.issue_credit"
+        ],
+        "kept_blocks": [
+          "role_fulfillment_ops",
+          "evidence_policy",
+          "commitment_policy"
+        ]
+      }
+    ]
+  },
+  "grc": {
+    "artifacts": 1,
+    "candidates": [
+      {
+        "candidate_id": "cand-00-merge:a46fcef453",
+        "tools": [
+          "auth.issue_ops_token",
+          "orders.get",
+          "shipments.list_page",
+          "inventory.check"
+        ],
+        "support_groups": 869,
+        "support_days": 28,
+        "removed_requests": 3.6546666666666665,
+        "stage": "synthesized",
+        "rejected": "loop_predicate_unsynthesizable:shipments.list_page",
+        "artifact": null,
+        "notes": {}
+      },
+      {
+        "candidate_id": "cand-01-merge:131ba428d0",
+        "tools": [
+          "auth.issue_ops_token",
+          "orders.get",
+          "shipments.list_page",
+          "carrier.track"
+        ],
+        "support_groups": 869,
+        "support_days": 28,
+        "removed_requests": 3.638,
+        "stage": "synthesized",
+        "rejected": "loop_predicate_unsynthesizable:shipments.list_page",
+        "artifact": null,
+        "notes": {}
+      },
+      {
+        "candidate_id": "cand-02-8d8ccad1c1cd",
+        "tools": [
+          "auth.issue_ops_token",
+          "orders.get",
+          "shipments.list_page",
+          "sla.policy"
+        ],
+        "support_groups": 467,
+        "support_days": 28,
+        "removed_requests": 4.0,
+        "stage": "calibrated",
+        "rejected": "gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.061 > alph",
+        "artifact": null,
+        "notes": {
+          "n_alternative_bindings": 83,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 4,
+          "branch": "none",
+          "branch_p": null,
+          "branch_atoms": 0,
+          "branch_alternatives": 0
+        }
+      },
+      {
+        "candidate_id": "cand-03-9db61fc97412",
+        "tools": [
+          "auth.issue_ops_token",
+          "orders.get",
+          "shipments.list_page"
+        ],
+        "support_groups": 581,
+        "support_days": 28,
+        "removed_requests": 3.0,
+        "stage": "emitted",
+        "rejected": null,
+        "artifact": "issue_ops_token.get.region@9db61fc9",
+        "notes": {
+          "n_alternative_bindings": 54,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 3,
+          "branch": "none",
+          "branch_p": null,
+          "branch_atoms": 0,
+          "branch_alternatives": 0
+        }
+      },
+      {
+        "candidate_id": "cand-04-9e7e566f6545",
+        "tools": [
+          "auth.issue_ops_token",
+          "orders.get"
+        ],
+        "support_groups": 869,
+        "support_days": 28,
+        "removed_requests": 2.0,
+        "stage": "dominated",
+        "rejected": "dominated_by_longer_region",
+        "artifact": null,
+        "notes": {
+          "n_alternative_bindings": 22,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 2,
+          "branch": "none",
+          "branch_p": null,
+          "branch_atoms": 0,
+          "branch_alternatives": 0
+        }
+      },
+      {
+        "candidate_id": "cand-05-ca06401c43d8",
+        "tools": [
+          "auth.issue_ops_token",
+          "orders.get",
+          "shipments.list_page",
+          "carrier.track",
+          "sla.policy"
+        ],
+        "support_groups": 319,
+        "support_days": 28,
+        "removed_requests": 5.0,
+        "stage": "calibrated",
+        "rejected": "gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.083 > alph",
+        "artifact": null,
+        "notes": {
+          "n_alternative_bindings": 109,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 5,
+          "branch": "none",
+          "branch_p": null,
+          "branch_atoms": 0,
+          "branch_alternatives": 0
+        }
+      },
+      {
+        "candidate_id": "cand-06-08a0006cb808",
+        "tools": [
+          "auth.issue_ops_token",
+          "orders.get",
+          "shipments.list_page",
+          "inventory.check",
+          "sla.policy"
+        ],
+        "support_groups": 302,
+        "support_days": 28,
+        "removed_requests": 5.0,
+        "stage": "replay_validated",
+        "rejected": "challenge_failed:invariance_violated",
+        "artifact": null,
+        "notes": {
+          "n_alternative_bindings": 114,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 5,
+          "branch": "none",
+          "branch_p": null,
+          "branch_atoms": 0,
+          "branch_alternatives": 0
+        }
+      },
+      {
+        "candidate_id": "cand-07-440a16e06ddb",
+        "tools": [
+          "auth.issue_ops_token",
+          "orders.get",
+          "shipments.list_page",
+          "sla.policy"
+        ],
+        "support_groups": 294,
+        "support_days": 28,
+        "removed_requests": 5.0,
+        "stage": "replay_validated",
+        "rejected": "challenge_failed:live_out_mismatch",
+        "artifact": null,
+        "notes": {
+          "n_alternative_bindings": 83,
+          "n_alternative_loop_predicates": 3,
+          "n_steps": 4,
+          "branch": "none",
+          "branch_p": null,
+          "branch_atoms": 0,
+          "branch_alternatives": 0
+        }
+      },
+      {
+        "candidate_id": "cand-08-5f439c6d40c8",
+        "tools": [
+          "auth.issue_ops_token",
+          "orders.get",
+          "shipments.list_page"
+        ],
+        "support_groups": 349,
+        "support_days": 28,
+        "removed_requests": 4.0,
+        "stage": "replay_validated",
+        "rejected": "challenge_failed:live_out_mismatch",
+        "artifact": null,
+        "notes": {
+          "n_alternative_bindings": 54,
+          "n_alternative_loop_predicates": 3,
+          "n_steps": 3,
+          "branch": "none",
+          "branch_p": null,
+          "branch_atoms": 0,
+          "branch_alternatives": 0
+        }
+      },
+      {
+        "candidate_id": "cand-09-186ab7d95b5c",
+        "tools": [
+          "auth.issue_ops_token",
+          "orders.get",
+          "shipments.list_page",
+          "carrier.track"
+        ],
+        "support_groups": 319,
+        "support_days": 28,
+        "removed_requests": 4.0,
+        "stage": "calibrated",
+        "rejected": "gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.083 > alph",
+        "artifact": null,
+        "notes": {
+          "n_alternative_bindings": 72,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 4,
+          "branch": "none",
+          "branch_p": null,
+          "branch_atoms": 0,
+          "branch_alternatives": 0
+        }
+      }
+    ],
+    "rejections": {
+      "synthesize:loop_predicate_unsynthesizable": 2,
+      "calibrate:retire": 3,
+      "challenge:hard_reject": 3,
+      "select:dominated": 1
+    },
+    "report": "GRC compile report\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\ncandidates mined        10\nartifacts emitted       1\nrejections by stage     {'synthesize:loop_predicate_unsynthesizable': 2, 'calibrate:retire': 3, 'challenge:hard_reject': 3, 'select:dominated': 1}\nwindows accepted        10503\nwindows blocked         {'effect_write': 12977, 'live_in_not_in_entry_schema': 16517, 'partial_run': 2472, 'effect_unknown': 3818}\nblocked by tool         {'case.escalate': 7310, 'orders.reschedule': 5667, 'risk.score': 3818}\n  [synthesized ] issue_ops_token/get/list_page/check               supp=869 k=3.7  REJECTED: loop_predicate_unsynthesizable:shipments.list_page\n  [synthesized ] issue_ops_token/get/list_page/track               supp=869 k=3.6  REJECTED: loop_predicate_unsynthesizable:shipments.list_page\n  [calibrated  ] issue_ops_token/get/list_page/policy              supp=467 k=4.0  REJECTED: gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.061 > alph\n  [emitted     ] issue_ops_token/get/list_page                     supp=581 k=3.0\n  [dominated   ] issue_ops_token/get                               supp=869 k=2.0  REJECTED: dominated_by_longer_region\n  [calibrated  ] issue_ops_token/get/list_page/track/policy        supp=319 k=5.0  REJECTED: gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.083 > alph\n  [replay_validated] issue_ops_token/get/list_page/check/policy    supp=302 k=5.0  REJECTED: challenge_failed:invariance_violated\n  [replay_validated] issue_ops_token/get/list_page/policy          supp=294 k=5.0  REJECTED: challenge_failed:live_out_mismatch\n  [replay_validated] issue_ops_token/get/list_page                 supp=349 k=4.0  REJECTED: challenge_failed:live_out_mismatch\n  [calibrated  ] issue_ops_token/get/list_page/track               supp=319 k=4.0  REJECTED: gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.083 > alph",
+    "explain": "artifact  issue_ops_token.get.region@9db61fc9@1   support 179/274 groups   removes k=3.00   [replay_validated]\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nguard   effect_catalog_version=fulfillment@1#d3cbb5a265074ec4  entry_contract_version=wms_v2  guardrail_hash=#0001  model=sim-gpt-5-2026-04-12  policy_hash=#b904  prompt_hash=#f10a  tools_hash=#3c72\n        policy_version = 'pol-e1'   (isolation key)\n        principal = 'svc.fulfillment.ops'   (isolation key)\n        tenant_partition = 't_northwind'   (isolation key)\n        z.case.order_ref : str matches ^ORD\\-2026\\-000[0-9]{3,3}$ (len 15..15)\n        effects \u2286 {READ_EXTERNAL}  all speculatable \u2227 replayable\n\nprogram (\u03b8 = {case.order_ref}):\n   ops  = call auth.issue_ops_token()\n   get  = call orders.get(order_ref = z.case.order_ref, token = ops.token)\n   page = call shipments.list_page(order_ref = get.order_ref, page = Const(0), token = ops.token)\n   return  { get: get, ops: ops, page: page }\nverify  ops : dict, non-null, provenance \u2208 {auth.issue_ops_token}\n        ops.expires_in : int, non-null, \u2208 [600.0, 600.0], provenance \u2208 {auth.issue_ops_token}\n        ops.scope : str, non-null, \u2208 {fulfillment.read}, provenance \u2208 {auth.issue_ops_token}\n        ops.token : str, non-null, matches ^ops_[a-z0-9]{8,8}$ (len 12..12), provenance \u2208 {auth.issue_ops_token}\n        get : dict, non-null, provenance \u2208 {orders.get}\n        get.line_items : list, non-null, len \u2264 3, len \u2265 1, provenance \u2208 {orders.get}\n        get.order_ref : str, non-null, matches ^ORD\\-2026\\-000[0-9]{3,3}$ (len 15..15), provenance \u2208 {orders.get}\n        get.promised_date : str, non-null, matches ^2026\\-08\\-[0-9]{2,2}$ (len 10..10), provenance \u2208 {orders.get}\n        get.status : str, non-null, \u2208 {exception}, provenance \u2208 {orders.get}\n        page : dict, non-null, provenance \u2208 {shipments.list_page}\n        page.has_more : bool, non-null, \u2208 {False, True}, provenance \u2208 {shipments.list_page}\n        page.order_ref : str, non-null, matches ^ORD\\-2026\\-000[0-9]{3,3}$ (len 15..15), provenance \u2208 {shipments.list_page}\n        page.page : int, non-null, \u2208 [0.0, 0.0], provenance \u2208 {shipments.list_page}\n        page.shipments : list, non-null, len \u2264 3, len \u2265 1, provenance \u2208 {shipments.list_page}\n        effect_multiset \u2286 {READ_EXTERNAL},  |calls| \u2208 {3},  no WRITE_*\ngate    q = logistic(entry features)   \u03b7 = 0.50   (cal n=100 groups, \u03b1=0.05, \u03b4=0.1, |\u039b|=11, R\u207a=0.046, \u03c6\u0302=1.00)"
+  },
+  "conditions": {
+    "baseline": {
+      "n_episodes": 653,
+      "n_groups": 196,
+      "aggregate": {
+        "requests": 8.87749,
+        "tool_calls": 6.04747,
+        "read_calls": 4.91884,
+        "write_calls": 1.0,
+        "unknown_calls": 0.12864,
+        "input_tokens": 10675.04441,
+        "cached_input_tokens": 20276.65544,
+        "output_tokens": 615.91424,
+        "dollars": 0.02204,
+        "latency_ms_mean": 4610.11225,
+        "latency_ms_p50": 4573.40183,
+        "latency_ms_p95": 5692.29878,
+        "latency_ms_p99": 6210.62198,
+        "critical_path_ms": 4610.11225,
+        "schema_tokens": 1320.0,
+        "prompt_tokens": 1540.0,
+        "tool_surface_tokens": 2860.0,
+        "quality": 0.9951,
+        "success_rate": 1.0,
+        "safety_events_total": 0.0,
+        "safety_events_rate": 0.0,
+        "artifact_write_effects_total": 0.0,
+        "episodes_compacted": 0.0,
+        "artifact_executions_total": 0.0,
+        "coverage_phi": 0.0,
+        "fallbacks_total": 0.0,
+        "incidents_total": 0.0,
+        "overhead_ms_per_episode": 0.0,
+        "business.committed_once": 1.0,
+        "business.evidence_complete": 1.0,
+        "business.pagination_correct": 0.9755
+      },
+      "dispatch": {}
+    },
+    "simple": {
+      "n_episodes": 653,
+      "n_groups": 196,
+      "aggregate": {
+        "requests": 5.86371,
+        "tool_calls": 3.0,
+        "read_calls": 2.0,
+        "write_calls": 1.0,
+        "unknown_calls": 0.0,
+        "input_tokens": 6299.22818,
+        "cached_input_tokens": 13394.64625,
+        "output_tokens": 407.99847,
+        "dollars": 0.01363,
+        "latency_ms_mean": 3021.55926,
+        "latency_ms_p50": 3029.18164,
+        "latency_ms_p95": 3663.90347,
+        "latency_ms_p99": 3897.31186,
+        "critical_path_ms": 3021.55926,
+        "schema_tokens": 1520.0,
+        "prompt_tokens": 1540.0,
+        "tool_surface_tokens": 3060.0,
+        "quality": 1.0,
+        "success_rate": 1.0,
+        "safety_events_total": 0.0,
+        "safety_events_rate": 0.0,
+        "artifact_write_effects_total": 0.0,
+        "episodes_compacted": 0.0,
+        "artifact_executions_total": 0.0,
+        "coverage_phi": 0.0,
+        "fallbacks_total": 0.0,
+        "incidents_total": 0.0,
+        "overhead_ms_per_episode": 0.0,
+        "business.committed_once": 1.0,
+        "business.evidence_complete": 0.0,
+        "business.pagination_correct": 1.0
+      },
+      "dispatch": {}
+    },
+    "full": {
+      "n_episodes": 653,
+      "n_groups": 196,
+      "aggregate": {
+        "requests": 5.69525,
+        "tool_calls": 5.92649,
+        "read_calls": 4.92649,
+        "write_calls": 1.0,
+        "unknown_calls": 0.0,
+        "input_tokens": 7038.4441,
+        "cached_input_tokens": 6507.62021,
+        "output_tokens": 395.23277,
+        "dollars": 0.01356,
+        "latency_ms_mean": 3073.7261,
+        "latency_ms_p50": 3069.58442,
+        "latency_ms_p95": 4075.13423,
+        "latency_ms_p99": 4387.81341,
+        "critical_path_ms": 3065.08704,
+        "schema_tokens": 880.0,
+        "prompt_tokens": 660.0,
+        "tool_surface_tokens": 1540.0,
+        "quality": 0.99694,
+        "success_rate": 1.0,
+        "safety_events_total": 0.0,
+        "safety_events_rate": 0.0,
+        "artifact_write_effects_total": 0.0,
+        "episodes_compacted": 653.0,
+        "artifact_executions_total": 653.0,
+        "coverage_phi": 1.0,
+        "fallbacks_total": 0.0,
+        "incidents_total": 0.0,
+        "overhead_ms_per_episode": 8.63911,
+        "business.committed_once": 1.0,
+        "business.evidence_complete": 1.0,
+        "business.pagination_correct": 0.98469
+      },
+      "dispatch": {
+        "attempts": 4372,
+        "compacted": 653,
+        "baseline": 3719,
+        "incidents": 0,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "region_already_started": 3719
+        },
+        "verifier_failures": {},
+        "interp_failures": {},
+        "dispatch_attempts": 653,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_pass_rate": 1.0,
+        "boundary_dispatch_rate": 0.1494,
+        "overhead_ms_total": 5641.31,
+        "removed_requests_total": 1959.0,
+        "routes": {
+          "route_hits": 653,
+          "route_misses": 0,
+          "route_miss_reasons": {}
+        }
+      }
+    },
+    "support_only": {
+      "n_episodes": 653,
+      "n_groups": 196,
+      "aggregate": {
+        "requests": 4.87749,
+        "tool_calls": 6.04747,
+        "read_calls": 4.91884,
+        "write_calls": 1.0,
+        "unknown_calls": 0.12864,
+        "input_tokens": 8451.04441,
+        "cached_input_tokens": 9980.65544,
+        "output_tokens": 339.35375,
+        "dollars": 0.0152,
+        "latency_ms_mean": 2702.97446,
+        "latency_ms_p50": 2671.87996,
+        "latency_ms_p95": 3770.59213,
+        "latency_ms_p99": 4178.46514,
+        "critical_path_ms": 2693.5804,
+        "schema_tokens": 1320.0,
+        "prompt_tokens": 1540.0,
+        "tool_surface_tokens": 2860.0,
+        "quality": 0.9951,
+        "success_rate": 1.0,
+        "safety_events_total": 0.0,
+        "safety_events_rate": 0.0,
+        "artifact_write_effects_total": 0.0,
+        "episodes_compacted": 653.0,
+        "artifact_executions_total": 653.0,
+        "coverage_phi": 1.0,
+        "fallbacks_total": 0.0,
+        "incidents_total": 0.0,
+        "overhead_ms_per_episode": 9.39406,
+        "business.committed_once": 1.0,
+        "business.evidence_complete": 1.0,
+        "business.pagination_correct": 0.9755
+      },
+      "dispatch": {
+        "attempts": 3838,
+        "compacted": 653,
+        "baseline": 3185,
+        "incidents": 0,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "region_already_started": 6370
+        },
+        "verifier_failures": {},
+        "interp_failures": {},
+        "dispatch_attempts": 653,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_pass_rate": 1.0,
+        "boundary_dispatch_rate": 0.1701,
+        "overhead_ms_total": 6134.32,
+        "removed_requests_total": 2612.0
+      }
+    }
+  },
+  "comparisons": {
+    "simple": {
+      "n_paired_episodes": 653,
+      "n_groups": 196,
+      "request_ratio": {
+        "point": 0.660514,
+        "low": 0.65374,
+        "high": 0.667601,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "request_diff": {
+        "point": -3.013783,
+        "low": -3.104387,
+        "high": -2.921222,
+        "level": 0.95,
+        "method": "paired_group_bootstrap"
+      },
+      "token_ratio": {
+        "point": 0.590089,
+        "low": 0.58117,
+        "high": 0.599401,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "dollar_ratio": {
+        "point": 0.618416,
+        "low": 0.610451,
+        "high": 0.626969,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "latency_ratio": {
+        "point": 0.65542,
+        "low": 0.648483,
+        "high": 0.662906,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "quality_noninferiority": {
+        "endpoint": "semantic_score",
+        "margin": 0.05,
+        "diff": {
+          "point": 0.0049,
+          "low": 0.002799,
+          "high": 0.007221,
+          "level": 0.8999999999999999,
+          "method": "paired_group_bootstrap"
+        },
+        "passed": true,
+        "direction": "higher_is_better"
+      },
+      "quality_noninferiority_strict": {
+        "endpoint": "semantic_score",
+        "margin": 0.03,
+        "diff": {
+          "point": 0.0049,
+          "low": 0.002799,
+          "high": 0.007221,
+          "level": 0.8999999999999999,
+          "method": "paired_group_bootstrap"
+        },
+        "passed": true,
+        "direction": "higher_is_better"
+      },
+      "success_diff": {
+        "point": 0.0,
+        "low": 0.0,
+        "high": 0.0,
+        "level": 0.95,
+        "method": "paired_group_bootstrap"
+      },
+      "safety": {
+        "baseline_events": 0,
+        "candidate_events": 0,
+        "delta": 0,
+        "artifact_write_effects": 0,
+        "incidents": 0,
+        "invariant": true
+      },
+      "coverage_phi": 0.0,
+      "unsafe_dispatch_upper_bound": {
+        "artifact_executions": 0,
+        "dispatched_episodes": 0,
+        "observed_unsafe": 0,
+        "upper_95": 0.95,
+        "note": "a zero observed rate is reported as an upper bound, never as zero risk"
+      }
+    },
+    "full": {
+      "n_paired_episodes": 653,
+      "n_groups": 196,
+      "request_ratio": {
+        "point": 0.641539,
+        "low": 0.636364,
+        "high": 0.646452,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "request_diff": {
+        "point": -3.182236,
+        "low": -3.213946,
+        "high": -3.15083,
+        "level": 0.95,
+        "method": "paired_group_bootstrap"
+      },
+      "token_ratio": {
+        "point": 0.659336,
+        "low": 0.653886,
+        "high": 0.66473,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "dollar_ratio": {
+        "point": 0.615488,
+        "low": 0.61037,
+        "high": 0.620685,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "latency_ratio": {
+        "point": 0.666736,
+        "low": 0.66131,
+        "high": 0.672165,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "quality_noninferiority": {
+        "endpoint": "semantic_score",
+        "margin": 0.05,
+        "diff": {
+          "point": 0.001838,
+          "low": 0.000597,
+          "high": 0.003379,
+          "level": 0.8999999999999999,
+          "method": "paired_group_bootstrap"
+        },
+        "passed": true,
+        "direction": "higher_is_better"
+      },
+      "quality_noninferiority_strict": {
+        "endpoint": "semantic_score",
+        "margin": 0.03,
+        "diff": {
+          "point": 0.001838,
+          "low": 0.000597,
+          "high": 0.003379,
+          "level": 0.8999999999999999,
+          "method": "paired_group_bootstrap"
+        },
+        "passed": true,
+        "direction": "higher_is_better"
+      },
+      "success_diff": {
+        "point": 0.0,
+        "low": 0.0,
+        "high": 0.0,
+        "level": 0.95,
+        "method": "paired_group_bootstrap"
+      },
+      "safety": {
+        "baseline_events": 0,
+        "candidate_events": 0,
+        "delta": 0,
+        "artifact_write_effects": 0,
+        "incidents": 0,
+        "invariant": true
+      },
+      "coverage_phi": 1.0,
+      "unsafe_dispatch_upper_bound": {
+        "artifact_executions": 653,
+        "dispatched_episodes": 653,
+        "observed_unsafe": 0,
+        "upper_95": 0.00458,
+        "note": "a zero observed rate is reported as an upper bound, never as zero risk"
+      }
+    },
+    "support_only": {
+      "n_paired_episodes": 653,
+      "n_groups": 196,
+      "request_ratio": {
+        "point": 0.549422,
+        "low": 0.54402,
+        "high": 0.554871,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "request_diff": {
+        "point": -4.0,
+        "low": -4.0,
+        "high": -4.0,
+        "level": 0.95,
+        "method": "paired_group_bootstrap"
+      },
+      "token_ratio": {
+        "point": 0.791664,
+        "low": 0.788167,
+        "high": 0.795172,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "dollar_ratio": {
+        "point": 0.689956,
+        "low": 0.684922,
+        "high": 0.694665,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "latency_ratio": {
+        "point": 0.586314,
+        "low": 0.58038,
+        "high": 0.591925,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "quality_noninferiority": {
+        "endpoint": "semantic_score",
+        "margin": 0.05,
+        "diff": {
+          "point": 0.0,
+          "low": 0.0,
+          "high": 0.0,
+          "level": 0.8999999999999999,
+          "method": "paired_group_bootstrap"
+        },
+        "passed": true,
+        "direction": "higher_is_better"
+      },
+      "quality_noninferiority_strict": {
+        "endpoint": "semantic_score",
+        "margin": 0.03,
+        "diff": {
+          "point": 0.0,
+          "low": 0.0,
+          "high": 0.0,
+          "level": 0.8999999999999999,
+          "method": "paired_group_bootstrap"
+        },
+        "passed": true,
+        "direction": "higher_is_better"
+      },
+      "success_diff": {
+        "point": 0.0,
+        "low": 0.0,
+        "high": 0.0,
+        "level": 0.95,
+        "method": "paired_group_bootstrap"
+      },
+      "safety": {
+        "baseline_events": 0,
+        "candidate_events": 0,
+        "delta": 0,
+        "artifact_write_effects": 0,
+        "incidents": 0,
+        "invariant": true
+      },
+      "coverage_phi": 1.0,
+      "unsafe_dispatch_upper_bound": {
+        "artifact_executions": 653,
+        "dispatched_episodes": 653,
+        "observed_unsafe": 0,
+        "upper_95": 0.00458,
+        "note": "a zero observed rate is reported as an upper bound, never as zero risk"
+      }
+    }
+  },
+  "hypotheses": {
+    "H1_synthesis": {
+      "statement": "automatic synthesis yields at least one non-trivial artifact (k>=2, with a synthesized transform or observation-dependent branch)",
+      "passed": true
+    },
+    "H2_quality": {
+      "statement": "lower one-sided 95% CI on the paired task-score difference exceeds -0.05",
+      "margin": 0.05,
+      "diff": {
+        "point": 0.001838,
+        "low": 0.000597,
+        "high": 0.003379,
+        "level": 0.8999999999999999,
+        "method": "paired_group_bootstrap"
+      },
+      "passed": true
+    },
+    "H3_requests": {
+      "statement": "upper one-sided 95% CI on the model-request ratio is below 0.90",
+      "ratio": {
+        "point": 0.641539,
+        "low": 0.636364,
+        "high": 0.646452,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "passed": true
+    },
+    "H3b_cost_latency": {
+      "dollar_ratio": {
+        "point": 0.615488,
+        "low": 0.61037,
+        "high": 0.620685,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "latency_ratio": {
+        "point": 0.666736,
+        "low": 0.66131,
+        "high": 0.672165,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "note": "secondary, unthresholded; dollars lag requests because the removed prefill is cached"
+    },
+    "H4_ablation": {
+      "statement": "provenance/contract-aware gating has fewer unsafe dispatches than support-only routing at comparable coverage",
+      "full": {
+        "coverage": 1.0,
+        "unsafe": {
+          "artifact_executions": 653,
+          "dispatched_episodes": 653,
+          "observed_unsafe": 0,
+          "upper_95": 0.00458,
+          "note": "a zero observed rate is reported as an upper bound, never as zero risk"
+        },
+        "safety": {
+          "baseline_events": 0,
+          "candidate_events": 0,
+          "delta": 0,
+          "artifact_write_effects": 0,
+          "incidents": 0,
+          "invariant": true
+        }
+      },
+      "support_only": {
+        "coverage": 1.0,
+        "unsafe": {
+          "artifact_executions": 653,
+          "dispatched_episodes": 653,
+          "observed_unsafe": 0,
+          "upper_95": 0.00458,
+          "note": "a zero observed rate is reported as an upper bound, never as zero risk"
+        },
+        "safety": {
+          "baseline_events": 0,
+          "candidate_events": 0,
+          "delta": 0,
+          "artifact_write_effects": 0,
+          "incidents": 0,
+          "invariant": true
+        }
+      }
+    },
+    "H5_operations": {
+      "latency_ratio": {
+        "point": 0.666736,
+        "low": 0.66131,
+        "high": 0.672165,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "incidents": 0,
+      "note": "exploratory"
+    },
+    "incremental_value_over_hand_written": {
+      "simple_request_ratio": {
+        "point": 0.660514,
+        "low": 0.65374,
+        "high": 0.667601,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "full_request_ratio": {
+        "point": 0.641539,
+        "low": 0.636364,
+        "high": 0.646452,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "note": "GRC is only credited with the difference; a macro still costs one model request per invocation because the model selects it"
+    },
+    "co_primary_passed": true
+  },
+  "shadow": {
+    "n_episodes": 308,
+    "n_groups": 87,
+    "would_dispatch_boundaries": 2720,
+    "telemetry": {
+      "attempts": 2720,
+      "compacted": 0,
+      "baseline": 2720,
+      "incidents": 0,
+      "gate_rejections": 0,
+      "guard_misses": {
+        "region_already_started": 2412
+      },
+      "verifier_failures": {},
+      "interp_failures": {},
+      "dispatch_attempts": 0,
+      "shadow_would_dispatch": 308,
+      "shadow_would_dispatch_rate": 0.1132,
+      "verifier_pass_rate": 0.0,
+      "boundary_dispatch_rate": 0.0,
+      "overhead_ms_total": 3422.46,
+      "removed_requests_total": 0.0
+    },
+    "routes": {
+      "route_hits": 308,
+      "route_misses": 0,
+      "route_miss_reasons": {}
+    },
+    "note": "shadow evidence is operational only and is never pooled into the sealed-test claim"
+  },
+  "maintenance": {
+    "active_artifacts": 2,
+    "grc_artifacts": 1,
+    "tgws_leaves": 1,
+    "dsl_nodes": 20,
+    "contract_predicates": 15,
+    "prompt_variants": 1,
+    "tool_allowlists": 1,
+    "compatibility_dependencies": 1
+  },
+  "artifacts": [
+    "artifact  route.auth.issue_ops_token|orders.@1   support 274/274 groups   removes k=0.19   [active]\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nguard   effect_catalog_version=fulfillment@1#d3cbb5a265074ec4  entry_contract_version=wms_v2  guardrail_hash=#0001  model=sim-gpt-5-2026-04-12  policy_hash=#b904  prompt_hash=#f10a  tools_hash=#3c72\n        policy_version = 'pol-e1'   (isolation key)\n        principal = 'svc.fulfillment.ops'   (isolation key)\n        tenant_partition = 't_northwind'   (isolation key)\n        effects \u2286 {}  all speculatable \u2227 replayable\nroute  if true\n       \u2192 agent=fulfillment-ops model=sim-gpt-5-2026-04-12 reasoning=default\n       prompt_blocks=['role_fulfillment_ops', 'evidence_policy', 'commitment_policy']\n       tools=['auth.issue_ops_token', 'inventory.check', 'carrier.track', 'sla.policy', 'orders.reschedule', 'case.escalate', 'refunds.issue_credit'] handoffs=[]\n       support=963 purity=1.00 tokens 2860\u21921540\ngate    q = logistic(entry features)   \u03b7 = 0.50   (cal n=147 groups, \u03b1=0.05, \u03b4=0.1, |\u039b|=11, R\u207a=0.031, \u03c6\u0302=1.00)",
+    "artifact  issue_ops_token.get.region@9db61fc9@1   support 179/274 groups   removes k=3.00   [active]\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nguard   effect_catalog_version=fulfillment@1#d3cbb5a265074ec4  entry_contract_version=wms_v2  guardrail_hash=#0001  model=sim-gpt-5-2026-04-12  policy_hash=#b904  prompt_hash=#f10a  tools_hash=#3c72\n        policy_version = 'pol-e1'   (isolation key)\n        principal = 'svc.fulfillment.ops'   (isolation key)\n        tenant_partition = 't_northwind'   (isolation key)\n        z.case.order_ref : str matches ^ORD\\-2026\\-000[0-9]{3,3}$ (len 15..15)\n        effects \u2286 {READ_EXTERNAL}  all speculatable \u2227 replayable\n\nprogram (\u03b8 = {case.order_ref}):\n   ops  = call auth.issue_ops_token()\n   get  = call orders.get(order_ref = z.case.order_ref, token = ops.token)\n   page = call shipments.list_page(order_ref = get.order_ref, page = Const(0), token = ops.token)\n   return  { get: get, ops: ops, page: page }\nverify  ops : dict, non-null, provenance \u2208 {auth.issue_ops_token}\n        ops.expires_in : int, non-null, \u2208 [600.0, 600.0], provenance \u2208 {auth.issue_ops_token}\n        ops.scope : str, non-null, \u2208 {fulfillment.read}, provenance \u2208 {auth.issue_ops_token}\n        ops.token : str, non-null, matches ^ops_[a-z0-9]{8,8}$ (len 12..12), provenance \u2208 {auth.issue_ops_token}\n        get : dict, non-null, provenance \u2208 {orders.get}\n        get.line_items : list, non-null, len \u2264 3, len \u2265 1, provenance \u2208 {orders.get}\n        get.order_ref : str, non-null, matches ^ORD\\-2026\\-000[0-9]{3,3}$ (len 15..15), provenance \u2208 {orders.get}\n        get.promised_date : str, non-null, matches ^2026\\-08\\-[0-9]{2,2}$ (len 10..10), provenance \u2208 {orders.get}\n        get.status : str, non-null, \u2208 {exception}, provenance \u2208 {orders.get}\n        page : dict, non-null, provenance \u2208 {shipments.list_page}\n        page.has_more : bool, non-null, \u2208 {False, True}, provenance \u2208 {shipments.list_page}\n        page.order_ref : str, non-null, matches ^ORD\\-2026\\-000[0-9]{3,3}$ (len 15..15), provenance \u2208 {shipments.list_page}\n        page.page : int, non-null, \u2208 [0.0, 0.0], provenance \u2208 {shipments.list_page}\n        page.shipments : list, non-null, len \u2264 3, len \u2265 1, provenance \u2208 {shipments.list_page}\n        effect_multiset \u2286 {READ_EXTERNAL},  |calls| \u2208 {3},  no WRITE_*\ngate    q = logistic(entry features)   \u03b7 = 0.50   (cal n=100 groups, \u03b1=0.05, \u03b4=0.1, |\u039b|=11, R\u207a=0.046, \u03c6\u0302=1.00)"
+  ],
+  "timings": {
+    "capture_s": 2.16,
+    "estimate_s": 7.76,
+    "tgws_s": 8.43,
+    "grc_s": 9.94,
+    "ablation_s": 8.59,
+    "sealed_test_s": 4.87,
+    "shadow_s": 1.0,
+    "total_s": 45.55
+  },
+  "notes": []
+}

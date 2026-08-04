@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agent-compaction"
+version = "0.5.0"
+description = "Guarded agentic compaction: trace-derived, evidence-gated workflow optimization for LLM agents"
+requires-python = ">=3.11"
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+keywords = ["agents", "optimization", "compaction", "tracing", "openai-agents"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Typing :: Typed",
+]
+dependencies = [
+    "pydantic>=2.6",
+    "pyyaml>=6.0",
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "scikit-learn>=1.4",
+]
+
+[project.optional-dependencies]
+mlflow = ["mlflow>=3.14,<4"]
+agents = ["openai-agents>=0.19,<0.20"]
+live = [
+    "openai-agents>=0.19,<0.20",
+    "python-dotenv>=1.0",
+    "mcp>=1.29,<2",
+]
+figures = ["matplotlib>=3.8", "pandas>=2.0"]
+dev = ["pytest>=8.0", "jsonschema>=4.0", "build>=1.2"]
+
+[project.scripts]
+agent-compaction = "agent_compaction.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+agent_compaction = ["py.typed"]
+
+[tool.pytest.ini_options]
+# Publication-facing oracle regression tests live beside the study driver so that the
+# default suite fails if the paper's stated quality boundary drifts from the implementation.
+testpaths = ["tests", "paper/scripts"]
+addopts = "-q"
+markers = [
+    "slow: longer-running end-to-end suites",
+    "mlflow: requires the optional mlflow extra",
+    "agents_sdk: requires the optional openai-agents extra",
+]
+filterwarnings = ["ignore::DeprecationWarning"]

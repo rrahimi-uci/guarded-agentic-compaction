@@ -1,0 +1,191 @@
+{
+  "run": {
+    "smoke": true,
+    "openai_api_key_used": true,
+    "hf_token_used_for_download": true,
+    "task_design": "natural-extractive-v2"
+  },
+  "results": [
+    {
+      "condition": "discovery",
+      "repeat": 0,
+      "issue_number": 6261,
+      "trace_id": "trace_232fdd0d145729e76435b21a14092a07",
+      "metrics": {
+        "requests": 4,
+        "tool_calls": 3,
+        "handoffs": 0,
+        "input_tokens": 5135,
+        "cached_input_tokens": 4569,
+        "cache_write_tokens": 0,
+        "output_tokens": 219,
+        "total_tokens": 5354,
+        "wall_latency_ms": 7872.879,
+        "provider_response_latency_ms": 7855.769,
+        "estimated_cost_usd": 0.00046738
+      },
+      "answer": {
+        "issue_number": 6261,
+        "category": "other",
+        "evidence_label": "none",
+        "title": "Can't load a dataset",
+        "state": "closed",
+        "comment_count": 5,
+        "evidence_excerpt": "Can't load a dataset"
+      },
+      "quality": {
+        "category_correct": true,
+        "issue_number_correct": true,
+        "evidence_label_correct": true,
+        "tool_contract": false,
+        "title_exact": true,
+        "state_exact": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "factuality_exact": true,
+        "score": 0.875,
+        "overall": false
+      },
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "tool_arguments": [
+        {
+          "issue_number": 6261
+        },
+        {
+          "issue_number": 6261
+        },
+        {
+          "issue_number": 6261,
+          "limit": 100
+        }
+      ],
+      "dispatch": {},
+      "episode_digest": "sha256:5eddc0c6c7c0a7f21288cd6a8077b35f"
+    },
+    {
+      "condition": "discovery",
+      "repeat": 0,
+      "issue_number": 4435,
+      "trace_id": "trace_9c922ccc3fa6ab0afd805074ec424556",
+      "metrics": {
+        "requests": 4,
+        "tool_calls": 3,
+        "handoffs": 0,
+        "input_tokens": 4027,
+        "cached_input_tokens": 2196,
+        "cache_write_tokens": 1265,
+        "output_tokens": 180,
+        "total_tokens": 4207,
+        "wall_latency_ms": 8369.351,
+        "provider_response_latency_ms": 8054.075,
+        "estimated_cost_usd": 0.00068937
+      },
+      "answer": {
+        "issue_number": 4435,
+        "category": "bug",
+        "evidence_label": "bug",
+        "title": "Load a local cached dataset that has been modified",
+        "state": "closed",
+        "comment_count": 2,
+        "evidence_excerpt": "## Describe the bug\r\nI have loaded a dataset as follows:"
+      },
+      "quality": {
+        "category_correct": true,
+        "issue_number_correct": true,
+        "evidence_label_correct": true,
+        "tool_contract": false,
+        "title_exact": true,
+        "state_exact": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "factuality_exact": true,
+        "score": 0.875,
+        "overall": false
+      },
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "tool_arguments": [
+        {
+          "issue_number": 4435
+        },
+        {
+          "issue_number": 4435
+        },
+        {
+          "issue_number": 4435,
+          "limit": 100
+        }
+      ],
+      "dispatch": {},
+      "episode_digest": "sha256:2f4a746d781b7ac622c08ed2ab58d331"
+    },
+    {
+      "condition": "discovery",
+      "repeat": 0,
+      "issue_number": 5263,
+      "trace_id": "trace_d51d876d4c71429253702fe2b95cfd27",
+      "metrics": {
+        "requests": 4,
+        "tool_calls": 3,
+        "handoffs": 0,
+        "input_tokens": 2946,
+        "cached_input_tokens": 0,
+        "cache_write_tokens": 0,
+        "output_tokens": 181,
+        "total_tokens": 3127,
+        "wall_latency_ms": 4752.616,
+        "provider_response_latency_ms": 4439.512,
+        "estimated_cost_usd": 0.0008064
+      },
+      "answer": {
+        "issue_number": 5263,
+        "category": "enhancement",
+        "evidence_label": "enhancement",
+        "title": "Save a dataset in a determined number of shards",
+        "state": "closed",
+        "comment_count": 0,
+        "evidence_excerpt": "This is useful to distribute the shards to training nodes."
+      },
+      "quality": {
+        "category_correct": true,
+        "issue_number_correct": true,
+        "evidence_label_correct": true,
+        "tool_contract": false,
+        "title_exact": true,
+        "state_exact": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "factuality_exact": true,
+        "score": 0.875,
+        "overall": false
+      },
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "tool_arguments": [
+        {
+          "issue_number": 5263
+        },
+        {
+          "issue_number": 5263
+        },
+        {
+          "issue_number": 5263,
+          "limit": 100
+        }
+      ],
+      "dispatch": {},
+      "episode_digest": "sha256:f4cdb9f2386ddf54a88a4503f63e9d61"
+    }
+  ],
+  "failures": []
+}

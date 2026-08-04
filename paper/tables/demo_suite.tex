@@ -1,0 +1,16 @@
+\begin{tabularx}{\linewidth}{@{}c >{\raggedright\arraybackslash}X c r r r r c@{}}
+\toprule
+& & & \multicolumn{2}{c}{Model calls} & \multicolumn{2}{c}{Change} & Quality \\
+\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+Demo & Shape that makes it hard & $n$ & base & cand. & tokens & cost & base\,/\,cand. \\
+\midrule
+A & Linear read prefix & 4 & 6.0 & 1.0 & $-79.6\%$ & $-73.6\%$ & 1.00\,/\,1.00 \\
+B & ACL scope + index version as guard keys & 4 & 7.0 & 1.0 & $-76.3\%$ & $-68.7\%$ & 0.97\,/\,0.97 \\
+C & Coordinator with a handoff barrier & 4 & 5.0 & 1.0 & $-73.8\%$ & $-75.5\%$ & 1.00\,/\,1.00 \\
+E & 3 synthesized branches, pagination, mandatory write & 4 & 7.0 & 2.0 & $-66.4\%$ & $+8.3\%$ & 1.00\,/\,1.00 \\
+F & Route specialization (prompt + tool surface) & 4 & 7.0 & 7.0 & $-16.8\%$ & $+123.0\%$ & 1.00\,/\,1.00 \\
+D & Undeclared MCP effects (negative control) & 2 & 3.0 & 3.0 & $+0.1\%$ & $+0.2\%$ & 1.00\,/\,1.00 \\
+E$'$ & Loop-bearing artifact refused (negative control) & 4 & 7.0 & 7.0 & $+0.2\%$ & $+55.4\%$ & 1.00\,/\,1.00 \\
+E$''$ & Entry-schema drift, guard miss (negative control) & 4 & 7.0 & 7.0 & $+0.0\%$ & $+54.5\%$ & 1.00\,/\,1.00 \\
+\bottomrule
+\end{tabularx}

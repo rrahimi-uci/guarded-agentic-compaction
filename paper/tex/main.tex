@@ -1,0 +1,102 @@
+\documentclass[sigconf,review,anonymous]{acmart}
+
+% \hyp gives a break opportunity at an explicit hyphen, so long
+% compound words do not overflow the narrow two-column measure.
+\usepackage[htt]{hyphenat}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{amsmath,mathtools}
+\usepackage{enumitem}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc}
+\usepackage{cleveref}
+\usepackage{balance}
+
+% algorithmicx resets ALG@line for every algorithm. Include the algorithm number in
+% Hyperref's destination name so PDF backends do not emit duplicate ALG@line anchors.
+\makeatletter
+\providecommand{\theHALG@line}{\thealgorithm.\arabic{ALG@line}}
+\renewcommand{\theHALG@line}{\thealgorithm.\arabic{ALG@line}}
+\makeatother
+
+% \xspace: a control word swallows the space after it, which silently produced
+% "GACreconstructs" in the abstract. Guard every acronym rather than the call sites.
+\usepackage{xspace}
+\newcommand{\method}{\textsc{GAC}\xspace}
+\newcommand{\grc}{\textsc{GRC}\xspace}
+\newcommand{\tgws}{\textsc{TGWS}\xspace}
+\newcommand{\patg}{\textsc{PATG}\xspace}
+\newcommand{\retire}{\textsc{Retire}\xspace}
+\newcommand{\fallback}{\textsc{Fallback}\xspace}
+\newcommand{\code}[1]{\texttt{#1}}
+\newtheorem{proposition}{Proposition}
+\setlength{\emergencystretch}{1em}
+
+\definecolor{paperblue}{HTML}{2F6B8A}
+\definecolor{paperteal}{HTML}{2A9D8F}
+
+% Palette shared with figures/architecture.tex. Declared per wrapper so the artwork
+% stays class-neutral and both builds render identically.
+\definecolor{gacblue}{HTML}{2F6B8A}
+\definecolor{gacteal}{HTML}{2A9D8F}
+\definecolor{gacred}{HTML}{B4462F}
+\definecolor{gacline}{HTML}{3D3D3D}
+\definecolor{gacgrey}{HTML}{F4F3F0}
+
+\title{When Traces Are Not Enough}
+\subtitle{Guarded Compilation of Tool-Using Agents}
+
+\author{Anonymous Author(s)}
+\affiliation{\institution{Anonymous Institution}}
+
+\acmConference[Under Review]{Anonymous Conference Submission}{2026}{Anonymous}
+\acmBooktitle{Anonymous Conference Submission, 2026}
+\acmDOI{}
+\acmISBN{}
+\settopmatter{printacmref=true, printccs=true, printfolios=true}
+\renewcommand\footnotetextcopyrightpermission[1]{}
+
+\begin{document}
+
+\input{abstract}
+
+\keywords{LLM agents, tool use, workflow optimization, program synthesis, provenance,
+selective prediction, risk control, OpenAI Agents SDK}
+
+\begin{CCSXML}
+<ccs2012>
+ <concept>
+  <concept_id>10010147.10010178.10010224</concept_id>
+  <concept_desc>Computing methodologies~Intelligent agents</concept_desc>
+  <concept_significance>500</concept_significance>
+ </concept>
+ <concept>
+  <concept_id>10011007.10011006.10011008</concept_id>
+  <concept_desc>Software and its engineering~General programming languages</concept_desc>
+  <concept_significance>300</concept_significance>
+ </concept>
+</ccs2012>
+\end{CCSXML}
+\ccsdesc[500]{Computing methodologies~Intelligent agents}
+\ccsdesc[300]{Software and its engineering~General programming languages}
+
+\maketitle
+
+% Shared artwork/algorithm colour + package requirements are declared per wrapper;
+% the body, abstract, figures and algorithms below are identical in both builds.
+\input{body}
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{../bibliography/references}
+
+\appendix
+\input{../appendix/appendix}
+
+\balance
+\end{document}

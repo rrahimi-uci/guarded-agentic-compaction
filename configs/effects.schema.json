@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-compaction.dev/schemas/effects-1.json",
+  "title": "Effect catalog",
+  "description": "Anything not listed defaults to UNKNOWN and is never compiled.",
+  "type": "object",
+  "required": ["version", "tools"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "type": "integer", "minimum": 1 },
+    "name": { "type": "string" },
+    "tools": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["effect"],
+        "properties": {
+          "effect": {
+            "enum": ["PURE", "READ_LOCAL", "READ_EXTERNAL", "WRITE_REVERSIBLE", "WRITE_IRREVERSIBLE", "UNKNOWN"]
+          },
+          "capabilities": {
+            "type": "array",
+            "items": { "enum": ["speculatable", "replayable", "cacheable", "reorderable", "batchable"] },
+            "uniqueItems": true
+          },
+          "key": { "type": "array", "items": { "type": "string" } },
+          "freshness_s": { "type": ["number", "null"], "minimum": 0 },
+          "literal_only": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Argument slots that may only be bound by identity or constant."
+          },
+          "max_transform_depth": { "type": ["integer", "null"], "minimum": 0, "maximum": 3 },
+          "resource": { "type": ["string", "null"] },
+          "approval_required": { "type": "boolean" },
+          "quota_attested": {
+            "type": "boolean",
+            "description": "Whether invoking this tool increments a counter inside the set stage.reversible() attests over."
+          },
+          "notes": { "type": "string" }
+        }
+      }
+    }
+  }
+}

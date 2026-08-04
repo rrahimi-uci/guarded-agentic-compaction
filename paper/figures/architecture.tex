@@ -1,0 +1,112 @@
+% System architecture of guarded agentic compaction.
+% Authored artwork (TikZ), included by both the ACM and the article build.
+% Colours are declared in each wrapper preamble so the figure is class-neutral.
+%
+% Geometry is explicit (x=y=1mm, anchor=north west) rather than relative: the three
+% stages must not collide at any scale, and group headers sit *outside* their frames.
+% Natural width is ~112mm, which fits a single-column measure without scaling and
+% centres inside a two-column figure*.
+\begin{tikzpicture}[
+  x=1mm, y=1mm,
+  font=\sffamily\scriptsize,
+  box/.style={
+    draw=gacline!85, line width=0.5pt, rounded corners=1.6pt, fill=white,
+    anchor=north west, align=center, inner sep=2.4pt,
+    minimum width=34mm, minimum height=11mm, text width=30mm},
+  small/.style={box, minimum width=30mm, text width=26mm, minimum height=9.5mm},
+  gate/.style={box, fill=gacblue!8, draw=gacblue, line width=0.65pt},
+  good/.style={small, fill=gacteal!12, draw=gacteal, line width=0.65pt},
+  base/.style={small, fill=gacgrey, draw=gacline!55},
+  frame/.style={draw=gacline!35, line width=0.5pt, rounded corners=2.5pt,
+                fill=gacgrey!55, inner sep=4.2pt},
+  barrier/.style={
+    draw=gacred!55, line width=0.5pt, rounded corners=1.6pt, fill=gacred!8,
+    anchor=north west, align=left, inner sep=3.4pt, font=\sffamily\tiny},
+  head/.style={font=\sffamily\bfseries\scriptsize, text=gacblue,
+               anchor=south west, inner sep=0pt},
+  flow/.style={-{Latex[length=1.5mm,width=1.2mm]}, draw=gacline!85, line width=0.5pt},
+  weak/.style={-{Latex[length=1.5mm,width=1.2mm]}, draw=gacred!65,
+               line width=0.5pt, densely dashed},
+  lbl/.style={font=\sffamily\tiny, inner sep=1pt, fill=gacgrey!55, text=gacline},
+]
+
+% ============================================================ A -- capture
+\node[small] (sdk)    at (0,   0)   {OpenAI Agents SDK\\\textit{TracingProcessor}};
+\node[small] (mlflow) at (0,  -11)  {MLflow / JSONL\\backend};
+\node[box]   (ir)     at (40, -1.5) {\textbf{Episode IR}\\envelope $\cdot$ manifest\\
+                                     entry state $z$ $\cdot$ outcome $y$};
+
+\draw[flow] (sdk.east)    -- ++(3,0) |- (ir.west);
+\draw[flow] (mlflow.east) -- ++(3,0) |- (ir.west);
+
+\begin{scope}[on background layer]
+  \node[frame, fit=(sdk)(mlflow)(ir)] (fA) {};
+\end{scope}
+\node[head] at ([yshift=0.6mm]fA.north west) {A\quad CAPTURE};
+
+% ================================================ B -- offline compilation
+\node[box]  (prov)  at (0,  -34) {\textbf{provenance}\\Alg.~\ref{alg:patg}:
+                                  \patg{}\\groundability};
+\node[box]  (mine)  at (39, -34) {\textbf{region mining}\\canonical families\\
+                                  rank by Eq.~\eqref{eq:score}};
+\node[gate] (feas)  at (78, -34) {\textbf{feasibility}\\Eq.~\eqref{eq:ceiling}\\
+                                  $\varphi k / n_B \ge \Delta$?};
+\node[box]  (synth) at (0,  -50) {\textbf{synthesis}\\closed library
+                                  $\mathcal{L}$\\depth $\le 2$};
+\node[box]  (cont)  at (39, -50) {\textbf{contracts}\\induce $H,V$\\
+                                  perturbation suite};
+\node[gate] (cal)   at (78, -50) {\textbf{calibration}\\Alg.~\ref{alg:calibrate}\\
+                                  exact bound $U_\eta$};
+
+\draw[flow] (prov.east) -- (mine.west);
+\draw[flow] (mine.east) -- (feas.west);
+\draw[flow] (feas.south) -- ++(0,-2.5) -| (synth.north);
+\draw[flow] (synth.east) -- (cont.west);
+\draw[flow] (cont.east)  -- (cal.west);
+
+% The retire outcome is stated inside the band rather than drawn as an arrow into
+% stage C: a dashed line across the runtime frame collided with the outcome boxes and
+% added a crossing for information that is really a property of this band.
+\node[barrier, text width=105mm] (bar) at (0,-64)
+  {\textbf{Hard barriers} \textemdash{} no statistical evidence overrides these:
+   unknown or irreversible effect $\cdot$ approval $\cdot$ handoff $\cdot$ ungrounded
+   or ambiguous argument $\cdot$ manifest or isolation mismatch $\cdot$ non-prefix
+   position, Eq.~\eqref{eq:prefix}.\\
+   \textcolor{gacred!85}{\textbf{Any hit $\Rightarrow$ \retire{}:} no artifact is
+   emitted, registered, or dispatched, and the baseline agent is unaffected.}};
+
+\begin{scope}[on background layer]
+  \node[frame, fit=(prov)(feas)(cal)(bar)] (fB) {};
+\end{scope}
+\node[head] at ([yshift=0.6mm]fB.north west)
+  {B\quad OFFLINE COMPILATION \;\normalfont\itshape Alg.~\ref{alg:compile};
+   no production traffic};
+
+\draw[flow] (ir.south) -- ++(0,-4) -| ([xshift=-5mm]prov.north west) |- (prov.west);
+
+% ========================================================== C -- runtime
+\node[box]  (reg)  at (0,  -88)   {\textbf{Registry}\\immutable signed\\
+                                   $A=(P,H,V,q,\eta,M)$};
+\node[gate] (disp) at (39, -88)   {\textbf{dispatch}
+                                   Alg.~\ref{alg:dispatch}\\guard $\rightarrow$ gate
+                                   $\rightarrow$ stage\\
+                                   $\rightarrow$ interpret $\rightarrow$ verify};
+\node[good] (hit)  at (80, -86.5) {\textbf{compacted}\\provider turns elided};
+\node[base] (miss) at (80, -97)   {\textbf{baseline agent}\\byte-identical input};
+
+\draw[flow] (reg.east) -- (disp.west);
+\draw[flow] (disp.east) -- ++(2,0) |- (hit.west)  node[lbl, pos=0.66] {verify $\checkmark$};
+\draw[flow] (disp.east) -- ++(2,0) |- (miss.west) node[lbl, pos=0.66] {any miss};
+
+\begin{scope}[on background layer]
+  \node[frame, fit=(reg)(disp)(hit)(miss)] (fC) {};
+\end{scope}
+\node[head] at ([yshift=0.6mm]fC.north west) {C\quad RUNTIME};
+
+% Routed around the right edge and through the inter-stage gutter: a straight drop
+% from cal.south crosses the barrier band and buries its own label in that text.
+\draw[flow] (cal.east) -- ++(5,0) |- (117,-79.5) -- (28,-79.5)
+  node[lbl, pos=0.42] {emit iff $U_\eta \le \alpha$}
+  -- ([xshift=28mm]reg.north west);
+
+\end{tikzpicture}

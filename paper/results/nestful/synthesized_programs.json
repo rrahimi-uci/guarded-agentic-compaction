@@ -1,0 +1,1136 @@
+[
+  {
+    "family_hash": "07722394f5bf",
+    "pretty": "program (\u03b8 = {inputs.s0.arg_0, inputs.s2.arg_0}):\n   divi = call divide(arg_0 = z.inputs.s0.arg_0, arg_1 = Const(100))\n   add  = call add(arg_0 = Const(1), arg_1 = divi.result)\n   divi2= call divide(arg_0 = z.inputs.s2.arg_0, arg_1 = add.result)\n   return  { add: add, divi: divi, divi2: divi2 }",
+    "program": {
+      "library_version": "T-v1",
+      "outputs": {
+        "add": {
+          "kind": "expr",
+          "ops": [],
+          "source": "add"
+        },
+        "divi": {
+          "kind": "expr",
+          "ops": [],
+          "source": "divi"
+        },
+        "divi2": {
+          "kind": "expr",
+          "ops": [],
+          "source": "divi2"
+        }
+      },
+      "removed_requests": 3.0,
+      "steps": [
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s0.arg_0"
+            },
+            "arg_1": {
+              "kind": "const",
+              "value": 100
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "divide",
+          "var": "divi",
+          "when": null
+        },
+        {
+          "args": {
+            "arg_0": {
+              "kind": "const",
+              "value": 1
+            },
+            "arg_1": {
+              "kind": "expr",
+              "ops": [],
+              "source": "divi.result"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "add",
+          "var": "add",
+          "when": null
+        },
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s2.arg_0"
+            },
+            "arg_1": {
+              "kind": "expr",
+              "ops": [],
+              "source": "add.result"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "divide",
+          "var": "divi2",
+          "when": null
+        }
+      ],
+      "theta": [
+        "inputs.s0.arg_0",
+        "inputs.s2.arg_0"
+      ],
+      "tools": [
+        "divide",
+        "add",
+        "divide"
+      ]
+    },
+    "support": 11,
+    "synthesis_stats": {
+      "branch": "none",
+      "branch_alternatives": 0,
+      "branch_atoms": 0,
+      "branch_p": null,
+      "n_alternative_bindings": 75,
+      "n_alternative_loop_predicates": 0,
+      "n_steps": 3
+    }
+  },
+  {
+    "family_hash": "0ae47489812d",
+    "pretty": "program (\u03b8 = {inputs.s0.arg_1}):\n   add  = call add(arg_0 = Const(100), arg_1 = z.inputs.s0.arg_1)\n   divi = call divide(arg_0 = add.result, arg_1 = Const(100))\n   add2 = call add(arg_0 = Const(1920), arg_1 = Const(1280))\n   divi2= call divide(arg_0 = Const(3200), arg_1 = Const(2))\n   mult = call multiply(arg_0 = divi.result, arg_1 = Const(1600.0))\n   return  { add: add, add2: add2, divi: divi, divi2: divi2, mult: mult }",
+    "program": {
+      "library_version": "T-v1",
+      "outputs": {
+        "add": {
+          "kind": "expr",
+          "ops": [],
+          "source": "add"
+        },
+        "add2": {
+          "kind": "expr",
+          "ops": [],
+          "source": "add2"
+        },
+        "divi": {
+          "kind": "expr",
+          "ops": [],
+          "source": "divi"
+        },
+        "divi2": {
+          "kind": "expr",
+          "ops": [],
+          "source": "divi2"
+        },
+        "mult": {
+          "kind": "expr",
+          "ops": [],
+          "source": "mult"
+        }
+      },
+      "removed_requests": 5.0,
+      "steps": [
+        {
+          "args": {
+            "arg_0": {
+              "kind": "const",
+              "value": 100
+            },
+            "arg_1": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s0.arg_1"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "add",
+          "var": "add",
+          "when": null
+        },
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "add.result"
+            },
+            "arg_1": {
+              "kind": "const",
+              "value": 100
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "divide",
+          "var": "divi",
+          "when": null
+        },
+        {
+          "args": {
+            "arg_0": {
+              "kind": "const",
+              "value": 1920
+            },
+            "arg_1": {
+              "kind": "const",
+              "value": 1280
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "add",
+          "var": "add2",
+          "when": null
+        },
+        {
+          "args": {
+            "arg_0": {
+              "kind": "const",
+              "value": 3200
+            },
+            "arg_1": {
+              "kind": "const",
+              "value": 2
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "divide",
+          "var": "divi2",
+          "when": null
+        },
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "divi.result"
+            },
+            "arg_1": {
+              "kind": "const",
+              "value": 1600.0
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "multiply",
+          "var": "mult",
+          "when": null
+        }
+      ],
+      "theta": [
+        "inputs.s0.arg_1"
+      ],
+      "tools": [
+        "add",
+        "divide",
+        "add",
+        "divide",
+        "multiply"
+      ]
+    },
+    "support": 5,
+    "synthesis_stats": {
+      "branch": "none",
+      "branch_alternatives": 0,
+      "branch_atoms": 0,
+      "branch_p": null,
+      "n_alternative_bindings": 51,
+      "n_alternative_loop_predicates": 0,
+      "n_steps": 5
+    }
+  },
+  {
+    "family_hash": "3c708ec0111c",
+    "pretty": "program (\u03b8 = {inputs.s0.arg_0, inputs.s0.arg_1, inputs.s1.arg_0, inputs.s1.arg_1}):\n   mult = call multiply(arg_0 = z.inputs.s0.arg_0, arg_1 = z.inputs.s0.arg_1)\n   subt = call subtract(arg_0 = z.inputs.s1.arg_0, arg_1 = z.inputs.s1.arg_1)\n   divi = call divide(arg_0 = mult.result, arg_1 = subt.result)\n   return  { divi: divi, mult: mult, subt: subt }",
+    "program": {
+      "library_version": "T-v1",
+      "outputs": {
+        "divi": {
+          "kind": "expr",
+          "ops": [],
+          "source": "divi"
+        },
+        "mult": {
+          "kind": "expr",
+          "ops": [],
+          "source": "mult"
+        },
+        "subt": {
+          "kind": "expr",
+          "ops": [],
+          "source": "subt"
+        }
+      },
+      "removed_requests": 3.0,
+      "steps": [
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s0.arg_0"
+            },
+            "arg_1": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s0.arg_1"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "multiply",
+          "var": "mult",
+          "when": null
+        },
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s1.arg_0"
+            },
+            "arg_1": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s1.arg_1"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "subtract",
+          "var": "subt",
+          "when": null
+        },
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "mult.result"
+            },
+            "arg_1": {
+              "kind": "expr",
+              "ops": [],
+              "source": "subt.result"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "divide",
+          "var": "divi",
+          "when": null
+        }
+      ],
+      "theta": [
+        "inputs.s0.arg_0",
+        "inputs.s0.arg_1",
+        "inputs.s1.arg_0",
+        "inputs.s1.arg_1"
+      ],
+      "tools": [
+        "multiply",
+        "subtract",
+        "divide"
+      ]
+    },
+    "support": 7,
+    "synthesis_stats": {
+      "branch": "none",
+      "branch_alternatives": 0,
+      "branch_atoms": 0,
+      "branch_p": null,
+      "n_alternative_bindings": 124,
+      "n_alternative_loop_predicates": 0,
+      "n_steps": 3
+    }
+  },
+  {
+    "family_hash": "42efd63cb08b",
+    "pretty": "program (\u03b8 = {inputs.s0.arg_0, inputs.s0.arg_1, inputs.s1.arg_1}):\n   add  = call add(arg_0 = z.inputs.s0.arg_0, arg_1 = z.inputs.s0.arg_1)\n   divi = call divide(arg_0 = add.result, arg_1 = z.inputs.s1.arg_1)\n   return  { add: add, divi: divi }",
+    "program": {
+      "library_version": "T-v1",
+      "outputs": {
+        "add": {
+          "kind": "expr",
+          "ops": [],
+          "source": "add"
+        },
+        "divi": {
+          "kind": "expr",
+          "ops": [],
+          "source": "divi"
+        }
+      },
+      "removed_requests": 2.0,
+      "steps": [
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s0.arg_0"
+            },
+            "arg_1": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s0.arg_1"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "add",
+          "var": "add",
+          "when": null
+        },
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "add.result"
+            },
+            "arg_1": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s1.arg_1"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "divide",
+          "var": "divi",
+          "when": null
+        }
+      ],
+      "theta": [
+        "inputs.s0.arg_0",
+        "inputs.s0.arg_1",
+        "inputs.s1.arg_1"
+      ],
+      "tools": [
+        "add",
+        "divide"
+      ]
+    },
+    "support": 13,
+    "synthesis_stats": {
+      "branch": "none",
+      "branch_alternatives": 0,
+      "branch_atoms": 0,
+      "branch_p": null,
+      "n_alternative_bindings": 88,
+      "n_alternative_loop_predicates": 0,
+      "n_steps": 2
+    }
+  },
+  {
+    "family_hash": "4c3d3a58caf9",
+    "pretty": "program (\u03b8 = {inputs.s0.arg_0, inputs.s0.arg_1}):\n   subt = call subtract(arg_0 = z.inputs.s0.arg_0, arg_1 = z.inputs.s0.arg_1)\n   mult = call multiply(arg_0 = subt.result, arg_1 = Const(2))\n   return  { mult: mult, subt: subt }",
+    "program": {
+      "library_version": "T-v1",
+      "outputs": {
+        "mult": {
+          "kind": "expr",
+          "ops": [],
+          "source": "mult"
+        },
+        "subt": {
+          "kind": "expr",
+          "ops": [],
+          "source": "subt"
+        }
+      },
+      "removed_requests": 2.0,
+      "steps": [
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s0.arg_0"
+            },
+            "arg_1": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s0.arg_1"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "subtract",
+          "var": "subt",
+          "when": null
+        },
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "subt.result"
+            },
+            "arg_1": {
+              "kind": "const",
+              "value": 2
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "multiply",
+          "var": "mult",
+          "when": null
+        }
+      ],
+      "theta": [
+        "inputs.s0.arg_0",
+        "inputs.s0.arg_1"
+      ],
+      "tools": [
+        "subtract",
+        "multiply"
+      ]
+    },
+    "support": 5,
+    "synthesis_stats": {
+      "branch": "none",
+      "branch_alternatives": 0,
+      "branch_atoms": 0,
+      "branch_p": null,
+      "n_alternative_bindings": 64,
+      "n_alternative_loop_predicates": 0,
+      "n_steps": 2
+    }
+  },
+  {
+    "family_hash": "59d3236eeb7b",
+    "pretty": "program (\u03b8 = {inputs.s0.arg_0, inputs.s0.arg_1, inputs.s1.arg_1}):\n   subt = call subtract(arg_0 = z.inputs.s0.arg_0, arg_1 = z.inputs.s0.arg_1)\n   divi = call divide(arg_0 = subt.result, arg_1 = z.inputs.s1.arg_1)\n   return  { divi: divi, subt: subt }",
+    "program": {
+      "library_version": "T-v1",
+      "outputs": {
+        "divi": {
+          "kind": "expr",
+          "ops": [],
+          "source": "divi"
+        },
+        "subt": {
+          "kind": "expr",
+          "ops": [],
+          "source": "subt"
+        }
+      },
+      "removed_requests": 2.0,
+      "steps": [
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s0.arg_0"
+            },
+            "arg_1": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s0.arg_1"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "subtract",
+          "var": "subt",
+          "when": null
+        },
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "subt.result"
+            },
+            "arg_1": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s1.arg_1"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "divide",
+          "var": "divi",
+          "when": null
+        }
+      ],
+      "theta": [
+        "inputs.s0.arg_0",
+        "inputs.s0.arg_1",
+        "inputs.s1.arg_1"
+      ],
+      "tools": [
+        "subtract",
+        "divide"
+      ]
+    },
+    "support": 13,
+    "synthesis_stats": {
+      "branch": "none",
+      "branch_alternatives": 0,
+      "branch_atoms": 0,
+      "branch_p": null,
+      "n_alternative_bindings": 84,
+      "n_alternative_loop_predicates": 0,
+      "n_steps": 2
+    }
+  },
+  {
+    "family_hash": "5f52ebd1a6fa",
+    "pretty": "program (\u03b8 = {inputs.s0.arg_0, inputs.s0.arg_1, inputs.s1.arg_0, inputs.s1.arg_1}):\n   mult = call multiply(arg_0 = z.inputs.s0.arg_0, arg_1 = z.inputs.s0.arg_1)\n   add  = call add(arg_0 = z.inputs.s1.arg_0, arg_1 = z.inputs.s1.arg_1)\n   divi = call divide(arg_0 = mult.result, arg_1 = add.result)\n   return  { add: add, divi: divi, mult: mult }",
+    "program": {
+      "library_version": "T-v1",
+      "outputs": {
+        "add": {
+          "kind": "expr",
+          "ops": [],
+          "source": "add"
+        },
+        "divi": {
+          "kind": "expr",
+          "ops": [],
+          "source": "divi"
+        },
+        "mult": {
+          "kind": "expr",
+          "ops": [],
+          "source": "mult"
+        }
+      },
+      "removed_requests": 3.0,
+      "steps": [
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s0.arg_0"
+            },
+            "arg_1": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s0.arg_1"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "multiply",
+          "var": "mult",
+          "when": null
+        },
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s1.arg_0"
+            },
+            "arg_1": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s1.arg_1"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "add",
+          "var": "add",
+          "when": null
+        },
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "mult.result"
+            },
+            "arg_1": {
+              "kind": "expr",
+              "ops": [],
+              "source": "add.result"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "divide",
+          "var": "divi",
+          "when": null
+        }
+      ],
+      "theta": [
+        "inputs.s0.arg_0",
+        "inputs.s0.arg_1",
+        "inputs.s1.arg_0",
+        "inputs.s1.arg_1"
+      ],
+      "tools": [
+        "multiply",
+        "add",
+        "divide"
+      ]
+    },
+    "support": 10,
+    "synthesis_stats": {
+      "branch": "none",
+      "branch_alternatives": 0,
+      "branch_atoms": 0,
+      "branch_p": null,
+      "n_alternative_bindings": 124,
+      "n_alternative_loop_predicates": 0,
+      "n_steps": 3
+    }
+  },
+  {
+    "family_hash": "7050983be107",
+    "pretty": "program (\u03b8 = {inputs.s0.arg_0, inputs.s0.arg_1, inputs.s1.arg_1}):\n   divi = call divide(arg_0 = z.inputs.s0.arg_0, arg_1 = z.inputs.s0.arg_1)\n   mult = call multiply(arg_0 = divi.result, arg_1 = z.inputs.s1.arg_1)\n   return  { divi: divi, mult: mult }",
+    "program": {
+      "library_version": "T-v1",
+      "outputs": {
+        "divi": {
+          "kind": "expr",
+          "ops": [],
+          "source": "divi"
+        },
+        "mult": {
+          "kind": "expr",
+          "ops": [],
+          "source": "mult"
+        }
+      },
+      "removed_requests": 2.0,
+      "steps": [
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s0.arg_0"
+            },
+            "arg_1": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s0.arg_1"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "divide",
+          "var": "divi",
+          "when": null
+        },
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "divi.result"
+            },
+            "arg_1": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s1.arg_1"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "multiply",
+          "var": "mult",
+          "when": null
+        }
+      ],
+      "theta": [
+        "inputs.s0.arg_0",
+        "inputs.s0.arg_1",
+        "inputs.s1.arg_1"
+      ],
+      "tools": [
+        "divide",
+        "multiply"
+      ]
+    },
+    "support": 26,
+    "synthesis_stats": {
+      "branch": "none",
+      "branch_alternatives": 0,
+      "branch_atoms": 0,
+      "branch_p": null,
+      "n_alternative_bindings": 80,
+      "n_alternative_loop_predicates": 0,
+      "n_steps": 2
+    }
+  },
+  {
+    "family_hash": "88401ec1a229",
+    "pretty": "program (\u03b8 = {inputs.s0.arg_0, inputs.s0.arg_1, inputs.s1.arg_1, inputs.s2.arg_0}):\n   divi = call divide(arg_0 = z.inputs.s0.arg_0, arg_1 = z.inputs.s0.arg_1)\n   mult = call multiply(arg_0 = divi.result, arg_1 = z.inputs.s1.arg_1)\n   subt = call subtract(arg_0 = z.inputs.s2.arg_0, arg_1 = mult.result)\n   return  { divi: divi, mult: mult, subt: subt }",
+    "program": {
+      "library_version": "T-v1",
+      "outputs": {
+        "divi": {
+          "kind": "expr",
+          "ops": [],
+          "source": "divi"
+        },
+        "mult": {
+          "kind": "expr",
+          "ops": [],
+          "source": "mult"
+        },
+        "subt": {
+          "kind": "expr",
+          "ops": [],
+          "source": "subt"
+        }
+      },
+      "removed_requests": 3.0,
+      "steps": [
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s0.arg_0"
+            },
+            "arg_1": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s0.arg_1"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "divide",
+          "var": "divi",
+          "when": null
+        },
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "divi.result"
+            },
+            "arg_1": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s1.arg_1"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "multiply",
+          "var": "mult",
+          "when": null
+        },
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s2.arg_0"
+            },
+            "arg_1": {
+              "kind": "expr",
+              "ops": [],
+              "source": "mult.result"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "subtract",
+          "var": "subt",
+          "when": null
+        }
+      ],
+      "theta": [
+        "inputs.s0.arg_0",
+        "inputs.s0.arg_1",
+        "inputs.s1.arg_1",
+        "inputs.s2.arg_0"
+      ],
+      "tools": [
+        "divide",
+        "multiply",
+        "subtract"
+      ]
+    },
+    "support": 7,
+    "synthesis_stats": {
+      "branch": "none",
+      "branch_alternatives": 0,
+      "branch_atoms": 0,
+      "branch_p": null,
+      "n_alternative_bindings": 123,
+      "n_alternative_loop_predicates": 0,
+      "n_steps": 3
+    }
+  },
+  {
+    "family_hash": "a2e9741aef58",
+    "pretty": "program (\u03b8 = {inputs.s0.arg_0, inputs.s0.arg_1, inputs.s1.arg_1}):\n   divi = call divide(arg_0 = z.inputs.s0.arg_0, arg_1 = z.inputs.s0.arg_1)\n   subt = call subtract(arg_0 = divi.result, arg_1 = z.inputs.s1.arg_1)\n   return  { divi: divi, subt: subt }",
+    "program": {
+      "library_version": "T-v1",
+      "outputs": {
+        "divi": {
+          "kind": "expr",
+          "ops": [],
+          "source": "divi"
+        },
+        "subt": {
+          "kind": "expr",
+          "ops": [],
+          "source": "subt"
+        }
+      },
+      "removed_requests": 2.0,
+      "steps": [
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s0.arg_0"
+            },
+            "arg_1": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s0.arg_1"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "divide",
+          "var": "divi",
+          "when": null
+        },
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "divi.result"
+            },
+            "arg_1": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s1.arg_1"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "subtract",
+          "var": "subt",
+          "when": null
+        }
+      ],
+      "theta": [
+        "inputs.s0.arg_0",
+        "inputs.s0.arg_1",
+        "inputs.s1.arg_1"
+      ],
+      "tools": [
+        "divide",
+        "subtract"
+      ]
+    },
+    "support": 7,
+    "synthesis_stats": {
+      "branch": "none",
+      "branch_alternatives": 0,
+      "branch_atoms": 0,
+      "branch_p": null,
+      "n_alternative_bindings": 88,
+      "n_alternative_loop_predicates": 0,
+      "n_steps": 2
+    }
+  },
+  {
+    "family_hash": "d1bdc37ad118",
+    "pretty": "program (\u03b8 = {inputs.s0.arg_0, inputs.s0.arg_1, inputs.s1.arg_1}):\n   mult = call multiply(arg_0 = z.inputs.s0.arg_0, arg_1 = z.inputs.s0.arg_1)\n   divi = call divide(arg_0 = mult.result, arg_1 = z.inputs.s1.arg_1)\n   return  { divi: divi, mult: mult }",
+    "program": {
+      "library_version": "T-v1",
+      "outputs": {
+        "divi": {
+          "kind": "expr",
+          "ops": [],
+          "source": "divi"
+        },
+        "mult": {
+          "kind": "expr",
+          "ops": [],
+          "source": "mult"
+        }
+      },
+      "removed_requests": 2.0,
+      "steps": [
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s0.arg_0"
+            },
+            "arg_1": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s0.arg_1"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "multiply",
+          "var": "mult",
+          "when": null
+        },
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "mult.result"
+            },
+            "arg_1": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s1.arg_1"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "divide",
+          "var": "divi",
+          "when": null
+        }
+      ],
+      "theta": [
+        "inputs.s0.arg_0",
+        "inputs.s0.arg_1",
+        "inputs.s1.arg_1"
+      ],
+      "tools": [
+        "multiply",
+        "divide"
+      ]
+    },
+    "support": 26,
+    "synthesis_stats": {
+      "branch": "none",
+      "branch_alternatives": 0,
+      "branch_atoms": 0,
+      "branch_p": null,
+      "n_alternative_bindings": 88,
+      "n_alternative_loop_predicates": 0,
+      "n_steps": 2
+    }
+  },
+  {
+    "family_hash": "eeeb9d33af32",
+    "pretty": "program (\u03b8 = {inputs.s0.arg_0, inputs.s2.arg_1}):\n   mult = call multiply(arg_0 = z.inputs.s0.arg_0, arg_1 = Const(1000))\n   divi = call divide(arg_0 = mult.result, arg_1 = Const(3600))\n   mult2= call multiply(arg_0 = divi.result, arg_1 = z.inputs.s2.arg_1)\n   return  { divi: divi, mult: mult, mult2: mult2 }",
+    "program": {
+      "library_version": "T-v1",
+      "outputs": {
+        "divi": {
+          "kind": "expr",
+          "ops": [],
+          "source": "divi"
+        },
+        "mult": {
+          "kind": "expr",
+          "ops": [],
+          "source": "mult"
+        },
+        "mult2": {
+          "kind": "expr",
+          "ops": [],
+          "source": "mult2"
+        }
+      },
+      "removed_requests": 3.0,
+      "steps": [
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s0.arg_0"
+            },
+            "arg_1": {
+              "kind": "const",
+              "value": 1000
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "multiply",
+          "var": "mult",
+          "when": null
+        },
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "mult.result"
+            },
+            "arg_1": {
+              "kind": "const",
+              "value": 3600
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "divide",
+          "var": "divi",
+          "when": null
+        },
+        {
+          "args": {
+            "arg_0": {
+              "kind": "expr",
+              "ops": [],
+              "source": "divi.result"
+            },
+            "arg_1": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.inputs.s2.arg_1"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "multiply",
+          "var": "mult2",
+          "when": null
+        }
+      ],
+      "theta": [
+        "inputs.s0.arg_0",
+        "inputs.s2.arg_1"
+      ],
+      "tools": [
+        "multiply",
+        "divide",
+        "multiply"
+      ]
+    },
+    "support": 9,
+    "synthesis_stats": {
+      "branch": "none",
+      "branch_alternatives": 0,
+      "branch_atoms": 0,
+      "branch_p": null,
+      "n_alternative_bindings": 72,
+      "n_alternative_loop_predicates": 0,
+      "n_steps": 3
+    }
+  }
+]

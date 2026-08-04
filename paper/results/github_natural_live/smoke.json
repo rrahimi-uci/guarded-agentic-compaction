@@ -1,0 +1,268 @@
+{
+  "aggregate": {
+    "discovery": {
+      "category_accuracy": 1,
+      "estimated_cost_usd": 0.00252505,
+      "factuality_exact_rate": null,
+      "input_tokens": 12244,
+      "n": 3,
+      "output_tokens": 472,
+      "provider_requests": 12,
+      "success_rate": 1,
+      "tool_contract_rate": 1,
+      "wall_latency_ms": 24703.239
+    }
+  },
+  "failures": [],
+  "observed_tool_sequences": {
+    "issue_get_record -> issue_get_labels -> issue_get_comments": 3
+  },
+  "results": [
+    {
+      "answer": {
+        "category": "other",
+        "comment_evidence": "small update: I converted the jsons to parquet and it now works well with 32 proc and the same node.",
+        "evidence_label": "none",
+        "issue_number": 7509,
+        "state": "open",
+        "title": "Dataset uses excessive memory when loading files"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:b65f48163a30da732ec0ea9f82fbac67",
+      "issue_number": 7509,
+      "metrics": {
+        "cache_write_tokens": 1292,
+        "cached_input_tokens": 1062,
+        "estimated_cost_usd": 0.00085004,
+        "handoffs": 0,
+        "input_tokens": 3869,
+        "output_tokens": 169,
+        "provider_response_latency_ms": 7754.111,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 4038,
+        "wall_latency_ms": 7766.443
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_grounded": true,
+        "evidence_label_correct": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "quality_independent_of_tool_order": true,
+        "score": 1,
+        "state_correct": true,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 7509
+        },
+        {
+          "issue_number": 7509
+        },
+        {
+          "issue_number": 7509,
+          "limit": 3
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_dbf65c41f28530f3bd996b22c04f4559"
+    },
+    {
+      "answer": {
+        "category": "other",
+        "comment_evidence": "Thanks for reporting @fostiropoulos!",
+        "evidence_label": "none",
+        "issue_number": 6755,
+        "state": "closed",
+        "title": "Small typo on the documentation"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:20228cdc93ef68f3064ffeb880684185",
+      "issue_number": 6755,
+      "metrics": {
+        "cache_write_tokens": 1091,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00094655,
+        "handoffs": 0,
+        "input_tokens": 3488,
+        "output_tokens": 162,
+        "provider_response_latency_ms": 5157.324,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 3650,
+        "wall_latency_ms": 7800.064
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_grounded": true,
+        "evidence_label_correct": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "quality_independent_of_tool_order": true,
+        "score": 1,
+        "state_correct": true,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6755
+        },
+        {
+          "issue_number": 6755
+        },
+        {
+          "issue_number": 6755,
+          "limit": 3
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_57c2a4597b5c3a08716b89b124bcf0d8"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_evidence": "I dug into what I believe is the root of this issue and added a repro in my comment.",
+        "evidence_label": "bug",
+        "issue_number": 2775,
+        "state": "closed",
+        "title": "`generate_random_fingerprint()` deterministic with \ud83e\udd17Transformers' `set_seed()`"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:760c8b41d77e0257eadaaacdbc16c612",
+      "issue_number": 2775,
+      "metrics": {
+        "cache_write_tokens": 1602,
+        "cached_input_tokens": 2768,
+        "estimated_cost_usd": 0.00072846,
+        "handoffs": 0,
+        "input_tokens": 4887,
+        "output_tokens": 141,
+        "provider_response_latency_ms": 6481.304,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 5028,
+        "wall_latency_ms": 9136.732
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_grounded": true,
+        "evidence_label_correct": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "quality_independent_of_tool_order": true,
+        "score": 1,
+        "state_correct": true,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2775
+        },
+        {
+          "issue_number": 2775
+        },
+        {
+          "issue_number": 2775,
+          "limit": 3
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_4cac8906e4756e0f5f3f2ed9dcd834e6"
+    }
+  ],
+  "run": {
+    "argv": [
+      "--smoke",
+      "--discovery-cases",
+      "3",
+      "--test-per-class",
+      "1",
+      "--concurrency",
+      "3"
+    ],
+    "comparative_claim_allowed": false,
+    "evidence_class": "real public records + deterministic snapshot tools + live OpenAI provider",
+    "hf_token_used_for_download": true,
+    "model": "gpt-5.6-luna",
+    "openai_agents_sdk": "0.19.2",
+    "openai_api_key_used": true,
+    "openai_python": "2.52.0",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.14.4",
+    "quality_oracle": "exact snapshot facts + source-supported comment excerpt",
+    "quality_oracle_uses_tool_order": false,
+    "resolved_config": {
+      "calibration_cases": 45,
+      "concurrency": 3,
+      "dev_cases": 10,
+      "discovery_cases": 3,
+      "force_download": false,
+      "model": "gpt-5.6-luna",
+      "seed": 20260803,
+      "smoke": true,
+      "test_per_class": 1,
+      "train_cases": 20
+    },
+    "script": "paper/scripts/github_natural_workflow_study.py",
+    "secrets_serialized": false,
+    "smoke": true,
+    "timestamp_utc": "2026-08-03T22:16:18+00:00",
+    "workflow_prompt_prescribes_tool_names_or_order": false
+  },
+  "selection": {
+    "excluded_prior_fixed_protocol_issues": 312,
+    "filters": {
+      "exclude_prior_fixed_protocol_issues": true,
+      "exclude_pull_requests": true,
+      "minimum_body_characters": 80
+    },
+    "seed": 20260803,
+    "smoke_issue_numbers": [
+      7509,
+      6755,
+      2775
+    ]
+  },
+  "source_manifest": {
+    "dataset": "helmo/github-issues",
+    "license": "Apache-2.0 (dataset card declaration)",
+    "parquet": {
+      "bytes": 12659096,
+      "sha256": "09453eefae39e45a969ab0bee72ca0e188fe79dc50403b0f2a78c39894f5d1a3",
+      "url": "https://huggingface.co/datasets/helmo/github-issues/resolve/e344be7b84d199661a9956036991e1fc25715a47/data/train-00000-of-00001.parquet"
+    },
+    "readme": {
+      "bytes": 15437,
+      "sha256": "cbbc587f903b60c22385ddd7a9c546ba03c505dbbbd26b4fa7d57af8fa3ac4d1"
+    },
+    "repository": "https://huggingface.co/datasets/helmo/github-issues",
+    "revision": "e344be7b84d199661a9956036991e1fc25715a47",
+    "snapshot_date": "2025-06-13"
+  }
+}

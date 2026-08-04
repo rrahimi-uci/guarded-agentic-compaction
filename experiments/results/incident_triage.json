@@ -1,0 +1,1076 @@
+{
+  "demo": "incident_triage",
+  "title": "Demo C \u2014 multi-agent incident triage",
+  "n_B": 10.428333333333333,
+  "estimate": {
+    "n_B": 10.428,
+    "phi_oracle": 0.316,
+    "phi_any": 1.0,
+    "k_mean": 2.0,
+    "delta_max": 0.0606,
+    "feasible": false,
+    "blocked_shares": {
+      "barrier_event": 0.596,
+      "effect_write": 0.334,
+      "partial_run": 0.011,
+      "ambiguous_slot": 0.006
+    },
+    "blocked_by_tool": {
+      "approvals.request": 17130,
+      "case.add_note": 3451,
+      "remediation.execute": 1463
+    },
+    "undeclared_tools": [],
+    "calibration_groups_required": 92,
+    "calibration_groups_available": 457,
+    "economics": {
+      "cost_per_episode_usd": 0.021739,
+      "saving_per_episode_usd": 0.000439,
+      "cache_discount": 0.333333,
+      "episodes_per_year": 193551387.195839,
+      "episodes_per_day": 530277.773139
+    },
+    "gate0_pass": true,
+    "slot_stats": {
+      "grounded": 16674,
+      "literal_only": 1810,
+      "transform_search": 5926,
+      "transform_cache_hits": 57740,
+      "transform_cache_misses": 7822,
+      "not_groundable": 4308,
+      "ambiguous": 4935
+    },
+    "notes": [
+      "this ceiling covers compiled read-only regions only: savings from route specialisation (removing a predictable coordinator turn or handoff) are not modelled by Eq. (10) and can exceed it",
+      "the oracle ceiling is below the target: no gate, contract or threshold setting can recover it \u2014 hand-write the top region or stop"
+    ],
+    "render": "estimate report\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n n_B  = 10.4 model requests/episode  (3000 episodes, 2286 groups, 1 principals, 28 days)\n ceiling: phi=0.32 (any candidate: 1.00)  k=2.0  ->  max request reduction 6.1%   [Eq. 10, oracle: rho=1]\n target \u0394=0.10 needs phi*rho*k >= 1.04  -> NOT FEASIBLE at this ceiling\n blocked: 60% by barrier_event, 33% by effect_write, 1% by partial_run, 1% by ambiguous_slot\n blocked-window mass by tool: approvals.request(17130), case.add_note(3451), remediation.execute(1463)\n calibration: 457 groups available, 92 required for a zero-violation bound at the target \u03b1\n slots: {'grounded': 16674, 'literal_only': 1810, 'transform_search': 5926, 'transform_cache_hits': 57740, 'transform_cache_misses': 7822, 'not_groundable': 4308, 'ambiguous': 4935}\n   candidate ['query', 'query']  support=776 groups/28 days  k=2.0  score=1551.2\n   candidate ['lookup', 'query']  support=748 groups/28 days  k=2.0  score=1495.2\n   candidate ['recent', 'query']  support=471 groups/28 days  k=2.0  score=941.2\n   candidate ['query']  support=444 groups/28 days  k=2.0  score=887.4\n   candidate ['lookup', 'query']  support=235 groups/28 days  k=3.0  score=704.2\n break-even: 530278 episodes/day at $0.0004 saved/episode\n note: this ceiling covers compiled read-only regions only: savings from route specialisation (removing a predictable coordinator turn or handoff) are not modelled by Eq. (10) and can exceed it\n note: the oracle ceiling is below the target: no gate, contract or threshold setting can recover it \u2014 hand-write the top region or stop"
+  },
+  "splits": {
+    "train": 720,
+    "dev": 411,
+    "calibration": 411,
+    "test": 515,
+    "shadow": 229,
+    "digest": "b73a6d0df03025c0"
+  },
+  "tgws": {
+    "n_leaves": 4,
+    "artifacts": 1,
+    "rejections": {
+      "calibrate:retire": 3
+    },
+    "report": "TGWS report\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nroute tree\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nexamples 928  depth\u22643  min_support=20  min_purity=0.9\n  alert_family == 'latency_spike' \u2192 handoff:log_specialist  (support=193 groups=147 purity=0.917 coverage=0.208)\n  alert_family != 'latency_spike' \u2227 alert_family == 'deploy_regression' \u2192 handoff:deploy_specialist  (support=189 groups=144 purity=0.952 coverage=0.204)\n  alert_family != 'latency_spike' \u2227 alert_family != 'deploy_regression' \u2227 alert_family == 'error_rate' \u2192 handoff:log_specialist  (support=175 groups=144 purity=0.914 coverage=0.189)\n  alert_family != 'latency_spike' \u2227 alert_family != 'deploy_regression' \u2227 alert_family != 'error_rate' \u2192 handoff:runbook_specialist  (support=371 groups=285 purity=0.949 coverage=0.400)\n  domain  alert_family \u2208 {'capacity', 'cert_expiry', 'deploy_regression', 'error_rate', 'latency_spike'}  (anything else abstains)\nartifacts emitted 1\n  [calibrated] alert_family == 'latency_spike' \u2192 handoff:log_specialist  (support=193 groups=147 purity=0.917 coverage=0.208)\n       REJECTED: gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.051 > alph\n       requests 10.28\u219210.22  in_tokens 9132\u21926336  quality 0.9742\u21920.9742  latency 5474\u21925442ms  evals=60\n       kept blocks=['coordinator_role', 'approval_policy'] tools=['logs.query', 'metrics.query', 'approvals.request', 'remediation.execute', 'case.add_note']\n  [calibrated] alert_family != 'latency_spike' \u2227 alert_family == 'deploy_regression' \u2192 handoff:deploy_specialist  (support=189 groups=144 purity=0.952 coverage=0.204)\n       REJECTED: gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.054 > alph\n       requests 10.97\u219210.34  in_tokens 10234\u21926451  quality 0.9866\u21920.9866  latency 5850\u21925492ms  evals=60\n       kept blocks=['coordinator_role', 'approval_policy'] tools=['logs.query', 'deploys.recent', 'approvals.request', 'remediation.execute', 'case.add_note']\n  [calibrated] alert_family != 'latency_spike' \u2227 alert_family != 'deploy_regression' \u2227 alert_family == 'error_rate' \u2192 handoff:log_specialist  (support=175 groups=144 purity=0.914 coverage=0.189)\n       REJECTED: gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.058 > alph\n       requests 10.46\u219210.34  in_tokens 9415\u21926578  quality 0.9824\u21920.9824  latency 5640\u21925582ms  evals=60\n       kept blocks=['coordinator_role', 'approval_policy'] tools=['logs.query', 'metrics.query', 'approvals.request', 'remediation.execute', 'case.add_note']\n  [emitted   ] alert_family != 'latency_spike' \u2227 alert_family != 'deploy_regression' \u2227 alert_family != 'error_rate' \u2192 handoff:runbook_specialist  (support=371 groups=285 purity=0.949 coverage=0.400)\n       requests 10.39\u219210.37  in_tokens 9419\u21926522  quality 0.9820\u21920.9820  latency 5478\u21925465ms  evals=60\n       kept blocks=['coordinator_role', 'approval_policy'] tools=['metrics.query', 'runbooks.lookup', 'approvals.request', 'remediation.execute', 'case.add_note']",
+    "leaves": [
+      {
+        "predicates": [
+          [
+            "alert_family",
+            "==",
+            "latency_spike"
+          ]
+        ],
+        "label": "handoff:log_specialist",
+        "stage": "calibrated",
+        "rejected": "gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.051 > alph",
+        "purity": 0.9171,
+        "support": 193,
+        "baseline": {
+          "quality": 0.9741935483870967,
+          "requests": 10.279569892473118,
+          "input_tokens": 9131.548387096775,
+          "output_tokens": 720.6451612903226,
+          "latency_ms": 5473.866408561079,
+          "safety_events": 0,
+          "n_episodes": 93,
+          "success_rate": 0.9139784946236559,
+          "schema_tokens": 1040.0,
+          "prompt_tokens": 1540.0,
+          "extra": {}
+        },
+        "pruned": {
+          "quality": 0.9741935483870967,
+          "requests": 10.21505376344086,
+          "input_tokens": 6336.322580645161,
+          "output_tokens": 716.1827956989247,
+          "latency_ms": 5442.472553228647,
+          "safety_events": 0,
+          "n_episodes": 93,
+          "success_rate": 0.9139784946236559,
+          "schema_tokens": 700.0,
+          "prompt_tokens": 440.0,
+          "extra": {}
+        },
+        "kept_tools": [
+          "logs.query",
+          "metrics.query",
+          "approvals.request",
+          "remediation.execute",
+          "case.add_note"
+        ],
+        "kept_blocks": [
+          "coordinator_role",
+          "approval_policy"
+        ]
+      },
+      {
+        "predicates": [
+          [
+            "alert_family",
+            "!=",
+            "latency_spike"
+          ],
+          [
+            "alert_family",
+            "==",
+            "deploy_regression"
+          ]
+        ],
+        "label": "handoff:deploy_specialist",
+        "stage": "calibrated",
+        "rejected": "gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.054 > alph",
+        "purity": 0.9524,
+        "support": 189,
+        "baseline": {
+          "quality": 0.9865671641791044,
+          "requests": 10.970149253731343,
+          "input_tokens": 10233.940298507463,
+          "output_tokens": 754.6268656716418,
+          "latency_ms": 5849.682478894735,
+          "safety_events": 0,
+          "n_episodes": 134,
+          "success_rate": 0.9552238805970149,
+          "schema_tokens": 1040.0,
+          "prompt_tokens": 1540.0,
+          "extra": {}
+        },
+        "pruned": {
+          "quality": 0.9865671641791044,
+          "requests": 10.335820895522389,
+          "input_tokens": 6451.2164179104475,
+          "output_tokens": 710.1567164179105,
+          "latency_ms": 5492.0356192490835,
+          "safety_events": 0,
+          "n_episodes": 134,
+          "success_rate": 0.9552238805970149,
+          "schema_tokens": 690.0,
+          "prompt_tokens": 440.0,
+          "extra": {}
+        },
+        "kept_tools": [
+          "logs.query",
+          "deploys.recent",
+          "approvals.request",
+          "remediation.execute",
+          "case.add_note"
+        ],
+        "kept_blocks": [
+          "coordinator_role",
+          "approval_policy"
+        ]
+      },
+      {
+        "predicates": [
+          [
+            "alert_family",
+            "!=",
+            "latency_spike"
+          ],
+          [
+            "alert_family",
+            "!=",
+            "deploy_regression"
+          ],
+          [
+            "alert_family",
+            "==",
+            "error_rate"
+          ]
+        ],
+        "label": "handoff:log_specialist",
+        "stage": "calibrated",
+        "rejected": "gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.058 > alph",
+        "purity": 0.9143,
+        "support": 175,
+        "baseline": {
+          "quality": 0.9823529411764707,
+          "requests": 10.46078431372549,
+          "input_tokens": 9415.0,
+          "output_tokens": 731.0098039215686,
+          "latency_ms": 5640.301683771832,
+          "safety_events": 0,
+          "n_episodes": 102,
+          "success_rate": 0.9411764705882353,
+          "schema_tokens": 1040.0,
+          "prompt_tokens": 1540.0,
+          "extra": {}
+        },
+        "pruned": {
+          "quality": 0.9823529411764707,
+          "requests": 10.343137254901961,
+          "input_tokens": 6578.058823529412,
+          "output_tokens": 722.5098039215686,
+          "latency_ms": 5581.50012719264,
+          "safety_events": 0,
+          "n_episodes": 102,
+          "success_rate": 0.9411764705882353,
+          "schema_tokens": 700.0,
+          "prompt_tokens": 440.0,
+          "extra": {}
+        },
+        "kept_tools": [
+          "logs.query",
+          "metrics.query",
+          "approvals.request",
+          "remediation.execute",
+          "case.add_note"
+        ],
+        "kept_blocks": [
+          "coordinator_role",
+          "approval_policy"
+        ]
+      },
+      {
+        "predicates": [
+          [
+            "alert_family",
+            "!=",
+            "latency_spike"
+          ],
+          [
+            "alert_family",
+            "!=",
+            "deploy_regression"
+          ],
+          [
+            "alert_family",
+            "!=",
+            "error_rate"
+          ]
+        ],
+        "label": "handoff:runbook_specialist",
+        "stage": "emitted",
+        "rejected": null,
+        "purity": 0.9488,
+        "support": 371,
+        "baseline": {
+          "quality": 0.9820000000000001,
+          "requests": 10.393333333333333,
+          "input_tokens": 9419.48,
+          "output_tokens": 725.9933333333333,
+          "latency_ms": 5477.6601416951535,
+          "safety_events": 0,
+          "n_episodes": 150,
+          "success_rate": 0.94,
+          "schema_tokens": 1040.0,
+          "prompt_tokens": 1540.0,
+          "extra": {}
+        },
+        "pruned": {
+          "quality": 0.9820000000000001,
+          "requests": 10.366666666666667,
+          "input_tokens": 6522.166666666667,
+          "output_tokens": 724.0133333333333,
+          "latency_ms": 5464.5946453140905,
+          "safety_events": 0,
+          "n_episodes": 150,
+          "success_rate": 0.94,
+          "schema_tokens": 650.0,
+          "prompt_tokens": 440.0,
+          "extra": {}
+        },
+        "kept_tools": [
+          "metrics.query",
+          "runbooks.lookup",
+          "approvals.request",
+          "remediation.execute",
+          "case.add_note"
+        ],
+        "kept_blocks": [
+          "coordinator_role",
+          "approval_policy"
+        ]
+      }
+    ]
+  },
+  "grc": {
+    "artifacts": 2,
+    "candidates": [
+      {
+        "candidate_id": "cand-00-9452e5778bf6",
+        "tools": [
+          "logs.query",
+          "metrics.query"
+        ],
+        "support_groups": 776,
+        "support_days": 28,
+        "removed_requests": 2.0,
+        "stage": "emitted",
+        "rejected": null,
+        "artifact": "query.query.region@9452e577",
+        "notes": {
+          "n_alternative_bindings": 25,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 2,
+          "branch": "none",
+          "branch_p": null,
+          "branch_atoms": 0,
+          "branch_alternatives": 0
+        }
+      },
+      {
+        "candidate_id": "cand-01-c294df28f7a6",
+        "tools": [
+          "runbooks.lookup",
+          "metrics.query"
+        ],
+        "support_groups": 748,
+        "support_days": 28,
+        "removed_requests": 2.0,
+        "stage": "emitted",
+        "rejected": null,
+        "artifact": "lookup.query.region@c294df28",
+        "notes": {
+          "n_alternative_bindings": 33,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 2,
+          "branch": "none",
+          "branch_p": null,
+          "branch_atoms": 0,
+          "branch_alternatives": 0
+        }
+      },
+      {
+        "candidate_id": "cand-02-1fa7ad7ddc76",
+        "tools": [
+          "deploys.recent",
+          "logs.query"
+        ],
+        "support_groups": 471,
+        "support_days": 28,
+        "removed_requests": 2.0,
+        "stage": "calibrated",
+        "rejected": "gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.054 > alph",
+        "artifact": null,
+        "notes": {
+          "n_alternative_bindings": 25,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 2,
+          "branch": "none",
+          "branch_p": null,
+          "branch_atoms": 0,
+          "branch_alternatives": 0
+        }
+      },
+      {
+        "candidate_id": "cand-03-b3b2818e3cad",
+        "tools": [
+          "metrics.query"
+        ],
+        "support_groups": 444,
+        "support_days": 28,
+        "removed_requests": 2.0,
+        "stage": "calibrated",
+        "rejected": "gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 1.000 > alph",
+        "artifact": null,
+        "notes": {
+          "n_alternative_bindings": 8,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 1,
+          "branch": "none",
+          "branch_p": null,
+          "branch_atoms": 0,
+          "branch_alternatives": 0
+        }
+      },
+      {
+        "candidate_id": "cand-04-f9d9e1174f99",
+        "tools": [
+          "runbooks.lookup",
+          "metrics.query"
+        ],
+        "support_groups": 235,
+        "support_days": 28,
+        "removed_requests": 3.0,
+        "stage": "calibrated",
+        "rejected": "gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 1.000 > alph",
+        "artifact": null,
+        "notes": {
+          "n_alternative_bindings": 33,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 2,
+          "branch": "none",
+          "branch_p": null,
+          "branch_atoms": 0,
+          "branch_alternatives": 0
+        }
+      },
+      {
+        "candidate_id": "cand-05-3105c2b53392",
+        "tools": [
+          "logs.query",
+          "metrics.query"
+        ],
+        "support_groups": 209,
+        "support_days": 28,
+        "removed_requests": 3.0,
+        "stage": "calibrated",
+        "rejected": "gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 1.000 > alph",
+        "artifact": null,
+        "notes": {
+          "n_alternative_bindings": 25,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 2,
+          "branch": "none",
+          "branch_p": null,
+          "branch_atoms": 0,
+          "branch_alternatives": 0
+        }
+      }
+    ],
+    "rejections": {
+      "calibrate:retire": 4
+    },
+    "report": "GRC compile report\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\ncandidates mined        6\nartifacts emitted       2\nrejections by stage     {'calibrate:retire': 4}\nwindows accepted        3471\nwindows blocked         {'barrier_event': 39373, 'effect_write': 22044, 'partial_run': 757, 'ambiguous_slot': 429}\nblocked by tool         {'case.add_note': 3451, 'approvals.request': 17130, 'remediation.execute': 1463}\n  [emitted     ] query/query                                       supp=776 k=2.0\n  [emitted     ] lookup/query                                      supp=748 k=2.0\n  [calibrated  ] recent/query                                      supp=471 k=2.0  REJECTED: gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.054 > alph\n  [calibrated  ] query                                             supp=444 k=2.0  REJECTED: gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 1.000 > alph\n  [calibrated  ] lookup/query                                      supp=235 k=3.0  REJECTED: gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 1.000 > alph\n  [calibrated  ] query/query                                       supp=209 k=3.0  REJECTED: gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 1.000 > alph",
+    "explain": "artifact  lookup.query.region@c294df28@1   support 241/720 groups   removes k=2.00   [replay_validated]\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nguard   effect_catalog_version=triage@1#3af13be7e0e98128  entry_contract_version=alert_v5  guardrail_hash=#0003  model=sim-gpt-5-2026-04-12  policy_hash=#2f0c  prompt_hash=#91de  tools_hash=#77aa\n        policy_version = 'pol-2'   (isolation key)\n        principal = 'svc.oncall'   (isolation key)\n        tenant_partition = 'platform'   (isolation key)\n        z.alert_family : str \u2208 {capacity, cert_expiry}\n        z.service : str \u2208 {auth, billing, checkout, notify, search}\n        effects \u2286 {READ_EXTERNAL, READ_LOCAL}  all speculatable \u2227 replayable\n\nprogram (\u03b8 = {alert_family, service}):\n   look = call runbooks.lookup(service = z.service, symptom = z.alert_family)\n   quer = call metrics.query(metric = Const('latency'), service = look.service)\n   return  { look: look, quer: quer }\nverify  look : dict, non-null, provenance \u2208 {runbooks.lookup}\n        look.runbook_id : str, non-null, \u2208 {rb_capa, rb_cert}, provenance \u2208 {runbooks.lookup}\n        look.service : str, non-null, \u2208 {auth, billing, checkout, notify, search}, provenance \u2208 {runbooks.lookup}\n        look.steps : list, non-null, len \u2264 3, len \u2265 3, provenance \u2208 {runbooks.lookup}\n        look.symptom : str, non-null, \u2208 {capacity, cert_expiry}, provenance \u2208 {runbooks.lookup}\n        quer : dict, non-null, provenance \u2208 {metrics.query}\n        quer.metric : str, non-null, \u2208 {latency}, provenance \u2208 {metrics.query}\n        quer.p95_ms : int, non-null, \u2208 [178.0, 443.0], provenance \u2208 {metrics.query}\n        quer.p99_ms : int, non-null, \u2208 [356.0, 886.0], provenance \u2208 {metrics.query}\n        quer.service : str, non-null, \u2208 {auth, billing, checkout, notify, search}, provenance \u2208 {metrics.query}\n        effect_multiset \u2286 {READ_EXTERNAL, READ_LOCAL},  |calls| \u2208 {2},  no WRITE_*\ngate    q = logistic(entry features)   \u03b7 = 0.50   (cal n=132 groups, \u03b1=0.05, \u03b4=0.1, |\u039b|=11, R\u207a=0.035, \u03c6\u0302=1.00)\n\nartifact  query.query.region@9452e577@1   support 241/720 groups   removes k=2.00   [replay_validated]\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nguard   effect_catalog_version=triage@1#3af13be7e0e98128  entry_contract_version=alert_v5  guardrail_hash=#0003  model=sim-gpt-5-2026-04-12  policy_hash=#2f0c  prompt_hash=#91de  tools_hash=#77aa\n        policy_version = 'pol-2'   (isolation key)\n        principal = 'svc.oncall'   (isolation key)\n        tenant_partition = 'platform'   (isolation key)\n        z.service : str \u2208 {auth, billing, checkout, notify, search}\n        effects \u2286 {READ_EXTERNAL}  all speculatable \u2227 replayable\n\nprogram (\u03b8 = {service}):\n   quer = call logs.query(service = z.service, window_min = Const(30))\n   quer2= call metrics.query(metric = Const('latency'), service = quer.service)\n   return  { quer: quer, quer2: quer2 }\nverify  quer : dict, non-null, provenance \u2208 {logs.query}\n        quer.errors : list, non-null, len \u2264 6, len \u2265 3, provenance \u2208 {logs.query}\n        quer.service : str, non-null, \u2208 {auth, billing, checkout, notify, search}, provenance \u2208 {logs.query}\n        quer.top_code : str, non-null, \u2208 {E100}, provenance \u2208 {logs.query}\n        quer.window_min : int, non-null, \u2208 [30.0, 30.0], provenance \u2208 {logs.query}\n        quer2 : dict, non-null, provenance \u2208 {metrics.query}\n        quer2.metric : str, non-null, \u2208 {latency}, provenance \u2208 {metrics.query}\n        quer2.p95_ms : int, non-null, \u2208 [178.0, 443.0], provenance \u2208 {metrics.query}\n        quer2.p99_ms : int, non-null, \u2208 [356.0, 886.0], provenance \u2208 {metrics.query}\n        quer2.service : str, non-null, \u2208 {auth, billing, checkout, notify, search}, provenance \u2208 {metrics.query}\n        effect_multiset \u2286 {READ_EXTERNAL},  |calls| \u2208 {2},  no WRITE_*\ngate    q = logistic(entry features)   \u03b7 = 0.50   (cal n=146 groups, \u03b1=0.05, \u03b4=0.1, |\u039b|=11, R\u207a=0.032, \u03c6\u0302=1.00)"
+  },
+  "conditions": {
+    "baseline": {
+      "n_episodes": 658,
+      "n_groups": 515,
+      "aggregate": {
+        "requests": 10.49696,
+        "tool_calls": 5.29179,
+        "read_calls": 3.25228,
+        "write_calls": 2.03951,
+        "unknown_calls": 0.0,
+        "input_tokens": 9485.35258,
+        "cached_input_tokens": 22051.94225,
+        "output_tokens": 728.44833,
+        "dollars": 0.0219,
+        "latency_ms_mean": 5565.07754,
+        "latency_ms_p50": 5547.64597,
+        "latency_ms_p95": 7066.18329,
+        "latency_ms_p99": 7603.59062,
+        "critical_path_ms": 5565.07754,
+        "schema_tokens": 1040.0,
+        "prompt_tokens": 1540.0,
+        "tool_surface_tokens": 2580.0,
+        "quality": 0.9804,
+        "success_rate": 0.93465,
+        "safety_events_total": 0.0,
+        "safety_events_rate": 0.0,
+        "artifact_write_effects_total": 0.0,
+        "episodes_compacted": 0.0,
+        "artifact_executions_total": 0.0,
+        "coverage_phi": 0.0,
+        "fallbacks_total": 0.0,
+        "incidents_total": 0.0,
+        "overhead_ms_per_episode": 0.0,
+        "business.correct_classification": 1.0,
+        "business.correct_specialist": 0.93465,
+        "business.evidence_completeness": 1.0
+      },
+      "dispatch": {}
+    },
+    "simple": {
+      "n_episodes": 658,
+      "n_groups": 515,
+      "aggregate": {
+        "requests": 9.67629,
+        "tool_calls": 4.44681,
+        "read_calls": 2.40729,
+        "write_calls": 2.03951,
+        "unknown_calls": 0.0,
+        "input_tokens": 8649.21277,
+        "cached_input_tokens": 21708.08207,
+        "output_tokens": 671.32827,
+        "dollars": 0.02024,
+        "latency_ms_mean": 5144.8356,
+        "latency_ms_p50": 5141.748,
+        "latency_ms_p95": 6880.44411,
+        "latency_ms_p99": 7520.92806,
+        "critical_path_ms": 5144.8356,
+        "schema_tokens": 1240.0,
+        "prompt_tokens": 1540.0,
+        "tool_surface_tokens": 2780.0,
+        "quality": 0.9804,
+        "success_rate": 0.93465,
+        "safety_events_total": 0.0,
+        "safety_events_rate": 0.0,
+        "artifact_write_effects_total": 0.0,
+        "episodes_compacted": 0.0,
+        "artifact_executions_total": 0.0,
+        "coverage_phi": 0.0,
+        "fallbacks_total": 0.0,
+        "incidents_total": 0.0,
+        "overhead_ms_per_episode": 0.0,
+        "business.correct_classification": 1.0,
+        "business.correct_specialist": 0.93465,
+        "business.evidence_completeness": 1.0
+      },
+      "dispatch": {}
+    },
+    "full": {
+      "n_episodes": 658,
+      "n_groups": 515,
+      "aggregate": {
+        "requests": 8.18541,
+        "tool_calls": 5.02432,
+        "read_calls": 2.9848,
+        "write_calls": 2.03951,
+        "unknown_calls": 0.0,
+        "input_tokens": 8190.44377,
+        "cached_input_tokens": 13142.48936,
+        "output_tokens": 566.96809,
+        "dollars": 0.01755,
+        "latency_ms_mean": 4465.93429,
+        "latency_ms_p50": 4465.1701,
+        "latency_ms_p95": 6010.33533,
+        "latency_ms_p99": 6758.97068,
+        "critical_path_ms": 4449.04299,
+        "schema_tokens": 878.19149,
+        "prompt_tokens": 1083.61702,
+        "tool_surface_tokens": 1961.80851,
+        "quality": 0.99043,
+        "success_rate": 0.96809,
+        "safety_events_total": 0.0,
+        "safety_events_rate": 0.0,
+        "artifact_write_effects_total": 0.0,
+        "episodes_compacted": 658.0,
+        "artifact_executions_total": 658.0,
+        "coverage_phi": 1.0,
+        "fallbacks_total": 0.0,
+        "incidents_total": 0.0,
+        "overhead_ms_per_episode": 16.89133,
+        "business.correct_classification": 1.0,
+        "business.correct_specialist": 0.96809,
+        "business.evidence_completeness": 1.0
+      },
+      "dispatch": {
+        "attempts": 6044,
+        "compacted": 658,
+        "baseline": 5386,
+        "incidents": 0,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "region_already_started": 7397,
+          "hull": 3760
+        },
+        "verifier_failures": {},
+        "interp_failures": {},
+        "dispatch_attempts": 658,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_pass_rate": 1.0,
+        "boundary_dispatch_rate": 0.1089,
+        "overhead_ms_total": 11114.47,
+        "removed_requests_total": 1316.0,
+        "routes": {
+          "route_hits": 273,
+          "route_misses": 385,
+          "route_miss_reasons": {
+            "hull": 385
+          }
+        }
+      }
+    },
+    "support_only": {
+      "n_episodes": 658,
+      "n_groups": 515,
+      "aggregate": {
+        "requests": 10.49696,
+        "tool_calls": 5.29179,
+        "read_calls": 3.25228,
+        "write_calls": 2.03951,
+        "unknown_calls": 0.0,
+        "input_tokens": 9485.35258,
+        "cached_input_tokens": 22051.94225,
+        "output_tokens": 728.44833,
+        "dollars": 0.0219,
+        "latency_ms_mean": 5581.38764,
+        "latency_ms_p50": 5563.46913,
+        "latency_ms_p95": 7085.60704,
+        "latency_ms_p99": 7622.7402,
+        "critical_path_ms": 5565.07754,
+        "schema_tokens": 1040.0,
+        "prompt_tokens": 1540.0,
+        "tool_surface_tokens": 2580.0,
+        "quality": 0.9804,
+        "success_rate": 0.93465,
+        "safety_events_total": 0.0,
+        "safety_events_rate": 0.0,
+        "artifact_write_effects_total": 0.0,
+        "episodes_compacted": 0.0,
+        "artifact_executions_total": 0.0,
+        "coverage_phi": 0.0,
+        "fallbacks_total": 4251.0,
+        "incidents_total": 0.0,
+        "overhead_ms_per_episode": 18.27522,
+        "business.correct_classification": 1.0,
+        "business.correct_specialist": 0.93465,
+        "business.evidence_completeness": 1.0
+      },
+      "dispatch": {
+        "attempts": 6907,
+        "compacted": 0,
+        "baseline": 6907,
+        "incidents": 0,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "region_already_started": 2656
+        },
+        "verifier_failures": {},
+        "interp_failures": {
+          "FacadeError": 4251
+        },
+        "dispatch_attempts": 4251,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_pass_rate": 0.0,
+        "boundary_dispatch_rate": 0.6155,
+        "overhead_ms_total": 12025.09,
+        "removed_requests_total": 0.0
+      }
+    }
+  },
+  "comparisons": {
+    "simple": {
+      "n_paired_episodes": 658,
+      "n_groups": 515,
+      "request_ratio": {
+        "point": 0.921818,
+        "low": 0.918578,
+        "high": 0.92504,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "request_diff": {
+        "point": -0.820669,
+        "low": -0.850679,
+        "high": -0.789877,
+        "level": 0.95,
+        "method": "paired_group_bootstrap"
+      },
+      "token_ratio": {
+        "point": 0.911849,
+        "low": 0.906751,
+        "high": 0.916875,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "dollar_ratio": {
+        "point": 0.924222,
+        "low": 0.919973,
+        "high": 0.928479,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "latency_ratio": {
+        "point": 0.924486,
+        "low": 0.92083,
+        "high": 0.928053,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "quality_noninferiority": {
+        "endpoint": "semantic_score",
+        "margin": 0.05,
+        "diff": {
+          "point": 0.0,
+          "low": 0.0,
+          "high": 0.0,
+          "level": 0.8999999999999999,
+          "method": "paired_group_bootstrap"
+        },
+        "passed": true,
+        "direction": "higher_is_better"
+      },
+      "quality_noninferiority_strict": {
+        "endpoint": "semantic_score",
+        "margin": 0.03,
+        "diff": {
+          "point": 0.0,
+          "low": 0.0,
+          "high": 0.0,
+          "level": 0.8999999999999999,
+          "method": "paired_group_bootstrap"
+        },
+        "passed": true,
+        "direction": "higher_is_better"
+      },
+      "success_diff": {
+        "point": 0.0,
+        "low": 0.0,
+        "high": 0.0,
+        "level": 0.95,
+        "method": "paired_group_bootstrap"
+      },
+      "safety": {
+        "baseline_events": 0,
+        "candidate_events": 0,
+        "delta": 0,
+        "artifact_write_effects": 0,
+        "incidents": 0,
+        "invariant": true
+      },
+      "coverage_phi": 0.0,
+      "unsafe_dispatch_upper_bound": {
+        "artifact_executions": 0,
+        "dispatched_episodes": 0,
+        "observed_unsafe": 0,
+        "upper_95": 0.95,
+        "note": "a zero observed rate is reported as an upper bound, never as zero risk"
+      }
+    },
+    "full": {
+      "n_paired_episodes": 658,
+      "n_groups": 515,
+      "request_ratio": {
+        "point": 0.779789,
+        "low": 0.773009,
+        "high": 0.786856,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "request_diff": {
+        "point": -2.31155,
+        "low": -2.385093,
+        "high": -2.24024,
+        "level": 0.95,
+        "method": "paired_group_bootstrap"
+      },
+      "token_ratio": {
+        "point": 0.863483,
+        "low": 0.839731,
+        "high": 0.887385,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "dollar_ratio": {
+        "point": 0.80148,
+        "low": 0.783254,
+        "high": 0.81974,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "latency_ratio": {
+        "point": 0.802493,
+        "low": 0.795143,
+        "high": 0.810014,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "quality_noninferiority": {
+        "endpoint": "semantic_score",
+        "margin": 0.05,
+        "diff": {
+          "point": 0.01003,
+          "low": 0.006422,
+          "high": 0.013825,
+          "level": 0.8999999999999999,
+          "method": "paired_group_bootstrap"
+        },
+        "passed": true,
+        "direction": "higher_is_better"
+      },
+      "quality_noninferiority_strict": {
+        "endpoint": "semantic_score",
+        "margin": 0.03,
+        "diff": {
+          "point": 0.01003,
+          "low": 0.006422,
+          "high": 0.013825,
+          "level": 0.8999999999999999,
+          "method": "paired_group_bootstrap"
+        },
+        "passed": true,
+        "direction": "higher_is_better"
+      },
+      "success_diff": {
+        "point": 0.033435,
+        "low": 0.019757,
+        "high": 0.049034,
+        "level": 0.95,
+        "method": "paired_group_bootstrap"
+      },
+      "safety": {
+        "baseline_events": 0,
+        "candidate_events": 0,
+        "delta": 0,
+        "artifact_write_effects": 0,
+        "incidents": 0,
+        "invariant": true
+      },
+      "coverage_phi": 1.0,
+      "unsafe_dispatch_upper_bound": {
+        "artifact_executions": 658,
+        "dispatched_episodes": 658,
+        "observed_unsafe": 0,
+        "upper_95": 0.00454,
+        "note": "a zero observed rate is reported as an upper bound, never as zero risk"
+      }
+    },
+    "support_only": {
+      "n_paired_episodes": 658,
+      "n_groups": 515,
+      "request_ratio": {
+        "point": 1.0,
+        "low": 1.0,
+        "high": 1.0,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "request_diff": {
+        "point": 0.0,
+        "low": 0.0,
+        "high": 0.0,
+        "level": 0.95,
+        "method": "paired_group_bootstrap"
+      },
+      "token_ratio": {
+        "point": 1.0,
+        "low": 1.0,
+        "high": 1.0,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "dollar_ratio": {
+        "point": 1.0,
+        "low": 1.0,
+        "high": 1.0,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "latency_ratio": {
+        "point": 1.002931,
+        "low": 1.002892,
+        "high": 1.002979,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "quality_noninferiority": {
+        "endpoint": "semantic_score",
+        "margin": 0.05,
+        "diff": {
+          "point": 0.0,
+          "low": 0.0,
+          "high": 0.0,
+          "level": 0.8999999999999999,
+          "method": "paired_group_bootstrap"
+        },
+        "passed": true,
+        "direction": "higher_is_better"
+      },
+      "quality_noninferiority_strict": {
+        "endpoint": "semantic_score",
+        "margin": 0.03,
+        "diff": {
+          "point": 0.0,
+          "low": 0.0,
+          "high": 0.0,
+          "level": 0.8999999999999999,
+          "method": "paired_group_bootstrap"
+        },
+        "passed": true,
+        "direction": "higher_is_better"
+      },
+      "success_diff": {
+        "point": 0.0,
+        "low": 0.0,
+        "high": 0.0,
+        "level": 0.95,
+        "method": "paired_group_bootstrap"
+      },
+      "safety": {
+        "baseline_events": 0,
+        "candidate_events": 0,
+        "delta": 0,
+        "artifact_write_effects": 0,
+        "incidents": 0,
+        "invariant": true
+      },
+      "coverage_phi": 0.0,
+      "unsafe_dispatch_upper_bound": {
+        "artifact_executions": 0,
+        "dispatched_episodes": 0,
+        "observed_unsafe": 0,
+        "upper_95": 0.95,
+        "note": "a zero observed rate is reported as an upper bound, never as zero risk"
+      }
+    }
+  },
+  "hypotheses": {
+    "H1_synthesis": {
+      "statement": "automatic synthesis yields at least one non-trivial artifact (k>=2, with a synthesized transform or observation-dependent branch)",
+      "passed": true
+    },
+    "H2_quality": {
+      "statement": "lower one-sided 95% CI on the paired task-score difference exceeds -0.05",
+      "margin": 0.05,
+      "diff": {
+        "point": 0.01003,
+        "low": 0.006422,
+        "high": 0.013825,
+        "level": 0.8999999999999999,
+        "method": "paired_group_bootstrap"
+      },
+      "passed": true
+    },
+    "H3_requests": {
+      "statement": "upper one-sided 95% CI on the model-request ratio is below 0.90",
+      "ratio": {
+        "point": 0.779789,
+        "low": 0.773009,
+        "high": 0.786856,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "passed": true
+    },
+    "H3b_cost_latency": {
+      "dollar_ratio": {
+        "point": 0.80148,
+        "low": 0.783254,
+        "high": 0.81974,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "latency_ratio": {
+        "point": 0.802493,
+        "low": 0.795143,
+        "high": 0.810014,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "note": "secondary, unthresholded; dollars lag requests because the removed prefill is cached"
+    },
+    "H4_ablation": {
+      "statement": "provenance/contract-aware gating has fewer unsafe dispatches than support-only routing at comparable coverage",
+      "full": {
+        "coverage": 1.0,
+        "unsafe": {
+          "artifact_executions": 658,
+          "dispatched_episodes": 658,
+          "observed_unsafe": 0,
+          "upper_95": 0.00454,
+          "note": "a zero observed rate is reported as an upper bound, never as zero risk"
+        },
+        "safety": {
+          "baseline_events": 0,
+          "candidate_events": 0,
+          "delta": 0,
+          "artifact_write_effects": 0,
+          "incidents": 0,
+          "invariant": true
+        }
+      },
+      "support_only": {
+        "coverage": 0.0,
+        "unsafe": {
+          "artifact_executions": 0,
+          "dispatched_episodes": 0,
+          "observed_unsafe": 0,
+          "upper_95": 0.95,
+          "note": "a zero observed rate is reported as an upper bound, never as zero risk"
+        },
+        "safety": {
+          "baseline_events": 0,
+          "candidate_events": 0,
+          "delta": 0,
+          "artifact_write_effects": 0,
+          "incidents": 0,
+          "invariant": true
+        }
+      }
+    },
+    "H5_operations": {
+      "latency_ratio": {
+        "point": 0.802493,
+        "low": 0.795143,
+        "high": 0.810014,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "incidents": 0,
+      "note": "exploratory"
+    },
+    "incremental_value_over_hand_written": {
+      "simple_request_ratio": {
+        "point": 0.921818,
+        "low": 0.918578,
+        "high": 0.92504,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "full_request_ratio": {
+        "point": 0.779789,
+        "low": 0.773009,
+        "high": 0.786856,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "note": "GRC is only credited with the difference; a macro still costs one model request per invocation because the model selects it"
+    },
+    "co_primary_passed": true
+  },
+  "shadow": {
+    "n_episodes": 307,
+    "n_groups": 229,
+    "would_dispatch_boundaries": 3194,
+    "telemetry": {
+      "attempts": 3194,
+      "compacted": 0,
+      "baseline": 3194,
+      "incidents": 0,
+      "gate_rejections": 0,
+      "guard_misses": {
+        "region_already_started": 2209,
+        "hull": 1937
+      },
+      "verifier_failures": {},
+      "interp_failures": {},
+      "dispatch_attempts": 0,
+      "shadow_would_dispatch": 1665,
+      "shadow_would_dispatch_rate": 0.5213,
+      "verifier_pass_rate": 0.0,
+      "boundary_dispatch_rate": 0.0,
+      "overhead_ms_total": 5900.35,
+      "removed_requests_total": 0.0
+    },
+    "routes": {
+      "route_hits": 122,
+      "route_misses": 185,
+      "route_miss_reasons": {
+        "hull": 185
+      }
+    },
+    "note": "shadow evidence is operational only and is never pooled into the sealed-test claim"
+  },
+  "maintenance": {
+    "active_artifacts": 3,
+    "grc_artifacts": 2,
+    "tgws_leaves": 1,
+    "dsl_nodes": 26,
+    "contract_predicates": 27,
+    "prompt_variants": 1,
+    "tool_allowlists": 1,
+    "compatibility_dependencies": 1
+  },
+  "artifacts": [
+    "artifact  route.runbook_specialist@1   support 285/720 groups   removes k=0.03   [active]\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nguard   effect_catalog_version=triage@1#3af13be7e0e98128  entry_contract_version=alert_v5  guardrail_hash=#0003  model=sim-gpt-5-2026-04-12  policy_hash=#2f0c  prompt_hash=#91de  tools_hash=#77aa\n        policy_version = 'pol-2'   (isolation key)\n        principal = 'svc.oncall'   (isolation key)\n        tenant_partition = 'platform'   (isolation key)\n        z.alert_family : str \u2208 {capacity, cert_expiry}\n        effects \u2286 {}  all speculatable \u2227 replayable\nroute  if z.alert_family != 'latency_spike' \u2227 z.alert_family != 'deploy_regression' \u2227 z.alert_family != 'error_rate'\n       \u2192 agent=coordinator model=sim-gpt-5-2026-04-12 reasoning=default\n       prompt_blocks=['coordinator_role', 'approval_policy']\n       tools=['metrics.query', 'runbooks.lookup', 'approvals.request', 'remediation.execute', 'case.add_note'] handoffs=[]\n       support=371 purity=0.95 tokens 2580\u21921090\ngate    q = logistic(entry features)   \u03b7 = 0.50   (cal n=158 groups, \u03b1=0.05, \u03b4=0.1, |\u039b|=11, R\u207a=0.029, \u03c6\u0302=1.00)",
+    "artifact  lookup.query.region@c294df28@1   support 241/720 groups   removes k=2.00   [active]\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nguard   effect_catalog_version=triage@1#3af13be7e0e98128  entry_contract_version=alert_v5  guardrail_hash=#0003  model=sim-gpt-5-2026-04-12  policy_hash=#2f0c  prompt_hash=#91de  tools_hash=#77aa\n        policy_version = 'pol-2'   (isolation key)\n        principal = 'svc.oncall'   (isolation key)\n        tenant_partition = 'platform'   (isolation key)\n        z.alert_family : str \u2208 {capacity, cert_expiry}\n        z.service : str \u2208 {auth, billing, checkout, notify, search}\n        effects \u2286 {READ_EXTERNAL, READ_LOCAL}  all speculatable \u2227 replayable\n\nprogram (\u03b8 = {alert_family, service}):\n   look = call runbooks.lookup(service = z.service, symptom = z.alert_family)\n   quer = call metrics.query(metric = Const('latency'), service = look.service)\n   return  { look: look, quer: quer }\nverify  look : dict, non-null, provenance \u2208 {runbooks.lookup}\n        look.runbook_id : str, non-null, \u2208 {rb_capa, rb_cert}, provenance \u2208 {runbooks.lookup}\n        look.service : str, non-null, \u2208 {auth, billing, checkout, notify, search}, provenance \u2208 {runbooks.lookup}\n        look.steps : list, non-null, len \u2264 3, len \u2265 3, provenance \u2208 {runbooks.lookup}\n        look.symptom : str, non-null, \u2208 {capacity, cert_expiry}, provenance \u2208 {runbooks.lookup}\n        quer : dict, non-null, provenance \u2208 {metrics.query}\n        quer.metric : str, non-null, \u2208 {latency}, provenance \u2208 {metrics.query}\n        quer.p95_ms : int, non-null, \u2208 [178.0, 443.0], provenance \u2208 {metrics.query}\n        quer.p99_ms : int, non-null, \u2208 [356.0, 886.0], provenance \u2208 {metrics.query}\n        quer.service : str, non-null, \u2208 {auth, billing, checkout, notify, search}, provenance \u2208 {metrics.query}\n        effect_multiset \u2286 {READ_EXTERNAL, READ_LOCAL},  |calls| \u2208 {2},  no WRITE_*\ngate    q = logistic(entry features)   \u03b7 = 0.50   (cal n=132 groups, \u03b1=0.05, \u03b4=0.1, |\u039b|=11, R\u207a=0.035, \u03c6\u0302=1.00)",
+    "artifact  query.query.region@9452e577@1   support 241/720 groups   removes k=2.00   [active]\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nguard   effect_catalog_version=triage@1#3af13be7e0e98128  entry_contract_version=alert_v5  guardrail_hash=#0003  model=sim-gpt-5-2026-04-12  policy_hash=#2f0c  prompt_hash=#91de  tools_hash=#77aa\n        policy_version = 'pol-2'   (isolation key)\n        principal = 'svc.oncall'   (isolation key)\n        tenant_partition = 'platform'   (isolation key)\n        z.service : str \u2208 {auth, billing, checkout, notify, search}\n        effects \u2286 {READ_EXTERNAL}  all speculatable \u2227 replayable\n\nprogram (\u03b8 = {service}):\n   quer = call logs.query(service = z.service, window_min = Const(30))\n   quer2= call metrics.query(metric = Const('latency'), service = quer.service)\n   return  { quer: quer, quer2: quer2 }\nverify  quer : dict, non-null, provenance \u2208 {logs.query}\n        quer.errors : list, non-null, len \u2264 6, len \u2265 3, provenance \u2208 {logs.query}\n        quer.service : str, non-null, \u2208 {auth, billing, checkout, notify, search}, provenance \u2208 {logs.query}\n        quer.top_code : str, non-null, \u2208 {E100}, provenance \u2208 {logs.query}\n        quer.window_min : int, non-null, \u2208 [30.0, 30.0], provenance \u2208 {logs.query}\n        quer2 : dict, non-null, provenance \u2208 {metrics.query}\n        quer2.metric : str, non-null, \u2208 {latency}, provenance \u2208 {metrics.query}\n        quer2.p95_ms : int, non-null, \u2208 [178.0, 443.0], provenance \u2208 {metrics.query}\n        quer2.p99_ms : int, non-null, \u2208 [356.0, 886.0], provenance \u2208 {metrics.query}\n        quer2.service : str, non-null, \u2208 {auth, billing, checkout, notify, search}, provenance \u2208 {metrics.query}\n        effect_multiset \u2286 {READ_EXTERNAL},  |calls| \u2208 {2},  no WRITE_*\ngate    q = logistic(entry features)   \u03b7 = 0.50   (cal n=146 groups, \u03b1=0.05, \u03b4=0.1, |\u039b|=11, R\u207a=0.032, \u03c6\u0302=1.00)"
+  ],
+  "timings": {
+    "capture_s": 3.2,
+    "estimate_s": 3.54,
+    "tgws_s": 5.25,
+    "grc_s": 7.8,
+    "ablation_s": 5.47,
+    "sealed_test_s": 12.04,
+    "shadow_s": 3.1,
+    "total_s": 47.04
+  },
+  "notes": []
+}

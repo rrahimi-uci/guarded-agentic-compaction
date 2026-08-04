@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-compaction.dev/schemas/promotion-1.json",
+  "title": "Promotion constraints",
+  "type": "object",
+  "required": ["version", "risk", "quality", "coverage"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "type": "integer", "minimum": 1 },
+    "risk": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "alpha": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+        "delta": { "type": "number", "exclusiveMinimum": 0, "maximum": 1 },
+        "grid": { "type": "array", "items": { "type": "number" }, "minItems": 2 },
+        "max_incidents": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "quality": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "epsilon_q": { "type": "number", "minimum": 0 },
+        "sensitivity_epsilon_q": { "type": "number", "minimum": 0 },
+        "require_safety_invariance": { "type": "boolean" }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "phi_min": { "type": "number", "minimum": 0, "maximum": 1 },
+        "rho_min": { "type": "number", "minimum": 0, "maximum": 1 },
+        "min_calibration_groups": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "maintenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_active_artifacts": { "type": "integer", "minimum": 1 },
+        "max_route_leaves": { "type": "integer", "minimum": 1 },
+        "max_complexity_multiple": { "type": "number", "minimum": 1 }
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "require_distinct_approver": { "type": "boolean" },
+        "expiry_days": { "type": "integer", "minimum": 1 },
+        "shadow_window_days": { "type": "integer", "minimum": 1 },
+        "forbid_promotion_splits": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

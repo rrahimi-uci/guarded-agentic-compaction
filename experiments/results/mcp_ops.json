@@ -1,0 +1,1016 @@
+{
+  "demo": "mcp_ops",
+  "title": "Demo D \u2014 multi-tenant MCP operations (negative control)",
+  "n_B": 11.27625,
+  "estimate": {
+    "n_B": 11.276,
+    "phi_oracle": 0.67,
+    "phi_any": 1.0,
+    "k_mean": 2.0,
+    "delta_max": 0.1188,
+    "feasible": true,
+    "blocked_shares": {
+      "effect_unknown": 0.956,
+      "effect_write": 0.005
+    },
+    "blocked_by_tool": {
+      "crm.get_subscription": 60374,
+      "kb.search": 19568,
+      "billing.list_invoices": 14767,
+      "entitlements.check": 3545,
+      "crm.update_ticket": 558,
+      "refunds.issue": 548
+    },
+    "undeclared_tools": [
+      "billing.list_invoices",
+      "crm.get_subscription",
+      "entitlements.check",
+      "kb.search",
+      "refunds.issue"
+    ],
+    "calibration_groups_required": 92,
+    "calibration_groups_available": 386,
+    "economics": {
+      "cost_per_episode_usd": 0.029349,
+      "saving_per_episode_usd": 0.001162,
+      "cache_discount": 0.333333,
+      "episodes_per_year": 73143168.604652,
+      "episodes_per_day": 200392.242752
+    },
+    "gate0_pass": false,
+    "slot_stats": {
+      "grounded": 45933,
+      "transform_search": 9565,
+      "not_groundable": 17109,
+      "ambiguous": 2315,
+      "transform_cache_hits": 68985,
+      "transform_cache_misses": 91467,
+      "ungrounded": 198,
+      "model_originated": 198
+    },
+    "notes": [
+      "this ceiling covers compiled read-only regions only: savings from route specialisation (removing a predictable coordinator turn or handoff) are not modelled by Eq. (10) and can exceed it"
+    ],
+    "render": "estimate report\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n n_B  = 11.3 model requests/episode  (4000 episodes, 1934 groups, 1 principals, 28 days)\n ceiling: phi=0.67 (any candidate: 1.00)  k=2.0  ->  max request reduction 11.9%   [Eq. 10, oracle: rho=1]\n target \u0394=0.10 needs phi*rho*k >= 1.13  -> FEASIBLE\n blocked: 96% by effect_unknown, 1% by effect_write\n blocked-window mass by tool: crm.get_subscription(60374), kb.search(19568), billing.list_invoices(14767), entitlements.check(3545), crm.update_ticket(558)\n undeclared (UNKNOWN, never compiled): billing.list_invoices, crm.get_subscription, entitlements.check, kb.search, refunds.issue\n calibration: 386 groups available, 92 required for a zero-violation bound at the target \u03b1\n slots: {'grounded': 45933, 'transform_search': 9565, 'not_groundable': 17109, 'ambiguous': 2315, 'transform_cache_hits': 68985, 'transform_cache_misses': 91467, 'ungrounded': 198, 'model_originated': 198}\n   candidate ['issue_service_token', 'find_customer']  support=1293 groups/21 days  k=2.0  score=2585.2\n   candidate ['issue_service_token', 'find_customer']  support=641 groups/28 days  k=2.0  score=1281.2\n break-even: 200392 episodes/day at $0.0012 saved/episode\n note: this ceiling covers compiled read-only regions only: savings from route specialisation (removing a predictable coordinator turn or handoff) are not modelled by Eq. (10) and can exceed it"
+  },
+  "splits": {
+    "train": 609,
+    "dev": 348,
+    "calibration": 348,
+    "test": 436,
+    "shadow": 193,
+    "digest": "25c7a8fb3e5724e2"
+  },
+  "tgws": {
+    "n_leaves": 4,
+    "artifacts": 0,
+    "rejections": {
+      "calibrate:retire": 2,
+      "route:low_purity": 2
+    },
+    "report": "TGWS report\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nroute tree\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nexamples 337  depth\u22643  min_support=20  min_purity=0.9\n  true \u2192 path:auth.issue_service_token|crm.find_customer  (support=337 groups=166 purity=0.920 coverage=1.000)\n  true \u2192 path:auth.issue_service_token|crm.find_customer  (support=306 groups=140 purity=0.912 coverage=1.000)\n  true \u2192 path:auth.issue_service_token|crm.find_customer  (support=329 groups=156 purity=0.878 coverage=1.000)\n  true \u2192 path:auth.issue_service_token|crm.find_customer  (support=297 groups=147 purity=0.879 coverage=1.000)\nartifacts emitted 0\n  [calibrated] true \u2192 path:auth.issue_service_token|crm.find_customer  (support=337 groups=166 purity=0.920 coverage=1.000)\n       REJECTED: gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.053 > alph\n       requests 11.21\u21928.81  in_tokens 14727\u21927796  quality 0.9693\u21920.9733  latency 6020\u21924568ms  evals=60\n       kept blocks=['role_tier1', 'seat_rules', 'refund_policy', 'tone_and_format'] tools=['auth.issue_service_token', 'crm.find_customer', 'crm.get_subscription', 'entitlements.check', 'crm.update_ticket']\n  [calibrated] true \u2192 path:auth.issue_service_token|crm.find_customer  (support=306 groups=140 purity=0.912 coverage=1.000)\n       REJECTED: gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.078 > alph\n       requests 11.34\u21928.82  in_tokens 14744\u21927658  quality 0.9560\u21920.9600  latency 6124\u21924599ms  evals=60\n       kept blocks=['role_tier1', 'seat_rules', 'refund_policy', 'tone_and_format'] tools=['auth.issue_service_token', 'crm.find_customer', 'crm.get_subscription', 'entitlements.check', 'crm.update_ticket']\n  [routed    ] true \u2192 path:auth.issue_service_token|crm.find_customer  (support=329 groups=156 purity=0.878 coverage=1.000)\n       REJECTED: low_purity_or_support:0.88/329\n  [routed    ] true \u2192 path:auth.issue_service_token|crm.find_customer  (support=297 groups=147 purity=0.879 coverage=1.000)\n       REJECTED: low_purity_or_support:0.88/297",
+    "leaves": [
+      {
+        "predicates": [],
+        "label": "path:auth.issue_service_token|crm.find_customer",
+        "stage": "calibrated",
+        "rejected": "gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.053 > alph",
+        "purity": 0.9199,
+        "support": 337,
+        "baseline": {
+          "quality": 0.9693333333333334,
+          "requests": 11.206666666666667,
+          "input_tokens": 14726.96,
+          "output_tokens": 769.0733333333334,
+          "latency_ms": 6019.630172803238,
+          "safety_events": 13,
+          "n_episodes": 150,
+          "success_rate": 0.98,
+          "schema_tokens": 1100.0,
+          "prompt_tokens": 1540.0,
+          "extra": {}
+        },
+        "pruned": {
+          "quality": 0.9733333333333334,
+          "requests": 8.813333333333333,
+          "input_tokens": 7796.0,
+          "output_tokens": 605.0266666666666,
+          "latency_ms": 4568.279140948797,
+          "safety_events": 13,
+          "n_episodes": 150,
+          "success_rate": 0.98,
+          "schema_tokens": 620.0,
+          "prompt_tokens": 880.0,
+          "extra": {}
+        },
+        "kept_tools": [
+          "auth.issue_service_token",
+          "crm.find_customer",
+          "crm.get_subscription",
+          "entitlements.check",
+          "crm.update_ticket"
+        ],
+        "kept_blocks": [
+          "role_tier1",
+          "seat_rules",
+          "refund_policy",
+          "tone_and_format"
+        ]
+      },
+      {
+        "predicates": [],
+        "label": "path:auth.issue_service_token|crm.find_customer",
+        "stage": "calibrated",
+        "rejected": "gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.078 > alph",
+        "purity": 0.9118,
+        "support": 306,
+        "baseline": {
+          "quality": 0.9560000000000001,
+          "requests": 11.34,
+          "input_tokens": 14744.16,
+          "output_tokens": 789.9666666666667,
+          "latency_ms": 6124.3324310362605,
+          "safety_events": 9,
+          "n_episodes": 150,
+          "success_rate": 0.9666666666666667,
+          "schema_tokens": 1100.0,
+          "prompt_tokens": 1540.0,
+          "extra": {}
+        },
+        "pruned": {
+          "quality": 0.96,
+          "requests": 8.82,
+          "input_tokens": 7657.8,
+          "output_tokens": 614.9133333333333,
+          "latency_ms": 4598.6599431898185,
+          "safety_events": 9,
+          "n_episodes": 150,
+          "success_rate": 0.9666666666666667,
+          "schema_tokens": 620.0,
+          "prompt_tokens": 880.0,
+          "extra": {}
+        },
+        "kept_tools": [
+          "auth.issue_service_token",
+          "crm.find_customer",
+          "crm.get_subscription",
+          "entitlements.check",
+          "crm.update_ticket"
+        ],
+        "kept_blocks": [
+          "role_tier1",
+          "seat_rules",
+          "refund_policy",
+          "tone_and_format"
+        ]
+      },
+      {
+        "predicates": [],
+        "label": "path:auth.issue_service_token|crm.find_customer",
+        "stage": "routed",
+        "rejected": "low_purity_or_support:0.88/329",
+        "purity": 0.8784,
+        "support": 329,
+        "baseline": null,
+        "pruned": null,
+        "kept_tools": null,
+        "kept_blocks": null
+      },
+      {
+        "predicates": [],
+        "label": "path:auth.issue_service_token|crm.find_customer",
+        "stage": "routed",
+        "rejected": "low_purity_or_support:0.88/297",
+        "purity": 0.8788,
+        "support": 297,
+        "baseline": null,
+        "pruned": null,
+        "kept_tools": null,
+        "kept_blocks": null
+      }
+    ]
+  },
+  "grc": {
+    "artifacts": 0,
+    "candidates": [
+      {
+        "candidate_id": "cand-00-efbd3f984cab-781e4513",
+        "tools": [
+          "auth.issue_service_token",
+          "crm.find_customer"
+        ],
+        "support_groups": 428,
+        "support_days": 7,
+        "removed_requests": 2.0,
+        "stage": "calibrated",
+        "rejected": "gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.059 > alph",
+        "artifact": null,
+        "notes": {
+          "n_alternative_bindings": 22,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 2,
+          "branch": "none",
+          "branch_p": null,
+          "branch_atoms": 0,
+          "branch_alternatives": 0,
+          "partition": {
+            "tenant_partition": "t_contoso",
+            "principal": "svc.support.tier1",
+            "policy_version": "pol-1"
+          }
+        }
+      },
+      {
+        "candidate_id": "cand-01-9e47d188d88b-781e4513",
+        "tools": [
+          "auth.issue_service_token",
+          "crm.find_customer"
+        ],
+        "support_groups": 50,
+        "support_days": 7,
+        "removed_requests": 2.0,
+        "stage": "calibrated",
+        "rejected": "gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.444 > alph",
+        "artifact": null,
+        "notes": {
+          "n_alternative_bindings": 16,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 2,
+          "branch": "none",
+          "branch_p": null,
+          "branch_atoms": 0,
+          "branch_alternatives": 0,
+          "partition": {
+            "tenant_partition": "t_contoso",
+            "principal": "svc.support.tier1",
+            "policy_version": "pol-1"
+          }
+        }
+      },
+      {
+        "candidate_id": "cand-00-efbd3f984cab-b7e52082",
+        "tools": [
+          "auth.issue_service_token",
+          "crm.find_customer"
+        ],
+        "support_groups": 429,
+        "support_days": 7,
+        "removed_requests": 2.0,
+        "stage": "calibrated",
+        "rejected": "gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.062 > alph",
+        "artifact": null,
+        "notes": {
+          "n_alternative_bindings": 22,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 2,
+          "branch": "none",
+          "branch_p": null,
+          "branch_atoms": 0,
+          "branch_alternatives": 0,
+          "partition": {
+            "tenant_partition": "t_fabrikam",
+            "principal": "svc.support.tier1",
+            "policy_version": "pol-1"
+          }
+        }
+      },
+      {
+        "candidate_id": "cand-01-9e47d188d88b-b7e52082",
+        "tools": [
+          "auth.issue_service_token",
+          "crm.find_customer"
+        ],
+        "support_groups": 48,
+        "support_days": 7,
+        "removed_requests": 2.0,
+        "stage": "calibrated",
+        "rejected": "gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.348 > alph",
+        "artifact": null,
+        "notes": {
+          "n_alternative_bindings": 16,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 2,
+          "branch": "none",
+          "branch_p": null,
+          "branch_atoms": 0,
+          "branch_alternatives": 0,
+          "partition": {
+            "tenant_partition": "t_fabrikam",
+            "principal": "svc.support.tier1",
+            "policy_version": "pol-1"
+          }
+        }
+      },
+      {
+        "candidate_id": "cand-00-9e47d188d88b-cc72d88e",
+        "tools": [
+          "auth.issue_service_token",
+          "crm.find_customer"
+        ],
+        "support_groups": 490,
+        "support_days": 7,
+        "removed_requests": 2.0,
+        "stage": "calibrated",
+        "rejected": "gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.058 > alph",
+        "artifact": null,
+        "notes": {
+          "n_alternative_bindings": 15,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 2,
+          "branch": "none",
+          "branch_p": null,
+          "branch_atoms": 0,
+          "branch_alternatives": 0,
+          "partition": {
+            "tenant_partition": "t_northwind",
+            "principal": "svc.support.tier1",
+            "policy_version": "pol-1"
+          }
+        }
+      },
+      {
+        "candidate_id": "cand-00-efbd3f984cab-6e3a53d4",
+        "tools": [
+          "auth.issue_service_token",
+          "crm.find_customer"
+        ],
+        "support_groups": 436,
+        "support_days": 7,
+        "removed_requests": 2.0,
+        "stage": "calibrated",
+        "rejected": "gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.054 > alph",
+        "artifact": null,
+        "notes": {
+          "n_alternative_bindings": 22,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 2,
+          "branch": "none",
+          "branch_p": null,
+          "branch_atoms": 0,
+          "branch_alternatives": 0,
+          "partition": {
+            "tenant_partition": "t_tailspin",
+            "principal": "svc.support.tier1",
+            "policy_version": "pol-1"
+          }
+        }
+      },
+      {
+        "candidate_id": "cand-01-9e47d188d88b-6e3a53d4",
+        "tools": [
+          "auth.issue_service_token",
+          "crm.find_customer"
+        ],
+        "support_groups": 53,
+        "support_days": 7,
+        "removed_requests": 2.0,
+        "stage": "calibrated",
+        "rejected": "gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.303 > alph",
+        "artifact": null,
+        "notes": {
+          "n_alternative_bindings": 16,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 2,
+          "branch": "none",
+          "branch_p": null,
+          "branch_atoms": 0,
+          "branch_alternatives": 0,
+          "partition": {
+            "tenant_partition": "t_tailspin",
+            "principal": "svc.support.tier1",
+            "policy_version": "pol-1"
+          }
+        }
+      }
+    ],
+    "rejections": {
+      "calibrate:retire": 7
+    },
+    "report": "GRC compile report\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\ncandidates mined        7\nartifacts emitted       0\nrejections by stage     {'calibrate:retire': 7}\nwindows accepted        4000\nwindows blocked         {'effect_unknown': 98802, 'effect_write': 558}\nblocked by tool         {'crm.get_subscription': 60374, 'billing.list_invoices': 14767, 'kb.search': 19568, 'refunds.issue': 548, 'entitlements.check': 3545, 'crm.update_ticket': 558}\n  [calibrated  ] issue_service_token/find_customer                 supp=428 k=2.0  REJECTED: gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.059 > alph\n  [calibrated  ] issue_service_token/find_customer                 supp=50 k=2.0  REJECTED: gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.444 > alph\n  [calibrated  ] issue_service_token/find_customer                 supp=429 k=2.0  REJECTED: gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.062 > alph\n  [calibrated  ] issue_service_token/find_customer                 supp=48 k=2.0  REJECTED: gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.348 > alph\n  [calibrated  ] issue_service_token/find_customer                 supp=490 k=2.0  REJECTED: gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.058 > alph\n  [calibrated  ] issue_service_token/find_customer                 supp=436 k=2.0  REJECTED: gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.054 > alph\n  [calibrated  ] issue_service_token/find_customer                 supp=53 k=2.0  REJECTED: gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.303 > alph",
+    "explain": "(no artifacts)"
+  },
+  "conditions": {
+    "baseline": {
+      "n_episodes": 897,
+      "n_groups": 436,
+      "aggregate": {
+        "requests": 11.34225,
+        "tool_calls": 7.63991,
+        "read_calls": 2.0,
+        "write_calls": 1.0,
+        "unknown_calls": 4.63991,
+        "input_tokens": 14858.58194,
+        "cached_input_tokens": 24573.19064,
+        "output_tokens": 786.91081,
+        "dollars": 0.02951,
+        "latency_ms_mean": 6122.73354,
+        "latency_ms_p50": 6299.11764,
+        "latency_ms_p95": 7459.12223,
+        "latency_ms_p99": 8000.32175,
+        "critical_path_ms": 6122.73354,
+        "schema_tokens": 1100.0,
+        "prompt_tokens": 1540.0,
+        "tool_surface_tokens": 2640.0,
+        "quality": 0.9699,
+        "success_rate": 0.9777,
+        "safety_events_total": 63.0,
+        "safety_events_rate": 0.07023,
+        "artifact_write_effects_total": 0.0,
+        "episodes_compacted": 0.0,
+        "artifact_executions_total": 0.0,
+        "coverage_phi": 0.0,
+        "fallbacks_total": 0.0,
+        "incidents_total": 0.0,
+        "overhead_ms_per_episode": 0.0,
+        "business.evidence_complete": 0.89632,
+        "business.resolved": 0.93645
+      },
+      "dispatch": {}
+    },
+    "simple": {
+      "n_episodes": 897,
+      "n_groups": 436,
+      "aggregate": {
+        "requests": 8.21182,
+        "tool_calls": 4.46823,
+        "read_calls": 0.0,
+        "write_calls": 1.0,
+        "unknown_calls": 3.46823,
+        "input_tokens": 8922.04794,
+        "cached_input_tokens": 18368.49833,
+        "output_tokens": 571.07023,
+        "dollars": 0.01916,
+        "latency_ms_mean": 4453.51499,
+        "latency_ms_p50": 4579.14747,
+        "latency_ms_p95": 5568.62701,
+        "latency_ms_p99": 5906.10933,
+        "critical_path_ms": 4453.51499,
+        "schema_tokens": 1290.0,
+        "prompt_tokens": 1540.0,
+        "tool_surface_tokens": 2830.0,
+        "quality": 0.9777,
+        "success_rate": 0.9777,
+        "safety_events_total": 64.0,
+        "safety_events_rate": 0.07135,
+        "artifact_write_effects_total": 0.0,
+        "episodes_compacted": 0.0,
+        "artifact_executions_total": 0.0,
+        "coverage_phi": 0.0,
+        "fallbacks_total": 0.0,
+        "incidents_total": 0.0,
+        "overhead_ms_per_episode": 0.0,
+        "business.evidence_complete": 0.0,
+        "business.resolved": 0.9777
+      },
+      "dispatch": {}
+    },
+    "full": {
+      "n_episodes": 897,
+      "n_groups": 436,
+      "aggregate": {
+        "requests": 11.34225,
+        "tool_calls": 7.63991,
+        "read_calls": 2.0,
+        "write_calls": 1.0,
+        "unknown_calls": 4.63991,
+        "input_tokens": 14858.58194,
+        "cached_input_tokens": 24573.19064,
+        "output_tokens": 786.91081,
+        "dollars": 0.02951,
+        "latency_ms_mean": 6133.09683,
+        "latency_ms_p50": 6310.1396,
+        "latency_ms_p95": 7471.14627,
+        "latency_ms_p99": 8013.34713,
+        "critical_path_ms": 6122.73354,
+        "schema_tokens": 1100.0,
+        "prompt_tokens": 1540.0,
+        "tool_surface_tokens": 2640.0,
+        "quality": 0.9699,
+        "success_rate": 0.9777,
+        "safety_events_total": 63.0,
+        "safety_events_rate": 0.07023,
+        "artifact_write_effects_total": 0.0,
+        "episodes_compacted": 0.0,
+        "artifact_executions_total": 0.0,
+        "coverage_phi": 0.0,
+        "fallbacks_total": 0.0,
+        "incidents_total": 0.0,
+        "overhead_ms_per_episode": 11.36531,
+        "business.evidence_complete": 0.89632,
+        "business.resolved": 0.93645
+      },
+      "dispatch": {
+        "attempts": 10174,
+        "compacted": 0,
+        "baseline": 10174,
+        "incidents": 0,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "no_artifact": 10174
+        },
+        "verifier_failures": {},
+        "interp_failures": {},
+        "dispatch_attempts": 0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_pass_rate": 0.0,
+        "boundary_dispatch_rate": 0.0,
+        "overhead_ms_total": 10194.82,
+        "removed_requests_total": 0.0,
+        "routes": {
+          "route_hits": 0,
+          "route_misses": 897,
+          "route_miss_reasons": {}
+        }
+      }
+    },
+    "support_only": {
+      "n_episodes": 897,
+      "n_groups": 436,
+      "aggregate": {
+        "requests": 9.48161,
+        "tool_calls": 7.63657,
+        "read_calls": 2.0,
+        "write_calls": 1.0,
+        "unknown_calls": 4.63657,
+        "input_tokens": 14197.80602,
+        "cached_input_tokens": 20152.29431,
+        "output_tokens": 658.37012,
+        "dollars": 0.02685,
+        "latency_ms_mean": 5238.93031,
+        "latency_ms_p50": 5401.54639,
+        "latency_ms_p95": 6630.10079,
+        "latency_ms_p99": 7243.04291,
+        "critical_path_ms": 5226.40489,
+        "schema_tokens": 1100.0,
+        "prompt_tokens": 1540.0,
+        "tool_surface_tokens": 2640.0,
+        "quality": 0.9699,
+        "success_rate": 0.9777,
+        "safety_events_total": 63.0,
+        "safety_events_rate": 0.07023,
+        "artifact_write_effects_total": 0.0,
+        "episodes_compacted": 833.0,
+        "artifact_executions_total": 833.0,
+        "coverage_phi": 0.92865,
+        "fallbacks_total": 0.0,
+        "incidents_total": 0.0,
+        "overhead_ms_per_episode": 12.60988,
+        "business.evidence_complete": 0.89632,
+        "business.resolved": 0.93645
+      },
+      "dispatch": {
+        "attempts": 9338,
+        "compacted": 833,
+        "baseline": 8505,
+        "incidents": 0,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "region_already_started": 7758,
+          "hull": 747
+        },
+        "verifier_failures": {},
+        "interp_failures": {},
+        "dispatch_attempts": 833,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_pass_rate": 1.0,
+        "boundary_dispatch_rate": 0.0892,
+        "overhead_ms_total": 11311.03,
+        "removed_requests_total": 1666.0
+      }
+    }
+  },
+  "comparisons": {
+    "simple": {
+      "n_paired_episodes": 897,
+      "n_groups": 436,
+      "request_ratio": {
+        "point": 0.724002,
+        "low": 0.720559,
+        "high": 0.727308,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "request_diff": {
+        "point": -3.130435,
+        "low": -3.2026,
+        "high": -3.054461,
+        "level": 0.95,
+        "method": "paired_group_bootstrap"
+      },
+      "token_ratio": {
+        "point": 0.600464,
+        "low": 0.595498,
+        "high": 0.605683,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "dollar_ratio": {
+        "point": 0.649161,
+        "low": 0.644724,
+        "high": 0.653745,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "latency_ratio": {
+        "point": 0.727374,
+        "low": 0.723829,
+        "high": 0.731222,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "quality_noninferiority": {
+        "endpoint": "semantic_score",
+        "margin": 0.05,
+        "diff": {
+          "point": 0.007804,
+          "low": 0.005605,
+          "high": 0.010066,
+          "level": 0.8999999999999999,
+          "method": "paired_group_bootstrap"
+        },
+        "passed": true,
+        "direction": "higher_is_better"
+      },
+      "quality_noninferiority_strict": {
+        "endpoint": "semantic_score",
+        "margin": 0.03,
+        "diff": {
+          "point": 0.007804,
+          "low": 0.005605,
+          "high": 0.010066,
+          "level": 0.8999999999999999,
+          "method": "paired_group_bootstrap"
+        },
+        "passed": true,
+        "direction": "higher_is_better"
+      },
+      "success_diff": {
+        "point": 0.0,
+        "low": 0.0,
+        "high": 0.0,
+        "level": 0.95,
+        "method": "paired_group_bootstrap"
+      },
+      "safety": {
+        "baseline_events": 63,
+        "candidate_events": 64,
+        "delta": 1,
+        "artifact_write_effects": 0,
+        "incidents": 0,
+        "invariant": false
+      },
+      "coverage_phi": 0.0,
+      "unsafe_dispatch_upper_bound": {
+        "artifact_executions": 0,
+        "dispatched_episodes": 0,
+        "observed_unsafe": 0,
+        "upper_95": 0.95,
+        "note": "a zero observed rate is reported as an upper bound, never as zero risk"
+      }
+    },
+    "full": {
+      "n_paired_episodes": 897,
+      "n_groups": 436,
+      "request_ratio": {
+        "point": 1.0,
+        "low": 1.0,
+        "high": 1.0,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "request_diff": {
+        "point": 0.0,
+        "low": 0.0,
+        "high": 0.0,
+        "level": 0.95,
+        "method": "paired_group_bootstrap"
+      },
+      "token_ratio": {
+        "point": 1.0,
+        "low": 1.0,
+        "high": 1.0,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "dollar_ratio": {
+        "point": 1.0,
+        "low": 1.0,
+        "high": 1.0,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "latency_ratio": {
+        "point": 1.001693,
+        "low": 1.001687,
+        "high": 1.001698,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "quality_noninferiority": {
+        "endpoint": "semantic_score",
+        "margin": 0.05,
+        "diff": {
+          "point": 0.0,
+          "low": 0.0,
+          "high": 0.0,
+          "level": 0.8999999999999999,
+          "method": "paired_group_bootstrap"
+        },
+        "passed": true,
+        "direction": "higher_is_better"
+      },
+      "quality_noninferiority_strict": {
+        "endpoint": "semantic_score",
+        "margin": 0.03,
+        "diff": {
+          "point": 0.0,
+          "low": 0.0,
+          "high": 0.0,
+          "level": 0.8999999999999999,
+          "method": "paired_group_bootstrap"
+        },
+        "passed": true,
+        "direction": "higher_is_better"
+      },
+      "success_diff": {
+        "point": 0.0,
+        "low": 0.0,
+        "high": 0.0,
+        "level": 0.95,
+        "method": "paired_group_bootstrap"
+      },
+      "safety": {
+        "baseline_events": 63,
+        "candidate_events": 63,
+        "delta": 0,
+        "artifact_write_effects": 0,
+        "incidents": 0,
+        "invariant": true
+      },
+      "coverage_phi": 0.0,
+      "unsafe_dispatch_upper_bound": {
+        "artifact_executions": 0,
+        "dispatched_episodes": 0,
+        "observed_unsafe": 0,
+        "upper_95": 0.95,
+        "note": "a zero observed rate is reported as an upper bound, never as zero risk"
+      }
+    },
+    "support_only": {
+      "n_paired_episodes": 897,
+      "n_groups": 436,
+      "request_ratio": {
+        "point": 0.835954,
+        "low": 0.829461,
+        "high": 0.842479,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "request_diff": {
+        "point": -1.860647,
+        "low": -1.915074,
+        "high": -1.798378,
+        "level": 0.95,
+        "method": "paired_group_bootstrap"
+      },
+      "token_ratio": {
+        "point": 0.955529,
+        "low": 0.953594,
+        "high": 0.957368,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "dollar_ratio": {
+        "point": 0.909738,
+        "low": 0.906016,
+        "high": 0.913454,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "latency_ratio": {
+        "point": 0.855652,
+        "low": 0.849875,
+        "high": 0.861454,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "quality_noninferiority": {
+        "endpoint": "semantic_score",
+        "margin": 0.05,
+        "diff": {
+          "point": 0.0,
+          "low": 0.0,
+          "high": 0.0,
+          "level": 0.8999999999999999,
+          "method": "paired_group_bootstrap"
+        },
+        "passed": true,
+        "direction": "higher_is_better"
+      },
+      "quality_noninferiority_strict": {
+        "endpoint": "semantic_score",
+        "margin": 0.03,
+        "diff": {
+          "point": 0.0,
+          "low": 0.0,
+          "high": 0.0,
+          "level": 0.8999999999999999,
+          "method": "paired_group_bootstrap"
+        },
+        "passed": true,
+        "direction": "higher_is_better"
+      },
+      "success_diff": {
+        "point": 0.0,
+        "low": 0.0,
+        "high": 0.0,
+        "level": 0.95,
+        "method": "paired_group_bootstrap"
+      },
+      "safety": {
+        "baseline_events": 63,
+        "candidate_events": 63,
+        "delta": 0,
+        "artifact_write_effects": 0,
+        "incidents": 0,
+        "invariant": true
+      },
+      "coverage_phi": 0.9287,
+      "unsafe_dispatch_upper_bound": {
+        "artifact_executions": 833,
+        "dispatched_episodes": 833,
+        "observed_unsafe": 0,
+        "upper_95": 0.00359,
+        "note": "a zero observed rate is reported as an upper bound, never as zero risk"
+      }
+    }
+  },
+  "hypotheses": {
+    "H1_synthesis": {
+      "statement": "automatic synthesis yields at least one non-trivial artifact (k>=2, with a synthesized transform or observation-dependent branch)",
+      "passed": false
+    },
+    "H2_quality": {
+      "statement": "lower one-sided 95% CI on the paired task-score difference exceeds -0.05",
+      "margin": 0.05,
+      "diff": {
+        "point": 0.0,
+        "low": 0.0,
+        "high": 0.0,
+        "level": 0.8999999999999999,
+        "method": "paired_group_bootstrap"
+      },
+      "passed": true
+    },
+    "H3_requests": {
+      "statement": "upper one-sided 95% CI on the model-request ratio is below 0.90",
+      "ratio": {
+        "point": 1.0,
+        "low": 1.0,
+        "high": 1.0,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "passed": false
+    },
+    "H3b_cost_latency": {
+      "dollar_ratio": {
+        "point": 1.0,
+        "low": 1.0,
+        "high": 1.0,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "latency_ratio": {
+        "point": 1.001693,
+        "low": 1.001687,
+        "high": 1.001698,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "note": "secondary, unthresholded; dollars lag requests because the removed prefill is cached"
+    },
+    "H4_ablation": {
+      "statement": "provenance/contract-aware gating has fewer unsafe dispatches than support-only routing at comparable coverage",
+      "full": {
+        "coverage": 0.0,
+        "unsafe": {
+          "artifact_executions": 0,
+          "dispatched_episodes": 0,
+          "observed_unsafe": 0,
+          "upper_95": 0.95,
+          "note": "a zero observed rate is reported as an upper bound, never as zero risk"
+        },
+        "safety": {
+          "baseline_events": 63,
+          "candidate_events": 63,
+          "delta": 0,
+          "artifact_write_effects": 0,
+          "incidents": 0,
+          "invariant": true
+        }
+      },
+      "support_only": {
+        "coverage": 0.9287,
+        "unsafe": {
+          "artifact_executions": 833,
+          "dispatched_episodes": 833,
+          "observed_unsafe": 0,
+          "upper_95": 0.00359,
+          "note": "a zero observed rate is reported as an upper bound, never as zero risk"
+        },
+        "safety": {
+          "baseline_events": 63,
+          "candidate_events": 63,
+          "delta": 0,
+          "artifact_write_effects": 0,
+          "incidents": 0,
+          "invariant": true
+        }
+      }
+    },
+    "H5_operations": {
+      "latency_ratio": {
+        "point": 1.001693,
+        "low": 1.001687,
+        "high": 1.001698,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "incidents": 0,
+      "note": "exploratory"
+    },
+    "incremental_value_over_hand_written": {
+      "simple_request_ratio": {
+        "point": 0.724002,
+        "low": 0.720559,
+        "high": 0.727308,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "full_request_ratio": {
+        "point": 1.0,
+        "low": 1.0,
+        "high": 1.0,
+        "level": 0.95,
+        "method": "paired_ratio_bootstrap"
+      },
+      "note": "GRC is only credited with the difference; a macro still costs one model request per invocation because the model selects it"
+    },
+    "co_primary_passed": false
+  },
+  "shadow": {
+    "n_episodes": 380,
+    "n_groups": 193,
+    "would_dispatch_boundaries": 4204,
+    "telemetry": {
+      "attempts": 4204,
+      "compacted": 0,
+      "baseline": 4204,
+      "incidents": 0,
+      "gate_rejections": 0,
+      "guard_misses": {
+        "no_artifact": 4204
+      },
+      "verifier_failures": {},
+      "interp_failures": {},
+      "dispatch_attempts": 0,
+      "shadow_would_dispatch": 0,
+      "shadow_would_dispatch_rate": 0.0,
+      "verifier_pass_rate": 0.0,
+      "boundary_dispatch_rate": 0.0,
+      "overhead_ms_total": 4213.02,
+      "removed_requests_total": 0.0
+    },
+    "routes": {
+      "route_hits": 0,
+      "route_misses": 380,
+      "route_miss_reasons": {}
+    },
+    "note": "shadow evidence is operational only and is never pooled into the sealed-test claim"
+  },
+  "maintenance": {
+    "active_artifacts": 0,
+    "grc_artifacts": 0,
+    "tgws_leaves": 0,
+    "dsl_nodes": 0,
+    "contract_predicates": 0,
+    "prompt_variants": 0,
+    "tool_allowlists": 0,
+    "compatibility_dependencies": 0
+  },
+  "artifacts": [],
+  "timings": {
+    "capture_s": 4.87,
+    "estimate_s": 30.97,
+    "tgws_s": 39.88,
+    "grc_s": 34.66,
+    "ablation_s": 106.54,
+    "sealed_test_s": 4.04,
+    "shadow_s": 0.67,
+    "total_s": 233.43
+  },
+  "notes": []
+}

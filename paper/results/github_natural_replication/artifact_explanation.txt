@@ -1,0 +1,19 @@
+artifact  issue_get_record.issue_get_labels.region@1ebb8b28@1   support 16/16 groups   removes k=2.00   [active]
+──────────────────────────────────────────────────────────────────────────────
+guard   effect_catalog_version=github-issues-pinned-local-reads@1#1ddef0e3bd00c962  entry_contract_version=github-issue-number-v1  guardrail_hash=#0797e6a6  model=gpt-5.6-luna  policy_hash=#734c5054  prompt_hash=#aa9f6b96  tools_hash=#a6fe0682
+        z.issue_number : int ∈ [148.0, 7561.0]
+        effects ⊆ {READ_LOCAL}  all speculatable ∧ replayable
+
+program (θ = {issue_number}):
+   get  = call issue_get_record(issue_number = z.issue_number)
+   get2 = call issue_get_labels(issue_number = get.issue_number)
+   return  { get: get, get2: get2 }
+verify  get : dict, non-null, provenance ∈ {issue_get_record}
+        get.issue_number : int, non-null, ∈ [148.0, 7561.0], provenance ∈ {issue_get_record}
+        get.source_revision : str, non-null, ∈ {e344be7b84d199661a9956036991e1fc25715a47}, provenance ∈ {issue_get_record}
+        get.state : str, non-null, ∈ {closed, open}, provenance ∈ {issue_get_record}
+        get2 : dict, non-null, provenance ∈ {issue_get_labels}
+        get2.names : list, non-null, len ≤ 2, len ≥ 0, provenance ∈ {issue_get_labels}
+        get2.source_revision : str, non-null, ∈ {e344be7b84d199661a9956036991e1fc25715a47}, provenance ∈ {issue_get_labels}
+        effect_multiset ⊆ {READ_LOCAL},  |calls| ∈ {2},  no WRITE_*
+gate    q = logistic(entry features)   η = 0.50   (cal n=92 groups, α=0.05, δ=0.1, |Λ|=11, R⁺=0.050, φ̂=1.00)

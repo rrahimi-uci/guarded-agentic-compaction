@@ -1,0 +1,1346 @@
+\section{Introduction}
+
+The standard reasoning--acting loop delegates every tool boundary to a language model:
+model, tool, model, tool, and so on~\cite{yao2023react}.  This flexibility is valuable
+while a workflow is novel.  At scale, however, mature agents often revisit the same
+read-only evidence-gathering prefix with the same data dependencies.  Repeating a model
+decision then consumes latency, tokens, and money without necessarily adding useful
+adaptation.
+
+Deleting such decisions is not ordinary caching.  A tool argument may depend on a prior
+observation, a repeated sequence may cross an approval or write, a nominal read may have
+a hidden external effect, and an input that resembles the training trace may violate a
+permission or freshness constraint.  A fast wrong workflow is worse than a slow agent.
+The research problem is therefore:
+
+\begin{quote}
+\emph{Given historical executions of a tool-using agent, identify a deterministic region
+that can replace model-mediated control flow, and dispatch it only where observable
+evidence supports that replacement.}
+\end{quote}
+
+This problem differs from current-query scheduling in LLMCompiler~\cite{kim2024llmcompiler},
+prompt-program optimization in DSPy~\cite{khattab2024dspy,opsahlong2024mipro}, graph
+compression in AgentSlimming~\cite{chen2026agentslimming}, model routing~\cite{ong2025routellm},
+and prompt compression~\cite{jiang2023llmlingua}.  It is closest to Agent Workflow
+Optimization (AWO), which converts frequent trace sequences into deterministic
+meta-tools~\cite{abuzakuk2026awo}, and to plan caching~\cite{zhang2025plancache}.  Our
+focus is the missing admission argument: typed value provenance, effect barriers,
+compatibility pins, post-execution verification, and finite-sample selective risk control.
+
+We call the resulting approach \emph{guarded agentic compaction} (\method): a guarded
+\emph{specialization} that compiles the routine part of a workflow --- the recurrent
+read-only evidence prefix --- while leaving every decision that the evidence does not
+determine to the model.  Compaction names the mechanism, specialization names what it is
+allowed to do, and the boundary between them is the paper's subject.  The shipped
+implementation contains two passes over a common typed trace representation: guarded
+region compilation (\grc), studied here, and trace-guided workflow specialization
+(\tgws), which routes entry states to smaller prompt/tool configurations.  We isolate
+\grc because it changes execution semantics more directly and is the contribution with
+new real-scenario evidence.
+
+Our research questions are:
+
+\begin{description}[leftmargin=1.3em,labelindent=0em]
+  \item[RQ1.] Can typed trace provenance reconstruct the dependencies needed to synthesize
+  recurrent tool programs?
+  \item[RQ2.] On an unseen real-record workload, how does a learned compiled prefix trade
+  factual task quality against requests, tokens, latency, and cost relative to an unchanged
+  agent and a hand-written composite tool?
+  \item[RQ3.] Does exact selective admission reject recurrent families when calibration
+  support is inadequate?
+  \item[RQ4.] Which failure modes remain after structural compilation, and what does
+  compaction \emph{not} improve?
+\end{description}
+
+The paper makes four contributions:
+
+\begin{enumerate}[leftmargin=*]
+  \item A trace-to-program formulation combining typed value provenance, effect-aware
+  barriers, a closed synthesis language, empirical contracts, and runtime fallback.
+  \item A dispatch protocol whose score model is frozen before calibration and whose
+  fixed threshold grid receives a simultaneous one-sided exact binomial bound.
+  \item A real-provider, real-public-record study in which tool order is chosen by the
+  agent, quality is source-grounded independently of execution conformance, and the learned
+  artifact is compared with both an unchanged agent and a hand-written composite tool.
+  \item An external NESTFUL study that reports provenance success, synthesis abstention,
+  and a scientifically useful negative result: recurrence is not sufficient for risk
+  certification.
+\end{enumerate}
+
+We do \emph{not} claim universal semantic equivalence, production certification,
+cross-domain generalization, fewer necessary tool calls, or deterministic natural-language
+generation.  Those boundaries are part of the result.
+
+\paragraph{Roadmap.}
+\Cref{sec:problem} formalizes episodes, candidate regions, the position invariant, and the
+selective objective.  \Cref{sec:method} presents the method as a cascade of independent
+rejection points (\cref{fig:pipeline}) and states the calibration guarantee.
+\Cref{sec:methodology} defines the two evidence tiers and the hypotheses they test, and
+\cref{sec:results} answers RQ1--RQ4 in that order.  \Cref{sec:related} positions \method
+against adjacent optimizers, and \cref{sec:limits} states what the evidence does not
+cover.  Every rejected candidate, the archived failed pilot, and the unsupported claims are
+retained rather than pruned, so the denominator of each result stays visible.
+
+\section{Problem Formulation}
+\label{sec:problem}
+
+\subsection{Executions and candidate regions}
+
+An episode $E=(z,M,e_{1:T},y)$ contains an entry-state snapshot $z$, a content-addressed
+execution manifest $M$, ordered events $e_t$, and an observable outcome $y$.  Events
+include model requests/responses, tool calls/results, handoffs, guardrails, approvals,
+errors, and commit boundaries.  Each tool $f$ has an application-owned effect declaration
+$\epsilon(f)$ and capabilities such as \emph{speculatable} and \emph{replayable}.
+Unknown effects are not reads.
+
+A candidate region $R=[a,b]$ begins at a model-request boundary and ends after a tool
+result.  It is \emph{groundable} when every call argument has an expression over entry
+state or prior results within $R$:
+\begin{equation}
+  \forall c_j \in R,\; \forall u \in \operatorname{args}(c_j),\quad
+  u = g_{j,u}\!\left(z,o_{<j}\right), \qquad g_{j,u}\in\mathcal{L},
+  \label{eq:grounding}
+\end{equation}
+where $\mathcal{L}$ is a closed, bounded transform library.  It is
+\emph{effect\hyp{}admissible}
+when all tools are declared read-only, speculatable, replayable, and within the same
+principal/isolation partition.  Handoffs, approvals, writes, errors, and unknown effects
+are barriers.
+
+The current runtime resolves artifacts at the initial model boundary.  Therefore the
+deployable compiler adds a position invariant:
+\begin{equation}
+  a=0 \quad\text{in the normalized model-boundary index.}
+  \label{eq:prefix}
+\end{equation}
+This restriction is not aesthetic.  A suffix program dispatched at entry may reorder or
+duplicate earlier calls; \cref{sec:pilot} demonstrates the failure empirically.
+
+\subsection{Selective optimization objective}
+
+The compiler emits an artifact $A=(P,H,V,q,\eta,M)$: deterministic program $P$, hard
+guard $H$, verifier $V$, nonconformity score $q$, threshold $\eta$, and manifest pins $M$.
+For a future episode, dispatch is selective:
+\begin{equation}
+  d_A(z)=\mathbb{1}\{H(z)=1 \land q(z)\leq\eta \land M\text{ matches}\}.
+\end{equation}
+If any precondition fails, the baseline agent runs.  If execution fails before a
+commit and staging proves the attempt clean, the baseline agent runs.  Dirty failure is
+an incident, not fallback.
+
+Let $L(A,z)\in\{0,1\}$ indicate a wrong compiled execution after dispatch and
+$C(A,z)$ its execution cost.  We seek an artifact with high coverage and savings subject
+to bounded selective risk:
+\begin{align}
+  \max_A\quad & \mathbb{E}\left[d_A(z)\{C(B,z)-C(A,z)\}\right] \\
+  \text{s.t.}\quad & \Pr[L(A,z)=1\mid d_A(z)=1]\leq\alpha,
+  \label{eq:objective}
+\end{align}
+where $B$ is the unchanged agent.  The implementation may return no artifact
+(\retire); this is a valid optimizer output.
+
+\Cref{eq:objective} is a design target, not a problem the implementation solves.
+\Cref{alg:compile} ranks families by \eqref{eq:score} and returns the \emph{first} family
+that survives synthesis, contracts, and calibration; it neither enumerates all admissible
+families nor argues a bound on the gap to the best one.  This matters more than a
+presentational note, because it makes the ranking load-bearing after all: since the first
+admissible family ships, the two coarse terms in \eqref{eq:score} can change \emph{which}
+artifact is registered even though neither participates in any admission decision.  Reading
+$\rho_{\mathrm{eff}}$ from the effect catalog and evaluating all admissible families before
+selecting are both small changes, and both are future work.
+
+\section{Guarded Agentic Compaction}
+\label{sec:method}
+
+\begin{figure*}[t]
+  \centering
+  % Natural size (~112mm): fits the single-column measure and centres inside the
+  % two-column float, so no scaling distorts the label sizes in either build.
+  \input{../figures/architecture.tex}
+  \caption{System architecture of \method.  \textbf{(A)} Capture normalizes framework
+  traces into one typed Episode IR.  \textbf{(B)} Offline compilation touches no
+  production traffic and is a cascade of independent rejection points; the shaded
+  \emph{barrier} band lists conditions under which no statistical evidence can license
+  an artifact.  \textbf{(C)} Runtime resolves at the entry boundary.  Of the terminal
+  runtime edges, exactly one produces a compacted execution; five return the baseline and
+  one raises an incident.  ``Baseline'' is exact only where a staging owner holds the
+  commit boundary: the outer runner can restore byte-identical model input, whereas the
+  model-boundary adapter cannot un-emit a response the host has already committed to
+  history (\cref{sec:runtime-scope}).}
+  \Description{A three-stage architecture diagram. Stage A captures traces from the
+  OpenAI Agents SDK or MLflow into a typed episode representation. Stage B compiles
+  offline through provenance analysis, region mining, feasibility estimation, bounded
+  synthesis, contract induction and exact calibration, with a barrier band listing hard
+  refusal conditions. Stage C dispatches at runtime through guard, gate, staged
+  interpretation and verification, falling back to the baseline agent on any miss.}
+  \label{fig:pipeline}
+\end{figure*}
+
+\subsection{Typed provenance and canonical families}
+
+Capture adapters normalize framework traces into the Episode IR.  The OpenAI Agents SDK
+is a natural substrate because its agent loop records model calls, tools, agents,
+guardrails, and handoffs~\cite{openai2026agents}; the compiler does not depend on the SDK.
+Manifests pin prompt, policy, guardrail, tools, model, SDK, tracer, entry contract, and
+effect-catalog identities.  Episodes with different compatibility keys are partitioned
+before learning.
+
+For each call-argument slot, the program-argument trace graph (\patg) searches entry-state
+and prior-result paths for typed values and bounded transforms.  Exact matches, stable
+field paths, and transformations in $\mathcal{L}$ become candidate producer edges.
+Ambiguous candidate sets above a configured cap and ungrounded values block a region.
+This is execution provenance in the database sense~\cite{cheney2009provenance}, specialized
+to tool arguments rather than tuple derivations.
+
+The miner enumerates model-boundary-to-result windows with at most $w_{\max}$ tool calls,
+qualifies effects and live-ins, and hashes the tool signatures, dependency topology,
+run shape, and live-in/out shape while abstracting literal values.  Families require
+support across independent scenario groups rather than raw event frequency; the
+implementation also supports a minimum-distinct-days requirement, which the live study of
+\cref{sec:rq2} does not exercise (it sets \code{min\_days}\,=\,1 over a single-snapshot
+corpus).  With $N$ episodes, $T$ events,
+and a bounded call window $w_{\max}$, enumeration is practically bounded by the number of
+reachable result boundaries; the implementation's nested scan is worst-case $O(NT^2)$
+when non-call spans are adversarial.  We report this rather than the stronger $O(NT)$
+claim sometimes suggested by the bounded-call intuition.
+
+Surviving families are ranked by a minimum-description-length trade-off that pays for
+expected savings and charges for variance, effect exposure, and program size:
+\begin{equation}
+  \operatorname{score}(F)=\underbrace{s_F\,\bar{k}_F\,c_m}_{\text{expected saving}}
+  -\lambda_1 H(F)-\lambda_2\rho_{\mathrm{eff}}(F)-\lambda_3|F|,
+  \label{eq:score}
+\end{equation}
+where $s_F$ is scenario-group support, $\bar{k}_F$ the mean removable model requests,
+$c_m$ their unit cost, and $H(F)$ the Shannon entropy over canonical variants inside the
+family.  The penalties matter: without $\lambda_1$ the ranking prefers a heterogeneous
+family whose single canonical form fits none of its members.
+
+Two terms are coarser in the implementation than the notation suggests, and we state them
+as implemented.  $\rho_{\mathrm{eff}}$ is intended as the declared-effect exposure of the
+region, but the shipped ranking approximates it by the fraction of tool names containing a
+namespace separator --- a naming convention, not a reading of the effect catalog.  $|F|$ is
+intended as the size of the program the family would produce, but ranking precedes
+synthesis, so the implementation substitutes the argument-slot count of the first observed
+window.  Both appear only in a \emph{ranking} heuristic: no admission decision depends on
+either, and the effect catalog is consulted where it is load-bearing --- in qualification
+and in the runtime facade.  Making them faithful would reorder candidates and therefore
+require re-running the offline study; we list it as future work rather than describe
+semantics the code does not enforce.
+
+Before any synthesis runs, a feasibility estimator bounds what the compiler could
+achieve even with a perfect verifier and a gate that never abstains:
+\begin{equation}
+  \Delta_{\max}=\frac{\varphi\,k}{n_B},
+  \qquad\text{necessary:}\quad \varphi\,\rho\,k\ \ge\ \Delta\,n_B,
+  \label{eq:ceiling}
+\end{equation}
+with $n_B$ baseline model requests per episode, $\varphi$ the fraction of episodes holding
+at least one eligible region, $k$ the requests removed per successful dispatch, and $\rho$
+the verifier pass rate.  Because \eqref{eq:ceiling} assumes $\rho=1$, no measured reduction can
+\emph{exceed} it, and it is met with equality exactly when nothing abstains and nothing
+fails.  That is what happens in \cref{sec:rq2}: with $\varphi=1$, $k=3$ and $n_B=4$ the
+ceiling is $0.750$ and the measured reduction is $75.0\%$.  A saturated ceiling carries no
+information about the compiler --- it confirms only that the task fully determined the
+region, which for that workload it does.  Reporting the ceiling first makes a decisive negative
+answer cheap: a workload whose ceiling is under the target can be declined without
+building a compiler for it.
+
+\subsection{Bounded synthesis and contracts}
+
+Program synthesis searches a 23-operator library with depth at most two.  Operators
+cover path selection, indexing, string normalization, arithmetic, comparisons, bounded
+collection operations, and narrow loops.  Candidate bindings are ranked by stability
+across groups; a group-wise refit rejects bindings that exploit row-level coincidence.
+The approach resembles programming-by-example~\cite{gulwani2011flashfill} and bounded
+sketching~\cite{solarlezama2006sketching}, but the hypothesis space is deliberately small
+enough to inspect.  It does not generate arbitrary Python.
+
+Hard guards constrain entry types, required fields, categorical sets, numeric intervals,
+patterns, isolation keys, allowed effects, and manifest pins.  Verifiers constrain
+live-out presence, type, cardinality, empirical hulls, provenance, effect multisets, and
+call counts.  These are likely invariants~\cite{ernst2001daikon}, not proofs for all future
+inputs.  Replay and perturbation are therefore available to challenge a candidate before
+calibration, but they are only as strong as the substrate supplied: without a sandbox the
+suite cannot run at all, and the artifact then records \code{perturbations\_claimed:
+false} rather than implying a challenge occurred.  The headline live artifact of
+\cref{sec:rq2} is in exactly that position, and we report it there as a limitation of that
+run rather than as a property of the method.
+
+\input{../figures/alg-compile.tex}
+\input{../figures/alg-provenance.tex}
+
+\subsection{Exact risk-gated admission}
+
+The score $q(z)$ is a logistic model over entry-observable features: unseen category,
+distance proxy, missing fields, hull margin, temporal drift, provenance ambiguity, and
+branch entropy.  It is trained on development-group \emph{unproductive} outcomes
+(wrong or abstained), then frozen.  Safety calibration uses only \emph{violations}
+(wrong after dispatch).  The fixed threshold grid is
+\begin{equation*}
+\begin{gathered}
+\Lambda=\{.02,.05,.08,.11,.14,.17,\\
+.20,.25,.30,.40,.50\}.
+\end{gathered}
+\end{equation*}
+
+For threshold $\eta$, let $n_\eta$ calibration groups be admitted and $k_\eta$ contain
+at least one violation.  The compiler computes a one-sided Clopper--Pearson upper bound
+\cite{clopper1934binomial}
+\begin{equation}
+  U_\eta = \operatorname{Beta}^{-1}\!\left(1-\frac{\delta}{|\Lambda|};
+                         k_\eta+1,n_\eta-k_\eta\right),
+  \label{eq:cp}
+\end{equation}
+with the $k=0$ closed form
+$U_\eta=1-(\delta/|\Lambda|)^{1/n_\eta}$.  The largest-coverage admissible threshold with
+$U_\eta\leq\alpha$ is selected; if none exists, the family retires.
+
+\begin{proposition}[Simultaneous calibration statement]
+Assume the candidate program, score, violation definition, and finite grid $\Lambda$ are
+fixed before calibration, and that admitted calibration groups contribute independent and
+identically distributed Bernoulli violation indicators drawn from the same distribution as
+future admitted groups (or are conditionally i.i.d.\ given the conditioning variables used
+to define the sampling unit).  Then, with
+probability at least $1-\delta$ over the calibration sample, every grid threshold's true
+group-level selective violation rate is no greater than its computed $U_\eta$.
+Consequently, any selected threshold satisfying $U_\eta\leq\alpha$ has violation rate at
+most $\alpha$ on the same distribution.
+\end{proposition}
+
+\noindent Two words in the proposition carry weight.  A \emph{violation} is disagreement
+with $V$, and $V$ is \emph{induced} from the same training traces the program was
+synthesized from, so the guarantee bounds the rate at which a compiled region breaks its own
+registered contract --- not the rate at which the agent's task outcome is wrong.  Absent
+distribution shift a program fitted to satisfy $V$ will rarely violate $V$, which is why
+zero violations in 92 groups should be read as self-consistency rather than as correctness.
+Three things would make the chain independent, and none is present in the shipped artifact:
+a perturbation challenge (not run --- \code{perturbations\_claimed: false}), an adjudication
+oracle separate from the induction traces, and a task-quality measure that can detect
+fabrication (\cref{sec:limits}).  \Cref{alg:calibrate}'s $\alpha$ should therefore always be
+read as bounding \emph{contract violation}, never as bounding error.
+
+\noindent The statement follows from one-sided exact-binomial coverage at
+$1-\delta/|\Lambda|$ and the union bound.  The independence assumption is load-bearing and
+stronger than exchangeability, which permits dependence that exact binomial coverage does
+not tolerate: groups drawn from one repository, tenant, time window, or workflow family are
+plausibly correlated, and the scenario-group unit is what must carry independence.  A
+clustered deployment should calibrate at the cluster level and check sensitivity with a
+block bootstrap or a beta-binomial model.  The union bound also covers only the grid for
+\emph{one} frozen artifact; a portfolio of artifacts, or repeated promotion of the same
+one, needs an explicit risk allocation across those decisions.  It is a calibration
+guarantee, not proof under drift or adversarial dependence; this is consistent with learn-then-test risk
+control~\cite{angelopoulos2022ltt,bates2021rcps}.  With $\alpha=.05$, $\delta=.10$,
+$|\Lambda|=11$, and zero violations, at least 92 admitted group records are needed; the
+guarantee additionally requires those records to satisfy the independence assumption above.
+
+That number is a consequence of our parameters, not a discovery about any workload, and it
+is worth stating how sensitive it is.  Holding $\alpha=.05$ and $\delta=.10$ fixed but
+pre-committing to a \emph{single} threshold rather than a grid of eleven gives
+$n\ge\log\delta/\log(1-\alpha)=45$; relaxing $\alpha$ moves it further.  So when we report
+that no NESTFUL family clears the requirement, the honest reading is that none clears
+\emph{this} configuration --- a grid-searched threshold at 5\% risk with 90\% confidence.
+Roughly half of the families would still fail at $|\Lambda|=1$, since the largest support is
+26, but the gap between 26 and the requirement is a design parameter as much as a data
+property.
+
+\input{../figures/alg-calibrate.tex}
+
+\subsection{Runtime and framework integration}
+
+\input{../figures/alg-dispatch.tex}
+
+At runtime, resolution is a bounded lookup: the registry indexes artifacts by
+compatibility and partition key, then filters the small candidate list at that key by
+lifecycle, kind, and signature.  Cost is therefore constant in registry size but linear in
+the number of artifacts sharing one key, which the packaging step keeps small rather than
+the data structure guaranteeing it.  The
+dispatcher checks lifecycle, manifest, hard guard, calibrated gate, mode, budget, and
+quota snapshot; executes through a permission facade into a staging area; verifies the
+result; and commits only on success.  Shadow mode records would-dispatch behavior but
+does not change the agent.  Live resolution accepts only active artifacts.  The current
+version compiles reads only; irreversible operations remain with the baseline agent.
+
+For the OpenAI Agents SDK, the library provides trace capture plus a custom model-boundary
+adapter for local function tools.  Streaming, hosted tools, MCP tools, handoffs, loops,
+and assertions bypass rather than degrade.  The SDK provides the loop and lifecycle, but it
+is not itself an offline optimizer~\cite{openai2026agents}.
+
+\subsubsection{Where ``unmodified baseline'' is exact, and where it is not}
+\label{sec:runtime-scope}
+
+The two integration paths do not offer the same guarantee, and the difference is
+structural rather than an implementation gap.  The outer runner owns the entry snapshot and
+the commit boundary, so a rejected attempt restores byte-identical model-visible input: for
+that path, ``the baseline runs unchanged'' is exact at every failure point.  The
+model-boundary adapter cannot make the same promise.  Once it has returned a synthesized
+\code{ModelResponse}, the host runner may already have committed that item to session
+history, and the \code{Model} interface provides no way to withdraw it; a verifier failure
+after that point delegates to the wrapped model with history the baseline would never have
+contained.  Every check that can reject \emph{before} emission --- lifecycle, signature,
+manifest pins, hard guard, already-observed tools, quota attestation, and the calibrated
+gate --- is therefore exact for both paths, and only post-emission verifier or binding
+failures are weaker for the adapter.  Claims of universal clean fallback in this paper
+should be read as scoped to the staging-owning runner; the adapter is guarded substitution
+with explicitly weaker post-emission semantics.  A general solution requires artifacts to
+target explicit control points with continuation tokens rather than implicit model
+boundaries, which we leave to future work (\cref{sec:extension}).
+
+\section{Experimental Methodology}
+\label{sec:methodology}
+
+\subsection{Evidence tiers and hypotheses}
+
+We use three non-overlapping evidence tiers, ordered by what each can license.
+
+\textbf{Tier 1 --- external executable benchmark.}  NESTFUL tests dependency
+reconstruction, synthesis, and refusal on public data with no model calls at all.
+
+\textbf{Tier 2 --- real records, live provider.}  Three GitHub protocols use actual public
+issue records, deterministic local reads over a pinned snapshot, and live OpenAI provider
+calls.  The first prescribes a fixed prefix as a conformance ablation.  The review-driven
+follow-up names required facts but neither tool functions nor order, grades exact source
+facts independently of the trace, and adds a live composite-tool baseline.  An expanded
+replication seals 132 discovery and 30 balanced test records, exercises compiler abstention
+from an ungroundable third call, and repeats all three conditions.  They are
+evidence about agent control flow on real records, not live GitHub service reliability.
+
+\textbf{Tier 3 --- controlled demonstration suite.}  Six workflow \emph{shapes} are run
+end to end through the real SDK runtime with live provider calls against deterministic
+local services.  The business records here are fictional, so this tier cannot support a
+claim about real-world data; what it can do is cover control-flow structures the other two
+tiers do not contain at all --- observation-dependent branches, pagination, a mandatory
+irreversible write, a handoff barrier, an undeclared-effect tool surface, and route
+specialization --- and expose the behaviour of the runtime when it must \emph{refuse}.  We
+report it because a suite in which every case succeeds would be evidence of a weak test
+set, not a strong compiler.  Three of its eight conditions are negative controls whose
+only correct outcome is no compaction.
+
+The directional hypotheses below were fixed internally before the sealed test was scored, but the study was not externally preregistered: (H1) provenance places the expected producer in the
+candidate set for more than 90\% of executable nested dependency slots --- a recall
+statement, reported alongside unique-resolution and precision rates so it cannot be read
+as exact reconstruction; (H2) the compiled condition reduces provider requests and total
+tokens; (H3) no observed quality loss occurs on the sealed task; (H4) families below
+the exact-gate sample requirement retire; and and (H5) a condition that must refuse
+reproduces the baseline model-call count and quality.  H5 is deliberately \emph{not}
+stated in dollars: \cref{sec:demos-results} shows refusing conditions costing more than
+baseline, for prompt-cache reasons unrelated to whether the refusal was correct.  H3 is an observed-sample hypothesis,
+not a population equivalence claim.
+
+\subsection{External benchmark: NESTFUL}
+
+NESTFUL contains more than 1,800 executable nested API sequences and was designed to test
+whether later calls correctly reuse earlier outputs~\cite{basu2025nestful}.  We pin
+upstream commit \code{fc2c4123e735} (the full identifier is in the source manifest) and
+verify SHA-256 digests before use.  Of 1,861 records, 1,416 use the audited \code{basic\_functions}
+module; 1,415 execute successfully.  One upstream record raises a string/integer type
+error and remains in the failure log.
+
+We convert each successful execution into the same typed Episode IR, reconstruct
+expected producer references, mine families, split within families by group, synthesize
+from train/dev windows, and replay on held-out windows.  This experiment does not call an
+LLM and does not measure NESTFUL planning accuracy.  It tests the compiler after a valid
+trace exists.  The exact gate is then applied to observed family support.
+
+\subsection{Controlled fixed-prefix live study}
+
+We pin revision \code{e344be7b84d1} (full identifier in the source manifest) of the
+Apache-2.0 \code{helmo/github-issues} dataset~\cite{githubissuesdataset}, verify the 12.7-MB Parquet
+digest, exclude pull requests, require at least 80 body characters, and deduplicate issue
+numbers.  The scenario asks an agent to classify a \code{huggingface/datasets} issue as
+bug, enhancement, or question and return a short evidence-grounded summary.  Three local
+function tools read the exact issue record, labels, and first three comments from the
+frozen public snapshot.  The records and workload are real; the local tool service is
+deterministic so that API and website drift cannot contaminate paired comparisons.
+
+Every model turn uses the OpenAI Agents SDK 0.19.2, OpenAI Python 2.52.0, and
+\code{gpt-5.6-luna} at low reasoning effort.  The script loaded \code{OPENAI\_API\_KEY}
+for provider calls and \code{HF\_TOKEN} for dataset retrieval; it serialized only boolean
+usage flags, never credentials.  Cost is an estimate from the model-price table frozen
+with the experiment and the official pricing source~\cite{openai2026pricing}.
+
+The discovery cohort contains 132 issues, and all 132 satisfy the exact tool contract, so
+all 132 are compiler-eligible.  The split consumes the first 116 under a fixed rule ---
+train (16), development (8), calibration (92), sizes chosen before any outcome was scored,
+because $n=92$ is fixed a priori by $(\alpha,\delta,|\Lambda|)$ --- and leaves the remaining
+16 unused.  Those 16 are surplus to the calibration requirement, not filtered: they are
+neither excluded for a quality reason nor drawn upon, and we state the residue rather than
+report a denominator of 116 as though eligibility had produced it.  A stronger design would
+either consume them or size the cohort to the split.  The compiler, unmodified
+for the task, emits the prefix
+\begin{equation*}
+\code{record}(z.id)\;\rightarrow\;\code{labels}(record.id)\;\rightarrow\;
+\code{comments}(record.id,3).
+\end{equation*}
+It blocks all 116 suffix candidates under the position invariant.  The 18-item sealed
+test contains six issues per category, is disjoint from discovery, and excludes all 162
+issues touched by the earlier pilot.  Baseline and compiled conditions run the same task
+and tools.  Six cases are repeated once for determinism analysis.
+
+The baseline requires four provider responses around three tool calls.  The compiled
+condition executes the same necessary tools natively and asks the model once to produce
+the final structured response.  Thus the intervention tests decision elision, not tool
+elision or parallel scheduling.
+
+\subsection{Natural-order, source-grounded live studies}
+\label{sec:natural-method}
+
+The first follow-up keeps the pinned dataset, model, SDK, and three read tools but changes the
+task contract.  Its prompt requests exact issue number, title, state, label-derived
+category, evidence label, and a verbatim excerpt from one of the first three comments; it
+contains no tool function name and no execution order.  The grader checks the structured
+facts against the snapshot and normalized excerpt containment against the returned source
+comments.  Tool order is reported separately and contributes nothing to task quality.
+Executable regressions verify that reordering calls leaves the score unchanged and that a
+fabricated comment excerpt fails.
+
+We exclude all 312 records touched by the fixed-prefix final run or pilot.  A stable hash
+selects 80 fresh discovery issues and 18 disjoint test issues (5 bug, 2 enhancement, 11
+other; no class quota).  All 80 discovery agents independently choose
+\code{record}$\rightarrow$\code{labels}$\rightarrow$\code{comments}, and all pass the
+corrected source-grounded contract.  The executed artifact was built under the online
+oracle, which falsely rejected one short but valid excerpt: 79 records were then eligible,
+a stable hash assigned 20 train, 10 development, and 45 calibration records, and five were
+unused.  Under the corrected oracle, issue 1741 would rank sixth and replace issue 3511 in
+that split.  We neither retrain the executed artifact post hoc nor assume the two artifacts
+are equivalent; the result manifest records the consequence.  No filter uses tool order.
+The review-driven protocol was checked into executable tests before provider execution but
+was not externally preregistered.
+
+The paired test adds a hand-written \code{issue\_get\_bundle} tool that returns the same
+record, labels, and three comments in one read.  Each issue runs the unchanged agent,
+learned compiler, and macro exactly once.  The six permutations of condition order are
+cycled three times across the 18 records, so every condition occupies every ordinal
+position equally often.  All conditions use the same model and factual output schema.
+The full run made actual provider calls and records an estimated total cost of \$0.0920;
+credentials are represented only by boolean usage flags.
+
+The expanded replication uses the same provider and snapshot but a stricter typed output:
+exact issue number, title, state, total comment count, label-derived category and evidence
+label, plus a 20--240 character verbatim excerpt from the returned title, body, or comment
+payload.  A provider-free preflight sealed 132 discovery records and 30 held-out records,
+balanced as ten bugs, ten enhancements, and ten questions.  The paid run used those exact
+records and cycles all six baseline/compiler/macro orders five times.  Ten test records are
+repeated once per condition for determinism.
+
+Of the 132 discovery outputs, 130 pass the exact-source task and are eligible under the
+executed safety rule.  All 132 read the record, then labels, then comments; however, the natural
+caller chooses different integer comment limits.  Because no trace-grounded expression
+can reproduce that argument, the three-read candidate fails with
+\code{ungroundable\_slot}.  The compiler correctly falls back to the longest groundable
+prefix, \code{record}$\rightarrow$\code{labels}, and the ordinary agent performs the
+comments read and final rendering.  Sixteen training, eight development, and 92 calibration
+records are selected from the 130 eligible traces; the other 14 are unused.  The complete
+run retains 252 agent outputs, 848 provider responses, no infrastructure failure, and an
+estimated total cost of \$0.1913.  An online literal-argument grader was corrected
+provider-free: all original outputs and measurements remain bound to the paid discovery
+checkpoint, while 212 prior quality objects are preserved under
+\code{online\_quality}.
+
+\subsection{Demonstration suite: workflow shapes}
+\label{sec:demos}
+
+The suite deliberately escalates difficulty.  Demos A--C are the shapes an optimizer is
+usually shown: a linear read prefix, a permissioned retrieval whose ACL scope and index
+version are hard guard keys, and a coordinator whose handoff is a region barrier.  Demo D
+is a real stdio MCP server whose tool effects are undeclared, so the catalog must fail
+closed.  Demo E is the adversarial case: its region contains two entry-state branches and
+one \emph{observation}-dependent branch (a second page is read only when the first
+reports more results), so the executed call count varies at run time; and every episode
+ends in an irreversible commitment, so a region can only ever be a prefix and
+\emph{partial} compaction is the best available outcome.  Demo E is additionally run with
+a semantically equivalent loop-bearing artifact, which the model-boundary adapter must
+refuse rather than half-execute, and against entry states whose declared intake schema has
+moved, which the hard guard must reject.  Demo F exercises the route-specialization pass
+instead of region compilation.
+
+\subsection{Metrics and statistical analysis}
+
+The primary efficiency outcome is provider requests.  Secondary outcomes are input,
+output, and total tokens; provider and wall latency; estimated cost; and tool calls.
+In the fixed-prefix ablation, quality requires the correct category, evidence label, issue
+number, valid summary shape, and exact tool contract.  In the natural-order studies,
+quality instead requires exact source-grounded fields and label decisions and is
+independent of tool order.  The expanded task contract additionally requires one safe,
+grounded call to each necessary read tool while allowing any order and any integer
+comment-body limit.  Paired differences use the same issues.  We report 10,000-sample
+paired bootstrap confidence intervals~\cite{efron1993bootstrap} and two-sided Wilcoxon
+signed-rank tests~\cite{wilcoxon1945}; binary quality uses exact McNemar tests
+\cite{mcnemar1947}.  Signed-rank $p$-values use the exact distribution where no ties occur
+and a tie-corrected normal approximation otherwise, and \cref{tab:live} labels which applies
+per row.  One row is deliberately \emph{not} given a $p$-value: every pair changes provider
+requests by exactly $-3$, so the difference is deterministic and a rank test on it reports an
+artifact of degeneracy rather than evidence.  Secondary $p$-values are descriptive and unadjusted.  Determinism is
+reported as decision, tool-trace, and byte-exact answer agreement.  Peak memory and
+runtime are measured for the provider-free NESTFUL compiler stage.
+
+\section{Results}
+\label{sec:results}
+
+Three findings organize this section.  Candidate-level provenance recall is high and
+synthesis is sound, but \emph{certification} is the scarce resource: on NESTFUL no recurrent family
+reaches the sample size the exact gate demands, so every one retires
+(\cref{sec:rq1}).  Where a family does clear the gate, the saving can be large, but the
+natural-order evidence is depth-sensitive: an expanded partial compiler passes 30/30,
+whereas the earlier aggressive artifact records one compiler-only factual miss
+(\cref{sec:rq2}).  A controlled suite of harder
+workflow shapes then shows what the method reaches when a workflow commits, what refusal
+costs, and where token saving and cost saving part company (\cref{sec:demos-results}).
+A live hand-written composite tool preserves the factual contract and reduces necessary
+tool calls; in the expanded run it also beats the compiler on tokens and estimated cost,
+while the older offline suite
+shows the macro winning three of five workloads (\cref{sec:comparator}).  Structural compaction fixes structural nondeterminism only --- an archived
+pilot shows that request savings obtained at the wrong execution position are not an
+improvement at all (\cref{sec:pilot}).
+
+\subsection{RQ1 and RQ3: provenance succeeds more often than certification}
+\label{sec:rq1}
+
+\begin{table}[t]
+  \centering
+  \caption{External NESTFUL compiler results.  ``Wrong'' means a synthesized program
+  executed but disagreed with the recorded held-out outputs; abstentions are explicit.}
+  \label{tab:nestful}
+  \resizebox{\columnwidth}{!}{\input{../tables/nestful_results.tex}}
+\end{table}
+
+Across 1,415 executable episodes, \method places the expected producer in the candidate
+set for 5,531 of 5,746 dependency slots (96.3\%).  That figure is \emph{candidate recall},
+not dependency reconstruction, and it is close to definitional: candidates are generated by
+value matching and the gold producer emitted the matched value, so it joins the candidate set
+whenever any admissible path exists at all.  Consistently, there is not one slot in which a
+non-empty candidate set omitted the true producer --- the 215 misses are exactly the 215 slots
+with no candidate.  Recall here therefore measures search \emph{reachability} and is
+insensitive to ranking quality; it cannot fall below the groundability rate however poor the
+ranking.  The load-bearing numbers are the other two: only 4,636 slots (80.7\%) are
+resolved to a unique producer, 895 (15.6\%) contain the expected producer among several
+candidates, and 215 have no candidate at all.  Counting all emitted candidate edges gives
+84.3\% precision (5,531 of 6,564).  H1 was pre-specified internally as recovery above 90\%; it is
+supported on recall and \emph{not} supported on unique resolution, and we report both
+rather than the more favourable one.  It finds complete groundable windows in
+1,207 episodes (85.3\%).  The remaining full-window failures are overwhelmingly
+ambiguous value matches (207), with one ungrounded slot.  That count is per \emph{episode}
+under first-hit attribution, and it is not the same denominator as the 215 no-candidate
+\emph{slots} in \cref{tab:nestful}: an episode is attributed to the first reason that blocks
+it, so an episode containing both an ambiguous slot and an ungrounded one is counted as
+ambiguous, and slots outside every enumerated window are counted in neither.  The two numbers
+are therefore consistent but not comparable, and we report both rather than the one that
+reads better.  Recurrence is fragmented:
+714 compiler families exist, only 32 have support at least five, and maximum support is
+26.
+
+Of 32 attempted recurrent families, 12 synthesize.  Their 36 held-out windows yield 24
+passes, 12 abstentions, and zero wrong executions.  The dominant synthesis failures are
+unsupported loop predicates and slots that fail grouped refitting.  This zero-wrong result
+does not certify the programs: the exact gate requires 92 zero-violation groups, so all
+families retire.  H4 is supported, and the negative result distinguishes a guarded
+compiler from a recurrence-only macro miner.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{../generated_figures/gate_support.pdf}
+  \caption{All NESTFUL families fall below the 92-group exact-gate requirement; the
+  GitHub study was deliberately sized to reach it.}
+  \Description{Bars show NESTFUL family supports below 26, a red line at 92, and a green
+  diamond representing 92 GitHub calibration groups.}
+  \label{fig:gate-support}
+\end{figure}
+
+Two properties of this benchmark path bound how far it generalizes.  Its per-family split
+is lexicographic by episode identifier rather than randomized or chronological, so it tests
+held-out \emph{windows} but not robustness to a shifted distribution; and the development
+partition it allocates is reported but not consumed, because synthesis reads the training
+windows and replay reads the test windows directly.  This path also builds provenance,
+mining, synthesis, and replay itself rather than invoking the full compiler, so it is an
+executable structural benchmark, not end-to-end validation of the deployed gate.
+
+The provider-free NESTFUL analysis completes in about six seconds, including roughly 1.4 for
+provenance construction, with 23.3 MiB peak traced memory.  These numbers characterize
+this pinned dataset and Python process, not distributed production throughput.
+
+\subsection{RQ2: real-provider efficiency and observed quality}
+\label{sec:rq2}
+
+\subsubsection{Natural tool ordering, compilation depth, and a live macro.}
+In the expanded replication, all 132 discovery traces read the record, then labels, then
+comments without the prompt
+naming tools or order; 130 pass the exact-source task.  The compiler does \emph{not}
+blindly turn recurrence into a macro.  It rejects the full three-read candidate because
+the comments limit has no consistent trace-grounded expression, then emits the groundable
+two-read prefix.  The gate admits 92/92 calibration groups with zero registered violations
+at $\alpha=.05$, $\delta=.10$, and 11 thresholds, for simultaneous upper bound 0.0498.
+Thresholds below 0.11 admit none and those at or above 0.11 admit all, so this remains a
+sample-size gate rather than a demonstrated risk--coverage discriminator.
+
+\begin{table*}[t]
+  \centering
+  \caption{Expanded natural-order Tier-2 replication on 30 fresh public issue records with
+  live provider calls and all six condition orders balanced five times.  Means use primary
+  pairs only.  Exact pass checks source-grounded fields; every arm also passes the safe-read
+  task contract 30/30.}
+  \label{tab:natural-replication}
+  \resizebox{\textwidth}{!}{\input{../tables/natural_replication_results.tex}}
+\end{table*}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{../generated_figures/natural_live_comparison.pdf}
+  \caption{Expanded real-provider resource use relative to the unchanged agent.  The
+  partial compiler pre-executes two reads but retains all three tool calls; the macro
+  combines the reads into one.}
+  \Description{Grouped horizontal bars compare the partial compiler and hand-written macro
+  on requests, tool calls, tokens, latency, and estimated cost normalized to an unchanged
+  agent.}
+  \label{fig:natural-replication}
+\end{figure}
+
+Relative to the unchanged agent, the partial compiler reduces requests 50.0\%, total
+tokens 39.5\%, observed wall latency 51.7\%, and estimated cost 32.0\%, while leaving
+three necessary reads.  The macro also halves requests, but reduces tokens 58.2\%, cost
+37.5\%, and tool calls 66.7\%.  It therefore beats the learned artifact on tools, tokens,
+and dollars; the compiler has lower observed mean wall time (2.97 versus 3.25 seconds),
+but its paired 95\% interval against the macro crosses zero.  Every primary arm passes
+30/30 exact factual and full task contracts.  With zero compiler-only failures, the
+one-sided 95\% exact upper bound on the sample's underlying discordance rate is still
+9.5\%; this is observed preservation on one domain, not equivalence or non-inferiority.
+
+Ten records are repeated once per arm.  Category decisions agree in 10/10 for all arms,
+but byte-exact answers agree in 7/10 baseline, 6/10 compiled, and 4/10 macro pairs; tool
+traces agree in 9/10, 9/10, and 10/10.  Compaction therefore does not improve free-text
+determinism here.  The provider-free semantic regrade changes no output, token, timing, or
+cost measurement: it removes a planted literal comment-limit requirement that contradicted
+the ``as needed'' prompt, preserves all 212 online quality objects, and binds the final
+result to the paid discovery checkpoint by SHA-256.
+
+The earlier 18-record follow-up tested the more aggressive three-read artifact and remains
+important negative evidence.
+
+\begin{table*}[t]
+  \centering
+  \caption{Earlier aggressive natural-order study on 18 fresh public issues.  The complete
+  three-read artifact saves more provider turns but records one exact-source miss.}
+  \label{tab:natural-live}
+  \resizebox{\textwidth}{!}{\input{../tables/natural_live_results.tex}}
+\end{table*}
+
+Relative to its unchanged agent, that artifact reduces requests 75.0\%, total tokens
+66.0\%, observed wall latency 76.4\%, and estimated cost 48.7\%; its macro reduces the
+same quantities by 50.0\%, 60.5\%, 17.7\%, and 41.7\%.  The unchanged agent and macro pass
+18/18 factual contracts, but \method passes 17/18.  On issue 6602 the source contains a
+Markdown link while the compiled continuation drops the URL and returns only its anchor
+text.  The single discordance gives two-sided exact McNemar $p=1$ and a one-sided 95\%
+exact upper bound of 23.8\%.  H3 is therefore supported as an observed-sample result for
+the expanded two-read artifact and not supported for the earlier three-read artifact;
+preservation is not invariant to compilation depth.
+
+The miss fixes the gate's scope.  Zero calibration violations concern the compiled
+\emph{tool program}: grounded arguments, tool outputs, call counts, and declared effects.
+The verifier does not certify the downstream model continuation.  Thus 45/45 clean program
+replays and a held-out factual-output miss are compatible.  A deployment claim requires a
+second admission layer over continuation outcomes or a deterministic checked renderer.
+
+We implemented that boundary as a framework-neutral \code{ContinuationGuard}.  It checks
+the candidate answer, then tries an optional deterministic renderer and baseline in that
+order, revalidating either output before release; invalid recovery returns no output.  A
+provider-free replay accepts 17 retained compiled answers, detects issue 6602, and
+checked-renders it from source observations, yielding 18/18.  This post-hoc mechanism check
+establishes detection and rendering on retained records, not live latency, cost,
+non-inferiority, or cross-domain safety.
+
+That earlier study's online grader also imposed an undocumented excerpt minimum and
+misread a literal comment ``none'' as a sentinel.  Its separate provider-free revision
+corrected four rows, retained online labels and the prior digest, and changed no provider
+metric.  It did not retrain the executed artifact; after correction issue 6602 remains the
+only compiled-only failure.
+
+\subsubsection{Prescribed-prefix ablation.}
+
+The compiled GitHub artifact has 16/16 training-group support, passes all eight development
+replays, and admits 92/92 calibration groups with zero observed violations.  At
+$\alpha=.05$, $\delta=.10$, and 11 thresholds, the simultaneous upper bound is 0.0498.
+The artifact was promoted only under a paper-protocol lab flag; no production canary is
+claimed.
+
+\begin{table}[t]
+  \centering
+  \caption{Paired results on 18 unseen real issues.  Change is compiled relative to
+  baseline.  $p_{\mathrm{W}}$ is the unadjusted Wilcoxon signed-rank $p$-value.}
+  \label{tab:live}
+  \resizebox{\columnwidth}{!}{\input{../tables/live_results.tex}}
+\end{table}
+
+Provider requests fall from exactly 4 to 1 per issue (75.0\%; paired 95\% bootstrap
+difference $[-3,-3]$), supporting H2.  Mean total tokens fall from 3,917.8 to 1,345.2
+(65.7\%); wall latency from 10.29 to 1.55 seconds (85.0\%); and estimated cost from
+\$0.000784 to \$0.000372 (52.6\%).  All three paired bootstrap intervals exclude zero;
+\cref{app:numerical} reports their endpoints.
+Every held-out issue is cheaper, faster, and lower-token
+under compaction (\cref{fig:paired}).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{../generated_figures/live_efficiency.pdf}
+  \caption{Mean compiled resource use normalized to baseline.  Necessary local reads are
+  unchanged; provider-mediated decisions decrease.}
+  \Description{Horizontal bars compare normalized baseline and compiled requests, tokens,
+  latency, cost, and tool calls.}
+  \label{fig:efficiency}
+\end{figure}
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\linewidth]{../generated_figures/paired_test.pdf}
+  \caption{Per-issue paired measurements.  All points fall below the no-change diagonal
+  for total tokens, wall latency, and estimated cost.}
+  \Description{Three scatter plots compare baseline versus compiled total tokens, wall
+  latency, and cost for 18 paired issues.}
+  \label{fig:paired}
+\end{figure*}
+
+Tool calls remain exactly three in both arms.  \method removes redundant model choices,
+not evidence acquisition.  All 18 baseline and compiled runs pass the composite quality
+contract.  This supports H3 only as an observed sealed-sample result.  With no discordant pairs
+McNemar's exact test returns $p=1$, which carries essentially no information about
+equivalence and should not be read as evidence of it.  The informative quantity is the
+one-sided bound on the paired degradation rate: treating ``baseline succeeds, compiled
+fails'' as a Bernoulli event with zero occurrences in 18 pairs, the exact 95\% upper bound
+is $1-.05^{1/18}=15.3\%$.  Perfect observed agreement here is therefore compatible with an
+operationally unacceptable degradation rate, and no interval on tokens or latency repairs
+that.  A predeclared non-inferiority margin of a few percentage points would need hundreds
+of sealed pairs per domain.
+
+Discovery itself is not free.  The 132 discovery episodes consumed 528 provider requests,
+533,293 tokens, 1,109 seconds of summed wall time, and an estimated \$0.0958.  The
+confirmatory baseline and compiled arms cost an additional \$0.0170 and \$0.0076 over 24
+runs each (including repeats).  Break-even depends on which resource is amortized, and reporting a single number
+selects the most favourable one, so we report the range rather than a
+point: 176 eligible future episodes when amortizing provider requests, 207 on tokens, 232 on
+discovery dollars alone, and 292 once the confirmatory arms that were actually incurred are
+counted.\footnote{$528/3$; $533{,}293/2{,}572.6$; $\$0.0958/\$0.000412$;
+$\$0.1204/\$0.000412$.}  All four are lower bounds twice over.  They
+exclude engineering, review, and monitoring effort, which for a one-artifact deployment
+plausibly dominates every figure here; and the dollar rows are computed at list input price,
+whereas \cref{sec:demos-results} measures baseline cached-input shares of 96--98\% on
+comparable workloads.  If the four-turn baseline here is similarly cache-dominated --- and a
+repeated loop over one long prefix almost certainly is --- then both the $-52.6\%$ cost
+reduction in \cref{tab:live} and every dollar break-even above are optimistic, and the
+correction is the two-tier price model of \cref{sec:extension}.  We report the numbers we
+measured and the direction of their bias rather than re-deriving them from an unmeasured
+cache model.
+
+\subsection{Harder shapes, partial compaction, and where the saving inverts}
+\label{sec:demos-results}
+
+\begin{table*}[t]
+  \centering
+  \caption{Demonstration suite (Tier 3): live provider calls and the real SDK runtime
+  against deterministic local services.  Negative change is a saving.  The bottom three
+  rows are negative controls whose correct outcome is \emph{no} compaction; each returns
+  exactly the baseline model-call count at unchanged quality, supporting H5.  Their dollar
+  columns differ from baseline despite identical work: see the cache discussion below.}
+  \label{tab:demos}
+  \small
+  \input{../tables/demo_suite.tex}
+\end{table*}
+
+\Cref{tab:demos} reports the suite, ordered by role rather than by letter: the five
+compacting conditions first, then the three whose correct outcome is refusal.  Three cells
+need explanation before the findings.  Demo D has $n=2$ because the MCP negative control
+defines only two tenant scenarios, and adding more would repeat one refusal rather than test
+another.  Demo B scores $0.97$ in \emph{both} arms: one of its four scenarios returns four
+citations where the fixture expects five, in baseline and compacted alike, so it is a property
+of the workload rather than of compaction --- and it is the one place in the suite where the
+graded score is not $1.00$.  Demos E$'$ and E$''$ share Demo E's world and differ only in the
+artifact offered to the runtime.  With that said, three results matter beyond the headline.
+
+\textbf{Partial compaction is the correct outcome when a workflow commits.}  Demo E ends
+every episode in an irreversible write, so its region is bounded by
+\cref{eq:prefix} and the commitment itself.  Model calls fall from 7.0 to 2.0 rather than
+to 1.0: the evidence turns disappear, and the decision turn and the write survive.  Tokens
+fall 66.4\% at unchanged task quality.  This is the shape most real operational workflows
+have, and it is absent from Tier 1 and Tier 2; reporting only demos that end in a read
+would overstate what the method reaches.
+
+\textbf{Refusal reproduces the baseline execution, not the baseline invoice.}  The three
+negative controls --- undeclared
+MCP effects, a loop-bearing artifact the adapter cannot advance one turn at a time, and an
+entry state whose intake schema has drifted past the guard's pin --- all return 7.0, 7.0
+and 3.0 model calls against baselines of 7.0, 7.0 and 3.0, with quality identical to
+baseline in every case.  The runtime therefore pays the guard and gate, not the workflow,
+when it declines.  A compiler that silently degraded instead would be indistinguishable
+from these rows on the efficiency metrics alone, which is why H5 is stated separately.
+
+Their \emph{dollar} cost is not identical, and \cref{tab:demos} shows why the distinction
+must be explicit: two refusing conditions bill 55.4\% and 54.5\% more than their baseline
+on identical token counts.  Nothing about the refusal changed the work; the runs differ
+only in prompt-cache warmth, because each condition executes as a separate batch and the
+baseline batch runs first (see the ordering caveat in \cref{sec:limits}).  Reporting H5 in
+dollars would therefore record a provider-side scheduling artifact as a property of the
+compiler.
+
+\textbf{Token saving and cost saving can have opposite signs.}  Demo F reduces tokens by
+16.8\% and \emph{increases} estimated cost by 123.0\% (\cref{fig:demos}).  Demo E shows the
+same sign flip at $+8.3\%$, but we do not rest anything on it: the refusing conditions
+E$'$ and E$''$ do \emph{identical} work and still bill $+55.4\%$ and $+54.5\%$, so this
+run's ordering artifact is worth several times Demo E's effect and swamps it.  Only Demo F
+clears that floor, and even there the magnitude should be read as indicative.  The
+mechanism we claim is prompt caching: a seven-turn baseline pays one cache
+\emph{write} over a long prefix and then reads that prefix at a fraction of the input
+price six more times, whereas a two-turn compacted run pays the write with almost nothing
+left to amortize it against.  Route specialization makes it worse one level up, because
+each route is a distinct cache prefix and a fleet that shared one warm prefix now pays
+several writes.  Measured cached-input share falls from 96\% to 38\% (Demo E) and from
+98\% to 58\% (Demo F).
+
+The direction is what the data supports; the magnitude is not, and the honest floor is
+set by the refusing conditions rather than by our own confidence.  The effect also shrinks
+as episodes per prefix grow, so a suite this small understates the steady-state cost
+advantage of both techniques.  But the residue is a real design
+constraint that our objective in \cref{eq:objective} does not price: a rarely-exercised
+route may never amortize its own cache write, and a workload whose baseline is already
+cache-dominated has far less dollar headroom than its token headroom implies.  Reporting
+token reduction as though it were cost reduction --- as an optimizer that measured only
+tokens would --- is therefore unsafe, and \cref{sec:extension} lists the fix.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{../generated_figures/demo_suite.pdf}
+  \caption{Token saving against cost saving per demonstration.  The two diverge, and for
+  Demos E and F they take opposite signs: prompt-cache economics, not token count, decide
+  the invoice.}
+  \Description{Grouped horizontal bar chart comparing percentage token saving with
+  percentage cost saving for each demonstration. Demos A to C save on both. Demo E saves
+  tokens but costs more, and Demo F saves fewer tokens and costs substantially more. The
+  three negative controls save neither.}
+  \label{fig:demos}
+\end{figure}
+
+\subsection{The comparator that matters: a hand-written composite tool}
+\label{sec:comparator}
+
+\begin{table}[t]
+  \centering
+  \caption{\method{} against the obvious engineering alternative --- one hand-written
+  composite tool performing the same reads --- on the deterministic offline stress study.
+  $R_{\mathrm{req}}$ is the paired request ratio against the unchanged agent, so lower is
+  better and $1.000$ means no saving.  \textbf{The macro is at least as good on three of
+  five workloads.}  This substrate is simulated: a scripted policy stands in for the model
+  at each boundary, so these numbers cannot settle the live question.  They can, and do,
+  settle whether the comparison was run.}
+  \label{tab:comparator}
+  \small
+  \input{../tables/comparator.tex}
+\end{table}
+
+For a workflow whose reads are already known, the obvious engineering answer is not a
+compiler: it is to write one composite tool that performs them.  A request reduction
+measured only against an unoptimized agent cannot distinguish ``compilation works'' from
+``this workflow was easy''.  \Cref{tab:comparator} therefore reports both against the same
+baseline on the offline stress study, and the result is not in our favour.
+
+On the permissioned-retrieval workload the macro is far better ($R_{\mathrm{req}}=0.335$
+versus $0.718$): it collapses six reads into one call, whereas \method{} must keep each
+call separately dispatchable to verify its live-outs.  On Tier-1 support the macro is
+slightly ahead.  \method{} wins where the \emph{choice} of which reads to make is itself
+part of the recurrent structure --- multi-agent triage ($0.780$ versus $0.922$), where a
+composite tool cannot remove the coordinator's routing turn, and fulfillment ($0.642$ versus
+$0.661$), where branch-dependent evidence means a single fixed composite would over-read.
+
+The negative control is the most informative row.  A hand-written macro reaches
+$R_{\mathrm{req}}=0.724$ on the MCP workload; \method{} reaches $1.000$, because the tool
+effects are undeclared and the catalog fails closed.  The macro takes a 27.6\% saving that
+\method{} refuses.  Whether that refusal is prudence or lost value depends entirely on
+whether those undeclared tools really are read-only --- which is exactly the question a
+human answers by writing the macro and the compiler declines to guess.  Neither number is
+``right''; the pair is the point.
+
+We therefore do not claim that \method{} dominates ordinary engineering.  The expanded
+live comparison in \cref{tab:natural-replication} reaches the same conclusion directly:
+both candidates pass 30/30, but the macro matches the partial compiler's request count and
+uses fewer tools, tokens, and dollars; only observed wall latency favors the compiler.  The
+earlier aggressive artifact in \cref{tab:natural-live} saves one additional provider turn
+but records a factual miss.  Where a
+hand-written composite is available and its effects are understood, write it.  \method{}
+earns its complexity only when the region is not economically maintainable as a manual
+macro, is branch-dependent, or requires guards a macro would otherwise assume implicitly.
+
+\subsection{RQ4: failed pilot and determinism}
+\label{sec:pilot}
+
+The first live pilot compiled suffix-only regions even though the runtime resolves only at
+entry.  It therefore dispatched label/comment reads before their intended position,
+duplicated or reordered tools, and achieved only 16.7\% task/tool-contract validity despite
+reducing requests.  We archived the complete pilot, added the prefix invariant in
+\cref{eq:prefix}, added a regression test, and excluded every pilot issue from the final
+cohort.  The corrected compiler blocks 116 suffix candidates and restores 100\% observed
+contract validity (\cref{fig:pilot}).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{../generated_figures/pilot_ablation.pdf}
+  \caption{Safety ablation from the archived pilot.  Request savings without correct
+  execution position are not an acceptable optimization.}
+  \Description{Grouped bars show low pilot quality and tool-contract validity versus full
+  corrected validity, alongside provider-request reduction.}
+  \label{fig:pilot}
+\end{figure}
+
+On six repeated test issues, category decisions and tool traces agree perfectly in both
+conditions.  Byte-exact natural-language answers agree in one of six baseline pairs and
+zero of six compiled pairs.  Compaction therefore improves structural determinism of the
+tool prefix by construction, but not free-form surface determinism.  This small sample does
+not support a claim that it stabilizes final text.
+
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{Agent execution and scheduling.}
+ReAct interleaves reasoning with environment actions~\cite{yao2023react}.
+LLMCompiler generates a dependency plan for the current request and schedules independent
+calls in parallel, reporting up to 3.7$\times$ latency and 6.7$\times$ cost improvement
+over ReAct~\cite{kim2024llmcompiler}.  \method instead learns from repeated executions and
+deletes historical model boundaries; it currently executes synthesized calls sequentially.
+The methods are complementary.
+
+\paragraph{Workflow and agent optimization.}
+DSPy and MIPRO optimize instructions and demonstrations in declarative LM programs
+\cite{khattab2024dspy,opsahlong2024mipro}.  RouteLLM selects a model based on preference
+data~\cite{ong2025routellm}; AgentSlimming prunes or replaces multi-agent graph nodes and
+reports token reductions up to 78.9\%~\cite{chen2026agentslimming}.  FlowCompile explores
+model, reasoning-budget, and workflow configurations for a declared graph and reports up
+to 6.4$\times$ speedup~\cite{li2026flowcompile}.  These optimize parameters or declared
+topology, whereas \method infers a value-grounded replacement from observed traces.
+
+GEPA uses execution and evaluation traces as natural-language feedback for reflective,
+instance-wise Pareto prompt evolution~\cite{agrawal2026gepa}.  Across its six reported
+tasks it improves over GRPO with up to 35$\times$ fewer rollouts and produces instructions
+up to 9.2$\times$ shorter than MIPROv2 prompts.  GEPA therefore prevents us from claiming
+trace-driven agent optimization itself as novel.  It changes the prompts of residual
+language modules rather than deleting model boundaries, making it complementary to region
+compilation and a relevant baseline only when prompt evolution is in scope.  A factorial
+study of unchanged, GEPA-only, \method-only, and combined systems would test whether
+reflective evolution can improve the continuation decisions that our program gate does not
+certify; we do not run that study here.
+
+AWO is the closest trace-based system: it identifies recurring tool-call sequences and
+bundles them into meta-tools, reducing LLM calls by up to 11.9\%~\cite{abuzakuk2026awo}.
+Agent Workflow Memory induces reusable workflows offline or online and reports large
+relative success gains on Mind2Web and WebArena~\cite{wang2025awm}; it optimizes \emph{what}
+an agent reuses rather than proving a reuse admissible, and it is the learned-workflow
+comparator a future head-to-head most needs.  Agentic Compilation generates a deterministic
+JSON workflow from a single model call and replays it without further inference, reporting
+80--94\% zero-shot compilation success on web
+automation~\cite{chundru2026agenticcompilation}; it shares our compile-versus-rerun
+motivation and differs in admitting the compiled plan without provenance, effect, or
+finite-sample risk conditions.  A recent survey separates reusable templates, run-specific
+realized graphs, and traces~\cite{yue2026workflowsurvey}; in that taxonomy \method optimizes
+traces under a declared-effect contract.
+EvoC2F compiles a typed Plan IR carrying dependency, effect, resource, idempotency, and
+retry annotations, then admits trajectory-derived macro-skills through tests, contracts,
+and regression checks~\cite{wei2026evoc2f}.  Agent JIT Compilation generates and validates
+code plans for current web tasks, selects low-cost candidates, and schedules execution under
+tool pre/post-state invariants~\cite{winston2026agentjit}.  Both are closer compiler
+comparators than prompt-only optimizers.  \method differs by mining recurrent
+cross-execution regions from value-level traces and attaching a conditional group-level
+contract bound; the present experiments do not establish superiority to either system.
+Agentic plan caching adapts reusable plan templates and reports 46.62\% mean cost
+reduction~\cite{zhang2025plancache}.  \method adds explicit typed provenance, effect and
+position barriers, hard compatibility contracts, verifier/staging semantics, and an exact
+selective admission rule.  Our result should not be read as a head-to-head improvement:
+we did not reimplement AWO on the GitHub scenario.
+
+COVENANT compiles natural-language policies into workflow graphs and checks proposed
+actions against the declared procedure~\cite{wang2026covenant}.  It
+uses policy as source; \method uses executions as candidate evidence and must therefore
+abstain more aggressively.  Combining declared workflow authority with trace-derived
+specialization is promising.
+
+\paragraph{Tool-use evaluation.}
+BFCL covers serial, parallel, abstaining, and stateful function calling
+\cite{patil2025bfcl}; API-Bank provides runnable APIs and tool-use dialogues
+\cite{li2023apibank}; ToolSandbox evaluates stateful conversational interactions
+\cite{lu2025toolsandbox}; $\tau^2$-Bench adds dual control by agent and user
+\cite{barres2025tau2}; and AssistantBench provides realistic web tasks
+\cite{yoran2024assistantbench}.  These primarily test an agent's ability to choose tools.
+NESTFUL uniquely exposes explicit nested producer references, making it suitable for our
+post-trace provenance question~\cite{basu2025nestful}.  Future end-to-end evaluation should
+add stateful and write-bearing benchmarks after transactional compilation exists.
+
+\begin{table*}[t]
+  \centering
+  \caption{Positioning against adjacent optimization systems.  ``Admission'' describes
+  how a candidate rewrite is permitted, not its general evaluation protocol.}
+  \label{tab:related}
+  \small
+  \input{../tables/related_work.tex}
+\end{table*}
+
+\paragraph{Trace-based specialization, guards, and deoptimization.}
+The architecture is, structurally, a tracing JIT for agent executions, and the correspondence
+is close enough that the vocabulary is nearly shared: hot-trace detection becomes family
+mining, guard synthesis becomes the hard guard, region compilation becomes bounded synthesis,
+and deoptimization to the interpreter becomes fallback to the baseline agent.  Dynamo
+introduced transparent trace regions with guards and fallback~\cite{bala2000dynamo}, and
+trace-based type specialization~\cite{gal2009tracejit} and meta-tracing~\cite{bolz2009pypy}
+developed the guard-and-recompile discipline we borrow.  The problem of
+\cref{sec:runtime-scope} --- restoring a consistent state after a specialized region is
+abandoned --- is exactly dynamic deoptimization~\cite{holzle1992deopt}, and that literature's
+answer, explicit deoptimization points, is the same mechanism we defer to as ``control points
+with continuation tokens''.  Effect systems supply the discipline behind treating effect
+declarations as a trusted computing base~\cite{lucassen1988effects}, and selective prediction
+long predates learn-then-test: the reject option is Chow's~\cite{chow1970reject}.  What is not
+inherited is what an agent guard must additionally certify: that arguments are grounded in
+observable state, that declared effects permit speculation, and that the residual error rate
+carries a finite-sample bound.  We take the framing as the clearer statement of the
+contribution.
+
+\paragraph{Behavioral equivalence and caching economics.}
+Counterfactual trace auditing pairs with-skill and without-skill traces, aligns their
+phases, and shows that unchanged aggregate pass rates can hide many substantive behavioral
+differences~\cite{zhou2026cta}.  That is exactly the weakness of our registered-contract
+oracle, and it describes the instrument a stronger equivalence check would use.  On
+economics, prompt-cache strategy has been evaluated across three providers on long-horizon
+agentic tasks, reporting 41--80\% API-cost reductions and showing that naive full-context
+caching can even increase latency~\cite{lumer2026cache}; cache-aware prompt compression
+models the compression/caching crossover directly~\cite{song2026capc}.  Our
+\cref{sec:demos-results} observation that fewer tokens can cost more is therefore
+\emph{consistent with} that literature rather than a new discovery.  What our data adds is
+the same effect arising from \emph{turn removal and route fragmentation} rather than from
+compression, and the consequence that a workflow optimizer's objective must price prefix
+reuse.
+
+\paragraph{Program analysis and selective risk.}
+Canonical trace families resemble process-mining variants~\cite{vanderAalst2016process};
+bounded synthesis relates to partial evaluation~\cite{jones1993partial}, likely-invariant
+mining~\cite{ernst2001daikon}, and programming by example~\cite{gulwani2011flashfill}.
+Risk-controlled admission builds on exact binomial inference~\cite{clopper1934binomial}
+and learn-then-test calibration~\cite{angelopoulos2022ltt}.  The guarantee remains
+conditional on i.i.d. or conditionally i.i.d. admitted group indicators and a frozen
+candidate; provenance and effects are separate hard constraints, not learned away by
+calibration.
+
+\section{Discussion}
+
+\subsection{What is novel, and what is not}
+
+Generic ``agent compilation'' is occupied territory, and more so than an earlier draft of
+this section acknowledged: deterministic workflow
+compilation~\cite{chundru2026agenticcompilation}, learned reusable
+workflows~\cite{wang2025awm,abuzakuk2026awo}, behavioral trace auditing~\cite{zhou2026cta},
+and cache-aware cost modelling~\cite{lumer2026cache,song2026capc} each occupy part of the
+space.  We claim none of: the first agent compiler, the first trace-derived workflow, the
+first deterministic macro, the first effect-aware agent IR, or the first observation that
+token and cost reduction diverge.  The clearest statement of what is new is
+comparative rather than enumerative: \method{} is a tracing JIT whose guard must certify
+things a compiler's guard never had to.  A classical guard checks types and shapes; ours must
+additionally establish that every argument is grounded in observable state, that each tool's
+\emph{declared} effects permit speculative execution, and that the residual error rate of the
+specialized region carries a finite-sample bound.  Concretely the composition is (i) typed,
+value-level argument provenance from traces; (ii) explicit effect, permission, compatibility,
+and runtime-position barriers; (iii) bounded readable program synthesis; (iv) verifier and
+staging semantics; and (v) finite-sample selective admission with normal retirement.  Each
+element has predecessors --- (i)--(iv) in trace-based specialization and effect systems, (v) in
+selective prediction --- and the contribution is that an agent guard needs all five at once.
+Contribution~(v) is currently the weakest: as \cref{sec:limits} reports, no study here
+exercises it as a discriminator.
+
+The NESTFUL result is as important as the live saving.  A system that emitted all 32
+recurrent families would look more productive, yet none has the 92 zero-violation group
+records required by the configured calculation.  Treating those records as independent is
+a load-bearing sampling assumption, not a property established by the benchmark.  Refusal
+exposes the data requirement rather than moving it into an undocumented heuristic.
+
+\subsection{Engineering implications}
+
+First, compile-time cost must be amortized.  A stable, high-volume prefix can repay 116
+discovery traces; a low-volume workflow may never do so.  Second, compaction and prompt
+caching interact: deleting turns changes the number and shape of cache reads/writes, so
+token reduction need not equal cost reduction.  Third, effect declarations are part of
+the trusted computing base.  A misdeclared external write cannot be repaired by
+statistics.  Fourth, the runtime-position key must become explicit before suffix regions
+are supported.  The pilot demonstrates that a compiler and runtime must share the same
+control-point semantics.
+
+\subsection{Extension path}
+\label{sec:extension}
+
+Two of these follow directly from \cref{sec:demos-results}.  First, the selective
+objective should price \emph{cache-prefix fragmentation}: a route whose traffic share is
+too small to amortize its own cache write is a net loss even when its prompt is strictly
+shorter, and \cref{eq:objective} currently counts only tokens and calls.  Second, the
+break-even in \cref{sec:rq2} should be computed against the \emph{cached} baseline price
+rather than the list input price, so that a workload whose baseline is already
+cache-dominated is reported as having little dollar headroom before a compiler is built
+for it.
+
+The reusable library boundary is the typed Episode IR plus an optimization-pass API.
+Near-term extensions include: (1) e-graph or counterexample-guided synthesis within the
+same closed semantic library; (2) global familywise risk allocation across multiple
+artifacts; (3) transactional compilation of idempotent writes with approval barriers;
+(4) explicit execution-plan scheduling to combine compaction with LLMCompiler-style
+parallelism; (5) cost-aware Pareto artifact selection inspired by FlowCompile; (6)
+trace-driven prompt/tool-surface and memory compaction evaluated behind the same gates;
+and (7) adapters for other orchestration frameworks.  None is claimed as implemented.
+
+\section{Limitations and Threats to Validity}
+\label{sec:limits}
+
+\paragraph{The natural task still constrains the evidence shape.}
+The original conformance prompt names three tools in an exact order, so its recurrence is
+constructed.  The natural follow-ups remove tool names and order, and compiler eligibility
+no longer requires an exact trace, but the requested title, state, labels, and evidence
+excerpt still make the three sources useful.  All 132 expanded discovery agents (and all
+80 in the earlier study) converge on one order.  This is
+stronger evidence of naturally selected recurrence than the original study, but it does
+not establish discovery in open-ended plans where tools may be skipped, substituted,
+branched, or revisited for reasons not fixed by an output schema.
+
+\paragraph{Factual quality is narrow and depth-sensitive.}
+The original five-boolean oracle does not check summary factuality and accepts fluent
+fabrication.  The natural studies replace it with exact snapshot fields and source-supported
+excerpts scored independently of tool order, but this remains an automatic extractive
+contract rather than human semantic adjudication.  The expanded two-read artifact passes
+30/30 while the earlier three-read artifact catches one compiled-only Markdown-link
+alteration.  Thus preservation is observed at one depth and explicitly unsupported at the
+other.  Both audited oracle corrections show that even strict-looking metrics can drift;
+raw online labels and correction records are retained.  In the earlier run the corrected
+eligibility rule would swap one discovery trace, but the evaluated artifact remains the
+one actually executed.  In the expanded run the semantic regrade changes only literal
+tool-contract labels, not compiler inputs, provider outputs, or measurements.
+The post-hoc continuation replay repairs the retained exact-source miss with a
+task-specific deterministic renderer, but it is not a live evaluation and does not replace
+human semantic adjudication or a separately calibrated continuation-risk frontier.
+
+\paragraph{The selective gate did not discriminate in this run.}
+On the sealed artifact, every grid threshold below $0.14$ admits zero calibration groups
+and every threshold at or above $0.14$ admits all 92, with zero violations throughout.  The
+score therefore behaved as an all-or-none support test rather than as a ranking of safe
+against unsafe inputs, and six of its seven feature weights are exactly zero (only
+\code{hull\_margin} is non-zero).
+
+The cause is diagnosable rather than mysterious, and it is a property of the data, not of the
+estimator.  The score is fitted on development-group \emph{unproductive} outcomes, and the
+artifact passed all eight development replays --- so the logistic model was fitted with
+\emph{zero} positive examples on eight observations over seven features.  A single-class fit
+yields a near-constant score, and a near-constant score is exactly what produces the observed
+step at $\eta=0.14$: all 92 calibration entries land in one interval.  Reporting the positive
+count is therefore mandatory for any such gate, and we report it here as zero.  Two honest
+routes exist: build a development set containing genuine unproductive outcomes and publish a
+risk--coverage curve at several $\alpha$, or replace the learned score with an explicitly
+one-class construction (distance-to-hull, or a conformal nonconformity measure over entry
+features) and describe it as such.  Until one of those is done, contribution~(v) is
+demonstrated only as a sample-size counter: on NESTFUL the gate refuses everything because
+$26<92$, and here it admits everything because the score is constant.  We cannot claim a demonstrated risk--coverage frontier
+from this evidence.  Establishing one needs calibration and test sets containing natural
+error: hard-but-supported inputs, out-of-domain entries, source and schema drift, stale
+versions, ambiguous provenance, and partial tool failures.
+
+Both natural-order artifacts repeat the same pattern.  In the earlier run, thresholds
+below 0.14 admit no calibration records and those at or above 0.14 admit all 45, with zero
+registered violations and upper bound 0.0992.  In the expanded replication the step moves
+to 0.11, below which none of 92 records are admitted and at or above which all are, with
+zero registered violations and upper bound 0.0498.  Two fitted weights are non-zero, but
+the observed admission decision is still all-or-none.  Natural planning and more
+calibration data therefore do not repair the missing risk--coverage discrimination.
+
+\paragraph{The original latency result is confounded by condition order.}
+The fixed-prefix harness runs the entire baseline batch and then the entire compiled batch, without
+randomizing or counterbalancing order within pairs.  Provider load, connection reuse, and
+prompt-cache warmth therefore differ systematically between conditions.  The request-count
+reduction is structural and unaffected, but the $-85.0\%$ wall-latency figure should be
+read as an observation under this ordering rather than a clean causal estimate; the same
+confound is the most likely explanation for the refusing conditions of
+\cref{sec:demos-results} billing more than their baselines on identical token counts.
+Both natural-order studies counterbalance all six three-condition permutations; the
+expanded run assigns each exactly five primary records.  This removes ordinal imbalance
+but cannot eliminate provider noise or cache interference.
+
+\paragraph{Removing model turns can remove guardrail evaluations.}
+Moderation, policy, and guardrail checks in agent frameworks commonly run \emph{at} model
+boundaries.  A region that deletes three of four boundaries therefore risks deleting three of
+four guardrail evaluations, and neither our effect catalog nor the read-only policy covers
+that: a guardrail is not a tool call, so it is invisible to both.  Our demonstrations expose
+no guardrails, so the gap is untested rather than benign.  A deployment must either re-run
+guardrails inside the permission facade for every elided boundary, or declare guardrail
+presence an explicit barrier condition alongside handoffs and approvals.  We recommend the
+latter until the former is implemented and tested, and note that a misdeclared external
+write remains undetectable by statistics --- detecting it needs differential execution in a
+sandbox or declaration-versus-observation diffing, neither of which we implement.
+
+\paragraph{Registry integrity is configured off in the reported run.}
+Artifact records are mutable Python objects, the reported experiment sets lifecycle and
+approval fields directly, and the archived artifact carries an empty signature because
+signing was not enabled.  The immutability and signature-verification semantics described
+in \cref{sec:method} are therefore capabilities of the registry, not properties this
+experiment demonstrates.
+
+\paragraph{Empirical scope.}
+Each live test contains only 18 issues from one repository/domain and one model configuration.
+It uses a frozen public snapshot, not the live GitHub API, so network/service behavior,
+concurrent mutation, rate limits, and authentication are absent.  The two exact gates have
+92 and 45 calibration records, but task quality has only 18 sealed pairs per protocol.
+The natural test contains no question-labelled issue after strict prior-record exclusion.
+There is no human study of
+productivity or user experience and no multi-domain production canary.
+
+\paragraph{Baseline scope.}
+The natural study runs both the unchanged SDK loop and a live hand-written composite tool.
+The macro preserves all factual contracts, uses one local tool call rather than three, and
+is cheaper than the unchanged agent; \method saves one more provider request and more
+tokens but records a factual miss.  The offline suite independently gives the macro the
+lower request ratio on three of five workloads.  We still do not run AWO, AWM,
+LLMCompiler, FlowCompile, or plan caching.  The evidence establishes an intervention and
+engineering trade-off, not state-of-the-art superiority.
+
+\paragraph{Statistical scope.}
+The pilot and final cohort are separated, but the study was not externally preregistered.
+Secondary tests are unadjusted and provider latency is noisy.  Clopper--Pearson is exact
+but conservative.  The gate's guarantee applies to the recorded group-level violation
+definition only when admitted group indicators are i.i.d. or conditionally i.i.d.; drift,
+clustered tenants, adaptive artifact selection, or incomplete outcomes invalidate a naive
+interpretation.  Each artifact is calibrated individually; the implementation lacks a
+global guarantee when many artifacts are selected.
+
+\paragraph{Semantic scope.}
+Recorded output equality and empirical contracts do not prove full semantic equivalence.
+The closed DSL intentionally misses legitimate transformations and loops.  Tool-effect
+truth, permissions, freshness, and isolation are application-supplied.  The current
+version is read-only, does not parallelize synthesized calls, and the narrow SDK adapter
+bypasses streaming, hosted tools, MCP, handoffs, and loops.
+
+\paragraph{Reproducibility scope.}
+The checkout contains no \code{.git} metadata, so the repository commit, branch, remote,
+and CI state cannot be verified.  Dataset revisions and file hashes are pinned, raw
+results are retained, and the full local suite passes on Python 3.14.4; nevertheless,
+provider responses and latency will not be byte-identical on rerun.  API access and the
+named model are required to repeat the live study.
+
+\section{Conclusion}
+
+Guarded agentic compaction turns a narrow class of repeated model-mediated tool prefixes
+into deterministic, inspectable programs while keeping hard provenance/effect barriers,
+exact selective admission, verification, and baseline fallback explicit.  In the expanded
+natural-order replication, the compiler refuses an ungroundable third call, emits a
+two-read prefix, and passes 30/30 exact task contracts while halving requests.  The macro
+also passes 30/30 and is better on tools, tokens, and cost; the compiler has lower observed
+mean latency, but the paired interval against the macro crosses zero.
+An earlier three-read artifact saves more provider turns but passes 17/18 versus 18/18 for
+both comparators, so efficiency and recurrence do not make preservation invariant to
+compilation depth.  A separate continuation contract detects and checked-renders that miss
+in provider-free replay, demonstrating a mechanism but not prospective live safety.  On
+NESTFUL, the expected producer appears in the candidate set for 96.3\% of dependency slots
+but is resolved uniquely for 80.7\%; every family retires at the configured gate.  Together with the
+failed suffix pilot, the evidence argues for a specific design principle: an agent
+optimizer should be judged not only by what it compresses, but by whether it can explain
+and enforce when it must not compile.
+
+\section*{Artifact Availability and Ethical Considerations}
+
+The artifact package includes scripts, pinned-source manifests, raw JSON/CSV results,
+generated figures/tables, a reproduction guide, and a critical self-review.  The GitHub
+records are already public and distributed through an Apache-2.0 dataset snapshot; the
+paper stores issue identifiers and derived task outputs but no API secrets.  The approach
+should not be used to bypass approvals or automate regulated decisions.  Its current
+read-only effect policy and fallback semantics are deliberate safeguards, not guarantees
+against a dishonest effect catalog.

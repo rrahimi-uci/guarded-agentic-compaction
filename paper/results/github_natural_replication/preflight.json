@@ -1,0 +1,674 @@
+{
+  "condition_order_plan": {
+    "assignments": {
+      "1514": [
+        "baseline",
+        "compiled",
+        "macro"
+      ],
+      "1906": [
+        "macro",
+        "baseline",
+        "compiled"
+      ],
+      "2108": [
+        "macro",
+        "compiled",
+        "baseline"
+      ],
+      "2187": [
+        "baseline",
+        "compiled",
+        "macro"
+      ],
+      "2196": [
+        "baseline",
+        "macro",
+        "compiled"
+      ],
+      "2256": [
+        "baseline",
+        "macro",
+        "compiled"
+      ],
+      "2402": [
+        "baseline",
+        "macro",
+        "compiled"
+      ],
+      "2481": [
+        "baseline",
+        "macro",
+        "compiled"
+      ],
+      "3013": [
+        "compiled",
+        "baseline",
+        "macro"
+      ],
+      "302": [
+        "macro",
+        "baseline",
+        "compiled"
+      ],
+      "3122": [
+        "macro",
+        "compiled",
+        "baseline"
+      ],
+      "3632": [
+        "baseline",
+        "compiled",
+        "macro"
+      ],
+      "3829": [
+        "baseline",
+        "compiled",
+        "macro"
+      ],
+      "3854": [
+        "baseline",
+        "macro",
+        "compiled"
+      ],
+      "3859": [
+        "compiled",
+        "macro",
+        "baseline"
+      ],
+      "3881": [
+        "macro",
+        "compiled",
+        "baseline"
+      ],
+      "4134": [
+        "macro",
+        "baseline",
+        "compiled"
+      ],
+      "4221": [
+        "compiled",
+        "macro",
+        "baseline"
+      ],
+      "4248": [
+        "compiled",
+        "baseline",
+        "macro"
+      ],
+      "4417": [
+        "baseline",
+        "compiled",
+        "macro"
+      ],
+      "4420": [
+        "compiled",
+        "macro",
+        "baseline"
+      ],
+      "4549": [
+        "compiled",
+        "macro",
+        "baseline"
+      ],
+      "5514": [
+        "compiled",
+        "baseline",
+        "macro"
+      ],
+      "6059": [
+        "macro",
+        "compiled",
+        "baseline"
+      ],
+      "6150": [
+        "macro",
+        "baseline",
+        "compiled"
+      ],
+      "6202": [
+        "compiled",
+        "baseline",
+        "macro"
+      ],
+      "6532": [
+        "compiled",
+        "macro",
+        "baseline"
+      ],
+      "6829": [
+        "compiled",
+        "baseline",
+        "macro"
+      ],
+      "7020": [
+        "macro",
+        "compiled",
+        "baseline"
+      ],
+      "7093": [
+        "macro",
+        "baseline",
+        "compiled"
+      ]
+    },
+    "counts": {
+      "baseline_then_compiled_then_macro": 5,
+      "baseline_then_macro_then_compiled": 5,
+      "compiled_then_baseline_then_macro": 5,
+      "compiled_then_macro_then_baseline": 5,
+      "macro_then_baseline_then_compiled": 5,
+      "macro_then_compiled_then_baseline": 5
+    },
+    "method": "balanced-six-permutation-latin-order"
+  },
+  "dataset_audit": {
+    "deduplicated_non_pr_issues": 3115,
+    "duplicate_issue_rows": 49,
+    "raw_rows": 7540
+  },
+  "oracle_preflight": {
+    "discovery_test_overlap": false,
+    "factual_fields": [
+      "issue_number",
+      "category_from_official_labels",
+      "evidence_label",
+      "title_exact",
+      "state_exact",
+      "comment_count_exact",
+      "evidence_excerpt_exact_substring"
+    ],
+    "missing_required_source_fields": [],
+    "selected_records": 162,
+    "tool_order_prescribed": false
+  },
+  "prompt_sha256": "aa9f6b960ea3c7532b92acd98cbd8e92f13c609a92ecbb58e190d2efd15bb391",
+  "provider_calls_executed": 0,
+  "resolved_config": {
+    "calibration_cases": 92,
+    "concurrency": 8,
+    "dev_cases": 8,
+    "discovery_cases": 132,
+    "evaluation_order": "counterbalanced",
+    "force_download": false,
+    "include_macro": true,
+    "model": "gpt-5.6-luna",
+    "output_dir": null,
+    "preflight_only": true,
+    "repeat_cases": 10,
+    "seed": 20260802,
+    "smoke": false,
+    "task_design": "natural-extractive-v2",
+    "test_per_class": 10,
+    "train_cases": 16
+  },
+  "schema": "agent-compaction-natural-live-preflight/v1",
+  "selection": {
+    "discovery_issue_numbers": [
+      6261,
+      4435,
+      5263,
+      4790,
+      5326,
+      3941,
+      3490,
+      6483,
+      865,
+      5385,
+      2279,
+      4694,
+      5148,
+      3703,
+      5855,
+      3155,
+      6274,
+      4056,
+      438,
+      5005,
+      7225,
+      6184,
+      7018,
+      4717,
+      2103,
+      807,
+      361,
+      649,
+      4047,
+      6124,
+      3027,
+      2350,
+      7260,
+      7546,
+      864,
+      3365,
+      6973,
+      2703,
+      6505,
+      4889,
+      5494,
+      6819,
+      4325,
+      157,
+      647,
+      3828,
+      2997,
+      539,
+      3533,
+      4746,
+      6604,
+      1844,
+      5378,
+      4142,
+      4341,
+      7286,
+      6668,
+      4507,
+      2211,
+      7134,
+      4398,
+      5070,
+      2032,
+      2583,
+      5094,
+      7406,
+      198,
+      6237,
+      5862,
+      4349,
+      2860,
+      5483,
+      148,
+      5600,
+      2967,
+      2441,
+      482,
+      836,
+      7561,
+      3217,
+      784,
+      320,
+      5479,
+      6752,
+      3704,
+      6936,
+      6032,
+      3716,
+      624,
+      5088,
+      709,
+      387,
+      2797,
+      5161,
+      6439,
+      3475,
+      6287,
+      7113,
+      1671,
+      2080,
+      668,
+      2901,
+      3952,
+      1831,
+      5649,
+      223,
+      7447,
+      876,
+      6460,
+      2511,
+      648,
+      6120,
+      4570,
+      6149,
+      5706,
+      166,
+      7159,
+      6865,
+      3304,
+      2663,
+      5193,
+      5152,
+      3308,
+      7127,
+      5255,
+      2498,
+      326,
+      2781,
+      4621,
+      3091,
+      2009,
+      6896
+    ],
+    "excluded_prior_pilot_issue_count": 0,
+    "filters": {
+      "deduplicate_by_issue_number": true,
+      "exclude_pull_requests": true,
+      "minimum_body_characters": 80,
+      "test_requires_exactly_one_of_bug_enhancement_question": true
+    },
+    "seed": 20260802,
+    "test": [
+      {
+        "category": "bug",
+        "day": "2024-07-03",
+        "html_url": "https://github.com/huggingface/datasets/issues/7020",
+        "issue_number": 7020,
+        "labels": [
+          "bug"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "bug",
+        "day": "2022-05-30",
+        "html_url": "https://github.com/huggingface/datasets/issues/4420",
+        "issue_number": 4420,
+        "labels": [
+          "bug"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "bug",
+        "day": "2022-06-23",
+        "html_url": "https://github.com/huggingface/datasets/issues/4549",
+        "issue_number": 4549,
+        "labels": [
+          "bug"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "bug",
+        "day": "2021-04-24",
+        "html_url": "https://github.com/huggingface/datasets/issues/2256",
+        "issue_number": 2256,
+        "labels": [
+          "bug"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "bug",
+        "day": "2022-04-28",
+        "html_url": "https://github.com/huggingface/datasets/issues/4248",
+        "issue_number": 4248,
+        "labels": [
+          "bug"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "bug",
+        "day": "2024-04-23",
+        "html_url": "https://github.com/huggingface/datasets/issues/6829",
+        "issue_number": 6829,
+        "labels": [
+          "bug"
+        ],
+        "state": "open"
+      },
+      {
+        "category": "bug",
+        "day": "2022-01-26",
+        "html_url": "https://github.com/huggingface/datasets/issues/3632",
+        "issue_number": 3632,
+        "labels": [
+          "bug"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "bug",
+        "day": "2021-05-24",
+        "html_url": "https://github.com/huggingface/datasets/issues/2402",
+        "issue_number": 2402,
+        "labels": [
+          "bug"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "bug",
+        "day": "2021-10-20",
+        "html_url": "https://github.com/huggingface/datasets/issues/3122",
+        "issue_number": 3122,
+        "labels": [
+          "bug"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "bug",
+        "day": "2022-03-08",
+        "html_url": "https://github.com/huggingface/datasets/issues/3859",
+        "issue_number": 3859,
+        "labels": [
+          "bug",
+          "duplicate"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "enhancement",
+        "day": "2020-06-23",
+        "html_url": "https://github.com/huggingface/datasets/issues/302",
+        "issue_number": 302,
+        "labels": [
+          "enhancement",
+          "generic discussion"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "enhancement",
+        "day": "2023-12-25",
+        "html_url": "https://github.com/huggingface/datasets/issues/6532",
+        "issue_number": 6532,
+        "labels": [
+          "enhancement"
+        ],
+        "state": "open"
+      },
+      {
+        "category": "enhancement",
+        "day": "2023-08-15",
+        "html_url": "https://github.com/huggingface/datasets/issues/6150",
+        "issue_number": 6150,
+        "labels": [
+          "enhancement"
+        ],
+        "state": "open"
+      },
+      {
+        "category": "enhancement",
+        "day": "2024-08-07",
+        "html_url": "https://github.com/huggingface/datasets/issues/7093",
+        "issue_number": 7093,
+        "labels": [
+          "enhancement"
+        ],
+        "state": "open"
+      },
+      {
+        "category": "enhancement",
+        "day": "2021-06-11",
+        "html_url": "https://github.com/huggingface/datasets/issues/2481",
+        "issue_number": 2481,
+        "labels": [
+          "enhancement"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "enhancement",
+        "day": "2023-02-08",
+        "html_url": "https://github.com/huggingface/datasets/issues/5514",
+        "issue_number": 5514,
+        "labels": [
+          "enhancement"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "enhancement",
+        "day": "2023-07-22",
+        "html_url": "https://github.com/huggingface/datasets/issues/6059",
+        "issue_number": 6059,
+        "labels": [
+          "enhancement"
+        ],
+        "state": "open"
+      },
+      {
+        "category": "enhancement",
+        "day": "2023-09-01",
+        "html_url": "https://github.com/huggingface/datasets/issues/6202",
+        "issue_number": 6202,
+        "labels": [
+          "enhancement"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "enhancement",
+        "day": "2021-02-18",
+        "html_url": "https://github.com/huggingface/datasets/issues/1906",
+        "issue_number": 1906,
+        "labels": [
+          "enhancement",
+          "generic discussion"
+        ],
+        "state": "open"
+      },
+      {
+        "category": "enhancement",
+        "day": "2022-03-05",
+        "html_url": "https://github.com/huggingface/datasets/issues/3829",
+        "issue_number": 3829,
+        "labels": [
+          "enhancement"
+        ],
+        "state": "open"
+      },
+      {
+        "category": "question",
+        "day": "2022-04-26",
+        "html_url": "https://github.com/huggingface/datasets/issues/4221",
+        "issue_number": 4221,
+        "labels": [
+          "question"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "question",
+        "day": "2020-12-12",
+        "html_url": "https://github.com/huggingface/datasets/issues/1514",
+        "issue_number": 1514,
+        "labels": [
+          "question"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "question",
+        "day": "2021-03-24",
+        "html_url": "https://github.com/huggingface/datasets/issues/2108",
+        "issue_number": 2108,
+        "labels": [
+          "question"
+        ],
+        "state": "open"
+      },
+      {
+        "category": "question",
+        "day": "2021-04-09",
+        "html_url": "https://github.com/huggingface/datasets/issues/2196",
+        "issue_number": 2196,
+        "labels": [
+          "question"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "question",
+        "day": "2022-03-09",
+        "html_url": "https://github.com/huggingface/datasets/issues/3881",
+        "issue_number": 3881,
+        "labels": [
+          "question"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "question",
+        "day": "2022-03-08",
+        "html_url": "https://github.com/huggingface/datasets/issues/3854",
+        "issue_number": 3854,
+        "labels": [
+          "question"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "question",
+        "day": "2022-04-08",
+        "html_url": "https://github.com/huggingface/datasets/issues/4134",
+        "issue_number": 4134,
+        "labels": [
+          "question"
+        ],
+        "state": "open"
+      },
+      {
+        "category": "question",
+        "day": "2021-04-08",
+        "html_url": "https://github.com/huggingface/datasets/issues/2187",
+        "issue_number": 2187,
+        "labels": [
+          "question"
+        ],
+        "state": "open"
+      },
+      {
+        "category": "question",
+        "day": "2021-10-04",
+        "html_url": "https://github.com/huggingface/datasets/issues/3013",
+        "issue_number": 3013,
+        "labels": [
+          "dataset-viewer",
+          "question"
+        ],
+        "state": "closed"
+      },
+      {
+        "category": "question",
+        "day": "2022-05-29",
+        "html_url": "https://github.com/huggingface/datasets/issues/4417",
+        "issue_number": 4417,
+        "labels": [
+          "question"
+        ],
+        "state": "closed"
+      }
+    ]
+  },
+  "source_manifest": {
+    "dataset": "helmo/github-issues",
+    "license": "Apache-2.0 (dataset card declaration)",
+    "parquet": {
+      "bytes": 12659096,
+      "sha256": "09453eefae39e45a969ab0bee72ca0e188fe79dc50403b0f2a78c39894f5d1a3",
+      "url": "https://huggingface.co/datasets/helmo/github-issues/resolve/e344be7b84d199661a9956036991e1fc25715a47/data/train-00000-of-00001.parquet"
+    },
+    "readme": {
+      "bytes": 15437,
+      "sha256": "cbbc587f903b60c22385ddd7a9c546ba03c505dbbbd26b4fa7d57af8fa3ac4d1"
+    },
+    "repository": "https://huggingface.co/datasets/helmo/github-issues",
+    "revision": "e344be7b84d199661a9956036991e1fc25715a47",
+    "snapshot_date": "2025-06-13"
+  },
+  "status": "designed_not_run",
+  "task_design": "natural-extractive-v2"
+}

@@ -1,0 +1,29 @@
+{
+  "schema": "agent-compaction-live-attempt-failure/v1",
+  "status": "failed_before_compilation_and_test_arms",
+  "stage": "compiler_eligibility",
+  "task_design": "natural-extractive-v2",
+  "openai_api_key_used": true,
+  "secrets_serialized": false,
+  "command": [
+    "paper/scripts/github_live_study.py",
+    "--task-design", "natural-extractive-v2",
+    "--evaluation-order", "counterbalanced",
+    "--include-macro",
+    "--discovery-cases", "132",
+    "--train-cases", "16",
+    "--dev-cases", "8",
+    "--calibration-cases", "92",
+    "--test-per-class", "10",
+    "--repeat-cases", "10",
+    "--concurrency", "8",
+    "--seed", "20260802"
+  ],
+  "error_type": "RuntimeError",
+  "error": "only 0 compiler-eligible traces; need 116",
+  "provider_call_count": "unknown",
+  "provider_cost": "unknown",
+  "discovery_outputs_retained": false,
+  "test_arms_started": false,
+  "claim_boundary": "The pre-fix driver did not checkpoint discovery outputs, so this attempt supplies no quantitative result. It is retained only as failure and technical-debt evidence."
+}

@@ -1,0 +1,70 @@
+# kb_effects.yaml (use-cases §2) — anything not listed defaults to UNKNOWN and is
+# never compiled. web.search is deliberately absent: third-party ranking is neither
+# replayable nor scoped by the ACL.
+version: 1
+name: kb-rag
+tools:
+  acl.check_scope:
+    effect: READ_LOCAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [principal, role]
+    freshness_s: 300
+    resource: acl
+    notes: >-
+      The ACL check is compilable but never *inferrable*: its result is the
+      acl_scope live-in of every retrieval call, and the guard pins the role.
+
+  index.version:
+    effect: READ_LOCAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [index]
+    freshness_s: 60
+    resource: index
+
+  search.embed:
+    effect: PURE
+    capabilities: [speculatable, replayable, cacheable, reorderable]
+    key: [text]
+    resource: search
+
+  search.retrieve:
+    effect: READ_EXTERNAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [vector, k, acl_scope, page]
+    freshness_s: 120
+    literal_only: [k]
+    resource: search
+    notes: >-
+      literal_only pins k: a page size must never be reconstructed from a numeric
+      coincidence. acl_scope is a hard key: a wrong scope is an authorization
+      failure, not a quality regression.
+
+  search.rerank:
+    effect: PURE
+    capabilities: [speculatable, replayable, cacheable]
+    key: [doc_ids, query]
+    resource: search
+
+  docs.fetch_metadata:
+    effect: READ_EXTERNAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [doc_ids]
+    freshness_s: 300
+    resource: docs
+
+  docs.fetch_body:
+    effect: WRITE_IRREVERSIBLE
+    capabilities: []
+    key: [doc_id]
+    resource: docs
+    notes: >-
+      Writes an access-audit row that compliance reads. Never compiled; any window
+      containing it is dropped at Alg. 2 line 8.
+
+  search.answer_context:
+    effect: READ_EXTERNAL
+    capabilities: [speculatable, replayable, cacheable, batchable]
+    key: [question, principal, role]
+    freshness_s: 120
+    resource: search
+    notes: Hand-written comparator (execution-plan §11.2 condition 2).

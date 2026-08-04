@@ -1,0 +1,71 @@
+# effects.yaml (use-cases §4) — anything not listed defaults to UNKNOWN.
+# Handoff emission is not a tool and is not compilable: it is a semantic transition
+# that changes session and instruction ownership, and it terminates every region.
+version: 1
+name: triage
+tools:
+  alerts.get:
+    effect: READ_EXTERNAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [alert_id]
+    freshness_s: 60
+    resource: alerts
+
+  logs.query:
+    effect: READ_EXTERNAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [service, window_min]
+    freshness_s: 30
+    literal_only: [window_min]
+    resource: logs
+
+  deploys.recent:
+    effect: READ_EXTERNAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [service]
+    freshness_s: 120
+    resource: deploys
+
+  metrics.query:
+    effect: READ_EXTERNAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [service, metric]
+    freshness_s: 30
+    resource: metrics
+
+  runbooks.lookup:
+    effect: READ_LOCAL
+    capabilities: [speculatable, replayable, cacheable]
+    key: [service, symptom]
+    resource: runbooks
+
+  approvals.request:
+    effect: WRITE_IRREVERSIBLE
+    capabilities: []
+    approval_required: true
+    key: [action]
+    resource: approvals
+    notes: >-
+      An approval is an immutable barrier under §7.4. A prior approval never
+      licenses a bypass, and evidence prep before it is the only compilable part.
+
+  remediation.execute:
+    effect: WRITE_IRREVERSIBLE
+    capabilities: []
+    key: [action]
+    resource: remediation
+    notes: Operational action. Never compiled in any mode.
+
+  case.add_note:
+    effect: WRITE_IRREVERSIBLE
+    capabilities: []
+    key: [case_id]
+    resource: cases
+
+  triage.evidence_bundle:
+    effect: READ_EXTERNAL
+    capabilities: [speculatable, replayable, cacheable, batchable]
+    key: [service, family]
+    freshness_s: 30
+    resource: logs
+    notes: Hand-written comparator (execution-plan §11.2 condition 2).
