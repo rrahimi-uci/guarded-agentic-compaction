@@ -1,11 +1,24 @@
 # GPT-5.6 end-to-end repository review
 
 **Repository:** agent-compaction  
-**Review date:** 2026-08-02  
-**Reviewed version:** source and package version 0.5.0  
+**Review date:** 2026-08-02; reconciled with release 0.6.0 on 2026-08-04
+
+**Reviewed version:** source and package version 0.6.0
 **Scope:** architecture, implementation, tests, packaging, OpenAI Agents SDK integration,
 research positioning, optimization-library design, provider-backed demonstrations, and
 reproducible offline stress evaluation
+
+## MLflow dependency disposition (2026-08-04)
+
+A code-usage and package audit found that the former 338-line MLflow adapter had no
+consumer in an optimizer, experiment, demonstration, paper analysis, or runtime path. Its
+only commonly used entry points were unrelated JSONL helpers. MLflow has therefore been
+removed from the dependency/API surface. The implemented capture boundary is now the
+OpenAI Agents SDK adapter into the typed Episode IR; canonical local JSONL persists that
+IR. The custom store adds strict deterministic encoding, atomic replacement, streaming
+validation, duplicate-ID rejection, and line-attributed errors. It deliberately does not
+reimplement remote trace search, dashboards, or experiment tracking. See the
+[full removal review](mlflow-removal-report.md) and [ADR 0010](architecture/0010-single-framework-adapter.md).
 
 ## Multidomain real-record implementation checkpoint (2026-08-04)
 
@@ -71,9 +84,9 @@ obtain independent human approvals, pin real provider pricing/model token ceilin
 positive spend cap. Until then the three-domain protocol correctly remains ineligible and no live
 claim is authorized.
 
-Latest feasible-work verification passed **305 tests**, isolated sdist/wheel construction, and the
+Latest feasible-work verification passed **308 tests**, isolated sdist/wheel construction, and the
 release/link audit. The publication workflow rebuilt 14 deterministic figures, 9 tables, and both
-LaTeX manuscripts, then passed **1,292/1,292 artifact and claim checks** over a 304-file checksum
+LaTeX manuscripts, then passed **1,301/1,301 artifact and claim checks** over a 307-file checksum
 manifest, including the publication-tree secret scan. These checks validate implementation and
 retained evidence; they do not substitute for the gated SEC acquisition, human review, or live
 provider experiment. Clean-clone reproduction remains pending until the working tree is reviewed
@@ -250,8 +263,9 @@ evidence**, not as prompt rewriting and not as unconditional workflow generation
 The implementation follows six consistent principles.
 
 1. **Abstain by default.** Unknown is a barrier; missing evidence does not become a guess.
-2. **The trace IR is the stable boundary.** MLflow and the OpenAI Agents SDK are adapters,
-   not the compiler’s internal representation.
+2. **The trace IR is the stable boundary.** The OpenAI Agents SDK is a capture adapter;
+   canonical JSONL is a framework-free persistence format, not the compiler’s internal
+   representation.
 3. **Effects are permissions, not annotations.** Only declared pre-commit reads with
    speculatable and replayable capabilities may enter a GRC region.
 4. **Groundability precedes optimization.** Every synthesized argument must derive from
@@ -325,7 +339,7 @@ flowchart LR
 | component | verified strengths | fixes made in this review | residual issues |
 |:---|:---|:---|:---|
 | Packaging and release | PEP 517 package, extras, CLI, typed marker | Apache-2.0 license, CONTRIBUTING, SECURITY, SPDX metadata, py.typed, build validation; removed incompatible PEP 639 classifier | no CI matrix, lint, static typing, coverage gate, SBOM, or provenance attestation |
-| Trace capture | JSONL, real MLflow 3.15 round trip, real Agents SDK 0.19.2 processor | sensitive export now requires explicit opt-in; MLflow reconciliation uses newly created trace IDs | allowlist recorded by MLflow configuration is not an end-to-end storage policy; queue drops require operator monitoring |
+| Trace capture and persistence | real Agents SDK 0.19.2 processor plus canonical JSONL | removed an unused 338-line MLflow adapter; added strict/atomic/streaming JSONL and release gates against stale wheel content | one foreign framework adapter; JSONL is not a remote search or multi-user tracking service |
 | Manifest identity | compatibility key pins workflow dependencies | canonical JSON hashing; manifest ID now includes tools, catalog, SDK, tracer, and all compatibility inputs | applications can still supply unknown SDK/tracer pins unless qualification policy rejects them |
 | Effect catalog | UNKNOWN default, read/write lattice, capability gates | canonical order-independent digest; strict full digest match; legacy mode must be explicit | declarations cannot prove real provider effects; nominal reads may still bill, audit, or observe time |
 | Qualification | completeness, pairability, outcomes, drift reporting | added envelope/manifest match, duplicate/non-contiguous event checks, parallel call IDs, core unknown-field checks, declared-effect mismatch checks | schema-level payload typing is mostly structural rather than full tool-schema validation |
@@ -652,20 +666,20 @@ test set.
 
 | check | result |
 |:---|:---|
-| full tests after the publication-study additions | 227 passed |
+| current full suite after the dependency-removal hardening | 308 passed |
 | expanded primary natural real-provider run | 252 agent executions, 848 provider responses, 0 infrastructure failures; all three primary arms pass 30/30 exact factual and task contracts |
 | earlier aggressive natural run | 134 agent executions, 446 provider requests, 0 infrastructure failures; factual passes 18/18 unchanged, 17/18 compiler, 18/18 macro |
 | fixture-based live provider executions | 22 completed; all registered scenario outcomes passed |
-| optional backends | OpenAI Agents SDK 0.19.2 and MLflow 3.15.0 tests passed, no skips |
+| optional framework backend | OpenAI Agents SDK 0.19.2 conformance tests passed; MLflow is no longer a package extra or backend |
 | measured statement coverage | 76.28% overall, 12,014 statements, 2,850 missed |
 | compileall | passed |
-| editable install | package and metadata both 0.5.0 |
+| editable install | package and metadata both 0.6.0 |
 | isolated PEP 517 build | sdist and universal wheel built |
-| clean wheel import | 0.5.0 imported from clean site-packages; py.typed present |
+| clean wheel inspection | 0.6.0 universal wheel contains 73 members, py.typed, no MLflow module, and no MLflow dependency |
 | clean CLI | help and command registration passed |
 | dependency consistency | pip check passed |
 | release audit | all package, schema, link, result, manifest, evidence, and no-write checks passed |
-| publication claim/integrity audit | 1,034 checks passed; 0 failed |
+| publication claim/integrity audit | 1,301 checks passed; 0 failed over a 307-file checksum manifest |
 | full reproduction | all four demos, report, figures, and audit completed in 321.0 seconds with four workers |
 | deterministic rerun | normalized semantic equality and identical digest for full support experiment |
 
@@ -734,7 +748,8 @@ The correct release label remains **Development Status: Alpha**.
 4. **Privacy and trace governance**
    - Enforce entry allowlists at every exporter, define privacy classes, retention and
      deletion tombstones, encrypt raw payload references, and audit access.
-   - Acceptance: policy tests demonstrate forbidden fields never reach JSONL or MLflow.
+   - Acceptance: policy tests demonstrate forbidden fields never reach JSONL or any
+     application-owned observability exporter.
 5. **Representative provider-backed SDK staging**
    - Extend the now-working live fixture path to one real application with complete joined
      outcomes, privacy approval, a frozen SDK pin, and prospective shadow mode.

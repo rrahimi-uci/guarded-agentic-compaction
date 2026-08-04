@@ -198,6 +198,12 @@ selecting are both small changes, and both are future work.
 Capture adapters normalize framework traces into the Episode IR.  The OpenAI Agents SDK
 is a natural substrate because its agent loop records model calls, tools, agents,
 guardrails, and handoffs~\cite{openai2026agents}; the compiler does not depend on the SDK.
+The artifact persists normalized episodes as canonical local JSONL with atomic snapshot
+replacement and strict validation.  We intentionally removed an unused MLflow adapter:
+none of the experiments consumed its search or tracking surface, while retaining it added
+a second compatibility and privacy boundary.  This simplifies reproduction but gives up
+server-side trace search and leaves framework neutrality demonstrated by the typed seam and
+dependency layering, not by two independently validated foreign-trace mappings.
 Manifests pin prompt, policy, guardrail, tools, model, SDK, tracer, entry contract, and
 effect-catalog identities.  Episodes with different compatibility keys are partitioned
 before learning.

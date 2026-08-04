@@ -223,6 +223,7 @@ scripts/            fixture generator, capture smoke test, reproduce, verify rel
 | [docs/README.md](docs/README.md) | documentation source-of-truth map and evidence classes |
 | [docs/agent-compaction-report.html](docs/agent-compaction-report.html) | **illustrated report** — architecture and algorithm walkthrough, SDK integration, and before/after trace timelines rendered from the measured runs |
 | [docs/gpt-5.6-report.md](docs/gpt-5.6-report.md) | end-to-end architecture, implementation, novelty, readiness and benchmark review |
+| [docs/mlflow-removal-report.md](docs/mlflow-removal-report.md) | why MLflow was removed, what the custom JSONL store guarantees, trade-offs, migration, and validation |
 | [docs/live-results.md](docs/live-results.md) | provider-backed paired demos, raw denominators, cost and evidence boundaries |
 | [docs/results.md](docs/results.md) | deterministic offline stress study, with denominators and caveats |
 | [docs/spec-review.md](docs/spec-review.md) | what the specifications got wrong, where, and what was done instead |

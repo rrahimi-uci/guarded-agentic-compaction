@@ -27,6 +27,7 @@ _EXPORTS: dict[str, str] = {
     "manifest_diff": "manifests",
     "read_jsonl": "jsonl",
     "write_jsonl": "jsonl",
+    "EpisodeStoreError": "jsonl",
 }
 
 __all__ = sorted(_EXPORTS)

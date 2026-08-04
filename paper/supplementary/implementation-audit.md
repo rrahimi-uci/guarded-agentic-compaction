@@ -22,6 +22,13 @@ OpenAI Agents SDK traces, persisted through a dependency-free JSONL store
 guardrail, SDK, tracer, entry-contract, and effect-catalog identities. Episodes are
 qualified and partitioned before grouped splitting.
 
+The former MLflow adapter was removed after reference analysis found no experiment,
+demonstration, optimizer, or runtime consumer. The maintained store uses canonical strict
+JSON, atomic snapshot replacement, streaming validation, duplicate-ID rejection, and
+line-attributed errors. This is not a replacement for remote trace search: adopters that
+need a tracking service should keep it outside the compiler's trusted replay path. The
+removal also means that only the Agents SDK is presently a validated foreign trace mapping.
+
 Two optimization passes share the IR:
 
 - **GRC:** provenance graph → recurrent windows → bounded program synthesis → guards and
@@ -41,6 +48,7 @@ can emit a review-required macro recommendation but does not synthesize macro co
 | Component | Current strength | Residual limitation |
 |---|---|---|
 | Trace schema | Typed, serializable, explicit event kinds and manifests | Application must supply complete payloads and truthful metadata |
+| Episode persistence | Dependency-free, deterministic, atomic local snapshots with strict validation | No concurrent-writer coordination, remote query UI, or multi-user tracking |
 | Effect catalog | UNKNOWN fails closed; capability and digest checks | Declarations cannot prove a provider's real effect |
 | Provenance | Typed path/transform candidates; ambiguity blocking | Exact-value evidence can miss semantic transforms outside the DSL |
 | Window mining | Barriers, live-ins, support groups/days, canonical topology | Quadratic worst-case event scan; deployable runtime currently prefix-only |

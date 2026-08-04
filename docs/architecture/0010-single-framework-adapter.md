@@ -26,6 +26,9 @@ matrix entry for code with no in-repo consumer.
    library and the IR.
 2. The MLflow adapter, its optional extra, and its pytest marker are removed.
 3. The OpenAI Agents SDK remains the only framework adapter.
+4. The local store remains an immutable snapshot abstraction: strict canonical JSON,
+   atomic replacement, streaming validation, duplicate-ID rejection, and line-attributed
+   failures. It does not grow into a remote experiment tracker.
 
 ## Consequences
 
@@ -47,3 +50,6 @@ independent mapping. The paper's wording was corrected to match.
 `Episode` under `capture/`, add an optional extra, and add a round-trip test asserting the
 seven application-owned facts survive. Nothing in the compiler needs to change — which is
 the property ADR 0001 was protecting.
+
+The full use analysis, migration boundary, and validation matrix are recorded in the
+[MLflow removal review](../mlflow-removal-report.md).

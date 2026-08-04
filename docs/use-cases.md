@@ -1,6 +1,6 @@
 # Implemented use cases and evidence boundaries
 
-These scenarios describe what the current `agent-compaction` 0.5.0 code can do. They
+These scenarios describe what the current `agent-compaction` 0.6.0 code can do. They
 replace the earlier v2.1 pseudo-API guide, whose `cx.*` examples and staged implementation
 schedule predated the library. Every scenario below distinguishes measured evidence from
 an adoption hypothesis.

@@ -47,7 +47,7 @@ def build_manifest(
     catalog: EffectCatalog,
     entry_contract_version: str,
     sdk_version: str = "unknown",
-    tracer_version: str = "agent-compaction/0.5.0",
+    tracer_version: str = "agent-compaction/0.6.0",
 ) -> ExecutionManifest:
     # Hash a canonical, typed payload rather than delimiter-joining strings.  The
     # manifest id is used in diagnostics and trace envelopes, so it must change
