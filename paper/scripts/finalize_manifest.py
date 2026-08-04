@@ -27,6 +27,8 @@ def included_files() -> list[Path]:
         if not path.is_file():
             continue
         rel = path.relative_to(PAPER)
+        if path.name.startswith("~$") or path.name == ".DS_Store":
+            continue  # transient editor/desktop metadata is not a publication artifact
         if "__pycache__" in rel.parts or rel == Path("results/publication_manifest.json"):
             continue
         if rel == Path("results/validation_summary.json"):

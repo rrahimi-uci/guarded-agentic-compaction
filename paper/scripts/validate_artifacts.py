@@ -1123,7 +1123,8 @@ def validate_no_secrets() -> None:
     excluded_suffixes = {".parquet", ".png", ".pdf", ".pyc", ".xdv"}
     findings: list[str] = []
     for path in PAPER.rglob("*"):
-        if not path.is_file() or path.suffix in excluded_suffixes:
+        if (not path.is_file() or path.suffix in excluded_suffixes
+                or path.name.startswith("~$") or path.name == ".DS_Store"):
             continue
         data = path.read_bytes()
         if any(pattern.search(data) for pattern in patterns):
@@ -1132,29 +1133,41 @@ def validate_no_secrets() -> None:
 
 
 def validate_slides() -> None:
-    path = PAPER / "slides/compiling-recurrent-agent-workflows-into-guarded-programs.pptx"
-    ok(path.exists() and path.stat().st_size > 0, "publication slide deck exists and is non-empty")
-    if not path.exists() or path.stat().st_size == 0:
-        return
-    try:
-        with zipfile.ZipFile(path) as package:
-            names = package.namelist()
-            slide_parts = sorted(
-                name for name in names
-                if re.fullmatch(r"ppt/slides/slide\d+\.xml", name)
-            )
-            ok(len(slide_parts) == 16, "publication slide deck contains 16 slides")
-            payload = b"\n".join(package.read(name) for name in slide_parts)
-            ok(b"Compiling Recurrent Agent" in payload
-               and b"Workflows into Guarded Programs" in payload,
-               "publication slide deck contains the current paper title")
-            ok(b"When Traces Are Not Enough" not in payload,
-               "publication slide deck contains no superseded title")
-            media = [name for name in names if name.startswith("ppt/media/")]
-            ok(all(package.getinfo(name).file_size > 0 for name in media),
-               "publication slide deck contains no empty media parts")
-    except Exception as exc:
-        errors.append(f"publication slide deck package validation: {exc}")
+    decks = (
+        ("compiling-recurrent-agent-workflows-into-guarded-programs.pptx", 16, False),
+        ("compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx", 25, True),
+    )
+    for filename, expected_slides, detailed in decks:
+        path = PAPER / "slides" / filename
+        label = "detailed" if detailed else "core"
+        ok(path.exists() and path.stat().st_size > 0,
+           f"{label} publication slide deck exists and is non-empty")
+        if not path.exists() or path.stat().st_size == 0:
+            continue
+        try:
+            with zipfile.ZipFile(path) as package:
+                names = package.namelist()
+                slide_parts = sorted(
+                    name for name in names
+                    if re.fullmatch(r"ppt/slides/slide\d+\.xml", name)
+                )
+                ok(len(slide_parts) == expected_slides,
+                   f"{label} publication slide deck contains {expected_slides} slides")
+                payload = b"\n".join(package.read(name) for name in slide_parts)
+                ok(b"Compiling Recurrent Agent" in payload
+                   and b"Workflows into Guarded Programs" in payload,
+                   f"{label} publication slide deck contains the current paper title")
+                ok(b"When Traces Are Not Enough" not in payload,
+                   f"{label} publication slide deck contains no superseded title")
+                if detailed:
+                    ok(b"PAIRED UNCERTAINTY" in payload
+                       and b"EVIDENCE REGISTER" in payload,
+                       "detailed publication deck contains its quantitative appendix")
+                media = [name for name in names if name.startswith("ppt/media/")]
+                ok(all(package.getinfo(name).file_size > 0 for name in media),
+                   f"{label} publication slide deck contains no empty media parts")
+        except Exception as exc:
+            errors.append(f"{label} publication slide deck package validation: {exc}")
 
 
 def main() -> None:

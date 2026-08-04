@@ -31,8 +31,10 @@ paper/
 ├── generated_figures/              script-generated PDF and PNG figures
 ├── tables/                         script-generated LaTeX tables
 ├── slides/
-│   └── compiling-recurrent-agent-workflows-into-guarded-programs.pptx
+│   ├── compiling-recurrent-agent-workflows-into-guarded-programs.pptx
 │                                    editable 16-slide research presentation
+│   └── compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx
+│                                    25-slide version with quantitative appendix
 ├── results/
 │   ├── datasets/                   pinned upstream snapshots and manifests
 │   ├── github_live/                real-record/live-provider raw results
