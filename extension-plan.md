@@ -1,7 +1,7 @@
 # Feasible cross-domain extension plan
 
 **Working title:** Evidence-Gated Optimization Across Real Agent Workflows
-**Repository baseline:** `a024cbd` (`Add measured action portfolio and align documentation`)
+**Repository baseline:** release 0.6.0 on `main` after canonical-JSONL hardening and MLflow removal
 **Reviewed:** 2026-08-04
 **Status:** all currently feasible provider-free code and two real 420-group domains are implemented; SEC acquisition, human approvals, and billable live experiments remain gated and unrun
 **Headline scope:** cybersecurity vulnerability evidence, SEC filing reconciliation, and public HMDA mortgage-record interpretation
@@ -30,13 +30,12 @@ independently of the candidate macros, and passes **840/840 available real cases
 independent-gold and macro comparisons. It records SEC as explicitly unavailable and reports zero
 provider calls. The three-domain preflight remains ineligible by design. Protocol freezing now
 binds every case input and metadata value, while source preflight verifies the exact case, gold,
-snapshot, and independent-gold code hashes. The latest feasible-work validation passed
-**305 tests**, built the sdist and
-wheel, passed the release/link audit, rebuilt both LaTeX manuscripts plus 14 deterministic figures
-and 9 tables, and passed **1,292/1,292 publication checks** over a 304-file checksum manifest. The
-publication secret scan also passed. A literal clean-clone reproduction cannot be claimed before
-these uncommitted changes are reviewed and committed. Live efficiency, quality-preservation,
-latency, cost, determinism, and portfolio claims remain unmeasured rather than simulated.
+snapshot, and independent-gold code hashes. Validation totals are regenerated after every
+documentation and manuscript change. The release gate builds the distribution, checks current
+documentation and local links, compiles both LaTeX manuscripts, validates the publication
+manifest and claim register, and scans the publication tree for secrets. The implementation and
+MLflow-removal hardening are versioned on `main`; live efficiency, quality-preservation, latency,
+cost, determinism, and portfolio claims remain unmeasured rather than simulated.
 
 ## 1. Executive decision
 
@@ -81,8 +80,8 @@ counted as one of the three new domains and is not pooled into their certificate
 
 | Resource | Observed state on 2026-08-04 | Planning consequence |
 |---|---|---|
-| Checkout | HEAD `a024cbd`; `extension-plan.md` was the only untracked path at review start | Preserve the existing implementation and historical artifacts. |
-| Package | `agent-compaction` 0.5.0; Python requirement `>=3.11` | No package rename or architecture restart is needed. |
+| Checkout | Release 0.6.0 implementation and MLflow removal are on `main`; revalidate exact HEAD before a paid run | Preserve the implemented control plane and historical evidence. |
+| Package | `agent-compaction` 0.6.0; Python requirement `>=3.11` | No package rename or architecture restart is needed. |
 | Local interpreter | `.venv` Python 3.14.4 on macOS arm64 | Core adapters can run locally; Linux CI remains necessary for release evidence. |
 | Provider libraries | `openai-agents` 0.19.2; `openai` 2.52.0 | Freeze these versions for the first pilot and record them in every manifest. |
 | Credentials | `.env` contains `OPENAI_API_KEY` and `HF_TOKEN` variable names | Never print or serialize values. `HF_TOKEN` is not needed by the core study. |

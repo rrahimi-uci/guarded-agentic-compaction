@@ -26,6 +26,11 @@ R=paper/results/github_natural_replication
     --regrade-results \
     --results-path "$R/results.json"
 .venv/bin/python paper/scripts/build_artifacts.py
+M=paper/results/multidomain/preflight
+V=paper/scripts/validate_multidomain.py
+.venv/bin/python "$V" \
+    --pool vulnerability="$M/vulnerability" \
+    --pool hmda="$M/hmda" --out "$M/validation.json"
 .venv/bin/coverage run -m pytest -q
 .venv/bin/python scripts/verify_release.py
 TECTONIC --outdir ../build main.tex
@@ -76,9 +81,10 @@ The script never prints either value.  Use \code{--smoke} before a paid full run
 
 \section{Implementation Audit}
 
-The package contains 12,014 measured Python statements across source, tests, demos, and
-experiment drivers; the post-fix full suite collects and passes 227 tests at 76.28\%
-statement coverage.  \code{pip check} and the repository release verifier pass.  Core
+The package contains 17,433 measured Python statements across source, tests, demos,
+benchmarking, and experiment drivers; the post-fix full suite collects and passes 311
+tests at 73.94\% statement coverage.  \code{pip check} and the repository release verifier
+pass.  Core
 provenance, windows, dispatcher, facade, schemas, registry, and statistics modules have
 strong focused coverage.  Weak areas include TGWS packaging (27.7\%), the outer runner
 (64.5\%), replay (65.5\%), and the older live experiment drivers (30--31\%).  The new
@@ -171,6 +177,14 @@ untested.  A future benchmark should record entry snapshots, full argument/resul
 effect and permission labels, independent grouping keys, commit boundaries, task outcomes,
 and a frozen baseline/candidate paired protocol.  Without these fields, a benchmark can
 measure tool use but cannot substantiate safe trace-derived replacement.
+
+The repository now contains the provider-free portion of such a prospective extension.
+It checksum-binds 420 real vulnerability groups and 420 privacy-modified public HMDA
+groups, independently reconstructs exact gold, freezes group/lineage-aware study roles,
+and supplies hash-chained execution and sealed-analysis controls.  SEC acquisition remains
+gated on a compliant source contact, so the three-domain protocol cannot yet freeze and
+no provider, quality, latency, cost, or determinism result exists.  The retained preflight
+is feasibility evidence, not a third empirical tier in this manuscript.
 
 \section{Artifact Lifecycle Boundary}
 

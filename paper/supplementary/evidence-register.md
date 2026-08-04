@@ -42,6 +42,9 @@ This register prevents claims from drifting beyond the artifacts that support th
 | Prefix position is safety critical | archived pilot and regression | Verified | unsafe suffix dispatch passed only 16.7% of contracts; prefix-only fix is tested |
 | Production readiness | no canary/operations evidence | Not established | lab-only artifact promotion; no production service or multi-domain test |
 | State-of-the-art superiority | no same-task closest-system head-to-head | Not established | EvoC2F, Agent JIT, GEPA, AWO, caches, and schedulers are literature comparators only |
+| Multidomain public-record substrate is feasible | `results/multidomain/preflight/validation.json` | Verified for two domains | 420/420 vulnerability and 420/420 HMDA independent-gold reconstructions; SEC unavailable |
+| Multidomain protocol is frozen and approved | preflight and review artifacts | Not established | missing SEC pool, real pricing, compliant source contact, and independent human macro approvals |
+| Multidomain optimization improves quality or efficiency | no provider ledger or analysis | Not evaluated | zero provider calls; no token, latency, cost, determinism, or workflow-reduction claim |
 
 ## Secret handling and provenance
 

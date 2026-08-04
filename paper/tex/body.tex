@@ -195,7 +195,7 @@ selecting are both small changes, and both are future work.
 
 \subsection{Typed provenance and canonical families}
 
-Capture adapters normalize framework traces into the Episode IR.  The OpenAI Agents SDK
+A capture adapter normalizes framework traces into the Episode IR.  The OpenAI Agents SDK
 is a natural substrate because its agent loop records model calls, tools, agents,
 guardrails, and handoffs~\cite{openai2026agents}; the compiler does not depend on the SDK.
 The artifact persists normalized episodes as canonical local JSONL with atomic snapshot
@@ -207,6 +207,13 @@ dependency layering, not by two independently validated foreign-trace mappings.
 Manifests pin prompt, policy, guardrail, tools, model, SDK, tracer, entry contract, and
 effect-catalog identities.  Episodes with different compatibility keys are partitioned
 before learning.
+
+Above that seam, an optimization-pass API composes GRC and trace-guided workflow
+specialization without coupling either algorithm to the SDK.  The evidence portfolio is
+a later decision layer: it consumes paired measurements for named actions and cannot
+synthesize, approve, or execute an unmeasured macro.  This separation keeps trace capture,
+program construction, empirical action selection, and runtime lifecycle as independently
+auditable boundaries.
 
 For each call-argument slot, the program-argument trace graph (\patg) searches entry-state
 and prior-result paths for typed values and bounded transforms.  Exact matches, stable
@@ -1459,6 +1466,15 @@ looser 15\% risk limit.  The fresh portfolio test contains no question-labelled 
 strict prior-record exclusion.
 There is no human study of
 productivity or user experience and no multi-domain production canary.
+
+The artifact includes a prospective three-domain extension harness for vulnerability
+evidence, SEC filing facts, and privacy-modified public HMDA records.  Provider-free
+preflight retains 420 real vulnerability groups and 420 real HMDA groups, each passing
+independently implemented exact-gold reconstruction.  The SEC pool is absent because the
+required compliant source contact is not configured; consequently the protocol is not
+frozen, human macro approvals are absent, and no provider execution has run.  These
+artifacts demonstrate data-pipeline and control-plane feasibility only and are excluded
+from every effectiveness result in this paper.
 
 \paragraph{Baseline scope.}
 The natural study runs both the unchanged SDK loop and a live hand-written composite tool.

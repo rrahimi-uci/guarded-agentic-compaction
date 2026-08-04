@@ -84,13 +84,12 @@ obtain independent human approvals, pin real provider pricing/model token ceilin
 positive spend cap. Until then the three-domain protocol correctly remains ineligible and no live
 claim is authorized.
 
-Latest feasible-work verification passed **308 tests**, isolated sdist/wheel construction, and the
+Latest repository verification passed **311 tests**, isolated sdist/wheel construction, and the
 release/link audit. The publication workflow rebuilt 14 deterministic figures, 9 tables, and both
-LaTeX manuscripts, then passed **1,301/1,301 artifact and claim checks** over a 307-file checksum
+LaTeX manuscripts, then passed **1,292/1,292 artifact and claim checks** over a 304-file checksum
 manifest, including the publication-tree secret scan. These checks validate implementation and
 retained evidence; they do not substitute for the gated SEC acquisition, human review, or live
-provider experiment. Clean-clone reproduction remains pending until the working tree is reviewed
-and committed.
+provider experiment. The 0.6.0 dependency-removal checkpoint is committed on `main`.
 
 ## Publication-study addendum (2026-08-03)
 
@@ -359,7 +358,7 @@ flowchart LR
 | OpenAI Agents SDK | native tracing capture and native local function calls on supported hit | documented and tested lifecycle/mode/bypass behavior | not a drop-in Runner; no exact post-emission rollback; streaming, handoffs, hosted/MCP tools, loops and assertions bypass |
 | Metrics/statistics | paired grouped ratios/differences, exact safety upper bound | added generic comparison and repeat-agreement APIs | determinism is not a first-class field in the main four-demo result schema; secondary endpoint correction is not wired through every report |
 | Reproduction | generated fixtures, four conditions, negative result, figures | added validated parallel per-demo execution with isolated outputs | created timestamps and wall-clock fields make raw files byte-different even when semantics are identical |
-| Tests | 227 tests across unit, property, golden, mutation, fault injection, backends, CLI, paper oracles, portfolio selection, and end-to-end paths | added regression coverage for all corrections, both natural protocols, and fail-closed portfolio decisions | measured statement coverage is 76.28%; older live-study drivers, TGWS packaging, replay, and the outer runner need focused coverage |
+| Tests | 311 tests across unit, property, golden, mutation, fault injection, backends, CLI, paper oracles, artifact determinism, multidomain controls, portfolio selection, and end-to-end paths | added regression coverage for all corrections, both natural protocols, deterministic plot bytes, fail-closed portfolio decisions, and provider-free real-domain controls | measured statement coverage is 73.94%; paid multidomain drivers, older live-study drivers, TGWS packaging, replay, and the outer runner need focused coverage |
 
 ## 5. Correctness findings and concrete fixes
 
@@ -666,12 +665,12 @@ test set.
 
 | check | result |
 |:---|:---|
-| current full suite after the dependency-removal hardening | 308 passed |
+| current full repository suite | 311 passed |
 | expanded primary natural real-provider run | 252 agent executions, 848 provider responses, 0 infrastructure failures; all three primary arms pass 30/30 exact factual and task contracts |
 | earlier aggressive natural run | 134 agent executions, 446 provider requests, 0 infrastructure failures; factual passes 18/18 unchanged, 17/18 compiler, 18/18 macro |
 | fixture-based live provider executions | 22 completed; all registered scenario outcomes passed |
 | optional framework backend | OpenAI Agents SDK 0.19.2 conformance tests passed; MLflow is no longer a package extra or backend |
-| measured statement coverage | 76.28% overall, 12,014 statements, 2,850 missed |
+| measured statement coverage | 73.94% overall, 17,433 statements, 4,543 missed |
 | compileall | passed |
 | editable install | package and metadata both 0.6.0 |
 | isolated PEP 517 build | sdist and universal wheel built |
@@ -679,7 +678,7 @@ test set.
 | clean CLI | help and command registration passed |
 | dependency consistency | pip check passed |
 | release audit | all package, schema, link, result, manifest, evidence, and no-write checks passed |
-| publication claim/integrity audit | 1,301 checks passed; 0 failed over a 307-file checksum manifest |
+| publication claim/integrity audit | 1,292 checks passed; 0 failed over a 304-file checksum manifest |
 | full reproduction | all four demos, report, figures, and audit completed in 321.0 seconds with four workers |
 | deterministic rerun | normalized semantic equality and identical digest for full support experiment |
 

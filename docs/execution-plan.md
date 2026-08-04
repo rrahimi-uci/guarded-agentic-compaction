@@ -20,8 +20,9 @@
 > removed. The current boundary is documented in
 > [the removal review](mlflow-removal-report.md) and [ADR 0010](architecture/0010-single-framework-adapter.md).
 
-This plan originally synthesized `proposal.md`, `proposal.v1.md`, and the former v2.1
-use-case monograph. It records design intent and should not override implemented behavior.
+This plan originally synthesized `proposal.md`, its v1 predecessor retained in Git
+history, and the former v2.1 use-case monograph. It records design intent and should not
+override implemented behavior.
 
 ## 1. Executive Summary
 
@@ -869,10 +870,9 @@ The research MVP is done only when source, schemas, demo applications, frozen sp
 agent-compaction/
 ├── pyproject.toml
 ├── README.md
-├── proposal.md
-├── proposal.v1.md
-├── use-cases.md
-├── execution-plan.md
+├── experiments/proposal.md
+├── docs/use-cases.md
+├── docs/execution-plan.md
 ├── src/agent_compaction/
 │   ├── capture/
 │   │   ├── agents_sdk.py

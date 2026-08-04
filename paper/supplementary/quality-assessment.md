@@ -32,3 +32,7 @@ non-degenerate post-selection risk--coverage frontier, prospective continuation 
 multiple workflow families with different optimal actions, and at least one same-task
 learned-workflow comparator. GEPA is relevant when residual
 prompt evolution is evaluated; it is not a substitute for the macro/compiler baseline.
+
+The implemented vulnerability/HMDA preflight and sealed multidomain control plane improve
+future-study feasibility but do not change the score: SEC, human approvals, and all live
+conditions remain unrun, so no additional experimental credit is assigned.

@@ -129,7 +129,8 @@ conformance. The release audit also rejects a reintroduced MLflow extra, source 
 wheel member, or wheel dependency. Final repository, paper, and package results are
 recorded in the [end-to-end review](gpt-5.6-report.md).
 
-Completed validation on 2026-08-04:
+Removal-checkpoint validation completed on 2026-08-04 (later repository totals are in the
+[end-to-end review](gpt-5.6-report.md)):
 
 | Gate | Result |
 |:---|:---|

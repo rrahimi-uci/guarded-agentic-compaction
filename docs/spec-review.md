@@ -1,7 +1,8 @@
 # Specification review
 
 Historical implementation record: what implementing the original `execution-plan.md`,
-`proposal.md`, `proposal.v1.md`, and v2.1 use-case monograph surfaced. The current
+`proposal.md`, its v1 predecessor retained in Git history, and the v2.1 use-case monograph
+surfaced. The current
 [use-cases.md](use-cases.md) has replaced that monograph with tested APIs and scoped
 evidence. Each finding below preserves the original discrepancy, the implemented
 resolution, and where to verify it; it is not a current API guide.

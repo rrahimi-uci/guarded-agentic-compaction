@@ -2,8 +2,8 @@
 
 ## Trace-Derived Region Programs for Dynamic LLM Agents
 
-**Revised proposal — v2.1, 1 August 2026**
-*Supersedes v1 (preserved at [proposal.v1.md](proposal.v1.md)). Changes are itemized in §0.*
+**Revised proposal — v2.1, implementation-aligned 4 August 2026**
+*Supersedes v1, which remains available in Git history. Changes are itemized in §0.*
 *Current companion: [use-cases.md](../docs/use-cases.md) — implemented APIs, measured
 scenarios, and evidence boundaries. The longer v2.1 illustrative monograph summarized in
 §6.1 was superseded after implementation.*
@@ -14,8 +14,8 @@ scenarios, and evidence boundaries. The longer v2.1 illustrative monograph summa
 > The proposed MLflow backend was removed in release 0.6.0 after reference analysis found
 > no experiment, demonstration, optimizer, or runtime consumer. Current capture uses the
 > OpenAI Agents SDK adapter and canonical local JSONL. See the
-> [removal review](../docs/mlflow-removal-report.md); MLflow passages below are retained as
-> design history and related-work context, not current installation instructions.
+> [removal review](../docs/mlflow-removal-report.md). The API and package-layout examples
+> below now describe the implemented release; earlier pseudo-APIs remain in Git history.
 
 ---
 
@@ -630,7 +630,9 @@ The whole design pushes work offline. The online path is a hash lookup, a guard 
 
 ## 5. The library
 
-The point of v2. Everything above is packaged as `agent-compaction` (import `compaction`), a small Python library that sits *beside* an agent rather than inside it.
+The point of v2. Everything above is packaged as `agent-compaction` (import
+`agent_compaction`), a small Python library that sits *beside* an agent rather than
+inside it.
 
 ### 5.1 Design principles
 
@@ -639,35 +641,54 @@ The point of v2. Everything above is packaged as `agent-compaction` (import `com
 3. **Effects are declared, not inferred.** One YAML file. Anything undeclared is `UNKNOWN` and is never compiled. This converts v1's open research problem into configuration.
 4. **Three calls to value.** Capture, compile, deploy.
 5. **Read the program.** Every artifact prints as readable pseudocode. If a user cannot read what was compiled, they should not run it.
-6. **Estimate before you build.** `cx.estimate()` evaluates Eq. (10) on existing traces and reports the achievable savings ceiling — before any compilation.
+6. **Estimate before you build.** `ac.estimate()` evaluates Eq. (10) on existing traces and reports the achievable savings ceiling — before any compilation.
 
 ### 5.2 The whole API
 
 ```python
-import compaction as cx
+import agent_compaction as ac
 
 # ── 1. load normalized capture ────────────────────────────────────────────
-traces = cx.read_jsonl("traces.jsonl")
+episodes = ac.read_jsonl("traces.jsonl")
 
 # ── 2. estimate, then compile ─────────────────────────────────────────────
-effects = cx.EffectCatalog.from_yaml("effects.yaml")
+catalog = ac.load_catalog("effects.yaml")
 
-print(cx.estimate(traces, effects))
+print(ac.estimate(episodes, catalog, entry_schema=["tenant", "channel"]).render())
 #  n_B  = 17.4 model requests/episode
 #  ceiling: phi=0.71  k=2.9  ->  max request reduction 12.1%   [Eq. 10]
 #  blocked: 43% of windows by UNKNOWN effects, 31% by ungrounded slots
 
-registry = cx.compile(traces, effects, alpha=0.05, min_support=5, max_region=8)
-registry.report()          # artifacts, support, savings, rejection reasons
-print(registry.explain())  # readable pseudocode for every artifact
-registry.save("artifacts/v1")
+job = ac.optimize(
+    episodes,
+    catalog,
+    algorithms=["grc"],
+    mode="offline",
+    partition_by=["tenant_partition", "principal", "policy_version"],
+    entry_schema=["tenant", "channel"],
+    sandbox=make_isolated_sandbox,
+)
+print(job.report())
+print(job.explain())
+evidence = ac.validate(job, suites=["replay", "perturbation"])
+job.save("artifacts/v1", signing_key=signing_key)
+ac.promote(job, stage="shadow")
 
 # ── 3. deploy ─────────────────────────────────────────────────────────────
 from agents import Agent, Runner
+from agent_compaction.runtime.model_provider import CompactingModel
 
 agent = Agent(
     name="support",
-    model=cx.CompactingModel("gpt-5", registry=registry, mode="shadow"),
+    model=CompactingModel(
+        base_model,
+        registry=job.registry,
+        catalog=catalog,
+        manifest=episodes[0].manifest,
+        mode="shadow",
+        entry_state_fn=entry_state_from_sdk_input,
+        partition_fn=partition_from_sdk_input,
+    ),
     tools=[...],
 )
 result = await Runner.run(agent, "refund order 8812")
@@ -678,8 +699,8 @@ result = await Runner.run(agent, "refund order 8812")
 For agents not built on the Agents SDK:
 
 ```python
-@cx.compact(registry=registry)
-def my_agent_step(entry_state: dict) -> cx.Decision:
+@ac.compact(job.registry, catalog, episodes[0].manifest, mode="shadow")
+def my_agent_step(entry_state: dict) -> ac.Decision:
     ...   # returns Decision.BASELINE or a compacted history extension
 ```
 
@@ -718,45 +739,44 @@ Capabilities gate specific optimizations: `cacheable` licenses memoization, `reo
 ### 5.4 Package layout
 
 ```text
-compaction/
-  trace/    envelope.py  normalize.py  provenance.py     # Alg. 1
-            backends/{agents_sdk,appworld,jsonl}.py
-  mine/     canon.py  regions.py  rank.py                 # Alg. 2
-  synth/    library.py  bindings.py  branches.py          # Alg. 3, 4
-            contracts.py  validate.py                     # Alg. 5
-  gate/     features.py  score.py  calibrate.py           # Alg. 6
-  runtime/  registry.py  interp.py  facade.py             # Alg. 7
-            staging.py  adapters/{agents_sdk,generic}.py
-  report/   estimate.py  explain.py  spans.py
+src/agent_compaction/
+  schema/       traces.py  effects.py  artifacts.py       # typed contracts
+  capture/      agents_sdk.py  jsonl.py  manifests.py      # capture + persistence
+  graph/        normalize.py  provenance.py  windows.py    # Alg. 1, 2
+  grc/          synthesize.py  contracts.py  calibrate.py  # Alg. 3--6
+                compile.py
+  tgws/         tree.py  prune.py  package.py              # specialist routing
+  portfolio/    model.py  statistics.py  selector.py       # evidence selector
+  runtime/      dispatch.py  runner.py  model_provider.py  # Alg. 7 + adapters
+  registry/     store.py  lifecycle.py                     # signed lifecycle
+  evaluation/   splits.py  replay.py  perturb.py  ledger.py
+  benchmarking/ preflight.py                               # frozen study gates
+  api.py        pipeline.py  cli.py                         # public composition
 ```
 
-Nothing in `trace/`, `mine/`, `synth/`, or `gate/` imports the Agents SDK. Framework
-capture is behind `trace/backends/`; JSONL persists the IR itself. This is what makes the
-paper evaluation and SDK deployment use the same compiler rather than v1's disconnected
-tracks.
+Only the capture and model-provider adapters touch the optional Agents SDK surface. The
+typed Episode IR, optimizers, portfolio, evaluation, and registry stay framework-neutral;
+canonical JSONL persists the IR itself. This is what makes the paper evaluation and SDK
+deployment use the same compiler rather than v1's disconnected tracks.
 
-### 5.5 Historical MLflow backend (removed)
+### 5.5 Canonical JSONL persistence
 
-This subsection records the alternative evaluated during proposal design. It is not part
-of release 0.6.0. The implementation did not consume its search, evaluation, or tracking
-surface, so retaining it added a compatibility/privacy boundary without supporting a
-result. An application may still run its own observability service outside the compiler's
-canonical Episode path.
+Release 0.6.0 uses one dependency-free persistence boundary: canonical JSONL containing
+the typed Episode IR. `write_jsonl()` first materializes and validates every Episode,
+serializes strict RFC-compatible JSON with deterministic key ordering, and atomically
+replaces the snapshot. `read_jsonl()` validates each line and rejects malformed,
+non-object, duplicate-episode, or non-finite payloads with a line-numbered
+`EpisodeStoreError`. A failed write leaves the prior snapshot intact.
 
-Pin **MLflow 3.14.0** — the latest stable release in the [official archive](https://mlflow.org/releases/archive/) at the search cutoff — rather than depending on drifting `/latest/` behaviour.
+Long-running experiments use `RunLedger`, an append-only, hash-chained record of claims
+and outcomes that supports safe resume and conflict detection. Snapshot storage and run
+accounting are deliberately separate: JSONL is the compiler corpus; the ledger is the
+execution journal. Neither attempts to be a remote observability UI.
 
-| Capability | Use | Limitation that shapes the design |
-|:--|:--|:--|
-| `mlflow.openai.autolog()` | Fast capture of agent runs | No documented `openai-agents` compatibility range; the integration can clear existing SDK trace processors, so coexistence is not assumed |
-| `TraceInfo` + hierarchical `TraceData` | Queryable metadata, spans, errors, assessments | Request/response previews may be **truncated**; parent/child structure encodes containment, not dataflow or effects |
-| `@mlflow.trace`, `start_span` | Instrument memory, retrieval, approvals, compaction stages | Thread context is not auto-propagated; bad wiring fragments parallel traces |
-| SQL store + `search_traces()` | Corpus selection, failure mining, version filtering | FileStore is deprecated; high-level search is memory-heavy, so export must be paginated |
-| `mlflow.genai.evaluate()`, scorers | Frozen regression sets, assessments | Deterministic CODE scorers — never LLM judges — are the correctness oracle for state/effect equivalence |
-| OTel ingest/export | Cross-service transport | GenAI semantic conventions cover model/tool observability, not compaction contracts or replay semantics |
-
-MLflow is a transport, storage, search, and visualization plane **beneath** the versioned Compaction Trace Profile — never the compiler IR, and never a replay input. Raw complete trace JSON in append-only encrypted object storage is the evidence source. Two modes: *convenience* (`autolog`, for development) and *authoritative research* (one designated exporter, isolated SQL-backed server, sampling ratio 1.0, synchronous export or explicit flush, followed by count/hash reconciliation).
-
-`cx.enable_tracing()` asserts the one-authoritative-tracer rule and raises if a second exporter owns the same span tree.
+The removed MLflow prototype is documented in the
+[removal review](../docs/mlflow-removal-report.md) and in Git history. Applications may
+still run an external tracing or analytics service, but the library does not require it
+and never treats its previews as replay evidence.
 
 ### 5.6 OpenAI Agents SDK backend
 
@@ -893,7 +913,7 @@ and numbers remain summarized below; the current [use-case guide](../docs/use-ca
 provides the implemented API and measured scenarios.
 
 Each row below is the section's own Eq. (10) computation, $\Delta = \phi\rho k / n_B$. The parameters
-are illustrative, not measured; `cx.estimate()` exists so that no one has to adopt them.
+are illustrative, not measured; `ac.estimate()` exists so that no one has to adopt them.
 
 | # | Agent | $n_B$ | $\phi$ | $\rho$ | $k$ | $\Delta$ | What it demonstrates |
 |--:|:--|--:|--:|--:|--:|--:|:--|
@@ -997,19 +1017,20 @@ problem from an unbounded liability into a fixed per-deploy cost, and it makes c
 in a diff instead of invisible in production. Teams that cannot afford a shadow window per prompt
 change should not deploy this system; that constraint is a reasonable filter, not a defect.
 
-### 6.5 Known specification gaps
+### 6.5 Specification gaps resolved by the implementation
 
-Writing the five use cases surfaced four places where §5 is underspecified. They are recorded here
-rather than quietly patched, because the companion guide works around each one explicitly.
+Writing the five use cases surfaced four missing controls in the proposal. Release 0.6.0
+implements all four and tests the isolation-sensitive paths.
 
-| Gap | Where it bites | Resolution |
-|:--|:--|:--|
-| `cx.compile()` takes no tenant or principal argument | Use case 5 must build and store one registry per tenant, since `tenant_id` is an exact guard key and cross-tenant registries must never merge | Add a `partition_by=` argument, or document the per-partition invocation pattern as the supported approach |
-| `@cx.compact` has no `mode=` | Non-SDK agents cannot run shadow, which is the mandatory step 5 of the adoption recipe. This blocks the safe rollout order for exactly the deployment shape the decorator exists to serve | Add `mode=` to the decorator with the same three values. This is a missing keyword, not a missing design |
-| The effect-catalog schema cannot mark a slot literal-only | Use case 1 needs to declare that a token argument must never be reconstructed by transform, only bound by identity. Today $\Theta$ offers a string stoplist and nothing else | Add a per-tool `literal_only: [slot]` list, checked in Algorithm 3 before enumeration |
-| $\Theta$ is a static stoplist | §6.2 row 1: real payloads need a corpus-derived entropy filter, not a hand-maintained word list | Compute per-field cardinality during ingestion and expose the threshold as a `cx.compile()` argument |
+| Original gap | Implemented resolution |
+|:--|:--|
+| Compilation had no tenant or principal argument | `optimize(..., partition_by=...)` partitions the corpus before TGWS or GRC fitting, preventing cross-partition statistics from influencing artifacts. |
+| The generic decorator had no deployment mode | `compact(..., mode="shadow"|"live"|"off")` exposes the same fail-closed rollout modes as the runtime adapters. |
+| The catalog could not prohibit reconstructed sensitive slots | Per-tool `literal_only` paths are enforced during provenance construction and synthesis. |
+| $\Theta$ was a static stoplist | Normalization computes per-field cardinality and entropy; provenance rejects low-cardinality transformations under a configurable threshold. |
 
-None of these changes an algorithm. All four should land before `v0.2`.
+These controls do not change the seven algorithms, but they close specification holes
+that would otherwise make the public API unsafe or ambiguous.
 
 ### 6.6 Build the compiler, or hand-write the regions?
 

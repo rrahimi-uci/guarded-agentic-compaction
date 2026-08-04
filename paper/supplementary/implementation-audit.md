@@ -16,8 +16,8 @@ approval-gated, rapidly drifting, or unobservable workflows are intentionally po
 
 ## Architecture
 
-The framework-neutral typed Episode IR is the stable seam. Capture adapters normalize
-OpenAI Agents SDK traces, persisted through a dependency-free JSONL store
+The framework-neutral typed Episode IR is the stable seam. One maintained foreign adapter
+normalizes OpenAI Agents SDK traces, persisted through a dependency-free JSONL store
 (see ADR 0010). Execution manifests pin prompt, policy, model, tool,
 guardrail, SDK, tracer, entry-contract, and effect-catalog identities. Episodes are
 qualified and partitioned before grouped splitting.
@@ -63,6 +63,7 @@ can emit a review-required macro recommendation but does not synthesize macro co
 | SDK runtime | Real local-function execution through a custom Model | Not a drop-in Runner; bypasses streaming, hosted/MCP tools, handoffs, loops |
 | TGWS | Readable bounded routing and measured pruning | Search uses aggregate point estimates; package coverage is weak |
 | Evaluation | Grouped splits, paired statistics, replay, perturbation | Domain semantic equivalence remains caller-owned |
+| Multidomain study harness | Frozen case/lineage roles, source attestations, independent gold, budget reservation, hash-chained resume, action locks, exact paired analysis | Only vulnerability and HMDA preflight pools exist; SEC, human approval, and every provider phase remain gated and unrun |
 
 ## Concrete defect found during the paper study
 
@@ -83,15 +84,18 @@ a verified runtime region-position key and resumable state, not merely relaxing 
 
 - The full test count is regenerated with each validation pass; it includes legacy,
   natural-workflow, replication-oracle, and continuation fail-closed regressions.
-- Measured statement coverage is 76.28% over 12,014 statements; adding the prospective
-  paid-study driver expands the denominator while its provider path remains only partly
-  exercised by the provider-free suite.
+- Measured statement coverage is 73.94% over 17,433 statements; the multidomain control
+  plane and prospective paid-study drivers expand the denominator while their provider
+  paths remain only partly exercised by the provider-free suite.
 - `pip check` reports no broken requirements.
 - `scripts/verify_release.py` passes all repository checks.
 - The publication artifact validator passes source hashes, result claims, cohort
   disjointness, generated-artifact checksums, PDF content, and secret-pattern scans.
 - The public repository now has an initial versioned snapshot; experimental history before
   that snapshot and historical CI claims remain unavailable.
+- Provider-free multidomain validation reconstructs 840/840 available real-record gold
+  cases and records zero provider calls. This is feasibility evidence, not an optimization
+  or cross-domain quality result.
 
 Coverage gaps are concentrated in TGWS packaging (27.7%), the outer runner (64.5%), replay
 (65.5%), the older live-study drivers (30--31%), and report/capture utilities. The

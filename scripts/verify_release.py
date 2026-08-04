@@ -63,6 +63,7 @@ def main() -> int:
         not (ROOT / "src" / "agent_compaction" / "capture" / "mlflow_adapter.py").exists(),
         "source package has no MLflow adapter",
     )
+    _check_current_documentation()
     for wheel in sorted((ROOT / "dist").glob("agent_compaction-*.whl")):
         with zipfile.ZipFile(wheel) as archive:
             names = archive.namelist()
@@ -269,10 +270,51 @@ def _check_live_results() -> None:
 
 
 def _markdown_files() -> list[Path]:
-    roots = [ROOT / "README.md", ROOT / "CONTRIBUTING.md", ROOT / "SECURITY.md"]
+    roots = [
+        ROOT / "README.md",
+        ROOT / "CONTRIBUTING.md",
+        ROOT / "SECURITY.md",
+        ROOT / "extension-plan.md",
+        ROOT / "benchmarks" / "README.md",
+        ROOT / "paper" / "README.md",
+    ]
     roots.extend((ROOT / "docs").rglob("*.md"))
     roots.extend((ROOT / "experiments").rglob("*.md"))
+    roots.extend((ROOT / "paper" / "supplementary").rglob("*.md"))
     return sorted(path for path in roots if path.exists())
+
+
+def _check_current_documentation() -> None:
+    """Prevent removed public surfaces from returning to current usage guides.
+
+    Historical ADRs, reviews, and the research proposal may name retired APIs while
+    explaining their disposition. The documents below are current integration surfaces,
+    so executable examples in them must follow release 0.6.0.
+    """
+
+    current = (
+        ROOT / "README.md",
+        ROOT / "docs" / "library-api.md",
+        ROOT / "docs" / "openai-agents-sdk.md",
+        ROOT / "docs" / "trace-contract.md",
+        ROOT / "docs" / "use-cases.md",
+    )
+    retired = (
+        "import compaction",
+        "cx.compile(",
+        "cx.enable_tracing(",
+        "export_episodes(",
+        "load_episodes(",
+        "configure_mlflow(",
+        "mlflow_adapter",
+    )
+    for document in current:
+        text = document.read_text()
+        for marker in retired:
+            check(
+                marker not in text,
+                f"{document.relative_to(ROOT)} excludes retired API {marker!r}",
+            )
 
 
 def _local_links(document: Path) -> list[Path]:

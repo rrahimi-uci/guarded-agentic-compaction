@@ -37,6 +37,7 @@ paper/
 │   ├── github_natural_live/        free-order real-provider study and raw results
 │   ├── portfolio_live/             frozen decision and prospective fresh-cohort result
 │   ├── github_natural_replication/ expanded paid 30-pair replication
+│   ├── multidomain/                real-record provider-free extension preflight
 │   ├── nestful/                    public-benchmark raw results
 │   ├── artifact_manifest.json      checksums of quantitative paper artifacts
 │   └── publication_manifest.json   final source/evidence/PDF checksums
@@ -45,12 +46,16 @@ paper/
 │   ├── continuation_replay.py      checked post-model replay on retained outputs
 │   ├── github_live_study.py        fixed ablation and expanded natural replication
 │   ├── portfolio_live_study.py     reviewed portfolio selection and prospective test
+│   ├── multidomain_study.py        gated real-provider multidomain runner
+│   ├── validate_multidomain.py     provider-free independent-gold validation
 │   ├── nestful_benchmark.py        provider-free external benchmark
 │   ├── build_artifacts.py          deterministic figures/tables
 │   └── validate_artifacts.py       claim and integrity audit
-├── paper-review.md                 independent critical review (reject/major revision)
-├── supplementary/                  evidence register, review, titles, rubric
-│   ├── review-disposition.md       what that review got right, and what was applied
+├── paper-review.md                 consolidated adversarial peer review
+├── supplementary/                  evidence register, audit, and rubric
+│   ├── evidence-register.md        claim-level evidence boundaries
+│   ├── implementation-audit.md     repository and component review
+│   ├── quality-assessment.md       publication-readiness rubric
 │   └── natural-live-study-protocol.md  expanded real-record experiment protocol
 └── build/
     ├── article.pdf                 single-column article (page count verified after build)
@@ -116,6 +121,12 @@ capabilities are documented in
   reachable), a handoff barrier, an undeclared-effect MCP surface, and route
   specialization. Three of its eight conditions are negative controls whose only correct
   outcome is no compaction. Raw results are in `../experiments/live_results/`.
+- **Prospective multidomain extension (preflight only):** 420 real vulnerability groups
+  and 420 privacy-modified public HMDA groups pass independent provider-free gold
+  reconstruction. SEC acquisition is source-gated, no three-domain protocol is frozen,
+  no human macro approval exists, and no provider call has run. These artifacts establish
+  data and control-plane feasibility only; they contribute no optimization result to this
+  paper. See [`../benchmarks/README.md`](../benchmarks/README.md).
 
 ## Reproduce without provider calls
 
@@ -130,6 +141,11 @@ From the repository root:
     --task-design natural-extractive-v2 --regrade-results \
     --results-path paper/results/github_natural_replication/results.json
 .venv/bin/python paper/scripts/continuation_replay.py
+M=paper/results/multidomain/preflight
+V=paper/scripts/validate_multidomain.py
+.venv/bin/python "$V" \
+    --pool vulnerability="$M/vulnerability" \
+    --pool hmda="$M/hmda" --out "$M/validation.json"
 .venv/bin/python paper/scripts/build_artifacts.py
 .venv/bin/coverage run -m pytest -q
 .venv/bin/coverage json -o paper/results/coverage.json
@@ -304,4 +320,4 @@ cross-domain generalization, or state-of-the-art superiority.
   reconstructed. Dataset file provenance is independently pinned and hashed.
 
 See `supplementary/evidence-register.md` for claim-level provenance and
-`supplementary/reviewer-report.md` for the adversarial self-review.
+`paper-review.md` for the adversarial self-review.

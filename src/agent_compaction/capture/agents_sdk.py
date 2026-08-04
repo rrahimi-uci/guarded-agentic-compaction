@@ -64,6 +64,8 @@ class AgentsTraceProcessor:
     """
 
     def __init__(self, *, include_sensitive_data: bool = False, max_completed: int = 1000) -> None:
+        if max_completed < 1:
+            raise ValueError("max_completed must be at least 1")
         self.include_sensitive_data = include_sensitive_data
         self._lock = threading.RLock()
         self._traces: dict[str, dict[str, Any]] = {}
@@ -94,7 +96,8 @@ class AgentsTraceProcessor:
         try:
             self._completed.put_nowait(record)
         except queue.Full:
-            self.dropped += 1
+            with self._lock:
+                self.dropped += 1
 
     def on_span_start(self, span: Any) -> None:
         return None
@@ -116,7 +119,8 @@ class AgentsTraceProcessor:
         except Exception:
             # Tracing must never break the agent loop. Operational code can inspect
             # ``dropped`` and reconcile trace counts before compilation.
-            self.dropped += 1
+            with self._lock:
+                self.dropped += 1
 
     def drain(self, *, limit: int | None = None) -> list[SdkTraceRecord]:
         out: list[SdkTraceRecord] = []
@@ -132,6 +136,10 @@ class AgentsTraceProcessor:
 
     def shutdown(self) -> None:
         with self._lock:
+            # An SDK shutdown may arrive while traces are still active. Those traces
+            # cannot be normalized, so make the loss observable instead of silently
+            # clearing it. Completed records remain available for a final drain.
+            self.dropped += len(self._traces)
             self._traces.clear()
             self._spans.clear()
 

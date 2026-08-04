@@ -12,6 +12,7 @@ import csv
 import hashlib
 import json
 import statistics
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -63,6 +64,15 @@ COLORS = {
 #: figure drawn at this width is reproduced at ~1:1 and its 9pt labels stay 9pt.
 FIG_W = 5.4
 
+# Matplotlib otherwise inserts the wall-clock creation time into every PDF. That makes
+# unchanged figures hash differently on every rebuild and defeats the checksum manifest.
+# A fixed, truthful artifact-version timestamp keeps the PDF bytes reproducible.
+PDF_METADATA = {
+    "Creator": "agent-compaction paper/scripts/build_artifacts.py",
+    "CreationDate": datetime(2026, 8, 4, tzinfo=timezone.utc),
+    "ModDate": datetime(2026, 8, 4, tzinfo=timezone.utc),
+}
+
 def load_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -83,7 +93,12 @@ def tex(value: object) -> str:
 
 def savefig(name: str) -> None:
     FIGURES.mkdir(parents=True, exist_ok=True)
-    plt.savefig(FIGURES / f"{name}.pdf", bbox_inches="tight", pad_inches=0.02)
+    plt.savefig(
+        FIGURES / f"{name}.pdf",
+        bbox_inches="tight",
+        pad_inches=0.02,
+        metadata=PDF_METADATA,
+    )
     plt.savefig(FIGURES / f"{name}.png", dpi=220, bbox_inches="tight", pad_inches=0.02)
     plt.close()
 

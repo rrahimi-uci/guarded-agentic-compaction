@@ -5,10 +5,11 @@ difference is not negotiable.
 
 ## Division of labour
 
-The OpenAI Agents SDK already traces runner and task boundaries, turns, generations,
-function calls, guardrails and handoffs, including inputs, outputs, calls,
-errors and assessments, and makes them searchable. Neither can infer the seven facts below,
-and without them the compiler is unsound rather than merely limited.
+The OpenAI Agents SDK already emits traces for runner and task boundaries, turns,
+generations, function calls, guardrails, and handoffs. The library's secondary
+`AgentsTraceProcessor` normalizes those observable spans without replacing the SDK's
+default exporter. Neither the SDK nor the processor can infer the seven application-owned
+facts below; without them the compiler is unsound rather than merely limited.
 
 | field | purpose | rule |
 |:---|:---|:---|
@@ -64,16 +65,20 @@ result to coarser grouping.
 Production has no scenario ids and repeated automated traffic inflates support, so support
 is counted by group **and** principal **and** day.
 
-## One authoritative tracer
+## One authoritative compiler input
 
-Two exporters over one span tree produce duplicated or fragmented traces, so a capture
-layer must own exactly one authoritative tracer and record a capture manifest with the
-mode (`authoritative` vs `convenience`), the sampling ratio and the allowlist.
+The SDK may continue to export its own observability traces while the library's secondary
+processor collects an in-process normalization stream. The application must nevertheless
+designate exactly one compiler-input path. Feeding both streams into the Episode store
+would duplicate or fragment the same execution evidence.
 
-Authoritative capture also means **synchronous export or an explicit flush followed by
-count reconciliation**: a short-lived job otherwise exits with traces still queued, and the
-corpus silently loses episodes. `export_episodes` flushes and reconciles, and raises if the
-store reports fewer traces than were written.
+`AgentsTraceProcessor` is non-blocking. After a run, call `drain()`, join each completed
+record with the application-owned envelope, manifest, entry state, and outcome, then persist
+the resulting Episodes with `write_jsonl()`. Short-lived jobs must drain before shutdown and
+must treat a non-zero `processor.dropped` count as an incomplete capture. `force_flush()` is
+present for SDK processor compatibility but has no remote queue to flush. Canonical JSONL
+writes validate all Episodes before an atomic snapshot replacement; they do not reconcile a
+separate tracing service.
 
 ## What is never captured
 

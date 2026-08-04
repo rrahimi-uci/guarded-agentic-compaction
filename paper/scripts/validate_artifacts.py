@@ -1024,7 +1024,7 @@ def validate_publication() -> None:
         "scripts/test_oracle_weakness.py",
         "build/main.pdf", "build/article.pdf",
         "README.md", "supplementary/evidence-register.md",
-        "supplementary/reviewer-report.md", "supplementary/quality-assessment.md",
+        "paper-review.md", "supplementary/quality-assessment.md",
         "supplementary/natural-live-study-protocol.md",
         "results/github_natural_replication/preflight.json",
         "results/github_natural_replication/results.json",

@@ -201,3 +201,29 @@ def test_agents_processor_redacts_payloads_by_default():
     span = processor.drain()[0].spans[0]
     assert span.data["input"] is None
     assert span.data["output"] is None
+
+
+def test_agents_processor_rejects_an_accidentally_unbounded_completed_queue():
+    with pytest.raises(ValueError, match="max_completed"):
+        AgentsTraceProcessor(max_completed=0)
+
+
+def test_agents_processor_reports_queue_and_shutdown_loss():
+    processor = AgentsTraceProcessor(max_completed=1)
+
+    first = _Trace(trace_id="trace_1")
+    processor.on_trace_start(first)
+    processor.on_trace_end(first)
+
+    second = _Trace(trace_id="trace_2")
+    processor.on_trace_start(second)
+    processor.on_trace_end(second)
+    assert processor.dropped == 1
+
+    incomplete = _Trace(trace_id="trace_3")
+    processor.on_trace_start(incomplete)
+    processor.shutdown()
+    assert processor.dropped == 2
+
+    # Shutdown does not destroy records that completed before it was called.
+    assert [record.trace_id for record in processor.drain()] == ["trace_1"]
