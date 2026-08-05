@@ -106,7 +106,25 @@ function renumberPages(presentation) {
   }
 }
 
-function validateEvidence(gcs, replay, optimizer, external, families) {
+function validateEvidence(gcs, replay, optimizer, external, families, admission) {
+  assertEqual(admission.schema, "agent-compaction-admission-register/v1", "admission register schema");
+  assertClose(admission.registered_alpha, 0.05, "registered selective-risk target");
+  // The decks quote a per-artifact risk level, so bind the two facts they assert: the
+  // three primary families sit at the registered alpha, and the GCS artifact does not.
+  const byStudy = new Map(admission.artifacts.map((row) => [row.study, row]));
+  for (const study of ["Expanded replication (issue type)", "PR-outcome audit", "Backlog-attention routing"]) {
+    const row = requireValue(byStudy.get(study), `admission register missing ${study}`);
+    assertClose(row.alpha, 0.05, `${study} alpha`);
+    assertEqual(row.meets_registered_alpha, true, `${study} meets registered alpha`);
+  }
+  const composite = requireValue(
+    byStudy.get("Guarded composite synthesis"),
+    "admission register missing the GCS artifact",
+  );
+  assertClose(composite.alpha, 0.1, "GCS artifact alpha");
+  assertEqual(composite.meets_registered_alpha, false, "GCS artifact fails the registered alpha");
+  assertEqual(composite.n_accepted, 88, "GCS artifact admitted calibration groups");
+  assertEqual(composite.n_calibration_groups, 92, "GCS artifact calibration groups");
   assertEqual(gcs.schema, "agent-compaction-gcs-live-study/v1", "GCS schema");
   assertEqual(gcs.run.provider_backed, true, "GCS provider-backed flag");
   assertEqual(gcs.run.real_public_records, true, "GCS real-record flag");
@@ -189,8 +207,8 @@ function editWorkflowFamilySlide(slide, families, mode) {
     slide,
     4,
     seminar
-      ? "Three distinct decisions and tool vocabularies use 132 balanced discovery records and 30 disjoint held-out records each.\nCompiled programs preserve 90/90 exact outcomes versus 89/90 baseline while cutting requests 66.6%, tokens 63.1%, observed latency 64.2%, and estimated cost 58.7% in aggregate.\nHand-written programs also reach 90/90; automatic discovery and lifecycle—not runtime dominance—are the contribution."
-      : "Issue-type routing, PR-outcome audit, and backlog-attention routing use distinct tools and exact graders over one pinned public snapshot.\nCompiled programs reach 90/90 exact outcomes versus 89/90 baseline. Weighted reductions: requests 66.6%, visible interfaces 44.2%, tokens 63.1%, observed latency 64.2%, and cost 58.7%.\nManual programs also reach 90/90, so the learned result is transfer and automation—not runtime superiority.",
+      ? "Three distinct decisions and tool vocabularies use 132 balanced discovery records and 30 disjoint held-out records each; all 90 held-out records are pairwise disjoint.\nCompiled programs preserve 90/90 exact outcomes versus 89/90 baseline (exact McNemar p=1) while cutting requests 66.6%, tokens 63.1%, observed latency 64.2%, and estimated cost 58.7% in aggregate.\nAll three artifacts are admitted at the registered α=.05; with no compiled-only failure the pooled discordance bound is 3.3%.\nHand-written programs also reach 90/90; automatic discovery and lifecycle—not runtime dominance—are the contribution."
+      : "Issue-type routing, PR-outcome audit, and backlog-attention routing use distinct tools and exact graders over one pinned public snapshot, with all 90 held-out records pairwise disjoint.\nCompiled programs reach 90/90 exact outcomes versus 89/90 baseline (exact McNemar p=1; pooled compiled-only discordance bound 3.3%). Weighted reductions: requests 66.6%, visible interfaces 44.2%, tokens 63.1%, observed latency 64.2%, and cost 58.7%.\nAll three artifacts are calibrated at the registered α=.05 over 92 zero-violation groups.\nManual programs also reach 90/90, so the learned result is transfer and automation—not runtime superiority.",
   );
   setShapeText(
     slide,
@@ -296,13 +314,13 @@ function editGcsSlide(slide, rows, mode) {
     setShapeText(
       slide,
       20,
-      "The fair manual program closes the earlier placement confound: GCS and manual execution tie on requests, interfaces, input tokens, and exact quality. Official GEPA 0.1.4 makes 14 real task evaluations and three reflections, but retains its seed. Its 59-request, 63,954-token optimization overhead is reported separately. This six-case result supports automatic guarded specialization—not runtime dominance or general GEPA failure.",
+      "The fair manual program closes the earlier placement confound: GCS and manual execution tie on requests, interfaces, input tokens, and exact quality. Official GEPA 0.1.4 makes 14 real task evaluations and three reflections, but retains its seed. Its 59-request, 63,954-token optimization overhead is reported separately. Risk scope: the GCS artifact here is calibrated at α=.10 (88/92 groups admitted, bound 0.052) and would retire at the registered α=.05, so this is a 10%-selective-risk result. This six-case result supports automatic guarded specialization—not runtime dominance or general GEPA failure.",
     );
   } else {
     setShapeText(
       slide,
       18,
-      "Fair placement removes the confound: GCS and manual execution tie structurally at 6/6 exact quality. GEPA retains its seed after 14 task evaluations; 59 optimization requests are accounted separately. One family, six held-out cases.",
+      "Fair placement removes the confound: GCS and manual execution tie structurally at 6/6 exact quality. GEPA retains its seed after 14 task evaluations; 59 optimization requests are accounted separately. The GCS artifact is calibrated at α=.10 (88/92, bound 0.052) and would retire at the registered α=.05. One family, six held-out cases.",
     );
   }
   const table = slide.tables.items[0];
@@ -448,7 +466,7 @@ function updateTechnical(presentation, rows, families) {
   replaceStartingWith(
     presentation,
     "No perturbation challenge ran on the live artifact",
-    "No perturbation challenge ran on the primary live artifact\nFair placement / GEPA has only six held-out cases\nAWO · Agent JIT · EvoC2F remain unexecuted\nDiscovery is costly; risk is artifact-specific",
+    "No perturbation challenge ran on the primary live artifact\nGCS / GEPA results hold at α=.10, not the registered .05\nFair placement / GEPA has only six held-out cases\nAWO · Agent JIT · EvoC2F remain unexecuted\nBreak-even is 181–411 episodes; risk is artifact-specific",
   );
   replaceUnique(
     presentation,
@@ -490,17 +508,19 @@ async function main() {
   const optimizerPath = path.join(PAPER, "results/optimizer_head_to_head/results.json");
   const externalPath = path.join(PAPER, "results/external_benchmarks/reference_analysis.json");
   const familiesPath = path.join(PAPER, "results/github_workflow_families/summary.json");
-  const [map, gcs, replay, optimizer, external, families, artifact] = await Promise.all([
+  const admissionPath = path.join(PAPER, "results/admission_register.json");
+  const [map, gcs, replay, optimizer, external, families, admission, artifact] = await Promise.all([
     readJson(mapPath),
     readJson(gcsPath),
     readJson(replayPath),
     readJson(optimizerPath),
     readJson(externalPath),
     readJson(familiesPath),
+    readJson(admissionPath),
     loadArtifactTool(artifactWorkspace),
   ]);
   assertEqual(map.schema, "agent-compaction-slide-template-map/v1", "slide map schema");
-  validateEvidence(gcs, replay, optimizer, external, families);
+  validateEvidence(gcs, replay, optimizer, external, families, admission);
   const rows = metricRows(optimizer);
   const seminar = map.templates.seminar;
   const technical = map.templates.technical;
@@ -528,6 +548,10 @@ async function main() {
   const manifest = {
     schema: "agent-compaction-slide-generation/v1",
     generator: "paper/scripts/generate_slides.mjs",
+    // Recording the generator's own digest is what lets a later check notice that the
+    // deck sources changed while the .pptx binaries did not. A rendered deck that no
+    // longer matches its generator is a claim the repository cannot support.
+    generator_sha256_current: await sha256(fileURLToPath(import.meta.url)),
     template_map: "paper/slides/gac-template-map.json",
     evidence: {
       gcs_live: { path: "paper/results/gcs_live/results.json", sha256: await sha256(gcsPath) },
@@ -535,6 +559,7 @@ async function main() {
       optimizer_head_to_head: { path: "paper/results/optimizer_head_to_head/results.json", sha256: await sha256(optimizerPath) },
       external_benchmarks: { path: "paper/results/external_benchmarks/reference_analysis.json", sha256: await sha256(externalPath) },
       github_workflow_families: { path: "paper/results/github_workflow_families/summary.json", sha256: await sha256(familiesPath) },
+      admission_register: { path: "paper/results/admission_register.json", sha256: await sha256(admissionPath) },
     },
     templates: {
       seminar: { path: seminar.path, sha256: seminar.sha256, source_slides: seminar.source_slides },
@@ -545,7 +570,7 @@ async function main() {
       seminar: seminar.source_slide_for_output,
       technical: technical.source_slide_for_output,
     },
-    evidence_boundary: "Three real-record workflow families support the primary transfer result: compiled 90/90, baseline 89/90, manual 90/90. The snapshot does not establish cross-repository or time-forward transfer. NESTFUL and API-Bank remain refusal evidence; eight other benchmark paths are supplementary interoperability audits.",
+    evidence_boundary: "Three real-record workflow families support the primary transfer result: compiled 90/90, baseline 89/90, manual 90/90, all admitted at the registered alpha=.05 with a pooled 3.3% compiled-only discordance bound. The snapshot does not establish cross-repository or time-forward transfer. GCS and comparator results rest on an artifact calibrated at alpha=.10 and are not licensed at .05. NESTFUL and API-Bank remain refusal evidence; eight other benchmark paths are supplementary interoperability audits.",
   };
   const manifestPath = path.join(PAPER, "results/slide_generation.json");
   await fs.writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");

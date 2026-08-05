@@ -6,7 +6,7 @@ This register prevents claims from drifting beyond the artifacts that support th
 |---|---|---|---|
 | NESTFUL producer candidates contain the gold producer | `results/nestful/results.json` | Verified | 5,531/5,746 slots (96.3% candidate recall); only 4,636/5,746 (80.7%) resolve uniquely |
 | Synthesized NESTFUL families avoid recorded wrong replay | NESTFUL `held_out_replay` | Verified on sample | 24 pass, 12 abstain, 0 wrong across 36 windows |
-| Recurrence alone satisfies the configured gate | NESTFUL exact-gate record | Contradicted | maximum family support is 26; 92 zero-violation groups are required; no family is certifiable |
+| Recurrence alone satisfies the configured per-candidate gate | NESTFUL exact-gate record | Contradicted | maximum family support is 26; 92 zero-violation groups are required for one fixed candidate; no family is certifiable |
 | All ten requested benchmark families have an implemented disposition | `results/external_benchmarks/reference_analysis.json` | Verified | 10/10 named rows; eight screened task sources; five executed external paths; three bounded live-provider paths; depths are not pooled |
 | API-Bank supplies a second compiler substrate | `results/external_benchmarks/api_bank_execution.json` | Verified | 212 complete traces, 389 calls, 48 candidate windows, two synthesized families |
 | API-Bank recurrence satisfies configured admission | API-Bank exact-gate record | Contradicted | maximum support 8 vs. 92 required; 0 pass / 2 abstain / 0 wrong held-out; every family retires |
@@ -21,7 +21,7 @@ This register prevents claims from drifting beyond the artifacts that support th
 | The three-family result generalizes across repositories or time | pinned source revision and selections | Not established | all 90 held-out records come from one repository snapshot; cohorts are workflow-distinct, not cross-repository or time-forward |
 | Opaque identifiers should use empirical numeric ranges | semantic guard tests and archived PR pilot | Contradicted | IDs retain integer type and provenance with an `any` hull; numeric quantities remain interval-bounded |
 | The compiler learned the final fixed prefix | compiler report, splits, artifact | Verified | 16 train, 8 dev, 92 calibration traces; the task prompt prescribes the three calls and their order |
-| Calibration observed zero recorded violations | artifact gate record | Verified | 92 configured group records; upper bound 0.0498089 under i.i.d./conditionally i.i.d. assumptions |
+| Calibration observed zero recorded violations | artifact gate record | Verified | 92 configured group records; per-candidate upper bound 0.0498089 under i.i.d./conditionally i.i.d. assumptions |
 | The reported gate discriminates safe from unsafe candidates | score/grid records | Not supported | zero positive dev examples; all 92 groups enter at one threshold; perturbations disabled |
 | Provider requests decrease | 18 held-out pairs | Verified on sample | 4 to 1 in every pair; fixed-prefix registered task only |
 | Total tokens decrease | 18 held-out pairs | Verified on sample | 3,917.8 to 1,345.2 mean; 65.7% |
@@ -56,10 +56,17 @@ This register prevents claims from drifting beyond the artifacts that support th
 | Hand-written macro comparison is live | both natural-workflow results | Verified on samples | earlier macro passes 18/18; expanded macro passes 30/30 and outperforms the partial compiler on tools, tokens, and cost |
 | Offline macro comparison settles the live question | `experiments/results/*.json` | Contradicted | deterministic simulated workload; macro wins request ratio on three of five demos |
 | Tier-3 demonstrations use real business records | `experiments/live_results/all_results.json` | Contradicted | live provider, but explicitly fictional deterministic fixtures |
+| Fulfillment compaction preserves the mandatory-write boundary | `experiments/live_results/all_results.json`, `docs/live-results.md` | Verified on fixture | Demo E: 7.0 to 2.0 requests, total tokens -66.4%, quality 1.00/1.00; estimated cost +8.3%; write remains in the ordinary agent |
 | Prefix position is safety critical | archived pilot and regression | Verified | unsafe suffix dispatch passed only 16.7% of contracts; prefix-only fix is tested |
 | Production readiness | no canary/operations evidence | Not established | lab-only artifact promotion; no production service or multi-domain test |
 | State-of-the-art superiority | bounded same-task GEPA run; no executable workflow-compiler head-to-head | Not established | GEPA is now measured and negative under a small budget; EvoC2F, Agent JIT, AWO, AWM, caches, and schedulers remain literature comparators only |
+| Every reported artifact meets the registered 5% selective-risk target | `results/admission_register.json` | Contradicted | four artifacts at `alpha=.05` (92/92, bound 0.0498); three at `alpha=.10` — the earlier three-read artifact (45/45, 0.0992) and the guarded-composite artifact behind all GCS and comparator numbers (88/92, 0.0520), both of which would retire at 5% |
+| Per-candidate exact gates provide compiler-wide control after candidate-family search | `src/agent_compaction/grc/compile.py`, `src/agent_compaction/grc/calibrate.py`, `results/admission_register.json` | Not established | delta is split over 11 thresholds for one fixed candidate, while the compiler may calibrate several families; two-candidate Bonferroni control would require 106 zero-violation groups rather than 92 |
+| The calibrated gate never discriminates | `results/*/results.json` gate records | Partly contradicted | five of six live gates admit all or none; the guarded-composite gate refuses four of 92 groups (coverage 0.957), and that refusal is why its bound exceeds 5% |
+| Token reduction is a proxy for cost reduction | `results/cache_accounting.json` | Contradicted | the issue-type macro uses 30.9% fewer tokens for 8.0% less money at 0.0% cache reads against the compiled arm's 27.8%; both newer families are cache-cold in every arm |
+| Compiled artifacts repay their discovery cost quickly | `results/cache_accounting.json` | Not established | provider-side break-even is 411, 182, and 181 episodes per family, excluding engineering, review, monitoring, and invalidation cost |
 | Multidomain public-record substrate is feasible | `results/multidomain/preflight/validation.json` | Verified for two domains | 420/420 vulnerability and 420/420 HMDA independent-gold reconstructions; SEC unavailable |
+| HMDA provides a validated public-record extension checkpoint | `results/multidomain/preflight/validation.json` | Verified provider-free | 420 HMDA groups, 420/420 exact gold, 416/420 variable paths; protected demographics excluded; zero provider calls |
 | Multidomain protocol is frozen and approved | preflight and review artifacts | Not established | missing SEC pool, real pricing, compliant source contact, and independent human macro approvals |
 | Multidomain optimization improves quality or efficiency | no provider ledger or analysis | Not evaluated | zero provider calls; no token, latency, cost, determinism, or workflow-reduction claim |
 

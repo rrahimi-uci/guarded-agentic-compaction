@@ -6,11 +6,11 @@ empirical credit.
 
 | Category | Score / 100 | Evidence-based assessment |
 |---|---:|---|
-| Technical depth | 97 | Typed traces, value provenance, effect/position barriers, bounded synthesis, guarded composite projection, exact compiler admission, continuation checking, and a multiplicity-corrected transformation portfolio form a coherent implemented stack |
+| Technical depth | 97 | Typed traces, value provenance, effect/position barriers, bounded synthesis, guarded composite projection, per-candidate exact admission, continuation checking, and a multiplicity-corrected transformation portfolio form a coherent implemented stack; compiler candidate-family search itself is not multiplicity-corrected |
 | Novelty | 89 | The contribution is framed as admissibility for trace-derived specialization: value provenance, effect/position barriers, readable bounded synthesis, and exact compile-or-retire evidence in one guard. GCS extends the admitted program without claiming raw dominance over a fair manual baseline |
 | Clarity | 96 | The paper distinguishes compiler admission from portfolio selection, workflow-family transfer from cross-repository generalization, and automatic lifecycle value from manual runtime parity |
 | Writing quality | 92 | Professional narrative with explicit negative evidence; methodology remains dense |
-| Experimental rigor | 94 | Three paired workflow families use 90 held-out real records, distinct tools/graders, sealed splits, exact outcomes, and retained negative pilots. One repository snapshot, no powered non-inferiority test, and an all-or-none gate remain material limits |
+| Experimental rigor | 94 | Three paired workflow families use 90 held-out real records, distinct tools/graders, sealed splits, exact outcomes, and retained negative pilots. One repository snapshot, no powered non-inferiority test, an all-or-none gate, and per-candidate rather than compiler-wide multiplicity control remain material limits |
 | Reproducibility | 99 | Exact source revisions/digests, portable acquisition, retained native traces, frozen disjoint optimizer splits, redacted live artifacts, separate optimization accounting, exact commands, recomputation, generated artifacts, and secret checks are unusually strong |
 | Presentation | 96 | Shared-source conference/article builds, a checked three-family table, template-grounded decks with an editable family chart, and automated typography/content gates |
 | Engineering validity | 98 | Public typed selector API, independent guarded manual runner, bounded official-GEPA adapter, exact continuation invalidation, release checks, and raw-result recomputation are strong |

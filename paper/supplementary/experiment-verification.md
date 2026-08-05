@@ -46,9 +46,14 @@ paid demo.
   23.8%. McNemar p=1 on such sparse discordance does not establish equivalence.
 - Latency is wall-clock provider evidence and is noisy. Paired intervals, not point
   estimates, govern comparative claims.
-- The exact gate is a valid finite-sample rule over the registered replay contract, but in
-  current data it behaves as an all-or-none support threshold. It has not demonstrated a
-  useful risk--coverage frontier.
+- For one candidate fixed before calibration, the exact gate is a valid finite-sample rule
+  over the registered replay contract: condition on the random admitted count, invert the
+  binomial test, and union-bound over the fixed threshold grid. The implementation's
+  candidate-family search is not included in that multiplicity budget, so this is a
+  per-candidate certificate rather than compiler-wide control. With two candidates the
+  zero-violation requirement would be 106 rather than 92. In current data the gate also
+  behaves mainly as an all-or-none support threshold and has not demonstrated a useful
+  risk--coverage frontier.
 - NESTFUL, API-Bank, hosted benchmark runs, simulated benchmark environments, and the
   real-record GitHub intervention measure different objects. They are intentionally
   reported as a ledger and never pooled into one performance score.

@@ -31,6 +31,16 @@ Outputs:
 - `paper/results/slide_generation.json`: source, evidence, mapping, output hash, and slide
   count manifest.
 
+## Pending regeneration
+
+`paper/results/slide_generation.json` records the generator digest each render was built
+from. The generator has since been revised to disclose the per-artifact selective-risk
+level, the pooled 3.3% compiled-only discordance bound, and the 181–411 episode
+break-even, so the two committed `.pptx` files predate those edits and its
+`regeneration_required` block names them as stale. Rerunning the command above with an
+artifact-tool workspace clears the block; `validate_artifacts.py` fails if the mismatch is
+ever left undeclared.
+
 The generated comparator slide is intentionally scoped: all five arms pass 6/6; GCS and
 the independent manual pre-model program tie on requests, interfaces, and input tokens;
 official GEPA retains its seed after a bounded live search. The 59-request optimizer cost

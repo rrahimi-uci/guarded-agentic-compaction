@@ -11,6 +11,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import math
 import statistics
 from datetime import datetime, timezone
 from pathlib import Path
@@ -39,6 +40,8 @@ OPTIMIZER_HEAD_TO_HEAD_PATH = RESULTS / "optimizer_head_to_head" / "results.json
 PILOT_PATH = RESULTS / "github_live" / "pilot_2026-08-03" / "results.json"
 NESTFUL_PATH = RESULTS / "nestful" / "results.json"
 FAMILY_PATH = RESULTS / "nestful" / "family_results.csv"
+#: Checked cross-family roll-up written by build_github_family_summary.py.
+FAMILY_SUMMARY_PATH = RESULTS / "github_workflow_families" / "summary.json"
 EXTERNAL_PATH = RESULTS / "external_benchmarks" / "reference_analysis.json"
 #: Controlled demonstration suite. Live provider calls and the real SDK runtime against
 #: deterministic local services holding fictional business records.
@@ -298,6 +301,289 @@ def gate_support_figure(nestful: dict[str, Any]) -> None:
     )
     fig.tight_layout()
     savefig("gate_support")
+
+
+def family_reduction_figure(summary: dict[str, Any]) -> None:
+    """Primary three-family result: per-family reduction against the unchanged agent.
+
+    The headline table previously had no figure at all, so the paper's main claim was
+    the only result a reader could not see. Grouping by metric rather than by family
+    makes the load-bearing fact visible: the ranges are wide, and the issue family is
+    the low end of every one of them because its compiled prefix is only two reads.
+    """
+
+    keys = ["requests", "tool_calls", "total_tokens", "wall_latency_ms", "estimated_cost_usd"]
+    labels = ["Provider\nrequests", "Visible tool\ninterfaces", "Total\ntokens",
+              "Observed wall\nlatency", "Estimated\ncost"]
+    families = summary["families"]
+    short = ["Issue type", "PR outcome", "Backlog"]
+    fills = [COLORS["series1"], COLORS["series2"], COLORS["ink2"]]
+
+    x = np.arange(len(keys))
+    width = 0.26
+    fig, ax = plt.subplots(figsize=(FIG_W, 2.5))
+    for index, (family, name, fill) in enumerate(zip(families, short, fills)):
+        offset = (index - 1) * width
+        values = [100 * float(family["reductions"][key]) for key in keys]
+        ax.bar(x + offset, values, width * 0.94, color=fill, label=name, zorder=3)
+
+    ax.set_xticks(x, labels, fontsize=8)
+    ax.set_ylim(0, 100)
+    ax.set_yticks([0, 25, 50, 75, 100])
+    ax.set_ylabel("Reduction vs.\nunchanged agent (%)")
+    ax.yaxis.grid(True, zorder=0)
+    ax.set_axisbelow(True)
+    _outside_legend(ax, ncol=3)
+    fig.tight_layout()
+    savefig("family_reductions")
+
+
+#: Every artifact the paper admits, with the JSON path of its calibrated gate. The
+#: register exists because two distinct risk configurations were used across the
+#: studies and the prose previously described only one of them; generating the table
+#: from the sealed gates makes that impossible to restate incorrectly.
+ADMISSION_SOURCES: tuple[tuple[str, str, Path, tuple[str, ...]], ...] = (
+    ("Prescribed-prefix ablation", "18", LIVE_PATH,
+     ("compiler", "artifact", "gate")),
+    ("Natural-order, three-read", "18", NATURAL_LIVE_PATH,
+     ("compiler", "artifact", "gate")),
+    ("Expanded replication (issue type)", "30", NATURAL_REPLICATION_PATH,
+     ("compiler", "artifact", "gate")),
+    ("PR-outcome audit", "30", RESULTS / "github_workflow_families" / "pr_outcome" / "final" / "results.json",
+     ("compiler", "artifact", "gate")),
+    ("Backlog-attention routing", "30", RESULTS / "github_workflow_families" / "backlog_attention" / "final" / "results.json",
+     ("compiler", "artifact", "gate")),
+    ("Guarded composite synthesis", "12", GCS_LIVE_PATH,
+     ("compiler", "artifact", "gate")),
+    ("Comparator deployment (same GCS artifact)", "6", OPTIMIZER_HEAD_TO_HEAD_PATH,
+     ("compiler", "gcs", "artifact", "gate")),
+)
+
+#: The registered selective-risk target the paper's method section states.
+REGISTERED_ALPHA = 0.05
+
+
+def _dig(payload: dict[str, Any], path: tuple[str, ...]) -> dict[str, Any]:
+    node: Any = payload
+    for key in path:
+        node = node[key]
+    return node
+
+
+def collect_admission_register() -> dict[str, Any]:
+    """Read every admitted gate and record the risk configuration it actually used."""
+
+    rows: list[dict[str, Any]] = []
+    for label, pairs, path, pointer in ADMISSION_SOURCES:
+        gate = _dig(load_json(path), pointer)
+        accepted = int(gate["n_accepted"])
+        groups = int(gate["n_calibration_groups"])
+        alpha = float(gate["alpha"])
+        upper = float(gate["risk_upper_bound"])
+        rows.append(
+            {
+                "study": label,
+                "held_out_pairs": pairs,
+                "source": str(path.relative_to(ROOT)),
+                "alpha": alpha,
+                "delta": float(gate["delta"]),
+                "grid_size": len(gate["grid"]),
+                "n_accepted": accepted,
+                "n_calibration_groups": groups,
+                "coverage": accepted / groups,
+                "observed_violations": int(gate["observed_violations"]),
+                "risk_upper_bound": upper,
+                # The load-bearing column: an artifact calibrated at a looser alpha is
+                # not licensed by the paper's registered 5% target, and saying so per
+                # row is the only way a reader can tell which results depend on which.
+                "meets_registered_alpha": upper <= REGISTERED_ALPHA,
+            }
+        )
+    reference_delta = float(rows[0]["delta"])
+    reference_grid_size = int(rows[0]["grid_size"])
+    payload = {
+        "schema": "agent-compaction-admission-register/v1",
+        "generator": "paper/scripts/build_artifacts.py",
+        "registered_alpha": REGISTERED_ALPHA,
+        "certificate_scope": "per-fixed-candidate threshold grid",
+        "candidate_family_multiplicity_adjusted": False,
+        "compiler_wide_candidate_search_guarantee": False,
+        "two_candidate_zero_violation_groups_required": math.ceil(
+            math.log(reference_delta / (2 * reference_grid_size))
+            / math.log(1 - REGISTERED_ALPHA)
+        ),
+        "note": (
+            "Provider-free disclosure of the selective-risk configuration each admitted "
+            "artifact actually used. Bounds split delta across the threshold grid for one "
+            "fixed candidate; they do not adjust for candidate-family search. No provider "
+            "call is made by this script."
+        ),
+        "artifacts": rows,
+    }
+    (RESULTS / "admission_register.json").write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    return payload
+
+
+def write_admission_register_table(register: dict[str, Any]) -> None:
+    out = [
+        r"\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X c c r r c@{}}",
+        r"\toprule",
+        r"Admitted artifact & Pairs & $\alpha$ & Admitted & $U_\eta$ & $U_\eta\!\leq\!.05$ \\",
+        r"\midrule",
+    ]
+    for row in register["artifacts"]:
+        out.append(
+            "{study} & {pairs} & {alpha} & {acc}/{groups} & {upper} & {flag} \\\\".format(
+                study=tex(row["study"]),
+                pairs=row["held_out_pairs"],
+                alpha=f"{row['alpha']:.2f}".lstrip("0"),
+                acc=row["n_accepted"],
+                groups=row["n_calibration_groups"],
+                upper=f"{row['risk_upper_bound']:.4f}",
+                flag="yes" if row["meets_registered_alpha"] else r"\textbf{no}",
+            )
+        )
+    out += [r"\bottomrule", r"\end{tabularx}"]
+    (TABLES / "admission_register.tex").write_text("\n".join(out) + "\n", encoding="utf-8")
+
+
+#: Primary workflow families, in the order of the headline table, with the condition
+#: keys each study used for the unchanged, compiled, and hand-written arms, plus the
+#: sealed discovery checkpoint whose paid traces the compiler learned from.
+CACHE_SOURCES: tuple[tuple[str, Path, tuple[str, ...], Path], ...] = (
+    ("Issue-type routing", NATURAL_REPLICATION_PATH, ("baseline", "compiled", "macro"),
+     RESULTS / "github_natural_replication" / "discovery_checkpoint.json"),
+    ("PR-outcome audit",
+     RESULTS / "github_workflow_families" / "pr_outcome" / "final" / "results.json",
+     ("baseline", "compiled", "manual_pre_model"),
+     RESULTS / "github_workflow_families" / "pr_outcome" / "pilot_v1" / "discovery_checkpoint.json"),
+    ("Backlog-attention routing",
+     RESULTS / "github_workflow_families" / "backlog_attention" / "final" / "results.json",
+     ("baseline", "compiled", "manual_pre_model"),
+     RESULTS / "github_workflow_families" / "backlog_attention" / "final" / "discovery_checkpoint.json"),
+)
+
+
+def _discovery_ledger(path: Path) -> dict[str, float]:
+    """Paid discovery traffic for one family, from its sealed discovery checkpoint."""
+
+    records = load_json(path)["results"]
+    metrics = [record["metrics"] for record in records if "metrics" in record]
+    return {
+        "episodes": float(len(metrics)),
+        "requests": sum(float(m.get("requests", 0) or 0) for m in metrics),
+        "total_tokens": sum(float(m.get("total_tokens", 0) or 0) for m in metrics),
+        "estimated_cost_usd": sum(float(m.get("estimated_cost_usd", 0) or 0) for m in metrics),
+    }
+
+
+def collect_cache_accounting() -> dict[str, Any]:
+    """Recover the prompt-cache structure the retained per-record usage already holds.
+
+    Token counts and dollar costs move differently between conditions, and the reason
+    is recorded but was never reported: each arm reuses a different share of its input
+    as a cache read. Nothing here is a new measurement -- the fields come from the
+    sealed provider usage of the same runs -- so no provider call is needed.
+    """
+
+    families: list[dict[str, Any]] = []
+    for label, path, conditions, discovery_path in CACHE_SOURCES:
+        records = load_json(path)["results"]
+        arms: dict[str, dict[str, float]] = {}
+        for condition in conditions:
+            primary = [
+                record for record in records
+                if record["condition"] == condition and not int(record.get("repeat", 0) or 0)
+            ]
+            metrics = [record["metrics"] for record in primary]
+            episodes = len(metrics)
+            input_tokens = sum(float(m["input_tokens"]) for m in metrics)
+            cached = sum(float(m.get("cached_input_tokens", 0) or 0) for m in metrics)
+            written = sum(float(m.get("cache_write_tokens", 0) or 0) for m in metrics)
+            arms[condition] = {
+                "episodes": episodes,
+                "input_tokens_per_episode": input_tokens / episodes,
+                "total_tokens_per_episode":
+                    sum(float(m["total_tokens"]) for m in metrics) / episodes,
+                "cost_per_episode":
+                    sum(float(m["estimated_cost_usd"]) for m in metrics) / episodes,
+                "cached_input_tokens_per_episode": cached / episodes,
+                "cache_write_tokens_per_episode": written / episodes,
+                "cached_input_share": cached / input_tokens if input_tokens else 0.0,
+            }
+        baseline, compiled, manual = (arms[key] for key in conditions)
+        discovery = _discovery_ledger(discovery_path)
+        saving = baseline["cost_per_episode"] - compiled["cost_per_episode"]
+        families.append(
+            {
+                "family": label,
+                "source": str(path.relative_to(ROOT)),
+                "arms": {"baseline": baseline, "compiled": compiled, "manual": manual},
+                # The comparison the paper's own extension path asks for: a token win
+                # and a dollar win are not the same win once cache reads are priced.
+                "manual_vs_compiled": {
+                    "token_reduction":
+                        1 - manual["total_tokens_per_episode"] / compiled["total_tokens_per_episode"],
+                    "cost_reduction":
+                        1 - manual["cost_per_episode"] / compiled["cost_per_episode"],
+                },
+                # Amortization for the family that actually ships, rather than only for
+                # the archived prescribed-prefix study. Provider-side dollars only: it
+                # excludes engineering, review, monitoring, and invalidation cost.
+                "discovery": discovery | {"source": str(discovery_path.relative_to(ROOT))},
+                "break_even_episodes": (
+                    discovery["estimated_cost_usd"] / saving if saving > 0 else None
+                ),
+            }
+        )
+    payload = {
+        "schema": "agent-compaction-cache-accounting/v1",
+        "generator": "paper/scripts/build_artifacts.py",
+        "note": (
+            "Derived provider-free from retained per-record provider usage. Cache reads "
+            "are already priced by each study's frozen model-price table; this record "
+            "exposes the share so token and dollar changes can be read apart."
+        ),
+        "families": families,
+    }
+    (RESULTS / "cache_accounting.json").write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    return payload
+
+
+def write_cache_accounting_table(accounting: dict[str, Any]) -> None:
+    # Fixed-width first column with short labels: the wrapping X column split the third
+    # family's three rows around its own line break, which reads as a missing row.
+    out = [
+        r"\begin{tabular}{@{}l l r r r@{}}",
+        r"\toprule",
+        r"Family & Condition & Input & Cached & Cache-write \\",
+        r"\midrule",
+    ]
+    names = {"baseline": "unchanged", "compiled": r"\method", "manual": "hand-written"}
+    short_family = {
+        "Issue-type routing": "Issue type",
+        "PR-outcome audit": "PR outcome",
+        "Backlog-attention routing": "Backlog",
+    }
+    for index, family in enumerate(accounting["families"]):
+        if index:
+            out.append(r"\addlinespace[2pt]")
+        for position, (key, arm) in enumerate(family["arms"].items()):
+            out.append(
+                "{label} & {cond} & {inp} & {share} & {write} \\\\".format(
+                    label=tex(short_family[family["family"]]) if position == 0 else "",
+                    cond=names[key],
+                    inp=f"{arm['input_tokens_per_episode']:.0f}",
+                    share=f"{100 * arm['cached_input_share']:.1f}\\%",
+                    write=f"{arm['cache_write_tokens_per_episode']:.0f}",
+                )
+            )
+    out += [r"\bottomrule", r"\end{tabular}"]
+    (TABLES / "cache_accounting.tex").write_text("\n".join(out) + "\n", encoding="utf-8")
 
 
 def pilot_figure(live: dict[str, Any], pilot: dict[str, Any]) -> None:
@@ -913,7 +1199,7 @@ def write_claims_table() -> None:
     rows = [
         ("C1", "The expected producer appears in the provenance candidate set", "Pinned NESTFUL: 5,531/5,746 dependency slots", "96.3% candidate recall; 80.7% unique resolution"),
         ("C2", "A naturally recurring prefix can remove model decisions", "132 live discovery records; 30 counterbalanced real-record tests", "Two-read prefix cuts requests 50%; one frozen-snapshot domain"),
-        ("C3", "Source-grounded task quality is preserved", "Expanded partial compiler: all three arms 30/30; earlier aggressive compiler: 17/18", "Supported on the expanded sample, not across domains or compilation depths"),
+        ("C3", "Source-grounded task quality is preserved", "90/90 compiled vs. 89/90 unchanged over three families; earlier aggressive compiler: 17/18", "Supported on the observed 90 pairs: no compiled-only failure bounds discordance at 3.3%; not across domains or compilation depths"),
         ("C4", "Configured selective admission is data hungry", "NESTFUL max support 26 vs. required 92", "Supported for this grid/risk/confidence setting"),
         # "Contradicted" overreaches at n=6: 1/6 versus 0/6 cannot establish a direction.
         # Rigour has to be symmetric -- a negative claim needs the same evidence bar as a
@@ -921,7 +1207,7 @@ def write_claims_table() -> None:
         ("C5", "Compaction improves text determinism",
          "Exact-answer agreement 1/6 vs. 0/6 ($n=6$)", "Not supported"),
         ("C6", "The artifact is production safe", "No live GitHub service, canary, or multi-domain test", "Not supported"),
-        ("C7", "The learned gate discriminates risky from safe inputs", "0 positive dev examples; gate admits none or all", "Not supported"),
+        ("C7", "The learned gate discriminates risky from safe inputs", "0 positive dev examples; five of six gates admit none or all; the GCS gate admits 88/92", "Not supported; the one partially selective gate is also the one whose bound exceeds the registered 5%"),
         ("C8", "Factual summary quality is preserved", "Oracle accepts fluent fabrication", "Not evaluated"),
         ("C9", "The learned compiler generally dominates a hand-written macro", "Macro beats partial GRC on 30 pairs; GCS beats provider-visible macro on 12 later pairs", "Not supported across interfaces or workflow families"),
         ("C10", "A separate continuation contract can recover the retained exact-source miss", "Provider-free replay detects issue 6602 and checked-renders 1/18 cases", "Verified counterfactual; no live latency, cost, or cross-domain claim"),
@@ -934,6 +1220,11 @@ def write_claims_table() -> None:
         ("C17", "All ten named benchmark families have an implemented disposition", "10/10 source dispositions; eight reference-plan screens; five external paths executed; three use live providers", "Verified, but integration depth and licensed claims differ by substrate"),
         ("C18", "API-Bank recurrence is sufficient for configured admission", "48 candidate windows; maximum family support 8 vs. 92 required; two held-out abstentions", "Contradicted; every family retires and no efficiency claim is licensed"),
         ("C19", "External simulated-benchmark runs are real-world demonstrations", "ToolSandbox and tau evidence metadata; public simulator substrates", "Not claimed; the real-record GitHub study remains the real-scenario tier"),
+        ("C20", "A mandatory-write fulfillment workflow can be partially compacted without moving the write", "Tier-3 Demo E live SDK run on fictional WMS fixtures; baseline/compacted 7.0/2.0 requests, 66.4% fewer tokens, 1.00/1.00 quality", "Verified runtime boundary on the fixture; estimated cost rises 8.3%; not a production write-safety claim"),
+        ("C21", "HMDA public records are ready for a future multidomain trace comparison", "results/multidomain/preflight/validation.json", "Verified provider-free preflight: 420/420 exact gold, 416/420 variable paths; zero provider calls and no optimization result"),
+        ("C22", "Every reported artifact meets the registered 5% selective-risk target", "results/admission_register.json: four artifacts at alpha=.05, three at alpha=.10", "Contradicted; the GCS and earlier three-read artifacts are licensed only at 10% and would retire at 5%"),
+        ("C23", "Token reduction is a proxy for cost reduction", "results/cache_accounting.json: macro uses 30.9% fewer tokens but is 8.0% cheaper at 0.0% cache reads vs. 27.8%", "Contradicted; interface fusion trades prompt length against prefix reuse and the two newer families are cache-cold throughout"),
+        ("C24", "The reported exact gates provide compiler-wide control after candidate-family search", "Per-candidate Clopper-Pearson bounds split delta over 11 thresholds; compile_grc may calibrate multiple families", "Not established; freeze one candidate before calibration or adjust across candidate-threshold pairs; two candidates require 106 zero-violation groups at alpha=.05, delta=.10"),
     ]
     # Wrapping columns rather than `llll`: the prose cells give a fixed tabular a
     # natural width several times the text measure, and the only way to place that is
@@ -983,6 +1274,7 @@ def main() -> None:
     pilot = load_json(PILOT_PATH)
     nestful = load_json(NESTFUL_PATH)
     external = load_json(EXTERNAL_PATH)
+    family_summary = load_json(FAMILY_SUMMARY_PATH)
     live_efficiency_figure(live)
     paired_figure(live)
     gate_support_figure(nestful)
@@ -990,6 +1282,9 @@ def main() -> None:
     natural_comparison_figure(replication)
     portfolio_selection_figure(portfolio)
     demo_suite_figure()
+    family_reduction_figure(family_summary)
+    write_admission_register_table(collect_admission_register())
+    write_cache_accounting_table(collect_cache_accounting())
     write_live_table(live)
     write_natural_live_table(natural)
     write_natural_replication_table(replication)
@@ -1007,6 +1302,9 @@ def main() -> None:
         GCS_LIVE_PATH, GCS_VALIDATION_PATH,
         OPTIMIZER_HEAD_TO_HEAD_PATH,
         PILOT_PATH, NESTFUL_PATH, FAMILY_PATH, EXTERNAL_PATH,
+        FAMILY_SUMMARY_PATH,
+        RESULTS / "admission_register.json",
+        RESULTS / "cache_accounting.json",
         RESULTS / "external_benchmarks" / "api_bank_execution.json",
         RESULTS / "external_benchmarks" / "bfcl_gold_execution.json",
         RESULTS / "external_benchmarks" / "toolsandbox_live.json",

@@ -1,24 +1,28 @@
-Tool-using agents often repeat mature, read-only evidence paths while paying for a model
-decision at every boundary. Replacing those decisions with deterministic programs can
-reduce cost, but recurrence alone is unsafe: arguments may lack observable provenance,
+Tool-using agents repeat mature read-only evidence paths while paying for a model at
+every boundary. Deterministic programs can reduce cost, but recurrence is unsafe:
+arguments may lack provenance,
 tools may cross effect or permission boundaries, and a replay-correct prefix may still
 change the final answer.
 
 We introduce \emph{guarded agentic compaction} (\method), a trace-to-program compiler that
 reconstructs typed value provenance, rejects unsafe effects, synthesizes from a closed
-23-operator language, verifies empirical contracts, and applies exact finite-sample
-admission. Its normal output is refusal: compile only the supported prefix, otherwise
-retain the unchanged agent. Guarded composite synthesis can expose an admitted program
+23-operator language, verifies empirical contracts, and applies per-candidate exact
+finite-sample threshold admission. Its normal output is refusal: compile only a supported
+prefix; otherwise retain the unchanged agent. Guarded composite synthesis exposes an admitted program
 before the first model request without discarding its internal checks.
 
 We evaluate three distinct GitHub workflows with live provider calls. On 90 held-out
-public records, exact task outcomes move from 89/90 to 90/90. Relative to the
-unchanged agents, compiled programs reduce provider requests by 50.0--75.0\%, tokens by
-39.5--81.4\%, observed latency by 51.7--73.0\%, and estimated cost by 32.0--75.3\%.
-Hand-written programs also reach 90/90; on the two new families they tie learned programs.
-Automatic discovery, conservative admission, and managed lifecycle---rather than runtime
+public records, compiled programs pass 90/90 exact contracts and unchanged agents 89/90 ---
+not a significant difference (exact McNemar $p=1$), though no compiled-only failure occurs
+and discordance is bounded at 3.3\%. Compiled programs reduce provider requests by
+50.0--75.0\%, tokens by 39.5--81.4\%, observed latency by 51.7--73.0\%, and estimated cost
+by 32.0--75.3\%.
+Hand-written programs also reach 90/90 and tie learned programs on the two new families, so
+automatic discovery, conservative admission, and managed lifecycle---not runtime
 dominance---are the contribution. On NESTFUL and API-Bank, every
-recurrent family is retired for insufficient support.
+recurrent family retires for insufficient support. We report each artifact's per-candidate
+selective-risk level, because three are licensed only at 10\% rather than the registered
+5\%; candidate-family search is not multiplicity-adjusted.
 
 The central result is an evidence boundary: traces establish recurrence, not
 admissibility. Agent workflow optimizers should be evaluated by what they safely refuse

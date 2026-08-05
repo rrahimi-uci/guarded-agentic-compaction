@@ -1,0 +1,142 @@
+{
+  "families": [
+    {
+      "arms": {
+        "baseline": {
+          "cache_write_tokens_per_episode": 1176.6333333333334,
+          "cached_input_share": 0.323223371081569,
+          "cached_input_tokens_per_episode": 1312.9333333333334,
+          "cost_per_episode": 0.0008718236666666667,
+          "episodes": 30,
+          "input_tokens_per_episode": 4062.0,
+          "total_tokens_per_episode": 4259.433333333333
+        },
+        "compiled": {
+          "cache_write_tokens_per_episode": 1165.3,
+          "cached_input_share": 0.278488809800835,
+          "cached_input_tokens_per_episode": 678.1666666666666,
+          "cost_per_episode": 0.0005928283333333334,
+          "episodes": 30,
+          "input_tokens_per_episode": 2435.1666666666665,
+          "total_tokens_per_episode": 2576.5
+        },
+        "manual": {
+          "cache_write_tokens_per_episode": 827.7,
+          "cached_input_share": 0.0,
+          "cached_input_tokens_per_episode": 0.0,
+          "cost_per_episode": 0.000545285,
+          "episodes": 30,
+          "input_tokens_per_episode": 1633.1,
+          "total_tokens_per_episode": 1780.8333333333333
+        }
+      },
+      "break_even_episodes": 410.8709225721816,
+      "discovery": {
+        "episodes": 132.0,
+        "estimated_cost_usd": 0.11463107,
+        "requests": 528.0,
+        "source": "paper/results/github_natural_replication/discovery_checkpoint.json",
+        "total_tokens": 592995.0
+      },
+      "family": "Issue-type routing",
+      "manual_vs_compiled": {
+        "cost_reduction": 0.08019747144339151,
+        "token_reduction": 0.3088168704314639
+      },
+      "source": "paper/results/github_natural_replication/results.json"
+    },
+    {
+      "arms": {
+        "baseline": {
+          "cache_write_tokens_per_episode": 184.6,
+          "cached_input_share": 0.0,
+          "cached_input_tokens_per_episode": 0.0,
+          "cost_per_episode": 0.00067921,
+          "episodes": 30,
+          "input_tokens_per_episode": 2591.9,
+          "total_tokens_per_episode": 2718.233333333333
+        },
+        "compiled": {
+          "cache_write_tokens_per_episode": 0.0,
+          "cached_input_share": 0.0,
+          "cached_input_tokens_per_episode": 0.0,
+          "cost_per_episode": 0.00016777333333333331,
+          "episodes": 30,
+          "input_tokens_per_episode": 458.06666666666666,
+          "total_tokens_per_episode": 521.5333333333333
+        },
+        "manual": {
+          "cache_write_tokens_per_episode": 0.0,
+          "cached_input_share": 0.0,
+          "cached_input_tokens_per_episode": 0.0,
+          "cost_per_episode": 0.0001685733333333333,
+          "episodes": 30,
+          "input_tokens_per_episode": 458.06666666666666,
+          "total_tokens_per_episode": 522.2
+        }
+      },
+      "break_even_episodes": 182.0058593113517,
+      "discovery": {
+        "episodes": 132.0,
+        "estimated_cost_usd": 0.09308447,
+        "requests": 528.0,
+        "source": "paper/results/github_workflow_families/pr_outcome/pilot_v1/discovery_checkpoint.json",
+        "total_tokens": 390630.0
+      },
+      "family": "PR-outcome audit",
+      "manual_vs_compiled": {
+        "cost_reduction": -0.004768338234125258,
+        "token_reduction": -0.0012782819890069241
+      },
+      "source": "paper/results/github_workflow_families/pr_outcome/final/results.json"
+    },
+    {
+      "arms": {
+        "baseline": {
+          "cache_write_tokens_per_episode": 77.06666666666666,
+          "cached_input_share": 0.0,
+          "cached_input_tokens_per_episode": 0.0,
+          "cost_per_episode": 0.0007287666666666667,
+          "episodes": 30,
+          "input_tokens_per_episode": 2688.9666666666667,
+          "total_tokens_per_episode": 2844.9
+        },
+        "compiled": {
+          "cache_write_tokens_per_episode": 0.0,
+          "cached_input_share": 0.0,
+          "cached_input_tokens_per_episode": 0.0,
+          "cost_per_episode": 0.00018161999999999999,
+          "episodes": 30,
+          "input_tokens_per_episode": 454.3,
+          "total_tokens_per_episode": 529.9333333333333
+        },
+        "manual": {
+          "cache_write_tokens_per_episode": 0.0,
+          "cached_input_share": 0.0,
+          "cached_input_tokens_per_episode": 0.0,
+          "cost_per_episode": 0.00018826,
+          "episodes": 30,
+          "input_tokens_per_episode": 454.3,
+          "total_tokens_per_episode": 535.4666666666667
+        }
+      },
+      "break_even_episodes": 180.6012099132469,
+      "discovery": {
+        "episodes": 132.0,
+        "estimated_cost_usd": 0.09881535,
+        "requests": 528.0,
+        "source": "paper/results/github_workflow_families/backlog_attention/final/discovery_checkpoint.json",
+        "total_tokens": 384501.0
+      },
+      "family": "Backlog-attention routing",
+      "manual_vs_compiled": {
+        "cost_reduction": -0.03655985023675812,
+        "token_reduction": -0.01044156497672688
+      },
+      "source": "paper/results/github_workflow_families/backlog_attention/final/results.json"
+    }
+  ],
+  "generator": "paper/scripts/build_artifacts.py",
+  "note": "Derived provider-free from retained per-record provider usage. Cache reads are already priced by each study's frozen model-price table; this record exposes the share so token and dollar changes can be read apart.",
+  "schema": "agent-compaction-cache-accounting/v1"
+}

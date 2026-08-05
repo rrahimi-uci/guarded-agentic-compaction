@@ -176,14 +176,18 @@ capabilities are documented in
   control-flow structure the other two tiers do not contain at all: observation-dependent
   branches, pagination, a mandatory irreversible write (so only *partial* compaction is
   reachable), a handoff barrier, an undeclared-effect MCP surface, and route
-  specialization. Three of its eight conditions are negative controls whose only correct
-  outcome is no compaction. Raw results are in `../experiments/live_results/`.
+  specialization. Demo E reduces 7.0 to 2.0 model requests and total tokens by 66.4% on
+  the fictional WMS fixture, while the write remains in the ordinary agent; its estimated
+  cost rises 8.3% because cache reuse fragments. Three of its eight conditions are negative
+  controls whose only correct outcome is no compaction. Raw results are in
+  `../experiments/live_results/`.
 - **Prospective multidomain extension (preflight only):** 420 real vulnerability groups
   and 420 privacy-modified public HMDA groups pass independent provider-free gold
-  reconstruction. SEC acquisition is source-gated, no three-domain protocol is frozen,
-  no human macro approval exists, and no provider call has run. These artifacts establish
-  data and control-plane feasibility only; they contribute no optimization result to this
-  paper. See [`../benchmarks/README.md`](../benchmarks/README.md).
+  reconstruction; HMDA has 416/420 variable paths. SEC acquisition is source-gated, no
+  three-domain protocol is frozen, no human macro approval exists, and no provider call
+  has run. These artifacts establish data and control-plane feasibility only; they
+  contribute no optimization result to this paper. See
+  [`../benchmarks/README.md`](../benchmarks/README.md).
 
 ## Reproduce without provider calls
 
@@ -338,13 +342,44 @@ cd paper/build && pdftoppm -png -r 130 article.pdf article_pages/pg
 ## Main results
 
 Across three primary real-record workflow families and 90 held-out live-provider cases,
-compiled programs reach 90/90 exact contracts versus 89/90 baseline and 90/90 manual.
+compiled programs reach 90/90 exact contracts versus 89/90 baseline and 90/90 manual — not
+a significant difference (exact McNemar `p=1`), though with no compiled-only failure in 90
+pairs the one-sided 95% discordance bound is 3.3%. All three artifacts receive
+per-fixed-candidate admission certificates at the registered `alpha=.05` over 92
+zero-violation calibration groups.
 Weighted compilation reductions are 66.6% requests, 44.2% visible tool interfaces, 63.1%
 tokens, 64.2% observed wall latency, and 58.7% estimated cost. Per-family request/token/
 latency/cost reductions range from 50.0/39.5/51.7/32.0% to
 75.0/81.4/73.0/75.3%. This is workflow-family transfer on one repository snapshot, not
 cross-repository or time-forward generalization; manual programs remain the runtime
 baseline.
+
+Three selective-risk levels appear in the paper and are not interchangeable.
+`paper/results/admission_register.json` records the configuration of every admitted
+artifact: `alpha=.05` for the three primary families and the prescribed-prefix ablation,
+`alpha=.10` for the earlier three-read artifact (45/45, bound 0.0992) and for the
+guarded-composite artifact behind every GCS and comparator number (88/92, bound 0.0520),
+and a 15% pilot limit for the portfolio. Both `alpha=.10` artifacts would retire at the
+registered target, so GCS results are licensed only at the 10% level.
+
+These are per-fixed-candidate certificates. For a frozen candidate, conditioning on the
+random admitted count gives an exact binomial model; Clopper--Pearson plus a Bonferroni
+union bound over the 11 frozen thresholds validates data-dependent threshold selection.
+The general compiler can, however, calibrate multiple candidate families on the same
+groups, and the retained runs did not divide `delta` across that search. Therefore the
+paper does not claim compiler-wide candidate-search control. A direct two-candidate
+Bonferroni correction at `alpha=.05`, `delta=.10` requires 106 zero-violation admitted
+groups rather than 92; alternatively, one candidate must be frozen before calibration or
+a valid fixed-sequence procedure must be used.
+
+`paper/results/cache_accounting.json` recovers the prompt-cache structure of the same runs
+provider-free. In the issue-type family the hand-written macro uses 30.9% fewer tokens than
+the compiled condition but is only 8.0% cheaper, because it serves 0.0% of its input from
+cache against the compiled arm's 27.8% and the unchanged agent's 32.3%. Both newer families
+are cache-cold in every arm, so their 75% cost reductions are measured against a baseline
+that never amortizes its prefix. Provider-side break-even is 411, 182, and 181 future
+episodes for issue-type, PR-outcome, and backlog-attention routing, excluding engineering,
+review, monitoring, and invalidation cost.
 
 In the expanded natural-order replication, all 132 discovery executions choose the same
 three-read order, 130 pass the exact-source task, and the compiler refuses the ungroundable

@@ -15,6 +15,10 @@ Stage order and the reason for it:
 
 A candidate may never be calibrated on the data used to synthesize it, and the
 sealed test is not touched anywhere in this module (execution-plan §10.5).
+The gate's exact confidence budget is per fixed candidate. This orchestrator may
+calibrate several families on the same calibration groups, so its candidate search does
+not currently carry a compiler-wide familywise guarantee; publication claims must retain
+that distinction unless a candidate-level multiplicity procedure is added.
 """
 
 from __future__ import annotations

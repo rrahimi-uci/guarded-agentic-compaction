@@ -16,8 +16,11 @@ Two quantities are reported, and conflating them would be the easy mistake:
     quantity, and it is the one the Clopper–Pearson certificate of Eq. (18) bounds.
 
 Production compilers fit the score model on development groups, freeze it, and use
-calibration groups only for threshold selection. The grid ``Λ`` is fixed a priori
-with 11 values and the confidence budget ``δ`` is Bonferroni-split across it. With
+calibration groups only for threshold selection. For one fixed candidate, the grid ``Λ``
+is fixed a priori with 11 values and the confidence budget ``δ`` is Bonferroni-split
+across it. This is a per-candidate certificate: callers that search several candidate
+families on the same calibration groups must allocate multiplicity across that search or
+freeze one candidate first. With
 few calibration groups the bound demands *zero* observed violations and returns
 ``RETIRE`` otherwise — which is the correct output, not a failure.
 """

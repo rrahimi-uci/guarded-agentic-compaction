@@ -4,11 +4,11 @@ ID & Claim & Direct evidence & Verdict \\
 \midrule
 C1 & The expected producer appears in the provenance candidate set & Pinned NESTFUL: 5,531/5,746 dependency slots & 96.3\% candidate recall; 80.7\% unique resolution \\
 C2 & A naturally recurring prefix can remove model decisions & 132 live discovery records; 30 counterbalanced real-record tests & Two-read prefix cuts requests 50\%; one frozen-snapshot domain \\
-C3 & Source-grounded task quality is preserved & Expanded partial compiler: all three arms 30/30; earlier aggressive compiler: 17/18 & Supported on the expanded sample, not across domains or compilation depths \\
+C3 & Source-grounded task quality is preserved & 90/90 compiled vs. 89/90 unchanged over three families; earlier aggressive compiler: 17/18 & Supported on the observed 90 pairs: no compiled-only failure bounds discordance at 3.3\%; not across domains or compilation depths \\
 C4 & Configured selective admission is data hungry & NESTFUL max support 26 vs. required 92 & Supported for this grid/risk/confidence setting \\
 C5 & Compaction improves text determinism & Exact-answer agreement 1/6 vs. 0/6 ($n=6$) & Not supported \\
 C6 & The artifact is production safe & No live GitHub service, canary, or multi-domain test & Not supported \\
-C7 & The learned gate discriminates risky from safe inputs & 0 positive dev examples; gate admits none or all & Not supported \\
+C7 & The learned gate discriminates risky from safe inputs & 0 positive dev examples; five of six gates admit none or all; the GCS gate admits 88/92 & Not supported; the one partially selective gate is also the one whose bound exceeds the registered 5\% \\
 C8 & Factual summary quality is preserved & Oracle accepts fluent fabrication & Not evaluated \\
 C9 & The learned compiler generally dominates a hand-written macro & Macro beats partial GRC on 30 pairs; GCS beats provider-visible macro on 12 later pairs & Not supported across interfaces or workflow families \\
 C10 & A separate continuation contract can recover the retained exact-source miss & Provider-free replay detects issue 6602 and checked-renders 1/18 cases & Verified counterfactual; no live latency, cost, or cross-domain claim \\
@@ -21,5 +21,10 @@ C16 & Bounded GEPA improves this workflow & Official GEPA 0.1.4; 14 task evaluat
 C17 & All ten named benchmark families have an implemented disposition & 10/10 source dispositions; eight reference-plan screens; five external paths executed; three use live providers & Verified, but integration depth and licensed claims differ by substrate \\
 C18 & API-Bank recurrence is sufficient for configured admission & 48 candidate windows; maximum family support 8 vs. 92 required; two held-out abstentions & Contradicted; every family retires and no efficiency claim is licensed \\
 C19 & External simulated-benchmark runs are real-world demonstrations & ToolSandbox and tau evidence metadata; public simulator substrates & Not claimed; the real-record GitHub study remains the real-scenario tier \\
+C20 & A mandatory-write fulfillment workflow can be partially compacted without moving the write & Tier-3 Demo E live SDK run on fictional WMS fixtures; baseline/compacted 7.0/2.0 requests, 66.4\% fewer tokens, 1.00/1.00 quality & Verified runtime boundary on the fixture; estimated cost rises 8.3\%; not a production write-safety claim \\
+C21 & HMDA public records are ready for a future multidomain trace comparison & results/multidomain/preflight/validation.json & Verified provider-free preflight: 420/420 exact gold, 416/420 variable paths; zero provider calls and no optimization result \\
+C22 & Every reported artifact meets the registered 5\% selective-risk target & results/admission\_register.json: four artifacts at alpha=.05, three at alpha=.10 & Contradicted; the GCS and earlier three-read artifacts are licensed only at 10\% and would retire at 5\% \\
+C23 & Token reduction is a proxy for cost reduction & results/cache\_accounting.json: macro uses 30.9\% fewer tokens but is 8.0\% cheaper at 0.0\% cache reads vs. 27.8\% & Contradicted; interface fusion trades prompt length against prefix reuse and the two newer families are cache-cold throughout \\
+C24 & The reported exact gates provide compiler-wide control after candidate-family search & Per-candidate Clopper-Pearson bounds split delta over 11 thresholds; compile\_grc may calibrate multiple families & Not established; freeze one candidate before calibration or adjust across candidate-threshold pairs; two candidates require 106 zero-violation groups at alpha=.05, delta=.10 \\
 \bottomrule
 \end{tabularx}

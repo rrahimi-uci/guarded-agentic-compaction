@@ -1126,6 +1126,25 @@ def validate_demo_suite() -> None:
        "Tier-3 cost inversion holds for exactly the two demos the paper names")
 
 
+def validate_multidomain_preflight() -> None:
+    """Keep the HMDA addition tied to its provider-free evidence boundary."""
+
+    path = PAPER / "results/multidomain/preflight/validation.json"
+    data = load(path)
+    domains = {row.get("domain"): row for row in data.get("domains", [])}
+    hmda = domains.get("hmda", {})
+    ok(path.exists(), "multidomain preflight validation exists")
+    ok(hmda.get("available") is True, "HMDA preflight is available")
+    ok((hmda.get("cases"), hmda.get("independent_groups")) == (420, 420),
+       "HMDA preflight retains 420 independent groups")
+    ok((hmda.get("exact_oracle_passes"), hmda.get("independent_gold_passes")) == (420, 420),
+       "HMDA exact and independent gold checks pass 420/420")
+    ok(hmda.get("variable_path_fraction") == 416 / 420,
+       "HMDA variable-path fraction matches the frozen pool")
+    ok(data.get("provider_calls_executed") == 0,
+       "multidomain preflight records zero provider calls")
+
+
 def validate_offline_comparator() -> None:
     """Recompute the macro comparison and enforce its simulated-evidence boundary."""
 
@@ -1213,6 +1232,64 @@ def validate_claim_boundaries() -> None:
 
     ok("--test-per-class 6 --repeat-cases 6" in appendix,
        "appendix records the archived live-study design explicitly")
+
+    # The paper previously stated a single 5% selective-risk bound while three artifacts
+    # were calibrated at 10%. Check the register against the sealed gates, and check that
+    # the body discloses every artifact that misses the registered target.
+    register = load(PAPER / "results/admission_register.json")
+    ok(register.get("schema") == "agent-compaction-admission-register/v1",
+       "admission register schema")
+    ok(evidence_equal(register.get("registered_alpha"), 0.05),
+       "admission register states the registered selective-risk target")
+    ok(register.get("certificate_scope") == "per-fixed-candidate threshold grid",
+       "admission register scopes its certificate to one fixed candidate")
+    ok(register.get("candidate_family_multiplicity_adjusted") is False and
+       register.get("compiler_wide_candidate_search_guarantee") is False,
+       "admission register rejects an unimplemented compiler-wide search guarantee")
+    ok(register.get("two_candidate_zero_violation_groups_required") == 106,
+       "admission register records the two-candidate Bonferroni requirement")
+    looser = [row for row in register["artifacts"] if not row["meets_registered_alpha"]]
+    ok(len(looser) == 3,
+       f"admission register records the three artifacts above the registered alpha, found {len(looser)}")
+    for row in register["artifacts"]:
+        gate = row
+        ok(evidence_equal(gate["coverage"], gate["n_accepted"] / gate["n_calibration_groups"]),
+           f"admission register coverage is consistent: {row['study']}")
+        ok(gate["observed_violations"] == 0,
+           f"admission register records zero calibration violations: {row['study']}")
+    ok(r"\input{../tables/admission_register.tex}" in body,
+       "body includes the admission register table")
+    ok("were calibrated at $\\alpha=.10$" in body or "calibrated at $\\alpha=.10$" in body,
+       "body discloses the looser selective-risk level in prose")
+    ok("the family would have retired" in body,
+       "body states the consequence of the looser level at the registered target")
+    ok("10\\%-selective-risk result" in body,
+       "body labels the GCS result by the risk level that licenses it")
+    ok("Per-candidate simultaneous calibration" in body and
+       r"k_\eta\mid n_\eta=m\sim\operatorname{Binomial}(m,r_\eta)" in body and
+       r"|\Lambda|\gamma=\delta" in body,
+       "body includes the conditional-binomial and union-bound proof")
+    ok(r"n_\eta=0\ \text{or}\ k_\eta=n_\eta" in body,
+       "body gives the Clopper-Pearson edge cases explicitly")
+    ok("not a multiplicity-corrected compiler-wide certificate" in body and
+       "92 to 106 admitted groups" in body,
+       "body discloses candidate-family multiplicity and its sample-size consequence")
+
+    # Cache accounting is the evidence behind the token-versus-dollar claim; keep the
+    # derived record and the prose that cites it bound together.
+    cache = load(PAPER / "results/cache_accounting.json")
+    ok(cache.get("schema") == "agent-compaction-cache-accounting/v1", "cache accounting schema")
+    ok(len(cache["families"]) == 3, "cache accounting covers the three primary families")
+    issue = next(row for row in cache["families"] if row["family"] == "Issue-type routing")
+    ok(issue["arms"]["manual"]["cached_input_share"] == 0.0,
+       "cache accounting records the macro's absent cache reuse")
+    ok(issue["arms"]["compiled"]["cached_input_share"] > 0.2,
+       "cache accounting records the compiled arm's retained cache reuse")
+    for row in cache["families"]:
+        ok(row["break_even_episodes"] and row["break_even_episodes"] > 0,
+           f"cache accounting reports provider-side break-even: {row['family']}")
+    ok(r"\input{../tables/cache_accounting.tex}" in body,
+       "body includes the cache accounting table")
     abstract_words = re.findall(r"\b[\w'-]+\b", re.sub(r"\\[A-Za-z]+", " ", abstract))
     ok(len(abstract_words) <= 275,
        f"abstract stays concise at {len(abstract_words)} words")
@@ -1241,6 +1318,9 @@ def validate_claim_boundaries() -> None:
     ok("Bounded GEPA improves this workflow" in claims
        and "seed retained" in claims,
        "claims register records the bounded GEPA negative result")
+    ok("compiler-wide control after candidate-family search" in claims and
+       "Not established" in claims and "106 zero-violation groups" in claims,
+       "claims register rejects unsupported compiler-wide candidate-search control")
     for key in ("agrawal2026gepa", "wei2026evoc2f", "winston2026agentjit"):
         ok(key in bibliography and f"\\cite{{{key}}}" in body,
            f"current related work is cited and discussed: {key}")
@@ -1679,6 +1759,24 @@ def validate_slides() -> None:
         except Exception as exc:
             errors.append(f"{label} publication slide deck package validation: {exc}")
 
+    # A deck rendered from an older generator is not an error, but shipping it silently
+    # is. Require the mismatch to be declared, with the command that resolves it, so the
+    # repository never asserts a deck matches sources it was not built from.
+    record = load(PAPER / "results/slide_generation.json")
+    generator = PAPER / "scripts/generate_slides.mjs"
+    current = sha256(generator)
+    recorded = record.get("generator_sha256_current")
+    pending = record.get("regeneration_required")
+    if recorded == current:
+        ok(pending is None,
+           "slide record claims no pending regeneration when the generator is unchanged")
+    else:
+        ok(isinstance(pending, dict) and pending.get("reason") and pending.get("command"),
+           "slide record declares the pending regeneration for a revised generator")
+        ok(sorted(pending.get("stale_outputs", [])) == sorted(
+               record["outputs"][key]["path"] for key in ("seminar", "technical")),
+           "slide record names both decks as stale")
+
 
 def validate_slide_generation() -> None:
     """Bind generated decks to the exact templates, evidence, and source-slide map."""
@@ -1762,6 +1860,7 @@ def main() -> None:
     validate_continuation_replay()
     validate_nestful()
     validate_demo_suite()
+    validate_multidomain_preflight()
     validate_offline_comparator()
     validate_manifest()
     validate_claim_boundaries()

@@ -71,13 +71,17 @@ different tool vocabulary and exact decision contract.
 
 | Result | Evidence | Interpretation |
 |:---|:---|:---|
-| Three-family total | compiled 90/90 versus baseline 89/90; requests −66.6%; tokens −63.1%; observed wall latency −64.2%; estimated cost −58.7% | efficiency transfers across issue type, PR outcome, and backlog attention |
+| Three-family total | compiled 90/90 versus baseline 89/90 (McNemar *p*=1; pooled discordance bound 3.3%); requests −66.6%; tokens −63.1%; observed wall latency −64.2%; estimated cost −58.7% | efficiency transfers across issue type, PR outcome, and backlog attention |
 | Conservative GAC | 30/30 exact task contracts; requests −50.0%; tokens −39.5%; observed wall latency −51.7%; estimated cost −32.0% | a grounded two-read prefix can remove one model boundary |
 | Hand-written programs | 90/90; fair pre-model programs tie learned programs on the two new families | manual code remains the practical runtime baseline |
 | Aggressive GAC | 17/18 versus 18/18 for both comparators | clean program replay does not certify the final answer |
 | GCS vs provider-visible macro | 12/12 each; GCS uses one versus two requests | pre-model projection removes an interface request |
 | GCS vs fair pre-model manual | 6/6 each; tied requests, interfaces, and input tokens | automatic runtime superiority is not established |
 | NESTFUL and API-Bank | every recurrent family retires | recurrence does not imply admissibility |
+| Selective-risk levels | four artifacts at `alpha=.05`, three at `alpha=.10`, portfolio at 15% | GCS and comparator results are licensed only at 10%, not the registered 5% |
+| Calibration proof scope | exact Clopper--Pearson plus 11-threshold union bound for one fixed candidate | candidate-family search is not multiplicity-adjusted; two candidates require 106 rather than 92 zero-violation groups |
+| Cache accounting | macro: −30.9% tokens but only −8.0% cost at 0.0% cache reads vs. 27.8% | token reduction is not a proxy for cost reduction |
+| Amortization | provider-side break-even 411 / 182 / 181 episodes per family | a shallow admitted prefix may never repay its discovery |
 
 The artifact also preserves a revision-pinned supplementary audit of eight other agent
 benchmarks. Those paths verify interoperability or explicit gates but do not demonstrate
