@@ -93,10 +93,15 @@ def _step_result(window: Window, step: WindowStep) -> Any:
     return [window.patg.order[p].output for p in step.result_positions]
 
 
-def _step_args(window: Window, step: WindowStep) -> dict[str, Any]:
+def _step_args(
+    window: Window,
+    step: WindowStep,
+    catalog: EffectCatalog | None = None,
+) -> dict[str, Any]:
     pos = step.positions[0]
     ev = window.patg.order[pos]
-    return dict(ev.input) if isinstance(ev.input, dict) else {}
+    arguments = dict(ev.input) if isinstance(ev.input, dict) else {}
+    return catalog.canonicalize_arguments(step.tool, arguments) if catalog is not None else arguments
 
 
 # ---------------------------------------------------------------------------
@@ -610,11 +615,14 @@ def synthesize_program(
         tool = base.steps[i].tool
         arg_paths: set[str] = set()
         for w in step_windows:
-            arg_paths |= set(_step_args(w, w.steps[i]))
+            arg_paths |= set(_step_args(w, w.steps[i], catalog))
         args: dict[str, Binding] = {}
         for slot_path in sorted(arg_paths):
             envs = [window_env(w, names, i) for w in step_windows]
-            targets = [_step_args(w, w.steps[i]).get(slot_path) for w in step_windows]
+            targets = [
+                _step_args(w, w.steps[i], catalog).get(slot_path)
+                for w in step_windows
+            ]
             groups = [w.group_id for w in step_windows]
             keep = [j for j, t in enumerate(targets) if t is not None]
             if not keep:

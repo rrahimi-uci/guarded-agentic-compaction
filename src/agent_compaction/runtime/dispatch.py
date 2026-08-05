@@ -28,6 +28,7 @@ from typing import Any, Callable, Sequence
 from ..registry.store import Registry
 from ..schema.artifacts import Artifact, DispatchOutcome, Lifecycle
 from ..schema.effects import EffectCatalog
+from ..grc.composite import CompositeProjectionError
 from .facade import FacadeMode, ForbiddenTool, Recording, ToolFacade
 from .interp import InterpResult, PostCommitError, PreCommitError, run_program
 from .staging import Snapshot, Staging, StagingViolation
@@ -56,6 +57,10 @@ class DispatchDecision:
     calls: list[tuple[str, dict[str, Any]]] = field(default_factory=list)
     results: list[Any] = field(default_factory=list)
     outputs: dict[str, Any] = field(default_factory=dict)
+    projected_outputs: dict[str, Any] = field(default_factory=dict)
+    provenance: dict[str, set[str]] = field(default_factory=dict)
+    projected_provenance: dict[str, tuple[str, ...]] = field(default_factory=dict)
+    composite_exposed: bool = False
     effects: tuple[str, ...] = ()
     removed_requests: float = 0.0
     overhead_ms: float = 0.0
@@ -74,6 +79,19 @@ class DispatchDecision:
             "q": round(self.q, 4),
             "reasons": list(self.reasons)[:6],
             "n_calls": len(self.calls),
+            "exposed_calls": (
+                1
+                if self.outcome is DispatchOutcome.COMPACTED and self.composite_exposed
+                else len(self.calls)
+            ),
+            "composite": (
+                self.artifact.program.composite.name
+                if self.composite_exposed
+                and self.artifact is not None
+                and self.artifact.program is not None
+                and self.artifact.program.composite is not None
+                else None
+            ),
             "removed_requests": self.removed_requests,
             "overhead_ms": round(self.overhead_ms, 3),
             "shadow": self.shadow,
@@ -168,6 +186,8 @@ class Dispatcher:
         snapshot_fn: Callable[[], Snapshot] | None = None,
         already_observed: Sequence[str] = (),
         defer_execution: bool = False,
+        require_pre_model_composite: bool = False,
+        continuation_compatibility_key: str = "",
     ) -> DispatchDecision:
         t0 = time.perf_counter()
         self.telemetry.attempts += 1
@@ -196,6 +216,37 @@ class Dispatcher:
         admissible: list[tuple[Artifact, float]] = []
         first_reasons: tuple[str, ...] = ()
         for art in candidates:
+            if require_pre_model_composite and (
+                art.program is None
+                or art.program.composite is None
+                or not art.program.composite.pre_model
+            ):
+                if not first_reasons:
+                    first_reasons = ("no_pre_model_composite",)
+                continue
+            if (
+                require_pre_model_composite
+                and art.program is not None
+                and art.program.composite is not None
+                and art.program.composite.continuation_compatibility_key
+                != continuation_compatibility_key
+            ):
+                if not first_reasons:
+                    first_reasons = ("continuation_manifest_mismatch",)
+                continue
+            if (
+                require_pre_model_composite
+                and art.program is not None
+                and art.program.composite is not None
+            ):
+                try:
+                    art.program.composite.arguments(entry_state)
+                except CompositeProjectionError:
+                    reason = "composite_input_failed"
+                    if not first_reasons:
+                        first_reasons = (reason,)
+                    self.telemetry.bump(self.telemetry.guard_misses, reason)
+                    continue
             invalid = self._artifact_reasons(art)
             if invalid:
                 if not first_reasons:
@@ -343,6 +394,39 @@ class Dispatcher:
                 overhead_ms=self._elapsed(t0),
             )
 
+        projected_outputs: dict[str, Any] = {}
+        projected_provenance: dict[str, tuple[str, ...]] = {}
+        if require_pre_model_composite and artifact.program.composite is not None:
+            try:
+                projected_outputs = artifact.program.composite.project(result.outputs)
+                projected_provenance = artifact.program.composite.provenance(result.provenance)
+            except CompositeProjectionError as exc:
+                self.telemetry.bump(self.telemetry.verifier_failures, "composite_projection")
+                clean = self._abort(stage)
+                if not clean:
+                    self.telemetry.incidents += 1
+                    return DispatchDecision(
+                        DispatchOutcome.INCIDENT,
+                        artifact=artifact,
+                        q=q,
+                        reasons=("composite_projection_dirty_abort",),
+                        error=str(exc),
+                        calls=result.calls,
+                        effects=result.effects,
+                        overhead_ms=self._elapsed(t0),
+                    )
+                self.telemetry.baseline += 1
+                return DispatchDecision(
+                    DispatchOutcome.BASELINE,
+                    artifact=artifact,
+                    q=q,
+                    reasons=("composite_projection_failed",),
+                    error=str(exc),
+                    calls=result.calls,
+                    effects=result.effects,
+                    overhead_ms=self._elapsed(t0),
+                )
+
         if stage is not None:
             try:
                 stage.commit(result.effects)
@@ -368,6 +452,10 @@ class Dispatcher:
             calls=result.calls,
             results=result.results,
             outputs=result.outputs,
+            projected_outputs=projected_outputs,
+            provenance=result.provenance,
+            projected_provenance=projected_provenance,
+            composite_exposed=require_pre_model_composite,
             effects=result.effects,
             removed_requests=artifact.evidence.removed_requests,
             overhead_ms=self._elapsed(t0),
@@ -400,6 +488,9 @@ class Dispatcher:
         if artifact.program.library_version != LIBRARY_VERSION:
             return ["invalid_artifact:dsl_version"]
         reasons: list[str] = []
+        step_tools = tuple(dict.fromkeys(step.tool for step in artifact.program.call_steps()))
+        if artifact.program.tools != step_tools:
+            reasons.append("invalid_artifact:tool_index")
         for tool in artifact.program.tools:
             spec = self.catalog.get(tool)
             if not spec.compilable:
@@ -408,6 +499,27 @@ class Dispatcher:
                 reasons.append(f"invalid_artifact:guard_effect:{tool}")
             if artifact.verifier.allowed_effects and spec.effect.value not in artifact.verifier.allowed_effects:
                 reasons.append(f"invalid_artifact:verifier_effect:{tool}")
+        composite = artifact.program.composite
+        if composite is not None:
+            if not composite.name or not composite.name.replace("_", "").replace("-", "").isalnum():
+                reasons.append("invalid_artifact:composite_name")
+            if composite.schema_version != 1:
+                reasons.append("invalid_artifact:composite_schema")
+            if tuple(composite.inputs) != tuple(artifact.program.theta):
+                reasons.append("invalid_artifact:composite_inputs")
+            if tuple(composite.internal_tools) != tuple(artifact.program.tools):
+                reasons.append("invalid_artifact:composite_tools")
+            if not composite.projection:
+                reasons.append("invalid_artifact:composite_projection")
+            output_roots = set(artifact.program.outputs)
+            for target, binding in composite.projection.items():
+                if not target or target.startswith(".") or target.endswith("."):
+                    reasons.append("invalid_artifact:composite_target")
+                source = getattr(binding, "source", "")
+                if source.split(".", 1)[0] not in output_roots:
+                    reasons.append(f"invalid_artifact:composite_source:{target}")
+            if any(not self.catalog.composite_eligible(tool) for tool in artifact.program.tools):
+                reasons.append("invalid_artifact:composite_capability")
         return reasons
 
     def _abort(self, stage: Staging | None) -> bool:

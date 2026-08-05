@@ -26,7 +26,10 @@ This register prevents claims from drifting beyond the artifacts that support th
 | Expanded free-order replication executes the sealed design | `results/github_natural_replication/results.json` | Verified on sample | 132 discovery, 30 primary and 10 repeated cases per arm; 848 provider responses; no infrastructure failures; real records and live provider |
 | Groundability limits the emitted region | expanded compiler report and artifact | Verified | all 132 discovery traces use three reads, but the inconsistent comments limit is ungroundable; compiler rejects that candidate and emits a two-read prefix |
 | The implemented optimizer chooses between compilation and retirement | compiler cascade, registry, and runtime fallback | Verified | a surviving artifact may be admitted; otherwise the unchanged agent remains active |
-| The region compiler recommends or synthesizes a macro | source and public APIs | Not implemented | GAC remains compile-or-retire; recommendation is a separate portfolio decision and synthesis is absent |
+| The portfolio recommends or synthesizes arbitrary macro code | source and public APIs | Not implemented | the portfolio consumes measured actions; GCS separately packages an admitted read program behind a bounded projection |
+| GCS recompiles the full retained three-read region | `results/gcs_validation/provider_free.json` | Verified on archived real-provider traces | 132 attempts; 124 admitted exact projections, 8 safe gate/guard fallbacks, 0 projection failures, 0 new provider calls |
+| GCS matches and beats the measured provider-visible macro | `results/gcs_live/results.json` | Exploratory on one family | both 12/12 exact; GCS requests -50.0%, tokens -38.9%, observed latency -40.0%, estimated cost -32.3%; tool interfaces tie 1/1 and source reads tie 3/3 |
+| GCS dominates the best manual implementation | no pre-model manual comparator | Not established | an equally continuation-pinned, pre-executed hand-written macro could plausibly remove the same provider turn |
 | The implemented portfolio can recommend a measured macro | `src/agent_compaction/portfolio/`, `results/portfolio_live/results.json` | Verified on one family | both measured actions admitted on 30 groups; macro utility 0.489 vs compiler 0.327; recommendation requires human review |
 | The portfolio synthesizes macro code | source and prospective result | Not implemented | it selects an externally supplied measured action; no code or application API is generated |
 | The selected portfolio action works prospectively | `results/portfolio_live/results.json` | Verified on sample | baseline and selected macro pass 12/12 fresh exact contracts; requests -50.0%, tools -66.7%, tokens -59.2%, latency -71.6%, estimated cost -40.6% |
@@ -48,8 +51,8 @@ This register prevents claims from drifting beyond the artifacts that support th
 
 ## Secret handling and provenance
 
-`.env` variable names were inspected, but values were never printed or copied. Live
-results store boolean usage flags and `secrets_serialized: false`; the validator scans
+`.env` variable names were inspected, but values were never printed or copied. The GCS
+live study used `OPENAI_API_KEY` for real provider calls. Live results store boolean usage flags and `secrets_serialized: false`; the validator scans
 publication text/JSON for key-shaped values. The public repository begins from an initial
 snapshot created after the experiments; current versioning is available, but pre-snapshot
 commit ancestry and CI history cannot be reconstructed.

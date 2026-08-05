@@ -50,6 +50,24 @@ spends API credits and may change latency and generated text. The tools read det
 snapshot records, not the live GitHub service. See the [paper README](../paper/README.md)
 for the complete protocol and evidence boundary.
 
+The later GCS study uses a different SDK integration: the outer controller executes one
+admitted composite before the first provider request, then sends its projected observation
+to an agent with no tool surface. Reproduce the provider-free compiler/replay audit or the
+paid real-record comparison with:
+
+```bash
+.venv/bin/python paper/scripts/validate_guarded_composite.py
+# Paid and nondeterministic; requires OPENAI_API_KEY in .env.
+.venv/bin/python paper/scripts/github_gcs_live_study.py --smoke
+.venv/bin/python paper/scripts/github_gcs_live_study.py --cases 12
+```
+
+`execute_pre_model()` is framework-neutral—the application still owns conversion of its
+projected observation into SDK input. GCS pins the continuation manifest (model, prompt,
+tools, policies, guardrails, and entry contract) and refuses before any tool executes when
+that identity differs. The retained paid result used real OpenAI calls and a pinned public
+GitHub snapshot; it did not use simulated agent decisions.
+
 ## Capture
 
 ```python
@@ -133,6 +151,13 @@ permission context, and tool executor.
 
 Use this path when exact pre-commit deoptimization matters. A live region containing a
 quota-attested read is rejected unless the caller supplies a reversibility snapshot.
+
+For a GCS artifact, `CompactingRunner.execute_pre_model()` additionally requires
+`composite.pre_model=True` and the exact `continuation_compatibility_key`. On success it
+returns one `CompactedObservation` whose tool name is the synthesized composite and whose
+result is the bounded projection. Internal tool calls remain available in dispatch
+provenance and metrics. On any guard, gate, verifier, projection, or continuation mismatch,
+it returns no observation and executes no continuation-specific shortcut.
 
 ### Post-model continuation boundary
 

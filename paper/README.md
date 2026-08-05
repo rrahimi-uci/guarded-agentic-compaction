@@ -31,15 +31,21 @@ paper/
 ├── generated_figures/              script-generated PDF and PNG figures
 ├── tables/                         script-generated LaTeX tables
 ├── slides/
+│   ├── GAC-seminar.pptx             25-slide source template, hash-pinned
+│   ├── GAC-technical-review.pptx    21-slide source template, hash-pinned
+│   ├── gac-template-map.json        source-to-output slide mapping
+│   ├── README.md                    generation and evidence-boundary notes
 │   ├── compiling-recurrent-agent-workflows-into-guarded-programs.pptx
-│                                    editable 16-slide research presentation
+│   │                                editable 26-slide seminar presentation
 │   └── compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx
-│                                    25-slide version with quantitative appendix
+│                                    editable 22-slide technical-review presentation
 ├── results/
 │   ├── datasets/                   pinned upstream snapshots and manifests
 │   ├── github_live/                real-record/live-provider raw results
 │   ├── github_natural_live/        free-order real-provider study and raw results
 │   ├── portfolio_live/             frozen decision and prospective fresh-cohort result
+│   ├── gcs_validation/             provider-free real-trace composite replay
+│   ├── gcs_live/                   exploratory fresh macro-vs-GCS paid comparison
 │   ├── github_natural_replication/ expanded paid 30-pair replication
 │   ├── multidomain/                real-record provider-free extension preflight
 │   ├── nestful/                    public-benchmark raw results
@@ -50,10 +56,13 @@ paper/
 │   ├── continuation_replay.py      checked post-model replay on retained outputs
 │   ├── github_live_study.py        fixed ablation and expanded natural replication
 │   ├── portfolio_live_study.py     reviewed portfolio selection and prospective test
+│   ├── validate_guarded_composite.py provider-free 132-trace GCS reconstruction
+│   ├── github_gcs_live_study.py    paid fresh real-record GCS/macro comparison
 │   ├── multidomain_study.py        gated real-provider multidomain runner
 │   ├── validate_multidomain.py     provider-free independent-gold validation
 │   ├── nestful_benchmark.py        provider-free external benchmark
 │   ├── build_artifacts.py          deterministic figures/tables
+│   ├── generate_slides.mjs         hash-bound GAC-template slide generator
 │   └── validate_artifacts.py       claim and integrity audit
 ├── paper-review.md                 consolidated adversarial peer review
 ├── supplementary/                  evidence register, audit, and rubric
@@ -114,6 +123,13 @@ capabilities are documented in
 - **Continuation-contract replay:** provider-free counterfactual over the 18 retained
   compiled outputs and their pinned real source records. It detects the one factual miss
   and checked-renders it to 18/18; it is not a live latency/cost arm.
+- **Guarded composite extension:** provider-free reconstruction recompiles the complete
+  three-read program from 132 sealed provider traces and checks 124 admitted projections
+  exactly (8 safe fallbacks). A separate paid exploratory run compares a continuation-pinned
+  pre-model composite with the provider-visible hand-written macro on 12 further public
+  issues: both pass 12/12 exact contracts; GCS uses fewer requests, tokens, observed
+  latency, and estimated cost. This was designed after the earlier macro result and does
+  not compare against an equally pre-executed manual macro.
 - **Archived pilot:** a real-provider negative result that exposed unsafe suffix dispatch.
   It is retained under `results/github_live/pilot_2026-08-03/` and excluded from the final
   cohort.
@@ -145,6 +161,7 @@ From the repository root:
     --task-design natural-extractive-v2 --regrade-results \
     --results-path paper/results/github_natural_replication/results.json
 .venv/bin/python paper/scripts/continuation_replay.py
+.venv/bin/python paper/scripts/validate_guarded_composite.py
 M=paper/results/multidomain/preflight
 V=paper/scripts/validate_multidomain.py
 .venv/bin/python "$V" \
@@ -203,6 +220,10 @@ spends API credits and produces nondeterministic provider latency/text:
     --preflight --cases-per-class 4
 .venv/bin/python paper/scripts/portfolio_live_study.py \
     --cases-per-class 4 --approve-reviewed-macro
+
+# Exploratory guarded-composite comparison; real paid OpenAI calls.
+.venv/bin/python paper/scripts/github_gcs_live_study.py --smoke
+.venv/bin/python paper/scripts/github_gcs_live_study.py --cases 12
 
 # The older controlled ablation. The explicit flags matter: the script's defaults are
 # --test-per-class 10 --repeat-cases 10, which would give 30 primary pairs and 10

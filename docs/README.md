@@ -1,6 +1,6 @@
 # Documentation map
 
-This directory describes the implemented `agent-compaction` 0.6.0 research library.
+This directory describes the implemented `agent-compaction` 0.7.0 research library.
 Start here rather than treating every document as an equally current specification.
 
 ## Current developer documentation
@@ -9,6 +9,7 @@ Start here rather than treating every document as an equally current specificati
 |:---|:---|
 | [Library API](library-api.md) | Public Python API, optimization pipeline, portfolio selector, extension points, and continuation contracts |
 | [OpenAI Agents SDK](openai-agents-sdk.md) | Native trace capture and the supported runtime integration boundary |
+| [Guarded Composite Synthesis](guarded-composite-synthesis.md) | Composite contracts, pre-model dispatch, real validation, and limits |
 | [Trace contract](trace-contract.md) | Application-owned fields required for sound analysis |
 | [Safety model](safety-model.md) | Effect barriers, refusal semantics, staging, and limits of fallback |
 | [Operations](operations.md) | Estimate, review, shadow, promotion, monitoring, incident response, and rollback |
@@ -27,9 +28,10 @@ Start here rather than treating every document as an equally current specificati
 | [Illustrated HTML report](agent-compaction-report.html) | Generated visualization of the live SDK fixture results |
 | [Related work](related-work-matrix.md) | Implemented comparators versus literature references |
 
-The strongest current real-scenario result is the prospective portfolio pilot over 12
-fresh public GitHub issues. It uses live OpenAI provider calls and deterministic tools over
-a pinned public snapshot; it is not a live GitHub-service reliability test. The older live
+The strongest current real-scenario evidence includes the prospective portfolio pilot and
+the exploratory GCS-versus-macro comparison, each over a different set of 12 fresh public
+GitHub issues. Both use live OpenAI provider calls and deterministic tools over a pinned
+public snapshot; neither is a live GitHub-service reliability test. The older live
 SDK suite uses fictional fixtures and is labeled accordingly. Never pool these evidence
 classes or present the offline stress study as a provider benchmark.
 

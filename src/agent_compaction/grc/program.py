@@ -16,6 +16,7 @@ from dataclasses import dataclass, field
 from typing import Any, Iterable, Sequence
 
 from ..paths import resolve_path
+from .composite import CompositeSpec
 from .dsl import Binding, Const, Expr, LIBRARY_VERSION, binding_from_dict
 
 __all__ = [
@@ -23,6 +24,7 @@ __all__ = [
     "CallStep",
     "LoopStep",
     "AssertStep",
+    "CompositeSpec",
     "Program",
     "Step",
     "predicate_from_dict",
@@ -227,6 +229,7 @@ class Program:
     library_version: str = LIBRARY_VERSION
     removed_requests: float = 0.0
     tools: tuple[str, ...] = ()
+    composite: CompositeSpec | None = None
 
     def __post_init__(self) -> None:
         if not self.tools:
@@ -248,6 +251,8 @@ class Program:
                     n += 2
             elif isinstance(s, AssertStep):
                 n += len(s.checks)
+        if self.composite is not None:
+            n += 1 + sum(binding.mdl for binding in self.composite.projection.values())
         return n + len(self.outputs)
 
     @property
@@ -269,6 +274,12 @@ class Program:
             lines.append(s.pretty())
         rets = ", ".join(f"{k}: {v.pretty()}" for k, v in sorted(self.outputs.items()))
         lines.append(f"   return  {{ {rets} }}")
+        if self.composite is not None:
+            exposed = ", ".join(sorted(self.composite.projection))
+            lines.append(
+                f"expose   {self.composite.name}({', '.join(self.composite.inputs)})"
+                f" -> {{ {exposed} }} [internal={len(self.composite.internal_tools)}]"
+            )
         return "\n".join(lines)
 
     def to_dict(self) -> dict[str, Any]:
@@ -279,6 +290,7 @@ class Program:
             "library_version": self.library_version,
             "removed_requests": self.removed_requests,
             "tools": list(self.tools),
+            "composite": self.composite.to_dict() if self.composite else None,
         }
 
 
@@ -290,4 +302,5 @@ def program_from_dict(d: dict[str, Any]) -> Program:
         library_version=d.get("library_version", LIBRARY_VERSION),
         removed_requests=d.get("removed_requests", 0),
         tools=tuple(d.get("tools", ())),
+        composite=CompositeSpec.from_dict(d["composite"]) if d.get("composite") else None,
     )

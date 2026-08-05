@@ -226,7 +226,7 @@ def _make_facade(
         if world is not None:
             result = world.execute(tool, args)
         else:
-            result = recording.get(tool, args)
+            result = recording.get_semantic(tool, args, catalog)
         if pert is not None and pert.transform is not None:
             result = pert.transform(tool, args, result)
         return result

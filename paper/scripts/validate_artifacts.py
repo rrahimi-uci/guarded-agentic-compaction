@@ -717,6 +717,112 @@ def validate_portfolio_live() -> None:
        "fresh portfolio cohort records its available class mix")
 
 
+def validate_guarded_composite() -> None:
+    """Audit provider-free replay and the exploratory paid GCS comparison."""
+
+    replay_path = PAPER / "results/gcs_validation/provider_free.json"
+    live_path = PAPER / "results/gcs_live/results.json"
+    ok(replay_path.exists(), "GCS provider-free validation exists")
+    ok(live_path.exists(), "GCS live comparison exists")
+    if not replay_path.exists() or not live_path.exists():
+        return
+
+    replay = load(replay_path)
+    ok(replay.get("schema") == "agent-compaction-gcs-provider-free-validation/v1",
+       "GCS replay schema")
+    ok(replay.get("provider_calls_executed") == 0,
+       "GCS replay performs no provider calls")
+    ok(replay.get("source_provider_trace_count") == 132,
+       "GCS replay reconstructs all 132 sealed provider traces")
+    compiler = replay.get("compiler", {})
+    ok(compiler.get("complete_region_steps") == 3
+       and compiler.get("exposed_interfaces") == 1,
+       "GCS replay compiles three reads behind one interface")
+    ok(replay.get("replay") == {
+        "attempted": 132,
+        "dispatched": 124,
+        "fallback": 8,
+        "exact_projected_matches": 124,
+        "projection_failures": [],
+        "all_dispatched_exact": True,
+    }, "GCS provider-free projection outcomes are exact")
+
+    data = load(live_path)
+    run = data.get("run", {})
+    ok(data.get("schema") == "agent-compaction-gcs-live-study/v1",
+       "GCS live schema")
+    ok(run.get("provider_backed") is True
+       and run.get("real_public_records") is True
+       and run.get("openai_api_key_used") is True
+       and run.get("secrets_serialized") is False,
+       "GCS live run records real provider/data use without secrets")
+    ok(run.get("comparative_claim_allowed") is True and data.get("failures") == [],
+       "GCS live comparison is complete")
+
+    rows = data.get("results", [])
+    selected = {int(value) for value in data.get("selection", {}).get("issue_numbers", [])}
+    ok(len(rows) == 24 and len({row.get("trace_id") for row in rows}) == 24,
+       "GCS live study retains 24 unique provider traces")
+    paired: dict[int, dict[str, dict[str, Any]]] = defaultdict(dict)
+    for row in rows:
+        paired[int(row["issue_number"])][str(row["condition"])] = row
+    ok(set(paired) == selected and len(paired) == 12
+       and all(set(pair) == {"macro", "gcs"} for pair in paired.values()),
+       "GCS live result has 12 complete selected pairs")
+    ok(all(pair[condition]["quality"]["overall"]
+           for pair in paired.values() for condition in ("macro", "gcs")),
+       "GCS and macro both pass every retained exact contract")
+    ok(all(pair["macro"]["metrics"]["requests"] == 2
+           and pair["gcs"]["metrics"]["requests"] == 1
+           and pair["macro"]["metrics"]["tool_calls"] == 1
+           and pair["gcs"]["metrics"]["tool_calls"] == 1
+           and pair["gcs"]["metrics"]["provider_tool_calls"] == 0
+           and pair["gcs"]["metrics"]["internal_tool_calls"] == 3
+           for pair in paired.values()),
+       "GCS removes one provider request while retaining three internal reads")
+    schedule = [tuple(item["order"]) for item in data.get("schedule", [])]
+    ok(Counter(schedule) == Counter({("gcs", "macro"): 6, ("macro", "gcs"): 6}),
+       "GCS condition order is counterbalanced")
+
+    expected = {
+        "requests": 0.5,
+        "tool_calls": 0.0,
+        "total_tokens": 0.3889982502187227,
+        "wall_latency_ms": 0.40031515830575515,
+        "estimated_cost_usd": 0.3227115951015347,
+    }
+    metrics = data.get("macro_vs_gcs", {}).get("metrics", {})
+    for name, value in expected.items():
+        actual = metrics.get(name, {}).get("aggregate_reduction")
+        ok(actual is not None and abs(float(actual) - value) < 1e-12,
+           f"GCS paired metric recomputes: {name}")
+
+    prior_paths = (
+        PAPER / "results/github_natural_replication/discovery_checkpoint.json",
+        PAPER / "results/github_natural_replication/results.json",
+        PAPER / "results/github_natural_live/results.json",
+        PAPER / "results/portfolio_live/results.json",
+        PAPER / "results/github_live/results.json",
+    )
+    prior: set[int] = set()
+    for path in prior_paths:
+        payload = load(path)
+        prior.update(
+            int(row["issue_number"])
+            for row in payload.get("results", [])
+            if isinstance(row, dict) and "issue_number" in row
+        )
+        selection = payload.get("selection", {})
+        prior.update(int(value) for value in selection.get("discovery_issue_numbers", []))
+        prior.update(int(value) for value in selection.get("smoke_issue_numbers", []))
+        prior.update(
+            int(row["issue_number"])
+            for row in selection.get("test", [])
+            if isinstance(row, dict) and "issue_number" in row
+        )
+    ok(selected.isdisjoint(prior), "GCS cohort is disjoint from every earlier issue cohort")
+
+
 def validate_continuation_replay() -> None:
     """Recompute the post-model contract replay without trusting its summary."""
 
@@ -980,6 +1086,9 @@ def validate_claim_boundaries() -> None:
     ok("Portfolio selection beats an always-macro policy" in claims and
        "Not supported" in claims,
        "claims register rejects unsupported fixed-policy superiority")
+    ok("Guarded composite synthesis beats the measured provider-visible macro" in claims
+       and "Exploratory" in claims,
+       "claims register scopes the GCS macro result")
     for key in ("agrawal2026gepa", "wei2026evoc2f", "winston2026agentjit"):
         ok(key in bibliography and f"\\cite{{{key}}}" in body,
            f"current related work is cited and discussed: {key}")
@@ -1032,11 +1141,24 @@ def validate_publication() -> None:
         "results/github_natural_replication/discovery_checkpoint.json",
         "results/github_natural_live/results.json",
         "results/github_natural_live/smoke.json",
+        "results/gcs_validation/provider_free.json",
+        "results/gcs_live/results.json",
+        "scripts/validate_guarded_composite.py",
+        "scripts/github_gcs_live_study.py",
         "generated_figures/live_efficiency.pdf", "generated_figures/paired_test.pdf",
         "generated_figures/gate_support.pdf", "generated_figures/pilot_ablation.pdf",
         "generated_figures/natural_live_comparison.pdf",
         "tables/natural_live_results.tex",
         "tables/natural_replication_results.tex",
+        "tables/gcs_live_results.tex",
+        "slides/GAC-seminar.pptx",
+        "slides/GAC-technical-review.pptx",
+        "slides/gac-template-map.json",
+        "slides/README.md",
+        "slides/compiling-recurrent-agent-workflows-into-guarded-programs.pptx",
+        "slides/compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx",
+        "scripts/generate_slides.mjs",
+        "results/slide_generation.json",
     ]
     for rel in required:
         ok((PAPER / rel).exists(), f"publication artifact exists: {rel}")
@@ -1093,6 +1215,7 @@ def validate_publication() -> None:
                            "Expanded natural-order Tier-2 replication",
                            "GEPA",
                            "Prospective portfolio selection",
+                           "Exploratory GCS",
                            "Portfolio optimization beyond the pilot",
                            "Limitations and Threats to Validity",
                            "Reproducibility Details"):
@@ -1134,12 +1257,11 @@ def validate_no_secrets() -> None:
 
 def validate_slides() -> None:
     decks = (
-        ("compiling-recurrent-agent-workflows-into-guarded-programs.pptx", 16, False),
-        ("compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx", 25, True),
+        ("compiling-recurrent-agent-workflows-into-guarded-programs.pptx", 26, "seminar"),
+        ("compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx", 22, "technical"),
     )
-    for filename, expected_slides, detailed in decks:
+    for filename, expected_slides, label in decks:
         path = PAPER / "slides" / filename
-        label = "detailed" if detailed else "core"
         ok(path.exists() and path.stat().st_size > 0,
            f"{label} publication slide deck exists and is non-empty")
         if not path.exists() or path.stat().st_size == 0:
@@ -1159,15 +1281,82 @@ def validate_slides() -> None:
                    f"{label} publication slide deck contains the current paper title")
                 ok(b"When Traces Are Not Enough" not in payload,
                    f"{label} publication slide deck contains no superseded title")
-                if detailed:
-                    ok(b"PAIRED UNCERTAINTY" in payload
-                       and b"EVIDENCE REGISTER" in payload,
-                       "detailed publication deck contains its quantitative appendix")
+                ok(b"GCS removes the measured macro" in payload,
+                   f"{label} publication slide deck contains the GCS comparison")
+                ok(b"equally pre-executed manual" in payload,
+                   f"{label} publication slide deck retains the comparator boundary")
                 media = [name for name in names if name.startswith("ppt/media/")]
                 ok(all(package.getinfo(name).file_size > 0 for name in media),
                    f"{label} publication slide deck contains no empty media parts")
         except Exception as exc:
             errors.append(f"{label} publication slide deck package validation: {exc}")
+
+
+def validate_slide_generation() -> None:
+    """Bind generated decks to the exact templates, evidence, and source-slide map."""
+
+    manifest_path = PAPER / "results/slide_generation.json"
+    map_path = PAPER / "slides/gac-template-map.json"
+    generator_path = PAPER / "scripts/generate_slides.mjs"
+    ok(manifest_path.exists(), "slide-generation manifest exists")
+    ok(map_path.exists(), "GAC source-to-output slide map exists")
+    ok(generator_path.exists(), "artifact-tool slide generator exists")
+    if not manifest_path.exists() or not map_path.exists():
+        return
+
+    manifest = load(manifest_path)
+    mapping = load(map_path)
+    ok(manifest.get("schema") == "agent-compaction-slide-generation/v1",
+       "slide-generation manifest schema")
+    ok(mapping.get("schema") == "agent-compaction-slide-template-map/v1",
+       "GAC slide-template map schema")
+    ok(manifest.get("generator") == "paper/scripts/generate_slides.mjs",
+       "slide-generation manifest names the maintained generator")
+    ok(manifest.get("template_map") == "paper/slides/gac-template-map.json",
+       "slide-generation manifest names the maintained template map")
+
+    expected_outputs = {"seminar": 26, "technical": 22}
+    for name, expected_count in expected_outputs.items():
+        spec = mapping.get("templates", {}).get(name, {})
+        retained_template = manifest.get("templates", {}).get(name, {})
+        source_path = ROOT / str(spec.get("path", "missing"))
+        ok(source_path.exists(), f"{name} GAC source template exists")
+        if source_path.exists():
+            actual_hash = sha256(source_path)
+            ok(spec.get("sha256") == actual_hash,
+               f"{name} GAC source template matches pinned hash")
+            ok(retained_template.get("sha256") == actual_hash,
+               f"{name} slide manifest binds the source-template bytes")
+        source_map = spec.get("source_slide_for_output", [])
+        ok(len(source_map) == expected_count,
+           f"{name} source-to-output map covers all {expected_count} slides")
+        ok(manifest.get("source_slide_for_output", {}).get(name) == source_map,
+           f"{name} generated deck retains the reviewed source-slide map")
+
+        output = manifest.get("outputs", {}).get(name, {})
+        output_path = ROOT / str(output.get("path", "missing"))
+        ok(output.get("path") == spec.get("output"),
+           f"{name} manifest points at the canonical publication deck")
+        ok(output.get("slides") == expected_count,
+           f"{name} slide manifest records {expected_count} output slides")
+        ok(output_path.exists(), f"{name} generated publication deck exists")
+        if output_path.exists():
+            ok(output.get("sha256") == sha256(output_path),
+               f"{name} generated publication deck matches its manifest hash")
+
+    evidence = manifest.get("evidence", {})
+    evidence_paths = {
+        "gcs_live": PAPER / "results/gcs_live/results.json",
+        "gcs_replay": PAPER / "results/gcs_validation/provider_free.json",
+    }
+    for name, path in evidence_paths.items():
+        ok(path.exists(), f"slide evidence exists: {name}")
+        if path.exists():
+            ok(evidence.get(name, {}).get("sha256") == sha256(path),
+               f"slide-generation manifest binds evidence bytes: {name}")
+    ok(manifest.get("evidence_boundary") ==
+       "Post-study exploratory result on one workflow family; no equally pre-executed manual-macro comparator.",
+       "slide-generation manifest retains the GCS evidence boundary")
 
 
 def main() -> None:
@@ -1177,6 +1366,7 @@ def main() -> None:
     validate_natural_live()
     validate_natural_replication()
     validate_portfolio_live()
+    validate_guarded_composite()
     validate_continuation_replay()
     validate_nestful()
     validate_demo_suite()
@@ -1184,6 +1374,7 @@ def main() -> None:
     validate_manifest()
     validate_claim_boundaries()
     validate_publication()
+    validate_slide_generation()
     validate_slides()
     validate_no_secrets()
     summary = {

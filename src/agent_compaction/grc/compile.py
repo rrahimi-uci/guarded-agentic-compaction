@@ -40,6 +40,7 @@ from ..schema.traces import (
 from ..paths import stable_int
 from .calibrate import CalibrationSample, GateFeatures, calibrate_gate, fit_gate_model
 from .contracts import ChallengeReport, challenge, induce_guard, induce_verifier
+from .composite import CompositeSynthesisError, synthesize_composite
 from .program import Program
 from .synthesize import SynthesisResult, synthesize_program, var_name_for, window_env
 
@@ -80,6 +81,13 @@ class GrcConfig:
     owner: str = "unassigned"
     seed: int = 20260801
     allow_legacy_catalog_version: bool = False
+    #: Package an eligible verified program behind one projected interface. Tools
+    #: must explicitly declare the ``batchable`` capability; otherwise ordinary
+    #: GRC remains available and the ineligibility is recorded on the candidate.
+    synthesize_composites: bool = True
+    composite_projection: dict[str, str] = field(default_factory=dict)
+    composite_pre_model: bool = True
+    composite_continuation_key: str = ""
 
     def digest(self) -> str:
         blob = repr(sorted(self.__dict__.items() if hasattr(self, "__dict__") else []))
@@ -323,6 +331,23 @@ def compile_grc(
             res.rejection_by_stage["synthesize:k_below_b_min"] += 1
             continue
 
+        if config.synthesize_composites:
+            try:
+                program = synthesize_composite(
+                    program,
+                    catalog,
+                    projection=config.composite_projection or None,
+                    pre_model=config.composite_pre_model,
+                    continuation_compatibility_key=config.composite_continuation_key,
+                )
+            except CompositeSynthesisError as exc:
+                # Composite packaging is an optimization above ordinary GRC, not
+                # permission to discard a sound compiled program.
+                rec.notes["composite"] = f"ineligible:{exc}"
+            else:
+                rec.notes["composite"] = "synthesized"
+                rec.notes["composite_name"] = program.composite.name if program.composite else ""
+
         guard = induce_guard(program, train_w, manifest, catalog, partition_by=config.partition_by)
         verifier = induce_verifier(program, train_w, names, catalog)
         rec.stage = "contracted"
@@ -386,6 +411,22 @@ def compile_grc(
             features,
             sandbox,
             include_perturbations=False,
+        )
+        rec.notes.update(
+            {
+                "gate_dev_samples": len(dev_samples),
+                "gate_dev_unproductive": sum(sample.unproductive for sample in dev_samples),
+                "gate_dev_violations": sum(sample.violation for sample in dev_samples),
+                "gate_calibration_samples": len(samples),
+                "gate_calibration_unproductive": sum(sample.unproductive for sample in samples),
+                "gate_calibration_violations": sum(sample.violation for sample in samples),
+                "gate_dev_reasons": dict(
+                    Counter(sample.reason for sample in dev_samples if sample.reason)
+                ),
+                "gate_calibration_reasons": dict(
+                    Counter(sample.reason for sample in samples if sample.reason)
+                ),
+            }
         )
         if not dev_samples:
             rec.rejected = "no_gate_training_groups"
@@ -550,11 +591,13 @@ def _calibration_samples(
         facade, _ = _make_facade(program, catalog, w, None, sandbox)
         res = run_program(program, w.episode.entry_state, facade)
         unproductive = not res.ok
+        reason = res.error.split(":", 1)[0] if not res.ok else ""
         violation = False
         if res.ok:
             bad = verifier.verify(res.outputs, res.env, res.provenance, res.effects, len(res.calls))
             if bad:
                 unproductive = True
+                reason = "verifier:" + bad[0]
             else:
                 for i in range(min(len(names), len(w.steps))):
                     recorded = _recorded_output(w, i)
@@ -564,6 +607,7 @@ def _calibration_samples(
                     if recorded is None or got is None:
                         violation = True
                         unproductive = True
+                        reason = "recorded_output_missing"
                         break
                     if recorded is not None and got is not None:
                         from ..evaluation.replay import equivalent
@@ -572,6 +616,7 @@ def _calibration_samples(
                         if not equivalent(recorded, got, tool, catalog):
                             violation = True
                             unproductive = True
+                            reason = "recorded_output_mismatch"
                             break
         samples.append(
             CalibrationSample(
@@ -580,6 +625,7 @@ def _calibration_samples(
                 unproductive=unproductive,
                 violation=violation,
                 episode_id=w.episode.episode_id,
+                reason=reason,
             )
         )
 
@@ -620,6 +666,7 @@ def _calibration_samples(
                     unproductive=p_unproductive,
                     violation=p_violation,
                     episode_id=w.episode.episode_id + f"#{pert.name}",
+                    reason=("perturbation_unproductive" if p_unproductive else ""),
                 )
             )
     return samples
@@ -671,6 +718,8 @@ def _emit(
             "branch_permutation_p": rec.notes.get("branch_p"),
             "branch_alternatives": rec.notes.get("branch_alternatives"),
             "n_alternative_bindings": rec.notes.get("n_alternative_bindings"),
+            "composite": rec.notes.get("composite", "disabled"),
+            "composite_name": rec.notes.get("composite_name", ""),
             "gate_grid": gate.notes[:400],
             "var_names": list(names),
             "dev_windows_evaluated": len(chal.recorded.as_dict().get("n", 0) or 0) if False else chal.recorded.n,

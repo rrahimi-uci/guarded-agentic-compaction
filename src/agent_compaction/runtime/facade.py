@@ -75,6 +75,22 @@ class Recording:
             return self.entries[key]
         raise RecordingMiss(f"no recorded response for {tool} with {sorted(args)}")
 
+    def get_semantic(
+        self,
+        tool: str,
+        args: dict[str, Any],
+        catalog: EffectCatalog,
+    ) -> Any:
+        """Resolve exact arguments first, then a declared semantic representative."""
+
+        try:
+            return self.get(tool, args)
+        except RecordingMiss:
+            for observed, result in self.by_tool.get(tool, ()):
+                if catalog.arguments_equivalent(tool, observed, args):
+                    return result
+        raise RecordingMiss(f"no semantically equivalent response for {tool} with {sorted(args)}")
+
     @classmethod
     def from_episode(cls, episode: Any) -> "Recording":
         from ..schema.traces import EventKind
@@ -127,12 +143,16 @@ class ToolFacade:
             raise ForbiddenTool(f"{tool} not in artifact tool allowlist")
         if len(self.calls) >= self.max_calls:
             raise FacadeError("call budget exceeded")
+        try:
+            args = self.catalog.canonicalize_arguments(tool, args)
+        except (TypeError, ValueError) as exc:
+            raise FacadeError(f"argument canonicalization failed for {tool}: {exc}") from exc
         self.calls.append((tool, dict(args)))
         self.effects.append(spec.effect.value)
         if self.mode == FacadeMode.RECORDED:
             if self.recording is None:
                 raise FacadeError("recorded mode without a recording")
-            result = self.recording.get(tool, args)
+            result = self.recording.get_semantic(tool, args, self.catalog)
             self.results.append(result)
             return result
         if self.executor is None:

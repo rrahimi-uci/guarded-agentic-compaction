@@ -70,6 +70,75 @@ ac.promote(job, stage="shadow")
 mixed manifests, unknown algorithms, invalid modes, and catalog drift. The lower-level
 compilers remain available for research workflows.
 
+## Guarded Composite Synthesis
+
+GCS is the interface layer of GRC. It packages an admitted read program behind one
+task-specific observation while retaining every internal call, effect, verifier clause,
+and provenance edge. It is not arbitrary code generation or a promise that source reads
+were eliminated.
+
+Composite eligibility is explicit. Every internal tool must be compilable and declare
+the `batchable` capability. If arguments differ only under an application-owned task
+contract, declare a closed canonicalization and its valid input domain:
+
+```yaml
+tools:
+  issue_get_comments:
+    effect: READ_LOCAL
+    capabilities: [speculatable, replayable, cacheable, batchable]
+    argument_semantics:
+      limit:
+        relation: monotone_superset
+        operations:
+          - kind: clamp_int
+            admissible_minimum: 3
+            minimum: 3
+            maximum: 3
+        notes: The registered task consumes at most the first three comments.
+```
+
+The compiler never infers this declaration. `limit=1` is outside the example domain and
+fails closed. `strip`, `casefold`, `sort_unique`, and finite `aliases` are the other
+available operations; arbitrary callbacks are intentionally unsupported.
+
+```python
+job = ac.optimize(
+    episodes,
+    catalog,
+    algorithms=["grc"],
+    entry_schema=["issue_number"],
+    synthesize_composites=True,
+    composite_projection={
+        "title": "tool:issue_get_record::content.title",
+        "labels": "tool:issue_get_labels::names",
+        "comments": "tool:issue_get_comments::thread.items",
+    },
+    composite_pre_model=True,
+    composite_continuation_key=continuation_manifest.compatibility_key(),
+)
+```
+
+Projection sources must resolve to a unique internal tool step and a verified program
+live-out. A missing/null projection returns the baseline before release. The pre-model
+runtime additionally checks the exact continuation compatibility key:
+
+```python
+decision = runner.execute_pre_model(
+    {"issue_number": 4857},
+    executor=execute_tool,
+    continuation_compatibility_key=continuation_manifest.compatibility_key(),
+)
+if decision.compacted:
+    # Exactly one observation, with the synthesized composite name and projected result.
+    provider_input = decision.observations
+else:
+    provider_input = baseline_input
+```
+
+Do not silently ignore a pre-model miss: invoke the original agent with byte-identical
+input. The current implementation executes internal reads sequentially and does not build
+a remote batch endpoint.
+
 ## Composable optimization pipelines
 
 `OptimizationPipeline` is the extension layer for prompt, tool, memory, routing, cost,
@@ -175,6 +244,7 @@ manifest drift; review-required actions additionally need
 | Trace collection | JSONL episode store, OpenAI Agents SDK trace processor | normalize a framework trace into `Episode` |
 | Execution graph analysis | qualification, canonical order, provenance, effect barriers, bounded windows | add graph features without changing observable semantics |
 | Workflow optimization | TGWS routes and GRC deterministic read regions | `OptimizationPass` |
+| Tool/interface compaction | GCS task projection, semantic argument contracts, pre-model composite dispatch | add a closed normalizer/projection; preserve internal provenance |
 | Portfolio optimization | Exact-risk selection over measured action classes; baseline abstention and macro review mode | add paired observations or custom action names |
 | Prompt/tool compaction | TGWS selects existing prompt blocks and tool allowlists | evaluator-backed proposer pass |
 | Agent composition | entry-state route to agent/model/reasoning/handoffs | custom `RouteConfig` producer; handoff-spanning GRC is unsupported |
@@ -185,7 +255,7 @@ manifest drift; review-required actions additionally need
 | Evaluation | grouped splits, replay, perturbation, paired intervals, negative controls | workload outcome join and comparator |
 | Registry/operations | HMAC integrity, lifecycle, expiry, kill switch, rollback | external atomic registry backend |
 
-Macro synthesis, cache measurement, memory optimization, learned model routing, online adaptation, public-key signing, and
+Arbitrary macro synthesis, cache measurement, memory optimization, learned model routing, online adaptation, public-key signing, and
 cross-framework runtime adapters are extension targets, not implemented production
 features. The trace IR and pass protocol are designed so these do not require changing
 the core compilers.

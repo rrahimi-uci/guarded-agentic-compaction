@@ -1,0 +1,1625 @@
+{
+  "aggregate": {
+    "gcs": {
+      "category_accuracy": 1,
+      "estimated_cost_usd": 0.00045840000000000003,
+      "factuality_exact_rate": 1,
+      "input_tokens": 1266,
+      "n": 2,
+      "output_tokens": 171,
+      "provider_requests": 2,
+      "success_rate": 1,
+      "tool_contract_rate": 1,
+      "wall_latency_ms": 6792.116999999999
+    },
+    "macro": {
+      "category_accuracy": 1,
+      "estimated_cost_usd": 0.0007046,
+      "factuality_exact_rate": 1,
+      "input_tokens": 2437,
+      "n": 2,
+      "output_tokens": 181,
+      "provider_requests": 4,
+      "success_rate": 1,
+      "tool_contract_rate": 1,
+      "wall_latency_ms": 4753.474
+    }
+  },
+  "compiler": {
+    "artifact": {
+      "approved_by": "paper-natural-protocol-lab-only",
+      "artifact_id": "cand-00-9704d2d4a908",
+      "compatibility_key": "e9942af2e63b824e",
+      "evidence": {
+        "counterexamples": [],
+        "dataset_digest": "83e45c027424c2e9",
+        "fallback_reasons": {},
+        "metrics": {
+          "branch": "none",
+          "branch_alternatives": 0,
+          "branch_permutation_p": null,
+          "calibration_windows_evaluated": 92,
+          "composite": "synthesized",
+          "composite_name": "compiled_issue_get_record_02bc9e0c13",
+          "dev_windows_evaluated": 8,
+          "gate_grid": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {",
+          "n_alternative_bindings": 82,
+          "perturbations_claimed": false,
+          "sandbox": {
+            "abstained": 0,
+            "effect_mismatch": 0,
+            "n": 0,
+            "pass_rate": 0.0,
+            "passed": 0,
+            "reasons": {},
+            "state_delta": 0,
+            "wrong": 0
+          },
+          "var_names": [
+            "get",
+            "get2",
+            "get3"
+          ]
+        },
+        "notes": "substrate and evidence are recorded in the run manifest",
+        "perturbation": {},
+        "rejection_reasons": [],
+        "removed_requests": 3.0,
+        "replay": {
+          "abstained": 1,
+          "effect_mismatch": 0,
+          "n": 8,
+          "pass_rate": 0.875,
+          "passed": 7,
+          "reasons": {
+            "verifier:range:get.issue_number": 1
+          },
+          "state_delta": 0,
+          "wrong": 0
+        },
+        "split_ids": {
+          "calibration": [
+            "github-issue:157",
+            "github-issue:166",
+            "github-issue:1831",
+            "github-issue:198",
+            "github-issue:2009",
+            "github-issue:2080",
+            "github-issue:2103",
+            "github-issue:2279",
+            "github-issue:2511",
+            "github-issue:2583",
+            "github-issue:2663",
+            "github-issue:2703",
+            "github-issue:2797",
+            "github-issue:2860",
+            "github-issue:2901",
+            "github-issue:3027",
+            "github-issue:3091",
+            "github-issue:3155",
+            "github-issue:320",
+            "github-issue:326",
+            "github-issue:3304",
+            "github-issue:3308",
+            "github-issue:3365",
+            "github-issue:3475",
+            "github-issue:3490",
+            "github-issue:3533",
+            "github-issue:361",
+            "github-issue:3703",
+            "github-issue:3828",
+            "github-issue:3941",
+            "github-issue:3952",
+            "github-issue:4056",
+            "github-issue:4142",
+            "github-issue:4325",
+            "github-issue:4341",
+            "github-issue:4349",
+            "github-issue:4435",
+            "github-issue:4507",
+            "github-issue:4621",
+            "github-issue:4717",
+            "github-issue:4746",
+            "github-issue:4790",
+            "github-issue:482",
+            "github-issue:4889",
+            "github-issue:5005",
+            "github-issue:5088",
+            "github-issue:5094",
+            "github-issue:5148",
+            "github-issue:5152",
+            "github-issue:5193",
+            "github-issue:5255",
+            "github-issue:5263",
+            "github-issue:5326",
+            "github-issue:5378",
+            "github-issue:5479",
+            "github-issue:5483",
+            "github-issue:5494",
+            "github-issue:5706",
+            "github-issue:5855",
+            "github-issue:5862",
+            "github-issue:6120",
+            "github-issue:6149",
+            "github-issue:6184",
+            "github-issue:6237",
+            "github-issue:624",
+            "github-issue:6287",
+            "github-issue:648",
+            "github-issue:6483",
+            "github-issue:649",
+            "github-issue:6505",
+            "github-issue:6668",
+            "github-issue:668",
+            "github-issue:6752",
+            "github-issue:6819",
+            "github-issue:6865",
+            "github-issue:6896",
+            "github-issue:6936",
+            "github-issue:6973",
+            "github-issue:7018",
+            "github-issue:709",
+            "github-issue:7113",
+            "github-issue:7127",
+            "github-issue:7134",
+            "github-issue:7260",
+            "github-issue:7286",
+            "github-issue:7546",
+            "github-issue:7561",
+            "github-issue:784",
+            "github-issue:807",
+            "github-issue:836",
+            "github-issue:864",
+            "github-issue:876"
+          ],
+          "dev": [
+            "github-issue:1671",
+            "github-issue:2211",
+            "github-issue:3704",
+            "github-issue:4047",
+            "github-issue:5385",
+            "github-issue:5649",
+            "github-issue:6439",
+            "github-issue:7447"
+          ],
+          "train": [
+            "github-issue:148",
+            "github-issue:1844",
+            "github-issue:2032",
+            "github-issue:223",
+            "github-issue:2441",
+            "github-issue:2498",
+            "github-issue:438",
+            "github-issue:4398",
+            "github-issue:4570",
+            "github-issue:5161",
+            "github-issue:5600",
+            "github-issue:6124",
+            "github-issue:6460",
+            "github-issue:647",
+            "github-issue:6604",
+            "github-issue:7225"
+          ]
+        },
+        "support_days": 111,
+        "support_groups": 16,
+        "support_principals": 1,
+        "total_groups": 16
+      },
+      "expiry_day": null,
+      "gate": {
+        "admissible": [
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "alpha": 0.1,
+        "coverage": 0.9565217391304348,
+        "delta": 0.1,
+        "features_spec": {
+          "branch_entropy": 0.0,
+          "categories": {},
+          "hull_kinds": {
+            "z.issue_number": "interval"
+          },
+          "max_day": "2024-10-14",
+          "numeric_ranges": {
+            "z.issue_number": [
+              148.0,
+              7225.0
+            ]
+          },
+          "paths": [
+            "z.issue_number"
+          ],
+          "patterns": {},
+          "provenance_ambiguity": 1.0
+        },
+        "grid": [
+          0.02,
+          0.05,
+          0.08,
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "model": {
+          "bias": -0.2393180433539786,
+          "feature_means": [
+            0.0,
+            0.0,
+            0.0,
+            0.2539211530309453,
+            0.125,
+            1.0,
+            0.0
+          ],
+          "feature_scales": [
+            1.0,
+            1.0,
+            1.0,
+            0.25021516358455304,
+            0.33071891388307384,
+            1.0,
+            1.0
+          ],
+          "features": [
+            "unseen_category",
+            "knn_distance",
+            "missing_optional",
+            "hull_margin",
+            "drift_days",
+            "provenance_ambiguity",
+            "branch_entropy"
+          ],
+          "weights": [
+            0.0,
+            0.0,
+            0.0,
+            1.1295663637969058,
+            0.9663823272213818,
+            0.0,
+            0.0
+          ]
+        },
+        "n_accepted": 88,
+        "n_calibration_groups": 92,
+        "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.17, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.2, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.25, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.3, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.4, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.5, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}]",
+        "observed_violations": 0,
+        "retire": false,
+        "risk_upper_bound": 0.052013056604272134,
+        "threshold": 0.5
+      },
+      "guard": {
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "clauses": [
+          {
+            "hull": {
+              "high": 7225.0,
+              "kind": "interval",
+              "low": 148.0,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "path": "z.issue_number",
+            "required": true,
+            "role": "hull",
+            "type_name": "int"
+          }
+        ],
+        "isolation": {},
+        "manifest_pins": {
+          "effect_catalog_version": "github-natural-workflow-pinned-reads@1#356090d2373ce252",
+          "entry_contract_version": "github-natural-issue-number-v1",
+          "guardrail_hash": "#89af17ab",
+          "model": "gpt-5.6-luna",
+          "policy_hash": "#00ccbe9a",
+          "prompt_hash": "#6e1a896c",
+          "tools_hash": "#a6fe0682"
+        },
+        "required_capabilities": [
+          "speculatable",
+          "replayable"
+        ]
+      },
+      "kind": "grc",
+      "lifecycle": "active",
+      "manifest": {
+        "commit": "workspace-without-git-metadata",
+        "effect_catalog_version": "github-natural-workflow-pinned-reads@1#356090d2373ce252",
+        "entry_contract_version": "github-natural-issue-number-v1",
+        "guardrail_hash": "#89af17ab",
+        "manifest_id": "e9942af2e63b",
+        "model": "gpt-5.6-luna",
+        "policy_hash": "#00ccbe9a",
+        "prompt_hash": "#6e1a896c",
+        "sdk_version": "0.19.2",
+        "tools_hash": "#a6fe0682",
+        "tracer_version": "agent-compaction/0.6.0"
+      },
+      "monitoring": {
+        "expected_coverage": 0.9565217391304348,
+        "max_unsafe_dispatch": 0.1,
+        "min_verifier_pass_rate": 0.9
+      },
+      "name": "issue_get_record.issue_get_labels.region@9704d2d4",
+      "owner": "paper-natural-workflow-study",
+      "partition": {},
+      "program": {
+        "composite": {
+          "continuation_compatibility_key": "d0e3241b3024c1be",
+          "description": "Guarded composite synthesized from a verified recurrent read program.",
+          "inputs": [
+            "issue_number"
+          ],
+          "internal_tools": [
+            "issue_get_record",
+            "issue_get_labels",
+            "issue_get_comments"
+          ],
+          "name": "compiled_issue_get_record_02bc9e0c13",
+          "pre_model": true,
+          "projection": {
+            "body_excerpt": {
+              "kind": "expr",
+              "ops": [],
+              "source": "get.content.body_excerpt"
+            },
+            "comments": {
+              "kind": "expr",
+              "ops": [],
+              "source": "get3.thread.items"
+            },
+            "issue_number": {
+              "kind": "expr",
+              "ops": [],
+              "source": "get.issue_number"
+            },
+            "labels": {
+              "kind": "expr",
+              "ops": [],
+              "source": "get2.names"
+            },
+            "source_revision": {
+              "kind": "expr",
+              "ops": [],
+              "source": "get.source_revision"
+            },
+            "state": {
+              "kind": "expr",
+              "ops": [],
+              "source": "get.state"
+            },
+            "title": {
+              "kind": "expr",
+              "ops": [],
+              "source": "get.content.title"
+            }
+          },
+          "schema_version": 1
+        },
+        "library_version": "T-v1",
+        "outputs": {
+          "get": {
+            "kind": "expr",
+            "ops": [],
+            "source": "get"
+          },
+          "get2": {
+            "kind": "expr",
+            "ops": [],
+            "source": "get2"
+          },
+          "get3": {
+            "kind": "expr",
+            "ops": [],
+            "source": "get3"
+          }
+        },
+        "removed_requests": 3.0,
+        "steps": [
+          {
+            "args": {
+              "issue_number": {
+                "kind": "expr",
+                "ops": [],
+                "source": "z.issue_number"
+              }
+            },
+            "kind": "call",
+            "schema_version": null,
+            "tool": "issue_get_record",
+            "var": "get",
+            "when": null
+          },
+          {
+            "args": {
+              "issue_number": {
+                "kind": "expr",
+                "ops": [],
+                "source": "get.issue_number"
+              }
+            },
+            "kind": "call",
+            "schema_version": null,
+            "tool": "issue_get_labels",
+            "var": "get2",
+            "when": null
+          },
+          {
+            "args": {
+              "issue_number": {
+                "kind": "expr",
+                "ops": [],
+                "source": "get.issue_number"
+              },
+              "limit": {
+                "kind": "const",
+                "value": 3
+              }
+            },
+            "kind": "call",
+            "schema_version": null,
+            "tool": "issue_get_comments",
+            "var": "get3",
+            "when": null
+          }
+        ],
+        "theta": [
+          "issue_number"
+        ],
+        "tools": [
+          "issue_get_record",
+          "issue_get_labels",
+          "issue_get_comments"
+        ]
+      },
+      "rollback_target": null,
+      "route": null,
+      "signature": "",
+      "verifier": {
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "call_counts": [
+          3
+        ],
+        "clauses": [
+          {
+            "hull": {
+              "high": null,
+              "kind": "any",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "get",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "issue_get_record"
+            ],
+            "type_name": "dict"
+          },
+          {
+            "hull": {
+              "high": 7225.0,
+              "kind": "interval",
+              "low": 148.0,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "get.issue_number",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "issue_get_record"
+            ],
+            "type_name": "int"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "enum",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": [
+                "e344be7b84d199661a9956036991e1fc25715a47"
+              ]
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "get.source_revision",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "issue_get_record"
+            ],
+            "type_name": "str"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "enum",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": [
+                "closed",
+                "open"
+              ]
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "get.state",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "issue_get_record"
+            ],
+            "type_name": "str"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "any",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "get2",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "issue_get_labels"
+            ],
+            "type_name": "dict"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "any",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "max_len": 1,
+            "min_len": 0,
+            "name": "get2.names",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "issue_get_labels"
+            ],
+            "type_name": "list"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "enum",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": [
+                "e344be7b84d199661a9956036991e1fc25715a47"
+              ]
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "get2.source_revision",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "issue_get_labels"
+            ],
+            "type_name": "str"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "any",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "get3",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "issue_get_comments"
+            ],
+            "type_name": "dict"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "enum",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": [
+                "e344be7b84d199661a9956036991e1fc25715a47"
+              ]
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "get3.source_revision",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "issue_get_comments"
+            ],
+            "type_name": "str"
+          }
+        ]
+      },
+      "version": 1
+    },
+    "artifact_explanation": "artifact  issue_get_record.issue_get_labels.region@9704d2d4@1   support 16/16 groups   removes k=3.00   [active]\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nguard   effect_catalog_version=github-natural-workflow-pinned-reads@1#356090d2373ce252  entry_contract_version=github-natural-issue-number-v1  guardrail_hash=#89af17ab  model=gpt-5.6-luna  policy_hash=#00ccbe9a  prompt_hash=#6e1a896c  tools_hash=#a6fe0682\n        z.issue_number : int \u2208 [148.0, 7225.0]\n        effects \u2286 {READ_LOCAL}  all speculatable \u2227 replayable\n\nprogram (\u03b8 = {issue_number}):\n   get  = call issue_get_record(issue_number = z.issue_number)\n   get2 = call issue_get_labels(issue_number = get.issue_number)\n   get3 = call issue_get_comments(issue_number = get.issue_number, limit = Const(3))\n   return  { get: get, get2: get2, get3: get3 }\nexpose   compiled_issue_get_record_02bc9e0c13(issue_number) -> { body_excerpt, comments, issue_number, labels, source_revision, state, title } [internal=3]\nverify  get : dict, non-null, provenance \u2208 {issue_get_record}\n        get.issue_number : int, non-null, \u2208 [148.0, 7225.0], provenance \u2208 {issue_get_record}\n        get.source_revision : str, non-null, \u2208 {e344be7b84d199661a9956036991e1fc25715a47}, provenance \u2208 {issue_get_record}\n        get.state : str, non-null, \u2208 {closed, open}, provenance \u2208 {issue_get_record}\n        get2 : dict, non-null, provenance \u2208 {issue_get_labels}\n        get2.names : list, non-null, len \u2264 1, len \u2265 0, provenance \u2208 {issue_get_labels}\n        get2.source_revision : str, non-null, \u2208 {e344be7b84d199661a9956036991e1fc25715a47}, provenance \u2208 {issue_get_labels}\n        get3 : dict, non-null, provenance \u2208 {issue_get_comments}\n        get3.source_revision : str, non-null, \u2208 {e344be7b84d199661a9956036991e1fc25715a47}, provenance \u2208 {issue_get_comments}\n        effect_multiset \u2286 {READ_LOCAL},  |calls| \u2208 {3},  no WRITE_*\ngate    q = logistic(entry features)   \u03b7 = 0.50   (cal n=92 groups, \u03b1=0.1, \u03b4=0.1, |\u039b|=11, R\u207a=0.052, \u03c6\u0302=0.96)",
+    "candidates": [
+      {
+        "artifact": "issue_get_record.issue_get_labels.region@9704d2d4",
+        "candidate_id": "cand-00-9704d2d4a908",
+        "challenge": {
+          "hard_rejects": [],
+          "perturbation": {},
+          "perturbations_claimed": false,
+          "recorded": {
+            "abstained": 1,
+            "effect_mismatch": 0,
+            "n": 8,
+            "pass_rate": 0.875,
+            "passed": 7,
+            "reasons": {
+              "verifier:range:get.issue_number": 1
+            },
+            "state_delta": 0,
+            "wrong": 0
+          },
+          "sandbox": {
+            "abstained": 0,
+            "effect_mismatch": 0,
+            "n": 0,
+            "pass_rate": 0.0,
+            "passed": 0,
+            "reasons": {},
+            "state_delta": 0,
+            "wrong": 0
+          }
+        },
+        "gate": {
+          "admissible": [
+            0.17,
+            0.2,
+            0.25,
+            0.3,
+            0.4,
+            0.5
+          ],
+          "alpha": 0.1,
+          "coverage": 0.9565217391304348,
+          "delta": 0.1,
+          "features_spec": {
+            "branch_entropy": 0.0,
+            "categories": {},
+            "hull_kinds": {
+              "z.issue_number": "interval"
+            },
+            "max_day": "2024-10-14",
+            "numeric_ranges": {
+              "z.issue_number": [
+                148.0,
+                7225.0
+              ]
+            },
+            "paths": [
+              "z.issue_number"
+            ],
+            "patterns": {},
+            "provenance_ambiguity": 1.0
+          },
+          "grid": [
+            0.02,
+            0.05,
+            0.08,
+            0.11,
+            0.14,
+            0.17,
+            0.2,
+            0.25,
+            0.3,
+            0.4,
+            0.5
+          ],
+          "model": {
+            "bias": -0.2393180433539786,
+            "feature_means": [
+              0.0,
+              0.0,
+              0.0,
+              0.2539211530309453,
+              0.125,
+              1.0,
+              0.0
+            ],
+            "feature_scales": [
+              1.0,
+              1.0,
+              1.0,
+              0.25021516358455304,
+              0.33071891388307384,
+              1.0,
+              1.0
+            ],
+            "features": [
+              "unseen_category",
+              "knn_distance",
+              "missing_optional",
+              "hull_margin",
+              "drift_days",
+              "provenance_ambiguity",
+              "branch_entropy"
+            ],
+            "weights": [
+              0.0,
+              0.0,
+              0.0,
+              1.1295663637969058,
+              0.9663823272213818,
+              0.0,
+              0.0
+            ]
+          },
+          "n_accepted": 88,
+          "n_calibration_groups": 92,
+          "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.17, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.2, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.25, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.3, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.4, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.5, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}]",
+          "observed_violations": 0,
+          "retire": false,
+          "risk_upper_bound": 0.052013056604272134,
+          "threshold": 0.5
+        },
+        "notes": {
+          "branch": "none",
+          "branch_alternatives": 0,
+          "branch_atoms": 0,
+          "branch_p": null,
+          "composite": "synthesized",
+          "composite_name": "compiled_issue_get_record_02bc9e0c13",
+          "gate_calibration_reasons": {
+            "verifier:cardinality:get2.names": 2,
+            "verifier:range:get.issue_number": 4
+          },
+          "gate_calibration_samples": 92,
+          "gate_calibration_unproductive": 6,
+          "gate_calibration_violations": 0,
+          "gate_dev_reasons": {
+            "perturbation_unproductive": 5,
+            "verifier:range:get.issue_number": 1
+          },
+          "gate_dev_samples": 16,
+          "gate_dev_unproductive": 6,
+          "gate_dev_violations": 0,
+          "n_alternative_bindings": 82,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 3
+        },
+        "rejected": null,
+        "removed_requests": 3.0,
+        "stage": "emitted",
+        "support_days": 111,
+        "support_groups": 116,
+        "tools": [
+          "issue_get_record",
+          "issue_get_labels",
+          "issue_get_comments"
+        ]
+      },
+      {
+        "artifact": null,
+        "candidate_id": "cand-01-1ebb8b2849c7",
+        "challenge": {
+          "hard_rejects": [],
+          "perturbation": {},
+          "perturbations_claimed": false,
+          "recorded": {
+            "abstained": 1,
+            "effect_mismatch": 0,
+            "n": 8,
+            "pass_rate": 0.875,
+            "passed": 7,
+            "reasons": {
+              "verifier:range:get.issue_number": 1
+            },
+            "state_delta": 0,
+            "wrong": 0
+          },
+          "sandbox": {
+            "abstained": 0,
+            "effect_mismatch": 0,
+            "n": 0,
+            "pass_rate": 0.0,
+            "passed": 0,
+            "reasons": {},
+            "state_delta": 0,
+            "wrong": 0
+          }
+        },
+        "gate": {
+          "admissible": [
+            0.14,
+            0.17,
+            0.2,
+            0.25,
+            0.3,
+            0.4,
+            0.5
+          ],
+          "alpha": 0.1,
+          "coverage": 0.9565217391304348,
+          "delta": 0.1,
+          "features_spec": {
+            "branch_entropy": 0.0,
+            "categories": {},
+            "hull_kinds": {
+              "z.issue_number": "interval"
+            },
+            "max_day": "2024-10-14",
+            "numeric_ranges": {
+              "z.issue_number": [
+                148.0,
+                7225.0
+              ]
+            },
+            "paths": [
+              "z.issue_number"
+            ],
+            "patterns": {},
+            "provenance_ambiguity": 0.98
+          },
+          "grid": [
+            0.02,
+            0.05,
+            0.08,
+            0.11,
+            0.14,
+            0.17,
+            0.2,
+            0.25,
+            0.3,
+            0.4,
+            0.5
+          ],
+          "model": {
+            "bias": -0.3092191871724488,
+            "feature_means": [
+              0.0,
+              0.0,
+              0.0,
+              0.2539211530309453,
+              0.125,
+              0.9900000000000001,
+              0.0
+            ],
+            "feature_scales": [
+              1.0,
+              1.0,
+              1.0,
+              0.25021516358455304,
+              0.33071891388307384,
+              0.010000000000000009,
+              1.0
+            ],
+            "features": [
+              "unseen_category",
+              "knn_distance",
+              "missing_optional",
+              "hull_margin",
+              "drift_days",
+              "provenance_ambiguity",
+              "branch_entropy"
+            ],
+            "weights": [
+              0.0,
+              0.0,
+              0.0,
+              0.6900615055735642,
+              1.0369854373581837,
+              0.6476230206520438,
+              0.0
+            ]
+          },
+          "n_accepted": 88,
+          "n_calibration_groups": 92,
+          "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.17, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.2, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.25, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.3, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.4, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.5, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}]",
+          "observed_violations": 0,
+          "retire": false,
+          "risk_upper_bound": 0.052013056604272134,
+          "threshold": 0.5
+        },
+        "notes": {
+          "branch": "none",
+          "branch_alternatives": 0,
+          "branch_atoms": 0,
+          "branch_p": null,
+          "composite": "ineligible:tool projection source 'issue_get_comments' must resolve to exactly one program step",
+          "gate_calibration_reasons": {
+            "verifier:cardinality:get2.names": 2,
+            "verifier:range:get.issue_number": 4
+          },
+          "gate_calibration_samples": 92,
+          "gate_calibration_unproductive": 6,
+          "gate_calibration_violations": 0,
+          "gate_dev_reasons": {
+            "perturbation_unproductive": 5,
+            "verifier:range:get.issue_number": 1
+          },
+          "gate_dev_samples": 16,
+          "gate_dev_unproductive": 6,
+          "gate_dev_violations": 0,
+          "n_alternative_bindings": 49,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 2
+        },
+        "rejected": "dominated_by_longer_region",
+        "removed_requests": 2.0,
+        "stage": "dominated",
+        "support_days": 111,
+        "support_groups": 116,
+        "tools": [
+          "issue_get_record",
+          "issue_get_labels"
+        ]
+      }
+    ],
+    "config": {
+      "allow_legacy_catalog_version": false,
+      "alpha": 0.1,
+      "b_min": 2,
+      "composite_continuation_key": "d0e3241b3024c1be",
+      "composite_pre_model": true,
+      "composite_projection": {
+        "body_excerpt": "tool:issue_get_record::content.body_excerpt",
+        "comments": "tool:issue_get_comments::thread.items",
+        "issue_number": "tool:issue_get_record::issue_number",
+        "labels": "tool:issue_get_labels::names",
+        "source_revision": "tool:issue_get_record::source_revision",
+        "state": "tool:issue_get_record::state",
+        "title": "tool:issue_get_record::content.title"
+      },
+      "delta": 0.1,
+      "entry_schema": [
+        "issue_number"
+      ],
+      "kappa": 3,
+      "max_artifacts": 4,
+      "max_calibration_windows": 92,
+      "max_candidates": 16,
+      "max_dev_windows": 400,
+      "max_transform_depth": 2,
+      "min_days": 1,
+      "min_principals": 1,
+      "mode": "replay",
+      "n_permutations": 400,
+      "owner": "paper-natural-workflow-study",
+      "partition_by": [],
+      "phi_min": 0.02,
+      "prefix_only": true,
+      "s_branch": 20,
+      "s_min": 5,
+      "seed": 20260803,
+      "synthesize_composites": true,
+      "w_max": 3,
+      "w_min": 2
+    },
+    "lab_promotion": {
+      "not_production_approval": true,
+      "scope": "isolated paper experiment only"
+    },
+    "observed_train_sequences": {
+      "issue_get_record -> issue_get_labels -> issue_get_comments": 16
+    },
+    "rejection_by_stage": {
+      "select:dominated": 1
+    },
+    "report": "GRC compile report\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\ncandidates mined        2\nartifacts emitted       1\nrejections by stage     {'select:dominated': 1}\nwindows accepted        232\nwindows blocked         {'non_prefix_runtime': 116}\nblocked by tool         {}\n  [emitted     ] issue_get_record/issue_get_labels/issue_get_comments supp=116 k=3.0\n  [dominated   ] issue_get_record/issue_get_labels                 supp=116 k=2.0  REJECTED: dominated_by_longer_region",
+    "selection_rule": "factually correct traces; stable hash split; no tool-order filter",
+    "splits": {
+      "chronological": false,
+      "digest": "83e45c027424c2e9",
+      "groups": {
+        "calibration": [
+          "github-issue:157",
+          "github-issue:166",
+          "github-issue:1831",
+          "github-issue:198",
+          "github-issue:2009",
+          "github-issue:2080",
+          "github-issue:2103",
+          "github-issue:2279",
+          "github-issue:2511",
+          "github-issue:2583",
+          "github-issue:2663",
+          "github-issue:2703",
+          "github-issue:2797",
+          "github-issue:2860",
+          "github-issue:2901",
+          "github-issue:3027",
+          "github-issue:3091",
+          "github-issue:3155",
+          "github-issue:320",
+          "github-issue:326",
+          "github-issue:3304",
+          "github-issue:3308",
+          "github-issue:3365",
+          "github-issue:3475",
+          "github-issue:3490",
+          "github-issue:3533",
+          "github-issue:361",
+          "github-issue:3703",
+          "github-issue:3828",
+          "github-issue:3941",
+          "github-issue:3952",
+          "github-issue:4056",
+          "github-issue:4142",
+          "github-issue:4325",
+          "github-issue:4341",
+          "github-issue:4349",
+          "github-issue:4435",
+          "github-issue:4507",
+          "github-issue:4621",
+          "github-issue:4717",
+          "github-issue:4746",
+          "github-issue:4790",
+          "github-issue:482",
+          "github-issue:4889",
+          "github-issue:5005",
+          "github-issue:5088",
+          "github-issue:5094",
+          "github-issue:5148",
+          "github-issue:5152",
+          "github-issue:5193",
+          "github-issue:5255",
+          "github-issue:5263",
+          "github-issue:5326",
+          "github-issue:5378",
+          "github-issue:5479",
+          "github-issue:5483",
+          "github-issue:5494",
+          "github-issue:5706",
+          "github-issue:5855",
+          "github-issue:5862",
+          "github-issue:6120",
+          "github-issue:6149",
+          "github-issue:6184",
+          "github-issue:6237",
+          "github-issue:624",
+          "github-issue:6287",
+          "github-issue:648",
+          "github-issue:6483",
+          "github-issue:649",
+          "github-issue:6505",
+          "github-issue:6668",
+          "github-issue:668",
+          "github-issue:6752",
+          "github-issue:6819",
+          "github-issue:6865",
+          "github-issue:6896",
+          "github-issue:6936",
+          "github-issue:6973",
+          "github-issue:7018",
+          "github-issue:709",
+          "github-issue:7113",
+          "github-issue:7127",
+          "github-issue:7134",
+          "github-issue:7260",
+          "github-issue:7286",
+          "github-issue:7546",
+          "github-issue:7561",
+          "github-issue:784",
+          "github-issue:807",
+          "github-issue:836",
+          "github-issue:864",
+          "github-issue:876"
+        ],
+        "dev": [
+          "github-issue:1671",
+          "github-issue:2211",
+          "github-issue:3704",
+          "github-issue:4047",
+          "github-issue:5385",
+          "github-issue:5649",
+          "github-issue:6439",
+          "github-issue:7447"
+        ],
+        "shadow": [],
+        "test": [],
+        "train": [
+          "github-issue:148",
+          "github-issue:1844",
+          "github-issue:2032",
+          "github-issue:223",
+          "github-issue:2441",
+          "github-issue:2498",
+          "github-issue:438",
+          "github-issue:4398",
+          "github-issue:4570",
+          "github-issue:5161",
+          "github-issue:5600",
+          "github-issue:6124",
+          "github-issue:6460",
+          "github-issue:647",
+          "github-issue:6604",
+          "github-issue:7225"
+        ]
+      },
+      "seed": 20260803,
+      "sizes": {
+        "calibration": 92,
+        "dev": 8,
+        "shadow": 0,
+        "test": 0,
+        "train": 16
+      }
+    }
+  },
+  "failures": [],
+  "macro_vs_gcs": {
+    "baseline_label": "macro",
+    "candidate_label": "gcs",
+    "metrics": {
+      "estimated_cost_usd": {
+        "aggregate_reduction": 0.34941810956571095,
+        "gcs_mean": 0.00022920000000000001,
+        "macro_mean": 0.0003523,
+        "paired_difference_95pct_bootstrap_ci": [
+          -0.00013399999999999995,
+          -0.00011220000000000002
+        ],
+        "paired_difference_gcs_minus_macro": -0.00012309999999999998,
+        "wilcoxon_p": 0.5
+      },
+      "input_tokens": {
+        "aggregate_reduction": 0.4805088223225277,
+        "gcs_mean": 633.0,
+        "macro_mean": 1218.5,
+        "paired_difference_95pct_bootstrap_ci": [
+          -586.0,
+          -585.0
+        ],
+        "paired_difference_gcs_minus_macro": -585.5,
+        "wilcoxon_p": 0.5
+      },
+      "output_tokens": {
+        "aggregate_reduction": 0.05524861878453036,
+        "gcs_mean": 85.5,
+        "macro_mean": 90.5,
+        "paired_difference_95pct_bootstrap_ci": [
+          -14.0,
+          4.0
+        ],
+        "paired_difference_gcs_minus_macro": -5.0,
+        "wilcoxon_p": 1.0
+      },
+      "provider_response_latency_ms": {
+        "aggregate_reduction": -0.43054700699657666,
+        "gcs_mean": 3391.033,
+        "macro_mean": 2370.4449999999997,
+        "paired_difference_95pct_bootstrap_ci": [
+          -844.396,
+          2885.5719999999997
+        ],
+        "paired_difference_gcs_minus_macro": 1020.5879999999999,
+        "wilcoxon_p": 1.0
+      },
+      "requests": {
+        "aggregate_reduction": 0.5,
+        "gcs_mean": 1.0,
+        "macro_mean": 2.0,
+        "paired_difference_95pct_bootstrap_ci": [
+          -1.0,
+          -1.0
+        ],
+        "paired_difference_gcs_minus_macro": -1.0,
+        "wilcoxon_p": 0.5
+      },
+      "tool_calls": {
+        "aggregate_reduction": 0.0,
+        "gcs_mean": 1.0,
+        "macro_mean": 1.0,
+        "paired_difference_95pct_bootstrap_ci": [
+          0.0,
+          0.0
+        ],
+        "paired_difference_gcs_minus_macro": 0.0,
+        "wilcoxon_p": 1.0
+      },
+      "total_tokens": {
+        "aggregate_reduction": 0.4511077158135982,
+        "gcs_mean": 718.5,
+        "macro_mean": 1309.0,
+        "paired_difference_95pct_bootstrap_ci": [
+          -600.0,
+          -581.0
+        ],
+        "paired_difference_gcs_minus_macro": -590.5,
+        "wilcoxon_p": 0.5
+      },
+      "wall_latency_ms": {
+        "aggregate_reduction": -0.4288743348548869,
+        "gcs_mean": 3396.0584999999996,
+        "macro_mean": 2376.737,
+        "paired_difference_95pct_bootstrap_ci": [
+          -847.816,
+          2886.4589999999994
+        ],
+        "paired_difference_gcs_minus_macro": 1019.3214999999997,
+        "wilcoxon_p": 1.0
+      }
+    },
+    "n_pairs": 2,
+    "quality": {
+      "category_correct": {
+        "gcs_only_successes": 0,
+        "gcs_rate": 1,
+        "macro_only_successes": 0,
+        "macro_rate": 1,
+        "mcnemar_exact_p": 1.0,
+        "paired_difference": 0
+      },
+      "evidence_label_correct": {
+        "gcs_only_successes": 0,
+        "gcs_rate": 1,
+        "macro_only_successes": 0,
+        "macro_rate": 1,
+        "mcnemar_exact_p": 1.0,
+        "paired_difference": 0
+      },
+      "overall": {
+        "gcs_only_successes": 0,
+        "gcs_rate": 1,
+        "macro_only_successes": 0,
+        "macro_rate": 1,
+        "mcnemar_exact_p": 1.0,
+        "paired_difference": 0
+      },
+      "tool_contract": {
+        "gcs_only_successes": 0,
+        "gcs_rate": 1,
+        "macro_only_successes": 0,
+        "macro_rate": 1,
+        "mcnemar_exact_p": 1.0,
+        "paired_difference": 0
+      }
+    }
+  },
+  "metric_definitions": {
+    "gcs_tool_calls": "one exposed guarded composite; internal_tool_calls records source reads",
+    "macro_tool_calls": "one provider-visible hand-written composite call",
+    "requests": "native provider generation/response spans"
+  },
+  "results": [
+    {
+      "answer": {
+        "category": "other",
+        "comment_evidence": "Canonical datasets are no longer mentioned in the docs.",
+        "evidence_label": "none",
+        "issue_number": 6953,
+        "state": "closed",
+        "title": "Remove canonical datasets from docs"
+      },
+      "condition": "gcs",
+      "dispatch": {
+        "artifact": "cand-00-9704d2d4a908",
+        "composite": "compiled_issue_get_record_02bc9e0c13",
+        "error": "",
+        "exposed_calls": 1,
+        "n_calls": 3,
+        "outcome": "COMPACTED",
+        "overhead_ms": 1.155,
+        "q": 0.1479,
+        "reasons": [],
+        "removed_requests": 3.0,
+        "shadow": false
+      },
+      "episode_digest": "sha256:ce17977cdee4eeb0ee2b3716a937b54b",
+      "issue_number": 6953,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.000172,
+        "handoffs": 0,
+        "input_tokens": 398,
+        "internal_tool_calls": 3,
+        "output_tokens": 77,
+        "provider_response_latency_ms": 5258.574,
+        "provider_tool_calls": 0,
+        "requests": 1,
+        "tool_calls": 1,
+        "total_tokens": 475,
+        "wall_latency_ms": 5265.971
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_grounded": true,
+        "evidence_label_correct": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "quality_independent_of_tool_order": true,
+        "score": 1,
+        "state_correct": true,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6953
+        }
+      ],
+      "tool_sequence": [
+        "compiled_issue_get_record_02bc9e0c13"
+      ],
+      "trace_id": "trace_b18da89e004d7462f1b9868717fd6d62"
+    },
+    {
+      "answer": {
+        "category": "other",
+        "comment_evidence": "Canonical datasets are no longer mentioned in the docs.",
+        "evidence_label": "none",
+        "issue_number": 6953,
+        "state": "closed",
+        "title": "Remove canonical datasets from docs"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:61ee1d0309541ec9484e8f408d4aa164",
+      "issue_number": 6953,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0002842,
+        "handoffs": 0,
+        "input_tokens": 983,
+        "output_tokens": 73,
+        "provider_response_latency_ms": 2373.002,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1056,
+        "wall_latency_ms": 2379.512
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_grounded": true,
+        "evidence_label_correct": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "quality_independent_of_tool_order": true,
+        "score": 1,
+        "state_correct": true,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6953
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_29086b9f81dfaab09edbc273a6af8df6"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_evidence": "the `save_to_disk` docstring explains that `flatten_indices` has to be called on a dataset before saving it",
+        "evidence_label": "bug",
+        "issue_number": 3040,
+        "state": "closed",
+        "title": "[save_to_disk] Using `select()` followed by `save_to_disk` saves complete dataset making it hard to create dummy dataset"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:4a052c5afa45cc1c7a91be3cb56b9ce8",
+      "issue_number": 3040,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0004204,
+        "handoffs": 0,
+        "input_tokens": 1454,
+        "output_tokens": 108,
+        "provider_response_latency_ms": 2367.888,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1562,
+        "wall_latency_ms": 2373.962
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_grounded": true,
+        "evidence_label_correct": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "quality_independent_of_tool_order": true,
+        "score": 1,
+        "state_correct": true,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3040
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_457a70fc66dd30c2bfc1f2d17234f184"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_evidence": "That works! Thansk!",
+        "evidence_label": "bug",
+        "issue_number": 3040,
+        "state": "closed",
+        "title": "[save_to_disk] Using `select()` followed by `save_to_disk` saves complete dataset making it hard to create dummy dataset"
+      },
+      "condition": "gcs",
+      "dispatch": {
+        "artifact": "cand-00-9704d2d4a908",
+        "composite": "compiled_issue_get_record_02bc9e0c13",
+        "error": "",
+        "exposed_calls": 1,
+        "n_calls": 3,
+        "outcome": "COMPACTED",
+        "overhead_ms": 1.215,
+        "q": 0.1479,
+        "reasons": [],
+        "removed_requests": 3.0,
+        "shadow": false
+      },
+      "episode_digest": "sha256:18f06167dca4a87edf4e3803ffe721ad",
+      "issue_number": 3040,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0002864,
+        "handoffs": 0,
+        "input_tokens": 868,
+        "internal_tool_calls": 3,
+        "output_tokens": 94,
+        "provider_response_latency_ms": 1523.492,
+        "provider_tool_calls": 0,
+        "requests": 1,
+        "tool_calls": 1,
+        "total_tokens": 962,
+        "wall_latency_ms": 1526.146
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_grounded": true,
+        "evidence_label_correct": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "quality_independent_of_tool_order": true,
+        "score": 1,
+        "state_correct": true,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3040
+        }
+      ],
+      "tool_sequence": [
+        "compiled_issue_get_record_02bc9e0c13"
+      ],
+      "trace_id": "trace_b45b48c816c9174340fe7a7b2ee6a5f8"
+    }
+  ],
+  "run": {
+    "comparative_claim_allowed": true,
+    "model": "gpt-5.6-luna",
+    "openai_agents_sdk": "0.19.2",
+    "openai_api_key_used": true,
+    "openai_python": "2.52.0",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "provider_backed": true,
+    "python": "3.14.4",
+    "real_public_records": true,
+    "resolved_config": {
+      "cases": 2,
+      "model": "gpt-5.6-luna",
+      "seed": 20260804,
+      "smoke": true
+    },
+    "secrets_serialized": false,
+    "timestamp_utc": "2026-08-04T23:32:41+00:00"
+  },
+  "schedule": [
+    {
+      "issue_number": 6953,
+      "order": [
+        "gcs",
+        "macro"
+      ]
+    },
+    {
+      "issue_number": 3040,
+      "order": [
+        "macro",
+        "gcs"
+      ]
+    }
+  ],
+  "schema": "agent-compaction-gcs-live-study/v1",
+  "selection": {
+    "category_counts": {
+      "bug": 1,
+      "other": 1
+    },
+    "excluded_prior_issues": 422,
+    "issue_numbers": [
+      6953,
+      3040
+    ],
+    "pre_provider_rejections": {},
+    "seed": 20260804,
+    "selection_uses_provider_outcomes": false
+  },
+  "source": {
+    "dataset": "helmo/github-issues",
+    "deduplicated_non_pr_issues": 3115,
+    "discovery_checkpoint_sha256": "9be6ab211fa99498edac5be5c5f098dc0f52fdb9cb19f1dae159e4fcc23cd1c8",
+    "duplicate_issue_rows": 49,
+    "parquet_sha256": "09453eefae39e45a969ab0bee72ca0e188fe79dc50403b0f2a78c39894f5d1a3",
+    "raw_rows": 7540,
+    "regraded_results_sha256": "415f057f0d5e036a765eb97da78df8de7b252c76a39c509c3a5d111538040722",
+    "revision": "e344be7b84d199661a9956036991e1fc25715a47"
+  }
+}

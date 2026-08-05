@@ -33,6 +33,8 @@ LIVE_PATH = RESULTS / "github_live" / "results.json"
 NATURAL_LIVE_PATH = RESULTS / "github_natural_live" / "results.json"
 NATURAL_REPLICATION_PATH = RESULTS / "github_natural_replication" / "results.json"
 PORTFOLIO_PATH = RESULTS / "portfolio_live" / "results.json"
+GCS_LIVE_PATH = RESULTS / "gcs_live" / "results.json"
+GCS_VALIDATION_PATH = RESULTS / "gcs_validation" / "provider_free.json"
 PILOT_PATH = RESULTS / "github_live" / "pilot_2026-08-03" / "results.json"
 NESTFUL_PATH = RESULTS / "nestful" / "results.json"
 FAMILY_PATH = RESULTS / "nestful" / "family_results.csv"
@@ -736,6 +738,37 @@ def write_natural_replication_table(natural: dict[str, Any]) -> None:
     )
 
 
+def write_gcs_live_table(result: dict[str, Any]) -> None:
+    """Exploratory fresh-cohort comparison of synthesized and manual composites."""
+
+    conditions = [
+        ("macro", "Provider-visible macro"),
+        ("gcs", "Pre-model GCS"),
+    ]
+    out = [
+        r"\begin{tabular}{lrrrrrrr}",
+        r"\toprule",
+        r"Condition & Requests & Exposed & Reads & Tokens & Wall (s) & Cost & Exact \\",
+        r"\midrule",
+    ]
+    for condition, label in conditions:
+        rows = [row for row in result["results"] if row["condition"] == condition]
+        n = len(rows)
+        mean = lambda key: statistics.mean(float(row["metrics"][key]) for row in rows)
+        reads = 3.0  # both interfaces execute the same three pinned source reads
+        exact = sum(bool(row["quality"]["overall"]) for row in rows)
+        out.append(
+            f"{label} & {mean('requests'):.1f} & {mean('tool_calls'):.1f} & "
+            f"{reads:.1f} & {mean('total_tokens'):.1f} & "
+            f"{mean('wall_latency_ms')/1000:.2f} & "
+            f"\\${mean('estimated_cost_usd'):.6f} & {exact}/{n} \\\\"
+        )
+    out += [r"\bottomrule", r"\end{tabular}"]
+    (TABLES / "gcs_live_results.tex").write_text(
+        "\n".join(out) + "\n", encoding="utf-8"
+    )
+
+
 def write_nestful_table(nestful: dict[str, Any]) -> None:
     c = nestful["compiler"]
     p = c["provenance"]
@@ -817,11 +850,12 @@ def write_claims_table() -> None:
         ("C6", "The artifact is production safe", "No live GitHub service, canary, or multi-domain test", "Not supported"),
         ("C7", "The learned gate discriminates risky from safe inputs", "0 positive dev examples; gate admits none or all", "Not supported"),
         ("C8", "Factual summary quality is preserved", "Oracle accepts fluent fabrication", "Not evaluated"),
-        ("C9", "The learned compiler dominates a hand-written macro", "Expanded live macro matches 30/30 quality and beats the partial compiler on tools, tokens, and cost", "Not supported; compiler has lower mean wall time, but its paired interval crosses zero"),
+        ("C9", "The learned compiler generally dominates a hand-written macro", "Macro beats partial GRC on 30 pairs; GCS beats provider-visible macro on 12 later pairs", "Not supported across interfaces or workflow families"),
         ("C10", "A separate continuation contract can recover the retained exact-source miss", "Provider-free replay detects issue 6602 and checked-renders 1/18 cases", "Verified counterfactual; no live latency, cost, or cross-domain claim"),
         ("C11", "The portfolio recommends a measured macro", "30 frozen independent groups; 12 fresh paired issues", "Verified on one workflow family; recommendation requires human review"),
         ("C12", "The portfolio synthesizes a macro or evaluates a cache action", "Public portfolio API accepts externally supplied measurements only", "Not implemented"),
         ("C13", "Portfolio selection beats an always-macro policy across workflows", "One family in which the measured macro is selected", "Not supported"),
+        ("C14", "Guarded composite synthesis beats the measured provider-visible macro", "12 fresh paired real-record cases; both 12/12 exact", "Exploratory: requests -50%, tokens -38.9%, latency -40.0%, cost -32.3%; one workflow family"),
     ]
     # Wrapping columns rather than `llll`: the prose cells give a fixed tabular a
     # natural width several times the text measure, and the only way to place that is
@@ -866,6 +900,7 @@ def main() -> None:
     natural = load_json(NATURAL_LIVE_PATH)
     replication = load_json(NATURAL_REPLICATION_PATH)
     portfolio = load_json(PORTFOLIO_PATH)
+    gcs_live = load_json(GCS_LIVE_PATH)
     pilot = load_json(PILOT_PATH)
     nestful = load_json(NESTFUL_PATH)
     live_efficiency_figure(live)
@@ -879,6 +914,7 @@ def main() -> None:
     write_natural_live_table(natural)
     write_natural_replication_table(replication)
     write_portfolio_table(portfolio)
+    write_gcs_live_table(gcs_live)
     write_nestful_table(nestful)
     write_related_work_table()
     write_demo_suite_table()
@@ -886,6 +922,7 @@ def main() -> None:
     write_claims_table()
     write_manifest([
         LIVE_PATH, NATURAL_LIVE_PATH, NATURAL_REPLICATION_PATH, PORTFOLIO_PATH,
+        GCS_LIVE_PATH, GCS_VALIDATION_PATH,
         PILOT_PATH, NESTFUL_PATH, FAMILY_PATH,
     ])
     print(f"wrote {len(list(FIGURES.iterdir()))} figures and {len(list(TABLES.iterdir()))} tables")

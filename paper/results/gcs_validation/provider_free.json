@@ -1,0 +1,93 @@
+{
+  "compiler": {
+    "artifact_digest": "21b93c78b671ce14167463c713bdefd7f01aadbf253d4769357efae5761826a2",
+    "artifact_id": "cand-00-9704d2d4a908",
+    "complete_region_steps": 3,
+    "composite_name": "compiled_issue_get_record_02bc9e0c13",
+    "config": {
+      "allow_legacy_catalog_version": false,
+      "alpha": 0.1,
+      "b_min": 2,
+      "composite_continuation_key": "",
+      "composite_pre_model": true,
+      "composite_projection": {
+        "body_excerpt": "tool:issue_get_record::content.body_excerpt",
+        "comments": "tool:issue_get_comments::thread.items",
+        "issue_number": "tool:issue_get_record::issue_number",
+        "labels": "tool:issue_get_labels::names",
+        "source_revision": "tool:issue_get_record::source_revision",
+        "state": "tool:issue_get_record::state",
+        "title": "tool:issue_get_record::content.title"
+      },
+      "delta": 0.1,
+      "entry_schema": [
+        "issue_number"
+      ],
+      "kappa": 3,
+      "max_artifacts": 4,
+      "max_calibration_windows": 92,
+      "max_candidates": 16,
+      "max_dev_windows": 400,
+      "max_transform_depth": 2,
+      "min_days": 1,
+      "min_principals": 1,
+      "mode": "replay",
+      "n_permutations": 400,
+      "owner": "paper-natural-workflow-study",
+      "partition_by": [],
+      "phi_min": 0.02,
+      "prefix_only": true,
+      "s_branch": 20,
+      "s_min": 5,
+      "seed": 20260803,
+      "synthesize_composites": true,
+      "w_max": 3,
+      "w_min": 2
+    },
+    "exposed_interfaces": 1,
+    "internal_tools": [
+      "issue_get_record",
+      "issue_get_labels",
+      "issue_get_comments"
+    ],
+    "projection_fields": [
+      "body_excerpt",
+      "comments",
+      "issue_number",
+      "labels",
+      "source_revision",
+      "state",
+      "title"
+    ],
+    "report": "GRC compile report\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\ncandidates mined        2\nartifacts emitted       1\nrejections by stage     {'select:dominated': 1}\nwindows accepted        232\nwindows blocked         {'non_prefix_runtime': 116}\nblocked by tool         {}\n  [emitted     ] issue_get_record/issue_get_labels/issue_get_comments supp=116 k=3.0\n  [dominated   ] issue_get_record/issue_get_labels                 supp=116 k=2.0  REJECTED: dominated_by_longer_region"
+  },
+  "evidence_class": "sealed real-provider tool traces + pinned public records + local replay",
+  "limitations": [
+    "No new provider call was executed by this validation.",
+    "Reconstructed episodes preserve sealed provider tool choices and arguments but not hidden reasoning text.",
+    "A live paired GCS-versus-macro run is required for token, latency, cost, and answer-quality claims."
+  ],
+  "provider_calls_executed": 0,
+  "regraded_results": "paper/results/github_natural_replication/results.json",
+  "regraded_results_digest": "415f057f0d5e036a765eb97da78df8de7b252c76a39c509c3a5d111538040722",
+  "replay": {
+    "all_dispatched_exact": true,
+    "attempted": 132,
+    "dispatched": 124,
+    "exact_projected_matches": 124,
+    "fallback": 8,
+    "projection_failures": []
+  },
+  "resolved_arguments": {
+    "calibration_cases": 92,
+    "checkpoint": "/Users/rezarahimi/Documents/GitHub/personal/agent-compaction/paper/results/github_natural_replication/discovery_checkpoint.json",
+    "dev_cases": 8,
+    "output": "/Users/rezarahimi/Documents/GitHub/personal/agent-compaction/paper/results/gcs_validation/provider_free.json",
+    "regraded_results": "/Users/rezarahimi/Documents/GitHub/personal/agent-compaction/paper/results/github_natural_replication/results.json",
+    "train_cases": 16
+  },
+  "schema": "agent-compaction-gcs-provider-free-validation/v1",
+  "source_checkpoint": "paper/results/github_natural_replication/discovery_checkpoint.json",
+  "source_checkpoint_digest": "9be6ab211fa99498edac5be5c5f098dc0f52fdb9cb19f1dae159e4fcc23cd1c8",
+  "source_provider_trace_count": 132
+}

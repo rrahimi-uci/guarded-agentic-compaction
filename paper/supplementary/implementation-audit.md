@@ -42,6 +42,10 @@ Clean pre-commit misses fall back; dirty failures become incidents.
 GRC's optimization choice remains compile-or-retire. A separate portfolio module now
 selects among measured actions under exact group-level quality and regret-risk bounds. It
 can emit a review-required macro recommendation but does not synthesize macro code.
+Within GRC, Guarded Composite Synthesis can package an admitted read program behind a
+bounded task projection and execute it before the first provider request under an exact
+continuation-manifest pin. This preserves internal source calls and provenance; it is not
+arbitrary macro-code generation.
 
 ## Correctness assessment by component
 
@@ -53,11 +57,12 @@ can emit a review-required macro recommendation but does not synthesize macro co
 | Provenance | Typed path/transform candidates; ambiguity blocking | Exact-value evidence can miss semantic transforms outside the DSL |
 | Window mining | Barriers, live-ins, support groups/days, canonical topology | Quadratic worst-case event scan; deployable runtime currently prefix-only |
 | Synthesis | Deterministic bounded 23-op library, group refit, narrow loops | No e-graph/CEGIS loop; legitimate complex programs abstain |
+| Guarded composites | Closed task-semantic normalizers, live-out-only projection, internal provenance, pre-model continuation pin | Sequential reads; application owns semantic declarations; no remote endpoint generation |
 | Contracts | Entry hulls and live-out provenance/type/cardinality/effects | Empirical hulls are not semantic specifications |
 | Calibration | Dev-fitted frozen score; fixed-grid Bonferroni exact upper bound | Per-artifact only; i.i.d./conditionally i.i.d. group indicators and observable labels required |
 | Registry | Lifecycle, compatibility lookup, kill switch, rollback fields | Shared-secret signing; mutable objects; directory save not atomic as a unit |
 | Dispatcher | Fail-closed checks, staging, verifier, clean fallback | Freshness/quota snapshots are supplied rather than independently attested |
-| Continuation guard | Caller-defined output contract, checked renderer, revalidated baseline, secret-safe telemetry | Task semantics remain caller-owned; live latency/cost and cross-domain behavior are unmeasured |
+| Continuation guard | Caller-defined output contract, checked renderer, revalidated baseline, secret-safe telemetry | Task semantics remain caller-owned; live latency/cost are measured only for one GitHub workflow family and cross-domain behavior is unmeasured |
 | Decision policy | Compiler emits or retires; portfolio ranks measured actions, abstains to baseline, invalidates on compatibility drift, and marks macros for review | No macro synthesis, cache evidence, engineering-cost model, or learned cross-family policy |
 | SDK capture | Natural processor-based trace integration | SDK cannot infer business outcomes/effects/isolation keys |
 | SDK runtime | Real local-function execution through a custom Model | Not a drop-in Runner; bypasses streaming, hosted/MCP tools, handoffs, loops |
@@ -82,20 +87,26 @@ a verified runtime region-position key and resumable state, not merely relaxing 
 
 ## Validation state
 
-- The full test count is regenerated with each validation pass; it includes legacy,
-  natural-workflow, replication-oracle, and continuation fail-closed regressions.
-- Measured statement coverage is 73.94% over 17,433 statements; the multidomain control
+- The full local suite passes 321/321 tests; it includes legacy, natural-workflow,
+  replication-oracle, continuation fail-closed, semantic-normalization, composite-projection,
+  pre-model-execution, real-trace replay, and retained-live-evidence regressions.
+- The pre-GCS measured statement coverage is 73.94% over 17,433 statements; the multidomain control
   plane and prospective paid-study drivers expand the denominator while their provider
   paths remain only partly exercised by the provider-free suite.
 - `pip check` reports no broken requirements.
+- The 0.7.0 sdist and universal wheel build cleanly; the wheel contains 74 members,
+  including the GCS module and `py.typed`, and `pip check` reports no broken requirements.
 - `scripts/verify_release.py` passes all repository checks.
-- The publication artifact validator passes source hashes, result claims, cohort
-  disjointness, generated-artifact checksums, PDF content, and secret-pattern scans.
+- The publication artifact validator passes 1,383/1,383 source, result, cohort,
+  generated-artifact, PDF, slide, and secret-pattern checks over a 318-file manifest.
 - The public repository now has an initial versioned snapshot; experimental history before
   that snapshot and historical CI claims remain unavailable.
 - Provider-free multidomain validation reconstructs 840/840 available real-record gold
   cases and records zero provider calls. This is feasibility evidence, not an optimization
   or cross-domain quality result.
+- Provider-free GCS validation reconstructs all 132 sealed real-provider trace decisions;
+  124/124 admitted projections match exactly and 8 inputs fall back safely. A separate
+  12-pair paid study records 12/12 exact contracts for both GCS and the measured macro.
 
 Coverage gaps are concentrated in TGWS packaging (27.7%), the outer runner (64.5%), replay
 (65.5%), the older live-study drivers (30--31%), and report/capture utilities. The

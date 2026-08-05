@@ -21,22 +21,32 @@ retained separately in [docs/results.md](docs/results.md).
 * **GRC** — guarded region compilation. Find repeated read-only regions, prove every tool
   argument derives from entry state or earlier observations, synthesize a bounded
   deterministic program from a closed 23-operator library, induce a contract, and dispatch
-  only under a calibrated gate with an exact risk bound.
+  only under a calibrated gate with an exact risk bound. Guarded Composite Synthesis (GCS)
+  can package an admitted program behind one task-specific, provenance-preserving interface.
 * **Portfolio selection** — compare only actions with paired group-level measurements,
   bound task failure and non-positive utility separately, and select the highest-utility
   admitted action. Macro selections are review-required recommendations, not generated code.
 
 Neither invents business logic, changes model weights, or removes an external effect.
 **Abstention is the default output**, and "do not compact" is the common and correct one.
-GRC itself remains compile-or-retire. The portfolio layer can now choose a measured GRC
-candidate or recommend a measured macro for human review; it does not synthesize macros,
-and cache/model-routing actions remain unsupported until real measurements are supplied.
+GRC itself remains compile-or-retire. GCS synthesizes only a bounded projection over an
+already verified read program; the portfolio layer still does not generate arbitrary macro
+code. Cache/model-routing actions remain unsupported until real measurements are supplied.
 
 In a prospective real-record pilot, the selector used 30 prior independent GitHub issue
 groups, chose the higher-utility reviewed macro, and then ran it on 12 fresh issues. Both
 baseline and selected action passed 12/12 exact contracts; the selection reduced provider
 requests 50.0%, tool calls 66.7%, total tokens 59.2%, wall latency 71.6%, and estimated
 cost 40.6%. This is single-family evidence, not proof that selection beats always-macro.
+
+An exploratory follow-up compiles the complete three-read GitHub workflow into a
+continuation-pinned pre-model composite. Against the provider-visible hand-written macro on
+12 further real issues, both pass 12/12 exact contracts; GCS uses 50.0% fewer provider
+requests, 38.9% fewer total tokens, 40.0% lower observed wall latency, and 32.3% lower
+estimated cost. Both still execute three source reads and expose one interface. This shows
+parity with the measured macro on one family—not general superiority over an equally
+pre-executed manual program. Raw evidence is in
+[`paper/results/gcs_live/results.json`](paper/results/gcs_live/results.json).
 
 ---
 
@@ -134,6 +144,9 @@ job = ac.optimize(
     sandbox=make_sandbox,          # enables grouped replay + the perturbation suite
     tgws_baseline=baseline_config, # TGWS prunes only against measured quality
     tgws_evaluate=evaluator,
+    # Optional GCS projection: sources must be verified program live-outs.
+    composite_projection={"title": "tool:records.read::title"},
+    composite_continuation_key=continuation_manifest.compatibility_key(),
 )
 print(job.report())
 print(job.explain())               # readable pseudocode per artifact
@@ -167,6 +180,13 @@ the entry-state snapshot and the staging boundary:
 runner = ac.CompactingRunner(dispatcher=ac.Dispatcher(registry=reg, catalog=catalog,
                                                       mode="shadow"),
                              catalog=catalog, manifest=manifest)
+
+# GCS only: executes a continuation-pinned composite before the first provider turn.
+decision = runner.execute_pre_model(
+    entry_state,
+    executor=execute_tool,
+    continuation_compatibility_key=continuation_manifest.compatibility_key(),
+)
 ```
 
 For the OpenAI Agents SDK there is a custom `Model`; it ships behind the seven
@@ -193,7 +213,7 @@ src/agent_compaction/
   capture/          entry-state contract, manifests, Agents SDK adapter, JSONL store
   graph/            qualification, provenance (Alg. 1), window mining (Alg. 2)
   grc/              DSL, bindings (Alg. 3), branches (Alg. 4), contracts (Alg. 5),
-                    calibration (Alg. 6), the compile orchestrator
+                    calibration (Alg. 6), guarded composites, compile orchestrator
   tgws/             route tree, greedy pruning, packaging
   portfolio/        typed candidates, exact-risk admission, review-aware selection
   evaluation/       grouped splits, replay modes, perturbations, metrics, statistics
@@ -249,5 +269,6 @@ This is a research MVP, honest about its boundaries:
 * **Calibration is usually the binding constraint.** A zero-violation exact bound at
   α = 0.05 needs ≈92 independent calibration groups; the estimator reports that number
   before any compilation, and candidates that cannot reach it retire.
-* **The compiler is often not the right tool.** Run the estimator, read the top regions,
-  and if a handwritten function captures them, write the function.
+* **The compiler is often not the right tool.** Run the estimator and inspect the region.
+  Use GCS when automatic discovery, guards, provenance, and fallback justify it; use a
+  handwritten function when the workflow is stable and manual maintenance is cheaper.

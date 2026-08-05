@@ -1,0 +1,94 @@
+{
+  "schema": "agent-compaction-slide-generation/v1",
+  "generator": "paper/scripts/generate_slides.mjs",
+  "template_map": "paper/slides/gac-template-map.json",
+  "evidence": {
+    "gcs_live": {
+      "path": "paper/results/gcs_live/results.json",
+      "sha256": "c5c4907db6c0b451793fd4be61d12576ebbfc4a07a2215f0db27a24d3f5e9a43"
+    },
+    "gcs_replay": {
+      "path": "paper/results/gcs_validation/provider_free.json",
+      "sha256": "178cab2f7ae4c851c4057079248544ed9a7f058888a54bb4ef2fc9b984841433"
+    }
+  },
+  "templates": {
+    "seminar": {
+      "path": "paper/slides/GAC-seminar.pptx",
+      "sha256": "763ea1cea019e98ddcebf37e2748261a4a30d846bfe67cdcb022d92663257e13",
+      "source_slides": 25
+    },
+    "technical": {
+      "path": "paper/slides/GAC-technical-review.pptx",
+      "sha256": "e0febc7b9dd9dc01c89bedb78c0f731a99dd24434e491ecfc627c21511ce0c54",
+      "source_slides": 21
+    }
+  },
+  "outputs": {
+    "seminar": {
+      "path": "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs.pptx",
+      "sha256": "7175e8fa148bfbde7835d55cf26a29e6666bdb9e7cf5f6b5eebf793bc636477f",
+      "slides": 26
+    },
+    "technical": {
+      "path": "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx",
+      "sha256": "ddb93ae11d4fe38b095e96adabee0283a24d1c0e6bea2ab4ba8b5a517fd1b526",
+      "slides": 22
+    }
+  },
+  "source_slide_for_output": {
+    "seminar": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      21,
+      22,
+      23,
+      24,
+      25
+    ],
+    "technical": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      18,
+      19,
+      20,
+      21
+    ]
+  },
+  "evidence_boundary": "Post-study exploratory result on one workflow family; no equally pre-executed manual-macro comparator."
+}

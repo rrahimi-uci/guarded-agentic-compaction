@@ -76,6 +76,18 @@ from .portfolio import (
 )
 from .schema.artifacts import Artifact, Lifecycle
 from .schema.effects import Capability, EffectCatalog, EffectClass
+from .schema.effects import (
+    ArgumentSemantics,
+    CanonicalizationKind,
+    CanonicalizationOp,
+    SemanticRelation,
+)
+from .grc.composite import (
+    CompositeProjectionError,
+    CompositeSpec,
+    CompositeSynthesisError,
+    synthesize_composite,
+)
 from .schema.traces import (
     Episode,
     EventKind,
@@ -86,7 +98,7 @@ from .schema.traces import (
     require_compatible_manifest,
 )
 
-__version__ = "0.6.0"
+__version__ = "0.7.0"
 
 __all__ = [
     "__version__",
@@ -160,6 +172,14 @@ __all__ = [
     "EffectCatalog",
     "EffectClass",
     "Capability",
+    "ArgumentSemantics",
+    "CanonicalizationKind",
+    "CanonicalizationOp",
+    "SemanticRelation",
+    "CompositeProjectionError",
+    "CompositeSpec",
+    "CompositeSynthesisError",
+    "synthesize_composite",
     "Episode",
     "EventKind",
     "EventNode",

@@ -54,6 +54,8 @@ from agent_compaction.evaluation.splits import Splits  # noqa: E402
 from agent_compaction.grc.compile import GrcConfig, compile_grc  # noqa: E402
 from agent_compaction.registry.store import Registry  # noqa: E402
 from agent_compaction.runtime.model_provider import CompactingModel  # noqa: E402
+from agent_compaction.runtime.dispatch import DispatchMode, Dispatcher  # noqa: E402
+from agent_compaction.runtime.runner import CompactingRunner  # noqa: E402
 from agent_compaction.schema.artifacts import Lifecycle  # noqa: E402
 from agent_compaction.schema.effects import EffectCatalog  # noqa: E402
 from agent_compaction.schema.traces import OutcomeLabels, TraceEnvelope, content_digest  # noqa: E402
@@ -125,7 +127,10 @@ def grade_factual(
         "issue_get_comments",
         "issue_get_bundle",
     }
-    trace_valid = bool(tool_sequence) and set(tool_sequence) <= allowed_tools
+    trace_valid = bool(tool_sequence) and all(
+        tool in allowed_tools or tool.startswith("compiled_issue_get_record_")
+        for tool in tool_sequence
+    )
     score = statistics.mean(checks.values())
     return {
         **checks,
@@ -184,9 +189,29 @@ def make_catalog() -> EffectCatalog:
             "tools": {
                 name: {
                     "effect": "READ_LOCAL",
-                    "capabilities": ["speculatable", "replayable", "cacheable"],
+                    "capabilities": ["speculatable", "replayable", "cacheable", "batchable"],
                     "key": ["issue_number"],
                     "resource": "hf-github-issues-snapshot",
+                    **(
+                        {
+                            "argument_semantics": {
+                                "limit": {
+                                    "relation": "monotone_superset",
+                                    "operations": [
+                                        {
+                                            "kind": "clamp_int",
+                                            "admissible_minimum": 3,
+                                            "minimum": 3,
+                                            "maximum": 3,
+                                        }
+                                    ],
+                                    "notes": "The task contract permits the first three comments and the tool caps at three.",
+                                }
+                            }
+                        }
+                        if name == "issue_get_comments"
+                        else {}
+                    ),
                     "notes": "Deterministic read over a pinned Apache-2.0 public snapshot",
                 }
                 for name in (
@@ -244,9 +269,15 @@ def materialize_result(
     manifest: Any,
     dispatch: dict[str, Any],
     store: dict[int, dict[str, Any]],
+    observations_override: Sequence[Any] | None = None,
+    metric_overrides: dict[str, Any] | None = None,
 ) -> fixed.RunResult:
     answer = fixed._answer_dict(final_output)
-    observations = observations_from_trace(trace, {})
+    observations = (
+        list(observations_override)
+        if observations_override is not None
+        else observations_from_trace(trace, {})
+    )
     sequence = [obs.tool for obs in observations]
     arguments = [dict(obs.args) for obs in observations]
     quality = grade_factual(scenario, answer, sequence, store)
@@ -293,12 +324,15 @@ def materialize_result(
             "repeat": repeat,
         }
     )
+    metrics = trace_metrics(trace, model=model, wall_ms=wall_ms)
+    if metric_overrides:
+        metrics.update(metric_overrides)
     return fixed.RunResult(
         condition=condition,
         repeat=repeat,
         issue_number=scenario.issue_number,
         trace_id=trace.trace_id,
-        metrics=trace_metrics(trace, model=model, wall_ms=wall_ms),
+        metrics=metrics,
         answer=answer,
         quality=quality,
         tool_sequence=sequence,
@@ -321,6 +355,9 @@ async def run_batch(
     store: dict[int, dict[str, Any]],
     registry: Registry | None,
     concurrency: int,
+    pre_model: bool = False,
+    artifact_manifest: Any | None = None,
+    pre_model_executor: Any | None = None,
 ) -> tuple[list[fixed.RunResult], list[dict[str, Any]]]:
     from agents import RunConfig, Runner
     from agents.models.openai_provider import OpenAIProvider
@@ -331,8 +368,35 @@ async def run_batch(
         trace_id = _trace_id(condition, repeat, scenario.issue_number)
         entry = {"issue_number": scenario.issue_number}
         compacting = None
+        pre_model_result = None
+        pre_model_ms = 0.0
         model: Any = model_name
-        if registry is not None:
+        if registry is not None and pre_model:
+            if pre_model_executor is None or artifact_manifest is None:
+                raise RuntimeError("pre-model execution requires an executor and artifact manifest")
+            pre_runner = CompactingRunner(
+                dispatcher=Dispatcher(
+                    registry=registry,
+                    catalog=catalog,
+                    mode=DispatchMode.LIVE,
+                ),
+                catalog=catalog,
+                manifest=artifact_manifest,
+            )
+            pre_started = time.perf_counter()
+            pre_model_result = pre_runner.execute_pre_model(
+                entry,
+                executor=pre_model_executor,
+                day=store[scenario.issue_number]["day"],
+                continuation_compatibility_key=manifest.compatibility_key(),
+            )
+            pre_model_ms = (time.perf_counter() - pre_started) * 1000.0
+            if not pre_model_result.compacted or len(pre_model_result.observations) != 1:
+                raise RuntimeError(
+                    "guarded composite did not dispatch: "
+                    + json.dumps(pre_model_result.record, sort_keys=True)
+                )
+        elif registry is not None:
             compacting = CompactingModel(
                 OpenAIProvider().get_model(model_name),
                 registry=registry,
@@ -346,10 +410,18 @@ async def run_batch(
         agent = make_agent(model, tools)
         async with semaphore:
             started = time.perf_counter()
+            user_input = f"Investigate public issue snapshot issue_number={scenario.issue_number}"
+            if pre_model_result is not None:
+                evidence = pre_model_result.observations[0].result
+                user_input += (
+                    "\nThe runtime already executed an approved guarded evidence plan. "
+                    "Do not call tools. Use only this source-grounded JSON evidence:\n"
+                    + json.dumps(evidence, sort_keys=True, separators=(",", ":"))
+                )
             result = await asyncio.wait_for(
                 Runner.run(
                     agent,
-                    f"Investigate public issue snapshot issue_number={scenario.issue_number}",
+                    user_input,
                     max_turns=8,
                     run_config=RunConfig(
                         workflow_name=f"agent-compaction-paper:github-natural:{condition}",
@@ -369,9 +441,11 @@ async def run_batch(
                 ),
                 timeout=120.0,
             )
-            wall_ms = (time.perf_counter() - started) * 1000.0
+            wall_ms = (time.perf_counter() - started) * 1000.0 + pre_model_ms
         telemetry = compacting.dispatcher.telemetry.as_dict() if compacting else {}
-        return scenario, trace_id, result, wall_ms, telemetry
+        if pre_model_result is not None:
+            telemetry = dict(pre_model_result.record)
+        return scenario, trace_id, result, wall_ms, telemetry, pre_model_result
 
     raw = await asyncio.gather(*(run_one(s) for s in scenarios), return_exceptions=True)
     records = {record.trace_id: record for record in processor.drain()}
@@ -387,7 +461,7 @@ async def run_batch(
                 }
             )
             continue
-        scenario_out, trace_id, run_output, wall_ms, telemetry = item
+        scenario_out, trace_id, run_output, wall_ms, telemetry, pre_model_result = item
         trace = records.get(trace_id)
         if trace is None:
             failures.append(
@@ -395,6 +469,18 @@ async def run_batch(
                  "error": "missing completed SDK trace"}
             )
             continue
+        if pre_model_result is not None:
+            unexpected_provider_tools = observations_from_trace(trace, {})
+            if unexpected_provider_tools:
+                failures.append(
+                    {
+                        "condition": condition,
+                        "issue_number": scenario.issue_number,
+                        "error": "provider called tools after guarded pre-model execution",
+                        "tools": [item.tool for item in unexpected_provider_tools],
+                    }
+                )
+                continue
         results.append(
             materialize_result(
                 scenario_out,
@@ -407,6 +493,18 @@ async def run_batch(
                 manifest=manifest,
                 dispatch=telemetry,
                 store=store,
+                observations_override=(
+                    pre_model_result.observations if pre_model_result is not None else None
+                ),
+                metric_overrides=(
+                    {
+                        "provider_tool_calls": 0,
+                        "tool_calls": 1,
+                        "internal_tool_calls": int(pre_model_result.record.get("n_calls", 0)),
+                    }
+                    if pre_model_result is not None
+                    else None
+                ),
             )
         )
     return results, failures
@@ -420,6 +518,7 @@ def compile_artifact(
     train_n: int,
     dev_n: int,
     calibration_n: int,
+    continuation_compatibility_key: str = "",
 ) -> tuple[Registry, dict[str, Any]]:
     """Compile from factually correct traces without filtering on a prescribed order."""
 
@@ -461,6 +560,18 @@ def compile_artifact(
         mode="replay",
         owner="paper-natural-workflow-study",
         seed=20260803,
+        synthesize_composites=True,
+        composite_projection={
+            "issue_number": "tool:issue_get_record::issue_number",
+            "title": "tool:issue_get_record::content.title",
+            "state": "tool:issue_get_record::state",
+            "body_excerpt": "tool:issue_get_record::content.body_excerpt",
+            "labels": "tool:issue_get_labels::names",
+            "comments": "tool:issue_get_comments::thread.items",
+            "source_revision": "tool:issue_get_record::source_revision",
+        },
+        composite_pre_model=True,
+        composite_continuation_key=continuation_compatibility_key,
     )
     result = compile_grc(
         [run.episode for run in selected],
@@ -489,6 +600,16 @@ def compile_artifact(
         "selection_rule": "factually correct traces; stable hash split; no tool-order filter",
         "observed_train_sequences": dict(Counter(" -> ".join(r.tool_sequence) for r in train_runs)),
         "rejection_by_stage": dict(result.rejection_by_stage),
+        "candidates": [
+            {
+                **candidate.as_dict(),
+                "gate": candidate.gate.to_dict() if candidate.gate is not None else None,
+                "challenge": candidate.challenge.as_dict()
+                if candidate.challenge is not None
+                else None,
+            }
+            for candidate in result.candidates
+        ],
         "artifact": artifact.to_dict(),
         "artifact_explanation": artifact.explain(),
         "lab_promotion": {"scope": "isolated paper experiment only", "not_production_approval": True},

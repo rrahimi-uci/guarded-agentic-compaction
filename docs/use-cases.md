@@ -1,6 +1,6 @@
 # Implemented use cases and evidence boundaries
 
-These scenarios describe what the current `agent-compaction` 0.6.0 code can do. They
+These scenarios describe what the current `agent-compaction` 0.7.0 code can do. They
 replace the earlier v2.1 pseudo-API guide, whose `cx.*` examples and staged implementation
 schedule predated the library. Every scenario below distinguishes measured evidence from
 an adoption hypothesis.
@@ -10,6 +10,7 @@ an adoption hypothesis.
 | Workload shape | First choice | Why |
 |:---|:---|:---|
 | Stable, low-entropy reads with an obvious application interface | Hand-written macro | Simplest implementation and usually the fewest tool calls |
+| Recurrent read region with enough evidence and a task-specific sufficient view | GCS | Synthesizes one guarded interface while preserving internal verification and provenance |
 | Recurrent read region whose bindings or branches vary across families | GRC | Discovers and synthesizes guarded deterministic programs while preserving the existing tool interface |
 | Entry-state-dependent prompt, model, agent, or tool surface | TGWS | Learns a shallow route and prunes only under measured quality |
 | Several already measured actions | Portfolio selector | Chooses only among actions with paired group-level evidence; otherwise returns baseline |
@@ -18,6 +19,8 @@ an adoption hypothesis.
 A portfolio recommendation does not synthesize a macro, cache, prompt, or model route. It
 selects among measurements supplied by the application. Macros require human review by
 default, and runtime permission additionally checks the compatibility identity.
+GCS is separate: it can synthesize a bounded projection over an admitted GRC program, but
+not arbitrary business logic or undeclared semantics.
 
 ## Adoption workflow using the public API
 
@@ -77,9 +80,21 @@ reduces provider requests 50.0%, tool calls 66.7%, total tokens 59.2%, observed 
 latency 71.6%, and estimated cost 40.6%. This is one-family evidence and does not show
 that portfolio selection beats an always-macro policy across heterogeneous workflows.
 
+An exploratory GCS extension reconstructs the full three-read region from the retained
+discovery traces, validates it against all 132 real-provider trace decisions and the pinned
+snapshot, then compares it with the provider-visible macro on 12 additional issues excluded
+from every earlier cohort. Both pass 12/12 exact contracts. GCS reduces requests by 50.0%,
+tokens by 38.9%, observed wall latency by 40.0%, and estimated cost by 32.3% relative to
+that measured macro. It exposes one interface but still performs three source reads. The
+study does not compare against a manually pre-executed macro and covers only bug/other
+labels, so it is exploratory single-family evidence.
+
 **Reproduce.** Provider-free inspection and the paid command are documented in the
 [paper README](../paper/README.md). Raw prospective output is in
 [`paper/results/portfolio_live/results.json`](../paper/results/portfolio_live/results.json).
+GCS replay and live evidence are in
+[`paper/results/gcs_validation/provider_free.json`](../paper/results/gcs_validation/provider_free.json)
+and [`paper/results/gcs_live/results.json`](../paper/results/gcs_live/results.json).
 The tools read a pinned public snapshot, so this is not evidence about live GitHub API
 availability or mutation.
 

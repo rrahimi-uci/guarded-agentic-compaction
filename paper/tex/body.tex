@@ -46,7 +46,8 @@ Our research questions are:
   recurrent tool programs?
   \item[RQ2.] On an unseen real-record workload, how does a learned compiled prefix trade
   factual task quality against requests, tokens, latency, and cost relative to an unchanged
-  agent and a hand-written composite tool?
+  agent and a hand-written composite tool, and can a guarded compiler close the interface
+  gap exposed by that comparison?
   \item[RQ3.] Does exact selective admission reject recurrent families when calibration
   support is inadequate?
   \item[RQ4.] Which failure modes remain after structural compilation, and what does
@@ -56,7 +57,7 @@ Our research questions are:
   contract while reducing resource use?
 \end{description}
 
-The paper makes four contributions:
+The paper makes six contributions:
 
 \begin{enumerate}[leftmargin=*]
   \item A trace-to-program formulation combining typed value provenance, effect-aware
@@ -72,15 +73,18 @@ The paper makes four contributions:
   \item A framework-neutral transformation portfolio that compares measured actions under
   exact quality and regret-risk bounds, emits human-review macro recommendations, and is
   exercised prospectively on fresh public records.
+  \item Guarded composite synthesis (GCS), which packages an admitted program behind a
+  task-specific projection, preserves internal effect/provenance verification, and can run
+  before the first provider request only under an exact continuation-manifest pin.
 \end{enumerate}
 
 We do \emph{not} claim universal semantic equivalence, production certification,
 cross-domain generalization, fewer necessary tool calls, or deterministic natural-language
 generation.  Those boundaries are part of the result.
-The region compiler still chooses only between a guarded compiled artifact and the
-unchanged agent.  The new portfolio layer can select a measured compiler or recommend a
-measured macro for review; it neither synthesizes macros nor has evidence for caching,
-unseen actions, or cross-family superiority.
+The portfolio layer still only selects measured actions and cannot synthesize arbitrary
+application code.  GCS synthesizes a narrow, read-only composite \emph{view} of an already
+verified program; it does not infer undeclared tool semantics, fuse the three source reads
+into one physical operation, or establish cross-family superiority.
 
 \paragraph{Roadmap.}
 \Cref{sec:problem} formalizes episodes, candidate regions, the position invariant, and the
@@ -300,6 +304,44 @@ run rather than as a property of the method.
 \input{../figures/alg-compile.tex}
 \input{../figures/alg-provenance.tex}
 
+\subsection{Guarded composite synthesis}
+\label{sec:gcs-method}
+
+The macro comparison revealed a structural asymmetry: the manual baseline may redesign
+the application interface, while the original compiler preserves every source-tool
+observation.  GCS closes that specific gap without moving application code into the
+optimizer's trust boundary.  After ordinary synthesis and admission, it packages the same
+program as
+\(\widetilde P=(P,\Pi,\tau_c)\), where \(P\) is the verified internal program,
+\(\Pi\) is a declared projection over verified live-outs, and \(\tau_c\) is the exact
+compatibility key of the continuation that consumes the projection.  A tool must carry an
+explicit \code{batchable} capability before it can appear inside this interface.
+
+Some recurrent calls differ only in arguments that are irrelevant to the registered task.
+The effect catalog may therefore attach a signed, declarative task-semantic
+canonicalization to a dotted argument path.  The implementation admits only five closed
+operations (integer clamping, whitespace stripping, case folding, stable set-like sorting,
+and finite aliases), and integer rules may declare an admissible input domain.  This is not
+learned equivalence: values outside that domain raise and deoptimize.  In the GitHub task,
+the consumer uses at most the first three comments and the snapshot tool already caps its
+result at three, so observed limits of at least three share the representative
+\code{limit=3}; \code{limit=1} is deliberately outside the contract.
+
+The projection language reuses the bounded binding DSL.  It can select only existing
+verified live-outs and cannot call arbitrary code, resolve a dynamic tool, or access
+unverified state.  Runtime execution retains all internal source calls, effects, and
+field-level provenance.  Verification and projection both complete inside the staging
+boundary; a missing projected field returns the baseline before release.  A pre-model
+dispatch additionally requires an exact continuation-manifest match.  It then exposes one
+native composite observation to the provider, so the provider receives the sufficient
+record on its first request rather than spending a request selecting the composite.
+
+GCS is consequently narrower than automatic API fusion.  It does not parallelize the
+internal calls, reduce the number of source reads, generate a new remote service, or prove
+the application-supplied task-semantic contract.  Its contribution is a serializable,
+fail-closed interface transformation over a program the existing compiler can already
+verify.
+
 \subsection{Exact risk-gated admission}
 
 The score $q(z)$ is a logistic model over entry-observable features: unseen category,
@@ -464,7 +506,7 @@ We use three non-overlapping evidence tiers, ordered by what each can license.
 \textbf{Tier 1 --- external executable benchmark.}  NESTFUL tests dependency
 reconstruction, synthesis, and refusal on public data with no model calls at all.
 
-\textbf{Tier 2 --- real records, live provider.}  Four GitHub protocols use actual public
+\textbf{Tier 2 --- real records, live provider.}  Five GitHub protocols use actual public
 issue records, deterministic local reads over a pinned snapshot, and live OpenAI provider
 calls.  The first prescribes a fixed prefix as a conformance ablation.  The review-driven
 follow-up names required facts but neither tool functions nor order, grades exact source
@@ -472,7 +514,10 @@ facts independently of the trace, and adds a live composite-tool baseline.  An e
 replication seals 132 discovery and 30 balanced test records, exercises compiler abstention
 from an ungroundable third call, and repeats all three conditions.  A prospective portfolio
 pilot freezes the replication as selection evidence, chooses one reviewed action, and runs
-only it and the unchanged agent on 12 fresh records.  They are
+only it and the unchanged agent on 12 fresh records.  Finally, an exploratory GCS study
+compiles the full three-read region from the retained discovery traces and compares its
+pre-model composite with the provider-visible hand-written macro on 12 further records
+excluded from every prior cohort.  They are
 evidence about agent control flow on real records, not live GitHub service reliability.
 
 \textbf{Tier 3 --- controlled demonstration suite.}  Six workflow \emph{shapes} are run
@@ -501,6 +546,11 @@ cohort was selected or executed.  Its prospective hypothesis (H6) is therefore n
 the frozen selector's chosen action will pass all observed fresh task contracts and reduce
 its weighted resource objective relative to baseline.  H6 was not externally preregistered
 and cannot establish that selection beats an always-macro policy.
+GCS was designed after both macro results were known.  Its 12-pair study is therefore an
+explicitly post-study, exploratory test rather than an additional preregistered hypothesis.
+The issue selection is provider-outcome-free and disjoint from all 424 earlier issue IDs,
+but it was recorded by the same run that executed the provider calls rather than sealed in
+an externally timestamped protocol.
 
 \subsection{External benchmark: NESTFUL}
 
@@ -673,6 +723,10 @@ binary endpoints.  Their one-sided exact bounds split 5\% error across two actio
 endpoints; mean utility ranks only actions that pass both gates.  The 12-record prospective
 cohort is an outcome evaluation, not additional calibration evidence.  Its paired
 bootstrap intervals and signed-rank tests are descriptive and unadjusted.
+The exploratory GCS comparison uses the same paired procedures.  Its primary contrast is
+GCS minus the measured provider-visible macro; it reports exposed tool interfaces and
+internal source reads separately so interface fusion cannot masquerade as eliminated
+work.
 
 \section{Results}
 \label{sec:results}
@@ -692,6 +746,11 @@ while the older offline suite
 shows the macro winning three of five workloads (\cref{sec:comparator}).  Structural compaction fixes structural nondeterminism only --- an archived
 pilot shows that request savings obtained at the wrong execution position are not an
 improvement at all (\cref{sec:pilot}).
+An exploratory compiler extension then synthesizes the task-specific composite interface
+and runs it before the first provider request.  On 12 fresh pairs it matches the measured
+macro's exact quality while using one rather than two provider requests
+(\cref{sec:gcs-results}); this closes the measured interface gap, but does not rule out an
+equally pre-executed manual macro.
 The portfolio pilot then turns the comparator result into a pre-data decision and tests the
 selected reviewed action on a fresh cohort (\cref{sec:portfolio-results}).
 
@@ -1077,6 +1136,55 @@ branching or changing workflow families for which manual discovery and maintenan
 amortize.  This study establishes the structural facts behind that hypothesis, but it does
 not measure engineering effort, drift response, or the cross-workflow break-even.
 
+\subsection{Exploratory GCS: closing the measured macro gap}
+\label{sec:gcs-results}
+
+\begin{table}[t]
+  \centering
+  \caption{Fresh real-record comparison after adding guarded composite synthesis.
+  ``Exposed'' counts model-visible interfaces; both conditions execute three source
+  reads.  GCS runs the admitted composite before the first provider request.  This is a
+  12-pair exploratory extension designed after the earlier macro result, not a
+  confirmatory replacement for \cref{tab:natural-replication}.}
+  \label{tab:gcs-live}
+  \small
+  \resizebox{\columnwidth}{!}{\input{../tables/gcs_live_results.tex}}
+\end{table}
+
+We implemented the interface transformation suggested by the comparator rather than
+discarding the guard.  The compiler now canonicalizes only application-declared
+task-semantic arguments, emits the complete three-read program behind one projected
+interface, retains all internal provenance and verification, and executes it before the
+provider only when the continuation manifest matches exactly.  Provider-free
+reconstruction of all 132 retained discovery traces dispatches 124, safely falls back on
+eight, and produces 124/124 exact projections with no projection failure.  That replay
+makes no new model call and supports implementation correctness, not an efficiency claim.
+
+The paid comparison uses 12 further public issues excluded from all 424 issue identifiers
+used by the preceding experiments.  Both the provider-visible hand-written macro and GCS
+pass all 12 exact factual and tool contracts; with no observed discordance, exact McNemar
+$p=1$, and the one-sided 95\% zero-event bound still permits a 22.1\% population
+discordance rate.  Relative to the measured macro, GCS reduces provider requests from
+2.0 to 1.0 ($-50.0\%$), total tokens from 1,524.0 to 931.2
+($-38.9\%$), mean wall latency from 2.49 to 1.49 seconds
+($-40.0\%$), and estimated cost from \$0.000430 to \$0.000291
+($-32.3\%$).  Paired request, total-token, latency, and cost differences all have
+two-sided exact signed-rank $p=0.000488$; output-token reduction alone is uncertain
+($p=0.155$).  Each condition exposes one interface and still performs three source
+reads, so this is decision and context compaction, not elimination of necessary evidence.
+
+The mechanism is placement, not magic: the provider-visible macro spends one request
+choosing its composite and another producing the answer, whereas GCS supplies the guarded
+projection to the first request.  A manually engineered, equally guarded \emph{pre-model}
+macro could plausibly obtain the same advantage; we did not implement that comparator.
+The run also covers only five bug and seven other-labelled issues---no question or
+enhancement cases survived strict prior-cohort exclusion.  A retained two-case smoke run
+had worse GCS latency, reinforcing that the 12-case latency magnitude is provider- and
+schedule-sensitive.  The supported conclusion is therefore precise: automatic guarded
+interface synthesis matches the measured macro's observed quality and beats its measured
+provider work on this family, while preserving safe fallback.  It is not evidence that
+GCS dominates the best manually placed program across domains.
+
 \subsection{RQ5: prospective portfolio selection}
 \label{sec:portfolio-results}
 
@@ -1304,6 +1412,15 @@ selective prediction --- and the contribution is that an agent guard needs all f
 Contribution~(v) is currently the weakest: as \cref{sec:limits} reports, no study here
 exercises it as a discriminator.
 
+GCS adds an interface-level specialization over this guarded program: a bounded projection
+of verified live-outs, a signed task-semantic argument contract, and an exact continuation
+pin allow the region to execute before the first provider request.  The individual ideas
+are not new---manual macros, projection pushdown, and partial evaluation are standard---but
+their composition preserves the compiler's internal effect checks, provenance, staging,
+and fallback rather than treating a generated meta-tool as an opaque trusted shortcut.
+The 12-pair result supports that mechanism on one family; it does not establish a general
+advantage over manually pre-executed code.
+
 The portfolio adds a second, narrower composition: selection across transformation
 \emph{classes} rather than configurations within one declared graph, with separate exact
 bounds on task failure and non-positive paired utility, compatibility invalidation, and a
@@ -1331,6 +1448,9 @@ the trusted computing base.  A misdeclared external write cannot be repaired by
 statistics.  Fourth, the runtime-position key must become explicit before suffix regions
 are supported.  The pilot demonstrates that a compiler and runtime must share the same
 control-point semantics.
+Fifth, a task-specific interface and its execution position are separate optimizations:
+merely exposing a macro still leaves a model turn to select it, whereas a continuation-pinned
+pre-model composite can remove that turn.
 
 \subsection{Extension path}
 \label{sec:extension}
@@ -1345,8 +1465,9 @@ cache-dominated is reported as having little dollar headroom before a compiler i
 for it.
 
 \paragraph{Portfolio optimization beyond the pilot.}
-The implemented layer selects among measured actions and can recommend a macro for review;
-it does not synthesize the macro, execute cache-only or model-routing candidates, estimate
+The implemented portfolio layer selects among measured actions and can recommend a macro
+for review; it does not synthesize arbitrary macro code, execute cache-only or
+model-routing candidates, estimate
 developer effort, or learn a policy across workflow families.  The next experiment must
 include families deliberately spanning stable bundles, branching prefixes, cache-dominated
 routes, unsafe effects, and low-support abstention.  It should measure construction,
@@ -1356,7 +1477,8 @@ contextual policy.  Only then can the central selection claim be stronger than `
 correctly chose the already stronger macro.''
 
 The reusable library boundary is the typed Episode IR plus an optimization-pass API.
-Near-term extensions include: (1) e-graph or counterexample-guided synthesis within the
+GCS now covers the narrow read-only interface case described in \cref{sec:gcs-method}.
+Remaining near-term extensions include: (1) e-graph or counterexample-guided synthesis within the
 same closed semantic library; (2) global familywise risk allocation across multiple
 artifacts; (3) transactional compilation of idempotent writes with approval barriers;
 (4) explicit execution-plan scheduling to combine compaction with LLMCompiler-style
@@ -1457,8 +1579,10 @@ in \cref{sec:method} are therefore capabilities of the registry, not properties 
 experiment demonstrates.
 
 \paragraph{Empirical scope.}
-The confirmatory compiler study contains 30 primary issues and the prospective portfolio
-pilot contains 12, all from one repository/domain and one model configuration.
+The confirmatory compiler study contains 30 primary issues, the prospective portfolio
+pilot contains 12, and the exploratory GCS comparison contains 12 further pairs, all from
+one repository/domain and one model configuration.  The GCS cohort contains only bug and
+other-labelled issues.
 It uses a frozen public snapshot, not the live GitHub API, so network/service behavior,
 concurrent mutation, rate limits, and authentication are absent.  The two exact gates have
 92 and 45 calibration records, while the portfolio has only 30 selection groups and uses a
@@ -1484,7 +1608,10 @@ better on tokens and estimated cost.  In the earlier aggressive study, \method s
 more provider request and more tokens but records a factual miss.  The offline suite
 independently gives the macro the lower request ratio on three of five workloads.  The
 compiler itself remains compile-or-retire; the new portfolio layer selects the measured
-macro and emits a review-required recommendation.  It does not synthesize that macro, and
+macro and emits a review-required recommendation.  Separately, GCS packages an admitted
+read program behind a synthesized projection and beats the measured provider-visible
+macro on 12 exploratory pairs; it does not synthesize arbitrary application logic or test
+an equally pre-executed manual macro.  The portfolio does not generate that macro, and
 on a single family the result is indistinguishable from an always-macro rule.  We still do not run AWO, AWM,
 LLMCompiler, FlowCompile, or plan caching.  The evidence establishes an intervention and
 engineering trade-off, not state-of-the-art superiority.
@@ -1512,7 +1639,8 @@ global guarantee when many artifacts are selected.
 Recorded output equality and empirical contracts do not prove full semantic equivalence.
 The closed DSL intentionally misses legitimate transformations and loops.  Tool-effect
 truth, permissions, freshness, and isolation are application-supplied.  The current
-version is read-only, does not parallelize synthesized calls, and the narrow SDK adapter
+version is read-only, does not parallelize synthesized calls, and task\hyp{}semantic
+argument contracts are application\hyp{}supplied trusted declarations.  The narrow SDK adapter
 bypasses streaming, hosted tools, MCP, handoffs, and loops.
 
 \paragraph{Reproducibility scope.}
@@ -1546,6 +1674,13 @@ it admits compiler and macro on 30 groups, recommends the higher-utility macro f
 then preserves 12/12 exact contracts on fresh records while cutting requests, tools,
 tokens, latency, and cost.  That prospective pilot establishes the mechanism, not general
 selection value: one family cannot distinguish the policy from always choosing its macro.
+Guarded composite synthesis then closes the measured interface gap: it retains the
+three-read program and its provenance internally, exposes one continuation-pinned
+task-specific observation, and matches the provider-visible macro's 12/12 exact contracts
+while reducing requests 50.0\%, tokens 38.9\%, observed latency 40.0\%, and estimated cost
+32.3\% on a disjoint exploratory cohort.  This is evidence that a guarded compiler can be
+as good as the measured macro on one family, not that it dominates an equally pre-executed
+manual program.
 The next scientific threshold is a multi-family, time-forward comparison that includes
 cache, construction and maintenance effort, drift, and closer learned optimizers.
 

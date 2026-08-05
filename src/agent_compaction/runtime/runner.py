@@ -37,6 +37,7 @@ from .continuation import (
     ContinuationOutcome,
 )
 from .dispatch import DispatchDecision, DispatchMode, Dispatcher
+from ..grc.composite import CompositeProjectionError
 from .staging import Snapshot
 
 __all__ = ["CompactingRunner", "RouteResolver", "compact", "Decision"]
@@ -141,16 +142,98 @@ class CompactingRunner:
             already_observed=tuple(observed),
         )
         self.records.append(decision.record)
-        observations = [
-            make_observation(tool, args, result)
-            for (tool, args), result in zip(decision.calls, decision.results)
-        ]
+        observations = self._materialize_observations(
+            decision,
+            spec.entry_state,
+            make_observation,
+        )
         return RunnerDecision(
             compacted=decision.compacted,
             observations=observations if decision.compacted else [],
             overhead_ms=decision.overhead_ms,
             record=decision.record,
         )
+
+    def execute_pre_model(
+        self,
+        entry_state: dict[str, Any],
+        *,
+        executor: Callable[[str, dict[str, Any]], Any],
+        partition: dict[str, str] | None = None,
+        day: str = "",
+        snapshot_fn: Callable[[], Snapshot] | None = None,
+        already_observed: Sequence[str] = (),
+        continuation_compatibility_key: str = "",
+    ) -> RunnerDecision:
+        """Execute an admitted composite before the first provider request.
+
+        This is the integration point that a normal agent loop cannot express at
+        a model boundary.  Only artifacts explicitly packaged with
+        ``composite.pre_model`` are released as one observation; an ordinary GRC
+        artifact still executes safely but retains its internal observations.
+        """
+
+        resolved_partition = dict(partition or {})
+        context = {
+            "model": self.manifest.model,
+            "prompt_hash": self.manifest.prompt_hash,
+            "tools_hash": self.manifest.tools_hash,
+            "policy_hash": self.manifest.policy_hash,
+            "guardrail_hash": self.manifest.guardrail_hash,
+            "effect_catalog_version": self.catalog.catalog_version,
+            "entry_contract_version": self.manifest.entry_contract_version,
+            "day": day,
+            "max_train_day": self.max_train_day,
+            **resolved_partition,
+        }
+        decision = self.dispatcher.decide(
+            compatibility_key=self.manifest.compatibility_key(),
+            partition=resolved_partition,
+            entry_state=entry_state,
+            context=context,
+            executor=executor,
+            snapshot_fn=snapshot_fn,
+            already_observed=already_observed,
+            require_pre_model_composite=True,
+            continuation_compatibility_key=continuation_compatibility_key,
+        )
+        self.records.append(decision.record)
+        observations = self._materialize_observations(
+            decision,
+            entry_state,
+            self.observation_factory or CompactedObservation,
+            require_pre_model=True,
+        )
+        return RunnerDecision(
+            compacted=decision.compacted and bool(observations),
+            observations=observations if decision.compacted else [],
+            overhead_ms=decision.overhead_ms,
+            record=decision.record,
+        )
+
+    @staticmethod
+    def _materialize_observations(
+        decision: DispatchDecision,
+        entry_state: dict[str, Any],
+        make_observation: Callable[[str, dict[str, Any], Any], Any],
+        *,
+        require_pre_model: bool = False,
+    ) -> list[Any]:
+        if not decision.compacted or decision.artifact is None or decision.artifact.program is None:
+            return []
+        composite = decision.artifact.program.composite
+        if require_pre_model and composite is not None and composite.pre_model:
+            try:
+                arguments = composite.arguments(entry_state)
+            except CompositeProjectionError:
+                return []
+            return [make_observation(composite.name, arguments, decision.projected_outputs)]
+        if require_pre_model:
+            return []
+        return [
+            make_observation(tool, args, result)
+            for (tool, args), result in zip(decision.calls, decision.results)
+        ]
 
     def _snapshot(self, world: Any, ctx: Any, spec: Any) -> Snapshot:
         """Snapshot of everything the attestation claims to cover.
@@ -332,12 +415,13 @@ def compact(
                 executor=executor,
             )
             if decision.compacted:
+                observations = [
+                    {"tool": tool, "arguments": args_, "result": result}
+                    for (tool, args_), result in zip(decision.calls, decision.results)
+                ]
                 return Decision(
                     outcome=Decision.COMPACTED,
-                    observations=[
-                        {"tool": tool, "arguments": args_, "result": result}
-                        for (tool, args_), result in zip(decision.calls, decision.results)
-                    ],
+                    observations=observations,
                     artifact_id=decision.artifact.artifact_id if decision.artifact else None,
                 )
             if decision.outcome is DispatchOutcome.INCIDENT:

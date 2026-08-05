@@ -1,9 +1,9 @@
 # GPT-5.6 end-to-end repository review
 
 **Repository:** agent-compaction  
-**Review date:** 2026-08-02; reconciled with release 0.6.0 on 2026-08-04
+**Review date:** 2026-08-02; reconciled with release 0.7.0 on 2026-08-04
 
-**Reviewed version:** source and package version 0.6.0
+**Reviewed version:** source and package version 0.7.0
 **Scope:** architecture, implementation, tests, packaging, OpenAI Agents SDK integration,
 research positioning, optimization-library design, provider-backed demonstrations, and
 reproducible offline stress evaluation
@@ -84,12 +84,13 @@ obtain independent human approvals, pin real provider pricing/model token ceilin
 positive spend cap. Until then the three-domain protocol correctly remains ineligible and no live
 claim is authorized.
 
-Latest repository verification passed **311 tests**, isolated sdist/wheel construction, and the
+The preceding 0.6.0 checkpoint passed **311 tests**, isolated sdist/wheel construction, and the
 release/link audit. The publication workflow rebuilt 14 deterministic figures, 9 tables, and both
 LaTeX manuscripts, then passed **1,292/1,292 artifact and claim checks** over a 304-file checksum
 manifest, including the publication-tree secret scan. These checks validate implementation and
 retained evidence; they do not substitute for the gated SEC acquisition, human review, or live
-provider experiment. The 0.6.0 dependency-removal checkpoint is committed on `main`.
+provider experiment. That dependency-removal checkpoint was committed on `main`; the
+current 0.7.0 validation is reported in the GCS checkpoint below.
 
 ## Publication-study addendum (2026-08-03)
 
@@ -147,6 +148,65 @@ in Section 11 and in `paper/results/validation_summary.json` rather than duplica
 These results do not establish production safety, live GitHub reliability, cross-domain
 generalization, human-productivity improvement, or state-of-the-art superiority. The
 paper's evidence register and hostile self-review retain those boundaries.
+
+## Guarded Composite Synthesis checkpoint (2026-08-04)
+
+The macro studies exposed an interface asymmetry: a manual composite returns one
+task-specific sufficient record, whereas the original GRC runtime retained each source
+observation. Version 0.7.0 adds Guarded Composite Synthesis (GCS) to close that measured
+gap without turning generated code into a trusted opaque macro.
+
+The implemented path adds:
+
+- signed, declarative task-semantic argument canonicalization over five closed operations,
+  with explicit admissible domains and fail-closed type/range handling;
+- automatic packaging of an admitted GRC program when every internal tool explicitly
+  declares `batchable`;
+- a bounded projection that can read only verified program live-outs and retains
+  field-to-source-tool provenance;
+- one serializable composite interface with a pinned continuation compatibility identity;
+- `CompactingRunner.execute_pre_model()`, which validates public arguments and the
+  continuation manifest before any tool executes, verifies the internal program and
+  projection inside staging, and emits one observation only after both pass; and
+- structural runtime validation that rejects tampered inputs, internal tool indexes,
+  schemas, projection roots, targets, and capability declarations before execution.
+
+Ordinary GRC dispatch remains backward compatible: merely attaching a composite does not
+change its observations, projection requirements, or reported exposed-call count. The
+pre-model interface is used only by the explicit pre-model path. Empty new catalog fields
+are omitted from semantic hashing, so pre-GCS catalogs retain their exact manifest digest.
+
+Provider-free validation reconstructs all 132 sealed real-provider discovery traces over
+the pinned public GitHub snapshot. The compiler emits the complete three-read region behind
+one interface; 124 inputs dispatch with 124/124 exact projections, 8 fail back safely, and
+no projection fails. That audit makes zero provider calls.
+
+A separate paid study used the configured `OPENAI_API_KEY` for real OpenAI Agents SDK
+execution—no simulated agent policy—on 12 additional public issues excluded from all 424
+prior issue identifiers. GCS and the provider-visible hand-written macro both pass 12/12
+exact factual and tool contracts. Relative to that measured macro, GCS changes:
+
+| Metric | Provider-visible macro | Pre-model GCS | Reduction |
+|:---|---:|---:|---:|
+| Provider requests | 2.0 | 1.0 | 50.0% |
+| Exposed tool interfaces | 1.0 | 1.0 | 0.0% |
+| Internal/source reads | 3.0 | 3.0 | 0.0% |
+| Total tokens | 1,524.0 | 931.2 | 38.9% |
+| Wall latency | 2.49 s | 1.49 s | 40.0% |
+| Estimated cost | $0.000430 | $0.000291 | 32.3% |
+
+Paired request, token, latency, and cost differences have two-sided signed-rank
+`p=0.000488`; output-token change alone is uncertain (`p=0.155`). The result is
+exploratory: GCS was designed after the earlier macro result, the cohort contains five bug
+and seven other-labelled issues, and an equally pre-executed manual macro was not tested.
+The supported conclusion is parity with and lower provider work than the measured macro on
+one workflow family, not general superiority over the best manual program.
+
+The complete local suite passes **321/321 tests** on Python 3.14.4, including real-trace
+recompilation, artifact round-trip, normal-dispatch compatibility, semantic-domain
+rejection, continuation mismatch, missing public input, projection failure, tamper
+rejection, and retained paid-evidence checks. Both LaTeX manuscripts compile with the new
+method, evidence table, limitations, and adversarial review.
 
 ## Executive verdict
 
@@ -358,7 +418,7 @@ flowchart LR
 | OpenAI Agents SDK | native tracing capture and native local function calls on supported hit | documented and tested lifecycle/mode/bypass behavior | not a drop-in Runner; no exact post-emission rollback; streaming, handoffs, hosted/MCP tools, loops and assertions bypass |
 | Metrics/statistics | paired grouped ratios/differences, exact safety upper bound | added generic comparison and repeat-agreement APIs | determinism is not a first-class field in the main four-demo result schema; secondary endpoint correction is not wired through every report |
 | Reproduction | generated fixtures, four conditions, negative result, figures | added validated parallel per-demo execution with isolated outputs | created timestamps and wall-clock fields make raw files byte-different even when semantics are identical |
-| Tests | 311 tests across unit, property, golden, mutation, fault injection, backends, CLI, paper oracles, artifact determinism, multidomain controls, portfolio selection, and end-to-end paths | added regression coverage for all corrections, both natural protocols, deterministic plot bytes, fail-closed portfolio decisions, and provider-free real-domain controls | measured statement coverage is 73.94%; paid multidomain drivers, older live-study drivers, TGWS packaging, replay, and the outer runner need focused coverage |
+| Tests | 321 tests across unit, property, golden, mutation, fault injection, backends, CLI, paper oracles, artifact determinism, multidomain controls, portfolio selection, GCS, and end-to-end paths | added regression coverage for all corrections, both natural protocols, deterministic plot bytes, fail-closed portfolio decisions, provider-free real-domain controls, semantic argument contracts, composite projection, pre-model execution, and retained paid evidence | measured statement coverage predates GCS; paid multidomain drivers, older live-study drivers, TGWS packaging, replay, and the outer runner need focused coverage |
 
 ## 5. Correctness findings and concrete fixes
 
@@ -665,20 +725,20 @@ test set.
 
 | check | result |
 |:---|:---|
-| current full repository suite | 311 passed |
+| current full repository suite | 321 passed |
 | expanded primary natural real-provider run | 252 agent executions, 848 provider responses, 0 infrastructure failures; all three primary arms pass 30/30 exact factual and task contracts |
 | earlier aggressive natural run | 134 agent executions, 446 provider requests, 0 infrastructure failures; factual passes 18/18 unchanged, 17/18 compiler, 18/18 macro |
 | fixture-based live provider executions | 22 completed; all registered scenario outcomes passed |
 | optional framework backend | OpenAI Agents SDK 0.19.2 conformance tests passed; MLflow is no longer a package extra or backend |
 | measured statement coverage | 73.94% overall, 17,433 statements, 4,543 missed |
 | compileall | passed |
-| editable install | package and metadata both 0.6.0 |
+| editable install | package and metadata both 0.7.0 |
 | isolated PEP 517 build | sdist and universal wheel built |
-| clean wheel inspection | 0.6.0 universal wheel contains 73 members, py.typed, no MLflow module, and no MLflow dependency |
+| clean wheel inspection | 0.7.0 universal wheel contains 74 members, including the GCS module and py.typed, with no MLflow module or dependency |
 | clean CLI | help and command registration passed |
 | dependency consistency | pip check passed |
 | release audit | all package, schema, link, result, manifest, evidence, and no-write checks passed |
-| publication claim/integrity audit | 1,292 checks passed; 0 failed over a 304-file checksum manifest |
+| publication claim/integrity audit | 1,383 checks passed; 0 failed over a 318-file checksum manifest |
 | full reproduction | all four demos, report, figures, and audit completed in 321.0 seconds with four workers |
 | deterministic rerun | normalized semantic equality and identical digest for full support experiment |
 

@@ -257,6 +257,7 @@ class CalibrationSample:
     unproductive: bool
     violation: bool
     episode_id: str = ""
+    reason: str = ""
 
 
 def fit_gate_model(samples: Sequence[CalibrationSample], *, seed: int = 0) -> tuple[GateModel, list[float]]:
