@@ -1180,8 +1180,14 @@ def validate_claim_boundaries() -> None:
 
     ok("--test-per-class 6 --repeat-cases 6" in appendix,
        "appendix records the archived live-study design explicitly")
-    ok("the compiler itself remains binary" in abstract.lower(),
+    abstract_words = re.findall(r"\b[\w'-]+\b", re.sub(r"\\[A-Za-z]+", " ", abstract))
+    ok(len(abstract_words) <= 275,
+       f"abstract stays concise at {len(abstract_words)} words")
+    ok("its normal output is refusal" in abstract.lower()
+       and "retain the unchanged agent" in abstract.lower(),
        "abstract scopes compiler admission as compile-or-retain")
+    ok("traces establish recurrence, not" in abstract.lower(),
+       "abstract states the central evidence boundary")
     ok("portfolio optimization beyond the pilot" in body.lower(),
        "body distinguishes the implemented pilot from extension work")
     ok("it is not a general portfolio demonstration" in body.lower(),
@@ -1246,6 +1252,7 @@ def validate_publication() -> None:
         "scripts/test_oracle_weakness.py",
         "build/main.pdf", "build/article.pdf",
         "README.md", "supplementary/evidence-register.md",
+        "supplementary/experiment-verification.md",
         "paper-review.md", "supplementary/quality-assessment.md",
         "supplementary/natural-live-study-protocol.md",
         "results/github_natural_replication/preflight.json",
@@ -1290,6 +1297,7 @@ def validate_publication() -> None:
         "slides/compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx",
         "scripts/generate_slides.mjs",
         "results/slide_generation.json",
+        "compiling-recurrent-agent-workflows-into-guarded-programs.pdf",
     ]
     for rel in required:
         ok((PAPER / rel).exists(), f"publication artifact exists: {rel}")

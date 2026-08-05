@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Agent Compaction compiles recurrent read-only agent workflows into guarded programs and refuses when evidence is insufficient.">
+  <title>Agent Compaction — Guarded programs for recurrent agent workflows</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script defer src="assets/js/site.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="index.html"><span class="brand-mark">GAC</span><span>Agent Compaction</span></a>
+      <button class="menu-button" data-menu aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">☰</button>
+      <ul class="nav-links" id="site-nav" data-nav-links>
+        <li><a aria-current="page" href="index.html">Overview</a></li>
+        <li><a href="architecture.html">Architecture</a></li>
+        <li><a href="getting-started.html">Get started</a></li>
+        <li><a href="research.html">Research</a></li>
+        <li><a href="limitations.html">Limits</a></li>
+        <li><a class="nav-cta" href="contributing.html">Contribute</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="hero-inner">
+        <div>
+          <p class="eyebrow">Evidence-licensed workflow specialization</p>
+          <h1>Compile the routine.<br>Refuse the uncertain.</h1>
+          <p class="hero-lede">Agent Compaction turns recurrent, read-only tool prefixes into inspectable programs—but only when value provenance, effects, compatibility, replay, and finite-sample evidence agree.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="getting-started.html">Start with the estimator</a>
+            <a class="button button-secondary" href="downloads/compiling-recurrent-agent-workflows.pdf">Read the paper</a>
+            <a class="button button-secondary" href="https://github.com/rrahimi-uci/agent-compaction">View source</a>
+          </div>
+        </div>
+        <aside class="hero-proof" aria-label="Primary evidence">
+          <div>
+            <div class="proof-label">Held-out contracts</div>
+            <div class="proof-value">30/30</div>
+            <p class="proof-copy">Two-read compiled prefix on real public GitHub records.</p>
+          </div>
+          <div>
+            <div class="proof-label">Provider requests</div>
+            <div class="proof-value">−50%</div>
+            <p class="proof-copy">Four to two requests; necessary reads remain visible.</p>
+          </div>
+          <div>
+            <div class="proof-label">Default decision</div>
+            <div class="proof-value">Retire</div>
+            <p class="proof-copy">NESTFUL and API-Bank families fail the evidence gate.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="metric-strip" aria-label="Evidence summary">
+      <div class="metric-grid">
+        <div class="metric"><strong>132</strong><span>real-record discovery traces in the expanded study</span></div>
+        <div class="metric"><strong>2 / 10</strong><span>audited benchmark families retain compiler-complete traces</span></div>
+        <div class="metric"><strong>5,419</strong><span>external tasks normalized into the shared reference IR</span></div>
+        <div class="metric"><strong>350</strong><span>tests in the validated full repository suite</span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">The problem</p>
+            <h2>Recurrence is a clue, not a license.</h2>
+          </div>
+          <p>Mature agents often pay an LLM to choose the same evidence path again. A naive optimizer bundles the calls. GAC asks the harder question: what observable evidence permits removing those model boundaries, and when must the optimizer abstain?</p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature feature-accent">
+            <h3>Ground every value</h3>
+            <p>Every synthesized argument must resolve from entry state or a prior observed result through a bounded transform.</p>
+          </article>
+          <article class="feature feature-warn">
+            <h3>Treat effects as barriers</h3>
+            <p>Unknown effects, writes, approvals, handoffs, errors, incompatible principals, and unsafe runtime positions stop compilation.</p>
+          </article>
+          <article class="feature">
+            <h3>Make refusal useful</h3>
+            <p>When support cannot justify the configured risk bound, the artifact retires and the unchanged agent remains the answer.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Compiler path</p>
+            <h2>Five independent rejection points protect one small program.</h2>
+          </div>
+          <p>The method is deliberately conservative. Passing one stage never weakens the next; a recurrent sequence can still fail provenance, effects, synthesis, validation, or admission.</p>
+        </div>
+        <ol class="pipeline">
+          <li><span class="step-number">01</span><h3>Capture</h3><p>Normalize traces, manifests, entry state, outcomes, and isolation keys.</p></li>
+          <li><span class="step-number">02</span><h3>Qualify</h3><p>Cut regions at effects, approvals, handoffs, errors, and position boundaries.</p></li>
+          <li><span class="step-number">03</span><h3>Synthesize</h3><p>Resolve typed provenance and emit only programs in the closed DSL.</p></li>
+          <li><span class="step-number">04</span><h3>Validate</h3><p>Replay grouped traces, challenge contracts, and retain counterexamples.</p></li>
+          <li><span class="step-number">05</span><h3>Admit</h3><p>Freeze the score, apply exact bounds, sign the artifact, or retire it.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section section-tint">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Measured evidence</p>
+            <h2>The strongest result is a boundary, not a leaderboard score.</h2>
+          </div>
+          <p>Each row licenses a different claim. Real-record paired experiments test end-to-end intervention; public benchmarks test trace completeness, synthesis, replay, official harness compatibility, or an explicit gate.</p>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="evidence-table">
+            <thead><tr><th>Evidence</th><th>Scope</th><th>Observed result</th><th>Interpretation</th></tr></thead>
+            <tbody>
+              <tr><td>Expanded GitHub study</td><td>30 paired held-out issues</td><td><span class="status status-measured">Measured</span><br>30/30; requests −50%; cost −32.0%</td><td>Conservative partial compilation preserves the registered contract.</td></tr>
+              <tr><td>Hand-written macro</td><td>Same 30 issues</td><td><span class="status status-measured">Measured</span><br>30/30; fewer tools, tokens, and dollars</td><td>Manual code remains the practical baseline; GAC does not claim universal superiority.</td></tr>
+              <tr><td>NESTFUL</td><td>1,415 executable traces</td><td><span class="status status-refused">Retired</span><br>24 pass / 12 abstain / 0 wrong; max support 26 &lt; 92</td><td>Recurrence and sound held-out replay are still insufficient for admission.</td></tr>
+              <tr><td>API-Bank</td><td>212 complete traces</td><td><span class="status status-refused">Retired</span><br>2 synthesized; both held-out windows abstain</td><td>A second compiler substrate reproduces the evidence shortage.</td></tr>
+              <tr><td>Eight other families</td><td>Gold plans, simulations, live web, and real issues</td><td><span class="status status-gated">Scoped</span><br>Adapters, official paths, or prerequisite gates</td><td>Missing trajectory state is not silently converted into a compiler failure.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container two-col">
+        <div>
+          <p class="eyebrow">Why it is different</p>
+          <h2 style="font-size:3rem;margin-top:0">The novelty is admissibility.</h2>
+          <p class="lead">Agent compilation, meta-tools, prompt evolution, and plan caching already exist. GAC contributes a safety argument for specializing from historical executions.</p>
+          <ul class="check-list">
+            <li>Value-level provenance rather than sequence frequency alone</li>
+            <li>Application-owned effect, permission, freshness, and isolation boundaries</li>
+            <li>Bounded, inspectable synthesis rather than arbitrary generated code</li>
+            <li>Exact group-level admission with normal retirement</li>
+            <li>Immutable lifecycle, shadow execution, kill switch, and fallback</li>
+          </ul>
+        </div>
+        <figure class="figure">
+          <img src="assets/figures/natural_live_comparison.png" alt="Comparison of unchanged agent, partial compiler, and hand-written macro on the natural GitHub study.">
+          <figcaption>Real-record comparison. The macro establishes the practical floor; the compiler's value is automatic discovery plus explicit evidence and invalidation.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section-compact">
+      <div class="container">
+        <div class="download-band">
+          <div>
+            <h2>Read, inspect, reproduce.</h2>
+            <p>The paper, editable slide decks, sealed result artifacts, and executable claim checks are available with the source.</p>
+          </div>
+          <div class="hero-actions" style="margin:0">
+            <a class="button button-primary" href="downloads/compiling-recurrent-agent-workflows.pdf">Paper PDF</a>
+            <a class="button button-secondary" href="research.html">Evidence guide</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div><div class="footer-title">Agent Compaction</div><p class="footer-note">Research software for evidence-gated specialization of recurrent agent workflows. Apache-2.0 licensed; research-alpha, read-only compilation.</p></div>
+      <div><div class="footer-label">Learn</div><ul><li><a href="architecture.html">Architecture</a></li><li><a href="research.html">Research evidence</a></li><li><a href="limitations.html">Limitations</a></li></ul></div>
+      <div><div class="footer-label">Build</div><ul><li><a href="getting-started.html">Setup and usage</a></li><li><a href="contributing.html">Contributing</a></li><li><a href="https://github.com/rrahimi-uci/agent-compaction">GitHub</a></li></ul></div>
+      <div><div class="footer-label">Artifacts</div><ul><li><a href="downloads/compiling-recurrent-agent-workflows.pdf">Paper</a></li><li><a href="downloads/gac-seminar.pptx">Seminar deck</a></li><li><a href="downloads/gac-technical-review.pptx">Technical deck</a></li></ul></div>
+    </div>
+  </footer>
+</body>
+</html>

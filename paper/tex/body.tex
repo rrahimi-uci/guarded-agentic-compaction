@@ -61,45 +61,36 @@ Our research questions are:
   an all-source executable integration reveal when those fields are absent?
 \end{description}
 
-The paper makes six contributions:
+The paper makes four contributions:
 
 \begin{enumerate}[leftmargin=*]
-  \item A trace-to-program formulation combining typed value provenance, effect-aware
-  barriers, a closed synthesis language, empirical contracts, and runtime fallback.
-  \item A dispatch protocol whose score model is frozen before calibration and whose
-  fixed threshold grid receives a simultaneous one-sided exact binomial bound.
-  \item A real-provider, real-public-record study in which tool order is chosen by the
-  agent, quality is source-grounded independently of execution conformance, and the learned
-  artifact is compared with both an unchanged agent and a hand-written composite tool.
-  \item A ten-benchmark, revision-pinned interoperability audit with a shared typed
-  reference-plan IR, five executed external paths, three bounded live-provider paths,
-  and compiler experiments on both NESTFUL and API-Bank; both compiler substrates yield
-  useful refusal results instead of an inflated aggregate score.
-  \item A framework-neutral transformation portfolio that compares measured actions under
-  exact quality and regret-risk bounds, emits human-review macro recommendations, and is
-  exercised prospectively on fresh public records.
-  \item Guarded composite synthesis (GCS), which packages an admitted program behind a
-  task-specific projection, preserves internal effect/provenance verification, and can run
-  before the first provider request only under an exact continuation-manifest pin; plus a
-  same-task comparison with an independently authored pre-model program and official GEPA.
+  \item An evidence-licensed trace-to-program formulation that combines typed value
+  provenance, effect and position barriers, bounded readable synthesis, empirical
+  contracts, continuation-pinned composite projection, and runtime fallback.
+  \item A compile-or-retire admission protocol: the score and threshold grid are frozen
+  before calibration, exact finite-sample bounds govern dispatch, and a framework-neutral
+  portfolio can compare only transformations with paired evidence and compatible manifests.
+  \item A real-provider study on public records that separates execution conformance from
+  source-grounded answer quality, exposes a depth-sensitive factual failure, and compares
+  unchanged, compiled, provider-visible macro, fair pre-model manual, and bounded GEPA
+  conditions without claiming superiority where the methods tie.
+  \item A revision-pinned ten-benchmark evidence map with a shared typed reference-plan IR.
+  It executes five external paths, identifies only two trace-complete compiler substrates,
+  and reports their refusal outcomes instead of averaging incompatible evidence.
 \end{enumerate}
 
-We do \emph{not} claim universal semantic equivalence, production certification,
-cross-domain generalization, fewer necessary tool calls, or deterministic natural-language
-generation.  Those boundaries are part of the result.
-The portfolio layer still only selects measured actions and cannot synthesize arbitrary
-application code.  GCS synthesizes a narrow, read-only composite \emph{view} of an already
-verified program; it does not infer undeclared tool semantics, fuse the three source reads
-into one physical operation, or establish cross-family superiority.  The fair manual arm
-shows structural parity on six records, and the bounded GEPA run is a negative result rather
-than evidence that prompt evolution is ineffective in general.
+We do \emph{not} claim semantic equivalence, production certification, cross-domain
+generalization, or superiority to hand-written code. GCS synthesizes only a read-only view
+over an admitted program; it does not infer undeclared semantics or fuse physical reads.
+The six-case manual result is parity, and the bounded GEPA result does not generalize to
+prompt optimization as a whole.
 
 \paragraph{Roadmap.}
 \Cref{sec:problem} formalizes episodes, candidate regions, the position invariant, and the
 selective objective.  \Cref{sec:method} presents the method as a cascade of independent
 rejection points (\cref{fig:pipeline}) and states the calibration guarantee.
-\Cref{sec:methodology} defines the three evidence tiers and the hypotheses they test, and
-\cref{sec:results} answers RQ1--RQ4 in that order.  \Cref{sec:related} positions \method
+\Cref{sec:methodology} defines the evidence tiers and the hypotheses they test, and
+\cref{sec:results} answers RQ1--RQ6. \Cref{sec:related} positions \method
 against adjacent optimizers, and \cref{sec:limits} states what the evidence does not
 cover.  Every rejected candidate, the archived failed pilot, and the unsupported claims are
 retained rather than pruned, so the denominator of each result stays visible.
@@ -540,7 +531,7 @@ $\tau^2/\tau^3$, and BrowseComp receive bounded official live-provider runs, and
 remaining sources receive adapter/preflight evidence.  These substrates test different
 objects, so we report a ledger rather than pool them into one score.
 
-\textbf{Tier 2 --- real records, live provider.}  Five GitHub protocols use actual public
+\textbf{Tier 2 --- real records, live provider.} Six GitHub protocols use actual public
 issue records, deterministic local reads over a pinned snapshot, and live OpenAI provider
 calls.  The first prescribes a fixed prefix as a conformance ablation.  The review-driven
 follow-up names required facts but neither tool functions nor order, grades exact source
@@ -830,29 +821,17 @@ metrics.
 \section{Results}
 \label{sec:results}
 
-Three findings organize this section.  Candidate-level provenance recall is high and
-synthesis is sound, but \emph{certification} is the scarce resource: on NESTFUL no recurrent family
-reaches the sample size the exact gate demands, so every one retires
-(\cref{sec:rq1}).  Where a family does clear the gate, the saving can be large, but the
-natural-order evidence is depth-sensitive: an expanded partial compiler passes 30/30,
-whereas the earlier aggressive artifact records one compiler-only factual miss
-(\cref{sec:rq2}).  A controlled suite of harder
-workflow shapes then shows what the method reaches when a workflow commits, what refusal
-costs, and where token saving and cost saving part company (\cref{sec:demos-results}).
-A live hand-written composite tool preserves the factual contract and reduces necessary
-tool calls; in the expanded run it also beats the compiler on tokens and estimated cost,
-while the older offline suite
-shows the macro winning three of five workloads (\cref{sec:comparator}).  Structural compaction fixes structural nondeterminism only --- an archived
-pilot shows that request savings obtained at the wrong execution position are not an
-improvement at all (\cref{sec:pilot}).
-An exploratory compiler extension then synthesizes the task-specific composite interface
-and runs it before the first provider request.  On 12 fresh pairs it matches the measured
-macro's exact quality while using one rather than two provider requests
-(\cref{sec:gcs-results}); a subsequent fair-placement comparison shows that an equally
-pre-executed manual program ties its structural deployment efficiency, while bounded GEPA
-retains its seed (\cref{sec:optimizer-results}).
-The portfolio pilot then turns the comparator result into a pre-data decision and tests the
-selected reviewed action on a fresh cohort (\cref{sec:portfolio-results}).
+The evidence separates three questions. First, can a trace be reconstructed and
+synthesized? Second, is there enough independent evidence to admit the result? Third, if
+admitted, does it improve the end-to-end workflow against a strong manual alternative?
+NESTFUL and API-Bank answer the second question with refusal
+(\cref{sec:rq1,sec:external-results}). The GitHub studies answer the third: a conservative
+two-read artifact passes 30/30, an aggressive three-read artifact records one factual
+miss, and the manual macro remains the practical baseline (\cref{sec:rq2,sec:comparator}).
+GCS removes the provider-visible interface gap, but a fairly placed manual program ties
+its structural efficiency (\cref{sec:gcs-results,sec:optimizer-results}). The remaining
+sections retain the failed suffix pilot, harder workflow shapes, and prospective portfolio
+pilot because each constrains a different claim rather than adding another headline.
 
 \subsection{RQ1 and RQ3: provenance succeeds more often than certification}
 \label{sec:rq1}
@@ -1465,15 +1444,13 @@ topology, whereas \method infers a value-grounded replacement from observed trac
 GEPA uses execution and evaluation traces as natural-language feedback for reflective,
 instance-wise Pareto prompt evolution~\cite{agrawal2026gepa}.  Across its six reported
 tasks it improves over GRPO with up to 35$\times$ fewer rollouts and produces instructions
-up to 9.2$\times$ shorter than MIPROv2 prompts.  GEPA therefore prevents us from claiming
-trace-driven agent optimization itself as novel.  It changes the prompts of residual
-language modules rather than deleting model boundaries, making it complementary to region
-compilation and a relevant baseline only when prompt evolution is in scope.  A factorial
-study of unchanged, GEPA-only, GCS, and combined systems can test whether reflective
-evolution improves the continuation decisions that program compilation does not certify.
-We run a bounded version on six held-out records: official GEPA 0.1.4 retains its seed, so
-the combined arm becomes a replication rather than evidence of interaction.  This negative
-result is too small and budget-limited to contradict GEPA's broader task results.
+up to 9.2$\times$ shorter than MIPROv2 prompts. GEPA therefore prevents us from claiming
+trace-driven agent optimization itself as novel. It changes residual prompts rather than
+deleting model boundaries, making it complementary to region compilation. Our bounded
+factorial comparison covers unchanged, GEPA-only, GCS, combined, and manual pre-model
+conditions on six held-out records. Official GEPA 0.1.4 retains its seed, so the combined
+arm is a GCS replication rather than evidence of interaction. This budget-limited negative
+result does not contradict GEPA's broader task results.
 
 AWO is the closest trace-based system: it identifies recurring tool-call sequences and
 bundles them into meta-tools, reducing LLM calls by up to 11.9\%~\cite{abuzakuk2026awo}.
@@ -1581,26 +1558,19 @@ calibration.
 
 \subsection{What is novel, and what is not}
 
-Generic ``agent compilation'' is occupied territory, and more so than an earlier draft of
-this section acknowledged: deterministic workflow
-compilation~\cite{chundru2026agenticcompilation}, learned reusable
-workflows~\cite{wang2025awm,abuzakuk2026awo}, behavioral trace auditing~\cite{zhou2026cta},
-and cache-aware cost modelling~\cite{lumer2026cache,song2026capc} each occupy part of the
-space.  We claim none of: the first agent compiler, the first trace-derived workflow, the
-first deterministic macro, the first effect-aware agent IR, or the first observation that
-token and cost reduction diverge.  The clearest statement of what is new is
-comparative rather than enumerative: \method{} is a tracing JIT whose guard must certify
-things a compiler's guard never had to.  A classical guard checks types and shapes; ours must
-additionally establish that every argument is grounded in observable state, that each tool's
-\emph{declared} effects permit speculative execution, and that the residual error rate of the
-specialized region carries a finite-sample bound.  Concretely the composition is (i) typed,
-value-level argument provenance from traces; (ii) explicit effect, permission, compatibility,
-and runtime-position barriers; (iii) bounded readable program synthesis; (iv) verifier and
-staging semantics; and (v) finite-sample selective admission with normal retirement.  Each
-element has predecessors --- (i)--(iv) in trace-based specialization and effect systems, (v) in
-selective prediction --- and the contribution is that an agent guard needs all five at once.
-Contribution~(v) is currently the weakest: as \cref{sec:limits} reports, no study here
-exercises it as a discriminator.
+\paragraph{Core novelty.}
+The contribution is not agent compilation; it is \emph{admissibility for trace-derived
+specialization}. Deterministic workflows~\cite{chundru2026agenticcompilation}, reusable
+trace patterns~\cite{wang2025awm,abuzakuk2026awo}, and effect-aware plans all have clear
+precedent. A classical JIT guard checks types and shapes. An agent guard must additionally
+show that arguments are grounded in observable state, declared effects permit speculation,
+runtime position is safe, and observed contract risk is bounded. \method combines those
+requirements in one compile-or-retire path: typed value provenance, hard
+effect/permission/compatibility barriers, bounded readable synthesis, verifier and staging
+semantics, and exact finite-sample admission. Each element has predecessors; their
+composition defines the new safety argument. The statistical component remains the
+weakest empirically because the observed gate is all-or-none rather than a demonstrated
+risk--coverage discriminator (\cref{sec:limits}).
 
 GCS adds an interface-level specialization over this guarded program: a bounded projection
 of verified live-outs, a signed task-semantic argument contract, and an exact continuation
@@ -1858,48 +1828,28 @@ named model are required to repeat the live study.
 
 \section{Conclusion}
 
-Guarded agentic compaction turns a narrow class of repeated model-mediated tool prefixes
-into deterministic, inspectable programs while keeping hard provenance/effect barriers,
-exact selective admission, verification, and baseline fallback explicit.  In the expanded
-natural-order replication, the compiler refuses an ungroundable third call, emits a
-two-read prefix, and passes 30/30 exact task contracts while halving requests.  The macro
-also passes 30/30 and is better on tools, tokens, and cost; the compiler has lower observed
-mean latency, but the paired interval against the macro crosses zero.
-An earlier three-read artifact saves more provider turns but passes 17/18 versus 18/18 for
-both comparators, so efficiency and recurrence do not make preservation invariant to
-compilation depth.  A separate continuation contract detects and checked-renders that miss
-in provider-free replay, demonstrating a mechanism but not prospective live safety.  On
-NESTFUL, the expected producer appears in the candidate set for 96.3\% of dependency slots
-but is resolved uniquely for 80.7\%; every family retires at the configured gate.  Together with the
-failed suffix pilot, the evidence argues for a specific design principle: an agent
-optimizer should be judged not only by what it compresses, but by whether it can explain
-and enforce when it must not compile.
-The ten-benchmark audit reaches the same conclusion from another direction.  API-Bank is
-the only additional source with 212 complete observed traces; it yields 48 candidate
-windows, two synthesized families, two held-out abstentions, and no admitted artifact.
-BFCL, ToolSandbox, $\tau$, ToolBench, AgentBench, GAIA, SWE-bench, and BrowseComp each
-exercise a useful integration or gate, but none is silently promoted to compiler or
-real-world evidence.  The breadth result is therefore an interoperability contribution
-and an evidence map, not a composite performance score.
-The implemented portfolio extends that principle across measured transformation classes:
-it admits compiler and macro on 30 groups, recommends the higher-utility macro for review,
-then preserves 12/12 exact contracts on fresh records while cutting requests, tools,
-tokens, latency, and cost.  That prospective pilot establishes the mechanism, not general
-selection value: one family cannot distinguish the policy from always choosing its macro.
-Guarded composite synthesis then closes the measured interface gap: it retains the
-three-read program and its provenance internally, exposes one continuation-pinned
-task-specific observation, and matches the provider-visible macro's 12/12 exact contracts
-while reducing requests 50.0\%, tokens 38.9\%, observed latency 40.0\%, and estimated cost
-32.3\% on a disjoint exploratory cohort.  This is evidence that a guarded compiler can be
-as good as the measured provider-visible macro on one family.  A subsequent fair-placement
-study closes the missing comparator: GCS and an independently authored pre-model program
-both pass 6/6 and tie on requests, exposed interfaces, and input tokens.  In the same study,
-official GEPA retains its seed under a 14-task-evaluation budget and provides no deployment
-request reduction.  These results shift the value claim from runtime dominance to automatic
-discovery, explicit evidence, and guarded admission; neither the six-case manual tie nor the
-bounded GEPA negative result generalizes beyond this workflow.
-The next scientific threshold is a multi-family, time-forward comparison that includes
-cache, construction and maintenance effort, drift, and closer learned optimizers.
+Guarded agentic compaction treats repeated traces as candidate evidence, not permission to
+rewrite an agent. It compiles only value-grounded, read-only prefixes that satisfy explicit
+compatibility, verification, and finite-sample admission requirements; otherwise it keeps
+the original agent.
+
+The experiments show why each boundary matters. On real public GitHub records, a
+conservative two-read artifact passes 30/30 exact contracts and halves provider requests,
+while an aggressive three-read artifact records one factual miss. The hand-written macro
+also passes 30/30 and is cheaper, so automatic discovery and guarded lifecycle---not
+universal runtime dominance---are the defensible advantages. GCS removes a
+provider-visible selection turn on 12 exploratory pairs, but a fairly placed manual
+program ties it on six later cases. NESTFUL and API-Bank add a different result: despite
+recurrent, executable traces, every family retires because the configured evidence
+requirement is unmet. The ten-benchmark audit shows that most popular agent benchmarks do
+not retain the observed state and results needed to test post-trace compilation at all.
+
+The resulting design principle is simple: evaluate workflow optimizers by the evidence
+they require, the effects and positions they refuse, and the state to which they fall
+back---not only by the turns they remove. Stronger claims now require a time-forward,
+multi-family comparison with natural failures, a non-degenerate risk--coverage frontier,
+manual construction and maintenance cost, cache effects, drift, and closer executable
+workflow-learning baselines.
 
 \section*{Artifact Availability and Ethical Considerations}
 

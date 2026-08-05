@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Experimental design, results, benchmark audit, and reproducibility evidence for Agent Compaction.">
+  <title>Research evidence — Agent Compaction</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/styles.css"><script defer src="assets/js/site.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><nav class="nav" aria-label="Primary navigation">
+    <a class="brand" href="index.html"><span class="brand-mark">GAC</span><span>Agent Compaction</span></a>
+    <button class="menu-button" data-menu aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">☰</button>
+    <ul class="nav-links" id="site-nav" data-nav-links>
+      <li><a href="index.html">Overview</a></li><li><a href="architecture.html">Architecture</a></li>
+      <li><a href="getting-started.html">Get started</a></li><li><a aria-current="page" href="research.html">Research</a></li>
+      <li><a href="limitations.html">Limits</a></li><li><a class="nav-cta" href="contributing.html">Contribute</a></li>
+    </ul>
+  </nav></header>
+  <main id="main">
+    <section class="page-hero"><div class="container">
+      <div class="breadcrumbs"><a href="index.html">Agent Compaction</a> / Research</div>
+      <h1>Evidence is separated by what it can prove.</h1>
+      <p>The evaluation does not average real records, public simulators, gold plans, task-only datasets, and executable traces. Every source retains its substrate, denominator, execution status, and claim boundary.</p>
+    </div></section>
+
+    <section class="section"><div class="container">
+      <div class="section-head"><div><p class="eyebrow">Research thesis</p><h2>Historical traces establish recurrence—not admissibility.</h2></div>
+      <p>The experiments ask whether provenance can reconstruct a program, whether independent evidence can certify it, whether the resulting intervention preserves source-grounded outcomes, and whether it remains worthwhile against a well-placed manual program.</p></div>
+      <div class="feature-grid">
+        <article class="feature feature-accent"><h3>Trace question</h3><p>Can every dynamic argument be derived from observable entry state or prior results?</p></article>
+        <article class="feature feature-warn"><h3>Admission question</h3><p>Does grouped calibration support the registered violation bound, or must the family retire?</p></article>
+        <article class="feature"><h3>Systems question</h3><p>Does the admitted intervention improve requests, tokens, latency, and cost without weakening exact outcomes?</p></article>
+      </div>
+    </section>
+
+    <section class="section section-tint"><div class="container doc-layout">
+      <article class="prose">
+        <h2 id="design">Experimental design</h2>
+        <p class="lead">Six real-record protocols are pilot-separated; the primary expanded replication uses free tool ordering and exact source-grounded grading.</p>
+        <ul class="check-list">
+          <li>132 discovery records and 30 held-out records balanced across three issue categories</li>
+          <li>Baseline, compiler, and macro order counterbalanced over all six permutations</li>
+          <li>Quality computed independently of tool order from pinned source fields and excerpts</li>
+          <li>Ten repeated test records used for structural and surface determinism analysis</li>
+          <li>Paid provider outputs retained; later oracle corrections never rewrite online evidence</li>
+          <li>Provider optimization overhead separated from held-out deployment measurements</li>
+        </ul>
+
+        <h2 id="primary">Primary real-record result</h2>
+        <p>All 132 discovery traces choose the same three-read order, but the comment-limit argument varies and is not trace-groundable. GAC refuses the complete region and emits the longest valid prefix: record → labels. The ordinary agent performs the comments read and final rendering.</p>
+        <div style="overflow-x:auto"><table class="evidence-table">
+          <thead><tr><th>Condition</th><th>Requests</th><th>Tools</th><th>Tokens</th><th>Wall</th><th>Cost</th><th>Exact</th></tr></thead>
+          <tbody>
+            <tr><td>Unchanged agent</td><td>4.0</td><td>3.0</td><td>4,259.4</td><td>6.16 s</td><td>$0.000872</td><td>30/30</td></tr>
+            <tr><td>GAC two-read prefix</td><td>2.0</td><td>3.0</td><td>2,576.5</td><td>2.97 s</td><td>$0.000593</td><td>30/30</td></tr>
+            <tr><td>Hand-written macro</td><td>2.0</td><td>1.0</td><td>1,780.8</td><td>3.25 s</td><td>$0.000545</td><td>30/30</td></tr>
+          </tbody>
+        </table></div>
+        <p>The compiler reduces requests 50.0%, total tokens 39.5%, observed wall latency 51.7%, and estimated cost 32.0% versus unchanged. The macro matches request reduction and is better on tools, tokens, and dollars. The paired latency interval between macro and compiler crosses zero; no runtime-superiority claim is licensed.</p>
+        <figure class="figure"><img src="assets/figures/natural_live_comparison.png" alt="Natural live comparison of requests, tools, tokens, latency, cost, and exact pass rates."><figcaption>Expanded real-record comparison. All three conditions preserve 30/30 exact contracts; the macro is the strongest practical runtime comparator.</figcaption></figure>
+
+        <h2 id="depth">Compilation depth is a safety variable</h2>
+        <p>An earlier aggressive three-read artifact reduces provider requests by 75%, but records one compiler-only factual miss: 17/18 exact versus 18/18 for unchanged and macro. Clean tool replay therefore does not certify the model continuation. A provider-free continuation checker later detects and repairs that retained miss, but it is not a prospective live safety result.</p>
+
+        <h2 id="gcs">Guarded composite and fair placement</h2>
+        <p>GCS packages the admitted three-read program behind a continuation-pinned projection. Against a provider-visible macro on 12 fresh issues, both pass 12/12; GCS uses one rather than two provider requests, 38.9% fewer tokens, 40.0% lower observed wall latency, and 32.3% lower estimated cost.</p>
+        <p>A subsequent six-record study gives an independently authored manual program the same pre-model position. GCS and manual both pass 6/6 and tie at one request, one interface, and identical input tokens. Official GEPA 0.1.4 retains its seed after 14 task evaluations; its 59-request optimization overhead is reported separately. These are bounded, exploratory results—not general rankings.</p>
+
+        <h2 id="benchmarks">Ten-benchmark interoperability audit</h2>
+        <p>Eight accessible adapters normalize 5,419 tasks and 17,836 reference actions. Only NESTFUL and API-Bank retain complete observed values suitable for post-trace compilation.</p>
+        <div style="overflow-x:auto"><table class="evidence-table">
+          <thead><tr><th>Benchmark</th><th>Path</th><th>Result</th><th>Claim boundary</th></tr></thead>
+          <tbody>
+            <tr><td>NESTFUL</td><td>Compiler</td><td>1,415 traces; 24 / 12 / 0 held-out; all retire</td><td>Provider-free structural compiler evidence</td></tr>
+            <tr><td>API-Bank</td><td>Compiler + API replay</td><td>212 traces; 0 / 2 / 0; all retire</td><td>Second compiler refusal substrate</td></tr>
+            <tr><td>BFCL v4</td><td>Official checker</td><td>200/200 gold plans valid</td><td>No model-quality claim</td></tr>
+            <tr><td>ToolSandbox</td><td>Official simulator</td><td>0.982 milestone similarity</td><td>Real provider, simulated environment</td></tr>
+            <tr><td>τ²/τ³</td><td>Official simulators</td><td>0/4 reward; 288,757 tokens</td><td>Real provider, simulated domains</td></tr>
+            <tr><td>BrowseComp</td><td>Live-web subset</td><td>1/3; 28 searches</td><td>Hosted-search bypass, not compiler evidence</td></tr>
+            <tr><td>ToolBench / AgentBench</td><td>Adapters</td><td>Fixtures and tasks normalized</td><td>Full data/services gated</td></tr>
+            <tr><td>GAIA / SWE-bench</td><td>Preflight / task adapter</td><td>Authorization and host gates retained</td><td>No score imputed</td></tr>
+          </tbody>
+        </table></div>
+        <figure class="figure"><img src="assets/figures/gate_support.png" alt="Candidate family supports relative to the exact gate requirement of 92 independent groups."><figcaption>Certification is the scarce resource. Maximum NESTFUL family support is 26, well below the configured 92-group requirement.</figcaption></figure>
+
+        <h2 id="statistics">Statistical interpretation</h2>
+        <p>Efficiency comparisons are paired by issue. The artifacts report 10,000-sample paired bootstrap intervals and two-sided Wilcoxon signed-rank tests; binary quality uses exact McNemar tests. These secondary tests are descriptive and unadjusted. Zero observed failures is not equivalence: 0/30 still gives a one-sided 95% upper failure bound of approximately 9.5%.</p>
+        <div class="callout callout-warn"><p><strong>The gate did not demonstrate a risk–coverage frontier.</strong> Its score is effectively all-or-none because development contains no unproductive examples. The current evidence demonstrates sample-size refusal and admission mechanics, not selective discrimination among future inputs.</p></div>
+
+        <h2 id="reproduce">Reproducibility</h2>
+        <p>All quantitative tables and figures are regenerated from sealed JSON/CSV artifacts. Dataset revisions, source trees, checksums, task splits, native trace identifiers, model versions, and price assumptions are retained. The core verification path makes no provider calls.</p>
+        <pre><code>.venv/bin/python paper/scripts/build_artifacts.py
+.venv/bin/python paper/scripts/validate_artifacts.py
+.venv/bin/python scripts/verify_release.py
+.venv/bin/python -m pytest</code></pre>
+        <p>Exact commands for the external benchmark paths are in the <a href="https://github.com/rrahimi-uci/agent-compaction/blob/main/docs/external-benchmarks.md">benchmark ledger</a>. The <a href="https://github.com/rrahimi-uci/agent-compaction/blob/main/paper/supplementary/experiment-verification.md">experiment verification report</a> records the independent consistency checks and residual threats.</p>
+      </article>
+      <aside class="toc"><strong>On this page</strong><ul>
+        <li><a href="#design">Design</a></li><li><a href="#primary">Primary result</a></li><li><a href="#depth">Depth failure</a></li>
+        <li><a href="#gcs">GCS and baselines</a></li><li><a href="#benchmarks">Benchmark audit</a></li>
+        <li><a href="#statistics">Statistics</a></li><li><a href="#reproduce">Reproduce</a></li>
+      </ul></aside>
+    </div></section>
+  </main>
+  <footer class="site-footer"><div class="container footer-grid">
+    <div><div class="footer-title">Agent Compaction</div><p class="footer-note">The artifact preserves negative results, refused candidates, and gated sources so the evidence denominator remains visible.</p></div>
+    <div><div class="footer-label">Artifacts</div><ul><li><a href="downloads/compiling-recurrent-agent-workflows.pdf">Paper PDF</a></li><li><a href="downloads/gac-technical-review.pptx">Technical deck</a></li></ul></div>
+    <div><div class="footer-label">Detail</div><ul><li><a href="limitations.html">Limitations</a></li><li><a href="https://github.com/rrahimi-uci/agent-compaction/tree/main/paper/results">Raw results</a></li></ul></div>
+    <div><div class="footer-label">Project</div><ul><li><a href="contributing.html">Contribute</a></li><li><a href="https://github.com/rrahimi-uci/agent-compaction">Source</a></li></ul></div>
+  </div></footer>
+</body>
+</html>

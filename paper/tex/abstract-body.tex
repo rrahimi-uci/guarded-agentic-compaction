@@ -1,45 +1,25 @@
-\textbf{Problem.}  A mature tool-using agent spends model calls reselecting the same
-read-only evidence path.  Recurrence alone does not license removing them: an argument may
-not be grounded in observable state, an effect may not permit speculation, and a
-replacement may not hold on the next input.
+Tool-using agents often repeat mature, read-only evidence paths while paying for a model
+decision at every boundary. Replacing those decisions with deterministic programs can
+reduce cost, but recurrence alone is unsafe: arguments may lack observable provenance,
+tools may cross effect or permission boundaries, and a replay-correct prefix may still
+change the final answer.
 
-\textbf{Gap.}  Prior systems tune prompts, reuse workflows, or schedule calls.  The open
-question is narrower --- what evidence licenses replacing a recurrent region, and when must
-an optimizer refuse?
+We introduce \emph{guarded agentic compaction} (\method), a trace-to-program compiler that
+reconstructs typed value provenance, rejects unsafe effects, synthesizes from a closed
+23-operator language, verifies empirical contracts, and applies exact finite-sample
+admission. Its normal output is refusal: compile only the supported prefix, otherwise
+retain the unchanged agent. Guarded composite synthesis can expose an admitted program
+before the first model request without discarding its internal checks.
 
-\textbf{Method.}  \emph{Guarded agentic compaction} (\method) reconstructs typed
-value-level provenance, treats unknown effects, writes, approvals, handoffs, and
-unsupported dispatch positions as hard barriers, and synthesizes programs from a closed
-23-operator library.  Induced replay contracts gate execution, and a threshold from a
-pre-specified finite grid carries an exact-binomial bound on \emph{registered-contract}
-violations.  Refusal is the default output: the compiler itself remains binary --- emit a
-guarded artifact, or retain the unchanged agent.  A portfolio layer then compares only
-measured actions and otherwise returns the baseline.
+On 132 discovery traces from real public GitHub issues, \method rejects an ungroundable
+third call and emits a two-read prefix. On 30 held-out issues it preserves all exact task
+contracts while reducing provider requests by 50.0\% and estimated cost by 32.0\%; a
+hand-written macro also passes 30/30 and is cheaper. In a separate exploratory cohort,
+the pre-model composite matches a provider-visible macro on 12/12 exact contracts while
+halving requests; a fair pre-model manual baseline later ties it on six cases. On NESTFUL
+and API-Bank, every recurrent family is retired for insufficient support. A pinned audit
+of ten agent benchmarks finds only these two trace-complete compiler substrates.
 
-\textbf{Results.}  Under a task-level prompt naming neither tools nor order, 130 of 132
-real GitHub traces follow one three-read path --- yet the third argument is not groundable,
-so \method abstains from the full region and emits a two-read prefix.  That partial
-artifact holds 30/30 task contracts while cutting requests 50.0\% and estimated cost
-32.0\%.  A hand-written composite tool matches its request saving and beats it on tokens
-and dollars.  In a post-study extension, guarded composite synthesis packages the
-three-read program behind a verified pre-model projection.  On 12 fresh exploratory
-pairs it matches the measured macro's 12/12 exact quality while using 50.0\% fewer
-provider requests, 38.9\% fewer tokens, and 32.3\% lower estimated cost.  A subsequent
-six-record, five-condition study gives a hand-authored pre-model program the same
-opportunity: it and GCS both pass 6/6 and tie at one request, one exposed interface, and
-identical input tokens.  Official GEPA 0.1.4 retains its seed after 14 task evaluations
-and leaves deployment requests unchanged; its 59-request optimization overhead is
-reported separately.  A deeper three-read artifact saves 75.0\% of requests but loses a factual
-contract (17/18).  On NESTFUL, provenance places the true producer among candidates for
-96.3\% of 5,746 slots yet resolves only 80.7\% uniquely, and every recurrent family retires
-at the gate.  A ten-benchmark interoperability audit finds only two trace-complete
-compiler substrates.  API-Bank contributes 212 complete traces and 48 candidate windows,
-but only two families synthesize, both abstain on held-out replay, and every family again
-retires.  Bounded real-provider ToolSandbox, $\tau^2/\tau^3$, and BrowseComp runs exercise
-official paths without being relabeled as compiler results or real-world demonstrations.
-
-\textbf{Contribution.}  Traces establish recurrence, not admissibility.  We specify the
-evidence a compiler needs and the barriers it must respect, and report five negative
-results: efficiency gains establish neither factual quality, nor superiority over
-hand-written code, nor prompt-optimizer improvement, nor portfolio superiority, nor
-admission safety.
+The central result is an evidence boundary: traces establish recurrence, not
+admissibility. Agent workflow optimizers should be evaluated by what they safely refuse
+as well as by what they accelerate.

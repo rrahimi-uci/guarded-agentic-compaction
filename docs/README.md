@@ -3,6 +3,10 @@
 This directory describes the implemented `agent-compaction` 0.7.0 research library.
 Start here rather than treating every document as an equally current specification.
 
+The rendered, reader-oriented documentation is published at
+[rrahimi-uci.github.io/agent-compaction](https://rrahimi-uci.github.io/agent-compaction/).
+This directory retains the deeper engineering and research records behind that site.
+
 ## Current developer documentation
 
 | Document | Purpose |
@@ -17,6 +21,7 @@ Start here rather than treating every document as an equally current specificati
 | [Architecture decisions](architecture/README.md) | Short records of stable design choices |
 | [MLflow removal review](mlflow-removal-report.md) | Code-grounded dependency decision, custom JSONL design, trade-offs, migration, and validation |
 | [External benchmark integration](external-benchmarks.md) | All-source BFCL, API-Bank, ToolSandbox, tau, ToolBench, AgentBench, GAIA, SWE-bench, BrowseComp, and NESTFUL dispositions and results |
+| [GitHub Pages source](../site/index.html) | Professional overview, architecture, setup, research, limitations, and contribution guide |
 
 ## Evidence and research status
 
@@ -28,6 +33,7 @@ Start here rather than treating every document as an equally current specificati
 | [Offline stress results](results.md) | Deterministic simulated policy/tool substrate; not provider evidence |
 | [Illustrated HTML report](agent-compaction-report.html) | Generated visualization of the live SDK fixture results |
 | [Related work](related-work-matrix.md) | Implemented comparators versus literature references |
+| [Experiment verification](../paper/supplementary/experiment-verification.md) | Claim-by-claim recomputation, statistical interpretation, and residual threats |
 
 The strongest current real-scenario evidence includes the prospective portfolio pilot and
 the exploratory GCS-versus-macro comparison, each over a different set of 12 fresh public
@@ -55,6 +61,7 @@ paper's [quality assessment](../paper/supplementary/quality-assessment.md).
 ```bash
 .venv/bin/python experiments/analysis/report.py
 .venv/bin/python scripts/build_html_report.py
+.venv/bin/python scripts/build_pages.py --output _site
 ```
 
 `live-results.md` is regenerated only by a paid live fixture run. The sealed file may be

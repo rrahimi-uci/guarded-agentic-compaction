@@ -1,0 +1,43 @@
+name: Bug report
+description: Report an incorrect result, crash, or safety-boundary violation.
+title: "[bug] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Never include credentials, private traces, or customer data.
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+    validations:
+      required: true
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options: [capture, graph analysis, GRC compiler, TGWS, portfolio, runtime, evaluation, documentation]
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Minimal reproduction
+      description: Include commands and a synthetic or public trace if possible.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and observed behavior
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety check
+      options:
+        - label: I removed secrets and restricted data.
+          required: true
+        - label: I stated whether this could weaken refusal, isolation, permissions, or fallback.
+          required: true

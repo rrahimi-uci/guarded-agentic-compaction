@@ -1,282 +1,235 @@
-# agent-compaction
+# Agent Compaction
 
-Guarded, evidence-gated workflow optimization for LLM agents: mine repeated execution
-patterns out of traces, propose a smaller workflow, prove the proposal on held-out
-groups, and deploy only immutable artifacts that fall back to the original agent.
+[![CI](https://github.com/rrahimi-uci/agent-compaction/actions/workflows/ci.yml/badge.svg)](https://github.com/rrahimi-uci/agent-compaction/actions/workflows/ci.yml)
+[![Documentation](https://github.com/rrahimi-uci/agent-compaction/actions/workflows/pages.yml/badge.svg)](https://rrahimi-uci.github.io/agent-compaction/)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-0b6e69.svg)](LICENSE)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-24324a.svg)](pyproject.toml)
 
-This repository implements the research design in
-[proposal.md](experiments/proposal.md)—with historical decisions retained in
-[execution-plan.md](docs/execution-plan.md)—and documents the current scenarios in
-[use-cases.md](docs/use-cases.md). It includes the seven GRC algorithms, TGWS, the trace
-contract, the evaluation protocol, the runtime, and six
-provider-backed demonstration families with measured results in
-[docs/live-results.md](docs/live-results.md). The larger deterministic stress study is
-retained separately in [docs/results.md](docs/results.md).
+**Compile the routine. Refuse the uncertain.**
 
-**Two transformation engines, one evidence selector, one trace contract.**
+Agent Compaction is a research library for turning recurrent, read-only regions of
+tool-using agents into deterministic guarded programs. It learns from execution traces,
+but recurrence is never enough: every candidate must pass value-provenance, effect,
+permission, runtime-position, replay, compatibility, and finite-sample evidence checks.
+Otherwise the original agent remains unchanged.
 
-* **TGWS** — trace-guided workflow specialization. Learn a shallow, readable route from
-  entry-state facts to a specialist prompt and a minimal tool surface; prune what a route
-  never needs; abstain when the route or the input is uncertain.
-* **GRC** — guarded region compilation. Find repeated read-only regions, prove every tool
-  argument derives from entry state or earlier observations, synthesize a bounded
-  deterministic program from a closed 23-operator library, induce a contract, and dispatch
-  only under a calibrated gate with an exact risk bound. Guarded Composite Synthesis (GCS)
-  can package an admitted program behind one task-specific, provenance-preserving interface.
-* **Portfolio selection** — compare only actions with paired group-level measurements,
-  bound task failure and non-positive utility separately, and select the highest-utility
-  admitted action. Macro selections are review-required recommendations, not generated code.
+[Documentation](https://rrahimi-uci.github.io/agent-compaction/) ·
+[Paper](paper/compiling-recurrent-agent-workflows-into-guarded-programs.pdf) ·
+[Architecture](docs/library-api.md) ·
+[OpenAI Agents SDK guide](docs/openai-agents-sdk.md) ·
+[Experiment verification](paper/supplementary/experiment-verification.md)
 
-Neither invents business logic, changes model weights, or removes an external effect.
-**Abstention is the default output**, and "do not compact" is the common and correct one.
-GRC itself remains compile-or-retire. GCS synthesizes only a bounded projection over an
-already verified read program; the portfolio layer still does not generate arbitrary macro
-code. Cache/model-routing actions remain unsupported until real measurements are supplied.
+## Why this exists
 
-In a prospective real-record pilot, the selector used 30 prior independent GitHub issue
-groups, chose the higher-utility reviewed macro, and then ran it on 12 fresh issues. Both
-baseline and selected action passed 12/12 exact contracts; the selection reduced provider
-requests 50.0%, tool calls 66.7%, total tokens 59.2%, wall latency 71.6%, and estimated
-cost 40.6%. This is single-family evidence, not proof that selection beats always-macro.
+Mature agents often spend model calls reselecting the same evidence path. A hand-written
+macro can remove that overhead, but it requires a developer to discover the pattern,
+reconstruct argument flow, review effects, maintain invalidation rules, and prove it still
+works. Agent Compaction automates that evidence and lifecycle path for a deliberately
+narrow class of workflows.
 
-An exploratory follow-up compiles the complete three-read GitHub workflow into a
-continuation-pinned pre-model composite. Against the provider-visible hand-written macro on
-12 further real issues, both pass 12/12 exact contracts; GCS uses 50.0% fewer provider
-requests, 38.9% fewer total tokens, 40.0% lower observed wall latency, and 32.3% lower
-estimated cost. Both still execute three source reads and expose one interface. This shows
-parity with the measured provider-visible macro on one family.
+The research contribution is **admissibility for trace-derived specialization**, not the
+first agent compiler and not a claim that generated programs outperform good manual code.
 
-A later fair-placement study tests the previously missing comparator on six further real
-issues. GCS and an independently authored guarded pre-model program both pass 6/6 with one
-provider request, one exposed interface, and identical input tokens. Official GEPA 0.1.4
-retains its seed after 14 live task evaluations and three reflection calls, so the combined
-arm is a GCS replication rather than a learned improvement. GEPA's 59-request optimization
-overhead is reported separately. Raw evidence is in
-[`paper/results/gcs_live/results.json`](paper/results/gcs_live/results.json) and
-[`paper/results/optimizer_head_to_head/results.json`](paper/results/optimizer_head_to_head/results.json).
+## Core system
 
----
+~~~mermaid
+flowchart LR
+  A[Application traces] --> B[Typed Episode IR]
+  B --> C[Execution graph]
+  C --> D[Candidate mining]
+  D --> E{Provenance and effects}
+  E -- unsafe or unknown --> R[Retain baseline]
+  E -- qualified --> S[Bounded synthesis]
+  S --> V[Replay and perturbation]
+  V --> G{Exact admission}
+  G -- insufficient evidence --> R
+  G -- admitted --> P[Immutable guarded program]
+  P --> H[Shadow]
+  H --> Cn[Canary]
+  Cn --> L[Live with fallback]
+~~~
 
-## Live measured results
+- **GRC — guarded region compilation:** infers readable programs from a closed
+  23-operator language and emits an artifact only when its arguments are grounded and its
+  effects are safe to speculate.
+- **GCS — guarded composite synthesis:** projects an already admitted program behind one
+  task-specific interface and may execute it before the first provider request only under
+  an exact continuation-manifest pin.
+- **TGWS — trace-guided workflow specialization:** learns a shallow route from entry
+  state to an existing specialist prompt and minimal tool surface.
+- **Portfolio selection:** compares only paired, measured actions and keeps manual macro
+  recommendations review-gated.
 
-All agent decisions below were executed through OpenAI Agents SDK 0.19.2 with
-`gpt-5.6-terra` at low reasoning effort. The enterprise records are fictional,
-deterministic fixtures; model calls, function calls, handoffs, MCP transport, tracing,
-token accounting, and latency are live. Each eligible demo has four paired scenarios;
-the MCP negative control has two.
+The framework-neutral typed Episode IR separates capture from optimization. OpenAI Agents
+SDK capture and runtime integration are maintained adapters, not compiler dependencies.
 
-| demo | requests baseline → compacted | total-token reduction | latency reduction | estimated-cost change | quality / success |
-|:---|:---:|---:|---:|---:|:---:|
-| A · Tier-1 support | 6.0 → 1.0 | **79.6%** | **88.4%** | −73.6% | 1.00 / 1.00 both |
-| B · permissioned RAG | 7.0 → 1.0 | **76.3%** | **86.9%** | −68.7% | 0.97 / 1.00 both |
-| C · multi-agent triage | 5.0 → 1.0 | **73.8%** | **80.8%** | −75.5% | 1.00 / 1.00 both |
-| D · multi-tenant MCP *(negative control)* | 3.0 → 3.0 | +0.1% | noise | +0.2% | 1.00 / 1.00 both |
-| E · fulfillment exceptions | 7.0 → **2.0** | **66.4%** | **77.1%** | **+8.3%** | 1.00 / 1.00 both |
-| E · loop artifact *(refused)* | 7.0 → 7.0 | +0.2% | noise | +55.4% | 1.00 / 1.00 both |
-| E · schema drift *(guard miss)* | 7.0 → 7.0 | +0.0% | noise | +54.5% | 1.00 / 1.00 both |
-| F · TGWS route specialization | 7.0 → 7.0 | **16.8%** | 5.4% | **+123.0%** | 1.00 / 1.00 both |
+## What the evidence shows
 
-The compacted conditions use the library's real `CompactingModel`: deterministic native
-function calls replace intermediate provider turns while the normal SDK executes and
-traces every tool. **Three of the eight rows are negative controls whose correct outcome
-is no compaction** — undeclared MCP effects, a loop-bearing artifact the Model adapter
-refuses by design, and a WMS schema change that misses the hard guard. Each returns
-exactly the baseline turn count at unchanged quality.
+The primary confirmatory study uses real public GitHub issue records, deterministic tools
+over a pinned snapshot, and live provider calls. The prompt names neither tools nor their
+order.
 
-Demo E is the only one that ends in an irreversible write, so its region is a prefix and
-**partial compaction (7 → 2 turns) is the correct result, not a degraded one**.
+| Result | Evidence | Interpretation |
+|:---|:---|:---|
+| Conservative GAC | 30/30 exact task contracts; requests −50.0%; tokens −39.5%; observed wall latency −51.7%; estimated cost −32.0% | a grounded two-read prefix can remove one model boundary |
+| Hand-written macro | 30/30; fewer tools, tokens, and dollars than partial GAC | manual code remains the practical baseline |
+| Aggressive GAC | 17/18 versus 18/18 for both comparators | clean program replay does not certify the final answer |
+| GCS vs provider-visible macro | 12/12 each; GCS uses one versus two requests | pre-model projection removes an interface request |
+| GCS vs fair pre-model manual | 6/6 each; tied requests, interfaces, and input tokens | automatic runtime superiority is not established |
+| NESTFUL and API-Bank | every recurrent family retires | recurrence does not imply admissibility |
 
-**Read the cost column carefully.** Removing turns removes tokens but not necessarily
-money: a long-prompt baseline amortizes one prompt-cache *write* across many cheap cached
-reads, and a two-turn compacted run has nothing to amortize it over. Demo F fragments one
-warm prefix into four route prefixes and pays four writes. Both effects shrink as
-episodes-per-prefix grows, so a benchmark this small understates the real cost advantage —
-but a rarely-used route may genuinely never repay its own cache write, which is a design
-constraint rather than a measurement artifact. The decomposition is in
-[docs/live-results.md](docs/live-results.md).
+The artifact also contains a revision-pinned audit of ten agent benchmarks. Only NESTFUL
+and API-Bank expose trace-complete compiler substrates; unlike benchmark evidence is
+reported as a ledger and never pooled into one score.
 
-Full per-run evidence, trace timelines and caveats are in
-[docs/agent-compaction-report.html](docs/agent-compaction-report.html) and
-[docs/live-results.md](docs/live-results.md). These small provider runs demonstrate the
-mechanism; they are not production certification or a statistically powered quality claim.
+These are research-prototype results from one paired real-record domain and small live
+cohorts. They do **not** establish semantic equivalence, production certification,
+cross-domain generalization, or state-of-the-art quality. See the
+[paper review](paper/paper-review.md), [limitations](https://rrahimi-uci.github.io/agent-compaction/limitations.html),
+and [claim audit](paper/supplementary/experiment-verification.md).
 
----
+## Install
 
-## Install and run
+~~~bash
+git clone https://github.com/rrahimi-uci/agent-compaction.git
+cd agent-compaction
+python -m venv .venv
+.venv/bin/pip install -e '.[dev,live,figures]'
+~~~
 
-```bash
-python -m venv .venv && .venv/bin/pip install -e '.[dev,live,figures]'
+Python 3.11–3.14 is supported. The core library does not require MLflow or a provider
+credential.
 
-.venv/bin/python -m pytest                      # full test suite
-.venv/bin/python experiments/live_run.py --cases 3  # real API calls; reads .env
-.venv/bin/python scripts/reproduce.py              # offline stress and fault study
-```
+## Start with an estimate
 
-Copy `.env.example` to `.env` and set `OPENAI_API_KEY` before the live command. The
-runner never prints or persists the key. Set `AGENT_COMPACTION_LIVE_MODEL` to override
-the default model.
+The estimator is designed to produce a fast, inexpensive refusal before synthesis:
 
-Individual stages:
+~~~bash
+agent-compaction estimate traces.jsonl \
+  --effects configs/effects.example.yaml \
+  --entry channel locale product
+~~~
 
-```bash
-# 1. a decisive no for the price of an afternoon
-agent-compaction estimate traces.jsonl --effects configs/effects.example.yaml \
-                 --entry channel locale product
+Compile only after the trace and effect contracts are complete:
 
-# 2. compile, then read every program before running it
-agent-compaction compile  traces.jsonl --effects configs/effects.example.yaml \
-                 --entry channel locale product --out artifacts/v1
-agent-compaction explain  artifacts/v1
+~~~bash
+agent-compaction compile traces.jsonl \
+  --effects configs/effects.example.yaml \
+  --entry channel locale product \
+  --out artifacts/v1
 
-# 3. shadow first, always
-agent-compaction promote  artifacts/v1 --stage shadow
-```
+agent-compaction explain artifacts/v1
+agent-compaction promote artifacts/v1 --stage shadow
+~~~
 
-## Library
+## Python API
 
-```python
+~~~python
 import agent_compaction as ac
 
 episodes = ac.read_jsonl("traces.jsonl")
-catalog  = ac.load_catalog("configs/effects.example.yaml")
-
-print(ac.estimate(episodes, catalog, entry_schema=["channel", "locale"]).render())
+catalog = ac.load_catalog("configs/effects.example.yaml")
 
 job = ac.optimize(
-    episodes, catalog,
-    algorithms=["tgws", "grc"],
+    episodes,
+    catalog,
+    algorithms=["grc", "tgws"],
     mode="offline",
     partition_by=["tenant_partition", "principal", "policy_version"],
     entry_schema=["channel", "locale"],
-    sandbox=make_sandbox,          # enables grouped replay + the perturbation suite
-    tgws_baseline=baseline_config, # TGWS prunes only against measured quality
-    tgws_evaluate=evaluator,
-    # Optional GCS projection: sources must be verified program live-outs.
-    composite_projection={"title": "tool:records.read::title"},
-    composite_continuation_key=continuation_manifest.compatibility_key(),
+    sandbox=make_sandbox,
 )
+
 print(job.report())
-print(job.explain())               # readable pseudocode per artifact
+print(job.explain())
 ac.validate(job, suites=["replay", "perturbation"])
 ac.promote(job, stage="shadow")
+~~~
 
-decision = ac.select_portfolio_action(
-    paired_observations,
-    config=ac.SelectionConfig(
-        quality_risk_limit=0.10,
-        regret_risk_limit=0.10,
-        minimum_groups=40,
-        expected_compatibility_key=manifest.compatibility_key(),
-    ),
-)
-if decision.requires_review:
-    review_approved = submit_for_review(decision)
-else:
-    review_approved = True
-if decision.permits(
-    manifest.compatibility_key(), review_approved=review_approved
-):
-    activate_selected_action(decision)
-```
+The compiler is fail-closed. Unknown effects, writes, approvals, handoffs, missing
+provenance, unsupported dispatch positions, streaming boundaries, and incompatible
+manifests retain the baseline.
 
-Deployment has two paths, detailed in [the SDK guide](docs/openai-agents-sdk.md). The
-wrapper comes first because it owns
-the entry-state snapshot and the staging boundary:
+## OpenAI Agents SDK
 
-```python
-runner = ac.CompactingRunner(dispatcher=ac.Dispatcher(registry=reg, catalog=catalog,
-                                                      mode="shadow"),
-                             catalog=catalog, manifest=manifest)
+Capture normalized traces with the maintained tracing processor, then integrate either at
+the application-owned staging boundary or through the guarded model adapter.
 
-# GCS only: executes a continuation-pinned composite before the first provider turn.
-decision = runner.execute_pre_model(
-    entry_state,
-    executor=execute_tool,
-    continuation_compatibility_key=continuation_manifest.compatibility_key(),
-)
-```
+~~~python
+from agent_compaction.capture.agents_sdk import AgentsSDKTraceProcessor
 
-For the OpenAI Agents SDK there is a custom `Model`; it ships behind the seven
-conformance tests of proposal §5.6 and rejects streaming, hosted tools and handoffs
-rather than degrading:
+processor = AgentsSDKTraceProcessor(store=episode_store)
+~~~
 
-```python
+~~~python
 from agent_compaction.runtime.model_provider import CompactingModel
-agent = Agent(name="support", model=CompactingModel(base_model, registry=reg,
-                                                    catalog=catalog, manifest=manifest,
-                                                    mode="shadow"), tools=[...])
-```
 
-For agents not on the SDK, `@ac.compact(registry, catalog, manifest, mode="shadow")`.
+agent = Agent(
+    name="support",
+    model=CompactingModel(
+        base_model,
+        registry=registry,
+        catalog=catalog,
+        manifest=manifest,
+        mode="shadow",
+    ),
+    tools=tools,
+)
+~~~
 
----
+Streaming, hosted tools, incomplete handoffs, and server-managed context are rejected
+rather than silently approximated. The [SDK integration guide](docs/openai-agents-sdk.md)
+documents the exact boundary.
 
-## What is in the repository
+## Reproduce the checked-in evidence
 
-```text
+No API key is needed to rebuild figures, tables, paper checks, and sealed-result analyses:
+
+~~~bash
+.venv/bin/python paper/scripts/build_artifacts.py
+.venv/bin/coverage run -m pytest -q
+.venv/bin/coverage json -o paper/results/coverage.json
+.venv/bin/python scripts/verify_release.py
+.venv/bin/python paper/scripts/validate_artifacts.py
+.venv/bin/python scripts/build_pages.py --output _site
+~~~
+
+Paid study commands are documented separately in [paper/README.md](paper/README.md).
+Existing raw provider evidence is sufficient to reproduce all reported results. Local
+credentials are never required for the standard test or documentation path.
+
+## Repository map
+
+~~~text
 src/agent_compaction/
-  paths.py          flatten / resolve_path / content digests (no dependencies)
-  schema/           traces, effect catalog, artifacts (the frozen contract)
-  capture/          entry-state contract, manifests, Agents SDK adapter, JSONL store
-  graph/            qualification, provenance (Alg. 1), window mining (Alg. 2)
-  grc/              DSL, bindings (Alg. 3), branches (Alg. 4), contracts (Alg. 5),
-                    calibration (Alg. 6), guarded composites, compile orchestrator
-  tgws/             route tree, greedy pruning, packaging
-  portfolio/        typed candidates, exact-risk admission, review-aware selection
-  evaluation/       grouped splits, replay modes, perturbations, metrics, statistics
-  registry/         artifact store, lifecycle, signing, kill switch, rollback
-  runtime/          dispatch (Alg. 7), staging, permission facade, interpreter,
-                    CompactingRunner, CompactingModel
-  estimate/         Eq. (10) feasibility and the economic break-even
-  api.py  cli.py
-configs/            effect + promotion schemas and worked examples
-demos/              live fixture services, actual MCP server, and offline stress worlds
-  support/          A — linear read-only evidence prefix
-  permissioned_rag/ B — ACL scope, index version and freshness as hard guard keys
-  incident_triage/  C — coordinator + handoff; a handoff is a barrier for GRC
-  mcp_ops/          D — real stdio MCP server, undeclared effects (negative control)
-  fulfillment/      E — three synthesized branches, pagination, and a mandatory write
-experiments/        live Agents SDK runner plus the offline stress driver and results
-tests/              unit, property, integration, golden traces, mutation, fault injection
-docs/               results, spec review, safety model, trace contract, operations, ADRs
-scripts/            fixture generator, capture smoke test, reproduce, verify release,
-                    build_html_report.py (the illustrated report)
-```
+  capture/      framework adapters and normalized Episode snapshots
+  graph/        qualification, provenance, and recurrent-window mining
+  grc/          DSL, synthesis, contracts, calibration, guarded composites
+  tgws/         route learning and quality-anchored pruning
+  portfolio/    paired evidence, exact-risk admission, reviewed selection
+  evaluation/   grouped splits, replay, perturbation, metrics, statistics
+  runtime/      interpreter, dispatch, staging, fallback, SDK model adapter
+  registry/     immutable artifacts, lifecycle, signing, kill switch, rollback
+benchmarks/     public-data adapters, manifests, gold, and external benchmark gates
+paper/          LaTeX, figures, tables, raw results, scripts, slides, review
+site/           source for the GitHub Pages documentation
+tests/          unit, property, integration, mutation, and fault-injection tests
+~~~
 
-## Documentation
+## Contributing and security
 
-| Document | What it answers |
-|:---|:---|
-| [docs/README.md](docs/README.md) | documentation source-of-truth map and evidence classes |
-| [docs/agent-compaction-report.html](docs/agent-compaction-report.html) | **illustrated report** — architecture and algorithm walkthrough, SDK integration, and before/after trace timelines rendered from the measured runs |
-| [docs/gpt-5.6-report.md](docs/gpt-5.6-report.md) | end-to-end architecture, implementation, novelty, readiness and benchmark review |
-| [docs/mlflow-removal-report.md](docs/mlflow-removal-report.md) | why MLflow was removed, what the custom JSONL store guarantees, trade-offs, migration, and validation |
-| [docs/live-results.md](docs/live-results.md) | provider-backed paired demos, raw denominators, cost and evidence boundaries |
-| [docs/results.md](docs/results.md) | deterministic offline stress study, with denominators and caveats |
-| [docs/spec-review.md](docs/spec-review.md) | what the specifications got wrong, where, and what was done instead |
-| [docs/safety-model.md](docs/safety-model.md) | what may be compiled, what may never be, and what each failure path does |
-| [docs/trace-contract.md](docs/trace-contract.md) | the fields the application must supply, and why the SDK cannot infer them |
-| [docs/library-api.md](docs/library-api.md) | stable APIs, optimization passes, extension points and examples |
-| [docs/openai-agents-sdk.md](docs/openai-agents-sdk.md) | capture and runtime integration with the OpenAI Agents SDK |
-| [docs/operations.md](docs/operations.md) | shadow → canary → live, monitoring, incident runbook, rollback |
-| [docs/related-work-matrix.md](docs/related-work-matrix.md) | adjacent systems, what they cover, what remains |
-| [docs/external-benchmarks.md](docs/external-benchmarks.md) | all ten external benchmark integrations, measured results, prerequisites, gates, and evidence boundaries |
-| [docs/architecture/](docs/architecture/) | the decisions and the alternatives that were rejected |
-| [experiments/manifests/preregistration.md](experiments/manifests/preregistration.md) | hypotheses, margins, thresholds and stopping rules, frozen before the sealed test |
-| [paper/README.md](paper/README.md) | publication artifact: LaTeX paper, real-record live study, ten-benchmark audit, figures, raw results, and adversarial review |
+Contributions are welcome for trace adapters, compiler checks, evaluation, runtime
+controls, and documentation. Start with [CONTRIBUTING.md](CONTRIBUTING.md). Every behavior
+change needs focused tests; safety-boundary changes need mutation or fault-injection
+evidence. Never submit credentials, restricted traces, or customer data.
 
-## Status and limits
+Please report vulnerabilities privately as described in [SECURITY.md](SECURITY.md).
+The project follows the [code of conduct](CODE_OF_CONDUCT.md) and is licensed under
+[Apache-2.0](LICENSE). Release-level changes are recorded in
+[CHANGELOG.md](CHANGELOG.md).
 
-This is a research MVP, honest about its boundaries:
+## Citation
 
-* **v0.x is read-only.** Only `PURE`/`READ_LOCAL`/`READ_EXTERNAL` tools declared
-  `speculatable ∧ replayable` can enter a region. Writes, approvals, unknown effects and
-  handoffs terminate it. Transactional staged writes are future work.
-* **Empirical validation cannot prove semantic equivalence** for all future inputs. The
-  contribution is selective, evidence-bounded replacement with abstention.
-* **Calibration is usually the binding constraint.** A zero-violation exact bound at
-  α = 0.05 needs ≈92 independent calibration groups; the estimator reports that number
-  before any compilation, and candidates that cannot reach it retire.
-* **The compiler is often not the right tool.** Run the estimator and inspect the region.
-  Use GCS when automatic discovery, guards, provenance, and fallback justify it; use a
-  handwritten function when the workflow is stable and manual maintenance is cheaper.
+The manuscript is **Compiling Recurrent Agent Workflows into Guarded Programs**. A
+versioned citation will be added after archival release; until then, cite the repository
+commit and the paper PDF together.

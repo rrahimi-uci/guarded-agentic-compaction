@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="What Agent Compaction does not prove, support, or automate.">
+  <title>Limitations — Agent Compaction</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/styles.css"><script defer src="assets/js/site.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><nav class="nav" aria-label="Primary navigation">
+    <a class="brand" href="index.html"><span class="brand-mark">GAC</span><span>Agent Compaction</span></a>
+    <button class="menu-button" data-menu aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">☰</button>
+    <ul class="nav-links" id="site-nav" data-nav-links>
+      <li><a href="index.html">Overview</a></li><li><a href="architecture.html">Architecture</a></li>
+      <li><a href="getting-started.html">Get started</a></li><li><a href="research.html">Research</a></li>
+      <li><a aria-current="page" href="limitations.html">Limits</a></li><li><a class="nav-cta" href="contributing.html">Contribute</a></li>
+    </ul>
+  </nav></header>
+  <main id="main">
+    <section class="page-hero"><div class="container">
+      <div class="breadcrumbs"><a href="index.html">Agent Compaction</a> / Limitations</div>
+      <h1>Fail-closed does not mean proven safe.</h1>
+      <p>GAC reduces an optimizer's authority and makes its assumptions inspectable. It does not establish semantic equivalence, production certification, or correctness outside the registered evidence contract.</p>
+    </div></section>
+    <section class="section"><div class="container doc-layout">
+      <article class="prose">
+        <h2 id="claims">Claims the project does not make</h2>
+        <ul class="check-list limit-list">
+          <li>No universal semantic equivalence for future inputs</li>
+          <li>No cross-domain or production reliability claim</li>
+          <li>No superiority to a correctly placed hand-written function</li>
+          <li>No reduction in necessary physical reads unless the application redesigns them</li>
+          <li>No deterministic natural-language output guarantee</li>
+          <li>No state-of-the-art claim against AWO, EvoC2F, Agent JIT, or plan caching</li>
+        </ul>
+
+        <h2 id="scope">Current implementation scope</h2>
+        <div class="three-col">
+          <article class="feature feature-warn"><h3>Read-only</h3><p>Only declared <code>PURE</code>, <code>READ_LOCAL</code>, and <code>READ_EXTERNAL</code> tools that are speculatable and replayable may enter a region.</p></article>
+          <article class="feature feature-warn"><h3>Prefix position</h3><p>The deployable compiler supports entry-position prefixes. Suffix dispatch requires explicit continuation and deoptimization semantics.</p></article>
+          <article class="feature feature-warn"><h3>Narrow SDK path</h3><p>The Model adapter rejects streaming, hosted tools, MCP, handoffs, and loops rather than silently weakening fallback.</p></article>
+        </div>
+
+        <h2 id="trust">Trusted computing base</h2>
+        <p>Effect declarations, permission and tenant boundaries, freshness, task-semantic argument normalization, and registered outcomes are application-supplied. A write mislabeled as a read cannot be repaired statistically. Deployment must review the effect catalog and test declaration-versus-observation mismatches in a sandbox.</p>
+
+        <h2 id="quality">Quality evidence is narrow</h2>
+        <p>The confirmatory result covers 30 held-out issues from one public snapshot and one model configuration. The exact grader is stronger than execution conformance but remains an automatic extractive contract, not blinded human semantic evaluation. The aggressive artifact's 17/18 result proves that clean program replay and final-answer preservation are distinct endpoints.</p>
+
+        <h2 id="statistics">Admission assumptions</h2>
+        <p>The exact bound applies to the registered violation indicator under independent or conditionally independent groups and a frozen artifact. Drift, clustered tenants, incomplete outcomes, adaptive artifact selection, or reusing calibration evidence invalidate a naive interpretation. The current score is all-or-none and does not demonstrate selective discrimination.</p>
+
+        <h2 id="fallback">Fallback boundaries</h2>
+        <p>The outer runner can restore the original model-visible state before commitment. The Model adapter cannot retract a synthetic response already committed to session history. Removing model boundaries may also remove guardrail evaluations; until guardrails are replayed explicitly, their presence should be treated as a barrier.</p>
+
+        <h2 id="economics">Economics and caching</h2>
+        <p>Fewer tokens do not guarantee lower cost. Removing turns changes prompt-cache writes and reads; route specialization can fragment a warm prefix into several cold prefixes. The project has not measured developer construction, review, maintenance, invalidation, or incident-response effort.</p>
+
+        <h2 id="when-not">When not to use GAC</h2>
+        <ul class="check-list limit-list">
+          <li>The workflow is low-volume and cannot amortize discovery or review</li>
+          <li>The stable solution is a short, obvious, independently reviewed function</li>
+          <li>The region contains writes, approvals, handoffs, hidden effects, or mutable external state</li>
+          <li>Entry state, isolation, freshness, and outcomes cannot be captured reliably</li>
+          <li>Calibration support is below the configured risk requirement</li>
+          <li>The application cannot shadow, monitor, invalidate, and roll back artifacts</li>
+        </ul>
+        <div class="callout"><p><strong>Practical rule:</strong> use GAC when automatic discovery, provenance, compatibility invalidation, and guarded fallback justify their engineering cost. Use ordinary code when a human can already specify and maintain the workflow more clearly.</p></div>
+      </article>
+      <aside class="toc"><strong>On this page</strong><ul>
+        <li><a href="#claims">Unsupported claims</a></li><li><a href="#scope">Implementation scope</a></li><li><a href="#trust">Trusted inputs</a></li>
+        <li><a href="#quality">Quality evidence</a></li><li><a href="#statistics">Statistics</a></li><li><a href="#fallback">Fallback</a></li>
+        <li><a href="#economics">Economics</a></li><li><a href="#when-not">When not to use</a></li>
+      </ul></aside>
+    </div></section>
+  </main>
+  <footer class="site-footer"><div class="container footer-grid">
+    <div><div class="footer-title">Agent Compaction</div><p class="footer-note">A narrow compiler with explicit authority boundaries—not a general guarantee for agent behavior.</p></div>
+    <div><div class="footer-label">Operate</div><ul><li><a href="getting-started.html">Shadow workflow</a></li><li><a href="architecture.html">Fallback architecture</a></li></ul></div>
+    <div><div class="footer-label">Evidence</div><ul><li><a href="research.html">Research results</a></li><li><a href="downloads/compiling-recurrent-agent-workflows.pdf">Paper</a></li></ul></div>
+    <div><div class="footer-label">Project</div><ul><li><a href="contributing.html">Contribute</a></li><li><a href="https://github.com/rrahimi-uci/agent-compaction">Source</a></li></ul></div>
+  </div></footer>
+</body>
+</html>

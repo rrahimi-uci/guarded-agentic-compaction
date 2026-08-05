@@ -1,0 +1,30 @@
+name: Benchmark integration
+description: Propose a trace-complete benchmark or a carefully scoped adapter.
+title: "[benchmark] "
+labels: [benchmark]
+body:
+  - type: input
+    id: benchmark
+    attributes:
+      label: Benchmark and revision
+    validations:
+      required: true
+  - type: textarea
+    id: trace
+    attributes:
+      label: Trace evidence
+      description: Describe task boundaries, ordered tool calls, arguments, observations, effects, and gold outcomes.
+    validations:
+      required: true
+  - type: textarea
+    id: license
+    attributes:
+      label: License, access, and redistribution constraints
+    validations:
+      required: true
+  - type: textarea
+    id: evaluation
+    attributes:
+      label: Proposed evaluation and refusal criteria
+    validations:
+      required: true

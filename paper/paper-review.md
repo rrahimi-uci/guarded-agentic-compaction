@@ -18,11 +18,19 @@ becomes a second compiler substrate; BFCL executes its official checker; ToolSan
 maintained tau, and BrowseComp receive bounded real-provider runs; and ToolBench,
 AgentBench, GAIA, and SWE-bench retain explicit prerequisite gates.
 
-**Recommendation: major revision for a top-tier main track; strong artifact candidate.**
+**Recommendation: major revision for a top-tier main track; strong artifact candidate
+(84/100 scientific readiness, 97/100 artifact engineering).**
 The implementation and resource intervention are credible. The natural-order study also
 records a compiler-only factual failure, showing that clean tool-program replay does not
 certify the downstream answer. The remaining evidence is too small and narrow for
 non-inferiority, broad workflow optimization, or state-of-the-art claims.
+
+The strongest revision is conceptual: the paper no longer presents generic agent
+compilation as the novelty. Its defensible contribution is an *admissibility argument for
+trace-derived specialization*: a candidate must satisfy value provenance, effects,
+permissions, runtime position, readable synthesis, empirical contracts, and finite-sample
+admission, or the system retains the original agent. This makes refusal evidence part of
+the scientific result rather than an implementation failure.
 
 ## Main strengths
 
@@ -54,6 +62,10 @@ non-inferiority, broad workflow optimization, or state-of-the-art claims.
     and 17,836 reference actions without pooling unlike substrates, reports every gate,
     and reproduces the central refusal result on API-Bank (48 candidates, two synthesized
     families, two held-out abstentions, no admitted artifact).
+12. The revised abstract and result opening expose the strongest contrary evidence early:
+    a hand-written macro is cheaper than partial GAC, and fair pre-model manual code ties
+    GCS. This substantially improves credibility and focuses the contribution on automatic
+    evidence and lifecycle controls.
 
 ## Major concerns
 
@@ -89,6 +101,10 @@ non-inferiority, broad workflow optimization, or state-of-the-art claims.
 8. **Fallback and guardrail semantics remain integration boundaries.** Exact baseline
    restoration requires staging ownership, and deleted model boundaries may delete
    guardrail evaluations.
+9. **The paper remains long for a main-track submission.** The shared long-form article is
+   appropriate for archival review, but a venue submission should move benchmark-by-
+   benchmark operational detail and secondary studies to supplementary material while
+   preserving the negative results in the main text.
 
 ## GEPA positioning
 
@@ -144,3 +160,15 @@ gated rows are honestly handled. It still does not remove the main breadth criti
 because BFCL gold checking, ToolSandbox/tau simulation, BrowseComp hosted search, and
 task-only adapters are not paired compiler interventions. This is strong artifact and
 interoperability evidence, not state-of-the-art performance evidence.
+
+## Reviewer scorecard
+
+| Dimension | Score | Rationale |
+|:---|---:|:---|
+| Technical depth | 9.5/10 | unusually complete trace, compiler, admission, runtime, and lifecycle stack |
+| Novelty | 8.9/10 | strong composition and admissibility framing; individual mechanisms have precedent |
+| Clarity and writing | 9.2/10 | revised claim spine is crisp; long-form density remains |
+| Experimental rigor | 9.0/10 | excellent artifact audit, but one paired domain and small cohorts |
+| Reproducibility | 9.9/10 | retained rows, hashes, commands, independent recomputation, and negative evidence |
+| Presentation | 9.3/10 | shared-source paper, generated figures, evidence-led website and decks |
+| Scientific readiness | 8.4/10 | credible major-revision paper; not yet a broad SOTA result |

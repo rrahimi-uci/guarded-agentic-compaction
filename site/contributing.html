@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="How to contribute code, benchmarks, adapters, documentation, and research evidence to Agent Compaction.">
+  <title>Contributing — Agent Compaction</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/styles.css"><script defer src="assets/js/site.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><nav class="nav" aria-label="Primary navigation">
+    <a class="brand" href="index.html"><span class="brand-mark">GAC</span><span>Agent Compaction</span></a>
+    <button class="menu-button" data-menu aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">☰</button>
+    <ul class="nav-links" id="site-nav" data-nav-links>
+      <li><a href="index.html">Overview</a></li><li><a href="architecture.html">Architecture</a></li>
+      <li><a href="getting-started.html">Get started</a></li><li><a href="research.html">Research</a></li>
+      <li><a href="limitations.html">Limits</a></li><li><a class="nav-cta" aria-current="page" href="contributing.html">Contribute</a></li>
+    </ul>
+  </nav></header>
+  <main id="main">
+    <section class="page-hero"><div class="container">
+      <div class="breadcrumbs"><a href="index.html">Agent Compaction</a> / Contributing</div>
+      <h1>Contribute evidence, not just features.</h1>
+      <p>Every contribution should preserve the fail-closed contract: missing state, unknown effects, incompatible manifests, or inadequate support must never become a live rewrite.</p>
+    </div></section>
+    <section class="section"><div class="container doc-layout">
+      <article class="prose">
+        <h2 id="ways">High-value contribution areas</h2>
+        <div class="feature-grid">
+          <article class="feature feature-accent"><h3>Trace adapters</h3><p>Normalize another framework into typed Episodes without leaking framework-specific semantics into compiler passes.</p></article>
+          <article class="feature feature-accent"><h3>Benchmark evidence</h3><p>Add executable, revision-pinned traces with observed results, independent groups, effect contracts, and replay oracles.</p></article>
+          <article class="feature feature-accent"><h3>Failure tests</h3><p>Add drift, permission, partial-failure, guardrail, invalidation, retry, rollback, and adversarial effect-declaration cases.</p></article>
+        </div>
+
+        <h2 id="setup">Development setup</h2>
+        <pre><code>git clone https://github.com/rrahimi-uci/agent-compaction.git
+cd agent-compaction
+python -m venv .venv
+.venv/bin/pip install -e '.[dev,live,figures]'
+.venv/bin/python -m pytest</code></pre>
+
+        <h2 id="standards">Engineering standards</h2>
+        <ul class="check-list">
+          <li>Keep the framework-neutral Episode and artifact schemas backward compatible when practical</li>
+          <li>Add focused tests for every behavior change; safety boundaries need mutation or fault-injection coverage</li>
+          <li>Use deterministic identifiers and group-level splits; never count repeated variants as independent support</li>
+          <li>Preserve negative outcomes, rejection reasons, unavailable prerequisites, and substrate labels</li>
+          <li>Never serialize API keys, restricted prompts, customer payloads, or private traces</li>
+          <li>Regenerate derived tables, figures, manifests, documentation, and slide decks from their source flow</li>
+        </ul>
+
+        <h2 id="benchmark">Benchmark contribution contract</h2>
+        <p>A benchmark name is not an integration. A proposed adapter should document:</p>
+        <ol>
+          <li>exact upstream revision, license, checksums, and acquisition path;</li>
+          <li>task, group, and partition identity;</li>
+          <li>whether arguments and outputs are observed or only proposed;</li>
+          <li>effect classifications and who owns their truth;</li>
+          <li>the replay, execution, or final-outcome oracle;</li>
+          <li>the precise claim the path licenses—and what it does not.</li>
+        </ol>
+        <div class="callout callout-warn"><p>Gold plans without tool results may test parsing or official-checker compatibility. They must not be converted into compiler episodes or counted as failed compilations.</p></div>
+
+        <h2 id="pull-request">Pull-request checklist</h2>
+        <pre><code>.venv/bin/python -m pytest
+.venv/bin/python scripts/verify_release.py
+.venv/bin/python paper/scripts/build_artifacts.py
+.venv/bin/python paper/scripts/validate_artifacts.py
+.venv/bin/python scripts/build_pages.py --output _site
+.venv/bin/python -m build</code></pre>
+        <p>Describe the evidence boundary, compatibility impact, tests, and generated artifacts in the pull request. If a change alters promotion, effects, fallback, or statistical admission, include a focused threat analysis.</p>
+
+        <h2 id="conduct">Conduct and security</h2>
+        <p>Be specific, constructive, and evidence-led. Do not use public issues for vulnerabilities, credentials, production traces, personal data, or exploit payloads. Report security concerns through the repository host's private security-advisory feature.</p>
+
+        <h2 id="governance">Decision principles</h2>
+        <ul class="check-list">
+          <li>Safety and evidence boundaries outrank apparent benchmark coverage</li>
+          <li>Simple, inspectable mechanisms outrank opaque optimization when quality is tied</li>
+          <li>Backward compatibility matters, but never at the cost of silently weakened refusal</li>
+          <li>Measured limitations belong in the main narrative, not hidden in issue history</li>
+        </ul>
+      </article>
+      <aside class="toc"><strong>On this page</strong><ul>
+        <li><a href="#ways">Contribution areas</a></li><li><a href="#setup">Setup</a></li><li><a href="#standards">Standards</a></li>
+        <li><a href="#benchmark">Benchmark contract</a></li><li><a href="#pull-request">PR checklist</a></li>
+        <li><a href="#conduct">Conduct and security</a></li><li><a href="#governance">Decision principles</a></li>
+      </ul></aside>
+    </div></section>
+  </main>
+  <footer class="site-footer"><div class="container footer-grid">
+    <div><div class="footer-title">Agent Compaction</div><p class="footer-note">Contributions are welcome across adapters, evaluation, runtime controls, documentation, and reproducibility.</p></div>
+    <div><div class="footer-label">Start</div><ul><li><a href="getting-started.html">Development setup</a></li><li><a href="architecture.html">Architecture</a></li></ul></div>
+    <div><div class="footer-label">Policies</div><ul><li><a href="https://github.com/rrahimi-uci/agent-compaction/blob/main/CONTRIBUTING.md">Contributing</a></li><li><a href="https://github.com/rrahimi-uci/agent-compaction/blob/main/SECURITY.md">Security</a></li></ul></div>
+    <div><div class="footer-label">Project</div><ul><li><a href="https://github.com/rrahimi-uci/agent-compaction/issues">Issues</a></li><li><a href="https://github.com/rrahimi-uci/agent-compaction">Source</a></li></ul></div>
+  </div></footer>
+</body>
+</html>

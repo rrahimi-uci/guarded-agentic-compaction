@@ -78,6 +78,7 @@ paper/
 ├── paper-review.md                 consolidated adversarial peer review
 ├── supplementary/                  evidence register, audit, and rubric
 │   ├── evidence-register.md        claim-level evidence boundaries
+│   ├── experiment-verification.md  independent recomputation and statistical audit
 │   ├── implementation-audit.md     repository and component review
 │   ├── quality-assessment.md       publication-readiness rubric
 │   └── natural-live-study-protocol.md  expanded real-record experiment protocol
@@ -89,6 +90,10 @@ paper/
 `figures/` holds manually authored source artwork — the TikZ architecture diagram and
 the four pseudocode listings; all plots are script-generated and live under
 `generated_figures/`.
+
+The tracked distribution PDF is
+compiling-recurrent-agent-workflows-into-guarded-programs.pdf. The files under build/
+remain the conference-review and long-form article products used by the validator.
 
 ## Two builds, one body
 

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Architecture of Agent Compaction: typed traces, provenance, bounded synthesis, exact admission, and guarded runtime dispatch.">
+  <title>Architecture — Agent Compaction</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/styles.css"><script defer src="assets/js/site.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><nav class="nav" aria-label="Primary navigation">
+    <a class="brand" href="index.html"><span class="brand-mark">GAC</span><span>Agent Compaction</span></a>
+    <button class="menu-button" data-menu aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">☰</button>
+    <ul class="nav-links" id="site-nav" data-nav-links>
+      <li><a href="index.html">Overview</a></li><li><a aria-current="page" href="architecture.html">Architecture</a></li>
+      <li><a href="getting-started.html">Get started</a></li><li><a href="research.html">Research</a></li>
+      <li><a href="limitations.html">Limits</a></li><li><a class="nav-cta" href="contributing.html">Contribute</a></li>
+    </ul>
+  </nav></header>
+  <main id="main">
+    <section class="page-hero"><div class="container">
+      <div class="breadcrumbs"><a href="index.html">Agent Compaction</a> / Architecture</div>
+      <h1>A compiler whose first optimization is refusal.</h1>
+      <p>The architecture separates trace capture, evidence analysis, artifact construction, and runtime execution. Framework adapters stop at the typed Episode boundary; the compiler never depends on an SDK-specific trace format.</p>
+    </div></section>
+
+    <section class="section"><div class="container">
+      <div class="section-head"><div><p class="eyebrow">System map</p><h2>Framework-neutral evidence in; immutable decisions out.</h2></div>
+      <p>Every transition is explicit and auditable. Runtime dispatch consumes only approved artifacts whose compatibility key matches the current manifest.</p></div>
+      <div class="architecture-map" aria-label="Architecture flow from capture through optimization to runtime">
+        <article class="arch-stage"><h3>Capture plane</h3><p>SDK processors and application adapters normalize model, tool, handoff, approval, error, and outcome events.</p>
+          <div class="arch-subgrid"><span class="arch-chip">Episode IR</span><span class="arch-chip">Entry state</span><span class="arch-chip">Manifest</span><span class="arch-chip">Outcome</span></div></article>
+        <div class="arch-arrow" aria-hidden="true">→</div>
+        <article class="arch-stage"><h3>Optimization plane</h3><p>Qualification, provenance, family mining, bounded synthesis, grouped replay, exact calibration, and lifecycle packaging.</p>
+          <div class="arch-subgrid"><span class="arch-chip">GRC</span><span class="arch-chip">TGWS</span><span class="arch-chip">GCS</span><span class="arch-chip">Portfolio</span></div></article>
+        <div class="arch-arrow" aria-hidden="true">→</div>
+        <article class="arch-stage"><h3>Execution plane</h3><p>Manifest matching, hard guards, quotas, verification, staging, fallback, shadow comparison, and rollback.</p>
+          <div class="arch-subgrid"><span class="arch-chip">Runner</span><span class="arch-chip">Dispatcher</span><span class="arch-chip">Registry</span><span class="arch-chip">Telemetry</span></div></article>
+      </div>
+    </div></section>
+
+    <section class="section section-tint"><div class="container doc-layout">
+      <article class="prose">
+        <h2 id="trace-contract">1. Typed Episode contract</h2>
+        <p class="lead">An Episode is the unit of evidence, not a chat transcript.</p>
+        <p>It binds entry state, a content-addressed execution manifest, ordered events, group and partition identity, and observable outcomes. Tool calls are paired with results. Values are finite JSON. Events preserve the distinction among model boundaries, tool effects, approvals, handoffs, guardrails, failures, and commits.</p>
+        <div class="callout"><p><strong>Application-owned truth:</strong> the SDK cannot infer tenant isolation, principal, policy version, freshness, or whether a nominal read is speculatable. Those fields belong to the application and participate in compatibility keys.</p></div>
+
+        <h2 id="qualification">2. Qualification and provenance</h2>
+        <p>A candidate region must begin at a supported model boundary and end after a tool result. Unknown effects are not reads. Writes, approvals, handoffs, errors, and cross-partition edges are barriers. For every argument, the provenance graph searches entry state and prior results for a unique bounded expression.</p>
+        <ul class="check-list">
+          <li>Stable, typed path matching with ambiguity retained—not guessed away</li>
+          <li>Closed transform library with bounded depth and serialized semantics</li>
+          <li>Canonical families include tools, argument sources, effects, and compatibility</li>
+          <li>Variants from the same independent group never inflate support</li>
+        </ul>
+
+        <h2 id="synthesis">3. Bounded synthesis</h2>
+        <p>GRC emits a deterministic program in a 23-operator DSL. Unsupported loops, dynamic arguments, non-read effects, or insufficient support lead to abstention. GCS may package verified live-outs behind a task-specific projection, but it cannot manufacture application logic or change the underlying physical reads.</p>
+
+        <h2 id="admission">4. Exact admission</h2>
+        <p>The dispatch score is fitted before calibration. A fixed threshold grid is tested with a simultaneous one-sided Clopper–Pearson bound. If no threshold satisfies the registered risk and support constraints, the family retires. Calibration covers the registered violation definition only; it cannot repair a dishonest effect declaration.</p>
+
+        <h2 id="runtime">5. Runtime and lifecycle</h2>
+        <p>The staging-owning runner is the strongest integration: it owns the entry snapshot and commit boundary, so any pre-commit miss can restore byte-identical model-visible input. The narrower Agents SDK Model adapter rejects streaming, hosted tools, handoffs, and loops because it cannot guarantee clean post-emission rollback.</p>
+        <ul class="check-list">
+          <li>Immutable artifact identity and compatibility pin</li>
+          <li>Shadow → canary → live promotion stages</li>
+          <li>Quota, permission, and effect re-check at dispatch</li>
+          <li>Kill switch, invalidation, telemetry, and rollback</li>
+        </ul>
+
+        <h2 id="extension">Extension points</h2>
+        <p>The reusable boundary is the Episode IR plus <code>OptimizationPass</code>. New capture adapters normalize foreign traces; new passes consume typed Episodes and return evidence-bearing proposals; new evaluators add registered outcomes. A pass cannot bypass the shared registry, compatibility, or promotion contracts.</p>
+      </article>
+      <aside class="toc"><strong>On this page</strong><ul>
+        <li><a href="#trace-contract">Episode contract</a></li><li><a href="#qualification">Qualification</a></li>
+        <li><a href="#synthesis">Synthesis</a></li><li><a href="#admission">Admission</a></li>
+        <li><a href="#runtime">Runtime</a></li><li><a href="#extension">Extension points</a></li>
+      </ul></aside>
+    </div></section>
+  </main>
+  <footer class="site-footer"><div class="container footer-grid">
+    <div><div class="footer-title">Agent Compaction</div><p class="footer-note">A framework-neutral, evidence-gated compiler for recurrent read-only agent workflows.</p></div>
+    <div><div class="footer-label">Next</div><ul><li><a href="getting-started.html">Get started</a></li><li><a href="research.html">Research evidence</a></li></ul></div>
+    <div><div class="footer-label">Reference</div><ul><li><a href="https://github.com/rrahimi-uci/agent-compaction/blob/main/docs/trace-contract.md">Trace contract</a></li><li><a href="https://github.com/rrahimi-uci/agent-compaction/blob/main/docs/library-api.md">Library API</a></li></ul></div>
+    <div><div class="footer-label">Project</div><ul><li><a href="contributing.html">Contribute</a></li><li><a href="https://github.com/rrahimi-uci/agent-compaction">Source</a></li></ul></div>
+  </div></footer>
+</body>
+</html>
