@@ -60,7 +60,10 @@ def test_committed_protocol_is_explicitly_unrun_and_provider_free(monkeypatch) -
 
 
 def test_effect_catalogs_are_local_qualified_reads() -> None:
-    for path in sorted((ROOT / "benchmarks/contracts/effects").glob("*.yaml")):
+    study = yaml.safe_load(MANIFEST.read_text(encoding="utf-8"))
+    paths = [ROOT / "benchmarks" / spec["effect_catalog"]
+             for spec in study["domains"].values()]
+    for path in sorted(paths):
         catalog = EffectCatalog.from_yaml(path)
         assert catalog.tools
         assert all(spec.effect is EffectClass.READ_LOCAL for spec in catalog.tools.values())

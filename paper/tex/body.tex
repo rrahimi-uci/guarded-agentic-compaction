@@ -56,6 +56,9 @@ Our research questions are:
   \item[RQ5.] Can group-level paired evidence select a risk-bounded optimization action
   before a fresh real-record cohort, and does that choice preserve the registered task
   contract while reducing resource use?
+  \item[RQ6.] Which public agent benchmarks actually expose the state, effects, observed
+  values, and independent groups needed to evaluate post-trace compilation, and what does
+  an all-source executable integration reveal when those fields are absent?
 \end{description}
 
 The paper makes six contributions:
@@ -68,9 +71,10 @@ The paper makes six contributions:
   \item A real-provider, real-public-record study in which tool order is chosen by the
   agent, quality is source-grounded independently of execution conformance, and the learned
   artifact is compared with both an unchanged agent and a hand-written composite tool.
-  \item An external NESTFUL study that reports provenance success, synthesis abstention,
-  and a scientifically useful negative result: recurrence is not sufficient for risk
-  certification.
+  \item A ten-benchmark, revision-pinned interoperability audit with a shared typed
+  reference-plan IR, five executed external paths, three bounded live-provider paths,
+  and compiler experiments on both NESTFUL and API-Bank; both compiler substrates yield
+  useful refusal results instead of an inflated aggregate score.
   \item A framework-neutral transformation portfolio that compares measured actions under
   exact quality and regret-risk bounds, emits human-review macro recommendations, and is
   exercised prospectively on fresh public records.
@@ -527,8 +531,14 @@ boundaries, which we leave to future work (\cref{sec:extension}).
 
 We use three non-overlapping evidence tiers, ordered by what each can license.
 
-\textbf{Tier 1 --- external executable benchmark.}  NESTFUL tests dependency
-reconstruction, synthesis, and refusal on public data with no model calls at all.
+\textbf{Tier 1 --- external benchmark interoperability and compiler evidence.}  A sealed
+manifest pins NESTFUL plus nine complementary benchmark families.  All ten receive an
+explicit adapter, execution, or gate disposition; unavailable prerequisites never become
+zero scores.  NESTFUL and API-Bank are the only two paths with complete observed values
+that can exercise the compiler.  BFCL executes its official checker, ToolSandbox,
+$\tau^2/\tau^3$, and BrowseComp receive bounded official live-provider runs, and the
+remaining sources receive adapter/preflight evidence.  These substrates test different
+objects, so we report a ledger rather than pool them into one score.
 
 \textbf{Tier 2 --- real records, live provider.}  Five GitHub protocols use actual public
 issue records, deterministic local reads over a pinned snapshot, and live OpenAI provider
@@ -598,6 +608,36 @@ expected producer references, mine families, split within families by group, syn
 from train/dev windows, and replay on held-out windows.  This experiment does not call an
 LLM and does not measure NESTFUL planning accuracy.  It tests the compiler after a valid
 trace exists.  The exact gate is then applied to observed family support.
+
+\subsection{All-source benchmark interoperability audit}
+\label{sec:external-matrix}
+
+We additionally pin BFCL v4, API-Bank, ToolSandbox, the maintained $\tau^2/\tau^3$
+implementation, ToolBench, AgentBench, GAIA, SWE-bench Verified, and BrowseComp at exact
+Git revisions or dataset digests~\cite{patil2025bfcl,li2023apibank,lu2025toolsandbox,
+barres2025tau2,qin2023toolllm,liu2023agentbench,mialon2023gaia,jimenez2024swebench,
+wei2025browsecomp}.  A framework-neutral \code{ReferenceTask} IR retains revision,
+substrate, group, ordered actions, conservative effects, and whether outputs were actually
+observed.  It refuses conversion into an executable Episode when outputs are absent and
+forbids pooling revisions or substrates.  The effect labels in this audit are screening
+annotations, not signed runtime declarations.
+
+The same acquisition script records all prerequisites.  Eight benchmark task sets are
+screened, covering 5,419 tasks and 17,836 reference actions; GAIA remains authorization
+gated, ToolBench is limited to ten versioned repository fixtures, AgentBench requires its
+external services and Freebase bytes, and SWE-bench execution is gated because the
+available Docker host is arm64 with 12.5~GiB rather than the harness's recommended x86-64
+and 16~GiB.  We do not impute scores for those paths.
+
+For bounded official executions, BFCL validates 200/200 pinned gold plans without claiming
+model accuracy.  One ToolSandbox scenario uses real provider calls and obtains 0.982
+milestone similarity.  Four $\tau$ domain tasks use real provider calls and obtain 0/4
+end-to-end reward while consuming 288,757 tokens.  Three sealed BrowseComp tasks use
+hosted web search and obtain 1/3 accuracy with 28 searches and 237,859 tokens.  Hosted
+search lacks a replay-safe local tool-result contract, so it is a required compiler
+bypass.  ToolSandbox and $\tau$ are public simulated environments, not real-world demos;
+BrowseComp is a live-web benchmark subset, not a paired compiler experiment or official
+leaderboard submission.
 
 \subsection{Controlled fixed-prefix live study}
 
@@ -878,6 +918,50 @@ executable structural benchmark, not end-to-end validation of the deployed gate.
 The provider-free NESTFUL analysis completes in about six seconds, including roughly 1.4 for
 provenance construction, with 23.3 MiB peak traced memory.  These numbers characterize
 this pinned dataset and Python process, not distributed production throughput.
+
+\subsection{RQ6: broad coverage reveals narrow compiler eligibility}
+\label{sec:external-results}
+
+\begin{table*}[t]
+  \centering
+  \caption{All ten named benchmark families receive an explicit executable disposition.
+  Rows are deliberately not averaged: a gold-plan checker, a task adapter, a simulated
+  live-provider run, and a post-trace compiler experiment license different claims.}
+  \label{tab:external-matrix}
+  \small
+  \input{../tables/external_benchmark_matrix.tex}
+\end{table*}
+
+The all-source audit supports RQ6's premise: popular agent benchmarks are useful, but most
+do not preserve the complete observed trajectory required for trace-derived replacement.
+Across eight accessible task adapters we normalize 5,419 tasks and 17,836 reference
+actions, yet only API-Bank's 212 tasks contain complete observed call results.  NESTFUL's
+separate executable path supplies the other compiler substrate.  The remaining rows still
+test parsers, upstream contracts, provider compatibility, or a conservative bypass, but
+their missing values are not counted as compiler failures.
+
+API-Bank contains 389 observed calls over 49 tools.  Conservative effect barriers leave 48
+candidate windows in 37 tasks and 19 families; eight families have support at least three,
+but maximum support is only eight.  Two families synthesize.  Their two held-out windows
+produce zero passes, two abstentions, and zero wrong executions.  The configured exact gate
+requires 92 independent zero-violation groups and therefore retires every family.  This
+second corpus strengthens, rather than weakens, the central negative result: recurrence and
+trace completeness still do not create admission evidence.
+
+Re-executing the pinned API implementations with fresh per-task fixtures exactly reproduces
+338 of 389 recorded calls.  Thirty-seven differ, nine raise missing-state \code{KeyError}s,
+and five require unavailable dependencies; 162 of 212 tasks replay completely.  These
+upstream data/code compatibility failures are reported separately from compiler replay.
+They also show why a recorded result and an executable current fixture are different
+evidence objects.
+
+The bounded provider paths reveal cost and quality failure modes without changing that
+conclusion.  The four $\tau$ runs account for 71 provider responses with usage and the
+three BrowseComp tasks account for six requests; ToolSandbox's pinned harness omits usage,
+so its three assistant messages are not relabeled as exact request accounting.  In total,
+77 provider requests are exactly accounted and ToolSandbox remains explicitly incomplete.
+No prompt, answer, tool argument, tool result, search result, or credential from these runs
+is serialized into the publication artifacts.
 
 \subsection{RQ2: real-provider efficiency and observed quality}
 \label{sec:rq2}
@@ -1429,11 +1513,16 @@ BFCL covers serial, parallel, abstaining, and stateful function calling
 \cite{patil2025bfcl}; API-Bank provides runnable APIs and tool-use dialogues
 \cite{li2023apibank}; ToolSandbox evaluates stateful conversational interactions
 \cite{lu2025toolsandbox}; $\tau^2$-Bench adds dual control by agent and user
-\cite{barres2025tau2}; and AssistantBench provides realistic web tasks
-\cite{yoran2024assistantbench}.  These primarily test an agent's ability to choose tools.
-NESTFUL uniquely exposes explicit nested producer references, making it suitable for our
-post-trace provenance question~\cite{basu2025nestful}.  Future end-to-end evaluation should
-add stateful and write-bearing benchmarks after transactional compilation exists.
+\cite{barres2025tau2}; ToolBench scales tool retrieval~\cite{qin2023toolllm}; AgentBench
+spans interactive environments~\cite{liu2023agentbench}; GAIA and BrowseComp test general
+assistant and persistent browsing capabilities~\cite{mialon2023gaia,wei2025browsecomp};
+and SWE-bench grounds agents in real software issues~\cite{jimenez2024swebench}.  These
+primarily test whether an agent can choose and execute actions or produce a final answer.
+NESTFUL exposes nested producer references, while API-Bank retains recorded call results,
+making those two suitable for our post-trace question~\cite{basu2025nestful}.  Our
+all-source audit executes or gates every named path (\cref{tab:external-matrix}) rather than
+using absent trajectories as negative examples.  Stateful and write-bearing compilation
+remains future work until transactional staging exists.
 
 \begin{table*}[t]
   \centering
@@ -1557,6 +1646,10 @@ pre-model composite can remove that turn.
 Sixth, learned-optimizer overhead needs its own ledger.  In the bounded GEPA study the
 optimization spends 59 provider requests and selects no change, so there is no deployment
 benefit against which that cost can be amortized.
+Seventh, benchmark breadth cannot be summarized by a leaderboard average.  The ten-source
+audit finds gold plans, partial fixtures, encrypted questions, real issues, simulated state,
+and complete recorded traces; a compiler must preserve those substrate distinctions or it
+will confuse missing evidence with failure.
 
 \subsection{Extension path}
 \label{sec:extension}
@@ -1781,6 +1874,13 @@ but is resolved uniquely for 80.7\%; every family retires at the configured gate
 failed suffix pilot, the evidence argues for a specific design principle: an agent
 optimizer should be judged not only by what it compresses, but by whether it can explain
 and enforce when it must not compile.
+The ten-benchmark audit reaches the same conclusion from another direction.  API-Bank is
+the only additional source with 212 complete observed traces; it yields 48 candidate
+windows, two synthesized families, two held-out abstentions, and no admitted artifact.
+BFCL, ToolSandbox, $\tau$, ToolBench, AgentBench, GAIA, SWE-bench, and BrowseComp each
+exercise a useful integration or gate, but none is silently promoted to compiler or
+real-world evidence.  The breadth result is therefore an interoperability contribution
+and an evidence map, not a composite performance score.
 The implemented portfolio extends that principle across measured transformation classes:
 it admits compiler and macro on 30 groups, recommends the higher-utility macro for review,
 then preserves 12/12 exact contracts on fresh records while cutting requests, tools,

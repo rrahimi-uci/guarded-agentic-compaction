@@ -1,0 +1,132 @@
+{
+  "aggregate": {
+    "agent_cost_usd": 0.0377744,
+    "completion_tokens": 4301,
+    "pass_rate": 0.0,
+    "passed": 0,
+    "prompt_tokens": 284456,
+    "provider_requests_with_usage": 71,
+    "simulations": 4,
+    "tool_calls": 31,
+    "total_reported_cost_usd": 0.0490096,
+    "total_tokens": 288757,
+    "user_simulator_cost_usd": 0.011235199999999999
+  },
+  "benchmark": "tau2/tau3 text benchmark",
+  "evidence": {
+    "class": "official simulated environments with real OpenAI provider calls",
+    "compiler_execution": false,
+    "credential_serialized": false,
+    "gac_disposition": "reference actions screened only; incomplete tool results cannot be compiled",
+    "is_real_world_demo": false,
+    "prompts_messages_arguments_outputs_serialized": false
+  },
+  "models": {
+    "agent": "gpt-4.1-mini",
+    "user_simulator": "gpt-4.1-mini"
+  },
+  "schema": "agent-compaction-external-live-evaluation/v1",
+  "selection": {
+    "not_official_leaderboard_submission": true,
+    "scope": "one predeclared task from each accessible text domain",
+    "seed": 20260804,
+    "trials_per_task": 1
+  },
+  "simulations": [
+    {
+      "action_counts": {
+        "read_expected": 2,
+        "read_matched": 2
+      },
+      "agent_cost_usd": 0.005596799999999999,
+      "completion_tokens": 724,
+      "db_match": false,
+      "domain": "airline",
+      "duration_seconds": 20.109683582995785,
+      "message_counts": {
+        "assistant": 9,
+        "tool": 7,
+        "user": 6
+      },
+      "prompt_tokens": 40974,
+      "provider_requests_with_usage": 14,
+      "reward": 0.0,
+      "task_hash": "481729b1ddf79cef317367126d154409f051f498e627661dba47f5e1e9935009",
+      "termination_reason": "user_stop",
+      "tool_calls": 7,
+      "trial": 0,
+      "user_cost_usd": 0.0019287999999999998
+    },
+    {
+      "action_counts": {
+        "write_expected": 2,
+        "write_matched": 0
+      },
+      "agent_cost_usd": 0.010540399999999998,
+      "completion_tokens": 1682,
+      "db_match": false,
+      "domain": "retail",
+      "duration_seconds": 33.194615790998796,
+      "message_counts": {
+        "assistant": 12,
+        "tool": 9,
+        "user": 8
+      },
+      "prompt_tokens": 69194,
+      "provider_requests_with_usage": 19,
+      "reward": 0.0,
+      "task_hash": "78d651bfc8751052055d53539f1429c7926b50a0ca73d5333838cfe43ea684fc",
+      "termination_reason": "user_stop",
+      "tool_calls": 9,
+      "trial": 0,
+      "user_cost_usd": 0.0032011999999999995
+    },
+    {
+      "action_counts": {},
+      "agent_cost_usd": 0.0121,
+      "completion_tokens": 882,
+      "db_match": null,
+      "domain": "telecom",
+      "duration_seconds": 24.027343000023393,
+      "message_counts": {
+        "assistant": 13,
+        "tool": 9,
+        "user": 9
+      },
+      "prompt_tokens": 108730,
+      "provider_requests_with_usage": 21,
+      "reward": 0.0,
+      "task_hash": "f39b7d4a98b19c76cc93fbb97c1258b1df208c8a5cdfa304dc746b04a1e13fca",
+      "termination_reason": "max_steps",
+      "tool_calls": 9,
+      "trial": 0,
+      "user_cost_usd": 0.003888
+    },
+    {
+      "action_counts": {
+        "write_expected": 2,
+        "write_matched": 1
+      },
+      "agent_cost_usd": 0.0095372,
+      "completion_tokens": 1013,
+      "db_match": false,
+      "domain": "banking_knowledge",
+      "duration_seconds": 21.70169674998033,
+      "message_counts": {
+        "assistant": 12,
+        "tool": 6,
+        "user": 6
+      },
+      "prompt_tokens": 65558,
+      "provider_requests_with_usage": 17,
+      "reward": 0.0,
+      "task_hash": "ef1f69edcccfbc67022027b5574f790d0caefd5c9fcf6347d94012ea1662be53",
+      "termination_reason": "user_stop",
+      "tool_calls": 6,
+      "trial": 0,
+      "user_cost_usd": 0.0022172
+    }
+  ],
+  "source_revision": "1eceb0453fe2effa1ba26b6a51fc52b966944ec1",
+  "source_version": "1.0.1"
+}

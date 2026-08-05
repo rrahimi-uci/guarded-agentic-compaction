@@ -260,9 +260,10 @@ scripts/            fixture generator, capture smoke test, reproduce, verify rel
 | [docs/openai-agents-sdk.md](docs/openai-agents-sdk.md) | capture and runtime integration with the OpenAI Agents SDK |
 | [docs/operations.md](docs/operations.md) | shadow → canary → live, monitoring, incident runbook, rollback |
 | [docs/related-work-matrix.md](docs/related-work-matrix.md) | adjacent systems, what they cover, what remains |
+| [docs/external-benchmarks.md](docs/external-benchmarks.md) | all ten external benchmark integrations, measured results, prerequisites, gates, and evidence boundaries |
 | [docs/architecture/](docs/architecture/) | the decisions and the alternatives that were rejected |
 | [experiments/manifests/preregistration.md](experiments/manifests/preregistration.md) | hypotheses, margins, thresholds and stopping rules, frozen before the sealed test |
-| [paper/README.md](paper/README.md) | publication artifact: LaTeX paper, real-record live study, NESTFUL benchmark, figures, raw results, and adversarial review |
+| [paper/README.md](paper/README.md) | publication artifact: LaTeX paper, real-record live study, ten-benchmark audit, figures, raw results, and adversarial review |
 
 ## Status and limits
 

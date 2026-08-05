@@ -106,7 +106,7 @@ function renumberPages(presentation) {
   }
 }
 
-function validateEvidence(gcs, replay, optimizer) {
+function validateEvidence(gcs, replay, optimizer, external) {
   assertEqual(gcs.schema, "agent-compaction-gcs-live-study/v1", "GCS schema");
   assertEqual(gcs.run.provider_backed, true, "GCS provider-backed flag");
   assertEqual(gcs.run.real_public_records, true, "GCS real-record flag");
@@ -147,6 +147,61 @@ function validateEvidence(gcs, replay, optimizer) {
   for (const condition of ["baseline", "gepa", "gcs", "gcs_gepa", "manual_pre_model"]) {
     assertEqual(optimizer.aggregate[condition].factuality_exact_rate, 1, `${condition} exact rate`);
     assertEqual(optimizer.aggregate[condition].n, 6, `${condition} deployment cases`);
+  }
+  assertEqual(external.schema, "agent-compaction-external-benchmark-matrix/v1", "external matrix schema");
+  assertEqual(external.totals.named_benchmarks, 10, "external benchmark families");
+  assertEqual(external.totals.measured_compiler_benchmarks, 2, "compiler benchmark paths");
+  assertEqual(external.totals.executed_external_paths, 5, "executed external paths");
+  assertEqual(external.totals.live_provider_benchmarks, 3, "live-provider external paths");
+  assertEqual(external.totals.screened_tasks, 5419, "screened external tasks");
+  assertEqual(external.totals.screened_reference_actions, 17836, "screened reference actions");
+  assertEqual(external.benchmarks.api_bank.execution.gate_outcome, "RETIRE", "API-Bank gate");
+  assertEqual(external.benchmarks.api_bank.execution.held_out_passed, 0, "API-Bank held-out passes");
+  assertEqual(external.benchmarks.api_bank.execution.held_out_abstained, 2, "API-Bank held-out abstentions");
+  assertEqual(external.benchmarks.api_bank.execution.held_out_wrong, 0, "API-Bank held-out wrong");
+  assertEqual(external.benchmarks.tau2.execution.passed, 0, "tau bounded passes");
+  assertEqual(external.benchmarks.browsecomp.execution.correct, 1, "BrowseComp bounded correct");
+}
+
+function editExternalBenchmarkSlide(slide, external, mode) {
+  const api = external.benchmarks.api_bank.execution;
+  const seminar = mode === "seminar";
+  setShapeText(slide, 2, seminar
+    ? "RESULTS  ·  RQ6  ·  10 BENCHMARK FAMILIES"
+    : "RESULT 2  ·  RQ6  ·  ALL-SOURCE AUDIT");
+  setShapeText(slide, 3, "Two compiler corpora recur; neither reaches admission");
+  setShapeText(
+    slide,
+    4,
+    seminar
+      ? `The common IR screens ${external.totals.screened_tasks.toLocaleString()} tasks and ${external.totals.screened_reference_actions.toLocaleString()} reference actions across eight accessible task sources.\nAPI-Bank is the only additional complete-trace corpus: ${api.tasks} tasks yield ${api.candidate_windows} candidate windows; ${api.families_synthesized} families synthesize.\nHeld-out replay gives ${api.held_out_passed} pass / ${api.held_out_abstained} abstain / ${api.held_out_wrong} wrong. Maximum support is 8 versus 92 required, so every family retires.`
+      : `Eight accessible task adapters cover ${external.totals.screened_tasks.toLocaleString()} tasks and ${external.totals.screened_reference_actions.toLocaleString()} actions. API-Bank is the only additional complete-trace corpus: ${api.tasks} tasks, ${api.candidate_windows} candidate windows, and ${api.families_synthesized} synthesized families.\nIts held-out result is ${api.held_out_passed} pass / ${api.held_out_abstained} abstain / ${api.held_out_wrong} wrong; maximum support is 8 versus 92 required.\nBFCL checks 200/200 gold plans; ToolSandbox scores 0.982; tau passes 0/4; BrowseComp scores 1/3. These are unlike evidence classes, not a pooled score.`,
+  );
+  setShapeText(
+    slide,
+    6,
+    "Breadth does not rescue admission. NESTFUL's maximum support of 26 is already the upper bar shown here; API-Bank reaches only 8. The new corpus independently supports refusal, while task-only, simulated, hosted, and gated paths stay in their own evidence classes.",
+  );
+  if (seminar) {
+    setShapeText(slide, 7, "10-BENCHMARK LEDGER — EXECUTION DEPTHS ARE NOT POOLED");
+    const metrics = [
+      [9, "5,419"], [10, "screened tasks"],
+      [12, "17,836"], [13, "reference actions"],
+      [15, "212"], [16, "API-Bank complete traces"],
+      [18, "2 / 8"], [19, "synthesized / max support"],
+      [21, "0 / 2 / 0"], [22, "pass / abstain / wrong"],
+      [24, "0"], [25, "new certifiable families"],
+      [27, "5 / 3"], [28, "executed / live-provider paths"],
+    ];
+    for (const [index, value] of metrics) setShapeText(slide, index, value);
+  } else {
+    const metrics = [
+      [8, "5,419 / 17,836"], [9, "screened tasks / reference actions"],
+      [11, "212 / 389"], [12, "API-Bank traces / observed calls"],
+      [14, "0 / 2 / 0"], [15, "held-out pass / abstain / wrong"],
+      [17, "0"], [18, "new certifiable families"],
+    ];
+    for (const [index, value] of metrics) setShapeText(slide, index, value);
   }
 }
 
@@ -228,13 +283,12 @@ function editGcsSlide(slide, rows, mode) {
   table.setValues(rows);
 }
 
-function updateSeminar(presentation, rows) {
-  replaceUnique(presentation, "4 live protocols on a\npinned public snapshot", "6 live protocols on a\npinned public snapshot");
-  replaceUnique(
-    presentation,
-    "Guarded agentic compaction. Traces establish recurrence, not admissibility. We specify the evidence a compiler needs, the barriers it must respect, and four negative results.",
-    "Guarded agentic compaction. Traces establish recurrence, not admissibility. We specify the evidence a compiler needs, the barriers it must respect, and the limits its evidence retains.",
-  );
+function updateSeminar(presentation, rows, external) {
+  const cover = presentation.slides.getItem(0);
+  setShapeText(cover, 5, "Guarded agentic compaction. Traces establish recurrence, not admissibility. We specify the evidence a compiler needs, the barriers it must respect, and the limits its evidence retains.");
+  setShapeText(cover, 7, "Benchmarks");
+  setShapeText(cover, 8, "10 families\nall explicit dispositions");
+  setShapeText(cover, 10, "6 live protocols on a\npinned public snapshot");
   replaceUnique(
     presentation,
     "On an unseen real-record workload, how does a learned compiled prefix trade factual quality against requests, tokens, latency, and cost — relative to an unchanged agent and a hand-written composite tool?",
@@ -243,7 +297,7 @@ function updateSeminar(presentation, rows) {
   replaceUnique(
     presentation,
     "A trace-to-program formulation combining typed value provenance, effect-aware barriers, a closed synthesis language, empirical contracts, and runtime fallback\nA dispatch protocol whose score is frozen before calibration and whose fixed threshold grid receives a simultaneous one-sided exact binomial bound\nA real-provider, real-public-record study in which the agent chooses tool order and quality is graded independently of execution conformance\nAn external NESTFUL study reporting provenance success, synthesis abstention, and a useful negative result\nA framework-neutral transformation portfolio over measured actions only",
-    "A trace-to-program formulation combining typed value provenance, effect-aware barriers, a closed synthesis language, empirical contracts, and runtime fallback\nA dispatch protocol whose score is frozen before calibration and whose fixed threshold grid receives a simultaneous one-sided exact binomial bound\nA real-provider, real-public-record study in which the agent chooses tool order and quality is graded independently of execution conformance\nAn external NESTFUL study reporting provenance success, synthesis abstention, and a useful negative result\nA measured-action portfolio plus guarded composite synthesis over an already admitted read program",
+    "A trace-to-program formulation combining typed value provenance, effect-aware barriers, a closed synthesis language, empirical contracts, and runtime fallback\nA dispatch protocol whose score is frozen before calibration and whose fixed threshold grid receives a simultaneous one-sided exact binomial bound\nA real-provider, real-public-record study in which the agent chooses tool order and quality is graded independently of execution conformance\nA ten-benchmark interoperability audit with two compiler substrates, explicit gates, and no pooled score\nA measured-action portfolio plus guarded composite synthesis over an already admitted read program",
   );
   replaceUnique(
     presentation,
@@ -261,7 +315,11 @@ function updateSeminar(presentation, rows) {
     "Six GitHub protocols on a pinned snapshot, including fair manual placement and bounded GEPA",
   );
 
-  const macroSlide = presentation.slides.getItem(20);
+  const externalSlide = presentation.slides.getItem(16).duplicate();
+  externalSlide.setIndex(17);
+  editExternalBenchmarkSlide(externalSlide, external, "seminar");
+
+  const macroSlide = presentation.slides.getItem(21);
   setShapeText(macroSlide, 3, "Manual composition is the stronger pre-GCS fixed-workflow baseline");
   setShapeText(
     macroSlide,
@@ -269,7 +327,7 @@ function updateSeminar(presentation, rows) {
     "Against partial GRC, the hand-written composite matches exact quality and request savings while using one interface and fewer tokens. That negative result motivates interface-level synthesis rather than weakening admission.",
   );
   const gcsSlide = macroSlide.duplicate();
-  gcsSlide.setIndex(21);
+  gcsSlide.setIndex(22);
   editGcsSlide(gcsSlide, rows, "seminar");
 
   replaceStartingWith(
@@ -278,7 +336,7 @@ function updateSeminar(presentation, rows) {
     "Also: discovery is not free (132 episodes cost 528 provider requests, 533,293 tokens, and about $0.096); the fair-placement/GEPA study has only six held-out records; risk control is per artifact; the closed DSL misses legitimate transformations and loops; and pre-snapshot Git ancestry cannot be reconstructed.",
   );
 
-  const claimsSlide = presentation.slides.getItem(24);
+  const claimsSlide = presentation.slides.getItem(25);
   const claimsTable = claimsSlide.tables.items[0];
   setTableCell(claimsTable, 9, 1, "The learned compiler generally dominates hand-written composition");
   setTableCell(claimsTable, 9, 2, "Macro beats partial GRC; fair pre-model manual ties GCS on 6 fresh pairs");
@@ -302,14 +360,11 @@ function updateSeminar(presentation, rows) {
   renumberPages(presentation);
 }
 
-function updateTechnical(presentation, rows) {
-  const coverProtocolCounts = presentation.slides.getItem(0).shapes.items.filter(
-    (shape) => (shape.text?.toString?.() ?? "") === "4",
-  );
-  if (coverProtocolCounts.length !== 1) {
-    throw new Error(`technical cover protocol count: expected one match, found ${coverProtocolCounts.length}`);
-  }
-  coverProtocolCounts[0].text.set("6");
+function updateTechnical(presentation, rows, external) {
+  const cover = presentation.slides.getItem(0);
+  setShapeText(cover, 6, "10");
+  setShapeText(cover, 7, "public benchmark families with explicit dispositions");
+  setShapeText(cover, 8, "6");
   replaceUnique(
     presentation,
     "The efficiency win is real but narrow: it removes redundant model turns on a read-only prefix — it does not remove the tool calls that gather evidence.\nA hand-written composite tool matched or beat the learned compiler on most workloads. Compilation earns its complexity on branching or changing workflows, not on stable ones.\nThe paper reports four negative results of its own: efficiency gains establish neither factual quality, nor superiority over hand-written code, nor portfolio superiority, nor admission safety.",
@@ -346,7 +401,11 @@ function updateTechnical(presentation, rows) {
     "Six GitHub protocols on a pinned snapshot, including fair manual placement and bounded GEPA",
   );
 
-  const macroSlide = presentation.slides.getItem(17);
+  const externalSlide = presentation.slides.getItem(13).duplicate();
+  externalSlide.setIndex(14);
+  editExternalBenchmarkSlide(externalSlide, external, "technical");
+
+  const macroSlide = presentation.slides.getItem(18);
   setShapeText(macroSlide, 3, "Before GCS, the hand macro is the stronger fixed-workflow baseline");
   setShapeText(
     macroSlide,
@@ -354,7 +413,7 @@ function updateTechnical(presentation, rows) {
     "Against partial GRC, the hand-written composite matches exact quality and request savings while using one interface and fewer tokens. This is the correct baseline for a stable read set.",
   );
   const gcsSlide = macroSlide.duplicate();
-  gcsSlide.setIndex(18);
+  gcsSlide.setIndex(19);
   editGcsSlide(gcsSlide, rows, "technical");
 
   replaceStartingWith(
@@ -370,14 +429,14 @@ function updateTechnical(presentation, rows) {
   renumberPages(presentation);
 }
 
-async function buildDeck({ artifact, templatePath, outputPath, expectedHash, expectedSlides, mode, rows }) {
+async function buildDeck({ artifact, templatePath, outputPath, expectedHash, expectedSlides, mode, rows, external }) {
   assertEqual(await sha256(templatePath), expectedHash, `${mode} template hash`);
   const { FileBlob, PresentationFile } = artifact;
   const presentation = await PresentationFile.importPptx(await FileBlob.load(templatePath));
   assertEqual(presentation.slides.count, expectedSlides, `${mode} source slide count`);
-  if (mode === "seminar") updateSeminar(presentation, rows);
-  else updateTechnical(presentation, rows);
-  const expectedOutputSlides = mode === "seminar" ? 26 : 22;
+  if (mode === "seminar") updateSeminar(presentation, rows, external);
+  else updateTechnical(presentation, rows, external);
+  const expectedOutputSlides = mode === "seminar" ? 27 : 23;
   assertEqual(presentation.slides.count, expectedOutputSlides, `${mode} output slide count`);
   await fs.mkdir(path.dirname(outputPath), { recursive: true });
   const output = await PresentationFile.exportPptx(presentation);
@@ -400,15 +459,17 @@ async function main() {
   const gcsPath = path.join(PAPER, "results/gcs_live/results.json");
   const replayPath = path.join(PAPER, "results/gcs_validation/provider_free.json");
   const optimizerPath = path.join(PAPER, "results/optimizer_head_to_head/results.json");
-  const [map, gcs, replay, optimizer, artifact] = await Promise.all([
+  const externalPath = path.join(PAPER, "results/external_benchmarks/reference_analysis.json");
+  const [map, gcs, replay, optimizer, external, artifact] = await Promise.all([
     readJson(mapPath),
     readJson(gcsPath),
     readJson(replayPath),
     readJson(optimizerPath),
+    readJson(externalPath),
     loadArtifactTool(artifactWorkspace),
   ]);
   assertEqual(map.schema, "agent-compaction-slide-template-map/v1", "slide map schema");
-  validateEvidence(gcs, replay, optimizer);
+  validateEvidence(gcs, replay, optimizer, external);
   const rows = metricRows(optimizer);
   const seminar = map.templates.seminar;
   const technical = map.templates.technical;
@@ -421,6 +482,7 @@ async function main() {
     expectedSlides: seminar.source_slides,
     mode: "seminar",
     rows,
+    external,
   });
   outputs.technical = await buildDeck({
     artifact,
@@ -430,6 +492,7 @@ async function main() {
     expectedSlides: technical.source_slides,
     mode: "technical",
     rows,
+    external,
   });
   const manifest = {
     schema: "agent-compaction-slide-generation/v1",
@@ -439,6 +502,7 @@ async function main() {
       gcs_live: { path: "paper/results/gcs_live/results.json", sha256: await sha256(gcsPath) },
       gcs_replay: { path: "paper/results/gcs_validation/provider_free.json", sha256: await sha256(replayPath) },
       optimizer_head_to_head: { path: "paper/results/optimizer_head_to_head/results.json", sha256: await sha256(optimizerPath) },
+      external_benchmarks: { path: "paper/results/external_benchmarks/reference_analysis.json", sha256: await sha256(externalPath) },
     },
     templates: {
       seminar: { path: seminar.path, sha256: seminar.sha256, source_slides: seminar.source_slides },
@@ -449,7 +513,7 @@ async function main() {
       seminar: seminar.source_slide_for_output,
       technical: technical.source_slide_for_output,
     },
-    evidence_boundary: "Exploratory six-case fair-placement and bounded-GEPA result; structural manual parity, seed retained, no cross-family superiority.",
+    evidence_boundary: "Ten benchmark families have explicit but unlike dispositions; API-Bank is the only additional compiler corpus and retires all families. Simulated/live subsets are not real-world demos or pooled scores. The fair-placement/GEPA result remains exploratory and single-family.",
   };
   const manifestPath = path.join(PAPER, "results/slide_generation.json");
   await fs.writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");

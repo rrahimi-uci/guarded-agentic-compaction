@@ -7,9 +7,10 @@ user-provided GAC slide libraries rather than rebuilding their visual system fro
 - `GAC-technical-review.pptx`: 21-slide dark-teal engineering-review template.
 
 `gac-template-map.json` binds every generated slide to a source slide. The generator keeps
-all source slides, duplicates the comparator frame once in each deck, and fills that frame
-with the fair-placement and bounded-GEPA result. It verifies both source-template hashes,
-the GCS replay, and the live optimizer evidence schema before writing output.
+all source slides, duplicates the NESTFUL evidence frame for the all-source/API-Bank
+refusal result, and duplicates the comparator frame for the fair-placement and bounded-GEPA
+result. It verifies both source-template hashes, the all-source evidence matrix, the GCS
+replay, and the live optimizer evidence schema before writing output.
 
 ## Generate
 
@@ -24,8 +25,8 @@ node paper/scripts/generate_slides.mjs \
 
 Outputs:
 
-- `compiling-recurrent-agent-workflows-into-guarded-programs.pptx`: 26-slide seminar deck;
-- `compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx`: 22-slide
+- `compiling-recurrent-agent-workflows-into-guarded-programs.pptx`: 27-slide seminar deck;
+- `compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx`: 23-slide
   technical-review deck;
 - `paper/results/slide_generation.json`: source, evidence, mapping, output hash, and slide
   count manifest.
@@ -35,3 +36,10 @@ the independent manual pre-model program tie on requests, interfaces, and input 
 official GEPA retains its seed after a bounded live search. The 59-request optimizer cost
 is separate from deployment. The slide claims neither cross-family superiority nor a
 general failure of GEPA.
+
+The inserted all-source slide is also deliberately non-pooled. It reports ten named
+benchmark families with explicit dispositions, but only NESTFUL and API-Bank execute the
+compiler. BFCL, ToolSandbox, tau2/tau3, and BrowseComp retain their official checker or
+live-provider outcomes as separate evidence classes; AgentBench, ToolBench, GAIA, and
+SWE-bench retain their infrastructure, authorization, data, or host gates. No public
+simulator result is labeled a real-world demonstration.

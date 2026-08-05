@@ -13,6 +13,10 @@ preserving interface over an admitted program, plus a fresh 12-pair paid compari
 The newest study closes two previously explicit comparator gaps on six additional fresh
 records: an independently authored guarded pre-model program receives the same execution
 position as GCS, and official GEPA 0.1.4 optimizes the residual prompt under a fixed budget.
+The current revision also implements all ten requested benchmark dispositions. API-Bank
+becomes a second compiler substrate; BFCL executes its official checker; ToolSandbox,
+maintained tau, and BrowseComp receive bounded real-provider runs; and ToolBench,
+AgentBench, GAIA, and SWE-bench retain explicit prerequisite gates.
 
 **Recommendation: major revision for a top-tier main track; strong artifact candidate.**
 The implementation and resource intervention are credible. The natural-order study also
@@ -46,6 +50,10 @@ non-inferiority, broad workflow optimization, or state-of-the-art claims.
     program on requests, interfaces, input tokens, and 6/6 exact quality; GEPA retains its
     seed after 14 real task evaluations and three real reflections, with its 59-request
     optimization overhead excluded from deployment metrics.
+11. The all-source benchmark audit is methodologically strong: it normalizes 5,419 tasks
+    and 17,836 reference actions without pooling unlike substrates, reports every gate,
+    and reproduces the central refusal result on API-Bank (48 candidates, two synthesized
+    families, two held-out abstentions, no admitted artifact).
 
 ## Major concerns
 
@@ -65,11 +73,12 @@ non-inferiority, broad workflow optimization, or state-of-the-art claims.
    input tokens; cost and latency differences are non-significant. The remaining value
    proposition is automatic discovery, evidence, invalidation, and admission, but manual
    construction/review effort was not measured.
-5. **Scope remains narrow.** Thirty records from one extractive GitHub task and one
-   model do not establish performance on branching, stateful, multi-agent, browser, or
-   write-bearing workflows. The new vulnerability/HMDA real-record pools improve the
-   feasibility story, but no provider-backed multidomain condition has run and SEC remains
-   source-gated, so they cannot yet earn empirical breadth credit.
+5. **Paired causal scope remains narrow despite wider interoperability.** Thirty records
+   from one extractive GitHub task and one model do not establish performance on branching,
+   stateful, multi-agent, browser, or write-bearing workflows. The ten-benchmark extension
+   proves adapters, official-path compatibility, bypasses, and a second compiler refusal;
+   it does not create paired baseline-versus-GAC outcomes on those domains. The
+   vulnerability/HMDA pools remain provider-free and SEC remains source-gated.
 6. **Only one bounded learned optimizer has run.** Official GEPA is now a real same-task
    comparator, but its 4/2 optimization split, 14 task evaluations, three proposals, and
    six deployment cases are intentionally small. AWO, AWM, plan caching, EvoC2F, Agent
@@ -129,3 +138,9 @@ the earlier missing-comparator criticism and appropriately narrows the claim: GC
 structurally efficient as the manual program on six cases, not better. The bounded GEPA
 run removes the claim that no live learned optimizer exists, but is too small to establish
 learned-baseline superiority or complementarity.
+The ten-benchmark extension removes the narrower criticism that benchmark selection was
+name-only or NESTFUL-specific. Its API-Bank refusal is scientifically informative and its
+gated rows are honestly handled. It still does not remove the main breadth criticism,
+because BFCL gold checking, ToolSandbox/tau simulation, BrowseComp hosted search, and
+task-only adapters are not paired compiler interventions. This is strong artifact and
+interoperability evidence, not state-of-the-art performance evidence.

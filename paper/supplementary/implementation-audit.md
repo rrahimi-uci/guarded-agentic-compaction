@@ -93,10 +93,11 @@ a verified runtime region-position key and resumable state, not merely relaxing 
 
 ## Validation state
 
-- The full local suite passes 336/336 tests; it includes legacy, natural-workflow,
+- The full local suite passes 350/350 tests; it includes legacy, natural-workflow,
   replication-oracle, continuation fail-closed, semantic-normalization, composite-projection,
-  pre-model-execution, real-trace replay, and retained-live-evidence regressions.
-- Current measured statement coverage is 75.05% over 18,687 statements. The bounded GEPA
+  pre-model-execution, external benchmark normalization, real-trace replay, and
+  retained-live-evidence regressions.
+- Current measured statement coverage is 74.58% over 19,264 statements. The bounded GEPA
   provider path is exercised live and through adapter tests; paid multidomain paths remain
   unrun.
 - `pip check` reports no broken requirements.
@@ -104,8 +105,8 @@ a verified runtime region-position key and resumable state, not merely relaxing 
   including GCS, the GEPA adapter, the independent manual runner, and `py.typed`; `pip
   check` reports no broken requirements.
 - `scripts/verify_release.py` passes all repository checks.
-- The publication artifact validator passes 1,568/1,568 source, result, cohort,
-  generated-artifact, PDF, slide, and secret-pattern checks over a 353-file manifest.
+- The publication artifact validator passes 1,699/1,699 source, result, cohort,
+  generated-artifact, PDF, slide, and secret-pattern checks over a 377-file manifest.
 - The public repository now has an initial versioned snapshot; experimental history before
   that snapshot and historical CI claims remain unavailable.
 - Provider-free multidomain validation reconstructs 840/840 available real-record gold

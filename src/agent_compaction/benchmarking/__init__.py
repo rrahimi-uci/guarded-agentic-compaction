@@ -22,6 +22,14 @@ from .actions import (
     frozen_artifact_digest,
 )
 from .schedule import ScheduledExecution, build_role_schedule, schedule_summary
+from .external import (
+    EvidenceSubstrate,
+    ReferenceAction,
+    ReferenceAnalysis,
+    ReferenceTask,
+    analyze_reference_tasks,
+    reference_task_to_episode,
+)
 
 __all__ = [
     "FrozenProtocol",
@@ -44,4 +52,10 @@ __all__ = [
     "ScheduledExecution",
     "build_role_schedule",
     "schedule_summary",
+    "EvidenceSubstrate",
+    "ReferenceAction",
+    "ReferenceAnalysis",
+    "ReferenceTask",
+    "analyze_reference_tasks",
+    "reference_task_to_episode",
 ]

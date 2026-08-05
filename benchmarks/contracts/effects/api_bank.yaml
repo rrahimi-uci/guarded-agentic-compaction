@@ -1,0 +1,118 @@
+version: 1
+name: api-bank-pinned-recorded-fixture
+tools:
+  Calculator: &pure
+    effect: PURE
+    capabilities: [speculatable, replayable, cacheable]
+    resource: api_bank_pure
+    notes: Audited against the pinned upstream API implementation; structural benchmark use only.
+  GetToday:
+    <<: *pure
+  Dictionary: &fixture_read
+    effect: READ_LOCAL
+    capabilities: [speculatable, replayable, cacheable]
+    resource: api_bank_frozen_fixture
+    notes: Audited read over the pinned public benchmark fixture; not a production effect claim.
+  DocumentQA:
+    <<: *fixture_read
+  EmergencyKnowledge:
+    <<: *fixture_read
+  GetUserToken:
+    <<: *fixture_read
+    resource: api_bank_accounts
+    notes: Read-only credential lookup in the pinned synthetic fixture; retained results are never published.
+  ImageCaption:
+    <<: *fixture_read
+  QueryAgenda:
+    <<: *fixture_read
+  QueryAlarm:
+    <<: *fixture_read
+  QueryBalance:
+    <<: *fixture_read
+  QueryHealthData:
+    <<: *fixture_read
+  QueryHistoryToday:
+    <<: *fixture_read
+  QueryMeeting:
+    <<: *fixture_read
+  QueryRegistration:
+    <<: *fixture_read
+  QueryReminder:
+    <<: *fixture_read
+  QueryScene:
+    <<: *fixture_read
+  QueryStock:
+    <<: *fixture_read
+  SearchEngine:
+    <<: *fixture_read
+  SpeechRecognition:
+    <<: *fixture_read
+  SymptomSearch:
+    <<: *fixture_read
+  Wiki:
+    <<: *fixture_read
+  Translate:
+    effect: READ_EXTERNAL
+    capabilities: []
+    resource: external_translation_service
+    notes: Network-backed upstream implementation is intentionally not replay-licensed.
+  AddAgenda: &reversible_write
+    effect: WRITE_REVERSIBLE
+    capabilities: []
+    resource: api_bank_mutable_fixture
+    notes: Mutation barrier in the pinned upstream simulator.
+  AddAlarm:
+    <<: *reversible_write
+  AddMeeting:
+    <<: *reversible_write
+  AddReminder:
+    <<: *reversible_write
+  AppointmentRegistration:
+    <<: *reversible_write
+  BookHotel:
+    <<: *reversible_write
+  CancelRegistration:
+    <<: *reversible_write
+  CancelTimedSwitch:
+    <<: *reversible_write
+  DeleteAccount:
+    <<: *reversible_write
+  DeleteAgenda:
+    <<: *reversible_write
+  DeleteAlarm:
+    <<: *reversible_write
+  DeleteMeeting:
+    <<: *reversible_write
+  DeleteReminder:
+    <<: *reversible_write
+  DeleteScene:
+    <<: *reversible_write
+  ForgotPassword:
+    <<: *reversible_write
+  ModifyAgenda:
+    <<: *reversible_write
+  ModifyAlarm:
+    <<: *reversible_write
+  ModifyMeeting:
+    <<: *reversible_write
+  ModifyPassword:
+    <<: *reversible_write
+  ModifyRegistration:
+    <<: *reversible_write
+  ModifyReminder:
+    <<: *reversible_write
+  OpenBankAccount:
+    <<: *reversible_write
+  RecordHealthData:
+    <<: *reversible_write
+  RegisterUser:
+    <<: *reversible_write
+  TimedSwitch:
+    <<: *reversible_write
+  PlayMusic: &irreversible_write
+    effect: WRITE_IRREVERSIBLE
+    capabilities: []
+    resource: external_side_effect
+    notes: External-action barrier; never compiled.
+  SendEmail:
+    <<: *irreversible_write

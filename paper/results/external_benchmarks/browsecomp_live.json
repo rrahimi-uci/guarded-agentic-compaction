@@ -1,0 +1,105 @@
+{
+  "agent_model": "gpt-5.6",
+  "aggregate": {
+    "accuracy": 0.3333333333333333,
+    "agent_input_tokens": 228376,
+    "agent_output_tokens": 7790,
+    "correct": 1,
+    "cost_note": "not imputed; provider invoice data is unavailable",
+    "cost_usd": null,
+    "failed": 0,
+    "grader_input_tokens": 1621,
+    "grader_output_tokens": 72,
+    "provider_requests": 6,
+    "total_tokens": 237859,
+    "wall_seconds": 408.1322023750108,
+    "web_search_calls": 28
+  },
+  "benchmark": "BrowseComp",
+  "dataset_sha256": "7b24471cd5b3eb2a46830a14802b5c029ea62f488ff75a0f88af7923d1454abf",
+  "evidence": {
+    "class": "bounded live-provider live-web benchmark",
+    "compiler_execution": false,
+    "credential_serialized": false,
+    "gac_disposition": "baseline bypass: hosted web search lacks a replay-safe local trace contract",
+    "is_real_world_demo": false,
+    "official_full_benchmark_score": false,
+    "questions_answers_responses_search_results_serialized": false
+  },
+  "grader_model": "gpt-4.1-mini",
+  "official_reference_harness_revision": "652c89d0ca9df547706735883097e9537d40dc47",
+  "openai_contract_source": "https://developers.openai.com/api/docs/guides/tools",
+  "schema": "agent-compaction-external-live-evaluation/v1",
+  "selection": {
+    "examples": 3,
+    "method": "random.Random(0).sample"
+  },
+  "tasks": [
+    {
+      "agent_output_item_counts": {
+        "message": 1,
+        "reasoning": 6,
+        "web_search_call": 5
+      },
+      "agent_usage": {
+        "input_tokens": 31378,
+        "output_tokens": 1311,
+        "total_tokens": 32689
+      },
+      "correct": true,
+      "grader_format_valid": true,
+      "grader_usage": {
+        "input_tokens": 470,
+        "output_tokens": 4,
+        "total_tokens": 474
+      },
+      "latency_seconds": 50.15466308299801,
+      "status": "scored",
+      "task_hash": "b1fa2bf2323cd70e3aec57323035a4f5c22fac929a74e46542b199f0801bcf4e"
+    },
+    {
+      "agent_output_item_counts": {
+        "message": 1,
+        "reasoning": 10,
+        "web_search_call": 9
+      },
+      "agent_usage": {
+        "input_tokens": 78315,
+        "output_tokens": 1754,
+        "total_tokens": 80069
+      },
+      "correct": false,
+      "grader_format_valid": true,
+      "grader_usage": {
+        "input_tokens": 587,
+        "output_tokens": 4,
+        "total_tokens": 591
+      },
+      "latency_seconds": 73.7186938750092,
+      "status": "scored",
+      "task_hash": "6bbc1ba020de4bb9b6e42f777a595a73f4be8c9e86c2cfb00513256ad384a931"
+    },
+    {
+      "agent_output_item_counts": {
+        "message": 1,
+        "reasoning": 17,
+        "web_search_call": 14
+      },
+      "agent_usage": {
+        "input_tokens": 118683,
+        "output_tokens": 4725,
+        "total_tokens": 123408
+      },
+      "correct": false,
+      "grader_format_valid": true,
+      "grader_usage": {
+        "input_tokens": 564,
+        "output_tokens": 64,
+        "total_tokens": 628
+      },
+      "latency_seconds": 284.2586040000024,
+      "status": "scored",
+      "task_hash": "80597ce50fd0f97ea855b50165298469f76edee13d4f86841fdb7d92706d8fa1"
+    }
+  ]
+}

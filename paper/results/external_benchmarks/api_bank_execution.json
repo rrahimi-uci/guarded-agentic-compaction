@@ -1,0 +1,455 @@
+{
+  "benchmark": "API-Bank level-1/2 given-description dialogues",
+  "catalog_coverage": {
+    "blocked": {
+      "AddAgenda": "EFFECT_WRITE_REVERSIBLE",
+      "AddAlarm": "EFFECT_WRITE_REVERSIBLE",
+      "AddMeeting": "EFFECT_WRITE_REVERSIBLE",
+      "AddReminder": "EFFECT_WRITE_REVERSIBLE",
+      "AppointmentRegistration": "EFFECT_WRITE_REVERSIBLE",
+      "BookHotel": "EFFECT_WRITE_REVERSIBLE",
+      "CancelRegistration": "EFFECT_WRITE_REVERSIBLE",
+      "CancelTimedSwitch": "EFFECT_WRITE_REVERSIBLE",
+      "DeleteAccount": "EFFECT_WRITE_REVERSIBLE",
+      "DeleteAgenda": "EFFECT_WRITE_REVERSIBLE",
+      "DeleteAlarm": "EFFECT_WRITE_REVERSIBLE",
+      "DeleteMeeting": "EFFECT_WRITE_REVERSIBLE",
+      "DeleteReminder": "EFFECT_WRITE_REVERSIBLE",
+      "DeleteScene": "EFFECT_WRITE_REVERSIBLE",
+      "ForgotPassword": "EFFECT_WRITE_REVERSIBLE",
+      "ModifyAgenda": "EFFECT_WRITE_REVERSIBLE",
+      "ModifyAlarm": "EFFECT_WRITE_REVERSIBLE",
+      "ModifyMeeting": "EFFECT_WRITE_REVERSIBLE",
+      "ModifyPassword": "EFFECT_WRITE_REVERSIBLE",
+      "ModifyRegistration": "EFFECT_WRITE_REVERSIBLE",
+      "ModifyReminder": "EFFECT_WRITE_REVERSIBLE",
+      "OpenBankAccount": "EFFECT_WRITE_REVERSIBLE",
+      "PlayMusic": "EFFECT_WRITE_IRREVERSIBLE",
+      "RecordHealthData": "EFFECT_WRITE_REVERSIBLE",
+      "RegisterUser": "EFFECT_WRITE_REVERSIBLE",
+      "SendEmail": "EFFECT_WRITE_IRREVERSIBLE",
+      "TimedSwitch": "EFFECT_WRITE_REVERSIBLE",
+      "Translate": "MISSING_CAPABILITY_speculatable+replayable"
+    },
+    "compilable": [
+      "Calculator",
+      "Dictionary",
+      "DocumentQA",
+      "EmergencyKnowledge",
+      "GetToday",
+      "GetUserToken",
+      "ImageCaption",
+      "QueryAgenda",
+      "QueryAlarm",
+      "QueryBalance",
+      "QueryHealthData",
+      "QueryHistoryToday",
+      "QueryMeeting",
+      "QueryRegistration",
+      "QueryReminder",
+      "QueryScene",
+      "QueryStock",
+      "SearchEngine",
+      "SpeechRecognition",
+      "SymptomSearch",
+      "Wiki"
+    ],
+    "coverage": 1.0,
+    "n_tools": 49,
+    "undeclared": []
+  },
+  "compiler": {
+    "blocked_by_tool": {
+      "AddAgenda": 13,
+      "AddAlarm": 2,
+      "AddMeeting": 2,
+      "AddReminder": 3,
+      "AppointmentRegistration": 9,
+      "CancelRegistration": 13,
+      "DeleteAccount": 14,
+      "DeleteAgenda": 3,
+      "DeleteAlarm": 6,
+      "DeleteMeeting": 1,
+      "DeleteReminder": 1,
+      "ForgotPassword": 14,
+      "ModifyAgenda": 2,
+      "ModifyAlarm": 7,
+      "ModifyMeeting": 16,
+      "ModifyPassword": 6,
+      "ModifyRegistration": 16,
+      "ModifyReminder": 24,
+      "OpenBankAccount": 29,
+      "RecordHealthData": 18
+    },
+    "blocked_window_candidates": {
+      "effect_write": 199,
+      "live_in_not_in_entry_schema": 5,
+      "partial_run": 2
+    },
+    "candidate_families": 19,
+    "candidate_windows": 48,
+    "episodes": 212,
+    "episodes_with_candidate_window": 37,
+    "exact_gate": {
+      "alpha": 0.05,
+      "certifiable_families_even_if_zero_violations": 0,
+      "delta": 0.1,
+      "max_observed_family_support": 8,
+      "minimum_zero_violation_groups": 92,
+      "outcome": "RETIRE"
+    },
+    "families_support_ge_3": 8,
+    "family_results": [
+      {
+        "family_hash": "59283119527d",
+        "support": 3,
+        "synthesis": "ungroundable_slot",
+        "test_groups": 1,
+        "tool_count": 2,
+        "train_groups": 2
+      },
+      {
+        "family_hash": "6666f76d6e12",
+        "support": 8,
+        "synthesis": "ungroundable_slot",
+        "test_groups": 2,
+        "tool_count": 2,
+        "train_groups": 6
+      },
+      {
+        "family_hash": "8ee76de8ea6a",
+        "program_size": 24,
+        "program_steps": 2,
+        "replay_abstained": 1,
+        "replay_passed": 0,
+        "replay_wrong": 0,
+        "support": 3,
+        "synthesis": "ok",
+        "test_groups": 1,
+        "tool_count": 2,
+        "train_groups": 2
+      },
+      {
+        "family_hash": "ada6c031ba02",
+        "support": 3,
+        "synthesis": "ungroundable_slot",
+        "test_groups": 1,
+        "tool_count": 3,
+        "train_groups": 2
+      },
+      {
+        "family_hash": "d65e6c13852e",
+        "support": 4,
+        "synthesis": "ungroundable_slot",
+        "test_groups": 1,
+        "tool_count": 2,
+        "train_groups": 3
+      },
+      {
+        "family_hash": "db0fc3f88d92",
+        "support": 3,
+        "synthesis": "ungroundable_slot",
+        "test_groups": 1,
+        "tool_count": 3,
+        "train_groups": 2
+      },
+      {
+        "family_hash": "e97a4a73a329",
+        "support": 4,
+        "synthesis": "ungroundable_slot",
+        "test_groups": 1,
+        "tool_count": 2,
+        "train_groups": 3
+      },
+      {
+        "family_hash": "fd8da554f3bc",
+        "program_size": 11,
+        "program_steps": 2,
+        "replay_abstained": 1,
+        "replay_passed": 0,
+        "replay_wrong": 0,
+        "support": 4,
+        "synthesis": "ok",
+        "test_groups": 1,
+        "tool_count": 2,
+        "train_groups": 3
+      }
+    ],
+    "graph_diagnostics": {
+      "ambiguous": 1,
+      "grounded": 559,
+      "not_groundable": 321,
+      "transform_cache_hits": 308,
+      "transform_cache_misses": 670,
+      "transform_search": 110
+    },
+    "graphs": 212,
+    "held_out_recorded_replay": {
+      "families_attempted": 8,
+      "families_synthesized": 2,
+      "pass_rate": 0.0,
+      "test_abstained": 2,
+      "test_passed": 0,
+      "test_windows": 2,
+      "test_wrong": 0,
+      "wrong_rate": 0.0
+    },
+    "maximum_family_support": 8,
+    "runtime": {
+      "patg_seconds": 0.5785435830184724,
+      "peak_memory_mib": 3.164928436279297,
+      "total_seconds": 0.6310213330143597
+    }
+  },
+  "dataset": {
+    "calls_per_task_max": 5,
+    "calls_per_task_median": 2.0,
+    "calls_per_task_min": 1,
+    "complete_observed_traces": 212,
+    "observed_calls": 389,
+    "observed_cross_call_value_reuse_slots": 131,
+    "tasks": 212,
+    "unique_tools": 49
+  },
+  "effect_catalog": "api-bank-pinned-recorded-fixture@1#dff8e1d187d7c84b",
+  "effect_catalog_sha256": "40260d56070f6d517ce1621de08a5cc073b3656778ac4b92d8dd9a1ddc3c9a56",
+  "evidence": {
+    "class": "public executable simulator plus complete recorded traces",
+    "compiler_execution": true,
+    "is_live_provider_evaluation": false,
+    "is_real_world_demo": false,
+    "licenses_end_to_end_planning_quality_claim": false,
+    "licenses_production_safety_claim": false,
+    "measures": [
+      "trace normalization",
+      "provenance and candidate mining",
+      "held-out recorded replay where support permits",
+      "pinned upstream API execution compatibility"
+    ],
+    "prompts_arguments_outputs_serialized": false,
+    "provider_calls": 0
+  },
+  "schema": "agent-compaction-external-execution/v1",
+  "source_license": "Apache-2.0",
+  "source_license_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+  "source_revision": "483554eae102996f5ec1f4feab4e78ef29c2a394",
+  "upstream_execution": {
+    "action_outcomes": {
+      "attempted": 389,
+      "dependency_unavailable": 5,
+      "execution_error:KeyError": 9,
+      "mismatch": 37,
+      "passed": 338
+    },
+    "by_tool": {
+      "AddAgenda": {
+        "attempted": 11,
+        "passed": 11
+      },
+      "AddAlarm": {
+        "attempted": 3,
+        "passed": 3
+      },
+      "AddMeeting": {
+        "attempted": 2,
+        "mismatch": 2
+      },
+      "AddReminder": {
+        "attempted": 3,
+        "passed": 3
+      },
+      "AppointmentRegistration": {
+        "attempted": 11,
+        "passed": 11
+      },
+      "BookHotel": {
+        "attempted": 5,
+        "passed": 5
+      },
+      "Calculator": {
+        "attempted": 9,
+        "passed": 9
+      },
+      "CancelRegistration": {
+        "attempted": 13,
+        "passed": 13
+      },
+      "CancelTimedSwitch": {
+        "attempted": 5,
+        "execution_error:KeyError": 5
+      },
+      "DeleteAccount": {
+        "attempted": 12,
+        "passed": 12
+      },
+      "DeleteAgenda": {
+        "attempted": 5,
+        "passed": 5
+      },
+      "DeleteAlarm": {
+        "attempted": 4,
+        "passed": 4
+      },
+      "DeleteMeeting": {
+        "attempted": 1,
+        "execution_error:KeyError": 1
+      },
+      "DeleteReminder": {
+        "attempted": 1,
+        "passed": 1
+      },
+      "DeleteScene": {
+        "attempted": 3,
+        "passed": 3
+      },
+      "Dictionary": {
+        "attempted": 5,
+        "mismatch": 2,
+        "passed": 3
+      },
+      "DocumentQA": {
+        "attempted": 8,
+        "passed": 8
+      },
+      "EmergencyKnowledge": {
+        "attempted": 19,
+        "passed": 19
+      },
+      "ForgotPassword": {
+        "attempted": 8,
+        "passed": 8
+      },
+      "GetToday": {
+        "attempted": 6,
+        "passed": 6
+      },
+      "GetUserToken": {
+        "attempted": 82,
+        "passed": 82
+      },
+      "ImageCaption": {
+        "attempted": 1,
+        "passed": 1
+      },
+      "ModifyAgenda": {
+        "attempted": 2,
+        "passed": 2
+      },
+      "ModifyAlarm": {
+        "attempted": 6,
+        "passed": 6
+      },
+      "ModifyMeeting": {
+        "attempted": 5,
+        "mismatch": 5
+      },
+      "ModifyPassword": {
+        "attempted": 6,
+        "passed": 6
+      },
+      "ModifyRegistration": {
+        "attempted": 14,
+        "passed": 14
+      },
+      "ModifyReminder": {
+        "attempted": 8,
+        "passed": 8
+      },
+      "OpenBankAccount": {
+        "attempted": 15,
+        "passed": 15
+      },
+      "PlayMusic": {
+        "attempted": 3,
+        "passed": 3
+      },
+      "QueryAgenda": {
+        "attempted": 1,
+        "passed": 1
+      },
+      "QueryAlarm": {
+        "attempted": 1,
+        "passed": 1
+      },
+      "QueryBalance": {
+        "attempted": 10,
+        "passed": 10
+      },
+      "QueryHealthData": {
+        "attempted": 5,
+        "passed": 5
+      },
+      "QueryHistoryToday": {
+        "attempted": 9,
+        "passed": 9
+      },
+      "QueryMeeting": {
+        "attempted": 3,
+        "mismatch": 3
+      },
+      "QueryRegistration": {
+        "attempted": 15,
+        "mismatch": 1,
+        "passed": 14
+      },
+      "QueryReminder": {
+        "attempted": 4,
+        "passed": 4
+      },
+      "QueryScene": {
+        "attempted": 5,
+        "mismatch": 5
+      },
+      "QueryStock": {
+        "attempted": 16,
+        "passed": 16
+      },
+      "RecordHealthData": {
+        "attempted": 19,
+        "mismatch": 19
+      },
+      "RegisterUser": {
+        "attempted": 7,
+        "passed": 7
+      },
+      "SearchEngine": {
+        "attempted": 1,
+        "dependency_unavailable": 1
+      },
+      "SendEmail": {
+        "attempted": 1,
+        "passed": 1
+      },
+      "SpeechRecognition": {
+        "attempted": 1,
+        "passed": 1
+      },
+      "SymptomSearch": {
+        "attempted": 7,
+        "passed": 7
+      },
+      "TimedSwitch": {
+        "attempted": 3,
+        "execution_error:KeyError": 3
+      },
+      "Translate": {
+        "attempted": 4,
+        "dependency_unavailable": 4
+      },
+      "Wiki": {
+        "attempted": 1,
+        "passed": 1
+      }
+    },
+    "exact_action_pass_rate": 0.8688946015424165,
+    "execution_kind": "pinned upstream Python API methods with fresh task fixtures",
+    "provider_calls": 0,
+    "runtime_seconds": 2.6990059579839,
+    "serialized_values": false,
+    "task_outcomes": {
+      "not_fully_replayed": 50,
+      "passed": 162
+    },
+    "tasks": 212
+  }
+}

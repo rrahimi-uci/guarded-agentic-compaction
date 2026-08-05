@@ -39,6 +39,7 @@ OPTIMIZER_HEAD_TO_HEAD_PATH = RESULTS / "optimizer_head_to_head" / "results.json
 PILOT_PATH = RESULTS / "github_live" / "pilot_2026-08-03" / "results.json"
 NESTFUL_PATH = RESULTS / "nestful" / "results.json"
 FAMILY_PATH = RESULTS / "nestful" / "family_results.csv"
+EXTERNAL_PATH = RESULTS / "external_benchmarks" / "reference_analysis.json"
 #: Controlled demonstration suite. Live provider calls and the real SDK runtime against
 #: deterministic local services holding fictional business records.
 DEMOS_PATH = ROOT / "experiments" / "live_results" / "all_results.json"
@@ -871,6 +872,43 @@ def write_related_work_table() -> None:
     (TABLES / "related_work.tex").write_text("\n".join(out) + "\n", encoding="utf-8")
 
 
+def write_external_benchmark_table(matrix: dict[str, Any]) -> None:
+    """Render the all-source evidence ledger without flattening unlike evidence classes."""
+
+    benchmarks = matrix["benchmarks"]
+    api = benchmarks["api_bank"]["execution"]
+    bfcl = benchmarks["bfcl"]["execution"]
+    sandbox = benchmarks["toolsandbox"]["execution"]
+    tau = benchmarks["tau2"]["execution"]
+    browse = benchmarks["browsecomp"]["execution"]
+    rows = [
+        ("NESTFUL", "Compiler", "1,415 traces", "24 / 12 / 0 held-out; all retire"),
+        ("API-Bank", "Compiler + API replay", f"{api['tasks']} traces", f"0 / {api['held_out_abstained']} / {api['held_out_wrong']}; {api['gate_outcome']}; upstream {api['upstream_actions_passed']}/{api['upstream_actions_attempted']} exact"),
+        ("BFCL v4", "Official gold checker", f"{bfcl['tasks']} tasks", f"{bfcl['official_checker_valid']}/{bfcl['tasks']} valid; no model score"),
+        ("ToolSandbox", "Live-provider subset", "1 scenario", f"milestone {sandbox['milestone_similarity']:.3f}; compiler not run"),
+        (r"$\tau^2/\tau^3$", "Live-provider subset", f"{tau['tasks']} tasks", f"{tau['passed']}/{tau['tasks']} pass; compiler not run"),
+        ("ToolBench", "Adapter smoke", f"{benchmarks['toolbench']['tasks']} fixtures", "full data/backend unavailable"),
+        ("AgentBench", "Adapter + preflight", f"{benchmarks['agentbench']['tasks']} tasks", "services and Freebase data gated"),
+        ("GAIA", "Access preflight", "0 downloaded", "authorization denied; no metric"),
+        ("SWE-bench Verified", "Task adapter", f"{benchmarks['swe_bench_verified']['tasks']} issues", "official run host-gated"),
+        ("BrowseComp", "Live-web subset", f"{browse['tasks']} tasks", f"{browse['correct']}/{browse['tasks']} correct; {browse['web_search_calls']} searches; bypass"),
+    ]
+    wrap = r">{\raggedright\arraybackslash}X"
+    out = [
+        r"\begin{tabularx}{\textwidth}{@{}l " + " ".join([wrap] * 3) + r"@{}}",
+        r"\toprule",
+        r"Benchmark & Path exercised & Scope & Observed result / boundary \\",
+        r"\midrule",
+    ]
+    for benchmark, path, scope, result in rows:
+        first = benchmark if benchmark.startswith("$") else tex(benchmark)
+        out.append(" & ".join((first, tex(path), tex(scope), tex(result))) + r" \\")
+    out += [r"\bottomrule", r"\end{tabularx}"]
+    (TABLES / "external_benchmark_matrix.tex").write_text(
+        "\n".join(out) + "\n", encoding="utf-8"
+    )
+
+
 def write_claims_table() -> None:
     rows = [
         ("C1", "The expected producer appears in the provenance candidate set", "Pinned NESTFUL: 5,531/5,746 dependency slots", "96.3% candidate recall; 80.7% unique resolution"),
@@ -893,6 +931,9 @@ def write_claims_table() -> None:
         ("C14", "Guarded composite synthesis beats the measured provider-visible macro", "12 fresh paired real-record cases; both 12/12 exact", "Exploratory: requests -50%, tokens -38.9%, latency -40.0%, cost -32.3%; one workflow family"),
         ("C15", "GCS outperforms an equally pre-executed manual program", "6 fresh paired cases; both 6/6 exact with 1 request, 1 interface, and identical input tokens", "Not supported; structural parity, with no significant cost or latency difference"),
         ("C16", "Bounded GEPA improves this workflow", "Official GEPA 0.1.4; 14 task evaluations and 3 reflection calls", "Not supported; seed retained, deployment requests unchanged, optimization overhead reported separately"),
+        ("C17", "All ten named benchmark families have an implemented disposition", "10/10 source dispositions; eight reference-plan screens; five external paths executed; three use live providers", "Verified, but integration depth and licensed claims differ by substrate"),
+        ("C18", "API-Bank recurrence is sufficient for configured admission", "48 candidate windows; maximum family support 8 vs. 92 required; two held-out abstentions", "Contradicted; every family retires and no efficiency claim is licensed"),
+        ("C19", "External simulated-benchmark runs are real-world demonstrations", "ToolSandbox and tau evidence metadata; public simulator substrates", "Not claimed; the real-record GitHub study remains the real-scenario tier"),
     ]
     # Wrapping columns rather than `llll`: the prose cells give a fixed tabular a
     # natural width several times the text measure, and the only way to place that is
@@ -941,6 +982,7 @@ def main() -> None:
     optimizer_head_to_head = load_json(OPTIMIZER_HEAD_TO_HEAD_PATH)
     pilot = load_json(PILOT_PATH)
     nestful = load_json(NESTFUL_PATH)
+    external = load_json(EXTERNAL_PATH)
     live_efficiency_figure(live)
     paired_figure(live)
     gate_support_figure(nestful)
@@ -956,6 +998,7 @@ def main() -> None:
     write_optimizer_head_to_head_table(optimizer_head_to_head)
     write_nestful_table(nestful)
     write_related_work_table()
+    write_external_benchmark_table(external)
     write_demo_suite_table()
     write_comparator_table()
     write_claims_table()
@@ -963,7 +1006,12 @@ def main() -> None:
         LIVE_PATH, NATURAL_LIVE_PATH, NATURAL_REPLICATION_PATH, PORTFOLIO_PATH,
         GCS_LIVE_PATH, GCS_VALIDATION_PATH,
         OPTIMIZER_HEAD_TO_HEAD_PATH,
-        PILOT_PATH, NESTFUL_PATH, FAMILY_PATH,
+        PILOT_PATH, NESTFUL_PATH, FAMILY_PATH, EXTERNAL_PATH,
+        RESULTS / "external_benchmarks" / "api_bank_execution.json",
+        RESULTS / "external_benchmarks" / "bfcl_gold_execution.json",
+        RESULTS / "external_benchmarks" / "toolsandbox_live.json",
+        RESULTS / "external_benchmarks" / "tau2_live.json",
+        RESULTS / "external_benchmarks" / "browsecomp_live.json",
     ])
     print(f"wrote {len(list(FIGURES.iterdir()))} figures and {len(list(TABLES.iterdir()))} tables")
 

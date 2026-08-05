@@ -1,0 +1,16 @@
+\begin{tabularx}{\textwidth}{@{}l >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X@{}}
+\toprule
+Benchmark & Path exercised & Scope & Observed result / boundary \\
+\midrule
+NESTFUL & Compiler & 1,415 traces & 24 / 12 / 0 held-out; all retire \\
+API-Bank & Compiler + API replay & 212 traces & 0 / 2 / 0; RETIRE; upstream 338/389 exact \\
+BFCL v4 & Official gold checker & 200 tasks & 200/200 valid; no model score \\
+ToolSandbox & Live-provider subset & 1 scenario & milestone 0.982; compiler not run \\
+$\tau^2/\tau^3$ & Live-provider subset & 4 tasks & 0/4 pass; compiler not run \\
+ToolBench & Adapter smoke & 10 fixtures & full data/backend unavailable \\
+AgentBench & Adapter + preflight & 556 tasks & services and Freebase data gated \\
+GAIA & Access preflight & 0 downloaded & authorization denied; no metric \\
+SWE-bench Verified & Task adapter & 500 issues & official run host-gated \\
+BrowseComp & Live-web subset & 3 tasks & 1/3 correct; 28 searches; bypass \\
+\bottomrule
+\end{tabularx}

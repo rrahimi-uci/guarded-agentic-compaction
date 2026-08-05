@@ -96,13 +96,14 @@ The script never prints either value.  Use \code{--smoke} before a paid full run
 
 \section{Implementation Audit}
 
-The package contains 18,687 measured Python statements across source, tests, demos,
-benchmarking, and experiment drivers; the post-fix full suite collects and passes 336
-tests at 75.05\% statement coverage.  \code{pip check} and the repository release verifier
+The package contains 19,264 measured Python statements across source, tests, demos,
+benchmarking, and experiment drivers; the post-fix full suite collects and passes 350
+tests at 74.58\% statement coverage.  \code{pip check} and the repository release verifier
 pass.  Core
 provenance, windows, dispatcher, facade, schemas, registry, and statistics modules have
-strong focused coverage.  Weak areas include TGWS packaging (27.7\%), the outer runner
-(64.5\%), replay (65.5\%), and the older live experiment drivers (30--31\%).  The new
+strong focused coverage.  Weak areas include external adapter acquisition paths (18.5\%),
+TGWS packaging (27.7\%), the outer runner (67.3\%), replay (65.5\%), and the older live
+experiment drivers (30--31\%).  The new
 prospective portfolio driver is at 54.1\%.  Coverage is evidence of exercised lines, not
 correctness.
 
@@ -191,18 +192,49 @@ surrounding host wall time and is retained but excluded from provider-span compa
 
 \section{Benchmark Selection Rationale}
 
-BFCL, API-Bank, ToolSandbox, $\tau^2$-Bench, and AssistantBench are valuable end-to-end
-agent benchmarks.  They were not used for the current compiler analysis because their
-primary question is whether an agent can choose and execute tools, whereas our RQ1 needs
-gold producer references after a valid trace exists.  NESTFUL exposes those references
-directly and supplies executable nested sequences.  The GitHub study then supplies the
-missing end-to-end intervention with live provider turns and real records.
+The extension now gives all ten named benchmark families an explicit path.  NESTFUL and
+API-Bank execute the compiler because they preserve complete values.  BFCL executes 200
+gold plans through its official checker.  ToolSandbox, the maintained $\tau^2/\tau^3$
+implementation, and BrowseComp execute bounded official paths with real provider calls.
+ToolBench and AgentBench execute source adapters but remain full-evaluation gated by
+unversioned external data, live backends, and services.  SWE-bench Verified's 500 real
+issues are normalized, while its container execution is host-gated.  GAIA remains
+authorization gated.  No missing path receives an imputed metric.
 
-This pairing still leaves write-heavy, conversational, multi-agent, and browser workloads
-untested.  A future benchmark should record entry snapshots, full argument/result payloads,
-effect and permission labels, independent grouping keys, commit boundaries, task outcomes,
-and a frozen baseline/candidate paired protocol.  Without these fields, a benchmark can
-measure tool use but cannot substantiate safe trace-derived replacement.
+These integrations do not make the benchmarks interchangeable.  A gold plan lacks
+observed tool results; an encrypted web question lacks a replay-safe local search trace; a
+stateful simulator can measure the agent but is not a real-world deployment; a real issue
+without an agent trajectory tests generation but not post-trace compilation.  A future
+compiler benchmark should record entry snapshots, full argument/result payloads, effect
+and permission labels, independent grouping keys, commit boundaries, task outcomes, and a
+frozen paired protocol.  Without these fields, a benchmark can measure tool use but cannot
+substantiate safe trace-derived replacement.
+
+\subsection{Reproduction commands for the all-source audit}
+
+Source acquisition writes into a caller-provided disposable directory and serializes only
+revisions, hashes, and gate reasons.  After acquisition, the provider-free matrix and the
+API-Bank/BFCL paths are rebuilt with:
+
+\begin{verbatim}
+SCRIPTS=paper/scripts
+OUT=paper/results/external_benchmarks
+python "$SCRIPTS/external_benchmark_sources.py" \
+  --root "$SOURCE_ROOT" \
+  --output "$OUT/source_preflight.json"
+python "$SCRIPTS/external_benchmark_matrix.py" \
+  --source-root "$SOURCE_ROOT"
+python "$SCRIPTS/api_bank_benchmark.py" \
+  --source-root "$SOURCE_ROOT"
+python "$SCRIPTS/bfcl_structural_benchmark.py" \
+  --source-root "$SOURCE_ROOT"
+\end{verbatim}
+
+ToolSandbox is isolated by the pinned Dockerfile.  The $\tau$ and BrowseComp live runs
+require \code{OPENAI\_API\_KEY}; GAIA acquisition additionally checks \code{HF\_TOKEN}.
+The sanitizers retain hashes, counts, scores, timing, and usage only.  Raw ToolSandbox and
+$\tau$ trajectories remain in disposable upstream run directories, and BrowseComp
+questions and answers are decrypted only in process memory.
 
 The repository now contains the provider-free portion of such a prospective extension.
 It checksum-binds 420 real vulnerability groups and 420 privacy-modified public HMDA

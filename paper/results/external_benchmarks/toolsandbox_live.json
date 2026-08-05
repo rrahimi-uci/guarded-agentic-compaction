@@ -1,0 +1,57 @@
+{
+  "aggregate": {
+    "assistant_messages": 3,
+    "conversation_messages": 7,
+    "message_roles": {
+      "assistant": 3,
+      "system": 1,
+      "tool": 2,
+      "user": 1
+    },
+    "milestone_similarity": 0.9818215727005191,
+    "minefield_similarity": 0,
+    "provider_accounting_note": "The pinned upstream harness does not retain token usage; assistant-message count is reported but is not relabeled as exact provider requests.",
+    "provider_requests": null,
+    "provider_tokens": null,
+    "scenarios": 1,
+    "similarity": 0.9818215727005191,
+    "tool_calls": 2,
+    "turn_count": 5
+  },
+  "benchmark": "ToolSandbox",
+  "evidence": {
+    "class": "official simulated environment with real OpenAI provider calls",
+    "compiler_execution": false,
+    "credential_serialized": false,
+    "gac_disposition": "reference actions screened only; the raw live trajectory remains outside the repository and is not licensed as replay-safe compiler evidence",
+    "is_real_world_demo": false,
+    "official_full_benchmark_score": false,
+    "prompts_messages_arguments_outputs_serialized": false
+  },
+  "models": {
+    "agent": "gpt-4o-2024-05-13",
+    "user_simulator": "gpt-4o-2024-05-13"
+  },
+  "runtime_contract": {
+    "base_image": "python@sha256:1c06f14f1f45c37c7ba0563077e651f288b728eb4a227db32da92b52794ddb3e",
+    "compatibility_pin": "httpx==0.27.2",
+    "container_architecture": "linux/arm64",
+    "dockerfile": "benchmarks/external/envs/toolsandbox.Dockerfile",
+    "dockerfile_sha256": "dc5ab29f71f541dd35ee13c8d8c9321fb3a87aeedadeb20253e25ede6e7431b1",
+    "python": "3.11",
+    "upstream_packaging_findings": [
+      "ccy==1.3.1 declares Python <3.12 although the project declares Python <=3.12",
+      "openai==1.17.0 is incompatible with current httpx unless httpx is pinned below 0.28",
+      "the result writer invokes git but git is not declared as a runtime dependency"
+    ]
+  },
+  "schema": "agent-compaction-external-live-evaluation/v1",
+  "selection": {
+    "not_official_leaderboard_submission": true,
+    "scenario": "search_message_with_recency_oldest",
+    "scenarios": 1,
+    "seed": 42
+  },
+  "source_license": "Apple sample-code license with bundled acknowledgements",
+  "source_revision": "165848b9a78cead7ca7fe7c89c688b58e6501219"
+}

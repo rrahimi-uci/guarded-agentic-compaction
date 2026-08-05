@@ -16,12 +16,13 @@ Start here rather than treating every document as an equally current specificati
 | [Use cases](use-cases.md) | Evidence-labeled scenarios using the current API |
 | [Architecture decisions](architecture/README.md) | Short records of stable design choices |
 | [MLflow removal review](mlflow-removal-report.md) | Code-grounded dependency decision, custom JSONL design, trade-offs, migration, and validation |
+| [External benchmark integration](external-benchmarks.md) | All-source BFCL, API-Bank, ToolSandbox, tau, ToolBench, AgentBench, GAIA, SWE-bench, BrowseComp, and NESTFUL dispositions and results |
 
 ## Evidence and research status
 
 | Document | Evidence class |
 |:---|:---|
-| [Paper artifact](../paper/README.md) | Publication source, real-record/live-provider studies, public benchmark, generated tables, and reproducibility commands |
+| [Paper artifact](../paper/README.md) | Publication source, real-record/live-provider studies, ten-benchmark audit, generated tables, and reproducibility commands |
 | [End-to-end repository review](gpt-5.6-report.md) | Current architecture, implementation, limitations, roadmap, and validation evidence |
 | [Live SDK fixture results](live-results.md) | Real provider and SDK execution over deterministic fictional services |
 | [Offline stress results](results.md) | Deterministic simulated policy/tool substrate; not provider evidence |

@@ -239,11 +239,48 @@ cost of $0.01162959. Because no prompt change is selected, the nominal combined 
 GCS replication, not evidence of GEPA/GCS synergy. The result is bounded to one workflow,
 two validation records, three proposals, and six deployment cases.
 
-The complete local suite passes **336/336 tests** on Python 3.14.4, including real-trace
+The complete local suite passes **350/350 tests** on Python 3.14.4, including real-trace
 recompilation, artifact round-trip, normal-dispatch compatibility, semantic-domain
 rejection, continuation mismatch, missing public input, projection failure, tamper
 rejection, and retained paid-evidence checks. Both LaTeX manuscripts compile with the new
 method, evidence table, limitations, and adversarial review.
+
+## Ten-benchmark integration checkpoint (2026-08-04)
+
+Every requested benchmark family now has a revision-pinned implementation disposition.
+The common `ReferenceTask` IR records substrate, revision, independent group, ordered
+actions, conservative screening effects, and whether results were actually observed. It
+fails closed when an incomplete reference plan is converted into an executable Episode and
+rejects cross-revision/substrate pooling.
+
+| Benchmark | Implemented depth | Observed result or gate |
+|:---|:---|:---|
+| NESTFUL | compiler | 1,415 traces; 24 pass / 12 abstain / 0 wrong held-out; all retire |
+| API-Bank | compiler + upstream API replay | 212 complete traces; 48 candidate windows; 0 pass / 2 abstain / 0 wrong; all retire; 338/389 upstream calls exactly replay |
+| BFCL v4 | official checker | 200/200 gold plans valid; no model score |
+| ToolSandbox | bounded official live run | one real-provider simulated scenario; 0.9818 milestone similarity |
+| maintained tau | bounded official live run | four domains, 0/4 reward, 288,757 tokens, $0.0490 reported cost |
+| ToolBench | adapter smoke | ten versioned fixtures; full archive/backend gated |
+| AgentBench | adapter/preflight | 556 tasks; services and Freebase data gated |
+| GAIA | access preflight | authenticated download denied with HTTP 403; no metric |
+| SWE-bench Verified | dataset adapter | 500 real issues; official run gated by arm64/12.5-GiB Docker host |
+| BrowseComp | bounded hosted-search run | 1/3 correct, 28 searches, 237,859 tokens, 408.1 seconds; compiler bypass |
+
+Across the eight accessible task adapters, 5,419 tasks and 17,836 reference actions are
+normalized. Five external paths execute beyond parsing and three use real OpenAI calls.
+Exactly 77 requests are accounted from stored usage; ToolSandbox omits usage and its three
+assistant messages remain separately labeled. No prompts, questions, answers, messages,
+tool arguments/results, hosted-search results, or credentials are copied into publication
+JSON.
+
+The API-Bank result is the main scientific addition. Its maximum recurrent-family support
+is eight versus 92 groups required by the configured gate. Two families synthesize and
+both abstain on their held-out windows, so the second compiler corpus independently
+supports refusal rather than a performance win. The wider audit does not create ten
+compiler scores: BFCL lacks observed results, hosted search lacks a replay-safe local
+contract, and several official paths remain data, service, authorization, or host gated.
+ToolSandbox and tau are explicitly simulated benchmarks, not real-world demonstrations.
+See [`external-benchmarks.md`](external-benchmarks.md) for commands and exact boundaries.
 
 ## Executive verdict
 
@@ -455,7 +492,7 @@ flowchart LR
 | OpenAI Agents SDK | native tracing capture and native local function calls on supported hit | documented and tested lifecycle/mode/bypass behavior | not a drop-in Runner; no exact post-emission rollback; streaming, handoffs, hosted/MCP tools, loops and assertions bypass |
 | Metrics/statistics | paired grouped ratios/differences, exact safety upper bound | added generic comparison and repeat-agreement APIs | determinism is not a first-class field in the main four-demo result schema; secondary endpoint correction is not wired through every report |
 | Reproduction | generated fixtures, four conditions, negative result, figures | added validated parallel per-demo execution with isolated outputs | created timestamps and wall-clock fields make raw files byte-different even when semantics are identical |
-| Tests | 336 tests across unit, property, golden, mutation, fault injection, backends, CLI, paper oracles, artifact determinism, multidomain controls, portfolio selection, GCS, manual pre-model execution, GEPA, and end-to-end paths | added regression coverage for the independent manual runner, optimizer split/budget enforcement, live-result boundaries, and provider-span anomaly handling | paid multidomain drivers, older live-study drivers, TGWS packaging, replay, and the outer runner need focused coverage |
+| Tests | 350 tests across unit, property, golden, mutation, fault injection, backends, CLI, paper oracles, artifact determinism, multidomain controls, external benchmark IR/matrix controls, portfolio selection, GCS, manual pre-model execution, GEPA, and end-to-end paths | added regression coverage for independent-group support, all-source evidence boundaries, official-source normalization, the independent manual runner, optimizer split/budget enforcement, live-result boundaries, and provider-span anomaly handling | paid multidomain drivers, older live-study drivers, external acquisition adapters, TGWS packaging, replay, and the outer runner need focused coverage |
 
 ## 5. Correctness findings and concrete fixes
 
@@ -762,12 +799,12 @@ test set.
 
 | check | result |
 |:---|:---|
-| current full repository suite | 336 passed |
+| current full repository suite | 350 passed |
 | expanded primary natural real-provider run | 252 agent executions, 848 provider responses, 0 infrastructure failures; all three primary arms pass 30/30 exact factual and task contracts |
 | earlier aggressive natural run | 134 agent executions, 446 provider requests, 0 infrastructure failures; factual passes 18/18 unchanged, 17/18 compiler, 18/18 macro |
 | fixture-based live provider executions | 22 completed; all registered scenario outcomes passed |
 | optional framework backend | OpenAI Agents SDK 0.19.2 conformance tests passed; MLflow is no longer a package extra or backend |
-| measured statement coverage | 75.05% overall, 18,687 statements, 4,663 missed |
+| measured statement coverage | 74.58% overall, 19,264 statements, 4,896 missed |
 | compileall | passed |
 | editable install | package and metadata both 0.7.0 |
 | isolated PEP 517 build | sdist and universal wheel built |
@@ -775,7 +812,7 @@ test set.
 | clean CLI | help and command registration passed |
 | dependency consistency | pip check passed |
 | release audit | all package, schema, link, result, manifest, evidence, and no-write checks passed |
-| publication claim/integrity audit | 1,568 checks passed; 0 failed over a 353-file checksum manifest |
+| publication claim/integrity audit | 1,699 checks passed; 0 failed over a 377-file checksum manifest |
 | full reproduction | all four demos, report, figures, and audit completed in 321.0 seconds with four workers |
 | deterministic rerun | normalized semantic equality and identical digest for full support experiment |
 

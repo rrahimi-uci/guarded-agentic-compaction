@@ -1,0 +1,105 @@
+schema: agent-compaction-external-benchmark-sources/v1
+retrieved_at: "2026-08-05T04:00:00Z"
+sources:
+  bfcl:
+    kind: git
+    repository: https://github.com/ShishirPatil/gorilla.git
+    revision: 6ea57973c7a6097fd7c5915698c54c17c5b1b6c8
+    license: Apache-2.0
+    checkout_name: gorilla
+    adapter_root: gorilla
+    sparse_paths:
+      - berkeley-function-call-leaderboard
+    benchmark_scope: BFCL v4 multi_turn_base, 200 tasks
+  toolsandbox:
+    kind: git
+    repository: https://github.com/apple/ToolSandbox.git
+    revision: 165848b9a78cead7ca7fe7c89c688b58e6501219
+    license: Apple sample-code license with bundled acknowledgements
+    checkout_name: toolsandbox
+    adapter_root: toolsandbox
+    benchmark_scope: 129 source-defined base scenarios; generated distraction variants share lineage
+  tau2:
+    kind: git
+    repository: https://github.com/sierra-research/tau2-bench.git
+    revision: 1eceb0453fe2effa1ba26b6a51fc52b966944ec1
+    license: MIT
+    checkout_name: tau2
+    adapter_root: tau2
+    benchmark_scope: airline, retail, telecom, and banking_knowledge task definitions
+  api_bank:
+    kind: git
+    repository: https://github.com/AlibabaResearch/DAMO-ConvAI.git
+    revision: 483554eae102996f5ec1f4feab4e78ef29c2a394
+    license: Apache-2.0 for api-bank
+    checkout_name: damo
+    adapter_root: damo
+    sparse_paths:
+      - api-bank
+    benchmark_scope: 212 retained level-1/2 given-description dialogues with observed API results
+  toolbench:
+    kind: git
+    repository: https://github.com/OpenBMB/ToolBench.git
+    revision: d56fdd89faf8c91fa135090b212bb9057ee5cfc2
+    license: Apache-2.0
+    checkout_name: toolbench
+    adapter_root: toolbench
+    benchmark_scope: repository examples only; full reproduction data is an external download
+  agentbench:
+    kind: git
+    repository: https://github.com/THUDM/AgentBench.git
+    revision: d1e4a10db08c87075c78972e48ecc182be03e2d5
+    license: Apache-2.0
+    checkout_name: agentbench
+    adapter_root: agentbench
+    benchmark_scope: knowledge-graph reference actions plus DB and OS task-only records
+  swe_bench_verified:
+    kind: http
+    repository: https://github.com/SWE-bench/SWE-bench.git
+    revision: c104f840cc67f8b6eec6f759ebc8b2693d585d4a
+    license: MIT harness; dataset records retain upstream repository provenance
+    checkout_name: swe-bench-verified.parquet
+    adapter_root: swe-bench-verified.parquet
+    url: https://huggingface.co/datasets/princeton-nlp/SWE-bench_Verified/resolve/c104f840cc67f8b6eec6f759ebc8b2693d585d4a/data/test-00000-of-00001.parquet?download=true
+    sha256: a45b1fe4e2f0c8390b2b2938ac83e92ed5979000856808f3679c07812e9e6dcd
+    bytes: 2096679
+    benchmark_scope: 500 verified real GitHub issue tasks; no agent trajectories bundled
+  swe_bench_harness:
+    kind: git
+    repository: https://github.com/SWE-bench/SWE-bench.git
+    revision: f7bbbb2ccdf479001d6467c9e34af59e44a840f9
+    license: MIT
+    checkout_name: swe-bench-harness
+    adapter_root: swe-bench-harness
+    benchmark_scope: official container evaluation harness; distinct from the pinned dataset revision
+  browsecomp:
+    kind: http
+    repository: https://github.com/openai/simple-evals.git
+    revision: sha256:7b24471cd5b3eb2a46830a14802b5c029ea62f488ff75a0f88af7923d1454abf
+    license: MIT
+    checkout_name: browsecomp-encrypted.csv
+    adapter_root: browsecomp-encrypted.csv
+    url: https://openaipublic.blob.core.windows.net/simple-evals/browse_comp_test_set.csv
+    sha256: 7b24471cd5b3eb2a46830a14802b5c029ea62f488ff75a0f88af7923d1454abf
+    bytes: 1196283
+    benchmark_scope: 1,266 encrypted live-web tasks; prompts and answers remain encrypted
+  browsecomp_harness:
+    kind: git
+    repository: https://github.com/openai/simple-evals.git
+    revision: 652c89d0ca9df547706735883097e9537d40dc47
+    license: MIT
+    checkout_name: simple-evals
+    adapter_root: simple-evals
+    benchmark_scope: archived official reference evaluator; repository marks this implementation deprecated
+  gaia:
+    kind: gated_http
+    repository: https://huggingface.co/datasets/gaia-benchmark/GAIA
+    revision: 682dd723ee1e1697e00360edccf2366dc8418dd9
+    license: gated non-redistribution agreement
+    checkout_name: gaia-validation.parquet
+    adapter_root: gaia-validation.parquet
+    url: https://huggingface.co/datasets/gaia-benchmark/GAIA/resolve/682dd723ee1e1697e00360edccf2366dc8418dd9/2023/validation/metadata.parquet?download=true
+    auth_env: HF_TOKEN
+    sha256: d9141bad0081af438d1ee36d188c5197035dc22a01f64e3f2ee17e45469518e9
+    bytes: 116994
+    benchmark_scope: validation metadata; current token can inspect metadata but is not authorized to download bytes

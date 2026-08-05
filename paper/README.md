@@ -6,9 +6,10 @@ This directory is the complete, reproducible artifact for:
 
 The paper studies whether repeated model-mediated, read-only tool prefixes can be
 replaced by trace-derived deterministic programs without hiding provenance, effect,
-calibration, or fallback requirements. Its evidence consists of a public executable
-benchmark, a pilot-separated live-provider experiment on real public records, and a
-controlled suite of harder workflow shapes run through the real runtime.
+calibration, or fallback requirements. Its evidence consists of a ten-benchmark
+interoperability audit (including two compiler substrates), pilot-separated live-provider
+experiments on real public records, and a controlled suite of harder workflow shapes run
+through the real runtime.
 
 ## Directory map
 
@@ -36,9 +37,9 @@ paper/
 │   ├── gac-template-map.json        source-to-output slide mapping
 │   ├── README.md                    generation and evidence-boundary notes
 │   ├── compiling-recurrent-agent-workflows-into-guarded-programs.pptx
-│   │                                editable 26-slide seminar presentation
+│   │                                editable 27-slide seminar presentation
 │   └── compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx
-│                                    editable 22-slide technical-review presentation
+│                                    editable 23-slide technical-review presentation
 ├── results/
 │   ├── datasets/                   pinned upstream snapshots and manifests
 │   ├── github_live/                real-record/live-provider raw results
@@ -50,6 +51,7 @@ paper/
 │   ├── github_natural_replication/ expanded paid 30-pair replication
 │   ├── multidomain/                real-record provider-free extension preflight
 │   ├── nestful/                    public-benchmark raw results
+│   ├── external_benchmarks/         all-source preflight, compiler, checker, and bounded live results
 │   ├── artifact_manifest.json      checksums of quantitative paper artifacts
 │   └── publication_manifest.json   final source/evidence/PDF checksums
 ├── scripts/
@@ -63,6 +65,13 @@ paper/
 │   ├── multidomain_study.py        gated real-provider multidomain runner
 │   ├── validate_multidomain.py     provider-free independent-gold validation
 │   ├── nestful_benchmark.py        provider-free external benchmark
+│   ├── external_benchmark_sources.py pinned all-source acquisition/preflight
+│   ├── external_benchmark_matrix.py shared-IR screening and evidence matrix
+│   ├── api_bank_benchmark.py       second provider-free compiler benchmark
+│   ├── bfcl_structural_benchmark.py official BFCL gold checker
+│   ├── toolsandbox_live_summary.py redacted official live-run summary
+│   ├── tau2_live_summary.py        redacted four-domain live-run summary
+│   ├── browsecomp_live_benchmark.py sealed hosted-search subset
 │   ├── build_artifacts.py          deterministic figures/tables
 │   ├── generate_slides.mjs         hash-bound GAC-template slide generator
 │   └── validate_artifacts.py       claim and integrity audit
@@ -109,6 +118,12 @@ capabilities are documented in
 - **NESTFUL:** real public benchmark data, deterministic executable functions, no model
   calls. This tests post-trace provenance, synthesis, replay, and refusal; it is not a
   model-planning score.
+- **All-source interoperability audit:** every requested benchmark family has a pinned
+  source and adapter, execution, or gate disposition. API-Bank is a second compiler
+  substrate; BFCL executes the official gold checker; ToolSandbox, maintained tau, and
+  BrowseComp use bounded real provider calls. ToolBench, AgentBench, GAIA, and SWE-bench
+  retain explicit data/infrastructure/access gates. Simulated environments are not labeled
+  as real-world demos, and unlike rows are never averaged.
 - **Expanded natural-order replication:** 132 discovery and 30 held-out actual public
   issue records, deterministic snapshot tools, and live OpenAI calls through the Agents
   SDK. The compiler rejects an ungroundable three-read candidate, emits a two-read prefix,
@@ -164,6 +179,13 @@ From the repository root:
 
 ```bash
 .venv/bin/python paper/scripts/nestful_benchmark.py
+# After acquiring the pinned sources into a disposable directory:
+.venv/bin/python paper/scripts/external_benchmark_matrix.py \
+    --source-root "$BENCHMARK_SOURCE_ROOT"
+.venv/bin/python paper/scripts/api_bank_benchmark.py \
+    --source-root "$BENCHMARK_SOURCE_ROOT"
+.venv/bin/python paper/scripts/bfcl_structural_benchmark.py \
+    --source-root "$BENCHMARK_SOURCE_ROOT"
 .venv/bin/python paper/scripts/github_live_study.py \
     --task-design natural-extractive-v2 --evaluation-order counterbalanced \
     --include-macro --preflight-only

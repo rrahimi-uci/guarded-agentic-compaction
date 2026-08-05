@@ -1,0 +1,122 @@
+{
+  "counts": {
+    "available": 10,
+    "failed": 0,
+    "gated": 1
+  },
+  "manifest": "benchmarks/manifests/external-benchmarks.yaml",
+  "manifest_sha256": "f34c5d33d59bd5ed1d45671cc69044dd3860638d696a46d4207e98a66e40bb4d",
+  "schema": "agent-compaction-external-source-preflight/v1",
+  "secrets_serialized": false,
+  "source_root_serialized": false,
+  "sources": {
+    "agentbench": {
+      "benchmark_scope": "knowledge-graph reference actions plus DB and OS task-only records",
+      "kind": "git",
+      "license": "Apache-2.0",
+      "path": "agentbench",
+      "revision": "d1e4a10db08c87075c78972e48ecc182be03e2d5",
+      "status": "available",
+      "tree": "01803b1281e3f420ea386602e1c5ef60de02f80b"
+    },
+    "api_bank": {
+      "benchmark_scope": "212 retained level-1/2 given-description dialogues with observed API results",
+      "kind": "git",
+      "license": "Apache-2.0 for api-bank",
+      "path": "damo",
+      "revision": "483554eae102996f5ec1f4feab4e78ef29c2a394",
+      "status": "available",
+      "tree": "ddb1c5c81323a28123482e6a5665c23d6e562fd4"
+    },
+    "bfcl": {
+      "benchmark_scope": "BFCL v4 multi_turn_base, 200 tasks",
+      "kind": "git",
+      "license": "Apache-2.0",
+      "path": "gorilla",
+      "revision": "6ea57973c7a6097fd7c5915698c54c17c5b1b6c8",
+      "status": "available",
+      "tree": "8f9c7a04207ca8be448e084dd0802a6aecbd313f"
+    },
+    "browsecomp": {
+      "benchmark_scope": "1,266 encrypted live-web tasks; prompts and answers remain encrypted",
+      "bytes": 1196283,
+      "credential_name": null,
+      "credential_value_serialized": false,
+      "kind": "http",
+      "license": "MIT",
+      "path": "browsecomp-encrypted.csv",
+      "revision": "sha256:7b24471cd5b3eb2a46830a14802b5c029ea62f488ff75a0f88af7923d1454abf",
+      "sha256": "7b24471cd5b3eb2a46830a14802b5c029ea62f488ff75a0f88af7923d1454abf",
+      "status": "available"
+    },
+    "browsecomp_harness": {
+      "benchmark_scope": "archived official reference evaluator; repository marks this implementation deprecated",
+      "kind": "git",
+      "license": "MIT",
+      "path": "simple-evals",
+      "revision": "652c89d0ca9df547706735883097e9537d40dc47",
+      "status": "available",
+      "tree": "e543497049f2c25c2d20ba3a76229f990b15a383"
+    },
+    "gaia": {
+      "benchmark_scope": "validation metadata; current token can inspect metadata but is not authorized to download bytes",
+      "credential_name": "HF_TOKEN",
+      "credential_value_serialized": false,
+      "kind": "gated_http",
+      "license": "gated non-redistribution agreement",
+      "path": "gaia-validation.parquet",
+      "reason": "upstream authorization denied with HTTP 403",
+      "revision": "682dd723ee1e1697e00360edccf2366dc8418dd9",
+      "status": "gated"
+    },
+    "swe_bench_harness": {
+      "benchmark_scope": "official container evaluation harness; distinct from the pinned dataset revision",
+      "kind": "git",
+      "license": "MIT",
+      "path": "swe-bench-harness",
+      "revision": "f7bbbb2ccdf479001d6467c9e34af59e44a840f9",
+      "status": "available",
+      "tree": "81083caddb04c76896805b38eaa4e43ca3ce2d63"
+    },
+    "swe_bench_verified": {
+      "benchmark_scope": "500 verified real GitHub issue tasks; no agent trajectories bundled",
+      "bytes": 2096679,
+      "credential_name": null,
+      "credential_value_serialized": false,
+      "kind": "http",
+      "license": "MIT harness; dataset records retain upstream repository provenance",
+      "path": "swe-bench-verified.parquet",
+      "revision": "c104f840cc67f8b6eec6f759ebc8b2693d585d4a",
+      "sha256": "a45b1fe4e2f0c8390b2b2938ac83e92ed5979000856808f3679c07812e9e6dcd",
+      "status": "available"
+    },
+    "tau2": {
+      "benchmark_scope": "airline, retail, telecom, and banking_knowledge task definitions",
+      "kind": "git",
+      "license": "MIT",
+      "path": "tau2",
+      "revision": "1eceb0453fe2effa1ba26b6a51fc52b966944ec1",
+      "status": "available",
+      "tree": "4fe33e2c3649266e5bc3cc43068f4366bdf1e242"
+    },
+    "toolbench": {
+      "benchmark_scope": "repository examples only; full reproduction data is an external download",
+      "kind": "git",
+      "license": "Apache-2.0",
+      "path": "toolbench",
+      "revision": "d56fdd89faf8c91fa135090b212bb9057ee5cfc2",
+      "status": "available",
+      "tree": "efd32aca9bcbe0fe5e7566dd4723fb6cbf827c56"
+    },
+    "toolsandbox": {
+      "benchmark_scope": "129 source-defined base scenarios; generated distraction variants share lineage",
+      "kind": "git",
+      "license": "Apple sample-code license with bundled acknowledgements",
+      "path": "toolsandbox",
+      "revision": "165848b9a78cead7ca7fe7c89c688b58e6501219",
+      "status": "available",
+      "tree": "060c6eb2a9d4370c56586d4340401d87fa155eda"
+    }
+  },
+  "timestamp_utc": "2026-08-05T04:55:24.229309+00:00"
+}

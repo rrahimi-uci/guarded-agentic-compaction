@@ -1267,6 +1267,21 @@ def validate_publication() -> None:
         "tables/natural_replication_results.tex",
         "tables/gcs_live_results.tex",
         "tables/optimizer_head_to_head.tex",
+        "tables/external_benchmark_matrix.tex",
+        "results/external_benchmarks/source_preflight.json",
+        "results/external_benchmarks/reference_analysis.json",
+        "results/external_benchmarks/api_bank_execution.json",
+        "results/external_benchmarks/bfcl_gold_execution.json",
+        "results/external_benchmarks/toolsandbox_live.json",
+        "results/external_benchmarks/tau2_live.json",
+        "results/external_benchmarks/browsecomp_live.json",
+        "scripts/external_benchmark_sources.py",
+        "scripts/external_benchmark_matrix.py",
+        "scripts/api_bank_benchmark.py",
+        "scripts/bfcl_structural_benchmark.py",
+        "scripts/toolsandbox_live_summary.py",
+        "scripts/tau2_live_summary.py",
+        "scripts/browsecomp_live_benchmark.py",
         "slides/GAC-seminar.pptx",
         "slides/GAC-technical-review.pptx",
         "slides/gac-template-map.json",
@@ -1376,10 +1391,82 @@ def validate_no_secrets() -> None:
     ok(not findings, f"publication tree contains no API-secret-shaped value ({findings})")
 
 
+def validate_external_benchmarks() -> None:
+    """Verify all ten named sources without collapsing unlike evidence classes."""
+
+    path = PAPER / "results/external_benchmarks/reference_analysis.json"
+    ok(path.exists(), "all-source benchmark evidence matrix exists")
+    if not path.exists():
+        return
+    result = load(path)
+    ok(result.get("schema") == "agent-compaction-external-benchmark-matrix/v1",
+       "all-source benchmark evidence schema")
+    expected = {
+        "agentbench", "api_bank", "bfcl", "browsecomp", "gaia", "nestful",
+        "swe_bench_verified", "tau2", "toolbench", "toolsandbox",
+    }
+    benchmarks = result.get("benchmarks", {})
+    ok(set(benchmarks) == expected, "all ten named benchmark families have a disposition")
+    totals = result.get("totals", {})
+    ok(totals.get("named_benchmarks") == 10,
+       "all-source ledger reports ten named benchmark families")
+    ok(totals.get("measured_compiler_benchmarks") == 2,
+       "only two benchmark families license compiler measurements")
+    ok((totals.get("screened_tasks"), totals.get("screened_reference_actions")) ==
+       (5419, 17836), "all-source screened task/action denominators are exact")
+    ok((totals.get("executed_external_paths"), totals.get("live_provider_benchmarks"),
+        totals.get("provider_calls")) == (5, 3, 77),
+       "executed paths and exactly accounted provider calls are exact")
+    ok(totals.get("provider_call_accounting_complete") is False,
+       "ToolSandbox request accounting remains explicitly incomplete")
+
+    api = benchmarks.get("api_bank", {}).get("execution", {})
+    ok((api.get("tasks"), api.get("candidate_windows"), api.get("families_synthesized")) ==
+       (212, 48, 2), "API-Bank compiler corpus and synthesis counts are exact")
+    ok((api.get("held_out_passed"), api.get("held_out_abstained"),
+        api.get("held_out_wrong"), api.get("gate_outcome")) == (0, 2, 0, "RETIRE"),
+       "API-Bank held-out refusal outcome is exact")
+    ok((api.get("upstream_actions_passed"), api.get("upstream_actions_attempted")) ==
+       (338, 389), "API-Bank upstream replay denominator is exact")
+
+    bfcl = benchmarks.get("bfcl", {}).get("execution", {})
+    ok((bfcl.get("official_checker_valid"), bfcl.get("tasks")) == (200, 200),
+       "BFCL gold plans pass the official checker")
+    tau = benchmarks.get("tau2", {}).get("execution", {})
+    ok((tau.get("tasks"), tau.get("passed"), tau.get("provider_requests"),
+        tau.get("total_tokens")) == (4, 0, 71, 288757),
+       "tau2/tau3 live-provider result is exact")
+    toolsandbox = benchmarks.get("toolsandbox", {}).get("execution", {})
+    ok(toolsandbox.get("tasks") == 1 and
+       abs(float(toolsandbox.get("milestone_similarity", 0)) - 0.9818215727005191) < 1e-12,
+       "ToolSandbox official simulated-environment result is exact")
+    browse = benchmarks.get("browsecomp", {}).get("execution", {})
+    ok((browse.get("tasks"), browse.get("correct"), browse.get("provider_requests"),
+        browse.get("web_search_calls")) == (3, 1, 6, 28),
+       "BrowseComp bounded live-web result is exact")
+    ok(benchmarks.get("gaia", {}).get("reason") ==
+       "upstream authorization denied with HTTP 403",
+       "GAIA authorization gate is retained without imputed metrics")
+
+    executed = [b.get("execution", {}) for b in benchmarks.values() if b.get("execution")]
+    ok(all(item.get("is_real_world_demo") is False for item in executed),
+       "no simulator or hosted benchmark is relabeled as a real-world demo")
+    boundary = result.get("claim_boundary", {})
+    ok(boundary == {
+        "gated_source_metrics_imputed": False,
+        "screening_is_compiler_execution": False,
+        "screening_is_quality_evaluation": False,
+        "simulated_benchmarks_are_real_world_demos": False,
+        "task_only_zero_coverage_is_failure": False,
+    }, "all-source claim boundary is fail-closed")
+    ok(result.get("secrets_serialized") is False,
+       "all-source evidence serializes no credential value")
+
+
 def validate_slides() -> None:
     decks = (
-        ("compiling-recurrent-agent-workflows-into-guarded-programs.pptx", 26, "seminar"),
-        ("compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx", 22, "technical"),
+        ("compiling-recurrent-agent-workflows-into-guarded-programs.pptx", 27, "seminar"),
+        ("compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx", 23, "technical"),
     )
     for filename, expected_slides, label in decks:
         path = PAPER / "slides" / filename
@@ -1406,6 +1493,8 @@ def validate_slides() -> None:
                    f"{label} publication slide deck contains the fair-placement comparison")
                 ok(b"GEPA retains its seed" in payload,
                    f"{label} publication slide deck contains the bounded GEPA result")
+                ok(b"Two compiler corpora recur; neither reaches admission" in payload,
+                   f"{label} publication slide deck contains the all-source refusal result")
                 media = [name for name in names if name.startswith("ppt/media/")]
                 ok(all(package.getinfo(name).file_size > 0 for name in media),
                    f"{label} publication slide deck contains no empty media parts")
@@ -1436,7 +1525,7 @@ def validate_slide_generation() -> None:
     ok(manifest.get("template_map") == "paper/slides/gac-template-map.json",
        "slide-generation manifest names the maintained template map")
 
-    expected_outputs = {"seminar": 26, "technical": 22}
+    expected_outputs = {"seminar": 27, "technical": 23}
     for name, expected_count in expected_outputs.items():
         spec = mapping.get("templates", {}).get(name, {})
         retained_template = manifest.get("templates", {}).get(name, {})
@@ -1470,6 +1559,7 @@ def validate_slide_generation() -> None:
         "gcs_live": PAPER / "results/gcs_live/results.json",
         "gcs_replay": PAPER / "results/gcs_validation/provider_free.json",
         "optimizer_head_to_head": PAPER / "results/optimizer_head_to_head/results.json",
+        "external_benchmarks": PAPER / "results/external_benchmarks/reference_analysis.json",
     }
     for name, path in evidence_paths.items():
         ok(path.exists(), f"slide evidence exists: {name}")
@@ -1477,7 +1567,7 @@ def validate_slide_generation() -> None:
             ok(evidence.get(name, {}).get("sha256") == sha256(path),
                f"slide-generation manifest binds evidence bytes: {name}")
     ok(manifest.get("evidence_boundary") ==
-       "Exploratory six-case fair-placement and bounded-GEPA result; structural manual parity, seed retained, no cross-family superiority.",
+       "Ten benchmark families have explicit but unlike dispositions; API-Bank is the only additional compiler corpus and retires all families. Simulated/live subsets are not real-world demos or pooled scores. The fair-placement/GEPA result remains exploratory and single-family.",
        "slide-generation manifest retains the current comparator evidence boundary")
 
 
@@ -1497,6 +1587,7 @@ def main() -> None:
     validate_manifest()
     validate_claim_boundaries()
     validate_publication()
+    validate_external_benchmarks()
     validate_slide_generation()
     validate_slides()
     validate_no_secrets()
