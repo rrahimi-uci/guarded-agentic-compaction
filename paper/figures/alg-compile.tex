@@ -21,7 +21,7 @@ order in which the stages must run, not because one function performs all of the
          \textsc{GroupedSplit}(\mathcal{E}_M)$ \hfill\textsc{(caller)}
          \Comment{train / dev / calibration / sealed test, split by \emph{group}}
   \State $G\gets\textsc{BuildPatg}(\mathcal{T},\Theta)$
-         \Comment{Alg.~\ref{alg:patg}}
+         \Comment{typed provenance search}
   \State $\mathcal{W}\gets\textsc{MineRegions}(G,\mathcal{C},w_{\max})$
   \State $\mathcal{F}\gets\textsc{Canonicalize}(\mathcal{W})$
          \Comment{hash signature, topology, run and live-in/out shape}
@@ -43,7 +43,7 @@ order in which the stages must run, not because one function performs all of the
     \State $q\gets\textsc{FitScore}(\mathcal{D})$; \textbf{freeze} $q$
            \Comment{dev groups only; never calibration}
     \State $\eta\gets\textsc{Calibrate}(q,\mathcal{K},\Lambda,\alpha,\delta)$
-           \Comment{Alg.~\ref{alg:calibrate}}
+           \Comment{fixed-grid exact admission}
     \If{$\eta=\bot$} \State \textbf{continue} \textbf{(no admissible threshold)} \EndIf
     \State \Return $\textsc{Package}(P,H,V,q,\eta,M)$ with evidence and lifecycle
   \EndFor

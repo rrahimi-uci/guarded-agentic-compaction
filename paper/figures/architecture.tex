@@ -48,7 +48,7 @@
 \node[head] at ([yshift=0.6mm]fA.north west) {A\quad CAPTURE};
 
 % ================================================ B -- offline compilation
-\node[box]  (prov)  at (0,  -34) {\textbf{provenance}\\Alg.~\ref{alg:patg}:
+\node[box]  (prov)  at (0,  -34) {\textbf{provenance}\\typed producer search:
                                   \patg{}\\groundability};
 \node[box]  (mine)  at (39, -34) {\textbf{region mining}\\canonical families\\
                                   rank by Eq.~\eqref{eq:score}};
@@ -58,7 +58,7 @@
                                   $\mathcal{L}$\\depth $\le 2$};
 \node[box]  (cont)  at (39, -50) {\textbf{contracts}\\induce $H,V$\\
                                   perturbation suite};
-\node[gate] (cal)   at (78, -50) {\textbf{calibration}\\Alg.~\ref{alg:calibrate}\\
+\node[gate] (cal)   at (78, -50) {\textbf{calibration}\\exact fixed-grid gate\\
                                   exact bound $U_\eta$};
 
 \draw[flow] (prov.east) -- (mine.west);
@@ -91,7 +91,7 @@
 \node[box]  (reg)  at (0,  -88)   {\textbf{Registry}\\immutable signed\\
                                    $A=(P,H,V,q,\eta,M)$};
 \node[gate] (disp) at (39, -88)   {\textbf{dispatch}
-                                   Alg.~\ref{alg:dispatch}\\guard $\rightarrow$ gate
+                                   staged dispatch\\guard $\rightarrow$ gate
                                    $\rightarrow$ stage\\
                                    $\rightarrow$ interpret $\rightarrow$ verify};
 \node[good] (hit)  at (80, -86.5) {\textbf{compacted}\\provider turns elided};

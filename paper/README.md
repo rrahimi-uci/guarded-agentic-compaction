@@ -84,16 +84,16 @@ paper/
 │   └── natural-live-study-protocol.md  expanded real-record experiment protocol
 └── build/
     ├── article.pdf                 single-column article (page count verified after build)
-    └── main.pdf                    two-column anonymous review build (page count verified after build)
+    └── main.pdf                    two-column conference build (page count verified after build)
 ```
 
-`figures/` holds manually authored source artwork — the TikZ architecture diagram and
-the four pseudocode listings; all plots are script-generated and live under
+`figures/` holds manually authored source artwork — the TikZ architecture diagram,
+the retained pipeline pseudocode, and archived detailed listings; all plots are script-generated and live under
 `generated_figures/`.
 
 The tracked distribution PDF is
 compiling-recurrent-agent-workflows-into-guarded-programs.pdf. The files under build/
-remain the conference-review and long-form article products used by the validator.
+remain the conference and long-form article products used by the validator.
 
 ## Two builds, one body
 

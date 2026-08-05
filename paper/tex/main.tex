@@ -1,4 +1,4 @@
-\documentclass[sigconf,review,anonymous]{acmart}
+\documentclass[sigconf,nonacm]{acmart}
 
 % \hyp gives a break opportunity at an explicit hyphen, so long
 % compound words do not overflow the narrow two-column measure.
@@ -50,16 +50,23 @@
 \definecolor{gacline}{HTML}{3D3D3D}
 \definecolor{gacgrey}{HTML}{F4F3F0}
 
+\hypersetup{
+  pdfauthor={Reza Rahimi, PhD},
+  pdftitle={Compiling Recurrent Agent Workflows into Guarded Programs}
+}
+\AtBeginDocument{\hypersetup{pdfauthor={Reza Rahimi, PhD}}}
+
 \title{Compiling Recurrent Agent Workflows into Guarded Programs}
 
-\author{Anonymous Author(s)}
-\affiliation{\institution{Anonymous Institution}}
+\author{Reza Rahimi, PhD}
+\affiliation{%
+  \institution{Jazzx AI}
+  \city{Los Altos}
+  \state{CA}
+  \country{USA}}
+\email{reza.rahimi@jazzx.ai}
 
-\acmConference[Under Review]{Anonymous Conference Submission}{2026}{Anonymous}
-\acmBooktitle{Anonymous Conference Submission, 2026}
-\acmDOI{}
-\acmISBN{}
-\settopmatter{printacmref=true, printccs=true, printfolios=true}
+\settopmatter{printacmref=false, printccs=false, printfolios=true}
 \renewcommand\footnotetextcopyrightpermission[1]{}
 
 \begin{document}
@@ -69,23 +76,6 @@
 \keywords{LLM agents, tool use, workflow optimization, program synthesis, provenance,
 selective prediction, risk control, OpenAI Agents SDK}
 
-\begin{CCSXML}
-<ccs2012>
- <concept>
-  <concept_id>10010147.10010178.10010224</concept_id>
-  <concept_desc>Computing methodologies~Intelligent agents</concept_desc>
-  <concept_significance>500</concept_significance>
- </concept>
- <concept>
-  <concept_id>10011007.10011006.10011008</concept_id>
-  <concept_desc>Software and its engineering~General programming languages</concept_desc>
-  <concept_significance>300</concept_significance>
- </concept>
-</ccs2012>
-\end{CCSXML}
-\ccsdesc[500]{Computing methodologies~Intelligent agents}
-\ccsdesc[300]{Software and its engineering~General programming languages}
-
 \maketitle
 
 % Shared artwork/algorithm colour + package requirements are declared per wrapper;
@@ -93,9 +83,6 @@ selective prediction, risk control, OpenAI Agents SDK}
 \input{body}
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{../bibliography/references}
-
-\appendix
-\input{../appendix/appendix}
 
 \balance
 \end{document}

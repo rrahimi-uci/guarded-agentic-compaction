@@ -301,7 +301,6 @@ false} rather than implying a challenge occurred.  The headline live artifact of
 run rather than as a property of the method.
 
 \input{../figures/alg-compile.tex}
-\input{../figures/alg-provenance.tex}
 
 \subsection{Guarded composite synthesis}
 \label{sec:gcs-method}
@@ -399,85 +398,29 @@ Consequently, any selected threshold satisfying $U_\eta\leq\alpha$ has violation
 most $\alpha$ on the same distribution.
 \end{proposition}
 
-\noindent Two words in the proposition carry weight.  A \emph{violation} is disagreement
-with $V$, and $V$ is \emph{induced} from the same training traces the program was
-synthesized from, so the guarantee bounds the rate at which a compiled region breaks its own
-registered contract --- not the rate at which the agent's task outcome is wrong.  Absent
-distribution shift a program fitted to satisfy $V$ will rarely violate $V$, which is why
-zero violations in 92 groups should be read as self-consistency rather than as correctness.
-Three things would make the chain independent, and none is present in the shipped artifact:
-a perturbation challenge (not run --- \code{perturbations\_claimed: false}), an adjudication
-oracle separate from the induction traces, and a task-quality measure that can detect
-fabrication (\cref{sec:limits}).  \Cref{alg:calibrate}'s $\alpha$ should therefore always be
-read as bounding \emph{contract violation}, never as bounding error.
-
-\noindent The statement follows from one-sided exact-binomial coverage at
-$1-\delta/|\Lambda|$ and the union bound.  The independence assumption is load-bearing and
-stronger than exchangeability, which permits dependence that exact binomial coverage does
-not tolerate: groups drawn from one repository, tenant, time window, or workflow family are
-plausibly correlated, and the scenario-group unit is what must carry independence.  A
-clustered deployment should calibrate at the cluster level and check sensitivity with a
-block bootstrap or a beta-binomial model.  The union bound also covers only the grid for
-\emph{one} frozen artifact; a portfolio of artifacts, or repeated promotion of the same
-one, needs an explicit risk allocation across those decisions.  It is a calibration
-guarantee, not proof under drift or adversarial dependence; this is consistent with learn-then-test risk
-control~\cite{angelopoulos2022ltt,bates2021rcps}.  With $\alpha=.05$, $\delta=.10$,
-$|\Lambda|=11$, and zero violations, at least 92 admitted group records are needed; the
-guarantee additionally requires those records to satisfy the independence assumption above.
-
-That number is a consequence of our parameters, not a discovery about any workload, and it
-is worth stating how sensitive it is.  Holding $\alpha=.05$ and $\delta=.10$ fixed but
-pre-committing to a \emph{single} threshold rather than a grid of eleven gives
-$n\ge\log\delta/\log(1-\alpha)=45$; relaxing $\alpha$ moves it further.  So when we report
-that no NESTFUL family clears the requirement, the honest reading is that none clears
-\emph{this} configuration --- a grid-searched threshold at 5\% risk with 90\% confidence.
-Roughly half of the families would still fail at $|\Lambda|=1$, since the largest support is
-26, but the gap between 26 and the requirement is a design parameter as much as a data
-property.
-
-\input{../figures/alg-calibrate.tex}
+\noindent The guarantee concerns disagreement with the induced verifier $V$, not semantic
+task error.  It also requires independent group indicators, no distribution shift, and one
+frozen artifact; clustered data or repeated artifact selection needs a different risk
+allocation.  With $\alpha=.05$, $\delta=.10$, $|\Lambda|=11$, and zero violations, 92
+admitted groups are required.  A single precommitted threshold would require 45, so the
+NESTFUL refusal is specific to the declared grid and risk configuration, not an intrinsic
+property of that benchmark.  These boundaries are consistent with learn-then-test risk
+control~\cite{angelopoulos2022ltt,bates2021rcps} and are revisited in
+\cref{sec:limits}.
 
 \subsection{Risk-bounded transformation portfolio}
 \label{sec:portfolio-method}
 
-The compiler's admission question and the application's engineering choice are different.
-After candidate actions have been measured on the same independent workflow groups, the
-portfolio layer compares $\mathcal{A}=\{B,K,C,M,\ldots\}$: unchanged baseline, cache,
-compiler, reviewed macro, or an application-defined action.  Missing evidence creates no
-candidate row and therefore cannot be imputed into a recommendation.
-
-For group $g$ and action $a$, let $r_{g,j}(a)=1-C_{g,j}(a)/C_{g,j}(B)$ be the paired
-reduction for metric $j$, and define
-\begin{equation}
-  U_g(a)=\sum_j w_j r_{g,j}(a), \qquad \sum_j w_j=1,\quad w_j\geq0.
-  \label{eq:portfolio-utility}
-\end{equation}
-The pilot assigns weights 0.35, 0.25, 0.20, and 0.20 to cost, latency, tokens, and tool
-calls, respectively. It records a quality violation whenever the candidate's task
-contract fails and a regret event whenever $U_g(a)\leq U_{\min}$.  Repeated executions of
-one issue are averaged within that issue; they never increase the independent-group count.
-For every observed non-baseline action, we compute one-sided Clopper--Pearson bounds for
-quality and regret, denoted $R^+_{\rm quality}(a)$ and $R^+_{\rm regret}(a)$.  The
-confidence error budget is split across both bounds and all compared actions.  The
-admitted set is
-\begin{equation}
-  \begin{aligned}
-  \mathcal{A}_{\rm ok}=\{a:\;&R^+_{\rm quality}(a)\leq\alpha_q,\quad
-  R^+_{\rm regret}(a)\leq\alpha_u,\\
-  &n_a\geq n_{\min},\quad M_a=M_*\}.
-  \end{aligned}
-  \label{eq:portfolio-admission}
-\end{equation}
-The selector returns $\arg\max_{a\in\mathcal{A}_{\rm ok}}\bar U(a)$, or $B$ if the set is
-empty.  Manifest mismatch invalidates the decision at runtime.  Macros default to
-\emph{human review}; the library returns a decision record, evidence, and rationale, not
-generated application code.  Exact bounds cover the registered binary endpoints under
-the same group assumptions as compiler calibration.  They do not make the weighted
-utility canonical, price engineering effort, or prove optimality over an unmeasured action.
+Compiler admission and application-level choice are distinct.  A portfolio layer compares
+only actions measured on the same independent groups.  It forms a declared weighted paired
+utility over cost, latency, tokens, and tool calls, then applies multiplicity-adjusted exact
+bounds to both task failure and non-positive utility.  Among compatible actions passing
+both bounds and minimum support, it recommends the highest mean utility; otherwise it
+returns the baseline.  Missing evidence is never imputed, manifest drift invalidates the
+decision, and macros remain review-required.  This layer selects among measured actions;
+it does not synthesize application code or prove optimality over unmeasured alternatives.
 
 \subsection{Runtime and framework integration}
-
-\input{../figures/alg-dispatch.tex}
 
 At runtime, resolution is a bounded lookup: the registry indexes artifacts by
 compatibility and partition key, then filters the small candidate list at that key by
@@ -770,19 +713,11 @@ of GCS, not evidence of a distinct combined optimizer.
 \subsection{Demonstration suite: workflow shapes}
 \label{sec:demos}
 
-The suite deliberately escalates difficulty.  Demos A--C are the shapes an optimizer is
-usually shown: a linear read prefix, a permissioned retrieval whose ACL scope and index
-version are hard guard keys, and a coordinator whose handoff is a region barrier.  Demo D
-is a real stdio MCP server whose tool effects are undeclared, so the catalog must fail
-closed.  Demo E is the adversarial case: its region contains two entry-state branches and
-one \emph{observation}-dependent branch (a second page is read only when the first
-reports more results), so the executed call count varies at run time; and every episode
-ends in an irreversible commitment, so a region can only ever be a prefix and
-\emph{partial} compaction is the best available outcome.  Demo E is additionally run with
-a semantically equivalent loop-bearing artifact, which the model-boundary adapter must
-refuse rather than half-execute, and against entry states whose declared intake schema has
-moved, which the hard guard must reject.  Demo F exercises the route-specialization pass
-instead of region compilation.
+Six SDK-backed stress scenarios cover a linear prefix, permission-scoped retrieval, a
+handoff barrier, undeclared MCP effects, an observation-dependent branch ending in an
+irreversible write, and route specialization.  Three negative controls require exact
+fallback.  Their purpose is runtime boundary coverage, not domain evidence; complete
+scenario definitions and measurements are retained in the repository.
 
 \subsection{Metrics and statistical analysis}
 
@@ -797,8 +732,8 @@ comment-body limit.  Paired differences use the same issues.  We report 10,000-s
 paired bootstrap confidence intervals~\cite{efron1993bootstrap} and two-sided Wilcoxon
 signed-rank tests~\cite{wilcoxon1945}; binary quality uses exact McNemar tests
 \cite{mcnemar1947}.  Signed-rank $p$-values use the exact distribution where no ties occur
-and a tie-corrected normal approximation otherwise, and \cref{tab:live} labels which applies
-per row.  One row is deliberately \emph{not} given a $p$-value: every pair changes provider
+and a tie-corrected normal approximation otherwise.  One row is deliberately \emph{not}
+given a $p$-value: every pair changes provider
 requests by exactly $-3$, so the difference is deterministic and a rank test on it reports an
 artifact of degeneracy rather than evidence.  Secondary $p$-values are descriptive and unadjusted.  Determinism is
 reported as decision, tool-trace, and byte-exact answer agreement.  Peak memory and
@@ -966,18 +901,6 @@ sample-size gate rather than a demonstrated risk--coverage discriminator.
   \resizebox{\textwidth}{!}{\input{../tables/natural_replication_results.tex}}
 \end{table*}
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{../generated_figures/natural_live_comparison.pdf}
-  \caption{Expanded real-provider resource use relative to the unchanged agent.  The
-  partial compiler pre-executes two reads but retains all three tool calls; the macro
-  combines the reads into one.}
-  \Description{Grouped horizontal bars compare the partial compiler and hand-written macro
-  on requests, tool calls, tokens, latency, and estimated cost normalized to an unchanged
-  agent.}
-  \label{fig:natural-replication}
-\end{figure}
-
 Relative to the unchanged agent, the partial compiler reduces requests 50.0\%, total
 tokens 39.5\%, observed wall latency 51.7\%, and estimated cost 32.0\%, while leaving
 three necessary reads.  The macro also halves requests, but reduces tokens 58.2\%, cost
@@ -998,14 +921,6 @@ result to the paid discovery checkpoint by SHA-256.
 
 The earlier 18-record follow-up tested the more aggressive three-read artifact and remains
 important negative evidence.
-
-\begin{table*}[t]
-  \centering
-  \caption{Earlier aggressive natural-order study on 18 fresh public issues.  The complete
-  three-read artifact saves more provider turns but records one exact-source miss.}
-  \label{tab:natural-live}
-  \resizebox{\textwidth}{!}{\input{../tables/natural_live_results.tex}}
-\end{table*}
 
 Relative to its unchanged agent, that artifact reduces requests 75.0\%, total tokens
 66.0\%, observed wall latency 76.4\%, and estimated cost 48.7\%; its macro reduces the
@@ -1045,159 +960,26 @@ $\alpha=.05$, $\delta=.10$, and 11 thresholds, the simultaneous upper bound is 0
 The artifact was promoted only under a paper-protocol lab flag; no production canary is
 claimed.
 
-\begin{table}[t]
-  \centering
-  \caption{Paired results on 18 unseen real issues.  Change is compiled relative to
-  baseline.  $p_{\mathrm{W}}$ is the unadjusted Wilcoxon signed-rank $p$-value.}
-  \label{tab:live}
-  \resizebox{\columnwidth}{!}{\input{../tables/live_results.tex}}
-\end{table}
-
 Provider requests fall from exactly 4 to 1 per issue (75.0\%; paired 95\% bootstrap
-difference $[-3,-3]$), supporting H2.  Mean total tokens fall from 3,917.8 to 1,345.2
-(65.7\%); wall latency from 10.29 to 1.55 seconds (85.0\%); and estimated cost from
-\$0.000784 to \$0.000372 (52.6\%).  All three paired bootstrap intervals exclude zero;
-\cref{app:numerical} reports their endpoints.
-Every held-out issue is cheaper, faster, and lower-token
-under compaction (\cref{fig:paired}).
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{../generated_figures/live_efficiency.pdf}
-  \caption{Mean compiled resource use normalized to baseline.  Necessary local reads are
-  unchanged; provider-mediated decisions decrease.}
-  \Description{Horizontal bars compare normalized baseline and compiled requests, tokens,
-  latency, cost, and tool calls.}
-  \label{fig:efficiency}
-\end{figure}
-
-\begin{figure*}[t]
-  \centering
-  \includegraphics[width=\linewidth]{../generated_figures/paired_test.pdf}
-  \caption{Per-issue paired measurements.  All points fall below the no-change diagonal
-  for total tokens, wall latency, and estimated cost.}
-  \Description{Three scatter plots compare baseline versus compiled total tokens, wall
-  latency, and cost for 18 paired issues.}
-  \label{fig:paired}
-\end{figure*}
-
-Tool calls remain exactly three in both arms.  \method removes redundant model choices,
-not evidence acquisition.  All 18 baseline and compiled runs pass the composite quality
-contract.  This supports H3 only as an observed sealed-sample result.  With no discordant pairs
-McNemar's exact test returns $p=1$, which carries essentially no information about
-equivalence and should not be read as evidence of it.  The informative quantity is the
-one-sided bound on the paired degradation rate: treating ``baseline succeeds, compiled
-fails'' as a Bernoulli event with zero occurrences in 18 pairs, the exact 95\% upper bound
-is $1-.05^{1/18}=15.3\%$.  Perfect observed agreement here is therefore compatible with an
-operationally unacceptable degradation rate, and no interval on tokens or latency repairs
-that.  A predeclared non-inferiority margin of a few percentage points would need hundreds
-of sealed pairs per domain.
-
-Discovery itself is not free.  The 132 discovery episodes consumed 528 provider requests,
-533,293 tokens, 1,109 seconds of summed wall time, and an estimated \$0.0958.  The
-confirmatory baseline and compiled arms cost an additional \$0.0170 and \$0.0076 over 24
-runs each (including repeats).  Break-even depends on which resource is amortized, and reporting a single number
-selects the most favourable one, so we report the range rather than a
-point: 176 eligible future episodes when amortizing provider requests, 207 on tokens, 232 on
-discovery dollars alone, and 292 once the confirmatory arms that were actually incurred are
-counted.\footnote{$528/3$; $533{,}293/2{,}572.6$; $\$0.0958/\$0.000412$;
-$\$0.1204/\$0.000412$.}  All four are lower bounds twice over.  They
-exclude engineering, review, and monitoring effort, which for a one-artifact deployment
-plausibly dominates every figure here; and the dollar rows are computed at list input price,
-whereas \cref{sec:demos-results} measures baseline cached-input shares of 96--98\% on
-comparable workloads.  If the four-turn baseline here is similarly cache-dominated --- and a
-repeated loop over one long prefix almost certainly is --- then both the $-52.6\%$ cost
-reduction in \cref{tab:live} and every dollar break-even above are optimistic, and the
-correction is the two-tier price model of \cref{sec:extension}.  We report the numbers we
-measured and the direction of their bias rather than re-deriving them from an unmeasured
-cache model.
+difference $[-3,-3]$).  Mean total tokens fall 65.7\%, observed wall latency 85.0\%, and
+estimated cost 52.6\%; tool calls remain three in both arms.  All 18 pairs pass the
+registered contract, but zero discordances still permit a 15.3\% one-sided 95\% upper
+bound on degradation, so this is not an equivalence result.  Discovery consumed 528
+provider requests and 533,293 tokens; measured break-even ranges from 176 future episodes
+when amortizing requests to 292 when including confirmatory-arm cost, before engineering,
+review, monitoring, and cache effects.
 
 \subsection{Harder shapes, partial compaction, and where the saving inverts}
 \label{sec:demos-results}
 
-\begin{table*}[t]
-  \centering
-  \caption{Demonstration suite (Tier 3): live provider calls and the real SDK runtime
-  against deterministic local services.  Negative change is a saving.  The bottom three
-  rows are negative controls whose correct outcome is \emph{no} compaction; each returns
-  exactly the baseline model-call count at unchanged quality, supporting H5.  Their dollar
-  columns differ from baseline despite identical work: see the cache discussion below.}
-  \label{tab:demos}
-  \small
-  \input{../tables/demo_suite.tex}
-\end{table*}
-
-\Cref{tab:demos} reports the suite, ordered by role rather than by letter: the five
-compacting conditions first, then the three whose correct outcome is refusal.  Three cells
-need explanation before the findings.  Demo D has $n=2$ because the MCP negative control
-defines only two tenant scenarios, and adding more would repeat one refusal rather than test
-another.  Demo B scores $0.97$ in \emph{both} arms: one of its four scenarios returns four
-citations where the fixture expects five, in baseline and compacted alike, so it is a property
-of the workload rather than of compaction --- and it is the one place in the suite where the
-graded score is not $1.00$.  Demos E$'$ and E$''$ share Demo E's world and differ only in the
-artifact offered to the runtime.  With that said, three results matter beyond the headline.
-
-\textbf{Partial compaction is the correct outcome when a workflow commits.}  Demo E ends
-every episode in an irreversible write, so its region is bounded by
-\cref{eq:prefix} and the commitment itself.  Model calls fall from 7.0 to 2.0 rather than
-to 1.0: the evidence turns disappear, and the decision turn and the write survive.  Tokens
-fall 66.4\% at unchanged task quality.  This is the shape most real operational workflows
-have, and it is absent from Tier 1 and Tier 2; reporting only demos that end in a read
-would overstate what the method reaches.
-
-\textbf{Refusal reproduces the baseline execution, not the baseline invoice.}  The three
-negative controls --- undeclared
-MCP effects, a loop-bearing artifact the adapter cannot advance one turn at a time, and an
-entry state whose intake schema has drifted past the guard's pin --- all return 7.0, 7.0
-and 3.0 model calls against baselines of 7.0, 7.0 and 3.0, with quality identical to
-baseline in every case.  The runtime therefore pays the guard and gate, not the workflow,
-when it declines.  A compiler that silently degraded instead would be indistinguishable
-from these rows on the efficiency metrics alone, which is why H5 is stated separately.
-
-Their \emph{dollar} cost is not identical, and \cref{tab:demos} shows why the distinction
-must be explicit: two refusing conditions bill 55.4\% and 54.5\% more than their baseline
-on identical token counts.  Nothing about the refusal changed the work; the runs differ
-only in prompt-cache warmth, because each condition executes as a separate batch and the
-baseline batch runs first (see the ordering caveat in \cref{sec:limits}).  Reporting H5 in
-dollars would therefore record a provider-side scheduling artifact as a property of the
-compiler.
-
-\textbf{Token saving and cost saving can have opposite signs.}  Demo F reduces tokens by
-16.8\% and \emph{increases} estimated cost by 123.0\% (\cref{fig:demos}).  Demo E shows the
-same sign flip at $+8.3\%$, but we do not rest anything on it: the refusing conditions
-E$'$ and E$''$ do \emph{identical} work and still bill $+55.4\%$ and $+54.5\%$, so this
-run's ordering artifact is worth several times Demo E's effect and swamps it.  Only Demo F
-clears that floor, and even there the magnitude should be read as indicative.  The
-mechanism we claim is prompt caching: a seven-turn baseline pays one cache
-\emph{write} over a long prefix and then reads that prefix at a fraction of the input
-price six more times, whereas a two-turn compacted run pays the write with almost nothing
-left to amortize it against.  Route specialization makes it worse one level up, because
-each route is a distinct cache prefix and a fleet that shared one warm prefix now pays
-several writes.  Measured cached-input share falls from 96\% to 38\% (Demo E) and from
-98\% to 58\% (Demo F).
-
-The direction is what the data supports; the magnitude is not, and the honest floor is
-set by the refusing conditions rather than by our own confidence.  The effect also shrinks
-as episodes per prefix grow, so a suite this small understates the steady-state cost
-advantage of both techniques.  But the residue is a real design
-constraint that our objective in \cref{eq:objective} does not price: a rarely-exercised
-route may never amortize its own cache write, and a workload whose baseline is already
-cache-dominated has far less dollar headroom than its token headroom implies.  Reporting
-token reduction as though it were cost reduction --- as an optimizer that measured only
-tokens would --- is therefore unsafe, and \cref{sec:extension} lists the fix.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{../generated_figures/demo_suite.pdf}
-  \caption{Token saving against cost saving per demonstration.  The two diverge, and for
-  Demos E and F they take opposite signs: prompt-cache economics, not token count, decide
-  the invoice.}
-  \Description{Grouped horizontal bar chart comparing percentage token saving with
-  percentage cost saving for each demonstration. Demos A to C save on both. Demo E saves
-  tokens but costs more, and Demo F saves fewer tokens and costs substantially more. The
-  three negative controls save neither.}
-  \label{fig:demos}
-\end{figure}
+The stress suite confirms the intended boundary behavior.  An irreversible-write workflow
+is compacted only through its read prefix, reducing model calls from 7.0 to 2.0 and tokens
+66.4\% without changing observed task quality.  Undeclared MCP effects, an unsupported
+loop-bearing artifact, and a drifted entry schema all reproduce the baseline model-call
+count and quality.  They do not reproduce its invoice: prompt-cache warmth differs across
+condition batches, so equal work can have unequal estimated cost.  The complete table and
+cache analysis are available with the code; the paper uses this suite only to establish
+partial-compaction and fail-closed behavior.
 
 \subsection{The comparator that matters: a hand-written composite tool}
 \label{sec:comparator}
@@ -1242,7 +1024,7 @@ We therefore do not claim that \method{} dominates ordinary engineering.  The ex
 live comparison in \cref{tab:natural-replication} reaches the same conclusion directly:
 both candidates pass 30/30, but the macro matches the partial compiler's request count and
 uses fewer tools, tokens, and dollars; only observed wall latency favors the compiler.  The
-earlier aggressive artifact in \cref{tab:natural-live} saves one additional provider turn
+earlier aggressive artifact saves one additional provider turn
 but records a factual miss.  Where a
 hand-written composite is available and its effects are understood, write it.  \method{}
 earns its complexity only when the region is not economically maintainable as a manual
@@ -1350,49 +1132,15 @@ span is retained, but provider-span comparisons involving that arm are invalidat
 \subsection{RQ5: prospective portfolio selection}
 \label{sec:portfolio-results}
 
-\begin{table}[t]
-  \centering
-  \caption{Risk-bounded portfolio calibration and fresh-cohort outcome.  $\bar U$ is the
-  weighted mean of paired reductions in cost, latency, tokens, and tool calls.  Both
-  calibration bounds split 95\% familywise confidence across two actions and two
-  endpoints.  The fresh cohort is evaluation evidence, not additional calibration.}
-  \label{tab:portfolio}
-  \small
-  \input{../tables/portfolio_results.tex}
-\end{table}
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{../generated_figures/portfolio_selection.pdf}
-  \caption{The frozen portfolio evidence admits both measured actions but recommends the
-  higher-utility macro for human review before the fresh records are selected.}
-  \Description{Horizontal bars show mean paired portfolio utility of 32.7 percentage
-  points for compilation and 48.9 for the macro; the macro is marked selected for review.}
-  \label{fig:portfolio}
-\end{figure}
-
 Both actions record zero quality failures and zero non-positive-utility groups among 30
 independent calibration issues.  With the multiplicity split, each one-sided upper bound
-is 0.1359, below the pilot limit 0.15.  The compiler's mean utility is 0.327 and the
-macro's is 0.489, so the selector emits a macro recommendation and requires explicit
-review.  The decision, objective weights, compatibility key, source-result digest, and
-fresh issue identifiers are stored before provider execution.
-
-On the 12 calibration-disjoint issues, baseline and selected macro both pass 12/12 exact
-factual and full task contracts with no infrastructure failure.  The selected action
-changes every workflow from four to two provider responses and from three to one tool call.
-Aggregate reductions are 59.2\% for total tokens, 71.6\% for observed wall latency, and
-40.6\% for estimated cost.  The paired macro-minus-baseline intervals are
-$[-2831.0,-2203.3]$ tokens, $[-12.174,-3.706]$ seconds, and
-$[-\$0.000445,-\$0.000267]$ per issue; all corresponding unadjusted signed-rank
-$p$-values are 0.00049.  H6 is supported on its observed-sample terms.
-
-This result is more informative than another retrospective arm because the action is fixed
-before the test records are chosen.  It is not a general portfolio demonstration: one
-workflow family supplies both calibration and test, no cache candidate has measured
-evidence, and the selected action is the same macro that a static always-macro policy would
-choose.  Showing value from \emph{selection} requires multiple families on which different
-actions are optimal, measured construction and maintenance costs, and time-forward drift.
+is 0.1359, below the pilot limit 0.15.  Mean utility is 0.327 for compilation and 0.489
+for the macro, so the frozen selector recommends the macro for review before seeing a fresh
+12-issue cohort.  Baseline and macro then pass 12/12 exact contracts; the macro halves
+provider requests, reduces tool calls from three to one, and lowers total tokens 59.2\%
+and estimated cost 40.6\%.  This is a prospective action evaluation, not evidence that the
+selector beats an always-macro policy: calibration and test contain one workflow family,
+and the static policy would make the same choice.
 
 \subsection{RQ4: failed pilot and determinism}
 \label{sec:pilot}
@@ -1403,17 +1151,7 @@ duplicated or reordered tools, and achieved only 16.7\% task/tool-contract valid
 reducing requests.  We archived the complete pilot, added the prefix invariant in
 \cref{eq:prefix}, added a regression test, and excluded every pilot issue from the final
 cohort.  The corrected compiler blocks 116 suffix candidates and restores 100\% observed
-contract validity (\cref{fig:pilot}).
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{../generated_figures/pilot_ablation.pdf}
-  \caption{Safety ablation from the archived pilot.  Request savings without correct
-  execution position are not an acceptable optimization.}
-  \Description{Grouped bars show low pilot quality and tool-contract validity versus full
-  corrected validity, alongside provider-request reduction.}
-  \label{fig:pilot}
-\end{figure}
+contract validity.
 
 On six repeated test issues, category decisions and tool traces agree perfectly in both
 conditions.  Byte-exact natural-language answers agree in one of six baseline pairs and
@@ -1500,15 +1238,6 @@ making those two suitable for our post-trace question~\cite{basu2025nestful}.  O
 all-source audit executes or gates every named path (\cref{tab:external-matrix}) rather than
 using absent trajectories as negative examples.  Stateful and write-bearing compilation
 remains future work until transactional staging exists.
-
-\begin{table*}[t]
-  \centering
-  \caption{Positioning against adjacent optimization systems.  ``Admission'' describes
-  how a candidate rewrite is permitted, not its general evaluation protocol.}
-  \label{tab:related}
-  \small
-  \input{../tables/related_work.tex}
-\end{table*}
 
 \paragraph{Trace-based specialization, guards, and deoptimization.}
 The architecture is, structurally, a tracing JIT for agent executions, and the correspondence
@@ -1851,12 +1580,8 @@ multi-family comparison with natural failures, a non-degenerate risk--coverage f
 manual construction and maintenance cost, cache effects, drift, and closer executable
 workflow-learning baselines.
 
-\section*{Artifact Availability and Ethical Considerations}
+\section*{Code Availability}
 
-The artifact package includes scripts, pinned-source manifests, raw JSON/CSV results,
-generated figures/tables, a reproduction guide, and a critical self-review.  The GitHub
-records are already public and distributed through an Apache-2.0 dataset snapshot; the
-paper stores issue identifiers and derived task outputs but no API secrets.  The approach
-should not be used to bypass approvals or automate regulated decisions.  Its current
-read-only effect policy and fallback semantics are deliberate safeguards, not guarantees
-against a dishonest effect catalog.
+Code, data manifests, and research artifacts are available at
+\url{https://github.com/rrahimi-uci/agent-compaction}.  The method is limited to guarded
+read-only specialization and should not bypass approvals or automate regulated decisions.

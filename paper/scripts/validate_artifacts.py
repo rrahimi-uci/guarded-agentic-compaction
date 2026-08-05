@@ -1223,7 +1223,8 @@ def validate_claim_boundaries() -> None:
        "abstract states the central evidence boundary")
     ok("portfolio optimization beyond the pilot" in body.lower(),
        "body distinguishes the implemented pilot from extension work")
-    ok("it is not a general portfolio demonstration" in body.lower(),
+    ok(re.search(r"not evidence that the\s+selector beats an always-macro policy",
+                 body.lower()) is not None,
        "body rejects a cross-workflow portfolio claim")
     claims = (PAPER / "tables/claims_register.tex").read_text(encoding="utf-8")
     ok("The portfolio recommends a measured macro" in claims,
@@ -1385,6 +1386,8 @@ def validate_publication() -> None:
             # checking it would pass even if the title were dropped entirely.
             for phrase in ("Compiling Recurrent Agent Workflows",
                            "into Guarded Programs",
+                           "Reza Rahimi",
+                           "Jazzx AI",
                            "NESTFUL",
                            "Expanded natural-order Tier-2 replication",
                            "GEPA",
@@ -1393,18 +1396,20 @@ def validate_publication() -> None:
                            "Exploratory GCS",
                            "Portfolio optimization beyond the pilot",
                            "Limitations and Threats to Validity",
-                           "Reproducibility Details"):
+                           "Code Availability",
+                           "github.com/rrahimi-uci/agent-compaction"):
                 normalized_phrase = re.sub(r"[^a-z0-9]+", "", phrase.lower())
                 ok(normalized_phrase in searchable_pdf_text,
                    f"{build}: compiled PDF contains: {phrase}")
-            # The architecture figure and every algorithm must actually reach the page.
+            # The architecture figure and retained end-to-end algorithm must actually
+            # reach the page.
             # Algorithm 1's caption was retitled when it was corrected to describe the
             # end-to-end pipeline rather than one function; match the current wording.
             for phrase in ("System architecture", "end-to-end pipeline an operator runs",
                            "hand-written composite tool",
-                           "typed argument provenance",
-                           "fixed-grid exact selective admission",
-                           "boundary-time admission"):
+                           "typed provenance search",
+                           "fixed-grid exact admission",
+                           "staged dispatch"):
                 normalized_phrase = re.sub(r"[^a-z0-9]+", "", phrase.lower())
                 ok(normalized_phrase in searchable_pdf_text,
                    f"{build}: compiled PDF contains exhibit: {phrase}")

@@ -1,7 +1,7 @@
 % ---------------------------------------------------------------------------
 % Guarded Agentic Compaction — single-column journal article build.
 %
-% Same abstract, body, figures, algorithms, tables and appendix as the ACM
+% Same abstract, body, figures, algorithms and tables as the ACM
 % conference build in main.tex; only the presentation layer differs. Compile with:
 %
 %   cd paper/tex && tectonic --keep-logs --outdir ../build article.tex
@@ -32,7 +32,7 @@
 \renewcommand{\sfdefault}{lmss}
 \renewcommand{\ttdefault}{lmtt}
 \usepackage{microtype}
-\linespread{1.06}
+\linespread{1.02}
 \setlength{\parskip}{0pt}
 \setlength{\parindent}{1.4em}
 \setlength{\emergencystretch}{1.2em}
@@ -89,6 +89,7 @@
 
 \hypersetup{
   colorlinks=false,
+  pdfauthor={Reza Rahimi, PhD},
   pdftitle={Compiling Recurrent Agent Workflows into Guarded Programs},
   pdfsubject={LLM agents, tool use, workflow optimization, program synthesis, provenance, selective risk control},
   pdfkeywords={LLM agents, tool use, workflow optimization, program synthesis, provenance, selective prediction, risk control, OpenAI Agents SDK},
@@ -195,7 +196,10 @@
 \title{\vspace{-10mm}%
   {\sffamily\bfseries\LARGE\color{paperblue}Compiling Recurrent Agent Workflows into Guarded Programs}%
   \vspace{2mm}}
-\author{}
+\author{%
+  {\sffamily\bfseries Reza Rahimi, PhD}\\[1mm]
+  {\small\sffamily Jazzx AI, Los Altos, CA}\\[-0.5mm]
+  {\small\sffamily\href{mailto:reza.rahimi@jazzx.ai}{reza.rahimi@jazzx.ai}}}
 \date{}
 
 % article+oneside defaults to \raggedbottom, which let page 1 end 35%% short.
@@ -206,12 +210,11 @@
 
 \maketitle
 \thispagestyle{plain}
-\vspace{-14mm}
+\vspace{-5mm}
 
 {\small\sffamily\color{gacline!85}\noindent
 \rule{\textwidth}{0.4pt}\\[1.6mm]
-\textbf{Artifact.} Implementation, pinned data snapshots, raw results, generated figures
-and tables, and an adversarial self-review accompany this manuscript.\hfill
+\textbf{Code and artifacts.} \url{https://github.com/rrahimi-uci/agent-compaction}.\hfill
 \textbf{Evidence.} A ten-benchmark audit with two compiler substrates and six
 pilot-separated live-provider protocols on real public GitHub records.\\[1.2mm]
 \rule{\textwidth}{0.4pt}}
@@ -233,8 +236,5 @@ pilot-separated live-provider protocols on real public GitHub records.\\[1.2mm]
 
 \bibliographystyle{abbrvnat}
 \bibliography{../bibliography/references}
-
-\appendix
-\input{../appendix/appendix}
 
 \end{document}
