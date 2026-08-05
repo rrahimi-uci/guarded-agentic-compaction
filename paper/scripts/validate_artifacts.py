@@ -1376,9 +1376,10 @@ def validate_publication() -> None:
         try:
             pdf_text = extract_pdf_text(PAPER / f"build/{build}.pdf")
             # Two-column extraction can insert a newline inside a section heading even
-            # when the rendered heading is contiguous.  Normalize whitespace so this
-            # gate checks publication content rather than Poppler's line wrapping.
-            searchable_pdf_text = re.sub(r"\s+", " ", pdf_text).lower()
+            # when the rendered heading is contiguous, while PyPDF can omit spaces in
+            # algorithm captions. Normalize non-alphanumerics so the gate checks
+            # publication content rather than an extractor's token-boundary choices.
+            searchable_pdf_text = re.sub(r"[^a-z0-9]+", "", pdf_text.lower())
             # Assert the current title, not the method name: the phrase "Guarded Agentic
             # Compaction" still appears in the body where the method is defined, so
             # checking it would pass even if the title were dropped entirely.
@@ -1393,7 +1394,8 @@ def validate_publication() -> None:
                            "Portfolio optimization beyond the pilot",
                            "Limitations and Threats to Validity",
                            "Reproducibility Details"):
-                ok(phrase.lower() in searchable_pdf_text,
+                normalized_phrase = re.sub(r"[^a-z0-9]+", "", phrase.lower())
+                ok(normalized_phrase in searchable_pdf_text,
                    f"{build}: compiled PDF contains: {phrase}")
             # The architecture figure and every algorithm must actually reach the page.
             # Algorithm 1's caption was retitled when it was corrected to describe the
@@ -1403,7 +1405,8 @@ def validate_publication() -> None:
                            "typed argument provenance",
                            "fixed-grid exact selective admission",
                            "boundary-time admission"):
-                ok(phrase.lower() in searchable_pdf_text,
+                normalized_phrase = re.sub(r"[^a-z0-9]+", "", phrase.lower())
+                ok(normalized_phrase in searchable_pdf_text,
                    f"{build}: compiled PDF contains exhibit: {phrase}")
             ok("GACreconstructs" not in pdf_text,
                f"{build}: acronym macros do not swallow the following space")
