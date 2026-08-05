@@ -5,7 +5,9 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import re
+import shutil
 import subprocess
 import tomllib
 import zipfile
@@ -40,6 +42,37 @@ def sha256(path: Path) -> str:
         for block in iter(lambda: handle.read(1 << 20), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+def evidence_equal(actual: Any, expected: Any) -> bool:
+    """Compare retained evidence without requiring platform-identical float bits."""
+
+    if isinstance(actual, bool) or isinstance(expected, bool):
+        return actual is expected
+    if isinstance(actual, (int, float)) and isinstance(expected, (int, float)):
+        return math.isclose(float(actual), float(expected), rel_tol=1e-12, abs_tol=1e-12)
+    if isinstance(actual, dict) and isinstance(expected, dict):
+        return actual.keys() == expected.keys() and all(
+            evidence_equal(actual[key], expected[key]) for key in actual
+        )
+    if isinstance(actual, (list, tuple)) and isinstance(expected, (list, tuple)):
+        return len(actual) == len(expected) and all(
+            evidence_equal(left, right) for left, right in zip(actual, expected)
+        )
+    return actual == expected
+
+
+def extract_pdf_text(path: Path) -> str:
+    """Extract PDF text with Poppler when available and a Python fallback otherwise."""
+
+    if shutil.which("pdftotext"):
+        return subprocess.run(
+            ["pdftotext", str(path), "-"], check=True,
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+        ).stdout
+    from pypdf import PdfReader
+
+    return "\n".join(page.extract_text() or "" for page in PdfReader(path).pages)
 
 
 def validate_sources() -> None:
@@ -286,11 +319,11 @@ def validate_natural_live() -> None:
     macro_compiled = fixed.paired_analysis(
         by_condition["macro"], by_condition["compiled"]
     )
-    ok(base_compiled == data.get("baseline_vs_compiled"),
+    ok(evidence_equal(base_compiled, data.get("baseline_vs_compiled")),
        "natural-workflow baseline-versus-compiler statistics recompute")
-    ok(base_macro == data.get("baseline_vs_macro"),
+    ok(evidence_equal(base_macro, data.get("baseline_vs_macro")),
        "natural-workflow baseline-versus-macro statistics recompute")
-    ok(macro_compiled == data.get("macro_vs_compiled"),
+    ok(evidence_equal(macro_compiled, data.get("macro_vs_compiled")),
        "natural-workflow macro-versus-compiler statistics recompute")
 
     rates = {
@@ -488,11 +521,11 @@ def validate_natural_replication() -> None:
         primary["compiled"], primary["macro"],
         baseline_label="compiled", candidate_label="macro",
     )
-    ok(paired == data.get("paired_test"),
+    ok(evidence_equal(paired, data.get("paired_test")),
        "replication baseline-versus-compiler statistics recompute")
-    ok(paired_macro == data.get("paired_macro_test"),
+    ok(evidence_equal(paired_macro, data.get("paired_macro_test")),
        "replication baseline-versus-macro statistics recompute")
-    ok(macro_vs_compiled == data.get("paired_macro_vs_compiled"),
+    ok(evidence_equal(macro_vs_compiled, data.get("paired_macro_vs_compiled")),
        "replication macro-versus-compiler statistics recompute")
     ok(study.determinism_analysis(evaluation) == data.get("determinism"),
        "replication determinism statistics recompute")
@@ -1341,10 +1374,7 @@ def validate_publication() -> None:
                f"{build}: no overfull vbox taller than 3.0pt "
                f"(worst {worst_v:.2f}pt of {len(vboxes)})")
         try:
-            pdf_text = subprocess.run(
-                ["pdftotext", str(PAPER / f"build/{build}.pdf"), "-"], check=True,
-                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
-            ).stdout
+            pdf_text = extract_pdf_text(PAPER / f"build/{build}.pdf")
             # Two-column extraction can insert a newline inside a section heading even
             # when the rendered heading is contiguous.  Normalize whitespace so this
             # gate checks publication content rather than Poppler's line wrapping.
