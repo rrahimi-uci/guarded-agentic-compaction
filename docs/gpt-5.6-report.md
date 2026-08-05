@@ -95,7 +95,7 @@ current 0.7.0 validation is reported in the GCS checkpoint below.
 ## Publication-study addendum (2026-08-03)
 
 The publication artifact is now available under [`paper/`](../paper/README.md), with the
-compiled manuscript at [`paper/build/main.pdf`](../paper/build/main.pdf). Its current
+compiled manuscript at [`paper/compiling-recurrent-agent-workflows-into-guarded-programs.pdf`](../paper/compiling-recurrent-agent-workflows-into-guarded-programs.pdf). Its current
 primary evidence is:
 
 - a pinned public NESTFUL analysis over 1,415 executable basic-function episodes; and
