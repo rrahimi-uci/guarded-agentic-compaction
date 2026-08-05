@@ -17,12 +17,19 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      pages_status: ${{ steps.pages.outcome }}
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
-      - uses: actions/configure-pages@v5
+      - name: Configure Pages when the repository plan permits it
+        id: pages
+        continue-on-error: true
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - name: Build and validate site
         run: python scripts/build_pages.py --output _site
       - uses: actions/upload-pages-artifact@v4
@@ -30,6 +37,7 @@ jobs:
           path: _site
 
   deploy:
+    if: needs.build.outputs.pages_status == 'success'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
