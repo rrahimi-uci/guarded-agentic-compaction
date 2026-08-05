@@ -304,7 +304,7 @@ def validate_natural_live() -> None:
        f"natural-workflow exact-source oracle recomputes every row ({quality_drift})")
 
     aggregate = fixed.aggregate_runs(recomputed)
-    ok(aggregate == data.get("aggregate"),
+    ok(evidence_equal(aggregate, data.get("aggregate")),
        "natural-workflow aggregate metrics recompute from retained outputs")
     by_condition = {
         condition: [row for row in recomputed if row.condition == condition]
@@ -494,7 +494,7 @@ def validate_natural_replication() -> None:
         )
     ok(not quality_drift,
        f"replication semantic and exact-source oracles recompute every row ({quality_drift})")
-    ok(study.aggregate_runs(recomputed) == data.get("aggregate"),
+    ok(evidence_equal(study.aggregate_runs(recomputed), data.get("aggregate")),
        "replication aggregate recomputes from retained outputs")
 
     evaluation = [run for run in recomputed if run.condition != "discovery"]
@@ -527,7 +527,7 @@ def validate_natural_replication() -> None:
        "replication baseline-versus-macro statistics recompute")
     ok(evidence_equal(macro_vs_compiled, data.get("paired_macro_vs_compiled")),
        "replication macro-versus-compiler statistics recompute")
-    ok(study.determinism_analysis(evaluation) == data.get("determinism"),
+    ok(evidence_equal(study.determinism_analysis(evaluation), data.get("determinism")),
        "replication determinism statistics recompute")
 
     expected_compiler = {
@@ -724,7 +724,7 @@ def validate_portfolio_live() -> None:
         proxies["baseline"], proxies["macro"],
         candidate_label="selected_macro", baseline_label="baseline",
     )
-    ok(recomputed == data.get("paired_selected_vs_baseline"),
+    ok(evidence_equal(recomputed, data.get("paired_selected_vs_baseline")),
        "prospective paired portfolio statistics recompute")
     reductions = data["paired_selected_vs_baseline"]["metrics"]
     expected = {
