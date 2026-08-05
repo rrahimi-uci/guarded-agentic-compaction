@@ -46,6 +46,7 @@ from .runtime.continuation import (
     ContinuationTelemetry,
 )
 from .runtime.runner import CompactingRunner, Decision, RouteResolver, compact
+from .runtime.manual import ManualPreModelDecision, ManualPreModelPlan, ManualPreModelRunner
 from .pipeline import (
     FunctionPass,
     GrcOptimizationPass,
@@ -140,6 +141,9 @@ __all__ = [
     "ContinuationOutcome",
     "ContinuationTelemetry",
     "CompactingRunner",
+    "ManualPreModelDecision",
+    "ManualPreModelPlan",
+    "ManualPreModelRunner",
     "RouteResolver",
     "Decision",
     "compact",

@@ -26,6 +26,10 @@ R=paper/results/github_natural_replication
     --regrade-results \
     --results-path "$R/results.json"
 .venv/bin/python paper/scripts/build_artifacts.py
+O=paper/results/optimizer_head_to_head
+H=paper/scripts/github_optimizer_head_to_head.py
+.venv/bin/python "$H" \
+    --regrade-existing "$O/results.json"
 M=paper/results/multidomain/preflight
 V=paper/scripts/validate_multidomain.py
 .venv/bin/python "$V" \
@@ -60,6 +64,17 @@ P=paper/scripts/portfolio_live_study.py
 The approval flag records an explicit experimental decision; it does not enable autonomous
 macro deployment.  The script rejects overlap with every earlier study issue and writes
 native SDK traces plus the exact frozen decision to \path{results/portfolio_live}.
+The bounded learned/manual comparator used real public records and real provider calls:
+\begin{verbatim}
+H=paper/scripts/github_optimizer_head_to_head.py
+.venv/bin/python "$H" \
+    --train-cases 4 --val-cases 2 --test-cases 6 \
+    --max-metric-calls 16 --max-proposals 3 \
+    --reflection-minibatch 2
+\end{verbatim}
+It executes official GEPA 0.1.4.  The provider-free \code{--regrade-existing} command
+above recomputes grading, comparisons, and measurement validation without changing any
+retained answer, trace, token, latency, or cost observation.
 The earlier aggressive natural-order run used:
 \begin{verbatim}
 cd paper/scripts
@@ -81,9 +96,9 @@ The script never prints either value.  Use \code{--smoke} before a paid full run
 
 \section{Implementation Audit}
 
-The package contains 17,433 measured Python statements across source, tests, demos,
-benchmarking, and experiment drivers; the post-fix full suite collects and passes 311
-tests at 73.94\% statement coverage.  \code{pip check} and the repository release verifier
+The package contains 18,687 measured Python statements across source, tests, demos,
+benchmarking, and experiment drivers; the post-fix full suite collects and passes 336
+tests at 75.05\% statement coverage.  \code{pip check} and the repository release verifier
 pass.  Core
 provenance, windows, dispatcher, facade, schemas, registry, and statistics modules have
 strong focused coverage.  Weak areas include TGWS packaging (27.7\%), the outer runner
@@ -162,6 +177,17 @@ wall latency by 71.6\%, and estimated cost by 40.6\%.  Paired two-sided Wilcoxon
 $p=0.000488$ for tokens, latency, and cost.  This is a prospective within-family result,
 not evidence that selection outperforms an always-macro policy across heterogeneous
 workflows.
+
+The bounded optimizer comparison uses four optimization-training, two validation, and six
+deployment issues, all disjoint from each other and every earlier cohort.  Every deployment
+condition passes 6/6 exact factual and tool contracts.  Unchanged, GEPA, GCS, GCS plus the
+retained GEPA seed, and manual pre-model execution use respectively 4, 4, 1, 1, and 1 mean
+provider requests.  Mean input tokens are 3,542.0, 3,530.0, 770.8, 770.8, and 770.8.
+GCS and manual execution therefore tie structurally; their paired latency and estimated
+cost differences are not significant.  GEPA retains its seed after 14 task evaluations
+and three reflections.  Its separate optimization ledger records 59 provider requests,
+63,954 tokens, and \$0.01162959 estimated cost.  One provider-span latency exceeds the
+surrounding host wall time and is retained but excluded from provider-span comparisons.
 
 \section{Benchmark Selection Rationale}
 

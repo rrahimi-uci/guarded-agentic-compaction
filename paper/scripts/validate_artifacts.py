@@ -812,15 +812,121 @@ def validate_guarded_composite() -> None:
             for row in payload.get("results", [])
             if isinstance(row, dict) and "issue_number" in row
         )
-        selection = payload.get("selection", {})
-        prior.update(int(value) for value in selection.get("discovery_issue_numbers", []))
-        prior.update(int(value) for value in selection.get("smoke_issue_numbers", []))
+        prior_selection = payload.get("selection", {})
+        prior.update(int(value) for value in prior_selection.get("discovery_issue_numbers", []))
+        prior.update(int(value) for value in prior_selection.get("smoke_issue_numbers", []))
         prior.update(
             int(row["issue_number"])
-            for row in selection.get("test", [])
+            for row in prior_selection.get("test", [])
             if isinstance(row, dict) and "issue_number" in row
         )
     ok(selected.isdisjoint(prior), "GCS cohort is disjoint from every earlier issue cohort")
+
+
+def validate_optimizer_head_to_head() -> None:
+    """Audit the bounded official-GEPA and fair pre-model comparator study."""
+
+    result_path = PAPER / "results/optimizer_head_to_head/results.json"
+    preflight_path = PAPER / "results/optimizer_head_to_head/preflight.json"
+    ok(result_path.exists(), "optimizer head-to-head result exists")
+    ok(preflight_path.exists(), "optimizer head-to-head preflight exists")
+    if not result_path.exists() or not preflight_path.exists():
+        return
+
+    data = load(result_path)
+    preflight = load(preflight_path)
+    run = data.get("run", {})
+    ok(data.get("schema") == "agent-compaction-optimizer-head-to-head/v1",
+       "optimizer head-to-head schema")
+    ok(run.get("provider_backed") is True
+       and run.get("real_public_records") is True
+       and run.get("openai_api_key_used") is True
+       and run.get("secrets_serialized") is False,
+       "optimizer comparison records real provider/data use without secrets")
+    ok(run.get("gepa") == "0.1.4" and run.get("comparative_claim_allowed") is True,
+       "optimizer comparison uses official GEPA 0.1.4 and completed")
+    ok(data.get("failures") == [], "optimizer comparison has no recorded failures")
+
+    selection = data.get("selection", {})
+    train = set(selection.get("optimization_train", []))
+    validation = set(selection.get("optimization_validation", []))
+    test = set(selection.get("test", []))
+    ok(len(train) == 4 and len(validation) == 2 and len(test) == 6
+       and not (train & validation or train & test or validation & test),
+       "optimizer train, validation, and deployment splits are disjoint")
+    ok(selection.get("test_frozen_before_optimization") is True
+       and selection.get("selection_uses_provider_outcomes") is False,
+       "optimizer deployment split was frozen without provider outcomes")
+    ok(selection.get("unavailable_categories_after_exclusions") == ["question"],
+       "optimizer result records the unavailable question category")
+    ok(preflight.get("selection") == selection,
+       "optimizer result retains the exact preflight selection")
+
+    parity = data.get("preflight", {}).get("provider_free_parity", {})
+    ok(parity.get("provider_calls") == 0
+       and parity.get("cases") == parity.get("exact_projection_matches") == 12
+       and parity.get("mismatches") == [],
+       "GCS and manual pre-model projections match provider-free on all split records")
+
+    rows = data.get("deployment_results", [])
+    conditions = {"baseline", "gepa", "gcs", "gcs_gepa", "manual_pre_model"}
+    paired: dict[int, dict[str, dict[str, Any]]] = defaultdict(dict)
+    for row in rows:
+        paired[int(row["issue_number"])][str(row["condition"])] = row
+    ok(len(rows) == 30 and set(paired) == test
+       and all(set(group) == conditions for group in paired.values()),
+       "optimizer deployment result has six complete five-condition blocks")
+    ok(all(group[condition]["quality"]["overall"]
+           and group[condition]["quality"]["tool_contract"]
+           for group in paired.values() for condition in conditions),
+       "all optimizer deployment arms pass all exact and tool contracts")
+    ok(all(group["baseline"]["metrics"]["requests"] == 4
+           and group["gepa"]["metrics"]["requests"] == 4
+           and group["gcs"]["metrics"]["requests"] == 1
+           and group["gcs_gepa"]["metrics"]["requests"] == 1
+           and group["manual_pre_model"]["metrics"]["requests"] == 1
+           for group in paired.values()),
+       "deployment request counts are structurally exact")
+
+    optimization = data.get("optimization", {})
+    gepa = optimization.get("gepa_result", {})
+    accounting = optimization.get("accounting", {})
+    ok(optimization.get("method") == "official GEPA 0.1.4 optimize_anything"
+       and gepa.get("improved") is False
+       and gepa.get("best_prompt") == gepa.get("seed_prompt"),
+       "bounded GEPA retained its seed prompt")
+    ok(gepa.get("metric_calls") == 14
+       and accounting.get("reflection_calls") == 3
+       and accounting.get("combined_provider_requests") == 59
+       and accounting.get("combined_total_tokens") == 63954
+       and accounting.get("excluded_from_deployment_metrics") is True,
+       "GEPA optimization budget and overhead are reported separately")
+
+    baseline_gcs = data.get("comparisons", {}).get("baseline_vs_gcs", {})
+    manual_gcs = data.get("comparisons", {}).get("manual_pre_model_vs_gcs", {})
+    ok(abs(baseline_gcs.get("metrics", {}).get("requests", {}).get(
+        "aggregate_reduction", -1) - 0.75) < 1e-12,
+       "GCS reduces deployment provider requests 75 percent versus unchanged")
+    ok(abs(baseline_gcs.get("metrics", {}).get("input_tokens", {}).get(
+        "aggregate_reduction", -1) - 0.7823734236777715) < 1e-12,
+       "GCS reduces deployment input tokens 78.237 percent versus unchanged")
+    for metric in ("requests", "tool_calls", "input_tokens"):
+        block = manual_gcs.get("metrics", {}).get(metric, {})
+        ok(block.get("aggregate_reduction") == 0.0,
+           f"GCS and manual pre-model baseline tie structurally: {metric}")
+    ok(data.get("measurement_validation", {}).get(
+        "provider_span_latency_excluded_from_comparisons") is True,
+       "invalid provider span latency is retained but excluded from comparisons")
+    publication = load(PAPER / "results/publication_manifest.json")
+    hashed = {record.get("path") for record in publication.get("files", [])}
+    ok({
+        "paper/results/optimizer_head_to_head/preflight.json",
+        "paper/results/optimizer_head_to_head/results.json",
+        "paper/scripts/github_optimizer_head_to_head.py",
+        "src/agent_compaction/optimization/gepa.py",
+        "src/agent_compaction/runtime/manual.py",
+        "tests/integration/test_optimizer_head_to_head.py",
+    } <= hashed, "publication manifest hashes optimizer evidence, adapters, and tests")
 
 
 def validate_continuation_replay() -> None:
@@ -1089,6 +1195,12 @@ def validate_claim_boundaries() -> None:
     ok("Guarded composite synthesis beats the measured provider-visible macro" in claims
        and "Exploratory" in claims,
        "claims register scopes the GCS macro result")
+    ok("GCS outperforms an equally pre-executed manual program" in claims
+       and "structural parity" in claims,
+       "claims register rejects unsupported manual-program superiority")
+    ok("Bounded GEPA improves this workflow" in claims
+       and "seed retained" in claims,
+       "claims register records the bounded GEPA negative result")
     for key in ("agrawal2026gepa", "wei2026evoc2f", "winston2026agentjit"):
         ok(key in bibliography and f"\\cite{{{key}}}" in body,
            f"current related work is cited and discussed: {key}")
@@ -1143,14 +1255,18 @@ def validate_publication() -> None:
         "results/github_natural_live/smoke.json",
         "results/gcs_validation/provider_free.json",
         "results/gcs_live/results.json",
+        "results/optimizer_head_to_head/preflight.json",
+        "results/optimizer_head_to_head/results.json",
         "scripts/validate_guarded_composite.py",
         "scripts/github_gcs_live_study.py",
+        "scripts/github_optimizer_head_to_head.py",
         "generated_figures/live_efficiency.pdf", "generated_figures/paired_test.pdf",
         "generated_figures/gate_support.pdf", "generated_figures/pilot_ablation.pdf",
         "generated_figures/natural_live_comparison.pdf",
         "tables/natural_live_results.tex",
         "tables/natural_replication_results.tex",
         "tables/gcs_live_results.tex",
+        "tables/optimizer_head_to_head.tex",
         "slides/GAC-seminar.pptx",
         "slides/GAC-technical-review.pptx",
         "slides/gac-template-map.json",
@@ -1206,6 +1322,10 @@ def validate_publication() -> None:
                 ["pdftotext", str(PAPER / f"build/{build}.pdf"), "-"], check=True,
                 stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
             ).stdout
+            # Two-column extraction can insert a newline inside a section heading even
+            # when the rendered heading is contiguous.  Normalize whitespace so this
+            # gate checks publication content rather than Poppler's line wrapping.
+            searchable_pdf_text = re.sub(r"\s+", " ", pdf_text).lower()
             # Assert the current title, not the method name: the phrase "Guarded Agentic
             # Compaction" still appears in the body where the method is defined, so
             # checking it would pass even if the title were dropped entirely.
@@ -1214,12 +1334,13 @@ def validate_publication() -> None:
                            "NESTFUL",
                            "Expanded natural-order Tier-2 replication",
                            "GEPA",
+                           "Fair placement and bounded prompt optimization",
                            "Prospective portfolio selection",
                            "Exploratory GCS",
                            "Portfolio optimization beyond the pilot",
                            "Limitations and Threats to Validity",
                            "Reproducibility Details"):
-                ok(phrase.lower() in pdf_text.lower(),
+                ok(phrase.lower() in searchable_pdf_text,
                    f"{build}: compiled PDF contains: {phrase}")
             # The architecture figure and every algorithm must actually reach the page.
             # Algorithm 1's caption was retitled when it was corrected to describe the
@@ -1229,7 +1350,7 @@ def validate_publication() -> None:
                            "typed argument provenance",
                            "fixed-grid exact selective admission",
                            "boundary-time admission"):
-                ok(phrase.lower() in pdf_text.lower(),
+                ok(phrase.lower() in searchable_pdf_text,
                    f"{build}: compiled PDF contains exhibit: {phrase}")
             ok("GACreconstructs" not in pdf_text,
                f"{build}: acronym macros do not swallow the following space")
@@ -1281,10 +1402,10 @@ def validate_slides() -> None:
                    f"{label} publication slide deck contains the current paper title")
                 ok(b"When Traces Are Not Enough" not in payload,
                    f"{label} publication slide deck contains no superseded title")
-                ok(b"GCS removes the measured macro" in payload,
-                   f"{label} publication slide deck contains the GCS comparison")
-                ok(b"equally pre-executed manual" in payload,
-                   f"{label} publication slide deck retains the comparator boundary")
+                ok(b"Fair placement ties GCS" in payload,
+                   f"{label} publication slide deck contains the fair-placement comparison")
+                ok(b"GEPA retains its seed" in payload,
+                   f"{label} publication slide deck contains the bounded GEPA result")
                 media = [name for name in names if name.startswith("ppt/media/")]
                 ok(all(package.getinfo(name).file_size > 0 for name in media),
                    f"{label} publication slide deck contains no empty media parts")
@@ -1348,6 +1469,7 @@ def validate_slide_generation() -> None:
     evidence_paths = {
         "gcs_live": PAPER / "results/gcs_live/results.json",
         "gcs_replay": PAPER / "results/gcs_validation/provider_free.json",
+        "optimizer_head_to_head": PAPER / "results/optimizer_head_to_head/results.json",
     }
     for name, path in evidence_paths.items():
         ok(path.exists(), f"slide evidence exists: {name}")
@@ -1355,8 +1477,8 @@ def validate_slide_generation() -> None:
             ok(evidence.get(name, {}).get("sha256") == sha256(path),
                f"slide-generation manifest binds evidence bytes: {name}")
     ok(manifest.get("evidence_boundary") ==
-       "Post-study exploratory result on one workflow family; no equally pre-executed manual-macro comparator.",
-       "slide-generation manifest retains the GCS evidence boundary")
+       "Exploratory six-case fair-placement and bounded-GEPA result; structural manual parity, seed retained, no cross-family superiority.",
+       "slide-generation manifest retains the current comparator evidence boundary")
 
 
 def main() -> None:
@@ -1367,6 +1489,7 @@ def main() -> None:
     validate_natural_replication()
     validate_portfolio_live()
     validate_guarded_composite()
+    validate_optimizer_head_to_head()
     validate_continuation_replay()
     validate_nestful()
     validate_demo_suite()

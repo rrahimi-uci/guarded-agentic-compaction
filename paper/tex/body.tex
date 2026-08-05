@@ -47,7 +47,8 @@ Our research questions are:
   \item[RQ2.] On an unseen real-record workload, how does a learned compiled prefix trade
   factual task quality against requests, tokens, latency, and cost relative to an unchanged
   agent and a hand-written composite tool, and can a guarded compiler close the interface
-  gap exposed by that comparison?
+  gap exposed by that comparison when a fair pre-model manual program and a learned prompt
+  optimizer receive the same held-out workload?
   \item[RQ3.] Does exact selective admission reject recurrent families when calibration
   support is inadequate?
   \item[RQ4.] Which failure modes remain after structural compilation, and what does
@@ -75,7 +76,8 @@ The paper makes six contributions:
   exercised prospectively on fresh public records.
   \item Guarded composite synthesis (GCS), which packages an admitted program behind a
   task-specific projection, preserves internal effect/provenance verification, and can run
-  before the first provider request only under an exact continuation-manifest pin.
+  before the first provider request only under an exact continuation-manifest pin; plus a
+  same-task comparison with an independently authored pre-model program and official GEPA.
 \end{enumerate}
 
 We do \emph{not} claim universal semantic equivalence, production certification,
@@ -84,13 +86,15 @@ generation.  Those boundaries are part of the result.
 The portfolio layer still only selects measured actions and cannot synthesize arbitrary
 application code.  GCS synthesizes a narrow, read-only composite \emph{view} of an already
 verified program; it does not infer undeclared tool semantics, fuse the three source reads
-into one physical operation, or establish cross-family superiority.
+into one physical operation, or establish cross-family superiority.  The fair manual arm
+shows structural parity on six records, and the bounded GEPA run is a negative result rather
+than evidence that prompt evolution is ineffective in general.
 
 \paragraph{Roadmap.}
 \Cref{sec:problem} formalizes episodes, candidate regions, the position invariant, and the
 selective objective.  \Cref{sec:method} presents the method as a cascade of independent
 rejection points (\cref{fig:pipeline}) and states the calibration guarantee.
-\Cref{sec:methodology} defines the two evidence tiers and the hypotheses they test, and
+\Cref{sec:methodology} defines the three evidence tiers and the hypotheses they test, and
 \cref{sec:results} answers RQ1--RQ4 in that order.  \Cref{sec:related} positions \method
 against adjacent optimizers, and \cref{sec:limits} states what the evidence does not
 cover.  Every rejected candidate, the archived failed pilot, and the unsupported claims are
@@ -342,6 +346,26 @@ the application-supplied task-semantic contract.  Its contribution is a serializ
 fail-closed interface transformation over a program the existing compiler can already
 verify.
 
+\subsection{Fair manual and learned-optimizer interfaces}
+\label{sec:optimizer-method}
+
+To separate runtime placement from automatic discovery, we implement a second pre-model
+runner that does not consume a compiler artifact or its calibrated gate.  It accepts an
+explicit, hand-authored read program, source and continuation manifests, effect catalog,
+bounded projection, and output/provenance/call-count verifier.  Manifest drift, an
+undeclared effect, a missing field, a repeated observation, or any verifier failure returns
+the unchanged agent before release.  This is a guarded laboratory baseline, not an
+independently reviewed production program; its construction cost is not measured.
+
+For learned prompt optimization we wrap the official GEPA \code{optimize\_anything}
+interface behind a provider-agnostic adapter.  The adapter requires disjoint train and
+validation identifiers, enforces hard proposal, metric-call, and candidate-length budgets,
+records a sanitized audit log, and leaves tracking disabled.  Only one operational-strategy
+sentence is mutable; the factual output schema, safety instructions, tools, grader, and
+quality-dominant objective remain fixed.  Prompt optimization and guarded program execution
+therefore change orthogonal variables and can be evaluated alone or together.  Optimization
+requests, tokens, latency, and cost are accounted separately from held-out deployment.
+
 \subsection{Exact risk-gated admission}
 
 The score $q(z)$ is a logistic model over entry-observable features: unseen category,
@@ -519,6 +543,11 @@ compiles the full three-read region from the retained discovery traces and compa
 pre-model composite with the provider-visible hand-written macro on 12 further records
 excluded from every prior cohort.  They are
 evidence about agent control flow on real records, not live GitHub service reliability.
+A final bounded comparator study excludes every earlier issue identifier, freezes disjoint
+4/2/6 optimization-train/validation/test splits before any provider outcome, and runs
+unchanged, GEPA-only, GCS, GCS+GEPA, and independently authored pre-model conditions on the
+same six held-out records.  The snapshot contains real records and every condition makes
+live provider calls; no response is simulated.
 
 \textbf{Tier 3 --- controlled demonstration suite.}  Six workflow \emph{shapes} are run
 end to end through the real SDK runtime with live provider calls against deterministic
@@ -551,6 +580,9 @@ explicitly post-study, exploratory test rather than an additional preregistered 
 The issue selection is provider-outcome-free and disjoint from all 424 earlier issue IDs,
 but it was recorded by the same run that executed the provider calls rather than sealed in
 an externally timestamped protocol.
+The learned/manual comparator was likewise designed after the GCS result and is explicitly
+exploratory.  Its test identifiers were frozen before prompt optimization, but the study
+was not externally preregistered and its six cases are not a powered non-inferiority test.
 
 \subsection{External benchmark: NESTFUL}
 
@@ -682,6 +714,28 @@ The provider-backed script requires an explicit macro-review flag, records 24 un
 traces, and serializes no credential.  This evaluates a pre-data action choice on a fresh
 cohort, but only within one workflow family and one model configuration.
 
+\subsection{Bounded learned and pre-model comparator study}
+\label{sec:optimizer-methodology}
+
+We first reconstruct both GCS and the manual program on all 12 selected split records
+without a provider call.  Their projected evidence must match byte-for-byte before the
+paid study may proceed.  Four records train prompt proposals, two evaluate them, and six
+remain sealed for deployment; all are disjoint from 443 issue identifiers used by earlier
+experiments.  Strict exclusion leaves bug, enhancement, and other records but no question
+record, so the held-out cohort balances only the three available categories (two each).
+
+Official GEPA 0.1.4 may make at most 16 task-metric calls and three proposals.  Each task
+evaluation is a real Agents SDK execution, and each reflection is a real Responses API
+call.  The score
+\begin{equation*}
+  1000I_{\mathrm{exact}}+100q_{\mathrm{facts}}-5N_{\mathrm{req}}
+  -N_{\mathrm{tool}}-N_{\mathrm{tok}}/10{,}000
+\end{equation*}
+makes exact factuality dominant over the available efficiency terms.  After optimization,
+all five conditions run once per held-out issue under a balanced condition-order schedule.
+Because GEPA retains its seed, the nominal GCS+GEPA arm is an order-balanced replication
+of GCS, not evidence of a distinct combined optimizer.
+
 \subsection{Demonstration suite: workflow shapes}
 \label{sec:demos}
 
@@ -727,6 +781,11 @@ The exploratory GCS comparison uses the same paired procedures.  Its primary con
 GCS minus the measured provider-visible macro; it reports exposed tool interfaces and
 internal source reads separately so interface fusion cannot masquerade as eliminated
 work.
+The bounded comparator uses the same exact quality and paired resource procedures.  Host
+monotonic wall time is primary.  Provider-span latency is retained but excluded from a
+comparison if the summed spans exceed the surrounding host wall time by more than 250 ms.
+Optimization requests, tokens, latency, and cost are never mixed with held-out deployment
+metrics.
 
 \section{Results}
 \label{sec:results}
@@ -749,8 +808,9 @@ improvement at all (\cref{sec:pilot}).
 An exploratory compiler extension then synthesizes the task-specific composite interface
 and runs it before the first provider request.  On 12 fresh pairs it matches the measured
 macro's exact quality while using one rather than two provider requests
-(\cref{sec:gcs-results}); this closes the measured interface gap, but does not rule out an
-equally pre-executed manual macro.
+(\cref{sec:gcs-results}); a subsequent fair-placement comparison shows that an equally
+pre-executed manual program ties its structural deployment efficiency, while bounded GEPA
+retains its seed (\cref{sec:optimizer-results}).
 The portfolio pilot then turns the comparator result into a pre-data decision and tests the
 selected reviewed action on a fresh cohort (\cref{sec:portfolio-results}).
 
@@ -1175,15 +1235,54 @@ reads, so this is decision and context compaction, not elimination of necessary 
 
 The mechanism is placement, not magic: the provider-visible macro spends one request
 choosing its composite and another producing the answer, whereas GCS supplies the guarded
-projection to the first request.  A manually engineered, equally guarded \emph{pre-model}
-macro could plausibly obtain the same advantage; we did not implement that comparator.
+projection to the first request.  The follow-up in \cref{sec:optimizer-results} implements
+the previously missing manually engineered, equally guarded \emph{pre-model} comparator.
 The run also covers only five bug and seven other-labelled issues---no question or
 enhancement cases survived strict prior-cohort exclusion.  A retained two-case smoke run
 had worse GCS latency, reinforcing that the 12-case latency magnitude is provider- and
 schedule-sensitive.  The supported conclusion is therefore precise: automatic guarded
 interface synthesis matches the measured macro's observed quality and beats its measured
-provider work on this family, while preserving safe fallback.  It is not evidence that
-GCS dominates the best manually placed program across domains.
+provider work on this family, while preserving safe fallback.  It is not evidence of an
+advantage over manual placement.
+
+\subsection{Fair placement and bounded prompt optimization}
+\label{sec:optimizer-results}
+
+\begin{table}[t]
+  \centering
+  \caption{Fresh real-record deployment after bounded prompt optimization.  Values are
+  means over six held-out issues.  ``Interfaces'' counts model-visible tool calls.  GEPA
+  retained its seed; the combined row is therefore a GCS replication, not a distinct
+  optimized prompt.  Optimization overhead is excluded.}
+  \label{tab:optimizer-head-to-head}
+  \small
+  \resizebox{\columnwidth}{!}{\input{../tables/optimizer_head_to_head.tex}}
+\end{table}
+
+All five conditions pass all six exact factual and tool contracts.  Relative to the
+unchanged agent, GCS reduces provider requests 75.0\%, exposed interfaces 66.7\%, input
+tokens 78.2\%, total tokens 76.6\%, observed wall time 68.2\%, and estimated deployment
+cost 67.9\%; the paired structural and token reductions have exact signed-rank
+$p=.03125$.  These six pairs remain too few for a population equivalence claim.
+
+The fair manual program is the decisive comparator.  It also uses one request, one exposed
+interface, and 770.8 mean input tokens, and passes 6/6.  Against it, GCS changes none of
+those structural metrics.  GCS emits 4.5 fewer output and total tokens on average
+($p=.25$), while observed wall time and cost differences are also non-significant
+($p=.844$ and $.625$).  Automatic discovery, provenance, compatibility pins, and
+calibrated admission may justify GCS operationally, but this study shows no runtime
+dominance over a correctly placed hand-authored program.  Manual construction and review
+effort were not measured.
+
+GEPA consumes 14 real task evaluations and three real reflection calls under the fixed
+budget, proposes three alternatives, and retains the seed.  Its deployment arm therefore
+keeps four requests and three interfaces; total-token reduction versus unchanged is 0.38\%
+($p=.688$), and estimated cost is 3.6\% higher ($p=.688$).  Optimization itself consumes
+59 provider requests, 63,954 tokens, and an estimated \$0.01163, reported outside deployment.
+Because no prompt change is selected, the combined arm cannot support a composition claim.
+This is a bounded negative result on one extractive workflow, not a general failure of
+GEPA.  One GCS+seed provider-span record exceeds its surrounding host wall time; the raw
+span is retained, but provider-span comparisons involving that arm are invalidated.
 
 \subsection{RQ5: prospective portfolio selection}
 \label{sec:portfolio-results}
@@ -1286,9 +1385,11 @@ up to 9.2$\times$ shorter than MIPROv2 prompts.  GEPA therefore prevents us from
 trace-driven agent optimization itself as novel.  It changes the prompts of residual
 language modules rather than deleting model boundaries, making it complementary to region
 compilation and a relevant baseline only when prompt evolution is in scope.  A factorial
-study of unchanged, GEPA-only, \method-only, and combined systems would test whether
-reflective evolution can improve the continuation decisions that our program gate does not
-certify; we do not run that study here.
+study of unchanged, GEPA-only, GCS, and combined systems can test whether reflective
+evolution improves the continuation decisions that program compilation does not certify.
+We run a bounded version on six held-out records: official GEPA 0.1.4 retains its seed, so
+the combined arm becomes a replication rather than evidence of interaction.  This negative
+result is too small and budget-limited to contradict GEPA's broader task results.
 
 AWO is the closest trace-based system: it identifies recurring tool-call sequences and
 bundles them into meta-tools, reducing LLM calls by up to 11.9\%~\cite{abuzakuk2026awo}.
@@ -1418,8 +1519,10 @@ pin allow the region to execute before the first provider request.  The individu
 are not new---manual macros, projection pushdown, and partial evaluation are standard---but
 their composition preserves the compiler's internal effect checks, provenance, staging,
 and fallback rather than treating a generated meta-tool as an opaque trusted shortcut.
-The 12-pair result supports that mechanism on one family; it does not establish a general
-advantage over manually pre-executed code.
+The 12-pair result supports that mechanism on one family.  The later six-pair comparison
+finds structural parity with an independently authored pre-model program, so the scientific
+claim is automatic guarded specialization, not superior runtime efficiency once a human has
+already placed the same program correctly.
 
 The portfolio adds a second, narrower composition: selection across transformation
 \emph{classes} rather than configurations within one declared graph, with separate exact
@@ -1451,6 +1554,9 @@ control-point semantics.
 Fifth, a task-specific interface and its execution position are separate optimizations:
 merely exposing a macro still leaves a model turn to select it, whereas a continuation-pinned
 pre-model composite can remove that turn.
+Sixth, learned-optimizer overhead needs its own ledger.  In the bounded GEPA study the
+optimization spends 59 provider requests and selects no change, so there is no deployment
+benefit against which that cost can be amortized.
 
 \subsection{Extension path}
 \label{sec:extension}
@@ -1580,9 +1686,10 @@ experiment demonstrates.
 
 \paragraph{Empirical scope.}
 The confirmatory compiler study contains 30 primary issues, the prospective portfolio
-pilot contains 12, and the exploratory GCS comparison contains 12 further pairs, all from
-one repository/domain and one model configuration.  The GCS cohort contains only bug and
-other-labelled issues.
+pilot contains 12, the exploratory GCS comparison contains 12 further pairs, and the
+learned/manual comparator contains six five-condition blocks, all from one repository/domain
+and one model configuration.  The GCS cohort contains only bug and other-labelled issues;
+the comparator contains bug, enhancement, and other but no question-labelled issue.
 It uses a frozen public snapshot, not the live GitHub API, so network/service behavior,
 concurrent mutation, rate limits, and authentication are absent.  The two exact gates have
 92 and 45 calibration records, while the portfolio has only 30 selection groups and uses a
@@ -1610,11 +1717,14 @@ independently gives the macro the lower request ratio on three of five workloads
 compiler itself remains compile-or-retire; the new portfolio layer selects the measured
 macro and emits a review-required recommendation.  Separately, GCS packages an admitted
 read program behind a synthesized projection and beats the measured provider-visible
-macro on 12 exploratory pairs; it does not synthesize arbitrary application logic or test
-an equally pre-executed manual macro.  The portfolio does not generate that macro, and
-on a single family the result is indistinguishable from an always-macro rule.  We still do not run AWO, AWM,
-LLMCompiler, FlowCompile, or plan caching.  The evidence establishes an intervention and
-engineering trade-off, not state-of-the-art superiority.
+macro on 12 exploratory pairs; it does not synthesize arbitrary application logic.  The
+six-pair follow-up gives an independently authored program the same pre-model position and
+finds equal requests, interfaces, input tokens, and exact quality.  Official GEPA retains
+its seed under a 14-task-evaluation, three-reflection budget.  The portfolio does not
+generate the macro, and on a single family its decision remains indistinguishable from an
+always-macro rule.  AWO, AWM, Agent JIT, EvoC2F, LLMCompiler, FlowCompile, and plan caching
+remain unexecuted.  The evidence establishes an intervention and engineering trade-off,
+not state-of-the-art superiority.
 
 \paragraph{Portfolio scope.}
 The weighted utility is a declared operator preference, not a universal scientific metric.
@@ -1628,7 +1738,9 @@ and time-forward evaluation under drift.
 
 \paragraph{Statistical scope.}
 The pilot and final cohort are separated, but the study was not externally preregistered.
-Secondary tests are unadjusted and provider latency is noisy.  Clopper--Pearson is exact
+Secondary tests are unadjusted and provider latency is noisy.  The optimizer comparison
+contains only six pairs; its exact signed-rank minimum is therefore $.03125$, and one
+provider-span record fails the host-wall consistency check.  Clopper--Pearson is exact
 but conservative.  The gate's guarantee applies to the recorded group-level violation
 definition only when admitted group indicators are i.i.d. or conditionally i.i.d.; drift,
 clustered tenants, adaptive artifact selection, or incomplete outcomes invalidate a naive
@@ -1679,8 +1791,13 @@ three-read program and its provenance internally, exposes one continuation-pinne
 task-specific observation, and matches the provider-visible macro's 12/12 exact contracts
 while reducing requests 50.0\%, tokens 38.9\%, observed latency 40.0\%, and estimated cost
 32.3\% on a disjoint exploratory cohort.  This is evidence that a guarded compiler can be
-as good as the measured macro on one family, not that it dominates an equally pre-executed
-manual program.
+as good as the measured provider-visible macro on one family.  A subsequent fair-placement
+study closes the missing comparator: GCS and an independently authored pre-model program
+both pass 6/6 and tie on requests, exposed interfaces, and input tokens.  In the same study,
+official GEPA retains its seed under a 14-task-evaluation budget and provides no deployment
+request reduction.  These results shift the value claim from runtime dominance to automatic
+discovery, explicit evidence, and guarded admission; neither the six-case manual tie nor the
+bounded GEPA negative result generalizes beyond this workflow.
 The next scientific threshold is a multi-family, time-forward comparison that includes
 cache, construction and maintenance effort, drift, and closer learned optimizers.
 

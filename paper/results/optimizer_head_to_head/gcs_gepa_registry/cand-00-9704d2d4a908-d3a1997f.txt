@@ -1,0 +1,23 @@
+artifact  issue_get_record.issue_get_labels.region@9704d2d4@1   support 16/16 groups   removes k=3.00   [active]
+──────────────────────────────────────────────────────────────────────────────
+guard   effect_catalog_version=github-natural-workflow-pinned-reads@1#739f744b8513b613  entry_contract_version=github-natural-issue-number-v1  guardrail_hash=#89af17ab  model=gpt-5.6-luna  policy_hash=#e369ccfc  prompt_hash=#6e1a896c  tools_hash=#a6fe0682
+        z.issue_number : int ∈ [148.0, 7225.0]
+        effects ⊆ {READ_LOCAL}  all speculatable ∧ replayable
+
+program (θ = {issue_number}):
+   get  = call issue_get_record(issue_number = z.issue_number)
+   get2 = call issue_get_labels(issue_number = get.issue_number)
+   get3 = call issue_get_comments(issue_number = get.issue_number, limit = Const(3))
+   return  { get: get, get2: get2, get3: get3 }
+expose   compiled_issue_get_record_02bc9e0c13(issue_number) -> { body_excerpt, comments, issue_number, labels, source_revision, state, title } [internal=3]
+verify  get : dict, non-null, provenance ∈ {issue_get_record}
+        get.issue_number : int, non-null, ∈ [148.0, 7225.0], provenance ∈ {issue_get_record}
+        get.source_revision : str, non-null, ∈ {e344be7b84d199661a9956036991e1fc25715a47}, provenance ∈ {issue_get_record}
+        get.state : str, non-null, ∈ {closed, open}, provenance ∈ {issue_get_record}
+        get2 : dict, non-null, provenance ∈ {issue_get_labels}
+        get2.names : list, non-null, len ≤ 1, len ≥ 0, provenance ∈ {issue_get_labels}
+        get2.source_revision : str, non-null, ∈ {e344be7b84d199661a9956036991e1fc25715a47}, provenance ∈ {issue_get_labels}
+        get3 : dict, non-null, provenance ∈ {issue_get_comments}
+        get3.source_revision : str, non-null, ∈ {e344be7b84d199661a9956036991e1fc25715a47}, provenance ∈ {issue_get_comments}
+        effect_multiset ⊆ {READ_LOCAL},  |calls| ∈ {3},  no WRITE_*
+gate    q = logistic(entry features)   η = 0.50   (cal n=92 groups, α=0.1, δ=0.1, |Λ|=11, R⁺=0.052, φ̂=0.96)

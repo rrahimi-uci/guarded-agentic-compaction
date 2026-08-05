@@ -1,0 +1,80 @@
+{
+  "manual_plan_id": "manual-9df2eb8da6d896e6",
+  "parquet_sha256": "09453eefae39e45a969ab0bee72ca0e188fe79dc50403b0f2a78c39894f5d1a3",
+  "provider_free_parity": {
+    "cases": 12,
+    "exact_projection_matches": 12,
+    "mismatches": [],
+    "provider_calls": 0,
+    "rows_digest": "e5b849ffc3e1bf53fce3e1c7ed7208a989d35d91f5d9959341268135be714bf2"
+  },
+  "schema": "agent-compaction-optimizer-head-to-head-preflight/v1",
+  "selection": {
+    "available_categories": [
+      "bug",
+      "enhancement",
+      "other"
+    ],
+    "category_balance_rule": "available categories in fixed bug, enhancement, question, other order; round-robin within each split",
+    "category_counts": {
+      "optimization_train": {
+        "bug": 2,
+        "enhancement": 1,
+        "other": 1
+      },
+      "optimization_validation": {
+        "bug": 1,
+        "enhancement": 1
+      },
+      "test": {
+        "bug": 2,
+        "enhancement": 2,
+        "other": 2
+      }
+    },
+    "excluded_prior_issues": 443,
+    "fresh_raw_category_counts": {
+      "bug": 581,
+      "enhancement": 389,
+      "other": 1656
+    },
+    "optimization_train": [
+      4310,
+      6984,
+      2040,
+      3049
+    ],
+    "optimization_validation": [
+      4769,
+      5698
+    ],
+    "pre_provider_rejections": {
+      "cardinality:get2.names": 6,
+      "hull:z.issue_number=118": 1,
+      "hull:z.issue_number=7248": 1,
+      "hull:z.issue_number=7249": 1,
+      "hull:z.issue_number=7267": 1,
+      "hull:z.issue_number=7305": 1,
+      "hull:z.issue_number=7400": 1,
+      "hull:z.issue_number=7505": 1,
+      "hull:z.issue_number=7513": 1,
+      "hull:z.issue_number=7534": 1
+    },
+    "seed": 20260804,
+    "selection_uses_provider_outcomes": false,
+    "test": [
+      4121,
+      3064,
+      4775,
+      2767,
+      6571,
+      1954
+    ],
+    "test_frozen_before_optimization": true,
+    "unavailable_categories_after_exclusions": [
+      "question"
+    ]
+  },
+  "source_revision": "e344be7b84d199661a9956036991e1fc25715a47",
+  "timestamp_utc": "2026-08-05T03:53:53+00:00"
+}

@@ -29,7 +29,9 @@ This register prevents claims from drifting beyond the artifacts that support th
 | The portfolio recommends or synthesizes arbitrary macro code | source and public APIs | Not implemented | the portfolio consumes measured actions; GCS separately packages an admitted read program behind a bounded projection |
 | GCS recompiles the full retained three-read region | `results/gcs_validation/provider_free.json` | Verified on archived real-provider traces | 132 attempts; 124 admitted exact projections, 8 safe gate/guard fallbacks, 0 projection failures, 0 new provider calls |
 | GCS matches and beats the measured provider-visible macro | `results/gcs_live/results.json` | Exploratory on one family | both 12/12 exact; GCS requests -50.0%, tokens -38.9%, observed latency -40.0%, estimated cost -32.3%; tool interfaces tie 1/1 and source reads tie 3/3 |
-| GCS dominates the best manual implementation | no pre-model manual comparator | Not established | an equally continuation-pinned, pre-executed hand-written macro could plausibly remove the same provider turn |
+| GCS dominates the fair pre-model manual implementation | `results/optimizer_head_to_head/results.json` | Not supported | both pass 6/6 with one request, one exposed interface, and identical input tokens; GCS/manual cost and latency differences are non-significant |
+| Official GEPA improves this workflow | `results/optimizer_head_to_head/results.json` | Not supported under bounded search | GEPA 0.1.4 retains its seed after 14 real task evaluations and 3 real reflections; requests and tool calls are unchanged, and 59 optimization requests are accounted separately |
+| GCS and the manual plan receive equivalent pre-model evidence | `results/optimizer_head_to_head/preflight.json` | Verified provider-free | 12/12 exact projected-evidence matches, zero mismatches, zero provider calls; the manual plan is lab-only and not statistically gated |
 | The implemented portfolio can recommend a measured macro | `src/agent_compaction/portfolio/`, `results/portfolio_live/results.json` | Verified on one family | both measured actions admitted on 30 groups; macro utility 0.489 vs compiler 0.327; recommendation requires human review |
 | The portfolio synthesizes macro code | source and prospective result | Not implemented | it selects an externally supplied measured action; no code or application API is generated |
 | The selected portfolio action works prospectively | `results/portfolio_live/results.json` | Verified on sample | baseline and selected macro pass 12/12 fresh exact contracts; requests -50.0%, tools -66.7%, tokens -59.2%, latency -71.6%, estimated cost -40.6% |
@@ -44,7 +46,7 @@ This register prevents claims from drifting beyond the artifacts that support th
 | Tier-3 demonstrations use real business records | `experiments/live_results/all_results.json` | Contradicted | live provider, but explicitly fictional deterministic fixtures |
 | Prefix position is safety critical | archived pilot and regression | Verified | unsafe suffix dispatch passed only 16.7% of contracts; prefix-only fix is tested |
 | Production readiness | no canary/operations evidence | Not established | lab-only artifact promotion; no production service or multi-domain test |
-| State-of-the-art superiority | no same-task closest-system head-to-head | Not established | EvoC2F, Agent JIT, GEPA, AWO, caches, and schedulers are literature comparators only |
+| State-of-the-art superiority | bounded same-task GEPA run; no executable workflow-compiler head-to-head | Not established | GEPA is now measured and negative under a small budget; EvoC2F, Agent JIT, AWO, AWM, caches, and schedulers remain literature comparators only |
 | Multidomain public-record substrate is feasible | `results/multidomain/preflight/validation.json` | Verified for two domains | 420/420 vulnerability and 420/420 HMDA independent-gold reconstructions; SEC unavailable |
 | Multidomain protocol is frozen and approved | preflight and review artifacts | Not established | missing SEC pool, real pricing, compliant source contact, and independent human macro approvals |
 | Multidomain optimization improves quality or efficiency | no provider ledger or analysis | Not evaluated | zero provider calls; no token, latency, cost, determinism, or workflow-reduction claim |
@@ -52,7 +54,7 @@ This register prevents claims from drifting beyond the artifacts that support th
 ## Secret handling and provenance
 
 `.env` variable names were inspected, but values were never printed or copied. The GCS
-live study used `OPENAI_API_KEY` for real provider calls. Live results store boolean usage flags and `secrets_serialized: false`; the validator scans
+and optimizer studies used `OPENAI_API_KEY` for real provider calls. Live results store boolean usage flags and `secrets_serialized: false`; the validator scans
 publication text/JSON for key-shaped values. The public repository begins from an initial
 snapshot created after the experiments; current versioning is available, but pre-snapshot
 commit ancestry and CI history cannot be reconstructed.

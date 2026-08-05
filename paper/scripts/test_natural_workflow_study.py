@@ -76,6 +76,19 @@ def test_factual_grade_is_independent_of_tool_order() -> None:
     assert left["score"] == right["score"] == 1.0
 
 
+def test_manual_pre_model_interface_is_a_valid_task_trace() -> None:
+    scenario, store = _fixture()
+    result = grade_factual(
+        scenario,
+        _answer(),
+        ["manual_issue_evidence_bundle"],
+        store,
+    )
+    assert result["overall"] is True
+    assert result["trace_valid"] is True
+    assert result["tool_contract"] is True
+
+
 def test_fabricated_comment_evidence_fails() -> None:
     scenario, store = _fixture()
     answer = _answer()

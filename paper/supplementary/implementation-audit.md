@@ -46,6 +46,10 @@ Within GRC, Guarded Composite Synthesis can package an admitted read program beh
 bounded task projection and execute it before the first provider request under an exact
 continuation-manifest pin. This preserves internal source calls and provenance; it is not
 arbitrary macro-code generation.
+An independent `ManualPreModelRunner` provides the fair application-authored baseline with
+the same manifest/effect/projection/verifier boundary but no compiler derivation or
+statistical gate. A separate `GepaPromptOptimizer` integrates official GEPA 0.1.4 behind
+hard split and budget checks; optimizer accounting is kept outside deployment metrics.
 
 ## Correctness assessment by component
 
@@ -58,6 +62,8 @@ arbitrary macro-code generation.
 | Window mining | Barriers, live-ins, support groups/days, canonical topology | Quadratic worst-case event scan; deployable runtime currently prefix-only |
 | Synthesis | Deterministic bounded 23-op library, group refit, narrow loops | No e-graph/CEGIS loop; legitimate complex programs abstain |
 | Guarded composites | Closed task-semantic normalizers, live-out-only projection, internal provenance, pre-model continuation pin | Sequential reads; application owns semantic declarations; no remote endpoint generation |
+| Manual pre-model baseline | Independent hand-authored plan, exact manifest/effect/provenance/call-count verification, clean fallback | Lab-only, not statistically gated or independently approved; engineering effort unmeasured |
+| GEPA adapter | Official lazy backend, split disjointness, hard budgets, audit log, no required tracking service | One mutable prompt sentence; bounded six-case study; no workflow-structure learning |
 | Contracts | Entry hulls and live-out provenance/type/cardinality/effects | Empirical hulls are not semantic specifications |
 | Calibration | Dev-fitted frozen score; fixed-grid Bonferroni exact upper bound | Per-artifact only; i.i.d./conditionally i.i.d. group indicators and observable labels required |
 | Registry | Lifecycle, compatibility lookup, kill switch, rollback fields | Shared-secret signing; mutable objects; directory save not atomic as a unit |
@@ -87,18 +93,19 @@ a verified runtime region-position key and resumable state, not merely relaxing 
 
 ## Validation state
 
-- The full local suite passes 321/321 tests; it includes legacy, natural-workflow,
+- The full local suite passes 336/336 tests; it includes legacy, natural-workflow,
   replication-oracle, continuation fail-closed, semantic-normalization, composite-projection,
   pre-model-execution, real-trace replay, and retained-live-evidence regressions.
-- The pre-GCS measured statement coverage is 73.94% over 17,433 statements; the multidomain control
-  plane and prospective paid-study drivers expand the denominator while their provider
-  paths remain only partly exercised by the provider-free suite.
+- Current measured statement coverage is 75.05% over 18,687 statements. The bounded GEPA
+  provider path is exercised live and through adapter tests; paid multidomain paths remain
+  unrun.
 - `pip check` reports no broken requirements.
-- The 0.7.0 sdist and universal wheel build cleanly; the wheel contains 74 members,
-  including the GCS module and `py.typed`, and `pip check` reports no broken requirements.
+- The 0.7.0 sdist and universal wheel build cleanly; the wheel contains 77 members,
+  including GCS, the GEPA adapter, the independent manual runner, and `py.typed`; `pip
+  check` reports no broken requirements.
 - `scripts/verify_release.py` passes all repository checks.
-- The publication artifact validator passes 1,383/1,383 source, result, cohort,
-  generated-artifact, PDF, slide, and secret-pattern checks over a 318-file manifest.
+- The publication artifact validator passes 1,568/1,568 source, result, cohort,
+  generated-artifact, PDF, slide, and secret-pattern checks over a 353-file manifest.
 - The public repository now has an initial versioned snapshot; experimental history before
   that snapshot and historical CI claims remain unavailable.
 - Provider-free multidomain validation reconstructs 840/840 available real-record gold
@@ -107,6 +114,9 @@ a verified runtime region-position key and resumable state, not merely relaxing 
 - Provider-free GCS validation reconstructs all 132 sealed real-provider trace decisions;
   124/124 admitted projections match exactly and 8 inputs fall back safely. A separate
   12-pair paid study records 12/12 exact contracts for both GCS and the measured macro.
+- Provider-free optimizer preflight records 12/12 exact GCS/manual projections. The paid
+  five-condition study records 30/30 exact outputs; GCS and manual pre-model tie on
+  structural deployment metrics, while bounded GEPA retains its seed.
 
 Coverage gaps are concentrated in TGWS packaging (27.7%), the outer runner (64.5%), replay
 (65.5%), the older live-study drivers (30--31%), and report/capture utilities. The

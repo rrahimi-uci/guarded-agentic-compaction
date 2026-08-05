@@ -198,11 +198,48 @@ exact factual and tool contracts. Relative to that measured macro, GCS changes:
 Paired request, token, latency, and cost differences have two-sided signed-rank
 `p=0.000488`; output-token change alone is uncertain (`p=0.155`). The result is
 exploratory: GCS was designed after the earlier macro result, the cohort contains five bug
-and seven other-labelled issues, and an equally pre-executed manual macro was not tested.
-The supported conclusion is parity with and lower provider work than the measured macro on
-one workflow family, not general superiority over the best manual program.
+and seven other-labelled issues. By itself this run did not include an equally pre-executed
+manual program; the subsequent checkpoint below closes that gap. The supported conclusion
+here remains parity with and lower provider work than the measured provider-visible macro.
 
-The complete local suite passes **321/321 tests** on Python 3.14.4, including real-trace
+## Fair manual and learned optimizer checkpoint (2026-08-04)
+
+The repository now implements two previously missing comparators:
+
+- `ManualPreModelRunner`, an independent guarded runtime for an explicitly authored plan.
+  It validates source and continuation manifests, declared effects, quota/observation
+  boundaries, output provenance, call counts, and the bounded projection, but does not use
+  a compiler artifact or statistical gate.
+- `GepaPromptOptimizer`, a provider-neutral wrapper over official GEPA 0.1.4 with disjoint
+  train/validation IDs, hard proposal/metric/candidate budgets, sanitized audit logs, and
+  dependency-free local tracking. MLflow is disabled and is not a core dependency.
+
+A provider-free preflight over the 4/2/6 split gives GCS and the manual program 12/12
+byte-exact projected-evidence matches and zero provider calls. The paid run then executes
+five conditions on six further real public GitHub issues through the OpenAI Agents SDK:
+
+| Condition | Exact | Requests/issue | Interfaces/issue | Input tokens/issue |
+|:---|---:|---:|---:|---:|
+| Unchanged | 6/6 | 4.0 | 3.0 | 3,542.0 |
+| GEPA | 6/6 | 4.0 | 3.0 | 3,530.0 |
+| GCS | 6/6 | 1.0 | 1.0 | 770.8 |
+| GCS + retained GEPA seed | 6/6 | 1.0 | 1.0 | 770.8 |
+| Manual pre-model | 6/6 | 1.0 | 1.0 | 770.8 |
+
+GCS reduces requests 75.0%, tool interfaces 66.7%, and input tokens 78.2% against the
+unchanged agent (`p=0.03125` for each paired contrast), but ties the fair manual program
+on those structural metrics and exact quality. GCS/manual latency and cost differences are
+not significant. Automatic discovery, evidence, invalidation, and calibrated admission are
+therefore the supported value; runtime dominance over correctly placed manual code is not.
+
+Official GEPA makes 14 real task evaluations and three real reflection calls, proposes
+three alternatives, and retains its seed. Deployment requests remain unchanged. The
+optimization ledger separately records 59 provider requests, 63,954 tokens, and estimated
+cost of $0.01162959. Because no prompt change is selected, the nominal combined arm is a
+GCS replication, not evidence of GEPA/GCS synergy. The result is bounded to one workflow,
+two validation records, three proposals, and six deployment cases.
+
+The complete local suite passes **336/336 tests** on Python 3.14.4, including real-trace
 recompilation, artifact round-trip, normal-dispatch compatibility, semantic-domain
 rejection, continuation mismatch, missing public input, projection failure, tamper
 rejection, and retained paid-evidence checks. Both LaTeX manuscripts compile with the new
@@ -418,7 +455,7 @@ flowchart LR
 | OpenAI Agents SDK | native tracing capture and native local function calls on supported hit | documented and tested lifecycle/mode/bypass behavior | not a drop-in Runner; no exact post-emission rollback; streaming, handoffs, hosted/MCP tools, loops and assertions bypass |
 | Metrics/statistics | paired grouped ratios/differences, exact safety upper bound | added generic comparison and repeat-agreement APIs | determinism is not a first-class field in the main four-demo result schema; secondary endpoint correction is not wired through every report |
 | Reproduction | generated fixtures, four conditions, negative result, figures | added validated parallel per-demo execution with isolated outputs | created timestamps and wall-clock fields make raw files byte-different even when semantics are identical |
-| Tests | 321 tests across unit, property, golden, mutation, fault injection, backends, CLI, paper oracles, artifact determinism, multidomain controls, portfolio selection, GCS, and end-to-end paths | added regression coverage for all corrections, both natural protocols, deterministic plot bytes, fail-closed portfolio decisions, provider-free real-domain controls, semantic argument contracts, composite projection, pre-model execution, and retained paid evidence | measured statement coverage predates GCS; paid multidomain drivers, older live-study drivers, TGWS packaging, replay, and the outer runner need focused coverage |
+| Tests | 336 tests across unit, property, golden, mutation, fault injection, backends, CLI, paper oracles, artifact determinism, multidomain controls, portfolio selection, GCS, manual pre-model execution, GEPA, and end-to-end paths | added regression coverage for the independent manual runner, optimizer split/budget enforcement, live-result boundaries, and provider-span anomaly handling | paid multidomain drivers, older live-study drivers, TGWS packaging, replay, and the outer runner need focused coverage |
 
 ## 5. Correctness findings and concrete fixes
 
@@ -594,8 +631,8 @@ The novelty claim must be narrower than the original generic compiler framing.
 - [GEPA](https://arxiv.org/abs/2507.19457) reflects over execution and evaluation
   trajectories and applies instance-wise Pareto prompt evolution. It is directly related
   to trace-driven optimization but changes residual LM prompts rather than deleting model
-  boundaries; it constrains any generic novelty claim and motivates a complementary
-  GAC+GEPA factorial evaluation.
+  boundaries. The new bounded live comparison retains GEPA's seed; this constrains the
+  workflow-specific result but does not contradict GEPA's broader reported performance.
 - The 2026 [execution-provenance survey](https://arxiv.org/abs/2606.04990) identifies
   unified trace schemas, argument lineage, provenance-aware memory, and recovery
   evaluation as open areas.
@@ -725,20 +762,20 @@ test set.
 
 | check | result |
 |:---|:---|
-| current full repository suite | 321 passed |
+| current full repository suite | 336 passed |
 | expanded primary natural real-provider run | 252 agent executions, 848 provider responses, 0 infrastructure failures; all three primary arms pass 30/30 exact factual and task contracts |
 | earlier aggressive natural run | 134 agent executions, 446 provider requests, 0 infrastructure failures; factual passes 18/18 unchanged, 17/18 compiler, 18/18 macro |
 | fixture-based live provider executions | 22 completed; all registered scenario outcomes passed |
 | optional framework backend | OpenAI Agents SDK 0.19.2 conformance tests passed; MLflow is no longer a package extra or backend |
-| measured statement coverage | 73.94% overall, 17,433 statements, 4,543 missed |
+| measured statement coverage | 75.05% overall, 18,687 statements, 4,663 missed |
 | compileall | passed |
 | editable install | package and metadata both 0.7.0 |
 | isolated PEP 517 build | sdist and universal wheel built |
-| clean wheel inspection | 0.7.0 universal wheel contains 74 members, including the GCS module and py.typed, with no MLflow module or dependency |
+| clean wheel inspection | 0.7.0 universal wheel contains 77 members, including GCS, the GEPA adapter, the independent manual runner, and py.typed, with no MLflow module or dependency |
 | clean CLI | help and command registration passed |
 | dependency consistency | pip check passed |
 | release audit | all package, schema, link, result, manifest, evidence, and no-write checks passed |
-| publication claim/integrity audit | 1,383 checks passed; 0 failed over a 318-file checksum manifest |
+| publication claim/integrity audit | 1,568 checks passed; 0 failed over a 353-file checksum manifest |
 | full reproduction | all four demos, report, figures, and audit completed in 321.0 seconds with four workers |
 | deterministic rerun | normalized semantic equality and identical digest for full support experiment |
 
@@ -819,9 +856,9 @@ The correct release label remains **Development Status: Alpha**.
 
 1. Implement causal decision-elision and counterexample-guided synthesis.
 2. Add Pareto artifact families and constrained global selection.
-3. Add prompt/tool-schema proposal passes and a factorial unchanged/GEPA/GAC/GAC+GEPA
-   study so reflective optimization of residual model decisions is separated from region
-   compilation.
+3. Expand the completed bounded unchanged/GEPA/GCS/GCS+GEPA/manual study to multiple
+   workflow families, larger optimization budgets, prompt/tool-schema proposals, and a
+   powered sealed deployment cohort.
 4. Add an AgentSlimming/MASS-style topology comparator under handoff/effect constraints.
 5. Implement provenance-bearing memory compaction with expiration and invalidation.
 6. Add an effect-aware parallel scheduler and critical-path benchmark.

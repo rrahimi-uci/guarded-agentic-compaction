@@ -126,6 +126,7 @@ def grade_factual(
         "issue_get_labels",
         "issue_get_comments",
         "issue_get_bundle",
+        "manual_issue_evidence_bundle",
     }
     trace_valid = bool(tool_sequence) and all(
         tool in allowed_tools or tool.startswith("compiled_issue_get_record_")
@@ -225,11 +226,17 @@ def make_catalog() -> EffectCatalog:
     )
 
 
-def make_manifest(model: str, tools: Sequence[Any], catalog: EffectCatalog, condition: str) -> Any:
+def make_manifest(
+    model: str,
+    tools: Sequence[Any],
+    catalog: EffectCatalog,
+    condition: str,
+    instructions: str = NATURAL_PROMPT,
+) -> Any:
     return build_manifest(
         commit="workspace-without-git-metadata",
         model=model,
-        prompt=NATURAL_PROMPT,
+        prompt=instructions,
         tools=tools,
         policy=f"public-issue-natural-investigation-{condition}-v1",
         guardrails="untrusted content; source-grounded structured facts",
@@ -239,12 +246,16 @@ def make_manifest(model: str, tools: Sequence[Any], catalog: EffectCatalog, cond
     )
 
 
-def make_agent(model: Any, tools: Sequence[Any]) -> Any:
+def make_agent(
+    model: Any,
+    tools: Sequence[Any],
+    instructions: str = NATURAL_PROMPT,
+) -> Any:
     from agents import Agent
 
     return Agent(
         name="real-github-natural-investigation",
-        instructions=NATURAL_PROMPT,
+        instructions=instructions,
         model=model,
         model_settings=fixed.model_settings(),
         tools=list(tools),
@@ -355,9 +366,11 @@ async def run_batch(
     store: dict[int, dict[str, Any]],
     registry: Registry | None,
     concurrency: int,
+    instructions: str = NATURAL_PROMPT,
     pre_model: bool = False,
     artifact_manifest: Any | None = None,
     pre_model_executor: Any | None = None,
+    pre_model_runner: Any | None = None,
 ) -> tuple[list[fixed.RunResult], list[dict[str, Any]]]:
     from agents import RunConfig, Runner
     from agents.models.openai_provider import OpenAIProvider
@@ -371,18 +384,24 @@ async def run_batch(
         pre_model_result = None
         pre_model_ms = 0.0
         model: Any = model_name
-        if registry is not None and pre_model:
-            if pre_model_executor is None or artifact_manifest is None:
-                raise RuntimeError("pre-model execution requires an executor and artifact manifest")
-            pre_runner = CompactingRunner(
-                dispatcher=Dispatcher(
-                    registry=registry,
+        if pre_model:
+            if pre_model_executor is None:
+                raise RuntimeError("pre-model execution requires an executor")
+            pre_runner = pre_model_runner
+            if pre_runner is None:
+                if registry is None or artifact_manifest is None:
+                    raise RuntimeError(
+                        "compiled pre-model execution requires a registry and artifact manifest"
+                    )
+                pre_runner = CompactingRunner(
+                    dispatcher=Dispatcher(
+                        registry=registry,
+                        catalog=catalog,
+                        mode=DispatchMode.LIVE,
+                    ),
                     catalog=catalog,
-                    mode=DispatchMode.LIVE,
-                ),
-                catalog=catalog,
-                manifest=artifact_manifest,
-            )
+                    manifest=artifact_manifest,
+                )
             pre_started = time.perf_counter()
             pre_model_result = pre_runner.execute_pre_model(
                 entry,
@@ -393,7 +412,7 @@ async def run_batch(
             pre_model_ms = (time.perf_counter() - pre_started) * 1000.0
             if not pre_model_result.compacted or len(pre_model_result.observations) != 1:
                 raise RuntimeError(
-                    "guarded composite did not dispatch: "
+                    "guarded pre-model plan did not execute: "
                     + json.dumps(pre_model_result.record, sort_keys=True)
                 )
         elif registry is not None:
@@ -407,7 +426,7 @@ async def run_batch(
                 partition_fn=lambda _input, _entry: {},
             )
             model = compacting
-        agent = make_agent(model, tools)
+        agent = make_agent(model, tools, instructions=instructions)
         async with semaphore:
             started = time.perf_counter()
             user_input = f"Investigate public issue snapshot issue_number={scenario.issue_number}"
@@ -434,6 +453,7 @@ async def run_batch(
                             "public_real_record": "true",
                             "provider_backed": "true",
                             "natural_tool_order": "true",
+                            "prompt_optimized": str(instructions != NATURAL_PROMPT).lower(),
                             "condition": condition,
                             "issue_number": str(scenario.issue_number),
                         },

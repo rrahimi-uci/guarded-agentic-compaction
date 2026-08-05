@@ -44,9 +44,16 @@ continuation-pinned pre-model composite. Against the provider-visible hand-writt
 12 further real issues, both pass 12/12 exact contracts; GCS uses 50.0% fewer provider
 requests, 38.9% fewer total tokens, 40.0% lower observed wall latency, and 32.3% lower
 estimated cost. Both still execute three source reads and expose one interface. This shows
-parity with the measured macro on one family—not general superiority over an equally
-pre-executed manual program. Raw evidence is in
-[`paper/results/gcs_live/results.json`](paper/results/gcs_live/results.json).
+parity with the measured provider-visible macro on one family.
+
+A later fair-placement study tests the previously missing comparator on six further real
+issues. GCS and an independently authored guarded pre-model program both pass 6/6 with one
+provider request, one exposed interface, and identical input tokens. Official GEPA 0.1.4
+retains its seed after 14 live task evaluations and three reflection calls, so the combined
+arm is a GCS replication rather than a learned improvement. GEPA's 59-request optimization
+overhead is reported separately. Raw evidence is in
+[`paper/results/gcs_live/results.json`](paper/results/gcs_live/results.json) and
+[`paper/results/optimizer_head_to_head/results.json`](paper/results/optimizer_head_to_head/results.json).
 
 ---
 

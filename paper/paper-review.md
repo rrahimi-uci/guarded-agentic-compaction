@@ -10,6 +10,9 @@ whose prompt names neither tools nor order, an exact-source factual oracle, and 
 hand-written composite-tool baseline.
 The latest extension adds guarded composite synthesis (GCS): a bounded, provenance-
 preserving interface over an admitted program, plus a fresh 12-pair paid comparison.
+The newest study closes two previously explicit comparator gaps on six additional fresh
+records: an independently authored guarded pre-model program receives the same execution
+position as GCS, and official GEPA 0.1.4 optimizes the residual prompt under a fixed budget.
 
 **Recommendation: major revision for a top-tier main track; strong artifact candidate.**
 The implementation and resource intervention are credible. The natural-order study also
@@ -39,6 +42,10 @@ non-inferiority, broad workflow optimization, or state-of-the-art claims.
 9. GCS directly answers the macro criticism rather than evading it: on 12 disjoint fresh
    issues both GCS and the provider-visible macro pass 12/12, while GCS uses one instead of
    two provider requests and lowers tokens, observed latency, and estimated cost.
+10. The follow-up is unusually honest about negative evidence: GCS ties the fair manual
+    program on requests, interfaces, input tokens, and 6/6 exact quality; GEPA retains its
+    seed after 14 real task evaluations and three real reflections, with its 59-request
+    optimization overhead excluded from deployment metrics.
 
 ## Major concerns
 
@@ -51,19 +58,22 @@ non-inferiority, broad workflow optimization, or state-of-the-art claims.
 3. **Admission does not discriminate.** The earlier and expanded gates behave all-or-none
    at thresholds 0.14 and 0.11. The evidence demonstrates a sample-size counter, not a
    risk--coverage frontier.
-4. **The best manual comparator remains unresolved.** The provider-visible macro preserves
-   30/30 quality and beats partial GAC; GCS later beats that measured macro on 12/12 fresh
-   pairs by running before the first provider request. An equally pre-executed, guarded
-   hand-written macro was not tested and could plausibly remove the same turn. The GCS
-   result is post-study exploratory evidence, not general automatic-code superiority.
+4. **The best manual runtime comparator is now tied, not beaten.** The provider-visible
+   macro preserves 30/30 quality and beats partial GAC; GCS later beats that measured macro
+   only by running earlier. The fair follow-up gives a separate hand-authored program the
+   same pre-model position. Both pass 6/6 with one request, one interface, and identical
+   input tokens; cost and latency differences are non-significant. The remaining value
+   proposition is automatic discovery, evidence, invalidation, and admission, but manual
+   construction/review effort was not measured.
 5. **Scope remains narrow.** Thirty records from one extractive GitHub task and one
    model do not establish performance on branching, stateful, multi-agent, browser, or
    write-bearing workflows. The new vulnerability/HMDA real-record pools improve the
    feasibility story, but no provider-backed multidomain condition has run and SEC remains
    source-gated, so they cannot yet earn empirical breadth credit.
-6. **No live learned-workflow comparator exists.** AWO, AWM, plan caching, EvoC2F, and
-   Agent JIT are literature comparators only. GEPA is adjacent because it evolves residual
-   prompts rather than compiling away model boundaries.
+6. **Only one bounded learned optimizer has run.** Official GEPA is now a real same-task
+   comparator, but its 4/2 optimization split, 14 task evaluations, three proposals, and
+   six deployment cases are intentionally small. AWO, AWM, plan caching, EvoC2F, Agent
+   JIT, and FlowCompile remain literature comparators only.
 7. **The oracle revision, though well audited, reveals protocol fragility.** Correcting
    the excerpt rule changes which discovery record would enter the split, while the
    evaluated artifact remains the one built under the original online oracle.
@@ -80,9 +90,12 @@ instead changes which model boundaries exist and emits a guarded deterministic p
 The correct novelty claim is therefore guarded recurrent-region compilation, not generic
 trace optimization.
 
-A valuable follow-up would evaluate unchanged, GEPA-only, GAC-only, and GAC+GEPA
-conditions. The composition could optimize residual model decisions after justified
-regions are compiled, but the effects must first be measured separately.
+The artifact now evaluates unchanged, GEPA-only, GCS, GCS+GEPA, and manual pre-model
+conditions on a fresh cohort. GEPA proposes three alternatives but retains its seed, so
+the nominal combined arm is a counterbalanced GCS replication rather than evidence of
+synergy. This is a valid bounded negative result, not evidence that GEPA fails generally:
+all optimization examples are exact, the validation set has only two records, and no
+candidate can improve a request count fixed by the unchanged interface.
 
 ## Required experiments for a stronger submission
 
@@ -92,9 +105,10 @@ regions are compiled, but the effects must first be measured separately.
    deterministic renderer; report separate calibration, latency, and fallback cost.
 3. Natural negative, drift, permission, partial-failure, and out-of-domain cohorts that
    yield a non-degenerate post-selection risk--coverage curve.
-4. Same-task unchanged, provider-visible macro, pre-model manual macro, GCS, cache-only,
-   GAC, and learned-workflow conditions under identical models, records, prompts, cache
-   policy, and temporal ordering.
+4. Expand the same-task fair-placement result to a powered multi-family study with
+   unchanged, provider-visible macro, pre-model manual program, GCS, cache-only, GAC, and
+   at least one executable workflow-learning system under identical models, records,
+   cache policy, and temporal ordering.
 5. Guardrail replay/barriers, retry and failure tests, signed immutable artifacts,
    staged writes, canary evidence, and rollback drills before production claims.
 
@@ -110,4 +124,8 @@ contract while reducing all measured resources. It does not establish selection 
 across workflow families or drift.
 GCS materially improves the engineering and scientific story by reaching observed macro
 quality without surrendering the guard, but its 12-case, two-category, single-family study
-does not remove the major-revision recommendation.
+does not remove the major-revision recommendation. The new fair-placement result resolves
+the earlier missing-comparator criticism and appropriately narrows the claim: GCS is as
+structurally efficient as the manual program on six cases, not better. The bounded GEPA
+run removes the claim that no live learned optimizer exists, but is too small to establish
+learned-baseline superiority or complementarity.

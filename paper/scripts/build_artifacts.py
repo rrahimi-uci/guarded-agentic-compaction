@@ -35,6 +35,7 @@ NATURAL_REPLICATION_PATH = RESULTS / "github_natural_replication" / "results.jso
 PORTFOLIO_PATH = RESULTS / "portfolio_live" / "results.json"
 GCS_LIVE_PATH = RESULTS / "gcs_live" / "results.json"
 GCS_VALIDATION_PATH = RESULTS / "gcs_validation" / "provider_free.json"
+OPTIMIZER_HEAD_TO_HEAD_PATH = RESULTS / "optimizer_head_to_head" / "results.json"
 PILOT_PATH = RESULTS / "github_live" / "pilot_2026-08-03" / "results.json"
 NESTFUL_PATH = RESULTS / "nestful" / "results.json"
 FAMILY_PATH = RESULTS / "nestful" / "family_results.csv"
@@ -769,6 +770,40 @@ def write_gcs_live_table(result: dict[str, Any]) -> None:
     )
 
 
+def write_optimizer_head_to_head_table(result: dict[str, Any]) -> None:
+    """Deployment-only table for the bounded learned/manual comparator study."""
+
+    conditions = [
+        ("baseline", "Unchanged"),
+        ("gepa", "GEPA (seed retained)"),
+        ("gcs", "GCS"),
+        ("gcs_gepa", "GCS + retained seed"),
+        ("manual_pre_model", "Manual pre-model"),
+    ]
+    out = [
+        r"\begin{tabular}{lrrrrrr}",
+        r"\toprule",
+        r"Condition & Requests & Interfaces & Input & Total & Wall (s) & Exact \\",
+        r"\midrule",
+    ]
+    for condition, label in conditions:
+        aggregate = result["aggregate"][condition]
+        n = int(aggregate["n"])
+        rows = [row for row in result["deployment_results"] if row["condition"] == condition]
+        interfaces = statistics.mean(float(row["metrics"]["tool_calls"]) for row in rows)
+        out.append(
+            f"{label} & {aggregate['provider_requests']/n:.1f} & {interfaces:.1f} & "
+            f"{aggregate['input_tokens']/n:.1f} & "
+            f"{(aggregate['input_tokens'] + aggregate['output_tokens'])/n:.1f} & "
+            f"{aggregate['wall_latency_ms']/n/1000:.2f} & "
+            f"{round(aggregate['factuality_exact_rate'] * n)}/{n} \\\\"
+        )
+    out += [r"\bottomrule", r"\end{tabular}"]
+    (TABLES / "optimizer_head_to_head.tex").write_text(
+        "\n".join(out) + "\n", encoding="utf-8"
+    )
+
+
 def write_nestful_table(nestful: dict[str, Any]) -> None:
     c = nestful["compiler"]
     p = c["provenance"]
@@ -856,6 +891,8 @@ def write_claims_table() -> None:
         ("C12", "The portfolio synthesizes a macro or evaluates a cache action", "Public portfolio API accepts externally supplied measurements only", "Not implemented"),
         ("C13", "Portfolio selection beats an always-macro policy across workflows", "One family in which the measured macro is selected", "Not supported"),
         ("C14", "Guarded composite synthesis beats the measured provider-visible macro", "12 fresh paired real-record cases; both 12/12 exact", "Exploratory: requests -50%, tokens -38.9%, latency -40.0%, cost -32.3%; one workflow family"),
+        ("C15", "GCS outperforms an equally pre-executed manual program", "6 fresh paired cases; both 6/6 exact with 1 request, 1 interface, and identical input tokens", "Not supported; structural parity, with no significant cost or latency difference"),
+        ("C16", "Bounded GEPA improves this workflow", "Official GEPA 0.1.4; 14 task evaluations and 3 reflection calls", "Not supported; seed retained, deployment requests unchanged, optimization overhead reported separately"),
     ]
     # Wrapping columns rather than `llll`: the prose cells give a fixed tabular a
     # natural width several times the text measure, and the only way to place that is
@@ -901,6 +938,7 @@ def main() -> None:
     replication = load_json(NATURAL_REPLICATION_PATH)
     portfolio = load_json(PORTFOLIO_PATH)
     gcs_live = load_json(GCS_LIVE_PATH)
+    optimizer_head_to_head = load_json(OPTIMIZER_HEAD_TO_HEAD_PATH)
     pilot = load_json(PILOT_PATH)
     nestful = load_json(NESTFUL_PATH)
     live_efficiency_figure(live)
@@ -915,6 +953,7 @@ def main() -> None:
     write_natural_replication_table(replication)
     write_portfolio_table(portfolio)
     write_gcs_live_table(gcs_live)
+    write_optimizer_head_to_head_table(optimizer_head_to_head)
     write_nestful_table(nestful)
     write_related_work_table()
     write_demo_suite_table()
@@ -923,6 +962,7 @@ def main() -> None:
     write_manifest([
         LIVE_PATH, NATURAL_LIVE_PATH, NATURAL_REPLICATION_PATH, PORTFOLIO_PATH,
         GCS_LIVE_PATH, GCS_VALIDATION_PATH,
+        OPTIMIZER_HEAD_TO_HEAD_PATH,
         PILOT_PATH, NESTFUL_PATH, FAMILY_PATH,
     ])
     print(f"wrote {len(list(FIGURES.iterdir()))} figures and {len(list(TABLES.iterdir()))} tables")

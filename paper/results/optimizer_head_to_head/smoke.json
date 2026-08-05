@@ -1,0 +1,4865 @@
+{
+  "aggregate": {
+    "baseline": {
+      "category_accuracy": 1,
+      "estimated_cost_usd": 0.0014336499999999999,
+      "factuality_exact_rate": 1,
+      "input_tokens": 9122,
+      "n": 2,
+      "output_tokens": 266,
+      "provider_requests": 8,
+      "success_rate": 1,
+      "tool_contract_rate": 1,
+      "wall_latency_ms": 11240.474
+    },
+    "gcs": {
+      "category_accuracy": 1,
+      "estimated_cost_usd": 0.0007553,
+      "factuality_exact_rate": 1,
+      "input_tokens": 2457,
+      "n": 2,
+      "output_tokens": 154,
+      "provider_requests": 2,
+      "success_rate": 1,
+      "tool_contract_rate": 1,
+      "wall_latency_ms": 5600.605
+    },
+    "gcs_gepa": {
+      "category_accuracy": 1,
+      "estimated_cost_usd": 0.00039144,
+      "factuality_exact_rate": 1,
+      "input_tokens": 2457,
+      "n": 2,
+      "output_tokens": 154,
+      "provider_requests": 2,
+      "success_rate": 1,
+      "tool_contract_rate": 1,
+      "wall_latency_ms": 2520.342
+    },
+    "gepa": {
+      "category_accuracy": 1,
+      "estimated_cost_usd": 0.00097986,
+      "factuality_exact_rate": 1,
+      "input_tokens": 9122,
+      "n": 2,
+      "output_tokens": 266,
+      "provider_requests": 8,
+      "success_rate": 1,
+      "tool_contract_rate": 1,
+      "wall_latency_ms": 8595.332
+    },
+    "manual_pre_model": {
+      "category_accuracy": 1,
+      "estimated_cost_usd": 0.00044064,
+      "factuality_exact_rate": 1,
+      "input_tokens": 2457,
+      "n": 2,
+      "output_tokens": 195,
+      "provider_requests": 2,
+      "success_rate": 1,
+      "tool_contract_rate": 1,
+      "wall_latency_ms": 2727.434
+    }
+  },
+  "comparisons": {
+    "baseline_vs_gcs": {
+      "candidate_label": "gcs",
+      "metrics": {
+        "estimated_cost_usd": {
+          "aggregate_reduction": 0.4731629058696334,
+          "baseline_mean": 0.0007168249999999999,
+          "gcs_mean": 0.00037765,
+          "paired_difference_95pct_bootstrap_ci": [
+            -0.0003431199999999999,
+            -0.00033523
+          ],
+          "paired_difference_gcs_minus_baseline": -0.00033917499999999994,
+          "wilcoxon_p": 0.5
+        },
+        "input_tokens": {
+          "aggregate_reduction": 0.7306511729883798,
+          "baseline_mean": 4561.0,
+          "gcs_mean": 1228.5,
+          "paired_difference_95pct_bootstrap_ci": [
+            -3619.0,
+            -3046.0
+          ],
+          "paired_difference_gcs_minus_baseline": -3332.5,
+          "wilcoxon_p": 0.5
+        },
+        "output_tokens": {
+          "aggregate_reduction": 0.42105263157894735,
+          "baseline_mean": 133.0,
+          "gcs_mean": 77.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            -67.0,
+            -45.0
+          ],
+          "paired_difference_gcs_minus_baseline": -56.0,
+          "wilcoxon_p": 0.5
+        },
+        "provider_response_latency_ms": {
+          "aggregate_reduction": 0.5011549212796165,
+          "baseline_mean": 5604.711,
+          "gcs_mean": 2795.8824999999997,
+          "paired_difference_95pct_bootstrap_ci": [
+            -4475.842000000001,
+            -1141.815
+          ],
+          "paired_difference_gcs_minus_baseline": -2808.8285000000005,
+          "wilcoxon_p": 0.5
+        },
+        "requests": {
+          "aggregate_reduction": 0.75,
+          "baseline_mean": 4.0,
+          "gcs_mean": 1.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            -3.0,
+            -3.0
+          ],
+          "paired_difference_gcs_minus_baseline": -3.0,
+          "wilcoxon_p": 0.5
+        },
+        "tool_calls": {
+          "aggregate_reduction": 0.6666666666666667,
+          "baseline_mean": 3.0,
+          "gcs_mean": 1.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            -2.0,
+            -2.0
+          ],
+          "paired_difference_gcs_minus_baseline": -2.0,
+          "wilcoxon_p": 0.5
+        },
+        "total_tokens": {
+          "aggregate_reduction": 0.721878994461014,
+          "baseline_mean": 4694.0,
+          "gcs_mean": 1305.5,
+          "paired_difference_95pct_bootstrap_ci": [
+            -3686.0,
+            -3091.0
+          ],
+          "paired_difference_gcs_minus_baseline": -3388.5,
+          "wilcoxon_p": 0.5
+        },
+        "wall_latency_ms": {
+          "aggregate_reduction": 0.5017465455638259,
+          "baseline_mean": 5620.237,
+          "gcs_mean": 2800.3025,
+          "paired_difference_95pct_bootstrap_ci": [
+            -4488.206,
+            -1151.6630000000005
+          ],
+          "paired_difference_gcs_minus_baseline": -2819.9345000000003,
+          "wilcoxon_p": 0.5
+        }
+      },
+      "n_pairs": 2,
+      "quality": {
+        "category_correct": {
+          "baseline_only_successes": 0,
+          "baseline_rate": 1,
+          "gcs_only_successes": 0,
+          "gcs_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        },
+        "evidence_label_correct": {
+          "baseline_only_successes": 0,
+          "baseline_rate": 1,
+          "gcs_only_successes": 0,
+          "gcs_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        },
+        "overall": {
+          "baseline_only_successes": 0,
+          "baseline_rate": 1,
+          "gcs_only_successes": 0,
+          "gcs_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        },
+        "tool_contract": {
+          "baseline_only_successes": 0,
+          "baseline_rate": 1,
+          "gcs_only_successes": 0,
+          "gcs_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        }
+      }
+    },
+    "baseline_vs_gcs_gepa": {
+      "candidate_label": "gcs_gepa",
+      "metrics": {
+        "estimated_cost_usd": {
+          "aggregate_reduction": 0.7269626477871167,
+          "baseline_mean": 0.0007168249999999999,
+          "gcs_gepa_mean": 0.00019572,
+          "paired_difference_95pct_bootstrap_ci": [
+            -0.00069909,
+            -0.0003431199999999999
+          ],
+          "paired_difference_gcs_gepa_minus_baseline": -0.000521105,
+          "wilcoxon_p": 0.5
+        },
+        "input_tokens": {
+          "aggregate_reduction": 0.7306511729883798,
+          "baseline_mean": 4561.0,
+          "gcs_gepa_mean": 1228.5,
+          "paired_difference_95pct_bootstrap_ci": [
+            -3619.0,
+            -3046.0
+          ],
+          "paired_difference_gcs_gepa_minus_baseline": -3332.5,
+          "wilcoxon_p": 0.5
+        },
+        "output_tokens": {
+          "aggregate_reduction": 0.42105263157894735,
+          "baseline_mean": 133.0,
+          "gcs_gepa_mean": 77.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            -67.0,
+            -45.0
+          ],
+          "paired_difference_gcs_gepa_minus_baseline": -56.0,
+          "wilcoxon_p": 0.5
+        },
+        "provider_response_latency_ms": {
+          "aggregate_reduction": 0.7759657009968935,
+          "baseline_mean": 5604.711,
+          "gcs_gepa_mean": 1255.6475,
+          "paired_difference_95pct_bootstrap_ci": [
+            -4687.967000000001,
+            -4010.16
+          ],
+          "paired_difference_gcs_gepa_minus_baseline": -4349.0635,
+          "wilcoxon_p": 0.5
+        },
+        "requests": {
+          "aggregate_reduction": 0.75,
+          "baseline_mean": 4.0,
+          "gcs_gepa_mean": 1.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            -3.0,
+            -3.0
+          ],
+          "paired_difference_gcs_gepa_minus_baseline": -3.0,
+          "wilcoxon_p": 0.5
+        },
+        "tool_calls": {
+          "aggregate_reduction": 0.6666666666666667,
+          "baseline_mean": 3.0,
+          "gcs_gepa_mean": 1.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            -2.0,
+            -2.0
+          ],
+          "paired_difference_gcs_gepa_minus_baseline": -2.0,
+          "wilcoxon_p": 0.5
+        },
+        "total_tokens": {
+          "aggregate_reduction": 0.721878994461014,
+          "baseline_mean": 4694.0,
+          "gcs_gepa_mean": 1305.5,
+          "paired_difference_95pct_bootstrap_ci": [
+            -3686.0,
+            -3091.0
+          ],
+          "paired_difference_gcs_gepa_minus_baseline": -3388.5,
+          "wilcoxon_p": 0.5
+        },
+        "wall_latency_ms": {
+          "aggregate_reduction": 0.775779740249388,
+          "baseline_mean": 5620.237,
+          "gcs_gepa_mean": 1260.171,
+          "paired_difference_95pct_bootstrap_ci": [
+            -4700.222,
+            -4019.9100000000003
+          ],
+          "paired_difference_gcs_gepa_minus_baseline": -4360.066,
+          "wilcoxon_p": 0.5
+        }
+      },
+      "n_pairs": 2,
+      "quality": {
+        "category_correct": {
+          "baseline_only_successes": 0,
+          "baseline_rate": 1,
+          "gcs_gepa_only_successes": 0,
+          "gcs_gepa_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        },
+        "evidence_label_correct": {
+          "baseline_only_successes": 0,
+          "baseline_rate": 1,
+          "gcs_gepa_only_successes": 0,
+          "gcs_gepa_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        },
+        "overall": {
+          "baseline_only_successes": 0,
+          "baseline_rate": 1,
+          "gcs_gepa_only_successes": 0,
+          "gcs_gepa_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        },
+        "tool_contract": {
+          "baseline_only_successes": 0,
+          "baseline_rate": 1,
+          "gcs_gepa_only_successes": 0,
+          "gcs_gepa_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        }
+      }
+    },
+    "baseline_vs_gepa": {
+      "candidate_label": "gepa",
+      "metrics": {
+        "estimated_cost_usd": {
+          "aggregate_reduction": 0.31652774387054017,
+          "baseline_mean": 0.0007168249999999999,
+          "gepa_mean": 0.00048993,
+          "paired_difference_95pct_bootstrap_ci": [
+            -0.00045379000000000003,
+            0.0
+          ],
+          "paired_difference_gepa_minus_baseline": -0.00022689500000000002,
+          "wilcoxon_p": 1.0
+        },
+        "input_tokens": {
+          "aggregate_reduction": 0.0,
+          "baseline_mean": 4561.0,
+          "gepa_mean": 4561.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            0.0,
+            0.0
+          ],
+          "paired_difference_gepa_minus_baseline": 0.0,
+          "wilcoxon_p": 1.0
+        },
+        "output_tokens": {
+          "aggregate_reduction": 0.0,
+          "baseline_mean": 133.0,
+          "gepa_mean": 133.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            0.0,
+            0.0
+          ],
+          "paired_difference_gepa_minus_baseline": 0.0,
+          "wilcoxon_p": 1.0
+        },
+        "provider_response_latency_ms": {
+          "aggregate_reduction": 0.23575782944026913,
+          "baseline_mean": 5604.711,
+          "gepa_mean": 4283.3565,
+          "paired_difference_95pct_bootstrap_ci": [
+            -1457.4560000000001,
+            -1185.2530000000006
+          ],
+          "paired_difference_gepa_minus_baseline": -1321.3545000000004,
+          "wilcoxon_p": 0.5
+        },
+        "requests": {
+          "aggregate_reduction": 0.0,
+          "baseline_mean": 4.0,
+          "gepa_mean": 4.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            0.0,
+            0.0
+          ],
+          "paired_difference_gepa_minus_baseline": 0.0,
+          "wilcoxon_p": 1.0
+        },
+        "tool_calls": {
+          "aggregate_reduction": 0.0,
+          "baseline_mean": 3.0,
+          "gepa_mean": 3.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            0.0,
+            0.0
+          ],
+          "paired_difference_gepa_minus_baseline": 0.0,
+          "wilcoxon_p": 1.0
+        },
+        "total_tokens": {
+          "aggregate_reduction": 0.0,
+          "baseline_mean": 4694.0,
+          "gepa_mean": 4694.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            0.0,
+            0.0
+          ],
+          "paired_difference_gepa_minus_baseline": 0.0,
+          "wilcoxon_p": 1.0
+        },
+        "wall_latency_ms": {
+          "aggregate_reduction": 0.23532299438617976,
+          "baseline_mean": 5620.237,
+          "gepa_mean": 4297.666,
+          "paired_difference_95pct_bootstrap_ci": [
+            -1458.3880000000004,
+            -1186.754
+          ],
+          "paired_difference_gepa_minus_baseline": -1322.5710000000001,
+          "wilcoxon_p": 0.5
+        }
+      },
+      "n_pairs": 2,
+      "quality": {
+        "category_correct": {
+          "baseline_only_successes": 0,
+          "baseline_rate": 1,
+          "gepa_only_successes": 0,
+          "gepa_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        },
+        "evidence_label_correct": {
+          "baseline_only_successes": 0,
+          "baseline_rate": 1,
+          "gepa_only_successes": 0,
+          "gepa_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        },
+        "overall": {
+          "baseline_only_successes": 0,
+          "baseline_rate": 1,
+          "gepa_only_successes": 0,
+          "gepa_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        },
+        "tool_contract": {
+          "baseline_only_successes": 0,
+          "baseline_rate": 1,
+          "gepa_only_successes": 0,
+          "gepa_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        }
+      }
+    },
+    "baseline_vs_manual_pre_model": {
+      "candidate_label": "manual_pre_model",
+      "metrics": {
+        "estimated_cost_usd": {
+          "aggregate_reduction": 0.692644648275381,
+          "baseline_mean": 0.0007168249999999999,
+          "manual_pre_model_mean": 0.00022032,
+          "paired_difference_95pct_bootstrap_ci": [
+            -0.00064989,
+            -0.0003431199999999999
+          ],
+          "paired_difference_manual_pre_model_minus_baseline": -0.000496505,
+          "wilcoxon_p": 0.5
+        },
+        "input_tokens": {
+          "aggregate_reduction": 0.7306511729883798,
+          "baseline_mean": 4561.0,
+          "manual_pre_model_mean": 1228.5,
+          "paired_difference_95pct_bootstrap_ci": [
+            -3619.0,
+            -3046.0
+          ],
+          "paired_difference_manual_pre_model_minus_baseline": -3332.5,
+          "wilcoxon_p": 0.5
+        },
+        "output_tokens": {
+          "aggregate_reduction": 0.26691729323308266,
+          "baseline_mean": 133.0,
+          "manual_pre_model_mean": 97.5,
+          "paired_difference_95pct_bootstrap_ci": [
+            -45.0,
+            -26.0
+          ],
+          "paired_difference_manual_pre_model_minus_baseline": -35.5,
+          "wilcoxon_p": 0.5
+        },
+        "provider_response_latency_ms": {
+          "aggregate_reduction": 0.7574126480384091,
+          "baseline_mean": 5604.711,
+          "manual_pre_model_mean": 1359.632,
+          "paired_difference_95pct_bootstrap_ci": [
+            -4897.091,
+            -3593.067
+          ],
+          "paired_difference_manual_pre_model_minus_baseline": -4245.079,
+          "wilcoxon_p": 0.5
+        },
+        "requests": {
+          "aggregate_reduction": 0.75,
+          "baseline_mean": 4.0,
+          "manual_pre_model_mean": 1.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            -3.0,
+            -3.0
+          ],
+          "paired_difference_manual_pre_model_minus_baseline": -3.0,
+          "wilcoxon_p": 0.5
+        },
+        "tool_calls": {
+          "aggregate_reduction": 0.6666666666666667,
+          "baseline_mean": 3.0,
+          "manual_pre_model_mean": 1.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            -2.0,
+            -2.0
+          ],
+          "paired_difference_manual_pre_model_minus_baseline": -2.0,
+          "wilcoxon_p": 0.5
+        },
+        "total_tokens": {
+          "aggregate_reduction": 0.7175117170856413,
+          "baseline_mean": 4694.0,
+          "manual_pre_model_mean": 1326.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            -3645.0,
+            -3091.0
+          ],
+          "paired_difference_manual_pre_model_minus_baseline": -3368.0,
+          "wilcoxon_p": 0.5
+        },
+        "wall_latency_ms": {
+          "aggregate_reduction": 0.757355962035053,
+          "baseline_mean": 5620.237,
+          "manual_pre_model_mean": 1363.717,
+          "paired_difference_95pct_bootstrap_ci": [
+            -4909.781,
+            -3603.2590000000005
+          ],
+          "paired_difference_manual_pre_model_minus_baseline": -4256.52,
+          "wilcoxon_p": 0.5
+        }
+      },
+      "n_pairs": 2,
+      "quality": {
+        "category_correct": {
+          "baseline_only_successes": 0,
+          "baseline_rate": 1,
+          "manual_pre_model_only_successes": 0,
+          "manual_pre_model_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        },
+        "evidence_label_correct": {
+          "baseline_only_successes": 0,
+          "baseline_rate": 1,
+          "manual_pre_model_only_successes": 0,
+          "manual_pre_model_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        },
+        "overall": {
+          "baseline_only_successes": 0,
+          "baseline_rate": 1,
+          "manual_pre_model_only_successes": 0,
+          "manual_pre_model_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        },
+        "tool_contract": {
+          "baseline_only_successes": 0,
+          "baseline_rate": 1,
+          "manual_pre_model_only_successes": 0,
+          "manual_pre_model_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        }
+      }
+    },
+    "gepa_vs_gcs_gepa": {
+      "baseline_label": "gepa",
+      "candidate_label": "gcs_gepa",
+      "metrics": {
+        "estimated_cost_usd": {
+          "aggregate_reduction": 0.6005143591941706,
+          "gcs_gepa_mean": 0.00019572,
+          "gepa_mean": 0.00048993,
+          "paired_difference_95pct_bootstrap_ci": [
+            -0.0003431199999999999,
+            -0.0002453
+          ],
+          "paired_difference_gcs_gepa_minus_gepa": -0.00029420999999999994,
+          "wilcoxon_p": 0.5
+        },
+        "input_tokens": {
+          "aggregate_reduction": 0.7306511729883798,
+          "gcs_gepa_mean": 1228.5,
+          "gepa_mean": 4561.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            -3619.0,
+            -3046.0
+          ],
+          "paired_difference_gcs_gepa_minus_gepa": -3332.5,
+          "wilcoxon_p": 0.5
+        },
+        "output_tokens": {
+          "aggregate_reduction": 0.42105263157894735,
+          "gcs_gepa_mean": 77.0,
+          "gepa_mean": 133.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            -67.0,
+            -45.0
+          ],
+          "paired_difference_gcs_gepa_minus_gepa": -56.0,
+          "wilcoxon_p": 0.5
+        },
+        "provider_response_latency_ms": {
+          "aggregate_reduction": 0.7068543092315571,
+          "gcs_gepa_mean": 1255.6475,
+          "gepa_mean": 4283.3565,
+          "paired_difference_95pct_bootstrap_ci": [
+            -3502.714,
+            -2552.7039999999997
+          ],
+          "paired_difference_gcs_gepa_minus_gepa": -3027.709,
+          "wilcoxon_p": 0.5
+        },
+        "requests": {
+          "aggregate_reduction": 0.75,
+          "gcs_gepa_mean": 1.0,
+          "gepa_mean": 4.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            -3.0,
+            -3.0
+          ],
+          "paired_difference_gcs_gepa_minus_gepa": -3.0,
+          "wilcoxon_p": 0.5
+        },
+        "tool_calls": {
+          "aggregate_reduction": 0.6666666666666667,
+          "gcs_gepa_mean": 1.0,
+          "gepa_mean": 3.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            -2.0,
+            -2.0
+          ],
+          "paired_difference_gcs_gepa_minus_gepa": -2.0,
+          "wilcoxon_p": 0.5
+        },
+        "total_tokens": {
+          "aggregate_reduction": 0.721878994461014,
+          "gcs_gepa_mean": 1305.5,
+          "gepa_mean": 4694.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            -3686.0,
+            -3091.0
+          ],
+          "paired_difference_gcs_gepa_minus_gepa": -3388.5,
+          "wilcoxon_p": 0.5
+        },
+        "wall_latency_ms": {
+          "aggregate_reduction": 0.7067778184717006,
+          "gcs_gepa_mean": 1260.171,
+          "gepa_mean": 4297.666,
+          "paired_difference_95pct_bootstrap_ci": [
+            -3513.468,
+            -2561.522
+          ],
+          "paired_difference_gcs_gepa_minus_gepa": -3037.495,
+          "wilcoxon_p": 0.5
+        }
+      },
+      "n_pairs": 2,
+      "quality": {
+        "category_correct": {
+          "gcs_gepa_only_successes": 0,
+          "gcs_gepa_rate": 1,
+          "gepa_only_successes": 0,
+          "gepa_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        },
+        "evidence_label_correct": {
+          "gcs_gepa_only_successes": 0,
+          "gcs_gepa_rate": 1,
+          "gepa_only_successes": 0,
+          "gepa_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        },
+        "overall": {
+          "gcs_gepa_only_successes": 0,
+          "gcs_gepa_rate": 1,
+          "gepa_only_successes": 0,
+          "gepa_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        },
+        "tool_contract": {
+          "gcs_gepa_only_successes": 0,
+          "gcs_gepa_rate": 1,
+          "gepa_only_successes": 0,
+          "gepa_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        }
+      }
+    },
+    "manual_pre_model_vs_gcs": {
+      "baseline_label": "manual_pre_model",
+      "candidate_label": "gcs",
+      "metrics": {
+        "estimated_cost_usd": {
+          "aggregate_reduction": -0.71409767610748,
+          "gcs_mean": 0.00037765,
+          "manual_pre_model_mean": 0.00022032,
+          "paired_difference_95pct_bootstrap_ci": [
+            0.0,
+            0.00031466
+          ],
+          "paired_difference_gcs_minus_manual_pre_model": 0.00015733,
+          "wilcoxon_p": 1.0
+        },
+        "input_tokens": {
+          "aggregate_reduction": 0.0,
+          "gcs_mean": 1228.5,
+          "manual_pre_model_mean": 1228.5,
+          "paired_difference_95pct_bootstrap_ci": [
+            0.0,
+            0.0
+          ],
+          "paired_difference_gcs_minus_manual_pre_model": 0.0,
+          "wilcoxon_p": 1.0
+        },
+        "output_tokens": {
+          "aggregate_reduction": 0.2102564102564103,
+          "gcs_mean": 77.0,
+          "manual_pre_model_mean": 97.5,
+          "paired_difference_95pct_bootstrap_ci": [
+            -41.0,
+            0.0
+          ],
+          "paired_difference_gcs_minus_manual_pre_model": -20.5,
+          "wilcoxon_p": 1.0
+        },
+        "provider_response_latency_ms": {
+          "aggregate_reduction": -1.056352380644174,
+          "gcs_mean": 2795.8824999999997,
+          "manual_pre_model_mean": 1359.632,
+          "paired_difference_95pct_bootstrap_ci": [
+            421.2489999999998,
+            2451.252
+          ],
+          "paired_difference_gcs_minus_manual_pre_model": 1436.2504999999999,
+          "wilcoxon_p": 0.5
+        },
+        "requests": {
+          "aggregate_reduction": 0.0,
+          "gcs_mean": 1.0,
+          "manual_pre_model_mean": 1.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            0.0,
+            0.0
+          ],
+          "paired_difference_gcs_minus_manual_pre_model": 0.0,
+          "wilcoxon_p": 1.0
+        },
+        "tool_calls": {
+          "aggregate_reduction": 0.0,
+          "gcs_mean": 1.0,
+          "manual_pre_model_mean": 1.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            0.0,
+            0.0
+          ],
+          "paired_difference_gcs_minus_manual_pre_model": 0.0,
+          "wilcoxon_p": 1.0
+        },
+        "total_tokens": {
+          "aggregate_reduction": 0.015460030165912464,
+          "gcs_mean": 1305.5,
+          "manual_pre_model_mean": 1326.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            -41.0,
+            0.0
+          ],
+          "paired_difference_gcs_minus_manual_pre_model": -20.5,
+          "wilcoxon_p": 1.0
+        },
+        "wall_latency_ms": {
+          "aggregate_reduction": -1.0534337402848242,
+          "gcs_mean": 2800.3025,
+          "manual_pre_model_mean": 1363.717,
+          "paired_difference_95pct_bootstrap_ci": [
+            421.57500000000005,
+            2451.596
+          ],
+          "paired_difference_gcs_minus_manual_pre_model": 1436.5855000000001,
+          "wilcoxon_p": 0.5
+        }
+      },
+      "n_pairs": 2,
+      "quality": {
+        "category_correct": {
+          "gcs_only_successes": 0,
+          "gcs_rate": 1,
+          "manual_pre_model_only_successes": 0,
+          "manual_pre_model_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        },
+        "evidence_label_correct": {
+          "gcs_only_successes": 0,
+          "gcs_rate": 1,
+          "manual_pre_model_only_successes": 0,
+          "manual_pre_model_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        },
+        "overall": {
+          "gcs_only_successes": 0,
+          "gcs_rate": 1,
+          "manual_pre_model_only_successes": 0,
+          "manual_pre_model_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        },
+        "tool_contract": {
+          "gcs_only_successes": 0,
+          "gcs_rate": 1,
+          "manual_pre_model_only_successes": 0,
+          "manual_pre_model_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        }
+      }
+    }
+  },
+  "compiler": {
+    "gcs": {
+      "artifact": {
+        "approved_by": "paper-natural-protocol-lab-only",
+        "artifact_id": "cand-00-9704d2d4a908",
+        "compatibility_key": "b9575b6277938cbe",
+        "evidence": {
+          "counterexamples": [],
+          "dataset_digest": "83e45c027424c2e9",
+          "fallback_reasons": {},
+          "metrics": {
+            "branch": "none",
+            "branch_alternatives": 0,
+            "branch_permutation_p": null,
+            "calibration_windows_evaluated": 92,
+            "composite": "synthesized",
+            "composite_name": "compiled_issue_get_record_02bc9e0c13",
+            "dev_windows_evaluated": 8,
+            "gate_grid": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {",
+            "n_alternative_bindings": 82,
+            "perturbations_claimed": false,
+            "sandbox": {
+              "abstained": 0,
+              "effect_mismatch": 0,
+              "n": 0,
+              "pass_rate": 0.0,
+              "passed": 0,
+              "reasons": {},
+              "state_delta": 0,
+              "wrong": 0
+            },
+            "var_names": [
+              "get",
+              "get2",
+              "get3"
+            ]
+          },
+          "notes": "substrate and evidence are recorded in the run manifest",
+          "perturbation": {},
+          "rejection_reasons": [],
+          "removed_requests": 3.0,
+          "replay": {
+            "abstained": 1,
+            "effect_mismatch": 0,
+            "n": 8,
+            "pass_rate": 0.875,
+            "passed": 7,
+            "reasons": {
+              "verifier:range:get.issue_number": 1
+            },
+            "state_delta": 0,
+            "wrong": 0
+          },
+          "split_ids": {
+            "calibration": [
+              "github-issue:157",
+              "github-issue:166",
+              "github-issue:1831",
+              "github-issue:198",
+              "github-issue:2009",
+              "github-issue:2080",
+              "github-issue:2103",
+              "github-issue:2279",
+              "github-issue:2511",
+              "github-issue:2583",
+              "github-issue:2663",
+              "github-issue:2703",
+              "github-issue:2797",
+              "github-issue:2860",
+              "github-issue:2901",
+              "github-issue:3027",
+              "github-issue:3091",
+              "github-issue:3155",
+              "github-issue:320",
+              "github-issue:326",
+              "github-issue:3304",
+              "github-issue:3308",
+              "github-issue:3365",
+              "github-issue:3475",
+              "github-issue:3490",
+              "github-issue:3533",
+              "github-issue:361",
+              "github-issue:3703",
+              "github-issue:3828",
+              "github-issue:3941",
+              "github-issue:3952",
+              "github-issue:4056",
+              "github-issue:4142",
+              "github-issue:4325",
+              "github-issue:4341",
+              "github-issue:4349",
+              "github-issue:4435",
+              "github-issue:4507",
+              "github-issue:4621",
+              "github-issue:4717",
+              "github-issue:4746",
+              "github-issue:4790",
+              "github-issue:482",
+              "github-issue:4889",
+              "github-issue:5005",
+              "github-issue:5088",
+              "github-issue:5094",
+              "github-issue:5148",
+              "github-issue:5152",
+              "github-issue:5193",
+              "github-issue:5255",
+              "github-issue:5263",
+              "github-issue:5326",
+              "github-issue:5378",
+              "github-issue:5479",
+              "github-issue:5483",
+              "github-issue:5494",
+              "github-issue:5706",
+              "github-issue:5855",
+              "github-issue:5862",
+              "github-issue:6120",
+              "github-issue:6149",
+              "github-issue:6184",
+              "github-issue:6237",
+              "github-issue:624",
+              "github-issue:6287",
+              "github-issue:648",
+              "github-issue:6483",
+              "github-issue:649",
+              "github-issue:6505",
+              "github-issue:6668",
+              "github-issue:668",
+              "github-issue:6752",
+              "github-issue:6819",
+              "github-issue:6865",
+              "github-issue:6896",
+              "github-issue:6936",
+              "github-issue:6973",
+              "github-issue:7018",
+              "github-issue:709",
+              "github-issue:7113",
+              "github-issue:7127",
+              "github-issue:7134",
+              "github-issue:7260",
+              "github-issue:7286",
+              "github-issue:7546",
+              "github-issue:7561",
+              "github-issue:784",
+              "github-issue:807",
+              "github-issue:836",
+              "github-issue:864",
+              "github-issue:876"
+            ],
+            "dev": [
+              "github-issue:1671",
+              "github-issue:2211",
+              "github-issue:3704",
+              "github-issue:4047",
+              "github-issue:5385",
+              "github-issue:5649",
+              "github-issue:6439",
+              "github-issue:7447"
+            ],
+            "train": [
+              "github-issue:148",
+              "github-issue:1844",
+              "github-issue:2032",
+              "github-issue:223",
+              "github-issue:2441",
+              "github-issue:2498",
+              "github-issue:438",
+              "github-issue:4398",
+              "github-issue:4570",
+              "github-issue:5161",
+              "github-issue:5600",
+              "github-issue:6124",
+              "github-issue:6460",
+              "github-issue:647",
+              "github-issue:6604",
+              "github-issue:7225"
+            ]
+          },
+          "support_days": 111,
+          "support_groups": 16,
+          "support_principals": 1,
+          "total_groups": 16
+        },
+        "expiry_day": null,
+        "gate": {
+          "admissible": [
+            0.17,
+            0.2,
+            0.25,
+            0.3,
+            0.4,
+            0.5
+          ],
+          "alpha": 0.1,
+          "coverage": 0.9565217391304348,
+          "delta": 0.1,
+          "features_spec": {
+            "branch_entropy": 0.0,
+            "categories": {},
+            "hull_kinds": {
+              "z.issue_number": "interval"
+            },
+            "max_day": "2024-10-14",
+            "numeric_ranges": {
+              "z.issue_number": [
+                148.0,
+                7225.0
+              ]
+            },
+            "paths": [
+              "z.issue_number"
+            ],
+            "patterns": {},
+            "provenance_ambiguity": 1.0
+          },
+          "grid": [
+            0.02,
+            0.05,
+            0.08,
+            0.11,
+            0.14,
+            0.17,
+            0.2,
+            0.25,
+            0.3,
+            0.4,
+            0.5
+          ],
+          "model": {
+            "bias": -0.2393180433539786,
+            "feature_means": [
+              0.0,
+              0.0,
+              0.0,
+              0.2539211530309453,
+              0.125,
+              1.0,
+              0.0
+            ],
+            "feature_scales": [
+              1.0,
+              1.0,
+              1.0,
+              0.25021516358455304,
+              0.33071891388307384,
+              1.0,
+              1.0
+            ],
+            "features": [
+              "unseen_category",
+              "knn_distance",
+              "missing_optional",
+              "hull_margin",
+              "drift_days",
+              "provenance_ambiguity",
+              "branch_entropy"
+            ],
+            "weights": [
+              0.0,
+              0.0,
+              0.0,
+              1.1295663637969058,
+              0.9663823272213818,
+              0.0,
+              0.0
+            ]
+          },
+          "n_accepted": 88,
+          "n_calibration_groups": 92,
+          "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.17, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.2, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.25, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.3, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.4, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.5, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}]",
+          "observed_violations": 0,
+          "retire": false,
+          "risk_upper_bound": 0.052013056604272134,
+          "threshold": 0.5
+        },
+        "guard": {
+          "allowed_effects": [
+            "READ_LOCAL"
+          ],
+          "clauses": [
+            {
+              "hull": {
+                "high": 7225.0,
+                "kind": "interval",
+                "low": 148.0,
+                "max_len": null,
+                "min_len": null,
+                "pattern": null,
+                "values": []
+              },
+              "path": "z.issue_number",
+              "required": true,
+              "role": "hull",
+              "type_name": "int"
+            }
+          ],
+          "isolation": {},
+          "manifest_pins": {
+            "effect_catalog_version": "github-natural-workflow-pinned-reads@1#739f744b8513b613",
+            "entry_contract_version": "github-natural-issue-number-v1",
+            "guardrail_hash": "#89af17ab",
+            "model": "gpt-5.6-luna",
+            "policy_hash": "#e369ccfc",
+            "prompt_hash": "#6e1a896c",
+            "tools_hash": "#a6fe0682"
+          },
+          "required_capabilities": [
+            "speculatable",
+            "replayable"
+          ]
+        },
+        "kind": "grc",
+        "lifecycle": "active",
+        "manifest": {
+          "commit": "workspace-without-git-metadata",
+          "effect_catalog_version": "github-natural-workflow-pinned-reads@1#739f744b8513b613",
+          "entry_contract_version": "github-natural-issue-number-v1",
+          "guardrail_hash": "#89af17ab",
+          "manifest_id": "b9575b627793",
+          "model": "gpt-5.6-luna",
+          "policy_hash": "#e369ccfc",
+          "prompt_hash": "#6e1a896c",
+          "sdk_version": "0.19.2",
+          "tools_hash": "#a6fe0682",
+          "tracer_version": "agent-compaction/0.6.0"
+        },
+        "monitoring": {
+          "expected_coverage": 0.9565217391304348,
+          "max_unsafe_dispatch": 0.1,
+          "min_verifier_pass_rate": 0.9
+        },
+        "name": "issue_get_record.issue_get_labels.region@9704d2d4",
+        "owner": "paper-natural-workflow-study",
+        "partition": {},
+        "program": {
+          "composite": {
+            "continuation_compatibility_key": "b4bcd15f8cf8a2af",
+            "description": "Guarded composite synthesized from a verified recurrent read program.",
+            "inputs": [
+              "issue_number"
+            ],
+            "internal_tools": [
+              "issue_get_record",
+              "issue_get_labels",
+              "issue_get_comments"
+            ],
+            "name": "compiled_issue_get_record_02bc9e0c13",
+            "pre_model": true,
+            "projection": {
+              "body_excerpt": {
+                "kind": "expr",
+                "ops": [],
+                "source": "get.content.body_excerpt"
+              },
+              "comments": {
+                "kind": "expr",
+                "ops": [],
+                "source": "get3.thread.items"
+              },
+              "issue_number": {
+                "kind": "expr",
+                "ops": [],
+                "source": "get.issue_number"
+              },
+              "labels": {
+                "kind": "expr",
+                "ops": [],
+                "source": "get2.names"
+              },
+              "source_revision": {
+                "kind": "expr",
+                "ops": [],
+                "source": "get.source_revision"
+              },
+              "state": {
+                "kind": "expr",
+                "ops": [],
+                "source": "get.state"
+              },
+              "title": {
+                "kind": "expr",
+                "ops": [],
+                "source": "get.content.title"
+              }
+            },
+            "schema_version": 1
+          },
+          "library_version": "T-v1",
+          "outputs": {
+            "get": {
+              "kind": "expr",
+              "ops": [],
+              "source": "get"
+            },
+            "get2": {
+              "kind": "expr",
+              "ops": [],
+              "source": "get2"
+            },
+            "get3": {
+              "kind": "expr",
+              "ops": [],
+              "source": "get3"
+            }
+          },
+          "removed_requests": 3.0,
+          "steps": [
+            {
+              "args": {
+                "issue_number": {
+                  "kind": "expr",
+                  "ops": [],
+                  "source": "z.issue_number"
+                }
+              },
+              "kind": "call",
+              "schema_version": null,
+              "tool": "issue_get_record",
+              "var": "get",
+              "when": null
+            },
+            {
+              "args": {
+                "issue_number": {
+                  "kind": "expr",
+                  "ops": [],
+                  "source": "get.issue_number"
+                }
+              },
+              "kind": "call",
+              "schema_version": null,
+              "tool": "issue_get_labels",
+              "var": "get2",
+              "when": null
+            },
+            {
+              "args": {
+                "issue_number": {
+                  "kind": "expr",
+                  "ops": [],
+                  "source": "get.issue_number"
+                },
+                "limit": {
+                  "kind": "const",
+                  "value": 3
+                }
+              },
+              "kind": "call",
+              "schema_version": null,
+              "tool": "issue_get_comments",
+              "var": "get3",
+              "when": null
+            }
+          ],
+          "theta": [
+            "issue_number"
+          ],
+          "tools": [
+            "issue_get_record",
+            "issue_get_labels",
+            "issue_get_comments"
+          ]
+        },
+        "rollback_target": null,
+        "route": null,
+        "signature": "",
+        "verifier": {
+          "allowed_effects": [
+            "READ_LOCAL"
+          ],
+          "call_counts": [
+            3
+          ],
+          "clauses": [
+            {
+              "hull": {
+                "high": null,
+                "kind": "any",
+                "low": null,
+                "max_len": null,
+                "min_len": null,
+                "pattern": null,
+                "values": []
+              },
+              "max_len": null,
+              "min_len": null,
+              "name": "get",
+              "non_null": true,
+              "present_iff": null,
+              "provenance": [
+                "issue_get_record"
+              ],
+              "type_name": "dict"
+            },
+            {
+              "hull": {
+                "high": 7225.0,
+                "kind": "interval",
+                "low": 148.0,
+                "max_len": null,
+                "min_len": null,
+                "pattern": null,
+                "values": []
+              },
+              "max_len": null,
+              "min_len": null,
+              "name": "get.issue_number",
+              "non_null": true,
+              "present_iff": null,
+              "provenance": [
+                "issue_get_record"
+              ],
+              "type_name": "int"
+            },
+            {
+              "hull": {
+                "high": null,
+                "kind": "enum",
+                "low": null,
+                "max_len": null,
+                "min_len": null,
+                "pattern": null,
+                "values": [
+                  "e344be7b84d199661a9956036991e1fc25715a47"
+                ]
+              },
+              "max_len": null,
+              "min_len": null,
+              "name": "get.source_revision",
+              "non_null": true,
+              "present_iff": null,
+              "provenance": [
+                "issue_get_record"
+              ],
+              "type_name": "str"
+            },
+            {
+              "hull": {
+                "high": null,
+                "kind": "enum",
+                "low": null,
+                "max_len": null,
+                "min_len": null,
+                "pattern": null,
+                "values": [
+                  "closed",
+                  "open"
+                ]
+              },
+              "max_len": null,
+              "min_len": null,
+              "name": "get.state",
+              "non_null": true,
+              "present_iff": null,
+              "provenance": [
+                "issue_get_record"
+              ],
+              "type_name": "str"
+            },
+            {
+              "hull": {
+                "high": null,
+                "kind": "any",
+                "low": null,
+                "max_len": null,
+                "min_len": null,
+                "pattern": null,
+                "values": []
+              },
+              "max_len": null,
+              "min_len": null,
+              "name": "get2",
+              "non_null": true,
+              "present_iff": null,
+              "provenance": [
+                "issue_get_labels"
+              ],
+              "type_name": "dict"
+            },
+            {
+              "hull": {
+                "high": null,
+                "kind": "any",
+                "low": null,
+                "max_len": null,
+                "min_len": null,
+                "pattern": null,
+                "values": []
+              },
+              "max_len": 1,
+              "min_len": 0,
+              "name": "get2.names",
+              "non_null": true,
+              "present_iff": null,
+              "provenance": [
+                "issue_get_labels"
+              ],
+              "type_name": "list"
+            },
+            {
+              "hull": {
+                "high": null,
+                "kind": "enum",
+                "low": null,
+                "max_len": null,
+                "min_len": null,
+                "pattern": null,
+                "values": [
+                  "e344be7b84d199661a9956036991e1fc25715a47"
+                ]
+              },
+              "max_len": null,
+              "min_len": null,
+              "name": "get2.source_revision",
+              "non_null": true,
+              "present_iff": null,
+              "provenance": [
+                "issue_get_labels"
+              ],
+              "type_name": "str"
+            },
+            {
+              "hull": {
+                "high": null,
+                "kind": "any",
+                "low": null,
+                "max_len": null,
+                "min_len": null,
+                "pattern": null,
+                "values": []
+              },
+              "max_len": null,
+              "min_len": null,
+              "name": "get3",
+              "non_null": true,
+              "present_iff": null,
+              "provenance": [
+                "issue_get_comments"
+              ],
+              "type_name": "dict"
+            },
+            {
+              "hull": {
+                "high": null,
+                "kind": "enum",
+                "low": null,
+                "max_len": null,
+                "min_len": null,
+                "pattern": null,
+                "values": [
+                  "e344be7b84d199661a9956036991e1fc25715a47"
+                ]
+              },
+              "max_len": null,
+              "min_len": null,
+              "name": "get3.source_revision",
+              "non_null": true,
+              "present_iff": null,
+              "provenance": [
+                "issue_get_comments"
+              ],
+              "type_name": "str"
+            }
+          ]
+        },
+        "version": 1
+      },
+      "artifact_explanation": "artifact  issue_get_record.issue_get_labels.region@9704d2d4@1   support 16/16 groups   removes k=3.00   [active]\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nguard   effect_catalog_version=github-natural-workflow-pinned-reads@1#739f744b8513b613  entry_contract_version=github-natural-issue-number-v1  guardrail_hash=#89af17ab  model=gpt-5.6-luna  policy_hash=#e369ccfc  prompt_hash=#6e1a896c  tools_hash=#a6fe0682\n        z.issue_number : int \u2208 [148.0, 7225.0]\n        effects \u2286 {READ_LOCAL}  all speculatable \u2227 replayable\n\nprogram (\u03b8 = {issue_number}):\n   get  = call issue_get_record(issue_number = z.issue_number)\n   get2 = call issue_get_labels(issue_number = get.issue_number)\n   get3 = call issue_get_comments(issue_number = get.issue_number, limit = Const(3))\n   return  { get: get, get2: get2, get3: get3 }\nexpose   compiled_issue_get_record_02bc9e0c13(issue_number) -> { body_excerpt, comments, issue_number, labels, source_revision, state, title } [internal=3]\nverify  get : dict, non-null, provenance \u2208 {issue_get_record}\n        get.issue_number : int, non-null, \u2208 [148.0, 7225.0], provenance \u2208 {issue_get_record}\n        get.source_revision : str, non-null, \u2208 {e344be7b84d199661a9956036991e1fc25715a47}, provenance \u2208 {issue_get_record}\n        get.state : str, non-null, \u2208 {closed, open}, provenance \u2208 {issue_get_record}\n        get2 : dict, non-null, provenance \u2208 {issue_get_labels}\n        get2.names : list, non-null, len \u2264 1, len \u2265 0, provenance \u2208 {issue_get_labels}\n        get2.source_revision : str, non-null, \u2208 {e344be7b84d199661a9956036991e1fc25715a47}, provenance \u2208 {issue_get_labels}\n        get3 : dict, non-null, provenance \u2208 {issue_get_comments}\n        get3.source_revision : str, non-null, \u2208 {e344be7b84d199661a9956036991e1fc25715a47}, provenance \u2208 {issue_get_comments}\n        effect_multiset \u2286 {READ_LOCAL},  |calls| \u2208 {3},  no WRITE_*\ngate    q = logistic(entry features)   \u03b7 = 0.50   (cal n=92 groups, \u03b1=0.1, \u03b4=0.1, |\u039b|=11, R\u207a=0.052, \u03c6\u0302=0.96)",
+      "candidates": [
+        {
+          "artifact": "issue_get_record.issue_get_labels.region@9704d2d4",
+          "candidate_id": "cand-00-9704d2d4a908",
+          "challenge": {
+            "hard_rejects": [],
+            "perturbation": {},
+            "perturbations_claimed": false,
+            "recorded": {
+              "abstained": 1,
+              "effect_mismatch": 0,
+              "n": 8,
+              "pass_rate": 0.875,
+              "passed": 7,
+              "reasons": {
+                "verifier:range:get.issue_number": 1
+              },
+              "state_delta": 0,
+              "wrong": 0
+            },
+            "sandbox": {
+              "abstained": 0,
+              "effect_mismatch": 0,
+              "n": 0,
+              "pass_rate": 0.0,
+              "passed": 0,
+              "reasons": {},
+              "state_delta": 0,
+              "wrong": 0
+            }
+          },
+          "gate": {
+            "admissible": [
+              0.17,
+              0.2,
+              0.25,
+              0.3,
+              0.4,
+              0.5
+            ],
+            "alpha": 0.1,
+            "coverage": 0.9565217391304348,
+            "delta": 0.1,
+            "features_spec": {
+              "branch_entropy": 0.0,
+              "categories": {},
+              "hull_kinds": {
+                "z.issue_number": "interval"
+              },
+              "max_day": "2024-10-14",
+              "numeric_ranges": {
+                "z.issue_number": [
+                  148.0,
+                  7225.0
+                ]
+              },
+              "paths": [
+                "z.issue_number"
+              ],
+              "patterns": {},
+              "provenance_ambiguity": 1.0
+            },
+            "grid": [
+              0.02,
+              0.05,
+              0.08,
+              0.11,
+              0.14,
+              0.17,
+              0.2,
+              0.25,
+              0.3,
+              0.4,
+              0.5
+            ],
+            "model": {
+              "bias": -0.2393180433539786,
+              "feature_means": [
+                0.0,
+                0.0,
+                0.0,
+                0.2539211530309453,
+                0.125,
+                1.0,
+                0.0
+              ],
+              "feature_scales": [
+                1.0,
+                1.0,
+                1.0,
+                0.25021516358455304,
+                0.33071891388307384,
+                1.0,
+                1.0
+              ],
+              "features": [
+                "unseen_category",
+                "knn_distance",
+                "missing_optional",
+                "hull_margin",
+                "drift_days",
+                "provenance_ambiguity",
+                "branch_entropy"
+              ],
+              "weights": [
+                0.0,
+                0.0,
+                0.0,
+                1.1295663637969058,
+                0.9663823272213818,
+                0.0,
+                0.0
+              ]
+            },
+            "n_accepted": 88,
+            "n_calibration_groups": 92,
+            "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.17, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.2, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.25, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.3, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.4, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.5, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}]",
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.052013056604272134,
+            "threshold": 0.5
+          },
+          "notes": {
+            "branch": "none",
+            "branch_alternatives": 0,
+            "branch_atoms": 0,
+            "branch_p": null,
+            "composite": "synthesized",
+            "composite_name": "compiled_issue_get_record_02bc9e0c13",
+            "gate_calibration_reasons": {
+              "RecordingMiss": 2,
+              "verifier:cardinality:get2.names": 1,
+              "verifier:range:get.issue_number": 4
+            },
+            "gate_calibration_samples": 92,
+            "gate_calibration_unproductive": 7,
+            "gate_calibration_violations": 0,
+            "gate_dev_reasons": {
+              "perturbation_unproductive": 5,
+              "verifier:range:get.issue_number": 1
+            },
+            "gate_dev_samples": 16,
+            "gate_dev_unproductive": 6,
+            "gate_dev_violations": 0,
+            "n_alternative_bindings": 82,
+            "n_alternative_loop_predicates": 0,
+            "n_steps": 3
+          },
+          "rejected": null,
+          "removed_requests": 3.0,
+          "stage": "emitted",
+          "support_days": 111,
+          "support_groups": 116,
+          "tools": [
+            "issue_get_record",
+            "issue_get_labels",
+            "issue_get_comments"
+          ]
+        },
+        {
+          "artifact": null,
+          "candidate_id": "cand-01-1ebb8b2849c7",
+          "challenge": {
+            "hard_rejects": [],
+            "perturbation": {},
+            "perturbations_claimed": false,
+            "recorded": {
+              "abstained": 1,
+              "effect_mismatch": 0,
+              "n": 8,
+              "pass_rate": 0.875,
+              "passed": 7,
+              "reasons": {
+                "verifier:range:get.issue_number": 1
+              },
+              "state_delta": 0,
+              "wrong": 0
+            },
+            "sandbox": {
+              "abstained": 0,
+              "effect_mismatch": 0,
+              "n": 0,
+              "pass_rate": 0.0,
+              "passed": 0,
+              "reasons": {},
+              "state_delta": 0,
+              "wrong": 0
+            }
+          },
+          "gate": {
+            "admissible": [
+              0.14,
+              0.17,
+              0.2,
+              0.25,
+              0.3,
+              0.4,
+              0.5
+            ],
+            "alpha": 0.1,
+            "coverage": 0.9565217391304348,
+            "delta": 0.1,
+            "features_spec": {
+              "branch_entropy": 0.0,
+              "categories": {},
+              "hull_kinds": {
+                "z.issue_number": "interval"
+              },
+              "max_day": "2024-10-14",
+              "numeric_ranges": {
+                "z.issue_number": [
+                  148.0,
+                  7225.0
+                ]
+              },
+              "paths": [
+                "z.issue_number"
+              ],
+              "patterns": {},
+              "provenance_ambiguity": 0.98
+            },
+            "grid": [
+              0.02,
+              0.05,
+              0.08,
+              0.11,
+              0.14,
+              0.17,
+              0.2,
+              0.25,
+              0.3,
+              0.4,
+              0.5
+            ],
+            "model": {
+              "bias": -0.3092191871724488,
+              "feature_means": [
+                0.0,
+                0.0,
+                0.0,
+                0.2539211530309453,
+                0.125,
+                0.9900000000000001,
+                0.0
+              ],
+              "feature_scales": [
+                1.0,
+                1.0,
+                1.0,
+                0.25021516358455304,
+                0.33071891388307384,
+                0.010000000000000009,
+                1.0
+              ],
+              "features": [
+                "unseen_category",
+                "knn_distance",
+                "missing_optional",
+                "hull_margin",
+                "drift_days",
+                "provenance_ambiguity",
+                "branch_entropy"
+              ],
+              "weights": [
+                0.0,
+                0.0,
+                0.0,
+                0.6900615055735642,
+                1.0369854373581837,
+                0.6476230206520438,
+                0.0
+              ]
+            },
+            "n_accepted": 88,
+            "n_calibration_groups": 92,
+            "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.17, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.2, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.25, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.3, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.4, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.5, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}]",
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.052013056604272134,
+            "threshold": 0.5
+          },
+          "notes": {
+            "branch": "none",
+            "branch_alternatives": 0,
+            "branch_atoms": 0,
+            "branch_p": null,
+            "composite": "ineligible:tool projection source 'issue_get_comments' must resolve to exactly one program step",
+            "gate_calibration_reasons": {
+              "verifier:cardinality:get2.names": 2,
+              "verifier:range:get.issue_number": 4
+            },
+            "gate_calibration_samples": 92,
+            "gate_calibration_unproductive": 6,
+            "gate_calibration_violations": 0,
+            "gate_dev_reasons": {
+              "perturbation_unproductive": 5,
+              "verifier:range:get.issue_number": 1
+            },
+            "gate_dev_samples": 16,
+            "gate_dev_unproductive": 6,
+            "gate_dev_violations": 0,
+            "n_alternative_bindings": 49,
+            "n_alternative_loop_predicates": 0,
+            "n_steps": 2
+          },
+          "rejected": "dominated_by_longer_region",
+          "removed_requests": 2.0,
+          "stage": "dominated",
+          "support_days": 111,
+          "support_groups": 116,
+          "tools": [
+            "issue_get_record",
+            "issue_get_labels"
+          ]
+        }
+      ],
+      "config": {
+        "allow_legacy_catalog_version": false,
+        "alpha": 0.1,
+        "b_min": 2,
+        "composite_continuation_key": "b4bcd15f8cf8a2af",
+        "composite_pre_model": true,
+        "composite_projection": {
+          "body_excerpt": "tool:issue_get_record::content.body_excerpt",
+          "comments": "tool:issue_get_comments::thread.items",
+          "issue_number": "tool:issue_get_record::issue_number",
+          "labels": "tool:issue_get_labels::names",
+          "source_revision": "tool:issue_get_record::source_revision",
+          "state": "tool:issue_get_record::state",
+          "title": "tool:issue_get_record::content.title"
+        },
+        "delta": 0.1,
+        "entry_schema": [
+          "issue_number"
+        ],
+        "kappa": 3,
+        "max_artifacts": 4,
+        "max_calibration_windows": 92,
+        "max_candidates": 16,
+        "max_dev_windows": 400,
+        "max_transform_depth": 2,
+        "min_days": 1,
+        "min_principals": 1,
+        "mode": "replay",
+        "n_permutations": 400,
+        "owner": "paper-natural-workflow-study",
+        "partition_by": [],
+        "phi_min": 0.02,
+        "prefix_only": true,
+        "s_branch": 20,
+        "s_min": 5,
+        "seed": 20260803,
+        "synthesize_composites": true,
+        "w_max": 3,
+        "w_min": 2
+      },
+      "lab_promotion": {
+        "not_production_approval": true,
+        "scope": "isolated paper experiment only"
+      },
+      "observed_train_sequences": {
+        "issue_get_record -> issue_get_labels -> issue_get_comments": 16
+      },
+      "rejection_by_stage": {
+        "select:dominated": 1
+      },
+      "report": "GRC compile report\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\ncandidates mined        2\nartifacts emitted       1\nrejections by stage     {'select:dominated': 1}\nwindows accepted        232\nwindows blocked         {'non_prefix_runtime': 116}\nblocked by tool         {}\n  [emitted     ] issue_get_record/issue_get_labels/issue_get_comments supp=116 k=3.0\n  [dominated   ] issue_get_record/issue_get_labels                 supp=116 k=2.0  REJECTED: dominated_by_longer_region",
+      "selection_rule": "factually correct traces; stable hash split; no tool-order filter",
+      "splits": {
+        "chronological": false,
+        "digest": "83e45c027424c2e9",
+        "groups": {
+          "calibration": [
+            "github-issue:157",
+            "github-issue:166",
+            "github-issue:1831",
+            "github-issue:198",
+            "github-issue:2009",
+            "github-issue:2080",
+            "github-issue:2103",
+            "github-issue:2279",
+            "github-issue:2511",
+            "github-issue:2583",
+            "github-issue:2663",
+            "github-issue:2703",
+            "github-issue:2797",
+            "github-issue:2860",
+            "github-issue:2901",
+            "github-issue:3027",
+            "github-issue:3091",
+            "github-issue:3155",
+            "github-issue:320",
+            "github-issue:326",
+            "github-issue:3304",
+            "github-issue:3308",
+            "github-issue:3365",
+            "github-issue:3475",
+            "github-issue:3490",
+            "github-issue:3533",
+            "github-issue:361",
+            "github-issue:3703",
+            "github-issue:3828",
+            "github-issue:3941",
+            "github-issue:3952",
+            "github-issue:4056",
+            "github-issue:4142",
+            "github-issue:4325",
+            "github-issue:4341",
+            "github-issue:4349",
+            "github-issue:4435",
+            "github-issue:4507",
+            "github-issue:4621",
+            "github-issue:4717",
+            "github-issue:4746",
+            "github-issue:4790",
+            "github-issue:482",
+            "github-issue:4889",
+            "github-issue:5005",
+            "github-issue:5088",
+            "github-issue:5094",
+            "github-issue:5148",
+            "github-issue:5152",
+            "github-issue:5193",
+            "github-issue:5255",
+            "github-issue:5263",
+            "github-issue:5326",
+            "github-issue:5378",
+            "github-issue:5479",
+            "github-issue:5483",
+            "github-issue:5494",
+            "github-issue:5706",
+            "github-issue:5855",
+            "github-issue:5862",
+            "github-issue:6120",
+            "github-issue:6149",
+            "github-issue:6184",
+            "github-issue:6237",
+            "github-issue:624",
+            "github-issue:6287",
+            "github-issue:648",
+            "github-issue:6483",
+            "github-issue:649",
+            "github-issue:6505",
+            "github-issue:6668",
+            "github-issue:668",
+            "github-issue:6752",
+            "github-issue:6819",
+            "github-issue:6865",
+            "github-issue:6896",
+            "github-issue:6936",
+            "github-issue:6973",
+            "github-issue:7018",
+            "github-issue:709",
+            "github-issue:7113",
+            "github-issue:7127",
+            "github-issue:7134",
+            "github-issue:7260",
+            "github-issue:7286",
+            "github-issue:7546",
+            "github-issue:7561",
+            "github-issue:784",
+            "github-issue:807",
+            "github-issue:836",
+            "github-issue:864",
+            "github-issue:876"
+          ],
+          "dev": [
+            "github-issue:1671",
+            "github-issue:2211",
+            "github-issue:3704",
+            "github-issue:4047",
+            "github-issue:5385",
+            "github-issue:5649",
+            "github-issue:6439",
+            "github-issue:7447"
+          ],
+          "shadow": [],
+          "test": [],
+          "train": [
+            "github-issue:148",
+            "github-issue:1844",
+            "github-issue:2032",
+            "github-issue:223",
+            "github-issue:2441",
+            "github-issue:2498",
+            "github-issue:438",
+            "github-issue:4398",
+            "github-issue:4570",
+            "github-issue:5161",
+            "github-issue:5600",
+            "github-issue:6124",
+            "github-issue:6460",
+            "github-issue:647",
+            "github-issue:6604",
+            "github-issue:7225"
+          ]
+        },
+        "seed": 20260803,
+        "sizes": {
+          "calibration": 92,
+          "dev": 8,
+          "shadow": 0,
+          "test": 0,
+          "train": 16
+        }
+      }
+    },
+    "gcs_gepa": {
+      "artifact": {
+        "approved_by": "paper-natural-protocol-lab-only",
+        "artifact_id": "cand-00-9704d2d4a908",
+        "compatibility_key": "b9575b6277938cbe",
+        "evidence": {
+          "counterexamples": [],
+          "dataset_digest": "83e45c027424c2e9",
+          "fallback_reasons": {},
+          "metrics": {
+            "branch": "none",
+            "branch_alternatives": 0,
+            "branch_permutation_p": null,
+            "calibration_windows_evaluated": 92,
+            "composite": "synthesized",
+            "composite_name": "compiled_issue_get_record_02bc9e0c13",
+            "dev_windows_evaluated": 8,
+            "gate_grid": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {",
+            "n_alternative_bindings": 82,
+            "perturbations_claimed": false,
+            "sandbox": {
+              "abstained": 0,
+              "effect_mismatch": 0,
+              "n": 0,
+              "pass_rate": 0.0,
+              "passed": 0,
+              "reasons": {},
+              "state_delta": 0,
+              "wrong": 0
+            },
+            "var_names": [
+              "get",
+              "get2",
+              "get3"
+            ]
+          },
+          "notes": "substrate and evidence are recorded in the run manifest",
+          "perturbation": {},
+          "rejection_reasons": [],
+          "removed_requests": 3.0,
+          "replay": {
+            "abstained": 1,
+            "effect_mismatch": 0,
+            "n": 8,
+            "pass_rate": 0.875,
+            "passed": 7,
+            "reasons": {
+              "verifier:range:get.issue_number": 1
+            },
+            "state_delta": 0,
+            "wrong": 0
+          },
+          "split_ids": {
+            "calibration": [
+              "github-issue:157",
+              "github-issue:166",
+              "github-issue:1831",
+              "github-issue:198",
+              "github-issue:2009",
+              "github-issue:2080",
+              "github-issue:2103",
+              "github-issue:2279",
+              "github-issue:2511",
+              "github-issue:2583",
+              "github-issue:2663",
+              "github-issue:2703",
+              "github-issue:2797",
+              "github-issue:2860",
+              "github-issue:2901",
+              "github-issue:3027",
+              "github-issue:3091",
+              "github-issue:3155",
+              "github-issue:320",
+              "github-issue:326",
+              "github-issue:3304",
+              "github-issue:3308",
+              "github-issue:3365",
+              "github-issue:3475",
+              "github-issue:3490",
+              "github-issue:3533",
+              "github-issue:361",
+              "github-issue:3703",
+              "github-issue:3828",
+              "github-issue:3941",
+              "github-issue:3952",
+              "github-issue:4056",
+              "github-issue:4142",
+              "github-issue:4325",
+              "github-issue:4341",
+              "github-issue:4349",
+              "github-issue:4435",
+              "github-issue:4507",
+              "github-issue:4621",
+              "github-issue:4717",
+              "github-issue:4746",
+              "github-issue:4790",
+              "github-issue:482",
+              "github-issue:4889",
+              "github-issue:5005",
+              "github-issue:5088",
+              "github-issue:5094",
+              "github-issue:5148",
+              "github-issue:5152",
+              "github-issue:5193",
+              "github-issue:5255",
+              "github-issue:5263",
+              "github-issue:5326",
+              "github-issue:5378",
+              "github-issue:5479",
+              "github-issue:5483",
+              "github-issue:5494",
+              "github-issue:5706",
+              "github-issue:5855",
+              "github-issue:5862",
+              "github-issue:6120",
+              "github-issue:6149",
+              "github-issue:6184",
+              "github-issue:6237",
+              "github-issue:624",
+              "github-issue:6287",
+              "github-issue:648",
+              "github-issue:6483",
+              "github-issue:649",
+              "github-issue:6505",
+              "github-issue:6668",
+              "github-issue:668",
+              "github-issue:6752",
+              "github-issue:6819",
+              "github-issue:6865",
+              "github-issue:6896",
+              "github-issue:6936",
+              "github-issue:6973",
+              "github-issue:7018",
+              "github-issue:709",
+              "github-issue:7113",
+              "github-issue:7127",
+              "github-issue:7134",
+              "github-issue:7260",
+              "github-issue:7286",
+              "github-issue:7546",
+              "github-issue:7561",
+              "github-issue:784",
+              "github-issue:807",
+              "github-issue:836",
+              "github-issue:864",
+              "github-issue:876"
+            ],
+            "dev": [
+              "github-issue:1671",
+              "github-issue:2211",
+              "github-issue:3704",
+              "github-issue:4047",
+              "github-issue:5385",
+              "github-issue:5649",
+              "github-issue:6439",
+              "github-issue:7447"
+            ],
+            "train": [
+              "github-issue:148",
+              "github-issue:1844",
+              "github-issue:2032",
+              "github-issue:223",
+              "github-issue:2441",
+              "github-issue:2498",
+              "github-issue:438",
+              "github-issue:4398",
+              "github-issue:4570",
+              "github-issue:5161",
+              "github-issue:5600",
+              "github-issue:6124",
+              "github-issue:6460",
+              "github-issue:647",
+              "github-issue:6604",
+              "github-issue:7225"
+            ]
+          },
+          "support_days": 111,
+          "support_groups": 16,
+          "support_principals": 1,
+          "total_groups": 16
+        },
+        "expiry_day": null,
+        "gate": {
+          "admissible": [
+            0.17,
+            0.2,
+            0.25,
+            0.3,
+            0.4,
+            0.5
+          ],
+          "alpha": 0.1,
+          "coverage": 0.9565217391304348,
+          "delta": 0.1,
+          "features_spec": {
+            "branch_entropy": 0.0,
+            "categories": {},
+            "hull_kinds": {
+              "z.issue_number": "interval"
+            },
+            "max_day": "2024-10-14",
+            "numeric_ranges": {
+              "z.issue_number": [
+                148.0,
+                7225.0
+              ]
+            },
+            "paths": [
+              "z.issue_number"
+            ],
+            "patterns": {},
+            "provenance_ambiguity": 1.0
+          },
+          "grid": [
+            0.02,
+            0.05,
+            0.08,
+            0.11,
+            0.14,
+            0.17,
+            0.2,
+            0.25,
+            0.3,
+            0.4,
+            0.5
+          ],
+          "model": {
+            "bias": -0.2393180433539786,
+            "feature_means": [
+              0.0,
+              0.0,
+              0.0,
+              0.2539211530309453,
+              0.125,
+              1.0,
+              0.0
+            ],
+            "feature_scales": [
+              1.0,
+              1.0,
+              1.0,
+              0.25021516358455304,
+              0.33071891388307384,
+              1.0,
+              1.0
+            ],
+            "features": [
+              "unseen_category",
+              "knn_distance",
+              "missing_optional",
+              "hull_margin",
+              "drift_days",
+              "provenance_ambiguity",
+              "branch_entropy"
+            ],
+            "weights": [
+              0.0,
+              0.0,
+              0.0,
+              1.1295663637969058,
+              0.9663823272213818,
+              0.0,
+              0.0
+            ]
+          },
+          "n_accepted": 88,
+          "n_calibration_groups": 92,
+          "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.17, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.2, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.25, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.3, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.4, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.5, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}]",
+          "observed_violations": 0,
+          "retire": false,
+          "risk_upper_bound": 0.052013056604272134,
+          "threshold": 0.5
+        },
+        "guard": {
+          "allowed_effects": [
+            "READ_LOCAL"
+          ],
+          "clauses": [
+            {
+              "hull": {
+                "high": 7225.0,
+                "kind": "interval",
+                "low": 148.0,
+                "max_len": null,
+                "min_len": null,
+                "pattern": null,
+                "values": []
+              },
+              "path": "z.issue_number",
+              "required": true,
+              "role": "hull",
+              "type_name": "int"
+            }
+          ],
+          "isolation": {},
+          "manifest_pins": {
+            "effect_catalog_version": "github-natural-workflow-pinned-reads@1#739f744b8513b613",
+            "entry_contract_version": "github-natural-issue-number-v1",
+            "guardrail_hash": "#89af17ab",
+            "model": "gpt-5.6-luna",
+            "policy_hash": "#e369ccfc",
+            "prompt_hash": "#6e1a896c",
+            "tools_hash": "#a6fe0682"
+          },
+          "required_capabilities": [
+            "speculatable",
+            "replayable"
+          ]
+        },
+        "kind": "grc",
+        "lifecycle": "active",
+        "manifest": {
+          "commit": "workspace-without-git-metadata",
+          "effect_catalog_version": "github-natural-workflow-pinned-reads@1#739f744b8513b613",
+          "entry_contract_version": "github-natural-issue-number-v1",
+          "guardrail_hash": "#89af17ab",
+          "manifest_id": "b9575b627793",
+          "model": "gpt-5.6-luna",
+          "policy_hash": "#e369ccfc",
+          "prompt_hash": "#6e1a896c",
+          "sdk_version": "0.19.2",
+          "tools_hash": "#a6fe0682",
+          "tracer_version": "agent-compaction/0.6.0"
+        },
+        "monitoring": {
+          "expected_coverage": 0.9565217391304348,
+          "max_unsafe_dispatch": 0.1,
+          "min_verifier_pass_rate": 0.9
+        },
+        "name": "issue_get_record.issue_get_labels.region@9704d2d4",
+        "owner": "paper-natural-workflow-study",
+        "partition": {},
+        "program": {
+          "composite": {
+            "continuation_compatibility_key": "9975b1482e1b83a7",
+            "description": "Guarded composite synthesized from a verified recurrent read program.",
+            "inputs": [
+              "issue_number"
+            ],
+            "internal_tools": [
+              "issue_get_record",
+              "issue_get_labels",
+              "issue_get_comments"
+            ],
+            "name": "compiled_issue_get_record_02bc9e0c13",
+            "pre_model": true,
+            "projection": {
+              "body_excerpt": {
+                "kind": "expr",
+                "ops": [],
+                "source": "get.content.body_excerpt"
+              },
+              "comments": {
+                "kind": "expr",
+                "ops": [],
+                "source": "get3.thread.items"
+              },
+              "issue_number": {
+                "kind": "expr",
+                "ops": [],
+                "source": "get.issue_number"
+              },
+              "labels": {
+                "kind": "expr",
+                "ops": [],
+                "source": "get2.names"
+              },
+              "source_revision": {
+                "kind": "expr",
+                "ops": [],
+                "source": "get.source_revision"
+              },
+              "state": {
+                "kind": "expr",
+                "ops": [],
+                "source": "get.state"
+              },
+              "title": {
+                "kind": "expr",
+                "ops": [],
+                "source": "get.content.title"
+              }
+            },
+            "schema_version": 1
+          },
+          "library_version": "T-v1",
+          "outputs": {
+            "get": {
+              "kind": "expr",
+              "ops": [],
+              "source": "get"
+            },
+            "get2": {
+              "kind": "expr",
+              "ops": [],
+              "source": "get2"
+            },
+            "get3": {
+              "kind": "expr",
+              "ops": [],
+              "source": "get3"
+            }
+          },
+          "removed_requests": 3.0,
+          "steps": [
+            {
+              "args": {
+                "issue_number": {
+                  "kind": "expr",
+                  "ops": [],
+                  "source": "z.issue_number"
+                }
+              },
+              "kind": "call",
+              "schema_version": null,
+              "tool": "issue_get_record",
+              "var": "get",
+              "when": null
+            },
+            {
+              "args": {
+                "issue_number": {
+                  "kind": "expr",
+                  "ops": [],
+                  "source": "get.issue_number"
+                }
+              },
+              "kind": "call",
+              "schema_version": null,
+              "tool": "issue_get_labels",
+              "var": "get2",
+              "when": null
+            },
+            {
+              "args": {
+                "issue_number": {
+                  "kind": "expr",
+                  "ops": [],
+                  "source": "get.issue_number"
+                },
+                "limit": {
+                  "kind": "const",
+                  "value": 3
+                }
+              },
+              "kind": "call",
+              "schema_version": null,
+              "tool": "issue_get_comments",
+              "var": "get3",
+              "when": null
+            }
+          ],
+          "theta": [
+            "issue_number"
+          ],
+          "tools": [
+            "issue_get_record",
+            "issue_get_labels",
+            "issue_get_comments"
+          ]
+        },
+        "rollback_target": null,
+        "route": null,
+        "signature": "",
+        "verifier": {
+          "allowed_effects": [
+            "READ_LOCAL"
+          ],
+          "call_counts": [
+            3
+          ],
+          "clauses": [
+            {
+              "hull": {
+                "high": null,
+                "kind": "any",
+                "low": null,
+                "max_len": null,
+                "min_len": null,
+                "pattern": null,
+                "values": []
+              },
+              "max_len": null,
+              "min_len": null,
+              "name": "get",
+              "non_null": true,
+              "present_iff": null,
+              "provenance": [
+                "issue_get_record"
+              ],
+              "type_name": "dict"
+            },
+            {
+              "hull": {
+                "high": 7225.0,
+                "kind": "interval",
+                "low": 148.0,
+                "max_len": null,
+                "min_len": null,
+                "pattern": null,
+                "values": []
+              },
+              "max_len": null,
+              "min_len": null,
+              "name": "get.issue_number",
+              "non_null": true,
+              "present_iff": null,
+              "provenance": [
+                "issue_get_record"
+              ],
+              "type_name": "int"
+            },
+            {
+              "hull": {
+                "high": null,
+                "kind": "enum",
+                "low": null,
+                "max_len": null,
+                "min_len": null,
+                "pattern": null,
+                "values": [
+                  "e344be7b84d199661a9956036991e1fc25715a47"
+                ]
+              },
+              "max_len": null,
+              "min_len": null,
+              "name": "get.source_revision",
+              "non_null": true,
+              "present_iff": null,
+              "provenance": [
+                "issue_get_record"
+              ],
+              "type_name": "str"
+            },
+            {
+              "hull": {
+                "high": null,
+                "kind": "enum",
+                "low": null,
+                "max_len": null,
+                "min_len": null,
+                "pattern": null,
+                "values": [
+                  "closed",
+                  "open"
+                ]
+              },
+              "max_len": null,
+              "min_len": null,
+              "name": "get.state",
+              "non_null": true,
+              "present_iff": null,
+              "provenance": [
+                "issue_get_record"
+              ],
+              "type_name": "str"
+            },
+            {
+              "hull": {
+                "high": null,
+                "kind": "any",
+                "low": null,
+                "max_len": null,
+                "min_len": null,
+                "pattern": null,
+                "values": []
+              },
+              "max_len": null,
+              "min_len": null,
+              "name": "get2",
+              "non_null": true,
+              "present_iff": null,
+              "provenance": [
+                "issue_get_labels"
+              ],
+              "type_name": "dict"
+            },
+            {
+              "hull": {
+                "high": null,
+                "kind": "any",
+                "low": null,
+                "max_len": null,
+                "min_len": null,
+                "pattern": null,
+                "values": []
+              },
+              "max_len": 1,
+              "min_len": 0,
+              "name": "get2.names",
+              "non_null": true,
+              "present_iff": null,
+              "provenance": [
+                "issue_get_labels"
+              ],
+              "type_name": "list"
+            },
+            {
+              "hull": {
+                "high": null,
+                "kind": "enum",
+                "low": null,
+                "max_len": null,
+                "min_len": null,
+                "pattern": null,
+                "values": [
+                  "e344be7b84d199661a9956036991e1fc25715a47"
+                ]
+              },
+              "max_len": null,
+              "min_len": null,
+              "name": "get2.source_revision",
+              "non_null": true,
+              "present_iff": null,
+              "provenance": [
+                "issue_get_labels"
+              ],
+              "type_name": "str"
+            },
+            {
+              "hull": {
+                "high": null,
+                "kind": "any",
+                "low": null,
+                "max_len": null,
+                "min_len": null,
+                "pattern": null,
+                "values": []
+              },
+              "max_len": null,
+              "min_len": null,
+              "name": "get3",
+              "non_null": true,
+              "present_iff": null,
+              "provenance": [
+                "issue_get_comments"
+              ],
+              "type_name": "dict"
+            },
+            {
+              "hull": {
+                "high": null,
+                "kind": "enum",
+                "low": null,
+                "max_len": null,
+                "min_len": null,
+                "pattern": null,
+                "values": [
+                  "e344be7b84d199661a9956036991e1fc25715a47"
+                ]
+              },
+              "max_len": null,
+              "min_len": null,
+              "name": "get3.source_revision",
+              "non_null": true,
+              "present_iff": null,
+              "provenance": [
+                "issue_get_comments"
+              ],
+              "type_name": "str"
+            }
+          ]
+        },
+        "version": 1
+      },
+      "artifact_explanation": "artifact  issue_get_record.issue_get_labels.region@9704d2d4@1   support 16/16 groups   removes k=3.00   [active]\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nguard   effect_catalog_version=github-natural-workflow-pinned-reads@1#739f744b8513b613  entry_contract_version=github-natural-issue-number-v1  guardrail_hash=#89af17ab  model=gpt-5.6-luna  policy_hash=#e369ccfc  prompt_hash=#6e1a896c  tools_hash=#a6fe0682\n        z.issue_number : int \u2208 [148.0, 7225.0]\n        effects \u2286 {READ_LOCAL}  all speculatable \u2227 replayable\n\nprogram (\u03b8 = {issue_number}):\n   get  = call issue_get_record(issue_number = z.issue_number)\n   get2 = call issue_get_labels(issue_number = get.issue_number)\n   get3 = call issue_get_comments(issue_number = get.issue_number, limit = Const(3))\n   return  { get: get, get2: get2, get3: get3 }\nexpose   compiled_issue_get_record_02bc9e0c13(issue_number) -> { body_excerpt, comments, issue_number, labels, source_revision, state, title } [internal=3]\nverify  get : dict, non-null, provenance \u2208 {issue_get_record}\n        get.issue_number : int, non-null, \u2208 [148.0, 7225.0], provenance \u2208 {issue_get_record}\n        get.source_revision : str, non-null, \u2208 {e344be7b84d199661a9956036991e1fc25715a47}, provenance \u2208 {issue_get_record}\n        get.state : str, non-null, \u2208 {closed, open}, provenance \u2208 {issue_get_record}\n        get2 : dict, non-null, provenance \u2208 {issue_get_labels}\n        get2.names : list, non-null, len \u2264 1, len \u2265 0, provenance \u2208 {issue_get_labels}\n        get2.source_revision : str, non-null, \u2208 {e344be7b84d199661a9956036991e1fc25715a47}, provenance \u2208 {issue_get_labels}\n        get3 : dict, non-null, provenance \u2208 {issue_get_comments}\n        get3.source_revision : str, non-null, \u2208 {e344be7b84d199661a9956036991e1fc25715a47}, provenance \u2208 {issue_get_comments}\n        effect_multiset \u2286 {READ_LOCAL},  |calls| \u2208 {3},  no WRITE_*\ngate    q = logistic(entry features)   \u03b7 = 0.50   (cal n=92 groups, \u03b1=0.1, \u03b4=0.1, |\u039b|=11, R\u207a=0.052, \u03c6\u0302=0.96)",
+      "candidates": [
+        {
+          "artifact": "issue_get_record.issue_get_labels.region@9704d2d4",
+          "candidate_id": "cand-00-9704d2d4a908",
+          "challenge": {
+            "hard_rejects": [],
+            "perturbation": {},
+            "perturbations_claimed": false,
+            "recorded": {
+              "abstained": 1,
+              "effect_mismatch": 0,
+              "n": 8,
+              "pass_rate": 0.875,
+              "passed": 7,
+              "reasons": {
+                "verifier:range:get.issue_number": 1
+              },
+              "state_delta": 0,
+              "wrong": 0
+            },
+            "sandbox": {
+              "abstained": 0,
+              "effect_mismatch": 0,
+              "n": 0,
+              "pass_rate": 0.0,
+              "passed": 0,
+              "reasons": {},
+              "state_delta": 0,
+              "wrong": 0
+            }
+          },
+          "gate": {
+            "admissible": [
+              0.17,
+              0.2,
+              0.25,
+              0.3,
+              0.4,
+              0.5
+            ],
+            "alpha": 0.1,
+            "coverage": 0.9565217391304348,
+            "delta": 0.1,
+            "features_spec": {
+              "branch_entropy": 0.0,
+              "categories": {},
+              "hull_kinds": {
+                "z.issue_number": "interval"
+              },
+              "max_day": "2024-10-14",
+              "numeric_ranges": {
+                "z.issue_number": [
+                  148.0,
+                  7225.0
+                ]
+              },
+              "paths": [
+                "z.issue_number"
+              ],
+              "patterns": {},
+              "provenance_ambiguity": 1.0
+            },
+            "grid": [
+              0.02,
+              0.05,
+              0.08,
+              0.11,
+              0.14,
+              0.17,
+              0.2,
+              0.25,
+              0.3,
+              0.4,
+              0.5
+            ],
+            "model": {
+              "bias": -0.2393180433539786,
+              "feature_means": [
+                0.0,
+                0.0,
+                0.0,
+                0.2539211530309453,
+                0.125,
+                1.0,
+                0.0
+              ],
+              "feature_scales": [
+                1.0,
+                1.0,
+                1.0,
+                0.25021516358455304,
+                0.33071891388307384,
+                1.0,
+                1.0
+              ],
+              "features": [
+                "unseen_category",
+                "knn_distance",
+                "missing_optional",
+                "hull_margin",
+                "drift_days",
+                "provenance_ambiguity",
+                "branch_entropy"
+              ],
+              "weights": [
+                0.0,
+                0.0,
+                0.0,
+                1.1295663637969058,
+                0.9663823272213818,
+                0.0,
+                0.0
+              ]
+            },
+            "n_accepted": 88,
+            "n_calibration_groups": 92,
+            "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.17, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.2, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.25, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.3, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.4, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.5, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}]",
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.052013056604272134,
+            "threshold": 0.5
+          },
+          "notes": {
+            "branch": "none",
+            "branch_alternatives": 0,
+            "branch_atoms": 0,
+            "branch_p": null,
+            "composite": "synthesized",
+            "composite_name": "compiled_issue_get_record_02bc9e0c13",
+            "gate_calibration_reasons": {
+              "RecordingMiss": 2,
+              "verifier:cardinality:get2.names": 1,
+              "verifier:range:get.issue_number": 4
+            },
+            "gate_calibration_samples": 92,
+            "gate_calibration_unproductive": 7,
+            "gate_calibration_violations": 0,
+            "gate_dev_reasons": {
+              "perturbation_unproductive": 5,
+              "verifier:range:get.issue_number": 1
+            },
+            "gate_dev_samples": 16,
+            "gate_dev_unproductive": 6,
+            "gate_dev_violations": 0,
+            "n_alternative_bindings": 82,
+            "n_alternative_loop_predicates": 0,
+            "n_steps": 3
+          },
+          "rejected": null,
+          "removed_requests": 3.0,
+          "stage": "emitted",
+          "support_days": 111,
+          "support_groups": 116,
+          "tools": [
+            "issue_get_record",
+            "issue_get_labels",
+            "issue_get_comments"
+          ]
+        },
+        {
+          "artifact": null,
+          "candidate_id": "cand-01-1ebb8b2849c7",
+          "challenge": {
+            "hard_rejects": [],
+            "perturbation": {},
+            "perturbations_claimed": false,
+            "recorded": {
+              "abstained": 1,
+              "effect_mismatch": 0,
+              "n": 8,
+              "pass_rate": 0.875,
+              "passed": 7,
+              "reasons": {
+                "verifier:range:get.issue_number": 1
+              },
+              "state_delta": 0,
+              "wrong": 0
+            },
+            "sandbox": {
+              "abstained": 0,
+              "effect_mismatch": 0,
+              "n": 0,
+              "pass_rate": 0.0,
+              "passed": 0,
+              "reasons": {},
+              "state_delta": 0,
+              "wrong": 0
+            }
+          },
+          "gate": {
+            "admissible": [
+              0.14,
+              0.17,
+              0.2,
+              0.25,
+              0.3,
+              0.4,
+              0.5
+            ],
+            "alpha": 0.1,
+            "coverage": 0.9565217391304348,
+            "delta": 0.1,
+            "features_spec": {
+              "branch_entropy": 0.0,
+              "categories": {},
+              "hull_kinds": {
+                "z.issue_number": "interval"
+              },
+              "max_day": "2024-10-14",
+              "numeric_ranges": {
+                "z.issue_number": [
+                  148.0,
+                  7225.0
+                ]
+              },
+              "paths": [
+                "z.issue_number"
+              ],
+              "patterns": {},
+              "provenance_ambiguity": 0.98
+            },
+            "grid": [
+              0.02,
+              0.05,
+              0.08,
+              0.11,
+              0.14,
+              0.17,
+              0.2,
+              0.25,
+              0.3,
+              0.4,
+              0.5
+            ],
+            "model": {
+              "bias": -0.3092191871724488,
+              "feature_means": [
+                0.0,
+                0.0,
+                0.0,
+                0.2539211530309453,
+                0.125,
+                0.9900000000000001,
+                0.0
+              ],
+              "feature_scales": [
+                1.0,
+                1.0,
+                1.0,
+                0.25021516358455304,
+                0.33071891388307384,
+                0.010000000000000009,
+                1.0
+              ],
+              "features": [
+                "unseen_category",
+                "knn_distance",
+                "missing_optional",
+                "hull_margin",
+                "drift_days",
+                "provenance_ambiguity",
+                "branch_entropy"
+              ],
+              "weights": [
+                0.0,
+                0.0,
+                0.0,
+                0.6900615055735642,
+                1.0369854373581837,
+                0.6476230206520438,
+                0.0
+              ]
+            },
+            "n_accepted": 88,
+            "n_calibration_groups": 92,
+            "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.17, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.2, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.25, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.3, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.4, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}, {'eta': 0.5, 'n': 88, 'violations': 0, 'upper': 0.052, 'coverage': 0.9565}]",
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.052013056604272134,
+            "threshold": 0.5
+          },
+          "notes": {
+            "branch": "none",
+            "branch_alternatives": 0,
+            "branch_atoms": 0,
+            "branch_p": null,
+            "composite": "ineligible:tool projection source 'issue_get_comments' must resolve to exactly one program step",
+            "gate_calibration_reasons": {
+              "verifier:cardinality:get2.names": 2,
+              "verifier:range:get.issue_number": 4
+            },
+            "gate_calibration_samples": 92,
+            "gate_calibration_unproductive": 6,
+            "gate_calibration_violations": 0,
+            "gate_dev_reasons": {
+              "perturbation_unproductive": 5,
+              "verifier:range:get.issue_number": 1
+            },
+            "gate_dev_samples": 16,
+            "gate_dev_unproductive": 6,
+            "gate_dev_violations": 0,
+            "n_alternative_bindings": 49,
+            "n_alternative_loop_predicates": 0,
+            "n_steps": 2
+          },
+          "rejected": "dominated_by_longer_region",
+          "removed_requests": 2.0,
+          "stage": "dominated",
+          "support_days": 111,
+          "support_groups": 116,
+          "tools": [
+            "issue_get_record",
+            "issue_get_labels"
+          ]
+        }
+      ],
+      "config": {
+        "allow_legacy_catalog_version": false,
+        "alpha": 0.1,
+        "b_min": 2,
+        "composite_continuation_key": "9975b1482e1b83a7",
+        "composite_pre_model": true,
+        "composite_projection": {
+          "body_excerpt": "tool:issue_get_record::content.body_excerpt",
+          "comments": "tool:issue_get_comments::thread.items",
+          "issue_number": "tool:issue_get_record::issue_number",
+          "labels": "tool:issue_get_labels::names",
+          "source_revision": "tool:issue_get_record::source_revision",
+          "state": "tool:issue_get_record::state",
+          "title": "tool:issue_get_record::content.title"
+        },
+        "delta": 0.1,
+        "entry_schema": [
+          "issue_number"
+        ],
+        "kappa": 3,
+        "max_artifacts": 4,
+        "max_calibration_windows": 92,
+        "max_candidates": 16,
+        "max_dev_windows": 400,
+        "max_transform_depth": 2,
+        "min_days": 1,
+        "min_principals": 1,
+        "mode": "replay",
+        "n_permutations": 400,
+        "owner": "paper-natural-workflow-study",
+        "partition_by": [],
+        "phi_min": 0.02,
+        "prefix_only": true,
+        "s_branch": 20,
+        "s_min": 5,
+        "seed": 20260803,
+        "synthesize_composites": true,
+        "w_max": 3,
+        "w_min": 2
+      },
+      "lab_promotion": {
+        "not_production_approval": true,
+        "scope": "isolated paper experiment only"
+      },
+      "observed_train_sequences": {
+        "issue_get_record -> issue_get_labels -> issue_get_comments": 16
+      },
+      "rejection_by_stage": {
+        "select:dominated": 1
+      },
+      "report": "GRC compile report\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\ncandidates mined        2\nartifacts emitted       1\nrejections by stage     {'select:dominated': 1}\nwindows accepted        232\nwindows blocked         {'non_prefix_runtime': 116}\nblocked by tool         {}\n  [emitted     ] issue_get_record/issue_get_labels/issue_get_comments supp=116 k=3.0\n  [dominated   ] issue_get_record/issue_get_labels                 supp=116 k=2.0  REJECTED: dominated_by_longer_region",
+      "selection_rule": "factually correct traces; stable hash split; no tool-order filter",
+      "splits": {
+        "chronological": false,
+        "digest": "83e45c027424c2e9",
+        "groups": {
+          "calibration": [
+            "github-issue:157",
+            "github-issue:166",
+            "github-issue:1831",
+            "github-issue:198",
+            "github-issue:2009",
+            "github-issue:2080",
+            "github-issue:2103",
+            "github-issue:2279",
+            "github-issue:2511",
+            "github-issue:2583",
+            "github-issue:2663",
+            "github-issue:2703",
+            "github-issue:2797",
+            "github-issue:2860",
+            "github-issue:2901",
+            "github-issue:3027",
+            "github-issue:3091",
+            "github-issue:3155",
+            "github-issue:320",
+            "github-issue:326",
+            "github-issue:3304",
+            "github-issue:3308",
+            "github-issue:3365",
+            "github-issue:3475",
+            "github-issue:3490",
+            "github-issue:3533",
+            "github-issue:361",
+            "github-issue:3703",
+            "github-issue:3828",
+            "github-issue:3941",
+            "github-issue:3952",
+            "github-issue:4056",
+            "github-issue:4142",
+            "github-issue:4325",
+            "github-issue:4341",
+            "github-issue:4349",
+            "github-issue:4435",
+            "github-issue:4507",
+            "github-issue:4621",
+            "github-issue:4717",
+            "github-issue:4746",
+            "github-issue:4790",
+            "github-issue:482",
+            "github-issue:4889",
+            "github-issue:5005",
+            "github-issue:5088",
+            "github-issue:5094",
+            "github-issue:5148",
+            "github-issue:5152",
+            "github-issue:5193",
+            "github-issue:5255",
+            "github-issue:5263",
+            "github-issue:5326",
+            "github-issue:5378",
+            "github-issue:5479",
+            "github-issue:5483",
+            "github-issue:5494",
+            "github-issue:5706",
+            "github-issue:5855",
+            "github-issue:5862",
+            "github-issue:6120",
+            "github-issue:6149",
+            "github-issue:6184",
+            "github-issue:6237",
+            "github-issue:624",
+            "github-issue:6287",
+            "github-issue:648",
+            "github-issue:6483",
+            "github-issue:649",
+            "github-issue:6505",
+            "github-issue:6668",
+            "github-issue:668",
+            "github-issue:6752",
+            "github-issue:6819",
+            "github-issue:6865",
+            "github-issue:6896",
+            "github-issue:6936",
+            "github-issue:6973",
+            "github-issue:7018",
+            "github-issue:709",
+            "github-issue:7113",
+            "github-issue:7127",
+            "github-issue:7134",
+            "github-issue:7260",
+            "github-issue:7286",
+            "github-issue:7546",
+            "github-issue:7561",
+            "github-issue:784",
+            "github-issue:807",
+            "github-issue:836",
+            "github-issue:864",
+            "github-issue:876"
+          ],
+          "dev": [
+            "github-issue:1671",
+            "github-issue:2211",
+            "github-issue:3704",
+            "github-issue:4047",
+            "github-issue:5385",
+            "github-issue:5649",
+            "github-issue:6439",
+            "github-issue:7447"
+          ],
+          "shadow": [],
+          "test": [],
+          "train": [
+            "github-issue:148",
+            "github-issue:1844",
+            "github-issue:2032",
+            "github-issue:223",
+            "github-issue:2441",
+            "github-issue:2498",
+            "github-issue:438",
+            "github-issue:4398",
+            "github-issue:4570",
+            "github-issue:5161",
+            "github-issue:5600",
+            "github-issue:6124",
+            "github-issue:6460",
+            "github-issue:647",
+            "github-issue:6604",
+            "github-issue:7225"
+          ]
+        },
+        "seed": 20260803,
+        "sizes": {
+          "calibration": 92,
+          "dev": 8,
+          "shadow": 0,
+          "test": 0,
+          "train": 16
+        }
+      }
+    }
+  },
+  "deployment_results": [
+    {
+      "answer": {
+        "category": "bug",
+        "comment_evidence": "Hi, the filename here is less than 255",
+        "evidence_label": "bug",
+        "issue_number": 2924,
+        "state": "closed",
+        "title": "\"File name too long\" error for file locks"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:b38878720dc58701d92a6f3c242b019d",
+      "issue_number": 2924,
+      "metrics": {
+        "cache_write_tokens": 1973,
+        "cached_input_tokens": 2714,
+        "estimated_cost_usd": 0.00079973,
+        "handoffs": 0,
+        "input_tokens": 5204,
+        "output_tokens": 124,
+        "provider_response_latency_ms": 5025.835,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 5328,
+        "wall_latency_ms": 5040.051
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_grounded": true,
+        "evidence_label_correct": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "quality_independent_of_tool_order": true,
+        "score": 1,
+        "state_correct": true,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2924
+        },
+        {
+          "issue_number": 2924
+        },
+        {
+          "issue_number": 2924,
+          "limit": 3
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_0974c47df3e64477a6360138378b913b"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_evidence": "Hi, the filename here is less than 255",
+        "evidence_label": "bug",
+        "issue_number": 2924,
+        "state": "closed",
+        "title": "\"File name too long\" error for file locks"
+      },
+      "condition": "gepa",
+      "dispatch": {},
+      "episode_digest": "sha256:15b77b6357c73f3e2a180ba9475334f1",
+      "issue_number": 2924,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 4687,
+        "estimated_cost_usd": 0.00034594,
+        "handoffs": 0,
+        "input_tokens": 5204,
+        "output_tokens": 124,
+        "provider_response_latency_ms": 3568.379,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 5328,
+        "wall_latency_ms": 3581.663
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_grounded": true,
+        "evidence_label_correct": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "quality_independent_of_tool_order": true,
+        "score": 1,
+        "state_correct": true,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2924
+        },
+        {
+          "issue_number": 2924
+        },
+        {
+          "issue_number": 2924,
+          "limit": 3
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_ba943df476f0db8c7d434172a3a84904"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_evidence": "Hi, the filename here is less than 255",
+        "evidence_label": "bug",
+        "issue_number": 2924,
+        "state": "closed",
+        "title": "\"File name too long\" error for file locks"
+      },
+      "condition": "gcs",
+      "dispatch": {
+        "artifact": "cand-00-9704d2d4a908",
+        "composite": "compiled_issue_get_record_02bc9e0c13",
+        "error": "",
+        "exposed_calls": 1,
+        "n_calls": 3,
+        "outcome": "COMPACTED",
+        "overhead_ms": 1.396,
+        "q": 0.1479,
+        "reasons": [],
+        "removed_requests": 3.0,
+        "shadow": false
+      },
+      "episode_digest": "sha256:3d713abf177e3686c6fb17f80f46c60a",
+      "issue_number": 2924,
+      "metrics": {
+        "cache_write_tokens": 1582,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0004645,
+        "handoffs": 0,
+        "input_tokens": 1585,
+        "internal_tool_calls": 3,
+        "output_tokens": 57,
+        "provider_response_latency_ms": 3884.02,
+        "provider_tool_calls": 0,
+        "requests": 1,
+        "tool_calls": 1,
+        "total_tokens": 1642,
+        "wall_latency_ms": 3888.388
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_grounded": true,
+        "evidence_label_correct": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "quality_independent_of_tool_order": true,
+        "score": 1,
+        "state_correct": true,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2924
+        }
+      ],
+      "tool_sequence": [
+        "compiled_issue_get_record_02bc9e0c13"
+      ],
+      "trace_id": "trace_5095efb926a7584b5748d254ada4e0df"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_evidence": "Hi, the filename here is less than 255",
+        "evidence_label": "bug",
+        "issue_number": 2924,
+        "state": "closed",
+        "title": "\"File name too long\" error for file locks"
+      },
+      "condition": "gcs_gepa",
+      "dispatch": {
+        "artifact": "cand-00-9704d2d4a908",
+        "composite": "compiled_issue_get_record_02bc9e0c13",
+        "error": "",
+        "exposed_calls": 1,
+        "n_calls": 3,
+        "outcome": "COMPACTED",
+        "overhead_ms": 1.426,
+        "q": 0.1479,
+        "reasons": [],
+        "removed_requests": 3.0,
+        "shadow": false
+      },
+      "episode_digest": "sha256:9beb85c73f0d1cbccf67929426307528",
+      "issue_number": 2924,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 1582,
+        "estimated_cost_usd": 0.00010064,
+        "handoffs": 0,
+        "input_tokens": 1585,
+        "internal_tool_calls": 3,
+        "output_tokens": 57,
+        "provider_response_latency_ms": 1015.675,
+        "provider_tool_calls": 0,
+        "requests": 1,
+        "tool_calls": 1,
+        "total_tokens": 1642,
+        "wall_latency_ms": 1020.141
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_grounded": true,
+        "evidence_label_correct": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "quality_independent_of_tool_order": true,
+        "score": 1,
+        "state_correct": true,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2924
+        }
+      ],
+      "tool_sequence": [
+        "compiled_issue_get_record_02bc9e0c13"
+      ],
+      "trace_id": "trace_4c81818c2f826c4e1d7741a924c4b997"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_evidence": "Hi, the filename here is less than 255",
+        "evidence_label": "bug",
+        "issue_number": 2924,
+        "state": "closed",
+        "title": "\"File name too long\" error for file locks"
+      },
+      "condition": "manual_pre_model",
+      "dispatch": {
+        "composite": "manual_issue_evidence_bundle",
+        "construction": "manual",
+        "exposed_calls": 1,
+        "n_calls": 3,
+        "outcome": "EXECUTED",
+        "overhead_ms": 0.38,
+        "plan": "manual-9df2eb8da6d896e6",
+        "reasons": [],
+        "statistical_gate": false
+      },
+      "episode_digest": "sha256:498ea69af78a9e178baf9410dfe0f5a9",
+      "issue_number": 2924,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 1582,
+        "estimated_cost_usd": 0.00014984,
+        "handoffs": 0,
+        "input_tokens": 1585,
+        "internal_tool_calls": 3,
+        "output_tokens": 98,
+        "provider_response_latency_ms": 1432.768,
+        "provider_tool_calls": 0,
+        "requests": 1,
+        "tool_calls": 1,
+        "total_tokens": 1683,
+        "wall_latency_ms": 1436.792
+      },
+      "online_quality": {
+        "category_correct": true,
+        "comment_grounded": true,
+        "evidence_label_correct": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "quality_independent_of_tool_order": true,
+        "score": 1,
+        "state_correct": true,
+        "title_correct": true,
+        "tool_contract": false,
+        "trace_valid": false
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_grounded": true,
+        "evidence_label_correct": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "quality_independent_of_tool_order": true,
+        "score": 1,
+        "state_correct": true,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2924
+        }
+      ],
+      "tool_sequence": [
+        "manual_issue_evidence_bundle"
+      ],
+      "trace_id": "trace_05becf5a85bd6d80ff19f7c2375dbbe3"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_evidence": "It would be a great addition indeed :)",
+        "evidence_label": "enhancement",
+        "issue_number": 6675,
+        "state": "closed",
+        "title": "Allow image model (color conversion) to be specified as part of datasets Image() decode"
+      },
+      "condition": "gepa",
+      "dispatch": {},
+      "episode_digest": "sha256:1df16c2e237268fb0c361eb464d4ee06",
+      "issue_number": 6675,
+      "metrics": {
+        "cache_write_tokens": 1270,
+        "cached_input_tokens": 2131,
+        "estimated_cost_usd": 0.00063392,
+        "handoffs": 0,
+        "input_tokens": 3918,
+        "output_tokens": 142,
+        "provider_response_latency_ms": 4998.334,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 4060,
+        "wall_latency_ms": 5013.669
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_grounded": true,
+        "evidence_label_correct": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "quality_independent_of_tool_order": true,
+        "score": 1,
+        "state_correct": true,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6675
+        },
+        {
+          "issue_number": 6675
+        },
+        {
+          "issue_number": 6675,
+          "limit": 3
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_8ccd059068db816352e3b60dd9fdbb85"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_evidence": "It would be a great addition indeed :)",
+        "evidence_label": "enhancement",
+        "issue_number": 6675,
+        "state": "closed",
+        "title": "Allow image model (color conversion) to be specified as part of datasets Image() decode"
+      },
+      "condition": "gcs",
+      "dispatch": {
+        "artifact": "cand-00-9704d2d4a908",
+        "composite": "compiled_issue_get_record_02bc9e0c13",
+        "error": "",
+        "exposed_calls": 1,
+        "n_calls": 3,
+        "outcome": "COMPACTED",
+        "overhead_ms": 1.373,
+        "q": 0.1479,
+        "reasons": [],
+        "removed_requests": 3.0,
+        "shadow": false
+      },
+      "episode_digest": "sha256:1c00aebdb4305d83871c1fc2eb7d6145",
+      "issue_number": 6675,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0002908,
+        "handoffs": 0,
+        "input_tokens": 872,
+        "internal_tool_calls": 3,
+        "output_tokens": 97,
+        "provider_response_latency_ms": 1707.745,
+        "provider_tool_calls": 0,
+        "requests": 1,
+        "tool_calls": 1,
+        "total_tokens": 969,
+        "wall_latency_ms": 1712.217
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_grounded": true,
+        "evidence_label_correct": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "quality_independent_of_tool_order": true,
+        "score": 1,
+        "state_correct": true,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6675
+        }
+      ],
+      "tool_sequence": [
+        "compiled_issue_get_record_02bc9e0c13"
+      ],
+      "trace_id": "trace_8b9589bfab9857a76e7f3c688dd84cab"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_evidence": "It would be a great addition indeed :)",
+        "evidence_label": "enhancement",
+        "issue_number": 6675,
+        "state": "closed",
+        "title": "Allow image model (color conversion) to be specified as part of datasets Image() decode"
+      },
+      "condition": "gcs_gepa",
+      "dispatch": {
+        "artifact": "cand-00-9704d2d4a908",
+        "composite": "compiled_issue_get_record_02bc9e0c13",
+        "error": "",
+        "exposed_calls": 1,
+        "n_calls": 3,
+        "outcome": "COMPACTED",
+        "overhead_ms": 1.412,
+        "q": 0.1479,
+        "reasons": [],
+        "removed_requests": 3.0,
+        "shadow": false
+      },
+      "episode_digest": "sha256:44b903edbbd0a94fc6c11a0adbb6449c",
+      "issue_number": 6675,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0002908,
+        "handoffs": 0,
+        "input_tokens": 872,
+        "internal_tool_calls": 3,
+        "output_tokens": 97,
+        "provider_response_latency_ms": 1495.62,
+        "provider_tool_calls": 0,
+        "requests": 1,
+        "tool_calls": 1,
+        "total_tokens": 969,
+        "wall_latency_ms": 1500.201
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_grounded": true,
+        "evidence_label_correct": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "quality_independent_of_tool_order": true,
+        "score": 1,
+        "state_correct": true,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6675
+        }
+      ],
+      "tool_sequence": [
+        "compiled_issue_get_record_02bc9e0c13"
+      ],
+      "trace_id": "trace_ca6c1e95386052986c6ed952e5a91a90"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_evidence": "It would be a great addition indeed :)",
+        "evidence_label": "enhancement",
+        "issue_number": 6675,
+        "state": "closed",
+        "title": "Allow image model (color conversion) to be specified as part of datasets Image() decode"
+      },
+      "condition": "manual_pre_model",
+      "dispatch": {
+        "composite": "manual_issue_evidence_bundle",
+        "construction": "manual",
+        "exposed_calls": 1,
+        "n_calls": 3,
+        "outcome": "EXECUTED",
+        "overhead_ms": 0.332,
+        "plan": "manual-9df2eb8da6d896e6",
+        "reasons": [],
+        "statistical_gate": false
+      },
+      "episode_digest": "sha256:f3007ba18415bb901affae10117b29e5",
+      "issue_number": 6675,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0002908,
+        "handoffs": 0,
+        "input_tokens": 872,
+        "internal_tool_calls": 3,
+        "output_tokens": 97,
+        "provider_response_latency_ms": 1286.496,
+        "provider_tool_calls": 0,
+        "requests": 1,
+        "tool_calls": 1,
+        "total_tokens": 969,
+        "wall_latency_ms": 1290.642
+      },
+      "online_quality": {
+        "category_correct": true,
+        "comment_grounded": true,
+        "evidence_label_correct": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "quality_independent_of_tool_order": true,
+        "score": 1,
+        "state_correct": true,
+        "title_correct": true,
+        "tool_contract": false,
+        "trace_valid": false
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_grounded": true,
+        "evidence_label_correct": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "quality_independent_of_tool_order": true,
+        "score": 1,
+        "state_correct": true,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6675
+        }
+      ],
+      "tool_sequence": [
+        "manual_issue_evidence_bundle"
+      ],
+      "trace_id": "trace_b84b33ee0cf2dd031407213d637e0cd7"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_evidence": "It would be a great addition indeed :)",
+        "evidence_label": "enhancement",
+        "issue_number": 6675,
+        "state": "closed",
+        "title": "Allow image model (color conversion) to be specified as part of datasets Image() decode"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:ad2a91e7646936be0ea0054b1ad979fb",
+      "issue_number": 6675,
+      "metrics": {
+        "cache_write_tokens": 1270,
+        "cached_input_tokens": 2131,
+        "estimated_cost_usd": 0.00063392,
+        "handoffs": 0,
+        "input_tokens": 3918,
+        "output_tokens": 142,
+        "provider_response_latency_ms": 6183.587,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 4060,
+        "wall_latency_ms": 6200.423
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_grounded": true,
+        "evidence_label_correct": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "quality_independent_of_tool_order": true,
+        "score": 1,
+        "state_correct": true,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6675
+        },
+        {
+          "issue_number": 6675
+        },
+        {
+          "issue_number": 6675,
+          "limit": 3
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_1778ecb502738cf615b3d6df197a5e94"
+    }
+  ],
+  "failures": [],
+  "manual_baseline": {
+    "lab_only_not_production_approved": true,
+    "not_compiler_derived": true,
+    "not_statistically_gated": true,
+    "plan": {
+      "approved_by": "paper-protocol-lab-only-not-production",
+      "construction": "manual",
+      "guard": {
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "clauses": [
+          {
+            "hull": {
+              "high": null,
+              "kind": "interval",
+              "low": 1,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "path": "z.issue_number",
+            "required": true,
+            "role": "hull",
+            "type_name": "int"
+          }
+        ],
+        "isolation": {},
+        "manifest_pins": {
+          "effect_catalog_version": "github-natural-workflow-pinned-reads@1#739f744b8513b613",
+          "entry_contract_version": "github-natural-issue-number-v1",
+          "guardrail_hash": "#89af17ab",
+          "model": "gpt-5.6-luna",
+          "policy_hash": "#e369ccfc",
+          "prompt_hash": "#6e1a896c",
+          "tools_hash": "#a6fe0682"
+        },
+        "required_capabilities": [
+          "speculatable",
+          "replayable"
+        ]
+      },
+      "name": "paper-github-manual-pre-model-v1",
+      "owner": "paper-optimizer-head-to-head",
+      "program": {
+        "composite": {
+          "continuation_compatibility_key": "b4bcd15f8cf8a2af",
+          "description": "Hand-authored guarded evidence plan for the public issue task.",
+          "inputs": [
+            "issue_number"
+          ],
+          "internal_tools": [
+            "issue_get_record",
+            "issue_get_labels",
+            "issue_get_comments"
+          ],
+          "name": "manual_issue_evidence_bundle",
+          "pre_model": true,
+          "projection": {
+            "body_excerpt": {
+              "kind": "expr",
+              "ops": [],
+              "source": "record.content.body_excerpt"
+            },
+            "comments": {
+              "kind": "expr",
+              "ops": [],
+              "source": "comments.thread.items"
+            },
+            "issue_number": {
+              "kind": "expr",
+              "ops": [],
+              "source": "record.issue_number"
+            },
+            "labels": {
+              "kind": "expr",
+              "ops": [],
+              "source": "labels.names"
+            },
+            "source_revision": {
+              "kind": "expr",
+              "ops": [],
+              "source": "record.source_revision"
+            },
+            "state": {
+              "kind": "expr",
+              "ops": [],
+              "source": "record.state"
+            },
+            "title": {
+              "kind": "expr",
+              "ops": [],
+              "source": "record.content.title"
+            }
+          },
+          "schema_version": 1
+        },
+        "library_version": "T-v1",
+        "outputs": {
+          "comments": {
+            "kind": "expr",
+            "ops": [],
+            "source": "comments"
+          },
+          "labels": {
+            "kind": "expr",
+            "ops": [],
+            "source": "labels"
+          },
+          "record": {
+            "kind": "expr",
+            "ops": [],
+            "source": "record"
+          }
+        },
+        "removed_requests": 3,
+        "steps": [
+          {
+            "args": {
+              "issue_number": {
+                "kind": "expr",
+                "ops": [],
+                "source": "z.issue_number"
+              }
+            },
+            "kind": "call",
+            "schema_version": null,
+            "tool": "issue_get_record",
+            "var": "record",
+            "when": null
+          },
+          {
+            "args": {
+              "issue_number": {
+                "kind": "expr",
+                "ops": [],
+                "source": "z.issue_number"
+              }
+            },
+            "kind": "call",
+            "schema_version": null,
+            "tool": "issue_get_labels",
+            "var": "labels",
+            "when": null
+          },
+          {
+            "args": {
+              "issue_number": {
+                "kind": "expr",
+                "ops": [],
+                "source": "z.issue_number"
+              },
+              "limit": {
+                "kind": "const",
+                "value": 3
+              }
+            },
+            "kind": "call",
+            "schema_version": null,
+            "tool": "issue_get_comments",
+            "var": "comments",
+            "when": null
+          }
+        ],
+        "theta": [
+          "issue_number"
+        ],
+        "tools": [
+          "issue_get_record",
+          "issue_get_labels",
+          "issue_get_comments"
+        ]
+      },
+      "schema_version": 1,
+      "source_compatibility_key": "b9575b6277938cbe",
+      "statistical_gate": false,
+      "verifier": {
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "call_counts": [
+          3
+        ],
+        "clauses": [
+          {
+            "hull": {
+              "high": null,
+              "kind": "any",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "record",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "issue_get_record"
+            ],
+            "type_name": "dict"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "any",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "labels",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "issue_get_labels"
+            ],
+            "type_name": "dict"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "any",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "comments",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "issue_get_comments"
+            ],
+            "type_name": "dict"
+          }
+        ]
+      }
+    },
+    "plan_id": "manual-9df2eb8da6d896e6",
+    "provider_free_parity": {
+      "cases": 7,
+      "exact_projection_matches": 7,
+      "mismatches": [],
+      "provider_calls": 0,
+      "rows_digest": "32e1aa328435e655286a707165f7ab5d51eb2400c755ec7b23a31d2a6d77aafc"
+    }
+  },
+  "measurement_validation": {
+    "provider_span_latency_excluded_from_comparisons": false,
+    "provider_span_latency_outliers": [],
+    "provider_span_latency_source": "Agents SDK wall-clock span timestamps",
+    "provider_span_latency_valid": true,
+    "validation_rule": "provider response sum must be nonnegative and <= wall latency + 250 ms",
+    "wall_latency_source": "host monotonic clock around the complete Runner call"
+  },
+  "metric_definitions": {
+    "deployment_cost": "held-out test calls after the GEPA strategy was frozen",
+    "optimization_cost": "all GEPA task-evaluator and reflection calls; excluded from deployment metrics",
+    "pre_model_tool_calls": "one exposed observation; internal_tool_calls records the three local reads",
+    "requests": "native provider generation/response spans"
+  },
+  "optimization": {
+    "accounting": {
+      "combined_estimated_cost_usd": 0.00497595,
+      "combined_provider_requests": 25,
+      "combined_total_tokens": 24904,
+      "excluded_from_deployment_metrics": true,
+      "reflection_calls": 1,
+      "reflection_estimated_cost_usd": 0.0005018,
+      "reflection_total_tokens": 964,
+      "task_estimated_cost_usd": 0.00447415,
+      "task_input_tokens": 23117,
+      "task_metric_calls": 6,
+      "task_output_tokens": 823,
+      "task_provider_requests": 24,
+      "task_total_tokens": 23940,
+      "task_wall_latency_ms": 34505.888
+    },
+    "fixed_contract": true,
+    "gepa_result": {
+      "best_prompt": "Use the available read-only evidence tools as needed and choose the calls and their order\nyourself.",
+      "best_score": 1076.65085,
+      "candidate_scores": [
+        1076.65085
+      ],
+      "candidates": [
+        "Use the available read-only evidence tools as needed and choose the calls and their order\nyourself."
+      ],
+      "evaluation_log": [
+        {
+          "candidate_digest": "a4b1dbf625458913",
+          "example_id": "4953",
+          "feedback_digest": "df9f2ba9e5e392d64639f92f90331a44f0929c4be29c7bfffce0bdcd5e15085d",
+          "metrics": {
+            "estimated_cost_usd": 0.00058256,
+            "factual_score": 1,
+            "overall": true,
+            "provider_requests": 4,
+            "tool_calls": 3,
+            "total_tokens": 4021
+          },
+          "score": 1076.5979
+        },
+        {
+          "candidate_digest": "a4b1dbf625458913",
+          "example_id": "5269",
+          "feedback_digest": "976b680558dd8a77f85a7920f163a9f7e95e5a599c0c5193faa633864f95ee05",
+          "metrics": {
+            "estimated_cost_usd": 0.0007324,
+            "factual_score": 1,
+            "overall": true,
+            "provider_requests": 4,
+            "tool_calls": 3,
+            "total_tokens": 2962
+          },
+          "score": 1076.7038
+        },
+        {
+          "candidate_digest": "a4b1dbf625458913",
+          "example_id": "6022",
+          "feedback_digest": "8f02382fbad806cf6ca2b20db59371fe52943307048d15e18c324395c540883b",
+          "metrics": {
+            "estimated_cost_usd": 0.00069792,
+            "factual_score": 1,
+            "overall": true,
+            "provider_requests": 4,
+            "tool_calls": 3,
+            "total_tokens": 4910
+          },
+          "score": 1076.509
+        },
+        {
+          "candidate_digest": "a4b1dbf625458913",
+          "example_id": "3373",
+          "feedback_digest": "1e5720ee901eff07da8285e420c9702b7c1028b17ba359328b0d10cbb48cc62d",
+          "metrics": {
+            "estimated_cost_usd": 0.0008134,
+            "factual_score": 1,
+            "overall": true,
+            "provider_requests": 4,
+            "tool_calls": 3,
+            "total_tokens": 3422
+          },
+          "score": 1076.6578
+        },
+        {
+          "candidate_digest": "37bddf09eaa3221a",
+          "example_id": "6022",
+          "feedback_digest": "5970a81f07e360f7894e87f92d14c50c9352a408aa422543bcf708f6ac368c38",
+          "metrics": {
+            "estimated_cost_usd": 0.00075772,
+            "factual_score": 1,
+            "overall": true,
+            "provider_requests": 4,
+            "tool_calls": 3,
+            "total_tokens": 5091
+          },
+          "score": 1076.4909
+        },
+        {
+          "candidate_digest": "37bddf09eaa3221a",
+          "example_id": "3373",
+          "feedback_digest": "403323b67178666a21473c079c127a863e4c9e5542cb4682c34ed378df50af9b",
+          "metrics": {
+            "estimated_cost_usd": 0.00089015,
+            "factual_score": 1,
+            "overall": true,
+            "provider_requests": 4,
+            "tool_calls": 3,
+            "total_tokens": 3534
+          },
+          "score": 1076.6466
+        }
+      ],
+      "full_validation_evaluations": 1,
+      "gepa_version": "0.1.4",
+      "improved": false,
+      "metric_calls": 6,
+      "parents": [
+        [
+          null
+        ]
+      ],
+      "rejected_candidates": 0,
+      "seed": 20260804,
+      "seed_prompt": "Use the available read-only evidence tools as needed and choose the calls and their order\nyourself.",
+      "seed_score": 1076.65085
+    },
+    "method": "official GEPA 0.1.4 optimize_anything",
+    "optimized_parameter": "operational strategy sentence",
+    "reflection": {
+      "cached_input_tokens": 0,
+      "calls": 1,
+      "estimated_cost_usd": 0.0005018,
+      "input_tokens": 655,
+      "latency_ms": 4140.361,
+      "model": "gpt-5.6-luna",
+      "output_tokens": 309,
+      "total_tokens": 964
+    },
+    "score_definition": "1000*exact + 100*factual_score - 5*requests - tool_calls - total_tokens/10000",
+    "task_aggregate": {
+      "gepa-opt-001-a4b1dbf625": {
+        "category_accuracy": 1,
+        "estimated_cost_usd": 0.00058256,
+        "factuality_exact_rate": 1,
+        "input_tokens": 3909,
+        "n": 1,
+        "output_tokens": 112,
+        "provider_requests": 4,
+        "success_rate": 1,
+        "tool_contract_rate": 1,
+        "wall_latency_ms": 5717.702
+      },
+      "gepa-opt-002-a4b1dbf625": {
+        "category_accuracy": 1,
+        "estimated_cost_usd": 0.0007324,
+        "factuality_exact_rate": 1,
+        "input_tokens": 2822,
+        "n": 1,
+        "output_tokens": 140,
+        "provider_requests": 4,
+        "success_rate": 1,
+        "tool_contract_rate": 1,
+        "wall_latency_ms": 5152.529
+      },
+      "gepa-opt-003-a4b1dbf625": {
+        "category_accuracy": 1,
+        "estimated_cost_usd": 0.00069792,
+        "factuality_exact_rate": 1,
+        "input_tokens": 4773,
+        "n": 1,
+        "output_tokens": 137,
+        "provider_requests": 4,
+        "success_rate": 1,
+        "tool_contract_rate": 1,
+        "wall_latency_ms": 6201.072
+      },
+      "gepa-opt-004-a4b1dbf625": {
+        "category_accuracy": 1,
+        "estimated_cost_usd": 0.0008134,
+        "factuality_exact_rate": 1,
+        "input_tokens": 3293,
+        "n": 1,
+        "output_tokens": 129,
+        "provider_requests": 4,
+        "success_rate": 1,
+        "tool_contract_rate": 1,
+        "wall_latency_ms": 4896.562
+      },
+      "gepa-opt-005-37bddf09ea": {
+        "category_accuracy": 1,
+        "estimated_cost_usd": 0.00075772,
+        "factuality_exact_rate": 1,
+        "input_tokens": 4918,
+        "n": 1,
+        "output_tokens": 173,
+        "provider_requests": 4,
+        "success_rate": 1,
+        "tool_contract_rate": 1,
+        "wall_latency_ms": 6236.719
+      },
+      "gepa-opt-006-37bddf09ea": {
+        "category_accuracy": 1,
+        "estimated_cost_usd": 0.00089015,
+        "factuality_exact_rate": 1,
+        "input_tokens": 3402,
+        "n": 1,
+        "output_tokens": 132,
+        "provider_requests": 4,
+        "success_rate": 1,
+        "tool_contract_rate": 1,
+        "wall_latency_ms": 6301.304
+      }
+    },
+    "task_results": [
+      {
+        "answer": {
+          "category": "bug",
+          "comment_evidence": "none",
+          "evidence_label": "bug",
+          "issue_number": 4953,
+          "state": "closed",
+          "title": "CI test of TensorFlow is failing"
+        },
+        "condition": "gepa-opt-001-a4b1dbf625",
+        "dispatch": {},
+        "episode_digest": "sha256:b4dee95a868d73daa86eb7b94b152785",
+        "issue_number": 4953,
+        "metrics": {
+          "cache_write_tokens": 1204,
+          "cached_input_tokens": 2188,
+          "estimated_cost_usd": 0.00058256,
+          "handoffs": 0,
+          "input_tokens": 3909,
+          "output_tokens": 112,
+          "provider_response_latency_ms": 5698.993,
+          "requests": 4,
+          "tool_calls": 3,
+          "total_tokens": 4021,
+          "wall_latency_ms": 5717.702
+        },
+        "quality": {
+          "category_correct": true,
+          "comment_grounded": true,
+          "evidence_label_correct": true,
+          "issue_number_correct": true,
+          "overall": true,
+          "quality_independent_of_tool_order": true,
+          "score": 1,
+          "state_correct": true,
+          "title_correct": true,
+          "tool_contract": true,
+          "trace_valid": true
+        },
+        "repeat": 0,
+        "tool_arguments": [
+          {
+            "issue_number": 4953
+          },
+          {
+            "issue_number": 4953
+          },
+          {
+            "issue_number": 4953,
+            "limit": 3
+          }
+        ],
+        "tool_sequence": [
+          "issue_get_record",
+          "issue_get_labels",
+          "issue_get_comments"
+        ],
+        "trace_id": "trace_1d9c7e3153f63ba29462a9d4a41285d1"
+      },
+      {
+        "answer": {
+          "category": "enhancement",
+          "comment_evidence": "I don't think we need completion on the datasets-cli, since we're mainly developing huggingface-cli",
+          "evidence_label": "enhancement",
+          "issue_number": 5269,
+          "state": "closed",
+          "title": "Shell completions"
+        },
+        "condition": "gepa-opt-002-a4b1dbf625",
+        "dispatch": {},
+        "episode_digest": "sha256:9e1ec04310ee7c1e882e8158c2ea17f4",
+        "issue_number": 5269,
+        "metrics": {
+          "cache_write_tokens": 0,
+          "cached_input_tokens": 0,
+          "estimated_cost_usd": 0.0007324,
+          "handoffs": 0,
+          "input_tokens": 2822,
+          "output_tokens": 140,
+          "provider_response_latency_ms": 5137.955,
+          "requests": 4,
+          "tool_calls": 3,
+          "total_tokens": 2962,
+          "wall_latency_ms": 5152.529
+        },
+        "quality": {
+          "category_correct": true,
+          "comment_grounded": true,
+          "evidence_label_correct": true,
+          "issue_number_correct": true,
+          "overall": true,
+          "quality_independent_of_tool_order": true,
+          "score": 1,
+          "state_correct": true,
+          "title_correct": true,
+          "tool_contract": true,
+          "trace_valid": true
+        },
+        "repeat": 0,
+        "tool_arguments": [
+          {
+            "issue_number": 5269
+          },
+          {
+            "issue_number": 5269
+          },
+          {
+            "issue_number": 5269,
+            "limit": 3
+          }
+        ],
+        "tool_sequence": [
+          "issue_get_record",
+          "issue_get_labels",
+          "issue_get_comments"
+        ],
+        "trace_id": "trace_07d80490bbc821abda35470600eb6a57"
+      },
+      {
+        "answer": {
+          "category": "other",
+          "comment_evidence": "Thanks for reporting! I've opened a PR with a fix.",
+          "evidence_label": "none",
+          "issue_number": 6022,
+          "state": "closed",
+          "title": "Batch map raises TypeError: '>=' not supported between instances of 'NoneType' and 'int'"
+        },
+        "condition": "gepa-opt-003-a4b1dbf625",
+        "dispatch": {},
+        "episode_digest": "sha256:9a21a6cc3f3e8e0adc5ec4fa6c6486ed",
+        "issue_number": 6022,
+        "metrics": {
+          "cache_write_tokens": 1500,
+          "cached_input_tokens": 2756,
+          "estimated_cost_usd": 0.00069792,
+          "handoffs": 0,
+          "input_tokens": 4773,
+          "output_tokens": 137,
+          "provider_response_latency_ms": 6188.436,
+          "requests": 4,
+          "tool_calls": 3,
+          "total_tokens": 4910,
+          "wall_latency_ms": 6201.072
+        },
+        "quality": {
+          "category_correct": true,
+          "comment_grounded": true,
+          "evidence_label_correct": true,
+          "issue_number_correct": true,
+          "overall": true,
+          "quality_independent_of_tool_order": true,
+          "score": 1,
+          "state_correct": true,
+          "title_correct": true,
+          "tool_contract": true,
+          "trace_valid": true
+        },
+        "repeat": 0,
+        "tool_arguments": [
+          {
+            "issue_number": 6022
+          },
+          {
+            "issue_number": 6022
+          },
+          {
+            "issue_number": 6022,
+            "limit": 3
+          }
+        ],
+        "tool_sequence": [
+          "issue_get_record",
+          "issue_get_labels",
+          "issue_get_comments"
+        ],
+        "trace_id": "trace_21fde33c3fb394ce4d1d5246c9bf2661"
+      },
+      {
+        "answer": {
+          "category": "enhancement",
+          "comment_evidence": "none",
+          "evidence_label": "enhancement",
+          "issue_number": 3373,
+          "state": "closed",
+          "title": "Support streaming zipped CSV dataset repo by passing only repo name"
+        },
+        "condition": "gepa-opt-004-a4b1dbf625",
+        "dispatch": {},
+        "episode_digest": "sha256:7348f05240d3d6a7c1986c59e075e289",
+        "issue_number": 3373,
+        "metrics": {
+          "cache_write_tokens": 0,
+          "cached_input_tokens": 0,
+          "estimated_cost_usd": 0.0008134,
+          "handoffs": 0,
+          "input_tokens": 3293,
+          "output_tokens": 129,
+          "provider_response_latency_ms": 4880.437,
+          "requests": 4,
+          "tool_calls": 3,
+          "total_tokens": 3422,
+          "wall_latency_ms": 4896.562
+        },
+        "quality": {
+          "category_correct": true,
+          "comment_grounded": true,
+          "evidence_label_correct": true,
+          "issue_number_correct": true,
+          "overall": true,
+          "quality_independent_of_tool_order": true,
+          "score": 1,
+          "state_correct": true,
+          "title_correct": true,
+          "tool_contract": true,
+          "trace_valid": true
+        },
+        "repeat": 0,
+        "tool_arguments": [
+          {
+            "issue_number": 3373
+          },
+          {
+            "issue_number": 3373
+          },
+          {
+            "issue_number": 3373,
+            "limit": 3
+          }
+        ],
+        "tool_sequence": [
+          "issue_get_record",
+          "issue_get_labels",
+          "issue_get_comments"
+        ],
+        "trace_id": "trace_ccc0b9706f2234239c81c54edf05a322"
+      },
+      {
+        "answer": {
+          "category": "other",
+          "comment_evidence": "Thanks for reporting! I've opened a PR with a fix.",
+          "evidence_label": "none",
+          "issue_number": 6022,
+          "state": "closed",
+          "title": "Batch map raises TypeError: '>=' not supported between instances of 'NoneType' and 'int'"
+        },
+        "condition": "gepa-opt-005-37bddf09ea",
+        "dispatch": {},
+        "episode_digest": "sha256:73ee23220ffc0c08ab8a5906284b227e",
+        "issue_number": 6022,
+        "metrics": {
+          "cache_write_tokens": 1540,
+          "cached_input_tokens": 2836,
+          "estimated_cost_usd": 0.00075772,
+          "handoffs": 0,
+          "input_tokens": 4918,
+          "output_tokens": 173,
+          "provider_response_latency_ms": 6222.115,
+          "requests": 4,
+          "tool_calls": 3,
+          "total_tokens": 5091,
+          "wall_latency_ms": 6236.719
+        },
+        "quality": {
+          "category_correct": true,
+          "comment_grounded": true,
+          "evidence_label_correct": true,
+          "issue_number_correct": true,
+          "overall": true,
+          "quality_independent_of_tool_order": true,
+          "score": 1,
+          "state_correct": true,
+          "title_correct": true,
+          "tool_contract": true,
+          "trace_valid": true
+        },
+        "repeat": 0,
+        "tool_arguments": [
+          {
+            "issue_number": 6022
+          },
+          {
+            "issue_number": 6022
+          },
+          {
+            "issue_number": 6022,
+            "limit": 3
+          }
+        ],
+        "tool_sequence": [
+          "issue_get_record",
+          "issue_get_labels",
+          "issue_get_comments"
+        ],
+        "trace_id": "trace_1a8e7de5692fd1f7c312e19dca184bd2"
+      },
+      {
+        "answer": {
+          "category": "enhancement",
+          "comment_evidence": "none",
+          "evidence_label": "enhancement",
+          "issue_number": 3373,
+          "state": "closed",
+          "title": "Support streaming zipped CSV dataset repo by passing only repo name"
+        },
+        "condition": "gepa-opt-006-37bddf09ea",
+        "dispatch": {},
+        "episode_digest": "sha256:a350f96a007337ceb84d6dde20b108f1",
+        "issue_number": 3373,
+        "metrics": {
+          "cache_write_tokens": 1027,
+          "cached_input_tokens": 0,
+          "estimated_cost_usd": 0.00089015,
+          "handoffs": 0,
+          "input_tokens": 3402,
+          "output_tokens": 132,
+          "provider_response_latency_ms": 6286.661,
+          "requests": 4,
+          "tool_calls": 3,
+          "total_tokens": 3534,
+          "wall_latency_ms": 6301.304
+        },
+        "quality": {
+          "category_correct": true,
+          "comment_grounded": true,
+          "evidence_label_correct": true,
+          "issue_number_correct": true,
+          "overall": true,
+          "quality_independent_of_tool_order": true,
+          "score": 1,
+          "state_correct": true,
+          "title_correct": true,
+          "tool_contract": true,
+          "trace_valid": true
+        },
+        "repeat": 0,
+        "tool_arguments": [
+          {
+            "issue_number": 3373
+          },
+          {
+            "issue_number": 3373
+          },
+          {
+            "issue_number": 3373,
+            "limit": 3
+          }
+        ],
+        "tool_sequence": [
+          "issue_get_record",
+          "issue_get_labels",
+          "issue_get_comments"
+        ],
+        "trace_id": "trace_d643f6b7f27114c081e37190ae713ff8"
+      }
+    ]
+  },
+  "oracle_revision": {
+    "changed_rows": 0,
+    "episode_digest_retains_online_trace_label": false,
+    "metrics_changed": false,
+    "original_results_sha256": "548a9247a754f87c783c1538a41174aae3b434155575c210cf817ed7053584eb",
+    "provider_calls_rerun": false,
+    "provider_outputs_changed": false,
+    "reason": "recomputed derived comparisons, optimizer accounting, and measurement validation",
+    "schema": "agent-compaction-optimizer-oracle-regrade/v1"
+  },
+  "preflight": {
+    "manual_plan_id": "manual-9df2eb8da6d896e6",
+    "parquet_sha256": "09453eefae39e45a969ab0bee72ca0e188fe79dc50403b0f2a78c39894f5d1a3",
+    "provider_free_parity": {
+      "cases": 7,
+      "exact_projection_matches": 7,
+      "mismatches": [],
+      "provider_calls": 0,
+      "rows_digest": "32e1aa328435e655286a707165f7ab5d51eb2400c755ec7b23a31d2a6d77aafc"
+    },
+    "schema": "agent-compaction-optimizer-head-to-head-preflight/v1",
+    "selection": {
+      "available_categories": [
+        "bug",
+        "enhancement",
+        "other"
+      ],
+      "category_balance_rule": "available categories in fixed bug, enhancement, question, other order; round-robin within each split",
+      "category_counts": {
+        "optimization_train": {
+          "bug": 1,
+          "enhancement": 1,
+          "other": 1
+        },
+        "optimization_validation": {
+          "bug": 1,
+          "enhancement": 1
+        },
+        "test": {
+          "bug": 1,
+          "enhancement": 1
+        }
+      },
+      "excluded_prior_issues": 436,
+      "fresh_raw_category_counts": {
+        "bug": 584,
+        "enhancement": 392,
+        "other": 1657
+      },
+      "optimization_train": [
+        3929,
+        3373,
+        6022
+      ],
+      "optimization_validation": [
+        4953,
+        5269
+      ],
+      "pre_provider_rejections": {
+        "cardinality:get2.names": 5,
+        "hull:z.issue_number=7249": 1,
+        "hull:z.issue_number=7505": 1,
+        "hull:z.issue_number=7513": 1,
+        "hull:z.issue_number=7534": 1
+      },
+      "seed": 20260804,
+      "selection_uses_provider_outcomes": false,
+      "test": [
+        2924,
+        6675
+      ],
+      "test_frozen_before_optimization": true,
+      "unavailable_categories_after_exclusions": [
+        "question"
+      ]
+    },
+    "source_revision": "e344be7b84d199661a9956036991e1fc25715a47",
+    "timestamp_utc": "2026-08-05T03:06:42+00:00"
+  },
+  "run": {
+    "comparative_claim_allowed": false,
+    "gepa": "0.1.4",
+    "model": "gpt-5.6-luna",
+    "openai_agents_sdk": "0.19.2",
+    "openai_api_key_used": true,
+    "openai_python": "2.52.0",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "provider_backed": true,
+    "python": "3.14.4",
+    "real_public_records": true,
+    "reflection_model": "gpt-5.6-luna",
+    "resolved_config": {
+      "force": true,
+      "max_metric_calls": 6,
+      "max_proposals": 1,
+      "model": "gpt-5.6-luna",
+      "reflection_minibatch": 2,
+      "reflection_model": null,
+      "seed": 20260804,
+      "smoke": true,
+      "test_cases": 2,
+      "train_cases": 3,
+      "val_cases": 2
+    },
+    "secrets_serialized": false,
+    "smoke": true,
+    "timestamp_utc": "2026-08-05T03:07:52+00:00"
+  },
+  "schedule": [
+    {
+      "issue_number": 2924,
+      "order": [
+        "baseline",
+        "gepa",
+        "gcs",
+        "gcs_gepa",
+        "manual_pre_model"
+      ]
+    },
+    {
+      "issue_number": 6675,
+      "order": [
+        "gepa",
+        "gcs",
+        "gcs_gepa",
+        "manual_pre_model",
+        "baseline"
+      ]
+    }
+  ],
+  "schema": "agent-compaction-optimizer-head-to-head/v1",
+  "selection": {
+    "available_categories": [
+      "bug",
+      "enhancement",
+      "other"
+    ],
+    "category_balance_rule": "available categories in fixed bug, enhancement, question, other order; round-robin within each split",
+    "category_counts": {
+      "optimization_train": {
+        "bug": 1,
+        "enhancement": 1,
+        "other": 1
+      },
+      "optimization_validation": {
+        "bug": 1,
+        "enhancement": 1
+      },
+      "test": {
+        "bug": 1,
+        "enhancement": 1
+      }
+    },
+    "excluded_prior_issues": 436,
+    "fresh_raw_category_counts": {
+      "bug": 584,
+      "enhancement": 392,
+      "other": 1657
+    },
+    "optimization_train": [
+      3929,
+      3373,
+      6022
+    ],
+    "optimization_validation": [
+      4953,
+      5269
+    ],
+    "pre_provider_rejections": {
+      "cardinality:get2.names": 5,
+      "hull:z.issue_number=7249": 1,
+      "hull:z.issue_number=7505": 1,
+      "hull:z.issue_number=7513": 1,
+      "hull:z.issue_number=7534": 1
+    },
+    "seed": 20260804,
+    "selection_uses_provider_outcomes": false,
+    "test": [
+      2924,
+      6675
+    ],
+    "test_frozen_before_optimization": true,
+    "unavailable_categories_after_exclusions": [
+      "question"
+    ]
+  },
+  "source": {
+    "dataset": "helmo/github-issues",
+    "deduplicated_non_pr_issues": 3115,
+    "duplicate_issue_rows": 49,
+    "parquet_sha256": "09453eefae39e45a969ab0bee72ca0e188fe79dc50403b0f2a78c39894f5d1a3",
+    "raw_rows": 7540,
+    "revision": "e344be7b84d199661a9956036991e1fc25715a47"
+  }
+}

@@ -8,8 +8,8 @@ user-provided GAC slide libraries rather than rebuilding their visual system fro
 
 `gac-template-map.json` binds every generated slide to a source slide. The generator keeps
 all source slides, duplicates the comparator frame once in each deck, and fills that frame
-with the retained GCS-versus-macro result. It verifies both source-template hashes and the
-GCS evidence schema before writing output.
+with the fair-placement and bounded-GEPA result. It verifies both source-template hashes,
+the GCS replay, and the live optimizer evidence schema before writing output.
 
 ## Generate
 
@@ -30,7 +30,8 @@ Outputs:
 - `paper/results/slide_generation.json`: source, evidence, mapping, output hash, and slide
   count manifest.
 
-The generated GCS slide is intentionally scoped: it shows that GCS matches the measured
-provider-visible macro's 12/12 exact quality while reducing requests, tokens, observed
-latency, and estimated cost. It does not claim superiority over an equally pre-executed
-manual macro or across workflow families.
+The generated comparator slide is intentionally scoped: all five arms pass 6/6; GCS and
+the independent manual pre-model program tie on requests, interfaces, and input tokens;
+official GEPA retains its seed after a bounded live search. The 59-request optimizer cost
+is separate from deployment. The slide claims neither cross-family superiority nor a
+general failure of GEPA.

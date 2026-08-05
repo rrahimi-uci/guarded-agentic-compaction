@@ -46,6 +46,7 @@ paper/
 │   ├── portfolio_live/             frozen decision and prospective fresh-cohort result
 │   ├── gcs_validation/             provider-free real-trace composite replay
 │   ├── gcs_live/                   exploratory fresh macro-vs-GCS paid comparison
+│   ├── optimizer_head_to_head/     live GEPA/GCS/manual pre-model comparison
 │   ├── github_natural_replication/ expanded paid 30-pair replication
 │   ├── multidomain/                real-record provider-free extension preflight
 │   ├── nestful/                    public-benchmark raw results
@@ -58,6 +59,7 @@ paper/
 │   ├── portfolio_live_study.py     reviewed portfolio selection and prospective test
 │   ├── validate_guarded_composite.py provider-free 132-trace GCS reconstruction
 │   ├── github_gcs_live_study.py    paid fresh real-record GCS/macro comparison
+│   ├── github_optimizer_head_to_head.py bounded real GEPA/GCS/manual comparison
 │   ├── multidomain_study.py        gated real-provider multidomain runner
 │   ├── validate_multidomain.py     provider-free independent-gold validation
 │   ├── nestful_benchmark.py        provider-free external benchmark
@@ -129,7 +131,15 @@ capabilities are documented in
   pre-model composite with the provider-visible hand-written macro on 12 further public
   issues: both pass 12/12 exact contracts; GCS uses fewer requests, tokens, observed
   latency, and estimated cost. This was designed after the earlier macro result and does
-  not compare against an equally pre-executed manual macro.
+  not by itself establish superiority over a fair pre-model manual program.
+- **Bounded optimizer and fair-placement comparison:** a provider-free preflight verifies
+  12/12 exact GCS/manual projections. Official GEPA 0.1.4 then makes 14 real task
+  evaluations and three real reflection calls, followed by a five-condition live study on
+  six new public issues. GCS and the independent pre-model manual program both pass 6/6
+  with one request, one interface, and identical input tokens. GEPA retains its seed and
+  leaves deployment requests unchanged. Its 59-request optimization overhead is reported
+  separately. This is exploratory single-family evidence, not a simulation or a general
+  learned-optimizer ranking.
 - **Archived pilot:** a real-provider negative result that exposed unsafe suffix dispatch.
   It is retained under `results/github_live/pilot_2026-08-03/` and excluded from the final
   cohort.
@@ -162,6 +172,8 @@ From the repository root:
     --results-path paper/results/github_natural_replication/results.json
 .venv/bin/python paper/scripts/continuation_replay.py
 .venv/bin/python paper/scripts/validate_guarded_composite.py
+.venv/bin/python paper/scripts/github_optimizer_head_to_head.py \
+    --regrade-existing paper/results/optimizer_head_to_head/results.json
 M=paper/results/multidomain/preflight
 V=paper/scripts/validate_multidomain.py
 .venv/bin/python "$V" \
@@ -312,6 +324,13 @@ requests 50.0%, tool calls 66.7%, tokens 59.2%, wall latency 71.6%, and estimate
 The earlier aggressive natural-order study remains a depth-sensitive negative result: its
 unchanged agent and macro pass 18/18 exact factual contracts, while the three-read compiler
 passes 17/18. It saves more provider calls but does not establish preservation.
+
+In the new bounded head-to-head, every one of five conditions passes 6/6 exact contracts.
+GCS reduces requests 75.0% and input tokens 78.2% relative to unchanged, but ties the fair
+manual pre-model program at one request, one interface, and 770.8 mean input tokens. GEPA
+retains the seed after 14 task evaluations; deployment requests remain four, while the
+separate optimization ledger records 59 provider requests, 63,954 tokens, and an estimated
+\$0.01163. The GCS+GEPA label is therefore a GCS replication, not an optimized combination.
 
 The older prescribed-prefix ablation records 18/18 passes under its weaker registered
 contract and reductions of 75.0% requests, 65.7% tokens, 85.0% observed latency, and

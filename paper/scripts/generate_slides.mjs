@@ -106,7 +106,7 @@ function renumberPages(presentation) {
   }
 }
 
-function validateEvidence(gcs, replay) {
+function validateEvidence(gcs, replay, optimizer) {
   assertEqual(gcs.schema, "agent-compaction-gcs-live-study/v1", "GCS schema");
   assertEqual(gcs.run.provider_backed, true, "GCS provider-backed flag");
   assertEqual(gcs.run.real_public_records, true, "GCS real-record flag");
@@ -136,66 +136,89 @@ function validateEvidence(gcs, replay) {
   assertEqual(replay.replay.fallback, 8, "GCS replay fallbacks");
   assertEqual(replay.replay.exact_projected_matches, 124, "GCS replay exact projections");
   assertEqual(replay.replay.projection_failures.length, 0, "GCS replay projection failures");
+  assertEqual(optimizer.schema, "agent-compaction-optimizer-head-to-head/v1", "optimizer schema");
+  assertEqual(optimizer.run.provider_backed, true, "optimizer provider-backed flag");
+  assertEqual(optimizer.run.real_public_records, true, "optimizer real-record flag");
+  assertEqual(optimizer.run.secrets_serialized, false, "optimizer secret serialization flag");
+  assertEqual(optimizer.optimization.gepa_result.improved, false, "GEPA retained seed");
+  assertEqual(optimizer.optimization.gepa_result.metric_calls, 14, "GEPA task metric calls");
+  assertEqual(optimizer.optimization.accounting.combined_provider_requests, 59, "GEPA optimization requests");
+  assertEqual(optimizer.preflight.provider_free_parity.exact_projection_matches, 12, "manual/GCS parity preflight");
+  for (const condition of ["baseline", "gepa", "gcs", "gcs_gepa", "manual_pre_model"]) {
+    assertEqual(optimizer.aggregate[condition].factuality_exact_rate, 1, `${condition} exact rate`);
+    assertEqual(optimizer.aggregate[condition].n, 6, `${condition} deployment cases`);
+  }
 }
 
-function metricRows(gcs) {
-  const metrics = gcs.macro_vs_gcs.metrics;
-  const fmt = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
+function metricRows(optimizer) {
+  const labels = [
+    ["baseline", "Unchanged"],
+    ["gepa", "GEPA · seed"],
+    ["gcs", "GCS"],
+    ["gcs_gepa", "GCS + seed"],
+    ["manual_pre_model", "Manual pre-model"],
+  ];
   return [
-    ["Metric", "Macro", "GCS", "Result"],
-    ["Provider requests", metrics.requests.macro_mean.toFixed(2), metrics.requests.gcs_mean.toFixed(2), "−50.0%"],
-    ["Tool interfaces", metrics.tool_calls.macro_mean.toFixed(2), metrics.tool_calls.gcs_mean.toFixed(2), "tie"],
-    ["Total tokens", fmt.format(metrics.total_tokens.macro_mean), fmt.format(metrics.total_tokens.gcs_mean), "−38.9%"],
-    ["Wall latency", `${fmt.format(metrics.wall_latency_ms.macro_mean)} ms`, `${fmt.format(metrics.wall_latency_ms.gcs_mean)} ms`, "−40.0%"],
-    ["Estimated cost", `$${metrics.estimated_cost_usd.macro_mean.toFixed(6)}`, `$${metrics.estimated_cost_usd.gcs_mean.toFixed(6)}`, "−32.3%"],
+    ["Condition", "Requests", "Interfaces", "Exact"],
+    ...labels.map(([key, label]) => {
+      const aggregate = optimizer.aggregate[key];
+      return [
+        label,
+        (aggregate.provider_requests / aggregate.n).toFixed(1),
+        (optimizer.deployment_results
+          .filter((row) => row.condition === key)
+          .reduce((sum, row) => sum + row.metrics.tool_calls, 0) / aggregate.n).toFixed(1),
+        `${Math.round(aggregate.factuality_exact_rate * aggregate.n)}/${aggregate.n}`,
+      ];
+    }),
   ];
 }
 
 function editGcsSlide(slide, rows, mode) {
   const seminar = mode === "seminar";
   setShapeText(slide, 2, seminar
-    ? "RESULTS  ·  EXPLORATORY GCS EXTENSION  ·  REAL-PROVIDER PAIRED STUDY"
-    : "GCS  ·  FRESH REAL-PROVIDER COMPARISON");
-  setShapeText(slide, 3, "GCS removes the measured macro's extra model turn");
+    ? "RESULTS  ·  FAIR PLACEMENT + BOUNDED GEPA  ·  REAL-PROVIDER STUDY"
+    : "COMPARATORS  ·  FAIR PRE-MODEL PLACEMENT + GEPA");
+  setShapeText(slide, 3, "Fair placement ties GCS; bounded GEPA retains its seed");
   setShapeText(
     slide,
     4,
     seminar
-      ? "Both arms preserve 12/12 exact contracts. GCS moves an admitted three-read program before the first provider request and returns one bounded task observation."
-      : "Both arms pass 12/12 exact contracts. GCS executes the admitted three-read program before request one and returns one task-specific observation.",
+      ? "All five arms pass 6/6. GCS and an independent manual pre-model program tie at one request, one interface, and identical input tokens; GEPA leaves the four-request workflow unchanged."
+      : "All five arms pass 6/6. GCS ties the fair manual program structurally; GEPA retains its seed and leaves requests unchanged.",
   );
-  setShapeText(slide, 5, "12 FRESH, CALIBRATION-DISJOINT PUBLIC ISSUES — LOWER RESOURCE USE IS BETTER");
+  setShapeText(slide, 5, "6 FRESH HELD-OUT PUBLIC ISSUES — OPTIMIZATION COST EXCLUDED FROM DEPLOYMENT");
   setShapeText(
     slide,
     seminar ? 7 : 6,
     seminar
-      ? "Provider-backed OpenAI Agents SDK executions over pinned real public records, counterbalanced by condition order and disjoint from all 424 earlier issue IDs. Exposed interfaces tie 1–1; internal source reads tie 3–3."
-      : "Real public issue records, live provider calls, counterbalanced order, and no overlap with 424 earlier issue IDs. Interfaces tie 1–1; source reads tie 3–3.",
+      ? "Real OpenAI Agents SDK executions over pinned public records. Disjoint 4/2/6 optimization train/validation/test splits were frozen before provider outcomes; condition order is balanced."
+      : "Live provider calls on disjoint 4/2/6 splits frozen before optimization. The question category was unavailable after strict prior-cohort exclusion.",
   );
-  setShapeText(slide, seminar ? 11 : 10, "GCS wins the measured interface when…");
+  setShapeText(slide, seminar ? 11 : 10, "What the fair test resolves…");
   setShapeText(
     slide,
     seminar ? 12 : 11,
-    "the read program already passed admission\ntask projection is live-out-only and bounded\nthe continuation manifest is pinned exactly",
+    "manual placement can remove the same turns\nGCS value shifts to discovery + admission\nGEPA does not improve this bounded run",
   );
-  setShapeText(slide, seminar ? 16 : 15, "The remaining comparator…");
+  setShapeText(slide, seminar ? 16 : 15, "What remains unresolved…");
   setShapeText(
     slide,
     seminar ? 17 : 16,
-    "an equally pre-executed manual macro\nthe same projection and continuation contract\nmultiple workflow families and time-forward drift",
+    "manual engineering and review effort\nAWO · Agent JIT · EvoC2F execution\nmultiple families and time-forward drift",
   );
   if (seminar) {
     setShapeText(slide, 19, "MECHANISM, EVIDENCE, AND BOUNDARY");
     setShapeText(
       slide,
       20,
-      "Placement — not a new read algorithm — explains the measured advantage. The provider-visible macro spends one request selecting its composite and a second producing the answer; GCS verifies and executes before request one. Requests, tokens, observed latency, and estimated cost improve, while exact quality, interface count, and source reads tie. This post-study result covers one workflow family and does not show that GCS dominates an equally pre-executed manual program.",
+      "The fair manual program closes the earlier placement confound: GCS and manual execution tie on requests, interfaces, input tokens, and exact quality. Official GEPA 0.1.4 makes 14 real task evaluations and three reflections, but retains its seed. Its 59-request, 63,954-token optimization overhead is reported separately. This six-case result supports automatic guarded specialization—not runtime dominance or general GEPA failure.",
     );
   } else {
     setShapeText(
       slide,
       18,
-      "Placement explains the gain: the provider-visible macro spends one request selecting its composite and another answering; GCS verifies and executes before request one. This is exploratory one-family evidence and does not test an equally pre-executed manual macro.",
+      "Fair placement removes the confound: GCS and manual execution tie structurally at 6/6 exact quality. GEPA retains its seed after 14 task evaluations; 59 optimization requests are accounted separately. One family, six held-out cases.",
     );
   }
   const table = slide.tables.items[0];
@@ -206,7 +229,7 @@ function editGcsSlide(slide, rows, mode) {
 }
 
 function updateSeminar(presentation, rows) {
-  replaceUnique(presentation, "4 live protocols on a\npinned public snapshot", "5 live protocols on a\npinned public snapshot");
+  replaceUnique(presentation, "4 live protocols on a\npinned public snapshot", "6 live protocols on a\npinned public snapshot");
   replaceUnique(
     presentation,
     "Guarded agentic compaction. Traces establish recurrence, not admissibility. We specify the evidence a compiler needs, the barriers it must respect, and four negative results.",
@@ -235,7 +258,7 @@ function updateSeminar(presentation, rows) {
   replaceUnique(
     presentation,
     "Four GitHub protocols on a pinned 12.7 MB Apache-2.0 snapshot",
-    "Five GitHub protocols on a pinned 12.7 MB Apache-2.0 snapshot, including the later GCS/macro comparison",
+    "Six GitHub protocols on a pinned snapshot, including fair manual placement and bounded GEPA",
   );
 
   const macroSlide = presentation.slides.getItem(20);
@@ -252,29 +275,29 @@ function updateSeminar(presentation, rows) {
   replaceStartingWith(
     presentation,
     "Also: discovery is not free",
-    "Also: discovery is not free (132 episodes cost 528 provider requests, 533,293 tokens, and about $0.096, with break-even between 176 and 292 eligible future episodes); GCS is a post-study, one-family extension with no equally pre-executed manual comparator; risk control is per artifact; the closed DSL intentionally misses legitimate transformations and loops; and pre-snapshot Git ancestry cannot be reconstructed.",
+    "Also: discovery is not free (132 episodes cost 528 provider requests, 533,293 tokens, and about $0.096); the fair-placement/GEPA study has only six held-out records; risk control is per artifact; the closed DSL misses legitimate transformations and loops; and pre-snapshot Git ancestry cannot be reconstructed.",
   );
 
   const claimsSlide = presentation.slides.getItem(24);
   const claimsTable = claimsSlide.tables.items[0];
   setTableCell(claimsTable, 9, 1, "The learned compiler generally dominates hand-written composition");
-  setTableCell(claimsTable, 9, 2, "Macro beats partial GRC; GCS beats the provider-visible macro on 12 fresh pairs");
-  setTableCell(claimsTable, 9, 3, "Not supported across interfaces");
+  setTableCell(claimsTable, 9, 2, "Macro beats partial GRC; fair pre-model manual ties GCS on 6 fresh pairs");
+  setTableCell(claimsTable, 9, 3, "Not supported; structural parity");
   replaceStartingWith(
     presentation,
     "Five claims are not supported",
-    "The register preserves both directions of the macro result: manual composition beats partial GRC, while GCS later beats the measured provider-visible macro. Neither establishes universal superiority.",
+    "Manual composition beats partial GRC; once placement is equal, the manual program ties GCS. GEPA also retains its seed under the bounded search. No arm establishes universal superiority.",
   );
 
   replaceUnique(
     presentation,
     "The two-read artifact holds 30/30 while halving requests; the deeper three-read artifact saves more and records a factual miss. A hand-written macro matches quality and wins on tokens and dollars. Preservation is not invariant to depth.",
-    "The two-read artifact holds 30/30 while halving requests; the deeper artifact records a factual miss. Manual composition beats partial GRC, while GCS later matches 12/12 quality and beats the measured provider-visible macro. Neither direction is universal.",
+    "The two-read artifact holds 30/30 while halving requests; the deeper artifact records a factual miss. Manual composition beats partial GRC, and fair pre-model placement later ties GCS at 6/6. Runtime dominance is not the contribution.",
   );
   replaceUnique(
     presentation,
     "Next scientific threshold: a multi-family, time-forward comparison that includes cache economics, construction and maintenance effort, drift, and closer learned optimizers.",
-    "Next scientific threshold: preregistered multi-family, time-forward comparison against an equally pre-executed manual macro, with cache economics, maintenance effort, drift, and closer learned optimizers.",
+    "Next scientific threshold: preregistered multi-family, time-forward comparison with engineering effort, cache economics, drift, and executable AWO / Agent JIT / EvoC2F baselines.",
   );
   renumberPages(presentation);
 }
@@ -286,11 +309,11 @@ function updateTechnical(presentation, rows) {
   if (coverProtocolCounts.length !== 1) {
     throw new Error(`technical cover protocol count: expected one match, found ${coverProtocolCounts.length}`);
   }
-  coverProtocolCounts[0].text.set("5");
+  coverProtocolCounts[0].text.set("6");
   replaceUnique(
     presentation,
     "The efficiency win is real but narrow: it removes redundant model turns on a read-only prefix — it does not remove the tool calls that gather evidence.\nA hand-written composite tool matched or beat the learned compiler on most workloads. Compilation earns its complexity on branching or changing workflows, not on stable ones.\nThe paper reports four negative results of its own: efficiency gains establish neither factual quality, nor superiority over hand-written code, nor portfolio superiority, nor admission safety.",
-    "The efficiency win is real but narrow: partial GRC removes redundant model turns, not the source reads that gather evidence.\nManual composition beats partial GRC on this fixed workflow; GCS later removes the measured provider-visible macro's extra model turn at equal 12/12 quality.\nThat result is post-study and one-family: the best equally pre-executed manual comparator remains untested.",
+    "The efficiency win is real but narrow: partial GRC removes model turns, not source reads.\nManual composition beats partial GRC; when both execute before request one, manual and GCS tie structurally at 6/6 exact quality.\nBounded official GEPA retains its seed. The contribution is guarded automatic specialization—not runtime dominance.",
   );
   replaceUnique(
     presentation,
@@ -320,7 +343,7 @@ function updateTechnical(presentation, rows) {
   replaceUnique(
     presentation,
     "Four GitHub protocols on a pinned snapshot",
-    "Five GitHub protocols on a pinned snapshot, including the fresh GCS/macro comparison",
+    "Six GitHub protocols on a pinned snapshot, including fair manual placement and bounded GEPA",
   );
 
   const macroSlide = presentation.slides.getItem(17);
@@ -337,12 +360,12 @@ function updateTechnical(presentation, rows) {
   replaceStartingWith(
     presentation,
     "No perturbation challenge ran on the live artifact",
-    "No perturbation challenge ran on the primary live artifact\nGCS is exploratory evidence from one workflow family\nNo equally pre-executed manual-macro arm was tested\nDiscovery is costly; risk is artifact-specific",
+    "No perturbation challenge ran on the primary live artifact\nFair placement / GEPA has only six held-out cases\nAWO · Agent JIT · EvoC2F remain unexecuted\nDiscovery is costly; risk is artifact-specific",
   );
   replaceUnique(
     presentation,
     "Where a stable read set is known, a hand-written composite tool wins on tokens and dollars. Compilation earns its cost where which reads to make is itself the recurrent structure, or where the region branches.",
-    "Manual composition beats partial GRC on the stable workflow. GCS then beats the measured provider-visible macro by moving the admitted program before request one; an equally pre-executed manual macro remains the required comparator.",
+    "Manual composition beats partial GRC on the stable workflow. At equal pre-model placement, manual and GCS tie requests, interfaces, input tokens, and exact quality. Automatic guarded discovery—not runtime dominance—is the remaining value claim.",
   );
   renumberPages(presentation);
 }
@@ -376,15 +399,17 @@ async function main() {
   const mapPath = path.join(PAPER, "slides/gac-template-map.json");
   const gcsPath = path.join(PAPER, "results/gcs_live/results.json");
   const replayPath = path.join(PAPER, "results/gcs_validation/provider_free.json");
-  const [map, gcs, replay, artifact] = await Promise.all([
+  const optimizerPath = path.join(PAPER, "results/optimizer_head_to_head/results.json");
+  const [map, gcs, replay, optimizer, artifact] = await Promise.all([
     readJson(mapPath),
     readJson(gcsPath),
     readJson(replayPath),
+    readJson(optimizerPath),
     loadArtifactTool(artifactWorkspace),
   ]);
   assertEqual(map.schema, "agent-compaction-slide-template-map/v1", "slide map schema");
-  validateEvidence(gcs, replay);
-  const rows = metricRows(gcs);
+  validateEvidence(gcs, replay, optimizer);
+  const rows = metricRows(optimizer);
   const seminar = map.templates.seminar;
   const technical = map.templates.technical;
   const outputs = {};
@@ -413,6 +438,7 @@ async function main() {
     evidence: {
       gcs_live: { path: "paper/results/gcs_live/results.json", sha256: await sha256(gcsPath) },
       gcs_replay: { path: "paper/results/gcs_validation/provider_free.json", sha256: await sha256(replayPath) },
+      optimizer_head_to_head: { path: "paper/results/optimizer_head_to_head/results.json", sha256: await sha256(optimizerPath) },
     },
     templates: {
       seminar: { path: seminar.path, sha256: seminar.sha256, source_slides: seminar.source_slides },
@@ -423,7 +449,7 @@ async function main() {
       seminar: seminar.source_slide_for_output,
       technical: technical.source_slide_for_output,
     },
-    evidence_boundary: "Post-study exploratory result on one workflow family; no equally pre-executed manual-macro comparator.",
+    evidence_boundary: "Exploratory six-case fair-placement and bounded-GEPA result; structural manual parity, seed retained, no cross-family superiority.",
   };
   const manifestPath = path.join(PAPER, "results/slide_generation.json");
   await fs.writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
