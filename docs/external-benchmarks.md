@@ -1,9 +1,11 @@
-# External benchmark integration
+# Supplementary external-benchmark interoperability audit
 
-The repository now gives every requested benchmark family a concrete, reproducible
-disposition. The integrations do not collapse unlike evidence into one score: task-only
-data, gold plans, recorded traces, simulators, live-web tasks, and real software issues
-answer different questions.
+This material is an interoperability ledger, not the paper's primary optimizer
+comparison. Only NESTFUL and API-Bank retain complete observed intermediate values and
+appear in the main trace-compiler evaluation. The remaining benchmark work is preserved
+here because it verifies sources, adapters, official checkers, or explicit execution
+gates; it does not demonstrate compaction value and is never pooled with the three
+real-record GitHub workflow families.
 
 ## Result ledger
 

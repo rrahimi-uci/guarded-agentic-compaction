@@ -106,7 +106,7 @@ function renumberPages(presentation) {
   }
 }
 
-function validateEvidence(gcs, replay, optimizer, external) {
+function validateEvidence(gcs, replay, optimizer, external, families) {
   assertEqual(gcs.schema, "agent-compaction-gcs-live-study/v1", "GCS schema");
   assertEqual(gcs.run.provider_backed, true, "GCS provider-backed flag");
   assertEqual(gcs.run.real_public_records, true, "GCS real-record flag");
@@ -161,45 +161,74 @@ function validateEvidence(gcs, replay, optimizer, external) {
   assertEqual(external.benchmarks.api_bank.execution.held_out_wrong, 0, "API-Bank held-out wrong");
   assertEqual(external.benchmarks.tau2.execution.passed, 0, "tau bounded passes");
   assertEqual(external.benchmarks.browsecomp.execution.correct, 1, "BrowseComp bounded correct");
+  assertEqual(families.schema, "agent-compaction-github-workflow-family-summary/v1", "workflow-family schema");
+  assertEqual(families.simulated, false, "workflow-family simulation flag");
+  assertEqual(families.overall.n, 90, "workflow-family held-out cases");
+  assertEqual(families.overall.baseline_exact, 89, "workflow-family baseline exact");
+  assertEqual(families.overall.compiled_exact, 90, "workflow-family compiled exact");
+  assertEqual(families.overall.manual_exact, 90, "workflow-family manual exact");
+  const familyReductions = {
+    requests: 0.6657381615598885,
+    tool_calls: 0.4423791821561338,
+    total_tokens: 0.630649830153015,
+    wall_latency_ms: 0.6421234029412591,
+    estimated_cost_usd: 0.5867086898399436,
+  };
+  for (const [metric, reduction] of Object.entries(familyReductions)) {
+    assertClose(families.overall[metric].reduction, reduction, `workflow-family ${metric} reduction`);
+  }
 }
 
-function editExternalBenchmarkSlide(slide, external, mode) {
-  const api = external.benchmarks.api_bank.execution;
+function editWorkflowFamilySlide(slide, families, mode) {
   const seminar = mode === "seminar";
   setShapeText(slide, 2, seminar
-    ? "RESULTS  ·  RQ6  ·  10 BENCHMARK FAMILIES"
-    : "RESULT 2  ·  RQ6  ·  ALL-SOURCE AUDIT");
-  setShapeText(slide, 3, "Two compiler corpora recur; neither reaches admission");
+    ? "RESULTS  ·  RQ6  ·  3 REAL WORKFLOW FAMILIES"
+    : "RESULT 2  ·  RQ6  ·  WORKFLOW-FAMILY TRANSFER");
+  setShapeText(slide, 3, "Efficiency transfers; manual programs remain the runtime baseline");
   setShapeText(
     slide,
     4,
     seminar
-      ? `The common IR screens ${external.totals.screened_tasks.toLocaleString()} tasks and ${external.totals.screened_reference_actions.toLocaleString()} reference actions across eight accessible task sources.\nAPI-Bank is the only additional complete-trace corpus: ${api.tasks} tasks yield ${api.candidate_windows} candidate windows; ${api.families_synthesized} families synthesize.\nHeld-out replay gives ${api.held_out_passed} pass / ${api.held_out_abstained} abstain / ${api.held_out_wrong} wrong. Maximum support is 8 versus 92 required, so every family retires.`
-      : `Eight accessible task adapters cover ${external.totals.screened_tasks.toLocaleString()} tasks and ${external.totals.screened_reference_actions.toLocaleString()} actions. API-Bank is the only additional complete-trace corpus: ${api.tasks} tasks, ${api.candidate_windows} candidate windows, and ${api.families_synthesized} synthesized families.\nIts held-out result is ${api.held_out_passed} pass / ${api.held_out_abstained} abstain / ${api.held_out_wrong} wrong; maximum support is 8 versus 92 required.\nBFCL checks 200/200 gold plans; ToolSandbox scores 0.982; tau passes 0/4; BrowseComp scores 1/3. These are unlike evidence classes, not a pooled score.`,
+      ? "Three distinct decisions and tool vocabularies use 132 balanced discovery records and 30 disjoint held-out records each.\nCompiled programs preserve 90/90 exact outcomes versus 89/90 baseline while cutting requests 66.6%, tokens 63.1%, observed latency 64.2%, and estimated cost 58.7% in aggregate.\nHand-written programs also reach 90/90; automatic discovery and lifecycle—not runtime dominance—are the contribution."
+      : "Issue-type routing, PR-outcome audit, and backlog-attention routing use distinct tools and exact graders over one pinned public snapshot.\nCompiled programs reach 90/90 exact outcomes versus 89/90 baseline. Weighted reductions: requests 66.6%, visible interfaces 44.2%, tokens 63.1%, observed latency 64.2%, and cost 58.7%.\nManual programs also reach 90/90, so the learned result is transfer and automation—not runtime superiority.",
   );
   setShapeText(
     slide,
     6,
-    "Breadth does not rescue admission. NESTFUL's maximum support of 26 is already the upper bar shown here; API-Bank reaches only 8. The new corpus independently supports refusal, while task-only, simulated, hosted, and gated paths stay in their own evidence classes.",
+    "The two new families compile verified three-read pre-model programs; the original issue family retains its conservative two-read prefix. The study changes decision and tools, but not repository or time: cross-repository and time-forward transfer remain open.",
   );
+  const chart = slide.charts.items[0];
+  if (!chart || chart.series.length !== 1) {
+    throw new Error(`${mode} workflow-family slide: expected inherited one-series chart`);
+  }
+  const tokenReductions = families.families.map((row) => Number((100 * row.reductions.total_tokens).toFixed(1)));
+  const categories = ["Issue type", "PR outcome", "Backlog attention"];
+  chart.title = "Token reduction by workflow family";
+  chart.categories = categories;
+  chart.series.getItemAt(0).name = "Token reduction (%)";
+  chart.series.getItemAt(0).categories = categories;
+  chart.series.getItemAt(0).values = tokenReductions;
+  chart.yAxis.min = 0;
+  chart.yAxis.max = 100;
+  chart.yAxis.numberFormatCode = "0\\%";
   if (seminar) {
-    setShapeText(slide, 7, "10-BENCHMARK LEDGER — EXECUTION DEPTHS ARE NOT POOLED");
+    setShapeText(slide, 7, "90 HELD-OUT PUBLIC RECORDS — LIVE PROVIDER — NO SIMULATION");
     const metrics = [
-      [9, "5,419"], [10, "screened tasks"],
-      [12, "17,836"], [13, "reference actions"],
-      [15, "212"], [16, "API-Bank complete traces"],
-      [18, "2 / 8"], [19, "synthesized / max support"],
-      [21, "0 / 2 / 0"], [22, "pass / abstain / wrong"],
-      [24, "0"], [25, "new certifiable families"],
-      [27, "5 / 3"], [28, "executed / live-provider paths"],
+      [9, "3"], [10, "workflow families"],
+      [12, "90 / 90"], [13, "compiled / manual exact"],
+      [15, "89 / 90"], [16, "baseline exact"],
+      [18, "−66.6%"], [19, "provider requests"],
+      [21, "−63.1%"], [22, "total tokens"],
+      [24, "−64.2%"], [25, "observed latency"],
+      [27, "−58.7%"], [28, "estimated cost"],
     ];
     for (const [index, value] of metrics) setShapeText(slide, index, value);
   } else {
     const metrics = [
-      [8, "5,419 / 17,836"], [9, "screened tasks / reference actions"],
-      [11, "212 / 389"], [12, "API-Bank traces / observed calls"],
-      [14, "0 / 2 / 0"], [15, "held-out pass / abstain / wrong"],
-      [17, "0"], [18, "new certifiable families"],
+      [8, "89 → 90 / 90"], [9, "baseline → compiled exact"],
+      [11, "−66.6 / −63.1%"], [12, "requests / total tokens"],
+      [14, "−64.2 / −58.7%"], [15, "latency / estimated cost"],
+      [17, "90 / 90"], [18, "manual exact; no runtime dominance"],
     ];
     for (const [index, value] of metrics) setShapeText(slide, index, value);
   }
@@ -283,21 +312,21 @@ function editGcsSlide(slide, rows, mode) {
   table.setValues(rows);
 }
 
-function updateSeminar(presentation, rows, external) {
+function updateSeminar(presentation, rows, families) {
   const cover = presentation.slides.getItem(0);
   setShapeText(cover, 5, "Guarded agentic compaction. Traces establish recurrence, not admissibility. We specify the evidence a compiler needs, the barriers it must respect, and the limits its evidence retains.");
-  setShapeText(cover, 7, "Benchmarks");
-  setShapeText(cover, 8, "10 families\nall explicit dispositions");
-  setShapeText(cover, 10, "6 live protocols on a\npinned public snapshot");
+  setShapeText(cover, 7, "Real workflows");
+  setShapeText(cover, 8, "3 families\n90 held-out records");
+  setShapeText(cover, 10, "Live provider calls on a\npinned public snapshot");
   replaceUnique(
     presentation,
     "On an unseen real-record workload, how does a learned compiled prefix trade factual quality against requests, tokens, latency, and cost — relative to an unchanged agent and a hand-written composite tool?",
-    "On unseen real records, how do a compiled prefix, a hand-written composite, and guarded composite synthesis trade factual quality against requests, tokens, latency, and cost?",
+    "Across distinct real-record workflow families, do guarded programs preserve exact outcomes while reducing requests, tokens, latency, and cost—and how do they compare with fair manual programs?",
   );
   replaceUnique(
     presentation,
     "A trace-to-program formulation combining typed value provenance, effect-aware barriers, a closed synthesis language, empirical contracts, and runtime fallback\nA dispatch protocol whose score is frozen before calibration and whose fixed threshold grid receives a simultaneous one-sided exact binomial bound\nA real-provider, real-public-record study in which the agent chooses tool order and quality is graded independently of execution conformance\nAn external NESTFUL study reporting provenance success, synthesis abstention, and a useful negative result\nA framework-neutral transformation portfolio over measured actions only",
-    "A trace-to-program formulation combining typed value provenance, effect-aware barriers, a closed synthesis language, empirical contracts, and runtime fallback\nA dispatch protocol whose score is frozen before calibration and whose fixed threshold grid receives a simultaneous one-sided exact binomial bound\nA real-provider, real-public-record study in which the agent chooses tool order and quality is graded independently of execution conformance\nA ten-benchmark interoperability audit with two compiler substrates, explicit gates, and no pooled score\nA measured-action portfolio plus guarded composite synthesis over an already admitted read program",
+    "A trace-to-program formulation combining typed value provenance, effect-aware barriers, a closed synthesis language, empirical contracts, and runtime fallback\nA dispatch protocol whose score is frozen before calibration and whose fixed threshold grid receives a simultaneous one-sided exact binomial bound\nA 90-case real-provider study spanning three decisions, tool vocabularies, and exact graders\nAn identifier-aware contract refinement derived from an archived failed pilot\nNESTFUL and API-Bank refusal evidence plus a supplementary interoperability ledger",
   );
   replaceUnique(
     presentation,
@@ -312,12 +341,12 @@ function updateSeminar(presentation, rows, external) {
   replaceUnique(
     presentation,
     "Four GitHub protocols on a pinned 12.7 MB Apache-2.0 snapshot",
-    "Six GitHub protocols on a pinned snapshot, including fair manual placement and bounded GEPA",
+    "Three primary GitHub workflow families plus scoped ablations on a pinned snapshot",
   );
 
-  const externalSlide = presentation.slides.getItem(16).duplicate();
-  externalSlide.setIndex(17);
-  editExternalBenchmarkSlide(externalSlide, external, "seminar");
+  const familySlide = presentation.slides.getItem(16).duplicate();
+  familySlide.setIndex(17);
+  editWorkflowFamilySlide(familySlide, families, "seminar");
 
   const macroSlide = presentation.slides.getItem(21);
   setShapeText(macroSlide, 3, "Manual composition is the stronger pre-GCS fixed-workflow baseline");
@@ -355,16 +384,16 @@ function updateSeminar(presentation, rows, external) {
   replaceUnique(
     presentation,
     "Next scientific threshold: a multi-family, time-forward comparison that includes cache economics, construction and maintenance effort, drift, and closer learned optimizers.",
-    "Next scientific threshold: preregistered multi-family, time-forward comparison with engineering effort, cache economics, drift, and executable AWO / Agent JIT / EvoC2F baselines.",
+    "Next scientific threshold: preregistered cross-repository, time-forward comparison with engineering effort, cache economics, drift, and executable AWO / Agent JIT / EvoC2F baselines.",
   );
   renumberPages(presentation);
 }
 
-function updateTechnical(presentation, rows, external) {
+function updateTechnical(presentation, rows, families) {
   const cover = presentation.slides.getItem(0);
-  setShapeText(cover, 6, "10");
-  setShapeText(cover, 7, "public benchmark families with explicit dispositions");
-  setShapeText(cover, 8, "6");
+  setShapeText(cover, 6, "3");
+  setShapeText(cover, 7, "real workflow families with distinct tools and graders");
+  setShapeText(cover, 8, "90");
   replaceUnique(
     presentation,
     "The efficiency win is real but narrow: it removes redundant model turns on a read-only prefix — it does not remove the tool calls that gather evidence.\nA hand-written composite tool matched or beat the learned compiler on most workloads. Compilation earns its complexity on branching or changing workflows, not on stable ones.\nThe paper reports four negative results of its own: efficiency gains establish neither factual quality, nor superiority over hand-written code, nor portfolio superiority, nor admission safety.",
@@ -373,7 +402,7 @@ function updateTechnical(presentation, rows, external) {
   replaceUnique(
     presentation,
     "On unseen real records, how does a compiled prefix trade factual quality against requests, tokens, latency, and cost?",
-    "On unseen real records, how do partial GRC, manual composition, and GCS trade factual quality against requests, tokens, latency, and cost?",
+    "Across distinct real-record workflows, do guarded programs preserve exact outcomes while reducing requests, tokens, latency, and cost?",
   );
   replaceUnique(
     presentation,
@@ -398,12 +427,12 @@ function updateTechnical(presentation, rows, external) {
   replaceUnique(
     presentation,
     "Four GitHub protocols on a pinned snapshot",
-    "Six GitHub protocols on a pinned snapshot, including fair manual placement and bounded GEPA",
+    "Three primary GitHub workflow families plus scoped ablations on a pinned snapshot",
   );
 
-  const externalSlide = presentation.slides.getItem(13).duplicate();
-  externalSlide.setIndex(14);
-  editExternalBenchmarkSlide(externalSlide, external, "technical");
+  const familySlide = presentation.slides.getItem(13).duplicate();
+  familySlide.setIndex(14);
+  editWorkflowFamilySlide(familySlide, families, "technical");
 
   const macroSlide = presentation.slides.getItem(18);
   setShapeText(macroSlide, 3, "Before GCS, the hand macro is the stronger fixed-workflow baseline");
@@ -429,13 +458,13 @@ function updateTechnical(presentation, rows, external) {
   renumberPages(presentation);
 }
 
-async function buildDeck({ artifact, templatePath, outputPath, expectedHash, expectedSlides, mode, rows, external }) {
+async function buildDeck({ artifact, templatePath, outputPath, expectedHash, expectedSlides, mode, rows, families }) {
   assertEqual(await sha256(templatePath), expectedHash, `${mode} template hash`);
   const { FileBlob, PresentationFile } = artifact;
   const presentation = await PresentationFile.importPptx(await FileBlob.load(templatePath));
   assertEqual(presentation.slides.count, expectedSlides, `${mode} source slide count`);
-  if (mode === "seminar") updateSeminar(presentation, rows, external);
-  else updateTechnical(presentation, rows, external);
+  if (mode === "seminar") updateSeminar(presentation, rows, families);
+  else updateTechnical(presentation, rows, families);
   const expectedOutputSlides = mode === "seminar" ? 27 : 23;
   assertEqual(presentation.slides.count, expectedOutputSlides, `${mode} output slide count`);
   await fs.mkdir(path.dirname(outputPath), { recursive: true });
@@ -460,16 +489,18 @@ async function main() {
   const replayPath = path.join(PAPER, "results/gcs_validation/provider_free.json");
   const optimizerPath = path.join(PAPER, "results/optimizer_head_to_head/results.json");
   const externalPath = path.join(PAPER, "results/external_benchmarks/reference_analysis.json");
-  const [map, gcs, replay, optimizer, external, artifact] = await Promise.all([
+  const familiesPath = path.join(PAPER, "results/github_workflow_families/summary.json");
+  const [map, gcs, replay, optimizer, external, families, artifact] = await Promise.all([
     readJson(mapPath),
     readJson(gcsPath),
     readJson(replayPath),
     readJson(optimizerPath),
     readJson(externalPath),
+    readJson(familiesPath),
     loadArtifactTool(artifactWorkspace),
   ]);
   assertEqual(map.schema, "agent-compaction-slide-template-map/v1", "slide map schema");
-  validateEvidence(gcs, replay, optimizer, external);
+  validateEvidence(gcs, replay, optimizer, external, families);
   const rows = metricRows(optimizer);
   const seminar = map.templates.seminar;
   const technical = map.templates.technical;
@@ -482,7 +513,7 @@ async function main() {
     expectedSlides: seminar.source_slides,
     mode: "seminar",
     rows,
-    external,
+    families,
   });
   outputs.technical = await buildDeck({
     artifact,
@@ -492,7 +523,7 @@ async function main() {
     expectedSlides: technical.source_slides,
     mode: "technical",
     rows,
-    external,
+    families,
   });
   const manifest = {
     schema: "agent-compaction-slide-generation/v1",
@@ -503,6 +534,7 @@ async function main() {
       gcs_replay: { path: "paper/results/gcs_validation/provider_free.json", sha256: await sha256(replayPath) },
       optimizer_head_to_head: { path: "paper/results/optimizer_head_to_head/results.json", sha256: await sha256(optimizerPath) },
       external_benchmarks: { path: "paper/results/external_benchmarks/reference_analysis.json", sha256: await sha256(externalPath) },
+      github_workflow_families: { path: "paper/results/github_workflow_families/summary.json", sha256: await sha256(familiesPath) },
     },
     templates: {
       seminar: { path: seminar.path, sha256: seminar.sha256, source_slides: seminar.source_slides },
@@ -513,7 +545,7 @@ async function main() {
       seminar: seminar.source_slide_for_output,
       technical: technical.source_slide_for_output,
     },
-    evidence_boundary: "Ten benchmark families have explicit but unlike dispositions; API-Bank is the only additional compiler corpus and retires all families. Simulated/live subsets are not real-world demos or pooled scores. The fair-placement/GEPA result remains exploratory and single-family.",
+    evidence_boundary: "Three real-record workflow families support the primary transfer result: compiled 90/90, baseline 89/90, manual 90/90. The snapshot does not establish cross-repository or time-forward transfer. NESTFUL and API-Bank remain refusal evidence; eight other benchmark paths are supplementary interoperability audits.",
   };
   const manifestPath = path.join(PAPER, "results/slide_generation.json");
   await fs.writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");

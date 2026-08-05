@@ -7,10 +7,10 @@ user-provided GAC slide libraries rather than rebuilding their visual system fro
 - `GAC-technical-review.pptx`: 21-slide dark-teal engineering-review template.
 
 `gac-template-map.json` binds every generated slide to a source slide. The generator keeps
-all source slides, duplicates the NESTFUL evidence frame for the all-source/API-Bank
-refusal result, and duplicates the comparator frame for the fair-placement and bounded-GEPA
-result. It verifies both source-template hashes, the all-source evidence matrix, the GCS
-replay, and the live optimizer evidence schema before writing output.
+all source slides, duplicates the evidence frame for the three-workflow-family result, and
+duplicates the comparator frame for the fair-placement and bounded-GEPA result. It verifies
+both source-template hashes, the checked 90-case family summary, the supplementary external
+matrix, the GCS replay, and the live optimizer evidence schema before writing output.
 
 ## Generate
 
@@ -37,9 +37,9 @@ official GEPA retains its seed after a bounded live search. The 59-request optim
 is separate from deployment. The slide claims neither cross-family superiority nor a
 general failure of GEPA.
 
-The inserted all-source slide is also deliberately non-pooled. It reports ten named
-benchmark families with explicit dispositions, but only NESTFUL and API-Bank execute the
-compiler. BFCL, ToolSandbox, tau2/tau3, and BrowseComp retain their official checker or
-live-provider outcomes as separate evidence classes; AgentBench, ToolBench, GAIA, and
-SWE-bench retain their infrastructure, authorization, data, or host gates. No public
-simulator result is labeled a real-world demonstration.
+The inserted primary-evidence slide reports three distinct real-record workflow families:
+compiled and manual programs reach 90/90 exact outcomes versus 89/90 baseline, with
+weighted request, token, latency, and cost reductions bound to the source JSON. Its native
+editable chart shows per-family token reduction. It explicitly limits transfer to one
+repository snapshot and states that fair manual programs remain the runtime baseline.
+NESTFUL/API-Bank refusal and the eight other benchmark dispositions remain supplementary.

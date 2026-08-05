@@ -1,0 +1,741 @@
+{
+  "name": "paper-github-backlog_attention",
+  "kill_switch": false,
+  "active_stages": [
+    "active"
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "cand-00-99f1b041ed7c",
+      "name": "backlog_get_record.backlog_get_ownership.region@99f1b041",
+      "kind": "grc",
+      "version": 1,
+      "program": {
+        "theta": [
+          "record_number"
+        ],
+        "steps": [
+          {
+            "kind": "call",
+            "var": "back",
+            "tool": "backlog_get_record",
+            "args": {
+              "record_number": {
+                "kind": "expr",
+                "source": "z.record_number",
+                "ops": []
+              }
+            },
+            "when": null,
+            "schema_version": null
+          },
+          {
+            "kind": "call",
+            "var": "back2",
+            "tool": "backlog_get_ownership",
+            "args": {
+              "record_number": {
+                "kind": "expr",
+                "source": "back.record_number",
+                "ops": []
+              }
+            },
+            "when": null,
+            "schema_version": null
+          },
+          {
+            "kind": "call",
+            "var": "back3",
+            "tool": "backlog_get_discussion",
+            "args": {
+              "limit": {
+                "kind": "const",
+                "value": 3
+              },
+              "record_number": {
+                "kind": "expr",
+                "source": "back.record_number",
+                "ops": []
+              }
+            },
+            "when": null,
+            "schema_version": null
+          }
+        ],
+        "outputs": {
+          "back": {
+            "kind": "expr",
+            "source": "back",
+            "ops": []
+          },
+          "back2": {
+            "kind": "expr",
+            "source": "back2",
+            "ops": []
+          },
+          "back3": {
+            "kind": "expr",
+            "source": "back3",
+            "ops": []
+          }
+        },
+        "library_version": "T-v1",
+        "removed_requests": 3.0,
+        "tools": [
+          "backlog_get_record",
+          "backlog_get_ownership",
+          "backlog_get_discussion"
+        ],
+        "composite": {
+          "name": "compiled_backlog_get_record_b4b504db32",
+          "description": "Guarded composite synthesized from a verified recurrent read program.",
+          "inputs": [
+            "record_number"
+          ],
+          "projection": {
+            "assignees": {
+              "kind": "expr",
+              "source": "back2.assignees",
+              "ops": []
+            },
+            "comments": {
+              "kind": "expr",
+              "source": "back3.comments",
+              "ops": []
+            },
+            "record_number": {
+              "kind": "expr",
+              "source": "back.record_number",
+              "ops": []
+            },
+            "source_revision": {
+              "kind": "expr",
+              "source": "back.source_revision",
+              "ops": []
+            },
+            "state": {
+              "kind": "expr",
+              "source": "back.state",
+              "ops": []
+            },
+            "title": {
+              "kind": "expr",
+              "source": "back.title",
+              "ops": []
+            }
+          },
+          "internal_tools": [
+            "backlog_get_record",
+            "backlog_get_ownership",
+            "backlog_get_discussion"
+          ],
+          "pre_model": true,
+          "continuation_compatibility_key": "76221f80b95ce49e",
+          "schema_version": 1
+        }
+      },
+      "route": null,
+      "guard": {
+        "manifest_pins": {
+          "model": "gpt-5.6-luna",
+          "prompt_hash": "#f7edcded",
+          "tools_hash": "#33bf130e",
+          "policy_hash": "#c888c9d9",
+          "guardrail_hash": "#a9614876",
+          "effect_catalog_version": "github-backlog_attention-pinned-reads@1#59929859e6b14cf5",
+          "entry_contract_version": "github-backlog_attention-record-number-v1"
+        },
+        "isolation": {},
+        "clauses": [
+          {
+            "path": "z.record_number",
+            "type_name": "int",
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "required": true,
+            "role": "hull"
+          }
+        ],
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "required_capabilities": [
+          "speculatable",
+          "replayable"
+        ]
+      },
+      "verifier": {
+        "clauses": [
+          {
+            "name": "back",
+            "type_name": "dict",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "backlog_get_record"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "back.record_number",
+            "type_name": "int",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "backlog_get_record"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "back.source_revision",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "e344be7b84d199661a9956036991e1fc25715a47"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "backlog_get_record"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "back.state",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "open"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "backlog_get_record"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "back.title",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "backlog_get_record"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "back2",
+            "type_name": "dict",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "backlog_get_ownership"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "back2.assignees",
+            "type_name": "list",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": 1,
+            "min_len": 0,
+            "provenance": [
+              "backlog_get_ownership"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "back2.record_number",
+            "type_name": "int",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "backlog_get_ownership"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "back2.source_revision",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "e344be7b84d199661a9956036991e1fc25715a47"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "backlog_get_ownership"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "back3",
+            "type_name": "dict",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "backlog_get_discussion"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "back3.comments",
+            "type_name": "list",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": 3,
+            "min_len": 0,
+            "provenance": [
+              "backlog_get_discussion"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "back3.record_number",
+            "type_name": "int",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "backlog_get_discussion"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "back3.source_revision",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "e344be7b84d199661a9956036991e1fc25715a47"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "backlog_get_discussion"
+            ],
+            "present_iff": null
+          }
+        ],
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "call_counts": [
+          3
+        ]
+      },
+      "gate": {
+        "model": {
+          "features": [
+            "unseen_category",
+            "knn_distance",
+            "missing_optional",
+            "hull_margin",
+            "drift_days",
+            "provenance_ambiguity",
+            "branch_entropy"
+          ],
+          "weights": [
+            0.0,
+            0.0,
+            0.0,
+            1.4388216677811414,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "bias": -0.51909451898329,
+          "feature_means": [
+            0.0,
+            0.0,
+            0.0,
+            0.25,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "feature_scales": [
+            1.0,
+            1.0,
+            1.0,
+            0.25,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "features_spec": {
+          "paths": [
+            "z.record_number"
+          ],
+          "hull_kinds": {
+            "z.record_number": "any"
+          },
+          "categories": {},
+          "numeric_ranges": {},
+          "patterns": {},
+          "max_day": "2024-12-03",
+          "provenance_ambiguity": 1.0,
+          "branch_entropy": 0.0
+        },
+        "threshold": 0.5,
+        "grid": [
+          0.02,
+          0.05,
+          0.08,
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "alpha": 0.05,
+        "delta": 0.1,
+        "n_calibration_groups": 92,
+        "n_accepted": 92,
+        "observed_violations": 0,
+        "risk_upper_bound": 0.049808920112407784,
+        "coverage": 1.0,
+        "admissible": [
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "retire": false,
+        "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.17, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.2, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.25, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.3, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.4, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.5, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}]"
+      },
+      "manifest": {
+        "manifest_id": "81948855669c",
+        "commit": "workspace-without-git-metadata",
+        "model": "gpt-5.6-luna",
+        "prompt_hash": "#f7edcded",
+        "tools_hash": "#33bf130e",
+        "policy_hash": "#c888c9d9",
+        "guardrail_hash": "#a9614876",
+        "effect_catalog_version": "github-backlog_attention-pinned-reads@1#59929859e6b14cf5",
+        "entry_contract_version": "github-backlog_attention-record-number-v1",
+        "sdk_version": "0.19.2",
+        "tracer_version": "agent-compaction/0.6.0"
+      },
+      "compatibility_key": "81948855669c5a93",
+      "partition": {},
+      "evidence": {
+        "support_groups": 16,
+        "total_groups": 16,
+        "support_principals": 1,
+        "support_days": 108,
+        "removed_requests": 3.0,
+        "split_ids": {
+          "train": [
+            "github-backlog_attention:2654",
+            "github-backlog_attention:2962",
+            "github-backlog_attention:3583",
+            "github-backlog_attention:3628",
+            "github-backlog_attention:3978",
+            "github-backlog_attention:4875",
+            "github-backlog_attention:4976",
+            "github-backlog_attention:5345",
+            "github-backlog_attention:5648",
+            "github-backlog_attention:5877",
+            "github-backlog_attention:6495",
+            "github-backlog_attention:6882",
+            "github-backlog_attention:7190",
+            "github-backlog_attention:7210",
+            "github-backlog_attention:7299",
+            "github-backlog_attention:7305"
+          ],
+          "dev": [
+            "github-backlog_attention:2845",
+            "github-backlog_attention:3888",
+            "github-backlog_attention:5806",
+            "github-backlog_attention:6655",
+            "github-backlog_attention:6847",
+            "github-backlog_attention:6853",
+            "github-backlog_attention:6907",
+            "github-backlog_attention:7248"
+          ],
+          "calibration": [
+            "github-backlog_attention:161",
+            "github-backlog_attention:1810",
+            "github-backlog_attention:1863",
+            "github-backlog_attention:2224",
+            "github-backlog_attention:2236",
+            "github-backlog_attention:2378",
+            "github-backlog_attention:2480",
+            "github-backlog_attention:2699",
+            "github-backlog_attention:2719",
+            "github-backlog_attention:2736",
+            "github-backlog_attention:2772",
+            "github-backlog_attention:2850",
+            "github-backlog_attention:3034",
+            "github-backlog_attention:3035",
+            "github-backlog_attention:3105",
+            "github-backlog_attention:3139",
+            "github-backlog_attention:3284",
+            "github-backlog_attention:3425",
+            "github-backlog_attention:3444",
+            "github-backlog_attention:3544",
+            "github-backlog_attention:3577",
+            "github-backlog_attention:3638",
+            "github-backlog_attention:3649",
+            "github-backlog_attention:3804",
+            "github-backlog_attention:4101",
+            "github-backlog_attention:4163",
+            "github-backlog_attention:4275",
+            "github-backlog_attention:4456",
+            "github-backlog_attention:4522",
+            "github-backlog_attention:4571",
+            "github-backlog_attention:4637",
+            "github-backlog_attention:4709",
+            "github-backlog_attention:4796",
+            "github-backlog_attention:4859",
+            "github-backlog_attention:4873",
+            "github-backlog_attention:4881",
+            "github-backlog_attention:4910",
+            "github-backlog_attention:4915",
+            "github-backlog_attention:5114",
+            "github-backlog_attention:5151",
+            "github-backlog_attention:5165",
+            "github-backlog_attention:5260",
+            "github-backlog_attention:5273",
+            "github-backlog_attention:5315",
+            "github-backlog_attention:532",
+            "github-backlog_attention:5354",
+            "github-backlog_attention:5371",
+            "github-backlog_attention:5507",
+            "github-backlog_attention:5534",
+            "github-backlog_attention:5637",
+            "github-backlog_attention:5717",
+            "github-backlog_attention:5721",
+            "github-backlog_attention:5736",
+            "github-backlog_attention:5759",
+            "github-backlog_attention:5760",
+            "github-backlog_attention:5761",
+            "github-backlog_attention:5773",
+            "github-backlog_attention:5844",
+            "github-backlog_attention:5878",
+            "github-backlog_attention:5926",
+            "github-backlog_attention:6003",
+            "github-backlog_attention:6152",
+            "github-backlog_attention:6388",
+            "github-backlog_attention:6447",
+            "github-backlog_attention:651",
+            "github-backlog_attention:6561",
+            "github-backlog_attention:6600",
+            "github-backlog_attention:6640",
+            "github-backlog_attention:6759",
+            "github-backlog_attention:6769",
+            "github-backlog_attention:6774",
+            "github-backlog_attention:6827",
+            "github-backlog_attention:6880",
+            "github-backlog_attention:6886",
+            "github-backlog_attention:6937",
+            "github-backlog_attention:7066",
+            "github-backlog_attention:7164",
+            "github-backlog_attention:7220",
+            "github-backlog_attention:7282",
+            "github-backlog_attention:7321",
+            "github-backlog_attention:7390",
+            "github-backlog_attention:7419",
+            "github-backlog_attention:7479",
+            "github-backlog_attention:7526",
+            "github-backlog_attention:7527",
+            "github-backlog_attention:7545",
+            "github-backlog_attention:7580",
+            "github-backlog_attention:7590",
+            "github-backlog_attention:7600",
+            "github-backlog_attention:7611",
+            "github-backlog_attention:842",
+            "github-backlog_attention:878"
+          ]
+        },
+        "replay": {
+          "n": 8,
+          "passed": 8,
+          "abstained": 0,
+          "wrong": 0,
+          "effect_mismatch": 0,
+          "state_delta": 0,
+          "pass_rate": 1.0,
+          "reasons": {}
+        },
+        "perturbation": {},
+        "counterexamples": [],
+        "metrics": {
+          "sandbox": {
+            "n": 0,
+            "passed": 0,
+            "abstained": 0,
+            "wrong": 0,
+            "effect_mismatch": 0,
+            "state_delta": 0,
+            "pass_rate": 0.0,
+            "reasons": {}
+          },
+          "perturbations_claimed": false,
+          "branch": "none",
+          "branch_permutation_p": null,
+          "branch_alternatives": 0,
+          "n_alternative_bindings": 99,
+          "composite": "synthesized",
+          "composite_name": "compiled_backlog_get_record_b4b504db32",
+          "gate_grid": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0",
+          "var_names": [
+            "back",
+            "back2",
+            "back3"
+          ],
+          "dev_windows_evaluated": 8,
+          "calibration_windows_evaluated": 92
+        },
+        "rejection_reasons": [],
+        "fallback_reasons": {},
+        "dataset_digest": "f6a22d6c8895ee87",
+        "notes": "substrate and evidence are recorded in the run manifest"
+      },
+      "lifecycle": "active",
+      "owner": "paper-github-backlog_attention-study",
+      "approved_by": "paper-family-protocol-lab-only",
+      "expiry_day": null,
+      "rollback_target": null,
+      "monitoring": {
+        "min_verifier_pass_rate": 0.9,
+        "max_unsafe_dispatch": 0.05,
+        "expected_coverage": 1.0
+      },
+      "signature": ""
+    }
+  ]
+}

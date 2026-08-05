@@ -1289,6 +1289,7 @@ def validate_publication() -> None:
         "supplementary/experiment-verification.md",
         "paper-review.md", "supplementary/quality-assessment.md",
         "supplementary/natural-live-study-protocol.md",
+        "supplementary/external-benchmark-audit.md",
         "results/github_natural_replication/preflight.json",
         "results/github_natural_replication/results.json",
         "results/github_natural_replication/discovery_checkpoint.json",
@@ -1298,9 +1299,14 @@ def validate_publication() -> None:
         "results/gcs_live/results.json",
         "results/optimizer_head_to_head/preflight.json",
         "results/optimizer_head_to_head/results.json",
+        "results/github_workflow_families/pr_outcome/final/results.json",
+        "results/github_workflow_families/backlog_attention/final/results.json",
+        "results/github_workflow_families/summary.json",
         "scripts/validate_guarded_composite.py",
         "scripts/github_gcs_live_study.py",
         "scripts/github_optimizer_head_to_head.py",
+        "scripts/github_workflow_family_study.py",
+        "scripts/build_github_family_summary.py",
         "generated_figures/live_efficiency.pdf", "generated_figures/paired_test.pdf",
         "generated_figures/gate_support.pdf", "generated_figures/pilot_ablation.pdf",
         "generated_figures/natural_live_comparison.pdf",
@@ -1308,6 +1314,7 @@ def validate_publication() -> None:
         "tables/natural_replication_results.tex",
         "tables/gcs_live_results.tex",
         "tables/optimizer_head_to_head.tex",
+        "tables/github_workflow_families.tex",
         "tables/external_benchmark_matrix.tex",
         "results/external_benchmarks/source_preflight.json",
         "results/external_benchmarks/reference_analysis.json",
@@ -1389,6 +1396,9 @@ def validate_publication() -> None:
                            "Reza Rahimi",
                            "Jazzx AI",
                            "NESTFUL",
+                           "Three real-record workflow families",
+                           "transfer across three workflow families",
+                           "90/90 exact outcomes",
                            "Expanded natural-order Tier-2 replication",
                            "GEPA",
                            "Fair placement and bounded prompt optimization",
@@ -1435,6 +1445,126 @@ def validate_no_secrets() -> None:
         if any(pattern.search(data) for pattern in patterns):
             findings.append(str(path.relative_to(ROOT)))
     ok(not findings, f"publication tree contains no API-secret-shaped value ({findings})")
+
+
+def validate_github_workflow_families() -> None:
+    """Recompute the new real-record family claims from condition-level evidence."""
+
+    paths = {
+        "pr_outcome": PAPER / "results/github_workflow_families/pr_outcome/final/results.json",
+        "backlog_attention": PAPER / "results/github_workflow_families/backlog_attention/final/results.json",
+    }
+    expected = {
+        "pr_outcome": {
+            "exact": (30, 30, 30),
+            "tools": ["pr_get_record", "pr_get_merge_status", "pr_get_discussion"],
+            "reductions": (0.75, 0.8081351858437466, 0.7298578346394264,
+                           0.752987539445336),
+        },
+        "backlog_attention": {
+            "exact": (29, 30, 30),
+            "tools": ["backlog_get_record", "backlog_get_ownership",
+                      "backlog_get_discussion"],
+            "reductions": (0.7478991596638656, 0.8137251455821528,
+                           0.6889010346028281, 0.7507844303160591),
+        },
+    }
+    test_sets: dict[str, set[int]] = {}
+    for family, path in paths.items():
+        ok(path.exists(), f"{family}: final real-record family result exists")
+        if not path.exists():
+            continue
+        result = load(path)
+        ok(result.get("schema") == "agent-compaction-github-workflow-family/v1",
+           f"{family}: result schema")
+        run = result.get("run", {})
+        ok(run.get("family") == family, f"{family}: run names the workflow family")
+        ok(run.get("provider_backed") is True and run.get("openai_api_key_used") is True,
+           f"{family}: live provider and configured API key were used")
+        ok(run.get("real_public_records") is True and run.get("simulated") is False,
+           f"{family}: real public records are not relabeled simulation")
+        ok(run.get("secrets_serialized") is False,
+           f"{family}: no secret value is serialized")
+        selection = result.get("selection", {})
+        discovery = set(map(int, selection.get("discovery", [])))
+        test = set(map(int, selection.get("test", [])))
+        test_sets[family] = test
+        ok(len(discovery) == 132 and len(test) == 30 and discovery.isdisjoint(test),
+           f"{family}: 132 discovery and 30 disjoint test records")
+        ok(selection.get("selection_uses_provider_outcomes") is False,
+           f"{family}: cohort selection is provider-outcome-free")
+        ok(sorted(selection.get("discovery_class_counts", {}).values()) == [44, 44, 44]
+           and sorted(selection.get("test_class_counts", {}).values()) == [10, 10, 10],
+           f"{family}: discovery and test classes are balanced")
+        rows = result.get("results", [])
+        by_condition = {
+            condition: [row for row in rows if row.get("condition") == condition]
+            for condition in ("baseline", "compiled", "manual_pre_model")
+        }
+        ok(all(len(rows_) == 30 for rows_ in by_condition.values()),
+           f"{family}: 30 paired rows per primary condition")
+        exact_counts = tuple(
+            sum(bool(row.get("quality", {}).get("overall")) for row in by_condition[name])
+            for name in ("baseline", "compiled", "manual_pre_model")
+        )
+        ok(exact_counts == expected[family]["exact"],
+           f"{family}: exact outcome counts are source-bound")
+        ok(result.get("failures") == [], f"{family}: final run has zero infrastructure failures")
+        artifact = result.get("compiler", {}).get("artifact", {})
+        program = artifact.get("program", {})
+        ok(program.get("tools") == expected[family]["tools"],
+           f"{family}: distinct three-tool compiled vocabulary")
+        gate = artifact.get("gate", {})
+        ok(gate.get("n_calibration_groups") == 92
+           and evidence_equal(gate.get("risk_upper_bound"), 0.049808920112407784),
+           f"{family}: exact 92-group admission bound")
+        guard_clauses = artifact.get("guard", {}).get("clauses", [])
+        id_clause = next((item for item in guard_clauses
+                          if item.get("path") == "z.record_number"), {})
+        ok(id_clause.get("type_name") == "int"
+           and id_clause.get("hull", {}).get("kind") == "any",
+           f"{family}: opaque record identifier keeps type without empirical range")
+        comparison = result.get("comparisons", {}).get("baseline_vs_compiled", {})
+        metrics = comparison.get("metrics", {})
+        observed = tuple(metrics[name]["aggregate_reduction"] for name in (
+            "requests", "total_tokens", "wall_latency_ms", "estimated_cost_usd"
+        ))
+        ok(evidence_equal(observed, expected[family]["reductions"]),
+           f"{family}: published efficiency reductions match raw rows")
+
+    if test_sets.keys() == paths.keys():
+        ok(test_sets["pr_outcome"].isdisjoint(test_sets["backlog_attention"]),
+           "new workflow-family held-out cohorts are mutually disjoint")
+    pilot_path = PAPER / "results/github_workflow_families/pr_outcome/pilot_v1/results.json"
+    if pilot_path.exists() and "pr_outcome" in test_sets:
+        pilot_test = set(map(int, load(pilot_path).get("selection", {}).get("test", [])))
+        ok(test_sets["pr_outcome"].isdisjoint(pilot_test),
+           "final PR cohort is fresh relative to the archived paid pilot")
+
+    summary_path = PAPER / "results/github_workflow_families/summary.json"
+    ok(summary_path.exists(), "three-family checked summary exists")
+    if summary_path.exists():
+        summary = load(summary_path)
+        ok(summary.get("schema") == "agent-compaction-github-workflow-family-summary/v1",
+           "three-family summary schema")
+        ok(summary.get("simulated") is False, "three-family summary is real evidence")
+        overall = summary.get("overall", {})
+        ok((overall.get("n"), overall.get("baseline_exact"),
+            overall.get("compiled_exact"), overall.get("manual_exact")) == (90, 89, 90, 90),
+           "three-family aggregate exact counts")
+        expected_overall = {
+            "requests": 0.6657381615598885,
+            "tool_calls": 0.4423791821561338,
+            "total_tokens": 0.630649830153015,
+            "wall_latency_ms": 0.6421234029412591,
+            "estimated_cost_usd": 0.5867086898399436,
+        }
+        ok(all(evidence_equal(overall.get(name, {}).get("reduction"), value)
+               for name, value in expected_overall.items()),
+           "three-family weighted reductions match condition-level evidence")
+        ok(all(sha256(ROOT / row["source"]) == row["source_sha256"]
+               for row in summary.get("families", [])),
+           "three-family summary binds every source result by SHA-256")
 
 
 def validate_external_benchmarks() -> None:
@@ -1539,8 +1669,10 @@ def validate_slides() -> None:
                    f"{label} publication slide deck contains the fair-placement comparison")
                 ok(b"GEPA retains its seed" in payload,
                    f"{label} publication slide deck contains the bounded GEPA result")
-                ok(b"Two compiler corpora recur; neither reaches admission" in payload,
-                   f"{label} publication slide deck contains the all-source refusal result")
+                ok(b"Efficiency transfers; manual programs remain the runtime baseline" in payload,
+                   f"{label} publication slide deck contains the workflow-family result")
+                ok(b"90 / 90" in payload,
+                   f"{label} publication slide deck contains the three-family exact result")
                 media = [name for name in names if name.startswith("ppt/media/")]
                 ok(all(package.getinfo(name).file_size > 0 for name in media),
                    f"{label} publication slide deck contains no empty media parts")
@@ -1606,6 +1738,7 @@ def validate_slide_generation() -> None:
         "gcs_replay": PAPER / "results/gcs_validation/provider_free.json",
         "optimizer_head_to_head": PAPER / "results/optimizer_head_to_head/results.json",
         "external_benchmarks": PAPER / "results/external_benchmarks/reference_analysis.json",
+        "github_workflow_families": PAPER / "results/github_workflow_families/summary.json",
     }
     for name, path in evidence_paths.items():
         ok(path.exists(), f"slide evidence exists: {name}")
@@ -1613,7 +1746,7 @@ def validate_slide_generation() -> None:
             ok(evidence.get(name, {}).get("sha256") == sha256(path),
                f"slide-generation manifest binds evidence bytes: {name}")
     ok(manifest.get("evidence_boundary") ==
-       "Ten benchmark families have explicit but unlike dispositions; API-Bank is the only additional compiler corpus and retires all families. Simulated/live subsets are not real-world demos or pooled scores. The fair-placement/GEPA result remains exploratory and single-family.",
+       "Three real-record workflow families support the primary transfer result: compiled 90/90, baseline 89/90, manual 90/90. The snapshot does not establish cross-repository or time-forward transfer. NESTFUL and API-Bank remain refusal evidence; eight other benchmark paths are supplementary interoperability audits.",
        "slide-generation manifest retains the current comparator evidence boundary")
 
 
@@ -1633,6 +1766,7 @@ def main() -> None:
     validate_manifest()
     validate_claim_boundaries()
     validate_publication()
+    validate_github_workflow_families()
     validate_external_benchmarks()
     validate_slide_generation()
     validate_slides()

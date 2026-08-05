@@ -38,9 +38,9 @@
     <section class="section section-tint"><div class="container doc-layout">
       <article class="prose">
         <h2 id="design">Experimental design</h2>
-        <p class="lead">Six real-record protocols are pilot-separated; the primary expanded replication uses free tool ordering and exact source-grounded grading.</p>
+        <p class="lead">Three primary workflow families use real public records, live provider calls, distinct tool vocabularies, and exact source-grounded grading.</p>
         <ul class="check-list">
-          <li>132 discovery records and 30 held-out records balanced across three issue categories</li>
+          <li>132 discovery and 30 held-out records per family, balanced across three exact classes</li>
           <li>Baseline, compiler, and macro order counterbalanced over all six permutations</li>
           <li>Quality computed independently of tool order from pinned source fields and excerpts</li>
           <li>Ten repeated test records used for structural and surface determinism analysis</li>
@@ -48,7 +48,20 @@
           <li>Provider optimization overhead separated from held-out deployment measurements</li>
         </ul>
 
-        <h2 id="primary">Primary real-record result</h2>
+        <h2 id="primary">Primary three-family result</h2>
+        <p>Issue-type routing, PR-outcome audit, and backlog-attention routing cover 90 held-out public records. Compiled programs reach 90/90 exact outcomes versus 89/90 baseline; hand-written programs also reach 90/90.</p>
+        <div style="overflow-x:auto"><table class="evidence-table">
+          <thead><tr><th>Family</th><th>Exact baseline → compiled</th><th>Requests</th><th>Interfaces</th><th>Tokens</th><th>Latency</th><th>Cost</th></tr></thead>
+          <tbody>
+            <tr><td>Issue type</td><td>30/30 → 30/30</td><td>−50.0%</td><td>0.0%</td><td>−39.5%</td><td>−51.7%</td><td>−32.0%</td></tr>
+            <tr><td>PR outcome</td><td>30/30 → 30/30</td><td>−75.0%</td><td>−66.7%</td><td>−80.8%</td><td>−73.0%</td><td>−75.3%</td></tr>
+            <tr><td>Backlog attention</td><td>29/30 → 30/30</td><td>−74.8%</td><td>−66.3%</td><td>−81.4%</td><td>−68.9%</td><td>−75.1%</td></tr>
+            <tr><td><strong>Weighted total</strong></td><td><strong>89/90 → 90/90</strong></td><td><strong>−66.6%</strong></td><td><strong>−44.2%</strong></td><td><strong>−63.1%</strong></td><td><strong>−64.2%</strong></td><td><strong>−58.7%</strong></td></tr>
+          </tbody>
+        </table></div>
+        <p>The single backlog baseline miss is not a statistically meaningful quality improvement. Fair manual programs tie learned programs structurally on both new families. The evidence supports workflow-family transfer on one snapshot—not cross-repository, time-forward, or runtime superiority over correct manual code.</p>
+
+        <h2 id="issue-detail">Issue-type family detail</h2>
         <p>All 132 discovery traces choose the same three-read order, but the comment-limit argument varies and is not trace-groundable. GAC refuses the complete region and emits the longest valid prefix: record → labels. The ordinary agent performs the comments read and final rendering.</p>
         <div style="overflow-x:auto"><table class="evidence-table">
           <thead><tr><th>Condition</th><th>Requests</th><th>Tools</th><th>Tokens</th><th>Wall</th><th>Cost</th><th>Exact</th></tr></thead>
@@ -68,8 +81,8 @@
         <p>GCS packages the admitted three-read program behind a continuation-pinned projection. Against a provider-visible macro on 12 fresh issues, both pass 12/12; GCS uses one rather than two provider requests, 38.9% fewer tokens, 40.0% lower observed wall latency, and 32.3% lower estimated cost.</p>
         <p>A subsequent six-record study gives an independently authored manual program the same pre-model position. GCS and manual both pass 6/6 and tie at one request, one interface, and identical input tokens. Official GEPA 0.1.4 retains its seed after 14 task evaluations; its 59-request optimization overhead is reported separately. These are bounded, exploratory results—not general rankings.</p>
 
-        <h2 id="benchmarks">Ten-benchmark interoperability audit</h2>
-        <p>Eight accessible adapters normalize 5,419 tasks and 17,836 reference actions. Only NESTFUL and API-Bank retain complete observed values suitable for post-trace compilation.</p>
+        <h2 id="benchmarks">Supplementary benchmark interoperability audit</h2>
+        <p>Only NESTFUL and API-Bank retain complete observed values suitable for post-trace compilation. Eight other paths are preserved below for reproducibility, but they do not demonstrate optimizer value and are excluded from the main comparison.</p>
         <div style="overflow-x:auto"><table class="evidence-table">
           <thead><tr><th>Benchmark</th><th>Path</th><th>Result</th><th>Claim boundary</th></tr></thead>
           <tbody>

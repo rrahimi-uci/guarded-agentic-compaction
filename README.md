@@ -65,26 +65,27 @@ SDK capture and runtime integration are maintained adapters, not compiler depend
 
 ## What the evidence shows
 
-The primary confirmatory study uses real public GitHub issue records, deterministic tools
-over a pinned snapshot, and live provider calls. The prompt names neither tools nor their
-order.
+The primary evaluation spans three distinct workflows over real public GitHub records,
+deterministic tools on a pinned snapshot, and live provider calls. Each family has a
+different tool vocabulary and exact decision contract.
 
 | Result | Evidence | Interpretation |
 |:---|:---|:---|
+| Three-family total | compiled 90/90 versus baseline 89/90; requests −66.6%; tokens −63.1%; observed wall latency −64.2%; estimated cost −58.7% | efficiency transfers across issue type, PR outcome, and backlog attention |
 | Conservative GAC | 30/30 exact task contracts; requests −50.0%; tokens −39.5%; observed wall latency −51.7%; estimated cost −32.0% | a grounded two-read prefix can remove one model boundary |
-| Hand-written macro | 30/30; fewer tools, tokens, and dollars than partial GAC | manual code remains the practical baseline |
+| Hand-written programs | 90/90; fair pre-model programs tie learned programs on the two new families | manual code remains the practical runtime baseline |
 | Aggressive GAC | 17/18 versus 18/18 for both comparators | clean program replay does not certify the final answer |
 | GCS vs provider-visible macro | 12/12 each; GCS uses one versus two requests | pre-model projection removes an interface request |
 | GCS vs fair pre-model manual | 6/6 each; tied requests, interfaces, and input tokens | automatic runtime superiority is not established |
 | NESTFUL and API-Bank | every recurrent family retires | recurrence does not imply admissibility |
 
-The artifact also contains a revision-pinned audit of ten agent benchmarks. Only NESTFUL
-and API-Bank expose trace-complete compiler substrates; unlike benchmark evidence is
-reported as a ledger and never pooled into one score.
+The artifact also preserves a revision-pinned supplementary audit of eight other agent
+benchmarks. Those paths verify interoperability or explicit gates but do not demonstrate
+optimizer value and are excluded from the main comparison.
 
-These are research-prototype results from one paired real-record domain and small live
-cohorts. They do **not** establish semantic equivalence, production certification,
-cross-domain generalization, or state-of-the-art quality. See the
+These are research-prototype results from one repository snapshot. They do **not**
+establish semantic equivalence, production certification, cross-repository or time-forward
+generalization, or state-of-the-art quality. See the
 [paper review](paper/paper-review.md), [limitations](https://rrahimi-uci.github.io/agent-compaction/limitations.html),
 and [claim audit](paper/supplementary/experiment-verification.md).
 

@@ -6,10 +6,10 @@ This directory is the complete, reproducible artifact for:
 
 The paper studies whether repeated model-mediated, read-only tool prefixes can be
 replaced by trace-derived deterministic programs without hiding provenance, effect,
-calibration, or fallback requirements. Its evidence consists of a ten-benchmark
-interoperability audit (including two compiler substrates), pilot-separated live-provider
-experiments on real public records, and a controlled suite of harder workflow shapes run
-through the real runtime.
+calibration, or fallback requirements. Its primary evidence spans three distinct GitHub
+workflow families with real public records and live provider calls, plus refusal results
+on two trace-complete public compiler substrates. A broader interoperability audit remains
+supplementary because it does not measure optimizer value.
 
 ## Directory map
 
@@ -49,6 +49,7 @@ paper/
 │   ├── gcs_live/                   exploratory fresh macro-vs-GCS paid comparison
 │   ├── optimizer_head_to_head/     live GEPA/GCS/manual pre-model comparison
 │   ├── github_natural_replication/ expanded paid 30-pair replication
+│   ├── github_workflow_families/  PR-outcome and backlog-attention live studies plus summary
 │   ├── multidomain/                real-record provider-free extension preflight
 │   ├── nestful/                    public-benchmark raw results
 │   ├── external_benchmarks/         all-source preflight, compiler, checker, and bounded live results
@@ -62,6 +63,8 @@ paper/
 │   ├── validate_guarded_composite.py provider-free 132-trace GCS reconstruction
 │   ├── github_gcs_live_study.py    paid fresh real-record GCS/macro comparison
 │   ├── github_optimizer_head_to_head.py bounded real GEPA/GCS/manual comparison
+│   ├── github_workflow_family_study.py three-family real-record study runner
+│   ├── build_github_family_summary.py checked cross-family result ledger/table
 │   ├── multidomain_study.py        gated real-provider multidomain runner
 │   ├── validate_multidomain.py     provider-free independent-gold validation
 │   ├── nestful_benchmark.py        provider-free external benchmark
@@ -79,6 +82,7 @@ paper/
 ├── supplementary/                  evidence register, audit, and rubric
 │   ├── evidence-register.md        claim-level evidence boundaries
 │   ├── experiment-verification.md  independent recomputation and statistical audit
+│   ├── external-benchmark-audit.md why eight interoperability paths are supplementary
 │   ├── implementation-audit.md     repository and component review
 │   ├── quality-assessment.md       publication-readiness rubric
 │   └── natural-live-study-protocol.md  expanded real-record experiment protocol
@@ -123,12 +127,15 @@ capabilities are documented in
 - **NESTFUL:** real public benchmark data, deterministic executable functions, no model
   calls. This tests post-trace provenance, synthesis, replay, and refusal; it is not a
   model-planning score.
-- **All-source interoperability audit:** every requested benchmark family has a pinned
-  source and adapter, execution, or gate disposition. API-Bank is a second compiler
-  substrate; BFCL executes the official gold checker; ToolSandbox, maintained tau, and
-  BrowseComp use bounded real provider calls. ToolBench, AgentBench, GAIA, and SWE-bench
-  retain explicit data/infrastructure/access gates. Simulated environments are not labeled
-  as real-world demos, and unlike rows are never averaged.
+- **Three-family primary evaluation:** issue-type routing, PR-outcome audit, and
+  backlog-attention routing each use 132 discovery plus 30 held-out real records, distinct
+  tools and exact graders, and live provider calls. Compiled programs reach 90/90 exact
+  outcomes versus 89/90 baseline while reducing requests 66.6%, tokens 63.1%, observed
+  latency 64.2%, and estimated cost 58.7% in aggregate. Hand-written programs also reach
+  90/90; runtime superiority is not claimed.
+- **Supplementary interoperability audit:** every requested benchmark family retains a
+  pinned source and adapter, execution, or gate disposition, but the eight paths without a
+  trace-compatible paired compiler comparison are excluded from the main paper result.
 - **Expanded natural-order replication:** 132 discovery and 30 held-out actual public
   issue records, deterministic snapshot tools, and live OpenAI calls through the Agents
   SDK. The compiler rejects an ungroundable three-read candidate, emits a two-read prefix,
@@ -329,6 +336,15 @@ cd paper/build && pdftoppm -png -r 130 article.pdf article_pages/pg
 ```
 
 ## Main results
+
+Across three primary real-record workflow families and 90 held-out live-provider cases,
+compiled programs reach 90/90 exact contracts versus 89/90 baseline and 90/90 manual.
+Weighted compilation reductions are 66.6% requests, 44.2% visible tool interfaces, 63.1%
+tokens, 64.2% observed wall latency, and 58.7% estimated cost. Per-family request/token/
+latency/cost reductions range from 50.0/39.5/51.7/32.0% to
+75.0/81.4/73.0/75.3%. This is workflow-family transfer on one repository snapshot, not
+cross-repository or time-forward generalization; manual programs remain the runtime
+baseline.
 
 In the expanded natural-order replication, all 132 discovery executions choose the same
 three-read order, 130 pass the exact-source task, and the compiler refuses the ungroundable

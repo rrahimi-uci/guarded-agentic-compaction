@@ -1,0 +1,27 @@
+artifact  backlog_get_record.backlog_get_ownership.region@99f1b041@1   support 16/16 groups   removes k=3.00   [active]
+──────────────────────────────────────────────────────────────────────────────
+guard   effect_catalog_version=github-backlog_attention-pinned-reads@1#59929859e6b14cf5  entry_contract_version=github-backlog_attention-record-number-v1  guardrail_hash=#a9614876  model=gpt-5.6-luna  policy_hash=#c888c9d9  prompt_hash=#f7edcded  tools_hash=#33bf130e
+        z.record_number : int
+        effects ⊆ {READ_LOCAL}  all speculatable ∧ replayable
+
+program (θ = {record_number}):
+   back = call backlog_get_record(record_number = z.record_number)
+   back2= call backlog_get_ownership(record_number = back.record_number)
+   back3= call backlog_get_discussion(limit = Const(3), record_number = back.record_number)
+   return  { back: back, back2: back2, back3: back3 }
+expose   compiled_backlog_get_record_b4b504db32(record_number) -> { assignees, comments, record_number, source_revision, state, title } [internal=3]
+verify  back : dict, non-null, provenance ∈ {backlog_get_record}
+        back.record_number : int, non-null, provenance ∈ {backlog_get_record}
+        back.source_revision : str, non-null, ∈ {e344be7b84d199661a9956036991e1fc25715a47}, provenance ∈ {backlog_get_record}
+        back.state : str, non-null, ∈ {open}, provenance ∈ {backlog_get_record}
+        back.title : str, non-null, provenance ∈ {backlog_get_record}
+        back2 : dict, non-null, provenance ∈ {backlog_get_ownership}
+        back2.assignees : list, non-null, len ≤ 1, len ≥ 0, provenance ∈ {backlog_get_ownership}
+        back2.record_number : int, non-null, provenance ∈ {backlog_get_ownership}
+        back2.source_revision : str, non-null, ∈ {e344be7b84d199661a9956036991e1fc25715a47}, provenance ∈ {backlog_get_ownership}
+        back3 : dict, non-null, provenance ∈ {backlog_get_discussion}
+        back3.comments : list, non-null, len ≤ 3, len ≥ 0, provenance ∈ {backlog_get_discussion}
+        back3.record_number : int, non-null, provenance ∈ {backlog_get_discussion}
+        back3.source_revision : str, non-null, ∈ {e344be7b84d199661a9956036991e1fc25715a47}, provenance ∈ {backlog_get_discussion}
+        effect_multiset ⊆ {READ_LOCAL},  |calls| ∈ {3},  no WRITE_*
+gate    q = logistic(entry features)   η = 0.50   (cal n=92 groups, α=0.05, δ=0.1, |Λ|=11, R⁺=0.050, φ̂=1.00)

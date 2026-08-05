@@ -27,7 +27,7 @@ This directory retains the deeper engineering and research records behind that s
 
 | Document | Evidence class |
 |:---|:---|
-| [Paper artifact](../paper/README.md) | Publication source, real-record/live-provider studies, ten-benchmark audit, generated tables, and reproducibility commands |
+| [Paper artifact](../paper/README.md) | Publication source, three-family real-record/live-provider study, supplementary benchmark audit, generated tables, and reproducibility commands |
 | [End-to-end repository review](gpt-5.6-report.md) | Current architecture, implementation, limitations, roadmap, and validation evidence |
 | [Live SDK fixture results](live-results.md) | Real provider and SDK execution over deterministic fictional services |
 | [Offline stress results](results.md) | Deterministic simulated policy/tool substrate; not provider evidence |
@@ -35,10 +35,11 @@ This directory retains the deeper engineering and research records behind that s
 | [Related work](related-work-matrix.md) | Implemented comparators versus literature references |
 | [Experiment verification](../paper/supplementary/experiment-verification.md) | Claim-by-claim recomputation, statistical interpretation, and residual threats |
 
-The strongest current real-scenario evidence includes the prospective portfolio pilot and
-the exploratory GCS-versus-macro comparison, each over a different set of 12 fresh public
-GitHub issues. Both use live OpenAI provider calls and deterministic tools over a pinned
-public snapshot; neither is a live GitHub-service reliability test. The older live
+The strongest current real-scenario evidence is the three-family study: issue-type routing,
+PR-outcome audit, and backlog-attention routing use 90 held-out public records, distinct
+tools/graders, and live OpenAI provider calls over a pinned snapshot. Compiled and manual
+programs both reach 90/90 exact outcomes. This is workflow-family evidence, not a live
+GitHub-service, cross-repository, or time-forward reliability test. The older live
 SDK suite uses fictional fixtures and is labeled accordingly. Never pool these evidence
 classes or present the offline stress study as a provider benchmark.
 

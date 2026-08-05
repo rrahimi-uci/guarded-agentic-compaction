@@ -1,0 +1,372 @@
+{
+  "failures": [],
+  "results": [
+    {
+      "answer": {
+        "comment_evidence": "none",
+        "outcome": "open",
+        "record_number": 7199,
+        "title": "Add with_rank to Dataset.from_generator"
+      },
+      "condition": "smoke",
+      "dispatch": {},
+      "episode_digest": "sha256:6cae3a068e1ecf5dbf607bb70c8f9bdd",
+      "issue_number": 7199,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.000629,
+        "handoffs": 0,
+        "input_tokens": 2515,
+        "output_tokens": 105,
+        "provider_response_latency_ms": 6836.683,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 2620,
+        "wall_latency_ms": 6862.148
+      },
+      "quality": {
+        "comment_grounded": true,
+        "outcome_correct": true,
+        "overall": true,
+        "quality_independent_of_tool_order": true,
+        "record_number_correct": true,
+        "score": 1,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "record_number": 7199
+        },
+        {
+          "record_number": 7199
+        },
+        {
+          "limit": 3,
+          "record_number": 7199
+        }
+      ],
+      "tool_sequence": [
+        "pr_get_record",
+        "pr_get_merge_status",
+        "pr_get_discussion"
+      ],
+      "trace_id": "trace_f8e4d72e2f83079176e1065fada63099"
+    },
+    {
+      "answer": {
+        "comment_evidence": "The docs for this PR live [here](https://moon-ci-docs.huggingface.co/docs/datasets/pr_6960).",
+        "outcome": "merged",
+        "record_number": 6960,
+        "title": "feat(ci): add trufflehog secrets detection"
+      },
+      "condition": "smoke",
+      "dispatch": {},
+      "episode_digest": "sha256:24abe31be474f72cb642733bd9a179c9",
+      "issue_number": 6960,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.000711,
+        "handoffs": 0,
+        "input_tokens": 2751,
+        "output_tokens": 134,
+        "provider_response_latency_ms": 5065.853,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 2885,
+        "wall_latency_ms": 7789.308
+      },
+      "quality": {
+        "comment_grounded": true,
+        "outcome_correct": true,
+        "overall": true,
+        "quality_independent_of_tool_order": true,
+        "record_number_correct": true,
+        "score": 1,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "record_number": 6960
+        },
+        {
+          "record_number": 6960
+        },
+        {
+          "limit": 3,
+          "record_number": 6960
+        }
+      ],
+      "tool_sequence": [
+        "pr_get_record",
+        "pr_get_merge_status",
+        "pr_get_discussion"
+      ],
+      "trace_id": "trace_cb2fdf9e54524e774b3c3d2d98c86f89"
+    },
+    {
+      "answer": {
+        "comment_evidence": "Hello ! Thanks for adding this one :)",
+        "outcome": "closed_unmerged",
+        "record_number": 262,
+        "title": "Add new dataset ANLI Round 1"
+      },
+      "condition": "smoke",
+      "dispatch": {},
+      "episode_digest": "sha256:d34d16720cb321193013f67c0f6dbf9f",
+      "issue_number": 262,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0007038,
+        "handoffs": 0,
+        "input_tokens": 2787,
+        "output_tokens": 122,
+        "provider_response_latency_ms": 5420.112,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 2909,
+        "wall_latency_ms": 8154.277
+      },
+      "quality": {
+        "comment_grounded": true,
+        "outcome_correct": true,
+        "overall": true,
+        "quality_independent_of_tool_order": true,
+        "record_number_correct": true,
+        "score": 1,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "record_number": 262
+        },
+        {
+          "record_number": 262
+        },
+        {
+          "limit": 3,
+          "record_number": 262
+        }
+      ],
+      "tool_sequence": [
+        "pr_get_record",
+        "pr_get_merge_status",
+        "pr_get_discussion"
+      ],
+      "trace_id": "trace_2c4dc5dc161c7687e61e3a3c2d05df69"
+    }
+  ],
+  "run": {
+    "comparative_claim_allowed": false,
+    "family": "pr_outcome",
+    "model": "gpt-5.6-luna",
+    "openai_api_key_used": true,
+    "provider_backed": true,
+    "real_public_records": true,
+    "secrets_serialized": false,
+    "simulated": false,
+    "timestamp_utc": "2026-08-05T16:43:46+00:00"
+  },
+  "schema": "agent-compaction-github-family-smoke/v1",
+  "selection": {
+    "class_balance_rule": "fixed class order with round-robin allocation before provider execution",
+    "discovery": [
+      7535,
+      1172,
+      5140,
+      7132,
+      1147,
+      1742,
+      7589,
+      3375,
+      5034,
+      5327,
+      33,
+      253,
+      3042,
+      5208,
+      1122,
+      5700,
+      4660,
+      5018,
+      7602,
+      6391,
+      1927,
+      1474,
+      402,
+      954,
+      5197,
+      1537,
+      344,
+      7361,
+      5379,
+      1128,
+      5289,
+      113,
+      7296,
+      6035,
+      3943,
+      6167,
+      6601,
+      2355,
+      2491,
+      6639,
+      2792,
+      1206,
+      5510,
+      2582,
+      6326,
+      7609,
+      1021,
+      6310,
+      6647,
+      6416,
+      1520,
+      7556,
+      1204,
+      7274,
+      7136,
+      1658,
+      3336,
+      7565,
+      1650,
+      5122,
+      7283,
+      569,
+      6835,
+      5347,
+      968,
+      2198,
+      7613,
+      5334,
+      5339,
+      5704,
+      2960,
+      3812,
+      7094,
+      2150,
+      4567,
+      5748,
+      1058,
+      1293,
+      1369,
+      2725,
+      4573,
+      5850,
+      7124,
+      1318,
+      7224,
+      5860,
+      1254,
+      7314,
+      3199,
+      505,
+      2249,
+      6911,
+      3913,
+      5509,
+      5740,
+      5934,
+      5501,
+      3436,
+      1203,
+      6786,
+      4016,
+      593,
+      7385,
+      3607,
+      1574,
+      6828,
+      3774,
+      6289,
+      5635,
+      1333,
+      4302,
+      6231,
+      1394,
+      2039,
+      7437,
+      3958,
+      3963,
+      4296,
+      5449,
+      4406,
+      3489,
+      154,
+      3364,
+      4177,
+      2384,
+      6889,
+      7490,
+      6343,
+      7181,
+      6763,
+      711,
+      7491
+    ],
+    "discovery_class_counts": {
+      "closed_unmerged": 44,
+      "merged": 44,
+      "open": 44
+    },
+    "disjoint": true,
+    "excluded_prior_record_numbers": 457,
+    "family": "pr_outcome",
+    "fresh_pool_counts_before_selection": {
+      "closed_unmerged": 607,
+      "merged": 3621,
+      "open": 97
+    },
+    "schema": "agent-compaction-github-family-selection/v1",
+    "seed": 20260805,
+    "selection_uses_provider_outcomes": false,
+    "test": [
+      7199,
+      6960,
+      262,
+      1882,
+      6946,
+      6525,
+      6266,
+      1415,
+      3549,
+      6711,
+      1461,
+      5807,
+      7358,
+      4322,
+      7342,
+      7605,
+      5395,
+      5703,
+      5545,
+      4518,
+      1235,
+      4305,
+      3799,
+      890,
+      6036,
+      3537,
+      45,
+      7489,
+      6258,
+      7032
+    ],
+    "test_class_counts": {
+      "closed_unmerged": 10,
+      "merged": 10,
+      "open": 10
+    }
+  }
+}

@@ -1,12 +1,25 @@
 # GPT-5.6 end-to-end repository review
 
 **Repository:** agent-compaction  
-**Review date:** 2026-08-02; reconciled with release 0.7.0 on 2026-08-04
+**Review date:** 2026-08-02; reconciled with release 0.7.0 on 2026-08-05
 
 **Reviewed version:** source and package version 0.7.0
 **Scope:** architecture, implementation, tests, packaging, OpenAI Agents SDK integration,
 research positioning, optimization-library design, provider-backed demonstrations, and
 reproducible offline stress evaluation
+
+## Three-family live-provider checkpoint (2026-08-05)
+
+The primary evidence now spans issue-type routing, pull-request outcome audit, and
+backlog-attention routing. Each family uses 132 balanced discovery records and 30 disjoint
+balanced held-out records, distinct tools, an exact source-grounded grader, and real OpenAI
+provider calls. Compiled programs reach 90/90 exact outcomes versus 89/90 for unchanged
+agents and 90/90 for hand-written programs. Weighted reductions are 66.6% provider
+requests, 44.2% visible tool interfaces, 63.1% tokens, 64.2% observed wall latency, and
+58.7% estimated cost. The evidence supports workflow-family transfer on one pinned
+repository snapshot; it does not establish cross-repository, time-forward, or manual-code
+runtime superiority. The wider benchmark audit is now supplementary except for NESTFUL
+and API-Bank refusal evidence.
 
 ## MLflow dependency disposition (2026-08-04)
 

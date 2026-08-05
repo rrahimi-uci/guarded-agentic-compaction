@@ -52,6 +52,15 @@ if TYPE_CHECKING:  # pragma: no cover - typing only
 MAX_ENUM_CARDINALITY = 12
 
 
+def _opaque_identifier_path(path: str) -> bool:
+    """Return true for keys whose numeric magnitude has no admissibility meaning."""
+
+    leaf = path.rsplit(".", 1)[-1].lower()
+    return leaf in {"id", "key", "number"} or leaf.endswith(
+        ("_id", "_key", "_number")
+    )
+
+
 # ---------------------------------------------------------------------------
 # hull fitting
 # ---------------------------------------------------------------------------
@@ -156,7 +165,10 @@ def induce_guard(
             GuardClause(
                 path=f"z.{path}",
                 type_name=_type_of(present[0]),
-                hull=fit_hull(present),
+                # Identifiers are nominal even when represented as integers. Fitting an
+                # interval to issue/order/task IDs makes admission depend on accidental
+                # training extrema and rejects otherwise schema-compatible future IDs.
+                hull=Hull("any") if _opaque_identifier_path(path) else fit_hull(present),
                 required=len(present) == len(values),
             )
         )
@@ -291,6 +303,16 @@ def _field_clauses(
                     max(len(v) for v in values),
                 )
             )
+        elif _opaque_identifier_path(key):
+            # The same nominal-key rule applies to tool outputs. Equality with the
+            # requested entry is established by the synthesized binding/provenance;
+            # an empirical range over returned IDs adds only training-set overfit.
+            out.append((key, Hull("any"), type_name, None, None))
+        elif type_name == "str" and len(set(values)) > MAX_ENUM_CARDINALITY:
+            # High-cardinality text (titles, excerpts, messages) has no defensible
+            # empirical regex hull. Keep type/provenance validation; range constraints
+            # belong to the declared tool schema, not the observed training strings.
+            out.append((key, Hull("any"), "str", None, None))
         else:
             out.append((key, fit_hull(values), type_name, None, None))
         if len(out) >= limit:

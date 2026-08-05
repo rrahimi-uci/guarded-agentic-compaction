@@ -31,9 +31,12 @@ def test_real_trace_compilation_and_projection_replay(tmp_path: Path) -> None:
     assert payload["compiler"]["exposed_interfaces"] == 1
     assert payload["replay"] == {
         "attempted": 132,
-        "dispatched": 124,
-        "fallback": 8,
-        "exact_projected_matches": 124,
+        # Identifier fields are nominal rather than bounded by the training
+        # extrema; the semantic-contract fix therefore admits six additional
+        # schema-compatible traces without weakening the projection check.
+        "dispatched": 130,
+        "fallback": 2,
+        "exact_projected_matches": 130,
         "projection_failures": [],
         "all_dispatched_exact": True,
     }

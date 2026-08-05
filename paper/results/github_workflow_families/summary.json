@@ -1,0 +1,160 @@
+{
+  "claim_boundary": "all records come from one revision-pinned repository snapshot; this is workflow-family, not cross-repository or time-forward, generalization",
+  "evidence_class": "real public GitHub records + live OpenAI provider + exact source-grounded contracts",
+  "families": [
+    {
+      "baseline": {
+        "estimated_cost_usd": 0.02615471,
+        "exact": 30,
+        "n": 30,
+        "requests": 120.0,
+        "tool_calls": 90.0,
+        "total_tokens": 127783.0,
+        "wall_latency_ms": 184802.766
+      },
+      "compiled": {
+        "estimated_cost_usd": 0.01778485,
+        "exact": 30,
+        "n": 30,
+        "requests": 60.0,
+        "tool_calls": 90.0,
+        "total_tokens": 77295.0,
+        "wall_latency_ms": 89182.207
+      },
+      "family": "Issue-type routing",
+      "manual": {
+        "estimated_cost_usd": 0.01635855,
+        "exact": 30,
+        "n": 30,
+        "requests": 60.0,
+        "tool_calls": 30.0,
+        "total_tokens": 53425.0,
+        "wall_latency_ms": 97522.543
+      },
+      "record_numbers_sha256": "d85c24f435b2db71833131bf00925d9e0496bccec9184de9f50c012572038f90",
+      "reductions": {
+        "estimated_cost_usd": 0.32001348896623205,
+        "requests": 0.5,
+        "tool_calls": 0.0,
+        "total_tokens": 0.39510733039606205,
+        "wall_latency_ms": 0.5174195228225102
+      },
+      "source": "paper/results/github_natural_replication/results.json",
+      "source_sha256": "415f057f0d5e036a765eb97da78df8de7b252c76a39c509c3a5d111538040722"
+    },
+    {
+      "baseline": {
+        "estimated_cost_usd": 0.0203763,
+        "exact": 30,
+        "n": 30,
+        "requests": 120.0,
+        "tool_calls": 90.0,
+        "total_tokens": 81547.0,
+        "wall_latency_ms": 159862.641
+      },
+      "compiled": {
+        "estimated_cost_usd": 0.0050332,
+        "exact": 30,
+        "n": 30,
+        "requests": 30.0,
+        "tool_calls": 30.0,
+        "total_tokens": 15646.0,
+        "wall_latency_ms": 43185.64
+      },
+      "family": "PR-outcome audit",
+      "manual": {
+        "estimated_cost_usd": 0.0050571999999999995,
+        "exact": 30,
+        "n": 30,
+        "requests": 30.0,
+        "tool_calls": 30.0,
+        "total_tokens": 15666.0,
+        "wall_latency_ms": 54812.191
+      },
+      "record_numbers_sha256": "241553191fe35d457db9ceec7e2983c1caad8e2837b69b3d0bd1167d8158f8a8",
+      "reductions": {
+        "estimated_cost_usd": 0.752987539445336,
+        "requests": 0.75,
+        "tool_calls": 0.6666666666666667,
+        "total_tokens": 0.8081351858437466,
+        "wall_latency_ms": 0.7298578346394264
+      },
+      "source": "paper/results/github_workflow_families/pr_outcome/final/results.json",
+      "source_sha256": "4722a35c5eda017bdb22b6f2d75c062b9a085ef65168e3dc41ace82d885ee36f"
+    },
+    {
+      "baseline": {
+        "estimated_cost_usd": 0.021863,
+        "exact": 29,
+        "n": 30,
+        "requests": 119.0,
+        "tool_calls": 89.0,
+        "total_tokens": 85347.0,
+        "wall_latency_ms": 192830.712
+      },
+      "compiled": {
+        "estimated_cost_usd": 0.0054486,
+        "exact": 30,
+        "n": 30,
+        "requests": 30.0,
+        "tool_calls": 30.0,
+        "total_tokens": 15898.0,
+        "wall_latency_ms": 59989.435
+      },
+      "family": "Backlog-attention routing",
+      "manual": {
+        "estimated_cost_usd": 0.0056478,
+        "exact": 30,
+        "n": 30,
+        "requests": 30.0,
+        "tool_calls": 30.0,
+        "total_tokens": 16064.0,
+        "wall_latency_ms": 50853.13
+      },
+      "record_numbers_sha256": "f0aedcd3e897db48408b8c3973ad156119c7e858104d4c1c0c36b86235713278",
+      "reductions": {
+        "estimated_cost_usd": 0.7507844303160591,
+        "requests": 0.7478991596638656,
+        "tool_calls": 0.6629213483146068,
+        "total_tokens": 0.8137251455821528,
+        "wall_latency_ms": 0.6889010346028281
+      },
+      "source": "paper/results/github_workflow_families/backlog_attention/final/results.json",
+      "source_sha256": "2e19afd504a637a62213292b47b92d082d679e5ce7aa0ff2fb8c46f7c0fa54ef"
+    }
+  ],
+  "metric_note": "tool_calls counts provider-visible tool interfaces; compiled/manual pre-model conditions retain three verified internal reads",
+  "overall": {
+    "baseline_exact": 89,
+    "compiled_exact": 90,
+    "estimated_cost_usd": {
+      "baseline": 0.06839401,
+      "compiled": 0.02826665,
+      "reduction": 0.5867086898399436
+    },
+    "manual_exact": 90,
+    "n": 90,
+    "requests": {
+      "baseline": 359.0,
+      "compiled": 120.0,
+      "reduction": 0.6657381615598885
+    },
+    "tool_calls": {
+      "baseline": 269.0,
+      "compiled": 150.0,
+      "reduction": 0.4423791821561338
+    },
+    "total_tokens": {
+      "baseline": 294677.0,
+      "compiled": 108839.0,
+      "reduction": 0.630649830153015
+    },
+    "wall_latency_ms": {
+      "baseline": 537496.119,
+      "compiled": 192357.282,
+      "reduction": 0.6421234029412591
+    }
+  },
+  "schema": "agent-compaction-github-workflow-family-summary/v1",
+  "simulated": false
+}

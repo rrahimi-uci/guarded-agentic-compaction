@@ -13,13 +13,14 @@ preserving interface over an admitted program, plus a fresh 12-pair paid compari
 The newest study closes two previously explicit comparator gaps on six additional fresh
 records: an independently authored guarded pre-model program receives the same execution
 position as GCS, and official GEPA 0.1.4 optimizes the residual prompt under a fixed budget.
-The current revision also implements all ten requested benchmark dispositions. API-Bank
-becomes a second compiler substrate; BFCL executes its official checker; ToolSandbox,
-maintained tau, and BrowseComp receive bounded real-provider runs; and ToolBench,
-AgentBench, GAIA, and SWE-bench retain explicit prerequisite gates.
+The current revision adds two distinct real-record workflow families: pull-request outcome
+audit and backlog-attention routing. Together with issue-type routing, the primary result
+now covers 90 held-out public records, three tool vocabularies, and three exact graders.
+The broader ten-source work remains a supplementary interoperability ledger; NESTFUL and
+API-Bank are the only external corpora used as compiler evidence.
 
-**Recommendation: major revision for a top-tier main track; strong artifact candidate
-(84/100 scientific readiness, 97/100 artifact engineering).**
+**Recommendation: borderline/major revision for a top-tier main track; strong artifact
+candidate (88/100 scientific readiness, 98/100 artifact engineering).**
 The implementation and resource intervention are credible. The natural-order study also
 records a compiler-only factual failure, showing that clean tool-program replay does not
 certify the downstream answer. The remaining evidence is too small and narrow for
@@ -58,11 +59,16 @@ the scientific result rather than an implementation failure.
     program on requests, interfaces, input tokens, and 6/6 exact quality; GEPA retains its
     seed after 14 real task evaluations and three real reflections, with its 59-request
     optimization overhead excluded from deployment metrics.
-11. The all-source benchmark audit is methodologically strong: it normalizes 5,419 tasks
-    and 17,836 reference actions without pooling unlike substrates, reports every gate,
-    and reproduces the central refusal result on API-Bank (48 candidates, two synthesized
-    families, two held-out abstentions, no admitted artifact).
-12. The revised abstract and result opening expose the strongest contrary evidence early:
+11. The three-family study is a material breadth improvement: compiled programs reach
+    90/90 exact contracts versus 89/90 baseline and reduce requests 50.0--75.0%, tokens
+    39.5--81.4%, observed latency 51.7--73.0%, and estimated cost 32.0--75.3% per family.
+    Manual programs also reach 90/90, preventing an unsupported dominance claim.
+12. An archived paid PR pilot led to an implemented algorithmic correction: opaque IDs
+    now retain type and provenance without an empirical numeric range that rejects unseen
+    but schema-valid values.
+13. The supplementary all-source audit remains methodologically strong: it reports every
+    gate without pooling unlike substrates and reproduces refusal on API-Bank.
+14. The revised abstract and result opening expose the strongest contrary evidence early:
     a hand-written macro is cheaper than partial GAC, and fair pre-model manual code ties
     GCS. This substantially improves credibility and focuses the contribution on automatic
     evidence and lifecycle controls.
@@ -85,12 +91,12 @@ the scientific result rather than an implementation failure.
    input tokens; cost and latency differences are non-significant. The remaining value
    proposition is automatic discovery, evidence, invalidation, and admission, but manual
    construction/review effort was not measured.
-5. **Paired causal scope remains narrow despite wider interoperability.** Thirty records
-   from one extractive GitHub task and one model do not establish performance on branching,
-   stateful, multi-agent, browser, or write-bearing workflows. The ten-benchmark extension
-   proves adapters, official-path compatibility, bypasses, and a second compiler refusal;
-   it does not create paired baseline-versus-GAC outcomes on those domains. The
-   vulnerability/HMDA pools remain provider-free and SEC remains source-gated.
+5. **Transfer is across workflow families, not repositories or time.** The new result has
+   90 held-out records and distinct tasks/tools, but all records come from one revision-
+   pinned repository snapshot and one model. It does not establish performance under
+   temporal drift, another organization, branching, stateful, multi-agent, browser, or
+   write-bearing workflows. The vulnerability/HMDA pools remain provider-free and SEC
+   remains source-gated.
 6. **Only one bounded learned optimizer has run.** Official GEPA is now a real same-task
    comparator, but its 4/2 optimization split, 14 task evaluations, three proposals, and
    six deployment cases are intentionally small. AWO, AWM, plan caching, EvoC2F, Agent
@@ -130,7 +136,7 @@ candidate can improve a request count fixed by the unchanged interface.
    deterministic renderer; report separate calibration, latency, and fallback cost.
 3. Natural negative, drift, permission, partial-failure, and out-of-domain cohorts that
    yield a non-degenerate post-selection risk--coverage curve.
-4. Expand the same-task fair-placement result to a powered multi-family study with
+4. Expand the fair-placement result to a powered cross-repository, time-forward study with
    unchanged, provider-visible macro, pre-model manual program, GCS, cache-only, GAC, and
    at least one executable workflow-learning system under identical models, records,
    cache policy, and temporal ordering.
@@ -142,8 +148,8 @@ candidate can improve a request count fixed by the unchanged interface.
 The revised paper makes a defensible contribution as a guarded compiler and a study of
 where trace evidence fails to justify behavioral preservation. It is substantially
 stronger than the prescribed-prefix version and is a credible research artifact. The
-appropriate main-track posture remains major revision until quality, selectivity, and
-domain breadth are established. The portfolio pilot deserves limited mechanism credit
+appropriate main-track posture remains borderline/major revision until quality,
+selectivity, and cross-repository breadth are established. The portfolio pilot deserves limited mechanism credit
 because its action was frozen before 12 fresh cases and preserved every registered
 contract while reducing all measured resources. It does not establish selection value
 across workflow families or drift.
@@ -154,12 +160,12 @@ the earlier missing-comparator criticism and appropriately narrows the claim: GC
 structurally efficient as the manual program on six cases, not better. The bounded GEPA
 run removes the claim that no live learned optimizer exists, but is too small to establish
 learned-baseline superiority or complementarity.
-The ten-benchmark extension removes the narrower criticism that benchmark selection was
-name-only or NESTFUL-specific. Its API-Bank refusal is scientifically informative and its
-gated rows are honestly handled. It still does not remove the main breadth criticism,
-because BFCL gold checking, ToolSandbox/tau simulation, BrowseComp hosted search, and
-task-only adapters are not paired compiler interventions. This is strong artifact and
-interoperability evidence, not state-of-the-art performance evidence.
+The three-family extension removes the earlier criticism that the live compiler result
+covered only one decision and one tool vocabulary. It does not remove the repository/time
+breadth criticism, and the manual tie keeps the runtime claim narrow. API-Bank refusal is
+scientifically informative; BFCL checking, ToolSandbox/tau simulation, BrowseComp search,
+and task-only adapters remain supplementary interoperability evidence rather than optimizer
+baselines.
 
 ## Reviewer scorecard
 
@@ -168,7 +174,7 @@ interoperability evidence, not state-of-the-art performance evidence.
 | Technical depth | 9.5/10 | unusually complete trace, compiler, admission, runtime, and lifecycle stack |
 | Novelty | 8.9/10 | strong composition and admissibility framing; individual mechanisms have precedent |
 | Clarity and writing | 9.2/10 | revised claim spine is crisp; long-form density remains |
-| Experimental rigor | 9.0/10 | excellent artifact audit, but one paired domain and small cohorts |
+| Experimental rigor | 9.3/10 | three paired workflow families and archived failures; still one repository snapshot |
 | Reproducibility | 9.9/10 | retained rows, hashes, commands, independent recomputation, and negative evidence |
 | Presentation | 9.3/10 | shared-source paper, generated figures, evidence-led website and decks |
-| Scientific readiness | 8.4/10 | credible major-revision paper; not yet a broad SOTA result |
+| Scientific readiness | 8.8/10 | credible borderline/major-revision paper; not yet a cross-repository SOTA result |

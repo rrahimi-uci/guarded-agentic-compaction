@@ -56,9 +56,8 @@ Our research questions are:
   \item[RQ5.] Can group-level paired evidence select a risk-bounded optimization action
   before a fresh real-record cohort, and does that choice preserve the registered task
   contract while reducing resource use?
-  \item[RQ6.] Which public agent benchmarks actually expose the state, effects, observed
-  values, and independent groups needed to evaluate post-trace compilation, and what does
-  an all-source executable integration reveal when those fields are absent?
+  \item[RQ6.] Do the efficiency and preservation results transfer across distinct
+  real-record workflow families with different tool vocabularies and output contracts?
 \end{description}
 
 The paper makes four contributions:
@@ -70,17 +69,18 @@ The paper makes four contributions:
   \item A compile-or-retire admission protocol: the score and threshold grid are frozen
   before calibration, exact finite-sample bounds govern dispatch, and a framework-neutral
   portfolio can compare only transformations with paired evidence and compatible manifests.
-  \item A real-provider study on public records that separates execution conformance from
-  source-grounded answer quality, exposes a depth-sensitive factual failure, and compares
-  unchanged, compiled, provider-visible macro, fair pre-model manual, and bounded GEPA
-  conditions without claiming superiority where the methods tie.
-  \item A revision-pinned ten-benchmark evidence map with a shared typed reference-plan IR.
-  It executes five external paths, identifies only two trace-complete compiler substrates,
-  and reports their refusal outcomes instead of averaging incompatible evidence.
+  \item A real-provider study spanning three public-record workflow families and 90
+  held-out records.  It separates execution conformance from source-grounded answer
+  quality and compares unchanged, compiled, and fairly placed hand-written conditions
+  without claiming superiority where they tie.
+  \item An identifier-aware empirical-contract refinement, motivated by an archived
+  failed pilot, that treats opaque identifiers as typed/provenance-constrained values
+  rather than unsafe numeric ranges.  Revision-pinned NESTFUL and API-Bank experiments
+  supply complementary refusal evidence when recurrent families lack admission support.
 \end{enumerate}
 
-We do \emph{not} claim semantic equivalence, production certification, cross-domain
-generalization, or superiority to hand-written code. GCS synthesizes only a read-only view
+We do \emph{not} claim semantic equivalence, production certification, cross-repository
+or time-forward generalization, or superiority to hand-written code. GCS synthesizes only a read-only view
 over an admitted program; it does not infer undeclared semantics or fuse physical reads.
 The six-case manual result is parity, and the bounded GEPA result does not generalize to
 prompt optimization as a whole.
@@ -465,33 +465,28 @@ boundaries, which we leave to future work (\cref{sec:extension}).
 
 We use three non-overlapping evidence tiers, ordered by what each can license.
 
-\textbf{Tier 1 --- external benchmark interoperability and compiler evidence.}  A sealed
-manifest pins NESTFUL plus nine complementary benchmark families.  All ten receive an
-explicit adapter, execution, or gate disposition; unavailable prerequisites never become
-zero scores.  NESTFUL and API-Bank are the only two paths with complete observed values
-that can exercise the compiler.  BFCL executes its official checker, ToolSandbox,
-$\tau^2/\tau^3$, and BrowseComp receive bounded official live-provider runs, and the
-remaining sources receive adapter/preflight evidence.  These substrates test different
-objects, so we report a ledger rather than pool them into one score.
+\textbf{Tier 1 --- external trace-compiler evidence.} A sealed manifest pins NESTFUL and
+API-Bank, the two audited public corpora that retain the observed intermediate values
+needed to reconstruct and replay post-trace programs.  They test provenance, synthesis,
+and admission rather than end-to-end agent quality.  Eight additional benchmark adapters
+remain in the artifact's supplementary interoperability ledger, but not in the main
+evaluation: their checkers, task descriptions, simulated environments, hosted services,
+or missing outputs do not support a compiler-compatible head-to-head result.
 
-\textbf{Tier 2 --- real records, live provider.} Six GitHub protocols use actual public
-issue records, deterministic local reads over a pinned snapshot, and live OpenAI provider
-calls.  The first prescribes a fixed prefix as a conformance ablation.  The review-driven
-follow-up names required facts but neither tool functions nor order, grades exact source
-facts independently of the trace, and adds a live composite-tool baseline.  An expanded
-replication seals 132 discovery and 30 balanced test records, exercises compiler abstention
-from an ungroundable third call, and repeats all three conditions.  A prospective portfolio
-pilot freezes the replication as selection evidence, chooses one reviewed action, and runs
-only it and the unchanged agent on 12 fresh records.  Finally, an exploratory GCS study
-compiles the full three-read region from the retained discovery traces and compares its
-pre-model composite with the provider-visible hand-written macro on 12 further records
-excluded from every prior cohort.  They are
-evidence about agent control flow on real records, not live GitHub service reliability.
-A final bounded comparator study excludes every earlier issue identifier, freezes disjoint
-4/2/6 optimization-train/validation/test splits before any provider outcome, and runs
-unchanged, GEPA-only, GCS, GCS+GEPA, and independently authored pre-model conditions on the
-same six held-out records.  The snapshot contains real records and every condition makes
-live provider calls; no response is simulated.
+\textbf{Tier 2 --- real records, live provider.} Three primary GitHub workflow families use
+actual public records, deterministic local reads over one pinned snapshot, and live OpenAI
+provider calls.  Each family has a distinct three-tool vocabulary and exact three-class
+output contract: issue type, pull-request outcome, or backlog attention. Every family uses 132 balanced discovery
+records and 30 disjoint balanced held-out records.  The unchanged, compiled, and
+hand-written conditions receive the same records, model, factual contract, and condition
+placement.  The latter two families compile a verified three-read pre-model composite;
+the original issue family retains its conservative two-read prefix so its published
+negative comparison remains intact.  These experiments establish transfer across workflow
+families on a real snapshot, not across repositories, time, or live GitHub service behavior.
+
+Earlier fixed-prefix, depth, portfolio, GCS, and bounded-GEPA studies remain as ablations
+and negative controls.  They preserve the historical denominator, but they are not counted
+as additional workflow families or pooled into the primary 90-record result.
 
 \textbf{Tier 3 --- controlled demonstration suite.}  Six workflow \emph{shapes} are run
 end to end through the real SDK runtime with live provider calls against deterministic
@@ -543,35 +538,27 @@ from train/dev windows, and replay on held-out windows.  This experiment does no
 LLM and does not measure NESTFUL planning accuracy.  It tests the compiler after a valid
 trace exists.  The exact gate is then applied to observed family support.
 
-\subsection{All-source benchmark interoperability audit}
-\label{sec:external-matrix}
+\subsection{Three real-record workflow families}
+\label{sec:github-families}
 
-We additionally pin BFCL v4, API-Bank, ToolSandbox, the maintained $\tau^2/\tau^3$
-implementation, ToolBench, AgentBench, GAIA, SWE-bench Verified, and BrowseComp at exact
-Git revisions or dataset digests~\cite{patil2025bfcl,li2023apibank,lu2025toolsandbox,
-barres2025tau2,qin2023toolllm,liu2023agentbench,mialon2023gaia,jimenez2024swebench,
-wei2025browsecomp}.  A framework-neutral \code{ReferenceTask} IR retains revision,
-substrate, group, ordered actions, conservative effects, and whether outputs were actually
-observed.  It refuses conversion into an executable Episode when outputs are absent and
-forbids pooling revisions or substrates.  The effect labels in this audit are screening
-annotations, not signed runtime declarations.
+The primary transfer study reuses one revision-pinned 7,540-record public GitHub snapshot
+while changing the decision, tools, and exact grader.  Pull requests are classified from
+record, merge-status, and discussion reads.  Open non-PR issues are classified from
+record, ownership, and discussion reads.  These tools are deliberately separate from the
+issue-type routing tools, preventing an apparent transfer result obtained by renaming one
+interface.  Selection is provider-outcome-free, balanced by class, deduplicated by record
+identifier, and disjoint across discovery and test cohorts.
 
-The same acquisition script records all prerequisites.  Eight benchmark task sets are
-screened, covering 5,419 tasks and 17,836 reference actions; GAIA remains authorization
-gated, ToolBench is limited to ten versioned repository fixtures, AgentBench requires its
-external services and Freebase bytes, and SWE-bench execution is gated because the
-available Docker host is arm64 with 12.5~GiB rather than the harness's recommended x86-64
-and 16~GiB.  We do not impute scores for those paths.
-
-For bounded official executions, BFCL validates 200/200 pinned gold plans without claiming
-model accuracy.  One ToolSandbox scenario uses real provider calls and obtains 0.982
-milestone similarity.  Four $\tau$ domain tasks use real provider calls and obtain 0/4
-end-to-end reward while consuming 288,757 tokens.  Three sealed BrowseComp tasks use
-hosted web search and obtain 1/3 accuracy with 28 searches and 237,859 tokens.  Hosted
-search lacks a replay-safe local tool-result contract, so it is a required compiler
-bypass.  ToolSandbox and $\tau$ are public simulated environments, not real-world demos;
-BrowseComp is a live-web benchmark subset, not a paired compiler experiment or official
-leaderboard submission.
+An initial pull-request pilot exposed two defects and is archived rather than overwritten:
+nullable merge timestamps were projected unsafely, and empirical numeric hulls treated
+opaque identifiers as quantities, rejecting unseen but schema-valid values outside the
+training extrema.  The final compiler retains type, provenance, effect, and risk checks but
+uses an unconstrained value hull for fields named as identifiers, keys, or numbers; high-
+cardinality free text likewise avoids an empirical literal regex.  After this change, the
+pull-request final uses the original 132 discovery traces and a freshly sealed 30-record
+test cohort.  The backlog cohort was frozen after the same implementation was fixed.
+Compiler rejection triggers the unchanged agent, so a failed guard cannot become a missing
+answer.  Checkpoints are written before paid evaluation and after every condition.
 
 \subsection{Controlled fixed-prefix live study}
 
@@ -759,14 +746,12 @@ metrics.
 The evidence separates three questions. First, can a trace be reconstructed and
 synthesized? Second, is there enough independent evidence to admit the result? Third, if
 admitted, does it improve the end-to-end workflow against a strong manual alternative?
-NESTFUL and API-Bank answer the second question with refusal
-(\cref{sec:rq1,sec:external-results}). The GitHub studies answer the third: a conservative
-two-read artifact passes 30/30, an aggressive three-read artifact records one factual
-miss, and the manual macro remains the practical baseline (\cref{sec:rq2,sec:comparator}).
-GCS removes the provider-visible interface gap, but a fairly placed manual program ties
-its structural efficiency (\cref{sec:gcs-results,sec:optimizer-results}). The remaining
-sections retain the failed suffix pilot, harder workflow shapes, and prospective portfolio
-pilot because each constrains a different claim rather than adding another headline.
+NESTFUL and API-Bank answer the second question with refusal (\cref{sec:rq1}). The three
+GitHub families answer the third: compiled programs preserve 90/90 exact contracts, but
+fairly placed manual programs do so as well (\cref{sec:family-results,sec:comparator}).
+The remaining sections retain the earlier depth failure, failed suffix pilot, harder
+workflow shapes, and prospective portfolio study because each constrains a different
+claim rather than adding another headline.
 
 \subsection{RQ1 and RQ3: provenance succeeds more often than certification}
 \label{sec:rq1}
@@ -833,49 +818,44 @@ The provider-free NESTFUL analysis completes in about six seconds, including rou
 provenance construction, with 23.3 MiB peak traced memory.  These numbers characterize
 this pinned dataset and Python process, not distributed production throughput.
 
-\subsection{RQ6: broad coverage reveals narrow compiler eligibility}
-\label{sec:external-results}
+\subsection{RQ6: transfer across three workflow families}
+\label{sec:family-results}
 
 \begin{table*}[t]
   \centering
-  \caption{All ten named benchmark families receive an explicit executable disposition.
-  Rows are deliberately not averaged: a gold-plan checker, a task adapter, a simulated
-  live-provider run, and a post-trace compiler experiment license different claims.}
-  \label{tab:external-matrix}
-  \small
-  \input{../tables/external_benchmark_matrix.tex}
+  \caption{Primary real-record, live-provider results.  Entries are reductions from the
+  unchanged baseline; exact counts are paired held-out task contracts. ``Interfaces''
+  counts provider-visible tool calls, not the three verified reads inside a composite.}
+  \label{tab:github-families}
+  \resizebox{\textwidth}{!}{\input{../tables/github_workflow_families.tex}}
 \end{table*}
 
-The all-source audit supports RQ6's premise: popular agent benchmarks are useful, but most
-do not preserve the complete observed trajectory required for trace-derived replacement.
-Across eight accessible task adapters we normalize 5,419 tasks and 17,836 reference
-actions, yet only API-Bank's 212 tasks contain complete observed call results.  NESTFUL's
-separate executable path supplies the other compiler substrate.  The remaining rows still
-test parsers, upstream contracts, provider compatibility, or a conservative bypass, but
-their missing values are not counted as compiler failures.
+The result transfers across all three decisions and tool vocabularies.  Compiled programs
+reach 90/90 exact outcomes versus 89/90 for unchanged agents.  Aggregating raw paired
+counts, compilation reduces provider requests 66.6\%, visible tool interfaces 44.2\%,
+tokens 63.1\%, observed wall latency 64.2\%, and estimated cost 58.7\%.  Per-family ranges
+are more informative than the aggregate: requests fall 50.0--75.0\%, tokens
+39.5--81.4\%, latency 51.7--73.0\%, and cost 32.0--75.3\%.  The single baseline miss in
+backlog routing does not establish a quality improvement (exact McNemar $p=1$).
 
-API-Bank contains 389 observed calls over 49 tools.  Conservative effect barriers leave 48
-candidate windows in 37 tasks and 19 families; eight families have support at least three,
-but maximum support is only eight.  Two families synthesize.  Their two held-out windows
-produce zero passes, two abstentions, and zero wrong executions.  The configured exact gate
-requires 92 independent zero-violation groups and therefore retires every family.  This
-second corpus strengthens, rather than weakens, the central negative result: recurrence and
-trace completeness still do not create admission evidence.
+The strongest comparator prevents an exaggerated conclusion.  Hand-written conditions
+also reach 90/90.  On the two new families, fairly placed pre-model manual programs have
+the same single-request and single-interface structure as compiled programs and comparable
+resource use.  The measured value of compilation is therefore automatic trace-grounded
+discovery, rejection, and lifecycle management; this experiment does not show runtime
+dominance over a correct manual implementation.  All records come from one snapshot of
+one repository, so RQ6 is supported for workflow-family transfer only, not cross-repository
+or time-forward generalization.
 
-Re-executing the pinned API implementations with fresh per-task fixtures exactly reproduces
-338 of 389 recorded calls.  Thirty-seven differ, nine raise missing-state \code{KeyError}s,
-and five require unavailable dependencies; 162 of 212 tasks replay completely.  These
-upstream data/code compatibility failures are reported separately from compiler replay.
-They also show why a recorded result and an executable current fixture are different
-evidence objects.
-
-The bounded provider paths reveal cost and quality failure modes without changing that
-conclusion.  The four $\tau$ runs account for 71 provider responses with usage and the
-three BrowseComp tasks account for six requests; ToolSandbox's pinned harness omits usage,
-so its three assistant messages are not relabeled as exact request accounting.  In total,
-77 provider requests are exactly accounted and ToolSandbox remains explicitly incomplete.
-No prompt, answer, tool argument, tool result, search result, or credential from these runs
-is serialized into the publication artifacts.
+\paragraph{Independent refusal on API-Bank.}
+API-Bank contains 389 observed calls over 49 tools. Conservative effect barriers leave 48
+candidate windows in 37 tasks and 19 families; maximum support is eight. Two families
+synthesize, but their two held-out windows produce zero passes, two abstentions, and zero
+wrong executions. The configured exact gate requires 92 independent zero-violation groups
+and retires every family. Re-executing the pinned APIs reproduces 338 of 389 recorded calls
+and 162 of 212 complete tasks; fixture drift and missing dependencies are reported
+separately. Thus a second trace-complete corpus supports the same narrower result as
+NESTFUL: recurrence and replayability do not supply admission evidence.
 
 \subsection{RQ2: real-provider efficiency and observed quality}
 \label{sec:rq2}
@@ -1234,10 +1214,10 @@ assistant and persistent browsing capabilities~\cite{mialon2023gaia,wei2025brows
 and SWE-bench grounds agents in real software issues~\cite{jimenez2024swebench}.  These
 primarily test whether an agent can choose and execute actions or produce a final answer.
 NESTFUL exposes nested producer references, while API-Bank retains recorded call results,
-making those two suitable for our post-trace question~\cite{basu2025nestful}.  Our
-all-source audit executes or gates every named path (\cref{tab:external-matrix}) rather than
-using absent trajectories as negative examples.  Stateful and write-bearing compilation
-remains future work until transactional staging exists.
+making those two suitable for our post-trace question~\cite{basu2025nestful}.  The artifact
+retains a revision-pinned supplementary interoperability ledger for the other benchmarks;
+we do not turn absent trajectories into compiler failures. Stateful and write-bearing
+compilation remains future work until transactional staging exists.
 
 \paragraph{Trace-based specialization, guards, and deoptimization.}
 The architecture is, structurally, a tracing JIT for agent executions, and the correspondence
@@ -1345,10 +1325,9 @@ pre-model composite can remove that turn.
 Sixth, learned-optimizer overhead needs its own ledger.  In the bounded GEPA study the
 optimization spends 59 provider requests and selects no change, so there is no deployment
 benefit against which that cost can be amortized.
-Seventh, benchmark breadth cannot be summarized by a leaderboard average.  The ten-source
-audit finds gold plans, partial fixtures, encrypted questions, real issues, simulated state,
-and complete recorded traces; a compiler must preserve those substrate distinctions or it
-will confuse missing evidence with failure.
+Seventh, opaque identifiers are nominal values, not measurements.  Empirical numeric
+minima and maxima are appropriate for bounded quantities but reject valid unseen IDs;
+identifier contracts should retain type and provenance while allowing new values.
 
 \subsection{Extension path}
 \label{sec:extension}
@@ -1562,21 +1541,20 @@ rewrite an agent. It compiles only value-grounded, read-only prefixes that satis
 compatibility, verification, and finite-sample admission requirements; otherwise it keeps
 the original agent.
 
-The experiments show why each boundary matters. On real public GitHub records, a
-conservative two-read artifact passes 30/30 exact contracts and halves provider requests,
-while an aggressive three-read artifact records one factual miss. The hand-written macro
-also passes 30/30 and is cheaper, so automatic discovery and guarded lifecycle---not
-universal runtime dominance---are the defensible advantages. GCS removes a
-provider-visible selection turn on 12 exploratory pairs, but a fairly placed manual
-program ties it on six later cases. NESTFUL and API-Bank add a different result: despite
-recurrent, executable traces, every family retires because the configured evidence
-requirement is unmet. The ten-benchmark audit shows that most popular agent benchmarks do
-not retain the observed state and results needed to test post-trace compilation at all.
+The experiments show why each boundary matters. Across three real public GitHub workflow
+families, compiled programs reach 90/90 exact held-out contracts versus 89/90 for unchanged
+agents while reducing requests 50.0--75.0\%, tokens 39.5--81.4\%, observed latency
+51.7--73.0\%, and estimated cost 32.0--75.3\%. A historical aggressive artifact still
+records a factual miss, and fairly placed hand-written programs also reach 90/90. Thus
+automatic discovery, conservative admission, and managed lifecycle---not universal runtime
+dominance---are the defensible advantages. NESTFUL and API-Bank add a different result:
+despite recurrent, executable traces, every family retires because the configured evidence
+requirement is unmet.
 
 The resulting design principle is simple: evaluate workflow optimizers by the evidence
 they require, the effects and positions they refuse, and the state to which they fall
 back---not only by the turns they remove. Stronger claims now require a time-forward,
-multi-family comparison with natural failures, a non-degenerate risk--coverage frontier,
+cross-repository comparison with natural failures, a non-degenerate risk--coverage frontier,
 manual construction and maintenance cost, cache effects, drift, and closer executable
 workflow-learning baselines.
 
