@@ -55,6 +55,7 @@ pre code { padding: 0; color: inherit; background: transparent; }
   z-index: 50;
   border-bottom: 1px solid rgba(255,255,255,.08);
   background: rgba(16,36,45,.96);
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
 }
 .nav {
@@ -87,6 +88,7 @@ pre code { padding: 0; color: inherit; background: transparent; }
   opacity: .13;
   background-image: linear-gradient(rgba(255,255,255,.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.15) 1px, transparent 1px);
   background-size: 54px 54px;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 35%, black);
   mask-image: linear-gradient(to right, transparent, black 35%, black);
 }
 .hero-inner { position: relative; z-index: 1; width: min(calc(100% - 36px), var(--max)); margin: 0 auto; display: grid; grid-template-columns: minmax(0,1.35fr) minmax(290px,.65fr); gap: 76px; align-items: end; }
