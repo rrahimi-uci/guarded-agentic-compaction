@@ -132,6 +132,7 @@ def ensure_benchmark_explorer_current() -> None:
     validation = generator.load(generator.MULTIDOMAIN)
     rows = generator.rows_from_matrix(matrix) + generator.rows_from_multidomain(validation)
     generator.verify_totals(matrix, rows)
+    generator.attach_profiles(rows)
     content = generator.attach_content(rows, matrix)
     generator.verify_content(content, matrix)
     if generator.OUTPUT.read_text(encoding="utf-8") != generator.render(matrix, rows, content):

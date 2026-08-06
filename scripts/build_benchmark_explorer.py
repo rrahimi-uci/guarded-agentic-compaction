@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import csv
 import json
+import re
 from pathlib import Path
 
 
@@ -205,11 +206,226 @@ def rows_from_multidomain(validation: dict) -> list[dict]:
 
 DATASETS = ROOT / "paper" / "results" / "datasets"
 PREFLIGHT = PAPER / "results" / "multidomain" / "preflight"
+SOURCE_MANIFEST = ROOT / "benchmarks" / "manifests" / "external-benchmarks.yaml"
+BIBLIOGRAPHY = PAPER / "bibliography" / "references.bib"
+
+# What each benchmark evaluates, and why it appears here. The "tests" lines follow the
+# manuscript's own characterisation of each corpus (Related work, tool-use evaluation);
+# the "role" lines follow how the manuscript uses it. Both are editorial summaries of the
+# paper, so they are kept beside the generated numbers rather than mixed into them.
+PROFILES = {
+    "nestful": {
+        "cite": "basu2025nestful",
+        "tests": "Executable nested API sequences, designed to test whether later calls "
+                 "correctly reuse the outputs of earlier ones.",
+        "role": "One of only two audited public corpora that retain the observed "
+                "intermediate values a post-trace compiler needs, because it exposes "
+                "nested producer references. The compiler genuinely ran here: families "
+                "were mined, split by group, synthesized from train/dev windows, and "
+                "replayed on held-out windows. Every family still fell below the "
+                "92-group exact-gate requirement and retired.",
+    },
+    "api_bank": {
+        "cite": "li2023apibank",
+        "tests": "Runnable APIs and tool-use dialogues for tool-augmented models.",
+        "role": "The second trace-complete corpus, retained because it keeps recorded "
+                "call results. It produces an independent refusal: two families "
+                "synthesize, but their held-out windows give zero passes, two "
+                "abstentions, and zero wrong executions, so the gate retires every "
+                "family. Recurrence and replayability do not supply admission evidence.",
+    },
+    "bfcl": {
+        "cite": "patil2025bfcl",
+        "tests": "Serial, parallel, abstaining, and stateful function calling.",
+        "role": "Supplementary interoperability check. The official checker validates "
+                "the pinned gold plans, which says nothing about model quality here.",
+    },
+    "toolsandbox": {
+        "cite": "lu2025toolsandbox",
+        "tests": "Stateful, conversational, interactive tool use.",
+        "role": "Supplementary interoperability check on a simulated environment with a "
+                "real provider. A simulator run is not a real-world demonstration.",
+    },
+    "tau2": {
+        "cite": "barres2025tau2",
+        "tests": "Conversational agents under dual control, where both the agent and the "
+                 "user can act on the environment.",
+        "role": "Supplementary interoperability check. Its reference plans are dominated "
+                "by reversible writes and unknown effects, so conservative barriers "
+                "leave very little compilable read structure.",
+    },
+    "toolbench": {
+        "cite": "qin2023toolllm",
+        "tests": "Tool retrieval and use scaled across thousands of real-world APIs.",
+        "role": "Supplementary interoperability check limited to the examples bundled in "
+                "the repository; the full reproduction data is an external download.",
+    },
+    "agentbench": {
+        "cite": "liu2023agentbench",
+        "tests": "LLMs acting as agents across interactive environments.",
+        "role": "Supplementary interoperability check. Only the knowledge-graph portion "
+                "carries reference actions; the DB and OS records are task-only.",
+    },
+    "gaia": {
+        "cite": "mialon2023gaia",
+        "tests": "General assistant capability on questions requiring multi-step "
+                 "reasoning and tool use.",
+        "role": "Recorded as withheld. The pinned revision sits behind a gated "
+                "non-redistribution agreement and upstream refused authorization, so no "
+                "task or compiler metric is imputed for it.",
+    },
+    "browsecomp": {
+        "cite": "wei2025browsecomp",
+        "tests": "Persistent browsing: locating hard-to-find facts on the live web.",
+        "role": "Supplementary interoperability check on a bounded live-web subset. It "
+                "exercises a hosted search tool rather than the compiler, and its "
+                "prompts and answers stay encrypted upstream.",
+    },
+    "swe_bench_verified": {
+        "cite": "jimenez2024swebench",
+        "tests": "Resolving real GitHub issues in real repositories.",
+        "role": "Recorded as screened with zero compilable structure, because the dataset "
+                "ships task records without agent trajectories. Absent trajectories are "
+                "not turned into compiler failures.",
+    },
+}
+
+PAPER_CAVEAT = (
+    "The eight supplementary benchmarks primarily test whether an agent can choose and "
+    "execute actions or produce a final answer. That is a different question from the one "
+    "asked here, which is whether an already-valid trace carries enough evidence to "
+    "compile and admit a guarded program."
+)
+
+# Terms the tables use that are specific to this compiler. Defined once, and attached to
+# the column headers and metric labels that use them.
+GLOSSARY = {
+    "Reference-plan screening": "Reading a benchmark's own gold or reference action "
+        "sequences to see whether any compilable read structure exists. No compiler runs "
+        "and no model is called, so screening is never a quality result.",
+    "Candidate region": "A contiguous run of read-like actions inside one task that could, "
+        "in principle, be compiled. Counted per task as a candidate window.",
+    "Candidate family": "A recurring call chain shared across tasks. Support counts how "
+        "many tasks share that exact chain; the exact gate needs far more independent "
+        "groups than any of these reach.",
+    "Barrier action": "An action the compiler refuses to cross, because it writes, or its "
+        "effect cannot be established as read-only.",
+    "Unknown-effect action": "An action whose effect class could not be determined from the "
+        "source. Treated as a barrier, never as a read.",
+    "Complete observed trace": "A recorded task where every intermediate call result is "
+        "retained, which is what a post-trace compiler needs to reconstruct provenance.",
+    "Independent groups": "Calibration units that the exact gate counts. The configured "
+        "gate requires 92 zero-violation groups before it will admit anything.",
+    "Gate outcome": "The compiler's decision for a family. RETIRE means the evidence was "
+        "insufficient and nothing is deployed, which is the default.",
+}
 
 # Free-text previews are clipped so the page stays a browsable index rather than a mirror
 # of the upstream corpus; the full record always stays reachable at the cited path.
 PREVIEW_CHARS = 190
 PAGE_SIZE = 100
+
+
+def load_upstream() -> dict[str, dict]:
+    """Where each corpus came from: repository, pinned revision, licence, retrieval mode.
+
+    Read from the sealed source manifest so the explorer cites the same provenance the
+    experiments were run against, rather than a hand-copied link that can rot.
+    """
+
+    import yaml
+
+    manifest = yaml.safe_load(SOURCE_MANIFEST.read_text(encoding="utf-8"))
+    sources = {
+        key: {
+            "repository": spec.get("repository"),
+            "revision": spec.get("revision"),
+            "license": spec.get("license"),
+            "kind": spec.get("kind"),
+            "url": spec.get("url"),
+            "auth_env": spec.get("auth_env"),
+            "scope": spec.get("benchmark_scope"),
+        }
+        for key, spec in manifest["sources"].items()
+    }
+    # NESTFUL is pinned by its own dataset manifest rather than the source checkout list.
+    nestful = json.loads(
+        (DATASETS / "nestful" / "source_manifest.json").read_text(encoding="utf-8")
+    )
+    sources["nestful"] = {
+        "repository": f"https://huggingface.co/datasets/{nestful['dataset']}",
+        "revision": nestful["commit"],
+        "license": nestful.get("license"),
+        "kind": "dataset",
+        "url": None,
+        "auth_env": None,
+        "scope": "data_v2/nestful_data.jsonl with the audited basic_functions module",
+    }
+    return sources
+
+
+def bib_field(entry: str, name: str) -> str | None:
+    """Pull one brace-delimited BibTeX field, counting braces so nesting survives."""
+
+    match = re.search(name + r"\s*=\s*\{", entry)
+    if not match:
+        return None
+    depth = 1
+    out = []
+    for char in entry[match.end():]:
+        if char == "{":
+            depth += 1
+        elif char == "}":
+            depth -= 1
+            if depth == 0:
+                break
+        out.append(char)
+    return "".join(out)
+
+
+def clean_tex(value: str) -> str:
+    """Strip the BibTeX braces and escapes that protect casing and accents."""
+
+    text = value.replace("\\&", "&")
+    text = re.sub(r"\$\\tau\^2\$", "τ²", text)
+    text = re.sub(r"\\['\"^`~=.]\{?(\w)\}?", r"\1", text)
+    text = text.replace("{", "").replace("}", "")
+    return " ".join(text.split())
+
+
+def load_citations(keys: set[str]) -> dict[str, dict]:
+    """Resolve each benchmark's paper reference out of the manuscript bibliography."""
+
+    text = BIBLIOGRAPHY.read_text(encoding="utf-8")
+    found = {}
+    for key in sorted(keys):
+        start = text.find("{" + key + ",")
+        if start < 0:
+            raise VerificationError(f"bibliography has no entry for {key}")
+        begin = text.rfind("@", 0, start)
+        depth = 0
+        end = len(text)
+        for index in range(start, len(text)):
+            if text[index] == "{":
+                depth += 1
+            elif text[index] == "}":
+                depth -= 1
+                if depth == 0:
+                    end = index + 1
+                    break
+        entry = text[begin:end]
+        authors = clean_tex(bib_field(entry, "author") or "")
+        first = authors.split(" and ")[0].split(",")[0].strip()
+        many = " and " in authors
+        found[key] = {
+            "title": clean_tex(bib_field(entry, "title") or key),
+            "authors": f"{first} et al." if many else first,
+            "year": (bib_field(entry, "year") or "").strip(),
+            "venue": clean_tex(
+                bib_field(entry, "booktitle") or bib_field(entry, "journal") or "preprint"
+            ),
+        }
+    return found
 
 
 def read_jsonl(path: Path, limit: int | None = None) -> list[dict]:
@@ -567,6 +783,46 @@ def verify_content(content: dict[str, list[dict]], matrix: dict) -> None:
             )
 
 
+def attach_profiles(rows: list[dict]) -> None:
+    """Give every external row a description, provenance, and paper reference.
+
+    Fails closed: a benchmark that reaches the page without a profile or without pinned
+    upstream provenance would be presented as understood when it is not.
+    """
+
+    upstream = load_upstream()
+    citations = load_citations({spec["cite"] for spec in PROFILES.values()})
+    for row in rows:
+        if row["family"] != "External benchmark audit":
+            # The multidomain sources are assembled here rather than pinned upstream, so
+            # their provenance is the snapshot digest already shown on the row.
+            row["tests"] = None
+            row["role"] = None
+            row["upstream"] = None
+            row["citation"] = None
+            continue
+        profile = PROFILES.get(row["id"])
+        source = upstream.get(row["id"])
+        if profile is None:
+            raise VerificationError(f"{row['id']}: no profile; refusing to ship a bare row")
+        if source is None or not source.get("repository"):
+            raise VerificationError(f"{row['id']}: no pinned upstream source")
+        row["tests"] = profile["tests"]
+        row["role"] = profile["role"]
+        row["upstream"] = source
+        row["citation"] = citations[profile["cite"]]
+        # The manifest and the analysis file must agree on what was pinned, or the page
+        # would cite one revision while reporting numbers from another.
+        recorded = row.get("revision")
+        if recorded and source.get("revision") and recorded != source["revision"]:
+            raise VerificationError(
+                f"{row['id']}: analysis pinned {recorded[:12]} but manifest pins "
+                f"{source['revision'][:12]}"
+            )
+        if row.get("license") and source.get("license") and row["license"] != source["license"]:
+            raise VerificationError(f"{row['id']}: licence disagrees with the manifest")
+
+
 def verify_totals(matrix: dict, rows: list[dict]) -> None:
     """Recompute the summary from the rows so the page cannot overstate the audit."""
 
@@ -644,6 +900,11 @@ def render(matrix: dict, rows: list[dict], content: dict[str, list[dict]] | None
         f"<li><code>{esc(k)}</code> is <strong>{esc(str(v).lower())}</strong></li>"
         for k, v in sorted(boundary.items())
     )
+    glossary_items = "".join(
+        f'<div class="legend-row"><strong class="term">{esc(term)}</strong>'
+        f"<p>{esc(text)}</p></div>"
+        for term, text in GLOSSARY.items()
+    ) + f'<p class="glossary-caveat">{esc(PAPER_CAVEAT)}</p>'
     status_legend = "".join(
         f'<div class="legend-row"><span class="badge badge-{esc(k)}">{esc(k)}</span>'
         f"<p>{esc(v)}</p></div>"
@@ -740,6 +1001,20 @@ summary {{ cursor: pointer; color: var(--blue); font-size: .84rem; font-weight: 
 .kv dd {{ margin: 0; font-variant-numeric: tabular-nums; font-weight: 600; }}
 .notes {{ margin: 8px 0 0; padding-left: 18px; color: var(--muted); font-size: .82rem; }}
 .prov {{ margin-top: 10px; color: var(--muted); font-size: .74rem; word-break: break-all; }}
+.profile {{ display: grid; grid-template-columns: minmax(0,1.35fr) minmax(240px,.65fr); gap: 26px; align-items: start; margin: 0 0 22px; padding: 20px 22px; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); }}
+.profile h3 {{ margin: 0 0 6px; font-size: .72rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); font-family: Inter, sans-serif; }}
+.profile p {{ margin: 0 0 14px; color: #294149; font-size: .9rem; }}
+.profile p:last-child {{ margin-bottom: 0; }}
+.profile-meta {{ font-size: .82rem; }}
+.profile-meta div {{ display: flex; gap: 10px; justify-content: space-between; padding: 5px 0; border-bottom: 1px dotted var(--line); }}
+.profile-meta dt {{ color: var(--muted); white-space: nowrap; }}
+.profile-meta dd {{ margin: 0; text-align: right; word-break: break-word; }}
+.profile-cite {{ padding: 12px 14px; border-left: 3px solid var(--teal); background: var(--white); font-size: .82rem; color: #294149; }}
+.profile-cite em {{ display: block; font-style: normal; font-weight: 650; margin-bottom: 3px; }}
+.term {{ font-size: .84rem; }}
+.glossary-caveat {{ margin: 16px 0 0; padding-top: 14px; border-top: 1px solid var(--line); color: var(--muted); font-size: .85rem; }}
+.card-tests {{ margin: 10px 0 0; color: #294149; font-size: .87rem; }}
+@media (max-width: 860px) {{ .profile {{ grid-template-columns: 1fr; }} }}
 .browser {{ margin-bottom: 34px; padding: 26px 28px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); box-shadow: 0 12px 34px rgba(16,36,45,.07); }}
 .back {{ margin-bottom: 16px; }}
 .browser h2 {{ margin: 0 0 6px; font-size: 1.9rem; }}
@@ -769,6 +1044,7 @@ summary {{ cursor: pointer; color: var(--blue); font-size: .84rem; font-weight: 
 .pager .page-of {{ color: var(--muted); font-size: .84rem; font-variant-numeric: tabular-nums; }}
 .browse-btn {{ margin-top: 14px; width: 100%; border-color: rgba(42,157,143,.5); color: #14584f; background: rgba(42,157,143,.1); }}
 .browse-btn:hover {{ background: rgba(42,157,143,.18); }}
+.no-records {{ margin: 0; padding: 20px 22px; border-left: 4px solid var(--coral); border-radius: 0 12px 12px 0; background: var(--paper); color: #294149; font-size: .9rem; }}
 .no-content {{ margin-top: 14px; color: var(--muted); font-size: .8rem; font-style: italic; }}
 .empty {{ padding: 40px; border: 1px dashed var(--line); border-radius: var(--radius); text-align: center; color: var(--muted); }}
 .panel {{ margin-top: 44px; padding: 26px 28px; border-left: 4px solid var(--coral); border-radius: 0 var(--radius) var(--radius) 0; background: var(--white); }}
@@ -812,6 +1088,7 @@ footer a {{ color: rgba(255,253,248,.78); }}
     <button type="button" id="back" class="back">&larr; All benchmarks</button>
     <h2 id="browser-title"></h2>
     <p id="browser-sub" class="browser-sub"></p>
+    <div id="profile" class="profile"></div>
     <div id="tabs" class="tabs" role="tablist" aria-label="Record collections"></div>
     <p id="collection-note" class="collection-note"></p>
     <div class="record-controls">
@@ -820,6 +1097,7 @@ footer a {{ color: rgba(255,253,248,.78); }}
       <span id="record-count" role="status" aria-live="polite"></span>
     </div>
     <nav id="pager-top" class="pager pager-top" aria-label="Record pages (top)"></nav>
+    <p id="no-records" class="no-records" hidden></p>
     <div class="table-scroll"><table id="record-table" class="record-table"><thead></thead><tbody></tbody></table></div>
     <nav id="pager" class="pager" aria-label="Record pages"></nav>
   </section>
@@ -857,6 +1135,11 @@ footer a {{ color: rgba(255,253,248,.78); }}
     <p>These flags are recorded in the evidence file itself and are fail-closed, so the
     matrix cannot quietly upgrade weaker evidence:</p>
     <ul>{boundary_items}</ul>
+  </section>
+
+  <section class="legend" aria-labelledby="glossary-h">
+    <h2 id="glossary-h">What the numbers mean</h2>
+    {glossary_items}
   </section>
 
   <section class="legend" aria-labelledby="legend-h">
@@ -947,7 +1230,8 @@ footer a {{ color: rgba(255,253,248,.78); }}
       '<div class="card-head"><div><h3>' + esc(r.name) + "</h3>" +
       '<div class="card-raw">' + esc(r.raw) + "</div></div>" +
       '<span class="badge badge-' + esc(r.status) + '">' + esc(r.status) + "</span></div>" +
-      (r.scope ? '<p class="scope">' + esc(r.scope) + "</p>" : "") +
+      (r.tests ? '<p class="card-tests">' + esc(r.tests) + "</p>" : "") +
+      (r.scope ? '<p class="scope"><strong>In this study:</strong> ' + esc(r.scope) + "</p>" : "") +
       (r.reason ? '<p class="scope"><strong>Blocked:</strong> ' + esc(r.reason) + "</p>" : "") +
       metrics +
       '<div class="flags">' +
@@ -969,10 +1253,10 @@ footer a {{ color: rgba(255,253,248,.78); }}
           (r.credential ? "<br>Credential required: <code>" + esc(r.credential) + "</code>" : "") +
           "</p>" + notes + "</div>" +
       "</details>" +
-      (CONTENT[r.id]
-        ? '<button type="button" class="browse-btn" data-browse="' + esc(r.id) + '">Browse ' +
-          r.record_count.toLocaleString("en-US") + " records \\u2192</button>"
-        : '<p class="no-content">No browsable records: ' + esc(r.no_content_reason) + ".</p>") +
+      '<button type="button" class="browse-btn" data-browse="' + esc(r.id) + '">' +
+        (CONTENT[r.id]
+          ? "Browse " + r.record_count.toLocaleString("en-US") + " records"
+          : "Details \\u2014 no records shipped") + " \\u2192</button>" +
       "</article>";
   }}
 
@@ -1024,6 +1308,7 @@ footer a {{ color: rgba(255,253,248,.78); }}
   const table = document.getElementById("record-table");
   const pager = document.getElementById("pager");
   const pagerTop = document.getElementById("pager-top");
+  const noRecords = document.getElementById("no-records");
   let current = null;   // {{row, groups}}
   let groupIndex = 0;
   let page = 1;
@@ -1082,6 +1367,44 @@ footer a {{ color: rgba(255,253,248,.78); }}
     pagerTop.innerHTML = pagerHtml;
   }}
 
+  function renderProfile(r) {{
+    const el = document.getElementById("profile");
+    if (!r.tests && !r.upstream) {{ el.hidden = true; el.innerHTML = ""; return; }}
+    el.hidden = false;
+    const u = r.upstream || {{}};
+    const meta = [
+      ["Upstream", u.repository
+        ? '<a href="' + esc(u.repository) + '" rel="noopener noreferrer">' +
+          esc(String(u.repository).replace(/^https?:\\/\\//, "").replace(/\\.git$/, "")) + "</a>"
+        : null],
+      ["Pinned revision", u.revision ? "<code>" + esc(String(u.revision).slice(0, 12)) + "</code>" : null],
+      ["Retrieved as", u.kind ? words(u.kind) : null],
+      ["Licence", u.license || r.license],
+      ["Credential", u.auth_env ? "<code>" + esc(u.auth_env) + "</code>" : null],
+      ["Substrate", r.substrate ? words(r.substrate) : null],
+      ["Evidence stage", r.evidence_stage ? words(r.evidence_stage) : null],
+    ].filter((pair) => pair[1]);
+
+    const cite = r.citation
+      ? '<div class="profile-cite"><em>' + esc(r.citation.title) + "</em>" +
+        esc(r.citation.authors) + (r.citation.year ? ", " + esc(r.citation.year) : "") +
+        (r.citation.venue ? ". " + esc(r.citation.venue) : "") + "</div>"
+      : "";
+
+    el.innerHTML =
+      "<div>" +
+        (r.tests ? "<h3>What the benchmark tests</h3><p>" + esc(r.tests) + "</p>" : "") +
+        (r.role ? "<h3>Why it is in this work</h3><p>" + esc(r.role) + "</p>" : "") +
+        (r.reason ? "<h3>Why it is blocked</h3><p>" + esc(r.reason) + "</p>" : "") +
+      "</div><div>" +
+        (meta.length
+          ? '<h3>Provenance</h3><dl class="profile-meta">' + meta.map((pair) =>
+              "<div><dt>" + pair[0] + "</dt><dd>" + pair[1] + "</dd></div>").join("") + "</dl>"
+          : "") +
+        cite +
+      "</div>";
+  }}
+
   function renderTabs() {{
     tabsEl.hidden = current.groups.length < 2;
     tabsEl.innerHTML = current.groups.map((g, i) =>
@@ -1093,17 +1416,33 @@ footer a {{ color: rgba(255,253,248,.78); }}
   }}
 
   function openBrowser(id, replaceHash, wanted) {{
-    const groups = CONTENT[id];
-    if (!groups) return;
-    current = {{ row: rows.find((r) => r.id === id), groups: groups }};
+    const row = rows.find((r) => r.id === id);
+    if (!row) return;
+    const groups = CONTENT[id] || [];
+    current = {{ row: row, groups: groups }};
     groupIndex = Number.isInteger(wanted) && groups[wanted] ? wanted : 0;
     page = 1;
     rq.value = "";
     document.getElementById("browser-title").textContent = current.row.name;
     document.getElementById("browser-sub").textContent =
       current.row.raw + " \\u00b7 " + current.row.family + " \\u00b7 " + current.row.status;
-    renderTabs();
-    renderPage();
+    renderProfile(current.row);
+    const hasRecords = current.groups.length > 0;
+    ["tabs", "collection-note", "pager-top", "pager"].forEach((id2) => {{
+      document.getElementById(id2).hidden = !hasRecords;
+    }});
+    document.querySelector(".record-controls").hidden = !hasRecords;
+    document.querySelector(".table-scroll").hidden = !hasRecords;
+    noRecords.hidden = hasRecords;
+    if (hasRecords) {{
+      renderTabs();
+      renderPage();
+    }} else {{
+      noRecords.innerHTML = "<strong>No records are shipped for this path.</strong> " +
+        esc(current.row.no_content_reason) +
+        ". Nothing is imputed in its place, so this row contributes no task or compiler "
+        + "metric to the audit.";
+    }}
     browser.hidden = false;
     overview.forEach((el) => {{ el.hidden = true; }});
     if (!replaceHash) location.hash = groupIndex ? id + "/" + groupIndex : id;
@@ -1151,7 +1490,7 @@ footer a {{ color: rgba(255,253,248,.78); }}
     const raw = location.hash.replace(/^#/, "");
     if (!raw) return null;
     const [id, group] = raw.split("/");
-    return CONTENT[id] ? {{ id: id, group: Number(group) }} : null;
+    return rows.some((r) => r.id === id) ? {{ id: id, group: Number(group) }} : null;
   }}
   window.addEventListener("hashchange", () => {{
     const target = fromHash();
@@ -1185,6 +1524,7 @@ def main() -> None:
 
     rows = rows_from_matrix(matrix) + rows_from_multidomain(validation)
     verify_totals(matrix, rows)
+    attach_profiles(rows)
     content = attach_content(rows, matrix)
     verify_content(content, matrix)
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
