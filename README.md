@@ -1,7 +1,7 @@
 # Agent Compaction
 
-[![CI](https://github.com/rrahimi-uci/agent-compaction/actions/workflows/ci.yml/badge.svg)](https://github.com/rrahimi-uci/agent-compaction/actions/workflows/ci.yml)
-[![Documentation](https://github.com/rrahimi-uci/agent-compaction/actions/workflows/pages.yml/badge.svg)](https://rrahimi-uci.github.io/agent-compaction/)
+[![CI](https://github.com/rrahimi-uci/guarded-agentic-compaction/actions/workflows/ci.yml/badge.svg)](https://github.com/rrahimi-uci/guarded-agentic-compaction/actions/workflows/ci.yml)
+[![Documentation](https://github.com/rrahimi-uci/guarded-agentic-compaction/actions/workflows/pages.yml/badge.svg)](https://rrahimi-uci.github.io/guarded-agentic-compaction/)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-0b6e69.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-24324a.svg)](pyproject.toml)
 
@@ -13,7 +13,7 @@ but recurrence is never enough: every candidate must pass value-provenance, effe
 permission, runtime-position, replay, compatibility, and finite-sample evidence checks.
 Otherwise the original agent remains unchanged.
 
-[Documentation](https://rrahimi-uci.github.io/agent-compaction/) ·
+[Documentation](https://rrahimi-uci.github.io/guarded-agentic-compaction/) ·
 [Paper](paper/compiling-recurrent-agent-workflows-into-guarded-programs.pdf) ·
 [Architecture](docs/library-api.md) ·
 [OpenAI Agents SDK guide](docs/openai-agents-sdk.md) ·
@@ -90,14 +90,14 @@ optimizer value and are excluded from the main comparison.
 These are research-prototype results from one repository snapshot. They do **not**
 establish semantic equivalence, production certification, cross-repository or time-forward
 generalization, or state-of-the-art quality. See the
-[paper review](paper/paper-review.md), [limitations](https://rrahimi-uci.github.io/agent-compaction/limitations.html),
+[paper review](paper/paper-review.md), [limitations](https://rrahimi-uci.github.io/guarded-agentic-compaction/limitations.html),
 and [claim audit](paper/supplementary/experiment-verification.md).
 
 ## Install
 
 ~~~bash
-git clone https://github.com/rrahimi-uci/agent-compaction.git
-cd agent-compaction
+git clone https://github.com/rrahimi-uci/guarded-agentic-compaction.git
+cd guarded-agentic-compaction
 python -m venv .venv
 .venv/bin/pip install -e '.[dev,live,figures]'
 ~~~

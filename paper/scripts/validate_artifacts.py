@@ -1487,7 +1487,7 @@ def validate_publication() -> None:
                            "Portfolio optimization beyond the pilot",
                            "Limitations and Threats to Validity",
                            "Code Availability",
-                           "github.com/rrahimi-uci/agent-compaction"):
+                           "github.com/rrahimi-uci/guarded-agentic-compaction"):
                 normalized_phrase = re.sub(r"[^a-z0-9]+", "", phrase.lower())
                 ok(normalized_phrase in searchable_pdf_text,
                    f"{build}: compiled PDF contains: {phrase}")

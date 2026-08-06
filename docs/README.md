@@ -4,7 +4,7 @@ This directory describes the implemented `agent-compaction` 0.7.0 research libra
 Start here rather than treating every document as an equally current specification.
 
 The rendered, reader-oriented documentation is published at
-[rrahimi-uci.github.io/agent-compaction](https://rrahimi-uci.github.io/agent-compaction/).
+[rrahimi-uci.github.io/guarded-agentic-compaction](https://rrahimi-uci.github.io/guarded-agentic-compaction/).
 This directory retains the deeper engineering and research records behind that site.
 
 ## Current developer documentation

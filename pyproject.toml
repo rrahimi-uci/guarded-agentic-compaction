@@ -40,6 +40,15 @@ figures = ["matplotlib>=3.8", "pandas>=2.0", "pyarrow>=15"]
 gepa = ["gepa==0.1.4"]
 dev = ["pytest>=8.0", "jsonschema>=4.0", "build>=1.2", "pypdf>=5.0"]
 
+[project.urls]
+# The distribution name and import path stay `agent-compaction`/`agent_compaction`; the
+# repository is `guarded-agentic-compaction` after the rename. Declaring the URLs here is
+# what keeps that intentional split discoverable rather than confusing.
+Homepage = "https://rrahimi-uci.github.io/guarded-agentic-compaction/"
+Repository = "https://github.com/rrahimi-uci/guarded-agentic-compaction"
+Issues = "https://github.com/rrahimi-uci/guarded-agentic-compaction/issues"
+Changelog = "https://github.com/rrahimi-uci/guarded-agentic-compaction/blob/main/CHANGELOG.md"
+
 [project.scripts]
 agent-compaction = "agent_compaction.cli:main"
 
