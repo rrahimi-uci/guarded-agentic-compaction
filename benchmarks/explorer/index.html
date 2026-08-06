@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Search and filter every benchmark used in the Guarded Agentic Compaction evaluation, with each row's evidence class, execution status, and claim boundary.">
+<title>Benchmark explorer — Guarded Agentic Compaction</title>
+<style>
+:root {
+  --ink: #10242d; --ink-2: #173742; --paper: #f7f3eb; --paper-2: #eee8dc;
+  --white: #fffdf8; --teal: #2a9d8f; --teal-light: #9ed9cf; --blue: #2f6b8a;
+  --coral: #d06b4d; --gold: #b8862f; --muted: #64747a;
+  --line: rgba(16,36,45,.16); --radius: 16px;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; color: var(--ink); background: var(--paper);
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 16px; line-height: 1.6;
+}
+h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; font-weight: 600; letter-spacing: -.03em; line-height: 1.1; }
+a { color: var(--blue); text-underline-offset: 3px; }
+a:hover { color: var(--coral); }
+code { font-family: "SFMono-Regular", Consolas, monospace; font-size: .86em; background: rgba(47,107,138,.09); padding: .1rem .35rem; border-radius: 5px; }
+.wrap { width: min(100% - 32px, 1180px); margin: 0 auto; }
+.skip { position: absolute; left: 16px; top: -80px; background: var(--coral); color: var(--white); padding: 10px 14px; z-index: 20; }
+.skip:focus { top: 12px; }
+header.masthead { padding: 54px 0 40px; color: var(--white); background: linear-gradient(135deg, var(--ink), #19434e); }
+.eyebrow { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 14px; color: var(--teal-light); font-size: .72rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+.eyebrow::before { content: ""; width: 26px; height: 2px; background: currentColor; }
+header.masthead h1 { margin: 0; font-size: clamp(2.3rem, 5vw, 3.6rem); max-width: 900px; }
+header.masthead p { max-width: 760px; margin: 18px 0 0; color: rgba(255,253,248,.78); }
+.tiles { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-top: 34px; border: 1px solid rgba(255,255,255,.18); border-radius: var(--radius); overflow: hidden; }
+.tile { padding: 16px 18px; border-right: 1px solid rgba(255,255,255,.14); }
+.tile:last-child { border-right: 0; }
+.tile strong { display: block; color: var(--teal-light); font: 600 1.7rem/1.1 Georgia, serif; }
+.tile span { display: block; margin-top: 5px; color: rgba(255,253,248,.72); font-size: .76rem; }
+main { padding: 40px 0 70px; }
+.controls { position: sticky; top: 0; z-index: 10; padding: 18px; margin-bottom: 26px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); box-shadow: 0 10px 30px rgba(16,36,45,.07); }
+.control-grid { display: grid; grid-template-columns: minmax(220px, 1.6fr) repeat(4, minmax(130px, 1fr)) auto; gap: 14px; align-items: end; }
+.control { display: grid; gap: 6px; }
+.control > span { color: var(--muted); font-size: .7rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
+input[type="search"], select { width: 100%; min-height: 42px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); color: var(--ink); font: inherit; font-size: .92rem; }
+input[type="search"]:focus-visible, select:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
+button { min-height: 42px; padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--ink); font: inherit; font-weight: 650; font-size: .88rem; cursor: pointer; }
+button:hover { background: var(--paper-2); }
+.status-line { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: baseline; margin-top: 14px; color: var(--muted); font-size: .85rem; }
+.sort-inline { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: .8rem; font-weight: 650; }
+.sort-inline select { width: auto; min-height: 36px; padding: 5px 10px; font-size: .84rem; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 18px; }
+.card { display: flex; flex-direction: column; padding: 22px 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); box-shadow: 0 10px 28px rgba(16,36,45,.06); }
+.card-head { display: flex; gap: 12px; justify-content: space-between; align-items: start; }
+.card h3 { margin: 0 0 4px; font-size: 1.18rem; }
+.card-raw { color: var(--muted); font-size: .74rem; font-family: "SFMono-Regular", Consolas, monospace; }
+.badge { display: inline-block; padding: 3px 11px; border-radius: 999px; font-size: .7rem; font-weight: 700; letter-spacing: .04em; white-space: nowrap; }
+.badge-measured { color: #14584f; background: rgba(42,157,143,.18); }
+.badge-screened { color: #234f66; background: rgba(47,107,138,.15); }
+.badge-gated { color: #8a3a1c; background: rgba(208,107,77,.18); }
+.badge-preflight { color: #6d5115; background: rgba(214,168,75,.22); }
+.scope { margin: 12px 0 0; color: #37505a; font-size: .89rem; }
+.metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin: 16px 0 0; background: var(--line); border: 1px solid var(--line); border-radius: 11px; overflow: hidden; }
+.metric { padding: 9px 12px; background: var(--white); }
+.metric dt { color: var(--muted); font-size: .68rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
+.metric dd { margin: 2px 0 0; font-variant-numeric: tabular-nums; font-weight: 600; font-size: .98rem; }
+.flags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+.flag { padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; font-size: .72rem; color: var(--muted); }
+.flag-no { border-color: rgba(208,107,77,.4); color: #8a3a1c; }
+.flag-yes { border-color: rgba(42,157,143,.45); color: #14584f; }
+details { margin-top: 16px; border-top: 1px solid var(--line); padding-top: 12px; }
+summary { cursor: pointer; color: var(--blue); font-size: .84rem; font-weight: 650; }
+.detail-block { margin-top: 12px; }
+.detail-block h4 { margin: 0 0 6px; color: var(--muted); font-size: .68rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
+.kv { margin: 0; font-size: .84rem; }
+.kv div { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; border-bottom: 1px dotted var(--line); }
+.kv dt { color: #37505a; }
+.kv dd { margin: 0; font-variant-numeric: tabular-nums; font-weight: 600; }
+.notes { margin: 8px 0 0; padding-left: 18px; color: var(--muted); font-size: .82rem; }
+.prov { margin-top: 10px; color: var(--muted); font-size: .74rem; word-break: break-all; }
+.empty { padding: 40px; border: 1px dashed var(--line); border-radius: var(--radius); text-align: center; color: var(--muted); }
+.panel { margin-top: 44px; padding: 26px 28px; border-left: 4px solid var(--coral); border-radius: 0 var(--radius) var(--radius) 0; background: var(--white); }
+.panel h2 { margin: 0 0 10px; font-size: 1.5rem; }
+.panel ul { margin: 10px 0 0; padding-left: 20px; color: #37505a; font-size: .9rem; }
+.legend { margin-top: 28px; padding: 24px 26px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); }
+.legend h2 { margin: 0 0 14px; font-size: 1.35rem; }
+.legend-row { display: grid; grid-template-columns: 110px 1fr; gap: 14px; align-items: start; padding: 7px 0; }
+.legend-row p { margin: 0; color: #37505a; font-size: .88rem; }
+footer { padding: 34px 0; color: rgba(255,253,248,.7); background: #0b1c22; font-size: .84rem; }
+footer a { color: rgba(255,253,248,.78); }
+@media (max-width: 1000px) {
+  .tiles { grid-template-columns: repeat(3, 1fr); }
+  .tile:nth-child(3) { border-right: 0; }
+  .control-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 620px) {
+  .tiles { grid-template-columns: 1fr 1fr; }
+  .control-grid { grid-template-columns: 1fr; }
+  .controls { position: static; }
+  .legend-row { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#results">Skip to results</a>
+<header class="masthead"><div class="wrap">
+  <p class="eyebrow">Guarded Agentic Compaction</p>
+  <h1>Every benchmark in the evaluation, and what each one can prove.</h1>
+  <p>Ten named external benchmarks plus the frozen multidomain record sources. The
+  evaluation deliberately does not average them: a screened reference plan, an executed
+  simulator, a real compiler run, and a source we were denied access to support different
+  claims, so each row keeps its own substrate, denominator, execution status, and
+  boundary.</p>
+  <section class="tiles" aria-label="Audit summary"><div class="tile"><strong>10</strong><span>named external benchmarks audited</span></div><div class="tile"><strong>5</strong><span>external paths actually executed</span></div><div class="tile"><strong>2</strong><span>paths where the compiler itself ran</span></div><div class="tile"><strong>5,419</strong><span>reference tasks screened for structure</span></div><div class="tile"><strong>17,836</strong><span>reference actions screened</span></div><div class="tile"><strong>1</strong><span>source withheld upstream, nothing imputed</span></div></section>
+</div></header>
+
+<main><div class="wrap">
+  <form class="controls" id="controls" role="search" aria-label="Filter benchmarks" onsubmit="return false">
+    <div class="control-grid">
+      <label class="control"><span>Search</span>
+        <input type="search" id="q" placeholder="NESTFUL, simulator, RETIRE&hellip;"
+               autocomplete="off"></label>
+      <label class="control"><span>Family</span><select id="f-family" data-facet="family"><option value="">All</option><option value="External benchmark audit">External benchmark audit</option><option value="Multidomain real-record source">Multidomain real-record source</option></select></label>
+      <label class="control"><span>Evidence status</span><select id="f-status" data-facet="status"><option value="">All</option><option value="gated">gated</option><option value="measured">measured</option><option value="preflight">preflight</option><option value="screened">screened</option></select></label>
+      <label class="control"><span>Substrate</span><select id="f-substrate" data-facet="substrate"><option value="">All</option><option value="executable_public_benchmark">executable public benchmark</option><option value="live_web">live web</option><option value="public_simulation">public simulation</option><option value="real_public_records">real public records</option><option value="real_world_container">real world container</option></select></label>
+      <label class="control"><span>Execution</span><select id="f-exec" data-facet="execution_status"><option value="">All</option><option value="executed">executed</option><option value="not_executed">not executed</option></select></label>
+      <button type="button" id="reset">Clear</button>
+    </div>
+    <div class="status-line">
+      <span id="count" role="status" aria-live="polite"></span>
+      <label class="sort-inline">Sort
+        <select id="sort" aria-label="Sort results">
+          <option value="name">by name</option>
+          <option value="tasks">by tasks (high to low)</option>
+          <option value="actions">by reference actions (high to low)</option>
+          <option value="candidate_regions">by candidate regions (high to low)</option>
+          <option value="status">by evidence status</option>
+        </select>
+      </label>
+    </div>
+  </form>
+
+  <section id="results" class="grid" aria-label="Benchmarks"></section>
+  <p class="empty" id="empty" hidden>No benchmark matches those filters. <button type="button" id="reset2">Clear filters</button></p>
+
+  <section class="panel" aria-labelledby="boundary-h">
+    <h2 id="boundary-h">What this audit does not claim</h2>
+    <p>These flags are recorded in the evidence file itself and are fail-closed, so the
+    matrix cannot quietly upgrade weaker evidence:</p>
+    <ul><li><code>gated_source_metrics_imputed</code> is <strong>false</strong></li><li><code>screening_is_compiler_execution</code> is <strong>false</strong></li><li><code>screening_is_quality_evaluation</code> is <strong>false</strong></li><li><code>simulated_benchmarks_are_real_world_demos</code> is <strong>false</strong></li><li><code>task_only_zero_coverage_is_failure</code> is <strong>false</strong></li></ul>
+  </section>
+
+  <section class="legend" aria-labelledby="legend-h">
+    <h2 id="legend-h">Reading the evidence status</h2>
+    <div class="legend-row"><span class="badge badge-measured">measured</span><p>Compiler executed on this benchmark; a gate decision was produced.</p></div><div class="legend-row"><span class="badge badge-screened">screened</span><p>Reference plans were screened for compilable structure. No compiler ran.</p></div><div class="legend-row"><span class="badge badge-gated">gated</span><p>Upstream access denied. No task or compiler metric is imputed.</p></div><div class="legend-row"><span class="badge badge-preflight">preflight</span><p>Real records validated and frozen, but the study has not been run.</p></div>
+  </section>
+</div></main>
+
+<footer><div class="wrap">
+  <p>Generated from <code>paper/results/external_benchmarks/reference_analysis.json</code> and <code>paper/results/multidomain/preflight/validation.json</code>
+  by <code>scripts/build_benchmark_explorer.py</code>, which recomputes every headline total
+  from the per-benchmark rows and fails closed if they disagree.</p>
+  <p><a href="../../site/method.html">Method and certificates</a> &middot;
+  <a href="../README.md">Benchmark suite README</a> &middot;
+  <a href="https://github.com/rrahimi-uci/guarded-agentic-compaction">Source</a></p>
+</div></footer>
+
+<script type="application/json" id="data">[{"actions":1162,"blocks":{"UNKNOWN_EFFECT":63},"candidate_regions":170,"compiler_ran":false,"credential":null,"effects":{"READ_LOCAL":1099,"UNKNOWN":63},"efficiency_licensed":false,"evidence_stage":"reference_plan_screening","execution":{},"execution_status":"not_executed","family":"External benchmark audit","gate":null,"id":"agentbench","license":"Apache-2.0","measured":{},"name":"AgentBench","notes":["reference-plan screening only; not a GAC execution result","The full official run is infrastructure/data gated (MySQL, Redis, task services, and external Freebase bytes); no score is imputed."],"provider_calls":0,"quality_licensed":false,"raw":"agentbench","reason":null,"revision":"d1e4a10db08c87075c78972e48ecc182be03e2d5","scope":"knowledge-graph reference actions plus DB and OS task-only records","source":null,"source_sha256":null,"status":"screened","structure":{"Barrier actions":63,"Largest family support":88,"Longest read region":9,"Read-like actions":1099,"Recurrent candidate families":8,"Tasks with a barrier":63,"Tasks with reference actions":170,"Tasks with unknown effects":63,"Unknown-effect actions":63},"substrate":"public_simulation","tasks":556},{"actions":389,"blocks":{"EFFECT_WRITE_REVERSIBLE":142,"UNKNOWN_EFFECT":70},"candidate_regions":29,"compiler_ran":true,"credential":null,"effects":{"PURE":9,"READ_LOCAL":168,"UNKNOWN":70,"WRITE_REVERSIBLE":142},"efficiency_licensed":false,"evidence_stage":"reference_plan_screening","execution":{"candidate_windows":48,"evidence_class":"public executable simulator plus complete recorded traces","families_synthesized":2,"gate_outcome":"RETIRE","held_out_abstained":2,"held_out_passed":0,"held_out_wrong":0,"is_real_world_demo":false,"tasks":212,"upstream_actions_attempted":389,"upstream_actions_passed":338},"execution_status":"executed","family":"External benchmark audit","gate":"RETIRE","id":"api_bank","license":"Apache-2.0 for api-bank","measured":{},"name":"API-Bank","notes":["reference-plan screening only; not a GAC execution result"],"provider_calls":0,"quality_licensed":false,"raw":"api_bank","reason":null,"revision":"483554eae102996f5ec1f4feab4e78ef29c2a394","scope":"212 retained level-1/2 given-description dialogues with observed API results","source":null,"source_sha256":null,"status":"screened","structure":{"Barrier actions":212,"Largest family support":4,"Longest read region":3,"Read-like actions":177,"Recurrent candidate families":8,"Tasks with a barrier":156,"Tasks with reference actions":212,"Tasks with unknown effects":54,"Unknown-effect actions":70},"substrate":"executable_public_benchmark","tasks":212},{"actions":1142,"blocks":{"EFFECT_WRITE_REVERSIBLE":298,"UNKNOWN_EFFECT":491},"candidate_regions":76,"compiler_ran":false,"credential":null,"effects":{"READ_LOCAL":353,"UNKNOWN":491,"WRITE_REVERSIBLE":298},"efficiency_licensed":false,"evidence_stage":"reference_plan_screening","execution":{"evidence_class":"official executable public benchmark environment with gold plans","is_real_world_demo":false,"official_checker_valid":200,"provider_requests":0,"tasks":200},"execution_status":"executed","family":"External benchmark audit","gate":null,"id":"bfcl","license":"Apache-2.0","measured":{},"name":"BFCL v4 \u2014 multi-turn base","notes":["reference-plan screening only; not a GAC execution result"],"provider_calls":0,"quality_licensed":false,"raw":"bfcl_v4_multi_turn_base","reason":null,"revision":"6ea57973c7a6097fd7c5915698c54c17c5b1b6c8","scope":"BFCL v4 multi_turn_base, 200 tasks","source":null,"source_sha256":null,"status":"screened","structure":{"Barrier actions":789,"Largest family support":19,"Longest read region":3,"Read-like actions":353,"Recurrent candidate families":12,"Tasks with a barrier":199,"Tasks with reference actions":200,"Tasks with unknown effects":173,"Unknown-effect actions":491},"substrate":"executable_public_benchmark","tasks":200},{"actions":0,"blocks":{},"candidate_regions":0,"compiler_ran":false,"credential":null,"effects":{},"efficiency_licensed":false,"evidence_stage":"reference_plan_screening","execution":{"correct":1,"evidence_class":"bounded live-provider live-web benchmark","is_real_world_demo":false,"provider_requests":6,"tasks":3,"total_tokens":237859,"web_search_calls":28},"execution_status":"executed","family":"External benchmark audit","gate":null,"id":"browsecomp","license":"MIT","measured":{},"name":"BrowseComp","notes":["reference-plan screening only; not a GAC execution result","The upstream task set contains no reusable agent trajectory; zero candidate coverage is not a compiler failure."],"provider_calls":6,"quality_licensed":false,"raw":"browsecomp","reason":null,"revision":"sha256:7b24471cd5b3eb2a46830a14802b5c029ea62f488ff75a0f88af7923d1454abf","scope":"1,266 encrypted live-web tasks; prompts and answers remain encrypted","source":null,"source_sha256":null,"status":"screened","structure":{"Barrier actions":0,"Largest family support":0,"Longest read region":0,"Read-like actions":0,"Recurrent candidate families":0,"Tasks with a barrier":0,"Tasks with reference actions":0,"Tasks with unknown effects":0,"Unknown-effect actions":0},"substrate":"live_web","tasks":1266},{"actions":null,"blocks":{},"candidate_regions":null,"compiler_ran":false,"credential":"HF_TOKEN","effects":{},"efficiency_licensed":null,"evidence_stage":"source_access_only","execution":{},"execution_status":"not_executed","family":"External benchmark audit","gate":null,"id":"gaia","license":"gated non-redistribution agreement","measured":{},"name":"GAIA","notes":["No task or compiler metric is imputed for an inaccessible source."],"provider_calls":null,"quality_licensed":null,"raw":"gaia","reason":"upstream authorization denied with HTTP 403","revision":"682dd723ee1e1697e00360edccf2366dc8418dd9","scope":"validation metadata; current token can inspect metadata but is not authorized to download bytes","source":null,"source_sha256":null,"status":"gated","structure":{},"substrate":null,"tasks":null},{"actions":5746,"blocks":{},"candidate_regions":null,"compiler_ran":true,"credential":null,"effects":{},"efficiency_licensed":null,"evidence_stage":"executed_provider_free_compiler_benchmark","execution":{},"execution_status":null,"family":"External benchmark audit","gate":"RETIRE","id":"nestful","license":null,"measured":{"candidate_recall":0.9625826662025757,"default_gate_outcome":"RETIRE","held_out_abstain":12,"held_out_pass":24,"held_out_wrong":0,"unique_resolution_rate":0.8068221371388792},"name":"NESTFUL","notes":["Existing measured GAC compiler result; unlike screening rows, this executed the compiler."],"provider_calls":null,"quality_licensed":null,"raw":"nestful","reason":null,"revision":"fc2c4123e73500a56185a5fb354f05d1c8b4890c","scope":null,"source":"paper/results/nestful/results.json","source_sha256":"88d305dd65601afc64a8cb4d1d206b9499fca113d4f04b0339b4331e4d3b00fa","status":"measured","structure":{},"substrate":"executable_public_benchmark","tasks":1415},{"actions":0,"blocks":{},"candidate_regions":0,"compiler_ran":false,"credential":null,"effects":{},"efficiency_licensed":false,"evidence_stage":"reference_plan_screening","execution":{},"execution_status":"not_executed","family":"External benchmark audit","gate":null,"id":"swe_bench_verified","license":"MIT harness; dataset records retain upstream repository provenance","measured":{},"name":"SWE-bench Verified","notes":["reference-plan screening only; not a GAC execution result","The upstream task set contains no reusable agent trajectory; zero candidate coverage is not a compiler failure.","The pinned 500-task dataset is available, but the official x86_64/16-GiB Docker execution contract is not met by this arm64/12.5-GiB Docker host."],"provider_calls":0,"quality_licensed":false,"raw":"swe_bench_verified","reason":null,"revision":"c104f840cc67f8b6eec6f759ebc8b2693d585d4a","scope":"500 verified real GitHub issue tasks; no agent trajectories bundled","source":null,"source_sha256":null,"status":"screened","structure":{"Barrier actions":0,"Largest family support":0,"Longest read region":0,"Read-like actions":0,"Recurrent candidate families":0,"Tasks with a barrier":0,"Tasks with reference actions":0,"Tasks with unknown effects":0,"Unknown-effect actions":0},"substrate":"real_world_container","tasks":500},{"actions":14862,"blocks":{"EFFECT_WRITE_REVERSIBLE":7904,"UNKNOWN_EFFECT":6489},"candidate_regions":83,"compiler_ran":false,"credential":null,"effects":{"READ_LOCAL":469,"UNKNOWN":6489,"WRITE_REVERSIBLE":7904},"efficiency_licensed":false,"evidence_stage":"reference_plan_screening","execution":{"evidence_class":"official simulated environments with real OpenAI provider calls","is_real_world_demo":false,"passed":0,"provider_requests":71,"reported_cost_usd":0.0490096,"tasks":4,"total_tokens":288757},"execution_status":"executed","family":"External benchmark audit","gate":null,"id":"tau2","license":"MIT","measured":{},"name":"\u03c4\u00b2-bench","notes":["reference-plan screening only; not a GAC execution result"],"provider_calls":71,"quality_licensed":false,"raw":"tau2","reason":null,"revision":"1eceb0453fe2effa1ba26b6a51fc52b966944ec1","scope":"airline, retail, telecom, and banking_knowledge task definitions","source":null,"source_sha256":null,"status":"screened","structure":{"Barrier actions":14393,"Largest family support":5,"Longest read region":16,"Read-like actions":469,"Recurrent candidate families":23,"Tasks with a barrier":2516,"Tasks with reference actions":2537,"Tasks with unknown effects":2222,"Unknown-effect actions":6489},"substrate":"public_simulation","tasks":2546},{"actions":23,"blocks":{},"candidate_regions":10,"compiler_ran":false,"credential":null,"effects":{"READ_EXTERNAL":23},"efficiency_licensed":false,"evidence_stage":"reference_plan_screening","execution":{},"execution_status":"not_executed","family":"External benchmark audit","gate":null,"id":"toolbench","license":"Apache-2.0","measured":{},"name":"ToolBench","notes":["reference-plan screening only; not a GAC execution result","Only the ten repository examples are present; this row is an adapter smoke test, not an official ToolBench result."],"provider_calls":0,"quality_licensed":false,"raw":"toolbench_repository_examples","reason":null,"revision":"d56fdd89faf8c91fa135090b212bb9057ee5cfc2","scope":"repository examples only; full reproduction data is an external download","source":null,"source_sha256":null,"status":"screened","structure":{"Barrier actions":0,"Largest family support":4,"Longest read region":4,"Read-like actions":23,"Recurrent candidate families":2,"Tasks with a barrier":0,"Tasks with reference actions":10,"Tasks with unknown effects":0,"Unknown-effect actions":0},"substrate":"executable_public_benchmark","tasks":10},{"actions":258,"blocks":{"EFFECT_WRITE_REVERSIBLE":34,"UNKNOWN_EFFECT":38},"candidate_regions":51,"compiler_ran":false,"credential":null,"effects":{"READ_LOCAL":186,"UNKNOWN":38,"WRITE_REVERSIBLE":34},"efficiency_licensed":false,"evidence_stage":"reference_plan_screening","execution":{"evidence_class":"official simulated environment with real OpenAI provider calls","is_real_world_demo":false,"milestone_similarity":0.9818215727005191,"provider_requests":null,"tasks":1},"execution_status":"executed","family":"External benchmark audit","gate":null,"id":"toolsandbox","license":"Apple sample-code license with bundled acknowledgements","measured":{},"name":"ToolSandbox","notes":["reference-plan screening only; not a GAC execution result"],"provider_calls":0,"quality_licensed":false,"raw":"toolsandbox_base_scenarios","reason":null,"revision":"165848b9a78cead7ca7fe7c89c688b58e6501219","scope":"129 source-defined base scenarios; generated distraction variants share lineage","source":null,"source_sha256":null,"status":"screened","structure":{"Barrier actions":72,"Largest family support":6,"Longest read region":3,"Read-like actions":186,"Recurrent candidate families":14,"Tasks with a barrier":47,"Tasks with reference actions":129,"Tasks with unknown effects":25,"Unknown-effect actions":38},"substrate":"public_simulation","tasks":129},{"actions":null,"blocks":{},"candidate_regions":null,"compiler_ran":false,"credential":null,"effects":{},"efficiency_licensed":false,"evidence_stage":"frozen_preflight","execution":{"variable_path_fraction":0.1143},"execution_status":"not_executed","family":"Multidomain real-record source","gate":null,"id":"multidomain_vulnerability","license":"public record redistribution terms per source manifest","measured":{},"name":"OSV / GitHub Advisory / NVD vulnerability records","notes":["Study status is proposed_unrun with zero provider calls executed; these rows are frozen inputs, not results."],"provider_calls":0,"quality_licensed":false,"raw":"vulnerability","reason":null,"revision":null,"scope":"420 validated cases across 420 independent groups; protocol frozen before any provider call","source":"paper/results/multidomain/preflight/validation.json","source_sha256":null,"status":"preflight","structure":{"Exact-oracle passes":420,"Independent gold passes":420,"Independent groups":420},"substrate":"real_public_records","tasks":420},{"actions":null,"blocks":{},"candidate_regions":null,"compiler_ran":false,"credential":null,"effects":{},"efficiency_licensed":false,"evidence_stage":"source_unavailable","execution":{},"execution_status":"not_executed","family":"Multidomain real-record source","gate":null,"id":"multidomain_sec","license":"public record redistribution terms per source manifest","measured":{},"name":"SEC filing facts","notes":["Study status is proposed_unrun with zero provider calls executed; these rows are frozen inputs, not results."],"provider_calls":null,"quality_licensed":false,"raw":"sec","reason":"real normalized pool unavailable","revision":null,"scope":"pool could not be normalized from real records","source":"paper/results/multidomain/preflight/validation.json","source_sha256":null,"status":"gated","structure":{},"substrate":null,"tasks":null},{"actions":null,"blocks":{},"candidate_regions":null,"compiler_ran":false,"credential":null,"effects":{},"efficiency_licensed":false,"evidence_stage":"frozen_preflight","execution":{"variable_path_fraction":0.9905},"execution_status":"not_executed","family":"Multidomain real-record source","gate":null,"id":"multidomain_hmda","license":"public record redistribution terms per source manifest","measured":{},"name":"HMDA public loan application register","notes":["Study status is proposed_unrun with zero provider calls executed; these rows are frozen inputs, not results."],"provider_calls":0,"quality_licensed":false,"raw":"hmda","reason":null,"revision":null,"scope":"420 validated cases across 420 independent groups; protocol frozen before any provider call","source":"paper/results/multidomain/preflight/validation.json","source_sha256":null,"status":"preflight","structure":{"Exact-oracle passes":420,"Independent gold passes":420,"Independent groups":420},"substrate":"real_public_records","tasks":420}]</script>
+<script>
+(function () {
+  "use strict";
+  const rows = JSON.parse(document.getElementById("data").textContent);
+  const results = document.getElementById("results");
+  const empty = document.getElementById("empty");
+  const count = document.getElementById("count");
+  const q = document.getElementById("q");
+  const sort = document.getElementById("sort");
+  const facets = Array.from(document.querySelectorAll("select[data-facet]"));
+
+  const num = (v) => (v === null || v === undefined ? "\u2014" : v.toLocaleString("en-US"));
+  const esc = (v) => String(v).replace(/[&<>"]/g, (c) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+  const words = (v) => String(v || "").replace(/_/g, " ");
+
+  // One flat haystack per row so a single query can reach names, scope, licence,
+  // gate outcomes and notes without the caller knowing the schema.
+  rows.forEach((r) => {
+    r._hay = [r.name, r.raw, r.family, r.status, r.substrate, r.execution_status,
+              r.evidence_stage, r.license, r.scope, r.reason, r.gate,
+              (r.notes || []).join(" "), Object.keys(r.effects || {}).join(" "),
+              Object.keys(r.blocks || {}).join(" ")]
+             .filter(Boolean).join(" ").toLowerCase();
+  });
+
+  // Three-state on purpose: null means the evidence file records no verdict, which is
+  // not the same as recording "no". Absent verdicts render nothing at all.
+  function flag(state, label) {
+    if (state === null || state === undefined) return "";
+    return '<span class="flag ' + (state ? "flag-yes" : "flag-no") + '">' +
+      (state ? "\u2713 " : "\u2717 ") + esc(label) + "</span>";
+  }
+
+  function kv(title, obj) {
+    const keys = Object.keys(obj || {});
+    if (!keys.length) return "";
+    const body = keys.sort().map((k) =>
+      "<div><dt>" + esc(words(k)) + "</dt><dd>" +
+      (typeof obj[k] === "number" ? num(obj[k]) : esc(words(obj[k]))) + "</dd></div>").join("");
+    return '<div class="detail-block"><h4>' + esc(title) + '</h4><dl class="kv">' + body + "</dl></div>";
+  }
+
+  function card(r) {
+    const cells = [
+      ["Tasks", r.tasks],
+      ["Reference actions", r.actions],
+      ["Tasks w/ candidate region", r.candidate_regions],
+      ["Live provider calls", r.provider_calls],
+    ];
+    // A gated source has no metrics because none are imputed for it; a grid of dashes
+    // would imply we measured zero rather than that we were never given the bytes.
+    const anyMetric = cells.some(([, v]) => v !== null && v !== undefined);
+    const metrics = !anyMetric ? "" : '<dl class="metrics">' + cells.map(([k, v]) =>
+      "<div class=\"metric\"><dt>" + k + "</dt><dd>" + num(v) + "</dd></div>").join("") + "</dl>";
+
+    const notes = (r.notes || []).length
+      ? '<ul class="notes">' + r.notes.map((n) => "<li>" + esc(n) + "</li>").join("") + "</ul>"
+      : "";
+
+    const provenance = [
+      r.source ? "Source: <code>" + esc(r.source) + "</code>" : "",
+      r.source_sha256 ? "sha256 " + esc(r.source_sha256.slice(0, 16)) + "\u2026" : "",
+      r.revision ? "revision " + esc(r.revision.slice(0, 10)) : "",
+    ].filter(Boolean).join(" &middot; ");
+
+    return '<article class="card">' +
+      '<div class="card-head"><div><h3>' + esc(r.name) + "</h3>" +
+      '<div class="card-raw">' + esc(r.raw) + "</div></div>" +
+      '<span class="badge badge-' + esc(r.status) + '">' + esc(r.status) + "</span></div>" +
+      (r.scope ? '<p class="scope">' + esc(r.scope) + "</p>" : "") +
+      (r.reason ? '<p class="scope"><strong>Blocked:</strong> ' + esc(r.reason) + "</p>" : "") +
+      metrics +
+      '<div class="flags">' +
+        flag(r.compiler_ran, "compiler executed") +
+        flag(r.quality_licensed, "quality claim licensed") +
+        flag(r.efficiency_licensed, "efficiency claim licensed") +
+        (r.gate ? '<span class="flag">gate: ' + esc(r.gate) + "</span>" : "") +
+        (r.substrate ? '<span class="flag">' + esc(words(r.substrate)) + "</span>" : "") +
+      "</div>" +
+      "<details><summary>Evidence detail</summary>" +
+        kv("Structure", r.structure) +
+        kv("Effect classes", r.effects) +
+        kv("Block reasons", r.blocks) +
+        kv("Measured compiler result", r.measured) +
+        kv("Execution record", r.execution) +
+        '<div class="detail-block"><h4>Provenance</h4>' +
+          '<p class="prov">' + (provenance || "\u2014") +
+          (r.license ? "<br>Licence: " + esc(r.license) : "") +
+          (r.credential ? "<br>Credential required: <code>" + esc(r.credential) + "</code>" : "") +
+          "</p>" + notes + "</div>" +
+      "</details></article>";
+  }
+
+  function apply() {
+    const needle = q.value.trim().toLowerCase();
+    const active = facets.filter((s) => s.value);
+    let shown = rows.filter((r) => {
+      if (needle && !r._hay.includes(needle)) return false;
+      return active.every((s) => String(r[s.dataset.facet]) === s.value);
+    });
+
+    const mode = sort.value;
+    shown.sort((a, b) => {
+      if (mode === "name") return a.name.localeCompare(b.name);
+      if (mode === "status") return String(a.status).localeCompare(String(b.status)) ||
+        a.name.localeCompare(b.name);
+      return (b[mode] || 0) - (a[mode] || 0) || a.name.localeCompare(b.name);
+    });
+
+    results.innerHTML = shown.map(card).join("");
+    empty.hidden = shown.length > 0;
+    // Deliberately not a pooled denominator: these rows sit on different substrates and
+    // the evaluation does not average them, so the record count is labelled as a sum of
+    // per-row counts rather than presented as one benchmark size.
+    const records = shown.reduce((sum, r) => sum + (r.tasks || 0), 0);
+    count.textContent = shown.length + " of " + rows.length + " benchmarks" +
+      (records ? " \u00b7 " + records.toLocaleString("en-US") +
+        " records across mixed substrates (not a pooled denominator)" : "");
+  }
+
+  function reset() {
+    q.value = "";
+    facets.forEach((s) => { s.value = ""; });
+    sort.value = "name";
+    apply();
+    q.focus();
+  }
+
+  q.addEventListener("input", apply);
+  sort.addEventListener("change", apply);
+  facets.forEach((s) => s.addEventListener("change", apply));
+  document.getElementById("reset").addEventListener("click", reset);
+  document.getElementById("reset2").addEventListener("click", reset);
+  apply();
+})();
+</script>
+</body>
+</html>

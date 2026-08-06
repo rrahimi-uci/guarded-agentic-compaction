@@ -122,6 +122,23 @@ def validate_site(output: Path) -> None:
     print(f"Pages site valid: {len(html_files)} pages, {len(list(output.rglob('*')))} paths")
 
 
+def ensure_benchmark_explorer_current() -> None:
+    """Fail closed when the benchmark explorer drifts from the evidence it reports."""
+
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import build_benchmark_explorer as generator
+
+    matrix = generator.load(generator.MATRIX)
+    validation = generator.load(generator.MULTIDOMAIN)
+    rows = generator.rows_from_matrix(matrix) + generator.rows_from_multidomain(validation)
+    generator.verify_totals(matrix, rows)
+    if generator.OUTPUT.read_text(encoding="utf-8") != generator.render(matrix, rows):
+        raise SystemExit(
+            "benchmarks/explorer/index.html is stale relative to paper/results/; "
+            "regenerate it with: python scripts/build_benchmark_explorer.py"
+        )
+
+
 def ensure_paper_page_current() -> None:
     """Fail closed when site/method.html drifts from the result artifacts it quotes.
 
@@ -147,6 +164,7 @@ def ensure_paper_page_current() -> None:
 
 def build(output: Path) -> None:
     ensure_paper_page_current()
+    ensure_benchmark_explorer_current()
     required = [SITE / "index.html", SITE / "assets" / "css" / "styles.css"]
     missing = [str(path.relative_to(ROOT)) for path in required if not path.exists()]
     if missing:
@@ -162,6 +180,14 @@ def build(output: Path) -> None:
         if not source.exists():
             raise SystemExit(f"missing publication figure: {source.relative_to(ROOT)}")
         shutil.copy2(source, figure_dir / name)
+
+    # The explorer is a standalone, self-contained page that lives with the benchmark
+    # suite it describes; publishing a copy makes it browsable from the site without
+    # giving it a second source of truth.
+    explorer_source = ROOT / "benchmarks" / "explorer" / "index.html"
+    explorer_dir = output / "benchmarks" / "explorer"
+    explorer_dir.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(explorer_source, explorer_dir / "index.html")
 
     download_dir = output / "downloads"
     download_dir.mkdir(parents=True, exist_ok=True)
