@@ -35,11 +35,18 @@ Outputs:
 
 `paper/results/slide_generation.json` records the generator digest each render was built
 from. The generator has since been revised to disclose the per-artifact selective-risk
-level, the pooled 3.3% compiled-only discordance bound, and the 181–411 episode
-break-even, so the two committed `.pptx` files predate those edits and its
-`regeneration_required` block names them as stale. Rerunning the command above with an
-artifact-tool workspace clears the block; `validate_artifacts.py` fails if the mismatch is
-ever left undeclared.
+level, the pooled 3.3% compiled-only discordance bound, the 181–411 episode provider-side
+break-even, and the prompt-cache accounting that qualifies the reported 32.0–75.3% cost
+range, so the two committed `.pptx` files predate those edits and its
+`regeneration_required` block names them as stale. That block records both the digest the
+decks were built from (`generator_sha256_current`) and the digest awaiting a render
+(`generator_sha256_pending`). Rerunning the command above with an artifact-tool workspace
+clears the block; `validate_artifacts.py` fails if the mismatch is ever left undeclared.
+
+The `@oai/artifact-tool` runtime is not published to any reachable registry, so the render
+step cannot be performed from a clean checkout without an existing workspace. The slide
+*source* — `generate_slides.mjs` — is the artifact kept current with the manuscript; the
+`.pptx` binaries lag until someone with that workspace re-renders them.
 
 The generated comparator slide is intentionally scoped: all five arms pass 6/6; GCS and
 the independent manual pre-model program tie on requests, interfaces, and input tokens;

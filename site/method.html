@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="The mechanism and the two certificates behind Guarded Agentic Compaction: the admission pipeline, the runtime dispatch path, the selective-risk bound, and the per-artifact risk register.">
+  <title>Method and certificates — Guarded Agentic Compaction</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/styles.css"><script defer src="assets/js/site.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><nav class="nav" aria-label="Primary navigation">
+    <a class="brand" href="index.html"><span class="brand-mark">GAC</span><span>Guarded Agentic Compaction</span></a>
+    <button class="menu-button" data-menu aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">☰</button>
+    <ul class="nav-links" id="site-nav" data-nav-links>
+      <li><a href="index.html">Overview</a></li><li><a href="architecture.html">Architecture</a></li>
+      <li><a aria-current="page" href="method.html">Method</a></li>
+      <li><a href="getting-started.html">Get started</a></li><li><a href="research.html">Research</a></li>
+      <li><a href="limitations.html">Limits</a></li><li><a class="nav-cta" href="contributing.html">Contribute</a></li>
+    </ul>
+  </nav></header>
+  <main id="main">
+    <section class="page-hero"><div class="container">
+      <div class="breadcrumbs"><a href="index.html">Guarded Agentic Compaction</a> / Method</div>
+      <h1>Two certificates, and what each one licenses.</h1>
+      <p>A guarded program ships only when provenance reconstructs it and finite-sample
+      evidence certifies it. Both certificates are numbers with closed forms, so this page
+      states them, instantiates them on the artifacts that shipped, and names the risk
+      level each result is actually licensed at.</p>
+    </div></section>
+
+    <section class="section"><div class="container">
+      <div class="section-head">
+        <div><p class="eyebrow">Compile time</p>
+        <h2>Five checks, and refusal is the default.</h2></div>
+        <p>Recurrence in a trace is a clue that a region might be compilable. It is not a
+        license. Each check below can retire the family on its own, and no check can be
+        traded against another.</p>
+      </div>
+      <figure class="figure figure-diagram">
+        <div class="diagram-scroll">
+<svg viewBox="0 0 960 470" role="img" aria-labelledby="pipe-t pipe-d" class="block-diagram">
+  <title id="pipe-t">Compile-time admission pipeline</title>
+  <desc id="pipe-d">Agent episodes become a typed trace representation and a candidate
+  region, which must pass five independent admission checks. If all five agree the
+  compiler emits a guarded program; any single refusal retires the family.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
+            markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2f6b8a"/>
+    </marker>
+    <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
+            markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2a9d8f"/>
+    </marker>
+    <marker id="arrow-coral" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
+            markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#d06b4d"/>
+    </marker>
+    <!-- Defined once for the whole page: the runtime diagram reuses these markers by id,
+         and re-declaring them there would trip the duplicate-id site check. -->
+    <marker id="arrow-gold" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
+            markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#b8862f"/>
+    </marker>
+  </defs>
+
+  <g class="d-stage">
+    <rect x="24" y="26" width="252" height="70" rx="14"/>
+    <text x="150" y="55" class="d-label">Recurrent agent episodes</text>
+    <text x="150" y="77" class="d-sub">real records, live provider</text>
+  </g>
+  <g class="d-stage">
+    <rect x="354" y="26" width="252" height="70" rx="14"/>
+    <text x="480" y="55" class="d-label">Typed trace IR</text>
+    <text x="480" y="77" class="d-sub">value provenance retained</text>
+  </g>
+  <g class="d-stage">
+    <rect x="684" y="26" width="252" height="70" rx="14"/>
+    <text x="810" y="55" class="d-label">Candidate region</text>
+    <text x="810" y="77" class="d-sub">longest groundable prefix</text>
+  </g>
+  <line x1="282" y1="61" x2="346" y2="61" class="d-flow" marker-end="url(#arrow)"/>
+  <line x1="612" y1="61" x2="678" y2="61" class="d-flow" marker-end="url(#arrow)"/>
+  <path d="M 810 102 L 810 132" class="d-flow" marker-end="url(#arrow)"/>
+
+  <g class="d-gate">
+    <rect x="24" y="140" width="912" height="150" rx="18"/>
+    <text x="48" y="171" class="d-gate-title">Admission gate</text>
+    <text x="912" y="171" class="d-gate-note" text-anchor="end">every check can refuse on its own</text>
+  </g>
+  <g class="d-check">
+    <rect x="48" y="192" width="168" height="74" rx="12"/>
+    <text x="132" y="220" class="d-check-label">Value</text>
+    <text x="132" y="240" class="d-check-label">provenance</text>
+    <text x="132" y="257" class="d-check-sub">derivable arguments</text>
+  </g>
+  <g class="d-check">
+    <rect x="228" y="192" width="168" height="74" rx="12"/>
+    <text x="312" y="220" class="d-check-label">Effect</text>
+    <text x="312" y="240" class="d-check-label">barriers</text>
+    <text x="312" y="257" class="d-check-sub">read-only region</text>
+  </g>
+  <g class="d-check">
+    <rect x="408" y="192" width="168" height="74" rx="12"/>
+    <text x="492" y="220" class="d-check-label">Compatibility</text>
+    <text x="492" y="240" class="d-check-label">and partition</text>
+    <text x="492" y="257" class="d-check-sub">bounded lookup</text>
+  </g>
+  <g class="d-check">
+    <rect x="588" y="192" width="168" height="74" rx="12"/>
+    <text x="672" y="220" class="d-check-label">Replay</text>
+    <text x="672" y="240" class="d-check-label">equivalence</text>
+    <text x="672" y="257" class="d-check-sub">observation parity</text>
+  </g>
+  <g class="d-check">
+    <rect x="768" y="192" width="168" height="74" rx="12"/>
+    <text x="852" y="220" class="d-check-label">Finite-sample</text>
+    <text x="852" y="240" class="d-check-label">evidence</text>
+    <text x="852" y="257" class="d-check-sub">grouped calibration</text>
+  </g>
+
+  <path d="M 300 296 L 300 356" class="d-flow-ok" marker-end="url(#arrow-teal)"/>
+  <text x="312" y="330" class="d-edge">all five agree</text>
+  <path d="M 660 296 L 660 356" class="d-flow-no" marker-end="url(#arrow-coral)"/>
+  <text x="672" y="330" class="d-edge">any refusal</text>
+
+  <g class="d-emit">
+    <rect x="150" y="362" width="300" height="76" rx="14"/>
+    <text x="300" y="392" class="d-label-inv">Emit guarded program</text>
+    <text x="300" y="415" class="d-sub-inv">inspectable, replayable, revocable</text>
+  </g>
+  <g class="d-retire">
+    <rect x="510" y="362" width="300" height="76" rx="14"/>
+    <text x="660" y="392" class="d-label-inv">Retire the family</text>
+    <text x="660" y="415" class="d-sub-inv">the default, and the first optimization</text>
+  </g>
+</svg>
+</div>
+        <figcaption>Compile-time admission. The compiler emits the longest groundable
+        prefix, not the whole recurrent region &mdash; a dynamic argument that cannot be
+        derived from entry state or prior results truncates the program.</figcaption>
+      </figure>
+    </div></section>
+
+    <section class="section section-tint"><div class="container">
+      <div class="section-head">
+        <div><p class="eyebrow">Run time</p>
+        <h2>Dispatch is bounded; fallback is exact.</h2></div>
+        <p>An admitted artifact does not take over the workflow. It is looked up at the
+        entry boundary, re-checked against live effects, and abandoned in favour of the
+        unchanged agent whenever a stage refuses.</p>
+      </div>
+      <figure class="figure figure-diagram">
+        <div class="diagram-scroll">
+<svg viewBox="0 0 960 400" role="img" aria-labelledby="run-t run-d" class="block-diagram">
+  <title id="run-t">Runtime dispatch and fallback</title>
+  <desc id="run-d">A bounded registry lookup at the entry boundary selects a path.
+  Ordinary guarded region compilation runs guard, gate, stage, interpret, verify, and
+  commit, and can fall back to the unchanged agent. An eligible guarded composite
+  artifact verifies its continuation pin and projects the task result before the first
+  provider request.</desc>
+
+  <g class="d-stage">
+    <rect x="24" y="168" width="204" height="94" rx="14"/>
+    <text x="126" y="202" class="d-label">Entry observation</text>
+    <text x="126" y="224" class="d-sub">bounded registry lookup</text>
+    <text x="126" y="242" class="d-sub">by compatibility + partition</text>
+  </g>
+  <path d="M 228 196 C 250 196 246 103 268 103" class="d-flow" marker-end="url(#arrow)"/>
+  <path d="M 228 236 C 250 236 246 318 268 318" class="d-flow-gold" marker-end="url(#arrow-gold)"/>
+
+  <text x="268" y="34" class="d-lane">Ordinary guarded region compilation</text>
+  <rect x="268" y="44" width="668" height="118" rx="16" class="d-lane-box"/>
+  <g class="d-step"><rect x="284" y="76" width="100" height="60" rx="11"/><text x="334" y="112" class="d-step-label">Guard</text></g>  <line x1="384" y1="106" x2="391" y2="106" class="d-flow" marker-end="url(#arrow)"/>  <g class="d-step"><rect x="392" y="76" width="100" height="60" rx="11"/><text x="442" y="112" class="d-step-label">Gate</text></g>  <line x1="492" y1="106" x2="499" y2="106" class="d-flow" marker-end="url(#arrow)"/>  <g class="d-step"><rect x="500" y="76" width="100" height="60" rx="11"/><text x="550" y="112" class="d-step-label">Stage</text></g>  <line x1="600" y1="106" x2="607" y2="106" class="d-flow" marker-end="url(#arrow)"/>  <g class="d-step"><rect x="608" y="76" width="100" height="60" rx="11"/><text x="658" y="112" class="d-step-label">Interpret</text></g>  <line x1="708" y1="106" x2="715" y2="106" class="d-flow" marker-end="url(#arrow)"/>  <g class="d-step"><rect x="716" y="76" width="100" height="60" rx="11"/><text x="766" y="112" class="d-step-label">Verify</text></g>  <line x1="816" y1="106" x2="823" y2="106" class="d-flow" marker-end="url(#arrow)"/>  <g class="d-step"><rect x="824" y="76" width="100" height="60" rx="11"/><text x="874" y="112" class="d-step-label">Commit</text></g>
+  <path d="M 766 162 L 766 186" class="d-flow-fallback" marker-end="url(#arrow-coral)"/>
+  <text x="584" y="222" class="d-edge-warn-end">any stage may refuse</text>
+  <g class="d-retire">
+    <rect x="596" y="188" width="340" height="66" rx="12"/>
+    <text x="766" y="216" class="d-label-inv-sm">Exact fallback: the unchanged agent runs</text>
+    <text x="766" y="237" class="d-sub-inv">requires a staging owner at the commit boundary</text>
+  </g>
+
+  <text x="268" y="262" class="d-lane">Eligible guarded composite artifact</text>
+  <rect x="268" y="272" width="668" height="104" rx="16" class="d-lane-box d-lane-gold"/>
+  <g class="d-step d-step-gold">
+    <rect x="284" y="298" width="214" height="62" rx="11"/>
+    <text x="391" y="324" class="d-step-label">Verify continuation pin</text>
+    <text x="391" y="344" class="d-step-sub">program + task projection</text>
+  </g>
+  <line x1="498" y1="329" x2="521" y2="329" class="d-flow-gold" marker-end="url(#arrow-gold)"/>
+  <g class="d-step d-step-gold">
+    <rect x="522" y="298" width="214" height="62" rx="11"/>
+    <text x="629" y="324" class="d-step-label">Project the result</text>
+    <text x="629" y="344" class="d-step-sub">before provider request one</text>
+  </g>
+  <line x1="736" y1="329" x2="759" y2="329" class="d-flow-gold" marker-end="url(#arrow-gold)"/>
+  <text x="768" y="325" class="d-edge-gold">no provider request</text>
+  <text x="768" y="343" class="d-edge-gold">is emitted at all</text>
+</svg>
+</div>
+        <figcaption>Runtime dispatch. Exact fallback still requires a staging owner that
+        holds the commit boundary; the composite path avoids post-emission rollback by
+        verifying and projecting before the provider sees the observation.</figcaption>
+      </figure>
+    </div></section>
+
+    <section class="section"><div class="container doc-layout">
+      <article class="prose">
+        <h2 id="certificates">The certificates, written out</h2>
+        <p class="lead">Each closed form below is checked against the value the study
+        recorded when this page is built. A formula that stops reproducing its own
+        published number fails the build rather than rendering.</p>
+        
+      <div class="formula-grid">
+        <article class="formula-card">
+          <h3>Selective-risk certificate</h3>
+          <p>With zero observed violations, split &delta; across the fixed threshold grid
+          and invert the one-sided exact binomial bound.</p>
+          
+<math display="block">
+  <msub><mi>r</mi><mtext>bound</mtext></msub><mo>=</mo><mn>1</mn><mo>&#x2212;</mo>
+  <msup>
+    <mrow><mo>(</mo><mfrac><mi>&#x3B4;</mi><mi>K</mi></mfrac><mo>)</mo></mrow>
+    <mrow><mn>1</mn><mo>/</mo><mi>n</mi></mrow>
+  </msup>
+</math>
+          <p class="formula-note">Prescribed-prefix ablation:
+          &delta;=0.1, K=11,
+          n=92 &rarr;
+          <strong>0.0498</strong>, inside the registered
+          &alpha;=.05. The composite artifact refuses four groups, so n falls to
+          88 and the same formula gives
+          <strong>0.0520</strong> &mdash; which only clears
+          &alpha;=.10.</p>
+        </article>
+        <article class="formula-card">
+          <h3>Coverage is what pays for it</h3>
+          <p>Risk and coverage trade off exactly as the finite-sample calculation
+          requires; refusing groups is what pushes the bound out.</p>
+          
+<math display="block">
+  <mi>c</mi><mo>=</mo>
+  <mfrac>
+    <msub><mi>n</mi><mtext>admitted</mtext></msub>
+    <msub><mi>n</mi><mtext>groups</mtext></msub>
+  </mfrac>
+</math>
+          <p class="formula-note">The composite gate is the only one that refuses any
+          calibration group: 88/92
+          admitted, <strong>95.7%</strong> coverage. Dropping below
+          92 zero-violation groups is precisely why a 5%
+          bound is no longer available to it.</p>
+        </article>
+        <article class="formula-card">
+          <h3>Preservation is bounded, not proven</h3>
+          <p>No compiled-only failure across the pooled held-out records still leaves a
+          one-sided upper bound on the discordance rate.</p>
+          
+<math display="block">
+  <msub><mi>d</mi><mtext>bound</mtext></msub><mo>=</mo><mn>1</mn><mo>&#x2212;</mo>
+  <msup><mi>&#x3B1;</mi><mrow><mn>1</mn><mo>/</mo><mi>n</mi></mrow></msup>
+</math>
+          <p class="formula-note">Pooling all 90 paired records
+          bounds compiled-only degradation at <strong>3.3%</strong>. Any single
+          30-record family bounds it only at 9.5%. Zero observed failures is not
+          an equivalence result.</p>
+        </article>
+        <article class="formula-card">
+          <h3>Discovery has to amortize</h3>
+          <p>Learning the program costs paid provider episodes, repaid only out of the
+          per-episode saving it later produces.</p>
+          
+<math display="block">
+  <msup><mi>E</mi><mo>&#x2217;</mo></msup><mo>=</mo>
+  <mfrac>
+    <msub><mi>C</mi><mtext>discovery</mtext></msub>
+    <mrow>
+      <msub><mi>c</mi><mtext>baseline</mtext></msub><mo>&#x2212;</mo>
+      <msub><mi>c</mi><mtext>compiled</mtext></msub>
+    </mrow>
+  </mfrac>
+</math>
+          <p class="formula-note">Issue-type routing spent
+          $0.1146 over
+          132 discovery episodes and saves
+          $0.000279
+          per episode &rarr; <strong>411 episodes</strong>,
+          more than three times its own discovery cohort.</p>
+        </article>
+      </div>
+
+        <h2 id="register">Risk is per artifact, not per paper</h2>
+        <p>4 of the 7 admitted artifacts sit at the registered
+        &alpha;=.05. The guarded composite artifact does not: it is the only gate that
+        refuses any calibration group, and refusing four drops n below what a
+        zero-violation 5% bound needs. Every result that rests on it &mdash; the composite
+        study and the fair-placement comparator &mdash; is a
+        10%-selective-risk result and is reported as one.</p>
+        <div class="table-scroll"><table class="evidence-table"><caption>Selective-risk configuration each admitted artifact actually used. Bounds split &delta;=0.10 across an 11-threshold grid for one fixed candidate and assume the zero observed violations every row records.</caption><thead><tr><th>Admitted artifact</th><th><span class="nocaps">&alpha;</span></th><th>Groups admitted</th><th>Coverage</th><th>Risk bound</th><th>Against registered <span class="nocaps">&alpha;</span>=.05</th></tr></thead><tbody><tr><td>Prescribed-prefix ablation</td><td class="num">0.05</td><td class="num">92 / 92</td><td class="num">100.0%</td><td class="num">0.0498</td><td><span class="badge badge-pass">meets .05</span></td></tr><tr><td>Natural-order, three-read</td><td class="num">0.10</td><td class="num">45 / 45</td><td class="num">100.0%</td><td class="num">0.0992</td><td><span class="badge badge-fail">licensed at .10</span></td></tr><tr><td>Expanded replication (issue type)</td><td class="num">0.05</td><td class="num">92 / 92</td><td class="num">100.0%</td><td class="num">0.0498</td><td><span class="badge badge-pass">meets .05</span></td></tr><tr><td>PR-outcome audit</td><td class="num">0.05</td><td class="num">92 / 92</td><td class="num">100.0%</td><td class="num">0.0498</td><td><span class="badge badge-pass">meets .05</span></td></tr><tr><td>Backlog-attention routing</td><td class="num">0.05</td><td class="num">92 / 92</td><td class="num">100.0%</td><td class="num">0.0498</td><td><span class="badge badge-pass">meets .05</span></td></tr><tr><td>Guarded composite synthesis</td><td class="num">0.10</td><td class="num">88 / 92</td><td class="num">95.7%</td><td class="num">0.0520</td><td><span class="badge badge-fail">licensed at .10</span></td></tr><tr><td>Comparator deployment (same GCS artifact)</td><td class="num">0.10</td><td class="num">88 / 92</td><td class="num">95.7%</td><td class="num">0.0520</td><td><span class="badge badge-fail">licensed at .10</span></td></tr></tbody></table></div>
+        <div class="callout callout-warn"><p><strong>Read this before quoting a number.</strong>
+        Three risk levels appear in this work and each licenses a different result set.
+        The three primary workflow families are licensed at .05; the composite and
+        comparator results are licensed at .10 and would retire at .05.</p></div>
+
+        <h2 id="transfer">What the primary result establishes</h2>
+        <p>Compiled programs preserve exact outcomes across three distinct decisions and
+        tool vocabularies while removing model turns. Hand-written programs reach the same
+        exact score, so the claim is automatic discovery and lifecycle &mdash; not runtime
+        dominance.</p>
+        <div class="table-scroll"><table class="evidence-table"><caption>Three real-record workflow families, 30 pairwise-disjoint held-out records each, live provider calls on one revision-pinned public snapshot.</caption><thead><tr><th>Workflow family</th><th>Exact: baseline &rarr; compiled</th><th>Manual</th><th>Requests</th><th>Tokens</th><th>Cost</th></tr></thead><tbody><tr><td>Issue-type routing</td><td class="num">30/30 &rarr; 30/30</td><td class="num">30/30</td><td class="num">−50.0%</td><td class="num">−39.5%</td><td class="num">−32.0%</td></tr><tr><td>PR-outcome audit</td><td class="num">30/30 &rarr; 30/30</td><td class="num">30/30</td><td class="num">−75.0%</td><td class="num">−80.8%</td><td class="num">−75.3%</td></tr><tr><td>Backlog-attention routing</td><td class="num">29/30 &rarr; 30/30</td><td class="num">30/30</td><td class="num">−74.8%</td><td class="num">−81.4%</td><td class="num">−75.1%</td></tr><tr class="row-total"><td><strong>Weighted total</strong></td><td class="num"><strong>89/90 &rarr; 90/90</strong></td><td class="num"><strong>90/90</strong></td><td class="num"><strong>−66.6%</strong></td><td class="num"><strong>−63.1%</strong></td><td class="num"><strong>−58.7%</strong></td></tr></tbody></table></div>
+        <p>All records come from one revision-pinned repository snapshot; this is workflow-family, not cross-repository or time-forward, generalization.
+        With no compiled-only failure in 90 paired records, the
+        pooled discordance bound is 3.3%; exact McNemar gives p=1. See the
+        <a href="research.html#primary">full experimental design</a> for denominators and
+        counterbalancing.</p>
+
+        <h2 id="cache">Where the cost numbers come from</h2>
+        <p>Token savings and dollar savings diverge, and the reason was recorded all
+        along. Collapsing three reads into one call shortens the prompt and simultaneously
+        destroys the repeated prefix that made the remaining input cheap.</p>
+        <div class="table-scroll"><table class="evidence-table"><caption>Prompt-cache structure of the primary runs, recovered provider-free from retained data. &ldquo;Cached&rdquo; is the share of input served as cache reads; break-even counts future episodes needed to repay 132 paid discovery episodes in provider spend alone.</caption><thead><tr><th>Family</th><th>Arm</th><th>Tokens / episode</th><th>Cached</th><th>Cost / episode</th><th>Break-even</th></tr></thead><tbody><tr><td rowspan="3">Issue-type routing</td><td>Unchanged</td><td class="num">4,259</td><td class="num">32.3%</td><td class="num">$0.000872</td><td rowspan="3" class="num">411</td></tr><tr><td>Compiled</td><td class="num">2,576</td><td class="num">27.8%</td><td class="num">$0.000593</td></tr><tr><td>Manual macro</td><td class="num">1,781</td><td class="num">0.0%</td><td class="num">$0.000545</td></tr><tr><td rowspan="3">PR-outcome audit</td><td>Unchanged</td><td class="num">2,718</td><td class="num">0.0%</td><td class="num">$0.000679</td><td rowspan="3" class="num">182</td></tr><tr><td>Compiled</td><td class="num">522</td><td class="num">0.0%</td><td class="num">$0.000168</td></tr><tr><td>Manual macro</td><td class="num">522</td><td class="num">0.0%</td><td class="num">$0.000169</td></tr><tr><td rowspan="3">Backlog-attention routing</td><td>Unchanged</td><td class="num">2,845</td><td class="num">0.0%</td><td class="num">$0.000729</td><td rowspan="3" class="num">181</td></tr><tr><td>Compiled</td><td class="num">530</td><td class="num">0.0%</td><td class="num">$0.000182</td></tr><tr><td>Manual macro</td><td class="num">535</td><td class="num">0.0%</td><td class="num">$0.000188</td></tr></tbody></table></div>
+        <p>In the issue-type family the hand-written macro uses 30.9% fewer
+        total tokens than the compiled condition but is only 8.0% cheaper,
+        because it retains no cache reads at all. The two newer families are cache-cold in
+        every arm, so part of the width of the reported cost range is a property of cache
+        warmth rather than of the compiled programs. Provider-side break-even runs
+        181&ndash;411 episodes. A cache-controlled replication is
+        the correct fix, and this work does not have one.</p>
+        <div class="callout"><p><strong>Generated, not transcribed.</strong> Every figure
+        on this page is read from <code>paper/results/</code> at build time by
+        <code>scripts/build_paper_page.py</code>, which re-derives each bound from its
+        closed form and fails the build on a mismatch. Full derivations, related work, and
+        threat analysis are in the
+        <a href="downloads/compiling-recurrent-agent-workflows.pdf">paper</a>; the
+        boundaries are enumerated under
+        <a href="limitations.html#statistics">limits</a>.</p></div>
+      </article>
+      <aside class="toc"><strong>On this page</strong><ul>
+        <li><a href="#certificates">Certificates</a></li>
+        <li><a href="#register">Risk register</a></li>
+        <li><a href="#transfer">Primary result</a></li>
+        <li><a href="#cache">Cost and cache</a></li>
+      </ul></aside>
+    </div></section>
+  </main>
+  <footer class="site-footer"><div class="container footer-grid">
+    <div><div class="footer-title">Guarded Agentic Compaction</div><p class="footer-note">Compile the routine, refuse the uncertain. Refusal is the first optimization, and every admitted artifact carries the risk level it was licensed at.</p></div>
+    <div><div class="footer-label">Artifacts</div><ul><li><a href="downloads/compiling-recurrent-agent-workflows.pdf">Paper PDF</a></li><li><a href="downloads/gac-technical-review.pptx">Technical deck</a></li></ul></div>
+    <div><div class="footer-label">Detail</div><ul><li><a href="research.html">Research evidence</a></li><li><a href="limitations.html">Limitations</a></li></ul></div>
+    <div><div class="footer-label">Project</div><ul><li><a href="contributing.html">Contribute</a></li><li><a href="https://github.com/rrahimi-uci/guarded-agentic-compaction">Source</a></li></ul></div>
+  </div></footer>
+</body>
+</html>

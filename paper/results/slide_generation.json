@@ -104,12 +104,13 @@
       21
     ]
   },
-  "evidence_boundary": "Three real-record workflow families support the primary transfer result: compiled 90/90, baseline 89/90, manual 90/90. The snapshot does not establish cross-repository or time-forward transfer. NESTFUL and API-Bank remain refusal evidence; eight other benchmark paths are supplementary interoperability audits.",
-  "generator_sha256_current": "70cbcddfa166bae48bab35b7f5f90d9bc4c9fef1cadb8c08d6b662c366476a3e",
+  "evidence_boundary": "Three real-record workflow families support the primary transfer result: compiled 90/90, baseline 89/90, manual 90/90, all admitted at the registered alpha=.05 with a pooled 3.3% compiled-only discordance bound. The snapshot does not establish cross-repository or time-forward transfer, and part of the reported 32.0-75.3% cost range reflects prompt-cache warmth rather than compiled depth. GCS and comparator results rest on an artifact calibrated at alpha=.10 and are not licensed at .05. NESTFUL and API-Bank remain refusal evidence; eight other benchmark paths are supplementary interoperability audits.",
+  "generator_sha256_current": "d7778522230eaf9e0e984c83fa93823fc72df36f16bebbee9d737491052eabd8",
   "regeneration_required": {
-    "reason": "generate_slides.mjs was revised to disclose the per-artifact selective-risk level, the pooled 3.3% compiled-only discordance bound, and the 181-411 episode break-even. The .pptx binaries below were rendered before that revision.",
+    "reason": "generate_slides.mjs was revised to disclose the per-artifact selective-risk level, the pooled 3.3% compiled-only discordance bound, the 181-411 episode provider-side break-even, and the prompt-cache accounting that qualifies the reported 32.0-75.3% cost range. The .pptx binaries below were rendered before those revisions, from generator d7778522230e.",
     "command": "node paper/scripts/generate_slides.mjs --artifact-workspace /absolute/path/to/artifact-tool-workspace",
-    "blocked_by": "the @oai/artifact-tool presentation runtime is not available in this checkout",
+    "blocked_by": "the @oai/artifact-tool presentation runtime is not published to any reachable registry and is absent from this checkout",
+    "generator_sha256_pending": "ab6a33a06a6549b1a526428eb01ef948ba6e5c289e61bc6226b01b6320df8650",
     "stale_outputs": [
       "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs.pptx",
       "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx"

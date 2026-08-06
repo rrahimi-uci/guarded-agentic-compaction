@@ -111,6 +111,9 @@ def included_files() -> list[Path]:
         "docs/architecture/0010-single-framework-adapter.md",
         "scripts/verify_release.py",
         "scripts/build_pages.py",
+        # Renders the published selective-risk and economics figures onto the site, so it
+        # is evidence tooling and has to be checksummed like the rest of it.
+        "scripts/build_paper_page.py",
         "extension-plan.md",
     ):
         path = ROOT / name

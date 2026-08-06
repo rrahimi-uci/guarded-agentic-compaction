@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import shutil
+import sys
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
@@ -121,7 +122,31 @@ def validate_site(output: Path) -> None:
     print(f"Pages site valid: {len(html_files)} pages, {len(list(output.rglob('*')))} paths")
 
 
+def ensure_paper_page_current() -> None:
+    """Fail closed when site/method.html drifts from the result artifacts it quotes.
+
+    The method page prints selective-risk bounds and per-family economics straight out of
+    paper/results/, so deploying a copy that no longer matches those files would publish
+    numbers the repository cannot support.
+    """
+
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import build_paper_page as generator
+
+    expected = generator.render(
+        generator.verify_admission(generator.load("results/admission_register.json")),
+        generator.verify_cache(generator.load("results/cache_accounting.json")),
+        generator.verify_families(generator.load("results/github_workflow_families/summary.json")),
+    )
+    if (SITE / "method.html").read_text(encoding="utf-8") != expected:
+        raise SystemExit(
+            "site/method.html is stale relative to paper/results/; "
+            "regenerate it with: python scripts/build_paper_page.py"
+        )
+
+
 def build(output: Path) -> None:
+    ensure_paper_page_current()
     required = [SITE / "index.html", SITE / "assets" / "css" / "styles.css"]
     missing = [str(path.relative_to(ROOT)) for path in required if not path.exists()]
     if missing:

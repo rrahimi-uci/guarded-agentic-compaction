@@ -195,8 +195,66 @@ h1 { max-width: 790px; margin: 0; font-size: clamp(3rem,7vw,5.9rem); }
 .site-footer a { color: rgba(255,253,248,.67); font-size: .82rem; text-decoration: none; }
 .site-footer a:hover { color: var(--white); }
 .footer-note { max-width: 470px; margin-top: 15px; font-size: .82rem; }
+/* ---------- Method page: block diagrams, formulas, generated data tables ---------- */
+.figure-diagram { padding: 14px; }
+.diagram-scroll { overflow-x: auto; }
+.block-diagram { display: block; width: 100%; min-width: 700px; height: auto; }
+/* One diagram vocabulary shared by both figures, so they read as a single system.
+   CSS overrides SVG presentation attributes, so every text-anchor is set here. */
+.block-diagram text { font-family: Inter, ui-sans-serif, -apple-system, sans-serif; text-anchor: middle; }
+.d-stage rect { fill: var(--white); stroke: rgba(16,36,45,.22); stroke-width: 1.2; }
+.d-label { font-size: 16px; font-weight: 620; fill: var(--ink); }
+.d-sub { font-size: 12.5px; fill: var(--muted); }
+.d-gate rect { fill: rgba(42,157,143,.07); stroke: var(--teal); stroke-width: 1.4; stroke-dasharray: 7 5; }
+.block-diagram .d-gate-title { font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; fill: var(--teal); text-anchor: start; }
+.block-diagram .d-gate-note { font-size: 12.5px; fill: var(--muted); text-anchor: end; }
+.d-check rect { fill: var(--white); stroke: rgba(42,157,143,.5); stroke-width: 1.2; }
+.d-check-label { font-size: 13.5px; font-weight: 600; fill: var(--ink-2); }
+.d-check-sub { font-size: 11px; fill: var(--muted); }
+.d-emit rect { fill: var(--teal); }
+.d-retire rect { fill: var(--coral); }
+.d-label-inv { font-size: 16px; font-weight: 640; fill: var(--white); }
+.d-sub-inv { font-size: 11.5px; fill: rgba(255,253,248,.86); }
+.d-flow, .d-flow-ok, .d-flow-no, .d-flow-gold, .d-flow-fallback { fill: none; stroke-width: 1.7; }
+.d-flow { stroke: var(--blue); }
+.d-flow-ok { stroke: var(--teal); }
+.d-flow-no { stroke: var(--coral); }
+.d-flow-gold { stroke: #b8862f; }
+.d-flow-fallback { stroke: var(--coral); stroke-dasharray: 6 5; }
+.block-diagram .d-edge { font-size: 12px; fill: var(--muted); text-anchor: start; }
+.block-diagram .d-edge-warn { font-size: 12px; fill: var(--coral); text-anchor: start; }
+.block-diagram .d-edge-warn-end { font-size: 12px; fill: var(--coral); text-anchor: end; }
+.d-label-inv-sm { font-size: 14px; font-weight: 640; fill: var(--white); }
+.block-diagram .d-edge-gold { font-size: 11.5px; fill: #8a6420; text-anchor: start; }
+.block-diagram .d-lane { font-size: 11.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; fill: var(--muted); text-anchor: start; }
+.d-lane-box { fill: rgba(47,107,138,.06); stroke: rgba(47,107,138,.3); stroke-width: 1.2; }
+.d-lane-gold { fill: rgba(214,168,75,.1); stroke: rgba(184,134,47,.45); }
+.d-step rect { fill: var(--white); stroke: rgba(47,107,138,.45); stroke-width: 1.2; }
+.d-step-label { font-size: 13.5px; font-weight: 600; fill: var(--ink-2); }
+.d-step-sub { font-size: 11px; fill: var(--muted); }
+.d-step-gold rect { stroke: rgba(184,134,47,.6); }
+
+.formula-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin: 32px 0 36px; }
+.formula-card { padding: 24px 26px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); box-shadow: 0 12px 34px rgba(16,36,45,.07); }
+.formula-card h3 { margin: 0 0 9px; font-size: 1.05rem; }
+.formula-card p { margin: 0; color: var(--muted); font-size: .9rem; }
+/* `display: block` would set the inner display type to flow and break math layout;
+   `block math` keeps MathML's inner formatting while centring the equation. */
+.formula-card math { display: block math; width: fit-content; margin: 20px auto; font-size: 1.4rem; color: var(--ink); }
+.formula-card .formula-note { margin-top: 17px; padding-top: 15px; border-top: 1px solid var(--line); font-size: .855rem; }
+.formula-note strong { color: var(--ink); }
+
+.table-scroll { overflow-x: auto; margin: 26px 0; }
+.evidence-table th .nocaps { text-transform: none; }
+.evidence-table caption { padding: 0 0 14px; color: var(--muted); font-size: .8rem; text-align: left; }
+.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.row-total td { border-top: 2px solid var(--ink); background: rgba(42,157,143,.07); }
+.badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: .72rem; font-weight: 650; letter-spacing: .03em; white-space: nowrap; }
+.badge-pass { color: #1d6b60; background: rgba(42,157,143,.17); }
+.badge-fail { color: #93401f; background: rgba(208,107,77,.18); }
+
 @media (max-width: 940px) {
-  .hero-inner, .section-head, .doc-layout { grid-template-columns: 1fr; }
+  .hero-inner, .section-head, .doc-layout, .formula-grid { grid-template-columns: 1fr; }
   .hero-proof { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; padding: 25px 0 0; border-top: 1px solid rgba(255,255,255,.2); border-left: 0; }
   .proof-copy { margin-bottom: 0; }
   .metric-grid { grid-template-columns: 1fr 1fr; }

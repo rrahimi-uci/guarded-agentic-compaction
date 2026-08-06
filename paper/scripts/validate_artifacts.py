@@ -1843,9 +1843,19 @@ def validate_slide_generation() -> None:
         if path.exists():
             ok(evidence.get(name, {}).get("sha256") == sha256(path),
                f"slide-generation manifest binds evidence bytes: {name}")
-    ok(manifest.get("evidence_boundary") ==
-       "Three real-record workflow families support the primary transfer result: compiled 90/90, baseline 89/90, manual 90/90. The snapshot does not establish cross-repository or time-forward transfer. NESTFUL and API-Bank remain refusal evidence; eight other benchmark paths are supplementary interoperability audits.",
-       "slide-generation manifest retains the current comparator evidence boundary")
+    # The generator writes this string verbatim, so read the expectation out of the
+    # generator source rather than restating it here. A hand-copied duplicate silently
+    # stops matching the moment the generator's disclosure changes, which would make a
+    # successful regeneration fail validation instead of passing it.
+    boundary_literal = re.search(
+        r'evidence_boundary:\s*"((?:[^"\\]|\\.)*)"',
+        generator_path.read_text(encoding="utf-8"),
+    )
+    ok(boundary_literal is not None,
+       "slide generator declares a comparator evidence boundary")
+    if boundary_literal is not None:
+        ok(manifest.get("evidence_boundary") == boundary_literal.group(1),
+           "slide-generation manifest retains the current comparator evidence boundary")
 
 
 def main() -> None:

@@ -213,7 +213,7 @@ function editWorkflowFamilySlide(slide, families, mode) {
   setShapeText(
     slide,
     6,
-    "The two new families compile verified three-read pre-model programs; the original issue family retains its conservative two-read prefix. The study changes decision and tools, but not repository or time: cross-repository and time-forward transfer remain open.",
+    "The two new families compile verified three-read pre-model programs; the original issue family retains its conservative two-read prefix. Both newer families are cache-cold in every arm, so part of the 32.0–75.3% cost range is prompt-cache warmth rather than compiled depth; provider-side break-even is 411, 182, and 181 episodes against 132 paid discovery episodes each. The study changes decision and tools, but not repository or time: cross-repository and time-forward transfer remain open.",
   );
   const chart = slide.charts.items[0];
   if (!chart || chart.series.length !== 1) {
@@ -371,7 +371,7 @@ function updateSeminar(presentation, rows, families) {
   setShapeText(
     macroSlide,
     4,
-    "Against partial GRC, the hand-written composite matches exact quality and request savings while using one interface and fewer tokens. That negative result motivates interface-level synthesis rather than weakening admission.",
+    "Against partial GRC, the hand-written composite matches exact quality and request savings while using one interface and fewer tokens. Once prefix reuse is priced the margin narrows: 30.9% fewer tokens but only 8.0% lower cost, because fusing three reads destroys the cached prefix (0.0% cache reads against 27.8% compiled). That negative result motivates interface-level synthesis rather than weakening admission.",
   );
   const gcsSlide = macroSlide.duplicate();
   gcsSlide.setIndex(22);
@@ -380,7 +380,7 @@ function updateSeminar(presentation, rows, families) {
   replaceStartingWith(
     presentation,
     "Also: discovery is not free",
-    "Also: discovery is not free (132 episodes cost 528 provider requests, 533,293 tokens, and about $0.096); the fair-placement/GEPA study has only six held-out records; risk control is per artifact; the closed DSL misses legitimate transformations and loops; and pre-snapshot Git ancestry cannot be reconstructed.",
+    "Also: discovery is not free (132 episodes cost 528 provider requests, 533,293 tokens, and about $0.096), and provider-side break-even runs 181–411 episodes; part of the reported 32.0–75.3% cost range is prompt-cache warmth rather than compiled depth, and no cache-controlled replication exists; the fair-placement/GEPA study has only six held-out records; risk control is per artifact; the closed DSL misses legitimate transformations and loops; and pre-snapshot Git ancestry cannot be reconstructed.",
   );
 
   const claimsSlide = presentation.slides.getItem(25);
@@ -457,7 +457,7 @@ function updateTechnical(presentation, rows, families) {
   setShapeText(
     macroSlide,
     4,
-    "Against partial GRC, the hand-written composite matches exact quality and request savings while using one interface and fewer tokens. This is the correct baseline for a stable read set.",
+    "Against partial GRC, the hand-written composite matches exact quality and request savings while using one interface and fewer tokens. Priced with prompt-cache reuse the gap narrows to 30.9% fewer tokens for 8.0% lower cost, because interface fusion destroys the repeated prefix. This is the correct baseline for a stable read set.",
   );
   const gcsSlide = macroSlide.duplicate();
   gcsSlide.setIndex(19);
@@ -466,7 +466,7 @@ function updateTechnical(presentation, rows, families) {
   replaceStartingWith(
     presentation,
     "No perturbation challenge ran on the live artifact",
-    "No perturbation challenge ran on the primary live artifact\nGCS / GEPA results hold at α=.10, not the registered .05\nFair placement / GEPA has only six held-out cases\nAWO · Agent JIT · EvoC2F remain unexecuted\nBreak-even is 181–411 episodes; risk is artifact-specific",
+    "No perturbation challenge ran on the primary live artifact\nGCS / GEPA results hold at α=.10, not the registered .05\nFair placement / GEPA has only six held-out cases\nAWO · Agent JIT · EvoC2F remain unexecuted\nBreak-even 181–411 episodes; part of the cost range is cache warmth",
   );
   replaceUnique(
     presentation,
@@ -570,7 +570,7 @@ async function main() {
       seminar: seminar.source_slide_for_output,
       technical: technical.source_slide_for_output,
     },
-    evidence_boundary: "Three real-record workflow families support the primary transfer result: compiled 90/90, baseline 89/90, manual 90/90, all admitted at the registered alpha=.05 with a pooled 3.3% compiled-only discordance bound. The snapshot does not establish cross-repository or time-forward transfer. GCS and comparator results rest on an artifact calibrated at alpha=.10 and are not licensed at .05. NESTFUL and API-Bank remain refusal evidence; eight other benchmark paths are supplementary interoperability audits.",
+    evidence_boundary: "Three real-record workflow families support the primary transfer result: compiled 90/90, baseline 89/90, manual 90/90, all admitted at the registered alpha=.05 with a pooled 3.3% compiled-only discordance bound. The snapshot does not establish cross-repository or time-forward transfer, and part of the reported 32.0-75.3% cost range reflects prompt-cache warmth rather than compiled depth. GCS and comparator results rest on an artifact calibrated at alpha=.10 and are not licensed at .05. NESTFUL and API-Bank remain refusal evidence; eight other benchmark paths are supplementary interoperability audits.",
   };
   const manifestPath = path.join(PAPER, "results/slide_generation.json");
   await fs.writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
