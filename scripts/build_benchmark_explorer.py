@@ -11,6 +11,7 @@ closed when they disagree with the recorded summary.
 
 from __future__ import annotations
 
+import csv
 import json
 from pathlib import Path
 
@@ -202,6 +203,370 @@ def rows_from_multidomain(validation: dict) -> list[dict]:
     return rows
 
 
+DATASETS = ROOT / "paper" / "results" / "datasets"
+PREFLIGHT = PAPER / "results" / "multidomain" / "preflight"
+
+# Free-text previews are clipped so the page stays a browsable index rather than a mirror
+# of the upstream corpus; the full record always stays reachable at the cited path.
+PREVIEW_CHARS = 190
+PAGE_SIZE = 100
+
+
+def read_jsonl(path: Path, limit: int | None = None) -> list[dict]:
+    records = []
+    with path.open(encoding="utf-8") as handle:
+        for line in handle:
+            line = line.strip()
+            if not line:
+                continue
+            records.append(json.loads(line))
+            if limit is not None and len(records) >= limit:
+                break
+    return records
+
+
+def clip(value: object, limit: int = PREVIEW_CHARS) -> str:
+    text = " ".join(str(value or "").split())
+    return text if len(text) <= limit else text[: limit - 1] + "…"
+
+
+def collection(
+    title: str, note: str, source: str, columns: list[dict], records: list[dict]
+) -> dict:
+    return {
+        "title": title,
+        "note": note,
+        "source": source,
+        "columns": columns,
+        "records": records,
+        "count": len(records),
+    }
+
+
+def col(key: str, label: str, kind: str = "text") -> dict:
+    return {"key": key, "label": label, "kind": kind}
+
+
+def nestful_collections() -> list[dict]:
+    """Dataset tasks, the programs the compiler synthesized, and per-family replay rows."""
+
+    tasks = read_jsonl(DATASETS / "nestful" / "nestful_data.jsonl")
+    task_records = []
+    for entry in tasks:
+        calls = entry.get("output") or []
+        task_records.append(
+            {
+                "id": clip(entry.get("sample_id"), 13),
+                "question": clip(entry.get("input")),
+                "sequence": " → ".join(c.get("name", "?") for c in calls) or "—",
+                "steps": len(calls),
+                "tools": len(entry.get("tools") or []),
+                "gold": clip(entry.get("gold_answer"), 40),
+            }
+        )
+
+    programs = json.loads(
+        (PAPER / "results/nestful/synthesized_programs.json").read_text(encoding="utf-8")
+    )
+    program_records = [
+        {
+            "family": entry["family_hash"],
+            "support": entry["support"],
+            "steps": len((entry.get("program") or {}).get("steps") or []),
+            "removed": (entry.get("program") or {}).get("removed_requests"),
+            "program": entry.get("pretty", ""),
+        }
+        for entry in programs
+    ]
+
+    with (PAPER / "results/nestful/family_results.csv").open(encoding="utf-8") as handle:
+        family_rows = list(csv.DictReader(handle))
+
+    return [
+        collection(
+            "Dataset tasks",
+            f"{len(task_records):,} records from IBM/NESTFUL (Apache-2.0). Questions are "
+            "clipped previews; the gold call sequence is shown in full.",
+            "paper/results/datasets/nestful/nestful_data.jsonl",
+            [
+                col("id", "Sample", "id"),
+                col("question", "Question"),
+                col("sequence", "Gold call sequence", "mono"),
+                col("steps", "Steps", "num"),
+                col("tools", "Tools offered", "num"),
+                col("gold", "Gold answer", "id"),
+            ],
+            task_records,
+        ),
+        collection(
+            "Synthesized programs",
+            "Programs the compiler actually emitted for recurrent families, with the "
+            "requests each one removes.",
+            "paper/results/nestful/synthesized_programs.json",
+            [
+                col("family", "Family", "id"),
+                col("support", "Support", "num"),
+                col("steps", "Steps", "num"),
+                col("removed", "Requests removed", "num"),
+                col("program", "Program", "pre"),
+            ],
+            program_records,
+        ),
+        collection(
+            "Family replay results",
+            "Per-family held-out replay outcomes behind the RETIRE decision.",
+            "paper/results/nestful/family_results.csv",
+            [
+                col("family_hash", "Family", "id"),
+                col("support", "Support", "num"),
+                col("tools", "Tools", "id"),
+                col("program_steps", "Steps", "num"),
+                col("replay_passed", "Passed", "num"),
+                col("replay_wrong", "Wrong", "num"),
+                col("replay_abstained", "Abstained", "num"),
+                col("replay_effect_mismatch", "Effect mismatch", "num"),
+            ],
+            family_rows,
+        ),
+    ]
+
+
+def multidomain_collection(domain: str) -> list[dict]:
+    path = PREFLIGHT / domain / "cases.jsonl"
+    if not path.exists():
+        return []
+    cases = read_jsonl(path)
+    if domain == "hmda":
+        records = [
+            {
+                "case": clip(c["case_id"], 46),
+                "group": c["group_id"],
+                "year": (c["inputs"] or {}).get("activity_year"),
+                "fields": ", ".join((c["inputs"] or {}).get("requested_fields") or []),
+                "cohort": (c["metadata"] or {}).get("action_cohort"),
+                "protected": (c["metadata"] or {}).get(
+                    "protected_demographic_fields_exposed"
+                ),
+                "digest": clip((c["inputs"] or {}).get("row_digest"), 13),
+            }
+            for c in cases
+        ]
+        columns = [
+            col("case", "Case", "id"),
+            col("group", "Group (LEI)", "id"),
+            col("year", "Year", "id"),
+            col("fields", "Requested fields"),
+            col("cohort", "Action cohort", "id"),
+            col("protected", "Protected fields exposed", "bool"),
+            col("digest", "Row digest", "id"),
+        ]
+        note = (
+            f"{len(records):,} validated cases from the official privacy-modified public "
+            "LAR. Every row records that no protected demographic field is exposed."
+        )
+    else:
+        records = [
+            {
+                "case": clip(c["case_id"], 46),
+                "advisory": (c["inputs"] or {}).get("advisory_id"),
+                "ecosystem": (c["inputs"] or {}).get("ecosystem"),
+                "package": (c["inputs"] or {}).get("package"),
+                "version": (c["inputs"] or {}).get("version"),
+                "aliases": ", ".join((c["metadata"] or {}).get("lineage_ids") or []),
+                "verified": (c["metadata"] or {}).get("registry_verified"),
+            }
+            for c in cases
+        ]
+        columns = [
+            col("case", "Case", "id"),
+            col("advisory", "Advisory", "id"),
+            col("ecosystem", "Ecosystem"),
+            col("package", "Package", "id"),
+            col("version", "Version", "id"),
+            col("aliases", "Alias lineage", "mono"),
+            col("verified", "Registry verified", "bool"),
+        ]
+        note = (
+            f"{len(records):,} validated cases assembled from OSV, the GitHub Advisory "
+            "Database, PyPI version checks, CISA KEV, and checksum-verified NVD feeds."
+        )
+    return [
+        collection(
+            "Validated cases",
+            note,
+            f"paper/results/multidomain/preflight/{domain}/cases.jsonl",
+            columns,
+            records,
+        )
+    ]
+
+
+def family_collection(entry: dict) -> list[dict]:
+    """The recurrent tool-call chains screening found, with how many tasks support each."""
+
+    support = entry.get("candidate_family_support") or {}
+    if not support:
+        return []
+    records = [
+        {
+            "chain": chain,
+            "length": len([part for part in chain.split("->") if part.strip()]),
+            "support": count,
+        }
+        for chain, count in sorted(support.items(), key=lambda kv: (-kv[1], kv[0]))
+    ]
+    return [
+        collection(
+            "Candidate families",
+            "Recurrent read-like call chains mined from reference plans. Support counts "
+            "how many tasks share the chain; the exact gate needs far more than these.",
+            "paper/results/external_benchmarks/reference_analysis.json",
+            [
+                col("chain", "Call chain", "mono"),
+                col("length", "Calls", "num"),
+                col("support", "Support", "num"),
+            ],
+            records,
+        )
+    ]
+
+
+def live_collections(key: str) -> list[dict]:
+    """Per-task records from the bounded live-provider runs."""
+
+    base = PAPER / "results/external_benchmarks"
+    if key == "browsecomp":
+        payload = json.loads((base / "browsecomp_live.json").read_text(encoding="utf-8"))
+        records = [
+            {
+                "task": clip(t.get("task_hash"), 13),
+                "status": t.get("status"),
+                "correct": t.get("correct"),
+                "searches": (t.get("agent_output_item_counts") or {}).get(
+                    "web_search_call"
+                ),
+                "tokens": (t.get("agent_usage") or {}).get("total_tokens"),
+                "latency": round(t.get("latency_seconds", 0), 1),
+            }
+            for t in payload.get("tasks") or []
+        ]
+        return [
+            collection(
+                "Live task records",
+                "Bounded live-web subset. Tasks are identified by hash only: BrowseComp "
+                "prompts and answers stay encrypted upstream and are not reproduced.",
+                "paper/results/external_benchmarks/browsecomp_live.json",
+                [
+                    col("task", "Task", "id"),
+                    col("status", "Status"),
+                    col("correct", "Correct", "bool"),
+                    col("searches", "Web searches", "num"),
+                    col("tokens", "Total tokens", "num"),
+                    col("latency", "Latency (s)", "num"),
+                ],
+                records,
+            )
+        ]
+    if key == "tau2":
+        payload = json.loads((base / "tau2_live.json").read_text(encoding="utf-8"))
+        records = [
+            {
+                "task": clip(s.get("task_hash"), 13),
+                "domain": s.get("domain"),
+                "reward": s.get("reward"),
+                "db_match": s.get("db_match"),
+                "requests": s.get("provider_requests_with_usage"),
+                "tokens": (s.get("prompt_tokens") or 0) + (s.get("completion_tokens") or 0),
+                "termination": clip(s.get("termination_reason"), 28),
+            }
+            for s in payload.get("simulations") or []
+        ]
+        return [
+            collection(
+                "Live simulations",
+                "Bounded official-simulator runs with a real provider. Zero reward is the "
+                "recorded outcome, not a compiler result.",
+                "paper/results/external_benchmarks/tau2_live.json",
+                [
+                    col("task", "Task", "id"),
+                    col("domain", "Domain"),
+                    col("reward", "Reward", "num"),
+                    col("db_match", "DB match", "bool"),
+                    col("requests", "Provider requests", "num"),
+                    col("tokens", "Tokens", "num"),
+                    col("termination", "Termination"),
+                ],
+                records,
+            )
+        ]
+    return []
+
+
+def attach_content(rows: list[dict], matrix: dict) -> dict[str, list[dict]]:
+    """Build the browsable record collections, keyed by row id.
+
+    Rows with nothing to browse say why rather than showing an empty table: an upstream
+    gate and an upstream corpus that ships no trajectories are different facts.
+    """
+
+    content: dict[str, list[dict]] = {}
+    for row in rows:
+        key = row["id"]
+        groups: list[dict] = []
+        if key == "nestful":
+            groups += nestful_collections()
+        elif key.startswith("multidomain_"):
+            groups += multidomain_collection(key.removeprefix("multidomain_"))
+        else:
+            entry = matrix["benchmarks"].get(key) or {}
+            groups += family_collection(entry)
+            groups += live_collections(key)
+        if groups:
+            content[key] = groups
+            row["record_count"] = sum(g["count"] for g in groups)
+        else:
+            row["record_count"] = 0
+            row["no_content_reason"] = (
+                row.get("reason")
+                or "no per-task records are redistributed with this path in the repository"
+            )
+    return content
+
+
+def verify_content(content: dict[str, list[dict]], matrix: dict) -> None:
+    """Bind the browsable records back to the numbers the audit already published."""
+
+    families = matrix["benchmarks"]
+    for key, groups in content.items():
+        for group in groups:
+            if group["count"] != len(group["records"]):
+                raise VerificationError(f"{key}/{group['title']}: count disagrees with rows")
+            if not group["records"]:
+                raise VerificationError(f"{key}/{group['title']}: empty collection embedded")
+        if key in families:
+            support = families[key].get("candidate_family_support") or {}
+            if support:
+                mined = next(g for g in groups if g["title"] == "Candidate families")
+                if mined["count"] != len(support):
+                    raise VerificationError(f"{key}: candidate family count drifted")
+                top = max(support.values())
+                recorded = families[key].get("maximum_candidate_family_support")
+                if recorded is not None and top != recorded:
+                    raise VerificationError(
+                        f"{key}: largest family support {top} != recorded {recorded}"
+                    )
+
+    nestful = content.get("nestful") or []
+    tasks = next((g for g in nestful if g["title"] == "Dataset tasks"), None)
+    if tasks is not None:
+        complete = families["nestful"]["complete_observed_traces"]
+        if tasks["count"] < complete:
+            raise VerificationError(
+                f"nestful: embedded {tasks['count']} tasks, fewer than the "
+                f"{complete} complete observed traces the audit reports"
+            )
+
+
 def verify_totals(matrix: dict, rows: list[dict]) -> None:
     """Recompute the summary from the rows so the page cannot overstate the audit."""
 
@@ -271,8 +636,9 @@ def facet_options(rows: list[dict], key: str) -> list[str]:
     return sorted({str(r[key]) for r in rows if r.get(key)})
 
 
-def render(matrix: dict, rows: list[dict]) -> str:
+def render(matrix: dict, rows: list[dict], content: dict[str, list[dict]] | None = None) -> str:
     payload = json.dumps(rows, separators=(",", ":"), sort_keys=True)
+    content_payload = json.dumps(content or {}, separators=(",", ":"), sort_keys=True)
     boundary = matrix["claim_boundary"]
     boundary_items = "".join(
         f"<li><code>{esc(k)}</code> is <strong>{esc(str(v).lower())}</strong></li>"
@@ -374,6 +740,36 @@ summary {{ cursor: pointer; color: var(--blue); font-size: .84rem; font-weight: 
 .kv dd {{ margin: 0; font-variant-numeric: tabular-nums; font-weight: 600; }}
 .notes {{ margin: 8px 0 0; padding-left: 18px; color: var(--muted); font-size: .82rem; }}
 .prov {{ margin-top: 10px; color: var(--muted); font-size: .74rem; word-break: break-all; }}
+.browser {{ margin-bottom: 34px; padding: 26px 28px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); box-shadow: 0 12px 34px rgba(16,36,45,.07); }}
+.back {{ margin-bottom: 16px; }}
+.browser h2 {{ margin: 0 0 6px; font-size: 1.9rem; }}
+.browser-sub {{ margin: 0 0 18px; color: var(--muted); font-size: .88rem; }}
+.tabs {{ display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }}
+.tab {{ padding: 7px 15px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); font-size: .84rem; font-weight: 650; cursor: pointer; }}
+.tab[aria-selected="true"] {{ border-color: var(--teal); background: rgba(42,157,143,.14); color: #14584f; }}
+.collection-note {{ margin: 0 0 16px; color: #37505a; font-size: .86rem; }}
+.record-controls {{ display: flex; flex-wrap: wrap; gap: 16px; align-items: end; justify-content: space-between; margin-bottom: 14px; }}
+.record-controls .control {{ min-width: 260px; }}
+#record-count {{ color: var(--muted); font-size: .84rem; }}
+.table-scroll {{ overflow-x: auto; }}
+.record-table {{ width: 100%; border-collapse: collapse; font-size: .85rem; }}
+.record-table th {{ position: sticky; top: 0; z-index: 1; padding: 10px 12px; border-bottom: 1px solid var(--line); background: var(--white); color: var(--muted); font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; text-align: left; white-space: nowrap; }}
+.record-table td {{ padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }}
+.record-table tbody tr:nth-child(even) {{ background: rgba(238,232,220,.4); }}
+.record-table td.num {{ font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }}
+.record-table td.mono {{ font-family: "SFMono-Regular", Consolas, monospace; font-size: .8rem; }}
+.record-table td.id {{ font-family: "SFMono-Regular", Consolas, monospace; font-size: .8rem; white-space: nowrap; }}
+.record-table td.text {{ min-width: 260px; max-width: 460px; }}
+.record-table pre {{ margin: 0; padding: 11px 13px; overflow-x: auto; border-radius: 9px; background: var(--ink); color: #eaf6f3; font-size: .76rem; line-height: 1.5; }}
+.yes {{ color: #14584f; font-weight: 700; }}
+.no {{ color: #8a3a1c; font-weight: 700; }}
+.pager-top {{ justify-content: flex-start; margin: 0 0 12px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }}
+.pager {{ display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; margin-top: 18px; }}
+.pager button[disabled] {{ opacity: .42; cursor: not-allowed; }}
+.pager .page-of {{ color: var(--muted); font-size: .84rem; font-variant-numeric: tabular-nums; }}
+.browse-btn {{ margin-top: 14px; width: 100%; border-color: rgba(42,157,143,.5); color: #14584f; background: rgba(42,157,143,.1); }}
+.browse-btn:hover {{ background: rgba(42,157,143,.18); }}
+.no-content {{ margin-top: 14px; color: var(--muted); font-size: .8rem; font-style: italic; }}
 .empty {{ padding: 40px; border: 1px dashed var(--line); border-radius: var(--radius); text-align: center; color: var(--muted); }}
 .panel {{ margin-top: 44px; padding: 26px 28px; border-left: 4px solid var(--coral); border-radius: 0 var(--radius) var(--radius) 0; background: var(--white); }}
 .panel h2 {{ margin: 0 0 10px; font-size: 1.5rem; }}
@@ -412,6 +808,22 @@ footer a {{ color: rgba(255,253,248,.78); }}
 </div></header>
 
 <main><div class="wrap">
+  <section id="browser" class="browser" aria-labelledby="browser-title" hidden>
+    <button type="button" id="back" class="back">&larr; All benchmarks</button>
+    <h2 id="browser-title"></h2>
+    <p id="browser-sub" class="browser-sub"></p>
+    <div id="tabs" class="tabs" role="tablist" aria-label="Record collections"></div>
+    <p id="collection-note" class="collection-note"></p>
+    <div class="record-controls">
+      <label class="control"><span>Filter records</span>
+        <input type="search" id="rq" placeholder="Filter these records&hellip;" autocomplete="off"></label>
+      <span id="record-count" role="status" aria-live="polite"></span>
+    </div>
+    <nav id="pager-top" class="pager pager-top" aria-label="Record pages (top)"></nav>
+    <div class="table-scroll"><table id="record-table" class="record-table"><thead></thead><tbody></tbody></table></div>
+    <nav id="pager" class="pager" aria-label="Record pages"></nav>
+  </section>
+
   <form class="controls" id="controls" role="search" aria-label="Filter benchmarks" onsubmit="return false">
     <div class="control-grid">
       <label class="control"><span>Search</span>
@@ -463,10 +875,12 @@ footer a {{ color: rgba(255,253,248,.78); }}
 </div></footer>
 
 <script type="application/json" id="data">{payload}</script>
+<script type="application/json" id="content">{content_payload}</script>
 <script>
 (function () {{
   "use strict";
   const rows = JSON.parse(document.getElementById("data").textContent);
+  const CONTENT = JSON.parse(document.getElementById("content").textContent);
   const results = document.getElementById("results");
   const empty = document.getElementById("empty");
   const count = document.getElementById("count");
@@ -554,7 +968,12 @@ footer a {{ color: rgba(255,253,248,.78); }}
           (r.license ? "<br>Licence: " + esc(r.license) : "") +
           (r.credential ? "<br>Credential required: <code>" + esc(r.credential) + "</code>" : "") +
           "</p>" + notes + "</div>" +
-      "</details></article>";
+      "</details>" +
+      (CONTENT[r.id]
+        ? '<button type="button" class="browse-btn" data-browse="' + esc(r.id) + '">Browse ' +
+          r.record_count.toLocaleString("en-US") + " records \\u2192</button>"
+        : '<p class="no-content">No browsable records: ' + esc(r.no_content_reason) + ".</p>") +
+      "</article>";
   }}
 
   function apply() {{
@@ -592,12 +1011,163 @@ footer a {{ color: rgba(255,253,248,.78); }}
     q.focus();
   }}
 
+  // ---- Record browser -------------------------------------------------------------
+  // Collections can run to thousands of rows, so only the current page is ever put in
+  // the DOM; filtering recomputes the page set rather than hiding rendered nodes.
+  const PAGE = {PAGE_SIZE};
+  const browser = document.getElementById("browser");
+  const overview = [document.getElementById("controls"), results, empty];
+  const tabsEl = document.getElementById("tabs");
+  const noteEl = document.getElementById("collection-note");
+  const rq = document.getElementById("rq");
+  const recordCount = document.getElementById("record-count");
+  const table = document.getElementById("record-table");
+  const pager = document.getElementById("pager");
+  const pagerTop = document.getElementById("pager-top");
+  let current = null;   // {{row, groups}}
+  let groupIndex = 0;
+  let page = 1;
+
+  function cell(value, kind) {{
+    if (value === null || value === undefined || value === "") return "\\u2014";
+    if (kind === "bool") {{
+      const truthy = value === true || value === "true" || value === "True";
+      return '<span class="' + (truthy ? "yes" : "no") + '">' + (truthy ? "yes" : "no") + "</span>";
+    }}
+    if (kind === "pre") return "<pre>" + esc(value) + "</pre>";
+    if (kind === "num" && typeof value === "number") return value.toLocaleString("en-US");
+    // "id" and "mono" differ only in wrapping, handled in CSS.
+    return esc(value);
+  }}
+
+  function matchRecord(record, needle) {{
+    if (!needle) return true;
+    for (const key in record) {{
+      if (String(record[key]).toLowerCase().includes(needle)) return true;
+    }}
+    return false;
+  }}
+
+  function renderPage() {{
+    const group = current.groups[groupIndex];
+    const needle = rq.value.trim().toLowerCase();
+    const matched = needle ? group.records.filter((r) => matchRecord(r, needle)) : group.records;
+    const pages = Math.max(1, Math.ceil(matched.length / PAGE));
+    if (page > pages) page = pages;
+    const start = (page - 1) * PAGE;
+    const slice = matched.slice(start, start + PAGE);
+
+    table.querySelector("thead").innerHTML = "<tr><th>#</th>" +
+      group.columns.map((c) => "<th>" + esc(c.label) + "</th>").join("") + "</tr>";
+    table.querySelector("tbody").innerHTML = slice.map((rec, i) =>
+      '<tr><td class="num">' + (start + i + 1).toLocaleString("en-US") + "</td>" +
+      group.columns.map((c) => '<td class="' + c.kind + '">' + cell(rec[c.key], c.kind) + "</td>").join("") +
+      "</tr>").join("") ||
+      '<tr><td colspan="' + (group.columns.length + 1) + '">No record matches that filter.</td></tr>';
+
+    recordCount.textContent = matched.length
+      ? "Showing " + (start + 1).toLocaleString("en-US") + "\\u2013" +
+        Math.min(start + PAGE, matched.length).toLocaleString("en-US") + " of " +
+        matched.length.toLocaleString("en-US") + (needle ? " matching" : "") + " records"
+      : "0 of " + group.count.toLocaleString("en-US") + " records match";
+
+    const pagerHtml = pages > 1
+      ? '<button type="button" data-page="1"' + (page === 1 ? " disabled" : "") + ">\\u00ab First</button>" +
+        '<button type="button" data-page="' + (page - 1) + '"' + (page === 1 ? " disabled" : "") + ">\\u2039 Prev</button>" +
+        '<span class="page-of">Page ' + page.toLocaleString("en-US") + " of " + pages.toLocaleString("en-US") + "</span>" +
+        '<button type="button" data-page="' + (page + 1) + '"' + (page === pages ? " disabled" : "") + ">Next \\u203a</button>" +
+        '<button type="button" data-page="' + pages + '"' + (page === pages ? " disabled" : "") + ">Last \\u00bb</button>"
+      : "";
+    pager.innerHTML = pagerHtml;
+    pagerTop.innerHTML = pagerHtml;
+  }}
+
+  function renderTabs() {{
+    tabsEl.hidden = current.groups.length < 2;
+    tabsEl.innerHTML = current.groups.map((g, i) =>
+      '<button type="button" class="tab" role="tab" data-group="' + i + '" aria-selected="' +
+      (i === groupIndex) + '">' + esc(g.title) + " (" + g.count.toLocaleString("en-US") + ")</button>"
+    ).join("");
+    noteEl.innerHTML = esc(current.groups[groupIndex].note) +
+      ' <code>' + esc(current.groups[groupIndex].source) + "</code>";
+  }}
+
+  function openBrowser(id, replaceHash, wanted) {{
+    const groups = CONTENT[id];
+    if (!groups) return;
+    current = {{ row: rows.find((r) => r.id === id), groups: groups }};
+    groupIndex = Number.isInteger(wanted) && groups[wanted] ? wanted : 0;
+    page = 1;
+    rq.value = "";
+    document.getElementById("browser-title").textContent = current.row.name;
+    document.getElementById("browser-sub").textContent =
+      current.row.raw + " \\u00b7 " + current.row.family + " \\u00b7 " + current.row.status;
+    renderTabs();
+    renderPage();
+    browser.hidden = false;
+    overview.forEach((el) => {{ el.hidden = true; }});
+    if (!replaceHash) location.hash = groupIndex ? id + "/" + groupIndex : id;
+    browser.scrollIntoView({{ block: "start" }});
+  }}
+
+  function closeBrowser() {{
+    browser.hidden = true;
+    current = null;
+    overview.forEach((el) => {{ el.hidden = false; }});
+    empty.hidden = true;
+    apply();
+    if (location.hash) history.pushState("", document.title, location.pathname);
+  }}
+
+  results.addEventListener("click", (event) => {{
+    const btn = event.target.closest("[data-browse]");
+    if (btn) openBrowser(btn.dataset.browse);
+  }});
+  tabsEl.addEventListener("click", (event) => {{
+    const tab = event.target.closest("[data-group]");
+    if (!tab) return;
+    groupIndex = Number(tab.dataset.group);
+    page = 1;
+    rq.value = "";
+    renderTabs();
+    renderPage();
+    history.replaceState("", document.title,
+      location.pathname + "#" + current.row.id + (groupIndex ? "/" + groupIndex : ""));
+  }});
+  function onPagerClick(event) {{
+    const btn = event.target.closest("[data-page]");
+    if (!btn || btn.disabled) return;
+    page = Number(btn.dataset.page);
+    renderPage();
+    // Keep the reader at the start of the new page instead of stranding them
+    // thousands of pixels down where the bottom pager was.
+    document.getElementById("pager-top").scrollIntoView({{ block: "center" }});
+  }}
+  pager.addEventListener("click", onPagerClick);
+  pagerTop.addEventListener("click", onPagerClick);
+  rq.addEventListener("input", () => {{ page = 1; renderPage(); }});
+  document.getElementById("back").addEventListener("click", closeBrowser);
+  function fromHash() {{
+    const raw = location.hash.replace(/^#/, "");
+    if (!raw) return null;
+    const [id, group] = raw.split("/");
+    return CONTENT[id] ? {{ id: id, group: Number(group) }} : null;
+  }}
+  window.addEventListener("hashchange", () => {{
+    const target = fromHash();
+    if (target) openBrowser(target.id, true, target.group);
+    else if (current) closeBrowser();
+  }});
+
   q.addEventListener("input", apply);
   sort.addEventListener("change", apply);
   facets.forEach((s) => s.addEventListener("change", apply));
   document.getElementById("reset").addEventListener("click", reset);
   document.getElementById("reset2").addEventListener("click", reset);
   apply();
+  // A shared link like #nestful or #nestful/1 lands on that exact table.
+  const initial = fromHash();
+  if (initial) openBrowser(initial.id, true, initial.group);
 }})();
 </script>
 </body>
@@ -615,14 +1185,21 @@ def main() -> None:
 
     rows = rows_from_matrix(matrix) + rows_from_multidomain(validation)
     verify_totals(matrix, rows)
+    content = attach_content(rows, matrix)
+    verify_content(content, matrix)
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT.write_text(render(matrix, rows), encoding="utf-8")
+    OUTPUT.write_text(render(matrix, rows, content), encoding="utf-8")
+    browsable = sum(group["count"] for groups in content.values() for group in groups)
+    without = [r["id"] for r in rows if not r.get("record_count")]
     print(
-        f"wrote {OUTPUT.relative_to(ROOT)}: {len(rows)} rows "
-        f"({len([r for r in rows if r['family'] == 'External benchmark audit'])} external, "
-        f"{len(rows) - len([r for r in rows if r['family'] == 'External benchmark audit'])} "
-        "multidomain), all recomputed totals agree"
+        f"wrote {OUTPUT.relative_to(ROOT)}: {len(rows)} benchmarks, "
+        f"{browsable:,} browsable records across {len(content)} of {len(rows)} rows "
+        f"({OUTPUT.stat().st_size / 1024:.0f} KiB); all recomputed totals agree"
     )
+    # Never let a row silently look empty: say which ones ship no records and why.
+    for key in without:
+        row = next(r for r in rows if r["id"] == key)
+        print(f"  no records: {key} — {row['no_content_reason']}")
 
 
 if __name__ == "__main__":

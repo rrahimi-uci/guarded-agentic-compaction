@@ -132,7 +132,9 @@ def ensure_benchmark_explorer_current() -> None:
     validation = generator.load(generator.MULTIDOMAIN)
     rows = generator.rows_from_matrix(matrix) + generator.rows_from_multidomain(validation)
     generator.verify_totals(matrix, rows)
-    if generator.OUTPUT.read_text(encoding="utf-8") != generator.render(matrix, rows):
+    content = generator.attach_content(rows, matrix)
+    generator.verify_content(content, matrix)
+    if generator.OUTPUT.read_text(encoding="utf-8") != generator.render(matrix, rows, content):
         raise SystemExit(
             "benchmarks/explorer/index.html is stale relative to paper/results/; "
             "regenerate it with: python scripts/build_benchmark_explorer.py"
