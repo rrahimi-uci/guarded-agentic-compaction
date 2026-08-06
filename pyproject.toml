@@ -3,14 +3,15 @@ requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "agent-compaction"
+name = "guarded-agentic-compaction"
 version = "0.7.0"
 description = "Guarded agentic compaction: trace-derived, evidence-gated workflow optimization for LLM agents"
 requires-python = ">=3.11"
 readme = "README.md"
 license = "Apache-2.0"
 license-files = ["LICENSE"]
-keywords = ["agents", "optimization", "compaction", "tracing", "openai-agents"]
+keywords = ["agents", "optimization", "compaction", "tracing", "openai-agents",
+            "guarded-agentic-compaction"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
@@ -41,22 +42,22 @@ gepa = ["gepa==0.1.4"]
 dev = ["pytest>=8.0", "jsonschema>=4.0", "build>=1.2", "pypdf>=5.0"]
 
 [project.urls]
-# The distribution name and import path stay `agent-compaction`/`agent_compaction`; the
-# repository is `guarded-agentic-compaction` after the rename. Declaring the URLs here is
-# what keeps that intentional split discoverable rather than confusing.
 Homepage = "https://rrahimi-uci.github.io/guarded-agentic-compaction/"
 Repository = "https://github.com/rrahimi-uci/guarded-agentic-compaction"
 Issues = "https://github.com/rrahimi-uci/guarded-agentic-compaction/issues"
 Changelog = "https://github.com/rrahimi-uci/guarded-agentic-compaction/blob/main/CHANGELOG.md"
 
 [project.scripts]
-agent-compaction = "agent_compaction.cli:main"
+# The console script matches the distribution. `gac` is a deliberate short alias: the
+# full name is 26 characters and appears in every documented invocation.
+guarded-agentic-compaction = "guarded_agentic_compaction.cli:main"
+gac = "guarded_agentic_compaction.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.setuptools.package-data]
-agent_compaction = ["py.typed"]
+guarded_agentic_compaction = ["py.typed"]
 
 [tool.pytest.ini_options]
 # Publication-facing oracle regression tests live beside the study driver so that the

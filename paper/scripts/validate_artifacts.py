@@ -956,8 +956,8 @@ def validate_optimizer_head_to_head() -> None:
         "paper/results/optimizer_head_to_head/preflight.json",
         "paper/results/optimizer_head_to_head/results.json",
         "paper/scripts/github_optimizer_head_to_head.py",
-        "src/agent_compaction/optimization/gepa.py",
-        "src/agent_compaction/runtime/manual.py",
+        "src/guarded_agentic_compaction/optimization/gepa.py",
+        "src/guarded_agentic_compaction/runtime/manual.py",
         "tests/integration/test_optimizer_head_to_head.py",
     } <= hashed, "publication manifest hashes optimizer evidence, adapters, and tests")
 
@@ -983,7 +983,7 @@ def validate_continuation_replay() -> None:
        "continuation replay binds the retained live-provider result bytes")
 
     from continuation_replay import checked_renderer, exact_contract, observations_for
-    from agent_compaction.runtime.continuation import ContinuationEvidence, ContinuationGuard
+    from guarded_agentic_compaction.runtime.continuation import ContinuationEvidence, ContinuationGuard
     import github_live_study as fixed
 
     frame = fixed.pd.read_parquet(fixed.DATA_PATH)
@@ -1049,7 +1049,7 @@ def validate_continuation_replay() -> None:
     ok({
         "paper/results/github_natural_live/continuation_replay.json",
         "paper/scripts/continuation_replay.py",
-        "src/agent_compaction/runtime/continuation.py",
+        "src/guarded_agentic_compaction/runtime/continuation.py",
         "tests/unit/test_continuation.py",
     } <= hashed, "publication manifest hashes continuation implementation and replay")
 

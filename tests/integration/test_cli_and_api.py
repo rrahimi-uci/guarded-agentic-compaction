@@ -13,10 +13,10 @@ from pathlib import Path
 import pytest
 import yaml
 
-import agent_compaction as ac
-from agent_compaction.cli import main as cli_main
-from agent_compaction.registry.store import Registry
-from agent_compaction.schema.artifacts import Lifecycle
+import guarded_agentic_compaction as ac
+from guarded_agentic_compaction.cli import main as cli_main
+from guarded_agentic_compaction.registry.store import Registry
+from guarded_agentic_compaction.schema.artifacts import Lifecycle
 
 from scripts.generate_synthetic import ENTRY_ALLOWLIST, SYNTHETIC_CATALOG, generate
 
@@ -170,7 +170,7 @@ def test_api_optimize_and_validate_reports_unclaimed_perturbations():
 
 
 def test_promotion_requires_a_distinct_human_approver():
-    from agent_compaction.registry.lifecycle import LifecycleError
+    from guarded_agentic_compaction.registry.lifecycle import LifecycleError
 
     episodes = generate(n_episodes=300, seed=29)
     episodes = ac.manifest_partitions(episodes)[episodes[0].manifest.compatibility_key()]

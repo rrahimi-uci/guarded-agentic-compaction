@@ -556,7 +556,7 @@ verify  effect_multiset ⊆ {READ_EXTERNAL, READ_LOCAL},  |calls| ∈ {4,5,6,7},
     explicit rather than guessing.
   </p>
   <div class="code-wrap"><pre class="code"><code class="language-python">from agents import Runner, RunConfig, add_trace_processor
-from agent_compaction.capture.agents_sdk import (
+from guarded_agentic_compaction.capture.agents_sdk import (
     AgentsTraceProcessor, episode_from_agents_trace,
 )
 
@@ -583,7 +583,7 @@ episode = episode_from_agents_trace(
 )</code></pre></div>
 
   <h3>5.2 Optimize</h3>
-  <div class="code-wrap"><pre class="code"><code class="language-python">import agent_compaction as ac
+  <div class="code-wrap"><pre class="code"><code class="language-python">import guarded_agentic_compaction as ac
 
 episodes = ac.read_jsonl(&quot;traces.jsonl&quot;)
 catalog  = ac.load_catalog(&quot;configs/effects.example.yaml&quot;)
@@ -610,7 +610,7 @@ ac.promote(job, stage=&quot;shadow&quot;)     # shadow first, always</code></pre
 
   <h3>5.3 Deploy</h3>
   <div class="code-wrap"><pre class="code"><code class="language-python">from agents import Agent
-from agent_compaction.runtime.model_provider import CompactingModel
+from guarded_agentic_compaction.runtime.model_provider import CompactingModel
 
 # 5a. The Model adapter: narrowest integration, one line at the call site.
 #     Emits the artifact&#x27;s next synthesized function_call instead of asking the

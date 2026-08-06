@@ -2,13 +2,13 @@
 
 Two transformation engines and one evidence selector over a typed trace contract:
 
-* **TGWS** (:mod:`agent_compaction.tgws`) — learn a shallow route from entry-state
+* **TGWS** (:mod:`guarded_agentic_compaction.tgws`) — learn a shallow route from entry-state
   facts to a specialist prompt and a minimal tool surface, and abstain when the route
   or the input is uncertain.
-* **GRC** (:mod:`agent_compaction.grc`) — find repeated read-only regions, prove every
+* **GRC** (:mod:`guarded_agentic_compaction.grc`) — find repeated read-only regions, prove every
   tool argument derives from entry state or earlier observations, synthesize a bounded
   deterministic program, and dispatch only under a calibrated contract gate.
-* **Portfolio** (:mod:`agent_compaction.portfolio`) — compare measured transformation
+* **Portfolio** (:mod:`guarded_agentic_compaction.portfolio`) — compare measured transformation
   candidates under separate exact quality and regret bounds, otherwise abstain.
 
 Neither invents business logic, changes model weights, or removes an external effect.

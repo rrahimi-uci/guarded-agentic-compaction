@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from agent_compaction.benchmarking.external import (  # noqa: E402
+from guarded_agentic_compaction.benchmarking.external import (  # noqa: E402
     ReferenceTask,
     analyze_reference_tasks,
 )
@@ -302,7 +302,7 @@ def build_matrix(preflight_path: Path, source_root: Path) -> dict[str, Any]:
         "source_preflight_sha256": _sha256(preflight_path),
         "adapter_sha256": _sha256(ROOT / "benchmarks/external/adapters.py"),
         "reference_ir_sha256": _sha256(
-            ROOT / "src/agent_compaction/benchmarking/external.py"
+            ROOT / "src/guarded_agentic_compaction/benchmarking/external.py"
         ),
         "benchmarks": benchmarks,
         "totals": {

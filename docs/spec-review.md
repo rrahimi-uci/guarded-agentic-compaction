@@ -22,7 +22,7 @@ lists 5 classes containing 23 forms: 5 identity/coercion, 6 string, 5 numeric, 6
 collection, 1 temporal.
 
 *Resolution:* implement the enumerated list. `OPERATOR_CLASSES` in
-[dsl.py](../src/agent_compaction/grc/dsl.py) contains 23 operator forms and a test pins
+[dsl.py](../src/guarded_agentic_compaction/grc/dsl.py) contains 23 operator forms and a test pins
 both the count and the class partition, so the discrepancy cannot drift silently.
 
 ### S2. Two mutually incompatible transform libraries
@@ -50,7 +50,7 @@ guard-visible. Both cannot hold.
 state plus in-region observations up to that step), with guard-visible paths ranked
 first. The support floor (20 groups), leave-one-group-out, and the permutation test are
 kept as the actual defence. See `_atoms` and `synthesize_branch` in
-[synthesize.py](../src/agent_compaction/grc/synthesize.py).
+[synthesize.py](../src/guarded_agentic_compaction/grc/synthesize.py).
 
 ### S4. Indexing model responses as provenance producers is circular
 
@@ -63,7 +63,7 @@ value first appears in a model response, therefore this is a decision" — can n
 as model-originated. They are never grounding sources. Without this the reference use
 case reports 100% grounded slots and mines regions that encode decisions; with it,
 `resolution_note` is correctly `UNGROUNDED`. See `build_patg` in
-[provenance.py](../src/agent_compaction/graph/provenance.py).
+[provenance.py](../src/guarded_agentic_compaction/graph/provenance.py).
 
 ### S5. Algorithm 2's line order discards the entry state (already flagged, and worse than described)
 
@@ -83,7 +83,7 @@ requires. Both the ordering fix and the seeding are implemented.
 | Gap (source) | Closure |
 |:---|:---|
 | `cx.compile()` takes no tenant/principal argument (proposal §6.5) | `partition_by=` on `optimize()`/`GrcConfig`/`TgwsConfig`. The corpus is **partitioned before fitting**, not merely pinned afterwards: `compile_grc` and `compile_tgws` recurse per partition and never pool. |
-| `@cx.compact` has no `mode=` (proposal §6.5) | `compact(..., mode="shadow"|"live"|"off")` in [runner.py](../src/agent_compaction/runtime/runner.py). |
+| `@cx.compact` has no `mode=` (proposal §6.5) | `compact(..., mode="shadow"|"live"|"off")` in [runner.py](../src/guarded_agentic_compaction/runtime/runner.py). |
 | The catalog cannot mark a slot literal-only (proposal §6.5) | `literal_only: [slot]` per tool, checked in Algorithm 3 *before* enumeration. `billing.list_invoices.limit` and `search.retrieve.k` use it. |
 | Θ is a static stoplist (proposal §6.2 row 1, §6.5) | Corpus-derived per-field cardinality and top-share filter in `GroundabilityPolicy`, fitted by `field_statistics`. The stoplist survives only as a cheap first pass. |
 | Production has no scenario ids (proposal §6.2 row 2) | Support is counted by group **and** principal **and** day, all three configurable minima. |
@@ -105,7 +105,7 @@ pattern is what makes the artifact generalise) wants the opposite.
 
 *Resolution:* an explicit order-stability rank ahead of MDL — `filter` < projection <
 `sort`/`topk` < `first`/`last` — plus a penalty on source paths containing list indices.
-`OP_INSTABILITY` and `chain_rank` in [dsl.py](../src/agent_compaction/grc/dsl.py).
+`OP_INSTABILITY` and `chain_rank` in [dsl.py](../src/guarded_agentic_compaction/grc/dsl.py).
 Without it the demo compiles a binding the perturbation suite then rejects; with it, the
 documented artifact is synthesized directly.
 
@@ -151,7 +151,7 @@ that is perfectly explainable.
 *Resolution:* the label comes from the episode's observable behaviour; episodes whose
 long-arm window was blocked are **excluded from the family** rather than mislabelled.
 Support drops, correctness does not. `_called_after` in
-[windows.py](../src/agent_compaction/graph/windows.py).
+[windows.py](../src/guarded_agentic_compaction/graph/windows.py).
 
 ### D6. Several atoms separate perfectly, and the algorithm does not say which to pick
 

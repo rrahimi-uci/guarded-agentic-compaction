@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from agent_compaction.benchmarking import load_case_jsonl
+from guarded_agentic_compaction.benchmarking import load_case_jsonl
 from benchmarks.runtime import PROMPTS, load_domain_runtime
 from benchmarks.adapters.hmda_public_lar import hmda_macro
 from benchmarks.adapters.vulnerability_evidence import vulnerability_macro

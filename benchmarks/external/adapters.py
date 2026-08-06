@@ -17,12 +17,12 @@ import re
 from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
 
-from agent_compaction.benchmarking.external import (
+from guarded_agentic_compaction.benchmarking.external import (
     EvidenceSubstrate,
     ReferenceAction,
     ReferenceTask,
 )
-from agent_compaction.schema.effects import EffectClass
+from guarded_agentic_compaction.schema.effects import EffectClass
 
 __all__ = [
     "load_agentbench",

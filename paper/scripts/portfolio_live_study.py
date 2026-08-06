@@ -37,8 +37,8 @@ for path in (ROOT, ROOT / "src", ROOT / "paper" / "scripts"):
         sys.path.insert(0, str(path))
 
 import github_live_study as fixed  # noqa: E402
-from agent_compaction.capture.agents_sdk import AgentsTraceProcessor  # noqa: E402
-from agent_compaction.portfolio import (  # noqa: E402
+from guarded_agentic_compaction.capture.agents_sdk import AgentsTraceProcessor  # noqa: E402
+from guarded_agentic_compaction.portfolio import (  # noqa: E402
     PortfolioObservation,
     SelectionConfig,
     select_portfolio_action,

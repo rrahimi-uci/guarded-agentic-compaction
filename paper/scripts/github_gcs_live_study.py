@@ -29,7 +29,7 @@ for path in (ROOT, ROOT / "paper" / "scripts"):
 import github_live_study as fixed  # noqa: E402
 import github_natural_workflow_study as natural  # noqa: E402
 import validate_guarded_composite as validation  # noqa: E402
-from agent_compaction.capture.agents_sdk import AgentsTraceProcessor  # noqa: E402
+from guarded_agentic_compaction.capture.agents_sdk import AgentsTraceProcessor  # noqa: E402
 
 
 OUT_DIR = ROOT / "paper/results/gcs_live"
@@ -89,8 +89,8 @@ def _select(
 ) -> tuple[list[fixed.Scenario], dict[str, Any]]:
     # Eligibility is checked through the exact runtime path before the paid cohort
     # is frozen; no answer or provider outcome is observed during selection.
-    from agent_compaction.runtime.dispatch import DispatchMode, Dispatcher
-    from agent_compaction.runtime.runner import CompactingRunner
+    from guarded_agentic_compaction.runtime.dispatch import DispatchMode, Dispatcher
+    from guarded_agentic_compaction.runtime.runner import CompactingRunner
 
     ranked = sorted(
         (

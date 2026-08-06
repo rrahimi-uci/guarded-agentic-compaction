@@ -10,9 +10,9 @@ from pathlib import Path
 import pytest
 import yaml
 
-from agent_compaction.evaluation import BenchmarkCase
-from agent_compaction.schema.effects import EffectCatalog, EffectClass
-from agent_compaction.benchmarking.preflight import _validate_source_manifest
+from guarded_agentic_compaction.evaluation import BenchmarkCase
+from guarded_agentic_compaction.schema.effects import EffectCatalog, EffectClass
+from guarded_agentic_compaction.benchmarking.preflight import _validate_source_manifest
 from benchmarks.preflight import PreflightError, load_study_manifest, preflight_study
 
 

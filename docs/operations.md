@@ -9,7 +9,7 @@ effects, estimate, compile and *read*, shadow, then a narrow canary.
 |---:|:---|:---|
 | 1 | **Capture.** One authoritative tracer, sampling 1.0 for the mining window. ≥100 episodes over ≥5 groups. | you cannot see model-request boundaries, or payloads are truncated |
 | 2 | **Declare effects.** Write `effects.yaml` for the most-called tools. Everything undeclared is `UNKNOWN`. | your tool surface is mostly writes |
-| 3 | **Estimate.** `agent-compaction estimate`. Read `n_B`, the ceiling, and what is blocked and why. | the oracle ceiling is below ~5% |
+| 3 | **Estimate.** `guarded-agentic-compaction estimate`. Read `n_B`, the ceiling, and what is blocked and why. | the oracle ceiling is below ~5% |
 | 4 | **Compile and read.** `compile` then `explain`. A human reads every program. | you cannot read an artifact and say what it does |
 | 5 | **Shadow.** `mode="shadow"`. Score and log what *would* have dispatched. Zero behaviour change. | shadow ρ < 0.9, or shadow φ far below the dev estimate |
 | 6 | **Go live narrowly.** `mode="live"` with the smallest artifact set clearing the gate. | any committed forbidden effect, ever |
@@ -27,7 +27,7 @@ So compilation belongs in CI:
 
 1. a prompt or schema change lands on a branch;
 2. CI recompiles from the last *N* days of traces and **diffs the registry** against the
-   previous revision (`agent-compaction diff`): artifacts gained, lost, coverage delta;
+   previous revision (`guarded-agentic-compaction diff`): artifacts gained, lost, coverage delta;
 3. the new registry deploys in `mode="shadow"` and must accumulate its promotion evidence
    before any live dispatch;
 4. the previous signed registry stays resolvable for atomic pointer rollback.

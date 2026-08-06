@@ -45,19 +45,19 @@ import github_gcs_live_study as gcs_study  # noqa: E402
 import github_live_study as fixed  # noqa: E402
 import github_natural_workflow_study as natural  # noqa: E402
 import validate_guarded_composite as validation  # noqa: E402
-from agent_compaction.capture.agents_sdk import AgentsTraceProcessor  # noqa: E402
-from agent_compaction.grc.composite import synthesize_composite  # noqa: E402
-from agent_compaction.grc.dsl import Const, Expr  # noqa: E402
-from agent_compaction.grc.program import CallStep, Program  # noqa: E402
-from agent_compaction.optimization.gepa import (  # noqa: E402
+from guarded_agentic_compaction.capture.agents_sdk import AgentsTraceProcessor  # noqa: E402
+from guarded_agentic_compaction.grc.composite import synthesize_composite  # noqa: E402
+from guarded_agentic_compaction.grc.dsl import Const, Expr  # noqa: E402
+from guarded_agentic_compaction.grc.program import CallStep, Program  # noqa: E402
+from guarded_agentic_compaction.optimization.gepa import (  # noqa: E402
     GepaEvaluation,
     GepaPromptConfig,
     GepaPromptOptimizer,
 )
-from agent_compaction.runtime.dispatch import DispatchMode, Dispatcher  # noqa: E402
-from agent_compaction.runtime.manual import ManualPreModelPlan, ManualPreModelRunner  # noqa: E402
-from agent_compaction.runtime.runner import CompactingRunner  # noqa: E402
-from agent_compaction.schema.artifacts import (  # noqa: E402
+from guarded_agentic_compaction.runtime.dispatch import DispatchMode, Dispatcher  # noqa: E402
+from guarded_agentic_compaction.runtime.manual import ManualPreModelPlan, ManualPreModelRunner  # noqa: E402
+from guarded_agentic_compaction.runtime.runner import CompactingRunner  # noqa: E402
+from guarded_agentic_compaction.schema.artifacts import (  # noqa: E402
     GuardClause,
     HardGuard,
     Hull,

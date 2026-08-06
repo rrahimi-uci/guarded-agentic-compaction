@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from agent_compaction.grc.dsl import (
+from guarded_agentic_compaction.grc.dsl import (
     LIBRARY_VERSION,
     OPERATOR_CLASSES,
     Const,
@@ -117,7 +117,7 @@ def test_search_cache_reuses_identical_value_problems():
 
 
 def test_expression_evaluation_and_roundtrip():
-    from agent_compaction.grc.dsl import binding_from_dict
+    from guarded_agentic_compaction.grc.dsl import binding_from_dict
 
     expr = Expr("z.ticket.requester_email", (Op("lower"),))
     env = {"z": {"ticket": {"requester_email": "A@B.example"}}}
@@ -134,10 +134,10 @@ def test_missing_source_path_raises_rather_than_guessing():
 
 
 def test_loop_does_not_rewrite_an_unrelated_integer_literal():
-    from agent_compaction.grc.program import LoopStep, Predicate, Program
-    from agent_compaction.runtime.facade import FacadeMode, ToolFacade
-    from agent_compaction.runtime.interp import run_program
-    from agent_compaction.schema.effects import EffectCatalog
+    from guarded_agentic_compaction.grc.program import LoopStep, Predicate, Program
+    from guarded_agentic_compaction.runtime.facade import FacadeMode, ToolFacade
+    from guarded_agentic_compaction.runtime.interp import run_program
+    from guarded_agentic_compaction.schema.effects import EffectCatalog
 
     catalog = EffectCatalog.from_dict(
         {

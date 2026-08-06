@@ -46,19 +46,19 @@ for path in (ROOT, ROOT / "src"):
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))
 
-from agent_compaction.capture.agents_sdk import (  # noqa: E402
+from guarded_agentic_compaction.capture.agents_sdk import (  # noqa: E402
     AgentsTraceProcessor,
     SdkTraceRecord,
     episode_from_agents_trace,
 )
-from agent_compaction.capture.manifests import build_manifest  # noqa: E402
-from agent_compaction.evaluation.splits import Splits  # noqa: E402
-from agent_compaction.grc.compile import GrcConfig, compile_grc  # noqa: E402
-from agent_compaction.registry.store import Registry  # noqa: E402
-from agent_compaction.runtime.model_provider import CompactingModel  # noqa: E402
-from agent_compaction.schema.artifacts import Lifecycle  # noqa: E402
-from agent_compaction.schema.effects import EffectCatalog  # noqa: E402
-from agent_compaction.schema.traces import (  # noqa: E402
+from guarded_agentic_compaction.capture.manifests import build_manifest  # noqa: E402
+from guarded_agentic_compaction.evaluation.splits import Splits  # noqa: E402
+from guarded_agentic_compaction.grc.compile import GrcConfig, compile_grc  # noqa: E402
+from guarded_agentic_compaction.registry.store import Registry  # noqa: E402
+from guarded_agentic_compaction.runtime.model_provider import CompactingModel  # noqa: E402
+from guarded_agentic_compaction.schema.artifacts import Lifecycle  # noqa: E402
+from guarded_agentic_compaction.schema.effects import EffectCatalog  # noqa: E402
+from guarded_agentic_compaction.schema.traces import (  # noqa: E402
     Episode,
     OutcomeLabels,
     TraceEnvelope,

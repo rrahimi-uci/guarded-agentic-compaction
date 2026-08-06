@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from agent_compaction.evaluation import BenchmarkCase
+from guarded_agentic_compaction.evaluation import BenchmarkCase
 
 from .store import FrozenRecordStore
 

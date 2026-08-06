@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for improving `agent-compaction`. Changes should preserve its fail-closed rule:
+Thanks for improving `guarded-agentic-compaction`. Changes should preserve its fail-closed rule:
 an optimizer may abstain, but it must never turn missing evidence into a live rewrite.
 
 Useful contribution areas include trace adapters, conservative compiler checks, benchmark

@@ -26,7 +26,7 @@ for p in (ROOT, ROOT / "src"):
     if str(p) not in sys.path:
         sys.path.insert(0, str(p))
 
-from agent_compaction.estimate.reports import render_markdown, render_table
+from guarded_agentic_compaction.estimate.reports import render_markdown, render_table
 
 CONDITIONS = ("baseline", "simple", "full", "support_only")
 CONDITION_LABELS = {
@@ -511,7 +511,7 @@ def build(results_dir: Path, out_md: Path, figures_dir: Path) -> Path:
         ("Figures", fig_md),
         ("Per demonstration", "\n".join(per_demo)),
     ]
-    text = render_markdown("Agent Compaction — measured results", sections, manifest=manifest)
+    text = render_markdown("Guarded Agentic Compaction — measured results", sections, manifest=manifest)
     out_md.parent.mkdir(parents=True, exist_ok=True)
     out_md.write_text(text)
     return out_md

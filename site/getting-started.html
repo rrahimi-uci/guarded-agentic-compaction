@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Install and use Agent Compaction from the CLI, Python API, and OpenAI Agents SDK.">
-  <title>Get started — Agent Compaction</title>
+  <meta name="description" content="Install and use Guarded Agentic Compaction from the CLI, Python API, and OpenAI Agents SDK.">
+  <title>Get started — Guarded Agentic Compaction</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/css/styles.css"><script defer src="assets/js/site.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header"><nav class="nav" aria-label="Primary navigation">
-    <a class="brand" href="index.html"><span class="brand-mark">GAC</span><span>Agent Compaction</span></a>
+    <a class="brand" href="index.html"><span class="brand-mark">GAC</span><span>Guarded Agentic Compaction</span></a>
     <button class="menu-button" data-menu aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">☰</button>
     <ul class="nav-links" id="site-nav" data-nav-links>
       <li><a href="index.html">Overview</a></li><li><a href="architecture.html">Architecture</a></li>
@@ -20,7 +20,7 @@
   </nav></header>
   <main id="main">
     <section class="page-hero"><div class="container">
-      <div class="breadcrumbs"><a href="index.html">Agent Compaction</a> / Get started</div>
+      <div class="breadcrumbs"><a href="index.html">Guarded Agentic Compaction</a> / Get started</div>
       <h1>Estimate first. Compile second. Shadow before promotion.</h1>
       <p>The shortest safe path is intentionally not “install and optimize.” Start by asking whether the trace population can support the gate and whether the candidate region is economically worth reviewing.</p>
     </div></section>
@@ -28,7 +28,7 @@
     <section class="section"><div class="container doc-layout">
       <article class="prose">
         <h2 id="install">Install</h2>
-        <p>Agent Compaction requires Python 3.11 or newer. The core compiler is framework-neutral; the Agents SDK is an optional integration.</p>
+        <p>Guarded Agentic Compaction requires Python 3.11 or newer. The core compiler is framework-neutral; the Agents SDK is an optional integration.</p>
         <pre><code>git clone https://github.com/rrahimi-uci/guarded-agentic-compaction.git
 cd guarded-agentic-compaction
 python -m venv .venv
@@ -36,22 +36,22 @@ python -m venv .venv
         <p>For provider-backed examples, copy <code>.env.example</code> to <code>.env</code> and set <code>OPENAI_API_KEY</code>. Credentials are read into the process environment and are not serialized into result artifacts.</p>
 
         <h2 id="estimate">1. Estimate feasibility</h2>
-        <pre><code>agent-compaction estimate traces.jsonl \
+        <pre><code>guarded-agentic-compaction estimate traces.jsonl \
   --effects configs/effects.example.yaml \
   --entry channel locale product</code></pre>
         <p>The estimator reports independent-group support, candidate-region coverage, expected calibration requirements, runtime savings, and break-even assumptions. A decisive “do not compile” is a successful result.</p>
 
         <h2 id="compile">2. Compile and inspect</h2>
-        <pre><code>agent-compaction compile traces.jsonl \
+        <pre><code>guarded-agentic-compaction compile traces.jsonl \
   --effects configs/effects.example.yaml \
   --entry channel locale product \
   --out artifacts/v1
 
-agent-compaction explain artifacts/v1</code></pre>
+guarded-agentic-compaction explain artifacts/v1</code></pre>
         <p>Review the emitted pseudocode, argument bindings, effect declarations, group splits, replay results, threshold grid, compatibility key, and every rejection reason. Do not promote an artifact whose effect catalog or registered task contract has not received application review.</p>
 
         <h2 id="library">Python API</h2>
-        <pre><code>import agent_compaction as ac
+        <pre><code>import guarded_agentic_compaction as ac
 
 episodes = ac.read_jsonl("traces.jsonl")
 catalog = ac.load_catalog("configs/effects.example.yaml")
@@ -105,7 +105,7 @@ else:
         <h2 id="sdk">OpenAI Agents SDK</h2>
         <p>The maintained SDK adapter captures traces through a <code>TracingProcessor</code>. The optional <code>CompactingModel</code> handles a narrower model-boundary path and rejects unsupported streaming, hosted-tool, MCP, handoff, and loop surfaces.</p>
         <pre><code>from agents import Agent
-from agent_compaction.runtime.model_provider import CompactingModel
+from guarded_agentic_compaction.runtime.model_provider import CompactingModel
 
 agent = Agent(
     name="support",
@@ -134,7 +134,7 @@ agent = Agent(
     </div></section>
   </main>
   <footer class="site-footer"><div class="container footer-grid">
-    <div><div class="footer-title">Agent Compaction</div><p class="footer-note">Estimate support and economics before compiling; preserve the baseline whenever evidence is incomplete.</p></div>
+    <div><div class="footer-title">Guarded Agentic Compaction</div><p class="footer-note">Estimate support and economics before compiling; preserve the baseline whenever evidence is incomplete.</p></div>
     <div><div class="footer-label">Next</div><ul><li><a href="research.html">Research evidence</a></li><li><a href="limitations.html">Limits</a></li></ul></div>
     <div><div class="footer-label">Reference</div><ul><li><a href="https://github.com/rrahimi-uci/guarded-agentic-compaction/blob/main/docs/library-api.md">Full API</a></li><li><a href="https://github.com/rrahimi-uci/guarded-agentic-compaction/blob/main/docs/openai-agents-sdk.md">SDK guide</a></li></ul></div>
     <div><div class="footer-label">Project</div><ul><li><a href="contributing.html">Contribute</a></li><li><a href="https://github.com/rrahimi-uci/guarded-agentic-compaction">Source</a></li></ul></div>

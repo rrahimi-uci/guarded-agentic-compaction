@@ -630,8 +630,8 @@ The whole design pushes work offline. The online path is a hash lookup, a guard 
 
 ## 5. The library
 
-The point of v2. Everything above is packaged as `agent-compaction` (import
-`agent_compaction`), a small Python library that sits *beside* an agent rather than
+The point of v2. Everything above is packaged as `guarded-agentic-compaction` (import
+`guarded_agentic_compaction`), a small Python library that sits *beside* an agent rather than
 inside it.
 
 ### 5.1 Design principles
@@ -646,7 +646,7 @@ inside it.
 ### 5.2 The whole API
 
 ```python
-import agent_compaction as ac
+import guarded_agentic_compaction as ac
 
 # ── 1. load normalized capture ────────────────────────────────────────────
 episodes = ac.read_jsonl("traces.jsonl")
@@ -676,7 +676,7 @@ ac.promote(job, stage="shadow")
 
 # ── 3. deploy ─────────────────────────────────────────────────────────────
 from agents import Agent, Runner
-from agent_compaction.runtime.model_provider import CompactingModel
+from guarded_agentic_compaction.runtime.model_provider import CompactingModel
 
 agent = Agent(
     name="support",
@@ -739,7 +739,7 @@ Capabilities gate specific optimizations: `cacheable` licenses memoization, `reo
 ### 5.4 Package layout
 
 ```text
-src/agent_compaction/
+src/guarded_agentic_compaction/
   schema/       traces.py  effects.py  artifacts.py       # typed contracts
   capture/      agents_sdk.py  jsonl.py  manifests.py      # capture + persistence
   graph/        normalize.py  provenance.py  windows.py    # Alg. 1, 2
@@ -1364,7 +1364,7 @@ CPU suffices for mining and bounded enumeration; one optional GPU for the small 
 3. **A synthesis method sized to the problem** — bounded version spaces and decision lists rather than general program synthesis, with the closed transform library published as the exact statement of expressive power.
 4. **A valid, honestly wide admission guarantee** (Alg. 6, Eq. 18) that retires artifacts rather than overclaiming when data is thin.
 5. **The feasibility frontier** (Eq. 10) — a closed form that tells any practitioner, before building anything, whether compaction can reach their savings target. This alone would have prevented v1's incompatible endpoints.
-6. **`agent-compaction`** — a working library over a typed Episode IR with an OpenAI
+6. **`guarded-agentic-compaction`** — a working library over a typed Episode IR with an OpenAI
    Agents SDK adapter and canonical JSONL store whose estimator answers "is there anything
    here?" before compilation investment.
 7. **A negative-result boundary** — which regions are rejected, and whether because of hidden state, undeclared effects, ungrounded slots, ambiguity, or insufficient support.

@@ -1,6 +1,6 @@
 # Implemented use cases and evidence boundaries
 
-These scenarios describe what the current `agent-compaction` 0.7.0 code can do. They
+These scenarios describe what the current `guarded-agentic-compaction` 0.7.0 code can do. They
 replace the earlier v2.1 pseudo-API guide, whose `cx.*` examples and staged implementation
 schedule predated the library. Every scenario below distinguishes measured evidence from
 an adoption hypothesis.
@@ -25,7 +25,7 @@ not arbitrary business logic or undeclared semantics.
 ## Adoption workflow using the public API
 
 ```python
-import agent_compaction as ac
+import guarded_agentic_compaction as ac
 
 episodes = ac.read_jsonl("traces.jsonl")
 catalog = ac.load_catalog("effects.yaml")

@@ -9,7 +9,7 @@ from typing import Any, Mapping
 
 from jsonschema import Draft202012Validator
 
-from agent_compaction.evaluation import BenchmarkCase, OracleResult
+from guarded_agentic_compaction.evaluation import BenchmarkCase, OracleResult
 
 
 def _canonical(value: Any) -> str:

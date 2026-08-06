@@ -20,8 +20,8 @@ import random
 from pathlib import Path
 from typing import Any, Sequence
 
-from agent_compaction.schema.traces import ExecutionManifest, OutcomeLabels
-from agent_compaction.schema.effects import EffectCatalog
+from guarded_agentic_compaction.schema.traces import ExecutionManifest, OutcomeLabels
+from guarded_agentic_compaction.schema.effects import EffectCatalog
 
 from ..framework import (
     Action,

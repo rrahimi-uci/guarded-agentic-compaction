@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import pytest
 
-from agent_compaction.benchmarking import build_role_schedule, freeze_protocol, schedule_summary
-from agent_compaction.benchmarking import ProtocolError
-from agent_compaction.evaluation import BenchmarkCase, BenchmarkRole
+from guarded_agentic_compaction.benchmarking import build_role_schedule, freeze_protocol, schedule_summary
+from guarded_agentic_compaction.benchmarking import ProtocolError
+from guarded_agentic_compaction.evaluation import BenchmarkCase, BenchmarkRole
 
 
 def _cases(n: int = 12) -> tuple[BenchmarkCase, ...]:

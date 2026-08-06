@@ -32,7 +32,7 @@ for candidate in (ROOT, ROOT / "src"):
     if str(candidate) not in sys.path:
         sys.path.insert(0, str(candidate))
 
-from agent_compaction.benchmarking import (  # noqa: E402
+from guarded_agentic_compaction.benchmarking import (  # noqa: E402
     ActionSpec,
     FrozenProtocol,
     MacroApproval,
@@ -43,18 +43,18 @@ from agent_compaction.benchmarking import (  # noqa: E402
     load_case_jsonl,
     schedule_summary,
 )
-from agent_compaction.benchmarking.preflight import STATISTICAL_CONTRACT  # noqa: E402
-from agent_compaction.capture.agents_sdk import (  # noqa: E402
+from guarded_agentic_compaction.benchmarking.preflight import STATISTICAL_CONTRACT  # noqa: E402
+from guarded_agentic_compaction.capture.agents_sdk import (  # noqa: E402
     AgentsTraceProcessor,
     episode_from_agents_trace,
 )
-from agent_compaction.capture.manifests import build_manifest  # noqa: E402
-from agent_compaction.evaluation import CanonicalMetrics, RunLedger, episode_metrics  # noqa: E402
-from agent_compaction.registry.store import Registry  # noqa: E402
-from agent_compaction.portfolio import PortfolioPolicy  # noqa: E402
-from agent_compaction.runtime.model_provider import CompactingModel  # noqa: E402
-from agent_compaction.schema.artifacts import Lifecycle  # noqa: E402
-from agent_compaction.schema.traces import (  # noqa: E402
+from guarded_agentic_compaction.capture.manifests import build_manifest  # noqa: E402
+from guarded_agentic_compaction.evaluation import CanonicalMetrics, RunLedger, episode_metrics  # noqa: E402
+from guarded_agentic_compaction.registry.store import Registry  # noqa: E402
+from guarded_agentic_compaction.portfolio import PortfolioPolicy  # noqa: E402
+from guarded_agentic_compaction.runtime.model_provider import CompactingModel  # noqa: E402
+from guarded_agentic_compaction.schema.artifacts import Lifecycle  # noqa: E402
+from guarded_agentic_compaction.schema.traces import (  # noqa: E402
     OutcomeLabels,
     TraceEnvelope,
     content_digest,
@@ -286,11 +286,11 @@ def _evaluator_digest(domain: str, runtime: DomainRuntime) -> str:
 
 def _control_plane_digest() -> str:
     paths = [
-        ROOT / "src/agent_compaction/benchmarking/actions.py",
-        ROOT / "src/agent_compaction/benchmarking/budget.py",
-        ROOT / "src/agent_compaction/benchmarking/preflight.py",
-        ROOT / "src/agent_compaction/benchmarking/protocol.py",
-        ROOT / "src/agent_compaction/benchmarking/schedule.py",
+        ROOT / "src/guarded_agentic_compaction/benchmarking/actions.py",
+        ROOT / "src/guarded_agentic_compaction/benchmarking/budget.py",
+        ROOT / "src/guarded_agentic_compaction/benchmarking/preflight.py",
+        ROOT / "src/guarded_agentic_compaction/benchmarking/protocol.py",
+        ROOT / "src/guarded_agentic_compaction/benchmarking/schedule.py",
         ROOT / "benchmarks/gold.py",
         ROOT / "benchmarks/oracles.py",
         ROOT / "benchmarks/runtime.py",

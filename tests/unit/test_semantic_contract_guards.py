@@ -1,4 +1,4 @@
-from agent_compaction.grc.contracts import (
+from guarded_agentic_compaction.grc.contracts import (
     MAX_ENUM_CARDINALITY,
     _field_clauses,
     _opaque_identifier_path,

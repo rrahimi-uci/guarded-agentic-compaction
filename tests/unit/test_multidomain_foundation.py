@@ -6,7 +6,7 @@ import json
 
 import pytest
 
-from agent_compaction.evaluation import (
+from guarded_agentic_compaction.evaluation import (
     BenchmarkCase,
     BenchmarkRole,
     BinaryPair,
@@ -18,7 +18,7 @@ from agent_compaction.evaluation import (
     exact_paired_binary_noninferiority,
     paired_portfolio_observation,
 )
-from agent_compaction.portfolio import (
+from guarded_agentic_compaction.portfolio import (
     PortfolioPolicy,
     SelectionConfig,
     bonferroni_family_confidence,

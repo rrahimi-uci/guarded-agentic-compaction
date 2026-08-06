@@ -2,7 +2,7 @@
 
 ::
 
-    import agent_compaction as ac
+    import guarded_agentic_compaction as ac
 
     episodes = ac.read_jsonl("traces.jsonl")
     catalog = ac.load_catalog("configs/effects.yaml")

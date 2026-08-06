@@ -1,4 +1,4 @@
-# Agent Compaction
+# Guarded Agentic Compaction
 
 [![CI](https://github.com/rrahimi-uci/guarded-agentic-compaction/actions/workflows/ci.yml/badge.svg)](https://github.com/rrahimi-uci/guarded-agentic-compaction/actions/workflows/ci.yml)
 [![Documentation](https://github.com/rrahimi-uci/guarded-agentic-compaction/actions/workflows/pages.yml/badge.svg)](https://rrahimi-uci.github.io/guarded-agentic-compaction/)
@@ -7,7 +7,7 @@
 
 **Compile the routine. Refuse the uncertain.**
 
-Agent Compaction is a research library for turning recurrent, read-only regions of
+Guarded Agentic Compaction is a research library for turning recurrent, read-only regions of
 tool-using agents into deterministic guarded programs. It learns from execution traces,
 but recurrence is never enough: every candidate must pass value-provenance, effect,
 permission, runtime-position, replay, compatibility, and finite-sample evidence checks.
@@ -24,7 +24,7 @@ Otherwise the original agent remains unchanged.
 Mature agents often spend model calls reselecting the same evidence path. A hand-written
 macro can remove that overhead, but it requires a developer to discover the pattern,
 reconstruct argument flow, review effects, maintain invalidation rules, and prove it still
-works. Agent Compaction automates that evidence and lifecycle path for a deliberately
+works. Guarded Agentic Compaction automates that evidence and lifecycle path for a deliberately
 narrow class of workflows.
 
 The research contribution is **admissibility for trace-derived specialization**, not the
@@ -110,7 +110,7 @@ credential.
 The estimator is designed to produce a fast, inexpensive refusal before synthesis:
 
 ~~~bash
-agent-compaction estimate traces.jsonl \
+guarded-agentic-compaction estimate traces.jsonl \
   --effects configs/effects.example.yaml \
   --entry channel locale product
 ~~~
@@ -118,19 +118,19 @@ agent-compaction estimate traces.jsonl \
 Compile only after the trace and effect contracts are complete:
 
 ~~~bash
-agent-compaction compile traces.jsonl \
+guarded-agentic-compaction compile traces.jsonl \
   --effects configs/effects.example.yaml \
   --entry channel locale product \
   --out artifacts/v1
 
-agent-compaction explain artifacts/v1
-agent-compaction promote artifacts/v1 --stage shadow
+guarded-agentic-compaction explain artifacts/v1
+guarded-agentic-compaction promote artifacts/v1 --stage shadow
 ~~~
 
 ## Python API
 
 ~~~python
-import agent_compaction as ac
+import guarded_agentic_compaction as ac
 
 episodes = ac.read_jsonl("traces.jsonl")
 catalog = ac.load_catalog("configs/effects.example.yaml")
@@ -161,13 +161,13 @@ Capture normalized traces with the maintained tracing processor, then integrate 
 the application-owned staging boundary or through the guarded model adapter.
 
 ~~~python
-from agent_compaction.capture.agents_sdk import AgentsSDKTraceProcessor
+from guarded_agentic_compaction.capture.agents_sdk import AgentsSDKTraceProcessor
 
 processor = AgentsSDKTraceProcessor(store=episode_store)
 ~~~
 
 ~~~python
-from agent_compaction.runtime.model_provider import CompactingModel
+from guarded_agentic_compaction.runtime.model_provider import CompactingModel
 
 agent = Agent(
     name="support",
@@ -206,7 +206,7 @@ credentials are never required for the standard test or documentation path.
 ## Repository map
 
 ~~~text
-src/agent_compaction/
+src/guarded_agentic_compaction/
   capture/      framework adapters and normalized Episode snapshots
   graph/        qualification, provenance, and recurrent-window mining
   grc/          DSL, synthesis, contracts, calibration, guarded composites

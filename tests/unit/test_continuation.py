@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-import agent_compaction as ac
-from agent_compaction.runtime import (
+import guarded_agentic_compaction as ac
+from guarded_agentic_compaction.runtime import (
     ContinuationEvidence,
     ContinuationGuard,
     ContinuationOutcome,
 )
-from agent_compaction.runtime.runner import CompactingRunner
+from guarded_agentic_compaction.runtime.runner import CompactingRunner
 
 
 def evidence(expected: str = "grounded") -> ContinuationEvidence:

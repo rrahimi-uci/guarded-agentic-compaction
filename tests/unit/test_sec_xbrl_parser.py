@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from agent_compaction.evaluation import BenchmarkCase
+from guarded_agentic_compaction.evaluation import BenchmarkCase
 from benchmarks.adapters.sec_filing_facts import SecSnapshot, sec_macro
 from benchmarks.adapters.store import FrozenRecordStore
 from benchmarks.build.sec_pool import parse_xbrl_instance, select_instance_filename

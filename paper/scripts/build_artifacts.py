@@ -75,7 +75,7 @@ FIG_W = 5.4
 # unchanged figures hash differently on every rebuild and defeats the checksum manifest.
 # A fixed, truthful artifact-version timestamp keeps the PDF bytes reproducible.
 PDF_METADATA = {
-    "Creator": "agent-compaction paper/scripts/build_artifacts.py",
+    "Creator": "guarded-agentic-compaction paper/scripts/build_artifacts.py",
     "CreationDate": datetime(2026, 8, 4, tzinfo=timezone.utc),
     "ModDate": datetime(2026, 8, 4, tzinfo=timezone.utc),
 }

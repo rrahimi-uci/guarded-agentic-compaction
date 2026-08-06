@@ -29,11 +29,11 @@ for path in (ROOT, ROOT / "src"):
 
 from pydantic import BaseModel, Field
 
-from agent_compaction.grc.dsl import Const, Expr, Op
-from agent_compaction.grc.program import CallStep, LoopStep, Predicate, Program
-from agent_compaction.registry.store import Registry
-from agent_compaction.runtime.model_provider import CompactingModel
-from agent_compaction.schema.artifacts import (
+from guarded_agentic_compaction.grc.dsl import Const, Expr, Op
+from guarded_agentic_compaction.grc.program import CallStep, LoopStep, Predicate, Program
+from guarded_agentic_compaction.registry.store import Registry
+from guarded_agentic_compaction.runtime.model_provider import CompactingModel
+from guarded_agentic_compaction.schema.artifacts import (
     Artifact,
     Evidence,
     Gate,
@@ -42,8 +42,8 @@ from agent_compaction.schema.artifacts import (
     Lifecycle,
     Verifier,
 )
-from agent_compaction.schema.effects import EffectCatalog
-from agent_compaction.schema.traces import OutcomeLabels
+from guarded_agentic_compaction.schema.effects import EffectCatalog
+from guarded_agentic_compaction.schema.traces import OutcomeLabels
 
 from demos.live_runtime import (
     LiveHarness,
@@ -801,7 +801,7 @@ def _fulfillment_program(*, paginate_as_loop: bool = False) -> Program:
     ``paginate_as_loop`` produces the semantically equivalent artifact whose
     pagination is a bounded ``ForEach``. The ``CompactingModel`` adapter refuses it
     by design (proposal §5.6 conformance item 7) while
-    :class:`~agent_compaction.runtime.runner.CompactingRunner` can execute it.
+    :class:`~guarded_agentic_compaction.runtime.runner.CompactingRunner` can execute it.
     """
 
     s = safe_tool_name
@@ -1151,7 +1151,7 @@ async def _run_fulfillment_demo(
 
 
 def _fit_router(*, seed: int, n_episodes: int = 600) -> Any:
-    from agent_compaction.tgws.routes import fit_route_tree
+    from guarded_agentic_compaction.tgws.routes import fit_route_tree
     from demos.framework import run_workload
 
     spec = get_demo("fulfillment")
@@ -1174,7 +1174,7 @@ def _fit_router(*, seed: int, n_episodes: int = 600) -> Any:
 
 
 def _route_features(entry_state: dict[str, Any], allowlist: Sequence[str]) -> dict[str, Any]:
-    from agent_compaction.paths import resolve_path
+    from guarded_agentic_compaction.paths import resolve_path
 
     features: dict[str, Any] = {}
     for path in allowlist:

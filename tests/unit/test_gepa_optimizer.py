@@ -4,7 +4,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from agent_compaction.optimization.gepa import (
+from guarded_agentic_compaction.optimization.gepa import (
     GepaEvaluation,
     GepaOptimizationError,
     GepaPromptConfig,

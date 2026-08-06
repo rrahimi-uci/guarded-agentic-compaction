@@ -9,7 +9,7 @@ Everything here is grouped and paired by construction:
 * **exact binomial intervals** for gate failures and critical safety events — a
   zero observed rate is reported as an upper bound, never as "zero risk";
 * **Holm correction** across secondary endpoints, and Bonferroni across the
-  pre-registered gate grid (that one lives in :mod:`agent_compaction.grc.calibrate`).
+  pre-registered gate grid (that one lives in :mod:`guarded_agentic_compaction.grc.calibrate`).
 
 Non-inferiority is one-sided by design: the question is never "is the candidate
 better", it is "is the candidate not worse by more than ε".

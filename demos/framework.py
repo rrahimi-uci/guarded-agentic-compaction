@@ -32,7 +32,7 @@ import random
 from dataclasses import dataclass, field
 from typing import Any, Callable, Iterable, Protocol, Sequence
 
-from agent_compaction.schema.traces import (
+from guarded_agentic_compaction.schema.traces import (
     Episode,
     EventKind,
     EventNode,
@@ -655,7 +655,7 @@ def make_tgws_evaluator(
     is executed on the leaf's development episodes and measured.
     """
 
-    from agent_compaction.tgws.prune import EvalResult
+    from guarded_agentic_compaction.tgws.prune import EvalResult
 
     def evaluate(leaf: Any, episodes: Sequence[Episode], config: Any) -> Any:
         specs = [specs_by_id[ep.episode_id] for ep in episodes if ep.episode_id in specs_by_id]

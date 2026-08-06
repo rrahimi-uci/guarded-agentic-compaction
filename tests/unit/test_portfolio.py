@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from agent_compaction.portfolio import (
+from guarded_agentic_compaction.portfolio import (
     OptimizationAction,
     PortfolioObservation,
     SelectionConfig,

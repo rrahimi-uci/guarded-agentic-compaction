@@ -24,7 +24,7 @@ for path in (ROOT, ROOT / "src", ROOT / "paper" / "scripts"):
         sys.path.insert(0, str(path))
 
 import github_live_study as fixed  # noqa: E402
-from agent_compaction.runtime.continuation import (  # noqa: E402
+from guarded_agentic_compaction.runtime.continuation import (  # noqa: E402
     ContinuationEvidence,
     ContinuationGuard,
 )

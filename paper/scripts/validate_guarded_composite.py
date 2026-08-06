@@ -27,11 +27,11 @@ if str(ROOT / "paper" / "scripts") not in sys.path:
 
 import github_live_study as fixed  # noqa: E402
 import github_natural_workflow_study as natural  # noqa: E402
-from agent_compaction.paths import content_digest  # noqa: E402
-from agent_compaction.runtime.dispatch import DispatchMode, Dispatcher  # noqa: E402
-from agent_compaction.runtime.runner import CompactingRunner  # noqa: E402
-from agent_compaction.schema.artifacts import Lifecycle  # noqa: E402
-from agent_compaction.schema.traces import (  # noqa: E402
+from guarded_agentic_compaction.paths import content_digest  # noqa: E402
+from guarded_agentic_compaction.runtime.dispatch import DispatchMode, Dispatcher  # noqa: E402
+from guarded_agentic_compaction.runtime.runner import CompactingRunner  # noqa: E402
+from guarded_agentic_compaction.schema.artifacts import Lifecycle  # noqa: E402
+from guarded_agentic_compaction.schema.traces import (  # noqa: E402
     Episode,
     EventKind,
     EventNode,

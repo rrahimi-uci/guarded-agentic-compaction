@@ -109,7 +109,7 @@ The package advances from 0.5.0 to 0.6.0 because pre-1.0 public MLflow-only name
 longer present. The dominant API remains source-compatible:
 
 ```python
-import agent_compaction as ac
+import guarded_agentic_compaction as ac
 
 episodes = ac.read_jsonl("traces.jsonl")
 ac.write_jsonl(episodes, "normalized.jsonl")

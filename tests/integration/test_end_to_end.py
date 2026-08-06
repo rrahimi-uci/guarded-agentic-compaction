@@ -13,17 +13,17 @@ from __future__ import annotations
 
 import pytest
 
-from agent_compaction.evaluation.metrics import condition_metrics
-from agent_compaction.evaluation.splits import make_splits
-from agent_compaction.estimate.headroom import estimate
-from agent_compaction.graph.provenance import build_all
-from agent_compaction.grc.compile import GrcConfig, compile_grc
-from agent_compaction.registry.lifecycle import promote
-from agent_compaction.registry.store import Registry
-from agent_compaction.runtime.dispatch import DispatchMode, Dispatcher
-from agent_compaction.runtime.runner import CompactingRunner
-from agent_compaction.schema.artifacts import Lifecycle
-from agent_compaction.schema.effects import EffectCatalog
+from guarded_agentic_compaction.evaluation.metrics import condition_metrics
+from guarded_agentic_compaction.evaluation.splits import make_splits
+from guarded_agentic_compaction.estimate.headroom import estimate
+from guarded_agentic_compaction.graph.provenance import build_all
+from guarded_agentic_compaction.grc.compile import GrcConfig, compile_grc
+from guarded_agentic_compaction.registry.lifecycle import promote
+from guarded_agentic_compaction.registry.store import Registry
+from guarded_agentic_compaction.runtime.dispatch import DispatchMode, Dispatcher
+from guarded_agentic_compaction.runtime.runner import CompactingRunner
+from guarded_agentic_compaction.schema.artifacts import Lifecycle
+from guarded_agentic_compaction.schema.effects import EffectCatalog
 
 import demos.support as support
 from demos.framework import Observation, run_workload, summarize

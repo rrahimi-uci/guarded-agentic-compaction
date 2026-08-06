@@ -9,8 +9,8 @@ from pathlib import Path
 
 import pytest
 
-from agent_compaction.benchmarking import freeze_protocol, load_case_jsonl
-from agent_compaction.evaluation import BenchmarkCase, BenchmarkRole
+from guarded_agentic_compaction.benchmarking import freeze_protocol, load_case_jsonl
+from guarded_agentic_compaction.evaluation import BenchmarkCase, BenchmarkRole
 from benchmarks.adapters.hmda_public_lar import HmdaSnapshot, hmda_macro
 from benchmarks.adapters.store import FrozenRecordStore
 from benchmarks.adapters.store import SnapshotError, canonical

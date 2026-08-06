@@ -6,8 +6,8 @@ import math
 
 import pytest
 
-from agent_compaction.estimate.headroom import break_even, estimate, required_calibration_groups
-from agent_compaction.evaluation.statistics import (
+from guarded_agentic_compaction.estimate.headroom import break_even, estimate, required_calibration_groups
+from guarded_agentic_compaction.evaluation.statistics import (
     PairedSample,
     describe,
     group_bootstrap_mean,
@@ -16,13 +16,13 @@ from agent_compaction.evaluation.statistics import (
     paired_group_bootstrap_diff,
     paired_ratio,
 )
-from agent_compaction.grc.calibrate import (
+from guarded_agentic_compaction.grc.calibrate import (
     GRID,
     CalibrationSample,
     calibrate_gate,
     clopper_pearson_upper,
 )
-from agent_compaction.schema.artifacts import GateModel
+from guarded_agentic_compaction.schema.artifacts import GateModel
 
 from scripts.generate_synthetic import ENTRY_ALLOWLIST, SYNTHETIC_CATALOG, generate
 

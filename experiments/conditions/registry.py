@@ -11,9 +11,9 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, Callable, Sequence
 
-from agent_compaction.schema.effects import EffectCatalog
-from agent_compaction.schema.traces import Episode, ExecutionManifest
-from agent_compaction.tgws.prune import LeafConfig
+from guarded_agentic_compaction.schema.effects import EffectCatalog
+from guarded_agentic_compaction.schema.traces import Episode, ExecutionManifest
+from guarded_agentic_compaction.tgws.prune import LeafConfig
 
 import demos.fulfillment as fulfillment
 import demos.incident_triage as triage

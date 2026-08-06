@@ -35,9 +35,9 @@ import random
 from pathlib import Path
 from typing import Any, Sequence
 
-from agent_compaction.paths import stable_int
-from agent_compaction.schema.effects import EffectCatalog
-from agent_compaction.schema.traces import ExecutionManifest, OutcomeLabels
+from guarded_agentic_compaction.paths import stable_int
+from guarded_agentic_compaction.schema.effects import EffectCatalog
+from guarded_agentic_compaction.schema.traces import ExecutionManifest, OutcomeLabels
 
 from ..framework import (
     Action,
@@ -57,7 +57,7 @@ EFFECTS_PATH = Path(__file__).with_name("effects.yaml")
 #:
 #: ``case.order_ref`` and ``case.id`` are high-cardinality identifiers. They belong
 #: here because the region binds them as tool arguments, and they are harmless as
-#: TGWS split features because :func:`~agent_compaction.tgws.routes._candidate_splits`
+#: TGWS split features because :func:`~guarded_agentic_compaction.tgws.routes._candidate_splits`
 #: refuses any feature with more than 24 distinct values.
 ENTRY_ALLOWLIST: tuple[str, ...] = (
     "tenant_id",

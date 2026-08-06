@@ -20,15 +20,15 @@ from typing import Any
 
 import pytest
 
-from agent_compaction.capture import jsonl
-from agent_compaction.grc.dsl import Const, Expr
-from agent_compaction.grc.program import CallStep, Program
-from agent_compaction.registry.store import Registry
-from agent_compaction.runtime.dispatch import DispatchMode
-from agent_compaction.runtime.model_provider import CompactingModel, UnsupportedFeature
-from agent_compaction.schema.artifacts import Artifact, Gate, GateModel, HardGuard, Lifecycle, Verifier
-from agent_compaction.schema.effects import EffectCatalog
-from agent_compaction.schema.traces import ExecutionManifest
+from guarded_agentic_compaction.capture import jsonl
+from guarded_agentic_compaction.grc.dsl import Const, Expr
+from guarded_agentic_compaction.grc.program import CallStep, Program
+from guarded_agentic_compaction.registry.store import Registry
+from guarded_agentic_compaction.runtime.dispatch import DispatchMode
+from guarded_agentic_compaction.runtime.model_provider import CompactingModel, UnsupportedFeature
+from guarded_agentic_compaction.schema.artifacts import Artifact, Gate, GateModel, HardGuard, Lifecycle, Verifier
+from guarded_agentic_compaction.schema.effects import EffectCatalog
+from guarded_agentic_compaction.schema.traces import ExecutionManifest
 
 from scripts.generate_synthetic import SYNTHETIC_CATALOG, generate
 
@@ -62,7 +62,7 @@ def test_jsonl_roundtrip_preserves_the_trace_contract(tmp_path):
 def test_jsonl_store_needs_no_third_party_import(tmp_path):
     """Guard the framework-independence claim in code, not only in prose."""
 
-    import agent_compaction.capture.jsonl as module
+    import guarded_agentic_compaction.capture.jsonl as module
 
     source = Path(module.__file__).read_text(encoding="utf-8")
     for forbidden in ("import mlflow", "import agents", "import openai"):
@@ -245,7 +245,7 @@ def test_conformance_1_off_mode_is_byte_identical_and_delegates():
     asyncio.run(model.get_response(None, inp, None, TOOLS, None, [], None))
     assert len(fake.calls) == 1
     assert fake.calls[0] == inp
-    assert model.input_digests == [__import__("agent_compaction").schema.content_digest(inp)]
+    assert model.input_digests == [__import__("guarded_agentic_compaction").schema.content_digest(inp)]
 
 
 @pytest.mark.agents_sdk

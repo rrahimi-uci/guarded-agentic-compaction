@@ -13,8 +13,8 @@ from typing import Any, Literal, Mapping, Sequence
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from agent_compaction.evaluation import BenchmarkCase, OracleResult
-from agent_compaction.schema.effects import EffectCatalog
+from guarded_agentic_compaction.evaluation import BenchmarkCase, OracleResult
+from guarded_agentic_compaction.schema.effects import EffectCatalog
 
 from .adapters.hmda_public_lar import HmdaSnapshot, hmda_macro
 from .adapters.sec_filing_facts import SecSnapshot, sec_macro

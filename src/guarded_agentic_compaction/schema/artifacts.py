@@ -24,7 +24,7 @@ if TYPE_CHECKING:  # pragma: no cover - typing only
 
 # The program IR lives in `grc.program` and imports the DSL, which imports these
 # schemas. Deferring the import to the two functions that need it at runtime keeps
-# `import agent_compaction.grc.program` from cycling back into a half-built module.
+# `import guarded_agentic_compaction.grc.program` from cycling back into a half-built module.
 
 __all__ = [
     "Lifecycle",
@@ -453,7 +453,7 @@ class Gate:
     """Calibrated dispatch gate: ``q(z) ≤ η`` with an exact risk certificate."""
 
     model: GateModel = field(default_factory=GateModel)
-    #: Serialized :class:`~agent_compaction.grc.calibrate.GateFeatures` so that the
+    #: Serialized :class:`~guarded_agentic_compaction.grc.calibrate.GateFeatures` so that the
     #: runtime computes byte-identical features to those used during calibration.
     #: Feature drift between calibration and dispatch would invalidate Eq. (18).
     features_spec: dict[str, Any] = field(default_factory=dict)

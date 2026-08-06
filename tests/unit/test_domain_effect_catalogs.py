@@ -3,7 +3,7 @@ from __future__ import annotations
 import inspect
 from pathlib import Path
 
-from agent_compaction.schema.effects import EffectCatalog
+from guarded_agentic_compaction.schema.effects import EffectCatalog
 from benchmarks.adapters.hmda_public_lar import HmdaSnapshot
 from benchmarks.adapters.sec_filing_facts import SecSnapshot
 from benchmarks.adapters.vulnerability_evidence import VulnerabilitySnapshot

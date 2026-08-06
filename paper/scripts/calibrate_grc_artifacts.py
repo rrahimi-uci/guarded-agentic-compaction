@@ -17,17 +17,17 @@ for candidate in (ROOT, ROOT / "src"):
     if str(candidate) not in sys.path:
         sys.path.insert(0, str(candidate))
 
-from agent_compaction.benchmarking import FrozenProtocol  # noqa: E402
-from agent_compaction.benchmarking.preflight import STATISTICAL_CONTRACT  # noqa: E402
-from agent_compaction.evaluation import (  # noqa: E402
+from guarded_agentic_compaction.benchmarking import FrozenProtocol  # noqa: E402
+from guarded_agentic_compaction.benchmarking.preflight import STATISTICAL_CONTRACT  # noqa: E402
+from guarded_agentic_compaction.evaluation import (  # noqa: E402
     BinaryPair,
     RunLedger,
     exact_paired_binary_noninferiority,
 )
-from agent_compaction.grc.calibrate import clopper_pearson_upper  # noqa: E402
-from agent_compaction.registry.lifecycle import promote, retire  # noqa: E402
-from agent_compaction.registry.store import Registry  # noqa: E402
-from agent_compaction.schema.artifacts import Lifecycle  # noqa: E402
+from guarded_agentic_compaction.grc.calibrate import clopper_pearson_upper  # noqa: E402
+from guarded_agentic_compaction.registry.lifecycle import promote, retire  # noqa: E402
+from guarded_agentic_compaction.registry.store import Registry  # noqa: E402
+from guarded_agentic_compaction.schema.artifacts import Lifecycle  # noqa: E402
 
 
 def _pairs(values: Sequence[str], label: str) -> dict[str, Path]:

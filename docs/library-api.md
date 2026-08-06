@@ -1,6 +1,6 @@
 # Library architecture and API
 
-`agent-compaction` is a framework-neutral, offline optimizer with runtime adapters. It
+`guarded-agentic-compaction` is a framework-neutral, offline optimizer with runtime adapters. It
 turns observable agent executions into immutable, evidence-bearing artifacts. It does
 not train model weights or infer permission to remove effects; missing evidence causes
 abstention.
@@ -37,7 +37,7 @@ deployments without pooling evidence across versions.
 ## Public workflow
 
 ```python
-import agent_compaction as ac
+import guarded_agentic_compaction as ac
 
 episodes = ac.read_jsonl("traces.jsonl")
 catalog = ac.load_catalog("effects.yaml")

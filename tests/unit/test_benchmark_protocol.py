@@ -6,14 +6,14 @@ import json
 
 import pytest
 
-from agent_compaction.benchmarking import (
+from guarded_agentic_compaction.benchmarking import (
     BudgetExceeded,
     FrozenProtocol,
     ProtocolError,
     ProviderBudget,
     freeze_protocol,
 )
-from agent_compaction.evaluation import BenchmarkCase, BenchmarkRole
+from guarded_agentic_compaction.evaluation import BenchmarkCase, BenchmarkRole
 
 
 def _case(index: int, *, lineage: str | None = None) -> BenchmarkCase:

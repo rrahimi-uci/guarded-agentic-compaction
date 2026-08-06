@@ -2,14 +2,14 @@ from __future__ import annotations
 
 import json
 
-from agent_compaction.grc.composite import synthesize_composite
-from agent_compaction.grc.dsl import Expr
-from agent_compaction.grc.program import CallStep, Program
-from agent_compaction.registry.store import Registry
-from agent_compaction.runtime.dispatch import DispatchMode, Dispatcher
-from agent_compaction.runtime.facade import FacadeMode, Recording, ToolFacade
-from agent_compaction.runtime.runner import CompactingRunner
-from agent_compaction.schema.artifacts import (
+from guarded_agentic_compaction.grc.composite import synthesize_composite
+from guarded_agentic_compaction.grc.dsl import Expr
+from guarded_agentic_compaction.grc.program import CallStep, Program
+from guarded_agentic_compaction.registry.store import Registry
+from guarded_agentic_compaction.runtime.dispatch import DispatchMode, Dispatcher
+from guarded_agentic_compaction.runtime.facade import FacadeMode, Recording, ToolFacade
+from guarded_agentic_compaction.runtime.runner import CompactingRunner
+from guarded_agentic_compaction.schema.artifacts import (
     Artifact,
     Gate,
     GateModel,
@@ -18,8 +18,8 @@ from agent_compaction.schema.artifacts import (
     OutputClause,
     Verifier,
 )
-from agent_compaction.schema.effects import EffectCatalog
-from agent_compaction.schema.traces import ExecutionManifest
+from guarded_agentic_compaction.schema.effects import EffectCatalog
+from guarded_agentic_compaction.schema.traces import ExecutionManifest
 
 
 CATALOG = EffectCatalog.from_dict(

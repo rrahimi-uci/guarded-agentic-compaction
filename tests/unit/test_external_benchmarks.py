@@ -2,15 +2,15 @@ from __future__ import annotations
 
 import pytest
 
-from agent_compaction.benchmarking import (
+from guarded_agentic_compaction.benchmarking import (
     EvidenceSubstrate,
     ReferenceAction,
     ReferenceTask,
     analyze_reference_tasks,
     reference_task_to_episode,
 )
-from agent_compaction.schema.effects import EffectClass
-from agent_compaction.schema.traces import ExecutionManifest
+from guarded_agentic_compaction.schema.effects import EffectClass
+from guarded_agentic_compaction.schema.traces import ExecutionManifest
 from benchmarks.external import screening_effect
 
 

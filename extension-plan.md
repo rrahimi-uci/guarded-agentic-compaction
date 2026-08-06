@@ -12,7 +12,7 @@ This checkpoint distinguishes implemented foundations from planned experiments:
 
 | Area | Current state | Evidence and remaining boundary |
 |---|---|---|
-| Generic benchmark contracts | **Implemented** | `BenchmarkCase`, `OracleResult`, `FrozenStudy`, and `DomainAdapter` are in `src/agent_compaction/evaluation/domains.py`; nested case data is immutable and the frozen split digest participates in compatibility identity. |
+| Generic benchmark contracts | **Implemented** | `BenchmarkCase`, `OracleResult`, `FrozenStudy`, and `DomainAdapter` are in `src/guarded_agentic_compaction/evaluation/domains.py`; nested case data is immutable and the frozen split digest participates in compatibility identity. |
 | Canonical measurement | **Implemented** | `CanonicalMetrics` rejects conflicting aliases, non-finite/count-invalid values, inconsistent totals, and missing weighted cost at portfolio evaluation. |
 | Exact paired analysis | **Implemented** | Conservative exact one-sided paired binary non-inferiority rejects duplicate group identities. |
 | Resumable evidence | **Implemented** | The local execution ledger is append-only, hash-chained, fsynced, idempotent by run/event identity, and corruption-tested. |
@@ -81,7 +81,7 @@ counted as one of the three new domains and is not pooled into their certificate
 | Resource | Observed state on 2026-08-04 | Planning consequence |
 |---|---|---|
 | Checkout | Release 0.6.0 implementation and MLflow removal are on `main`; revalidate exact HEAD before a paid run | Preserve the implemented control plane and historical evidence. |
-| Package | `agent-compaction` 0.6.0; Python requirement `>=3.11` | No package rename or architecture restart is needed. |
+| Package | `guarded-agentic-compaction` 0.6.0; Python requirement `>=3.11` | No package rename or architecture restart is needed. |
 | Local interpreter | `.venv` Python 3.14.4 on macOS arm64 | Core adapters can run locally; Linux CI remains necessary for release evidence. |
 | Provider libraries | `openai-agents` 0.19.2; `openai` 2.52.0 | Freeze these versions for the first pilot and record them in every manifest. |
 | Credentials | `.env` contains `OPENAI_API_KEY` and `HF_TOKEN` variable names | Never print or serialize values. `HF_TOKEN` is not needed by the core study. |
@@ -654,7 +654,7 @@ Keep generic experiment contracts in the library and domain-specific data outsid
 surface:
 
 ```text
-src/agent_compaction/
+src/guarded_agentic_compaction/
   benchmarking/             # protocol, schedules, approvals, action identity, budget, preflight
   evaluation/
     domains.py              # DomainAdapter, BenchmarkCase, OracleResult protocols
@@ -934,20 +934,20 @@ The benchmark CLI surface is implemented and its `--help` output is regression-t
 commands are executable control paths, not evidence that billable phases have run:
 
 ```bash
-agent-compaction benchmark preflight --help
-agent-compaction benchmark freeze --help
-agent-compaction benchmark discovery --help
-agent-compaction benchmark development --help
-agent-compaction benchmark compile-grc --help
-agent-compaction benchmark prepare-macro-review --help
-agent-compaction benchmark pilot --help
-agent-compaction benchmark artifact-calibration --help
-agent-compaction benchmark calibrate-grc --help
-agent-compaction benchmark freeze-actions --help
-agent-compaction benchmark portfolio-calibration --help
-agent-compaction benchmark calibrate --help
-agent-compaction benchmark test --help
-agent-compaction benchmark analyze --help
+guarded-agentic-compaction benchmark preflight --help
+guarded-agentic-compaction benchmark freeze --help
+guarded-agentic-compaction benchmark discovery --help
+guarded-agentic-compaction benchmark development --help
+guarded-agentic-compaction benchmark compile-grc --help
+guarded-agentic-compaction benchmark prepare-macro-review --help
+guarded-agentic-compaction benchmark pilot --help
+guarded-agentic-compaction benchmark artifact-calibration --help
+guarded-agentic-compaction benchmark calibrate-grc --help
+guarded-agentic-compaction benchmark freeze-actions --help
+guarded-agentic-compaction benchmark portfolio-calibration --help
+guarded-agentic-compaction benchmark calibrate --help
+guarded-agentic-compaction benchmark test --help
+guarded-agentic-compaction benchmark analyze --help
 ```
 
 ## 16. Reproducibility, credentials, and data handling

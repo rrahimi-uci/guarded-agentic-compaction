@@ -46,7 +46,7 @@ def main() -> int:
 
     metadata = tomllib.loads((ROOT / "pyproject.toml").read_text())
     project_version = metadata["project"]["version"]
-    source = (ROOT / "src" / "agent_compaction" / "__init__.py").read_text()
+    source = (ROOT / "src" / "guarded_agentic_compaction" / "__init__.py").read_text()
     source_match = re.search(r'^__version__\s*=\s*["\']([^"\']+)', source, re.MULTILINE)
     check(
         source_match is not None and source_match.group(1) == project_version,
@@ -54,17 +54,17 @@ def main() -> int:
     )
     check((ROOT / "LICENSE").exists(), "declared Apache-2.0 license file exists")
     check(
-        (ROOT / "src" / "agent_compaction" / "py.typed").exists(),
+        (ROOT / "src" / "guarded_agentic_compaction" / "py.typed").exists(),
         "typed-package marker exists",
     )
     optional = metadata["project"].get("optional-dependencies", {})
     check("mlflow" not in optional, "package metadata has no MLflow extra")
     check(
-        not (ROOT / "src" / "agent_compaction" / "capture" / "mlflow_adapter.py").exists(),
+        not (ROOT / "src" / "guarded_agentic_compaction" / "capture" / "mlflow_adapter.py").exists(),
         "source package has no MLflow adapter",
     )
     _check_current_documentation()
-    for wheel in sorted((ROOT / "dist").glob("agent_compaction-*.whl")):
+    for wheel in sorted((ROOT / "dist").glob("guarded_agentic_compaction-*.whl")):
         with zipfile.ZipFile(wheel) as archive:
             names = archive.namelist()
             metadata_names = [name for name in names if name.endswith(".dist-info/METADATA")]
@@ -164,7 +164,7 @@ def main() -> int:
     except ImportError:  # pragma: no cover
         check(False, "jsonschema/pyyaml available for config validation")
 
-    from agent_compaction.schema.effects import EffectCatalog, EffectClass
+    from guarded_agentic_compaction.schema.effects import EffectCatalog, EffectClass
 
     for cat_path in sorted((ROOT / "demos").glob("*/effects.yaml")):
         cat = EffectCatalog.from_yaml(cat_path)

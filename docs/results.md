@@ -1,4 +1,4 @@
-# Agent Compaction — measured results
+# Guarded Agentic Compaction — measured results
 
 **Run manifest.** substrate=simulated, created=2026-08-02T21:41:43, python=3.14.4, platform=macOS-26.5.2-arm64-arm-64bit-Mach-O, numpy=2.5.1, scipy=1.18.0, sklearn=1.9.0, seed=20260801, n_episodes=0, quick=False, demos=['support', 'permissioned_rag', 'incident_triage', 'mcp_ops', 'fulfillment']
 

@@ -6,8 +6,8 @@ import json
 
 import pytest
 
-from agent_compaction.paths import content_digest, flatten, resolve_path
-from agent_compaction.schema.artifacts import (
+from guarded_agentic_compaction.paths import content_digest, flatten, resolve_path
+from guarded_agentic_compaction.schema.artifacts import (
     Artifact,
     Gate,
     GuardClause,
@@ -17,8 +17,8 @@ from agent_compaction.schema.artifacts import (
     OutputClause,
     Verifier,
 )
-from agent_compaction.schema.effects import Capability, EffectCatalog, EffectClass
-from agent_compaction.schema.traces import Episode, EventKind, EventNode, ExecutionManifest, TraceEnvelope
+from guarded_agentic_compaction.schema.effects import Capability, EffectCatalog, EffectClass
+from guarded_agentic_compaction.schema.traces import Episode, EventKind, EventNode, ExecutionManifest, TraceEnvelope
 
 import demos.support as support
 
@@ -181,7 +181,7 @@ def test_hard_guard_reports_every_violated_reason():
 
 
 def test_conditional_output_clause_accepts_the_arm_where_it_is_absent():
-    from agent_compaction.grc.program import Predicate
+    from guarded_agentic_compaction.grc.program import Predicate
 
     clause = OutputClause(
         name="ent",

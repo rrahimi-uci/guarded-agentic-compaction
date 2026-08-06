@@ -5,7 +5,7 @@ Two are supported, and the wrapper comes first on purpose (execution-plan §10.4
 1. :class:`CompactingRunner` — an explicit outer controller around the agent loop.
    It owns the entry-state snapshot and the staging boundary, which is what makes
    deoptimization exact when a region spans several tools.
-2. :class:`~agent_compaction.runtime.model_provider.CompactingModel` — a custom
+2. :class:`~guarded_agentic_compaction.runtime.model_provider.CompactingModel` — a custom
    Agents SDK ``Model``. Transparent, but post-emission deopt is limited by the
    ``Model`` interface, so it ships behind conformance tests.
 

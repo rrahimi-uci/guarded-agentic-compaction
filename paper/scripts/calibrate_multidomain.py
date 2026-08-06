@@ -16,17 +16,17 @@ for candidate in (ROOT, ROOT / "src"):
     if str(candidate) not in sys.path:
         sys.path.insert(0, str(candidate))
 
-from agent_compaction.benchmarking import (  # noqa: E402
+from guarded_agentic_compaction.benchmarking import (  # noqa: E402
     FrozenProtocol,
     frozen_artifact_digest,
 )
-from agent_compaction.benchmarking.preflight import STATISTICAL_CONTRACT  # noqa: E402
-from agent_compaction.evaluation import (  # noqa: E402
+from guarded_agentic_compaction.benchmarking.preflight import STATISTICAL_CONTRACT  # noqa: E402
+from guarded_agentic_compaction.evaluation import (  # noqa: E402
     CanonicalMetrics,
     RunLedger,
     paired_portfolio_observation,
 )
-from agent_compaction.portfolio import (  # noqa: E402
+from guarded_agentic_compaction.portfolio import (  # noqa: E402
     PortfolioPolicy,
     SelectionConfig,
     bonferroni_family_confidence,

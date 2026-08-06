@@ -44,21 +44,21 @@ for path in (ROOT, ROOT / "src", ROOT / "paper" / "scripts"):
         sys.path.insert(0, str(path))
 
 import github_live_study as fixed  # noqa: E402
-from agent_compaction.capture.agents_sdk import (  # noqa: E402
+from guarded_agentic_compaction.capture.agents_sdk import (  # noqa: E402
     AgentsTraceProcessor,
     SdkTraceRecord,
     episode_from_agents_trace,
 )
-from agent_compaction.capture.manifests import build_manifest  # noqa: E402
-from agent_compaction.evaluation.splits import Splits  # noqa: E402
-from agent_compaction.grc.compile import GrcConfig, compile_grc  # noqa: E402
-from agent_compaction.registry.store import Registry  # noqa: E402
-from agent_compaction.runtime.model_provider import CompactingModel  # noqa: E402
-from agent_compaction.runtime.dispatch import DispatchMode, Dispatcher  # noqa: E402
-from agent_compaction.runtime.runner import CompactingRunner  # noqa: E402
-from agent_compaction.schema.artifacts import Lifecycle  # noqa: E402
-from agent_compaction.schema.effects import EffectCatalog  # noqa: E402
-from agent_compaction.schema.traces import OutcomeLabels, TraceEnvelope, content_digest  # noqa: E402
+from guarded_agentic_compaction.capture.manifests import build_manifest  # noqa: E402
+from guarded_agentic_compaction.evaluation.splits import Splits  # noqa: E402
+from guarded_agentic_compaction.grc.compile import GrcConfig, compile_grc  # noqa: E402
+from guarded_agentic_compaction.registry.store import Registry  # noqa: E402
+from guarded_agentic_compaction.runtime.model_provider import CompactingModel  # noqa: E402
+from guarded_agentic_compaction.runtime.dispatch import DispatchMode, Dispatcher  # noqa: E402
+from guarded_agentic_compaction.runtime.runner import CompactingRunner  # noqa: E402
+from guarded_agentic_compaction.schema.artifacts import Lifecycle  # noqa: E402
+from guarded_agentic_compaction.schema.effects import EffectCatalog  # noqa: E402
+from guarded_agentic_compaction.schema.traces import OutcomeLabels, TraceEnvelope, content_digest  # noqa: E402
 from demos.live_runtime import observations_from_trace, trace_metrics  # noqa: E402
 
 

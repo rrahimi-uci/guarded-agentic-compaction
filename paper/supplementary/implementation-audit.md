@@ -93,11 +93,13 @@ a verified runtime region-position key and resumable state, not merely relaxing 
 
 ## Validation state
 
-- The full local suite passes 350/350 tests; it includes legacy, natural-workflow,
+- The full local suite passes 356/356 tests; it includes legacy, natural-workflow,
   replication-oracle, continuation fail-closed, semantic-normalization, composite-projection,
   pre-model-execution, external benchmark normalization, real-trace replay, and
   retained-live-evidence regressions.
-- Current measured statement coverage is 74.58% over 19,264 statements. The bounded GEPA
+- Current measured statement coverage is 73.09% over 19,964 statements, concentrated in the
+  library (82-91% by subpackage) rather than in the study drivers (40.2%) and acquisition
+  scaffolding (19-35%) that dilute the total. The bounded GEPA
   provider path is exercised live and through adapter tests; paid multidomain paths remain
   unrun.
 - `pip check` reports no broken requirements.

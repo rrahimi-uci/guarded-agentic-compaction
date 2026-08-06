@@ -16,14 +16,14 @@ for candidate in (ROOT, ROOT / "src"):
     if str(candidate) not in sys.path:
         sys.path.insert(0, str(candidate))
 
-from agent_compaction.benchmarking import FrozenProtocol  # noqa: E402
-from agent_compaction.evaluation import RunLedger, Splits, assert_disjoint  # noqa: E402
-from agent_compaction.grc.compile import GrcConfig, compile_grc  # noqa: E402
-from agent_compaction.registry.lifecycle import promote  # noqa: E402
-from agent_compaction.registry.store import Registry  # noqa: E402
-from agent_compaction.schema.artifacts import Lifecycle  # noqa: E402
-from agent_compaction.schema.effects import EffectCatalog  # noqa: E402
-from agent_compaction.schema.traces import Episode  # noqa: E402
+from guarded_agentic_compaction.benchmarking import FrozenProtocol  # noqa: E402
+from guarded_agentic_compaction.evaluation import RunLedger, Splits, assert_disjoint  # noqa: E402
+from guarded_agentic_compaction.grc.compile import GrcConfig, compile_grc  # noqa: E402
+from guarded_agentic_compaction.registry.lifecycle import promote  # noqa: E402
+from guarded_agentic_compaction.registry.store import Registry  # noqa: E402
+from guarded_agentic_compaction.schema.artifacts import Lifecycle  # noqa: E402
+from guarded_agentic_compaction.schema.effects import EffectCatalog  # noqa: E402
+from guarded_agentic_compaction.schema.traces import Episode  # noqa: E402
 
 
 def _ledger_args(values: Sequence[str]) -> dict[str, list[Path]]:

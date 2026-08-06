@@ -3,7 +3,7 @@
 This is the reference persistence backend and the one every experiment, demonstration and
 paper script uses. It has no third-party dependency at all: an episode is written with
 :func:`json.dumps` and read back with :meth:`Episode.from_dict`, so the on-disk form is
-exactly the IR that :mod:`agent_compaction.schema.traces` defines.
+exactly the IR that :mod:`guarded_agentic_compaction.schema.traces` defines.
 
 That property is the point. A round trip through this module is what lets the compiler
 claim its input representation is independent of any tracing platform: if the IR could

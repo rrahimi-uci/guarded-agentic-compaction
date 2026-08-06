@@ -17,7 +17,7 @@ for candidate in (ROOT, ROOT / "src", Path(__file__).resolve().parent):
     if str(candidate) not in sys.path:
         sys.path.insert(0, str(candidate))
 
-from agent_compaction.benchmarking import load_case_jsonl  # noqa: E402
+from guarded_agentic_compaction.benchmarking import load_case_jsonl  # noqa: E402
 from benchmarks.adapters.hmda_public_lar import hmda_macro  # noqa: E402
 from benchmarks.adapters.sec_filing_facts import sec_macro  # noqa: E402
 from benchmarks.adapters.vulnerability_evidence import vulnerability_macro  # noqa: E402

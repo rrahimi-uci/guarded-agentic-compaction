@@ -300,7 +300,7 @@ See [`external-benchmarks.md`](external-benchmarks.md) for commands and exact bo
 The repository solves a real and sharply framed problem: mature agents often repeat
 expensive model-mediated control flow even when a subset of that flow has become stable,
 read-only, and mechanically derivable from facts already available at the boundary.
-agent-compaction mines that subset from traces and replaces it only when provenance,
+guarded-agentic-compaction mines that subset from traces and replaces it only when provenance,
 effects, replay, contracts, calibration, compatibility pins, and runtime staging all agree.
 
 The project is now a credible **open-source research alpha and reusable optimization
@@ -583,7 +583,7 @@ pipeline—not GRC itself—the extensibility boundary.
 ### Public composition API
 
 ~~~python
-import agent_compaction as ac
+import guarded_agentic_compaction as ac
 
 episodes = ac.read_jsonl("traces.jsonl")
 catalog = ac.load_catalog("effects.yaml")
@@ -927,7 +927,7 @@ The correct release label remains **Development Status: Alpha**.
 
 ## 14. Files and documentation added or materially revised
 
-- library pipeline and exports: src/agent_compaction/pipeline.py and package __init__;
+- library pipeline and exports: src/guarded_agentic_compaction/pipeline.py and package __init__;
 - stricter manifests, catalogs, qualification, partitions, synthesis, calibration,
   runtime, replay, registry, CLI, and reproduction paths;
 - Apache-2.0 LICENSE, CONTRIBUTING.md, SECURITY.md, and py.typed;

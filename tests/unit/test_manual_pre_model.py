@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-from agent_compaction.grc.composite import synthesize_composite
-from agent_compaction.grc.dsl import Expr
-from agent_compaction.grc.program import CallStep, Program
-from agent_compaction.runtime.manual import ManualPreModelPlan, ManualPreModelRunner
-from agent_compaction.schema.artifacts import GuardClause, HardGuard, Hull, OutputClause, Verifier
-from agent_compaction.schema.effects import EffectCatalog
-from agent_compaction.schema.traces import ExecutionManifest
+from guarded_agentic_compaction.grc.composite import synthesize_composite
+from guarded_agentic_compaction.grc.dsl import Expr
+from guarded_agentic_compaction.grc.program import CallStep, Program
+from guarded_agentic_compaction.runtime.manual import ManualPreModelPlan, ManualPreModelRunner
+from guarded_agentic_compaction.schema.artifacts import GuardClause, HardGuard, Hull, OutputClause, Verifier
+from guarded_agentic_compaction.schema.effects import EffectCatalog
+from guarded_agentic_compaction.schema.traces import ExecutionManifest
 
 
 def _catalog(*, record_effect: str = "READ_LOCAL", quota_attested: bool = False) -> EffectCatalog:

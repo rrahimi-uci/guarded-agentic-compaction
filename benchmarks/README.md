@@ -14,7 +14,7 @@ explicit model, pinned pricing, independent macro approvals, and a positive user
 cap are supplied. An API key by itself is not spending authorization.
 
 The generic benchmarking contracts ship in the Python package. Domain acquisition, retained
-records, and paper study drivers are repository artifacts, so `agent-compaction benchmark ...`
+records, and paper study drivers are repository artifacts, so `guarded-agentic-compaction benchmark ...`
 study commands must be launched with this checkout as the working directory.
 
 ## Verified checkpoint
@@ -96,7 +96,7 @@ later scheduling rejects post-freeze input or metadata drift even when case IDs 
 ## Provider-free validation and protocol freeze
 
 ```bash
-.venv/bin/agent-compaction benchmark preflight \
+.venv/bin/guarded-agentic-compaction benchmark preflight \
   benchmarks/manifests/multidomain-study.yaml \
   --cases vulnerability=paper/results/multidomain/preflight/vulnerability/cases.jsonl \
   --cases sec=paper/results/multidomain/preflight/sec/cases.jsonl \
@@ -109,7 +109,7 @@ later scheduling rejects post-freeze input or metadata drift even when case IDs 
   --pool hmda=paper/results/multidomain/preflight/hmda \
   --out paper/results/multidomain/preflight/validation.json
 
-.venv/bin/agent-compaction benchmark freeze \
+.venv/bin/guarded-agentic-compaction benchmark freeze \
   benchmarks/manifests/multidomain-study.yaml \
   --cases vulnerability=paper/results/multidomain/preflight/vulnerability/cases.jsonl \
   --cases sec=paper/results/multidomain/preflight/sec/cases.jsonl \
@@ -144,7 +144,7 @@ case but deliberately emits `approved: false`; a distinct human must inspect and
 approval files:
 
 ```bash
-.venv/bin/agent-compaction benchmark prepare-macro-review \
+.venv/bin/guarded-agentic-compaction benchmark prepare-macro-review \
   --pool vulnerability=paper/results/multidomain/preflight/vulnerability \
   --pool hmda=paper/results/multidomain/preflight/hmda \
   --out paper/results/multidomain/review/macro-review-materials.json
@@ -163,18 +163,18 @@ COMMON='--cases vulnerability=... --cases sec=... --cases hmda=... \
 --max-provider-usd <approved-cap> \
 --reservation-usd-per-execution <conservative-reservation>'
 
-.venv/bin/agent-compaction benchmark discovery <frozen.json> $COMMON \
+.venv/bin/guarded-agentic-compaction benchmark discovery <frozen.json> $COMMON \
   --out paper/results/multidomain/discovery
-.venv/bin/agent-compaction benchmark development <frozen.json> $COMMON \
+.venv/bin/guarded-agentic-compaction benchmark development <frozen.json> $COMMON \
   --out paper/results/multidomain/development
 
-.venv/bin/agent-compaction benchmark compile-grc <frozen.json> \
+.venv/bin/guarded-agentic-compaction benchmark compile-grc <frozen.json> \
   --ledger vulnerability=<discovery-ledger> --ledger vulnerability=<development-ledger> \
   --ledger sec=<discovery-ledger> --ledger sec=<development-ledger> \
   --ledger hmda=<discovery-ledger> --ledger hmda=<development-ledger> \
   --out paper/results/multidomain/registries
 
-.venv/bin/agent-compaction benchmark freeze-actions <frozen.json> \
+.venv/bin/guarded-agentic-compaction benchmark freeze-actions <frozen.json> \
   --cases vulnerability=... --cases sec=... --cases hmda=... \
   --pool vulnerability=... --pool sec=... --pool hmda=... \
   --model <pinned-model> --pricing <pricing.json> \
@@ -183,17 +183,17 @@ COMMON='--cases vulnerability=... --cases sec=... --cases hmda=... \
   --macro-approval vulnerability=... --macro-approval sec=... --macro-approval hmda=... \
   --out paper/results/multidomain/pilot/frozen-shadow-actions.json
 
-.venv/bin/agent-compaction benchmark pilot <frozen.json> $COMMON \
+.venv/bin/guarded-agentic-compaction benchmark pilot <frozen.json> $COMMON \
   --registry vulnerability=... --registry sec=... --registry hmda=... \
   --macro-approval vulnerability=... --macro-approval sec=... --macro-approval hmda=... \
   --action-lock paper/results/multidomain/pilot/frozen-shadow-actions.json \
   --out paper/results/multidomain/pilot --dry-run
 
-.venv/bin/agent-compaction benchmark artifact-calibration <frozen.json> $COMMON \
+.venv/bin/guarded-agentic-compaction benchmark artifact-calibration <frozen.json> $COMMON \
   --registry vulnerability=... --registry sec=... --registry hmda=... \
   --out paper/results/multidomain/artifact-calibration
 
-.venv/bin/agent-compaction benchmark calibrate-grc <frozen.json> \
+.venv/bin/guarded-agentic-compaction benchmark calibrate-grc <frozen.json> \
   --ledger vulnerability=<artifact-calibration-ledger> \
   --ledger sec=<artifact-calibration-ledger> \
   --ledger hmda=<artifact-calibration-ledger> \
@@ -203,7 +203,7 @@ COMMON='--cases vulnerability=... --cases sec=... --cases hmda=... \
   --approved-by <independent-reviewer> --expiry-day <YYYY-MM-DD> \
   --out paper/results/multidomain/calibrated-registries
 
-.venv/bin/agent-compaction benchmark freeze-actions <frozen.json> \
+.venv/bin/guarded-agentic-compaction benchmark freeze-actions <frozen.json> \
   --cases vulnerability=... --cases sec=... --cases hmda=... \
   --pool vulnerability=... --pool sec=... --pool hmda=... \
   --model <pinned-model> --pricing <pricing.json> --grc-stage active \
@@ -211,24 +211,24 @@ COMMON='--cases vulnerability=... --cases sec=... --cases hmda=... \
   --macro-approval vulnerability=... --macro-approval sec=... --macro-approval hmda=... \
   --out paper/results/multidomain/calibration/frozen-active-actions.json
 
-.venv/bin/agent-compaction benchmark portfolio-calibration <frozen.json> $COMMON \
+.venv/bin/guarded-agentic-compaction benchmark portfolio-calibration <frozen.json> $COMMON \
   --registry vulnerability=... --registry sec=... --registry hmda=... \
   --macro-approval vulnerability=... --macro-approval sec=... --macro-approval hmda=... \
   --action-lock paper/results/multidomain/calibration/frozen-active-actions.json \
   --out paper/results/multidomain/portfolio-calibration
 
-.venv/bin/agent-compaction benchmark calibrate <frozen.json> \
+.venv/bin/guarded-agentic-compaction benchmark calibrate <frozen.json> \
   --ledger <portfolio-calibration-ledger> \
   --out paper/results/multidomain/calibration/frozen-portfolio.json
 
-.venv/bin/agent-compaction benchmark test <frozen.json> $COMMON \
+.venv/bin/guarded-agentic-compaction benchmark test <frozen.json> $COMMON \
   --registry vulnerability=... --registry sec=... --registry hmda=... \
   --macro-approval vulnerability=... --macro-approval sec=... --macro-approval hmda=... \
   --policy paper/results/multidomain/calibration/frozen-portfolio.json \
   --action-lock paper/results/multidomain/calibration/frozen-active-actions.json \
   --out paper/results/multidomain/test
 
-.venv/bin/agent-compaction benchmark analyze <frozen.json> \
+.venv/bin/guarded-agentic-compaction benchmark analyze <frozen.json> \
   --policy paper/results/multidomain/calibration/frozen-portfolio.json \
   --effort <reviewed-construction-effort.json> \
   --ledger paper/results/multidomain/test/ledger.jsonl \

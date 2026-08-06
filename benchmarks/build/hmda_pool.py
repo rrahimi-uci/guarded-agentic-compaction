@@ -10,7 +10,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
 
-from agent_compaction.evaluation import BenchmarkCase
+from guarded_agentic_compaction.evaluation import BenchmarkCase
 from benchmarks.adapters.store import canonical
 from benchmarks.gold import hmda_gold_from_records
 

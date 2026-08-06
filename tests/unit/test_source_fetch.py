@@ -150,7 +150,7 @@ def test_sec_user_agent_requires_entity_and_contact() -> None:
     for invalid in (None, "", "anonymous", "contact@example.org"):
         with pytest.raises(SourcePolicyError, match="SEC_USER_AGENT"):
             validate_sec_user_agent(invalid)
-    assert validate_sec_user_agent("Agent Compaction contact@example.org")
+    assert validate_sec_user_agent("Guarded Agentic Compaction contact@example.org")
 
 
 def test_sec_client_is_shared_for_online_throttling_and_offline_needs_no_contact(
@@ -159,5 +159,5 @@ def test_sec_client_is_shared_for_online_throttling_and_offline_needs_no_contact
     monkeypatch.delenv("SEC_USER_AGENT", raising=False)
     offline = sec_client(tmp_path, offline=True)
     assert "offline" in offline.user_agent
-    monkeypatch.setenv("SEC_USER_AGENT", "Agent Compaction contact@example.org")
+    monkeypatch.setenv("SEC_USER_AGENT", "Guarded Agentic Compaction contact@example.org")
     assert sec_client(tmp_path) is sec_client(tmp_path)

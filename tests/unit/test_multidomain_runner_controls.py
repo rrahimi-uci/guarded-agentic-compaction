@@ -7,17 +7,17 @@ from types import SimpleNamespace
 
 import pytest
 
-from agent_compaction.benchmarking.commands import _execution_contract, benchmark_script
-from agent_compaction.benchmarking.protocol import ProtocolError
-from agent_compaction.benchmarking import FrozenProtocol, frozen_artifact_digest
-from agent_compaction.benchmarking.preflight import STATISTICAL_CONTRACT
-from agent_compaction.benchmarking import load_case_jsonl
-from agent_compaction.evaluation import BenchmarkRole, RunLedger
-from agent_compaction.registry.store import Registry
-from agent_compaction.schema.artifacts import Lifecycle
+from guarded_agentic_compaction.benchmarking.commands import _execution_contract, benchmark_script
+from guarded_agentic_compaction.benchmarking.protocol import ProtocolError
+from guarded_agentic_compaction.benchmarking import FrozenProtocol, frozen_artifact_digest
+from guarded_agentic_compaction.benchmarking.preflight import STATISTICAL_CONTRACT
+from guarded_agentic_compaction.benchmarking import load_case_jsonl
+from guarded_agentic_compaction.evaluation import BenchmarkRole, RunLedger
+from guarded_agentic_compaction.registry.store import Registry
+from guarded_agentic_compaction.schema.artifacts import Lifecycle
 from paper.scripts.calibrate_grc_artifacts import calibrate_domain
 from paper.scripts.calibrate_multidomain import calibrate
-from agent_compaction.portfolio import PortfolioDecision, PortfolioPolicy
+from guarded_agentic_compaction.portfolio import PortfolioDecision, PortfolioPolicy
 from paper.scripts.analyze_multidomain import (
     _amortization,
     _load_effort,

@@ -28,8 +28,8 @@ from demos.support.world import (
 )
 from demos.support.world import MANIFEST as _SUPPORT_MANIFEST
 from demos.support.world import build_workload as _support_workload
-from agent_compaction.schema.traces import ExecutionManifest
-from agent_compaction.schema.effects import EffectCatalog
+from guarded_agentic_compaction.schema.traces import ExecutionManifest
+from guarded_agentic_compaction.schema.effects import EffectCatalog
 
 EFFECTS_PATH = Path(__file__).with_name("effects.yaml")
 

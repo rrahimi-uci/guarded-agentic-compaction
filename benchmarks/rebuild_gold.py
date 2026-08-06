@@ -15,8 +15,8 @@ import tempfile
 from pathlib import Path
 from typing import Any, Callable, Mapping, Sequence
 
-from agent_compaction.benchmarking import load_case_jsonl
-from agent_compaction.evaluation import BenchmarkCase
+from guarded_agentic_compaction.benchmarking import load_case_jsonl
+from guarded_agentic_compaction.evaluation import BenchmarkCase
 
 from .gold import (
     hmda_gold_from_records,

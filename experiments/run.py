@@ -35,10 +35,10 @@ for p in (ROOT, ROOT / "src"):
     if str(p) not in sys.path:
         sys.path.insert(0, str(p))
 
-from agent_compaction.evaluation.metrics import ConditionMetrics, condition_metrics, maintenance_metrics
-from agent_compaction.evaluation.perturb import DEFAULT_PERTURBATIONS
-from agent_compaction.evaluation.splits import Splits, make_splits
-from agent_compaction.evaluation.statistics import (
+from guarded_agentic_compaction.evaluation.metrics import ConditionMetrics, condition_metrics, maintenance_metrics
+from guarded_agentic_compaction.evaluation.perturb import DEFAULT_PERTURBATIONS
+from guarded_agentic_compaction.evaluation.splits import Splits, make_splits
+from guarded_agentic_compaction.evaluation.statistics import (
     PairedSample,
     exact_binomial_upper,
     group_bootstrap_mean,
@@ -46,17 +46,17 @@ from agent_compaction.evaluation.statistics import (
     paired_group_bootstrap_diff,
     paired_ratio,
 )
-from agent_compaction.estimate.headroom import estimate
-from agent_compaction.graph.provenance import GroundabilityPolicy, build_all
-from agent_compaction.grc.compile import GrcConfig, compile_grc
-from agent_compaction.registry.lifecycle import promote
-from agent_compaction.registry.store import Registry
-from agent_compaction.runtime.dispatch import DispatchMode, Dispatcher
-from agent_compaction.runtime.runner import CompactingRunner, RouteResolver
-from agent_compaction.schema.artifacts import Lifecycle
-from agent_compaction.tgws.package import TgwsConfig, compile_tgws
-from agent_compaction.tgws.prune import LeafConfig, Objective
-from agent_compaction.tgws.routes import default_route_label
+from guarded_agentic_compaction.estimate.headroom import estimate
+from guarded_agentic_compaction.graph.provenance import GroundabilityPolicy, build_all
+from guarded_agentic_compaction.grc.compile import GrcConfig, compile_grc
+from guarded_agentic_compaction.registry.lifecycle import promote
+from guarded_agentic_compaction.registry.store import Registry
+from guarded_agentic_compaction.runtime.dispatch import DispatchMode, Dispatcher
+from guarded_agentic_compaction.runtime.runner import CompactingRunner, RouteResolver
+from guarded_agentic_compaction.schema.artifacts import Lifecycle
+from guarded_agentic_compaction.tgws.package import TgwsConfig, compile_tgws
+from guarded_agentic_compaction.tgws.prune import LeafConfig, Objective
+from guarded_agentic_compaction.tgws.routes import default_route_label
 
 from demos.framework import Observation, run_workload, summarize
 from experiments.conditions.registry import DemoSpec, get_demo
@@ -585,7 +585,7 @@ def run_manifest(args: argparse.Namespace) -> dict[str, Any]:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
-    ap = argparse.ArgumentParser(description="Run the agent-compaction experiments")
+    ap = argparse.ArgumentParser(description="Run the guarded-agentic-compaction experiments")
     ap.add_argument(
         "--demos",
         nargs="*",

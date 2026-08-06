@@ -9,13 +9,13 @@ from pathlib import Path
 import jsonschema
 import pytest
 
-from agent_compaction.benchmarking.actions import (
+from guarded_agentic_compaction.benchmarking.actions import (
     ActionSpec,
     MacroApproval,
     MacroApprovalError,
     frozen_artifact_digest,
 )
-from agent_compaction.benchmarking import load_case_jsonl
+from guarded_agentic_compaction.benchmarking import load_case_jsonl
 from benchmarks.runtime import load_domain_runtime
 from paper.scripts.multidomain_study import _effect_catalog_approval_digest
 from paper.scripts.prepare_macro_review import build_review_bundle

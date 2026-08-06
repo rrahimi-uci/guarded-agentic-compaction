@@ -14,14 +14,14 @@ import random
 
 import pytest
 
-from agent_compaction.evaluation.splits import LeakageError, Splits, assert_disjoint, make_splits
-from agent_compaction.graph.provenance import SlotMark, build_all
-from agent_compaction.graph.windows import mine
-from agent_compaction.grc.compile import GrcConfig, compile_grc
-from agent_compaction.grc.dsl import Const, Expr
-from agent_compaction.grc.program import CallStep, LoopStep
-from agent_compaction.grc.synthesize import synthesize_program, var_name_for
-from agent_compaction.schema.effects import EffectClass
+from guarded_agentic_compaction.evaluation.splits import LeakageError, Splits, assert_disjoint, make_splits
+from guarded_agentic_compaction.graph.provenance import SlotMark, build_all
+from guarded_agentic_compaction.graph.windows import mine
+from guarded_agentic_compaction.grc.compile import GrcConfig, compile_grc
+from guarded_agentic_compaction.grc.dsl import Const, Expr
+from guarded_agentic_compaction.grc.program import CallStep, LoopStep
+from guarded_agentic_compaction.grc.synthesize import synthesize_program, var_name_for
+from guarded_agentic_compaction.schema.effects import EffectClass
 
 from scripts.generate_synthetic import ENTRY_ALLOWLIST, SYNTHETIC_CATALOG, generate
 
@@ -162,8 +162,8 @@ def test_deopt_leaves_the_entry_state_untouched(mined):
 
     import copy
 
-    from agent_compaction.runtime.facade import FacadeMode, ToolFacade
-    from agent_compaction.runtime.interp import run_program
+    from guarded_agentic_compaction.runtime.facade import FacadeMode, ToolFacade
+    from guarded_agentic_compaction.runtime.interp import run_program
 
     episodes, graphs, policy, result = mined
     fam = max(result.families, key=lambda f: f.support)

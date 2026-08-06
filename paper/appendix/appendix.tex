@@ -101,16 +101,19 @@ The script never prints either value.  Use \code{--smoke} before a paid full run
 
 \section{Implementation Audit}
 
-The package contains 19,264 measured Python statements across source, tests, demos,
-benchmarking, and experiment drivers; the post-fix full suite collects and passes 356
-tests at 74.58\% statement coverage.  \code{pip check} and the repository release verifier
-pass.  Core
-provenance, windows, dispatcher, facade, schemas, registry, and statistics modules have
-strong focused coverage.  Weak areas include external adapter acquisition paths (18.5\%),
-TGWS packaging (27.7\%), the outer runner (67.3\%), replay (65.5\%), and the older live
-experiment drivers (30--31\%).  The new
-prospective portfolio driver is at 54.1\%.  Coverage is evidence of exercised lines, not
-correctness.
+The package contains 19,964 measured Python statements across source, tests, demos,
+benchmarking, and experiment drivers; the full suite collects and passes 356
+tests at 73.09\% statement coverage.  \code{pip check} and the repository release verifier
+pass.  Coverage is concentrated where it matters: the compiler and runtime library reaches
+82--91\% by subpackage (entry estimation 91.2\%, schemas 90.1\%, execution graph 89.1\%,
+portfolio 89.9\%, registry 88.3\%, capture 87.0\%, runtime 84.8\%, evaluation 84.9\%,
+GRC 82.5\%).  The uncovered mass is study and acquisition scaffolding rather than shipped
+logic: the paper's own study drivers (40.2\% over 3,575 statements), the external-benchmark
+adapters (19.1\%), the public-record pool builders (34.9\%), the demonstration worlds
+(21.5--44.8\%), and the standalone experiment runners (30.2--32.9\%).  Two consequences
+follow.  Every number in this paper is produced by code in the lowest-covered tier, and the
+coverage total is diluted by counting that tier at all.  Coverage is evidence of exercised
+lines, not correctness.
 
 The review found and corrected a high-severity compiler\hyp{}runtime mismatch: the miner could
 emit suffix-only regions while the shipped runtimes resolve at the initial boundary.

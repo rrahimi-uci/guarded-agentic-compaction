@@ -12,7 +12,7 @@ from datetime import date
 from decimal import Decimal, InvalidOperation
 from typing import Any, Mapping
 
-from agent_compaction.evaluation import BenchmarkCase
+from guarded_agentic_compaction.evaluation import BenchmarkCase
 
 
 HMDA_PRIVACY_NOTICE = (

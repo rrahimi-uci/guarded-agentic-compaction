@@ -13,14 +13,14 @@ from dataclasses import replace
 
 import pytest
 
-from agent_compaction.registry.lifecycle import expire_due, invalidated_by_drift, rollback
-from agent_compaction.registry.store import Registry
-from agent_compaction.runtime.dispatch import DispatchMode, Dispatcher
-from agent_compaction.schema.artifacts import Artifact, Gate, GateModel, HardGuard, Lifecycle, Verifier
-from agent_compaction.schema.effects import EffectCatalog
-from agent_compaction.schema.traces import ExecutionManifest
-from agent_compaction.grc.dsl import Expr
-from agent_compaction.grc.program import CallStep, Program
+from guarded_agentic_compaction.registry.lifecycle import expire_due, invalidated_by_drift, rollback
+from guarded_agentic_compaction.registry.store import Registry
+from guarded_agentic_compaction.runtime.dispatch import DispatchMode, Dispatcher
+from guarded_agentic_compaction.schema.artifacts import Artifact, Gate, GateModel, HardGuard, Lifecycle, Verifier
+from guarded_agentic_compaction.schema.effects import EffectCatalog
+from guarded_agentic_compaction.schema.traces import ExecutionManifest
+from guarded_agentic_compaction.grc.dsl import Expr
+from guarded_agentic_compaction.grc.program import CallStep, Program
 
 CATALOG = EffectCatalog.from_dict(
     {

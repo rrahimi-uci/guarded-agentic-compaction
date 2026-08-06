@@ -3,13 +3,13 @@ teams need one (execution-plan §10.3).
 
 ::
 
-    agent-compaction validate-catalog configs/effects.example.yaml
-    agent-compaction quality   traces.jsonl --effects configs/effects.example.yaml
-    agent-compaction estimate  traces.jsonl --effects ... --entry channel locale
-    agent-compaction compile   traces.jsonl --effects ... --out artifacts/v1
-    agent-compaction explain   artifacts/v1
-    agent-compaction diff      artifacts/v1 artifacts/v2
-    agent-compaction promote   artifacts/v1 --stage shadow --approved-by me@example
+    guarded-agentic-compaction validate-catalog configs/effects.example.yaml
+    guarded-agentic-compaction quality   traces.jsonl --effects configs/effects.example.yaml
+    guarded-agentic-compaction estimate  traces.jsonl --effects ... --entry channel locale
+    guarded-agentic-compaction compile   traces.jsonl --effects ... --out artifacts/v1
+    guarded-agentic-compaction explain   artifacts/v1
+    guarded-agentic-compaction diff      artifacts/v1 artifacts/v2
+    guarded-agentic-compaction promote   artifacts/v1 --stage shadow --approved-by me@example
 """
 
 from __future__ import annotations
@@ -161,7 +161,7 @@ def cmd_promote(args: argparse.Namespace) -> int:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    ap = argparse.ArgumentParser(prog="agent-compaction", description=__doc__)
+    ap = argparse.ArgumentParser(prog="guarded-agentic-compaction", description=__doc__)
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     vc = sub.add_parser("validate-catalog", help="CI validator for an effect catalog")

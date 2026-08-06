@@ -11,7 +11,7 @@ than an implementation gap: once the wrapper has emitted a ``ModelResponse`` the
 Runner may already have committed it to session history, and the ``Model`` interface
 alone cannot erase that. Exact post-emission deoptimization requires a staging owner
 in an outer controller — which is why
-:class:`~agent_compaction.runtime.runner.CompactingRunner` is the recommended path and
+:class:`~guarded_agentic_compaction.runtime.runner.CompactingRunner` is the recommended path and
 this one ships behind the conformance tests of §5.6:
 
 1. ``mode="off"`` produces byte-identical input at the next provider call;
@@ -178,7 +178,7 @@ class CompactingModel(_AgentsModel):
         self._context_fn = context_fn
         self._allow_streaming = allow_streaming
         self._plan_var: ContextVar[ArtifactPlan | None] = ContextVar(
-            f"agent_compaction_plan_{id(self)}", default=None
+            f"guarded_agentic_compaction_plan_{id(self)}", default=None
         )
         # The SDK may invoke successive model turns in sibling asyncio contexts.
         # A ContextVar alone therefore loses the plan between real Runner turns even

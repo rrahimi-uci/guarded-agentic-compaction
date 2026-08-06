@@ -3,7 +3,7 @@
 This module is the compiler's own intermediate representation. It is deliberately
 independent of the OpenAI Agents SDK and of any other tracing platform: those are
 *backends* that
-produce ``Episode`` objects (see :mod:`agent_compaction.capture`).
+produce ``Episode`` objects (see :mod:`guarded_agentic_compaction.capture`).
 
 Design rules encoded here:
 
@@ -291,7 +291,7 @@ class Episode:
 
 
 # ---------------------------------------------------------------------------
-# payload helpers (re-exported from agent_compaction.paths to avoid import cycles)
+# payload helpers (re-exported from guarded_agentic_compaction.paths to avoid import cycles)
 # ---------------------------------------------------------------------------
 
 

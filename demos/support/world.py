@@ -19,9 +19,9 @@ import random
 from pathlib import Path
 from typing import Any, Iterable, Sequence
 
-from agent_compaction.schema.traces import ExecutionManifest, OutcomeLabels
-from agent_compaction.schema.effects import EffectCatalog
-from agent_compaction.paths import stable_int
+from guarded_agentic_compaction.schema.traces import ExecutionManifest, OutcomeLabels
+from guarded_agentic_compaction.schema.effects import EffectCatalog
+from guarded_agentic_compaction.paths import stable_int
 
 from ..framework import (
     Action,

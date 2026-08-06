@@ -17,7 +17,7 @@ excluded, and the exclusion is enforced by the allowlist rather than by taste.
 The tree predicts a *route label*: the stable thing the baseline did (its handoff
 target, tool family, or canonical path). Route labels are imitation targets, so
 every accepted leaf must still be checked against task outcomes, not against path
-agreement — that check lives in :mod:`agent_compaction.tgws.prune`.
+agreement — that check lives in :mod:`guarded_agentic_compaction.tgws.prune`.
 """
 
 from __future__ import annotations

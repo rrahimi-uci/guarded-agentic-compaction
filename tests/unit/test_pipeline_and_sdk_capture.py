@@ -4,14 +4,14 @@ from dataclasses import dataclass
 
 import pytest
 
-from agent_compaction.capture.agents_sdk import (
+from guarded_agentic_compaction.capture.agents_sdk import (
     AgentsTraceProcessor,
     episode_from_agents_trace,
 )
-from agent_compaction.capture.manifests import build_manifest
-from agent_compaction.evaluation.splits import Splits
-from agent_compaction.paths import resolve_path, stable_int
-from agent_compaction.pipeline import (
+from guarded_agentic_compaction.capture.manifests import build_manifest
+from guarded_agentic_compaction.evaluation.splits import Splits
+from guarded_agentic_compaction.paths import resolve_path, stable_int
+from guarded_agentic_compaction.pipeline import (
     FunctionPass,
     OptimizationContext,
     OptimizationPipeline,
@@ -19,8 +19,8 @@ from agent_compaction.pipeline import (
     PassStatus,
     PipelineConfigurationError,
 )
-from agent_compaction.schema.effects import EffectCatalog
-from agent_compaction.schema.traces import ExecutionManifest, OutcomeLabels, TraceEnvelope
+from guarded_agentic_compaction.schema.effects import EffectCatalog
+from guarded_agentic_compaction.schema.traces import ExecutionManifest, OutcomeLabels, TraceEnvelope
 
 
 CATALOG = EffectCatalog.from_dict(

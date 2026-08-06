@@ -1,6 +1,6 @@
 # Code of conduct
 
-We want `agent-compaction` to be a rigorous, welcoming research and engineering
+We want `guarded-agentic-compaction` to be a rigorous, welcoming research and engineering
 community. Be respectful, assume good intent, critique claims with evidence, and make room
 for participants with different backgrounds and levels of experience.
 

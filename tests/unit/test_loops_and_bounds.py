@@ -9,10 +9,10 @@ from __future__ import annotations
 
 import pytest
 
-from agent_compaction.evaluation.metrics import EpisodeMetrics
-from agent_compaction.grc.dsl import Const, Expr
-from agent_compaction.grc.program import LoopStep, Predicate
-from agent_compaction.grc.synthesize import _loop_predicate_atoms
+from guarded_agentic_compaction.evaluation.metrics import EpisodeMetrics
+from guarded_agentic_compaction.grc.dsl import Const, Expr
+from guarded_agentic_compaction.grc.program import LoopStep, Predicate
+from guarded_agentic_compaction.grc.synthesize import _loop_predicate_atoms
 
 
 def _page(index: int, size: int, has_more: bool, cursor: str | None) -> dict[str, object]:
@@ -109,7 +109,7 @@ class TestLoopStepRendering:
 
 class TestUnsafeBoundDenominator:
     def _metrics(self, *, compacted: int, incidents: int, writes: int) -> object:
-        from agent_compaction.evaluation.metrics import ConditionMetrics
+        from guarded_agentic_compaction.evaluation.metrics import ConditionMetrics
 
         return ConditionMetrics(
             condition="c",
@@ -146,7 +146,7 @@ class TestUnsafeBoundDenominator:
         assert 0.0 < out["upper_95"] < 0.10
 
     def test_executions_count_repeats_within_one_episode(self) -> None:
-        from agent_compaction.evaluation.metrics import ConditionMetrics
+        from guarded_agentic_compaction.evaluation.metrics import ConditionMetrics
 
         per = [
             EpisodeMetrics(episode_id="a", group_id="g", compacted=3, incidents=1),

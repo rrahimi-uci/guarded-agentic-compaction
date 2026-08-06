@@ -10,9 +10,9 @@ from __future__ import annotations
 
 import pytest
 
-from agent_compaction.runtime.facade import FacadeMode, ToolFacade
-from agent_compaction.runtime.interp import run_program
-from agent_compaction.runtime.model_provider import _model_program_supported
+from guarded_agentic_compaction.runtime.facade import FacadeMode, ToolFacade
+from guarded_agentic_compaction.runtime.interp import run_program
+from guarded_agentic_compaction.runtime.model_provider import _model_program_supported
 from demos.live_runtime import build_live_catalog, make_function_tools, safe_tool_name
 from experiments.conditions.registry import get_demo
 
@@ -311,10 +311,10 @@ class TestQuotaAttestation:
         ``CompactingRunner`` is the recommended path.
         """
 
-        from agent_compaction.runtime.dispatch import DispatchMode, Dispatcher
-        from agent_compaction.registry.store import Registry
-        from agent_compaction.schema.artifacts import DispatchOutcome
-        from agent_compaction.schema.effects import EffectCatalog
+        from guarded_agentic_compaction.runtime.dispatch import DispatchMode, Dispatcher
+        from guarded_agentic_compaction.registry.store import Registry
+        from guarded_agentic_compaction.schema.artifacts import DispatchOutcome
+        from guarded_agentic_compaction.schema.effects import EffectCatalog
 
         spec, _world, scenarios, catalog, _inv = fixtures
         payload = catalog.model_dump(mode="json")

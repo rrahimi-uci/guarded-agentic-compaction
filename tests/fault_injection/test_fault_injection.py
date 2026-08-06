@@ -14,15 +14,15 @@ from __future__ import annotations
 
 import pytest
 
-from agent_compaction.grc.dsl import Const, Expr
-from agent_compaction.grc.program import CallStep, Predicate, Program
-from agent_compaction.registry.store import Registry
-from agent_compaction.runtime.dispatch import DispatchMode, Dispatcher
-from agent_compaction.runtime.facade import FacadeMode, ForbiddenTool, Recording, ToolFacade
-from agent_compaction.runtime.interp import run_program
-from agent_compaction.runtime.runner import RouteResolver
-from agent_compaction.runtime.staging import Snapshot, Staging, StagingViolation
-from agent_compaction.schema.artifacts import (
+from guarded_agentic_compaction.grc.dsl import Const, Expr
+from guarded_agentic_compaction.grc.program import CallStep, Predicate, Program
+from guarded_agentic_compaction.registry.store import Registry
+from guarded_agentic_compaction.runtime.dispatch import DispatchMode, Dispatcher
+from guarded_agentic_compaction.runtime.facade import FacadeMode, ForbiddenTool, Recording, ToolFacade
+from guarded_agentic_compaction.runtime.interp import run_program
+from guarded_agentic_compaction.runtime.runner import RouteResolver
+from guarded_agentic_compaction.runtime.staging import Snapshot, Staging, StagingViolation
+from guarded_agentic_compaction.schema.artifacts import (
     Artifact,
     Gate,
     GateModel,
@@ -31,8 +31,8 @@ from agent_compaction.schema.artifacts import (
     OutputClause,
     Verifier,
 )
-from agent_compaction.schema.effects import EffectCatalog
-from agent_compaction.schema.traces import ExecutionManifest
+from guarded_agentic_compaction.schema.effects import EffectCatalog
+from guarded_agentic_compaction.schema.traces import ExecutionManifest
 
 CATALOG = EffectCatalog.from_dict(
     {

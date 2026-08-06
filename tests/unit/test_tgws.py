@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pytest
 
-from agent_compaction.tgws.prune import EvalResult, LeafConfig, Objective, prune_leaf
-from agent_compaction.tgws.routes import (
+from guarded_agentic_compaction.tgws.prune import EvalResult, LeafConfig, Objective, prune_leaf
+from guarded_agentic_compaction.tgws.routes import (
     RouteLeaf,
     build_examples,
     default_route_label,
@@ -47,7 +47,7 @@ def test_tree_respects_depth_support_and_purity_bounds():
 def test_unstable_leaves_are_marked_not_silently_used():
     """A leaf whose purity collapses in one subgroup must be rejected."""
 
-    from agent_compaction.tgws.routes import _check_stability, RouteExample
+    from guarded_agentic_compaction.tgws.routes import _check_stability, RouteExample
 
     good = [
         RouteExample(f"e{i}", f"g{i}", f"2026-05-{1 + i % 20:02d}", "p1", "t1", {"a": 1}, "L")
@@ -158,7 +158,7 @@ def test_unseen_categorical_value_abstains_instead_of_taking_the_catch_all():
     route whose purity was never measured on it.
     """
 
-    from agent_compaction.tgws.routes import RouteTree
+    from guarded_agentic_compaction.tgws.routes import RouteTree
 
     catch_all = RouteLeaf(
         predicates=(("channel", "!=", "email"),),

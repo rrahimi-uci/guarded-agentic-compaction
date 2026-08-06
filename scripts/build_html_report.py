@@ -936,7 +936,7 @@ def section_sdk() -> str:
     capture = code(
         """
 from agents import Runner, RunConfig, add_trace_processor
-from agent_compaction.capture.agents_sdk import (
+from guarded_agentic_compaction.capture.agents_sdk import (
     AgentsTraceProcessor, episode_from_agents_trace,
 )
 
@@ -966,7 +966,7 @@ episode = episode_from_agents_trace(
     )
     optimize = code(
         """
-import agent_compaction as ac
+import guarded_agentic_compaction as ac
 
 episodes = ac.read_jsonl("traces.jsonl")
 catalog  = ac.load_catalog("configs/effects.example.yaml")
@@ -996,7 +996,7 @@ ac.promote(job, stage="shadow")     # shadow first, always
     runtime = code(
         """
 from agents import Agent
-from agent_compaction.runtime.model_provider import CompactingModel
+from guarded_agentic_compaction.runtime.model_provider import CompactingModel
 
 # 5a. The Model adapter: narrowest integration, one line at the call site.
 #     Emits the artifact's next synthesized function_call instead of asking the

@@ -3,10 +3,10 @@ from __future__ import annotations
 import asyncio
 import json
 
-from agent_compaction.runtime.model_provider import CompactingModel
+from guarded_agentic_compaction.runtime.model_provider import CompactingModel
 from demos.live_runtime import build_live_catalog, make_function_tools, safe_tool_name
 from demos.support.world import EFFECTS_PATH, SupportWorld
-from agent_compaction.schema.effects import EffectCatalog
+from guarded_agentic_compaction.schema.effects import EffectCatalog
 
 
 def test_live_tool_names_and_catalog_preserve_effect_attestations():

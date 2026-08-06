@@ -19,9 +19,9 @@ for candidate in (ROOT, ROOT / "src", Path(__file__).resolve().parent):
     if str(candidate) not in sys.path:
         sys.path.insert(0, str(candidate))
 
-from agent_compaction.benchmarking import FrozenProtocol  # noqa: E402
-from agent_compaction.registry.store import Registry  # noqa: E402
-from agent_compaction.schema.artifacts import Lifecycle  # noqa: E402
+from guarded_agentic_compaction.benchmarking import FrozenProtocol  # noqa: E402
+from guarded_agentic_compaction.registry.store import Registry  # noqa: E402
+from guarded_agentic_compaction.schema.artifacts import Lifecycle  # noqa: E402
 from benchmarks.runtime import load_domain_runtime  # noqa: E402
 from multidomain_study import (  # noqa: E402
     ACTIONS,

@@ -23,12 +23,12 @@ for candidate in (ROOT, ROOT / "src"):
     if str(candidate) not in sys.path:
         sys.path.insert(0, str(candidate))
 
-from agent_compaction.benchmarking import (  # noqa: E402
+from guarded_agentic_compaction.benchmarking import (  # noqa: E402
     FrozenProtocol,
     frozen_artifact_digest,
 )
-from agent_compaction.benchmarking.preflight import STATISTICAL_CONTRACT  # noqa: E402
-from agent_compaction.evaluation import (  # noqa: E402
+from guarded_agentic_compaction.benchmarking.preflight import STATISTICAL_CONTRACT  # noqa: E402
+from guarded_agentic_compaction.evaluation import (  # noqa: E402
     BinaryPair,
     CanonicalMetrics,
     PairedSample,
@@ -38,7 +38,7 @@ from agent_compaction.evaluation import (  # noqa: E402
     paired_group_bootstrap_diff,
     paired_ratio,
 )
-from agent_compaction.portfolio import PortfolioPolicy  # noqa: E402
+from guarded_agentic_compaction.portfolio import PortfolioPolicy  # noqa: E402
 
 
 ENDPOINTS = tuple(str(item) for item in STATISTICAL_CONTRACT["endpoints"])

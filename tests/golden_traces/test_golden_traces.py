@@ -18,11 +18,11 @@ from pathlib import Path
 
 import pytest
 
-from agent_compaction.evaluation.splits import make_splits
-from agent_compaction.graph.normalize import canonical_order, data_quality, qualify
-from agent_compaction.graph.provenance import build_all
-from agent_compaction.graph.windows import mine
-from agent_compaction.grc.compile import GrcConfig, compile_grc
+from guarded_agentic_compaction.evaluation.splits import make_splits
+from guarded_agentic_compaction.graph.normalize import canonical_order, data_quality, qualify
+from guarded_agentic_compaction.graph.provenance import build_all
+from guarded_agentic_compaction.graph.windows import mine
+from guarded_agentic_compaction.grc.compile import GrcConfig, compile_grc
 
 from scripts.generate_synthetic import ENTRY_ALLOWLIST, SYNTHETIC_CATALOG, read_jsonl
 
@@ -52,7 +52,7 @@ def test_fixture_is_committed_and_stable(episodes):
 
 
 def test_episode_roundtrip_is_lossless(episodes):
-    from agent_compaction.schema.traces import Episode
+    from guarded_agentic_compaction.schema.traces import Episode
 
     for ep in episodes[:20]:
         again = Episode.from_dict(json.loads(json.dumps(ep.to_dict(), default=str)))
@@ -110,8 +110,8 @@ def test_mined_family_signature_is_stable(episodes):
 def test_runtime_compilation_rejects_suffix_only_regions(episodes):
     """The shipped dispatchers resolve at the first boundary, not mid-episode."""
 
-    from agent_compaction.schema.effects import EffectCatalog
-    from agent_compaction.schema.traces import (
+    from guarded_agentic_compaction.schema.effects import EffectCatalog
+    from guarded_agentic_compaction.schema.traces import (
         Episode,
         EventKind,
         EventNode,

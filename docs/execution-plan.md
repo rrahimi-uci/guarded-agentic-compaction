@@ -1,4 +1,4 @@
-# Agent Compaction: Execution Plan
+# Guarded Agentic Compaction: Execution Plan
 
 **Status:** historical pre-implementation design record; not the current API guide
 **Date:** 2026-08-01  
@@ -26,7 +26,7 @@ override implemented behavior.
 
 ## 1. Executive Summary
 
-Agent Compaction is an offline workflow optimizer for applications built with the OpenAI
+Guarded Agentic Compaction is an offline workflow optimizer for applications built with the OpenAI
 Agents SDK or normalized into its typed Episode IR. The maintained SDK processor captures
 framework traces and canonical local JSONL persists them. The optimizer mines repeated
 execution patterns, proposes smaller strategies, validates them on grouped historical and
@@ -41,7 +41,7 @@ Build two complementary optimizers:
 TGWS is the faster, lower-risk product algorithm; GRC is the principal research contribution. Apply them as a ladder: simplify routing and prompt/tool surfaces first, then compile residual regions that still require repeated model-mediated control. Neither algorithm invents business logic, changes model weights, or removes external effects without an explicit declaration.
 
 Do not create a parallel instrumentation stack. The Agents SDK remains the execution
-substrate and source of runtime span semantics. Agent Compaction normalizes those spans,
+substrate and source of runtime span semantics. Guarded Agentic Compaction normalizes those spans,
 adds application-owned facts the SDK cannot infer—principal, policy/effect class,
 external-state version, approval scope, and business outcome—and derives a typed graph
 offline. Applications may use their own observability service, but it is not a compiler
@@ -115,7 +115,7 @@ specification; current evidence and residual limits are tracked in
 
 ## 4. Related Work
 
-Agent Compaction lies between prompt optimization, agent scheduling, workflow synthesis, execution provenance, and process mining. Its narrow contribution is typed-trace discovery of model-mediated control that can be replaced by an interpretable guarded artifact and evaluated end to end.
+Guarded Agentic Compaction lies between prompt optimization, agent scheduling, workflow synthesis, execution provenance, and process mining. Its narrow contribution is typed-trace discovery of model-mediated control that can be replaced by an interpretable guarded artifact and evaluated end to end.
 
 | Area/system | Relevant capability | Remaining gap |
 |---|---|---|
@@ -225,7 +225,7 @@ Privacy rules: allowlist payloads; redact/tokenize PII before storage; encrypt d
 
 Every snapshot emits a data-quality report covering completeness, manifest/effect coverage, group cardinality, outcome-label latency, duplication, schema drift, scope coverage, and candidate-region mass.
 
-## 7. Agent Compaction Pipeline
+## 7. Guarded Agentic Compaction Pipeline
 
 Pipeline: freeze immutable range → qualify → normalize → partition → estimate → measure simple engineering baseline → specialize with TGWS → compile residual regions with GRC → validate → calibrate → shadow → approve/promote → monitor → retire/recompile.
 
@@ -500,7 +500,7 @@ The following block is updated to the 0.6.0 interface; use
 [Library API](library-api.md) for the complete contract.
 
 ```python
-import agent_compaction as ac
+import guarded_agentic_compaction as ac
 
 episodes = ac.read_jsonl("traces.jsonl")
 catalog = ac.load_catalog("configs/effects.yaml")
@@ -569,7 +569,7 @@ intentionally change prompts/schemas/policies and must invalidate artifacts.
 
 ### 11.1 Claims and hypotheses
 
-- **H1 (primary feasibility):** Full Agent Compaction attains `R_req<0.90` on at least one predeclared eligible demonstration while passing quality and safety gates.
+- **H1 (primary feasibility):** Full Guarded Agentic Compaction attains `R_req<0.90` on at least one predeclared eligible demonstration while passing quality and safety gates.
 - **H2 (quality):** Accepted optimized episodes are non-inferior to baseline on the task score within domain-specific margin `ε_Q`.
 - **H3 (predictive gate):** Calibration upper bounds control unsafe dispatch on sealed test within the predeclared risk budget.
 - **H4 (ablation):** Provenance/contract-aware selection has fewer unsafe dispatches than support-only selection at comparable coverage.
@@ -579,7 +579,7 @@ intentionally change prompts/schemas/policies and must invalidate artifacts.
 
 1. **Original baseline:** unchanged Agents SDK workflow.
 2. **Simple optimization baseline:** hand-written macro, parallel scheduling, or AWO-style repeated-path optimization with the same effect boundary.
-3. **Full Agent Compaction:** TGWS then GRC with provenance, contracts, and calibration.
+3. **Full Guarded Agentic Compaction:** TGWS then GRC with provenance, contracts, and calibration.
 4. **Support-only ablation:** same candidate frequency threshold but without provenance-aware risk gating.
 
 Prompt/tool pruning may also be reported separately as an internal decomposition of condition 3, but avoid multiplying confirmatory conditions. DSPy/MIPRO can be an exploratory comparator under an equal optimization budget.
@@ -867,13 +867,13 @@ The research MVP is done only when source, schemas, demo applications, frozen sp
 ## 17. Repository Structure
 
 ```text
-agent-compaction/
+guarded-agentic-compaction/
 ├── pyproject.toml
 ├── README.md
 ├── experiments/proposal.md
 ├── docs/use-cases.md
 ├── docs/execution-plan.md
-├── src/agent_compaction/
+├── src/guarded_agentic_compaction/
 │   ├── capture/
 │   │   ├── agents_sdk.py
 │   │   ├── jsonl.py

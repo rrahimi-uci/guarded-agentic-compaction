@@ -1,6 +1,6 @@
 # OpenAI Agents SDK integration
 
-The OpenAI Agents SDK is an execution substrate; `agent-compaction` consumes its
+The OpenAI Agents SDK is an execution substrate; `guarded-agentic-compaction` consumes its
 observable traces and can wrap its model boundary. The optimizer keeps its own typed IR
 so the same analysis can support other frameworks.
 
@@ -13,7 +13,7 @@ and [trace grading](https://developers.openai.com/api/docs/guides/trace-grading)
 ## Install
 
 ```bash
-pip install 'agent-compaction[live]'
+pip install 'guarded-agentic-compaction[live]'
 ```
 
 The current optional dependency range is `openai-agents>=0.19,<0.20`. Re-run the SDK
@@ -71,7 +71,7 @@ GitHub snapshot; it did not use simulated agent decisions.
 ## Capture
 
 ```python
-from agent_compaction.capture import (
+from guarded_agentic_compaction.capture import (
     AgentsTraceProcessor,
     episode_from_agents_trace,
     install_agents_trace_processor,
@@ -112,7 +112,7 @@ dispatch and tracing remain native. On a miss it delegates to the wrapped model.
 
 ```python
 from agents import Agent
-from agent_compaction.runtime.model_provider import CompactingModel
+from guarded_agentic_compaction.runtime.model_provider import CompactingModel
 
 model = CompactingModel(
     base_model,

@@ -1,7 +1,7 @@
 """Region-program IR: what a GRC artifact actually executes.
 
 A program is a straight-line sequence of permitted tool calls whose arguments are
-:mod:`~agent_compaction.grc.dsl` bindings over the entry state and earlier
+:mod:`~guarded_agentic_compaction.grc.dsl` bindings over the entry state and earlier
 in-region observations, optionally guarded by a synthesized typed predicate
 (Algorithm 4), optionally wrapped in a bounded ``ForEach``.
 

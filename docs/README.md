@@ -1,6 +1,6 @@
 # Documentation map
 
-This directory describes the implemented `agent-compaction` 0.7.0 research library.
+This directory describes the implemented `guarded-agentic-compaction` 0.7.0 research library.
 Start here rather than treating every document as an equally current specification.
 
 The rendered, reader-oriented documentation is published at

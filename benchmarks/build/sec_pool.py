@@ -11,7 +11,7 @@ from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any, Iterable, Sequence
 
-from agent_compaction.evaluation import BenchmarkCase
+from guarded_agentic_compaction.evaluation import BenchmarkCase
 from benchmarks.adapters.store import canonical
 from benchmarks.fetch.common import SourceFetchError, SourcePolicyError
 from benchmarks.fetch.sec import (

@@ -37,17 +37,17 @@ import requests
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
-from agent_compaction.graph.provenance import build_all  # noqa: E402
-from agent_compaction.graph.windows import Family, enumerate_windows  # noqa: E402
-from agent_compaction.grc.calibrate import GRID, clopper_pearson_upper  # noqa: E402
-from agent_compaction.grc.contracts import (  # noqa: E402
+from guarded_agentic_compaction.graph.provenance import build_all  # noqa: E402
+from guarded_agentic_compaction.graph.windows import Family, enumerate_windows  # noqa: E402
+from guarded_agentic_compaction.grc.calibrate import GRID, clopper_pearson_upper  # noqa: E402
+from guarded_agentic_compaction.grc.contracts import (  # noqa: E402
     grouped_recorded_replay,
     induce_guard,
     induce_verifier,
 )
-from agent_compaction.grc.synthesize import synthesize_program  # noqa: E402
-from agent_compaction.schema.effects import EffectCatalog  # noqa: E402
-from agent_compaction.schema.traces import (  # noqa: E402
+from guarded_agentic_compaction.grc.synthesize import synthesize_program  # noqa: E402
+from guarded_agentic_compaction.schema.effects import EffectCatalog  # noqa: E402
+from guarded_agentic_compaction.schema.traces import (  # noqa: E402
     Episode,
     EventKind,
     EventNode,

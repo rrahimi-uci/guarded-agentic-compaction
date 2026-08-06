@@ -23,10 +23,10 @@ for p in (ROOT, ROOT / "src"):
     if str(p) not in sys.path:
         sys.path.insert(0, str(p))
 
-from agent_compaction.capture import jsonl
-from agent_compaction.capture.attributes import EntryStateContract
-from agent_compaction.graph.normalize import data_quality
-from agent_compaction.schema.effects import EffectCatalog
+from guarded_agentic_compaction.capture import jsonl
+from guarded_agentic_compaction.capture.attributes import EntryStateContract
+from guarded_agentic_compaction.graph.normalize import data_quality
+from guarded_agentic_compaction.schema.effects import EffectCatalog
 
 import demos.support as support
 from demos.framework import run_workload

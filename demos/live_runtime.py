@@ -15,14 +15,14 @@ from dataclasses import asdict, dataclass
 from importlib.metadata import version
 from typing import Any, Callable, Iterable, Sequence
 
-from agent_compaction.capture.agents_sdk import (
+from guarded_agentic_compaction.capture.agents_sdk import (
     AgentsTraceProcessor,
     SdkTraceRecord,
     episode_from_agents_trace,
 )
-from agent_compaction.capture.manifests import build_manifest
-from agent_compaction.schema.effects import EffectCatalog
-from agent_compaction.schema.traces import (
+from guarded_agentic_compaction.capture.manifests import build_manifest
+from guarded_agentic_compaction.schema.effects import EffectCatalog
+from guarded_agentic_compaction.schema.traces import (
     Episode,
     ExecutionManifest,
     OutcomeLabels,
