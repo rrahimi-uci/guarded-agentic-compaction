@@ -24,6 +24,11 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
+      - name: Install the site build's only third-party dependency
+        # The benchmark explorer reads upstream provenance out of the sealed YAML source
+        # manifest, so the docs build needs pyyaml. Installing just this one keeps the
+        # docs job fast instead of pulling the project's numeric stack.
+        run: python -m pip install pyyaml
       - name: Configure Pages when the repository plan permits it
         id: pages
         continue-on-error: true

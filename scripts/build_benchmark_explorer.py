@@ -333,7 +333,13 @@ def load_upstream() -> dict[str, dict]:
     experiments were run against, rather than a hand-copied link that can rot.
     """
 
-    import yaml
+    try:
+        import yaml
+    except ModuleNotFoundError as exc:  # pragma: no cover - environment guard
+        raise VerificationError(
+            "reading the sealed source manifest needs pyyaml, a declared project "
+            "dependency: python -m pip install pyyaml"
+        ) from exc
 
     manifest = yaml.safe_load(SOURCE_MANIFEST.read_text(encoding="utf-8"))
     sources = {
