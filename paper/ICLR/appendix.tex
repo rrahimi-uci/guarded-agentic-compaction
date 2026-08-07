@@ -1,0 +1,196 @@
+\section{Proof of \texorpdfstring{\Cref{prop:admission}}{Proposition 1}}
+\label{app:proof}
+
+Fix one threshold $\eta\in\Lambda$ and write $\gamma=\delta/|\Lambda|$.
+Conditional on $n_\eta=m>0$ admitted calibration groups, the number of
+violating groups $k_\eta$ is binomial with success probability equal to the
+selective risk $r_\eta$ at that threshold, because the candidate program, guard,
+verifier, score, and grid were all frozen before any calibration group was
+observed and admitted groups are i.i.d. Inverting the one-sided exact binomial
+test~\citep{clopper1934binomial} gives the upper bound
+$U_\eta=\operatorname{Beta}^{-1}(1-\gamma;\,k_\eta+1,\,m-k_\eta)$ of
+\cref{eq:cp}, which satisfies
+$\Pr\{r_\eta > U_\eta \mid n_\eta=m\}\le\gamma$. When $m=0$ the event is
+impossible under the convention that empty-admission thresholds receive the
+vacuous bound $U_\eta=1$. Averaging over the random value of $n_\eta$ therefore
+yields $\Pr\{r_\eta > U_\eta\}\le\gamma$ for each fixed threshold. Applying the
+union bound over the finite grid gives
+$\Pr\{\exists\eta\in\Lambda: r_\eta > U_\eta\}\le|\Lambda|\gamma=\delta$, i.e.
+simultaneous coverage with probability at least $1-\delta$. On that event, any
+threshold whose upper bound is at most $\alpha$ also satisfies the target
+selective risk of \cref{eq:objective}, including the coverage-maximizing
+threshold returned by \cref{alg:calibrate}. $\qquad\blacksquare$
+
+Two scope conditions are worth restating. First, the statement is
+\emph{per fixed candidate}: \cref{alg:compile} searches over families and
+returns the first admissible one, and that outer search is not
+multiplicity-corrected. Second, i.i.d.\ admitted groups is an assumption about
+the calibration cohort, not a property the compiler verifies; the grouped split
+in \cref{alg:compile} makes it plausible by construction but does not establish
+it under temporal drift.
+
+\section{Additional Algorithms}
+\label{app:algorithms}
+
+\input{figures/alg-patg.tex}
+\input{figures/alg-dispatch.tex}
+
+\Cref{alg:patg} constructs the typed provenance graph that decides
+\cref{eq:grounding}. Its two block conditions are asymmetric on purpose: a slot
+with no witness is treated as a genuine model decision and a slot with more
+than $\kappa$ witnesses is treated as ambiguous, so the analysis never resolves
+an argument by picking the cheapest available explanation.
+
+\Cref{alg:dispatch} is the runtime counterpart of \cref{eq:dispatch}. Cheap
+deterministic checks reject first and the calibrated gate runs only on what
+survives them, so the common case costs a registry lookup and a guard
+evaluation. Exactly one exit path compacts; five return the unmodified baseline
+agent, and one --- a post-commit failure --- raises an incident rather than
+feigning a rollback. ``Baseline'' is byte-exact only where a staging owner holds
+the commit boundary: the outer runner can restore byte-identical model input,
+whereas a model-boundary adapter cannot un-emit a response the host has already
+committed to conversation history.
+
+\section{Configuration}
+\label{app:config}
+
+All reported admission runs use risk budget $\alpha=0.05$, confidence budget
+$\delta=0.1$, and a fixed grid of $|\Lambda|=11$ thresholds, which fixes the
+zero-violation sample requirement at
+$n_\eta\ge\log(\delta/|\Lambda|)/\log(1-\alpha)=91.6$, i.e.\ 92 admitted
+groups; at exactly $n_\eta=92$ and $k_\eta=0$ the bound is
+$U_\eta=1-(0.1/11)^{1/92}=0.0498\le\alpha$. Tightening the confidence budget to
+$\delta=0.05$ would raise the requirement to 106 groups, which no study in this
+paper reaches, so $\delta=0.1$ is the operative setting throughout and is
+reported as such rather than rounded to match $\alpha$.
+Synthesis uses a 23-operator closed library at depth $\le 2$; region mining
+uses $w_{\max}$ tool calls per window and requires support across independent
+scenario groups. The implementation also supports a minimum-distinct-days
+requirement, which the single-snapshot live study does not exercise
+(\code{min\_days}\,=\,1). Two terms of \cref{eq:score} are coarser in the
+implementation than the notation suggests: $\rho_{\mathrm{eff}}$ is
+approximated by the fraction of tool names containing a namespace separator
+rather than read from the effect catalog, and $|F|$ is substituted by the
+argument-slot count of the first observed window because ranking precedes
+synthesis. Both appear only in a ranking heuristic --- no admission decision
+depends on either, and the effect catalog is consulted where it is load-bearing,
+in qualification and in the runtime facade.
+
+\section{Paired Statistics for the Primary Families}
+\label{app:stats}
+
+Per-record paired differences (compiled minus baseline) on the two families
+that admit a deep prefix, with 10{,}000-sample bootstrap intervals and
+two-sided Wilcoxon signed-rank tests over $n=30$ paired held-out records:
+
+\begin{center}\footnotesize
+\begin{tabular}{@{}llrr@{}}
+\toprule
+Family & Endpoint & Paired difference (95\% CI) & $p$ \\
+\midrule
+\multirow{3}{*}{PR-outcome}
+ & Total tokens   & $-2196.7\ [-2211.1,\,-2182.5]$ & $1.7\times10^{-6}$ \\
+ & Wall latency   & $-3889$\,ms $[-4499,\,-3346]$   & $1.9\times10^{-9}$ \\
+ & Estimated cost & $-\$5.11\times10^{-4}$          & $1.7\times10^{-6}$ \\
+\addlinespace[1pt]
+\multirow{3}{*}{Backlog}
+ & Total tokens   & $-2315.0\ [-2366.0,\,-2224.1]$ & $1.7\times10^{-6}$ \\
+ & Wall latency   & $-4428$\,ms $[-5400,\,-3558]$   & $1.9\times10^{-9}$ \\
+ & Estimated cost & $-\$5.44\times10^{-4}$          & $1.7\times10^{-6}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Provider-request differences are deterministic by construction (every pair
+removes the same number of turns), so no rank test is reported for them: the
+statistic would measure the degeneracy rather than the effect.
+
+\section{Additional Experimental Detail}
+
+\paragraph{Primary workflow families.}
+The three-family result is the main paper's strongest live evidence because it
+combines distinct tool vocabularies, exact task graders, balanced held-out
+cohorts, and provider-backed execution. The issue-type family intentionally
+retains a shallower two-read prefix; the newer pull-request and backlog
+families admit deeper pre-model compaction. This difference explains the lower
+resource savings on the first family and is part of the evidence boundary, not
+noise to average away.
+
+\paragraph{Cross-repository extension.}
+The cross-repository study is narrower than the primary workflow families. Its
+task uses two read-only tools and a simpler exact outcome contract, which is
+precisely why a fixed template can remain tied or even more efficient than the
+learned artifact. We keep the result in the main text because it addresses a
+reviewer-critical scope question---whether guarded specialization survives
+beyond one repository---while being explicit about the reduced task complexity.
+
+\paragraph{The position invariant, empirically.}
+\label{app:pilot}
+An early pilot dispatched a compiled \emph{suffix} region at the entry boundary,
+violating \cref{eq:prefix}. Because the runtime resolves artifacts before the
+agent has made the calls the region assumed had already happened, the pilot
+reordered and duplicated tool calls. The failure is a semantic mismatch between
+compilation-time position and resolution-time position, not a tuning error,
+which is why \cref{eq:prefix} is a hard constraint in the deployed compiler
+rather than a scoring penalty.
+
+\paragraph{Omitted from the main claim.}
+The repository retains additional studies that are useful scientifically but
+less suitable for the main narrative:
+\begin{itemize}[leftmargin=1.2em,itemsep=1pt,topsep=2pt]
+  \item a natural-order issue study that exposed a factual continuation miss for
+  a more aggressive three-read artifact,
+  \item exploratory guarded composite synthesis and a follow-up comparison to a
+  fair pre-model manual program,
+  \item a bounded GEPA prompt-optimization study in which GEPA retained its
+  seed, so the combined arm is a replication rather than evidence of
+  interaction, and
+  \item a portfolio pilot and controlled demonstration suite for runtime
+  boundary coverage, including workloads where removing turns \emph{increases}
+  cost through prefix-cache fragmentation.
+\end{itemize}
+These studies remain important to the broader artifact, but they either use a
+weaker risk level, address a narrower engineering question, or are explicitly
+exploratory.
+
+\section{Extended Limitations}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.8\linewidth]{figures/family_reductions.pdf}
+  \caption{Per-family resource reductions behind \cref{tab:primary}, plotted
+  because the spread is the result: admissible prefix depth --- not the
+  optimizer --- sets the savings, and the two deeper families sit at the
+  feasibility ceiling of \cref{eq:ceiling}.}
+  \label{fig:family-reductions}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.9\linewidth]{figures/gate_support.pdf}
+  \caption{NESTFUL family supports against the 92-group requirement implied by
+  \cref{eq:cp} at $\alpha=0.05$, $\delta=0.1$, $|\Lambda|=11$. The largest family
+  reaches 26 groups, so every family retires at calibration even though
+  provenance, synthesis, and replay all succeeded.}
+  \label{fig:gate-support}
+\end{figure}
+
+The current empirical gate does not yet demonstrate a useful risk--coverage
+frontier at the registered 5\% level. The strongest current runs are mostly
+all-or-none support tests (\cref{fig:gate-support}), and the compiler-wide
+candidate-search problem is not yet multiplicity-corrected. Likewise, exact task
+contracts do not certify full semantic equivalence of the final answer,
+especially once a downstream model continuation is involved. Two further
+operational caveats belong in the record: the headline live artifact was
+compiled without a sandbox available to the perturbation suite, so it records
+\code{perturbations\_claimed: false} rather than a completed challenge, and
+registry signature verification was configured off in the reported run. These
+are not hidden defects in the repository; they are the reasons the paper avoids
+stronger deployment claims.
+
+\section{Anonymous Artifact Release}
+
+The code and retained artifacts are packaged as an anonymous supplementary
+archive preserving hashes, manifests, scripts, and raw results for the studies
+cited in the main paper. Direct links to the identified public repository are
+withheld until the review process permits deanonymization.

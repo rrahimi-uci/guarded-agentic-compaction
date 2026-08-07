@@ -1,0 +1,64 @@
+\section{Introduction}
+
+The standard agent loop pays for a model decision at every tool boundary:
+model, tool, model, tool, and so on~\citep{yao2023react}. That flexibility is
+valuable while a workflow is novel. At scale, however, mature agents often
+revisit the same read-only evidence path with the same data dependencies. In
+those settings, repeating the model decision adds latency, tokens, and cost
+without necessarily adding useful adaptation.
+
+Removing that decision is not ordinary caching. A tool argument may depend on a
+specific earlier observation, a repeated sequence may cross an approval or
+write, an apparently read-only tool may hide an undeclared effect, and a
+program that replays the same tool outputs may still change the downstream
+answer. The problem is therefore not just ``find recurring traces.'' The
+problem is to decide when a recurrent model-mediated region can be replaced by a
+deterministic program and when it should be refused.
+
+Framed this way, the closest precedent is not prompt optimization but the
+tracing just-in-time compiler. Dynamo~\citep{bala2000dynamo}, trace-based type
+specialization~\citep{gal2009tracejit}, and meta-tracing~\citep{bolz2009pypy}
+all detect a hot path, compile it behind a \emph{guard}, and deoptimize to the
+interpreter when the guard fails~\citep{holzle1992deopt}. Agent traces admit
+the same structure --- hot-trace detection becomes family mining, guard
+synthesis becomes an entry contract, and deoptimization becomes fallback to the
+unchanged agent --- but they add three obligations a JIT does not face. Tool
+arguments must be shown to be \emph{grounded} in observable state rather than
+invented by the model; declared \emph{effects} must permit speculation, because
+an agent's ``interpreter'' can call the outside world; and the residual error
+rate of a compiled region is statistical, so it needs a finite-sample bound
+rather than a soundness proof.
+
+We study these obligations through \emph{guarded agentic compaction} (\method),
+a compile-or-retire trace-to-program system for recurrent read-only prefixes.
+The method normalizes executions into a typed episode representation,
+reconstructs value provenance for tool arguments, mines recurrent prefix
+families, synthesizes bounded programs, induces runtime guards and verifiers,
+and admits an artifact only when a finite-sample selective-risk calculation
+supports it. Otherwise the baseline agent is retained unchanged
+(\cref{fig:pipeline}). The core contribution is thus not ``agent compilation''
+in general, but an admissibility argument for trace-derived specialization.
+
+The evidence is deliberately multi-sided. On three distinct GitHub workflow
+families with live provider calls, compiled programs preserve or improve exact
+held-out task outcomes while reducing requests, tokens, latency, and cost; a
+narrower time-forward task then tests transfer across repositories and retains
+both success and compile-time retirement. NESTFUL and API-Bank show the
+opposite regime, in which recurrent executable traces still fail to justify
+deployment. We also retain the strongest practical counterpoint: when a
+workflow is already known, hand-written programs can be competitive or tied, so
+any claim of automatic superiority would be incorrect.
+
+The paper makes three contributions:
+\begin{enumerate}[leftmargin=1.2em,itemsep=1pt,topsep=2pt]
+  \item A guarded specialization pipeline (\cref{alg:compile}) that combines
+  typed provenance, effect and position barriers, bounded synthesis, runtime
+  verification, and finite-sample compile-or-retire admission
+  (\cref{alg:calibrate}, \cref{prop:admission}).
+  \item A real-provider evaluation across three public-record workflow families,
+  plus a narrower cross-repository, time-forward extension that keeps both
+  successful artifacts and principled retirements.
+  \item A negative-result boundary showing that recurrence and replayability do
+  not themselves license deployment: NESTFUL and API-Bank retire under the same
+  admission logic, and manual programs constrain any runtime-dominance claim.
+\end{enumerate}

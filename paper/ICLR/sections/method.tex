@@ -1,0 +1,127 @@
+\section{Guarded Agentic Compaction}
+\label{sec:method}
+
+\begin{figure}[t]
+  \centering
+  \input{figures/pipeline_overview.tex}
+  \caption{Architecture of \method. \textbf{(A)} Capture normalizes traces into
+  one typed Episode IR against a declared effect catalog. \textbf{(B)} Offline
+  compilation is a cascade of independent rejection points; the shaded band
+  lists barriers no statistical evidence can override. \textbf{(C)} At runtime
+  exactly one terminal edge compacts; the rest return the unchanged agent.}
+  \label{fig:pipeline}
+\end{figure}
+
+\input{figures/alg-compile.tex}
+
+\Cref{fig:pipeline} and \cref{alg:compile} give the same six stages at two
+levels of detail. We describe each and state what it can refuse.
+
+\paragraph{1. Typed provenance.}
+A capture adapter normalizes framework traces into the Episode IR; manifests
+pin prompt, policy, guardrail, tool, model, SDK, tracer, entry-contract, and
+effect-catalog identities, and episodes with different compatibility keys are
+partitioned before any learning. For each call-argument slot, the
+program-argument trace graph (\patg, \cref{alg:patg}) searches entry-state and
+prior-result paths for typed values reachable by a bounded transform --- execution
+provenance in the database sense~\citep{cheney2009provenance}, specialized to
+tool arguments. Two outcomes block a region rather than guessing: a slot with
+\emph{no} witness is a genuine model decision, and a slot with more than
+$\kappa$ witnesses is ambiguous.
+
+\paragraph{2. Region mining and ranking.}
+The miner enumerates model-boundary-to-result windows of at most $w_{\max}$
+tool calls, qualifies effects and live-ins, and hashes tool signatures,
+dependency topology, run shape, and live-in/live-out shape while abstracting
+literal values. Families require support across independent scenario
+\emph{groups} rather than raw event frequency, which prevents a single chatty
+scenario from manufacturing recurrence. Survivors are ranked by a
+minimum-description-length trade-off that pays for expected savings and charges
+for heterogeneity, effect exposure, and program size:
+\begin{equation}
+  \operatorname{score}(F)=
+  \underbrace{s_F\,\bar{k}_F\,c_m}_{\text{expected saving}}
+  -\lambda_1 H(F)-\lambda_2\rho_{\mathrm{eff}}(F)-\lambda_3|F| ,
+  \label{eq:score}
+\end{equation}
+with $s_F$ the group support, $\bar{k}_F$ the mean removable model requests,
+$c_m$ their unit cost, and $H(F)$ the Shannon entropy over canonical variants
+inside the family; without $\lambda_1$ the ranking prefers a heterogeneous
+family whose single canonical form fits none of its members.
+\Cref{eq:score} affects only \emph{which} family is tried first --- no
+admission decision depends on it.
+
+\paragraph{3. Feasibility ceiling.}
+Before any synthesis runs, an estimator bounds what the compiler could achieve
+with a perfect verifier and a gate that never abstains:
+\begin{equation}
+  \Delta_{\max}=\frac{\varphi\,k}{n_B},
+  \qquad\text{necessary:}\quad \varphi\,\rho\,k \ \ge\ \Delta\,n_B ,
+  \label{eq:ceiling}
+\end{equation}
+with $n_B$ baseline model requests per episode, $\varphi$ the fraction of
+episodes holding an eligible region, $k$ the requests removed per successful
+dispatch, and $\rho$ the verifier pass rate. Since \cref{eq:ceiling} assumes
+$\rho=1$, no measured reduction can exceed it, and it is met with equality
+exactly when nothing abstains and nothing fails. Reporting it first makes a
+decisive negative answer cheap: a workload whose ceiling sits under the target
+can be declined without building a compiler for it.
+
+\paragraph{4--5. Bounded synthesis and contracts.}
+Synthesis searches a 23-operator library at depth at most two, covering path
+selection, indexing, string normalization, arithmetic, comparisons, bounded
+collection operations, and narrow loops; bindings are ranked by stability
+across groups, and a group-wise refit rejects bindings that exploit row-level
+coincidence. The hypothesis space is deliberately small enough to read: the
+approach resembles programming-by-example~\citep{gulwani2011flashfill} and
+bounded sketching~\citep{solarlezama2006sketching}, and it does \emph{not}
+generate arbitrary Python. Hard guards then constrain entry types, required
+fields, categorical sets, numeric intervals, patterns, isolation keys, allowed
+effects, and manifest pins; verifiers constrain live-out presence, type,
+cardinality, empirical hulls, provenance, effect multisets, and call counts.
+These are likely invariants~\citep{ernst2001daikon}, not proofs for all future
+inputs --- which is why a statistical gate follows them rather than replacing
+them.
+
+\paragraph{6. Exact risk-gated admission.}
+\Cref{alg:calibrate} decides deployment. The score $q$ is fitted on \emph{dev}
+groups only --- never on calibration groups --- from entry-observable features
+such as missing fields, hull margin, temporal drift, and provenance ambiguity,
+then frozen together with a finite threshold grid $\Lambda$. For each
+$\eta\in\Lambda$ the compiler counts admitted calibration groups ($n_\eta$) and
+those containing at least one post-dispatch violation ($k_\eta$), and inverts
+the one-sided exact binomial test~\citep{clopper1934binomial} at a
+Bonferroni-corrected level:
+\begin{equation}
+  U_\eta=\operatorname{Beta}^{-1}\!\left(1-\tfrac{\delta}{|\Lambda|};\;
+  k_\eta+1,\; n_\eta-k_\eta\right),
+  \qquad
+  U_\eta \Big|_{k_\eta=0} = 1-\left(\tfrac{\delta}{|\Lambda|}\right)^{1/n_\eta}.
+  \label{eq:cp}
+\end{equation}
+It admits the largest-coverage threshold with $U_\eta\le\alpha$ and retires the
+family otherwise --- a fixed-grid instance of the learn-then-test
+discipline~\citep{angelopoulos2022ltt,bates2021rcps}. The closed form on the
+right is the operative constraint in our experiments: at $\alpha=0.05$, $\delta=0.1$,
+and $|\Lambda|=11$, a zero-violation family still needs $n_\eta\ge 92$ admitted
+groups. The default output is refusal, not emission.
+
+\input{figures/alg-calibrate.tex}
+
+\begin{proposition}[Per-candidate selective-risk admission]
+\label{prop:admission}
+Fix one candidate program, hard guard, verifier, score, and finite threshold
+grid $\Lambda$ before calibration. If admitted calibration groups are i.i.d.,
+then with probability at least $1-\delta$ every $\eta\in\Lambda$ satisfies
+$r_\eta\le U_\eta$, where $r_\eta$ is the selective risk at $\eta$ and $U_\eta$
+is given by \cref{eq:cp}. Hence the data-selected threshold satisfies the
+target selective risk of \cref{eq:objective} whenever its upper bound is at
+most $\alpha$.
+\end{proposition}
+
+\Cref{app:proof} gives the proof. The guarantee is deliberately narrow: it is
+\emph{per fixed candidate}, not compiler-wide over the adaptive candidate
+search \cref{alg:compile} actually performs, and it conditions on group
+exchangeability rather than establishing it (\cref{sec:discussion}). The
+scientific point is that guarded deployment requires an explicit evidence
+boundary, not just a recurrent trace and a successful replay.
