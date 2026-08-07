@@ -74,6 +74,11 @@ class GrcConfig:
     alpha: float = 0.05
     delta: float = 0.10
     phi_min: float = 0.02
+    #: Freeze the highest-ranked candidate that survives synthesis and challenge
+    #: before touching calibration groups. This avoids calibrating several families
+    #: on the same holdout split at the cost of lower coverage. The published paper
+    #: keeps this off and reports the weaker per-candidate certificate explicitly.
+    freeze_one_candidate_before_calibration: bool = False
     max_artifacts: int = 8
     max_candidates: int = 24
     #: Declared evaluation budgets. Replay and calibration cost one program execution
@@ -287,6 +292,8 @@ def compile_grc(
     for _, reason in mining.rejected_families:
         res.rejection_by_stage[f"mine:{reason.split(':')[0]}"] += 1
 
+    frozen_precalibration_selected = False
+
     for idx, family in enumerate(mining.families[: config.max_candidates]):
         cid = f"cand-{idx:02d}-{family.canon_hash}"
         rec = CandidateRecord(
@@ -387,6 +394,10 @@ def compile_grc(
             res.rejection_by_stage["challenge:hard_reject"] += 1
             continue
 
+        if config.freeze_one_candidate_before_calibration:
+            frozen_precalibration_selected = True
+            rec.notes["candidate_selection"] = "frozen_before_calibration"
+
         # ---- calibration (calibration groups only) -------------------------
         features = GateFeatures.fit(
             guard,
@@ -435,10 +446,14 @@ def compile_grc(
         if not dev_samples:
             rec.rejected = "no_gate_training_groups"
             res.rejection_by_stage["calibrate:no_training_groups"] += 1
+            if config.freeze_one_candidate_before_calibration:
+                break
             continue
         if not samples:
             rec.rejected = "no_calibration_groups"
             res.rejection_by_stage["calibrate:no_groups"] += 1
+            if config.freeze_one_candidate_before_calibration:
+                break
             continue
         gate_model, _ = fit_gate_model(dev_samples, seed=config.seed)
         gate = calibrate_gate(
@@ -455,6 +470,8 @@ def compile_grc(
         if gate.retire:
             rec.rejected = "gate_retire:" + gate.notes[:120]
             res.rejection_by_stage["calibrate:retire"] += 1
+            if config.freeze_one_candidate_before_calibration:
+                break
             continue
 
         artifact = _emit(
@@ -475,7 +492,13 @@ def compile_grc(
         rec.artifact = artifact
         rec.stage = "emitted"
         res.artifacts.append(artifact)
-        if len(res.artifacts) >= config.max_artifacts:
+        if (
+            len(res.artifacts) >= config.max_artifacts
+            or (
+                config.freeze_one_candidate_before_calibration
+                and frozen_precalibration_selected
+            )
+        ):
             break
 
     res.artifacts, dropped = _select_artifacts(res.artifacts)

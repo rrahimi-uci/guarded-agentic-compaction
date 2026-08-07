@@ -71,24 +71,30 @@ The paper makes four contributions:
   before calibration, exact finite-sample bounds govern dispatch, and a framework-neutral
   portfolio can compare only transformations with paired evidence and compatible manifests.
   \item A real-provider study spanning three public-record workflow families and 90
-  held-out records.  It separates execution conformance from source-grounded answer
-  quality and compares unchanged, compiled, and fairly placed hand-written conditions
-  without claiming superiority where they tie.
+  held-out records, plus a narrower five-repository time-forward extension on a frozen
+  PR-outcome task.  Together they separate execution conformance from source-grounded
+  answer quality, preserve retained negative outcomes, and compare unchanged, compiled,
+  and fair manual or template baselines without claiming superiority where they tie.
   \item An identifier-aware empirical-contract refinement, motivated by an archived
   failed pilot, that treats opaque identifiers as typed/provenance-constrained values
   rather than unsafe numeric ranges.  Revision-pinned NESTFUL and API-Bank experiments
   supply complementary refusal evidence when recurrent families lack admission support.
 \end{enumerate}
 
-Alongside the primary live study, we add a bounded public-record extension checkpoint:
-420 privacy-modified HMDA groups pass an independently implemented, provider-free exact
-gold reconstruction.  HMDA is reported as a source-fidelity and control-plane preflight,
-not as a live optimization result; it is excluded from the 90-record effectiveness
-denominator and from every cross-domain efficiency claim.
+Alongside the primary live study, we add two narrower extensions.  First, a frozen-source
+cross-repository GitHub checkpoint executes a simplified PR-outcome task across five
+repositories, reaches 580/580 exact discovery traces, completes four time-forward
+held-out repository cohorts exactly, and retires the fifth at compile time.  Second, a
+bounded public-record extension checkpoint records 420 privacy-modified HMDA groups that
+pass an independently implemented, provider-free exact gold reconstruction.  HMDA is
+reported as a source-fidelity and control-plane preflight, not as a live optimization
+result; it is excluded from every effectiveness denominator and cross-domain efficiency
+claim.
 
-We do \emph{not} claim semantic equivalence, production certification, cross-repository
-or time-forward generalization, or superiority to hand-written code. GCS synthesizes only a read-only view
-over an admitted program; it does not infer undeclared semantics or fuse physical reads.
+We do \emph{not} claim semantic equivalence, production certification, full-workflow
+cross-repository or time-forward generalization, or superiority to hand-written code.
+GCS synthesizes only a read-only view over an admitted program; it does not infer
+undeclared semantics or fuse physical reads.
 The six-case manual result is parity, and the bounded GEPA result does not generalize to
 prompt optimization as a whole.
 
@@ -680,6 +686,29 @@ test cohort.  The backlog cohort was frozen after the same implementation was fi
 Compiler rejection triggers the unchanged agent, so a failed guard cannot become a missing
 answer.  Checkpoints are written before paid evaluation and after every condition.
 
+\subsection{Cross-repository, time-forward PR-outcome-core extension}
+\label{sec:multirepo-method}
+
+To test whether the guarded pre-model runtime survives beyond one retained repository, we
+add a narrower cross-repository study over five frozen public GitHub snapshot sources from
+Hugging Face mirrors: \code{huggingface/datasets}, \code{pandas-dev/pandas},
+\code{psf/requests}, \code{streamlit/streamlit}, and \code{pytorch/pytorch}.  The task
+asks for the exact pull-request record number and title, then classifies one of three
+exact outcomes: \code{open}, \code{merged}, or \code{closed\_unmerged}.  It uses two
+read-only local tools: record and merge-status.  This removes comment-availability drift and keeps the exact
+grader repository-independent, but it is intentionally narrower than the three-tool
+workflow-family tasks.
+
+Each repository first passes a provider-free preflight that deduplicates records, excludes
+earlier paper cohorts, seals 116 older discovery pull requests, and selects a balanced
+30-record held-out cohort whose timestamps are strictly newer.  The complete preflight
+supports 150 held-out pairs across the five repositories.  Discovery then runs with the
+same provider, SDK, and model configuration as the earlier GitHub studies.  Compilation
+freezes one candidate before calibration, uses 16 train, 8 development, and 92
+calibration traces, and compares unchanged, compiled, and a fixed two-read template
+pre-model baseline on held-out records.  Repositories with no admitted artifact are
+retained as fail-closed negatives rather than dropped.
+
 \subsection{Controlled fixed-prefix live study}
 
 We pin revision \code{e344be7b84d1} (full identifier in the source manifest) of the
@@ -870,11 +899,12 @@ The evidence separates three questions. First, can a trace be reconstructed and
 synthesized? Second, is there enough independent evidence to admit the result? Third, if
 admitted, does it improve the end-to-end workflow against a strong manual alternative?
 NESTFUL and API-Bank answer the second question with refusal (\cref{sec:rq1}). The three
-GitHub families answer the third: compiled programs preserve 90/90 exact contracts, but
-fairly placed manual programs do so as well (\cref{sec:family-results,sec:comparator}).
-The remaining sections retain the earlier depth failure, failed suffix pilot, harder
-workflow shapes, and prospective portfolio study because each constrains a different
-claim rather than adding another headline.
+GitHub workflow families answer the third within one repository, and the later
+cross-repository extension tests the same question on a simpler time-forward task
+(\cref{sec:family-results,sec:multirepo-results,sec:comparator}). The remaining sections
+retain the earlier depth failure, failed suffix pilot, harder workflow shapes, and
+prospective portfolio study because each constrains a different claim rather than adding
+another headline.
 
 \subsection{RQ1 and RQ3: provenance succeeds more often than certification}
 \label{sec:rq1}
@@ -995,6 +1025,34 @@ discovery, rejection, and lifecycle management; this experiment does not show ru
 dominance over a correct manual implementation.  All records come from one snapshot of
 one repository, so RQ6 is supported for workflow-family transfer only, not cross-repository
 or time-forward generalization.
+
+\subsubsection{Cross-repository, time-forward extension}
+\label{sec:multirepo-results}
+
+A separate frozen-source extension asks a narrower question: can the guarded compiler
+survive beyond one repository when the task is exact and two-read?  The provider-free
+preflight seals five repositories and a 150-case held-out capacity.  The executed
+discovery pass reaches 580/580 exact traces (116/116 per repository).  Four repositories
+admit artifacts and complete 120 held-out paired records:
+\code{huggingface/datasets}, \code{pandas-dev/pandas}, \code{psf/requests}, and
+\code{streamlit/streamlit}.  Baseline, compiled, and fixed-template conditions all pass
+120/120 exact contracts on those completed repositories.
+
+Relative to baseline, compiled execution reduces provider requests 44.4\%, total tokens
+52.4\%, observed wall latency 49.4\%, and estimated cost 48.6\% across the 120 held-out
+pairs.  The fixed template is more efficient still, reducing requests 66.7\%, total
+tokens 78.6\%, observed wall latency 68.1\%, and estimated cost 73.3\%.  That matters
+because it sharpens the real claim: the learned artifact is valuable for automatic
+discovery, guarded admission, and retirement, not because it dominates a fixed ungated
+template on this simplified task.
+
+The coverage pattern is also informative.  Across the four completed repositories, the
+learned artifact compacts all 40 \code{merged} and all 40 \code{closed\_unmerged}
+held-out pull requests, and falls back on all 40 \code{open} ones.  The fifth repository,
+\code{pytorch/pytorch}, reaches 116/116 exact discovery traces but emits no admitted
+artifact under the frozen-candidate exact gate and retires at compile time.  This
+extension therefore establishes cross-repository, time-forward evidence for a narrower
+task while retaining a principled negative result.
 
 \paragraph{Independent refusal on API-Bank.}
 API-Bank contains 389 observed calls over 49 tools. Conservative effect barriers leave 48
@@ -1737,16 +1795,20 @@ in \cref{sec:method} are therefore capabilities of the registry, not properties 
 experiment demonstrates.
 
 \paragraph{Empirical scope.}
-The confirmatory compiler study contains 30 primary issues, the prospective portfolio
-pilot contains 12, the exploratory GCS comparison contains 12 further pairs, and the
-learned/manual comparator contains six five-condition blocks, all from one repository/domain
-and one model configuration.  The GCS cohort contains only bug and other-labelled issues;
-the comparator contains bug, enhancement, and other but no question-labelled issue.
-It uses a frozen public snapshot, not the live GitHub API, so network/service behavior,
-concurrent mutation, rate limits, and authentication are absent.  The two exact gates have
-92 and 45 calibration records, while the portfolio has only 30 selection groups and uses a
-looser 15\% risk limit.  The fresh portfolio test contains no question-labelled issue after
-strict prior-record exclusion.
+The richer workflow-family studies remain one repository/domain and one model
+configuration: the confirmatory compiler study contains 30 primary issues, the
+prospective portfolio pilot contains 12, the exploratory GCS comparison contains 12
+further pairs, and the learned/manual comparator contains six five-condition blocks.  A
+separate PR-outcome-core extension adds five repositories, 580 exact discovery traces,
+120 completed time-forward held-out pairs, and one compile-time retirement, but it uses a
+narrower two-read task than the main workflow-family evidence.  The GCS cohort contains
+only bug and other-labelled issues; the comparator contains bug, enhancement, and other
+but no question-labelled issue.  All GitHub evidence uses a frozen public snapshot, not
+the live GitHub API, so network/service behavior, concurrent mutation, rate limits, and
+authentication are absent.  The exact gates have 92, 45, and again 92 calibration
+records depending on the artifact, while the portfolio has only 30 selection groups and
+uses a looser 15\% risk limit.  The fresh portfolio test contains no question-labelled
+issue after strict prior-record exclusion.
 There is no human study of
 productivity or user experience and no multi-domain production canary.
 
@@ -1832,19 +1894,24 @@ the original agent.
 The experiments show why each boundary matters. Across three real public GitHub workflow
 families, compiled programs reach 90/90 exact held-out contracts versus 89/90 for unchanged
 agents while reducing requests 50.0--75.0\%, tokens 39.5--81.4\%, observed latency
-51.7--73.0\%, and estimated cost 32.0--75.3\%. A historical aggressive artifact still
-records a factual miss, and fairly placed hand-written programs also reach 90/90. Thus
-automatic discovery, conservative admission, and managed lifecycle---not universal runtime
-dominance---are the defensible advantages. NESTFUL and API-Bank add a different result:
-despite recurrent, executable traces, every family retires because the configured evidence
-requirement is unmet.
+51.7--73.0\%, and estimated cost 32.0--75.3\%. A separate five-repository, time-forward
+PR-outcome-core extension reaches 580/580 exact discovery traces, completes 120/120 exact
+held-out pairs on four repositories, and retires the fifth at compile time; across those
+completed repositories, compiled execution reduces requests 44.4\%, total tokens 52.4\%,
+observed latency 49.4\%, and estimated cost 48.6\%. A historical aggressive artifact
+still records a factual miss, a fixed two-read template is more efficient on the
+simplified cross-repository task, and fairly placed hand-written programs also reach
+90/90. Thus automatic discovery, conservative admission, and managed lifecycle---not
+universal runtime dominance---are the defensible advantages. NESTFUL and API-Bank add a
+different result: despite recurrent, executable traces, every family retires because the
+configured evidence requirement is unmet.
 
 The resulting design principle is simple: evaluate workflow optimizers by the evidence
 they require, the effects and positions they refuse, and the state to which they fall
-back---not only by the turns they remove. Stronger claims now require a time-forward,
-cross-repository comparison with natural failures, a non-degenerate risk--coverage frontier,
-manual construction and maintenance cost, cache effects, drift, and closer executable
-workflow-learning baselines.
+back---not only by the turns they remove. Stronger claims now require a richer
+time-forward, cross-repository comparison on full workflow tasks, a non-degenerate
+risk--coverage frontier, manual construction and maintenance cost, cache effects, drift,
+and closer executable workflow-learning baselines.
 
 \section*{Code Availability}
 

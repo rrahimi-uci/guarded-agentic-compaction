@@ -1368,8 +1368,13 @@ def validate_publication() -> None:
         "README.md", "supplementary/evidence-register.md",
         "supplementary/experiment-verification.md",
         "paper-review.md", "supplementary/quality-assessment.md",
+        "supplementary/github-multirepo-pr-outcome-core-summary.md",
+        "supplementary/review-score-90-plus-plan.md",
         "supplementary/natural-live-study-protocol.md",
         "supplementary/external-benchmark-audit.md",
+        "results/github_multirepo/preflight.json",
+        "results/github_multirepo_pr_outcome_core/preflight.json",
+        "results/github_multirepo_pr_outcome_core/results.json",
         "results/github_natural_replication/preflight.json",
         "results/github_natural_replication/results.json",
         "results/github_natural_replication/discovery_checkpoint.json",
@@ -1385,6 +1390,8 @@ def validate_publication() -> None:
         "scripts/validate_guarded_composite.py",
         "scripts/github_gcs_live_study.py",
         "scripts/github_optimizer_head_to_head.py",
+        "scripts/github_multirepo_preflight.py",
+        "scripts/github_multirepo_pr_outcome_core.py",
         "scripts/github_workflow_family_study.py",
         "scripts/build_github_family_summary.py",
         "generated_figures/live_efficiency.pdf", "generated_figures/paired_test.pdf",
@@ -1479,6 +1486,8 @@ def validate_publication() -> None:
                            "Three real-record workflow families",
                            "transfer across three workflow families",
                            "90/90 exact outcomes",
+                           "Cross-repository, time-forward extension",
+                           "580/580 exact discovery traces",
                            "Expanded natural-order Tier-2 replication",
                            "GEPA",
                            "Fair placement and bounded prompt optimization",
@@ -1645,6 +1654,155 @@ def validate_github_workflow_families() -> None:
         ok(all(sha256(ROOT / row["source"]) == row["source_sha256"]
                for row in summary.get("families", [])),
            "three-family summary binds every source result by SHA-256")
+
+
+def validate_github_multirepo_pr_outcome_core() -> None:
+    """Verify the new cross-repository time-forward extension from retained outputs."""
+
+    preflight_path = PAPER / "results/github_multirepo_pr_outcome_core/preflight.json"
+    summary_path = PAPER / "results/github_multirepo_pr_outcome_core/results.json"
+    ok(preflight_path.exists(), "multirepo PR-outcome-core preflight exists")
+    ok(summary_path.exists(), "multirepo PR-outcome-core summary exists")
+    if not preflight_path.exists() or not summary_path.exists():
+        return
+
+    expected_repositories = {
+        "huggingface/datasets",
+        "pandas-dev/pandas",
+        "psf/requests",
+        "streamlit/streamlit",
+        "pytorch/pytorch",
+    }
+    preflight = load(preflight_path)
+    ok(preflight.get("schema") == "agent-compaction-github-multirepo-pr-outcome-core-preflight/v1",
+       "multirepo preflight schema")
+    ok(preflight.get("provider_calls_executed") == 0
+       and preflight.get("real_public_records") is True
+       and preflight.get("simulated") is False,
+       "multirepo preflight is provider-free and real-record")
+    repos = preflight.get("repositories", {})
+    ok(set(repos) == expected_repositories,
+       "multirepo preflight seals the expected five repositories")
+    ok(preflight.get("global_checks") == {
+        "all_selected_repositories_time_forward": True,
+        "complete_repo_count": 5,
+        "pooled_test_cases": 150,
+    }, "multirepo preflight supports five complete repositories and 150 held-out cases")
+    for repository, payload in repos.items():
+        selection = payload.get("selection", {})
+        ok(payload.get("status") == "selected"
+           and len(selection.get("discovery", [])) == 116
+           and len(selection.get("test", [])) == 30
+           and selection.get("time_forward", {}).get("strict_time_forward") is True,
+           f"multirepo preflight selects a strict time-forward 116/30 cohort: {repository}")
+
+    summary = load(summary_path)
+    ok(summary.get("schema") == "agent-compaction-github-multirepo-pr-outcome-core-summary/v1",
+       "multirepo summary schema")
+    run = summary.get("run", {})
+    ok(run.get("provider_backed") is True
+       and run.get("real_public_records") is True
+       and run.get("openai_api_key_used") is True
+       and run.get("secrets_serialized") is False,
+       "multirepo summary records real provider/data use without secrets")
+    ok(run.get("comparative_claim_allowed") is False
+       and summary.get("pooled_test_pairs") == 120
+       and summary.get("failures") == [],
+       "multirepo summary retains 120 completed pooled pairs and no infrastructure failures")
+
+    repositories = summary.get("repositories", {})
+    ok(set(repositories) == expected_repositories,
+       "multirepo summary retains all five repository outcomes")
+    failures = summary.get("repository_failures", [])
+    ok(len(failures) == 1 and failures[0].get("repository") == "pytorch/pytorch",
+       "multirepo summary retains one fail-closed repository")
+    failure = failures[0] if failures else {}
+    ok("no admissible threshold" in str(failure.get("error", ""))
+       and failure.get("discovery_checkpoint", {}).get("exact_results") == 116
+       and failure.get("evaluation_checkpoint") is None,
+       "pytorch failure is a compile-time retirement after 116 exact discovery traces")
+
+    aggregate = summary.get("aggregate", {})
+    ok(all(aggregate.get(name, {}).get("n") == 120 for name in (
+        "baseline", "compiled", "template_pre_model"
+    )), "multirepo pooled summary has 120 rows per primary condition")
+    ok(all(aggregate.get(name, {}).get("success_rate") == 1
+           and aggregate.get(name, {}).get("tool_contract_rate") == 1
+           for name in ("baseline", "compiled", "template_pre_model")),
+       "multirepo pooled exact and tool contracts are perfect")
+
+    expected_compiled = {
+        "requests": 0.4444444444444444,
+        "tool_calls": 0.33333333333333337,
+        "total_tokens": 0.5241297645113723,
+        "wall_latency_ms": 0.4943606982363048,
+        "estimated_cost_usd": 0.4855035871003691,
+    }
+    expected_template = {
+        "requests": 0.6666666666666667,
+        "tool_calls": 0.5,
+        "total_tokens": 0.7857924840252022,
+        "wall_latency_ms": 0.680775913603145,
+        "estimated_cost_usd": 0.7330135125722643,
+    }
+    compiled_metrics = summary.get("comparisons", {}).get("baseline_vs_compiled", {}).get("metrics", {})
+    template_metrics = summary.get("comparisons", {}).get("baseline_vs_template_pre_model", {}).get("metrics", {})
+    for name, value in expected_compiled.items():
+        ok(evidence_equal(compiled_metrics.get(name, {}).get("aggregate_reduction"), value),
+           f"multirepo pooled compiled reduction recomputes: {name}")
+    for name, value in expected_template.items():
+        ok(evidence_equal(template_metrics.get(name, {}).get("aggregate_reduction"), value),
+           f"multirepo pooled template reduction recomputes: {name}")
+
+    completed = {
+        repository: payload for repository, payload in repositories.items()
+        if payload.get("status") != "failed_closed"
+    }
+    ok(set(completed) == {
+        "huggingface/datasets",
+        "pandas-dev/pandas",
+        "psf/requests",
+        "streamlit/streamlit",
+    }, "multirepo pooled summary completes the expected four repositories")
+    for repository, payload in completed.items():
+        rows = payload.get("results", [])
+        by_condition = {
+            condition: [row for row in rows if row.get("condition") == condition]
+            for condition in ("baseline", "compiled", "template_pre_model")
+        }
+        ok(all(len(values) == 30 for values in by_condition.values())
+           and all(row.get("quality", {}).get("overall")
+                   for values in by_condition.values() for row in values),
+           f"multirepo completed repository keeps 30 exact rows per condition: {repository}")
+
+    coverage = Counter()
+    for repository, payload in completed.items():
+        labels = {
+            int(value["record_number"]): str(value["class"])
+            for value in payload.get("selection", {}).get("test", [])
+        }
+        for row in payload.get("results", []):
+            if row.get("condition") != "compiled":
+                continue
+            tool = str(row.get("tool_sequence", [""])[0])
+            mode = "compacted" if tool.startswith("compiled_") else "fallback"
+            coverage[(labels[int(row["record_number"])], mode)] += 1
+    ok(coverage == Counter({
+        ("open", "fallback"): 40,
+        ("merged", "compacted"): 40,
+        ("closed_unmerged", "compacted"): 40,
+    }), "multirepo compiled coverage is exact: merged/closed compact, open falls back")
+
+    publication = load(PAPER / "results/publication_manifest.json")
+    hashed = {record.get("path") for record in publication.get("files", [])}
+    ok({
+        "paper/results/github_multirepo/preflight.json",
+        "paper/results/github_multirepo_pr_outcome_core/preflight.json",
+        "paper/results/github_multirepo_pr_outcome_core/results.json",
+        "paper/scripts/github_multirepo_preflight.py",
+        "paper/scripts/github_multirepo_pr_outcome_core.py",
+        "paper/supplementary/github-multirepo-pr-outcome-core-summary.md",
+    } <= hashed, "publication manifest hashes multirepo evidence and drivers")
 
 
 def validate_external_benchmarks() -> None:
@@ -1876,6 +2034,7 @@ def main() -> None:
     validate_claim_boundaries()
     validate_publication()
     validate_github_workflow_families()
+    validate_github_multirepo_pr_outcome_core()
     validate_external_benchmarks()
     validate_slide_generation()
     validate_slides()

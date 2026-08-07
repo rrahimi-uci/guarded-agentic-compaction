@@ -28,6 +28,7 @@ paid demo.
 | Expanded GitHub replication | 132 discovery traces; 30 disjoint held-out issues; all six condition orders occur five times | design and split claims match retained data |
 | Partial GAC quality | baseline, compiled, and macro each pass 30/30 exact factual and task contracts | observed equality is correct; it is not proof of equivalence |
 | Partial GAC efficiency | requests −50.0%, total tokens −39.5%, observed wall latency −51.7%, estimated cost −32.0% | all aggregate reductions recompute from rows |
+| Cross-repository PR-outcome-core extension | five repositories sealed; 580/580 exact discovery traces; 120/120 exact held-out pairs on four completed repositories; one compile-time retirement | the narrower cross-repository result is real and fail-closed rather than workflow-general |
 | Manual macro comparison | macro passes 30/30 and beats partial GAC on tool calls, tokens, and estimated cost | manuscript correctly treats the macro as the practical baseline |
 | Aggressive compiler | compiled 17/18 versus 18/18 for both comparators | the retained compiler-only factual miss is real and bounds the depth claim |
 | GCS comparison | GCS and provider-visible macro each pass 12/12; GCS uses one versus two requests | exact quality and resource summaries recompute |
@@ -60,8 +61,9 @@ paid demo.
 
 ## Residual threats
 
-The strongest paired causal evidence covers one extractive GitHub workflow, one model
-configuration, and small held-out cohorts. Manual construction effort is not measured.
+The strongest paired causal evidence now covers one richer within-repository workflow
+suite plus a narrower cross-repository time-forward extension; both still use one model
+configuration. Manual construction effort is not measured.
 Continuation-level factual preservation is checked after execution rather than being the
 compiler's primary admission endpoint. Multidomain vulnerability and HMDA assets are
 provider-free preflight evidence only; SEC acquisition and the live multidomain protocol

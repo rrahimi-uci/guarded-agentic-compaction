@@ -105,6 +105,7 @@ def cmd_compile(args: argparse.Namespace) -> int:
         owner=args.owner,
         seed=args.seed,
         allow_legacy_catalog_version=args.allow_legacy_catalog_version,
+        freeze_one_candidate_before_calibration=args.freeze_one_candidate_before_calibration,
     )
     batch = compile_grc_batch(episodes, catalog, splits, cfg)
     artifacts = []
@@ -193,6 +194,14 @@ def build_parser() -> argparse.ArgumentParser:
     c.add_argument("--depth", type=int, default=2)
     c.add_argument("--kappa", type=int, default=3)
     c.add_argument("--alpha", type=float, default=0.05)
+    c.add_argument(
+        "--freeze-one-candidate-before-calibration",
+        action="store_true",
+        help=(
+            "rank candidates on train/dev evidence, then calibrate only the highest-ranked "
+            "survivor on the holdout split"
+        ),
+    )
     c.add_argument("--min-support", type=int, default=5)
     c.add_argument("--max-region", type=int, default=8)
     c.add_argument("--mode", choices=("offline", "replay", "shadow", "live"), default="offline")

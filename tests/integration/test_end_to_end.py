@@ -156,3 +156,41 @@ def test_shadow_mode_changes_nothing_but_still_measures_coverage(compiled):
     tel = disp.telemetry.as_dict()
     assert tel["compacted"] == 0
     assert tel["attempts"] > 0
+
+
+def test_freeze_one_candidate_before_calibration_avoids_lower_ranked_calibration(compiled):
+    catalog, world, specs, episodes, splits, _, normal = compiled
+    graphs, policy = build_all(episodes, catalog)
+    frozen = compile_grc(
+        episodes,
+        catalog,
+        splits,
+        support.MANIFEST,
+        GrcConfig(
+            entry_schema=support.ENTRY_ALLOWLIST,
+            s_min=5,
+            min_days=3,
+            n_permutations=100,
+            max_candidates=6,
+            max_artifacts=8,
+            seed=4242,
+            freeze_one_candidate_before_calibration=True,
+        ),
+        sandbox=(lambda _w=world: _w),
+        graphs=graphs,
+        policy=policy,
+    )
+
+    assert frozen.artifacts, frozen.report()
+    assert frozen.artifacts[0].name == normal.artifacts[0].name
+    assert len(frozen.candidates) < len(normal.candidates)
+    assert sum(
+        1
+        for candidate in frozen.candidates
+        if candidate.notes.get("candidate_selection") == "frozen_before_calibration"
+    ) == 1
+    assert not any(candidate.stage == "dominated" for candidate in frozen.candidates)
+    assert not any(
+        (candidate.rejected or "").startswith("gate_retire:")
+        for candidate in frozen.candidates
+    )

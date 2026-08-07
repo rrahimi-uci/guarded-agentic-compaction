@@ -33,6 +33,11 @@ def included_files() -> list[Path]:
             continue
         if rel == Path("results/validation_summary.json"):
             continue  # rewritten by every validator run
+        if (
+            rel.parts[:3] == ("results", "datasets", "github_multirepo")
+            and rel.name == "snapshot.parquet"
+        ):
+            continue  # keep only source manifests for refetchable mirrors; raw blobs trip push protection
         if rel.parts[:2] in (("build", "rendered"), ("build", "article_pages")):
             continue  # visual-QA caches, fully derived from the compiled PDFs
         # Both compiled manuscripts are deliverables: the two-column conference build
