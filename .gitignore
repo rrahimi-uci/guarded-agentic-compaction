@@ -35,7 +35,15 @@ paper/open_research/*.synctex.gz
 paper/open_research/rendered/
 paper/open_research/article_pages/
 
-# LaTeX auxiliaries anywhere else (e.g. paper/ICLR/build/).
+# The compiled ICLR submission is a deliverable, so it is tracked like the other
+# manuscript PDFs. Git will not descend into an ignored directory, so the
+# directory has to be un-ignored first and its contents re-ignored around the
+# one file we keep - the same shape as the paper/open_research rules above.
+!paper/ICLR/build/
+paper/ICLR/build/*
+!paper/ICLR/build/main.pdf
+
+# LaTeX auxiliaries anywhere else.
 *.aux
 *.bbl
 *.blg

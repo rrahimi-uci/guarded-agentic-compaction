@@ -47,11 +47,11 @@ def included_files() -> list[Path]:
             "article.pdf",
         }:
             continue
-        # Any nested build directory (paper/ICLR/build, and anything like it) holds
-        # gitignored LaTeX output.  Listing it would make the manifest reference files
-        # that are absent from a fresh clone, so the manifest would fail on checkout.
-        # The compiled ICLR PDF is reproducible from its committed sources.
-        if "build" in rel.parts:
+        # Nested build directories (paper/ICLR/build, and anything like it) hold
+        # LaTeX output.  The compiled PDF is a tracked deliverable and belongs in the
+        # manifest; the logs and auxiliaries are gitignored, so listing them would make
+        # the manifest reference files absent from a fresh clone and fail on checkout.
+        if "build" in rel.parts and rel.name != "main.pdf":
             continue
         files.add(path)
     for base in (ROOT / "src", ROOT / "tests"):
