@@ -9,6 +9,15 @@ __pycache__/
 build/
 !benchmarks/build/
 !benchmarks/build/*.py
+# paper/build was renamed to paper/open_research, which the `build/` rule above
+# no longer covers.  Keep the compiled PDFs tracked and the LaTeX auxiliaries
+# ignored, exactly as before the rename.
+paper/open_research/*.aux
+paper/open_research/*.bbl
+paper/open_research/*.blg
+paper/open_research/*.log
+paper/open_research/*.out
+paper/open_research/*.toc
 dist/
 *.egg-info/
 mlruns/

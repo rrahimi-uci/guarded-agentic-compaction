@@ -1,4 +1,4 @@
-# Review: "Compiling Recurrent Agent Workflows into Guarded Programs"
+# Review: "From Traces to Guarded Programs: Evidence-Gated Compilation of Recurrent Agent Workflows"
 
 **Author:** Reza Rahimi (Jazzx AI) · Single-author manuscript; reviewed against the current article build and conference build<br>
 **Reviewer stance:** Calibrated to top-venue standards (NeurIPS/ICLR/MLSys). Scores are
@@ -401,7 +401,7 @@ In rough order of leverage:
 
 - This reassessment is manuscript- and artifact-grounded and **does** include a fresh
   retained provider-backed balanced rerun of the multirepo PR-outcome-core study.
-- I checked the compiled PDFs directly (`paper/build/article.pdf`, `paper/build/main.pdf`)
+- I checked the compiled PDFs directly (`paper/open_research/article.pdf`, `paper/open_research/main.pdf`)
   and the corresponding sources in `paper/tex/abstract-body.tex` and `paper/tex/body.tex`,
   with special attention to the abstract, cross-repository results, discussion, and
   limitations.
@@ -419,8 +419,8 @@ In rough order of leverage:
   audit, and the default pytest collection currently enumerates **363 tests**.
 - The current publication validator summary reports **2280 passed checks** and **0
   failures** over a **509-file** publication manifest.
-- The LaTeX builds are successful, but the retained logs (`paper/build/article.log`,
-  `paper/build/main.log`) still show font-substitution warnings, a legacy
+- The LaTeX builds are successful, but the retained logs (`paper/open_research/article.log`,
+  `paper/open_research/main.log`) still show font-substitution warnings, a legacy
   `algorithm.sty` UTF-8 decoding warning, and minor underfull/overfull box warnings. I
   treat these as presentation-polish issues, not evidence failures.
 - The two committed publication decks are now synchronized to the current generator.
