@@ -38,6 +38,21 @@ string that is too long for its box wraps instead of spilling. `body.figure` als
 sets `overflow: hidden`, which makes any remaining overflow visible in the
 rendered PNG rather than silently clipped.
 
+## Exporting
+
+The markdown is canonical. Earlier `.docx` / `.pdf` exports were removed: they
+had drifted to a superseded image set, the old paper title, and pre-Headroom
+text, which made it possible to publish from the wrong file. Regenerate on
+demand instead:
+
+```bash
+pandoc LinkedIn_Article_Polished.md -o LinkedIn_Article.docx --resource-path=.
+```
+
+The result embeds the 2x figures and lands around 4.6 MB, which is why it is
+not kept in the repository. There is no supported PDF export path — pandoc's
+LaTeX engine exits zero without producing a file on this document.
+
 ## Design system
 
 `images/src/base.css` holds the whole system. Two rules matter:

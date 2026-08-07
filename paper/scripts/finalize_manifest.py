@@ -38,14 +38,20 @@ def included_files() -> list[Path]:
             and rel.name == "snapshot.parquet"
         ):
             continue  # keep only source manifests for refetchable mirrors; raw blobs trip push protection
-        if rel.parts[:2] in (("build", "rendered"), ("build", "article_pages")):
+        if rel.parts[:2] in (("open_research", "rendered"), ("open_research", "article_pages")):
             continue  # visual-QA caches, fully derived from the compiled PDFs
         # Both compiled manuscripts are deliverables: the two-column conference build
         # and the single-column article build share one body but ship separately.
-        if rel.parts and rel.parts[0] == "build" and rel.name not in {
+        if rel.parts and rel.parts[0] == "open_research" and rel.name not in {
             "main.pdf",
             "article.pdf",
         }:
+            continue
+        # Any nested build directory (paper/ICLR/build, and anything like it) holds
+        # gitignored LaTeX output.  Listing it would make the manifest reference files
+        # that are absent from a fresh clone, so the manifest would fail on checkout.
+        # The compiled ICLR PDF is reproducible from its committed sources.
+        if "build" in rel.parts:
             continue
         files.add(path)
     for base in (ROOT / "src", ROOT / "tests"):

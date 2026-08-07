@@ -12,6 +12,18 @@ duplicates the comparator frame for the fair-placement and bounded-GEPA result. 
 both source-template hashes, the checked 90-case family summary, the supplementary external
 matrix, the GCS replay, and the live optimizer evidence schema before writing output.
 
+## Known drift: the decks predate the retitle
+
+The paper was retitled to **"From Traces to Guarded Programs: Evidence-Gated
+Compilation of Recurrent Agent Workflows"**. The four `.pptx` files still carry
+the previous title, because `generate_slides.mjs` requires an external
+artifact-tool workspace that is not part of this repository, so the decks could
+not be regenerated in that pass.
+
+`paper/scripts/validate_artifacts.py` asserts this drift explicitly rather than
+describing the old string as current. When the decks are regenerated, that
+check fails by design and must be flipped to the new title.
+
 ## Generate
 
 The generator uses the artifact-tool presentation runtime. Point it at an initialized

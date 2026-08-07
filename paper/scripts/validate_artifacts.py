@@ -1364,7 +1364,7 @@ def validate_publication() -> None:
         "appendix/appendix.tex", "bibliography/references.bib",
         # Executable evidence for the oracle limitation stated in the manuscript.
         "scripts/test_oracle_weakness.py",
-        "build/main.pdf", "build/article.pdf",
+        "open_research/main.pdf", "open_research/article.pdf",
         "README.md", "supplementary/evidence-register.md",
         "supplementary/experiment-verification.md",
         "paper-review.md", "supplementary/quality-assessment.md",
@@ -1433,8 +1433,8 @@ def validate_publication() -> None:
     # Both builds must be clean, and both must render the same content, because they
     # share a body: a divergence means one wrapper silently dropped an input.
     for build in ("main", "article"):
-        log = PAPER / f"build/{build}.log"
-        pdf = PAPER / f"build/{build}.pdf"
+        log = PAPER / f"open_research/{build}.log"
+        pdf = PAPER / f"open_research/{build}.pdf"
         # A stale log silently satisfies every check below. Tectonic only writes the log
         # with --keep-intermediates, so a build run without it leaves the previous log in
         # place; that hid a 11.9pt regression during this review.
@@ -1469,7 +1469,7 @@ def validate_publication() -> None:
                f"{build}: no overfull vbox taller than 3.0pt "
                f"(worst {worst_v:.2f}pt of {len(vboxes)})")
         try:
-            pdf_text = extract_pdf_text(PAPER / f"build/{build}.pdf")
+            pdf_text = extract_pdf_text(PAPER / f"open_research/{build}.pdf")
             # Two-column extraction can insert a newline inside a section heading even
             # when the rendered heading is contiguous, while PyPDF can omit spaces in
             # algorithm captions. Normalize non-alphanumerics so the gate checks
@@ -1478,8 +1478,8 @@ def validate_publication() -> None:
             # Assert the current title, not the method name: the phrase "Guarded Agentic
             # Compaction" still appears in the body where the method is defined, so
             # checking it would pass even if the title were dropped entirely.
-            for phrase in ("Compiling Recurrent Agent Workflows",
-                           "into Guarded Programs",
+            for phrase in ("From Traces to Guarded Programs",
+                           "Evidence-Gated Compilation of Recurrent Agent Workflows",
                            "Reza Rahimi",
                            "Jazzx AI",
                            "NESTFUL",
@@ -1898,9 +1898,16 @@ def validate_slides() -> None:
                 ok(len(slide_parts) == expected_slides,
                    f"{label} publication slide deck contains {expected_slides} slides")
                 payload = b"\n".join(package.read(name) for name in slide_parts)
+                # KNOWN DRIFT: the decks are produced by generate_slides.mjs against an
+                # external artifact-tool workspace that is not part of this repository, so
+                # they were not regenerated when the paper was retitled to "From Traces to
+                # Guarded Programs". Assert the drift explicitly rather than describing the
+                # old string as current; when the decks are rebuilt this check fails and
+                # must be flipped to the new title.
                 ok(b"Compiling Recurrent Agent" in payload
                    and b"Workflows into Guarded Programs" in payload,
-                   f"{label} publication slide deck contains the current paper title")
+                   f"{label} slide deck still carries the PRE-RENAME title "
+                   f"(decks await regeneration; see paper/slides/README.md)")
                 ok(b"When Traces Are Not Enough" not in payload,
                    f"{label} publication slide deck contains no superseded title")
                 ok(b"Fair placement ties GCS" in payload,

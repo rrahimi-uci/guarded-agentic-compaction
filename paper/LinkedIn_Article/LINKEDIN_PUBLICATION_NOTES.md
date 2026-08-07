@@ -1,54 +1,48 @@
 # LinkedIn Publication Notes
 
-## Review outcome
+Operational notes for publishing the article. The figure inventory and the
+regeneration command live in [README.md](README.md); this file covers only the
+upload itself.
 
-The original image set was sharp enough in raw resolution, but it was not fully optimized for LinkedIn article publishing:
+## What to publish
 
-- The old cover image repeated the article headline, which LinkedIn already displays above the cover.
-- The old pipeline and takeaway graphics were too wide and too text-dense for mobile reading.
-- The old results chart was technically solid, but a card layout is easier to scan inside a LinkedIn article.
+- **Article text:** `LinkedIn_Article_Polished.md` is canonical. Paste the prose
+  into LinkedIn's editor and upload the images separately — LinkedIn does not
+  resolve relative image paths.
+- **Cover image:** `images/01_hero.png`.
+- **Body images:** `02_pipeline`, `03_results`, `04_refusal`,
+  `05_compaction_vs_compression`, `06_takeaway`, inserted at the section each
+  one follows in the markdown.
 
-## Recommended assets
+## Alt text
 
-Use these files for publication:
-
-- Canonical article source: `LinkedIn_Article_Polished.md`
-- Cover image: `images/hero_banner_linkedin_v2.png`
-- Body image 1: `images/at_a_glance_linkedin_v2.png`
-- Body image 2: `images/gac_pipeline_linkedin_v2.png`
-- Body image 3: `images/experiments_table_linkedin_v2.png`
-- Body image 4: `images/results_chart_linkedin_v2.png`
-- Body image 5: `images/takeaway_linkedin_v2.png`
-
-Editable masters live in:
-
-- `images/src/hero_banner_linkedin_v2.svg`
-- `images/src/at_a_glance_linkedin_v2.svg`
-- `images/src/gac_pipeline_linkedin_v2.svg`
-- `images/src/experiments_table_linkedin_v2.svg`
-- `images/src/results_chart_linkedin_v2.svg`
-- `images/src/takeaway_linkedin_v2.svg`
-
-## Why these versions are better
-
-- The cover complements the article title instead of duplicating it.
-- The body graphics use fewer words, larger type, and less extreme aspect ratios.
-- Each visual now carries one clear idea instead of several competing ideas.
-- The visuals stay within a restrained claim boundary that matches the paper.
-
-## Suggested alt text
-
-- `hero_banner_linkedin_v2.png`: Light editorial cover with the phrase “Compile the safe part. Retire the rest.” and a concept graphic showing repeated traces becoming a verified program.
-- `at_a_glance_linkedin_v2.png`: Four-card overview of the problem, method, safety rule, and reported effect of guarded agentic compaction.
-- `gac_pipeline_linkedin_v2.png`: Five-stage guarded agentic compaction pipeline from trace capture to verified runtime dispatch.
-- `experiments_table_linkedin_v2.png`: Table replacement showing the reported request, token, latency, and cost reduction ranges across workflow families.
-- `results_chart_linkedin_v2.png`: Four-card summary of request, token, latency, and cost reductions in the GitHub workflow study.
-- `takeaway_linkedin_v2.png`: Three-card summary of what guarded agentic compaction keeps, changes, and refuses to promise.
+Every image in `LinkedIn_Article_Polished.md` already carries descriptive alt
+text in its markdown `![...]` tag. Copy that string into LinkedIn's alt-text
+field rather than rewriting it — the wording is deliberate and describes what
+the figure shows, not merely what it is called.
 
 ## Upload guidance
 
-- Keep the article title in LinkedIn's title field; do not bake the same full headline into the cover image.
-- Upload the cover first, then insert the three body images near the matching sections.
-- Add alt text in the LinkedIn editor for every uploaded image.
-- Prefer the new PNG files over the legacy image set unless you intentionally want the older layouts.
-- The existing `LinkedIn_Article_Polished.docx` and `LinkedIn_Article_Polished.pdf` are legacy exports and were not regenerated in this pass.
+- Keep the headline in LinkedIn's title field. The cover image deliberately
+  does **not** repeat the article headline, because LinkedIn renders the title
+  above the cover and duplicating it reads as a mistake.
+- Figures are 2× (a 1800×1080 page ships as 3600×2160). LinkedIn downsamples on
+  upload; do not pre-shrink them.
+- Insert each body image *after* the paragraph it supports, so the claim is
+  read before the evidence.
+- The article links to an external repository (Headroom) in the compression
+  section. LinkedIn will render it as a preview card unless the link sits
+  inline in a sentence, which it does.
+
+## Claim hygiene
+
+Two statements in the article are load-bearing and should not be softened by
+editing for length:
+
+- Hand-written programs also reach 90/90, so the contribution is automated
+  discovery and guarded admission — not universal superiority.
+- The reported reductions compare against an *uncompressed* baseline, so the
+  token number is the part attributable to removing model boundaries.
+
+Both mirror limitations stated in the paper. Dropping either would make the
+article claim more than the evidence supports.
