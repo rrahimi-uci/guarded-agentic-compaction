@@ -1,7 +1,12 @@
 # GPT-5.6 end-to-end repository review
 
 **Repository:** agent-compaction  
-**Review date:** 2026-08-02; reconciled with release 0.7.0 on 2026-08-05
+**Review date:** 2026-08-02; reconciled with release 0.7.0 on 2026-08-06
+
+**Status note (2026-08-06):** this is a point-in-time engineering review, not the canonical
+paper scorecard. The current artifact-aware paper assessment lives in
+[`../paper/reviews/GAC_paper_review.md`](../paper/reviews/GAC_paper_review.md); the
+validation counts cited here were refreshed to the current repository state.
 
 **Reviewed version:** source and package version 0.7.0
 **Scope:** architecture, implementation, tests, packaging, OpenAI Agents SDK integration,
@@ -252,7 +257,8 @@ cost of $0.01162959. Because no prompt change is selected, the nominal combined 
 GCS replication, not evidence of GEPA/GCS synergy. The result is bounded to one workflow,
 two validation records, three proposals, and six deployment cases.
 
-The complete local suite passes **350/350 tests** on Python 3.14.4, including real-trace
+A fresh local `.venv/bin/python -m pytest -q` run completed successfully on Python 3.14.4;
+the default collection currently enumerates **363 tests**, including real-trace
 recompilation, artifact round-trip, normal-dispatch compatibility, semantic-domain
 rejection, continuation mismatch, missing public input, projection failure, tamper
 rejection, and retained paid-evidence checks. Both LaTeX manuscripts compile with the new
@@ -505,7 +511,7 @@ flowchart LR
 | OpenAI Agents SDK | native tracing capture and native local function calls on supported hit | documented and tested lifecycle/mode/bypass behavior | not a drop-in Runner; no exact post-emission rollback; streaming, handoffs, hosted/MCP tools, loops and assertions bypass |
 | Metrics/statistics | paired grouped ratios/differences, exact safety upper bound | added generic comparison and repeat-agreement APIs | determinism is not a first-class field in the main four-demo result schema; secondary endpoint correction is not wired through every report |
 | Reproduction | generated fixtures, four conditions, negative result, figures | added validated parallel per-demo execution with isolated outputs | created timestamps and wall-clock fields make raw files byte-different even when semantics are identical |
-| Tests | 350 tests across unit, property, golden, mutation, fault injection, backends, CLI, paper oracles, artifact determinism, multidomain controls, external benchmark IR/matrix controls, portfolio selection, GCS, manual pre-model execution, GEPA, and end-to-end paths | added regression coverage for independent-group support, all-source evidence boundaries, official-source normalization, the independent manual runner, optimizer split/budget enforcement, live-result boundaries, and provider-span anomaly handling | paid multidomain drivers, older live-study drivers, external acquisition adapters, TGWS packaging, replay, and the outer runner need focused coverage |
+| Tests | 363 collected tests across unit, property, golden, mutation, fault injection, backends, CLI, paper oracles, artifact determinism, multidomain controls, external benchmark IR/matrix controls, portfolio selection, GCS, manual pre-model execution, GEPA, and end-to-end paths | added regression coverage for independent-group support, all-source evidence boundaries, official-source normalization, the independent manual runner, optimizer split/budget enforcement, live-result boundaries, and provider-span anomaly handling | paid multidomain drivers, older live-study drivers, external acquisition adapters, TGWS packaging, replay, and the outer runner need focused coverage |
 
 ## 5. Correctness findings and concrete fixes
 
@@ -812,12 +818,12 @@ test set.
 
 | check | result |
 |:---|:---|
-| current full repository suite | 350 passed |
+| current full repository suite | fresh local `.venv/bin/python -m pytest -q` run completed successfully; default collection enumerates 363 tests |
 | expanded primary natural real-provider run | 252 agent executions, 848 provider responses, 0 infrastructure failures; all three primary arms pass 30/30 exact factual and task contracts |
 | earlier aggressive natural run | 134 agent executions, 446 provider requests, 0 infrastructure failures; factual passes 18/18 unchanged, 17/18 compiler, 18/18 macro |
 | fixture-based live provider executions | 22 completed; all registered scenario outcomes passed |
 | optional framework backend | OpenAI Agents SDK 0.19.2 conformance tests passed; MLflow is no longer a package extra or backend |
-| measured statement coverage | 74.58% overall, 19,264 statements, 4,896 missed |
+| measured statement coverage | 73.09% overall, 19,964 statements, 5,372 missed |
 | compileall | passed |
 | editable install | package and metadata both 0.7.0 |
 | isolated PEP 517 build | sdist and universal wheel built |
@@ -825,7 +831,7 @@ test set.
 | clean CLI | help and command registration passed |
 | dependency consistency | pip check passed |
 | release audit | all package, schema, link, result, manifest, evidence, and no-write checks passed |
-| publication claim/integrity audit | 1,699 checks passed; 0 failed over a 377-file checksum manifest |
+| publication claim/integrity audit | 2,281 checks passed; 0 failed over a 509-file checksum manifest |
 | full reproduction | all four demos, report, figures, and audit completed in 321.0 seconds with four workers |
 | deterministic rerun | normalized semantic equality and identical digest for full support experiment |
 

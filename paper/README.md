@@ -78,7 +78,9 @@ paper/
 │   ├── build_artifacts.py          deterministic figures/tables
 │   ├── generate_slides.mjs         hash-bound GAC-template slide generator
 │   └── validate_artifacts.py       claim and integrity audit
-├── paper-review.md                 consolidated adversarial peer review
+├── paper-review.md                 earlier adversarial peer review
+├── reviews/
+│   └── GAC_paper_review.md        latest artifact-aware score review
 ├── supplementary/                  evidence register, audit, and rubric
 │   ├── evidence-register.md        claim-level evidence boundaries
 │   ├── experiment-verification.md  independent recomputation and statistical audit
@@ -441,5 +443,6 @@ cross-domain generalization, or state-of-the-art superiority.
   current versioning is available but pre-snapshot commit/CI history cannot be
   reconstructed. Dataset file provenance is independently pinned and hashed.
 
-See `supplementary/evidence-register.md` for claim-level provenance and
-`paper-review.md` for the adversarial self-review.
+See `supplementary/evidence-register.md` for claim-level provenance,
+`reviews/GAC_paper_review.md` for the latest artifact-aware score review, and
+`paper-review.md` for the earlier adversarial self-review.

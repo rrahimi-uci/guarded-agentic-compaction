@@ -4,7 +4,7 @@
 an artifact-aware review in the low 90s, but the remaining route to a defensible **95**
 is still blocked by gate maturity and missing manual-maintenance evidence.
 **Historical baseline:** `paper/supplementary/quality-assessment.md` rates top-tier
-main-track readiness at **88/100** and artifact/manuscript engineering at **98/100**.
+main-track readiness at **91/100** and artifact/manuscript engineering at **98/100**.
 
 ## Update (2026-08-06)
 

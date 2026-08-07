@@ -1,5 +1,9 @@
 # Paper review: adversarial assessment
 
+> Historical note (2026-08-06): this file preserves the earlier skeptical/adversarial
+> review. The latest artifact-aware score review for the current manuscript and repository
+> state is [`reviews/GAC_paper_review.md`](reviews/GAC_paper_review.md).
+
 ## Summary and recommendation
 
 The submission presents guarded agentic compaction (GAC), a trace-to-program method for

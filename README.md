@@ -15,6 +15,8 @@ Otherwise the original agent remains unchanged.
 
 [Documentation](https://rrahimi-uci.github.io/guarded-agentic-compaction/) ·
 [Paper](paper/compiling-recurrent-agent-workflows-into-guarded-programs.pdf) ·
+[Latest review](paper/reviews/GAC_paper_review.md) ·
+[Adversarial review](paper/paper-review.md) ·
 [Architecture](docs/library-api.md) ·
 [OpenAI Agents SDK guide](docs/openai-agents-sdk.md) ·
 [Experiment verification](paper/supplementary/experiment-verification.md)
@@ -90,7 +92,9 @@ optimizer value and are excluded from the main comparison.
 These are research-prototype results from one repository snapshot. They do **not**
 establish semantic equivalence, production certification, cross-repository or time-forward
 generalization, or state-of-the-art quality. See the
-[paper review](paper/paper-review.md), [limitations](https://rrahimi-uci.github.io/guarded-agentic-compaction/limitations.html),
+[latest score-grounded review](paper/reviews/GAC_paper_review.md), the
+[earlier adversarial review](paper/paper-review.md),
+[limitations](https://rrahimi-uci.github.io/guarded-agentic-compaction/limitations.html),
 and [claim audit](paper/supplementary/experiment-verification.md).
 
 ## Install

@@ -28,7 +28,8 @@ This directory retains the deeper engineering and research records behind that s
 | Document | Evidence class |
 |:---|:---|
 | [Paper artifact](../paper/README.md) | Publication source, three-family real-record/live-provider study, supplementary benchmark audit, generated tables, and reproducibility commands |
-| [End-to-end repository review](gpt-5.6-report.md) | Current architecture, implementation, limitations, roadmap, and validation evidence |
+| [Latest paper review](../paper/reviews/GAC_paper_review.md) | Current artifact-aware paper score, checklist verdict, and the remaining blockers to 95+ |
+| [End-to-end repository review](gpt-5.6-report.md) | Historical deep repository review; validation metrics have been refreshed, but some findings remain point-in-time |
 | [Live SDK fixture results](live-results.md) | Real provider and SDK execution over deterministic fictional services |
 | [Offline stress results](results.md) | Deterministic simulated policy/tool substrate; not provider evidence |
 | [Illustrated HTML report](agent-compaction-report.html) | Generated visualization of the live SDK fixture results |

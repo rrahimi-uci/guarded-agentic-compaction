@@ -59,6 +59,33 @@ paper out of the mid-90 accept band, but they do keep me just short of **95**.
 
 ---
 
+## Deep audit update (2026-08-06)
+
+This pass rechecked the codebase, paper, repository docs, and presentation provenance
+against the live workspace rather than relying on earlier review prose alone.
+
+1. **Core implementation and paper alignment remain strong.** A fresh local
+   `.venv/bin/python -m pytest -q` run completed successfully, and the default collection
+   currently enumerates **363 tests**. The runtime, continuation, composite, and
+   calibration boundaries described in the paper still match the source and tests.
+2. **Reproducibility remains a major strength.** `scripts/verify_release.py` passes, and
+   the publication validator now reports **2281 passed checks**, **0 failures**, and a
+   **509-file** checksum manifest.
+3. **The highest-confidence discrepancies were review/reporting hygiene, not scientific
+   breakage.** Public docs had stale validation counts, the repo exposed both an older
+   adversarial review and this newer score-bearing review without enough routing clarity,
+   and the committed `.pptx` decks remain intentionally stale pending rerender from the
+   private artifact-tool workspace.
+4. **Score implication:** these issues affect clarity and cross-artifact polish, not the
+   core scientific case. Fixing them improves reviewer trust, but it does **not** by
+   itself justify **95+**. The remaining gap is empirical, not editorial.
+5. **Scoring note:** `paper/supplementary/quality-assessment.md` uses a stricter
+   main-track-readiness rubric (currently **91/100**). This file remains the broader
+   artifact-aware paper score, so the two numbers answer different questions rather than
+   contradicting one another.
+
+---
+
 ## 1. Summary of the paper
 
 The paper proposes **Guarded Agentic Compaction (GAC)**: a trace-to-program compiler
@@ -373,7 +400,7 @@ In rough order of leverage:
 ## 8. Reviewer verification notes
 
 - This reassessment is manuscript- and artifact-grounded and **does** include a fresh
-  provider-backed balanced rerun of the multirepo PR-outcome-core study.
+  retained provider-backed balanced rerun of the multirepo PR-outcome-core study.
 - I checked the compiled PDFs directly (`paper/build/article.pdf`, `paper/build/main.pdf`)
   and the corresponding sources in `paper/tex/abstract-body.tex` and `paper/tex/body.tex`,
   with special attention to the abstract, cross-repository results, discussion, and
@@ -388,20 +415,26 @@ In rough order of leverage:
   `paper/results/publication_manifest.json`,
   `paper/results/validation_summary.json`, and
   `paper/supplementary/gate-selectivity-analysis.md`.
+- A fresh local `.venv/bin/python -m pytest -q` run completed successfully during this
+  audit, and the default pytest collection currently enumerates **363 tests**.
 - The current publication validator summary reports **2281 passed checks** and **0
-  failures**.
+  failures** over a **509-file** publication manifest.
 - The LaTeX builds are successful, but the retained logs (`paper/build/article.log`,
   `paper/build/main.log`) still show font-substitution warnings plus minor
   underfull/overfull box warnings, and the conference build still records an
   `algorithm.sty` UTF-8 warning. I treat these as presentation-polish issues, not
   evidence failures.
+- The two committed publication decks are intentionally behind the latest generator
+  revision. `paper/results/slide_generation.json` declares both `.pptx` files stale,
+  records the pending generator digest, and explains that rerendering is blocked on the
+  private `@oai/artifact-tool` workspace rather than on any hidden manuscript change.
 - For the multirepo extensions, the repository tracks source manifests/digests and some
   upstream README material, but the raw mirrored
   `paper/results/datasets/github_multirepo/*/snapshot.parquet` files are intentionally
   excluded from git tracking and the publication manifest. Reproduction therefore remains
   strong but is not fully clone-only for those mirrors.
-- The balanced rerun used live provider calls during this update. No additional paid runs
-  were needed after the refreshed builds and validator pass.
+- This deep audit consumed no additional paid provider calls; it reverified the retained
+  evidence, local test suite, release audit, validator, and compiled PDFs.
 
 ---
 
@@ -411,5 +444,6 @@ This is now a stronger paper because the last major cross-repository skepticism 
 answered by a fresh balanced live rerun. I would sign **94/100** without hesitation. I
 still would not sign **95+** until the paper demonstrates a richer exact-`.05`
 selective frontier, broader live-provider replication, and direct maintenance-cost
-evidence. But the paper is now comfortably above the acceptance bar and, on artifact
-quality plus scientific integrity, stronger than many accepted agent systems papers.
+evidence. No document-only cleanup closes that gap. But the paper is now comfortably
+above the acceptance bar and, on artifact quality plus scientific integrity, stronger
+than many accepted agent systems papers.

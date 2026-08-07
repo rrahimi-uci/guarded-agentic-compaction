@@ -93,10 +93,11 @@ a verified runtime region-position key and resumable state, not merely relaxing 
 
 ## Validation state
 
-- The full local suite passes 356/356 tests; it includes legacy, natural-workflow,
-  replication-oracle, continuation fail-closed, semantic-normalization, composite-projection,
-  pre-model-execution, external benchmark normalization, real-trace replay, and
-  retained-live-evidence regressions.
+- A fresh local `.venv/bin/python -m pytest -q` run completed successfully on Python
+  3.14.4, and the default pytest collection currently enumerates 363 tests. It includes
+  legacy, natural-workflow, replication-oracle, continuation fail-closed,
+  semantic-normalization, composite-projection, pre-model-execution, external benchmark
+  normalization, real-trace replay, and retained-live-evidence regressions.
 - Current measured statement coverage is 73.09% over 19,964 statements, concentrated in the
   library (82-91% by subpackage) rather than in the study drivers (40.2%) and acquisition
   scaffolding (19-35%) that dilute the total. The bounded GEPA
@@ -107,8 +108,8 @@ a verified runtime region-position key and resumable state, not merely relaxing 
   including GCS, the GEPA adapter, the independent manual runner, and `py.typed`; `pip
   check` reports no broken requirements.
 - `scripts/verify_release.py` passes all repository checks.
-- The publication artifact validator passes 1,699/1,699 source, result, cohort,
-  generated-artifact, PDF, slide, and secret-pattern checks over a 377-file manifest.
+- The publication artifact validator now passes 2,281/2,281 source, result, cohort,
+  generated-artifact, PDF, slide, and secret-pattern checks over a 509-file manifest.
 - The public repository now has an initial versioned snapshot; experimental history before
   that snapshot and historical CI claims remain unavailable.
 - Provider-free multidomain validation reconstructs 840/840 available real-record gold
