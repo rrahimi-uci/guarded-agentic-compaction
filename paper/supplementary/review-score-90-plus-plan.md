@@ -1,7 +1,8 @@
 # GAC 90+ Main-Track Readiness Plan
 
 **Status:** partially executed. The repository now contains enough new evidence to justify
-a low-90s artifact-aware review, but some planned score levers remain open.  
+an artifact-aware review in the low 90s, but the remaining route to a defensible **95**
+is still blocked by gate maturity and missing manual-maintenance evidence.
 **Historical baseline:** `paper/supplementary/quality-assessment.md` rates top-tier
 main-track readiness at **88/100** and artifact/manuscript engineering at **98/100**.
 
@@ -15,18 +16,38 @@ The most important score-changing items in this plan are now partly satisfied:
    - `paper/results/github_multirepo_pr_outcome_core/results.json` retains a
      four-repository, 120-pair completed provider-backed evaluation plus a retained
      fail-closed `pytorch/pytorch` compile retirement.
+   - `paper/results/github_multirepo_pr_outcome_balanced/results.json` adds a
+     three-repository balanced rerun with **360/360** exact discovery traces,
+     **180/180** exact held-out pairs, and full `open`/`merged`/`closed_unmerged`
+     compaction under the same two-read task.
+   - `paper/results/multirepo_pr_outcome_balance_analysis.json` shows that the earlier
+     open-PR fallback and `pytorch/pytorch` retirement were selection-sensitive rather
+     than intrinsic to the task.
 2. **Frozen single-candidate pre-calibration is implemented and executed.**
    - The multirepo PR-outcome-core study uses
      `freeze_one_candidate_before_calibration=True`.
 3. **One executable same-task comparator now exists.**
    - The study includes a fixed-template pre-model comparator under the same records,
      model, and ordering protocol.
+4. **A provider-free gate selectivity audit now exists.**
+   - `paper/scripts/analyze_gate_selectivity.py` generates
+     `paper/results/gate_selectivity_analysis.json`.
+   - The companion note `paper/supplementary/gate-selectivity-analysis.md` shows that
+     all **7** current exact-`.05` artifacts are still step gates, while partial
+     frontiers appear only in an archived pilot and the looser-`alpha=.10` GCS study.
 
 What is **not** solved yet:
 
 1. The new cross-repo task is still simplified relative to the richer workflow families.
 2. Manual authoring / maintenance cost is still unmeasured.
 3. Compiler-wide multiplicity control is still not implemented.
+4. The exact-`.05` gate still lacks a non-degenerate current frontier even after the
+   new analysis; the audit clarifies the problem but does not solve it.
+
+The balanced rerun changes the score ceiling in one important way: the strongest
+cross-repository negative is no longer "the learned artifact cannot cover open PRs" or
+"`pytorch/pytorch` intrinsically retires."  It is now that the evidence is still a
+simplified two-read task, one provider/model family, and an all-or-none exact gate.
 
 ## Objective
 
@@ -128,6 +149,24 @@ path.
 - The result shows more than a single support-threshold point.
 - The paper explicitly distinguishes exploratory selectivity analysis from registered
   admission.
+
+**Current repo status**
+
+- Implemented in `paper/scripts/analyze_gate_selectivity.py`.
+- Generated artifact: `paper/results/gate_selectivity_analysis.json`.
+- Summary note: `paper/supplementary/gate-selectivity-analysis.md`.
+- Outcome:
+  - the current registered exact-`.05` artifacts remain step gates,
+  - the archived 2026-08-03 pilot and current `alpha=.10` GCS artifact provide
+    retained partial-frontier evidence, and
+  - NESTFUL and API-Bank remain pure support-shortfall refusals.
+
+**What this changes**
+
+- The repository now has a dedicated evidence file for the gate-behavior claim.
+- This improves claim hygiene and future reviewer-facing documentation.
+- It does **not** by itself move the scientific-readiness ceiling; the missing exact-`.05`
+  current frontier still requires new experimental data.
 
 ### 1C. Compress the manuscript after the evidence story is fixed
 

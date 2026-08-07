@@ -1,0 +1,4228 @@
+{
+  "aggregate": {
+    "balanced_counterfactual": {
+      "compacted_by_class": {
+        "closed_unmerged": 60,
+        "merged": 60,
+        "open": 60
+      },
+      "test_total_by_class": {
+        "closed_unmerged": 60,
+        "merged": 60,
+        "open": 60
+      }
+    },
+    "current_reference": {
+      "compiled_compacted_by_class": {
+        "closed_unmerged": 20,
+        "merged": 20
+      },
+      "compiled_total_by_class": {
+        "closed_unmerged": 20,
+        "merged": 20,
+        "open": 20
+      }
+    }
+  },
+  "conclusion": {
+    "balanced_provider_free_artifacts_cover_open_and_closed": true,
+    "balanced_provider_free_compaction_covers_all_test_cases": true,
+    "current_open_gap_is_selection_sensitive": true,
+    "pytorch_retirement_under_current_protocol_is_not_intrinsic_to_the_task": true
+  },
+  "inputs": {
+    "current_reference_results": "paper/results/github_multirepo_pr_outcome_core/results.json",
+    "discovery_cases": 120,
+    "repositories": [
+      "pandas-dev/pandas",
+      "psf/requests",
+      "pytorch/pytorch"
+    ],
+    "seed": 20260801,
+    "test_cases": 60
+  },
+  "provider_calls_executed": 0,
+  "repositories": {
+    "pandas-dev/pandas": {
+      "balanced_counterfactual": {
+        "admissible_thresholds": [
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "artifact_emitted": true,
+        "artifact_name": "pr_get_record.pr_get_merge_status.region@4ea713b4",
+        "gate_threshold": 0.5,
+        "risk_upper_bound": 0.049808920112407784,
+        "selection": {
+          "class_balance_rule": "fixed class order with round-robin allocation before provider execution, subject to a strict time-forward split",
+          "discovery": [
+            {
+              "class": "open",
+              "day": "2021-09-20",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/43671",
+              "issue_number": 43671,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-10-08",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/43930",
+              "issue_number": 43930,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2020-11-25",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/38062",
+              "issue_number": 38062,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-03-17",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/40482",
+              "issue_number": 40482,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2020-12-05",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/38315",
+              "issue_number": 38315,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-06-01",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/41767",
+              "issue_number": 41767,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-10-08",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/43923",
+              "issue_number": 43923,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2020-11-04",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/37627",
+              "issue_number": 37627,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-10-04",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/43880",
+              "issue_number": 43880,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-09-23",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/43710",
+              "issue_number": 43710,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-09-18",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/43651",
+              "issue_number": 43651,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-09-17",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/43618",
+              "issue_number": 43618,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-03-29",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/40687",
+              "issue_number": 40687,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-06-08",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/41878",
+              "issue_number": 41878,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-10-04",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/43879",
+              "issue_number": 43879,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-06-26",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/42252",
+              "issue_number": 42252,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-04-05",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/40791",
+              "issue_number": 40791,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2020-06-25",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/34998",
+              "issue_number": 34998,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-08-09",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/42950",
+              "issue_number": 42950,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-08-01",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/42845",
+              "issue_number": 42845,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-09-16",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/43604",
+              "issue_number": 43604,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-10-08",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/43932",
+              "issue_number": 43932,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-10-11",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/43968",
+              "issue_number": 43968,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-10-05",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/43894",
+              "issue_number": 43894,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-10-16",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44046",
+              "issue_number": 44046,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-10-14",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44033",
+              "issue_number": 44033,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-09-01",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/43340",
+              "issue_number": 43340,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-08-15",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/43056",
+              "issue_number": 43056,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-07-12",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/42494",
+              "issue_number": 42494,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-09-19",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/43660",
+              "issue_number": 43660,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-04-16",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/40979",
+              "issue_number": 40979,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-02-03",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/39578",
+              "issue_number": 39578,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-05-10",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/41412",
+              "issue_number": 41412,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-09-10",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/43495",
+              "issue_number": 43495,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-07-16",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/42560",
+              "issue_number": 42560,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-09-07",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/43445",
+              "issue_number": 43445,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-10-14",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44029",
+              "issue_number": 44029,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-08-26",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/43230",
+              "issue_number": 43230,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-04-16",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/40984",
+              "issue_number": 40984,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-09-22",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/43699",
+              "issue_number": 43699,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2018-03-08",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/20050",
+              "issue_number": 20050,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2020-10-20",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/37274",
+              "issue_number": 37274,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2020-04-18",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/33641",
+              "issue_number": 33641,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2019-02-11",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/25277",
+              "issue_number": 25277,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2019-12-02",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/29954",
+              "issue_number": 29954,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2020-06-09",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/34667",
+              "issue_number": 34667,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2020-05-16",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/34214",
+              "issue_number": 34214,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2021-07-20",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/42634",
+              "issue_number": 42634,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2020-08-13",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/35696",
+              "issue_number": 35696,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2019-07-07",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/27269",
+              "issue_number": 27269,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2015-02-28",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/9566",
+              "issue_number": 9566,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2020-03-27",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/33062",
+              "issue_number": 33062,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2020-03-31",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/33179",
+              "issue_number": 33179,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2015-08-30",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/10935",
+              "issue_number": 10935,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2018-02-05",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/19539",
+              "issue_number": 19539,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2013-08-04",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/4458",
+              "issue_number": 4458,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2014-03-09",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/6578",
+              "issue_number": 6578,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2019-10-16",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/29040",
+              "issue_number": 29040,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2019-07-19",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/27478",
+              "issue_number": 27478,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2017-08-03",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/17162",
+              "issue_number": 17162,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2020-01-28",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/31384",
+              "issue_number": 31384,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2020-12-16",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/38532",
+              "issue_number": 38532,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2018-06-12",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/21442",
+              "issue_number": 21442,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2020-06-14",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/34760",
+              "issue_number": 34760,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2019-07-13",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/27378",
+              "issue_number": 27378,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2015-04-10",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/9846",
+              "issue_number": 9846,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2021-06-28",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/42277",
+              "issue_number": 42277,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2019-03-28",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/25913",
+              "issue_number": 25913,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2014-08-14",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/8029",
+              "issue_number": 8029,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2013-06-17",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/3931",
+              "issue_number": 3931,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2015-10-08",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/11263",
+              "issue_number": 11263,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2019-01-10",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/24693",
+              "issue_number": 24693,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2018-08-31",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/22552",
+              "issue_number": 22552,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2019-01-28",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/24989",
+              "issue_number": 24989,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2019-11-17",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/29678",
+              "issue_number": 29678,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2017-05-22",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/16438",
+              "issue_number": 16438,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2015-02-09",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/9450",
+              "issue_number": 9450,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2020-09-26",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/36674",
+              "issue_number": 36674,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2021-04-06",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/40793",
+              "issue_number": 40793,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2015-11-19",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/11646",
+              "issue_number": 11646,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2014-01-20",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/6007",
+              "issue_number": 6007,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2018-08-23",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/22489",
+              "issue_number": 22489,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2015-03-03",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/9578",
+              "issue_number": 9578,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-04-23",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/41129",
+              "issue_number": 41129,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2019-01-08",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/24668",
+              "issue_number": 24668,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2012-06-07",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/1420",
+              "issue_number": 1420,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2020-07-20",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/35361",
+              "issue_number": 35361,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2014-12-02",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/8964",
+              "issue_number": 8964,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2019-02-09",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/25243",
+              "issue_number": 25243,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2018-12-03",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/24082",
+              "issue_number": 24082,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2016-04-14",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/12899",
+              "issue_number": 12899,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-07-12",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/42495",
+              "issue_number": 42495,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2017-12-12",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/18737",
+              "issue_number": 18737,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2020-09-04",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/36132",
+              "issue_number": 36132,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2018-01-24",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/19365",
+              "issue_number": 19365,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2017-04-23",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/16103",
+              "issue_number": 16103,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2015-08-22",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/10883",
+              "issue_number": 10883,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2020-10-16",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/37160",
+              "issue_number": 37160,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-03-01",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/40158",
+              "issue_number": 40158,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2019-07-12",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/27363",
+              "issue_number": 27363,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2020-12-08",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/38352",
+              "issue_number": 38352,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2016-02-01",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/12197",
+              "issue_number": 12197,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2016-02-21",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/12407",
+              "issue_number": 12407,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2017-04-04",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/15892",
+              "issue_number": 15892,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2015-06-23",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/10421",
+              "issue_number": 10421,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2012-03-17",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/932",
+              "issue_number": 932,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2017-08-15",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/17255",
+              "issue_number": 17255,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2014-07-10",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/7726",
+              "issue_number": 7726,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2020-11-05",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/37656",
+              "issue_number": 37656,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-03-13",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/40421",
+              "issue_number": 40421,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2014-06-04",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/7346",
+              "issue_number": 7346,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2019-03-09",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/25614",
+              "issue_number": 25614,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2018-01-15",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/19255",
+              "issue_number": 19255,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2018-03-13",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/20320",
+              "issue_number": 20320,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2019-12-08",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/30138",
+              "issue_number": 30138,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2019-12-11",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/30196",
+              "issue_number": 30196,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2015-05-07",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/10073",
+              "issue_number": 10073,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2015-11-14",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/11606",
+              "issue_number": 11606,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2014-11-23",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/8883",
+              "issue_number": 8883,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2016-02-22",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/12413",
+              "issue_number": 12413,
+              "repository": "pandas-dev/pandas"
+            }
+          ],
+          "discovery_class_counts": {
+            "closed_unmerged": 40,
+            "merged": 40,
+            "open": 40
+          },
+          "excluded_prior_record_numbers": 0,
+          "family": "pr_outcome",
+          "filters": {
+            "family_eligibility": "pr_outcome",
+            "minimum_gap_days": 0
+          },
+          "repository": "pandas-dev/pandas",
+          "schema": "agent-compaction-github-multirepo-selection/v1",
+          "seed": 20260801,
+          "selection_sha256": "91762438d5fda9c74ffdd505115c04b70d51a870f4d3532468360c62647e8394",
+          "selection_uses_provider_outcomes": false,
+          "test": [
+            {
+              "class": "open",
+              "day": "2021-10-22",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44142",
+              "issue_number": 44142,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-11-20",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44539",
+              "issue_number": 44539,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-11-16",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44483",
+              "issue_number": 44483,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-10-31",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44251",
+              "issue_number": 44251,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-11-03",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44301",
+              "issue_number": 44301,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-11-21",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44551",
+              "issue_number": 44551,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-11-14",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44451",
+              "issue_number": 44451,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-10-17",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44068",
+              "issue_number": 44068,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-11-19",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44526",
+              "issue_number": 44526,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-10-19",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44094",
+              "issue_number": 44094,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-11-06",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44335",
+              "issue_number": 44335,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-10-28",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44222",
+              "issue_number": 44222,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-11-19",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44527",
+              "issue_number": 44527,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-11-09",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44364",
+              "issue_number": 44364,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-10-24",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44166",
+              "issue_number": 44166,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-11-18",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44514",
+              "issue_number": 44514,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-11-21",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44558",
+              "issue_number": 44558,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-11-02",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44288",
+              "issue_number": 44288,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-11-20",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44545",
+              "issue_number": 44545,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "open",
+              "day": "2021-11-12",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44412",
+              "issue_number": 44412,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2021-10-28",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44214",
+              "issue_number": 44214,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2021-10-27",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44211",
+              "issue_number": 44211,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2021-11-13",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44425",
+              "issue_number": 44425,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2021-11-01",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44266",
+              "issue_number": 44266,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2021-10-29",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44232",
+              "issue_number": 44232,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2021-11-14",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44452",
+              "issue_number": 44452,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2021-11-10",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44385",
+              "issue_number": 44385,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2021-11-08",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44355",
+              "issue_number": 44355,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2021-11-12",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44404",
+              "issue_number": 44404,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2021-10-22",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44140",
+              "issue_number": 44140,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2021-11-12",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44408",
+              "issue_number": 44408,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2021-11-18",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44519",
+              "issue_number": 44519,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2021-11-09",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44374",
+              "issue_number": 44374,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2021-11-15",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44462",
+              "issue_number": 44462,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2021-11-04",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44316",
+              "issue_number": 44316,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2021-10-22",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44141",
+              "issue_number": 44141,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2021-11-18",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44507",
+              "issue_number": 44507,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2021-10-20",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44125",
+              "issue_number": 44125,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2021-11-14",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44443",
+              "issue_number": 44443,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "merged",
+              "day": "2021-11-20",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44541",
+              "issue_number": 44541,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-10-19",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44102",
+              "issue_number": 44102,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-11-13",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44423",
+              "issue_number": 44423,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-10-23",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44160",
+              "issue_number": 44160,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-11-18",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44511",
+              "issue_number": 44511,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-11-09",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44371",
+              "issue_number": 44371,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-11-15",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44472",
+              "issue_number": 44472,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-11-18",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44513",
+              "issue_number": 44513,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-11-16",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44480",
+              "issue_number": 44480,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-11-06",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44337",
+              "issue_number": 44337,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-11-16",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44478",
+              "issue_number": 44478,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-10-20",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44114",
+              "issue_number": 44114,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-10-24",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44167",
+              "issue_number": 44167,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-10-20",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44118",
+              "issue_number": 44118,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-10-17",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44073",
+              "issue_number": 44073,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-10-31",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44259",
+              "issue_number": 44259,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-11-15",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44476",
+              "issue_number": 44476,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-10-25",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44183",
+              "issue_number": 44183,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-11-07",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44344",
+              "issue_number": 44344,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-11-13",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44422",
+              "issue_number": 44422,
+              "repository": "pandas-dev/pandas"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-10-18",
+              "html_url": "https://github.com/pandas-dev/pandas/pull/44081",
+              "issue_number": 44081,
+              "repository": "pandas-dev/pandas"
+            }
+          ],
+          "test_class_counts": {
+            "closed_unmerged": 20,
+            "merged": 20,
+            "open": 20
+          },
+          "time_forward": {
+            "discovery_day_range": {
+              "max": "2021-10-16",
+              "min": "2012-03-17",
+              "unique_days": 114
+            },
+            "gap_days": 0,
+            "strict_time_forward": true,
+            "test_day_range": {
+              "max": "2021-11-21",
+              "min": "2021-10-17",
+              "unique_days": 30
+            }
+          }
+        },
+        "source": {
+          "dataset": "DELith/github-issues",
+          "parquet_bytes": 30993533,
+          "parquet_path": "paper/results/datasets/github_multirepo/pandas-dev__pandas/snapshot.parquet",
+          "parquet_sha256": "2b08f6e8c3e3024509d99f86033b0bdd35b0b99be72abd4cbc6808524888fc99",
+          "readme_missing": true,
+          "repository": "pandas-dev/pandas",
+          "revision": "main",
+          "schema": "raw_count"
+        },
+        "state_hull": {
+          "high": null,
+          "kind": "enum",
+          "low": null,
+          "max_len": null,
+          "min_len": null,
+          "pattern": null,
+          "values": [
+            "closed",
+            "open"
+          ]
+        },
+        "test_dispatch": {
+          "compacted_by_class": {
+            "closed_unmerged": 20,
+            "merged": 20,
+            "open": 20
+          },
+          "compacted_total": 60,
+          "fallback_reasons": {},
+          "test_total": 60,
+          "total_by_class": {
+            "closed_unmerged": 20,
+            "merged": 20,
+            "open": 20
+          }
+        }
+      },
+      "current_reference": {
+        "artifact_emitted": true,
+        "compiled_compacted_by_class": {
+          "closed_unmerged": 10,
+          "merged": 10
+        },
+        "compiled_total_by_class": {
+          "closed_unmerged": 10,
+          "merged": 10,
+          "open": 10
+        },
+        "discovery_class_counts": {
+          "closed_unmerged": 32,
+          "merged": 84
+        },
+        "selection_time_forward": {
+          "discovery_day_range": {
+            "max": "2021-10-03",
+            "min": "2012-01-06",
+            "unique_days": 113
+          },
+          "gap_days": 34,
+          "strict_time_forward": true,
+          "test_day_range": {
+            "max": "2021-11-20",
+            "min": "2021-11-07",
+            "unique_days": 11
+          }
+        },
+        "state_hull": {
+          "high": null,
+          "kind": "enum",
+          "low": null,
+          "max_len": null,
+          "min_len": null,
+          "pattern": null,
+          "values": [
+            "closed"
+          ]
+        },
+        "status": "selected_and_run"
+      }
+    },
+    "psf/requests": {
+      "balanced_counterfactual": {
+        "admissible_thresholds": [
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "artifact_emitted": true,
+        "artifact_name": "pr_get_record.pr_get_merge_status.region@4ea713b4",
+        "gate_threshold": 0.5,
+        "risk_upper_bound": 0.049808920112407784,
+        "selection": {
+          "class_balance_rule": "fixed class order with round-robin allocation before provider execution, subject to a strict time-forward split",
+          "discovery": [
+            {
+              "class": "open",
+              "day": "2021-02-10",
+              "html_url": "https://github.com/psf/requests/pull/5748",
+              "issue_number": 5748,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2020-05-19",
+              "html_url": "https://github.com/psf/requests/pull/5464",
+              "issue_number": 5464,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2020-06-10",
+              "html_url": "https://github.com/psf/requests/pull/5486",
+              "issue_number": 5486,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2019-08-28",
+              "html_url": "https://github.com/psf/requests/pull/5179",
+              "issue_number": 5179,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2022-05-19",
+              "html_url": "https://github.com/psf/requests/pull/6137",
+              "issue_number": 6137,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2023-05-11",
+              "html_url": "https://github.com/psf/requests/pull/6454",
+              "issue_number": 6454,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2022-10-23",
+              "html_url": "https://github.com/psf/requests/pull/6265",
+              "issue_number": 6265,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2023-10-28",
+              "html_url": "https://github.com/psf/requests/pull/6561",
+              "issue_number": 6561,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2020-11-19",
+              "html_url": "https://github.com/psf/requests/pull/5665",
+              "issue_number": 5665,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2019-08-21",
+              "html_url": "https://github.com/psf/requests/pull/5172",
+              "issue_number": 5172,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2019-10-17",
+              "html_url": "https://github.com/psf/requests/pull/5232",
+              "issue_number": 5232,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2021-07-07",
+              "html_url": "https://github.com/psf/requests/pull/5860",
+              "issue_number": 5860,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2023-10-18",
+              "html_url": "https://github.com/psf/requests/pull/6553",
+              "issue_number": 6553,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2021-10-08",
+              "html_url": "https://github.com/psf/requests/pull/5953",
+              "issue_number": 5953,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2021-08-27",
+              "html_url": "https://github.com/psf/requests/pull/5915",
+              "issue_number": 5915,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2017-11-04",
+              "html_url": "https://github.com/psf/requests/pull/4372",
+              "issue_number": 4372,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2021-01-28",
+              "html_url": "https://github.com/psf/requests/pull/5735",
+              "issue_number": 5735,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2023-08-13",
+              "html_url": "https://github.com/psf/requests/pull/6504",
+              "issue_number": 6504,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2018-12-28",
+              "html_url": "https://github.com/psf/requests/pull/4920",
+              "issue_number": 4920,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2023-02-07",
+              "html_url": "https://github.com/psf/requests/pull/6347",
+              "issue_number": 6347,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2022-05-06",
+              "html_url": "https://github.com/psf/requests/pull/6123",
+              "issue_number": 6123,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2020-04-27",
+              "html_url": "https://github.com/psf/requests/pull/5441",
+              "issue_number": 5441,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2020-12-12",
+              "html_url": "https://github.com/psf/requests/pull/5693",
+              "issue_number": 5693,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2019-11-08",
+              "html_url": "https://github.com/psf/requests/pull/5257",
+              "issue_number": 5257,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2021-09-01",
+              "html_url": "https://github.com/psf/requests/pull/5922",
+              "issue_number": 5922,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2022-01-25",
+              "html_url": "https://github.com/psf/requests/pull/6048",
+              "issue_number": 6048,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2021-03-17",
+              "html_url": "https://github.com/psf/requests/pull/5776",
+              "issue_number": 5776,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2022-05-05",
+              "html_url": "https://github.com/psf/requests/pull/6122",
+              "issue_number": 6122,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2019-10-02",
+              "html_url": "https://github.com/psf/requests/pull/5220",
+              "issue_number": 5220,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2019-10-02",
+              "html_url": "https://github.com/psf/requests/pull/5221",
+              "issue_number": 5221,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2018-10-01",
+              "html_url": "https://github.com/psf/requests/pull/4812",
+              "issue_number": 4812,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2022-06-11",
+              "html_url": "https://github.com/psf/requests/pull/6162",
+              "issue_number": 6162,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2023-11-06",
+              "html_url": "https://github.com/psf/requests/pull/6568",
+              "issue_number": 6568,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2023-11-10",
+              "html_url": "https://github.com/psf/requests/pull/6570",
+              "issue_number": 6570,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2023-09-14",
+              "html_url": "https://github.com/psf/requests/pull/6529",
+              "issue_number": 6529,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2023-04-04",
+              "html_url": "https://github.com/psf/requests/pull/6400",
+              "issue_number": 6400,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2022-06-18",
+              "html_url": "https://github.com/psf/requests/pull/6166",
+              "issue_number": 6166,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2024-02-24",
+              "html_url": "https://github.com/psf/requests/pull/6649",
+              "issue_number": 6649,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2020-09-24",
+              "html_url": "https://github.com/psf/requests/pull/5596",
+              "issue_number": 5596,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2023-09-09",
+              "html_url": "https://github.com/psf/requests/pull/6523",
+              "issue_number": 6523,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2012-05-23",
+              "html_url": "https://github.com/psf/requests/pull/632",
+              "issue_number": 632,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2018-06-25",
+              "html_url": "https://github.com/psf/requests/pull/4709",
+              "issue_number": 4709,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2016-09-26",
+              "html_url": "https://github.com/psf/requests/pull/3600",
+              "issue_number": 3600,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2013-12-05",
+              "html_url": "https://github.com/psf/requests/pull/1779",
+              "issue_number": 1779,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2012-01-26",
+              "html_url": "https://github.com/psf/requests/pull/389",
+              "issue_number": 389,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2015-07-15",
+              "html_url": "https://github.com/psf/requests/pull/2672",
+              "issue_number": 2672,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2013-04-19",
+              "html_url": "https://github.com/psf/requests/pull/1315",
+              "issue_number": 1315,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2013-05-21",
+              "html_url": "https://github.com/psf/requests/pull/1373",
+              "issue_number": 1373,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2023-10-06",
+              "html_url": "https://github.com/psf/requests/pull/6545",
+              "issue_number": 6545,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2011-05-20",
+              "html_url": "https://github.com/psf/requests/pull/35",
+              "issue_number": 35,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2013-02-06",
+              "html_url": "https://github.com/psf/requests/pull/1168",
+              "issue_number": 1168,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2016-01-22",
+              "html_url": "https://github.com/psf/requests/pull/2976",
+              "issue_number": 2976,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2015-03-12",
+              "html_url": "https://github.com/psf/requests/pull/2485",
+              "issue_number": 2485,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2013-01-10",
+              "html_url": "https://github.com/psf/requests/pull/1092",
+              "issue_number": 1092,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2018-07-24",
+              "html_url": "https://github.com/psf/requests/pull/4749",
+              "issue_number": 4749,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2018-06-05",
+              "html_url": "https://github.com/psf/requests/pull/4669",
+              "issue_number": 4669,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2012-03-31",
+              "html_url": "https://github.com/psf/requests/pull/529",
+              "issue_number": 529,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2014-11-07",
+              "html_url": "https://github.com/psf/requests/pull/2323",
+              "issue_number": 2323,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2013-12-24",
+              "html_url": "https://github.com/psf/requests/pull/1827",
+              "issue_number": 1827,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2015-09-13",
+              "html_url": "https://github.com/psf/requests/pull/2775",
+              "issue_number": 2775,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2023-12-13",
+              "html_url": "https://github.com/psf/requests/pull/6600",
+              "issue_number": 6600,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2011-12-30",
+              "html_url": "https://github.com/psf/requests/pull/328",
+              "issue_number": 328,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2011-08-16",
+              "html_url": "https://github.com/psf/requests/pull/118",
+              "issue_number": 118,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2012-08-22",
+              "html_url": "https://github.com/psf/requests/pull/805",
+              "issue_number": 805,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2016-09-05",
+              "html_url": "https://github.com/psf/requests/pull/3554",
+              "issue_number": 3554,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2014-06-10",
+              "html_url": "https://github.com/psf/requests/pull/2088",
+              "issue_number": 2088,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2017-06-08",
+              "html_url": "https://github.com/psf/requests/pull/4144",
+              "issue_number": 4144,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2020-12-09",
+              "html_url": "https://github.com/psf/requests/pull/5684",
+              "issue_number": 5684,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2012-02-28",
+              "html_url": "https://github.com/psf/requests/pull/461",
+              "issue_number": 461,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2016-04-08",
+              "html_url": "https://github.com/psf/requests/pull/3080",
+              "issue_number": 3080,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2013-07-18",
+              "html_url": "https://github.com/psf/requests/pull/1463",
+              "issue_number": 1463,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2014-11-24",
+              "html_url": "https://github.com/psf/requests/pull/2353",
+              "issue_number": 2353,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2018-05-26",
+              "html_url": "https://github.com/psf/requests/pull/4661",
+              "issue_number": 4661,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2013-04-11",
+              "html_url": "https://github.com/psf/requests/pull/1305",
+              "issue_number": 1305,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2012-12-17",
+              "html_url": "https://github.com/psf/requests/pull/1020",
+              "issue_number": 1020,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2016-06-24",
+              "html_url": "https://github.com/psf/requests/pull/3362",
+              "issue_number": 3362,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2016-11-12",
+              "html_url": "https://github.com/psf/requests/pull/3673",
+              "issue_number": 3673,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2014-01-09",
+              "html_url": "https://github.com/psf/requests/pull/1854",
+              "issue_number": 1854,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2012-06-14",
+              "html_url": "https://github.com/psf/requests/pull/676",
+              "issue_number": 676,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2021-11-14",
+              "html_url": "https://github.com/psf/requests/pull/5978",
+              "issue_number": 5978,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2011-03-06",
+              "html_url": "https://github.com/psf/requests/pull/14",
+              "issue_number": 14,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2020-05-09",
+              "html_url": "https://github.com/psf/requests/pull/5451",
+              "issue_number": 5451,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2013-10-30",
+              "html_url": "https://github.com/psf/requests/pull/1716",
+              "issue_number": 1716,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2018-01-04",
+              "html_url": "https://github.com/psf/requests/pull/4447",
+              "issue_number": 4447,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2012-10-26",
+              "html_url": "https://github.com/psf/requests/pull/911",
+              "issue_number": 911,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2017-05-28",
+              "html_url": "https://github.com/psf/requests/pull/4084",
+              "issue_number": 4084,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2020-11-15",
+              "html_url": "https://github.com/psf/requests/pull/5658",
+              "issue_number": 5658,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2019-01-11",
+              "html_url": "https://github.com/psf/requests/pull/4935",
+              "issue_number": 4935,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2020-02-17",
+              "html_url": "https://github.com/psf/requests/pull/5344",
+              "issue_number": 5344,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2022-01-30",
+              "html_url": "https://github.com/psf/requests/pull/6054",
+              "issue_number": 6054,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2012-04-26",
+              "html_url": "https://github.com/psf/requests/pull/566",
+              "issue_number": 566,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2016-12-15",
+              "html_url": "https://github.com/psf/requests/pull/3771",
+              "issue_number": 3771,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2011-09-16",
+              "html_url": "https://github.com/psf/requests/pull/168",
+              "issue_number": 168,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2022-09-22",
+              "html_url": "https://github.com/psf/requests/pull/6244",
+              "issue_number": 6244,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2016-03-06",
+              "html_url": "https://github.com/psf/requests/pull/3034",
+              "issue_number": 3034,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2012-03-21",
+              "html_url": "https://github.com/psf/requests/pull/502",
+              "issue_number": 502,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2013-09-17",
+              "html_url": "https://github.com/psf/requests/pull/1605",
+              "issue_number": 1605,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2018-07-11",
+              "html_url": "https://github.com/psf/requests/pull/4733",
+              "issue_number": 4733,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2016-11-02",
+              "html_url": "https://github.com/psf/requests/pull/3664",
+              "issue_number": 3664,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2011-10-10",
+              "html_url": "https://github.com/psf/requests/pull/192",
+              "issue_number": 192,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2011-09-15",
+              "html_url": "https://github.com/psf/requests/pull/165",
+              "issue_number": 165,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2013-11-04",
+              "html_url": "https://github.com/psf/requests/pull/1725",
+              "issue_number": 1725,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2017-05-30",
+              "html_url": "https://github.com/psf/requests/pull/4116",
+              "issue_number": 4116,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2020-03-30",
+              "html_url": "https://github.com/psf/requests/pull/5407",
+              "issue_number": 5407,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2012-09-01",
+              "html_url": "https://github.com/psf/requests/pull/830",
+              "issue_number": 830,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2013-09-20",
+              "html_url": "https://github.com/psf/requests/pull/1613",
+              "issue_number": 1613,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2017-10-29",
+              "html_url": "https://github.com/psf/requests/pull/4359",
+              "issue_number": 4359,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2024-01-04",
+              "html_url": "https://github.com/psf/requests/pull/6617",
+              "issue_number": 6617,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2011-10-20",
+              "html_url": "https://github.com/psf/requests/pull/215",
+              "issue_number": 215,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2011-03-30",
+              "html_url": "https://github.com/psf/requests/pull/17",
+              "issue_number": 17,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2023-03-27",
+              "html_url": "https://github.com/psf/requests/pull/6395",
+              "issue_number": 6395,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2020-11-17",
+              "html_url": "https://github.com/psf/requests/pull/5661",
+              "issue_number": 5661,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2015-03-11",
+              "html_url": "https://github.com/psf/requests/pull/2484",
+              "issue_number": 2484,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2021-11-03",
+              "html_url": "https://github.com/psf/requests/pull/5971",
+              "issue_number": 5971,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2018-08-22",
+              "html_url": "https://github.com/psf/requests/pull/4769",
+              "issue_number": 4769,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2020-05-10",
+              "html_url": "https://github.com/psf/requests/pull/5452",
+              "issue_number": 5452,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2013-09-17",
+              "html_url": "https://github.com/psf/requests/pull/1606",
+              "issue_number": 1606,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2022-07-11",
+              "html_url": "https://github.com/psf/requests/pull/6195",
+              "issue_number": 6195,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2014-09-11",
+              "html_url": "https://github.com/psf/requests/pull/2218",
+              "issue_number": 2218,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2020-12-20",
+              "html_url": "https://github.com/psf/requests/pull/5699",
+              "issue_number": 5699,
+              "repository": "psf/requests"
+            }
+          ],
+          "discovery_class_counts": {
+            "closed_unmerged": 40,
+            "merged": 40,
+            "open": 40
+          },
+          "excluded_prior_record_numbers": 0,
+          "family": "pr_outcome",
+          "filters": {
+            "family_eligibility": "pr_outcome",
+            "minimum_gap_days": 0
+          },
+          "repository": "psf/requests",
+          "schema": "agent-compaction-github-multirepo-selection/v1",
+          "seed": 20260801,
+          "selection_sha256": "677611949a157a9c7f6cef8aa6ce5e0243562a6f02bf2402cd712bad25fb4b94",
+          "selection_uses_provider_outcomes": false,
+          "test": [
+            {
+              "class": "open",
+              "day": "2024-10-28",
+              "html_url": "https://github.com/psf/requests/pull/6816",
+              "issue_number": 6816,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2024-05-23",
+              "html_url": "https://github.com/psf/requests/pull/6718",
+              "issue_number": 6718,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2024-08-15",
+              "html_url": "https://github.com/psf/requests/pull/6791",
+              "issue_number": 6791,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2024-10-21",
+              "html_url": "https://github.com/psf/requests/pull/6814",
+              "issue_number": 6814,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2024-05-08",
+              "html_url": "https://github.com/psf/requests/pull/6696",
+              "issue_number": 6696,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2024-03-08",
+              "html_url": "https://github.com/psf/requests/pull/6659",
+              "issue_number": 6659,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2024-06-24",
+              "html_url": "https://github.com/psf/requests/pull/6750",
+              "issue_number": 6750,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2024-10-29",
+              "html_url": "https://github.com/psf/requests/pull/6819",
+              "issue_number": 6819,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2024-10-02",
+              "html_url": "https://github.com/psf/requests/pull/6805",
+              "issue_number": 6805,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2024-05-06",
+              "html_url": "https://github.com/psf/requests/pull/6693",
+              "issue_number": 6693,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2024-05-21",
+              "html_url": "https://github.com/psf/requests/pull/6709",
+              "issue_number": 6709,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2024-02-27",
+              "html_url": "https://github.com/psf/requests/pull/6651",
+              "issue_number": 6651,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2024-03-27",
+              "html_url": "https://github.com/psf/requests/pull/6675",
+              "issue_number": 6675,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2024-07-18",
+              "html_url": "https://github.com/psf/requests/pull/6767",
+              "issue_number": 6767,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2024-07-25",
+              "html_url": "https://github.com/psf/requests/pull/6770",
+              "issue_number": 6770,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2024-10-04",
+              "html_url": "https://github.com/psf/requests/pull/6806",
+              "issue_number": 6806,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2024-07-26",
+              "html_url": "https://github.com/psf/requests/pull/6772",
+              "issue_number": 6772,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2024-08-07",
+              "html_url": "https://github.com/psf/requests/pull/6785",
+              "issue_number": 6785,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2024-07-28",
+              "html_url": "https://github.com/psf/requests/pull/6773",
+              "issue_number": 6773,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "open",
+              "day": "2024-05-31",
+              "html_url": "https://github.com/psf/requests/pull/6731",
+              "issue_number": 6731,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2024-09-30",
+              "html_url": "https://github.com/psf/requests/pull/6803",
+              "issue_number": 6803,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2024-11-02",
+              "html_url": "https://github.com/psf/requests/pull/6820",
+              "issue_number": 6820,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2024-07-02",
+              "html_url": "https://github.com/psf/requests/pull/6757",
+              "issue_number": 6757,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2024-04-11",
+              "html_url": "https://github.com/psf/requests/pull/6682",
+              "issue_number": 6682,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2024-08-12",
+              "html_url": "https://github.com/psf/requests/pull/6787",
+              "issue_number": 6787,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2024-07-29",
+              "html_url": "https://github.com/psf/requests/pull/6774",
+              "issue_number": 6774,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2024-09-02",
+              "html_url": "https://github.com/psf/requests/pull/6797",
+              "issue_number": 6797,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2024-05-21",
+              "html_url": "https://github.com/psf/requests/pull/6712",
+              "issue_number": 6712,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2024-04-23",
+              "html_url": "https://github.com/psf/requests/pull/6688",
+              "issue_number": 6688,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2024-05-24",
+              "html_url": "https://github.com/psf/requests/pull/6721",
+              "issue_number": 6721,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2024-03-20",
+              "html_url": "https://github.com/psf/requests/pull/6667",
+              "issue_number": 6667,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2024-10-28",
+              "html_url": "https://github.com/psf/requests/pull/6818",
+              "issue_number": 6818,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2024-09-18",
+              "html_url": "https://github.com/psf/requests/pull/6802",
+              "issue_number": 6802,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2024-05-28",
+              "html_url": "https://github.com/psf/requests/pull/6724",
+              "issue_number": 6724,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2024-05-12",
+              "html_url": "https://github.com/psf/requests/pull/6700",
+              "issue_number": 6700,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2024-05-20",
+              "html_url": "https://github.com/psf/requests/pull/6708",
+              "issue_number": 6708,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2024-11-10",
+              "html_url": "https://github.com/psf/requests/pull/6824",
+              "issue_number": 6824,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2024-04-01",
+              "html_url": "https://github.com/psf/requests/pull/6677",
+              "issue_number": 6677,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2024-05-21",
+              "html_url": "https://github.com/psf/requests/pull/6710",
+              "issue_number": 6710,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "merged",
+              "day": "2024-05-20",
+              "html_url": "https://github.com/psf/requests/pull/6705",
+              "issue_number": 6705,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2024-09-16",
+              "html_url": "https://github.com/psf/requests/pull/6801",
+              "issue_number": 6801,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2024-03-22",
+              "html_url": "https://github.com/psf/requests/pull/6668",
+              "issue_number": 6668,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2024-03-13",
+              "html_url": "https://github.com/psf/requests/pull/6661",
+              "issue_number": 6661,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2024-08-01",
+              "html_url": "https://github.com/psf/requests/pull/6780",
+              "issue_number": 6780,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2024-04-04",
+              "html_url": "https://github.com/psf/requests/pull/6678",
+              "issue_number": 6678,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2024-04-14",
+              "html_url": "https://github.com/psf/requests/pull/6684",
+              "issue_number": 6684,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2024-03-25",
+              "html_url": "https://github.com/psf/requests/pull/6674",
+              "issue_number": 6674,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2024-08-31",
+              "html_url": "https://github.com/psf/requests/pull/6796",
+              "issue_number": 6796,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2024-07-25",
+              "html_url": "https://github.com/psf/requests/pull/6771",
+              "issue_number": 6771,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2024-11-08",
+              "html_url": "https://github.com/psf/requests/pull/6822",
+              "issue_number": 6822,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2024-03-25",
+              "html_url": "https://github.com/psf/requests/pull/6672",
+              "issue_number": 6672,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2024-11-04",
+              "html_url": "https://github.com/psf/requests/pull/6821",
+              "issue_number": 6821,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2024-05-29",
+              "html_url": "https://github.com/psf/requests/pull/6725",
+              "issue_number": 6725,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2024-04-14",
+              "html_url": "https://github.com/psf/requests/pull/6685",
+              "issue_number": 6685,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2024-08-11",
+              "html_url": "https://github.com/psf/requests/pull/6786",
+              "issue_number": 6786,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2024-02-28",
+              "html_url": "https://github.com/psf/requests/pull/6654",
+              "issue_number": 6654,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2024-06-12",
+              "html_url": "https://github.com/psf/requests/pull/6739",
+              "issue_number": 6739,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2024-07-10",
+              "html_url": "https://github.com/psf/requests/pull/6765",
+              "issue_number": 6765,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2024-03-25",
+              "html_url": "https://github.com/psf/requests/pull/6673",
+              "issue_number": 6673,
+              "repository": "psf/requests"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2024-06-02",
+              "html_url": "https://github.com/psf/requests/pull/6732",
+              "issue_number": 6732,
+              "repository": "psf/requests"
+            }
+          ],
+          "test_class_counts": {
+            "closed_unmerged": 20,
+            "merged": 20,
+            "open": 20
+          },
+          "time_forward": {
+            "discovery_day_range": {
+              "max": "2024-02-24",
+              "min": "2011-03-06",
+              "unique_days": 118
+            },
+            "gap_days": 2,
+            "strict_time_forward": true,
+            "test_day_range": {
+              "max": "2024-11-10",
+              "min": "2024-02-27",
+              "unique_days": 52
+            }
+          }
+        },
+        "source": {
+          "dataset": "Raibek/requests-github-issues",
+          "parquet_bytes": 11085366,
+          "parquet_path": "paper/results/datasets/github_multirepo/psf__requests/snapshot.parquet",
+          "parquet_sha256": "bf5e293099a9eafab44d240ce0e2d6291359823f732a987eebea663ea483690f",
+          "readme_bytes": 7444,
+          "readme_sha256": "76174ac233a6ca1a7bb952f9aca236775077abf46f124af0d7730b74e81d0daa",
+          "repository": "psf/requests",
+          "revision": "main",
+          "schema": "raw_count"
+        },
+        "state_hull": {
+          "high": null,
+          "kind": "enum",
+          "low": null,
+          "max_len": null,
+          "min_len": null,
+          "pattern": null,
+          "values": [
+            "closed",
+            "open"
+          ]
+        },
+        "test_dispatch": {
+          "compacted_by_class": {
+            "closed_unmerged": 20,
+            "merged": 20,
+            "open": 20
+          },
+          "compacted_total": 60,
+          "fallback_reasons": {},
+          "test_total": 60,
+          "total_by_class": {
+            "closed_unmerged": 20,
+            "merged": 20,
+            "open": 20
+          }
+        }
+      },
+      "current_reference": {
+        "artifact_emitted": true,
+        "compiled_compacted_by_class": {
+          "closed_unmerged": 10,
+          "merged": 10
+        },
+        "compiled_total_by_class": {
+          "closed_unmerged": 10,
+          "merged": 10,
+          "open": 10
+        },
+        "discovery_class_counts": {
+          "closed_unmerged": 48,
+          "merged": 65,
+          "open": 3
+        },
+        "selection_time_forward": {
+          "discovery_day_range": {
+            "max": "2024-05-21",
+            "min": "2011-08-31",
+            "unique_days": 113
+          },
+          "gap_days": 41,
+          "strict_time_forward": true,
+          "test_day_range": {
+            "max": "2024-11-10",
+            "min": "2024-07-02",
+            "unique_days": 26
+          }
+        },
+        "state_hull": {
+          "high": null,
+          "kind": "enum",
+          "low": null,
+          "max_len": null,
+          "min_len": null,
+          "pattern": null,
+          "values": [
+            "closed"
+          ]
+        },
+        "status": "selected_and_run"
+      }
+    },
+    "pytorch/pytorch": {
+      "balanced_counterfactual": {
+        "admissible_thresholds": [
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "artifact_emitted": true,
+        "artifact_name": "pr_get_record.pr_get_merge_status.region@4ea713b4",
+        "gate_threshold": 0.5,
+        "risk_upper_bound": 0.049808920112407784,
+        "selection": {
+          "class_balance_rule": "fixed class order with round-robin allocation before provider execution, subject to a strict time-forward split",
+          "discovery": [
+            {
+              "class": "open",
+              "day": "2025-12-22",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171131",
+              "issue_number": 171131,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-01-26",
+              "html_url": "https://github.com/pytorch/pytorch/pull/173348",
+              "issue_number": 173348,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-01-07",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171890",
+              "issue_number": 171890,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2025-12-30",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171527",
+              "issue_number": 171527,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-02-11",
+              "html_url": "https://github.com/pytorch/pytorch/pull/174771",
+              "issue_number": 174771,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-02-14",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175031",
+              "issue_number": 175031,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-01-10",
+              "html_url": "https://github.com/pytorch/pytorch/pull/172159",
+              "issue_number": 172159,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2025-12-19",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170852",
+              "issue_number": 170852,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2025-12-25",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171294",
+              "issue_number": 171294,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2025-12-13",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170384",
+              "issue_number": 170384,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-01-08",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171980",
+              "issue_number": 171980,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2025-12-29",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171460",
+              "issue_number": 171460,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-01-17",
+              "html_url": "https://github.com/pytorch/pytorch/pull/172713",
+              "issue_number": 172713,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-02-07",
+              "html_url": "https://github.com/pytorch/pytorch/pull/174512",
+              "issue_number": 174512,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-01-29",
+              "html_url": "https://github.com/pytorch/pytorch/pull/173858",
+              "issue_number": 173858,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-02-03",
+              "html_url": "https://github.com/pytorch/pytorch/pull/174196",
+              "issue_number": 174196,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-01-21",
+              "html_url": "https://github.com/pytorch/pytorch/pull/172954",
+              "issue_number": 172954,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-02-02",
+              "html_url": "https://github.com/pytorch/pytorch/pull/174111",
+              "issue_number": 174111,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2025-11-15",
+              "html_url": "https://github.com/pytorch/pytorch/pull/167894",
+              "issue_number": 167894,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2025-12-12",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170307",
+              "issue_number": 170307,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-01-08",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171967",
+              "issue_number": 171967,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-02-18",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175248",
+              "issue_number": 175248,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-02-17",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175148",
+              "issue_number": 175148,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2025-12-20",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170929",
+              "issue_number": 170929,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-02-09",
+              "html_url": "https://github.com/pytorch/pytorch/pull/174623",
+              "issue_number": 174623,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-01-05",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171693",
+              "issue_number": 171693,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-02-12",
+              "html_url": "https://github.com/pytorch/pytorch/pull/174883",
+              "issue_number": 174883,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-01-30",
+              "html_url": "https://github.com/pytorch/pytorch/pull/173887",
+              "issue_number": 173887,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-01-15",
+              "html_url": "https://github.com/pytorch/pytorch/pull/172526",
+              "issue_number": 172526,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2025-12-04",
+              "html_url": "https://github.com/pytorch/pytorch/pull/169525",
+              "issue_number": 169525,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2025-11-13",
+              "html_url": "https://github.com/pytorch/pytorch/pull/167695",
+              "issue_number": 167695,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-01-27",
+              "html_url": "https://github.com/pytorch/pytorch/pull/173483",
+              "issue_number": 173483,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2025-12-06",
+              "html_url": "https://github.com/pytorch/pytorch/pull/169754",
+              "issue_number": 169754,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-02-10",
+              "html_url": "https://github.com/pytorch/pytorch/pull/174667",
+              "issue_number": 174667,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-02-02",
+              "html_url": "https://github.com/pytorch/pytorch/pull/174125",
+              "issue_number": 174125,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2025-12-20",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170930",
+              "issue_number": 170930,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-01-28",
+              "html_url": "https://github.com/pytorch/pytorch/pull/173637",
+              "issue_number": 173637,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-01-27",
+              "html_url": "https://github.com/pytorch/pytorch/pull/173511",
+              "issue_number": 173511,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-02-03",
+              "html_url": "https://github.com/pytorch/pytorch/pull/174145",
+              "issue_number": 174145,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2025-12-19",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170896",
+              "issue_number": 170896,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2025-11-11",
+              "html_url": "https://github.com/pytorch/pytorch/pull/167494",
+              "issue_number": 167494,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-01-06",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171762",
+              "issue_number": 171762,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2025-12-24",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171247",
+              "issue_number": 171247,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2025-12-17",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170695",
+              "issue_number": 170695,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2025-12-23",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171150",
+              "issue_number": 171150,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-01-07",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171892",
+              "issue_number": 171892,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2025-12-16",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170486",
+              "issue_number": 170486,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2025-11-05",
+              "html_url": "https://github.com/pytorch/pytorch/pull/167121",
+              "issue_number": 167121,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-01-09",
+              "html_url": "https://github.com/pytorch/pytorch/pull/172063",
+              "issue_number": 172063,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2025-12-17",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170659",
+              "issue_number": 170659,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2025-12-11",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170190",
+              "issue_number": 170190,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-01-12",
+              "html_url": "https://github.com/pytorch/pytorch/pull/172261",
+              "issue_number": 172261,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2025-12-11",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170246",
+              "issue_number": 170246,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2025-12-17",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170633",
+              "issue_number": 170633,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2025-12-10",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170121",
+              "issue_number": 170121,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2025-12-15",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170425",
+              "issue_number": 170425,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-01-07",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171926",
+              "issue_number": 171926,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-02-16",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175096",
+              "issue_number": 175096,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-01-16",
+              "html_url": "https://github.com/pytorch/pytorch/pull/172672",
+              "issue_number": 172672,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2025-11-07",
+              "html_url": "https://github.com/pytorch/pytorch/pull/167361",
+              "issue_number": 167361,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2025-12-16",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170613",
+              "issue_number": 170613,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-01-09",
+              "html_url": "https://github.com/pytorch/pytorch/pull/172106",
+              "issue_number": 172106,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-02-16",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175094",
+              "issue_number": 175094,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2025-12-18",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170724",
+              "issue_number": 170724,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-02-16",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175095",
+              "issue_number": 175095,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-01-06",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171763",
+              "issue_number": 171763,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-01-06",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171760",
+              "issue_number": 171760,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-01-06",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171828",
+              "issue_number": 171828,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2025-12-22",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171129",
+              "issue_number": 171129,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2025-11-05",
+              "html_url": "https://github.com/pytorch/pytorch/pull/167122",
+              "issue_number": 167122,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-01-06",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171821",
+              "issue_number": 171821,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2025-12-19",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170888",
+              "issue_number": 170888,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-01-15",
+              "html_url": "https://github.com/pytorch/pytorch/pull/172585",
+              "issue_number": 172585,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-01-08",
+              "html_url": "https://github.com/pytorch/pytorch/pull/172029",
+              "issue_number": 172029,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2025-12-10",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170112",
+              "issue_number": 170112,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-01-09",
+              "html_url": "https://github.com/pytorch/pytorch/pull/172105",
+              "issue_number": 172105,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2025-12-16",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170588",
+              "issue_number": 170588,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2025-12-15",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170459",
+              "issue_number": 170459,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2025-12-23",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171189",
+              "issue_number": 171189,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-01-06",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171816",
+              "issue_number": 171816,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2025-12-11",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170144",
+              "issue_number": 170144,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2025-12-09",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170001",
+              "issue_number": 170001,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2025-11-12",
+              "html_url": "https://github.com/pytorch/pytorch/pull/167600",
+              "issue_number": 167600,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2025-11-10",
+              "html_url": "https://github.com/pytorch/pytorch/pull/167443",
+              "issue_number": 167443,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2025-12-17",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170702",
+              "issue_number": 170702,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-02-05",
+              "html_url": "https://github.com/pytorch/pytorch/pull/174414",
+              "issue_number": 174414,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2025-12-16",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170597",
+              "issue_number": 170597,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2025-12-18",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170812",
+              "issue_number": 170812,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2025-12-03",
+              "html_url": "https://github.com/pytorch/pytorch/pull/169508",
+              "issue_number": 169508,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2025-12-16",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170510",
+              "issue_number": 170510,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2025-12-01",
+              "html_url": "https://github.com/pytorch/pytorch/pull/169278",
+              "issue_number": 169278,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-01-20",
+              "html_url": "https://github.com/pytorch/pytorch/pull/172872",
+              "issue_number": 172872,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2025-12-17",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170663",
+              "issue_number": 170663,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2025-12-02",
+              "html_url": "https://github.com/pytorch/pytorch/pull/169364",
+              "issue_number": 169364,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2025-11-17",
+              "html_url": "https://github.com/pytorch/pytorch/pull/168002",
+              "issue_number": 168002,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-01-13",
+              "html_url": "https://github.com/pytorch/pytorch/pull/172301",
+              "issue_number": 172301,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-01-06",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171789",
+              "issue_number": 171789,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2025-11-11",
+              "html_url": "https://github.com/pytorch/pytorch/pull/167564",
+              "issue_number": 167564,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2025-12-13",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170356",
+              "issue_number": 170356,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-01-06",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171809",
+              "issue_number": 171809,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-01-06",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171774",
+              "issue_number": 171774,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-01-21",
+              "html_url": "https://github.com/pytorch/pytorch/pull/173005",
+              "issue_number": 173005,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-02-11",
+              "html_url": "https://github.com/pytorch/pytorch/pull/174744",
+              "issue_number": 174744,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-02-16",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175098",
+              "issue_number": 175098,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-01-09",
+              "html_url": "https://github.com/pytorch/pytorch/pull/172080",
+              "issue_number": 172080,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2025-12-05",
+              "html_url": "https://github.com/pytorch/pytorch/pull/169637",
+              "issue_number": 169637,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2025-11-16",
+              "html_url": "https://github.com/pytorch/pytorch/pull/167923",
+              "issue_number": 167923,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-01-20",
+              "html_url": "https://github.com/pytorch/pytorch/pull/172891",
+              "issue_number": 172891,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2025-12-22",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171030",
+              "issue_number": 171030,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2025-12-27",
+              "html_url": "https://github.com/pytorch/pytorch/pull/171381",
+              "issue_number": 171381,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-02-03",
+              "html_url": "https://github.com/pytorch/pytorch/pull/174201",
+              "issue_number": 174201,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-01-29",
+              "html_url": "https://github.com/pytorch/pytorch/pull/173820",
+              "issue_number": 173820,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2025-12-11",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170204",
+              "issue_number": 170204,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-01-15",
+              "html_url": "https://github.com/pytorch/pytorch/pull/172519",
+              "issue_number": 172519,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2025-12-12",
+              "html_url": "https://github.com/pytorch/pytorch/pull/170289",
+              "issue_number": 170289,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2025-11-11",
+              "html_url": "https://github.com/pytorch/pytorch/pull/167581",
+              "issue_number": 167581,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-01-14",
+              "html_url": "https://github.com/pytorch/pytorch/pull/172481",
+              "issue_number": 172481,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2025-11-18",
+              "html_url": "https://github.com/pytorch/pytorch/pull/168110",
+              "issue_number": 168110,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-01-09",
+              "html_url": "https://github.com/pytorch/pytorch/pull/172077",
+              "issue_number": 172077,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2025-12-05",
+              "html_url": "https://github.com/pytorch/pytorch/pull/169646",
+              "issue_number": 169646,
+              "repository": "pytorch/pytorch"
+            }
+          ],
+          "discovery_class_counts": {
+            "closed_unmerged": 40,
+            "merged": 40,
+            "open": 40
+          },
+          "excluded_prior_record_numbers": 0,
+          "family": "pr_outcome",
+          "filters": {
+            "family_eligibility": "pr_outcome",
+            "minimum_gap_days": 0
+          },
+          "repository": "pytorch/pytorch",
+          "schema": "agent-compaction-github-multirepo-selection/v1",
+          "seed": 20260801,
+          "selection_sha256": "dff1601ca9db5db496c641edc852b4f141c82f9c11c23df91ba0e88d437d408d",
+          "selection_uses_provider_outcomes": false,
+          "test": [
+            {
+              "class": "open",
+              "day": "2026-03-03",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176250",
+              "issue_number": 176250,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-02-23",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175532",
+              "issue_number": 175532,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-03-05",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176509",
+              "issue_number": 176509,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-03-10",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176982",
+              "issue_number": 176982,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-03-09",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176909",
+              "issue_number": 176909,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-02-24",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175640",
+              "issue_number": 175640,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-03-04",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176434",
+              "issue_number": 176434,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-03-05",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176614",
+              "issue_number": 176614,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-02-27",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175965",
+              "issue_number": 175965,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-02-23",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175525",
+              "issue_number": 175525,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-02-19",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175317",
+              "issue_number": 175317,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-03-09",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176914",
+              "issue_number": 176914,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-02-26",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175886",
+              "issue_number": 175886,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-03-02",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176164",
+              "issue_number": 176164,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-03-05",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176587",
+              "issue_number": 176587,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-02-20",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175439",
+              "issue_number": 175439,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-03-04",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176416",
+              "issue_number": 176416,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-02-27",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175967",
+              "issue_number": 175967,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-03-04",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176499",
+              "issue_number": 176499,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "open",
+              "day": "2026-02-25",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175789",
+              "issue_number": 175789,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-02-25",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175766",
+              "issue_number": 175766,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-02-19",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175362",
+              "issue_number": 175362,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-02-23",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175581",
+              "issue_number": 175581,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-03-04",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176495",
+              "issue_number": 176495,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-02-27",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175955",
+              "issue_number": 175955,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-02-25",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175793",
+              "issue_number": 175793,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-02-25",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175783",
+              "issue_number": 175783,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-02-25",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175767",
+              "issue_number": 175767,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-02-24",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175627",
+              "issue_number": 175627,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-03-04",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176408",
+              "issue_number": 176408,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-02-23",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175579",
+              "issue_number": 175579,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-02-24",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175672",
+              "issue_number": 175672,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-02-23",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175580",
+              "issue_number": 175580,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-03-04",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176410",
+              "issue_number": 176410,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-02-20",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175442",
+              "issue_number": 175442,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-02-19",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175300",
+              "issue_number": 175300,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-02-19",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175299",
+              "issue_number": 175299,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-02-23",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175567",
+              "issue_number": 175567,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-02-24",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175661",
+              "issue_number": 175661,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "merged",
+              "day": "2026-02-25",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175781",
+              "issue_number": 175781,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-03-03",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176343",
+              "issue_number": 176343,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-02-27",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175940",
+              "issue_number": 175940,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-03-05",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176569",
+              "issue_number": 176569,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-02-28",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176068",
+              "issue_number": 176068,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-03-07",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176805",
+              "issue_number": 176805,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-03-05",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176531",
+              "issue_number": 176531,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-03-06",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176707",
+              "issue_number": 176707,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-03-06",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176763",
+              "issue_number": 176763,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-02-24",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175592",
+              "issue_number": 175592,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-02-20",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175388",
+              "issue_number": 175388,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-02-26",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175839",
+              "issue_number": 175839,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-02-28",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176036",
+              "issue_number": 176036,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-03-03",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176287",
+              "issue_number": 176287,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-03-03",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176292",
+              "issue_number": 176292,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-03-04",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176470",
+              "issue_number": 176470,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-02-24",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175603",
+              "issue_number": 175603,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-02-21",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175465",
+              "issue_number": 175465,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-03-04",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176460",
+              "issue_number": 176460,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-02-23",
+              "html_url": "https://github.com/pytorch/pytorch/pull/175569",
+              "issue_number": 175569,
+              "repository": "pytorch/pytorch"
+            },
+            {
+              "class": "closed_unmerged",
+              "day": "2026-03-05",
+              "html_url": "https://github.com/pytorch/pytorch/pull/176534",
+              "issue_number": 176534,
+              "repository": "pytorch/pytorch"
+            }
+          ],
+          "test_class_counts": {
+            "closed_unmerged": 20,
+            "merged": 20,
+            "open": 20
+          },
+          "time_forward": {
+            "discovery_day_range": {
+              "max": "2026-02-18",
+              "min": "2025-11-05",
+              "unique_days": 65
+            },
+            "gap_days": 0,
+            "strict_time_forward": true,
+            "test_day_range": {
+              "max": "2026-03-10",
+              "min": "2026-02-19",
+              "unique_days": 17
+            }
+          }
+        },
+        "source": {
+          "dataset": "yajatpawar/pytorch-issues-dataset-clean",
+          "parquet_bytes": 9622959,
+          "parquet_path": "paper/results/datasets/github_multirepo/pytorch__pytorch/snapshot.parquet",
+          "parquet_sha256": "3d8b3f73277a8e436a3196f6da9bd7733f309ef8d7b90bc7f81844a69a30b05f",
+          "readme_bytes": 7653,
+          "readme_sha256": "fa723f565499a84e301b472b60384c11cda19dda2ee66139abc869efd38019b0",
+          "repository": "pytorch/pytorch",
+          "revision": "main",
+          "schema": "raw_count"
+        },
+        "state_hull": {
+          "high": null,
+          "kind": "enum",
+          "low": null,
+          "max_len": null,
+          "min_len": null,
+          "pattern": null,
+          "values": [
+            "closed",
+            "open"
+          ]
+        },
+        "test_dispatch": {
+          "compacted_by_class": {
+            "closed_unmerged": 20,
+            "merged": 20,
+            "open": 20
+          },
+          "compacted_total": 60,
+          "fallback_reasons": {},
+          "test_total": 60,
+          "total_by_class": {
+            "closed_unmerged": 20,
+            "merged": 20,
+            "open": 20
+          }
+        }
+      },
+      "current_reference": {
+        "discovery_class_counts": {
+          "closed_unmerged": 84,
+          "merged": 2,
+          "open": 30
+        },
+        "error": "RuntimeError: compiler emitted no admitted artifact:\nGRC compile report\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\ncandidates mined        1\nartifacts emitted       0\nrejections by stage     {'calibrate:retire': 1}\nwindows accepted        116\nwindows blocked         {}\nblocked by tool         {}\n  [calibrated  ] pr_get_record/pr_get_merge_status                 supp=116 k=2.0  REJECTED: gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 1.000 > alph",
+        "selection_time_forward": {
+          "discovery_day_range": {
+            "max": "2026-02-24",
+            "min": "2025-11-05",
+            "unique_days": 68
+          },
+          "gap_days": 0,
+          "strict_time_forward": true,
+          "test_day_range": {
+            "max": "2026-03-09",
+            "min": "2026-02-25",
+            "unique_days": 9
+          }
+        },
+        "status": "failed_closed"
+      }
+    }
+  },
+  "schema": "agent-compaction-multirepo-pr-outcome-balance-analysis/v1",
+  "selection_protocol": "balanced_time_forward_round_robin",
+  "simulated": true,
+  "timestamp_utc": "2026-08-07T03:24:41+00:00"
+}

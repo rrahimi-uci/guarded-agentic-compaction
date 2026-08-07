@@ -1,0 +1,22 @@
+artifact  pr_get_record.pr_get_merge_status.region@4ea713b4@1   support 16/16 groups   removes k=2.00   [active]
+──────────────────────────────────────────────────────────────────────────────
+guard   effect_catalog_version=github-pytorch__pytorch-pr_outcome_core-pinned-reads@1#7cebaae79d249c2e  entry_contract_version=github-pr_outcome_core-record-number-v1  guardrail_hash=#a9614876  model=gpt-5.6-luna  policy_hash=#a425759b  prompt_hash=#c473e680  tools_hash=#a95ed7cb
+        z.record_number : int
+        effects ⊆ {READ_LOCAL}  all speculatable ∧ replayable
+
+program (θ = {record_number}):
+   pr   = call pr_get_record(record_number = z.record_number)
+   pr2  = call pr_get_merge_status(record_number = pr.record_number)
+   return  { pr: pr, pr2: pr2 }
+expose   compiled_pr_get_record_2f64b991da(record_number) -> { is_merged, record_number, source_revision, state, title } [internal=2]
+verify  pr : dict, non-null, provenance ∈ {pr_get_record}
+        pr.record_number : int, non-null, provenance ∈ {pr_get_record}
+        pr.source_revision : str, non-null, ∈ {yajatpawar/pytorch-issues-dataset-clean@main}, provenance ∈ {pr_get_record}
+        pr.state : str, non-null, ∈ {closed, open}, provenance ∈ {pr_get_record}
+        pr.title : str, non-null, provenance ∈ {pr_get_record}
+        pr2 : dict, non-null, provenance ∈ {pr_get_merge_status}
+        pr2.is_merged : bool, non-null, ∈ {False, True}, provenance ∈ {pr_get_merge_status}
+        pr2.record_number : int, non-null, provenance ∈ {pr_get_merge_status}
+        pr2.source_revision : str, non-null, ∈ {yajatpawar/pytorch-issues-dataset-clean@main}, provenance ∈ {pr_get_merge_status}
+        effect_multiset ⊆ {READ_LOCAL},  |calls| ∈ {2},  no WRITE_*
+gate    q = logistic(entry features)   η = 0.50   (cal n=92 groups, α=0.05, δ=0.1, |Λ|=11, R⁺=0.050, φ̂=1.00)

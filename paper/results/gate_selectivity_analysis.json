@@ -1,0 +1,1601 @@
+{
+  "schema": "agent-compaction-gate-selectivity-analysis/v1",
+  "generated_at": "2026-08-07T03:16:05.458265Z",
+  "registered_alpha": 0.05,
+  "artifacts": [
+    {
+      "artifact_id": "github_natural_replication",
+      "label": "Natural-order GitHub replication",
+      "source_path": "paper/results/github_natural_replication/results.json",
+      "cohort": "within_repo_live",
+      "evidence_status": "current_registered",
+      "registered_current_exact_alpha_0_05": true,
+      "alpha": 0.05,
+      "delta": 0.1,
+      "threshold": 0.5,
+      "n_accepted": 92,
+      "n_calibration_groups": 92,
+      "coverage": 1.0,
+      "observed_violations": 0,
+      "risk_upper_bound": 0.049808920112407784,
+      "frontier_type": "step_all_or_none",
+      "first_positive_eta": 0.11,
+      "first_full_coverage_eta": 0.11,
+      "first_admissible_eta": 0.11,
+      "distinct_coverage_levels": [
+        0.0,
+        1.0
+      ],
+      "change_points": [
+        {
+          "eta": 0.02,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.11,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        }
+      ],
+      "grid_rows": [
+        {
+          "eta": 0.02,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.05,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.08,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.11,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.14,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.17,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.2,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.25,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.3,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.4,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.5,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        }
+      ],
+      "note": "Primary issue-type routing artifact at registered alpha=.05.",
+      "model": {
+        "bias": -0.8200142710821297,
+        "features": [
+          "unseen_category",
+          "knn_distance",
+          "missing_optional",
+          "hull_margin",
+          "drift_days",
+          "provenance_ambiguity",
+          "branch_entropy"
+        ],
+        "nonzero_weights": [
+          {
+            "feature": "hull_margin",
+            "weight": 0.8009320658459648
+          },
+          {
+            "feature": "provenance_ambiguity",
+            "weight": 0.8009320658459673
+          }
+        ],
+        "nonzero_feature_count": 2,
+        "distinct_nonzero_weight_count": 2
+      }
+    },
+    {
+      "artifact_id": "workflow_pr_outcome",
+      "label": "Workflow family: PR-outcome",
+      "source_path": "paper/results/github_workflow_families/pr_outcome/final/results.json",
+      "cohort": "within_repo_live",
+      "evidence_status": "current_registered",
+      "registered_current_exact_alpha_0_05": true,
+      "alpha": 0.05,
+      "delta": 0.1,
+      "threshold": 0.5,
+      "n_accepted": 92,
+      "n_calibration_groups": 92,
+      "coverage": 1.0,
+      "observed_violations": 0,
+      "risk_upper_bound": 0.049808920112407784,
+      "frontier_type": "step_all_or_none",
+      "first_positive_eta": 0.14,
+      "first_full_coverage_eta": 0.14,
+      "first_admissible_eta": 0.14,
+      "distinct_coverage_levels": [
+        0.0,
+        1.0
+      ],
+      "change_points": [
+        {
+          "eta": 0.02,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.14,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        }
+      ],
+      "grid_rows": [
+        {
+          "eta": 0.02,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.05,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.08,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.11,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.14,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.17,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.2,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.25,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.3,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.4,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.5,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        }
+      ],
+      "note": "Richer workflow-family artifact at registered alpha=.05.",
+      "model": {
+        "bias": -0.6060873903367311,
+        "features": [
+          "unseen_category",
+          "knn_distance",
+          "missing_optional",
+          "hull_margin",
+          "drift_days",
+          "provenance_ambiguity",
+          "branch_entropy"
+        ],
+        "nonzero_weights": [
+          {
+            "feature": "hull_margin",
+            "weight": 1.2876427485983468
+          }
+        ],
+        "nonzero_feature_count": 1,
+        "distinct_nonzero_weight_count": 1
+      }
+    },
+    {
+      "artifact_id": "workflow_backlog_attention",
+      "label": "Workflow family: backlog-attention",
+      "source_path": "paper/results/github_workflow_families/backlog_attention/final/results.json",
+      "cohort": "within_repo_live",
+      "evidence_status": "current_registered",
+      "registered_current_exact_alpha_0_05": true,
+      "alpha": 0.05,
+      "delta": 0.1,
+      "threshold": 0.5,
+      "n_accepted": 92,
+      "n_calibration_groups": 92,
+      "coverage": 1.0,
+      "observed_violations": 0,
+      "risk_upper_bound": 0.049808920112407784,
+      "frontier_type": "step_all_or_none",
+      "first_positive_eta": 0.14,
+      "first_full_coverage_eta": 0.14,
+      "first_admissible_eta": 0.14,
+      "distinct_coverage_levels": [
+        0.0,
+        1.0
+      ],
+      "change_points": [
+        {
+          "eta": 0.02,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.14,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        }
+      ],
+      "grid_rows": [
+        {
+          "eta": 0.02,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.05,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.08,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.11,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.14,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.17,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.2,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.25,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.3,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.4,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.5,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        }
+      ],
+      "note": "Richer workflow-family artifact at registered alpha=.05.",
+      "model": {
+        "bias": -0.51909451898329,
+        "features": [
+          "unseen_category",
+          "knn_distance",
+          "missing_optional",
+          "hull_margin",
+          "drift_days",
+          "provenance_ambiguity",
+          "branch_entropy"
+        ],
+        "nonzero_weights": [
+          {
+            "feature": "hull_margin",
+            "weight": 1.4388216677811414
+          }
+        ],
+        "nonzero_feature_count": 1,
+        "distinct_nonzero_weight_count": 1
+      }
+    },
+    {
+      "artifact_id": "multirepo_huggingface_datasets",
+      "label": "Multirepo extension: huggingface/datasets",
+      "source_path": "paper/results/github_multirepo_pr_outcome_core/results.json",
+      "cohort": "cross_repo_time_forward",
+      "evidence_status": "current_registered",
+      "registered_current_exact_alpha_0_05": true,
+      "alpha": 0.05,
+      "delta": 0.1,
+      "threshold": 0.5,
+      "n_accepted": 92,
+      "n_calibration_groups": 92,
+      "coverage": 1.0,
+      "observed_violations": 0,
+      "risk_upper_bound": 0.049808920112407784,
+      "frontier_type": "step_all_or_none",
+      "first_positive_eta": 0.11,
+      "first_full_coverage_eta": 0.11,
+      "first_admissible_eta": 0.11,
+      "distinct_coverage_levels": [
+        0.0,
+        1.0
+      ],
+      "change_points": [
+        {
+          "eta": 0.02,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.11,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        }
+      ],
+      "grid_rows": [
+        {
+          "eta": 0.02,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.05,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.08,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.11,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.14,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.17,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.2,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.25,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.3,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.4,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.5,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        }
+      ],
+      "note": "Simplified two-read PR-outcome-core artifact at registered alpha=.05.",
+      "model": {
+        "bias": -0.8200142710821297,
+        "features": [
+          "unseen_category",
+          "knn_distance",
+          "missing_optional",
+          "hull_margin",
+          "drift_days",
+          "provenance_ambiguity",
+          "branch_entropy"
+        ],
+        "nonzero_weights": [
+          {
+            "feature": "hull_margin",
+            "weight": 0.8009320658459648
+          },
+          {
+            "feature": "provenance_ambiguity",
+            "weight": 0.8009320658459673
+          }
+        ],
+        "nonzero_feature_count": 2,
+        "distinct_nonzero_weight_count": 2
+      }
+    },
+    {
+      "artifact_id": "multirepo_pandas_dev_pandas",
+      "label": "Multirepo extension: pandas-dev/pandas",
+      "source_path": "paper/results/github_multirepo_pr_outcome_core/results.json",
+      "cohort": "cross_repo_time_forward",
+      "evidence_status": "current_registered",
+      "registered_current_exact_alpha_0_05": true,
+      "alpha": 0.05,
+      "delta": 0.1,
+      "threshold": 0.5,
+      "n_accepted": 92,
+      "n_calibration_groups": 92,
+      "coverage": 1.0,
+      "observed_violations": 0,
+      "risk_upper_bound": 0.049808920112407784,
+      "frontier_type": "step_all_or_none",
+      "first_positive_eta": 0.11,
+      "first_full_coverage_eta": 0.11,
+      "first_admissible_eta": 0.11,
+      "distinct_coverage_levels": [
+        0.0,
+        1.0
+      ],
+      "change_points": [
+        {
+          "eta": 0.02,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.11,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        }
+      ],
+      "grid_rows": [
+        {
+          "eta": 0.02,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.05,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.08,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.11,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.14,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.17,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.2,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.25,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.3,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.4,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.5,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        }
+      ],
+      "note": "Simplified two-read PR-outcome-core artifact at registered alpha=.05.",
+      "model": {
+        "bias": -0.8200142710821297,
+        "features": [
+          "unseen_category",
+          "knn_distance",
+          "missing_optional",
+          "hull_margin",
+          "drift_days",
+          "provenance_ambiguity",
+          "branch_entropy"
+        ],
+        "nonzero_weights": [
+          {
+            "feature": "hull_margin",
+            "weight": 0.8009320658459648
+          },
+          {
+            "feature": "provenance_ambiguity",
+            "weight": 0.8009320658459673
+          }
+        ],
+        "nonzero_feature_count": 2,
+        "distinct_nonzero_weight_count": 2
+      }
+    },
+    {
+      "artifact_id": "multirepo_psf_requests",
+      "label": "Multirepo extension: psf/requests",
+      "source_path": "paper/results/github_multirepo_pr_outcome_core/results.json",
+      "cohort": "cross_repo_time_forward",
+      "evidence_status": "current_registered",
+      "registered_current_exact_alpha_0_05": true,
+      "alpha": 0.05,
+      "delta": 0.1,
+      "threshold": 0.5,
+      "n_accepted": 92,
+      "n_calibration_groups": 92,
+      "coverage": 1.0,
+      "observed_violations": 0,
+      "risk_upper_bound": 0.049808920112407784,
+      "frontier_type": "step_all_or_none",
+      "first_positive_eta": 0.11,
+      "first_full_coverage_eta": 0.11,
+      "first_admissible_eta": 0.11,
+      "distinct_coverage_levels": [
+        0.0,
+        1.0
+      ],
+      "change_points": [
+        {
+          "eta": 0.02,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.11,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        }
+      ],
+      "grid_rows": [
+        {
+          "eta": 0.02,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.05,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.08,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.11,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.14,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.17,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.2,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.25,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.3,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.4,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.5,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        }
+      ],
+      "note": "Simplified two-read PR-outcome-core artifact at registered alpha=.05.",
+      "model": {
+        "bias": -0.8200142710821297,
+        "features": [
+          "unseen_category",
+          "knn_distance",
+          "missing_optional",
+          "hull_margin",
+          "drift_days",
+          "provenance_ambiguity",
+          "branch_entropy"
+        ],
+        "nonzero_weights": [
+          {
+            "feature": "hull_margin",
+            "weight": 0.8009320658459648
+          },
+          {
+            "feature": "provenance_ambiguity",
+            "weight": 0.8009320658459673
+          }
+        ],
+        "nonzero_feature_count": 2,
+        "distinct_nonzero_weight_count": 2
+      }
+    },
+    {
+      "artifact_id": "multirepo_streamlit_streamlit",
+      "label": "Multirepo extension: streamlit/streamlit",
+      "source_path": "paper/results/github_multirepo_pr_outcome_core/results.json",
+      "cohort": "cross_repo_time_forward",
+      "evidence_status": "current_registered",
+      "registered_current_exact_alpha_0_05": true,
+      "alpha": 0.05,
+      "delta": 0.1,
+      "threshold": 0.5,
+      "n_accepted": 92,
+      "n_calibration_groups": 92,
+      "coverage": 1.0,
+      "observed_violations": 0,
+      "risk_upper_bound": 0.049808920112407784,
+      "frontier_type": "step_all_or_none",
+      "first_positive_eta": 0.11,
+      "first_full_coverage_eta": 0.11,
+      "first_admissible_eta": 0.11,
+      "distinct_coverage_levels": [
+        0.0,
+        1.0
+      ],
+      "change_points": [
+        {
+          "eta": 0.02,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.11,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        }
+      ],
+      "grid_rows": [
+        {
+          "eta": 0.02,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.05,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.08,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.11,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.14,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.17,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.2,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.25,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.3,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.4,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.5,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        }
+      ],
+      "note": "Simplified two-read PR-outcome-core artifact at registered alpha=.05.",
+      "model": {
+        "bias": -0.8200142710821297,
+        "features": [
+          "unseen_category",
+          "knn_distance",
+          "missing_optional",
+          "hull_margin",
+          "drift_days",
+          "provenance_ambiguity",
+          "branch_entropy"
+        ],
+        "nonzero_weights": [
+          {
+            "feature": "hull_margin",
+            "weight": 0.8009320658459648
+          },
+          {
+            "feature": "provenance_ambiguity",
+            "weight": 0.8009320658459673
+          }
+        ],
+        "nonzero_feature_count": 2,
+        "distinct_nonzero_weight_count": 2
+      }
+    },
+    {
+      "artifact_id": "github_live_pilot_2026_08_03",
+      "label": "Archived live pilot (2026-08-03)",
+      "source_path": "paper/results/github_live/pilot_2026-08-03/results.json",
+      "cohort": "within_repo_live",
+      "evidence_status": "archived_exploratory",
+      "registered_current_exact_alpha_0_05": false,
+      "alpha": 0.05,
+      "delta": 0.1,
+      "threshold": 0.5,
+      "n_accepted": 92,
+      "n_calibration_groups": 92,
+      "coverage": 1.0,
+      "observed_violations": 0,
+      "risk_upper_bound": 0.049808920112407784,
+      "frontier_type": "partial_frontier",
+      "first_positive_eta": 0.02,
+      "first_full_coverage_eta": 0.17,
+      "first_admissible_eta": 0.17,
+      "distinct_coverage_levels": [
+        0.1087,
+        0.163,
+        0.8478,
+        0.9783,
+        1.0
+      ],
+      "change_points": [
+        {
+          "eta": 0.02,
+          "n": 10,
+          "violations": 0,
+          "upper": 0.375,
+          "coverage": 0.1087
+        },
+        {
+          "eta": 0.05,
+          "n": 15,
+          "violations": 0,
+          "upper": 0.269,
+          "coverage": 0.163
+        },
+        {
+          "eta": 0.11,
+          "n": 78,
+          "violations": 0,
+          "upper": 0.0585,
+          "coverage": 0.8478
+        },
+        {
+          "eta": 0.14,
+          "n": 90,
+          "violations": 0,
+          "upper": 0.0509,
+          "coverage": 0.9783
+        },
+        {
+          "eta": 0.17,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        }
+      ],
+      "grid_rows": [
+        {
+          "eta": 0.02,
+          "n": 10,
+          "violations": 0,
+          "upper": 0.375,
+          "coverage": 0.1087
+        },
+        {
+          "eta": 0.05,
+          "n": 15,
+          "violations": 0,
+          "upper": 0.269,
+          "coverage": 0.163
+        },
+        {
+          "eta": 0.08,
+          "n": 15,
+          "violations": 0,
+          "upper": 0.269,
+          "coverage": 0.163
+        },
+        {
+          "eta": 0.11,
+          "n": 78,
+          "violations": 0,
+          "upper": 0.0585,
+          "coverage": 0.8478
+        },
+        {
+          "eta": 0.14,
+          "n": 90,
+          "violations": 0,
+          "upper": 0.0509,
+          "coverage": 0.9783
+        },
+        {
+          "eta": 0.17,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.2,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.25,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.3,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.4,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.5,
+          "n": 92,
+          "violations": 0,
+          "upper": 0.0498,
+          "coverage": 1.0
+        }
+      ],
+      "note": "Archived exact-.05 pilot with a non-flat curve; retained as exploratory gate evidence, not as the main preserved-quality result.",
+      "model": {
+        "bias": -1.0392132925598685,
+        "features": [
+          "unseen_category",
+          "knn_distance",
+          "missing_optional",
+          "hull_margin",
+          "drift_days",
+          "provenance_ambiguity",
+          "branch_entropy"
+        ],
+        "nonzero_weights": [
+          {
+            "feature": "hull_margin",
+            "weight": 0.7792635707727131
+          },
+          {
+            "feature": "drift_days",
+            "weight": -0.9190310800143713
+          },
+          {
+            "feature": "provenance_ambiguity",
+            "weight": 0.8114458973050249
+          }
+        ],
+        "nonzero_feature_count": 3,
+        "distinct_nonzero_weight_count": 3
+      }
+    },
+    {
+      "artifact_id": "github_natural_live",
+      "label": "Earlier natural live artifact",
+      "source_path": "paper/results/github_natural_live/results.json",
+      "cohort": "within_repo_live",
+      "evidence_status": "looser_alpha_current",
+      "registered_current_exact_alpha_0_05": false,
+      "alpha": 0.1,
+      "delta": 0.1,
+      "threshold": 0.5,
+      "n_accepted": 45,
+      "n_calibration_groups": 45,
+      "coverage": 1.0,
+      "observed_violations": 0,
+      "risk_upper_bound": 0.09918477422824756,
+      "frontier_type": "step_all_or_none",
+      "first_positive_eta": 0.14,
+      "first_full_coverage_eta": 0.14,
+      "first_admissible_eta": 0.14,
+      "distinct_coverage_levels": [
+        0.0,
+        1.0
+      ],
+      "change_points": [
+        {
+          "eta": 0.02,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.14,
+          "n": 45,
+          "violations": 0,
+          "upper": 0.0992,
+          "coverage": 1.0
+        }
+      ],
+      "grid_rows": [
+        {
+          "eta": 0.02,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.05,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.08,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.11,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.14,
+          "n": 45,
+          "violations": 0,
+          "upper": 0.0992,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.17,
+          "n": 45,
+          "violations": 0,
+          "upper": 0.0992,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.2,
+          "n": 45,
+          "violations": 0,
+          "upper": 0.0992,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.25,
+          "n": 45,
+          "violations": 0,
+          "upper": 0.0992,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.3,
+          "n": 45,
+          "violations": 0,
+          "upper": 0.0992,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.4,
+          "n": 45,
+          "violations": 0,
+          "upper": 0.0992,
+          "coverage": 1.0
+        },
+        {
+          "eta": 0.5,
+          "n": 45,
+          "violations": 0,
+          "upper": 0.0992,
+          "coverage": 1.0
+        }
+      ],
+      "note": "Current retained artifact, but calibrated at alpha=.10 rather than the registered .05.",
+      "model": {
+        "bias": -0.665460951827376,
+        "features": [
+          "unseen_category",
+          "knn_distance",
+          "missing_optional",
+          "hull_margin",
+          "drift_days",
+          "provenance_ambiguity",
+          "branch_entropy"
+        ],
+        "nonzero_weights": [
+          {
+            "feature": "hull_margin",
+            "weight": 1.4022683014612085
+          }
+        ],
+        "nonzero_feature_count": 1,
+        "distinct_nonzero_weight_count": 1
+      }
+    },
+    {
+      "artifact_id": "gcs_live",
+      "label": "Guarded composite study",
+      "source_path": "paper/results/gcs_live/results.json",
+      "cohort": "within_repo_live",
+      "evidence_status": "looser_alpha_current",
+      "registered_current_exact_alpha_0_05": false,
+      "alpha": 0.1,
+      "delta": 0.1,
+      "threshold": 0.5,
+      "n_accepted": 88,
+      "n_calibration_groups": 92,
+      "coverage": 0.9565217391304348,
+      "observed_violations": 0,
+      "risk_upper_bound": 0.052013056604272134,
+      "frontier_type": "partial_frontier",
+      "first_positive_eta": 0.17,
+      "first_full_coverage_eta": null,
+      "first_admissible_eta": 0.17,
+      "distinct_coverage_levels": [
+        0.0,
+        0.9565
+      ],
+      "change_points": [
+        {
+          "eta": 0.02,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.17,
+          "n": 88,
+          "violations": 0,
+          "upper": 0.052,
+          "coverage": 0.9565
+        }
+      ],
+      "grid_rows": [
+        {
+          "eta": 0.02,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.05,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.08,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.11,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.14,
+          "n": 0,
+          "violations": 0,
+          "upper": 1.0,
+          "coverage": 0.0
+        },
+        {
+          "eta": 0.17,
+          "n": 88,
+          "violations": 0,
+          "upper": 0.052,
+          "coverage": 0.9565
+        },
+        {
+          "eta": 0.2,
+          "n": 88,
+          "violations": 0,
+          "upper": 0.052,
+          "coverage": 0.9565
+        },
+        {
+          "eta": 0.25,
+          "n": 88,
+          "violations": 0,
+          "upper": 0.052,
+          "coverage": 0.9565
+        },
+        {
+          "eta": 0.3,
+          "n": 88,
+          "violations": 0,
+          "upper": 0.052,
+          "coverage": 0.9565
+        },
+        {
+          "eta": 0.4,
+          "n": 88,
+          "violations": 0,
+          "upper": 0.052,
+          "coverage": 0.9565
+        },
+        {
+          "eta": 0.5,
+          "n": 88,
+          "violations": 0,
+          "upper": 0.052,
+          "coverage": 0.9565
+        }
+      ],
+      "note": "Only current retained partial-coverage frontier, but calibrated at alpha=.10.",
+      "model": {
+        "bias": -0.2393180433539786,
+        "features": [
+          "unseen_category",
+          "knn_distance",
+          "missing_optional",
+          "hull_margin",
+          "drift_days",
+          "provenance_ambiguity",
+          "branch_entropy"
+        ],
+        "nonzero_weights": [
+          {
+            "feature": "hull_margin",
+            "weight": 1.1295663637969058
+          },
+          {
+            "feature": "drift_days",
+            "weight": 0.9663823272213818
+          }
+        ],
+        "nonzero_feature_count": 2,
+        "distinct_nonzero_weight_count": 2
+      },
+      "gate_reason_summary": {
+        "gate_calibration_reasons": {
+          "verifier:cardinality:get2.names": 2,
+          "verifier:range:get.issue_number": 4
+        },
+        "gate_calibration_samples": 92,
+        "gate_calibration_unproductive": 6,
+        "gate_calibration_violations": 0,
+        "gate_dev_reasons": {
+          "perturbation_unproductive": 5,
+          "verifier:range:get.issue_number": 1
+        },
+        "gate_dev_samples": 16,
+        "gate_dev_unproductive": 6,
+        "gate_dev_violations": 0
+      }
+    }
+  ],
+  "support_shortfall_refusals": [
+    {
+      "artifact_id": "nestful",
+      "label": "NESTFUL exact gate",
+      "source_path": "paper/results/nestful/results.json",
+      "analysis_kind": "support_shortfall_refusal",
+      "alpha": 0.05,
+      "delta": 0.1,
+      "max_observed_family_support": 26,
+      "minimum_zero_violation_groups": 92,
+      "support_shortfall": 66,
+      "families_certifiable_even_with_zero_violations": 0,
+      "outcome": "RETIRE",
+      "note": "Support shortfall on a trace-complete public benchmark."
+    },
+    {
+      "artifact_id": "api_bank",
+      "label": "API-Bank exact gate",
+      "source_path": "paper/results/external_benchmarks/api_bank_execution.json",
+      "analysis_kind": "support_shortfall_refusal",
+      "alpha": 0.05,
+      "delta": 0.1,
+      "max_observed_family_support": 8,
+      "minimum_zero_violation_groups": 92,
+      "support_shortfall": 84,
+      "families_certifiable_even_with_zero_violations": 0,
+      "outcome": "RETIRE",
+      "note": "Support shortfall on a second compiler-compatible benchmark substrate."
+    }
+  ],
+  "negative_evidence": {
+    "failed_projection_pilot": {
+      "source_path": "paper/results/github_workflow_families/pr_outcome/pilot_v1/failed_attempt_projection_2026-08-05.json",
+      "condition_counts": {
+        "compiled": 12,
+        "manual_pre_model": 9
+      },
+      "reason_counts": {
+        "composite_projection_failed": 13,
+        "hull:z.record_number=262": 1,
+        "hull:z.record_number=7342": 1,
+        "hull:z.record_number=7358": 1,
+        "range:pr.body_excerpt": 5
+      },
+      "note": "Retained projection failures supply concrete negative reasons (projection mismatch, range rejection, hull rejection) that current exact-.05 gates do not expose directly in their final artifacts."
+    },
+    "failed_live_attempt": {
+      "source_path": "paper/results/github_natural_replication/failed_attempt_2026-08-03.json",
+      "status": "failed_before_compilation_and_test_arms",
+      "stage": "compiler_eligibility",
+      "error": "only 0 compiler-eligible traces; need 116",
+      "eligible_traces": null,
+      "required_traces": null,
+      "note": "The pre-fix live failure is retained as eligibility-side negative evidence, not as a quantitative gate result."
+    },
+    "failed_closed_multirepo": [
+      {
+        "source_path": "paper/results/github_multirepo_pr_outcome_core/results.json",
+        "repository": "pytorch/pytorch",
+        "error": "RuntimeError: compiler emitted no admitted artifact:\nGRC compile report\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\ncandidates mined        1\nartifacts emitted       0\nrejections by stage     {'calibrate:retire': 1}\nwindows accepted        116\nwindows blocked         {}\nblocked by tool         {}\n  [calibrated  ] pr_get_record/pr_get_merge_status                 supp=116 k=2.0  REJECTED: gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 1.000 > alph",
+        "status": "failed_closed",
+        "discovery_class_counts": {
+          "closed_unmerged": 84,
+          "merged": 2,
+          "open": 30
+        },
+        "test_class_counts": {
+          "closed_unmerged": 10,
+          "merged": 10,
+          "open": 10
+        },
+        "note": "The fifth multirepo repository retires under the strict frozen-candidate gate rather than broadening coverage post hoc."
+      }
+    ]
+  },
+  "summary": {
+    "registered_current": {
+      "artifacts_analyzed": 7,
+      "step_all_or_none": 7,
+      "partial_frontier": 0,
+      "first_positive_eta_counts": {
+        "0.11": 5,
+        "0.14": 2
+      },
+      "exact_coverage_fraction_at_selected_threshold": {
+        "github_natural_replication": 1.0,
+        "workflow_pr_outcome": 1.0,
+        "workflow_backlog_attention": 1.0,
+        "multirepo_huggingface_datasets": 1.0,
+        "multirepo_pandas_dev_pandas": 1.0,
+        "multirepo_psf_requests": 1.0,
+        "multirepo_streamlit_streamlit": 1.0
+      },
+      "model_nonzero_weight_signatures": {
+        "hull_margin=0.800932065846 | provenance_ambiguity=0.800932065846": 5,
+        "hull_margin=1.2876427486": 1,
+        "hull_margin=1.43882166778": 1
+      }
+    },
+    "exploratory_or_looser_alpha": {
+      "artifacts_analyzed": 3,
+      "partial_frontier": 2,
+      "artifact_ids": [
+        "github_live_pilot_2026_08_03",
+        "github_natural_live",
+        "gcs_live"
+      ]
+    },
+    "support_shortfall_refusals": {
+      "nestful": {
+        "max_observed_family_support": 26,
+        "minimum_zero_violation_groups": 92,
+        "support_shortfall": 66
+      },
+      "api_bank": {
+        "max_observed_family_support": 8,
+        "minimum_zero_violation_groups": 92,
+        "support_shortfall": 84
+      }
+    },
+    "claim_boundary": "The current exact-.05 artifacts still behave as support-threshold gates: seven of seven registered current artifacts are step functions with no partial frontier. Partial selectivity exists only in retained exploratory or looser-alpha artifacts, so the main paper should keep describing the registered gate as mostly all-or-none."
+  }
+}

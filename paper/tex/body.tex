@@ -709,6 +709,18 @@ calibration traces, and compares unchanged, compiled, and a fixed two-read templ
 pre-model baseline on held-out records.  Repositories with no admitted artifact are
 retained as fail-closed negatives rather than dropped.
 
+Because that first five-repository cohort is class-skewed on some mirrors, we also run a
+balanced rerun on the three repositories with enough older records to satisfy the exact
+gate without changing the task: \code{pandas-dev/pandas}, \code{psf/requests}, and
+\code{pytorch/pytorch}.  A provider-free round-robin selector seals 120 discovery pull
+requests and a disjoint 60-record held-out cohort per repository, each evenly split
+across \code{open}, \code{merged}, and \code{closed\_unmerged} under the same strict
+time-forward rule.  The model, frozen-candidate protocol, compiler, and three-arm held-out
+evaluation are unchanged.  We treat this rerun as a protocol-sensitivity study: if it
+recovers open-state compaction or admits the repository that retired earlier, the earlier
+negative must be read as a cohort artifact rather than as an intrinsic limit of the
+two-read guarded runtime.
+
 \subsection{Controlled fixed-prefix live study}
 
 We pin revision \code{e344be7b84d1} (full identifier in the source manifest) of the
@@ -1042,17 +1054,38 @@ Relative to baseline, compiled execution reduces provider requests 44.4\%, total
 52.4\%, observed wall latency 49.4\%, and estimated cost 48.6\% across the 120 held-out
 pairs.  The fixed template is more efficient still, reducing requests 66.7\%, total
 tokens 78.6\%, observed wall latency 68.1\%, and estimated cost 73.3\%.  That matters
-because it sharpens the real claim: the learned artifact is valuable for automatic
-discovery, guarded admission, and retirement, not because it dominates a fixed ungated
-template on this simplified task.
+because it sharpens the real claim: on one conservative frozen cohort the learned
+artifact is valuable for automatic discovery, guarded admission, and retirement, not
+because it dominates a fixed ungated template on this simplified task.
 
-The coverage pattern is also informative.  Across the four completed repositories, the
-learned artifact compacts all 40 \code{merged} and all 40 \code{closed\_unmerged}
-held-out pull requests, and falls back on all 40 \code{open} ones.  The fifth repository,
-\code{pytorch/pytorch}, reaches 116/116 exact discovery traces but emits no admitted
-artifact under the frozen-candidate exact gate and retires at compile time.  This
-extension therefore establishes cross-repository, time-forward evidence for a narrower
-task while retaining a principled negative result.
+This conservative cohort is informative because it retains a principled negative.
+Across the four completed repositories, the learned artifact compacts all 40
+\code{merged} and all 40 \code{closed\_unmerged} held-out pull requests, falls back on
+all 40 \code{open} ones, and \code{pytorch/pytorch} retires at compile time under the
+frozen-candidate exact gate.
+
+A second rerun asks whether that open-only coverage pattern is intrinsic.  On the three
+repositories with enough class support for a balanced strict time-forward split
+(\code{pandas-dev/pandas}, \code{psf/requests}, and \code{pytorch/pytorch}), a
+provider-free round-robin preflight seals 120 discovery pull requests and 60 held-out
+pull requests per repository, evenly split across \code{open}, \code{merged}, and
+\code{closed\_unmerged}.  The executed discovery reaches 360/360 exact traces.  All
+three repositories admit the same two-read artifact, and baseline, compiled, and
+fixed-template conditions all pass 180/180 exact contracts on the held-out cohort.
+Relative to baseline, compiled execution reduces provider requests 66.7\%, total tokens
+78.4\%, observed wall latency 60.7\%, and estimated cost 72.7\%.  The fixed template is
+essentially tied on this simplified task: it matches 180/180 exact contracts and the
+same 66.7\% request reduction, with slightly lower observed wall latency (63.0\%) and
+slightly smaller token and cost savings (78.4\% and 72.3\%) than the learned artifact.
+
+Crucially, the learned artifact now compacts all 60 \code{open}, 60 \code{merged}, and
+60 \code{closed\_unmerged} held-out pull requests, and the verifier's \code{pr.state}
+hull contains both \code{open} and \code{closed} on all three repositories.  The earlier
+open-only fallback pattern and \code{pytorch/pytorch} retirement are therefore
+properties of the original frozen cohort design, not intrinsic limits of the two-read
+guarded runtime.  The balanced rerun strengthens the paper's cross-repository evidence,
+but it does not widen the task: both extensions remain narrower than the three-tool
+workflow-family studies.
 
 \paragraph{Independent refusal on API-Bank.}
 API-Bank contains 389 observed calls over 49 tools. Conservative effect barriers leave 48
@@ -1800,15 +1833,18 @@ configuration: the confirmatory compiler study contains 30 primary issues, the
 prospective portfolio pilot contains 12, the exploratory GCS comparison contains 12
 further pairs, and the learned/manual comparator contains six five-condition blocks.  A
 separate PR-outcome-core extension adds five repositories, 580 exact discovery traces,
-120 completed time-forward held-out pairs, and one compile-time retirement, but it uses a
-narrower two-read task than the main workflow-family evidence.  The GCS cohort contains
-only bug and other-labelled issues; the comparator contains bug, enhancement, and other
-but no question-labelled issue.  All GitHub evidence uses a frozen public snapshot, not
-the live GitHub API, so network/service behavior, concurrent mutation, rate limits, and
-authentication are absent.  The exact gates have 92, 45, and again 92 calibration
-records depending on the artifact, while the portfolio has only 30 selection groups and
-uses a looser 15\% risk limit.  The fresh portfolio test contains no question-labelled
-issue after strict prior-record exclusion.
+120 completed time-forward held-out pairs, and one compile-time retirement, while a
+balanced rerun adds three repositories, 360 exact discovery traces, and 180 completed
+time-forward held-out pairs with full \code{open}/\code{merged}/\code{closed\_unmerged}
+coverage under the same task.  Both extensions still use a narrower two-read task than
+the main workflow-family evidence.  The GCS cohort contains only bug and other-labelled
+issues; the comparator contains bug, enhancement, and other but no question-labelled
+issue.  All GitHub evidence uses a frozen public snapshot, not the live GitHub API, so
+network/service behavior, concurrent mutation, rate limits, and authentication are
+absent.  The exact gates have 92, 45, and again 92 calibration records depending on the
+artifact, while the portfolio has only 30 selection groups and uses a looser 15\% risk
+limit.  The fresh portfolio test contains no question-labelled issue after strict
+prior-record exclusion.
 There is no human study of
 productivity or user experience and no multi-domain production canary.
 
@@ -1896,15 +1932,18 @@ families, compiled programs reach 90/90 exact held-out contracts versus 89/90 fo
 agents while reducing requests 50.0--75.0\%, tokens 39.5--81.4\%, observed latency
 51.7--73.0\%, and estimated cost 32.0--75.3\%. A separate five-repository, time-forward
 PR-outcome-core extension reaches 580/580 exact discovery traces, completes 120/120 exact
-held-out pairs on four repositories, and retires the fifth at compile time; across those
-completed repositories, compiled execution reduces requests 44.4\%, total tokens 52.4\%,
-observed latency 49.4\%, and estimated cost 48.6\%. A historical aggressive artifact
-still records a factual miss, a fixed two-read template is more efficient on the
-simplified cross-repository task, and fairly placed hand-written programs also reach
-90/90. Thus automatic discovery, conservative admission, and managed lifecycle---not
-universal runtime dominance---are the defensible advantages. NESTFUL and API-Bank add a
-different result: despite recurrent, executable traces, every family retires because the
-configured evidence requirement is unmet.
+held-out pairs on four repositories, and retires the fifth at compile time; a balanced
+three-repository rerun then reaches 360/360 exact discovery traces and 180/180 exact
+held-out pairs while compacting \code{open}, \code{merged}, and
+\code{closed\_unmerged} cases on all three.  Across that balanced rerun, compiled
+execution reduces requests 66.7\%, total tokens 78.4\%, observed latency 60.7\%, and
+estimated cost 72.7\%, while the fixed two-read template remains essentially tied on the
+simplified task. A historical aggressive artifact still records a factual miss, and
+fairly placed hand-written programs also reach 90/90. Thus automatic discovery,
+conservative admission, and managed lifecycle---not universal runtime dominance---are
+the defensible advantages. NESTFUL and API-Bank add a different result: despite
+recurrent, executable traces, every family retires because the configured evidence
+requirement is unmet.
 
 The resulting design principle is simple: evaluate workflow optimizers by the evidence
 they require, the effects and positions they refuse, and the state to which they fall

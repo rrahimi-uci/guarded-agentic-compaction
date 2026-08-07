@@ -1,28 +1,28 @@
-Tool-using agents repeat mature read-only evidence paths while paying for a model at
-every boundary. Deterministic programs can reduce cost, but recurrence is unsafe:
-arguments may lack provenance,
-tools may cross effect or permission boundaries, and a replay-correct prefix may still
-change the final answer.
+Tool-using agents repeat read-only evidence paths while paying for a model at every
+boundary. Deterministic programs can reduce cost, but recurrence is unsafe: arguments
+may lack provenance, tools may cross permissions, and a replay-correct prefix may still
+change the answer.
 
 We introduce \emph{guarded agentic compaction} (\method), a trace-to-program compiler that
-reconstructs typed value provenance, rejects unsafe effects, synthesizes from a closed
-23-operator language, verifies empirical contracts, and applies per-candidate exact
-finite-sample threshold admission. Its normal output is refusal: compile only a supported
-prefix; otherwise retain the unchanged agent.
+reconstructs typed provenance, rejects unsafe effects, synthesizes from a closed
+23-operator language, verifies empirical contracts, and applies exact finite-sample
+admission. Its normal output is refusal: compile only a supported prefix; otherwise
+retain the unchanged agent.
 
 Across three GitHub workflows with live provider calls, compiled programs pass 90/90
 exact contracts versus 89/90 for unchanged agents, with no compiled-only failure and a
-3.3\% pooled discordance upper bound. They reduce provider requests by 50.0--75.0\%,
-tokens by 39.5--81.4\%, latency by 51.7--73.0\%, and estimated cost by 32.0--75.3\%.
+3.3\% pooled discordance upper bound. They reduce provider requests 50.0--75.0\%,
+tokens 39.5--81.4\%, latency 51.7--73.0\%, and estimated cost 32.0--75.3\%.
 Hand-written programs also reach 90/90 on the two new families, so the contribution is
-automatic discovery, conservative admission, and managed lifecycle rather than runtime
-dominance.
+automatic discovery and conservative lifecycle, not runtime dominance.
 
-A separate cross-repository extension seals five GitHub repositories, reaches 580/580
-exact discovery traces, completes 120/120 time-forward exact pairs on four repositories,
-and retires the fifth at compile time; compiled execution there reduces requests 44.4\%,
-tokens 52.4\%, latency 49.4\%, and cost 48.6\%. On NESTFUL and API-Bank, every recurrent
-family retires for insufficient support.
+A cross-repository extension seals five GitHub repositories, reaches 580/580 exact
+discovery traces, and completes 120/120 time-forward exact pairs on four while retiring
+the fifth.  A balanced rerun over three repositories reaches 360/360 exact discovery
+traces and 180/180 exact held-out pairs, compacts \code{open}, \code{merged}, and
+\code{closed\_unmerged} cases on all three, and reduces requests 66.7\%, tokens 78.4\%,
+observed wall latency 60.7\%, and cost 72.7\%.  On NESTFUL and API-Bank, every
+recurrent family retires for insufficient support.
 
 The central result is an evidence boundary: traces establish recurrence, not
 admissibility. Agent workflow optimizers should be evaluated by what they safely refuse
