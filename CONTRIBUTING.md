@@ -19,6 +19,28 @@ python -m venv .venv
 .venv/bin/python -m build
 ```
 
+`docs/` is **untracked** (see `.gitignore`): part of it is generated, and it is kept
+out of version control by choice. It is still the right place for engineering notes,
+and several tools write into it, so regenerate it locally before relying on it:
+
+```bash
+.venv/bin/python experiments/analysis/report.py     # docs/results.md
+.venv/bin/python scripts/build_html_report.py       # docs/agent-compaction-report.html
+```
+
+Because it is untracked, do not add repository links that point into `docs/` —
+`scripts/verify_release.py` fails on dangling relative links, and those links would
+404 for anyone browsing the repository. Reference local paths as inline code instead.
+
+Paper artifacts live in `paper/`: sources in `paper/tex/`, compiled manuscripts in
+`paper/open_research/`, and the conference submission in `paper/ICLR/`. After changing
+anything the publication manifest covers, re-run:
+
+```bash
+.venv/bin/python paper/scripts/finalize_manifest.py
+.venv/bin/python paper/scripts/validate_artifacts.py
+```
+
 Add focused tests for every behavior change. Safety-boundary changes should include a
 fault-injection or mutation test. Benchmark changes must preserve grouped splits, frozen
 manifests, negative results, and the `substrate` label.

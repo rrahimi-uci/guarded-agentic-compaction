@@ -3,6 +3,10 @@
 **Working title:** Evidence-Gated Optimization Across Real Agent Workflows
 **Repository baseline:** release 0.6.0 on `main` after canonical-JSONL hardening and MLflow removal
 **Reviewed:** 2026-08-04
+**Note (2026-08-07):** point-in-time planning record. The baseline below is the
+state at review time; the repository has since moved to 0.7.0 and the paper was
+retitled. Its numbered invariants remain accurate; its schedule and version
+references do not.
 **Status:** all currently feasible provider-free code and two real 420-group domains are implemented; SEC acquisition, human approvals, and billable live experiments remain gated and unrun
 **Headline scope:** cybersecurity vulnerability evidence, SEC filing reconciliation, and public HMDA mortgage-record interpretation
 

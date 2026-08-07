@@ -5,6 +5,37 @@ for its Python API and artifact schemas while it remains research-alpha software
 
 ## Unreleased
 
+### Paper and publication artifacts
+
+- **Retitled** to *From Traces to Guarded Programs: Evidence-Gated Compilation of
+  Recurrent Agent Workflows*, across the article build, the conference build, the
+  ICLR submission, the LinkedIn write-up, and both slide decks.
+- Added `paper/ICLR/`, a condensed 9-page conference submission with its own style
+  files: formal problem statement, four algorithms, an architecture diagram, a
+  refusal-funnel table, and admission certificates.
+- Renamed `paper/build/` to `paper/open_research/`. The compiled manuscripts live
+  there; LaTeX auxiliaries stay ignored.
+- Rebuilt the LinkedIn figures on an HTML/headless-Chrome pipeline. The previous
+  hand-authored SVGs hard-coded line breaks with no text measurement and overflowed
+  their containers in four of six images.
+- Cited context-compression middleware (Headroom) in both bibliographies and in
+  `docs/related-work-matrix.md`, and recorded the matching limitation: every
+  reported reduction compares against an *uncompressed* baseline.
+- Corrected the confidence budget in the manuscripts to `delta = 0.1`. That is the
+  value the runs used and the one that yields the 92-group requirement recorded in
+  `paper/results/admission_register.json`.
+
+### Repository
+
+- **`docs/` is no longer tracked.** It stays on disk and is partly generated
+  (`experiments/analysis/report.py`, `experiments/live_run.py`,
+  `scripts/build_html_report.py` all write into it). `scripts/verify_release.py`
+  reports its three docs-dependent checks as SKIPPED on a clean checkout rather
+  than failing or silently passing.
+- `.gitignore` reorganized by category, with LaTeX auxiliaries ignored repo-wide.
+- Removed superseded artifacts: a duplicate copy of an old paper build and two
+  LinkedIn exports that had drifted to an older image set and title.
+
 **Breaking:** the project is renamed from `agent-compaction` to
 `guarded-agentic-compaction`, matching the method name the paper defines.
 

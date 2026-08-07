@@ -4,7 +4,7 @@ Frozen before the sealed test split was opened. Anything not listed here is expl
 and anything listed here is reported whether or not it passed.
 
 **Substrate.** Four simulated workloads (`demos/`), described in
-[ADR 0005](../../docs/architecture/0005-simulated-substrate.md). No result transfers to a
+ADR 0005 (`docs/architecture/0005-simulated-substrate.md`). No result transfers to a
 provider or production workload.
 
 ## Confirmatory hypotheses

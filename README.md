@@ -17,8 +17,6 @@ Otherwise the original agent remains unchanged.
 [Paper](paper/compiling-recurrent-agent-workflows-into-guarded-programs.pdf) ·
 [Latest review](paper/reviews/GAC_paper_review.md) ·
 [Adversarial review](paper/paper-review.md) ·
-[Architecture](docs/library-api.md) ·
-[OpenAI Agents SDK guide](docs/openai-agents-sdk.md) ·
 [Experiment verification](paper/supplementary/experiment-verification.md)
 
 ## Why this exists
@@ -187,7 +185,7 @@ agent = Agent(
 ~~~
 
 Streaming, hosted tools, incomplete handoffs, and server-managed context are rejected
-rather than silently approximated. The [SDK integration guide](docs/openai-agents-sdk.md)
+rather than silently approximated. The SDK integration guide (`docs/openai-agents-sdk.md`)
 documents the exact boundary.
 
 ## Reproduce the checked-in evidence
@@ -220,9 +218,19 @@ src/guarded_agentic_compaction/
   runtime/      interpreter, dispatch, staging, fallback, SDK model adapter
   registry/     immutable artifacts, lifecycle, signing, kill switch, rollback
 benchmarks/     public-data adapters, manifests, gold, and external benchmark gates
-paper/          LaTeX, figures, tables, raw results, scripts, slides, review
+demos/          simulated worlds and effect catalogs used by the offline studies
+paper/          LaTeX sources, figures, tables, raw results, scripts, slides
+  ICLR/         condensed conference submission (own style files and build)
+  LinkedIn_Article/  practitioner write-up and its figure sources
+  open_research/     compiled manuscript PDFs
 site/           source for the GitHub Pages documentation
 tests/          unit, property, integration, mutation, and fault-injection tests
+
+docs/ holds the deeper engineering records (ADRs, safety model, trace contract,
+library API). It is deliberately untracked -- see .gitignore -- because parts of
+it are generated. Regenerate it locally with the commands under "Reproduce the
+checked-in evidence"; the reader-facing subset is published at the documentation
+site linked above.
 ~~~
 
 ## Contributing and security
@@ -239,6 +247,14 @@ The project follows the [code of conduct](CODE_OF_CONDUCT.md) and is licensed un
 
 ## Citation
 
-The manuscript is **From Traces to Guarded Programs: Evidence-Gated Compilation of Recurrent Agent Workflows**. A
-versioned citation will be added after archival release; until then, cite the repository
-commit and the paper PDF together.
+The manuscript is **From Traces to Guarded Programs: Evidence-Gated Compilation of
+Recurrent Agent Workflows** by Reza Rahimi (JazzX AI).
+
+| Build | Path |
+| --- | --- |
+| Journal-style article (43 pp.) | `paper/open_research/article.pdf` |
+| Two-column conference build (24 pp.) | `paper/open_research/main.pdf` |
+| ICLR submission (9 pp. + appendix) | `paper/ICLR/` (build with `tectonic --outdir build main.tex`) |
+
+A versioned citation will be added after archival release; until then, cite the
+repository commit and the paper PDF together.

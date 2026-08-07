@@ -4,17 +4,17 @@
 
 **Revised proposal — v2.1, implementation-aligned 4 August 2026**
 *Supersedes v1, which remains available in Git history. Changes are itemized in §0.*
-*Current companion: [use-cases.md](../docs/use-cases.md) — implemented APIs, measured
+*Current companion: use-cases.md (`docs/use-cases.md`) — implemented APIs, measured
 scenarios, and evidence boundaries. The longer v2.1 illustrative monograph summarized in
 §6.1 was superseded after implementation.*
 
 > This proposal is the historical research specification. Current callable behavior is
-> documented in [`docs/library-api.md`](../docs/library-api.md), and current empirical
+> documented in `docs/library-api.md`, and current empirical
 > claims are governed by the [`paper/`](../paper/README.md) artifact.
 > The proposed MLflow backend was removed in release 0.6.0 after reference analysis found
 > no experiment, demonstration, optimizer, or runtime consumer. Current capture uses the
 > OpenAI Agents SDK adapter and canonical local JSONL. See the
-> [removal review](../docs/mlflow-removal-report.md). The API and package-layout examples
+> removal review (`docs/mlflow-removal-report.md`). The API and package-layout examples
 > below now describe the implemented release; earlier pseudo-APIs remain in Git history.
 
 ---
@@ -42,7 +42,7 @@ Two things v2 does **not** change: the literature positioning (v1's is accurate 
 
 **v2.1** originally added five illustrative worked implementations and a production
 assessment (§6). Writing those cases falsified three things in v2's own algorithms, which
-are corrected here rather than papered over. The current [use-case guide](../docs/use-cases.md)
+are corrected here rather than papered over. The current use-case guide (`docs/use-cases.md`)
 now uses the implemented API and measured evidence instead of preserving the obsolete
 examples.
 
@@ -774,7 +774,7 @@ accounting are deliberately separate: JSONL is the compiler corpus; the ledger i
 execution journal. Neither attempts to be a remote observability UI.
 
 The removed MLflow prototype is documented in the
-[removal review](../docs/mlflow-removal-report.md) and in Git history. Applications may
+removal review (`docs/mlflow-removal-report.md`) and in Git history. Applications may
 still run an external tracing or analytics service, but the library does not require it
 and never treats its previews as replay evidence.
 
@@ -909,7 +909,7 @@ The original v2.1 companion developed five illustrative agents end to end: trace
 recovered provenance, effect catalog, synthesized artifact, integration code, savings
 arithmetic, and—longest in every case—what is rejected and why. That monograph used a
 pre-implementation pseudo-API and is no longer operational documentation. Its assumptions
-and numbers remain summarized below; the current [use-case guide](../docs/use-cases.md)
+and numbers remain summarized below; the current use-case guide (`docs/use-cases.md`)
 provides the implemented API and measured scenarios.
 
 Each row below is the section's own Eq. (10) computation, $\Delta = \phi\rho k / n_B$. The parameters

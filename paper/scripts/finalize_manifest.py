@@ -117,9 +117,9 @@ def included_files() -> list[Path]:
         "CHANGELOG.md",
         "SECURITY.md",
         "LICENSE",
-        "docs/gpt-5.6-report.md",
-        "docs/mlflow-removal-report.md",
-        "docs/architecture/0010-single-framework-adapter.md",
+        # docs/ is untracked by request (see .gitignore), so its files cannot be
+        # manifest entries: a fresh clone would not have them and validation would
+        # fail on checkout.
         "scripts/verify_release.py",
         "scripts/build_pages.py",
         # Renders the published selective-risk and economics figures onto the site, so it

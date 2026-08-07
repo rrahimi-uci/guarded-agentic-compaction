@@ -122,7 +122,7 @@ The artifact has no MLflow dependency. Normalized Episodes are persisted in a st
 canonical, atomic local JSONL snapshot; OpenAI Agents SDK capture is the only maintained
 foreign trace adapter. The design rationale and the deliberately omitted remote-tracking
 capabilities are documented in
-[`docs/mlflow-removal-report.md`](../docs/mlflow-removal-report.md).
+`docs/mlflow-removal-report.md`.
 
 ## Evidence classification
 

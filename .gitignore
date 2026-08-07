@@ -1,16 +1,29 @@
+# ---------------------------------------------------------------- secrets
 .env
 .env.*
 !.env.example
+
+# ------------------------------------------------- python / tooling caches
 .venv/
 __pycache__/
 *.py[cod]
 .pytest_cache/
+.ruff_cache/
+.mypy_cache/
 .coverage*
+htmlcov/
+dist/
+*.egg-info/
+mlruns/
+
+# ------------------------------------------------------------ build output
 build/
+# benchmarks/build is a real source package, not build output.
 !benchmarks/build/
 !benchmarks/build/*.py
+
 # paper/build was renamed to paper/open_research, which the `build/` rule above
-# no longer covers.  Keep the compiled PDFs tracked and the LaTeX auxiliaries
+# no longer covers. Keep the compiled PDFs tracked and the LaTeX auxiliaries
 # ignored, exactly as before the rename.
 paper/open_research/*.aux
 paper/open_research/*.bbl
@@ -18,11 +31,35 @@ paper/open_research/*.blg
 paper/open_research/*.log
 paper/open_research/*.out
 paper/open_research/*.toc
-dist/
-*.egg-info/
-mlruns/
+paper/open_research/*.synctex.gz
+paper/open_research/rendered/
+paper/open_research/article_pages/
+
+# LaTeX auxiliaries anywhere else (e.g. paper/ICLR/build/).
+*.aux
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# --------------------------------------------------------------- site output
+_site/
+
+# ------------------------------------------------------------- docs (local)
+# The engineering docs are kept out of version control by request. They remain
+# on disk and several tools still read them:
+#   - experiments/analysis/report.py writes docs/results.md
+#   - experiments/live_run.py writes docs/live-results.md
+#   - scripts/build_html_report.py writes docs/agent-compaction-report.html
+# scripts/verify_release.py therefore reports its docs-dependent checks as
+# SKIPPED on a clean checkout instead of failing; see the notice it prints.
+docs/
+
+# ----------------------------------------------------------- large datasets
 paper/results/datasets/github_multirepo/*/snapshot.parquet
 benchmarks/.cache/
 benchmarks/results/
-_site/
+
+# ------------------------------------------------------------------- macOS
 .DS_Store

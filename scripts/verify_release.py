@@ -31,6 +31,16 @@ for p in (ROOT, ROOT / "src"):
         sys.path.insert(0, str(p))
 
 FAILURES: list[str] = []
+SKIPPED: list[str] = []
+
+# docs/ is untracked by request (see .gitignore). It is still written by
+# experiments/analysis/report.py, experiments/live_run.py and
+# scripts/build_html_report.py, so it exists in a working tree that has run
+# them and is absent from a clean checkout. The checks that read it are
+# reported as SKIPPED rather than silently passing, so a clean checkout stays
+# green without the gate quietly getting weaker.
+DOCS = ROOT / "docs"
+DOCS_PRESENT = DOCS.is_dir()
 
 
 def check(condition: bool, message: str) -> None:
@@ -38,6 +48,11 @@ def check(condition: bool, message: str) -> None:
     print(f"  [{status}] {message}")
     if not condition:
         FAILURES.append(message)
+
+
+def skip(message: str) -> None:
+    print(f"  [skip] {message}")
+    SKIPPED.append(message)
 
 
 def main() -> int:
@@ -139,11 +154,14 @@ def main() -> int:
     negative = [k for k, d in demos.items() if not d["hypotheses"]["co_primary_passed"]]
     check(bool(negative), f"a negative result is present and reported ({negative})")
 
-    doc = ROOT / "docs" / "results.md"
-    check(doc.exists(), "docs/results.md exists")
-    if doc.exists():
-        text = doc.read_text()
-        check("substrate=simulated" in text, "results doc labels the substrate")
+    doc = DOCS / "results.md"
+    if not DOCS_PRESENT:
+        skip("docs/results.md substrate label (docs/ is untracked)")
+    else:
+        check(doc.exists(), "docs/results.md exists")
+        if doc.exists():
+            text = doc.read_text()
+            check("substrate=simulated" in text, "results doc labels the substrate")
         for name in re.findall(r"!\[[^\]]*\]\(\.\./experiments/figures/([^)]+)\)", text):
             check((ROOT / "experiments" / "figures" / name).exists(), f"figure {name} exists")
 
@@ -182,7 +200,10 @@ def _check_live_results() -> None:
     payload_path = results / "all_results.json"
     check(manifest_path.exists(), "live run manifest exists")
     check(payload_path.exists(), "live aggregate results exist")
-    check((ROOT / "docs" / "live-results.md").exists(), "live results document exists")
+    if DOCS_PRESENT:
+        check((DOCS / "live-results.md").exists(), "live results document exists")
+    else:
+        skip("live results document (docs/ is untracked)")
     if not manifest_path.exists() or not payload_path.exists():
         return
 
@@ -278,7 +299,7 @@ def _markdown_files() -> list[Path]:
         ROOT / "benchmarks" / "README.md",
         ROOT / "paper" / "README.md",
     ]
-    roots.extend((ROOT / "docs").rglob("*.md"))
+    roots.extend(DOCS.rglob("*.md"))  # empty when docs/ is absent
     roots.extend((ROOT / "experiments").rglob("*.md"))
     roots.extend((ROOT / "paper" / "supplementary").rglob("*.md"))
     return sorted(path for path in roots if path.exists())
@@ -292,13 +313,16 @@ def _check_current_documentation() -> None:
     so executable examples in them must follow release 0.6.0.
     """
 
-    current = (
-        ROOT / "README.md",
-        ROOT / "docs" / "library-api.md",
-        ROOT / "docs" / "openai-agents-sdk.md",
-        ROOT / "docs" / "trace-contract.md",
-        ROOT / "docs" / "use-cases.md",
-    )
+    current = (ROOT / "README.md",)
+    if DOCS_PRESENT:
+        current += (
+            DOCS / "library-api.md",
+            DOCS / "openai-agents-sdk.md",
+            DOCS / "trace-contract.md",
+            DOCS / "use-cases.md",
+        )
+    else:
+        skip("retired-API scan over docs/ integration guides (docs/ is untracked)")
     retired = (
         "import compaction",
         "cx.compile(",
@@ -331,6 +355,12 @@ def _finish() -> int:
     if FAILURES:
         print(f"\n{len(FAILURES)} check(s) failed")
         return 1
+    if SKIPPED:
+        print(f"\n{len(SKIPPED)} check(s) SKIPPED because docs/ is untracked:")
+        for message in SKIPPED:
+            print(f"  - {message}")
+        print("  run experiments/analysis/report.py and scripts/build_html_report.py")
+        print("  to regenerate docs/ locally if you need these checks to run.")
     print("\nall checks passed")
     return 0
 
