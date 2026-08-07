@@ -31,22 +31,22 @@ Outputs:
 - `paper/results/slide_generation.json`: source, evidence, mapping, output hash, and slide
   count manifest.
 
-## Pending regeneration
+## Current synchronization state
 
-`paper/results/slide_generation.json` records the generator digest each render was built
-from. The generator has since been revised to disclose the per-artifact selective-risk
-level, the pooled 3.3% compiled-only discordance bound, the 181–411 episode provider-side
-break-even, and the prompt-cache accounting that qualifies the reported 32.0–75.3% cost
-range, so the two committed `.pptx` files predate those edits and its
-`regeneration_required` block names them as stale. That block records both the digest the
-decks were built from (`generator_sha256_current`) and the digest awaiting a render
-(`generator_sha256_pending`). Rerunning the command above with an artifact-tool workspace
-clears the block; `validate_artifacts.py` fails if the mismatch is ever left undeclared.
+The committed `.pptx` binaries are current with the checked-in generator.
+`paper/results/slide_generation.json` now records the same
+`generator_sha256_current` as `paper/scripts/generate_slides.mjs`, so there is no active
+`regeneration_required` block.
 
-The `@oai/artifact-tool` runtime is not published to any reachable registry, so the render
-step cannot be performed from a clean checkout without an existing workspace. The slide
-*source* — `generate_slides.mjs` — is the artifact kept current with the manuscript; the
-`.pptx` binaries lag until someone with that workspace re-renders them.
+If the generator changes again before the decks are rerendered, the repository records that
+drift explicitly instead of hiding it. In that state `slide_generation.json` adds a
+`regeneration_required` section naming the stale outputs and the command that clears the
+mismatch; `validate_artifacts.py` fails if the generator digest changes and that drift is
+not declared.
+
+The `@oai/artifact-tool` runtime is bundled into the Codex primary runtime rather than
+published to a public registry. Any initialized artifact-tool workspace produced by the
+bundled presentation helpers is sufficient for the render command above.
 
 The generated comparator slide is intentionally scoped: all five arms pass 6/6; GCS and
 the independent manual pre-model program tie on requests, interfaces, and input tokens;

@@ -69,13 +69,13 @@ against the live workspace rather than relying on earlier review prose alone.
    currently enumerates **363 tests**. The runtime, continuation, composite, and
    calibration boundaries described in the paper still match the source and tests.
 2. **Reproducibility remains a major strength.** `scripts/verify_release.py` passes, and
-   the publication validator now reports **2281 passed checks**, **0 failures**, and a
+   the publication validator now reports **2280 passed checks**, **0 failures**, and a
    **509-file** checksum manifest.
 3. **The highest-confidence discrepancies were review/reporting hygiene, not scientific
-   breakage.** Public docs had stale validation counts, the repo exposed both an older
-   adversarial review and this newer score-bearing review without enough routing clarity,
-   and the committed `.pptx` decks remain intentionally stale pending rerender from the
-   private artifact-tool workspace.
+   breakage.** Public docs had stale validation counts and the repo exposed both an older
+   adversarial review and this newer score-bearing review without enough routing clarity.
+   Those issues are now corrected, and the committed `.pptx` decks have been regenerated
+   against the current slide generator.
 4. **Score implication:** these issues affect clarity and cross-artifact polish, not the
    core scientific case. Fixing them improves reviewer trust, but it does **not** by
    itself justify **95+**. The remaining gap is empirical, not editorial.
@@ -265,14 +265,14 @@ density is unavoidable; some is narrative load.
 
 The build is publishable but not immaculate. Both article and conference PDFs compile
 cleanly enough for release, yet the retained logs still show font-substitution warnings,
-an `algorithm.sty` UTF-8 warning in the conference build, and minor underfull/overfull
-box issues. I treat those as polishing gaps rather than scientific problems.
+a legacy `algorithm.sty` UTF-8 decoding warning, and minor underfull/overfull box issues.
+I treat those as polishing gaps rather than scientific problems.
 
 ### 2.7 Reproducibility & artifacts - 97/100
 
 This is near the top of the scale. The repository ships exact source manifests and
 digests, retained row-level or repository-level outputs, recomputation scripts, fresh
-PDF builds, and a passing claim validator summary with **2281 passed checks** and **0
+PDF builds, and a passing claim validator summary with **2280 passed checks** and **0
 failures**. That is exceptional by agent-systems standards.
 
 Three boundaries keep it short of near-perfect:
@@ -417,17 +417,15 @@ In rough order of leverage:
   `paper/supplementary/gate-selectivity-analysis.md`.
 - A fresh local `.venv/bin/python -m pytest -q` run completed successfully during this
   audit, and the default pytest collection currently enumerates **363 tests**.
-- The current publication validator summary reports **2281 passed checks** and **0
+- The current publication validator summary reports **2280 passed checks** and **0
   failures** over a **509-file** publication manifest.
 - The LaTeX builds are successful, but the retained logs (`paper/build/article.log`,
-  `paper/build/main.log`) still show font-substitution warnings plus minor
-  underfull/overfull box warnings, and the conference build still records an
-  `algorithm.sty` UTF-8 warning. I treat these as presentation-polish issues, not
-  evidence failures.
-- The two committed publication decks are intentionally behind the latest generator
-  revision. `paper/results/slide_generation.json` declares both `.pptx` files stale,
-  records the pending generator digest, and explains that rerendering is blocked on the
-  private `@oai/artifact-tool` workspace rather than on any hidden manuscript change.
+  `paper/build/main.log`) still show font-substitution warnings, a legacy
+  `algorithm.sty` UTF-8 decoding warning, and minor underfull/overfull box warnings. I
+  treat these as presentation-polish issues, not evidence failures.
+- The two committed publication decks are now synchronized to the current generator.
+  `paper/results/slide_generation.json` records the current generator digest and current
+  hashes for both `.pptx` outputs, so the slide artifact no longer trails the manuscript.
 - For the multirepo extensions, the repository tracks source manifests/digests and some
   upstream README material, but the raw mirrored
   `paper/results/datasets/github_multirepo/*/snapshot.parquet` files are intentionally

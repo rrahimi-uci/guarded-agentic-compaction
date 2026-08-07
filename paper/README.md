@@ -109,10 +109,10 @@ PDFs cannot drift apart:
 
 | | `article.pdf` | `main.pdf` |
 |:---|:---|:---|
-| class | `article`, single column, A4 | `acmart[sigconf,review,anonymous]` |
+| class | `article`, single column, A4 | `acmart[sigconf,nonacm]` |
 | typography | Pagella text and math, Latin Modern sans/mono | ACM Libertine |
 | audience | reading, circulation, archival | conference submission |
-| line numbers | no | yes (review mode) |
+| line numbers | no | no |
 
 The validator compiles both and asserts that the architecture figure and all four
 algorithms reach the page in each, so a wrapper that silently drops an `\input` fails
@@ -330,8 +330,8 @@ tectonic --keep-logs --keep-intermediates --outdir ../build article.tex
 tectonic --keep-logs --keep-intermediates --outdir ../build main.tex
 ```
 
-Both logs contain no undefined citations or references. Review-mode line numbers in
-`main.pdf` are intentional. Because the engine is XeTeX, the article build selects fonts
+Both logs contain no undefined citations or references. `main.pdf` is the camera-ready
+two-column conference wrapper rather than a review-mode build. Because the engine is XeTeX, the article build selects fonts
 with complete `TU` coverage (Pagella via `newpx`, Latin Modern sans and mono); the Type-1
 `helvet`/`tgheros` shapes have none and would silently fall back to the serif.
 

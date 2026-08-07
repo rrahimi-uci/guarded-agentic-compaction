@@ -831,7 +831,7 @@ test set.
 | clean CLI | help and command registration passed |
 | dependency consistency | pip check passed |
 | release audit | all package, schema, link, result, manifest, evidence, and no-write checks passed |
-| publication claim/integrity audit | 2,281 checks passed; 0 failed over a 509-file checksum manifest |
+| publication claim/integrity audit | 2,280 checks passed; 0 failed over a 509-file checksum manifest |
 | full reproduction | all four demos, report, figures, and audit completed in 321.0 seconds with four workers |
 | deterministic rerun | normalized semantic equality and identical digest for full support experiment |
 

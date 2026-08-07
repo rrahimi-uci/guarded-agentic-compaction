@@ -18,8 +18,11 @@
 ]{geometry}
 
 % ------------------------------------------------------------------- typography
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\fi
 \usepackage{newpxtext}          % Palatino-class serif: generous, highly legible
 \usepackage[varg,bigdelims]{newpxmath}
 % Tectonic drives XeTeX, so the engine works in TU encoding and the Type-1
@@ -89,7 +92,7 @@
 
 \hypersetup{
   colorlinks=false,
-  pdfauthor={Reza Rahimi, PhD},
+  pdfauthor={Reza Rahimi},
   pdftitle={Compiling Recurrent Agent Workflows into Guarded Programs},
   pdfsubject={LLM agents, tool use, workflow optimization, program synthesis, provenance, selective risk control},
   pdfkeywords={LLM agents, tool use, workflow optimization, program synthesis, provenance, selective prediction, risk control, OpenAI Agents SDK},
@@ -197,7 +200,7 @@
   {\sffamily\bfseries\LARGE\color{paperblue}Compiling Recurrent Agent Workflows into Guarded Programs}%
   \vspace{2mm}}
 \author{%
-  {\sffamily\bfseries Reza Rahimi, PhD}\\[1mm]
+  {\sffamily\bfseries Reza Rahimi}\\[1mm]
   {\small\sffamily Jazzx AI, Los Altos, CA}\\[-0.5mm]
   {\small\sffamily\href{mailto:reza.rahimi@jazzx.ai}{reza.rahimi@jazzx.ai}}}
 \date{}
