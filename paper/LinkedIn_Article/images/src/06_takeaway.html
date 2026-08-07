@@ -1,0 +1,54 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css">
+<style>
+  body.figure { width: 1800px; height: 940px; }
+  .three { flex: 1 1 auto; display: grid; grid-template-columns: repeat(3, 1fr);
+           gap: 32px; min-height: 0; }
+  .three .card { padding: 32px 34px; }
+  .k { display: flex; align-items: center; gap: 12px;
+       font-size: 18px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+  .k i { width: 15px; height: 15px; border-radius: 50%; flex: 0 0 auto; }
+  .three h3 { font-size: 40px; margin-top: 2px; }
+  .three p { font-size: 24px; }
+  .three ul { margin-top: 6px; }
+  .three li { list-style: none; font-size: 21px; color: var(--ink-2); line-height: 1.35;
+              padding: 6px 0 6px 22px; position: relative; }
+  .three li::before { content: "·"; position: absolute; left: 6px; top: 4px;
+                      font-size: 24px; font-weight: 800; color: var(--ink-3); }
+</style></head>
+<body class="figure">
+
+  <div class="hdr">
+    <div class="eyebrow">Practical takeaway</div>
+    <h1>Optimize only the boundaries that evidence can license</h1>
+    <p class="sub">The compiler is conservative by construction. Every claimed speedup is
+      conditional on evidence that survived a stage designed to reject it.</p>
+  </div>
+
+  <div class="three">
+    <div class="card" style="border-color:#a9e2cd">
+      <div class="k" style="color:#128a60"><i style="background:var(--admit)"></i>What stays</div>
+      <h3>Keeps</h3>
+      <p>The model still handles every step that needs judgment, adaptation, or fresh reasoning.</p>
+      <ul><li>novel or one-off requests</li><li>anything past the read-only prefix</li></ul>
+    </div>
+    <div class="card" style="border-color:#bcd6f2">
+      <div class="k" style="color:var(--series-1)"><i style="background:var(--series-1)"></i>What shifts</div>
+      <h3>Changes</h3>
+      <p>Deterministic code replaces repeated read-only prefixes &mdash; only when the evidence is strong.</p>
+      <ul><li>fewer provider round-trips</li><li>same exact task outcome</li></ul>
+    </div>
+    <div class="card" style="border-color:#f0c3bb">
+      <div class="k" style="color:var(--refuse)"><i style="background:var(--refuse)"></i>What stops</div>
+      <h3>Refuses</h3>
+      <p>Unsafe effects, missing provenance, manifest drift, and thin support never ship.</p>
+      <ul><li>writes, approvals, handoffs</li><li>families below the risk bound</li></ul>
+    </div>
+  </div>
+
+  <div class="band" style="margin-top:34px">
+    <div class="v" style="font-size:34px">Traces establish recurrence, not admissibility.</div>
+    <div class="n">That is why the method optimizes only the part of the workflow evidence can license.</div>
+  </div>
+
+</body></html>

@@ -1,0 +1,86 @@
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{Tracing JITs, guards, and deoptimization.}
+\method is structurally a tracing just-in-time compiler for agent executions,
+and the vocabulary nearly transfers: hot-trace detection becomes family mining,
+guard synthesis becomes the hard guard $H$, region compilation becomes bounded
+synthesis, and deoptimization becomes fallback to the baseline agent. Dynamo
+introduced transparent guarded trace regions with
+fallback~\citep{bala2000dynamo}; trace-based type
+specialization~\citep{gal2009tracejit} and meta-tracing~\citep{bolz2009pypy}
+developed the guard-and-recompile discipline we borrow; and restoring a
+consistent state after abandoning a region is exactly dynamic
+deoptimization~\citep{holzle1992deopt}. Specializing against known inputs is
+otherwise partial evaluation~\citep{jones1993partial}. What is \emph{not}
+inherited is what an agent guard must additionally certify: that arguments are
+grounded in observable state (\cref{eq:grounding}), that declared effects
+permit speculation --- effect systems supply the discipline for treating
+declarations as a trusted computing base~\citep{lucassen1988effects} --- and
+that the residual error rate carries a finite-sample bound.
+
+\paragraph{Trace-based agent optimization.}
+The closest systems reuse or compile observed agent behaviour. AWO bundles
+recurring tool-call sequences into meta-tools, cutting LLM calls by up to
+11.9\%~\citep{abuzakuk2026awo}; Agent Workflow Memory induces reusable workflows
+for web tasks~\citep{wang2025awm}; Agentic Compilation emits a deterministic
+JSON workflow from one model call and replays it without further
+inference~\citep{chundru2026agenticcompilation}; agentic plan caching adapts
+plan templates for 46.6\% mean cost reduction~\citep{zhang2025plancache}. The closest comparators are EvoC2F, which
+compiles a typed plan IR carrying dependency, effect, resource, idempotency,
+and retry annotations and admits macro-skills through tests and regression
+checks~\citep{wei2026evoc2f}, and Agent JIT Compilation, which validates
+generated code plans under tool pre/post-state
+invariants~\citep{winston2026agentjit}. The distinction throughout is what
+\emph{licenses} deployment: each admits on a metric, a profile, or a test
+suite, none on a finite-sample selective bound. We did not reimplement them, so
+we claim a different admission rule, not superiority.
+
+\paragraph{Prompt, model, and topology optimization.}
+DSPy and MIPRO optimize instructions and demonstrations in declarative LM
+programs~\citep{khattab2024dspy,opsahlong2024mipro}; GEPA evolves prompts
+reflectively from execution traces~\citep{agrawal2026gepa}; RouteLLM selects a
+model from preference data~\citep{ong2025routellm}; AgentSlimming prunes
+multi-agent graph nodes~\citep{chen2026agentslimming}; FlowCompile searches
+model, budget, and topology for a \emph{declared}
+graph~\citep{li2026flowcompile}; LLMCompiler parallelizes the calls of the
+current request~\citep{kim2024llmcompiler}; and COVENANT compiles
+natural-language policy into checkable workflow graphs~\citep{wang2026covenant}.
+GEPA in particular shows that trace-driven agent optimization is not itself
+novel, so we do not claim it. The difference is the object changed: these
+methods tune prompts, models, or the scheduling of calls the agent is
+\emph{about} to make, whereas \method deletes historical model boundaries when a
+trace-grounded deterministic replacement is supported by guarded evidence.
+
+\paragraph{Program analysis and selective risk.}
+Canonical trace families resemble process-mining
+variants~\citep{vanderAalst2016process}; bounded synthesis relates to
+programming by example~\citep{gulwani2011flashfill}, bounded
+sketching~\citep{solarlezama2006sketching}, and likely-invariant
+mining~\citep{ernst2001daikon}; argument grounding is execution
+provenance~\citep{cheney2009provenance}. Admission builds on exact binomial
+inference~\citep{clopper1934binomial} and distribution-free risk
+control~\citep{angelopoulos2022ltt,bates2021rcps}, and the reject option goes
+back to \citet{chow1970reject}. Our contribution is not a new bound but the
+observation that a compiler's natural calibration unit is the scenario
+\emph{group}, and that the resulting sample requirement usually binds
+(\cref{sec:res-refusal}).
+
+\paragraph{Tool-use evaluation and caching economics.}
+Most tool-use suites test whether an agent can choose and execute actions
+\citep{patil2025bfcl,lu2025toolsandbox,barres2025tau2,qin2023toolllm,liu2023agentbench,mialon2023gaia,wei2025browsecomp,yoran2024assistantbench,jimenez2024swebench};
+we use NESTFUL and API-Bank instead because they retain the nested producer
+references and recorded call results a post-trace provenance question requires.
+On economics, prompt-cache strategy has been measured at 41--80\% cost
+reduction, with naive full-context caching sometimes \emph{increasing}
+latency~\citep{lumer2026cache,song2026capc}; our observation that fewer tokens
+can cost more is consistent with that, arising here from turn removal rather
+than compression. Its deployed counterpart is context-compression
+middleware such as Headroom, which reports 73\% token reduction on GitHub
+triage~\citep{headroom2026} by shrinking the payload of calls that still happen:
+it never removes a model boundary and so cannot reduce provider requests, where
+\method does the opposite. The two compose; we did not run the composition,
+which is the comparator our token numbers most need. Finally,
+counterfactual trace auditing shows that unchanged aggregate pass rates can hide
+substantive behavioral differences~\citep{zhou2026cta} --- precisely the
+weakness of the registered-contract oracle we use.

@@ -1,0 +1,101 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css">
+<style>
+  body.figure { width: 1800px; height: 1120px; }
+  .two { flex: 1 1 auto; display: grid; grid-template-columns: 1fr 1fr;
+         gap: 36px; min-height: 0; }
+  .lane { display: flex; flex-direction: column; gap: 18px; }
+  .lane > .card { flex: 1 1 auto; }
+  .turns { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin: 4px 0 2px; }
+  .m { width: 46px; height: 46px; border-radius: 11px; display: grid; place-items: center;
+       font-size: 16px; font-weight: 800; color: #fff; background: var(--series-1); flex: 0 0 auto; }
+  .m.gone { background: transparent; border: 2.5px dashed #b9c6d8; color: #9fb0c6; }
+  .t { width: 46px; height: 46px; border-radius: 11px; display: grid; place-items: center;
+       font-size: 16px; font-weight: 800; color: var(--ink-2); background: #e6edf6;
+       border: 1.5px solid var(--hairline); flex: 0 0 auto; }
+  .t.small { width: 30px; }
+  .arrow { color: var(--ink-3); font-size: 20px; flex: 0 0 auto; }
+  .rowlab { font-size: 17px; font-weight: 800; letter-spacing: .07em;
+            text-transform: uppercase; color: var(--ink-3); }
+  .effect { display: flex; gap: 26px; margin-top: 4px; }
+  .effect div { flex: 1 1 0; }
+  .effect .n { font-size: 34px; font-weight: 800; line-height: 1; }
+  .effect .l { font-size: 18px; color: var(--ink-2); margin-top: 6px; line-height:1.3; }
+  .none { color: var(--ink-3); }
+</style></head>
+<body class="figure">
+
+  <div class="hdr">
+    <div class="eyebrow">Two different axes</div>
+    <h1>Compaction removes the call. Compression shrinks it.</h1>
+    <p class="sub">Both cut tokens, by mechanisms that do not overlap &mdash; which is why
+      they compose, and why only one of them can touch the request count.</p>
+  </div>
+
+  <div class="two">
+
+    <div class="lane">
+      <div class="card">
+        <span class="tag" style="background:var(--series-1)">Guarded agentic compaction</span>
+        <h3>Deletes model boundaries</h3>
+        <div class="rowlab" style="margin-top:6px">Baseline</div>
+        <div class="turns">
+          <span class="m">M</span><span class="arrow">&rarr;</span><span class="t">tool</span>
+          <span class="arrow">&rarr;</span><span class="m">M</span><span class="arrow">&rarr;</span>
+          <span class="t">tool</span><span class="arrow">&rarr;</span><span class="m">M</span>
+        </div>
+        <div class="rowlab">Compiled</div>
+        <div class="turns">
+          <span class="m gone">M</span><span class="arrow">&rarr;</span><span class="t">tool</span>
+          <span class="arrow">&rarr;</span><span class="m gone">M</span><span class="arrow">&rarr;</span>
+          <span class="t">tool</span><span class="arrow">&rarr;</span><span class="m">M</span>
+        </div>
+        <p style="margin-top:8px">The read prefix runs as verified deterministic code.
+          Payload sizes are untouched.</p>
+        <div class="effect">
+          <div><div class="n" style="color:var(--series-1)">&minus;66.6%</div>
+               <div class="l">provider requests</div></div>
+          <div><div class="n" style="color:var(--series-1)">&minus;63.1%</div>
+               <div class="l">total tokens</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lane">
+      <div class="card">
+        <span class="tag" style="background:var(--series-2)">Context compression</span>
+        <h3>Shrinks what each call carries</h3>
+        <div class="rowlab" style="margin-top:6px">Baseline</div>
+        <div class="turns">
+          <span class="m">M</span><span class="arrow">&rarr;</span><span class="t">tool</span>
+          <span class="arrow">&rarr;</span><span class="m">M</span><span class="arrow">&rarr;</span>
+          <span class="t">tool</span><span class="arrow">&rarr;</span><span class="m">M</span>
+        </div>
+        <div class="rowlab">Compressed</div>
+        <div class="turns">
+          <span class="m">M</span><span class="arrow">&rarr;</span><span class="t small">t</span>
+          <span class="arrow">&rarr;</span><span class="m">M</span><span class="arrow">&rarr;</span>
+          <span class="t small">t</span><span class="arrow">&rarr;</span><span class="m">M</span>
+        </div>
+        <p style="margin-top:8px">Every model turn still happens; the tool payloads reaching
+          it are smaller. Reported: 73% on GitHub triage.</p>
+        <div class="effect">
+          <div><div class="n none">0%</div>
+               <div class="l">provider requests &mdash; no call is removed</div></div>
+          <div><div class="n" style="color:var(--series-2)">large</div>
+               <div class="l">token reduction</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="band" style="margin-top:32px">
+    <div class="k">The honest caveat</div>
+    <div class="v">Our numbers compare against an <em>uncompressed</em> baseline.</div>
+    <div class="n">So the token reduction should be read as the part attributable to removing
+      model boundaries. The request reduction is not exposed to that caveat &mdash;
+      compression cannot remove a call.</div>
+  </div>
+
+</body></html>

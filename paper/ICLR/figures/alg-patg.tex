@@ -1,0 +1,44 @@
+\begin{algorithm}[t]
+\caption{\textsc{BuildPatg} --- typed argument provenance. A slot with no witness is a
+genuine model decision; a slot with too many witnesses is ambiguous. Both block the
+region rather than defaulting to the cheapest explanation.}
+\label{alg:patg}
+\footnotesize
+\begin{algorithmic}[1]
+\Require episodes $\mathcal{T}$; entry schema $\Theta$; transform library $\mathcal{L}$;
+         ambiguity cap $\kappa$
+\Ensure provenance graph $G$ with one edge per grounded argument slot
+\State $G\gets\emptyset$
+\ForAll{episodes $E=(z,M,e_{1:T},y)\in\mathcal{T}$}
+  \State $\Sigma\gets\{(\text{``}z\text{''},\pi,v) : (\pi,v)\in\textsc{Flatten}(z),\,
+         \pi\in\Theta\}$ \Comment{only allowlisted entry paths are eligible}
+  \ForAll{tool calls $c_j\in e_{1:T}$ in order}
+    \ForAll{argument slots $u\in\operatorname{args}(c_j)$}
+      \State $\mathcal{H}\gets\{\,\sigma\in\Sigma : \exists\,g\in\mathcal{L},\;
+             g(\sigma)=u,\ \operatorname{depth}(g)\le 2\,\}$
+      \If{$u$ is declared \emph{literal-only} for $c_j$}
+        \State $\mathcal{H}\gets\{\sigma\in\mathcal{H} : g=\mathrm{id}
+               \ \text{or}\ g\ \text{constant}\}$
+               \Comment{never reconstruct a page index or a limit}
+      \EndIf
+      \If{$\mathcal{H}=\emptyset$}
+        \State \textbf{mark} $c_j$ \textsc{model-originated}; \textbf{block} region
+      \ElsIf{$|\mathcal{H}|>\kappa$}
+        \State \textbf{mark} $c_j$ \textsc{ambiguous}; \textbf{block} region
+      \Else
+        \State $G\gets G\cup\{\sigma\xrightarrow{\,g\,}(c_j,u)\}$ for the
+               minimum-description-length $\sigma$
+      \EndIf
+    \EndFor
+    \State $\Sigma\gets\Sigma\cup\{(\operatorname{var}(c_j),\pi,v) :
+           (\pi,v)\in\textsc{Flatten}(o_j)\}$
+           \Comment{a result witnesses only \emph{later} slots}
+  \EndFor
+  \ForAll{pairs $(e_s,e_t)$ sharing a resource where either writes it}
+    \State $G\gets G\cup\{e_s\prec e_t\}$
+           \Comment{order edge: no reordering is ever proposed across a conflict}
+  \EndFor
+\EndFor
+\State \Return $G$
+\end{algorithmic}
+\end{algorithm}

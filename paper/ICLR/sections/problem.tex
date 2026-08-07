@@ -1,0 +1,62 @@
+\section{Problem Formulation}
+\label{sec:problem}
+
+\paragraph{Episodes and candidate regions.}
+An episode $E=(z,M,e_{1:T},y)$ contains an entry-state snapshot $z$, a
+content-addressed execution manifest $M$, ordered events $e_t$ (model requests
+and responses, tool calls and results, handoffs, guardrails, approvals, errors,
+commit boundaries), and an observable outcome $y$. Each tool $f$ carries an
+application-owned effect declaration $\epsilon(f)$ and capability flags such as
+\emph{speculatable}; an unknown effect is not a read.
+
+A candidate region $R=[a,b]$ begins at a model-request boundary and ends after
+a tool result. It is \emph{groundable} when every call argument is an
+expression over entry state or prior results inside $R$,
+\begin{equation}
+  \forall c_j \in R,\ \forall u \in \operatorname{args}(c_j):\quad
+  u = g_{j,u}\!\left(z, o_{<j}\right),\qquad g_{j,u}\in\mathcal{L},
+  \label{eq:grounding}
+\end{equation}
+for a closed, bounded transform library $\mathcal{L}$; and
+\emph{effect-admissible} when every tool in $R$ is declared read-only,
+speculatable, replayable, and inside one principal and isolation partition.
+Handoffs, approvals, writes, errors, and unknown effects are hard barriers, not
+costs to be traded away. Because the deployed runtime resolves artifacts at the
+initial model boundary, the compiler also imposes a \emph{position invariant}:
+\begin{equation}
+  a = 0 \quad\text{in the normalized model-boundary index.}
+  \label{eq:prefix}
+\end{equation}
+This is not aesthetic. A suffix program dispatched at entry can reorder or
+duplicate calls the agent has already made --- a semantic mismatch between
+compilation-time and resolution-time position rather than a tuning failure, and
+a pilot that violated \cref{eq:prefix} produced exactly that fault
+(\cref{app:pilot}).
+
+\paragraph{Selective optimization objective.}
+The compiler emits an artifact $A=(P,H,V,q,\eta,M)$: a deterministic program
+$P$, hard guard $H$, output verifier $V$, nonconformity score $q$, threshold
+$\eta$, and manifest pins $M$. On a future episode with entry state $z$,
+dispatch is \emph{selective},
+\begin{equation}
+  d_A(z) = \mathbf{1}\{\,H(z)=1 \ \wedge\ q(z)\le\eta \ \wedge\ M \text{ matches}\,\},
+  \label{eq:dispatch}
+\end{equation}
+and any failed precondition runs the unchanged baseline agent $B$. If execution
+fails before a commit and staging proves the attempt clean, $B$ runs; a dirty
+failure after a commit is an incident, not a fallback. Writing $L(A,z)\in\{0,1\}$
+for a wrong compiled execution \emph{after} dispatch and $C(\cdot,z)$ for
+execution cost, we seek
+\begin{equation}
+  \max_A\ \ \mathbb{E}\big[d_A(z)\,\{C(B,z)-C(A,z)\}\big]
+  \quad\text{s.t.}\quad
+  \Pr\!\left[L(A,z)=1 \mid d_A(z)=1\right] \le \alpha .
+  \label{eq:objective}
+\end{equation}
+Two properties shape everything that follows. The constraint conditions on
+dispatch, so abstention is free and only post-dispatch errors are charged ---
+the classical reject option~\citep{chow1970reject} applied to a compiler rather
+than a classifier --- and returning \emph{no} artifact is feasible, so \retire{}
+is a legitimate output rather than a failure mode. \Cref{eq:objective} is a
+design target: the implementation returns the first family that survives every
+stage of \cref{alg:compile}, and we prove no bound on the gap to the best one.

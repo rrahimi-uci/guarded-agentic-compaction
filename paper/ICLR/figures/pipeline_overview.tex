@@ -1,0 +1,120 @@
+% ---------------------------------------------------------------------------
+% System architecture of guarded agentic compaction (ICLR single-column build).
+%
+% Explicit millimetre geometry with anchor=north west so the three lanes cannot
+% collide at any scale.  Natural width is ~136mm, which fits the ICLR 5.5in
+% (139.7mm) measure without \resizebox, so label sizes stay uniform.
+% Colours (gacblue/gacteal/gacred/gacline/gacgrey) are declared in main.tex.
+% ---------------------------------------------------------------------------
+\begin{tikzpicture}[
+  x=1mm, y=1mm,
+  font=\sffamily\tiny,
+  box/.style={
+    draw=gacline!85, line width=0.4pt, rounded corners=1.2pt, fill=white,
+    anchor=north west, align=center, inner sep=1.6pt,
+    minimum width=40mm, minimum height=10mm, text width=36.5mm},
+  gate/.style={box, fill=gacblue!10, draw=gacblue, line width=0.6pt},
+  good/.style={box, fill=gacteal!14, draw=gacteal, line width=0.6pt,
+               minimum width=28mm, text width=25mm, minimum height=8mm},
+  base/.style={box, fill=gacgrey, draw=gacline!55,
+               minimum width=28mm, text width=25mm, minimum height=8mm},
+  frame/.style={draw=gacline!30, line width=0.4pt, rounded corners=2pt,
+                fill=gacgrey!55, inner sep=3.6pt},
+  barrier/.style={
+    draw=gacred!55, line width=0.4pt, rounded corners=1.2pt, fill=gacred!8,
+    anchor=north west, align=left, inner sep=2.6pt, font=\sffamily\tiny},
+  head/.style={font=\sffamily\bfseries\tiny, text=gacblue,
+               anchor=south west, inner sep=0pt},
+  flow/.style={-{Latex[length=1.3mm,width=1.1mm]}, draw=gacline!85,
+               line width=0.4pt},
+  lbl/.style={font=\sffamily\tiny, inner sep=1pt, fill=gacgrey!55,
+              text=gacline},
+]
+
+% ======================================================= A -- capture (lane 1)
+\node[box, minimum height=8.5mm] (sdk) at (0, 0)
+  {Agent-framework traces\\\itshape model $\cdot$ tool $\cdot$ guardrail $\cdot$ handoff};
+\node[box, minimum height=8.5mm] (ir)  at (48, 0)
+  {\textbf{Episode IR} $E=(z,M,e_{1:T},y)$\\\itshape typed $\cdot$ manifest-pinned};
+\node[box, minimum height=8.5mm, fill=gacgrey] (cat) at (96, 0)
+  {\textbf{Effect catalog} $\epsilon(f)$\\\itshape read-only $\cdot$ speculatable $\cdot$ replayable};
+
+\draw[flow] (sdk.east) -- (ir.west);
+\draw[flow] (cat.west) -- (ir.east);
+
+\begin{scope}[on background layer]
+  \node[frame, fit=(sdk)(ir)(cat)] (fA) {};
+\end{scope}
+\node[head] at ([yshift=0.5mm]fA.north west) {A\quad CAPTURE};
+
+% ============================================ B -- offline compilation (lane 2)
+\node[box] (prov) at (0, -21)
+  {\textbf{1. Provenance} (\cref{alg:patg})\\typed producer search over $z,o_{<j}$};
+\node[box] (mine) at (48, -21)
+  {\textbf{2. Mine + rank}\\canonical families, Eq.~\eqref{eq:score}};
+\node[gate] (feas) at (96, -21)
+  {\textbf{3. Feasibility}\\$\varphi k/n_B \ge \Delta$? Eq.~\eqref{eq:ceiling}};
+
+% Row 2 runs right-to-left (serpentine): the stage-3 -> stage-4 hand-off is then a
+% short vertical arrow instead of a full-width return line across the barrier band.
+\node[box] (synth) at (96, -35)
+  {\textbf{4. Synthesize} $P$\\closed library $\mathcal{L}$, depth $\le 2$};
+\node[box] (cont) at (48, -35)
+  {\textbf{5. Contracts} $H,V$\\induce + challenge by replay};
+\node[gate] (cal) at (0, -35)
+  {\textbf{6. Calibrate} (\cref{alg:calibrate})\\exact grid bound $U_\eta \le \alpha$?};
+
+\draw[flow] (prov.east) -- (mine.west);
+\draw[flow] (mine.east) -- (feas.west);
+\draw[flow] (feas.south) -- (synth.north);
+\draw[flow] (synth.west) -- (cont.east);
+\draw[flow] (cont.west)  -- (cal.east);
+
+\node[barrier, text width=131mm] (bar) at (0,-48)
+  {\textbf{Hard barriers} --- no amount of statistical evidence overrides these:
+   unknown or irreversible effect $\cdot$ approval $\cdot$ handoff $\cdot$
+   ungrounded or ambiguous argument $\cdot$ manifest or isolation mismatch
+   $\cdot$ non-prefix position (Eq.~\ref{eq:prefix}).
+   \textcolor{gacred!85}{\textbf{Any hit, or any failed gate}
+   % Spelled out rather than \retire: Latin Modern Sans has no small-caps face
+   % at this size, so \textsc here would trigger a font substitution.
+   $\Rightarrow$ \textbf{RETIRE:}} no artifact is emitted, registered, or
+   dispatched, and the baseline agent is left byte-identical.};
+
+\begin{scope}[on background layer]
+  \node[frame, fit=(prov)(feas)(cal)(bar)] (fB) {};
+\end{scope}
+\node[head] at ([yshift=0.5mm]fB.north west)
+  {B\quad OFFLINE COMPILATION};
+
+% Enters stage B at x=36mm, clear of the lane header and inside the stage-1 box.
+\draw[flow] (ir.south) -- ++(0,-3.2) -| (36,-16.4) -- (36,-21);
+
+% ============================================================ C -- runtime lane
+\node[box] (reg) at (0, -68)
+  {\textbf{Registry}\\signed $A=(P,H,V,q,\eta,M)$};
+\node[gate] (disp) at (48, -68)
+  {\textbf{Dispatch} (\cref{alg:dispatch})\\guard $\to$ gate $\to$ stage $\to$ verify};
+\node[good] (hit) at (99, -66.5)
+  {\textbf{compacted run}\\provider turns elided};
+\node[base] (miss) at (99, -76)
+  {\textbf{baseline agent} $B$\\unchanged behaviour};
+
+\draw[flow] (reg.east) -- (disp.west);
+\draw[flow] (disp.east) -- ++(2,0) |- (hit.west)
+            node[lbl, pos=0.7] {$V\!=\!1$};
+\draw[flow] (disp.east) -- ++(2,0) |- (miss.west)
+            node[lbl, pos=0.7] {any miss};
+
+\begin{scope}[on background layer]
+  \node[frame, fit=(reg)(disp)(hit)(miss)] (fC) {};
+\end{scope}
+\node[head] at ([yshift=0.5mm]fC.north west) {C\quad RUNTIME};
+
+% Enters the runtime lane at x=32mm: far enough right that the label clears the
+% "C  RUNTIME" lane header, and still inside the Registry box (x = 0..40mm).
+\draw[flow] ([xshift=32mm]bar.south west) -- (32,-68)
+  node[lbl, pos=0.55, anchor=west, xshift=1mm, fill=none]
+  {register iff $U_\eta\le\alpha$};
+
+\end{tikzpicture}

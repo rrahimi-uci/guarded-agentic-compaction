@@ -239,6 +239,6 @@ The project follows the [code of conduct](CODE_OF_CONDUCT.md) and is licensed un
 
 ## Citation
 
-The manuscript is **Compiling Recurrent Agent Workflows into Guarded Programs**. A
+The manuscript is **From Traces to Guarded Programs: Evidence-Gated Compilation of Recurrent Agent Workflows**. A
 versioned citation will be added after archival release; until then, cite the repository
 commit and the paper PDF together.

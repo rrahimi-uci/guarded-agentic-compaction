@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1080" viewBox="0 0 1800 1080" role="img" aria-labelledby="title desc">
+  <title id="title">Guarded agentic compaction pipeline diagram</title>
+  <desc id="desc">A five-stage diagram showing capture, mine, synthesize, verify, and runtime, with a retirement rule when evidence is weak.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f7f9fc"/>
+      <stop offset="100%" stop-color="#eef3fb"/>
+    </linearGradient>
+    <linearGradient id="ruleBg" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ecf4ff"/>
+      <stop offset="100%" stop-color="#e8fff9"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#20344f" flood-opacity="0.14"/>
+    </filter>
+    <marker id="arrow" markerWidth="16" markerHeight="16" refX="12" refY="8" orient="auto">
+      <path d="M0,0 L16,8 L0,16 z" fill="#577096"/>
+    </marker>
+    <style>
+      .sans { font-family: "Avenir Next", "Segoe UI", Arial, sans-serif; }
+      .title { font-size: 62px; font-weight: 760; letter-spacing: -0.04em; }
+      .subtitle { font-size: 26px; font-weight: 500; }
+      .stepTag { font-size: 18px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+      .stepTitle { font-size: 44px; font-weight: 760; letter-spacing: -0.03em; }
+      .stepBody { font-size: 27px; font-weight: 500; }
+      .ruleTitle { font-size: 28px; font-weight: 760; letter-spacing: 0.04em; text-transform: uppercase; }
+      .ruleBody { font-size: 31px; font-weight: 520; }
+    </style>
+  </defs>
+
+  <rect width="1800" height="1080" fill="url(#bg)"/>
+  <g opacity="0.26" fill="none" stroke="#c5d4ea" stroke-width="2">
+    <path d="M110 164 H1690"/>
+    <path d="M110 184 H1690"/>
+  </g>
+
+  <g class="sans">
+    <text x="90" y="112" class="title" fill="#17233e">From traces to runtime</text>
+    <text x="90" y="154" class="subtitle" fill="#596b88">Every stage can refuse; the baseline agent remains available.</text>
+
+    <g fill="none" stroke="#577096" stroke-width="5.5" marker-end="url(#arrow)">
+      <path d="M590 330 H650"/>
+      <path d="M1150 330 H1210"/>
+      <path d="M1460 440 V520 H620 V550"/>
+      <path d="M870 660 H930"/>
+    </g>
+
+    <g filter="url(#cardShadow)">
+      <rect x="90" y="220" width="500" height="220" rx="34" fill="#ffffff" stroke="#d4ddea" stroke-width="2.2"/>
+      <rect x="126" y="252" width="176" height="56" rx="22" fill="#2196d2"/>
+      <text x="150" y="288" class="stepTag" fill="#ffffff">Step 1</text>
+      <text x="126" y="366" class="stepTitle" fill="#17233e">Capture</text>
+      <text x="126" y="408" class="stepBody" fill="#42526c">Normalize traces into typed episodes.</text>
+    </g>
+
+    <g filter="url(#cardShadow)">
+      <rect x="650" y="220" width="500" height="220" rx="34" fill="#ffffff" stroke="#d4ddea" stroke-width="2.2"/>
+      <rect x="686" y="252" width="176" height="56" rx="22" fill="#22b4a7"/>
+      <text x="710" y="288" class="stepTag" fill="#ffffff">Step 2</text>
+      <text x="686" y="366" class="stepTitle" fill="#17233e">Mine</text>
+      <text x="686" y="408" class="stepBody" fill="#42526c">Find recurrent read-only regions.</text>
+    </g>
+
+    <g filter="url(#cardShadow)">
+      <rect x="1210" y="220" width="500" height="220" rx="34" fill="#ffffff" stroke="#d4ddea" stroke-width="2.2"/>
+      <rect x="1246" y="252" width="208" height="56" rx="22" fill="#5f63e4"/>
+      <text x="1270" y="288" class="stepTag" fill="#ffffff">Step 3</text>
+      <text x="1246" y="366" class="stepTitle" fill="#17233e">Synthesize</text>
+      <text x="1246" y="396" class="stepBody" fill="#42526c">Search a bounded</text>
+      <text x="1246" y="430" class="stepBody" fill="#42526c">23-operator DSL.</text>
+    </g>
+
+    <g filter="url(#cardShadow)">
+      <rect x="370" y="550" width="500" height="220" rx="34" fill="#ffffff" stroke="#d4ddea" stroke-width="2.2"/>
+      <rect x="406" y="582" width="176" height="56" rx="22" fill="#f5a000"/>
+      <text x="430" y="618" class="stepTag" fill="#ffffff">Step 4</text>
+      <text x="406" y="696" class="stepTitle" fill="#17233e">Verify</text>
+      <text x="406" y="738" class="stepBody" fill="#42526c">Check contracts and exact gates.</text>
+    </g>
+
+    <g filter="url(#cardShadow)">
+      <rect x="930" y="550" width="500" height="220" rx="34" fill="#ffffff" stroke="#d4ddea" stroke-width="2.2"/>
+      <rect x="966" y="582" width="176" height="56" rx="22" fill="#1b807a"/>
+      <text x="990" y="618" class="stepTag" fill="#ffffff">Step 5</text>
+      <text x="966" y="696" class="stepTitle" fill="#17233e">Runtime</text>
+      <text x="966" y="726" class="stepBody" fill="#42526c">Dispatch only when all gates pass.</text>
+    </g>
+
+    <g filter="url(#cardShadow)">
+      <rect x="90" y="840" width="1620" height="160" rx="36" fill="url(#ruleBg)" stroke="#c7d8ef" stroke-width="2.2"/>
+      <text x="130" y="902" class="ruleTitle" fill="#20577c">Retire immediately when...</text>
+      <text x="130" y="952" class="ruleBody" fill="#22334d">provenance is unclear, an effect is unsafe, the manifest drifts, or family support is too weak.</text>
+    </g>
+  </g>
+</svg>

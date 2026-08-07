@@ -37,7 +37,7 @@ V=paper/scripts/validate_multidomain.py
     --pool hmda="$M/hmda" --out "$M/validation.json"
 .venv/bin/coverage run -m pytest -q
 .venv/bin/python scripts/verify_release.py
-TECTONIC --outdir ../build main.tex
+TECTONIC --outdir ../open_research main.tex
 \end{verbatim}
 \code{build\_artifacts.py} also writes the admission register and the cache/amortization
 record, so \cref{tab:admission-register,tab:cache-accounting} are derived from the sealed

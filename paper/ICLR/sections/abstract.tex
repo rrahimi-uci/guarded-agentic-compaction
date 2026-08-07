@@ -1,0 +1,22 @@
+Tool-using agents often repeat the same read-only evidence-gathering prefix
+while paying for a model decision at every tool boundary. Replacing such
+prefixes is not ordinary caching: tool arguments may depend on prior
+observations, nominal reads may hide side effects, and a replay-correct program
+may still change the final answer. We present guarded agentic compaction
+(\method), a trace-to-program compiler that reconstructs typed provenance,
+enforces effect and position barriers, synthesizes from a bounded DSL, and
+admits compiled prefixes only under a compile-or-retire selective-risk test. On
+three public-record GitHub workflow families with live provider calls, compiled
+programs achieve 90/90 exact held-out contracts versus 89/90 for unchanged
+agents while reducing provider requests by 50.0--75.0\%, total tokens by
+39.5--81.4\%, observed latency by 51.7--73.0\%, and estimated cost by
+32.0--75.3\%. The same protocol transfers across repositories on a narrower
+time-forward pull-request task: a conservative five-repository extension yields
+120/120 exact held-out pairs on four repositories and retires the fifth, and a
+balanced three-repository rerun reaches 180/180 exact pairs with 66.7\% fewer
+provider requests. On NESTFUL and API-Bank every recurrent family retires even
+though provenance, synthesis, and replay all succeed, showing that recurrence
+and replayability are insufficient without admission support. Hand-written
+programs remain competitive when the workflow is already known, so the claim is
+automatic discovery and conservative lifecycle management, not runtime
+dominance over manual code.

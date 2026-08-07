@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-labelledby="title desc">
+  <title id="title">Experiment summary ranges for guarded agentic compaction</title>
+  <desc id="desc">A visual replacement for the experiment table, showing ranges for provider requests, tokens, latency, and estimated cost reductions versus the unchanged agent.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f9fbfe"/>
+      <stop offset="100%" stop-color="#eef4fb"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#152947"/>
+      <stop offset="100%" stop-color="#1d3b64"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#22354f" flood-opacity="0.14"/>
+    </filter>
+    <style>
+      .sans { font-family: "Avenir Next", "Segoe UI", Arial, sans-serif; }
+      .eyebrow { font-size: 20px; font-weight: 760; letter-spacing: 0.13em; text-transform: uppercase; }
+      .title { font-size: 58px; font-weight: 760; letter-spacing: -0.04em; }
+      .subtitle { font-size: 26px; font-weight: 500; }
+      .metric { font-size: 31px; font-weight: 760; }
+      .range { font-size: 48px; font-weight: 760; letter-spacing: -0.03em; }
+      .noteHead { font-size: 24px; font-weight: 760; letter-spacing: 0.10em; text-transform: uppercase; }
+      .noteBody { font-size: 23px; font-weight: 600; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="980" fill="url(#bg)"/>
+
+  <g class="sans">
+    <text x="80" y="88" class="eyebrow" fill="#2171c2">Experiment summary</text>
+    <text x="80" y="154" class="title" fill="#17233e">What the paper reports</text>
+    <text x="80" y="196" class="subtitle" fill="#5c6e89">Ranges are measured across workflow families versus the unchanged agent.</text>
+
+    <g filter="url(#cardShadow)">
+      <rect x="80" y="270" width="1440" height="120" rx="30" fill="#ffffff" stroke="#d1dceb" stroke-width="2.2"/>
+      <text x="126" y="344" class="metric" fill="#17233e">Provider requests</text>
+      <text x="1320" y="344" text-anchor="end" class="range" fill="#2b7fdb">50.0-75.0%</text>
+    </g>
+
+    <g filter="url(#cardShadow)">
+      <rect x="80" y="430" width="1440" height="120" rx="30" fill="#ffffff" stroke="#d1dceb" stroke-width="2.2"/>
+      <text x="126" y="504" class="metric" fill="#17233e">Tokens</text>
+      <text x="1320" y="504" text-anchor="end" class="range" fill="#1aa39a">39.5-81.4%</text>
+    </g>
+
+    <g filter="url(#cardShadow)">
+      <rect x="80" y="590" width="1440" height="120" rx="30" fill="#ffffff" stroke="#d1dceb" stroke-width="2.2"/>
+      <text x="126" y="664" class="metric" fill="#17233e">Latency</text>
+      <text x="1320" y="664" text-anchor="end" class="range" fill="#5f63e4">51.7-73.0%</text>
+    </g>
+
+    <g filter="url(#cardShadow)">
+      <rect x="80" y="750" width="1440" height="120" rx="30" fill="#ffffff" stroke="#d1dceb" stroke-width="2.2"/>
+      <text x="126" y="824" class="metric" fill="#17233e">Estimated cost</text>
+      <text x="1320" y="824" text-anchor="end" class="range" fill="#d0830f">32.0-75.3%</text>
+    </g>
+
+    <g filter="url(#cardShadow)">
+      <rect x="80" y="900" width="1440" height="56" rx="20" fill="url(#panel)"/>
+      <text x="126" y="935" class="noteHead" fill="#8ec0ff">Claim boundary</text>
+      <text x="410" y="937" class="noteBody" fill="#ffffff">Guarded automation, not unconditional replacement of agent reasoning.</text>
+    </g>
+  </g>
+</svg>

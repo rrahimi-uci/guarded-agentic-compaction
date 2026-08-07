@@ -1,0 +1,73 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css">
+<style>
+  body.figure { width: 1800px; height: 820px; }
+  /* Colour here encodes STATE, not step identity: every stage is the same blue
+     because they are the same kind of thing.  Red is reserved for refusal and
+     green for the one admitting exit.  The previous version gave each step its
+     own arbitrary hue, which spent the colour channel on nothing. */
+  .flow { flex: 1 1 auto; display: grid; grid-template-columns: repeat(5, 1fr);
+          gap: 20px; align-items: stretch; min-height: 0; }
+  .stage { position: relative; background: #fff; border: 1.5px solid var(--hairline);
+           border-radius: 20px; box-shadow: var(--shadow); padding: 26px 24px;
+           display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .stage .num { width: 42px; height: 42px; border-radius: 12px; background: var(--series-1);
+                color: #fff; font-size: 21px; font-weight: 800;
+                display: grid; place-items: center; flex: 0 0 auto; }
+  .stage h3 { font-size: 30px; font-weight: 800; letter-spacing: -.02em; }
+  .stage p  { font-size: 20px; color: var(--ink-2); line-height: 1.4; }
+  .stage .can { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--hairline);
+                font-size: 17px; font-weight: 700; color: var(--refuse);
+                display: flex; gap: 8px; align-items: flex-start; line-height: 1.3; }
+  .stage .can::before { content: "×"; font-size: 20px; line-height: 1; flex: 0 0 auto; }
+  .stage::after { content: "→"; position: absolute; right: -21px; top: 50%;
+                  transform: translateY(-50%); font-size: 26px; color: #9db0c8;
+                  z-index: 2; background: transparent; }
+  .stage:last-child::after { content: none; }
+  .stage.final { border-color: var(--admit); }
+  .stage.final .num { background: var(--admit); }
+</style></head>
+<body class="figure">
+
+  <div class="hdr">
+    <div class="eyebrow">The compile-or-retire cascade</div>
+    <h1>From traces to runtime &mdash; and every stage can say no</h1>
+    <p class="sub">Each stage is an independent rejection point. Refusal is the default
+      outcome, not the error path: if any stage declines, the unchanged baseline agent runs.</p>
+  </div>
+
+  <div class="flow">
+    <div class="stage">
+      <div class="num">1</div><h3>Capture</h3>
+      <p>Normalize framework traces into one typed episode format with pinned manifests.</p>
+      <div class="can">unpinned manifest, partial run</div>
+    </div>
+    <div class="stage">
+      <div class="num">2</div><h3>Mine</h3>
+      <p>Recover typed provenance and keep only recurrent read-only regions.</p>
+      <div class="can">ungrounded or ambiguous argument</div>
+    </div>
+    <div class="stage">
+      <div class="num">3</div><h3>Synthesize</h3>
+      <p>Search a closed 23-operator library at depth two for a readable program.</p>
+      <div class="can">no program fits the slots</div>
+    </div>
+    <div class="stage">
+      <div class="num">4</div><h3>Verify</h3>
+      <p>Induce a hard guard and an output verifier, then challenge both by replay.</p>
+      <div class="can">counterexample under perturbation</div>
+    </div>
+    <div class="stage final">
+      <div class="num">5</div><h3>Admit</h3>
+      <p>Dispatch only when the guard, the calibrated gate and the manifest all match.</p>
+      <div class="can">evidence below the risk bound</div>
+    </div>
+  </div>
+
+  <div class="band" style="margin-top:36px">
+    <div class="k">Hard barriers &mdash; no amount of evidence overrides these</div>
+    <div class="v">unknown or irreversible effect &middot; approval &middot; handoff &middot;
+      manifest or isolation mismatch &middot; non-prefix position</div>
+  </div>
+
+</body></html>

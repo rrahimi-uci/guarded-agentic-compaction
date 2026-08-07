@@ -1,0 +1,206 @@
+\documentclass{article}
+\usepackage{iclr2027_conference}
+
+% ---------------------------------------------------------------------------
+% Fonts.  The template calls \usepackage{times}.  Under pdfTeX that resolves
+% correctly to Nimbus Roman, but this paper is built with Tectonic (XeTeX),
+% where the legacy `times' package does NOT resolve: the body silently falls
+% back to Latin Modern and every \textbf/\emph/\textit/\textsc renders as
+% upright regular text -- table headers, theorem heads, and section titles
+% included.  newtxtext/newtxmath are the maintained Times-compatible
+% replacements and resolve correctly under both engines; the embedded body
+% face is TeX Gyre Termes, i.e. Times, as the template requires.  If you build
+% with pdflatex on a full TeX Live instead, `\usepackage{times}' is equally
+% valid -- verify bold and italic in the output either way.
+% \openbox and \Bbbk are released because newtxmath and amssymb/amsthm both
+% declare them.
+% ---------------------------------------------------------------------------
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{newtxtext}
+\let\openbox\relax
+\let\Bbbk\relax
+\usepackage[varg]{newtxmath}
+\let\openbox\relax
+\usepackage{amsthm}
+\input{math_commands.tex}
+
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds,shapes.geometric,calc}
+\usepackage{cleveref}
+\usepackage{xspace}
+
+% ---------------------------------------------------------------------------
+% Review-mode line-number ruler.
+%
+% The ICLR style paints a vertical line-number ruler in the left margin unless
+% \iclrfinalcopy is set.  We keep the anonymized review format (the title block
+% must stay blinded) but suppress the ruler itself, so the ruler-drawing macro
+% is redefined to a no-op after the style file has installed its shipout hook.
+% ---------------------------------------------------------------------------
+\renewcommand{\iclrruler}[1]{}
+
+% ------------------------------------------------------------------- palette
+\definecolor{gacblue}{HTML}{2F6B8A}
+\definecolor{gacteal}{HTML}{2A9D8F}
+\definecolor{gacred}{HTML}{B4462F}
+\definecolor{gacline}{HTML}{3D3D3D}
+\definecolor{gacgrey}{HTML}{F4F3F0}
+
+% -------------------------------------------------------------------- macros
+\newcommand{\method}{\textsc{GAC}\xspace}
+\newcommand{\grc}{\textsc{GRC}\xspace}
+\newcommand{\patg}{\textsc{Patg}\xspace}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\retire}{\textcolor{gacred}{\textsc{retire}}\xspace}
+\newcommand{\fallback}{\textsc{fallback}\xspace}
+
+% The official math_commands.tex redefines \eqref to "equation~N", which makes
+% "Eq.~\eqref{...}" read "Eq. equation 5".  Restore the amsmath form.
+\renewcommand{\eqref}[1]{(\ref{#1})}
+
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+
+% algorithmicx restarts its line counter in every float, which makes hyperref
+% emit duplicate ALG@line destinations.  Qualify the anchor with the algorithm
+% number so the PDF backend sees unique names.
+\makeatletter
+\providecommand{\theHALG@line}{\thealgorithm.\arabic{ALG@line}}
+\renewcommand{\theHALG@line}{\thealgorithm.\arabic{ALG@line}}
+\makeatother
+\algrenewcommand\algorithmicrequire{\textbf{Input:}}
+\algrenewcommand\algorithmicensure{\textbf{Output:}}
+\algrenewcommand{\alglinenumber}[1]{\scriptsize#1:}
+
+\Crefname{algorithm}{Algorithm}{Algorithms}
+\crefname{algorithm}{Alg.}{Algs.}
+
+% Let floats fill more of a page.  With five algorithm/figure floats the LaTeX
+% defaults strand a third of several pages, which the 9-page limit cannot spare.
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\bottomfraction}{0.75}
+\renewcommand{\textfraction}{0.08}
+\renewcommand{\floatpagefraction}{0.80}
+\setcounter{topnumber}{3}
+\setcounter{totalnumber}{4}
+% Caption and float separations are left at the class defaults so the template's
+% "one line space before the caption, one line space after the float" rule holds.
+
+\title{From Traces to Guarded Programs: Evidence-Gated Compilation of Recurrent Agent Workflows}
+
+% ===========================================================================
+%  AUTHORSHIP AND ANONYMITY  --  READ BEFORE UPLOADING
+%
+%  ICLR 2027 initial submissions are DOUBLE BLIND.  The switch is the single
+%  \iclrfinalcopy line below:
+%
+%    \iclrfinalcopy present  -> NAMED build.  The author block below is shown.
+%                               Use for preprints, arXiv, and circulation.
+%    \iclrfinalcopy removed  -> BLIND build.  The style file prints "Anonymous
+%                               authors / Paper under double-blind review",
+%                               ignores \author entirely, and clears the PDF
+%                               author metadata.  Use for the OpenReview
+%                               upload.
+%
+%  As shipped this is the NAMED build.  Comment out \iclrfinalcopy before
+%  submitting to ICLR, then confirm the title block and `pdfinfo' output show
+%  no author name.
+% ===========================================================================
+\author{Reza Rahimi \\
+JazzX AI \\
+Los Altos, CA, USA \\
+\texttt{reza.rahimi@jazzx.ai}}
+
+\iclrfinalcopy
+
+% Author name reaches the PDF metadata only in the named build, so a blind
+% build cannot leak it through `pdfinfo'.
+\ificlrfinal
+  \hypersetup{pdfauthor={Reza Rahimi}}
+\else
+  \hypersetup{pdfauthor={}}
+\fi
+\hypersetup{pdftitle={From Traces to Guarded Programs: Evidence-Gated Compilation of Recurrent Agent Workflows}}
+
+\begin{document}
+
+\maketitle
+
+% \iclrfinalcopy also sets the running head to "Published as a conference paper
+% at ICLR 2027".  That is a false claim on an unpublished manuscript, so the
+% named build states what this actually is.  The blind build keeps the style
+% file's "Under review as a conference paper at ICLR 2027" untouched.
+\ificlrfinal\lhead{Preprint. Under review.}\fi
+
+\begin{abstract}
+\input{sections/abstract}
+\end{abstract}
+
+\input{sections/introduction}
+\input{sections/problem}
+\input{sections/method}
+\input{sections/evaluation}
+\input{sections/results}
+\input{sections/related_work}
+\input{sections/discussion}
+\input{sections/conclusion}
+
+\section*{AI Use Statement}
+In preparing this submission, the authors used generative AI tools to help
+restructure the manuscript, improve readability, suggest section organization,
+draft and revise parts of the paper text, and convert repository-grounded
+results into LaTeX tables and submission materials. We did not use generative
+AI tools to generate experimental results or to replace manual verification of
+claims. All reported numbers, citations, equations, and comparisons were
+checked against the repository artifacts, retained outputs, and source files,
+and the authors take responsibility for the final content of the paper.
+
+\section*{Ethics Statement}
+This paper studies methods for removing model-mediated decisions from
+tool-using agents. The main risk is over-trusting a compiled prefix and thereby
+accelerating unsafe automation or silently removing safeguards; deleting a
+model boundary can also delete a guardrail evaluation that happened to run at
+that boundary. Our method mitigates this risk by compiling only read-only
+prefixes, treating unknown effects, approvals, handoffs, and writes as hard
+barriers, and defaulting to retirement or fallback when evidence is
+insufficient. All study data are public records (GitHub repository metadata)
+or public benchmarks; no personal or private data were collected. The reported
+artifact is not a license to bypass human review, legal or compliance controls,
+or safety guardrails in high-stakes domains; unsupported regimes are part of
+the result, not exceptions to hide.
+
+\section*{Reproducibility Statement}
+The main paper reports exact cohort sizes, evaluation protocols, quantitative
+metrics, and the claim boundaries attached to each study.
+\Cref{alg:compile,alg:calibrate} give the deployed compiler and admission rule;
+\Cref{alg:patg,alg:dispatch} in the appendix give provenance construction and
+runtime dispatch. \Cref{app:proof} proves \Cref{prop:admission}, and
+\Cref{app:config} lists every hyperparameter used by the reported runs. The
+repository contains source manifests, raw result files, deterministic table and
+figure generation, and scripts for the live GitHub studies, the
+cross-repository extension, NESTFUL, and API-Bank. For anonymous submission,
+the code and retained artifacts are packaged as an anonymous supplementary
+archive with hashes and manifests preserved.
+
+\bibliographystyle{iclr2027_conference}
+\bibliography{references}
+
+\clearpage
+\appendix
+\input{appendix}
+
+\end{document}

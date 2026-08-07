@@ -2,7 +2,7 @@
 
 This directory is the complete, reproducible artifact for:
 
-> **Compiling Recurrent Agent Workflows into Guarded Programs**
+> **From Traces to Guarded Programs: Evidence-Gated Compilation of Recurrent Agent Workflows**
 
 The paper studies whether repeated model-mediated, read-only tool prefixes can be
 replaced by trace-derived deterministic programs without hiding provenance, effect,
@@ -326,8 +326,8 @@ the font packages either wrapper needs.
 
 ```bash
 cd paper/tex
-tectonic --keep-logs --keep-intermediates --outdir ../build article.tex
-tectonic --keep-logs --keep-intermediates --outdir ../build main.tex
+tectonic --keep-logs --keep-intermediates --outdir ../open_research article.tex
+tectonic --keep-logs --keep-intermediates --outdir ../open_research main.tex
 ```
 
 Both logs contain no undefined citations or references. `main.pdf` is the camera-ready
@@ -338,7 +338,7 @@ with complete `TU` coverage (Pagella via `newpx`, Latin Modern sans and mono); t
 To re-render page images for visual inspection:
 
 ```bash
-cd paper/build && pdftoppm -png -r 130 article.pdf article_pages/pg
+cd paper/open_research && pdftoppm -png -r 130 article.pdf article_pages/pg
 ```
 
 ## Main results

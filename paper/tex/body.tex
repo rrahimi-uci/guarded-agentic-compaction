@@ -1609,6 +1609,23 @@ the same effect arising from \emph{turn removal and route fragmentation} rather 
 compression, and the consequence that a workflow optimizer's objective must price prefix
 reuse.
 
+The deployed counterpart of that literature is context-compression middleware.  Headroom,
+for example, sits between agent and provider and compresses tool outputs, logs, files, and
+retrieved chunks, reporting 60--95\% token reduction on {JSON} payloads, 15--20\% on coding
+tasks, and 73\% on a GitHub triage workload, with a \code{CacheAligner} whose stated job is
+to flag content that would bust a provider {KV}-cache prefix~\cite{headroom2026}.  The
+comparison is worth stating precisely because the token numbers are superficially similar
+to ours on a superficially similar workload.  Such systems shrink the payload of calls
+that still happen; they never remove a model boundary, so they cannot reduce provider
+requests at all.  \method removes the boundary and leaves the payload alone.  The two
+therefore compose rather than compete --- one could compress the reads that a compiled
+prefix still performs --- and the honest consequence is that our token reduction has a
+comparator we did not run.  A compressed baseline is the single most informative addition
+to the resource story in this paper, and \cref{sec:limits} records it as unmeasured.
+Their accuracy evidence is also of a different kind: measured benchmark deltas over
+lossy compression, with no abstention path and no finite-sample bound, which is the same
+distinction that separates \method from every other row of \cref{tab:related-work}.
+
 \paragraph{Program analysis and selective risk.}
 Canonical trace families resemble process-mining variants~\cite{vanderAalst2016process};
 bounded synthesis relates to partial evaluation~\cite{jones1993partial}, likely-invariant
@@ -1826,6 +1843,17 @@ approval fields directly, and the archived artifact carries an empty signature b
 signing was not enabled.  The immutability and signature-verification semantics described
 in \cref{sec:method} are therefore capabilities of the registry, not properties this
 experiment demonstrates.
+
+\paragraph{No compressed baseline.}
+Every resource number in this paper compares a compiled prefix against an
+\emph{uncompressed} baseline agent.  Deployed context-compression middleware reports
+token reductions of the same order on a comparable GitHub triage workload by an entirely
+different mechanism~\cite{headroom2026}, so our token, cost, and latency reductions should
+not be read as the best available on those axes --- only as the reduction attributable to
+removing model boundaries.  The provider-request reduction is not exposed to this
+threat, because compression never removes a call.  Running \method against a compressed
+baseline, and against the composition of both, is the most informative missing experiment
+in the resource story.
 
 \paragraph{Empirical scope.}
 The richer workflow-family studies remain one repository/domain and one model

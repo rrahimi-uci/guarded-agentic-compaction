@@ -1,0 +1,80 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css">
+<style>
+  body.figure { width: 1800px; height: 1080px; }
+  .plot-area { gap: 40px; }
+  .xlab { gap: 40px; }
+</style></head>
+<body class="figure">
+
+  <div class="hdr">
+    <div class="eyebrow">Live provider study &middot; 30 held-out records per family</div>
+    <h1>The spread is the result, not the average</h1>
+    <p class="sub">Reduction versus the unchanged agent on three public-record GitHub
+      workflow families. The issue-type family admits only a shallow two-read prefix,
+      so it saves least &mdash; admissible depth sets the ceiling, not the optimizer.</p>
+  </div>
+
+  <div class="legend" style="margin-bottom:26px">
+    <div class="item"><span class="swatch" style="background:var(--series-1)"></span>Issue-type routing</div>
+    <div class="item"><span class="swatch" style="background:var(--series-2)"></span>PR-outcome audit</div>
+    <div class="item"><span class="swatch" style="background:var(--series-3)"></span>Backlog-attention routing</div>
+  </div>
+
+  <div class="plot">
+    <div class="plot-area" id="pa">
+      <div class="gridline" style="bottom:100%"><span>100%</span></div>
+      <div class="gridline" style="bottom:75%"><span>75%</span></div>
+      <div class="gridline" style="bottom:50%"><span>50%</span></div>
+      <div class="gridline" style="bottom:25%"><span>25%</span></div>
+      <div class="gridline" style="bottom:0"><span>0%</span></div>
+
+      <!-- Provider requests -->
+      <div class="group">
+        <div class="bar-wrap"><span class="bar-val">50.0</span><div class="bar" style="height:50.0%;background:var(--series-1)"></div></div>
+        <div class="bar-wrap"><span class="bar-val">75.0</span><div class="bar" style="height:75.0%;background:var(--series-2)"></div></div>
+        <div class="bar-wrap"><span class="bar-val">74.8</span><div class="bar" style="height:74.8%;background:var(--series-3)"></div></div>
+      </div>
+      <!-- Tool interfaces -->
+      <div class="group">
+        <div class="bar-wrap"><span class="bar-val">0.0</span><div class="bar" style="height:0.6%;background:var(--series-1)"></div></div>
+        <div class="bar-wrap"><span class="bar-val">66.7</span><div class="bar" style="height:66.7%;background:var(--series-2)"></div></div>
+        <div class="bar-wrap"><span class="bar-val">66.3</span><div class="bar" style="height:66.3%;background:var(--series-3)"></div></div>
+      </div>
+      <!-- Total tokens -->
+      <div class="group">
+        <div class="bar-wrap"><span class="bar-val">39.5</span><div class="bar" style="height:39.5%;background:var(--series-1)"></div></div>
+        <div class="bar-wrap"><span class="bar-val">80.8</span><div class="bar" style="height:80.8%;background:var(--series-2)"></div></div>
+        <div class="bar-wrap"><span class="bar-val">81.4</span><div class="bar" style="height:81.4%;background:var(--series-3)"></div></div>
+      </div>
+      <!-- Wall latency -->
+      <div class="group">
+        <div class="bar-wrap"><span class="bar-val">51.7</span><div class="bar" style="height:51.7%;background:var(--series-1)"></div></div>
+        <div class="bar-wrap"><span class="bar-val">73.0</span><div class="bar" style="height:73.0%;background:var(--series-2)"></div></div>
+        <div class="bar-wrap"><span class="bar-val">68.9</span><div class="bar" style="height:68.9%;background:var(--series-3)"></div></div>
+      </div>
+      <!-- Estimated cost -->
+      <div class="group">
+        <div class="bar-wrap"><span class="bar-val">32.0</span><div class="bar" style="height:32.0%;background:var(--series-1)"></div></div>
+        <div class="bar-wrap"><span class="bar-val">75.3</span><div class="bar" style="height:75.3%;background:var(--series-2)"></div></div>
+        <div class="bar-wrap"><span class="bar-val">75.1</span><div class="bar" style="height:75.1%;background:var(--series-3)"></div></div>
+      </div>
+    </div>
+
+    <div class="xlab">
+      <div>Provider requests</div>
+      <div>Tool interfaces<small>issue-type removes none</small></div>
+      <div>Total tokens</div>
+      <div>Wall latency</div>
+      <div>Estimated cost</div>
+    </div>
+  </div>
+
+  <div class="band" style="margin-top:34px">
+    <div class="k">Exact held-out outcomes</div>
+    <div class="v">Compiled 90/90 &nbsp;&middot;&nbsp; Unchanged agent 89/90 &nbsp;&middot;&nbsp; Hand-written 90/90</div>
+    <div class="n">Hand-written programs tie on quality, so the contribution is automated
+      discovery and guarded admission &mdash; not universal superiority.</div>
+  </div>
+
+</body></html>

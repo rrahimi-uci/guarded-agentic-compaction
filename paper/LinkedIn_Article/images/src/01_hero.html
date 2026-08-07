@@ -1,0 +1,111 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css">
+<style>
+  body.figure { width: 1920px; height: 1080px; padding: 72px 84px; }
+  .top { flex: 1 1 auto; display: grid; grid-template-columns: 1.12fr .88fr;
+         gap: 64px; align-items: center; min-height: 0; }
+
+  .pill { align-self: flex-start; display: inline-flex; align-items: center;
+          font-size: 19px; font-weight: 800; letter-spacing: .13em;
+          text-transform: uppercase; color: var(--series-1);
+          border: 2px solid #bcd6f2; background: rgba(255,255,255,.75);
+          padding: 11px 24px; border-radius: 999px; white-space: nowrap; }
+  h1.big { font-size: 72px; font-weight: 800; letter-spacing: -.035em;
+           line-height: 1.02; margin-top: 26px; }
+  h1.big em { font-style: normal; color: var(--series-1); }
+  .lede { font-size: 27px; color: var(--ink-2); line-height: 1.4;
+          margin-top: 26px; max-width: 34ch; }
+  .chips { display: flex; gap: 14px; margin-top: 30px; flex-wrap: wrap; }
+  .chip { font-size: 20px; font-weight: 700; padding: 12px 22px; border-radius: 999px;
+          background: rgba(255,255,255,.8); border: 2px solid #bcd6f2;
+          color: var(--series-1); white-space: nowrap; }
+  .chip.g { border-color: #a9e2cd; color: #128a60; }
+
+  /* ---- right: trace cards.  Laid out in a grid, NOT overlapped: the previous
+         version stacked them with negative offsets and clipped body text
+         mid-word ("fe…", "clas…"). ---- */
+  .diagram { display: grid; grid-template-columns: 1fr 74px 1fr; gap: 0 18px;
+             align-items: center; }
+  .traces { display: flex; flex-direction: column; gap: 14px; }
+  .trace { background: #fff; border: 1.5px solid var(--hairline); border-radius: 16px;
+           box-shadow: var(--shadow); padding: 16px 20px; }
+  .trace .k { font-size: 15px; font-weight: 800; letter-spacing: .1em;
+              text-transform: uppercase; color: var(--series-1); }
+  .trace .t { font-size: 24px; font-weight: 800; margin-top: 4px; letter-spacing: -.02em; }
+  .trace .d { font-size: 18px; color: var(--ink-3); margin-top: 2px; }
+  .gate { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .gate .ring { width: 74px; height: 74px; border-radius: 50%; background: #fff;
+                border: 3px solid var(--series-1); display: grid; place-items: center;
+                font-size: 34px; color: var(--series-1); box-shadow: var(--shadow); }
+  .gate .cap { font-size: 16px; font-weight: 800; letter-spacing: .09em;
+               text-transform: uppercase; color: var(--series-1); }
+  .out { display: flex; flex-direction: column; gap: 14px; }
+  .prog { background: #fff; border: 2px solid var(--admit); border-radius: 18px;
+          box-shadow: var(--shadow); padding: 20px 22px; }
+  .prog .k { font-size: 15px; font-weight: 800; letter-spacing: .1em;
+             text-transform: uppercase; color: #128a60; }
+  .prog .t { font-size: 27px; font-weight: 800; margin: 4px 0 10px; letter-spacing: -.02em; }
+  .prog li { list-style: none; font-size: 20px; color: var(--ink-2);
+             display: flex; gap: 10px; align-items: center; padding: 3px 0; }
+  .prog li::before { content: "✓"; color: var(--admit); font-weight: 800; }
+  .fallback { background: var(--refuse-bg); border: 2px solid #f0c3bb;
+              border-radius: 16px; padding: 15px 20px; }
+  .fallback .k { font-size: 15px; font-weight: 800; letter-spacing: .1em;
+                 text-transform: uppercase; color: var(--refuse); }
+  .fallback .d { font-size: 19px; color: var(--ink-2); margin-top: 3px; }
+
+  .metrics { flex: 0 0 auto; margin-top: 44px; background: #fff;
+             border: 1.5px solid var(--hairline); border-radius: 26px;
+             box-shadow: var(--shadow); padding: 26px 44px;
+             display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .metrics div { min-width: 0; }
+  .metrics .n { font-size: 44px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+  .metrics .l { font-size: 20px; color: var(--ink-2); margin-top: 8px; }
+</style></head>
+<body class="figure">
+
+  <div class="top">
+    <div>
+      <span class="pill">Based on the paper</span>
+      <h1 class="big">Compile the safe part.<br><em>Retire the rest.</em></h1>
+      <p class="lede">Guarded agentic compaction turns repeated read-only agent work into
+        verified deterministic programs &mdash; and keeps the baseline whenever the
+        evidence is weak.</p>
+      <div class="chips">
+        <span class="chip">Evidence-gated</span>
+        <span class="chip g">Baseline-preserving</span>
+      </div>
+    </div>
+
+    <div class="diagram">
+      <div class="traces">
+        <div class="trace"><div class="k">Trace A</div><div class="t">Repeated read</div>
+          <div class="d">fetch, inspect, classify</div></div>
+        <div class="trace"><div class="k">Trace B</div><div class="t">Same evidence</div>
+          <div class="d">same tools, same order</div></div>
+        <div class="trace"><div class="k">Trace C</div><div class="t">Observed again</div>
+          <div class="d">same inputs, same prefix</div></div>
+      </div>
+
+      <div class="gate"><div class="ring">&#10003;</div><div class="cap">Gate</div></div>
+
+      <div class="out">
+        <div class="prog">
+          <div class="k">Program</div>
+          <div class="t">Compiled prefix</div>
+          <ul><li>deterministic</li><li>verified</li><li>fallback ready</li></ul>
+        </div>
+        <div class="fallback"><div class="k">Otherwise</div>
+          <div class="d">keep the baseline agent</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="metrics">
+    <div><div class="n" style="color:var(--series-1)">50&ndash;75%</div><div class="l">fewer provider requests</div></div>
+    <div><div class="n" style="color:var(--series-3)">39.5&ndash;81.4%</div><div class="l">fewer tokens</div></div>
+    <div><div class="n" style="color:#4a3aa7">51.7&ndash;73%</div><div class="l">lower latency</div></div>
+    <div><div class="n" style="color:var(--series-2)">32&ndash;75.3%</div><div class="l">lower estimated cost</div></div>
+  </div>
+
+</body></html>

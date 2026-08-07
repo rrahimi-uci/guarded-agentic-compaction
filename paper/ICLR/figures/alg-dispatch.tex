@@ -1,0 +1,54 @@
+\begin{algorithm}[t]
+\caption{\textsc{Dispatch} --- boundary-time admission. Cheap deterministic checks reject
+first and the calibrated gate runs only on what survives them. Exactly one exit path
+compacts; the rest return the unmodified agent, and only a dirty post-commit failure
+raises an incident.}
+\label{alg:dispatch}
+\footnotesize
+\begin{algorithmic}[1]
+\Require entry state $z$; runtime context $M'$; registry $\mathcal{R}$;
+         mode $m\in\{\textsf{off},\textsf{shadow},\textsf{live}\}$
+\Ensure observations for the region, or \fallback{} to the baseline agent $B$
+\If{$m=\textsf{off}$} \State \Return \fallback
+    \Comment{conformance: model-visible input must be byte-identical}
+\EndIf
+\State $A\gets\mathcal{R}.\textsc{Resolve}(M'.\text{compatibility},M'.\text{partition})$
+\If{$A=\bot \ \vee\ A.\text{lifecycle}\neq\textsc{Active}
+     \ \vee\ \neg\textsc{VerifySignature}(A)$}
+  \State \Return \fallback
+\EndIf
+\If{$H_A(z,M')\neq 1$} \State \Return \fallback
+    \Comment{manifest pins, isolation keys, typed hulls, effect set}
+\EndIf
+\If{$\operatorname{tools}(A.P)\cap\textsc{AlreadyObserved}\neq\emptyset$}
+  \State \Return \fallback
+    \Comment{the region already ran; its live-ins are not the fitted ones}
+\EndIf
+\If{$m=\textsf{live} \ \wedge\ \exists f\in\operatorname{tools}(A.P):
+     \mathcal{C}(f).\textit{quota\_attested} \wedge \textsc{Snapshot}=\bot$}
+  \State \Return \fallback
+    \Comment{no staging owner, so a discarded attempt is not attestable}
+\EndIf
+\If{$q_A(z)>\eta_A$} \State \Return \fallback
+    \Comment{calibrated abstention on an uncertain input}
+\EndIf
+\If{$m=\textsf{shadow}$}
+  \State \textbf{log} would-dispatch; \Return \fallback
+    \Comment{observe coverage without changing behaviour}
+\EndIf
+\State $S\gets\textsc{Stage}.\textsc{Begin}()$;\quad
+       $r\gets\textsc{Interpret}(A.P,z,\textsc{Facade}(\mathcal{C}))$
+       \Comment{the facade re-checks effects at execution time}
+\If{$r$ raised \textsc{PreCommitError}}
+  \State \textbf{assert} $S.\textsc{Reversible}()$; \Return \fallback
+\ElsIf{$r$ raised \textsc{PostCommitError}}
+  \State \Return \textsc{Incident}
+    \Comment{an external commitment happened; do not feign rollback}
+\EndIf
+\If{$V_A(r)\neq 1$}
+  \State \textbf{discard} $r$; \Return \fallback
+    \Comment{live-outs, effect multiset, and call count are checked before use}
+\EndIf
+\State $S.\textsc{Commit}(r.\text{effects})$;\quad \Return $r.\text{observations}$
+\end{algorithmic}
+\end{algorithm}

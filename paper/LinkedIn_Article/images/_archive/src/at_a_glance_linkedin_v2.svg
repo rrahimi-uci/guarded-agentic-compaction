@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-labelledby="title desc">
+  <title id="title">At a glance summary for guarded agentic compaction</title>
+  <desc id="desc">A four-card overview covering the problem, the method, the safety rule, and the reported effect of guarded agentic compaction.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f9fbfe"/>
+      <stop offset="100%" stop-color="#eef4fb"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#22354f" flood-opacity="0.14"/>
+    </filter>
+    <style>
+      .sans { font-family: "Avenir Next", "Segoe UI", Arial, sans-serif; }
+      .eyebrow { font-size: 20px; font-weight: 760; letter-spacing: 0.13em; text-transform: uppercase; }
+      .title { font-size: 58px; font-weight: 760; letter-spacing: -0.04em; }
+      .subtitle { font-size: 26px; font-weight: 500; }
+      .tag { font-size: 18px; font-weight: 760; letter-spacing: 0.10em; text-transform: uppercase; }
+      .cardTitle { font-size: 36px; font-weight: 760; letter-spacing: -0.03em; }
+      .cardBody { font-size: 28px; font-weight: 500; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="980" fill="url(#bg)"/>
+
+  <g class="sans">
+    <text x="80" y="88" class="eyebrow" fill="#2171c2">At a glance</text>
+    <text x="80" y="154" class="title" fill="#17233e">What this paper is claiming</text>
+    <text x="80" y="196" class="subtitle" fill="#5c6e89">A compact summary of the problem, method, safety rule, and evidence boundary.</text>
+
+    <g filter="url(#cardShadow)">
+      <rect x="80" y="260" width="680" height="260" rx="34" fill="#ffffff" stroke="#d1dceb" stroke-width="2.2"/>
+      <rect x="126" y="302" width="170" height="50" rx="20" fill="#2b7fdb"/>
+      <text x="151" y="334" class="tag" fill="#ffffff">Problem</text>
+      <text x="126" y="410" class="cardTitle" fill="#17233e">
+        <tspan x="126" dy="0">Repeated prefixes still pay</tspan>
+        <tspan x="126" dy="34">model cost</tspan>
+      </text>
+      <text x="126" y="484" class="cardBody" fill="#50617b">
+        <tspan x="126" dy="0">Read-only agent workflows often repeat the same</tspan>
+        <tspan x="126" dy="36">evidence-gathering steps at every boundary.</tspan>
+      </text>
+    </g>
+
+    <g filter="url(#cardShadow)">
+      <rect x="840" y="260" width="680" height="260" rx="34" fill="#ffffff" stroke="#d1dceb" stroke-width="2.2"/>
+      <rect x="886" y="302" width="170" height="50" rx="20" fill="#1fb2a6"/>
+      <text x="912" y="334" class="tag" fill="#ffffff">Method</text>
+      <text x="886" y="410" class="cardTitle" fill="#17233e">
+        <tspan x="886" dy="0">Compile only the</tspan>
+        <tspan x="886" dy="34">supported prefix</tspan>
+      </text>
+      <text x="886" y="484" class="cardBody" fill="#50617b">
+        <tspan x="886" dy="0">Trace-to-program compilation combines typed</tspan>
+        <tspan x="886" dy="36">provenance, effect barriers, and exact admission.</tspan>
+      </text>
+    </g>
+
+    <g filter="url(#cardShadow)">
+      <rect x="80" y="590" width="680" height="260" rx="34" fill="#ffffff" stroke="#d1dceb" stroke-width="2.2"/>
+      <rect x="126" y="632" width="204" height="50" rx="20" fill="#f2a107"/>
+      <text x="151" y="664" class="tag" fill="#ffffff">Safety rule</text>
+      <text x="126" y="742" class="cardTitle" fill="#17233e">If evidence is weak, retire</text>
+      <text x="126" y="786" class="cardBody" fill="#50617b">
+        <tspan x="126" dy="0">When provenance, effects, manifests, or support</tspan>
+        <tspan x="126" dy="36">do not line up, the baseline agent stays in place.</tspan>
+      </text>
+    </g>
+
+    <g filter="url(#cardShadow)">
+      <rect x="840" y="590" width="680" height="260" rx="34" fill="#ffffff" stroke="#d1dceb" stroke-width="2.2"/>
+      <rect x="886" y="632" width="226" height="50" rx="20" fill="#5f63e4"/>
+      <text x="912" y="664" class="tag" fill="#ffffff">Reported effect</text>
+      <text x="886" y="742" class="cardTitle" fill="#17233e">
+        <tspan x="886" dy="0">Fewer requests, tokens,</tspan>
+        <tspan x="886" dy="34">latency, cost</tspan>
+      </text>
+      <text x="886" y="820" class="cardBody" fill="#50617b">
+        <tspan x="886" dy="0">The live GitHub study reports material savings,</tspan>
+        <tspan x="886" dy="36">but not universal superiority over hand-written code.</tspan>
+      </text>
+    </g>
+  </g>
+</svg>

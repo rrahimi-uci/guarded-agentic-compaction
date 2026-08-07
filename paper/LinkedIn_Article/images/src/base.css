@@ -1,0 +1,140 @@
+/* ===========================================================================
+   Shared visual system for the LinkedIn article figures.
+
+   Rendered by headless Chrome (see render.sh) so the BROWSER performs text
+   layout.  The previous hand-authored SVGs hard-coded <tspan> line breaks with
+   no text measurement, which is why four of six images overflowed their cards.
+   Every text container here is a real flex/grid box: it cannot overflow.
+
+   Palette: validated categorical slots 1-3 from the data-viz reference palette
+   (blue / orange / aqua).  Validator: all checks PASS, one contrast WARN on
+   aqua (2.74:1) which the relief rule discharges via direct value labels on
+   every bar.  Colour encodes IDENTITY (which workflow family), never magnitude.
+   =========================================================================== */
+
+:root {
+  /* surfaces + ink */
+  --bg-1:        #f7fafd;
+  --bg-2:        #eaf1f9;
+  --surface:     #ffffff;
+  --ink:         #14203a;
+  --ink-2:       #4a5c78;
+  --ink-3:       #7387a3;
+  --hairline:    #dbe4f0;
+
+  /* validated categorical slots (identity) */
+  --series-1:    #2a78d6;  /* blue   - Issue-type routing */
+  --series-2:    #eb6834;  /* orange - PR-outcome audit  */
+  --series-3:    #1baf7a;  /* aqua   - Backlog-attention */
+
+  /* semantic (state, never reused for a series) */
+  --refuse:      #c0392b;
+  --refuse-bg:   #fdf1ef;
+  --keep:        #14203a;
+  --admit:       #1baf7a;
+
+  --radius:      22px;
+  --shadow:      0 10px 28px rgba(20, 40, 70, .09), 0 2px 6px rgba(20, 40, 70, .05);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  font-family: "Avenir Next", "Inter", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+  color: var(--ink);
+}
+
+body.figure {
+  background: linear-gradient(150deg, var(--bg-1) 0%, var(--bg-2) 100%);
+  display: flex;
+  flex-direction: column;
+  padding: 56px 64px;
+  overflow: hidden;                 /* any overflow becomes visible, not silent */
+}
+
+/* ------------------------------------------------------------------ header */
+.eyebrow {
+  font-size: 19px; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--series-1);
+}
+h1 {
+  font-size: 54px; font-weight: 800; letter-spacing: -.025em;
+  line-height: 1.06; margin-top: 10px;
+}
+.sub {
+  font-size: 25px; font-weight: 400; color: var(--ink-2);
+  margin-top: 12px; line-height: 1.35; max-width: 62ch;
+}
+.hdr { margin-bottom: 40px; flex: 0 0 auto; }
+
+/* ------------------------------------------------------------------- cards */
+.card {
+  background: var(--surface);
+  border: 1.5px solid var(--hairline);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 30px 32px;
+  display: flex; flex-direction: column; gap: 12px;
+  min-width: 0;                     /* lets flex children shrink instead of spill */
+}
+.card h3 { font-size: 31px; font-weight: 800; letter-spacing: -.02em; line-height: 1.14; }
+.card p  { font-size: 23px; font-weight: 400; color: var(--ink-2); line-height: 1.42; }
+
+.tag {
+  align-self: flex-start;
+  font-size: 16px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+  color: #fff; background: var(--series-1);
+  padding: 8px 18px; border-radius: 999px; white-space: nowrap;
+}
+
+/* ------------------------------------------------------------- footer band */
+.band {
+  margin-top: auto; flex: 0 0 auto;
+  background: var(--keep); color: #fff;
+  border-radius: var(--radius); padding: 26px 34px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.band .k { font-size: 18px; font-weight: 800; letter-spacing: .1em;
+           text-transform: uppercase; color: #7fb6f2; }
+.band .v { font-size: 27px; font-weight: 700; line-height: 1.25; }
+.band .n { font-size: 21px; font-weight: 400; color: #c3d3e8; line-height: 1.35; }
+
+/* ------------------------------------------------------------------ legend */
+.legend { display: flex; gap: 30px; align-items: center; flex-wrap: wrap; }
+.legend .item { display: flex; align-items: center; gap: 10px;
+                font-size: 21px; font-weight: 600; color: var(--ink-2); }
+.swatch { width: 15px; height: 15px; border-radius: 4px; flex: 0 0 auto; }
+
+/* ------------------------------------------------------- grouped bar chart */
+.plot { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0; }
+.plot-area {
+  flex: 1 1 auto; position: relative;
+  display: grid; grid-auto-flow: column; grid-auto-columns: 1fr;
+  align-items: end; gap: 34px; padding: 0 6px 0 74px;
+  border-bottom: 1.5px solid #c6d2e2;
+}
+.gridline { position: absolute; left: 74px; right: 0; border-top: 1px solid #e4ebf4; }
+.gridline span {
+  position: absolute; left: -74px; top: -13px; width: 60px; text-align: right;
+  font-size: 19px; color: var(--ink-3); font-variant-numeric: tabular-nums;
+}
+.group { display: flex; align-items: flex-end; justify-content: center;
+         gap: 8px; height: 100%; position: relative; }
+.bar-wrap { display: flex; flex-direction: column; justify-content: flex-end;
+            align-items: center; height: 100%; flex: 1 1 0; min-width: 0; }
+.bar {
+  width: 100%;
+  border-radius: 5px 5px 0 0;       /* 4-5px rounded data-end, anchored to axis */
+  box-shadow: 0 0 0 2px var(--bg-1); /* 2px surface gap between adjacent bars */
+}
+.bar-val {
+  font-size: 19px; font-weight: 700; color: var(--ink);
+  margin-bottom: 7px; font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.xlab { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr;
+        gap: 34px; padding: 14px 6px 0 74px; }
+.xlab div { text-align: center; font-size: 22px; font-weight: 700; color: var(--ink); }
+.xlab small { display: block; font-size: 18px; font-weight: 400; color: var(--ink-3);
+              margin-top: 3px; }
