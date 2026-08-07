@@ -1,113 +1,113 @@
 {
-  "schema": "agent-compaction-slide-generation/v1",
-  "generator": "paper/scripts/generate_slides.mjs",
-  "generator_sha256_current": "ab6a33a06a6549b1a526428eb01ef948ba6e5c289e61bc6226b01b6320df8650",
-  "template_map": "paper/slides/gac-template-map.json",
-  "evidence": {
-    "gcs_live": {
-      "path": "paper/results/gcs_live/results.json",
-      "sha256": "c5c4907db6c0b451793fd4be61d12576ebbfc4a07a2215f0db27a24d3f5e9a43"
-    },
-    "gcs_replay": {
-      "path": "paper/results/gcs_validation/provider_free.json",
-      "sha256": "178cab2f7ae4c851c4057079248544ed9a7f058888a54bb4ef2fc9b984841433"
-    },
-    "optimizer_head_to_head": {
-      "path": "paper/results/optimizer_head_to_head/results.json",
-      "sha256": "94319b5ba5056363359378fb383612c14fe91c381db50ef5e1749bda9ade8584"
-    },
-    "external_benchmarks": {
-      "path": "paper/results/external_benchmarks/reference_analysis.json",
-      "sha256": "db07176f91bc7d815e7840e83939bdc5d11c4e8cb507c01ad5e1eaad089e34a9"
-    },
-    "github_workflow_families": {
-      "path": "paper/results/github_workflow_families/summary.json",
-      "sha256": "620bfe2d1c93e3b7c0a3bac55abbb7315e21e3424c7fd7da47dbe080efe9e4df"
-    },
-    "admission_register": {
-      "path": "paper/results/admission_register.json",
-      "sha256": "7ba824772d23cefda9aedf6b024caff656bc44b4492d61e6ce7c505f850284c7"
-    }
+ "schema": "agent-compaction-slide-generation/v1",
+ "generator": "paper/scripts/generate_slides.mjs",
+ "generator_sha256_current": "ab6a33a06a6549b1a526428eb01ef948ba6e5c289e61bc6226b01b6320df8650",
+ "template_map": "paper/slides/gac-template-map.json",
+ "evidence": {
+  "gcs_live": {
+   "path": "paper/results/gcs_live/results.json",
+   "sha256": "c5c4907db6c0b451793fd4be61d12576ebbfc4a07a2215f0db27a24d3f5e9a43"
   },
-  "templates": {
-    "seminar": {
-      "path": "paper/slides/GAC-seminar.pptx",
-      "sha256": "763ea1cea019e98ddcebf37e2748261a4a30d846bfe67cdcb022d92663257e13",
-      "source_slides": 25
-    },
-    "technical": {
-      "path": "paper/slides/GAC-technical-review.pptx",
-      "sha256": "e0febc7b9dd9dc01c89bedb78c0f731a99dd24434e491ecfc627c21511ce0c54",
-      "source_slides": 21
-    }
+  "gcs_replay": {
+   "path": "paper/results/gcs_validation/provider_free.json",
+   "sha256": "178cab2f7ae4c851c4057079248544ed9a7f058888a54bb4ef2fc9b984841433"
   },
-  "outputs": {
-    "seminar": {
-      "path": "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs.pptx",
-      "sha256": "a9fa1357fd8844e5c57030aa9026763b3c6ef3f015aa03dd865543cc839a8e62",
-      "slides": 27
-    },
-    "technical": {
-      "path": "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx",
-      "sha256": "35c8655fb03d62b8afa02a2d402647738b357a46c1f2e2cd7f52bf4e9d0eb364",
-      "slides": 23
-    }
+  "optimizer_head_to_head": {
+   "path": "paper/results/optimizer_head_to_head/results.json",
+   "sha256": "94319b5ba5056363359378fb383612c14fe91c381db50ef5e1749bda9ade8584"
   },
-  "source_slide_for_output": {
-    "seminar": [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12,
-      13,
-      14,
-      15,
-      16,
-      17,
-      17,
-      18,
-      19,
-      20,
-      21,
-      21,
-      22,
-      23,
-      24,
-      25
-    ],
-    "technical": [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12,
-      13,
-      14,
-      14,
-      15,
-      16,
-      17,
-      18,
-      18,
-      19,
-      20,
-      21
-    ]
+  "external_benchmarks": {
+   "path": "paper/results/external_benchmarks/reference_analysis.json",
+   "sha256": "db07176f91bc7d815e7840e83939bdc5d11c4e8cb507c01ad5e1eaad089e34a9"
   },
-  "evidence_boundary": "Three real-record workflow families support the primary transfer result: compiled 90/90, baseline 89/90, manual 90/90, all admitted at the registered alpha=.05 with a pooled 3.3% compiled-only discordance bound. The snapshot does not establish cross-repository or time-forward transfer, and part of the reported 32.0-75.3% cost range reflects prompt-cache warmth rather than compiled depth. GCS and comparator results rest on an artifact calibrated at alpha=.10 and are not licensed at .05. NESTFUL and API-Bank remain refusal evidence; eight other benchmark paths are supplementary interoperability audits."
+  "github_workflow_families": {
+   "path": "paper/results/github_workflow_families/summary.json",
+   "sha256": "620bfe2d1c93e3b7c0a3bac55abbb7315e21e3424c7fd7da47dbe080efe9e4df"
+  },
+  "admission_register": {
+   "path": "paper/results/admission_register.json",
+   "sha256": "7ba824772d23cefda9aedf6b024caff656bc44b4492d61e6ce7c505f850284c7"
+  }
+ },
+ "templates": {
+  "seminar": {
+   "path": "paper/slides/GAC-seminar.pptx",
+   "sha256": "763ea1cea019e98ddcebf37e2748261a4a30d846bfe67cdcb022d92663257e13",
+   "source_slides": 25
+  },
+  "technical": {
+   "path": "paper/slides/GAC-technical-review.pptx",
+   "sha256": "e0febc7b9dd9dc01c89bedb78c0f731a99dd24434e491ecfc627c21511ce0c54",
+   "source_slides": 21
+  }
+ },
+ "outputs": {
+  "seminar": {
+   "path": "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs.pptx",
+   "sha256": "4867b288df8a7c02ca1efbfefa12ef0b55833649be59552aeb3bb58e503dad9d",
+   "slides": 27
+  },
+  "technical": {
+   "path": "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx",
+   "sha256": "248eb1f22a1a94c7f4bc6a2e97d26fe89637e2d0ab9ddf5d9203f818a4468643",
+   "slides": 23
+  }
+ },
+ "source_slide_for_output": {
+  "seminar": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   17,
+   18,
+   19,
+   20,
+   21,
+   21,
+   22,
+   23,
+   24,
+   25
+  ],
+  "technical": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   14,
+   15,
+   16,
+   17,
+   18,
+   18,
+   19,
+   20,
+   21
+  ]
+ },
+ "evidence_boundary": "Three real-record workflow families support the primary transfer result: compiled 90/90, baseline 89/90, manual 90/90, all admitted at the registered alpha=.05 with a pooled 3.3% compiled-only discordance bound. The snapshot does not establish cross-repository or time-forward transfer, and part of the reported 32.0-75.3% cost range reflects prompt-cache warmth rather than compiled depth. GCS and comparator results rest on an artifact calibrated at alpha=.10 and are not licensed at .05. NESTFUL and API-Bank remain refusal evidence; eight other benchmark paths are supplementary interoperability audits."
 }

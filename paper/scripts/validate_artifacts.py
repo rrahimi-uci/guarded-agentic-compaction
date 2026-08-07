@@ -1898,18 +1898,18 @@ def validate_slides() -> None:
                 ok(len(slide_parts) == expected_slides,
                    f"{label} publication slide deck contains {expected_slides} slides")
                 payload = b"\n".join(package.read(name) for name in slide_parts)
-                # KNOWN DRIFT: the decks are produced by generate_slides.mjs against an
-                # external artifact-tool workspace that is not part of this repository, so
-                # they were not regenerated when the paper was retitled to "From Traces to
-                # Guarded Programs". Assert the drift explicitly rather than describing the
-                # old string as current; when the decks are rebuilt this check fails and
-                # must be flipped to the new title.
-                ok(b"Compiling Recurrent Agent" in payload
-                   and b"Workflows into Guarded Programs" in payload,
-                   f"{label} slide deck still carries the PRE-RENAME title "
-                   f"(decks await regeneration; see paper/slides/README.md)")
-                ok(b"When Traces Are Not Enough" not in payload,
-                   f"{label} publication slide deck contains no superseded title")
+                ok(b"From Traces to Guarded Programs" in payload
+                   and b"Evidence-Gated Compilation of Recurrent Agent Workflows" in payload,
+                   f"{label} publication slide deck contains the current paper title")
+                # Both superseded titles must be gone. The decks are retitled in place by
+                # paper/scripts/retitle_slides.py because generate_slides.mjs needs an
+                # external artifact-tool workspace; if the generator is ever run without
+                # the new title wired in, these two checks catch the regression.
+                for stale in (b"When Traces Are Not Enough",
+                              b"Compiling Recurrent Agent Workflows into Guarded Programs"):
+                    ok(stale not in payload,
+                       f"{label} publication slide deck contains no superseded title: "
+                       f"{stale.decode()[:44]}")
                 ok(b"Fair placement ties GCS" in payload,
                    f"{label} publication slide deck contains the fair-placement comparison")
                 ok(b"GEPA retains its seed" in payload,

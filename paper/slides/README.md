@@ -12,17 +12,32 @@ duplicates the comparator frame for the fair-placement and bounded-GEPA result. 
 both source-template hashes, the checked 90-case family summary, the supplementary external
 matrix, the GCS replay, and the live optimizer evidence schema before writing output.
 
-## Known drift: the decks predate the retitle
+## Retitling without the generator
 
-The paper was retitled to **"From Traces to Guarded Programs: Evidence-Gated
-Compilation of Recurrent Agent Workflows"**. The four `.pptx` files still carry
-the previous title, because `generate_slides.mjs` requires an external
-artifact-tool workspace that is not part of this repository, so the decks could
-not be regenerated in that pass.
+The decks are generated from the two source templates by
+`generate_slides.mjs`, which needs an external artifact-tool presentation
+workspace that is not part of this repository. When the paper was retitled, the
+decks therefore could not be regenerated.
 
-`paper/scripts/validate_artifacts.py` asserts this drift explicitly rather than
-describing the old string as current. When the decks are regenerated, that
-check fails by design and must be flipped to the new title.
+`paper/scripts/retitle_slides.py` performs the narrow edit the regeneration
+would have made, in place, on the two generated decks only:
+
+```bash
+python paper/scripts/retitle_slides.py --check   # report
+python paper/scripts/retitle_slides.py           # apply
+```
+
+It rewrites every title run, drops the title-slide font by 4pt (the new title
+is 31 characters longer and at the original size overflowed its box into the
+subtitle), adds `<a:normAutofit/>` as a backstop, and sets `dc:title`, which
+was the placeholder "Presentation". Re-running is a no-op.
+
+The source templates `GAC-seminar.pptx` and `GAC-technical-review.pptx` are
+never touched — the generator verifies their hashes.
+
+After editing a deck, refresh its recorded hash in
+`paper/results/slide_generation.json` and re-run
+`paper/scripts/validate_artifacts.py`.
 
 ## Generate
 
