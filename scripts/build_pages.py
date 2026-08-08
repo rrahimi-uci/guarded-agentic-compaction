@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 import shutil
 import sys
 from html.parser import HTMLParser
@@ -16,6 +17,7 @@ SITE = ROOT / "site"
 
 FIGURES = (
     "demo_suite.png",
+    "family_reductions.png",
     "gate_support.png",
     "live_efficiency.png",
     "natural_live_comparison.png",
@@ -165,8 +167,39 @@ def ensure_paper_page_current() -> None:
         )
 
 
+def ensure_article_page_current() -> None:
+    """Fail closed when site/article.html drifts from the manuscript it renders.
+
+    The article page is generated from paper/tex/ by scripts/build_article_page.py, which
+    needs pandoc.  This job installs only pyyaml, so re-rendering here is not an option;
+    instead the generator stamps a digest of its sources into the page and this check
+    recomputes that digest with the standard library alone.  Publishing an article page
+    that no longer matches the manuscript would misattribute prose to the paper, so a
+    mismatch stops the deploy rather than shipping quietly.
+    """
+
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import build_article_page as generator
+
+    page = SITE / "article.html"
+    if not page.exists():
+        raise SystemExit("missing site source: site/article.html")
+    stamped = re.search(
+        r'<meta name="gac-article-sources" content="([0-9a-f]{64})">',
+        page.read_text(encoding="utf-8"),
+    )
+    if stamped is None:
+        raise SystemExit("site/article.html carries no source digest; regenerate it")
+    if stamped.group(1) != generator.source_digest():
+        raise SystemExit(
+            "site/article.html is stale relative to paper/tex/; "
+            "regenerate it with: python scripts/build_article_page.py"
+        )
+
+
 def build(output: Path) -> None:
     ensure_paper_page_current()
+    ensure_article_page_current()
     ensure_benchmark_explorer_current()
     required = [SITE / "index.html", SITE / "assets" / "css" / "styles.css"]
     missing = [str(path.relative_to(ROOT)) for path in required if not path.exists()]

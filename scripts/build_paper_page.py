@@ -528,7 +528,7 @@ def render(register: list[dict], cache: list[dict], summary: dict) -> str:
     <button class="menu-button" data-menu aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">☰</button>
     <ul class="nav-links" id="site-nav" data-nav-links>
       <li><a href="index.html">Overview</a></li><li><a href="architecture.html">Architecture</a></li>
-      <li><a aria-current="page" href="method.html">Method</a></li>
+      <li><a aria-current="page" href="method.html">Method</a></li><li><a href="article.html">Article</a></li>
       <li><a href="getting-started.html">Get started</a></li><li><a href="research.html">Research</a></li>
       <li><a href="limitations.html">Limits</a></li><li><a class="nav-cta" href="contributing.html">Contribute</a></li>
     </ul>

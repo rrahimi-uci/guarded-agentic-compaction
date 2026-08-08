@@ -1,0 +1,49 @@
+<figure class="algorithm" id="alg:compile">
+  <figcaption><span class="alg-number">Algorithm 1</span> The end-to-end pipeline an
+  operator runs, from qualified traces to a registered artifact. Every
+  <strong>retire</strong> is recorded with its stage so rejections stay in the
+  denominator. Stages marked <span class="alg-tag">caller</span> are separate library
+  entry points rather than steps inside <code>compile_grc()</code>, which receives the
+  split object and does not invoke the feasibility estimator itself; the cascade is
+  presented in one place because that is the order in which the stages must run, not
+  because one function performs all of them.</figcaption>
+  <div class="alg-io">
+    <p><span class="alg-io-key">Input</span> episodes <var>&#8496;</var>; effect catalog
+    <var>&#119966;</var>; entry schema <var>&#920;</var>; risk budget <var>&#945;</var>;
+    confidence budget <var>&#948;</var>; grid <var>&#923;</var></p>
+    <p><span class="alg-io-key">Output</span> artifact
+    <var>A</var>&#8202;=&#8202;(<var>P</var>,&#8202;<var>H</var>,&#8202;<var>V</var>,&#8202;<var>q</var>,&#8202;<var>&#951;</var>,&#8202;<var>M</var>),
+    or <span class="alg-retire">retire</span> with an attributed reason</p>
+  </div>
+  <ol class="alg-body">
+    <li><var>&#8496;</var> &#8592; <span class="alg-proc">Qualify</span>(<var>&#8496;</var>, <var>&#119966;</var>)<span class="alg-comment">drop partial runs, unpinned manifests, missing payloads</span></li>
+    <li>{<var>&#8496;<sub>M</sub></var>} &#8592; <span class="alg-proc">PartitionBy</span>(<var>&#8496;</var>, manifest, principal, isolation)</li>
+    <li><span class="alg-kw">for all</span> partitions <var>&#8496;<sub>M</sub></var> <span class="alg-kw">do</span></li>
+    <li class="i1">(<var>&#119983;</var>, <var>&#119967;&#8202;</var>, <var>&#119974;</var>, <var>&#119982;</var>) &#8592; <span class="alg-proc">GroupedSplit</span>(<var>&#8496;<sub>M</sub></var>) <span class="alg-tag">caller</span><span class="alg-comment">train / dev / calibration / sealed test, split by <em>group</em></span></li>
+    <li class="i1"><var>G</var> &#8592; <span class="alg-proc">BuildPatg</span>(<var>&#119983;</var>, <var>&#920;</var>)<span class="alg-comment">typed provenance search</span></li>
+    <li class="i1"><var>&#119986;</var> &#8592; <span class="alg-proc">MineRegions</span>(<var>G</var>, <var>&#119966;</var>, <var>w</var><sub>max</sub>)</li>
+    <li class="i1"><var>&#8497;</var> &#8592; <span class="alg-proc">Canonicalize</span>(<var>&#119986;</var>)<span class="alg-comment">hash signature, topology, run and live-in/out shape</span></li>
+    <li class="i1"><span class="alg-kw">keep</span> <var>F</var> &#8712; <var>&#8497;</var> with cross-group support (and cross-day, if configured)</li>
+    <li class="i1"><span class="alg-kw">if</span> <var>&#966;</var>&#8202;<var>k</var>&#8202;/&#8202;<var>n<sub>B</sub></var> &lt; <var>&#916;</var> <span class="alg-kw">then</span> <span class="alg-tag">caller</span></li>
+    <li class="i2"><span class="alg-kw">return</span> <span class="alg-retire">retire</span> <strong>(infeasible ceiling)</strong><span class="alg-comment">a separate estimator pass; run it before paying for synthesis</span></li>
+    <li class="i1"><span class="alg-kw">end if</span></li>
+    <li class="i1"><span class="alg-kw">for all</span> families <var>F</var> ranked by score {{EQREF:eq:score}} <span class="alg-kw">do</span></li>
+    <li class="i2"><var>P</var> &#8592; <span class="alg-proc">Synthesize</span>(<var>F</var>, <var>&#8466;</var>)<span class="alg-comment">closed library, depth &#8804; 2, group-wise refit</span></li>
+    <li class="i2"><span class="alg-kw">if</span> <var>P</var> = &#8869; <span class="alg-kw">then</span></li>
+    <li class="i3"><span class="alg-kw">continue</span> <strong>(ungroundable slot)</strong></li>
+    <li class="i2"><span class="alg-kw">end if</span></li>
+    <li class="i2">(<var>H</var>, <var>V</var>) &#8592; <span class="alg-proc">InduceContract</span>(<var>F</var>)</li>
+    <li class="i2"><span class="alg-kw">if</span> &#172;<span class="alg-proc">ReplayAndChallenge</span>(<var>P</var>, <var>V</var>, <var>&#119967;&#8202;</var>) <span class="alg-kw">then</span><span class="alg-comment">requires a sandbox; records <code>perturbations_claimed</code> otherwise</span></li>
+    <li class="i3"><span class="alg-kw">continue</span> <strong>(counterexample)</strong><span class="alg-comment">stale reads, reordering, empty sets, drift, faults</span></li>
+    <li class="i2"><span class="alg-kw">end if</span></li>
+    <li class="i2"><var>q</var> &#8592; <span class="alg-proc">FitScore</span>(<var>&#119967;&#8202;</var>); <span class="alg-kw">freeze</span> <var>q</var><span class="alg-comment">dev groups only; never calibration</span></li>
+    <li class="i2"><var>&#951;</var> &#8592; <span class="alg-proc">Calibrate</span>(<var>q</var>, <var>&#119974;</var>, <var>&#923;</var>, <var>&#945;</var>, <var>&#948;</var>)<span class="alg-comment">fixed-grid exact admission</span></li>
+    <li class="i2"><span class="alg-kw">if</span> <var>&#951;</var> = &#8869; <span class="alg-kw">then</span></li>
+    <li class="i3"><span class="alg-kw">continue</span> <strong>(no admissible threshold)</strong></li>
+    <li class="i2"><span class="alg-kw">end if</span></li>
+    <li class="i2"><span class="alg-kw">return</span> <span class="alg-proc">Package</span>(<var>P</var>, <var>H</var>, <var>V</var>, <var>q</var>, <var>&#951;</var>, <var>M</var>) with evidence and lifecycle</li>
+    <li class="i1"><span class="alg-kw">end for</span></li>
+    <li><span class="alg-kw">end for</span></li>
+    <li><span class="alg-kw">return</span> <span class="alg-retire">retire</span></li>
+  </ol>
+</figure>
