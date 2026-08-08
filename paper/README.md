@@ -19,7 +19,8 @@ paper/
 │   ├── body.tex                    the manuscript body — single source of truth
 │   ├── abstract-body.tex           abstract text, shared by both builds
 │   ├── abstract.tex                abstract environment wrapper
-│   ├── article.tex                 single-column journal article build  ← primary
+│   ├── article.tex                 single-column ICLR-format build  ← primary
+│   ├── article-journal.tex         earlier Palatino journal styling (retained)
 │   └── main.tex                    two-column ACM sigconf review build
 ├── figures/                        authored artwork and pseudocode
 │   ├── architecture.tex            TikZ system architecture (Figure 1)
@@ -109,10 +110,20 @@ PDFs cannot drift apart:
 
 | | `article.pdf` | `main.pdf` |
 |:---|:---|:---|
-| class | `article`, single column, A4 | `acmart[sigconf,nonacm]` |
-| typography | Pagella text and math, Latin Modern sans/mono | ACM Libertine |
+| class | `article` + `iclr2027_conference.sty`, single column, letter | `acmart[sigconf,nonacm]` |
+| typography | Times via `newtxtext`/`newtxmath` | ACM Libertine |
+| citations | author–year (`iclr2027_conference.bst`) | ACM numeric |
 | audience | reading, circulation, archival | conference submission |
 | line numbers | no | no |
+
+`article.tex` loads the same style file as the condensed ICLR submission in
+`ICLR/`, by relative path (`\usepackage{../ICLR/iclr2027_conference}`), so the
+style lives in exactly one place and the two documents read as one family. The
+wrapper adds the shims the shared body needs outside `acmart` — `\Description`
+and `\keywords` as no-ops, `figure*`/`table*` remapped onto ordinary floats, and
+`\cite` bound to `\citep` because every citation in `body.tex` is parenthetical
+and the ICLR style loads natbib in author–year mode. The earlier Palatino
+journal styling is preserved verbatim in `article-journal.tex` and still builds.
 
 The validator compiles both and asserts that the architecture figure and all four
 algorithms reach the page in each, so a wrapper that silently drops an `\input` fails
@@ -331,9 +342,15 @@ tectonic --keep-logs --keep-intermediates --outdir ../open_research main.tex
 ```
 
 Both logs contain no undefined citations or references. `main.pdf` is the camera-ready
-two-column conference wrapper rather than a review-mode build. Because the engine is XeTeX, the article build selects fonts
-with complete `TU` coverage (Pagella via `newpx`, Latin Modern sans and mono); the Type-1
-`helvet`/`tgheros` shapes have none and would silently fall back to the serif.
+two-column conference wrapper rather than a review-mode build. Because the engine is XeTeX,
+the article build cannot use the ICLR template's `\usepackage{times}`: the legacy `times`
+package does not resolve under XeTeX and the body would silently fall back to Latin Modern,
+rendering every `\textbf`/`\emph`/`\textsc` as upright regular text. `newtxtext`/`newtxmath`
+are the maintained Times-compatible replacements and resolve under both engines.
+
+`xdvipdfmx` reports `Object @figure.N already defined` for each float. That comes from the
+ICLR style file suppressing `\addcontentsline`, which hyperref uses to place float anchors;
+the ICLR submission build in `ICLR/` emits the same warnings. Links resolve correctly.
 
 To re-render page images for visual inspection:
 
