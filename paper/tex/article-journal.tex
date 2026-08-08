@@ -1,0 +1,243 @@
+% ---------------------------------------------------------------------------
+% Guarded Agentic Compaction — single-column journal article build.
+%
+% Same abstract, body, figures, algorithms and tables as the ACM
+% conference build in main.tex; only the presentation layer differs. Compile with:
+%
+%   cd paper/tex && tectonic --keep-logs --outdir ../open_research article.tex
+%   (or: pdflatex -output-directory=../open_research article.tex; bibtex; pdflatex ×2)
+% ---------------------------------------------------------------------------
+\documentclass[11pt,a4paper,oneside]{article}
+
+% ---------------------------------------------------------------- page geometry
+\usepackage[
+  a4paper,
+  top=27mm, bottom=28mm, left=32mm, right=32mm,
+  marginparsep=0pt, marginparwidth=0pt,
+  headsep=7mm, footskip=12mm,
+]{geometry}
+
+% ------------------------------------------------------------------- typography
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\fi
+\usepackage{newpxtext}          % Palatino-class serif: generous, highly legible
+\usepackage[varg,bigdelims]{newpxmath}
+% Tectonic drives XeTeX, so the engine works in TU encoding and the Type-1
+% helvet/tgheros shapes have no TU coverage. newpxtext already loads TeX Gyre
+% Pagella as an OpenType face, so select the matching OpenType sans and mono the
+% same way. Scale=MatchLowercase equalises x-heights against Pagella.
+% Latin Modern Sans/Mono are the only families in this bundle with complete TU
+% font definitions, so they are what actually renders rather than silently
+% falling back to the serif. Serif and math stay Pagella via newpx.
+\renewcommand{\sfdefault}{lmss}
+\renewcommand{\ttdefault}{lmtt}
+\usepackage{microtype}
+\linespread{1.02}
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{1.4em}
+\setlength{\emergencystretch}{1.2em}
+\frenchspacing
+\usepackage{ragged2e}
+
+% ------------------------------------------------------------------- structures
+% \hyp gives a break opportunity at an explicit hyphen, so long
+% compound words do not overflow the narrow two-column measure.
+\usepackage[htt]{hyphenat}
+\usepackage{booktabs}
+\usepackage{graphicx}
+% newpx* pre-defines \Bbbk and \openbox; release both so amssymb/amsthm can
+% declare them without a clash (a known newpx interaction).
+\let\Bbbk\relax
+\let\openbox\relax
+\usepackage{amsmath,mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumitem}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc}
+\usepackage{caption}
+\usepackage{abstract}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\setlength{\headheight}{22pt}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage[numbers,sort&compress,square]{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cleveref}
+
+% algorithmicx resets ALG@line for every algorithm. Include the algorithm number in
+% Hyperref's destination name so PDF backends do not emit duplicate ALG@line anchors.
+\makeatletter
+\providecommand{\theHALG@line}{\thealgorithm.\arabic{ALG@line}}
+\renewcommand{\theHALG@line}{\thealgorithm.\arabic{ALG@line}}
+\makeatother
+
+% ---------------------------------------------------------------------- palette
+\definecolor{paperblue}{HTML}{2F6B8A}
+\definecolor{paperteal}{HTML}{2A9D8F}
+\definecolor{gacblue}{HTML}{2F6B8A}
+\definecolor{gacteal}{HTML}{2A9D8F}
+\definecolor{gacred}{HTML}{B4462F}
+\definecolor{gacline}{HTML}{3D3D3D}
+\definecolor{gacgrey}{HTML}{F4F3F0}
+\definecolor{rulegrey}{HTML}{C9C7C0}
+
+\hypersetup{
+  colorlinks=false,
+  pdfauthor={Reza Rahimi},
+  pdftitle={From Traces to Guarded Programs: Evidence-Gated Compilation of Recurrent Agent Workflows},
+  pdfsubject={LLM agents, tool use, workflow optimization, program synthesis, provenance, selective risk control},
+  pdfkeywords={LLM agents, tool use, workflow optimization, program synthesis, provenance, selective prediction, risk control, OpenAI Agents SDK},
+}
+
+% ------------------------------------------------------------ section headings
+\titleformat{\section}
+  {\normalfont\sffamily\bfseries\large\color{paperblue}}
+  {\thesection}{0.7em}{}
+\titleformat{\subsection}
+  {\normalfont\sffamily\bfseries\normalsize}
+  {\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}
+  {\normalfont\sffamily\itshape\normalsize}
+  {\thesubsubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{1.9ex plus .6ex minus .2ex}{0.9ex plus .2ex}
+\titlespacing*{\subsection}{0pt}{1.5ex plus .5ex minus .2ex}{0.6ex plus .2ex}
+\titlespacing*{\subsubsection}{0pt}{1.2ex plus .4ex minus .2ex}{0.5ex plus .2ex}
+
+% ------------------------------------------------------------------- floats
+\captionsetup{
+  font={small},
+  labelfont={sf,bf,color=paperblue},
+  labelsep=period,
+  justification=justified,
+  singlelinecheck=false,
+  skip=6pt,
+}
+\captionsetup[table]{position=top, skip=5pt}
+\setlength{\textfloatsep}{16pt plus 3pt minus 3pt}
+\setlength{\floatsep}{14pt plus 3pt minus 3pt}
+\setlength{\intextsep}{14pt plus 3pt minus 3pt}
+\renewcommand{\arraystretch}{1.14}
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\bottomfraction}{0.75}
+\renewcommand{\textfraction}{0.08}
+\renewcommand{\floatpagefraction}{0.72}
+
+% ---------------------------------------------------------------- algorithms
+% Pseudocode reads as an exhibit rather than as body text: ruled float, sans-serif
+% keywords, and comments set in the accent colour so control flow stays scannable.
+\algrenewcommand\algorithmicrequire{\textbf{\textsf{Input:}}}
+\algrenewcommand\algorithmicensure{\textbf{\textsf{Output:}}}
+\algrenewcommand\algorithmiccomment[1]{%
+  \hfill\textcolor{gacblue!85}{\footnotesize$\triangleright$\;#1}}
+\algrenewcommand\algorithmicend{\textsf{end}}
+\algrenewcommand\algorithmicif{\textsf{if}}
+\algrenewcommand\algorithmicelse{\textsf{else}}
+\algrenewcommand\algorithmicthen{\textsf{then}}
+\algrenewcommand\algorithmicfor{\textsf{for}}
+\algrenewcommand\algorithmicforall{\textsf{for all}}
+\algrenewcommand\algorithmicdo{\textsf{do}}
+\algrenewcommand\algorithmicwhile{\textsf{while}}
+\algrenewcommand\algorithmicreturn{\textsf{return}}
+\floatstyle{ruled}
+\restylefloat{algorithm}
+\captionsetup[algorithm]{position=top, skip=4pt, font={small}}
+
+% ---------------------------------------------------------------- theorems
+\newtheoremstyle{gac}
+  {1.1ex plus .3ex}{1.1ex plus .3ex}{\itshape}{0pt}
+  {\sffamily\bfseries\color{paperblue}}{.}{0.6em}{}
+\theoremstyle{gac}
+\newtheorem{proposition}{Proposition}
+
+% -------------------------------------------------------------- running heads
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{rulegrey}\leaders\hrule height \headrulewidth\hfill}}
+\fancyhead[L]{\footnotesize\sffamily\color{gacline!80}From Traces to Guarded Programs}
+\fancyhead[R]{\footnotesize\sffamily\color{gacline!80}\thepage}
+\fancypagestyle{plain}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}%
+  \fancyfoot[C]{\footnotesize\sffamily\color{gacline!80}\thepage}}
+
+% ------------------------------------------- macros shared with the ACM build
+% \xspace: a control word swallows the space after it, which silently produced
+% "GACreconstructs" in the abstract. Guard every acronym rather than the call sites.
+\usepackage{xspace}
+\newcommand{\method}{\textsc{GAC}\xspace}
+\newcommand{\grc}{\textsc{GRC}\xspace}
+\newcommand{\tgws}{\textsc{TGWS}\xspace}
+\newcommand{\patg}{\textsc{PATG}\xspace}
+\newcommand{\retire}{\textsc{Retire}\xspace}
+\newcommand{\fallback}{\textsc{Fallback}\xspace}
+\newcommand{\code}[1]{\texttt{#1}}
+% acmart-only accessibility macro: a no-op here, so the body compiles unchanged.
+\providecommand{\Description}[1]{}
+% acmart's two-column starred floats degrade to ordinary floats in one column.
+\providecommand{\keywords}[1]{}
+% In one column a starred float has no meaning, but LaTeX still routes figure*/table*
+% through \@dblfloat, which may only be placed at the top of a *later* page. That left
+% a half-empty page 1. Map them onto ordinary floats so they take part in normal
+% placement while the shared body keeps the starred form for the two-column build.
+\makeatletter
+\let\@dblfloat\@float
+\let\end@dblfloat\end@float
+\makeatother
+
+\crefname{algorithm}{Algorithm}{Algorithms}
+\Crefname{algorithm}{Algorithm}{Algorithms}
+
+% ------------------------------------------------------------------- title page
+\title{\vspace{-10mm}%
+  {\sffamily\bfseries\LARGE\color{paperblue}From Traces to Guarded Programs: Evidence-Gated Compilation of Recurrent Agent Workflows}%
+  \vspace{2mm}}
+\author{%
+  {\sffamily\bfseries Reza Rahimi}\\[1mm]
+  {\small\sffamily Jazzx AI, Los Altos, CA}\\[-0.5mm]
+  {\small\sffamily\href{mailto:reza.rahimi@jazzx.ai}{reza.rahimi@jazzx.ai}}}
+\date{}
+
+% article+oneside defaults to \raggedbottom, which let page 1 end 35%% short.
+% Justified vertical setting is correct for a journal article and fills the measure.
+\flushbottom
+
+\begin{document}
+
+\maketitle
+\thispagestyle{plain}
+\vspace{-5mm}
+
+{\small\sffamily\color{gacline!85}\noindent
+\rule{\textwidth}{0.4pt}\\[1.6mm]
+\textbf{Code and artifacts.} \url{https://github.com/rrahimi-uci/guarded-agentic-compaction}.\hfill
+\textbf{Evidence.} A ten-benchmark audit with two compiler substrates and six
+pilot-separated live-provider protocols on real public GitHub records.\\[1.2mm]
+\rule{\textwidth}{0.4pt}}
+
+\vspace{3mm}
+\begin{abstract}
+\noindent\input{abstract-body}
+\end{abstract}
+
+\vspace{1mm}
+\noindent{\small\sffamily\textbf{Keywords.}\;\,LLM agents \textperiodcentered\ tool use
+\textperiodcentered\ workflow optimization \textperiodcentered\ program synthesis
+\textperiodcentered\ provenance \textperiodcentered\ selective prediction
+\textperiodcentered\ risk control \textperiodcentered\ OpenAI Agents SDK}
+
+\vspace{2mm}
+
+\input{body}
+
+\bibliographystyle{abbrvnat}
+\bibliography{../bibliography/references}
+
+\end{document}
