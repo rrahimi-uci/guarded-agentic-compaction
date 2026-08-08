@@ -1,0 +1,144 @@
+<svg viewBox="0 0 960 722" role="img" aria-labelledby="arch-t arch-d" class="block-diagram">
+  <title id="arch-t">System architecture of Guarded Agentic Compaction</title>
+  <desc id="arch-d">A three-stage architecture diagram. Stage A captures traces from the
+  OpenAI Agents SDK into a typed episode representation, which the JSONL store persists
+  without any framework dependency. Stage B compiles offline through provenance analysis,
+  region mining, feasibility estimation, bounded synthesis, contract induction and exact
+  calibration, with a barrier band listing hard refusal conditions. Stage C dispatches at
+  runtime through guard, gate, staged interpretation and verification, falling back to the
+  baseline agent on any miss.</desc>
+  <defs>
+    <marker id="a-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
+            markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2f6b8a"/>
+    </marker>
+    <marker id="a-arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
+            markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2a9d8f"/>
+    </marker>
+    <marker id="a-arrow-coral" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7"
+            markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#d06b4d"/>
+    </marker>
+  </defs>
+
+  <!-- ============================ A. CAPTURE ============================ -->
+  <text x="24" y="22" class="d-lane">A &#183; Capture</text>
+  <text x="936" y="22" class="d-gate-note">one typed episode representation</text>
+  <rect x="24" y="32" width="912" height="112" rx="16" class="d-lane-box"/>
+  <g class="d-step">
+    <rect x="48" y="56" width="248" height="66" rx="11"/>
+    <text x="172" y="83" class="d-step-label">Agents SDK tracing</text>
+    <text x="172" y="103" class="d-step-sub">framework capture adapter</text>
+  </g>
+  <line x1="296" y1="89" x2="348" y2="89" class="d-flow" marker-end="url(#a-arrow)"/>
+  <g class="d-step">
+    <rect x="356" y="56" width="248" height="66" rx="11"/>
+    <text x="480" y="83" class="d-step-label">Episode IR</text>
+    <text x="480" y="103" class="d-step-sub">envelope &#183; manifest &#183; entry state</text>
+  </g>
+  <line x1="604" y1="89" x2="656" y2="89" class="d-flow" marker-end="url(#a-arrow)"/>
+  <g class="d-step">
+    <rect x="664" y="56" width="248" height="66" rx="11"/>
+    <text x="788" y="83" class="d-step-label">JSONL episode store</text>
+    <text x="788" y="103" class="d-step-sub">strict &#183; atomic &#183; no framework</text>
+  </g>
+
+  <path d="M 480 144 L 480 176" class="d-flow" marker-end="url(#a-arrow)"/>
+
+  <!-- ===================== B. OFFLINE COMPILATION ====================== -->
+  <text x="24" y="172" class="d-lane">B &#183; Offline compilation</text>
+  <text x="936" y="172" class="d-gate-note">touches no production traffic</text>
+  <rect x="24" y="184" width="912" height="296" rx="16" class="d-lane-box"/>
+
+  <g class="d-check">
+    <rect x="48" y="212" width="270" height="76" rx="12"/>
+    <text x="183" y="240" class="d-check-label">Typed provenance</text>
+    <text x="183" y="259" class="d-check-sub">producer search over the trace graph</text>
+    <text x="183" y="276" class="d-check-sub">groundable arguments only</text>
+  </g>
+  <line x1="318" y1="250" x2="337" y2="250" class="d-flow" marker-end="url(#a-arrow)"/>
+  <g class="d-check">
+    <rect x="345" y="212" width="270" height="76" rx="12"/>
+    <text x="480" y="240" class="d-check-label">Region mining</text>
+    <text x="480" y="259" class="d-check-sub">canonical recurrent families</text>
+    <text x="480" y="276" class="d-check-sub">ranked by description length</text>
+  </g>
+  <line x1="615" y1="250" x2="634" y2="250" class="d-flow" marker-end="url(#a-arrow)"/>
+  <g class="d-check">
+    <rect x="642" y="212" width="270" height="76" rx="12"/>
+    <text x="777" y="240" class="d-check-label">Feasibility ceiling</text>
+    <text x="777" y="259" class="d-check-sub">support estimated before synthesis</text>
+    <text x="777" y="276" class="d-check-sub">retire early rather than pay</text>
+  </g>
+
+  <path d="M 777 288 C 777 306 183 300 183 318" class="d-flow" marker-end="url(#a-arrow)"/>
+
+  <g class="d-check">
+    <rect x="48" y="320" width="270" height="76" rx="12"/>
+    <text x="183" y="348" class="d-check-label">Bounded synthesis</text>
+    <text x="183" y="367" class="d-check-sub">closed 23-operator library</text>
+    <text x="183" y="384" class="d-check-sub">composition depth at most two</text>
+  </g>
+  <line x1="318" y1="358" x2="337" y2="358" class="d-flow" marker-end="url(#a-arrow)"/>
+  <g class="d-check">
+    <rect x="345" y="320" width="270" height="76" rx="12"/>
+    <text x="480" y="348" class="d-check-label">Induced contracts</text>
+    <text x="480" y="367" class="d-check-sub">hard guard and observation verifier</text>
+    <text x="480" y="384" class="d-check-sub">challenged by a perturbation suite</text>
+  </g>
+  <line x1="615" y1="358" x2="634" y2="358" class="d-flow" marker-end="url(#a-arrow)"/>
+  <g class="d-check">
+    <rect x="642" y="320" width="270" height="76" rx="12"/>
+    <text x="777" y="348" class="d-check-label">Exact calibration</text>
+    <text x="777" y="367" class="d-check-sub">fixed threshold grid, grouped</text>
+    <text x="777" y="384" class="d-check-sub">one-sided finite-sample bound</text>
+  </g>
+
+  <g class="d-gate">
+    <rect x="48" y="404" width="864" height="62" rx="12"/>
+    <text x="68" y="427" class="d-gate-title">Hard barriers</text>
+    <text x="892" y="427" class="d-gate-note">no statistical evidence can override these</text>
+    <text x="68" y="450" class="d-barrier-note">unknown or irreversible effect &#183; approval &#183; handoff &#183; ungrounded argument &#183; manifest or isolation mismatch &#183; non-prefix position</text>
+  </g>
+
+  <path d="M 300 480 L 300 546" class="d-flow-ok" marker-end="url(#a-arrow-teal)"/>
+  <text x="312" y="508" class="d-edge">emit iff the bound clears &#945;</text>
+  <path d="M 760 480 L 760 546" class="d-flow-no" marker-end="url(#a-arrow-coral)"/>
+  <text x="748" y="508" class="d-edge-warn-end">any barrier hit</text>
+
+  <!-- ============================ C. RUNTIME ============================
+       The lane title is kept short so the two arrows descending at x=300 and
+       x=760 do not cross it; the qualifier rides at the right edge instead. -->
+  <text x="24" y="540" class="d-lane">C &#183; Runtime</text>
+  <text x="936" y="540" class="d-gate-note">resolved at the entry boundary</text>
+  <rect x="24" y="550" width="912" height="148" rx="16" class="d-lane-box"/>
+
+  <g class="d-step">
+    <rect x="48" y="576" width="238" height="98" rx="11"/>
+    <text x="167" y="606" class="d-step-label">Signed registry</text>
+    <text x="167" y="626" class="d-step-sub">immutable artifact record</text>
+    <text x="167" y="644" class="d-step-sub">bounded lookup by manifest</text>
+    <text x="167" y="662" class="d-step-sub">and isolation partition</text>
+  </g>
+  <line x1="286" y1="625" x2="308" y2="625" class="d-flow" marker-end="url(#a-arrow)"/>
+  <g class="d-step">
+    <rect x="316" y="576" width="286" height="98" rx="11"/>
+    <text x="459" y="606" class="d-step-label">Staged dispatch</text>
+    <text x="459" y="628" class="d-step-sub">guard &#8594; gate &#8594; stage</text>
+    <text x="459" y="648" class="d-step-sub">&#8594; interpret &#8594; verify &#8594; commit</text>
+    <text x="459" y="666" class="d-step-sub">every stage may refuse</text>
+  </g>
+  <line x1="602" y1="602" x2="624" y2="602" class="d-flow-ok" marker-end="url(#a-arrow-teal)"/>
+  <line x1="602" y1="650" x2="624" y2="650" class="d-flow-no" marker-end="url(#a-arrow-coral)"/>
+  <g class="d-emit">
+    <rect x="632" y="576" width="280" height="44" rx="11"/>
+    <text x="772" y="596" class="d-label-inv-sm">Compacted execution</text>
+    <text x="772" y="613" class="d-sub-inv">provider turns elided</text>
+  </g>
+  <g class="d-retire">
+    <rect x="632" y="630" width="280" height="44" rx="11"/>
+    <text x="772" y="650" class="d-label-inv-sm">Unchanged agent runs</text>
+    <text x="772" y="667" class="d-sub-inv">byte-identical model input</text>
+  </g>
+</svg>

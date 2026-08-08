@@ -201,6 +201,20 @@ No API key is needed to rebuild figures, tables, paper checks, and sealed-result
 .venv/bin/python scripts/build_pages.py --output _site
 ~~~
 
+`site/article.html` is the full manuscript rendered for the web, generated from
+`paper/tex/body.tex` by `scripts/build_article_page.py`. That step needs
+[pandoc](https://pandoc.org) and is not part of the loop above, because the Pages job
+installs no third-party tooling beyond `pyyaml`. Regenerate it whenever the manuscript
+changes:
+
+~~~bash
+python scripts/build_article_page.py          # rewrite site/article.html
+python scripts/build_article_page.py --check  # verify it matches paper/tex/ without writing
+~~~
+
+`build_pages.py` recomputes the source digest the page carries and fails the build if the
+committed article has fallen behind the manuscript, so a stale page cannot deploy.
+
 Paid study commands are documented separately in [paper/README.md](paper/README.md).
 Existing raw provider evidence is sufficient to reproduce all reported results. Local
 credentials are never required for the standard test or documentation path.
