@@ -266,8 +266,8 @@ Recurrent Agent Workflows** by Reza Rahimi (JazzX AI).
 
 | Build | Path |
 | --- | --- |
-| Journal-style article (43 pp.) | `paper/open_research/article.pdf` |
-| Two-column conference build (24 pp.) | `paper/open_research/main.pdf` |
+| Complete article, arXiv preprint format (46 pp. incl. appendix) | `paper/open_research/article.pdf` |
+| Two-column conference build (27 pp., appendix ships separately) | `paper/open_research/main.pdf` |
 | ICLR submission (9 pp. + appendix) | `paper/ICLR/` (build with `tectonic --outdir build main.tex`) |
 
 A versioned citation will be added after archival release; until then, cite the

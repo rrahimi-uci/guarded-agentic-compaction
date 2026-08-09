@@ -1076,7 +1076,7 @@ def validate_nestful() -> None:
 def validate_demo_suite() -> None:
     """Recompute the Tier-3 table from raw results rather than trusting the .tex.
 
-    The demonstration suite is cited in the manuscript, so its numbers need the same
+    The controlled stress suite is cited in the manuscript, so its numbers need the same
     treatment as Tier 1 and Tier 2: derived from the raw run, not from a constant.
     """
 
@@ -1503,8 +1503,8 @@ def validate_publication() -> None:
             # The architecture figure and retained end-to-end algorithm must actually
             # reach the page.
             # Algorithm 1's caption was retitled when it was corrected to describe the
-            # end-to-end pipeline rather than one function; match the current wording.
-            for phrase in ("System architecture", "end-to-end pipeline an operator runs",
+            # end-to-end cascade rather than one function; match the current wording.
+            for phrase in ("System architecture", "end-to-end compilation cascade",
                            "hand-written composite tool",
                            "typed provenance search",
                            "fixed-grid exact admission",
@@ -1512,8 +1512,38 @@ def validate_publication() -> None:
                 normalized_phrase = re.sub(r"[^a-z0-9]+", "", phrase.lower())
                 ok(normalized_phrase in searchable_pdf_text,
                    f"{build}: compiled PDF contains exhibit: {phrase}")
+            # All four algorithms, matched on their caption titles rather than on their
+            # pseudocode comments. The three phrases above them appear as \Comment text
+            # inside Algorithm 1, so for a long time they were satisfied while Algorithms
+            # 2-4 reached no build at all and nothing noticed.
+            for phrase in ("end-to-end compilation cascade",
+                           "typed argument provenance",
+                           "fixed-grid exact selective admission",
+                           "boundary-time admission"):
+                normalized_phrase = re.sub(r"[^a-z0-9]+", "", phrase.lower())
+                ok(normalized_phrase in searchable_pdf_text,
+                   f"{build}: compiled PDF contains algorithm caption: {phrase}")
+            ok("Algorithm 4" in pdf_text,
+               f"{build}: all four algorithms are numbered and typeset")
             ok("GACreconstructs" not in pdf_text,
                f"{build}: acronym macros do not swallow the following space")
+            # article.pdf is the complete build and therefore carries the reproducibility
+            # appendix; main.tex is the submission format and ships it separately. Assert
+            # the appendix by its content, because \input{../appendix/appendix} can be
+            # dropped from the wrapper without any build failing.
+            if build == "article":
+                for phrase in ("What is in this appendix",
+                               "Reproducibility Details",
+                               "Implementation Audit",
+                               "Complete Claims Register",
+                               "Claim-to-evidence mapping",
+                               "Additional Numerical Results",
+                               "Benchmark Selection Rationale",
+                               "Disposition of every named benchmark family",
+                               "Artifact Lifecycle Boundary"):
+                    normalized_phrase = re.sub(r"[^a-z0-9]+", "", phrase.lower())
+                    ok(normalized_phrase in searchable_pdf_text,
+                       f"{build}: compiled PDF contains appendix section: {phrase}")
         except Exception as exc:
             errors.append(f"{build}: PDF text validation: {exc}")
 

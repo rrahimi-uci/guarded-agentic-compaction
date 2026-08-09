@@ -1,3 +1,9 @@
+% Pointers into the reproducibility appendix. Only the complete-article wrapper
+% (article.tex) carries that appendix; the two-column submission wrapper ships it as
+% separate supplementary material. Any wrapper that does not define \appendixonly gets
+% this gobbling default, so a shared-body pointer can never become a dangling reference.
+\providecommand{\appendixonly}[1]{}
+
 \section{Introduction}
 
 The standard reasoning--acting loop delegates every tool boundary to a language model:
@@ -103,10 +109,18 @@ prompt optimization as a whole.
 selective objective.  \Cref{sec:method} presents the method as a cascade of independent
 rejection points (\cref{fig:pipeline}) and states the calibration guarantee.
 \Cref{sec:methodology} defines the evidence tiers and the hypotheses they test, and
-\cref{sec:results} answers RQ1--RQ6 (RQ2b with RQ2). \Cref{sec:related} positions \method
-against adjacent optimizers, and \cref{sec:limits} states what the evidence does not
-cover.  Every rejected candidate, the archived failed pilot, and the unsupported claims are
-retained rather than pruned, so the denominator of each result stays visible.
+\cref{sec:results} answers RQ1--RQ6 (RQ2b with RQ2), opening with the hypothesis-by-hypothesis
+verdict in \cref{tab:hypotheses} and closing with the five negative results and what each
+one rules out (\cref{sec:negative}).  \Cref{sec:related} positions \method against adjacent
+optimizers, and \cref{sec:limits} groups the threats to validity by the kind of inference
+each endangers.  Every rejected candidate, the archived failed pilot, and the unsupported
+claims are retained rather than pruned, so the denominator of each result stays visible.\appendixonly{
+  The appendix carries what would otherwise interrupt that argument: the exact command
+  behind every study (\cref{app:repro}), the implementation audit (\cref{app:audit}), the
+  complete claim register including the thirteen claims the evidence does not support
+  (\cref{app:claims}), the per-metric numbers behind the figures (\cref{app:numerical}),
+  the disposition of all ten benchmark families (\cref{app:benchmarks}), and the artifact
+  lifecycle boundary (\cref{app:lifecycle}).}
 
 \section{Problem Formulation}
 \label{sec:problem}
@@ -209,6 +223,16 @@ selecting are both small changes, and both are future work.
   \label{fig:pipeline}
 \end{figure*}
 
+\method is a cascade of independent rejection points (\cref{fig:pipeline}).
+\Cref{alg:compile} states that cascade in one place, because the order the stages run in is
+itself part of the argument: each stage can only weaken a candidate, never rescue one, and
+every \retire is recorded with the stage that caused it, so rejected candidates stay in the
+denominator.  The rest of this section expands the three stages that carry the safety
+claim --- provenance (\cref{alg:patg}), calibration (\cref{alg:calibrate}), and the runtime
+boundary (\cref{alg:dispatch}).
+
+\input{../figures/alg-compile.tex}
+
 \subsection{Typed provenance and canonical families}
 
 A capture adapter normalizes framework traces into the Episode IR.  The OpenAI Agents SDK
@@ -236,7 +260,12 @@ and prior-result paths for typed values and bounded transforms.  Exact matches, 
 field paths, and transformations in $\mathcal{L}$ become candidate producer edges.
 Ambiguous candidate sets above a configured cap and ungrounded values block a region.
 This is execution provenance in the database sense~\cite{cheney2009provenance}, specialized
-to tool arguments rather than tuple derivations.
+to tool arguments rather than tuple derivations.  \Cref{alg:patg} states the search.  Its
+two rejection branches carry the design commitment: a slot with no witness is a genuine
+model decision and a slot with too many witnesses is ambiguous, and both block the region
+instead of resolving to the cheapest available explanation.
+
+\input{../figures/alg-provenance.tex}
 
 The miner enumerates model-boundary-to-result windows with at most $w_{\max}$ tool calls,
 qualifies effects and live-ins, and hashes the tool signatures, dependency topology,
@@ -313,8 +342,6 @@ false} rather than implying a challenge occurred.  The headline live artifact of
 \cref{sec:rq2} is in exactly that position, and we report it there as a limitation of that
 run rather than as a property of the method.
 
-\input{../figures/alg-compile.tex}
-
 \subsection{Guarded composite synthesis}
 \label{sec:gcs-method}
 
@@ -371,7 +398,7 @@ records a sanitized audit log, and leaves tracking disabled.  Only one operation
 sentence is mutable; the factual output schema, safety instructions, tools, grader, and
 quality-dominant objective remain fixed.  Prompt optimization and guarded program execution
 therefore change orthogonal variables and can be evaluated alone or together.  Optimization
-requests, tokens, latency, and cost are accounted separately from held-out deployment.
+requests, tokens, latency, and cost are accounted separately from held-out evaluation.
 
 \subsection{Exact risk-gated admission}
 
@@ -403,7 +430,12 @@ For $k_\eta=0<n_\eta$, this reduces to
 $U_\eta=1-\gamma^{1/n_\eta}$.  The largest-coverage admissible threshold with
 $U_\eta\leq\alpha$ is selected; if none exists, the family retires.  The explicit edge
 cases match the implementation and prevent an empty admitted set or an all-violation set
-from producing an undefined beta quantile.
+from producing an undefined beta quantile.  \Cref{alg:calibrate} gives the selection loop.
+The ordering in it is the load-bearing part: the score and the grid are frozen before the
+procedure reads a single calibration group, which is what makes the union bound over
+$\Lambda$ legitimate.
+
+\input{../figures/alg-calibrate.tex}
 
 \begin{proposition}[Per-candidate simultaneous calibration]
 Condition on the train/development data and fix one candidate program, hard guard, score
@@ -529,6 +561,14 @@ result; and commits only on success.  Shadow mode records would-dispatch behavio
 does not change the agent.  Live resolution accepts only active artifacts.  The current
 version compiles reads only; irreversible operations remain with the baseline agent.
 
+\Cref{alg:dispatch} gives that boundary in full, and reading it against \cref{fig:pipeline}
+makes the asymmetry explicit: the cheap deterministic checks reject first, the calibrated
+gate runs only on what survives them, and of the terminal edges exactly one compacts.  Five
+return the unmodified agent and one raises an incident, which happens only when an external
+commitment has already been made and rollback would be a fiction.
+
+\input{../figures/alg-dispatch.tex}
+
 For the OpenAI Agents SDK, the library provides trace capture plus a custom model-boundary
 adapter for local function tools.  Streaming, hosted tools, MCP tools, handoffs, loops,
 and assertions bypass rather than degrade.  The SDK provides the loop and lifecycle, but it
@@ -584,7 +624,7 @@ Earlier fixed-prefix, depth, portfolio, GCS, and bounded-GEPA studies remain as 
 and negative controls.  They preserve the historical denominator, but they are not counted
 as additional workflow families or pooled into the primary 90-record result.
 
-\textbf{Tier 3 --- controlled demonstration suite.}  Six workflow \emph{shapes} are run
+\textbf{Tier 3 --- controlled stress suite.}  Six workflow \emph{shapes} are run
 end to end through the real SDK runtime with live provider calls against deterministic
 local services.  The business records here are fictional, so this tier cannot support a
 claim about real-world data; what it can do is cover control-flow structures the other two
@@ -845,7 +885,7 @@ cohort, but only within one workflow family and one model configuration.
 We first reconstruct both GCS and the manual program on all 12 selected split records
 without a provider call.  Their projected evidence must match byte-for-byte before the
 paid study may proceed.  Four records train prompt proposals, two evaluate them, and six
-remain sealed for deployment; all are disjoint from 443 issue identifiers used by earlier
+remain sealed for held-out evaluation; all are disjoint from 443 issue identifiers used by earlier
 experiments.  Strict exclusion leaves bug, enhancement, and other records but no question
 record, so the held-out cohort balances only the three available categories (two each).
 
@@ -861,7 +901,7 @@ all five conditions run once per held-out issue under a balanced condition-order
 Because GEPA retains its seed, the nominal GCS+GEPA arm is an order-balanced replication
 of GCS, not evidence of a distinct combined optimizer.
 
-\subsection{Demonstration suite: workflow shapes}
+\subsection{Controlled stress suite: workflow shapes}
 \label{sec:demos}
 
 Six SDK-backed stress scenarios cover a linear prefix, permission-scoped retrieval, a
@@ -901,7 +941,7 @@ work.
 The bounded comparator uses the same exact quality and paired resource procedures.  Host
 monotonic wall time is primary.  Provider-span latency is retained but excluded from a
 comparison if the summed spans exceed the surrounding host wall time by more than 250 ms.
-Optimization requests, tokens, latency, and cost are never mixed with held-out deployment
+Optimization requests, tokens, latency, and cost are never mixed with held-out evaluation
 metrics.
 
 \section{Results}
@@ -917,6 +957,63 @@ cross-repository extension tests the same question on a simpler time-forward tas
 retain the earlier depth failure, failed suffix pilot, harder workflow shapes, and
 prospective portfolio study because each constrains a different claim rather than adding
 another headline.
+
+\Cref{tab:hypotheses} adjudicates every hypothesis before the detail, including the two
+that split and the two questions that were asked after the results were known and can
+therefore only be exploratory.  Two of the six directional hypotheses are supported on one
+reading and not on another; recording the split is the point, because either half alone
+would misdescribe the result.
+
+% Hand-authored rather than generated: this table is an adjudication, and the verdicts are
+% editorial judgements traceable to the subsections named in the last column, not values a
+% script can recompute from a results file.
+\begin{table*}[t]
+  \centering
+  \caption{Every hypothesis and its outcome.  ``Pre-specified'' means fixed internally
+  before the sealed test was scored; no part of this study was externally preregistered.
+  RQ2b and the determinism question were formulated after the results they examine were
+  known, so they carry no hypothesis and license no confirmatory claim.}
+  \label{tab:hypotheses}
+  \small
+  \begin{tabularx}{\textwidth}{@{}l l l >{\raggedright\arraybackslash}X l@{}}
+    \toprule
+    & Question & Pre-specified & Outcome & Reported in \\
+    \midrule
+    H1 & RQ1 & yes &
+      Split: supported on recall (96.3\% of dependency slots), not supported on unique
+      resolution (80.7\%) against a 90\% target &
+      \cref{sec:rq1} \\
+    H2 & RQ2, RQ6 & yes &
+      Supported: requests $-50.0$ to $-75.0\%$ and total tokens $-39.5$ to $-81.4\%$
+      across three families &
+      \cref{sec:family-results} \\
+    H3 & RQ2 & yes &
+      Split: supported for the expanded two-read artifact (30/30 exact), not supported
+      for the earlier three-read artifact (17/18) &
+      \cref{sec:rq2} \\
+    H4 & RQ3 & yes &
+      Supported: every synthesized family retires --- 12 on NESTFUL and both on API-Bank
+      --- for insufficient calibration support &
+      \cref{sec:rq1} \\
+    H5 & RQ4 & yes &
+      Supported on model calls and quality for all three negative controls; deliberately
+      not stated in cost, which rises up to $55.4\%$ &
+      \cref{sec:demos-results} \\
+    H6 & RQ5 & before the fresh cohort &
+      Supported on 12 fresh pairs (12/12 exact, requests $-50.0\%$); cannot establish that
+      selection beats an always-macro policy &
+      \cref{sec:portfolio-results} \\
+    \midrule
+    --- & RQ2b & no (exploratory) &
+      GCS beats the measured provider-visible macro on one family, and reaches parity with
+      a fairly placed manual program &
+      \cref{sec:gcs-results,sec:comparator} \\
+    --- & RQ4 & no (post hoc) &
+      Not supported: byte-exact answer agreement is 1/6 for the baseline and 0/6 compiled &
+      \cref{sec:pilot} \\
+    \bottomrule
+  \end{tabularx}
+\end{table*}
 
 \subsection{RQ1 and RQ3: provenance succeeds more often than certification}
 \label{sec:rq1}
@@ -1145,10 +1242,24 @@ important negative evidence.  Its artifact was calibrated at $\alpha=.10$ over 4
 (\cref{tab:admission-register}); the factual miss below is therefore a miss by an artifact
 admitted under a weaker guarantee than the primary families receive.
 
+% Seven columns do not fit the two-column measure; starred so the ACM build spans it.
+% The single-column wrappers remap table* onto an ordinary float.
+\begin{table*}[t]
+  \centering
+  \caption{The earlier free-order 18-record follow-up, in which \method compiled the more
+  aggressive three-read region.  Means are per issue over 18 held-out pairs with all six
+  condition orders balanced three times.  This is the artifact calibrated at
+  $\alpha=.10$, not one of the primary families, and it is the arm that records the single
+  factual miss discussed below.}
+  \label{tab:natural-live}
+  \small
+  \input{../tables/natural_live_results.tex}
+\end{table*}
+
 Relative to its unchanged agent, that artifact reduces requests 75.0\%, total tokens
 66.0\%, observed wall latency 76.4\%, and estimated cost 48.7\%; its macro reduces the
-same quantities by 50.0\%, 60.5\%, 17.7\%, and 41.7\%.  The unchanged agent and macro pass
-18/18 factual contracts, but \method passes 17/18.  On issue 6602 the source contains a
+same quantities by 50.0\%, 60.5\%, 17.7\%, and 41.7\% (\cref{tab:natural-live}).  The
+unchanged agent and macro pass 18/18 factual contracts, but \method passes 17/18.  On issue 6602 the source contains a
 Markdown link while the compiled continuation drops the URL and returns only its anchor
 text.  The single discordance gives two-sided exact McNemar $p=1$ and a one-sided 95\%
 exact upper bound of 23.8\%.  H3 is therefore supported as an observed-sample result for
@@ -1183,14 +1294,44 @@ $\alpha=.05$, $\delta=.10$, and 11 thresholds, the simultaneous upper bound is 0
 The artifact was promoted only under a paper-protocol lab flag; no production canary is
 claimed.
 
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{../generated_figures/live_efficiency.pdf}
+  \caption{Prescribed-prefix ablation, 18 held-out pairs, each mean normalized to its
+  own unchanged baseline.  Tool calls are the control: the compiled program performs the
+  same three reads, so what falls is the model-mediated control flow around them, not the
+  work.\appendixonly{  Per-metric absolute means and Wilcoxon $p$-values are in
+  \cref{tab:live-results}.}}
+  \Description{Horizontal bars normalized to a 100 percent baseline showing provider
+  requests down 75.0 percent, total tokens down 65.7 percent, wall latency down 85.0
+  percent, estimated cost down 52.6 percent, and tool calls unchanged.}
+  \label{fig:live-efficiency}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{../generated_figures/paired_test.pdf}
+  \caption{The same 18 pairs, unaggregated.  Every issue is one point, baseline against
+  compiled, so the reduction is visible as a distribution rather than a mean: no pair
+  crosses the no-change diagonal on any of the three endpoints.  Latency is plotted on log
+  axes because the baseline spans an order of magnitude.}
+  \Description{Three scatter panels for total tokens, wall latency and estimated cost.
+  All eighteen points lie below the no-change diagonal in every panel.}
+  \label{fig:paired-test}
+\end{figure}
+
 Provider requests fall from exactly 4 to 1 per issue (75.0\%; paired 95\% bootstrap
 difference $[-3,-3]$).  Mean total tokens fall 65.7\%, observed wall latency 85.0\%, and
-estimated cost 52.6\%; tool calls remain three in both arms.  All 18 pairs pass the
+estimated cost 52.6\%; tool calls remain three in both arms
+(\cref{fig:live-efficiency}).  The effect is not carried by outliers: every one of the 18
+pairs falls below the no-change diagonal on tokens, latency, and cost
+(\cref{fig:paired-test}).  All 18 pairs pass the
 registered contract, but zero discordances still permit a 15.3\% one-sided 95\% upper
 bound on degradation, so this is not an equivalence result.  Discovery consumed 528
 provider requests and 533,293 tokens; measured break-even ranges from 176 future episodes
 when amortizing requests to 292 when including confirmatory-arm cost, before engineering,
-review, monitoring, and cache effects.
+review, monitoring, and cache effects.\appendixonly{  \Cref{tab:live-results} gives the
+per-metric absolute means.}
 
 \subsection{Harder shapes, partial compaction, and where the saving inverts}
 \label{sec:demos-results}
@@ -1198,9 +1339,11 @@ review, monitoring, and cache effects.
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{../generated_figures/demo_suite.pdf}
-  \caption{Controlled demonstration suite.  Three of the eight conditions are negative
+  \caption{Controlled stress suite.  Three of the eight conditions are negative
   controls whose only correct outcome is no compaction, and two of the compacting rows cost
-  \emph{more} than their baselines once prompt-cache reuse is fragmented.}
+  \emph{more} than their baselines once prompt-cache reuse is fragmented.\appendixonly{
+  \Cref{tab:demo-suite} names the workflow shape behind each condition and gives the
+  per-demo counts.}}
   \Description{Bars for eight demonstration conditions showing model-call and token changes.
   Linear prefix, permissioned retrieval, and handoff-barrier cases show large token
   reductions; the fulfillment case shows a token reduction with a cost increase; the three
@@ -1418,7 +1561,7 @@ advantage over manual placement.
 
 \begin{table}[t]
   \centering
-  \caption{Fresh real-record deployment after bounded prompt optimization.  Values are
+  \caption{Fresh real-record evaluation after bounded prompt optimization.  Values are
   means over six held-out issues.  ``Interfaces'' counts model-visible tool calls.  GEPA
   retained its seed; the combined row is therefore a GCS replication, not a distinct
   optimized prompt.  Optimization overhead is excluded.}
@@ -1427,11 +1570,11 @@ advantage over manual placement.
   \resizebox{\columnwidth}{!}{\input{../tables/optimizer_head_to_head.tex}}
 \end{table}
 
-All five conditions pass all six exact factual and tool contracts.  The GCS arm deploys the
+All five conditions pass all six exact factual and tool contracts.  The GCS arm executes the
 same $\alpha=.10$ artifact as \cref{sec:gcs-results}, so this comparison inherits that
 looser risk level (\cref{tab:admission-register}).  Relative to the
 unchanged agent, GCS reduces provider requests 75.0\%, exposed interfaces 66.7\%, input
-tokens 78.2\%, total tokens 76.6\%, observed wall time 68.2\%, and estimated deployment
+tokens 78.2\%, total tokens 76.6\%, observed wall time 68.2\%, and estimated
 cost 67.9\%; the paired structural and token reductions have exact signed-rank
 $p=.03125$.  These six pairs remain too few for a population equivalence claim.
 
@@ -1445,10 +1588,10 @@ dominance over a correctly placed hand-authored program.  Manual construction an
 effort were not measured.
 
 GEPA consumes 14 real task evaluations and three real reflection calls under the fixed
-budget, proposes three alternatives, and retains the seed.  Its deployment arm therefore
+budget, proposes three alternatives, and retains the seed.  Its held-out arm therefore
 keeps four requests and three interfaces; total-token reduction versus unchanged is 0.38\%
 ($p=.688$), and estimated cost is 3.6\% higher ($p=.688$).  Optimization itself consumes
-59 provider requests, 63,954 tokens, and an estimated \$0.01163, reported outside deployment.
+59 provider requests, 63,954 tokens, and an estimated \$0.01163, reported outside the held-out arm.
 Because no prompt change is selected, the combined arm cannot support a composition claim.
 This is a bounded negative result on one extractive workflow, not a general failure of
 GEPA.  One GCS+seed provider-span record exceeds its surrounding host wall time; the raw
@@ -1457,11 +1600,24 @@ span is retained, but provider-span comparisons involving that arm are invalidat
 \subsection{RQ5: prospective portfolio selection}
 \label{sec:portfolio-results}
 
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{../generated_figures/portfolio_selection.pdf}
+  \caption{The frozen selection, taken over the 30 independent calibration issues.  Both
+  actions clear the risk limits, so the decision is made on mean paired utility alone and
+  the measured macro wins it.  Selection routes the action to human review; it does not
+  deploy it.\appendixonly{  \Cref{tab:portfolio-results} gives the risk bounds and the
+  fresh-cohort outcome.}}
+  \Description{Two horizontal bars of mean paired portfolio utility in percentage points:
+  the macro at 48.9, marked selected for review, and compilation at 32.7.}
+  \label{fig:portfolio-selection}
+\end{figure}
+
 Both actions record zero quality failures and zero non-positive-utility groups among 30
 independent calibration issues.  With the multiplicity split, each one-sided upper bound
 is 0.1359, below the pilot limit 0.15.  Mean utility is 0.327 for compilation and 0.489
 for the macro, so the frozen selector recommends the macro for review before seeing a fresh
-12-issue cohort.  Baseline and macro then pass 12/12 exact contracts; the macro halves
+12-issue cohort (\cref{fig:portfolio-selection}).  Baseline and macro then pass 12/12 exact contracts; the macro halves
 provider requests, reduces tool calls from three to one, and lowers total tokens 59.2\%
 and estimated cost 40.6\%.  This is a prospective action evaluation, not evidence that the
 selector beats an always-macro policy: calibration and test contain one workflow family,
@@ -1470,10 +1626,26 @@ and the static policy would make the same choice.
 \subsection{RQ4: failed pilot and determinism}
 \label{sec:pilot}
 
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{../generated_figures/pilot_ablation.pdf}
+  \caption{Why position is an invariant and not a tuning parameter.  The archived pilot
+  dispatched a compiled region from the wrong boundary and still reduced provider
+  requests, which is exactly what makes it dangerous: efficiency survived while task
+  quality and tool-contract validity collapsed to 16.7\%.  An optimizer scored on
+  reduction alone would have accepted it.}
+  \Description{Grouped bars comparing the archived suffix-dispatch pilot with the
+  corrected prefix-invariant compiler on task quality, tool-contract validity, and
+  provider-request reduction: 16.7 versus 100.0, 16.7 versus 100.0, and 36.7 versus 75.0
+  percent.}
+  \label{fig:pilot-ablation}
+\end{figure}
+
 The first live pilot compiled suffix-only regions even though the runtime resolves only at
 entry.  It therefore dispatched label/comment reads before their intended position,
 duplicated or reordered tools, and achieved only 16.7\% task/tool-contract validity despite
-reducing requests.  We archived the complete pilot, added the prefix invariant in
+reducing requests (\cref{fig:pilot-ablation}).  We archived the complete pilot, added the
+prefix invariant in
 \cref{eq:prefix}, added a regression test, and excluded every pilot issue from the final
 cohort.  The corrected compiler blocks 116 suffix candidates and restores 100\% observed
 contract validity.
@@ -1483,6 +1655,45 @@ conditions.  Byte-exact natural-language answers agree in one of six baseline pa
 zero of six compiled pairs.  Compaction therefore improves structural determinism of the
 tool prefix by construction, but not free-form surface determinism.  This small sample does
 not support a claim that it stabilizes final text.
+
+\subsection{What did not work, and what each failure rules out}
+\label{sec:negative}
+
+Five results in this section are negative, and they constrain the contribution more
+sharply than the efficiency numbers do.  They are collected here because each one closes a
+different explanation that a reader would otherwise be entitled to keep open.
+
+\emph{Every externally sourced recurrent family retired.} Twelve synthesized NESTFUL
+families and both API-Bank families reached held-out replay without a single wrong
+execution --- 24 passes and 12 abstentions on NESTFUL, two abstentions on API-Bank ---
+and still none reached the 92 zero-violation groups the configured gate requires
+(\cref{sec:rq1}).  This rules out the reading that recurrence plus successful
+replay is sufficient evidence to rewrite an agent, which is the assumption a
+recurrence-only macro miner makes.  It also fixes the cost of the guarantee: on these
+corpora the admission requirement, not the synthesizer, is the binding constraint.
+
+\emph{The suffix pilot reduced requests while destroying the task.} It cut provider
+requests 36.7\% at 16.7\% contract validity (\cref{sec:pilot}).  This rules out
+efficiency-scored evaluation of this class of optimizer: a reduction metric ranked the
+broken compiler above no compiler at all.
+
+\emph{The gate did not discriminate.} Five of six live gates admit all or none, and the
+single partially selective gate refuses four of its 92 groups --- which is precisely what
+lifts its own bound above the registered 5\% (\cref{sec:limits}).  This rules out any claim that the calibrated score separates risky
+inputs from safe ones on this evidence; what the mechanism demonstrably provides is a
+sample-size requirement and a refusal, not a demonstrated risk--coverage frontier.
+
+\emph{Bounded prompt optimization selected no change.} GEPA spent 59 provider requests and
+retained its seed (\cref{sec:gcs-results}).  This does not rule out prompt optimization in
+general --- the budget was small and the workload narrow --- but it does rule out the
+specific alternative explanation that the compiler's gains are available from prompt
+optimization alone on this task.
+
+\emph{Hand-written programs matched the compiler.} Manual programs reach 90/90 on both new
+families, and an independently authored pre-model program ties GCS at 6/6 with identical
+request and interface counts (\cref{sec:comparator}).  This rules out runtime dominance as
+the contribution and leaves automatic discovery under a stated admission rule as the part
+of the claim the evidence still supports.
 
 \section{Related Work}
 \label{sec:related}
@@ -1668,7 +1879,7 @@ already placed the same program correctly.
 The portfolio adds a second, narrower composition: selection across transformation
 \emph{classes} rather than configurations within one declared graph, with separate exact
 bounds on task failure and non-positive paired utility, compatibility invalidation, and a
-human-review deployment mode.  FlowCompile already constructs reusable accuracy--latency
+human-review condition.  FlowCompile already constructs reusable accuracy--latency
 configuration sets and downstream routing; GEPA evolves residual prompts; AWO and Agent
 JIT generate reusable or task-specific execution structures.  We therefore do not claim
 that portfolio search itself is new.  The distinct object here is an evidence-gated choice
@@ -1682,72 +1893,167 @@ records required by the configured calculation.  Treating those records as indep
 a load-bearing sampling assumption, not a property established by the benchmark.  Refusal
 exposes the data requirement rather than moving it into an undocumented heuristic.
 
-\subsection{Engineering implications}
+\subsection{What the experiments changed about the design}
 
-First, compile-time cost must be amortized.  A stable, high-volume prefix can repay 116
-discovery traces; a low-volume workflow may never do so.  Second, compaction and prompt
-caching interact: deleting turns changes the number and shape of cache reads/writes, so
-token reduction need not equal cost reduction.  Third, effect declarations are part of
-the trusted computing base.  A misdeclared external write cannot be repaired by
-statistics.  Fourth, the runtime-position key must become explicit before suffix regions
-are supported.  The pilot demonstrates that a compiler and runtime must share the same
-control-point semantics.
-Fifth, a task-specific interface and its execution position are separate optimizations:
-merely exposing a macro still leaves a model turn to select it, whereas a continuation-pinned
-pre-model composite can remove that turn.
-Sixth, learned-optimizer overhead needs its own ledger.  In the bounded GEPA study the
-optimization spends 59 provider requests and selects no change, so there is no deployment
-benefit against which that cost can be amortized.
-Seventh, opaque identifiers are nominal values, not measurements.  Empirical numeric
-minima and maxima are appropriate for bounded quantities but reject valid unseen IDs;
-identifier contracts should retain type and provenance while allowing new values.
+Seven findings altered the method after it was first built, and each is stated here as the
+observation that forced the change rather than as advice.
 
-\subsection{Extension path}
+\emph{Per-episode saving does not determine whether compilation pays.} Provider-side
+break-even is 411, 182, and 181 future episodes for the issue-type, PR-outcome, and
+backlog-attention families, and these exclude engineering, review, monitoring, and
+invalidation cost entirely.  The issue-type figure is the largest because its admitted
+program is only two reads deep, so the family with the safest artifact is also the slowest
+to repay it.  Amortization, not reduction, is the quantity that separates a workflow worth
+compiling from one that is not.
+
+\emph{Token reduction and cost reduction came apart.} The hand-written macro uses 30.9\%
+fewer tokens than the compiled arm but is only 8.0\% cheaper, because it reads 0.0\% of
+its input from prompt cache against the compiled arm's 27.8\%.  Deleting turns changes the
+number and shape of cache reads and writes, so the two quantities measure different things
+and a study reporting only tokens would have overstated the saving.
+
+\emph{No amount of calibration data substitutes for an effect declaration.} Demo~D exposes
+undeclared MCP effects and is correctly refused; the refusal comes from the declaration,
+not from any statistical check, and the run is indistinguishable from baseline (3.0 model
+calls in both arms, tokens $+0.1\%$).  A misdeclared external write is therefore outside
+what the admission bound can protect, which places the effect catalog in the trusted
+computing base rather than in the learned part of the system.
+
+\emph{Compiler and runtime must share control-point semantics, and the failure is silent
+otherwise.} The archived pilot emitted suffix-only regions against a runtime that resolves
+at entry.  It still reduced provider requests 36.7\% while task quality and tool-contract
+validity fell to 16.7\% (\cref{fig:pilot-ablation}) --- an efficiency-scored optimizer
+would have accepted it.  Making position an explicit invariant blocked 116 suffix
+candidates and restored 100\% observed contract validity.
+
+\emph{Interface and execution position are separable optimizations.} Exposing a macro
+leaves a model turn to select it; a continuation-pinned pre-model composite removes that
+turn.  GCS reduces provider requests 50.0\% against the measured provider-visible macro
+while both pass 12/12, which isolates position as the operative variable rather than
+interface width.
+
+\emph{Learned-optimizer overhead needs a separate ledger, because it can be unbounded by
+the benefit.} Bounded GEPA consumes 59 provider requests, 63,954 tokens, and an estimated
+\$0.01163 across 14 task evaluations and three reflections, then retains its seed.  With no
+change selected there is no benefit against which to amortize that cost, so folding
+optimization spend into the held-out arm would have hidden a null result.
+
+\emph{Opaque identifiers behave as nominal values, not measurements.} The archived
+pull-request pilot projected nullable merge timestamps and hulled empirical numeric ranges
+over identifiers, which is correct for bounded quantities and wrong for IDs: it rejects
+valid unseen values while admitting nothing safer.  Retaining type and provenance with an
+\code{any} hull keeps the guard sound without that false rejection.
+
+\subsection{Open questions}
 \label{sec:extension}
 
-Two of these follow directly from \cref{sec:demos-results}.  First, the selective
-objective should price \emph{cache-prefix fragmentation}: a route whose traffic share is
-too small to amortize its own cache write is a net loss even when its prompt is strictly
-shorter, and \cref{eq:objective} currently counts only tokens and calls.  Second, the
-break-even in \cref{sec:rq2} should be computed against the \emph{cached} baseline price
-rather than the list input price, so that a workload whose baseline is already
-cache-dominated is reported as having little dollar headroom before a compiler is built
-for it.
+Two of these are forced by \cref{sec:demos-results} rather than chosen.  First,
+\cref{eq:objective} counts tokens and calls, and Demo~F shows that is the wrong objective:
+a route whose traffic share is too small to amortize its own cache write is a net loss at
+$+123.0\%$ cost even though its prompt is strictly shorter.  What the objective should
+charge for \emph{cache-prefix fragmentation}, and whether that term can be estimated
+before synthesis rather than measured after it, is unresolved.  Second, the break-even in
+\cref{sec:rq2} is computed against the list input price, which overstates headroom for any
+workload whose baseline is already cache-dominated; the right comparison is the
+\emph{cached} baseline price, and we do not know how much of the reported saving survives
+it.
 
 \paragraph{Portfolio optimization beyond the pilot.}
 The implemented portfolio layer selects among measured actions and can recommend a macro
 for review; it does not synthesize arbitrary macro code, execute cache-only or
 model-routing candidates, estimate
-developer effort, or learn a policy across workflow families.  The next experiment must
-include families deliberately spanning stable bundles, branching prefixes, cache-dominated
-routes, unsafe effects, and low-support abstention.  It should measure construction,
+developer effort, or learn a policy across workflow families.  A study that could decide
+the selection question needs families deliberately spanning stable bundles, branching
+prefixes, cache-dominated
+routes, unsafe effects, and low-support abstention.  It would have to measure construction,
 review, maintenance, invalidation, and drift costs and compare against always-macro,
 always-compile, cache-only, FlowCompile-style configuration selection, and a learned
 contextual policy.  Only then can the central selection claim be stronger than ``the pilot
 correctly chose the already stronger macro.''
 
-The reusable library boundary is the typed Episode IR plus an optimization-pass API.
-GCS now covers the narrow read-only interface case described in \cref{sec:gcs-method}.
-Remaining near-term extensions include: (1) e-graph or counterexample-guided synthesis within the
-same closed semantic library; (2) global familywise risk allocation across multiple
-artifacts; (3) transactional compilation of idempotent writes with approval barriers;
-(4) explicit execution-plan scheduling to combine compaction with LLMCompiler-style
-parallelism; (5) cost-aware Pareto artifact selection inspired by FlowCompile; (6)
-trace-driven prompt/tool-surface and memory compaction evaluated behind the same gates;
-and (7) adapters for other orchestration frameworks.  None is claimed as implemented.
+One further question is structural rather than empirical.  \Cref{sec:limits} shows that the
+per-candidate bound does not compose: the compiler searches candidate families, but the
+guarantee is stated for one fixed candidate, and a two-candidate correction already moves
+the requirement from 92 to 106 zero-violation groups.  Whether familywise risk can be
+allocated across the artifacts a compiler actually produces without making the data
+requirement prohibitive is the open problem that most limits what this method can claim,
+and it is not answered here.
 
 \section{Limitations and Threats to Validity}
 \label{sec:limits}
 
-\paragraph{The natural task still constrains the evidence shape.}
-The original conformance prompt names three tools in an exact order, so its recurrence is
-constructed.  The natural follow-ups remove tool names and order, and compiler eligibility
-no longer requires an exact trace, but the requested title, state, labels, and evidence
-excerpt still make the three sources useful.  All 132 expanded discovery agents (and all
-80 in the earlier study) converge on one order.  This is
-stronger evidence of naturally selected recurrence than the original study, but it does
-not establish discovery in open-ended plans where tools may be skipped, substituted,
-branched, or revisited for reasons not fixed by an output schema.
+The threats below are grouped by the kind of inference each one endangers, so that a
+reader can tell which results a given caveat actually touches.  Each is stated at the
+strength the evidence forces, including the four that undercut a headline number.
+
+\subsection{Internal validity}
+
+Whether the reported effect follows from what was manipulated rather than from how the runs were arranged or configured.
+
+\paragraph{The original latency result is confounded by condition order.}
+The fixed-prefix harness runs the entire baseline batch and then the entire compiled batch, without
+randomizing or counterbalancing order within pairs.  Provider load, connection reuse, and
+prompt-cache warmth therefore differ systematically between conditions.  The request-count
+reduction is structural and unaffected, but the $-85.0\%$ wall-latency figure should be
+read as an observation under this ordering rather than a clean causal estimate; the same
+confound is the most likely explanation for the refusing conditions of
+\cref{sec:demos-results} billing more than their baselines on identical token counts.
+Both natural-order studies counterbalance all six three-condition permutations; the
+expanded run assigns each exactly five primary records.  This removes ordinal imbalance
+but cannot eliminate provider noise or cache interference.
+
+\paragraph{Removing model turns can remove guardrail evaluations.}
+Moderation, policy, and guardrail checks in agent frameworks commonly run \emph{at} model
+boundaries.  A region that deletes three of four boundaries therefore risks deleting three of
+four guardrail evaluations, and neither our effect catalog nor the read-only policy covers
+that: a guardrail is not a tool call, so it is invisible to both.  Our demonstrations expose
+no guardrails, so the gap is untested rather than benign.  A deployment must either re-run
+guardrails inside the permission facade for every elided boundary, or declare guardrail
+presence an explicit barrier condition alongside handoffs and approvals.  Only the second
+is available here, because the first is neither implemented nor tested; a misdeclared external
+write remains undetectable by statistics --- detecting it needs differential execution in a
+sandbox or declaration-versus-observation diffing, neither of which we implement.
+
+\paragraph{Registry integrity is configured off in the reported run.}
+Artifact records are mutable Python objects, the reported experiment sets lifecycle and
+approval fields directly, and the archived artifact carries an empty signature because
+signing was not enabled.  The immutability and signature-verification semantics described
+in \cref{sec:method} are therefore capabilities of the registry, not properties this
+experiment demonstrates.
+
+\paragraph{No compressed baseline.}
+Every resource number in this paper compares a compiled prefix against an
+\emph{uncompressed} baseline agent.  Deployed context\hyp{}compression middleware reports
+token reductions of the same order on a comparable GitHub triage workload by an entirely
+different mechanism~\cite{headroom2026}, so our token, cost, and latency reductions should
+not be read as the best available on those axes --- only as the reduction attributable to
+removing model boundaries.  The provider-request reduction is not exposed to this
+threat, because compression never removes a call.  Running \method against a compressed
+baseline, and against the composition of both, is the most informative missing experiment
+in the resource story.
+
+\paragraph{Baseline scope.}
+The natural study runs both the unchanged SDK loop and a live hand-written composite tool.
+In the expanded partial-compilation study, the macro and compiler each use two provider
+requests and pass 30/30, but the macro uses one local tool call rather than three and is
+better on tokens and estimated cost.  In the earlier aggressive study, \method saves one
+more provider request and more tokens but records a factual miss.  The offline suite
+independently gives the macro the lower request ratio on three of five workloads.  The
+compiler itself remains compile-or-retire; the new portfolio layer selects the measured
+macro and emits a review-required recommendation.  Separately, GCS packages an admitted
+read program behind a synthesized projection and beats the measured provider-visible
+macro on 12 exploratory pairs; it does not synthesize arbitrary application logic.  The
+six-pair follow-up gives an independently authored program the same pre-model position and
+finds equal requests, interfaces, input tokens, and exact quality.  Official GEPA retains
+its seed under a 14-task-evaluation, three-reflection budget.  The portfolio does not
+generate the macro, and on a single family its decision remains indistinguishable from an
+always-macro rule.  AWO, AWM, Agent JIT, EvoC2F, LLMCompiler, FlowCompile, and plan caching
+remain unexecuted.  The evidence establishes an intervention and engineering trade-off,
+not state-of-the-art superiority.
+
+\subsection{Construct validity}
+
+Whether the measures capture the things they are named after.
 
 \paragraph{Factual quality is narrow and depth-sensitive.}
 The original five-boolean oracle does not check summary factuality and accepts fluent
@@ -1764,6 +2070,18 @@ tool-contract labels, not compiler inputs, provider outputs, or measurements.
 The post-hoc continuation replay repairs the retained exact-source miss with a
 task-specific deterministic renderer, but it is not a live evaluation and does not replace
 human semantic adjudication or a separately calibrated continuation-risk frontier.
+
+\paragraph{Semantic scope.}
+Recorded output equality and empirical contracts do not prove full semantic equivalence.
+The closed DSL intentionally misses legitimate transformations and loops.  Tool-effect
+truth, permissions, freshness, and isolation are application-supplied.  The current
+version is read-only, does not parallelize synthesized calls, and task\hyp{}semantic
+argument contracts are application\hyp{}supplied trusted declarations.  The narrow SDK adapter
+bypasses streaming, hosted tools, MCP, handoffs, and loops.
+
+\subsection{Statistical conclusion validity}
+
+Whether the inferences drawn from the numbers are licensed by the design that produced them.
 
 \paragraph{The selective gate did not discriminate in this run.}
 On the sealed artifact, every grid threshold below $0.14$ admits zero calibration groups
@@ -1813,47 +2131,37 @@ it is precisely why that artifact's bound is $0.0520$ instead of $0.0498$
 looser $\alpha$ does not establish a risk--coverage frontier; it does show that the
 degeneracy is a property of these development sets rather than of the estimator.
 
-\paragraph{The original latency result is confounded by condition order.}
-The fixed-prefix harness runs the entire baseline batch and then the entire compiled batch, without
-randomizing or counterbalancing order within pairs.  Provider load, connection reuse, and
-prompt-cache warmth therefore differ systematically between conditions.  The request-count
-reduction is structural and unaffected, but the $-85.0\%$ wall-latency figure should be
-read as an observation under this ordering rather than a clean causal estimate; the same
-confound is the most likely explanation for the refusing conditions of
-\cref{sec:demos-results} billing more than their baselines on identical token counts.
-Both natural-order studies counterbalance all six three-condition permutations; the
-expanded run assigns each exactly five primary records.  This removes ordinal imbalance
-but cannot eliminate provider noise or cache interference.
+\paragraph{Statistical scope.}
+The pilot and final cohort are separated, but the study was not externally preregistered.
+Secondary tests are unadjusted and provider latency is noisy.  The optimizer comparison
+contains only six pairs; its exact signed-rank minimum is therefore $.03125$, and one
+provider-span record fails the host-wall consistency check.  Clopper--Pearson is exact
+but conservative.  Three selective-risk levels appear in this paper and are not
+interchangeable: $\alpha=.05$ for the three primary families and the prescribed-prefix
+ablation, $\alpha=.10$ for the earlier three-read artifact and for the guarded-composite
+artifact behind every GCS and comparator number, and a $15\%$ pilot limit for the portfolio
+(\cref{tab:admission-register}).  The pooled 3.3\% preservation bound in
+\cref{sec:family-results} spans three separately calibrated artifacts and so is a statement
+about the observed 90 pairs, not a per-artifact certificate.  The gate's guarantee applies to the recorded group-level violation
+definition only when admitted group indicators are i.i.d. or conditionally i.i.d.; drift,
+clustered tenants, adaptive artifact selection, or incomplete outcomes invalidate a naive
+interpretation.  Each artifact is calibrated individually; the implementation lacks both
+candidate-family multiplicity control within a compile and a global guarantee when many
+artifacts are selected.
 
-\paragraph{Removing model turns can remove guardrail evaluations.}
-Moderation, policy, and guardrail checks in agent frameworks commonly run \emph{at} model
-boundaries.  A region that deletes three of four boundaries therefore risks deleting three of
-four guardrail evaluations, and neither our effect catalog nor the read-only policy covers
-that: a guardrail is not a tool call, so it is invisible to both.  Our demonstrations expose
-no guardrails, so the gap is untested rather than benign.  A deployment must either re-run
-guardrails inside the permission facade for every elided boundary, or declare guardrail
-presence an explicit barrier condition alongside handoffs and approvals.  We recommend the
-latter until the former is implemented and tested, and note that a misdeclared external
-write remains undetectable by statistics --- detecting it needs differential execution in a
-sandbox or declaration-versus-observation diffing, neither of which we implement.
+\subsection{External validity and replication}
 
-\paragraph{Registry integrity is configured off in the reported run.}
-Artifact records are mutable Python objects, the reported experiment sets lifecycle and
-approval fields directly, and the archived artifact carries an empty signature because
-signing was not enabled.  The immutability and signature-verification semantics described
-in \cref{sec:method} are therefore capabilities of the registry, not properties this
-experiment demonstrates.
+How far the results carry beyond the corpus, model, and snapshot that produced them, and what a repetition would and would not recover.
 
-\paragraph{No compressed baseline.}
-Every resource number in this paper compares a compiled prefix against an
-\emph{uncompressed} baseline agent.  Deployed context\hyp{}compression middleware reports
-token reductions of the same order on a comparable GitHub triage workload by an entirely
-different mechanism~\cite{headroom2026}, so our token, cost, and latency reductions should
-not be read as the best available on those axes --- only as the reduction attributable to
-removing model boundaries.  The provider-request reduction is not exposed to this
-threat, because compression never removes a call.  Running \method against a compressed
-baseline, and against the composition of both, is the most informative missing experiment
-in the resource story.
+\paragraph{The natural task still constrains the evidence shape.}
+The original conformance prompt names three tools in an exact order, so its recurrence is
+constructed.  The natural follow-ups remove tool names and order, and compiler eligibility
+no longer requires an exact trace, but the requested title, state, labels, and evidence
+excerpt still make the three sources useful.  All 132 expanded discovery agents (and all
+80 in the earlier study) converge on one order.  This is
+stronger evidence of naturally selected recurrence than the original study, but it does
+not establish discovery in open-ended plans where tools may be skipped, substituted,
+branched, or revisited for reasons not fixed by an output schema.
 
 \paragraph{Empirical scope.}
 The richer workflow-family studies remain one repository/domain and one model
@@ -1885,25 +2193,6 @@ three-domain protocol is not frozen and human macro approvals are absent.  These
 demonstrate data-pipeline and control-plane feasibility only and remain excluded from
 every effectiveness result in this paper.
 
-\paragraph{Baseline scope.}
-The natural study runs both the unchanged SDK loop and a live hand-written composite tool.
-In the expanded partial-compilation study, the macro and compiler each use two provider
-requests and pass 30/30, but the macro uses one local tool call rather than three and is
-better on tokens and estimated cost.  In the earlier aggressive study, \method saves one
-more provider request and more tokens but records a factual miss.  The offline suite
-independently gives the macro the lower request ratio on three of five workloads.  The
-compiler itself remains compile-or-retire; the new portfolio layer selects the measured
-macro and emits a review-required recommendation.  Separately, GCS packages an admitted
-read program behind a synthesized projection and beats the measured provider-visible
-macro on 12 exploratory pairs; it does not synthesize arbitrary application logic.  The
-six-pair follow-up gives an independently authored program the same pre-model position and
-finds equal requests, interfaces, input tokens, and exact quality.  Official GEPA retains
-its seed under a 14-task-evaluation, three-reflection budget.  The portfolio does not
-generate the macro, and on a single family its decision remains indistinguishable from an
-always-macro rule.  AWO, AWM, Agent JIT, EvoC2F, LLMCompiler, FlowCompile, and plan caching
-remain unexecuted.  The evidence establishes an intervention and engineering trade-off,
-not state-of-the-art superiority.
-
 \paragraph{Portfolio scope.}
 The weighted utility is a declared operator preference, not a universal scientific metric.
 Its current dimensions omit construction time, review effort, maintenance, drift, cache
@@ -1913,32 +2202,6 @@ The prospective result validates the chosen arm against baseline, not the select
 alternative selection algorithms.  A claim that the portfolio advances the state of the
 art requires multi-family decisions, closer learned baselines, sensitivity to the weights,
 and time-forward evaluation under drift.
-
-\paragraph{Statistical scope.}
-The pilot and final cohort are separated, but the study was not externally preregistered.
-Secondary tests are unadjusted and provider latency is noisy.  The optimizer comparison
-contains only six pairs; its exact signed-rank minimum is therefore $.03125$, and one
-provider-span record fails the host-wall consistency check.  Clopper--Pearson is exact
-but conservative.  Three selective-risk levels appear in this paper and are not
-interchangeable: $\alpha=.05$ for the three primary families and the prescribed-prefix
-ablation, $\alpha=.10$ for the earlier three-read artifact and for the guarded-composite
-artifact behind every GCS and comparator number, and a $15\%$ pilot limit for the portfolio
-(\cref{tab:admission-register}).  The pooled 3.3\% preservation bound in
-\cref{sec:family-results} spans three separately calibrated artifacts and so is a statement
-about the observed 90 pairs, not a per-artifact certificate.  The gate's guarantee applies to the recorded group-level violation
-definition only when admitted group indicators are i.i.d. or conditionally i.i.d.; drift,
-clustered tenants, adaptive artifact selection, or incomplete outcomes invalidate a naive
-interpretation.  Each artifact is calibrated individually; the implementation lacks both
-candidate-family multiplicity control within a compile and a global guarantee when many
-artifacts are selected.
-
-\paragraph{Semantic scope.}
-Recorded output equality and empirical contracts do not prove full semantic equivalence.
-The closed DSL intentionally misses legitimate transformations and loops.  Tool-effect
-truth, permissions, freshness, and isolation are application-supplied.  The current
-version is read-only, does not parallelize synthesized calls, and task\hyp{}semantic
-argument contracts are application\hyp{}supplied trusted declarations.  The narrow SDK adapter
-bypasses streaming, hosted tools, MCP, handoffs, and loops.
 
 \paragraph{Reproducibility scope.}
 The original experimental workspace did not retain prior \code{.git} history.  The public
@@ -1967,21 +2230,26 @@ held-out pairs while compacting \code{open}, \code{merged}, and
 execution reduces requests 66.7\%, total tokens 78.4\%, observed latency 60.7\%, and
 estimated cost 72.7\%, while the fixed two-read template remains essentially tied on the
 simplified task. A historical aggressive artifact still records a factual miss, and
-fairly placed hand-written programs also reach 90/90. Thus automatic discovery,
-conservative admission, and managed lifecycle---not universal runtime dominance---are
-the defensible advantages. NESTFUL and API-Bank add a different result: despite
-recurrent, executable traces, every family retires because the configured evidence
-requirement is unmet.
+fairly placed hand-written programs also reach 90/90. What the experiments separate,
+then, is discovery and admission from runtime efficiency: the first two can be automated
+at a stated risk level, while the third is not attributable to compilation once a human
+has placed the same program correctly. NESTFUL and API-Bank add a different result:
+despite recurrent, executable traces, every family retires because the configured
+evidence requirement is unmet.
 
-The resulting design principle is simple: evaluate workflow optimizers by the evidence
-they require, the effects and positions they refuse, and the state to which they fall
-back---not only by the turns they remove. Stronger claims now require a richer
-time-forward, cross-repository comparison on full workflow tasks, a non-degenerate
-risk--coverage frontier, manual construction and maintenance cost, cache effects, drift,
-and closer executable workflow-learning baselines.
+That separation suggests an evaluation criterion for this class of system: measure a
+workflow optimizer by the evidence it requires, the effects and positions it refuses, and
+the state to which it falls back---not only by the turns it removes. The criterion is
+proposed, not validated; applying it to systems other than this one is open. Deciding
+between the remaining candidate explanations would require a richer time-forward,
+cross-repository comparison on full workflow tasks, a non-degenerate risk--coverage
+frontier, measured manual construction and maintenance cost, cache effects, drift, and
+closer executable workflow-learning baselines.
 
 \section*{Code Availability}
 
 Code, data manifests, and research artifacts are available at
-\url{https://github.com/rrahimi-uci/guarded-agentic-compaction}.  The method is limited to guarded
-read-only specialization and should not bypass approvals or automate regulated decisions.
+\url{https://github.com/rrahimi-uci/guarded-agentic-compaction}.  What was studied is
+guarded read-only specialization: no experiment here compiled a write, bypassed an
+approval, or touched a regulated decision, so the results say nothing about those cases in
+either direction.
