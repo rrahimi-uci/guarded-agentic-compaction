@@ -1,6 +1,6 @@
 # ICLR 2027 Submission Draft
 
-This directory contains the condensed, anonymized ICLR 2027 submission draft
+This directory contains the condensed ICLR 2027 submission source
 for:
 
 > **From Traces to Guarded Programs: Evidence-Gated Compilation of Recurrent Agent Workflows**
@@ -35,8 +35,8 @@ Two changes to the template preamble are intentional and should be kept.
 
 1. **The review line-number ruler is suppressed** (author's explicit request).
    The style file paints a vertical line-number ruler in the left margin unless
-   `\iclrfinalcopy` is set. `main.tex` keeps the anonymized review format (the
-   title block stays blinded) but redefines `\iclrruler` to a no-op.
+   `\iclrfinalcopy` is set. `main.tex` redefines `\iclrruler` to a no-op in
+   both the named preprint build and the blind submission build.
 
    Note this is a deliberate departure from the stock submission appearance.
    ICLR reviewers routinely cite line numbers in their reviews, so removing the
@@ -83,7 +83,7 @@ pdftotext -f 1 -l 1 build/main.pdf - | head -3   # must say "Anonymous authors"
 pdfinfo build/main.pdf | grep Author             # must print nothing
 ```
 
-Both builds are 17 pages and both end sections 1--8 on page 9, so the switch
+Both builds are 18 pages and both end sections 1--8 on page 9, so the switch
 never changes the page budget.
 
 ## Page budget

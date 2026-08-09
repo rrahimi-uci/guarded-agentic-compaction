@@ -64,12 +64,25 @@ DESCRIPTION = (
 
 # Generated figures ship as PNG under assets/figures/ in the built site; the manuscript
 # includes the PDF siblings.  Keys are the stems used by \includegraphics in body.tex.
-FIGURE_ASSETS = {
-    "gate_support": "assets/figures/gate_support.png",
-    "family_reductions": "assets/figures/family_reductions.png",
-    "demo_suite": "assets/figures/demo_suite.png",
-    "natural_live_comparison": "assets/figures/natural_live_comparison.png",
-}
+#
+# Derived from the manuscript rather than listed, because a listed map silently drops any
+# figure added later: the four figures added to the results sections rendered as <figure>
+# elements with no image at all, and only the count check in verify() caught it.
+# build_pages.py copies the PNG siblings, so a stem that reaches here without one is a
+# real packaging error and is reported rather than skipped.
+def _figure_assets() -> dict[str, str]:
+    stems = dict.fromkeys(
+        re.findall(r"generated_figures/([A-Za-z0-9_]+)\.pdf", BODY.read_text(encoding="utf-8"))
+    )
+    missing = [s for s in stems if not (PAPER / "generated_figures" / f"{s}.png").exists()]
+    if missing:
+        # SystemExit rather than BuildError: this runs at import time, above the point
+        # where BuildError is defined, so naming it here would raise NameError instead.
+        raise SystemExit(f"manuscript figures have no PNG sibling for the site: {missing}")
+    return {stem: f"assets/figures/{stem}.png" for stem in stems}
+
+
+FIGURE_ASSETS = _figure_assets()
 
 # Expansions for the wrapper-level macros.  Textual substitution is correct here: the
 # PDF builds rely on \xspace to put back the space a control word swallows, so replacing
@@ -667,23 +680,38 @@ def render(article_html: str, abstract_html: str, outline: list[tuple[str, str]]
 # ------------------------------------------------------------------------------ build
 
 
-def verify(page: str, registry: dict[str, dict[str, str]]) -> None:
-    """Fail closed when the rendered page has silently lost part of the manuscript."""
+def verify(page: str, registry: dict[str, dict[str, str]], body: str) -> None:
+    """Fail closed when the rendered page has silently lost part of the manuscript.
 
-    # Counts come from the manuscript itself: nine numbered sections, ten tables, five
-    # figures of which four are generated plots, six numbered equations, one algorithm.
+    The expected counts are read out of ``body.tex`` rather than frozen here. They used
+    to be constants, and adding four figures and three algorithms to the manuscript
+    turned this gate from "the page lost something" into "the constants are stale" --
+    which is the failure mode a fail-closed check exists to prevent, not to cause.
+    """
+
+    tables = len(re.findall(r"\\begin\{table\*?\}", body))
+    figures = len(re.findall(r"\\begin\{figure\*?\}", body))
     checks = {
         "numbered sections": (
             page.count('<span class="sec-number">'),
             sum(1 for entry in registry.values() if entry["prefix"] == "sec"),
         ),
-        "tables": (page.count('class="evidence-table"'), 10),
-        "table captions": (page.count('<span class="tab-number">'), 10),
-        "figures": (len(re.findall(r'<figure class="figure[ "]', page)), 5),
-        "figure captions": (page.count('<span class="fig-number">'), 5),
-        "figure images": (page.count("assets/figures/"), 4),
-        "numbered equations": (len(re.findall(r'<span class="eq" ', page)), 6),
-        "algorithm": (page.count('class="algorithm"'), 1),
+        "tables": (page.count('class="evidence-table"'), tables),
+        "table captions": (page.count('<span class="tab-number">'), tables),
+        "figures": (len(re.findall(r'<figure class="figure[ "]', page)), figures),
+        "figure captions": (page.count('<span class="fig-number">'), figures),
+        "figure images": (
+            page.count("assets/figures/"),
+            len(re.findall(r"\\includegraphics", body)),
+        ),
+        "numbered equations": (
+            len(re.findall(r'<span class="eq" ', page)),
+            len(re.findall(r"\\label\{eq:", body)),
+        ),
+        "algorithm": (
+            page.count('class="algorithm"'),
+            len(re.findall(r"\\input\{\.\./figures/alg-", body)),
+        ),
         "bibliography": (page.count('id="refs"'), 1),
     }
     problems = [
@@ -719,7 +747,7 @@ def build() -> str:
     abstract = postprocess(abstract, registry, {})
 
     page = render(article, abstract, outline)
-    verify(page, registry)
+    verify(page, registry, body)
     return page
 
 

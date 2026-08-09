@@ -83,11 +83,13 @@ ac.promote(job, stage="shadow")</code></pre>
     manifest=manifest,
 )
 
-result = runner.run(
+decision = runner.execute_pre_model(
     entry_state,
-    baseline=run_original_agent,
     executor=execute_tool,
-)</code></pre>
+    continuation_compatibility_key=continuation_manifest.compatibility_key(),
+)
+
+provider_input = decision.observations if decision.compacted else baseline_input</code></pre>
 
         <h2 id="gcs">Pre-model guarded composite</h2>
         <p>GCS is appropriate only when the artifact's verified live-outs support a task-specific projection and the continuation contract is pinned exactly.</p>
@@ -97,13 +99,13 @@ result = runner.run(
     continuation_compatibility_key=continuation_manifest.compatibility_key(),
 )
 
-if decision.dispatched:
-    context = decision.projected_observation
+if decision.compacted:
+    context = decision.observations
 else:
     context = None  # unchanged baseline path</code></pre>
 
         <h2 id="sdk">OpenAI Agents SDK</h2>
-        <p>The maintained SDK adapter captures traces through a <code>TracingProcessor</code>. The optional <code>CompactingModel</code> handles a narrower model-boundary path and rejects unsupported streaming, hosted-tool, MCP, handoff, and loop surfaces.</p>
+        <p>The maintained SDK adapter captures traces through an <code>AgentsTraceProcessor</code>. The optional <code>CompactingModel</code> handles a narrower model-boundary path and rejects unsupported streaming, hosted-tool, MCP, handoff, and loop surfaces.</p>
         <pre><code>from agents import Agent
 from guarded_agentic_compaction.runtime.model_provider import CompactingModel
 
@@ -115,6 +117,8 @@ agent = Agent(
         catalog=catalog,
         manifest=manifest,
         mode="shadow",
+        entry_state_fn=entry_state_from_sdk_input,
+        partition_fn=partition_from_sdk_input,
     ),
     tools=tools,
 )</code></pre>

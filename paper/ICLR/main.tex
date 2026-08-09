@@ -45,9 +45,10 @@
 % Review-mode line-number ruler.
 %
 % The ICLR style paints a vertical line-number ruler in the left margin unless
-% \iclrfinalcopy is set.  We keep the anonymized review format (the title block
-% must stay blinded) but suppress the ruler itself, so the ruler-drawing macro
-% is redefined to a no-op after the style file has installed its shipout hook.
+% \iclrfinalcopy is set.  This source ships in the named preprint mode below,
+% but the same ruler suppression is also used in the blind submission build, so
+% the ruler-drawing macro is redefined to a no-op after the style file has
+% installed its shipout hook.
 % ---------------------------------------------------------------------------
 \renewcommand{\iclrruler}[1]{}
 
@@ -193,8 +194,8 @@ runtime dispatch. \Cref{app:proof} proves \Cref{prop:admission}, and
 repository contains source manifests, raw result files, deterministic table and
 figure generation, and scripts for the live GitHub studies, the
 cross-repository extension, NESTFUL, and API-Bank. For anonymous submission,
-the code and retained artifacts are packaged as an anonymous supplementary
-archive with hashes and manifests preserved.
+the code and retained artifacts should be packaged as an anonymous
+supplementary archive with hashes and manifests preserved.
 
 \bibliographystyle{iclr2027_conference}
 \bibliography{references}

@@ -1,0 +1,38 @@
+\begin{tabularx}{\textwidth}{@{}l l l >{\raggedright\arraybackslash}X l@{}}
+  \toprule
+  & Question & Pre-specified & Outcome & Reported in \\
+  \midrule
+  H1 & RQ1 & yes &
+    Split: supported on recall (96.3\% of dependency slots), not supported on unique
+    resolution (80.7\%) against a 90\% target &
+    \cref{sec:rq1} \\
+  H2 & RQ2, RQ6 & yes &
+    Supported: requests $-50.0$ to $-75.0\%$ and total tokens $-39.5$ to $-81.4\%$
+    across three families &
+    \cref{sec:family-results} \\
+  H3 & RQ2 & yes &
+    Split: supported for the expanded two-read artifact (30/30 exact), not supported
+    for the earlier three-read artifact (17/18) &
+    \cref{sec:rq2} \\
+  H4 & RQ3 & yes &
+    Supported: every synthesized family retires --- 12 on NESTFUL and both on API-Bank
+    --- for insufficient calibration support &
+    \cref{sec:rq1} \\
+  H5 & RQ4 & yes &
+    Supported on model calls and quality for all three negative controls; deliberately
+    not stated in cost, which rises up to $55.4\%$ &
+    \cref{sec:demos-results} \\
+  H6 & RQ5 & before the fresh cohort &
+    Supported on 12 fresh pairs (12/12 exact, requests $-50.0\%$); cannot establish that
+    selection beats an always-macro policy &
+    \cref{sec:portfolio-results} \\
+  \addlinespace[3pt]
+  --- & RQ2b & no (exploratory) &
+    GCS beats the measured provider-visible macro on one family, and reaches parity with
+    a fairly placed manual program &
+    \cref{sec:gcs-results,sec:comparator} \\
+  --- & RQ4 & no (post hoc) &
+    Not supported: byte-exact answer agreement is 1/6 for the baseline and 0/6 compiled &
+    \cref{sec:pilot} \\
+  \bottomrule
+\end{tabularx}

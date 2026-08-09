@@ -9,8 +9,8 @@ Source references used for this checklist:
 ## Template and formatting
 
 - [x] Uses the official ICLR 2027 style files downloaded from the official style zip.
-- [x] Keeps the submission in the ICLR anonymized review format (`\iclrfinalcopy` remains commented out).
-- [x] Review line-number ruler suppressed by redefining `\iclrruler` to a no-op, without de-anonymizing the title block.
+- [ ] The repository default is still the named preprint build (`\iclrfinalcopy` enabled). Comment out that line before OpenReview upload.
+- [x] Review line-number ruler suppressed by redefining `\iclrruler` to a no-op. This changes the stock appearance but does not itself force the named build.
 - [x] `times` replaced by `newtxtext`/`newtxmath` because this paper builds with Tectonic (XeTeX), where legacy `times` does not resolve: the body falls back to Latin Modern with no bold or italic, so `\textbf`, `\emph`, `\textsc`, theorem heads, and table headers all rendered as upright regular text. Under pdfTeX `times` works fine, so this is a toolchain interaction, not a broken package. Embedded body face is TeX Gyre Termes (Times), confirmed with `pdffonts`.
 - [x] Confirmed from the compiled PDF that the main text (sections 1--8) ends within the `<= 9` page limit.
 - [x] References are separated from the main text and do not count toward the page limit.
@@ -19,8 +19,8 @@ Source references used for this checklist:
 
 ## Anonymity
 
-- [ ] **PDF author block is currently NAMED (Reza Rahimi, JazzX AI).** The build ships with `\iclrfinalcopy` enabled for preprint use. Comment out that single line in `main.tex` before uploading to OpenReview; the style file then prints "Anonymous authors", restores the "Under review" running head, and clears the PDF author metadata. Verified: the blind build compiles to the same 17 pages with `pdfinfo` reporting no author.
-- [x] No acknowledgements are included in the anonymized draft.
+- [ ] **PDF author block is currently NAMED (Reza Rahimi, JazzX AI).** The build ships with `\iclrfinalcopy` enabled for preprint use. Comment out that single line in `main.tex` before uploading to OpenReview; the style file then prints "Anonymous authors", restores the "Under review" running head, and clears the PDF author metadata. Verified: the blind build compiles to the same 18 pages with `pdfinfo` reporting no author.
+- [x] No acknowledgements are included in the blind-ready submission source.
 - [x] The main paper avoids linking directly to the identified public repository.
 - [ ] Prepare an anonymous supplementary artifact bundle or anonymous repository before submission. The reproducibility statement and appendix F currently assert this bundle exists; it must actually be built before upload.
 

@@ -964,9 +964,11 @@ therefore only be exploratory.  Two of the six directional hypotheses are suppor
 reading and not on another; recording the split is the point, because either half alone
 would misdescribe the result.
 
-% Hand-authored rather than generated: this table is an adjudication, and the verdicts are
-% editorial judgements traceable to the subsections named in the last column, not values a
-% script can recompute from a results file.
+% tables/hypotheses.tex is hand-authored rather than written by build_artifacts.py: the
+% verdicts are editorial judgements traceable to the subsections named in the last column,
+% not values a script can recompute from a results file. It lives in tables/ anyway
+% because the site's article generator resolves body tables through \input{../tables/...}
+% and silently renders nothing for a tabularx inlined here.
 \begin{table*}[t]
   \centering
   \caption{Every hypothesis and its outcome.  ``Pre-specified'' means fixed internally
@@ -975,44 +977,7 @@ would misdescribe the result.
   known, so they carry no hypothesis and license no confirmatory claim.}
   \label{tab:hypotheses}
   \small
-  \begin{tabularx}{\textwidth}{@{}l l l >{\raggedright\arraybackslash}X l@{}}
-    \toprule
-    & Question & Pre-specified & Outcome & Reported in \\
-    \midrule
-    H1 & RQ1 & yes &
-      Split: supported on recall (96.3\% of dependency slots), not supported on unique
-      resolution (80.7\%) against a 90\% target &
-      \cref{sec:rq1} \\
-    H2 & RQ2, RQ6 & yes &
-      Supported: requests $-50.0$ to $-75.0\%$ and total tokens $-39.5$ to $-81.4\%$
-      across three families &
-      \cref{sec:family-results} \\
-    H3 & RQ2 & yes &
-      Split: supported for the expanded two-read artifact (30/30 exact), not supported
-      for the earlier three-read artifact (17/18) &
-      \cref{sec:rq2} \\
-    H4 & RQ3 & yes &
-      Supported: every synthesized family retires --- 12 on NESTFUL and both on API-Bank
-      --- for insufficient calibration support &
-      \cref{sec:rq1} \\
-    H5 & RQ4 & yes &
-      Supported on model calls and quality for all three negative controls; deliberately
-      not stated in cost, which rises up to $55.4\%$ &
-      \cref{sec:demos-results} \\
-    H6 & RQ5 & before the fresh cohort &
-      Supported on 12 fresh pairs (12/12 exact, requests $-50.0\%$); cannot establish that
-      selection beats an always-macro policy &
-      \cref{sec:portfolio-results} \\
-    \midrule
-    --- & RQ2b & no (exploratory) &
-      GCS beats the measured provider-visible macro on one family, and reaches parity with
-      a fairly placed manual program &
-      \cref{sec:gcs-results,sec:comparator} \\
-    --- & RQ4 & no (post hoc) &
-      Not supported: byte-exact answer agreement is 1/6 for the baseline and 0/6 compiled &
-      \cref{sec:pilot} \\
-    \bottomrule
-  \end{tabularx}
+  \input{../tables/hypotheses.tex}
 \end{table*}
 
 \subsection{RQ1 and RQ3: provenance succeeds more often than certification}
