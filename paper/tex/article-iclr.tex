@@ -1,13 +1,15 @@
 % ---------------------------------------------------------------------------
-% Guarded Agentic Compaction — open-research build in the arXiv preprint format.
+% Guarded Agentic Compaction — open-research build in the ICLR 2027 format.
+%
+% Superseded: the open-research article now ships in the arXiv preprint format
+% (article.tex). This wrapper is retained so the ICLR presentation can be
+% rebuilt on demand.
 %
 % Same abstract, body, figures, algorithms and tables as the ACM conference
-% build in main.tex; only the presentation layer differs. This wrapper dresses
-% the article in ../arxiv/arxiv.sty, the "A Preprint" style used by preprints
-% such as arXiv:1910.04944: US Letter, single column, 6.5x9in text block, Times
-% body, block paragraphs, small-caps title between two heavy rules, and a ruled
-% running head. The previous ICLR styling is kept in article-iclr.tex and the
-% Palatino journal styling in article-journal.tex.
+% build in main.tex; only the presentation layer differs. This wrapper reuses
+% the ICLR style file that dresses the condensed submission in ../ICLR, so the
+% full-length open-research article and the submission read as one document
+% family. The previous Palatino journal styling is kept in article-journal.tex.
 %
 % Compile with:
 %
@@ -15,22 +17,20 @@
 %   (or: pdflatex -output-directory=../open_research article.tex; bibtex; pdflatex x2)
 %
 % \usepackage and \bibliographystyle take a path relative to this directory, so
-% the style file lives in exactly one place (../arxiv) rather than being copied.
+% the style files live in exactly one place (../ICLR) rather than being copied.
 % ---------------------------------------------------------------------------
 \documentclass{article}
-\usepackage{../arxiv/arxiv}
+\usepackage{../ICLR/iclr2027_conference}
 
 % ---------------------------------------------------------------------------
-% Fonts. arxiv.sty asks for Times by setting \rmdefault to the legacy `ptm'
-% family. Under pdfTeX that resolves to Nimbus Roman, but this paper is built
-% with Tectonic (XeTeX), where the Type-1 psnfss families have no TU coverage:
-% the body silently falls back to Latin Modern and every \textbf/\emph/\textit/
-% \textsc renders as upright regular text. newtxtext/newtxmath are the
-% maintained Times-compatible replacements and resolve under both engines; the
-% embedded body face is TeX Gyre Termes, i.e. Times, exactly as the style
-% intends. Loaded after arxiv.sty so it wins the \rmdefault assignment.
-% \openbox and \Bbbk are released because newtxmath and amssymb/amsthm both
-% declare them.
+% Fonts. The ICLR template calls \usepackage{times}. Under pdfTeX that resolves
+% to Nimbus Roman, but this paper is built with Tectonic (XeTeX), where the
+% legacy `times' package does NOT resolve: the body silently falls back to Latin
+% Modern and every \textbf/\emph/\textit/\textsc renders as upright regular
+% text. newtxtext/newtxmath are the maintained Times-compatible replacements and
+% resolve under both engines; the embedded body face is TeX Gyre Termes, i.e.
+% Times, as the template requires. \openbox and \Bbbk are released because
+% newtxmath and amssymb/amsthm both declare them.
 % ---------------------------------------------------------------------------
 \usepackage{amsmath,amssymb,mathtools}
 \usepackage{newtxtext}
@@ -40,12 +40,11 @@
 \let\openbox\relax
 \usepackage{amsthm}
 
+% math_commands.tex is deliberately NOT loaded here. It is the ICLR template's
+% optional macro set for the submission's notation; it does not affect the page
+% format, and its \v.../\m... families have no call sites in body.tex.
+
 \usepackage{microtype}
-% natbib in numeric mode: arxiv.sty's own template ships numbered citations and
-% every one of body.tex's 66 citations is written as "...text~\cite{key}", which
-% reads correctly as "...text~[15]". Loaded before hyperref/cleveref so both can
-% wrap \cite.
-\usepackage[numbers,sort&compress,square]{natbib}
 \usepackage[hidelinks]{hyperref}
 \usepackage{url}
 % \hyp gives a break opportunity at an explicit hyphen, so long compound words
@@ -64,6 +63,11 @@
 \usetikzlibrary{arrows.meta,positioning,fit,backgrounds,shapes.geometric,calc}
 \usepackage{cleveref}
 \usepackage{xspace}
+
+% The ICLR style paints a vertical line-number ruler in the left margin unless
+% \iclrfinalcopy is set. This is not a review copy, so the ruler-drawing macro is
+% redefined to a no-op after the style file has installed its shipout hook.
+\renewcommand{\iclrruler}[1]{}
 
 % ------------------------------------------------------------------- palette
 % Shared with figures/architecture.tex. Declared per wrapper so the artwork
@@ -88,26 +92,24 @@
 \newcommand{\code}[1]{\texttt{#1}}
 % acmart-only accessibility macro: a no-op here, so the body compiles unchanged.
 \providecommand{\Description}[1]{}
-% This wrapper ships the appendix, so the shared body's pointers into it resolve. body.tex
-% provides a gobbling default for the wrappers that do not, which is what keeps a
-% cross-reference from dangling in a build that has no appendix to point at.
-\newcommand{\appendixonly}[1]{#1}
+% acmart's two-column starred floats degrade to ordinary floats in one column.
+\providecommand{\keywords}[1]{}
 % In one column a starred float has no meaning, but LaTeX still routes
 % figure*/table* through \@dblfloat, which may only be placed at the top of a
 % *later* page. That strands half-empty pages. Map them onto ordinary floats so
 % they take part in normal placement while the shared body keeps the starred
-% form for the two-column build. arxiv.sty swaps the caption skips for `table'
-% so a top caption sits tight against the rule; table* has to be told the same,
-% because it reaches \@float through \@dblfloat and misses that redefinition.
+% form for the two-column build.
 \makeatletter
 \let\@dblfloat\@float
 \let\end@dblfloat\end@float
-\@namedef{table*}{%
-  \setlength{\abovecaptionskip}{\@belowcaptionskip}%
-  \setlength{\belowcaptionskip}{\@abovecaptionskip}%
-  \@float{table}}
-\@namedef{endtable*}{\end@float}
 \makeatother
+
+% The ICLR style loads natbib in author-year mode. Every one of body.tex's 66
+% citations is written as "...text~\cite{key}", i.e. parenthetically, which
+% natbib's author-year \cite would render as "...text~Kim et al. (2024)".
+% \citep gives the intended "...text~(Kim et al., 2024)". Deferred to
+% \AtBeginDocument so it lands after hyperref and cleveref have wrapped \cite.
+\AtBeginDocument{\let\cite\citep}
 
 % ---------------------------------------------------------------- theorems
 \theoremstyle{plain}
@@ -131,32 +133,25 @@
 \crefname{algorithm}{Alg.}{Algs.}
 
 % Let floats fill more of a page. With this many algorithm/figure/table floats
-% arxiv.sty's own fractions strand a third of several pages.
+% the LaTeX defaults strand a third of several pages.
 \renewcommand{\topfraction}{0.92}
 \renewcommand{\bottomfraction}{0.75}
 \renewcommand{\textfraction}{0.08}
 \renewcommand{\floatpagefraction}{0.80}
 \setcounter{topnumber}{3}
 \setcounter{totalnumber}{4}
-% Caption skips are left at the style's values so the arXiv template's "7pt away
-% from the body, tight against the float" rule holds.
+% Caption and float separations are left at the class defaults so the template's
+% "one line space before the caption, one line space after the float" rule holds.
 
 \title{From Traces to Guarded Programs: Evidence-Gated Compilation of Recurrent Agent Workflows}
 
-\author{%
-  Reza Rahimi \\
-  JazzX AI \\
-  Los Altos, CA 94022, USA \\
-  \texttt{reza.rahimi@jazzx.ai}}
+\author{Reza Rahimi \\
+JazzX AI \\
+Los Altos, CA, USA \\
+\texttt{reza.rahimi@jazzx.ai}}
 
-% arxiv.sty prints \undertitle under the title rule and \headeright at the top
-% right of every later page. This is an open-research preprint, so both say so.
-\renewcommand{\undertitle}{A Preprint}
-\renewcommand{\headeright}{A Preprint \textendash\ \today}
-% The style also centres \shorttitle in the running head. The title is 84
-% characters and would collide with the banner on the right, so the head carries
-% the banner alone, as in the reference layout.
-\renewcommand{\shorttitle}{}
+% Named build: this is an open-research preprint, not a blind submission.
+\iclrfinalcopy
 
 \hypersetup{
   pdfauthor={Reza Rahimi},
@@ -169,33 +164,28 @@
 
 \maketitle
 
+% \iclrfinalcopy sets the running head to "Published as a conference paper at
+% ICLR 2027". That is a false claim on this manuscript, so the head states what
+% this actually is.
+\lhead{Preprint. Open-research release.}
+
 \begin{abstract}
 \input{abstract-body}
 \end{abstract}
 
-% arxiv.sty's \keywords sets the "Keywords  a . b . c" line the style is built
-% around; \and is its separator inside the argument.
-\keywords{LLM agents \and tool use \and workflow optimization \and program
-synthesis \and provenance \and selective prediction \and risk control \and
-OpenAI Agents SDK}
-
-\vskip 0.1in
 \noindent\rule{\textwidth}{0.4pt}\\[0.8mm]
 {\small\textbf{Code and artifacts.}\ \url{https://github.com/rrahimi-uci/guarded-agentic-compaction}\\
 \textbf{Evidence.}\ A ten-benchmark audit with two compiler substrates and six
-pilot-separated live-provider protocols on real public GitHub records.}\\[-1mm]
+pilot-separated live-provider protocols on real public GitHub records.\\
+\textbf{Keywords.}\ LLM agents \textperiodcentered\ tool use \textperiodcentered\
+workflow optimization \textperiodcentered\ program synthesis \textperiodcentered\
+provenance \textperiodcentered\ selective prediction \textperiodcentered\ risk
+control \textperiodcentered\ OpenAI Agents SDK}\\[-1mm]
 \rule{\textwidth}{0.4pt}
 
 \input{body}
 
-\bibliographystyle{unsrtnat}
+\bibliographystyle{../ICLR/iclr2027_conference}
 \bibliography{../bibliography/references}
-
-% This is the complete article, so it carries the reproducibility and audit appendix.
-% The two-column conference wrapper in main.tex does not: it is the submission format,
-% where the appendix ships as separate supplementary material. Both wrappers share
-% body.tex, so the argument itself cannot drift between them.
-\appendix
-\input{../appendix/appendix}
 
 \end{document}

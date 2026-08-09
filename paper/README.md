@@ -19,7 +19,8 @@ paper/
 │   ├── body.tex                    the manuscript body — single source of truth
 │   ├── abstract-body.tex           abstract text, shared by both builds
 │   ├── abstract.tex                abstract environment wrapper
-│   ├── article.tex                 single-column ICLR-format build  ← primary
+│   ├── article.tex                 single-column arXiv-preprint build  ← primary
+│   ├── article-iclr.tex            earlier ICLR 2027 styling (retained)
 │   ├── article-journal.tex         earlier Palatino journal styling (retained)
 │   └── main.tex                    two-column ACM sigconf review build
 ├── figures/                        authored artwork and pseudocode
@@ -110,24 +111,55 @@ PDFs cannot drift apart:
 
 | | `article.pdf` | `main.pdf` |
 |:---|:---|:---|
-| class | `article` + `iclr2027_conference.sty`, single column, letter | `acmart[sigconf,nonacm]` |
+| class | `article` + `arxiv.sty`, single column, letter | `acmart[sigconf,nonacm]` |
 | typography | Times via `newtxtext`/`newtxmath` | ACM Libertine |
-| citations | author–year (`iclr2027_conference.bst`) | ACM numeric |
+| citations | numeric (`unsrtnat`) | ACM numeric |
 | audience | reading, circulation, archival | conference submission |
 | line numbers | no | no |
+| appendix | included — this is the complete article | shipped as separate supplementary |
 
-`article.tex` loads the same style file as the condensed ICLR submission in
-`ICLR/`, by relative path (`\usepackage{../ICLR/iclr2027_conference}`), so the
-style lives in exactly one place and the two documents read as one family. The
-wrapper adds the shims the shared body needs outside `acmart` — `\Description`
-and `\keywords` as no-ops, `figure*`/`table*` remapped onto ordinary floats, and
-`\cite` bound to `\citep` because every citation in `body.tex` is parenthetical
-and the ICLR style loads natbib in author–year mode. The earlier Palatino
-journal styling is preserved verbatim in `article-journal.tex` and still builds.
+`article.tex` loads `arxiv/arxiv.sty` by relative path
+(`\usepackage{../arxiv/arxiv}`). That is the widely used "A Preprint" layout
+derived from the NeurIPS style — US Letter, 6.5 × 9 in text block, block
+paragraphs, a small-caps title between two heavy rules, a centred indented
+abstract, and a ruled running head — so the article matches the presentation of
+preprints such as [arXiv:1910.04944](https://arxiv.org/pdf/1910.04944). The
+style file is vendored unmodified under `arxiv/`; see `arxiv/README.md`.
 
-The validator compiles both and asserts that the architecture figure and all four
-algorithms reach the page in each, so a wrapper that silently drops an `\input` fails
-the audit rather than shipping a short paper.
+The wrapper adds the shims the shared body needs outside `acmart`:
+`\Description` as a no-op, `figure*`/`table*` remapped onto ordinary floats
+(with `table*` given the style's swapped caption skips, which it otherwise
+misses by reaching `\@float` through `\@dblfloat`), and `newtxtext`/`newtxmath`
+loaded after the style because its legacy `ptm` request has no TU coverage under
+Tectonic's XeTeX and would silently drop every bold, italic and small-caps run.
+Citations are `natbib` in numeric mode, which reads correctly with `body.tex`'s
+uniformly parenthetical `...text~\cite{key}` call sites.
+
+Two earlier presentations are preserved verbatim and still build:
+`article-iclr.tex` (the ICLR 2027 style shared with the condensed submission in
+`ICLR/`) and `article-journal.tex` (Palatino journal styling).
+
+## The appendix, and how the two builds stay honest about it
+
+`article.pdf` is the complete article: it carries `appendix/appendix.tex` after the
+bibliography, holding the per-study reproduction commands, the implementation audit,
+the complete claims register, the per-metric numbers behind the figures, the disposition
+of all ten benchmark families, and the artifact lifecycle boundary. `main.pdf` is the
+submission format and does not — that appendix ships as separate supplementary material,
+and its verbatim command blocks would overrun a two-column measure anyway.
+
+That asymmetry is the one place the shared body could produce a dangling reference, so
+the pointers into the appendix go through `\appendixonly{...}`: `article.tex` defines it
+as the identity, `body.tex` provides a gobbling default for every wrapper that does not,
+and a build without an appendix therefore drops the sentence rather than emitting a
+`??`. Adding a new body → appendix pointer means wrapping it the same way.
+
+The validator compiles both builds and asserts that the architecture figure and all four
+algorithm captions reach the page in each, and that every appendix section reaches
+`article.pdf`, so a wrapper that silently drops an `\input` fails the audit rather than
+shipping a short paper. The algorithm gate matches caption titles specifically: three of
+the phrases it used to check appear as `\Comment` text inside Algorithm 1, so it passed
+for a long stretch during which Algorithms 2–4 were authored but reached no build at all.
 
 The artifact has no MLflow dependency. Normalized Episodes are persisted in a strict,
 canonical, atomic local JSONL snapshot; OpenAI Agents SDK capture is the only maintained
@@ -183,7 +215,7 @@ capabilities are documented in
 - **Archived pilot:** a real-provider negative result that exposed unsafe suffix dispatch.
   It is retained under `results/github_live/pilot_2026-08-03/` and excluded from the final
   cohort.
-- **Demonstration suite (Tier 3):** live provider calls and the real SDK runtime against
+- **Controlled stress suite (Tier 3):** live provider calls and the real SDK runtime against
   deterministic local services holding *fictional* business records. It cannot support a
   claim about real-world data, and the paper never uses it for one. What it does cover is
   control-flow structure the other two tiers do not contain at all: observation-dependent
@@ -343,14 +375,17 @@ tectonic --keep-logs --keep-intermediates --outdir ../open_research main.tex
 
 Both logs contain no undefined citations or references. `main.pdf` is the camera-ready
 two-column conference wrapper rather than a review-mode build. Because the engine is XeTeX,
-the article build cannot use the ICLR template's `\usepackage{times}`: the legacy `times`
-package does not resolve under XeTeX and the body would silently fall back to Latin Modern,
-rendering every `\textbf`/`\emph`/`\textsc` as upright regular text. `newtxtext`/`newtxmath`
-are the maintained Times-compatible replacements and resolve under both engines.
+the article build cannot take the Times that `arxiv.sty` asks for through the legacy `ptm`
+family: the Type-1 psnfss families have no TU coverage under XeTeX, the body would silently
+fall back to Latin Modern, and every `\textbf`/`\emph`/`\textsc` would render as upright
+regular text. `newtxtext`/`newtxmath` are the maintained Times-compatible replacements,
+resolve under both engines, and are loaded after the style so they win `\rmdefault`.
 
-`xdvipdfmx` reports `Object @figure.N already defined` for each float. That comes from the
-ICLR style file suppressing `\addcontentsline`, which hyperref uses to place float anchors;
-the ICLR submission build in `ICLR/` emits the same warnings. Links resolve correctly.
+`xdvipdfmx` reports `Object @figure.N already defined` once per float — 15 warnings for the
+15 floats. It is not style-specific: the arXiv, ICLR and ACM builds all emit it, and it
+survives reducing the wrapper to `hyperref` plus `cleveref` plus the `figure*`/`table*`
+remapping, so the trigger has not been isolated to a single package. Links and cross
+references resolve correctly in every build.
 
 To re-render page images for visual inspection:
 

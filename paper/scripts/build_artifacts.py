@@ -12,6 +12,7 @@ import csv
 import hashlib
 import json
 import math
+import re
 import statistics
 from datetime import datetime, timezone
 from pathlib import Path
@@ -84,6 +85,19 @@ def load_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def breakable(token: str) -> str:
+    """Give an over-long path-like token somewhere to break.
+
+    ``results/multidomain/preflight/validation.json`` is 45 characters with no TeX break
+    point, so in a narrow ``tabularx`` column it sets past the rule instead of wrapping.
+    The length floor is what keeps ratios readable: ``580/580`` and ``90/90`` must never
+    be split across lines, and at 25 characters no ratio in these tables qualifies.
+    """
+    for separator in ("/", r"\_", "-", "."):
+        token = token.replace(separator, separator + r"\allowbreak{}")
+    return token
+
+
 def tex(value: object) -> str:
     """Escape ordinary table text without changing mathematical snippets."""
     text = str(value)
@@ -95,7 +109,7 @@ def tex(value: object) -> str:
         ("#", r"\#"),
     ):
         text = text.replace(old, new)
-    return text
+    return re.sub(r"\S{25,}", lambda match: breakable(match.group(0)), text)
 
 
 def savefig(name: str) -> None:
