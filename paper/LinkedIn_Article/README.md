@@ -1,8 +1,19 @@
 # LinkedIn Article Package
 
-`LinkedIn_Article_Polished.md` is the canonical article source. The `.docx` and
-`.pdf` in this folder are legacy exports from an earlier package and no longer
-match the markdown.
+| File | What it is |
+| --- | --- |
+| `LinkedIn_Article_Polished.md` | the article — canonical source |
+| `LinkedIn_Post.md` | companion feed posts, three variants, plus the first comment |
+| `LINKEDIN_PUBLICATION_NOTES.md` | how to upload it |
+| `images/` | six figures, HTML sources, and the shared design system |
+
+There is no `.docx` or `.pdf` in this folder. Earlier exports were removed because
+they had drifted to a superseded image set and the old paper title, which made it
+possible to publish from the wrong file. Regenerate on demand — see *Exporting*.
+
+The article alone is not the deliverable. A LinkedIn article gets very little
+organic distribution without a feed post pointing at it, which is what
+`LinkedIn_Post.md` is for.
 
 ## Figures
 
@@ -58,13 +69,20 @@ LaTeX engine exits zero without producing a file on this document.
 `images/src/base.css` holds the whole system. Two rules matter:
 
 - **Colour encodes identity, not magnitude.** The three chart series use
-  validated categorical slots 1–3 (blue `#2a78d6`, orange `#eb6834`, aqua
-  `#1baf7a`) — one hue per workflow family, never per value. Validator result:
-  all checks pass; the one contrast warning on aqua (2.74:1) is discharged by
-  direct value labels on every bar.
-- **Semantic colours are reserved.** Red is refusal, green is the admitting
-  exit. They are never reused as a series colour. The earlier figures gave each
-  pipeline step its own arbitrary hue, which spent the colour channel on nothing.
+  categorical slots 1–3 (blue `#2a78d6`, orange `#eb6834`, violet `#6a4fc9`) —
+  one hue per workflow family, never per value. Validator result: all six checks
+  pass, worst adjacent normal-vision ΔE 33.0, and every slot clears 3:1 against
+  the surface.
+- **Semantic colours are reserved.** Red is refusal, green is the admitting exit.
+  They are never reused as a series colour. This was not true until recently:
+  `--series-3` was `#1baf7a`, byte-identical to `--admit`, so green meant
+  "backlog-attention family" in `03_results` and "admitted" in the hero and the
+  refusal figure. Violet fixes the collision and validates better — the aqua sat
+  on a 2.74:1 contrast warning that direct labels had to discharge.
+- **Headline numbers wear ink, not series colour.** The hero's four KPI figures
+  were painted in the categorical hues, which made blue mean "issue-type family"
+  in the results chart and "provider requests" in the hero. They are `--ink` now;
+  the colour channel is spent only where identity actually exists.
 
 ## Archive
 
