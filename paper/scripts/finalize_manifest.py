@@ -126,7 +126,6 @@ def included_files() -> list[Path]:
         # is evidence tooling and has to be checksummed like the rest of it.
         "scripts/build_paper_page.py",
         "scripts/build_benchmark_explorer.py",
-        "extension-plan.md",
     ):
         path = ROOT / name
         if path.exists():

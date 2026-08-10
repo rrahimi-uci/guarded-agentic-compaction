@@ -1,6 +1,8 @@
 # Real-record multidomain benchmark
 
-This benchmark implements the prospective study in [`extension-plan.md`](../extension-plan.md).
+This benchmark implements the prospective multidomain study. Its rationale and the
+disposition of every benchmark family are in the paper's appendix; the sealed preflight
+artifacts are under [`paper/results/multidomain/`](../paper/results/multidomain/).
 It compares the unchanged agent, Guarded Region Compilation (GRC), and an independently reviewed
 deterministic macro on three factual, read-only workflows:
 

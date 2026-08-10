@@ -295,7 +295,6 @@ def _markdown_files() -> list[Path]:
         ROOT / "README.md",
         ROOT / "CONTRIBUTING.md",
         ROOT / "SECURITY.md",
-        ROOT / "extension-plan.md",
         ROOT / "benchmarks" / "README.md",
         ROOT / "paper" / "README.md",
     ]
