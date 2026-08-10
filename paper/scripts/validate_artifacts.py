@@ -1417,12 +1417,13 @@ def validate_publication() -> None:
         "scripts/toolsandbox_live_summary.py",
         "scripts/tau2_live_summary.py",
         "scripts/browsecomp_live_benchmark.py",
+        # GAC-technical-review.pptx was retired; the technical template map entry
+        # declares the retirement and validate_slide_generation enforces it.
         "slides/GAC-seminar.pptx",
-        "slides/GAC-technical-review.pptx",
         "slides/gac-template-map.json",
         "slides/README.md",
-        "slides/compiling-recurrent-agent-workflows-into-guarded-programs.pptx",
         "slides/compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx",
+        "scripts/restyle_detailed_deck.py",
         "scripts/generate_slides.mjs",
         "results/slide_generation.json",
         "compiling-recurrent-agent-workflows-into-guarded-programs.pdf",
@@ -1908,9 +1909,11 @@ def validate_external_benchmarks() -> None:
 
 
 def validate_slides() -> None:
+    # One deck ships. It gained three section dividers when it was restyled onto the
+    # seminar design system by paper/scripts/restyle_detailed_deck.py; the 27-slide
+    # seminar deck was removed, and gac-template-map.json declares that retirement.
     decks = (
-        ("compiling-recurrent-agent-workflows-into-guarded-programs.pptx", 27, "seminar"),
-        ("compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx", 23, "technical"),
+        ("compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx", 26, "technical"),
     )
     for filename, expected_slides, label in decks:
         path = PAPER / "slides" / filename
@@ -1944,7 +1947,11 @@ def validate_slides() -> None:
                    f"{label} publication slide deck contains the fair-placement comparison")
                 ok(b"GEPA retains its seed" in payload,
                    f"{label} publication slide deck contains the bounded GEPA result")
-                ok(b"Efficiency transfers; manual programs remain the runtime baseline" in payload,
+                # Anchored on the slide's generator-written body rather than its
+                # headline: restyle_detailed_deck.py shortens the headlines after
+                # generation, and the body names the three families outright,
+                # which is the stronger thing to assert anyway.
+                ok(b"The two new families compile verified three-read pre-model programs" in payload,
                    f"{label} publication slide deck contains the workflow-family result")
                 ok(b"90 / 90" in payload,
                    f"{label} publication slide deck contains the three-family exact result")
@@ -1969,8 +1976,8 @@ def validate_slides() -> None:
         ok(isinstance(pending, dict) and pending.get("reason") and pending.get("command"),
            "slide record declares the pending regeneration for a revised generator")
         ok(sorted(pending.get("stale_outputs", [])) == sorted(
-               record["outputs"][key]["path"] for key in ("seminar", "technical")),
-           "slide record names both decks as stale")
+               spec["path"] for spec in record.get("outputs", {}).values()),
+           "slide record names every live deck as stale")
 
 
 def validate_slide_generation() -> None:
@@ -1996,18 +2003,93 @@ def validate_slide_generation() -> None:
     ok(manifest.get("template_map") == "paper/slides/gac-template-map.json",
        "slide-generation manifest names the maintained template map")
 
-    expected_outputs = {"seminar": 27, "technical": 23}
+    # GAC-seminar.pptx no longer renders a deck, so it dropped out of the output loop
+    # below, but restyle_detailed_deck.py reads it for the shipped deck's palette,
+    # tracking, geometry, and divider frame. Its bytes stay pinned here and in the
+    # restyle script; a silent edit to either would change the deck's design system.
+    design_spec = mapping.get("templates", {}).get("seminar", {})
+    design_path = ROOT / str(design_spec.get("path", "missing"))
+    ok(design_path.exists(), "seminar design-system template exists")
+    if design_path.exists():
+        design_hash = sha256(design_path)
+        ok(design_spec.get("sha256") == design_hash,
+           "seminar design-system template matches pinned hash")
+        ok(manifest.get("templates", {}).get("seminar", {}).get("sha256") == design_hash,
+           "slide manifest binds the design-system template bytes")
+        restyle_script = PAPER / "scripts/restyle_detailed_deck.py"
+        ok(restyle_script.exists(), "restyle script exists")
+        if restyle_script.exists():
+            ok(f'"{design_hash}"' in restyle_script.read_text(encoding="utf-8"),
+               "restyle script pins the design-system template hash it reads")
+        ok(bool(design_spec.get("role")),
+           "template map states why the seminar template is retained")
+
+    # Every deck this project has ever shipped must still be accounted for, as a live
+    # output or as a declared retirement. Without this the checks below are vacuous:
+    # deleting a deck *and* dropping its declaration would leave nothing to fail.
+    DECK_NAMES = {"seminar", "technical"}
+    accounted = set(manifest.get("outputs", {})) | set(manifest.get("retired_outputs", {}))
+    ok(accounted == DECK_NAMES,
+       f"every deck is accounted for as live or retired: "
+       f"missing {sorted(DECK_NAMES - accounted)}, unexpected {sorted(accounted - DECK_NAMES)}")
+    for name in sorted(DECK_NAMES & set(manifest.get("retired_outputs", {}))):
+        ok(bool(mapping.get("templates", {}).get(name, {}).get("retired_output")),
+           f"{name} retired deck is declared in the template map, not only the manifest")
+
+    # A removed deck must be declared, not merely absent, and must keep the hash it
+    # was last verified at so a recovered copy can be checked against this record.
+    for name, retirement in (
+        (key, mapping.get("templates", {}).get(key, {}).get("retired_output"))
+        for key in ("seminar", "technical")
+    ):
+        if not retirement:
+            continue
+        retired_path = ROOT / str(retirement.get("path", "missing"))
+        ok(not retired_path.exists(),
+           f"{name} retired deck is absent, as its retirement declares")
+        ok(bool(retirement.get("reason")) and bool(retirement.get("recover")),
+           f"{name} deck retirement states a reason and how to recover the bytes")
+        recorded = manifest.get("retired_outputs", {}).get(name, {})
+        ok(recorded.get("sha256") == retirement.get("sha256")
+           and bool(recorded.get("sha256")),
+           f"{name} retired deck keeps one last-verified hash in both records")
+        ok(recorded.get("path") == retirement.get("path"),
+           f"{name} retired deck names the same path in both records")
+        ok(name not in manifest.get("outputs", {}),
+           f"{name} retired deck is no longer claimed as a live output")
+
+    expected_outputs = {"technical": 26}
     for name, expected_count in expected_outputs.items():
         spec = mapping.get("templates", {}).get(name, {})
         retained_template = manifest.get("templates", {}).get(name, {})
         source_path = ROOT / str(spec.get("path", "missing"))
-        ok(source_path.exists(), f"{name} GAC source template exists")
-        if source_path.exists():
-            actual_hash = sha256(source_path)
-            ok(spec.get("sha256") == actual_hash,
-               f"{name} GAC source template matches pinned hash")
-            ok(retained_template.get("sha256") == actual_hash,
-               f"{name} slide manifest binds the source-template bytes")
+        # A source template may be retired once nothing reads it at build time, but a
+        # pinned input must never simply go missing: the map has to say the bytes are
+        # gone, why, and what can still rebuild the deck without them. Same principle
+        # as the regeneration_required block above — declare the loss, do not hide it.
+        retirement = spec.get("retired")
+        if retirement:
+            ok(not source_path.exists(),
+               f"{name} GAC source template is absent, as its retirement declares")
+            ok(isinstance(retirement, dict)
+               and bool(retirement.get("reason"))
+               and bool(retirement.get("rebuild_from")),
+               f"{name} template retirement states a reason and a rebuild path")
+            ok(spec.get("sha256")
+               and spec.get("sha256") == retained_template.get("sha256"),
+               f"{name} retired template keeps one last-verified hash in both records")
+            rebuild_from = retirement.get("rebuild_from")
+            ok(isinstance(rebuild_from, str)
+               and rebuild_from == manifest.get("restyle", {}).get("script"),
+               f"{name} template retirement names the maintained rebuild script")
+        else:
+            ok(source_path.exists(), f"{name} GAC source template exists")
+            if source_path.exists():
+                actual_hash = sha256(source_path)
+                ok(spec.get("sha256") == actual_hash,
+                   f"{name} GAC source template matches pinned hash")
+                ok(retained_template.get("sha256") == actual_hash,
+                   f"{name} slide manifest binds the source-template bytes")
         source_map = spec.get("source_slide_for_output", [])
         ok(len(source_map) == expected_count,
            f"{name} source-to-output map covers all {expected_count} slides")

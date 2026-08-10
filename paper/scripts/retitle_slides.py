@@ -3,15 +3,15 @@
 
 Why this exists
 ---------------
-`generate_slides.mjs` rebuilds the decks from the two source templates, but it
+`generate_slides.mjs` rebuilds the deck from its source template, but it
 requires an external artifact-tool presentation workspace that is not part of
-this repository. When the paper was retitled, the decks therefore could not be
+this repository. When the paper was retitled, the deck therefore could not be
 regenerated. This script performs the narrow edit the regeneration would have
-made, so the shipped decks stop contradicting the manuscript.
+made, so the shipped deck stops contradicting the manuscript.
 
-It touches only the two *generated* decks. `GAC-seminar.pptx` and
-`GAC-technical-review.pptx` are user-supplied source templates whose hashes the
-generator verifies; editing them would break generation.
+It touches only the *generated* deck. `GAC-seminar.pptx` is a user-supplied
+source template whose hash both the generator and
+`restyle_detailed_deck.py` verify; editing it would break both.
 
 What it changes
 ---------------
@@ -48,10 +48,11 @@ NEW_TITLE = (
 )
 
 # deck -> (old title-slide font size in hundredths of a point, new size)
-# Sizes were chosen by measuring the wrapped height of NEW_TITLE in Cambria at
-# each deck's actual title-box width; both land just inside the existing box.
+# The size was chosen by measuring the wrapped height of NEW_TITLE in Cambria at
+# the deck's actual title-box width; it lands just inside the existing box.
+# The 27-slide seminar deck was removed, so only one deck is retitled now; its
+# entry, (3600, 3200), is recorded here in case those bytes are ever recovered.
 DECKS = {
-    "compiling-recurrent-agent-workflows-into-guarded-programs.pptx": (3600, 3200),
     "compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx": (3700, 3300),
 }
 

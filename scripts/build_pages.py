@@ -28,8 +28,8 @@ FIGURES = (
 DOWNLOADS = {
     ROOT / "paper" / "compiling-recurrent-agent-workflows-into-guarded-programs.pdf":
         "compiling-recurrent-agent-workflows.pdf",
-    ROOT / "paper" / "slides" / "compiling-recurrent-agent-workflows-into-guarded-programs.pptx":
-        "gac-seminar.pptx",
+    # The 27-slide seminar deck was removed; one deck ships, and it carries the
+    # seminar design system. See paper/slides/gac-template-map.json.
     ROOT / "paper" / "slides" / "compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx":
         "gac-technical-review.pptx",
 }

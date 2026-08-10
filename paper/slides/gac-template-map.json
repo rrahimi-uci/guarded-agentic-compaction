@@ -1,15 +1,18 @@
 {
   "schema": "agent-compaction-slide-template-map/v1",
+  "note": "One deck ships: the technical-review deck. GAC-seminar.pptx is retained because the restyle script reads its design system, not because it renders a deck of its own.",
   "templates": {
     "seminar": {
       "path": "paper/slides/GAC-seminar.pptx",
-      "sha256": "763ea1cea019e98ddcebf37e2748261a4a30d846bfe67cdcb022d92663257e13",
+      "sha256": "a5204149a5fdc2dc4e2e2f79a6926a17336a3e5c5740b5ebb7d95ec7c59df8a0",
       "source_slides": 25,
-      "output": "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs.pptx",
-      "source_slide_for_output": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,17,18,19,20,21,21,22,23,24,25],
-      "inserted_output_slides": {
-        "18": "All-source/API-Bank refusal result, duplicated from NESTFUL evidence frame 17",
-        "23": "Fair manual placement and bounded GEPA result, duplicated from comparator frame 21"
+      "role": "Design-system source. paper/scripts/restyle_detailed_deck.py reads its palette, letter-spacing, footer and title geometry, and section-divider frame against the hash above.",
+      "retired_output": {
+        "path": "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs.pptx",
+        "sha256": "4867b288df8a7c02ca1efbfefa12ef0b55833649be59552aeb3bb58e503dad9d",
+        "slides": 27,
+        "reason": "The 27-slide seminar deck was removed; the technical deck now carries the same design system and is the only shipped deck.",
+        "recover": "git show <commit>:paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs.pptx"
       }
     },
     "technical": {
@@ -17,10 +20,24 @@
       "sha256": "e0febc7b9dd9dc01c89bedb78c0f731a99dd24434e491ecfc627c21511ce0c54",
       "source_slides": 21,
       "output": "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx",
-      "source_slide_for_output": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,14,15,16,17,18,18,19,20,21],
+      "source_slide_for_output": [1,2,null,3,4,5,6,null,7,8,9,10,11,12,null,13,14,14,15,16,17,18,18,19,20,21],
       "inserted_output_slides": {
-        "15": "All-source/API-Bank refusal result, duplicated from NESTFUL evidence frame 14",
-        "20": "Fair manual placement and bounded GEPA result, duplicated from comparator frame 18"
+        "18": "All-source/API-Bank refusal result, duplicated from NESTFUL evidence frame 14",
+        "23": "Fair manual placement and bounded GEPA result, duplicated from comparator frame 18"
+      },
+      "restyled_to": "seminar",
+      "restyle_script": "paper/scripts/restyle_detailed_deck.py",
+      "null_source_means": "Section-divider frame taken from the seminar template rather than the technical template; see divider_output_slides.",
+      "divider_output_slides": {
+        "3": "Act I - Problem formulation, built from GAC-seminar.pptx slide 5",
+        "8": "Act II - Guarded agentic compaction, built from GAC-seminar.pptx slide 5",
+        "15": "Act III - Evidence and results, built from GAC-seminar.pptx slide 5"
+      },
+      "retired": {
+        "reason": "GAC-technical-review.pptx was removed. Nothing reads it at build time: the deck's design system now comes from GAC-seminar.pptx, and the restyle transforms the generator's pinned output rather than the template. The hash above is the last value it was verified at.",
+        "rebuild_from": "paper/scripts/restyle_detailed_deck.py",
+        "consequence": "generate_slides.mjs can no longer render this deck from its template. It is rebuilt by restoring the pinned generator output and replaying retitle_slides.py then restyle_detailed_deck.py; see paper/slides/README.md.",
+        "recover": "git show <commit>:paper/slides/GAC-technical-review.pptx"
       }
     }
   }

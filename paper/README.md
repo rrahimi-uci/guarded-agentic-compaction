@@ -34,14 +34,13 @@ paper/
 ├── generated_figures/              script-generated PDF and PNG figures
 ├── tables/                         script-generated LaTeX tables
 ├── slides/
-│   ├── GAC-seminar.pptx             25-slide source template, hash-pinned
-│   ├── GAC-technical-review.pptx    21-slide source template, hash-pinned
-│   ├── gac-template-map.json        source-to-output slide mapping
+│   ├── GAC-seminar.pptx             25-slide design-system source, hash-pinned;
+│   │                                read by scripts/restyle_detailed_deck.py
+│   ├── gac-template-map.json        slide mapping and retirement declarations
 │   ├── README.md                    generation and evidence-boundary notes
-│   ├── compiling-recurrent-agent-workflows-into-guarded-programs.pptx
-│   │                                editable 27-slide seminar presentation
 │   └── compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx
-│                                    editable 23-slide technical-review presentation
+│                                    the shipped deck: editable 26-slide
+│                                    technical review on the seminar system
 ├── results/
 │   ├── datasets/                   pinned upstream snapshots and manifests
 │   ├── github_live/                real-record/live-provider raw results
