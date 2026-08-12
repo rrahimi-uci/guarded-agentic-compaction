@@ -19,6 +19,20 @@ Otherwise the original agent remains unchanged.
 [Adversarial review](paper/paper-review.md) ·
 [Experiment verification](paper/supplementary/experiment-verification.md)
 
+### Publication shelf
+
+The public Pages site keeps the release easy to read without requiring a checkout:
+
+| Read | Link |
+|:---|:---|
+| Complete paper in HTML | [Browser edition](https://rrahimi-uci.github.io/guarded-agentic-compaction/article.html) |
+| Complete paper as PDF | [Download the paper](https://rrahimi-uci.github.io/guarded-agentic-compaction/downloads/compiling-recurrent-agent-workflows.pdf) |
+| Evidence and benchmark audit | [Open the benchmark explorer](https://rrahimi-uci.github.io/guarded-agentic-compaction/benchmarks/explorer/index.html) |
+| Editable presentation | [Download the technical deck](https://rrahimi-uci.github.io/guarded-agentic-compaction/downloads/gac-technical-review.pptx) |
+
+The [artifact shelf](https://rrahimi-uci.github.io/guarded-agentic-compaction/artifacts.html)
+also explains which source, evidence class, and claim boundary belongs to each item.
+
 ## Why this exists
 
 Mature agents often spend model calls reselecting the same evidence path. A hand-written
@@ -163,9 +177,14 @@ Capture normalized traces with the maintained tracing processor, then integrate 
 the application-owned staging boundary or through the guarded model adapter.
 
 ~~~python
-from guarded_agentic_compaction.capture.agents_sdk import AgentsSDKTraceProcessor
+from guarded_agentic_compaction.capture import (
+    AgentsTraceProcessor,
+    install_agents_trace_processor,
+)
 
-processor = AgentsSDKTraceProcessor(store=episode_store)
+processor = install_agents_trace_processor(
+    AgentsTraceProcessor(include_sensitive_data=False)
+)
 ~~~
 
 ~~~python
@@ -185,7 +204,7 @@ agent = Agent(
 ~~~
 
 Streaming, hosted tools, incomplete handoffs, and server-managed context are rejected
-rather than silently approximated. The SDK integration guide (`docs/openai-agents-sdk.md`)
+rather than silently approximated. The [SDK integration guide](https://rrahimi-uci.github.io/guarded-agentic-compaction/getting-started.html#sdk)
 documents the exact boundary.
 
 ## Reproduce the checked-in evidence
@@ -240,11 +259,11 @@ paper/          LaTeX sources, figures, tables, raw results, scripts, slides
 site/           source for the GitHub Pages documentation
 tests/          unit, property, integration, mutation, and fault-injection tests
 
-docs/ holds the deeper engineering records (ADRs, safety model, trace contract,
-library API). It is deliberately untracked -- see .gitignore -- because parts of
-it are generated. Regenerate it locally with the commands under "Reproduce the
-checked-in evidence"; the reader-facing subset is published at the documentation
-site linked above.
+docs/ holds deeper engineering records (ADRs, safety model, trace contract, and
+library API). It is deliberately untracked -- see .gitignore -- because parts of it
+are generated. The public release surface is the Pages site and the tracked paper,
+benchmark, and evidence artifacts; use the [artifact shelf](https://rrahimi-uci.github.io/guarded-agentic-compaction/artifacts.html)
+for the reader-facing copies.
 ~~~
 
 ## Contributing and security

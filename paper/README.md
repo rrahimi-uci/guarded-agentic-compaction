@@ -11,6 +11,12 @@ workflow families with real public records and live provider calls, plus refusal
 on two trace-complete public compiler substrates. A broader interoperability audit remains
 supplementary because it does not measure optimizer value.
 
+For readers who do not need a checkout, the maintained [publication shelf](https://rrahimi-uci.github.io/guarded-agentic-compaction/artifacts.html)
+provides the complete [HTML article](https://rrahimi-uci.github.io/guarded-agentic-compaction/article.html),
+the [distribution PDF](https://rrahimi-uci.github.io/guarded-agentic-compaction/downloads/compiling-recurrent-agent-workflows.pdf),
+the [benchmark explorer](https://rrahimi-uci.github.io/guarded-agentic-compaction/benchmarks/explorer/index.html),
+and the [editable technical deck](https://rrahimi-uci.github.io/guarded-agentic-compaction/downloads/gac-technical-review.pptx).
+
 ## Directory map
 
 ```text
@@ -163,8 +169,8 @@ for a long stretch during which Algorithms 2–4 were authored but reached no bu
 The artifact has no MLflow dependency. Normalized Episodes are persisted in a strict,
 canonical, atomic local JSONL snapshot; OpenAI Agents SDK capture is the only maintained
 foreign trace adapter. The design rationale and the deliberately omitted remote-tracking
-capabilities are documented in
-`docs/mlflow-removal-report.md`.
+capabilities are summarized in the [implementation audit](supplementary/implementation-audit.md)
+and [changelog](../CHANGELOG.md).
 
 ## Evidence classification
 

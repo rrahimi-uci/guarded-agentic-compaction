@@ -1,5 +1,9 @@
 # Real-record multidomain benchmark
 
+The browser-readable [benchmark explorer](https://rrahimi-uci.github.io/guarded-agentic-compaction/benchmarks/explorer/index.html)
+publishes the broader benchmark audit with each substrate, execution state, denominator,
+and claim boundary kept separate.
+
 This benchmark implements the prospective multidomain study. Its rationale and the
 disposition of every benchmark family are in the paper's appendix; the sealed preflight
 artifacts are under [`paper/results/multidomain/`](../paper/results/multidomain/).

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="The Guarded Agentic Compaction paper, HTML article, benchmark explorer, technical deck, and reproducibility sources.">
+  <title>Publication artifacts — Guarded Agentic Compaction</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/styles.css"><script defer src="assets/js/site.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><nav class="nav" aria-label="Primary navigation">
+    <a class="brand" href="index.html"><span class="brand-mark">GAC</span><span>Guarded Agentic Compaction</span></a>
+    <button class="menu-button" data-menu aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">☰</button>
+    <ul class="nav-links" id="site-nav" data-nav-links>
+      <li><a href="index.html">Overview</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="method.html">Method</a></li><li><a href="article.html">Article</a></li>
+      <li><a href="getting-started.html">Get started</a></li><li><a href="research.html">Research</a></li>
+      <li><a href="limitations.html">Limits</a></li><li><a class="nav-cta" aria-current="page" href="artifacts.html">Artifacts</a></li>
+    </ul>
+  </nav></header>
+  <main id="main">
+    <section class="page-hero"><div class="container">
+      <div class="breadcrumbs"><a href="index.html">Guarded Agentic Compaction</a> / Artifacts</div>
+      <h1>Read the work in the format that fits.</h1>
+      <p>The publication shelf keeps the complete paper, browser edition, benchmark audit, and editable presentation together. Every item is built or checked from the same repository evidence.</p>
+    </div></section>
+
+    <section class="section"><div class="container">
+      <div class="section-head"><div><p class="eyebrow">Publication shelf</p><h2>One study, four useful views.</h2></div>
+        <p>Start with the HTML article for searchable reading, use the PDF for archival circulation, inspect the benchmark explorer for denominators and claim boundaries, or download the editable deck for a technical presentation.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature feature-accent"><h3>Complete paper — HTML</h3><p>The full manuscript rendered for the browser, including figures, tables, limitations, and supplementary navigation.</p><p><a class="text-link" href="article.html">Read the browser edition →</a></p></article>
+        <article class="feature feature-accent"><h3>Complete paper — PDF</h3><p>The long-form article PDF used as the primary distribution artifact and validated against the shared manuscript body.</p><p><a class="text-link" href="downloads/compiling-recurrent-agent-workflows.pdf">Download the paper →</a></p></article>
+        <article class="feature feature-warn"><h3>Benchmark explorer</h3><p>Search every named benchmark and multidomain source with its substrate, execution status, retained records, and licensed claim.</p><p><a class="text-link" href="benchmarks/explorer/index.html">Explore the evidence →</a></p></article>
+        <article class="feature"><h3>Editable technical deck</h3><p>A 26-slide technical review on the maintained seminar design system, with the current paper title and evidence boundary.</p><p><a class="text-link" href="downloads/gac-technical-review.pptx">Download the deck →</a></p></article>
+      </div>
+    </div></section>
+
+    <section class="section section-tint"><div class="container doc-layout">
+      <article class="prose">
+        <h2 id="provenance">Artifact provenance</h2>
+        <p>The Pages workflow copies the tracked paper PDF and technical deck into its download area, materializes the benchmark explorer from its checked-in source, and copies the authored site pages. The article page carries a digest of <code>paper/tex/</code>; the Pages builder refuses deployment when that digest, the generated benchmark explorer, or the generated quantitative method page drifts.</p>
+        <div class="callout"><p><strong>Evidence boundary:</strong> the headline efficiency results are research-prototype measurements on pinned public GitHub records and live provider calls. They do not establish production certification, semantic equivalence, or cross-repository/time-forward generalization.</p></div>
+
+        <h2 id="sources">Source and reproducibility</h2>
+        <ul class="check-list">
+          <li><a href="https://github.com/rrahimi-uci/guarded-agentic-compaction/blob/main/paper/README.md">Paper artifact README</a> — builds, evidence classes, and reproducibility commands</li>
+          <li><a href="https://github.com/rrahimi-uci/guarded-agentic-compaction/blob/main/benchmarks/README.md">Benchmark README</a> — acquisition, preflight, and gated study commands</li>
+          <li><a href="https://github.com/rrahimi-uci/guarded-agentic-compaction/tree/main/paper/results">Raw results</a> — retained result files, manifests, and checksums</li>
+          <li><a href="https://github.com/rrahimi-uci/guarded-agentic-compaction/blob/main/paper/supplementary/experiment-verification.md">Experiment verification</a> — claim-by-claim recomputation and residual threats</li>
+        </ul>
+        <p class="lead">The standard verification path makes no provider calls:</p>
+        <pre><code>.venv/bin/python scripts/verify_release.py
+.venv/bin/python paper/scripts/validate_artifacts.py
+.venv/bin/python scripts/build_pages.py --output _site
+.venv/bin/python -m pytest</code></pre>
+      </article>
+      <aside class="toc"><strong>On this page</strong><ul>
+        <li><a href="#provenance">Provenance</a></li><li><a href="#sources">Source and reproducibility</a></li>
+      </ul></aside>
+    </div></section>
+  </main>
+  <footer class="site-footer"><div class="container footer-grid">
+    <div><div class="footer-title">Guarded Agentic Compaction</div><p class="footer-note">The release keeps reading, inspection, and reproduction on one evidence-grounded shelf.</p></div>
+    <div><div class="footer-label">Read</div><ul><li><a href="article.html">HTML article</a></li><li><a href="downloads/compiling-recurrent-agent-workflows.pdf">Paper PDF</a></li></ul></div>
+    <div><div class="footer-label">Inspect</div><ul><li><a href="benchmarks/explorer/index.html">Benchmarks</a></li><li><a href="research.html">Research evidence</a></li></ul></div>
+    <div><div class="footer-label">Project</div><ul><li><a href="downloads/gac-technical-review.pptx">Technical deck</a></li><li><a href="https://github.com/rrahimi-uci/guarded-agentic-compaction">Source</a></li></ul></div>
+  </div></footer>
+</body>
+</html>

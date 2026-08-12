@@ -5,6 +5,15 @@ for its Python API and artifact schemas while it remains research-alpha software
 
 ## Unreleased
 
+## Gac-v0.0.1 — 2026-08-12
+
+First public GitHub research-artifact release. This tag packages the validated
+guarded-agentic-compaction 0.7.0 implementation together with its reproducible paper,
+benchmark audit, HTML article, editable technical deck, evidence manifests, and the
+GitHub Pages publication shelf. The release preserves the project's research-alpha
+boundary: refusal, fallback, and claim limits remain part of the artifact rather than
+being presented as production certification.
+
 ### Paper and publication artifacts
 
 - **Retitled** to *From Traces to Guarded Programs: Evidence-Gated Compilation of
