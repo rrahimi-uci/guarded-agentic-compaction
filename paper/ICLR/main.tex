@@ -41,17 +41,6 @@
 \usepackage{cleveref}
 \usepackage{xspace}
 
-% ---------------------------------------------------------------------------
-% Review-mode line-number ruler.
-%
-% The ICLR style paints a vertical line-number ruler in the left margin unless
-% \iclrfinalcopy is set.  This source ships in the named preprint mode below,
-% but the same ruler suppression is also used in the blind submission build, so
-% the ruler-drawing macro is redefined to a no-op after the style file has
-% installed its shipout hook.
-% ---------------------------------------------------------------------------
-\renewcommand{\iclrruler}[1]{}
-
 % ------------------------------------------------------------------- palette
 \definecolor{gacblue}{HTML}{2F6B8A}
 \definecolor{gacteal}{HTML}{2A9D8F}
@@ -118,16 +107,15 @@
 %                               author metadata.  Use for the OpenReview
 %                               upload.
 %
-%  As shipped this is the NAMED build.  Comment out \iclrfinalcopy before
-%  submitting to ICLR, then confirm the title block and `pdfinfo' output show
-%  no author name.
+%  As shipped this is the BLIND submission build.  Uncomment \iclrfinalcopy
+%  only when preparing a named preprint or camera-ready version.
 % ===========================================================================
 \author{Reza Rahimi \\
 JazzX AI \\
 Los Altos, CA, USA \\
 \texttt{reza.rahimi@jazzx.ai}}
 
-\iclrfinalcopy
+% \iclrfinalcopy
 
 % Author name reaches the PDF metadata only in the named build, so a blind
 % build cannot leak it through `pdfinfo'.

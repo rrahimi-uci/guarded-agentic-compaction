@@ -79,9 +79,8 @@ generate arbitrary Python. Hard guards then constrain entry types, required
 fields, categorical sets, numeric intervals, patterns, isolation keys, allowed
 effects, and manifest pins; verifiers constrain live-out presence, type,
 cardinality, empirical hulls, provenance, effect multisets, and call counts.
-These are likely invariants~\citep{ernst2001daikon}, not proofs for all future
-inputs --- which is why a statistical gate follows them rather than replacing
-them.
+These are candidate invariants, not proofs for all future inputs --- which is
+why a statistical gate follows them rather than replacing them.
 
 \paragraph{6. Exact risk-gated admission.}
 \Cref{alg:calibrate} decides deployment. The score $q$ is fitted on \emph{dev}
@@ -101,7 +100,7 @@ Bonferroni-corrected level:
 \end{equation}
 It admits the largest-coverage threshold with $U_\eta\le\alpha$ and retires the
 family otherwise --- a fixed-grid instance of the learn-then-test
-discipline~\citep{angelopoulos2022ltt,bates2021rcps}. The closed form on the
+discipline~\citep{angelopoulos2022ltt}. The closed form on the
 right is the operative constraint in our experiments: at $\alpha=0.05$, $\delta=0.1$,
 and $|\Lambda|=11$, a zero-violation family still needs $n_\eta\ge 92$ admitted
 groups. The default output is refusal, not emission.

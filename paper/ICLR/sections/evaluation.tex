@@ -1,55 +1,69 @@
 \section{Experimental Setup}
 \label{sec:setup}
 
-Because the claim is an \emph{admissibility} claim, no single benchmark can
-support it. We use three evidence classes: does guarded specialization preserve
-outcomes while saving work on real records (\S\ref{sec:res-primary}); does it
-transfer beyond one repository under time-forward evaluation
-(\S\ref{sec:res-multirepo}); and does the admission rule actually refuse when
-evidence is thin (\S\ref{sec:res-refusal})?
+Because the claim is an \emph{admissibility} claim, the evaluation asks three
+questions: does specialization preserve outcomes while saving work on real
+records (\S\ref{sec:res-primary})? Does it transfer under a time-forward split
+(\S\ref{sec:res-multirepo})? And does it refuse when evidence is thin
+(\S\ref{sec:res-refusal})?
 
-\paragraph{Primary live workflow transfer.}
-Three public-record GitHub workflow families over one revision-pinned snapshot:
-issue-type routing, pull-request outcome audit, and backlog-attention routing.
-Each has a distinct tool vocabulary and an exact three-class contract, and uses
-132 discovery and 30 balanced held-out records, with live provider calls.
+\subsection{Benchmark at a glance}
+\label{sec:benchmark}
+
+Every GitHub sample begins with one issue or pull-request number from a pinned
+public snapshot. The agent must make read-only calls and return exact,
+source-grounded fields, not a subjective preference. The three primary families
+use 132 discovery and 30 balanced held-out records each, with live provider
+calls. \Cref{tab:benchmark-glance} shows what one sample asks an agent to read
+and return; it tests both the structured answer and whether its evidence remains
+available after compaction.
+
+\begin{center}
+  \begin{minipage}{\linewidth}
+    \refstepcounter{table}\label{tab:benchmark-glance}
+    \footnotesize\textbf{Table~\thetable. Primary GitHub benchmark at a glance.}
+    Each sample supplies one record number from a pinned public snapshot; every
+    listed answer field is checked against the source record.
+    \smallskip
+
+    \setlength{\tabcolsep}{2.5pt}
+    \renewcommand{\arraystretch}{1.12}
+    \begin{tabularx}{\linewidth}{@{}p{0.16\linewidth}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
+      \toprule
+      Task & Read-only evidence path & Exact answer contract \\
+      \midrule
+      Issue type & \code{issue\_number} $\rightarrow$ record, official labels,
+      comments & Title, state, label-derived category, verbatim excerpt \\
+      PR outcome & \code{pr\_number} $\rightarrow$ PR record, merge status,
+      discussion & \code{open}, \code{merged}, or \code{closed\_unmerged}, plus
+      title and comment excerpt \\
+      Backlog attention & \code{issue\_number} $\rightarrow$ open-issue record,
+      assignees, discussion & \code{owned}, \code{discussed\_unowned}, or
+      \code{awaiting\_first\_response}, plus title, owner, and excerpt \\
+      \bottomrule
+    \end{tabularx}
+  \end{minipage}
+\end{center}
 
 \paragraph{Cross-repository time-forward extension.}
-A narrower pull-request outcome task over five frozen public repositories, with
-two read-only tools and a strict time-forward preflight: held-out records are
-strictly newer than discovery records, and candidate selection is sealed before
-any provider call. The original cohort uses 116 discovery and 30 held-out
-records per repository, freezes one candidate before calibration, and retains
-repositories with no admitted artifact. Because it is class-skewed on some
-mirrors, we also run a balanced rerun on three repositories with 120 discovery
-and 60 held-out pull requests each, evenly split across \code{open},
-\code{merged}, and \code{closed\_unmerged}.
+A narrower two-read PR-outcome task spans five frozen public repositories.
+Held-out records are strictly newer than discovery records, and selection is
+sealed before provider calls; repositories without an admitted artifact remain
+in the result. A balanced rerun on three repositories controls the
+\code{open}/\code{merged}/\code{closed\_unmerged} mix.
 
 \paragraph{External refusal benchmarks.}
-NESTFUL and API-Bank test what happens once a valid, executable trace exists
-but evidence is still insufficient. NESTFUL provides 1{,}415 executable
-post-trace episodes with nested producer references~\citep{basu2025nestful};
-API-Bank contributes 389 recorded tool calls over 49
-tools~\citep{li2023apibank}. Both retain argument-level producer structure that trajectory-only suites
-discard; they measure provenance reachability, synthesis, replay, and
-admission, not live planning quality.
+NESTFUL and API-Bank test valid executable traces whose evidence is still
+insufficient. They retain the argument-level producer structure needed to
+measure provenance, synthesis, replay, and admission---not live planning
+quality~\citep{basu2025nestful,li2023apibank}.
 
 \paragraph{Conditions, metrics, and statistics.}
-Each GitHub family runs three conditions on identical held-out records: the
-\emph{unchanged baseline} $B$, the \emph{compiled} artifact under
-\cref{eq:dispatch}, and a \emph{hand-written} pre-model program authored with
-full knowledge of the workflow --- the comparator most likely to falsify a
-runtime-dominance claim, so it appears in the main results rather than the
-appendix. The primary quality endpoint is exact task-contract satisfaction;
-resource endpoints are provider requests, provider-visible tool interfaces,
-total tokens, observed wall latency, and estimated cost. All comparisons are
-paired on the same records: binary quality uses exact McNemar
-tests~\citep{mcnemar1947} and one-sided Clopper--Pearson
-bounds~\citep{clopper1934binomial}, and paired resource differences use
-10{,}000-sample bootstrap intervals~\citep{efron1993bootstrap} with two-sided
-Wilcoxon signed-rank tests~\citep{wilcoxon1945}. Rows whose paired difference
-is deterministic by construction are reported without a $p$-value. Secondary
-$p$-values are descriptive and unadjusted; the only multiplicity correction
-carrying a guarantee is the Bonferroni term inside \cref{eq:cp}. All admission
-runs use $\alpha=0.05$, $\delta=0.1$, and $|\Lambda|=11$; \cref{app:config} lists the
-rest.
+Each GitHub family compares the unchanged baseline $B$, the compiled artifact,
+and a hand-written pre-model program on the same records. Quality is exact
+task-contract satisfaction; resources are requests, interfaces, tokens,
+latency, and estimated cost. We use paired exact McNemar tests, bootstrap
+intervals, and Wilcoxon signed-rank tests; the only guaranteed multiplicity
+control is the Bonferroni term in \cref{eq:cp}. All admission runs use
+$\alpha=0.05$, $\delta=0.1$, and $|\Lambda|=11$; \cref{app:config} lists the
+remaining settings.

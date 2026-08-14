@@ -15,21 +15,25 @@ answer. The problem is therefore not just ``find recurring traces.'' The
 problem is to decide when a recurrent model-mediated region can be replaced by a
 deterministic program and when it should be refused.
 
-Consider a real GitHub workflow rather than an invented routing rule.  In the expanded
-replication, all 132 discovery traces read an issue record, its labels, and its comments,
-so a full three-read macro looks obvious.  Yet the comments call carries a varying integer
-\code{limit}; no trace-grounded expression reproduces it.  GAC rejects the full candidate
-with \code{ungroundable\_slot}, emits only \code{record -> labels}, and leaves the comments
-read and final rendering to the agent.  The admitted prefix passes 92/92 calibration
-groups at the registered $\alpha=.05$ level, with exact upper bound 0.0498.
+Consider issue \#6602 (``Index error when data is large'') from the public
+GitHub snapshot. Given \code{issue\_number=6602}, the agent repeatedly reads
+\code{record}, \code{labels}, and \code{comments(limit=3)} before rendering an
+auditable triage answer. A recurrence-only optimizer would emit that whole
+three-read macro. GAC instead produces two decisions: it \emph{retires} the
+full candidate because the integer \code{comments.limit} varies across traces
+and has no consistent provenance expression, then it emits the grounded
+\code{record -> labels} prefix and returns control to the agent for comments
+and rendering. The emitted prefix passes 92/92 calibration groups at
+$\alpha=.05$ (upper bound 0.0498).
 
-The same distinction appears in the earlier 18-record follow-up.  Its aggressive
-three-read artifact had 45/45 clean tool replays, but only 17/18 downstream answers: on
-real issue 6602, the compiled continuation dropped the URL from a Markdown link while its
-tool contract still passed.  A provider-free continuation guard detected and
-checked-rendered the miss, but this is a mechanism check rather than a live safety claim.
-Recurrence says what may be compilable; provenance, continuation scope, and evidence
-determine whether replacement is justified.
+This partial artifact is not a cosmetic compromise. In an earlier 18-record
+follow-up, the aggressive three-read artifact replayed all 45 tool calls but
+produced only 17/18 exact downstream answers: for this issue, it dropped a URL
+from a Markdown link even though its tool contract passed. A provider-free
+continuation guard detects and checked-renders that miss; it is a mechanism
+check, not a live safety claim. Recurrence says what may be compilable;
+provenance, continuation scope, and evidence determine what may replace the
+model.
 
 \begin{figure}[t]
   \centering
@@ -44,17 +48,10 @@ determine whether replacement is justified.
   \label{fig:aha-example}
 \end{figure}
 
-The benchmark also shows why tool replay is not full substitution evidence.  In an
-earlier 18-record GitHub study, a more aggressive three-read artifact had 45/45 clean
-tool replays but only 17/18 exact downstream answers: one Markdown URL was lost from the
-continuation.  A checked continuation renderer recovered 18/18 in provider-free replay,
-but the paper treats that as a detection mechanism rather than a live safety claim.
-
 Framed this way, the closest precedent is not prompt optimization but the
-tracing just-in-time compiler. Dynamo~\citep{bala2000dynamo}, trace-based type
-specialization~\citep{gal2009tracejit}, and meta-tracing~\citep{bolz2009pypy}
-all detect a hot path, compile it behind a \emph{guard}, and deoptimize to the
-interpreter when the guard fails~\citep{holzle1992deopt}. Agent traces admit
+tracing just-in-time compiler. Dynamo~\citep{bala2000dynamo} detects a hot
+path, compiles it behind a \emph{guard}, and deoptimizes to the interpreter
+when the guard fails~\citep{holzle1992deopt}. Agent traces admit
 the same structure --- hot-trace detection becomes family mining, guard
 synthesis becomes an entry contract, and deoptimization becomes fallback to the
 unchanged agent --- but they add three obligations a JIT does not face. Tool

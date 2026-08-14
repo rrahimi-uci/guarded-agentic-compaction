@@ -1,38 +1,28 @@
 \section{Discussion and Limitations}
 \label{sec:discussion}
 
-The strongest supported claim is narrow but meaningful: repeated read-only
-workflow prefixes can be specialized into guarded deterministic programs that
-preserve exact held-out contracts on several real GitHub families while failing
-closed when evidence is inadequate --- stronger than a token-savings report,
-because the same artifact retains principled retirements on NESTFUL, API-Bank,
-and one cross-repository cohort.
+The strongest supported claim is narrow: repeated read-only workflow prefixes
+can become guarded deterministic programs that preserve exact held-out
+contracts on real GitHub families while failing closed when evidence is
+inadequate, including on NESTFUL, API-Bank, and one cross-repository cohort.
 
 \paragraph{Gate maturity is the main scientific risk.}
 \Cref{prop:admission} is per-candidate, not compiler-wide over the adaptive
-family search of \cref{alg:compile}, so the certificate is conditional on
-freezing the candidate relative to calibration. The gate is also step-like
-empirically: it behaves as an all-or-none support test at $n_\eta\ge 92$ rather
-than tracing a risk--coverage frontier, so we have shown that the rule
-\emph{refuses} correctly far better than that $q$ \emph{discriminates}.
-Refitting $q$ so the registered gate yields a genuine frontier is the
-highest-value follow-up.
+search of \cref{alg:compile}; certification requires freezing the candidate
+relative to calibration. The gate is empirically step-like at $n_\eta\ge 92$:
+we show that it \emph{refuses} correctly far better than that $q$
+\emph{discriminates}. Refitting $q$ for a genuine frontier is the key follow-up.
 
 \paragraph{External validity and practical competitiveness.}
-The richer workflow-family evidence comes from one revision-pinned repository
-snapshot and one provider/model family, and the cross-repository extension
-broadens scope only on a narrower task where a fixed template is essentially
-tied; we establish no superiority on full cross-repository workflows, under
-drift, or across providers. Hand-written programs also remain competitive when
-the workflow is already known, and we do not measure manual authoring or
-maintenance cost --- a complete comparison would price the engineering axis
-too.
+The richer evidence comes from one revision-pinned repository and one
+provider/model family; the cross-repository extension is a narrower,
+template-tied task. We establish no superiority on full cross-repository
+workflows, under drift, or across providers, and do not price manual authoring
+or maintenance against hand-written programs.
 
 \paragraph{Semantic scope.}
-Exact task contracts do not certify semantic equivalence of the final answer
-once a model continuation follows; counterfactual trace
-auditing~\citep{zhou2026cta} would detect the gap. Writes, handoffs, hosted
-tools, and undeclared effects sit outside \cref{prop:admission} entirely, and
-removing a model turn can remove a guardrail evaluation that ran at that turn
---- boundaries that are the conditions for an honest guarded deployment story,
-not accidents of the implementation.
+Exact task contracts do not certify semantic equivalence once a model
+continuation follows; retained-continuation replay exposes that gap. Writes,
+handoffs, hosted tools, undeclared effects, and guardrail evaluations at a
+removed turn lie outside \cref{prop:admission}: they are deployment boundaries,
+not implementation accidents.
