@@ -9,8 +9,8 @@ Source references used for this checklist:
 ## Template and formatting
 
 - [x] Uses the official ICLR 2027 style files downloaded from the official style zip.
-- [ ] The repository default is still the named preprint build (`\iclrfinalcopy` enabled). Comment out that line before OpenReview upload.
-- [x] Review line-number ruler suppressed by redefining `\iclrruler` to a no-op. This changes the stock appearance but does not itself force the named build.
+- [x] The repository defaults to the blind submission build (`\iclrfinalcopy` commented out).
+- [x] The stock review line-number ruler is enabled in the blind build.
 - [x] `times` replaced by `newtxtext`/`newtxmath` because this paper builds with Tectonic (XeTeX), where legacy `times` does not resolve: the body falls back to Latin Modern with no bold or italic, so `\textbf`, `\emph`, `\textsc`, theorem heads, and table headers all rendered as upright regular text. Under pdfTeX `times` works fine, so this is a toolchain interaction, not a broken package. Embedded body face is TeX Gyre Termes (Times), confirmed with `pdffonts`.
 - [x] Confirmed from the compiled PDF that the main text (sections 1--8) ends within the `<= 9` page limit.
 - [x] References are separated from the main text and do not count toward the page limit.
@@ -19,7 +19,7 @@ Source references used for this checklist:
 
 ## Anonymity
 
-- [ ] **PDF author block is currently NAMED (Reza Rahimi, JazzX AI).** The build ships with `\iclrfinalcopy` enabled for preprint use. Comment out that single line in `main.tex` before uploading to OpenReview; the style file then prints "Anonymous authors", restores the "Under review" running head, and clears the PDF author metadata. Verified: the blind build compiles to the same 18 pages with `pdfinfo` reporting no author.
+- [x] **PDF author block is anonymous.** `\iclrfinalcopy` is commented out; the style file prints "Anonymous authors", uses the "Under review" running head, and clears the PDF author metadata. Recheck this after every build intended for upload.
 - [x] No acknowledgements are included in the blind-ready submission source.
 - [x] The main paper avoids linking directly to the identified public repository.
 - [ ] Prepare an anonymous supplementary artifact bundle or anonymous repository before submission. The reproducibility statement and appendix F currently assert this bundle exists; it must actually be built before upload.
@@ -58,4 +58,4 @@ Source references used for this checklist:
 - [x] Recompiled the final PDF and verified page count for the current draft.
 - [x] Related work cites the trace-JIT, partial-evaluation, effect-system, program-synthesis, and risk-control lineage rather than only agent-optimization papers (47 distinct citations of 52 bib entries).
 - [x] Sanity-checked that the current figures, captions, and appendix do not reveal author identity.
-- [ ] If submitting in 2026, track the official dates: abstract deadline `September 18, 2026` AOE and paper deadline `September 25, 2026` AOE.
+- [ ] Before uploading, recheck the official ICLR 2027 submission portal and deadline page. The current guide lists an abstract deadline of `September 11, 2026` AOE and a full-paper deadline of `September 16, 2026` AOE.

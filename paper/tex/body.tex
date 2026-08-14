@@ -25,22 +25,28 @@ that can replace model-mediated control flow, and dispatch it only where observa
 evidence supports that replacement.}
 \end{quote}
 
-Here is the trap in a real GitHub workflow.  In the expanded replication, all 132
-discovery traces read an issue record, its labels, and its comments.  A full-prefix
-optimizer therefore has an attractive macro: replace the repeated
-\code{record -> labels -> comments} region, remove three provider requests, and let the
-model see the same evidence in one deterministic projection.  The candidate is not
-merely frequent: it has 116 supporting windows.
+Consider the expanded real GitHub issue task. Given an issue number, the unchanged agent
+usually calls \code{record(issue\_id)}, then \code{labels(record.id)}, then
+\code{comments(record.id, limit)}, before producing a source-grounded classification and
+excerpt. All 132 discovery executions take that three-read route. A recurrence-only
+optimizer would therefore emit one attractive macro: fetch all three observations, remove
+the intervening model turns, and hand the bundle to the final model call.
 
-But the comments call carries a varying integer \code{limit}.  The compiler cannot derive
-that argument from entry state or prior observations, so GAC rejects the three-read
-candidate with \code{ungroundable\_slot} and emits only the groundable
-\code{record -> labels} prefix.  The ordinary agent still chooses the comments read and
-renders the final answer.  That admitted two-read artifact passes 92/92 calibration
-groups at $\alpha=.05$, $\delta=.10$, and eleven thresholds, with an exact upper bound of
-0.0498.  This is a more informative optimization than a rule keyed only to recurring
-tool names: it preserves the model boundary exactly where the trace stops determining
-the next action.
+The apparent macro is not justified. The observed \code{limit} is a varying integer chosen
+by the agent; it cannot be reconstructed from the entry state or either earlier result.
+GAC therefore rejects the three-read candidate as \code{ungroundable\_slot}. Its actual
+output is the smaller program
+\begin{equation*}
+  \begin{aligned}
+    \text{\code{record}(z.id)}
+    &\;\rightarrow\; \text{\code{labels}(record.id)} \\
+    &\;\rightarrow\; \text{\code{return \{record, labels\}}}.
+  \end{aligned}
+\end{equation*}
+then the unchanged agent chooses the comments call and renders the answer. The two-read
+artifact, rather than the tempting full macro, passes 92/92 calibration groups at
+$\alpha=.05$ with an exact upper bound of 0.0498. GAC preserves the model boundary exactly
+where the trace stops determining the next action.
 
 \begin{figure}[t]
   \centering
@@ -58,16 +64,15 @@ the next action.
   \label{fig:aha-example}
 \end{figure}
 
-Replay is also narrower than substitution.  In an earlier 18-record GitHub study, the
-more aggressive three-read artifact produced 45/45 clean tool replays, yet its downstream
-answer contract passed only 17/18.  On issue 6602, the baseline and a hand-written
-composite preserve the full Markdown URL, while the compiled continuation returns only
-the anchor text.  Its tool contract still passes, so tool replay alone cannot see the
-failure.  A provider-free \code{ContinuationGuard} detects
-\code{comment\_evidence:mismatch} and checked-renders 18/18, but that is a mechanism
-check, not a live safety claim.  The example makes the contribution concrete: GAC
-separates trace recurrence, provenance-grounded synthesis, continuation scope, and the
-finite-sample evidence gate instead of treating them as one optimization score.
+Successful replay is still narrower than safe substitution. In an earlier 18-record
+follow-up, an aggressive three-read artifact replayed all 45 tool calls cleanly but passed
+only 17 downstream answer contracts. On issue 6602 it returned Markdown anchor text while
+the baseline and hand-written bundle preserved the full URL. The tool contract passed, so
+replay alone could not see the miss. A provider-free \code{ContinuationGuard} detects the
+\code{comment\_evidence:mismatch} and checked-renders all 18 cases; this is a mechanism
+check, not a live safety claim. The example separates four decisions that a naive macro
+miner conflates: recurrence proposes a candidate; provenance bounds its program;
+continuation checks the remaining answer; and the evidence gate decides deployment.
 
 This problem differs from current-query scheduling in LLMCompiler~\cite{kim2024llmcompiler},
 prompt-program optimization in DSPy~\cite{khattab2024dspy,opsahlong2024mipro}, graph
@@ -678,6 +683,59 @@ specialization --- and expose the behaviour of the runtime when it must \emph{re
 report it because a suite in which every case succeeds would be evidence of a weak test
 set, not a strong compiler.  Three of its eight conditions are negative controls whose
 only correct outcome is no compaction.
+
+\subsection{Benchmark at a glance: tasks, traces, and contracts}
+\label{sec:benchmark-glance}
+
+The benchmark is intentionally not a single accuracy leaderboard. It asks whether a
+compiler can reconstruct a safe deterministic prefix from retained traces and, if so,
+whether replacing the corresponding model turns preserves a task contract.
+\Cref{tab:benchmark-glance} maps concrete inputs, traces, and contracts while separating
+live source-grounded workflow studies from post-trace compiler substrates.
+
+\begin{table*}[t]
+  \centering
+  \caption{Benchmark at a glance. ``Trace'' is what the compiler observes after an agent
+  execution; ``contract'' is the outcome checked on a held-out input. GitHub inputs are
+  real public records from one pinned snapshot. NESTFUL and API-Bank use retained
+  executable traces and therefore cannot support an end-to-end agent-quality claim.}
+  \label{tab:benchmark-glance}
+  \footnotesize
+  \begin{tabularx}{\textwidth}{@{}p{0.17\textwidth} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X@{}}
+    \toprule
+    Benchmark & Representative input $\rightarrow$ required output & Observed recurrent trace & What the result licenses \\
+    \midrule
+    Issue-type routing & Issue number $\rightarrow$ exact identity, label-derived class
+    (bug/enhancement/question), and a verbatim source excerpt &
+    \code{record(id) -> labels(record.id) -> comments(record.id, limit)}; the last
+    argument varies & A live comparison of unchanged agent, partial compiler, and manual
+    bundle. The compiler may emit only \code{record -> labels}; the model retains the
+    comments decision. \\
+    PR-outcome audit & Pull-request number $\rightarrow$ exact title, state, outcome
+    (open/merged/closed\_unmerged), and discussion evidence &
+    \code{pr\_get\_record -> pr\_get\_merge\_status -> pr\_get\_discussion} &
+    A three-read pre-model composite tested on a disjoint, balanced 30-record cohort. \\
+    Backlog-attention routing & Open issue $\rightarrow$ route
+    (owned/discussed\_unowned/awaiting\_first\_response), owner, and comment excerpt &
+    \code{backlog\_get\_record -> backlog\_get\_ownership -> backlog\_get\_discussion} &
+    A distinct tool vocabulary and contract, preventing transfer from being a renamed
+    issue-type task. \\
+    Time-forward PR extension & Pull request from a later snapshot period $\rightarrow$
+    exact number, title, and three-way outcome &
+    \code{record -> merge\_status} on each frozen repository &
+    Cross-repository, time-forward evidence on a deliberately narrower two-read task;
+    a repository without an admitted artifact remains a recorded retirement. \\
+    NESTFUL & Nested API episode: an earlier result supplies an argument to a later call &
+    Typed producer references across executable multi-call sequences &
+    Provenance, synthesis, held-out replay, and support-gate evidence---not LLM planning
+    accuracy. \\
+    API-Bank & Description-led runnable API dialogue with one to five calls &
+    Recorded cross-call values over 49 APIs, including write-bearing tools &
+    Effect barriers and support-gate refusal: write-bearing windows are blocked, and
+    remaining recurrent families lack sufficient support. \\
+    \bottomrule
+  \end{tabularx}
+\end{table*}
 
 \subsection{Prospective public-record extension: HMDA}
 \label{sec:hmda-method}
@@ -2227,24 +2285,15 @@ rewrite an agent. It compiles only value-grounded, read-only prefixes that satis
 compatibility, verification, and finite-sample admission requirements; otherwise it keeps
 the original agent.
 
-The experiments show why each boundary matters. Across three real public GitHub workflow
-families, compiled programs reach 90/90 exact held-out contracts versus 89/90 for unchanged
-agents while reducing requests 50.0--75.0\%, tokens 39.5--81.4\%, observed latency
-51.7--73.0\%, and estimated cost 32.0--75.3\%. A separate five-repository, time-forward
-PR-outcome-core extension reaches 580/580 exact discovery traces, completes 120/120 exact
-held-out pairs on four repositories, and retires the fifth at compile time; a balanced
-three-repository rerun then reaches 360/360 exact discovery traces and 180/180 exact
-held-out pairs while compacting \code{open}, \code{merged}, and
-\code{closed\_unmerged} cases on all three.  Across that balanced rerun, compiled
-execution reduces requests 66.7\%, total tokens 78.4\%, observed latency 60.7\%, and
-estimated cost 72.7\%, while the fixed two-read template remains essentially tied on the
-simplified task. A historical aggressive artifact still records a factual miss, and
-fairly placed hand-written programs also reach 90/90. What the experiments separate,
-then, is discovery and admission from runtime efficiency: the first two can be automated
-at a stated risk level, while the third is not attributable to compilation once a human
-has placed the same program correctly. NESTFUL and API-Bank add a different result:
-despite recurrent, executable traces, every family retires because the configured
-evidence requirement is unmet.
+The results separate discovery and admission from runtime efficiency. Across the three
+real-record GitHub families, the compiler preserves 90/90 exact held-out contracts and
+reduces provider requests by 50--75\%. The time-forward extension reproduces the pattern
+on a narrower task in four repositories and retires the fifth. The historical three-read
+artifact still has a factual miss, and fairly placed hand-written programs match the
+compiler where they share an interface. NESTFUL and API-Bank provide the complementary
+result: recurrent, executable traces still retire when the configured evidence requirement
+is unmet. Thus the contribution is automatic, evidence-gated discovery of a safe partial
+program, not a claim that generated code universally outruns a well-placed manual macro.
 
 That separation suggests an evaluation criterion for this class of system: measure a
 workflow optimizer by the evidence it requires, the effects and positions it refuses, and

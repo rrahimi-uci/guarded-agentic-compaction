@@ -1,6 +1,6 @@
 \section{Results}
 
-\subsection{Primary GitHub workflow families}
+\subsection{Primary workflows: preserved contracts, less work}
 \label{sec:res-primary}
 
 \begin{table}[t]
@@ -15,47 +15,22 @@
   \input{tables/primary_results.tex}
 \end{table}
 
-The result transfers across all three families. Compiled programs reach 90/90
-exact held-out outcomes versus 89/90 for unchanged agents (\cref{tab:primary}).
-In absolute terms the 90 records cost the baseline 359 requests, 294{,}677
-tokens, 537.5\,s, and \$0.0684 against 120, 108{,}839, 192.4\,s, and \$0.0283
-compiled --- reductions of 66.6\%, 63.1\%, 64.2\%, and 58.7\%. The per-family spread matters
-more than the aggregate: the issue-type task supports only a conservative
-two-read prefix, while the two deeper families approach 75\% request reduction.
-For the deepest family the measured 75.0\% reduction \emph{equals} the
-feasibility ceiling $\varphi k/n_B$ at $\varphi=1$, $k=3$, $n_B=4$ --- the
-signature of a task that fully determines its own region, which is a property
-of the workload rather than evidence about the compiler.
+Across the 90 held-out records, \method satisfies 90/90 exact contracts versus
+89/90 for the unchanged agent (\cref{tab:primary}). It reduces provider
+requests by 66.6\%, tokens by 63.1\%, latency by 64.2\%, and estimated cost by
+58.7\% in aggregate. The per-family pattern is intuitive: issue-type routing
+admits only a two-read prefix, whereas the two deeper workflows approach 75\%
+fewer requests.
 
-These differences are large relative to their sampling error: the PR-outcome
-family saves $2196.7$ tokens per record (95\% bootstrap CI $[2182.5,2211.1]$,
-Wilcoxon $p=1.7\times10^{-6}$) and the backlog family $2315.0$ (CI
-$[2224.1,2366.0]$); \cref{app:stats} gives every endpoint. Request counts are
-excluded from significance testing because every pair removes exactly the same
-number of turns by construction.
+No held-out record is a compiled-only failure; the one-sided 95\% upper bound
+on that discordance is 3.3\%. This supports preservation on the observed
+cohort, not equivalence in general. Each artifact was admitted with 92
+zero-violation calibration groups ($U_\eta=0.0498\le .05$). Hand-written
+programs also achieve 90/90 and are cheaper for issue-type routing, so the
+evidence supports automatic discovery and guarded lifecycle management---not
+runtime dominance over correct manual code.
 
-Quality preservation is strong but should be stated precisely. Across the 90
-paired held-out records there is no compiled-only failure, so the one-sided
-95\% exact upper bound on compiled-only discordance is 3.3\%; the single
-baseline-only failure gives an exact McNemar $p=1.0$. The paired evidence is
-consistent with no quality difference in either direction, which is a bound on
-the observed sample rather than an equivalence claim, and it does not override
-the per-candidate scope of \cref{prop:admission}.
-
-Each admitted artifact carries an explicit certificate: for all three families
-the gate admitted $n_\eta=92$ calibration groups with $k_\eta=0$ violations,
-giving $U_\eta=0.0498\le\alpha=0.05$ at coverage $1.0$ --- exactly the minimum
-\cref{eq:cp} certifies at $\delta=0.1$. Every family sits \emph{at} the
-admission boundary, which is what makes \cref{sec:res-refusal} inevitable.
-
-The strongest practical comparator narrows the contribution further.
-Hand-written programs also reach 90/90 exact outcomes, and on the issue-type
-family the manual program is cheaper than the compiled one (\$0.0164 vs.\
-\$0.0178). The live evidence therefore supports automatic trace-grounded
-discovery, guarded admission, and lifecycle management --- not a claim that
-compiled programs universally beat correct manual implementations.
-
-\subsection{Cross-repository, time-forward extension}
+\subsection{Time-forward transfer: compile or retire}
 \label{sec:res-multirepo}
 
 \begin{table}[t]
@@ -71,25 +46,14 @@ compiled programs universally beat correct manual implementations.
   \input{tables/multirepo_results.tex}
 \end{table}
 
-Can a guarded pre-model runtime survive beyond one repository when the task is
-exact and time-forward? Yes, but with claim boundaries that matter
-(\cref{tab:multirepo}). In the five-repository cohort, discovery reaches
-580/580 exact traces, four repositories complete 120/120 exact held-out pairs,
-and \code{pytorch/pytorch} retires at compile time rather than being forced
-through a looser threshold; requests fall 44.4\% and cost 48.6\%, though a
-fixed two-read template is more efficient still on this simplified task.
+In the five-repository cohort, GAC completes 120/120 exact held-out pairs on
+four repositories and retires \code{pytorch/pytorch} at compile time rather
+than loosening its gate (\cref{tab:multirepo}). The balanced three-repository
+rerun reaches 180/180 exact pairs with 66.7\% fewer requests. A fixed two-read
+template is essentially tied, so this is evidence of automatic discovery,
+validation, and principled retirement---not that learning dominates engineering.
 
-The balanced three-repository rerun strengthens the generalization story:
-360/360 exact discovery traces and 180/180 exact held-out pairs, with requests
-down 66.7\%, total tokens 78.4\%, wall latency 60.7\%, and estimated cost
-72.7\% (paired Wilcoxon $p<10^{-27}$ on every resource endpoint). Yet the fixed
-template is essentially tied --- same 180 provider requests, \$0.0190 against
-the compiled artifact's \$0.0188. The supported conclusion is not that learning
-dominates engineering on this task, but that the guarded compiler can
-automatically discover, validate, and transfer a useful artifact while
-retaining retirement as a valid output.
-
-\subsection{Refusal is a scientific result}
+\subsection{Refusal when evidence is insufficient}
 \label{sec:res-refusal}
 
 \begin{table}[t]
@@ -104,23 +68,16 @@ retaining retirement as a valid output.
   \input{tables/refusal_funnel.tex}
 \end{table}
 
-NESTFUL and API-Bank show the opposite regime, and \cref{tab:funnel} isolates
-which stage of \cref{alg:compile} binds. On NESTFUL, provenance places the
-expected producer in the candidate set for 5{,}531 of 5{,}746 dependency slots
-(96.3\%), 85.3\% of episodes yield an admissible window, 12 of 32 recurrent
-families synthesize, and held-out replay yields 24 passes, 12 abstentions, and
-zero wrong executions --- every earlier stage succeeds. The maximum family
-support is 26, while \cref{eq:cp} requires $n_\eta\ge 92$ zero-violation groups
-at $\alpha=0.05$, $\delta=0.1$, $|\Lambda|=11$, so calibration and only
-calibration retires every family. API-Bank fails earlier and harder: the effect
-catalog blocks 28 of 49 tools as writes or non-replayable before mining begins,
-leaving 19 families at maximum support 8; two synthesize, both abstain, and
-every family retires again.
+The external benchmarks expose the opposite outcome. NESTFUL clears
+provenance, synthesis, and held-out replay: 12 families synthesize, with 24
+replays passing and none wrong. Yet its largest family has only 26 groups,
+below the 92 zero-violation groups required by \cref{eq:cp}, so every candidate
+retires (\cref{tab:funnel}). API-Bank fails earlier: its effect catalog blocks
+28 of 49 tools before mining, leaving maximum support of eight; its two
+synthesized candidates also retire.
 
-This separates two properties that are routinely conflated: provenance
-reachability and replay correctness are properties of a \emph{trace}, whereas
-admissibility is a property of the \emph{evidence}. A system that shipped on the
-first two would have deployed twelve NESTFUL artifacts backed by 26 groups of
-support. These results are the intended behaviour of \cref{eq:objective} when
-the sample cannot certify the constraint, not failures of implementation
-hygiene.
+These outcomes separate trace-level properties from deployment evidence.
+Provenance reachability and replay correctness can identify a plausible
+program; they do not certify that it should replace a model. Refusal is the
+intended result when the sample cannot support the registered risk constraint,
+not an implementation failure.
