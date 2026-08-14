@@ -22,8 +22,9 @@ rather than steps inside one function.}
   \State $\mathcal{F}\gets\textsc{Canonicalize}(\textsc{MineRegions}
          (G,\mathcal{C},w_{\max}))$, keeping only cross-group support
   \If{$\varphi k / n_B < \Delta$} \hfill\textsc{(caller)}
-     \State \Return \retire{} \textbf{(infeasible ceiling, Eq.~\ref{eq:ceiling})}
-     \Comment{run before paying for synthesis}
+     \State \textbf{record} \retire{} \textbf{(infeasible ceiling, Eq.~\ref{eq:ceiling})};
+            \textbf{continue}
+     \Comment{try the next compatible partition}
   \EndIf
   \ForAll{families $F\in\mathcal{F}$ ranked by Eq.~\eqref{eq:score}}
     \State $P\gets\textsc{Synthesize}(F,\mathcal{L})$ at depth $\le 2$;\quad

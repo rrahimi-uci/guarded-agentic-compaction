@@ -306,7 +306,13 @@ def extract_descriptions(body: str) -> dict[str, str]:
     for match in re.finditer(r"\\Description", body):
         start = body.find("{", match.end())
         text, end = balanced(body, start)
-        label = re.search(r"\\label\{(fig:[^}]+)\}", body[end:end + 400])
+        # Captions may be substantially longer than the alt text.  Search only within
+        # the containing figure, but do not impose a character limit that silently drops
+        # accessibility text when an editorial revision lengthens the caption.
+        float_end = body.find(r"\end{figure", end)
+        if float_end < 0:
+            continue
+        label = re.search(r"\\label\{(fig:[^}]+)\}", body[end:float_end])
         if label is None:
             continue
         clean = re.sub(r"\s+", " ", text).strip()

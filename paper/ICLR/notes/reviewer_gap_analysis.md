@@ -30,14 +30,15 @@ ICLR submission. All are now addressed.
 4. `The only figure was a vertical stack of grey boxes.` Replaced by a
    three-lane architecture diagram with an explicit barrier band and the
    retire/fallback edges drawn.
-5. `Related work was two paragraphs and eleven citations.` It is now five
-   paragraphs and 47 citations, and it leads with the tracing-JIT lineage
+5. `Related work was too narrow.` It is now organized into three focused
+   paragraphs with 24 resolved citations, and it leads with the tracing-JIT lineage
    (Dynamo, trace JIT, meta-tracing, deoptimization) that is the paper's actual
    intellectual ancestor, plus effect systems, partial evaluation, program
    synthesis, and distribution-free risk control.
 6. `The paper used 6 of its 9 allowed pages` while omitting the above. It now
    uses the full budget on technical content.
-7. `Line numbers in the PDF.` The review ruler is suppressed.
+7. `Review formatting.` The blind PDF retains the official template's
+   line-number ruler and anonymous running head.
 
 ## Remaining weaknesses before submission
 

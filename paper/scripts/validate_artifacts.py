@@ -1484,7 +1484,7 @@ def validate_publication() -> None:
             for phrase in ("From Traces to Guarded Programs",
                            "Evidence-Gated Compilation of Recurrent Agent Workflows",
                            "Reza Rahimi",
-                           "Jazzx AI",
+                           "JazzX AI",
                            "NESTFUL",
                            "Three real-record workflow families",
                            "transfer across three workflow families",

@@ -26,53 +26,45 @@ evidence supports that replacement.}
 \end{quote}
 
 Consider the expanded real GitHub issue task. Given an issue number, the unchanged agent
-usually calls \code{record(issue\_id)}, then \code{labels(record.id)}, then
-\code{comments(record.id, limit)}, before producing a source-grounded classification and
-excerpt. All 132 discovery executions take that three-read route. A recurrence-only
+usually calls \code{record}, \code{labels}, and \code{comments} in that order; the latter
+two receive the \code{issue\_number} returned by \code{record}. It then produces a
+source-grounded classification and excerpt. All 132 discovery executions take that route. A recurrence-only
 optimizer would therefore emit one attractive macro: fetch all three observations, remove
 the intervening model turns, and hand the bundle to the final model call.
 
 The apparent macro is not justified. The observed \code{limit} is a varying integer chosen
 by the agent; it cannot be reconstructed from the entry state or either earlier result.
-GAC therefore rejects the three-read candidate as \code{ungroundable\_slot}. Its actual
-output is the smaller program
-\begin{equation*}
-  \begin{aligned}
-    \text{\code{record}(z.id)}
-    &\;\rightarrow\; \text{\code{labels}(record.id)} \\
-    &\;\rightarrow\; \text{\code{return \{record, labels\}}}.
-  \end{aligned}
-\end{equation*}
-then the unchanged agent chooses the comments call and renders the answer. The two-read
-artifact, rather than the tempting full macro, passes 92/92 calibration groups at
-$\alpha=.05$ with an exact upper bound of 0.0498. GAC preserves the model boundary exactly
-where the trace stops determining the next action.
+GAC therefore rejects the three-read candidate as \code{ungroundable\_slot} and emits only
+the \code{record -> labels} prefix. The unchanged agent chooses
+the comments call and renders the answer. This two-read artifact passes 92/92 calibration
+groups at $\alpha=.05$ with an exact upper bound of 0.0498. \Cref{sec:worked-example}
+walks through the decision with an executed held-out record.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{../generated_figures/gac_aha_example.pdf}
-  \Description{A real GitHub issue trace repeats record, labels, and comments.  A naive
-  full-prefix compiler appears attractive because an earlier three-read artifact had
-  clean tool replays, but issue 6602 loses a Markdown URL in the downstream answer.  GAC
-  rejects the full candidate because the comments limit is ungroundable, emits only the
-  record and labels prefix, and leaves comments and rendering to the agent.}
-  \caption{Why recurrence and tool replay do not license full substitution.  The expanded
-  GitHub compiler rejects the three-read candidate at an ungroundable argument and admits
-  the two-read prefix under 92/92 calibration groups at $\alpha=.05$.  In the separate
-  18-record follow-up, a three-read artifact replayed tools cleanly but lost the URL on
-  issue 6602; a provider-free continuation guard detected and checked-rendered the miss.}
+  \Description{Two real GitHub cohorts expose different substitution failures.  In the
+  expanded cohort, issue 4420 follows record, labels, and comments with a model-selected
+  limit of 100, so GAC rejects the full candidate and emits a two-read prefix.  In the
+  earlier cohort, a three-read artifact replays its tools but issue 6602 loses a Markdown
+  URL in the downstream answer; a continuation guard detects the mismatch.}
+  \caption{Why recurrence and tool replay do not license full substitution.  In the
+  expanded cohort, the comments limit varies and is not trace-groundable; the compiler
+  therefore emits two reads and admits them under 92/92 calibration groups at
+  $\alpha=.05$.  In a separate earlier cohort, a three-read artifact replayed tools
+  cleanly but lost the URL on issue 6602; a provider-free continuation guard detected and
+  checked-rendered the miss.}
   \label{fig:aha-example}
 \end{figure}
 
-Successful replay is still narrower than safe substitution. In an earlier 18-record
-follow-up, an aggressive three-read artifact replayed all 45 tool calls cleanly but passed
-only 17 downstream answer contracts. On issue 6602 it returned Markdown anchor text while
-the baseline and hand-written bundle preserved the full URL. The tool contract passed, so
-replay alone could not see the miss. A provider-free \code{ContinuationGuard} detects the
-\code{comment\_evidence:mismatch} and checked-renders all 18 cases; this is a mechanism
-check, not a live safety claim. The example separates four decisions that a naive macro
-miner conflates: recurrence proposes a candidate; provenance bounds its program;
-continuation checks the remaining answer; and the evidence gate decides deployment.
+Successful replay is still narrower than safe substitution. In a separate, earlier
+18-record study, an aggressive three-read artifact replayed all 45 tool calls but passed
+only 17 exact answer contracts. On issue 6602 it returned Markdown anchor text where the
+contract required the full URL. A provider-free \code{ContinuationGuard} detects the miss
+and checked-renders all 18 cases; this is a mechanism check, not live safety evidence.
+Together, the two cohorts separate four decisions: recurrence proposes a candidate;
+provenance bounds its program; continuation checks the remaining answer; and the evidence
+gate decides deployment.
 
 This problem differs from current-query scheduling in LLMCompiler~\cite{kim2024llmcompiler},
 prompt-program optimization in DSPy~\cite{khattab2024dspy,opsahlong2024mipro}, graph
@@ -94,46 +86,38 @@ region compilation (\grc), studied here, and trace-guided workflow specializatio
 \grc because it changes execution semantics more directly and is the contribution with
 new real-scenario evidence.
 
-Our research questions are:
+The evaluation asks six reader-facing questions:
 
 \begin{description}[leftmargin=1.3em,labelindent=0em]
   \item[RQ1.] Can typed trace provenance reconstruct the dependencies needed to synthesize
   recurrent tool programs?
-  \item[RQ2.] On an unseen real-record workload, how does a learned compiled prefix trade
-  factual task quality against requests, tokens, latency, and cost relative to an unchanged
-  agent and to a hand-written composite tool?
-  \item[RQ2b.] Can a guarded compiler close the interface gap that comparison exposes, once
-  a fair pre-model manual program and a learned prompt optimizer receive the same held-out
-  workload?
+  \item[RQ2.] On unseen real records, does an admitted prefix preserve the registered
+  factual contract while reducing provider work, and how does it compare with an equally
+  placed hand-written program?
   \item[RQ3.] Does exact selective admission reject recurrent families when calibration
   support is inadequate?
-  \item[RQ4.] Which failure modes remain after structural compilation, and what does
-  compaction \emph{not} improve?
+  \item[RQ4.] Which failure modes remain, and what does compaction \emph{not} improve?
   \item[RQ5.] Can group-level paired evidence select a risk-bounded optimization action
   before a fresh real-record cohort, and does that choice preserve the registered task
   contract while reducing resource use?
-  \item[RQ6.] Do the efficiency and preservation results transfer across distinct
+  \item[RQ6.] Do efficiency and preservation transfer across distinct
   real-record workflow families with different tool vocabularies and output contracts?
 \end{description}
 
-The paper makes four contributions:
+The paper makes three contributions:
 
 \begin{enumerate}[leftmargin=*]
   \item An evidence-licensed trace-to-program formulation that combines typed value
   provenance, effect and position barriers, bounded readable synthesis, empirical
   contracts, continuation-pinned composite projection, and runtime fallback.
   \item A compile-or-retire admission protocol: the score and threshold grid are frozen
-  before calibration, exact finite-sample bounds govern dispatch, and a framework-neutral
-  portfolio can compare only transformations with paired evidence and compatible manifests.
+  before calibration, exact finite-sample bounds govern dispatch, and rejected candidates
+  remain visible rather than being silently discarded.
   \item A real-provider study spanning three public-record workflow families and 90
   held-out records, plus a narrower five-repository time-forward extension on a frozen
   PR-outcome task.  Together they separate execution conformance from source-grounded
   answer quality, preserve retained negative outcomes, and compare unchanged, compiled,
   and fair manual or template baselines without claiming superiority where they tie.
-  \item An identifier-aware empirical-contract refinement, motivated by an archived
-  failed pilot, that treats opaque identifiers as typed/provenance-constrained values
-  rather than unsafe numeric ranges.  Revision-pinned NESTFUL and API-Bank experiments
-  supply complementary refusal evidence when recurrent families lack admission support.
 \end{enumerate}
 
 Alongside the primary live study, we add two narrower extensions.  First, a frozen-source
@@ -158,7 +142,7 @@ prompt optimization as a whole.
 selective objective.  \Cref{sec:method} presents the method as a cascade of independent
 rejection points (\cref{fig:pipeline}) and states the calibration guarantee.
 \Cref{sec:methodology} defines the evidence tiers and the hypotheses they test, and
-\cref{sec:results} answers RQ1--RQ6 (RQ2b with RQ2), opening with the hypothesis-by-hypothesis
+\cref{sec:results} answers RQ1--RQ6, opening with the hypothesis-by-hypothesis
 verdict in \cref{tab:hypotheses} and closing with the five negative results and what each
 one rules out (\cref{sec:negative}).  \Cref{sec:related} positions \method against adjacent
 optimizers, and \cref{sec:limits} groups the threats to validity by the kind of inference
@@ -390,6 +374,40 @@ suite cannot run at all, and the artifact then records \code{perturbations\_clai
 false} rather than implying a challenge occurred.  The headline live artifact of
 \cref{sec:rq2} is in exactly that position, and we report it there as a limitation of that
 run rather than as a property of the method.
+
+\subsection{Worked example: why the compiler stops after two reads}
+\label{sec:worked-example}
+
+Consider held-out issue 4420 in the expanded 30-record study.  The entry state is only
+$z=\{\code{issue\_number}=4420\}$.  Its observed trace calls \code{record(4420)}, passes
+the returned \mbox{\code{record.issue\_number}} to \code{labels} and \code{comments}, and
+uses \code{limit=100} for the latter.  The following applies the executed compiler rule
+to that record; it is not a separate experiment.
+
+\begin{enumerate}[leftmargin=*,itemsep=2pt,topsep=3pt]
+  \item \textbf{Propose.} Repeated normalized traces place the three reads in one
+  candidate family.  This establishes a pattern, not permission to deploy it.
+  \item \textbf{Trace values backward.} The first argument is \code{z.issue\_number}; the
+  later issue identifiers are the stable result path
+  \mbox{\code{record.issue\_number}}.  These slots have
+  witnesses in the closed binding language.
+  \item \textbf{Try the remaining argument.} The observed \code{limit} varies across
+  otherwise similar entries and is neither in $z$ nor recoverable from \code{record} or
+  \code{labels}.  With no witness for that slot, the full region is rejected as
+  \mbox{\code{ungroundable\_slot}}; the compiler does not guess a modal value.
+  \item \textbf{Emit the maximal justified prefix.} \code{record(z.issue\_number) ->
+  labels(record.issue\_number)} is groundable, read-only, and at the entry boundary, so it can reach
+  contract checks and calibration.  The ordinary agent still selects the comment limit and
+  renders the answer.
+  \item \textbf{Dispatch or decline.} A manifest or guard mismatch, failed verification,
+  or failed risk gate runs the unchanged agent.  Only a matching, calibrated episode
+  receives the two-read prefix.
+\end{enumerate}
+
+This also shows why replay alone is insufficient.  A hard-coded comment limit can replay
+the observed source calls yet alter the evidence seen by the final model.  In the earlier
+three-read follow-up, tool replay passed but one answer lost a required URL.  Provenance
+decides what can be constructed; contracts and the gate decide whether it may be used.
 
 \subsection{Guarded composite synthesis}
 \label{sec:gcs-method}
@@ -707,7 +725,7 @@ live source-grounded workflow studies from post-trace compiler substrates.
     \midrule
     Issue-type routing & Issue number $\rightarrow$ exact identity, label-derived class
     (bug/enhancement/question), and a verbatim source excerpt &
-    \code{record(id) -> labels(record.id) -> comments(record.id, limit)}; the last
+    \code{record(issue\_number) -> labels(record.issue\_number) -> comments(record.issue\_number, limit)}; the last
     argument varies & A live comparison of unchanged agent, partial compiler, and manual
     bundle. The compiler may emit only \code{record -> labels}; the model retains the
     comments decision. \\
@@ -890,8 +908,13 @@ report a denominator of 116 as though eligibility had produced it.  A stronger d
 either consume them or size the cohort to the split.  The compiler, unmodified
 for the task, emits the prefix
 \begin{equation*}
-\code{record}(z.id)\;\rightarrow\;\code{labels}(record.id)\;\rightarrow\;
-\code{comments}(record.id,3).
+{\small\begin{gathered}
+  \code{record}(z.\code{issue\_number}) \\
+  \downarrow \\
+  \code{labels}(record.\code{issue\_number}) \\
+  \downarrow \\
+  \code{comments}(record.\code{issue\_number},3)
+\end{gathered}}
 \end{equation*}
 It blocks all 116 suffix candidates under the position invariant.  The 18-item sealed
 test contains six issues per category, is disjoint from discovery, and excludes all 162
@@ -1075,7 +1098,7 @@ would misdescribe the result.
   \centering
   \caption{Every hypothesis and its outcome.  ``Pre-specified'' means fixed internally
   before the sealed test was scored; no part of this study was externally preregistered.
-  RQ2b and the determinism question were formulated after the results they examine were
+  The exploratory comparator and determinism question were formulated after the results they examine were
   known, so they carry no hypothesis and license no confirmatory claim.}
   \label{tab:hypotheses}
   \small

@@ -100,7 +100,7 @@ paper/
 │   ├── implementation-audit.md     repository and component review
 │   ├── quality-assessment.md       publication-readiness rubric
 │   └── natural-live-study-protocol.md  expanded real-record experiment protocol
-└── build/
+└── open_research/
     ├── article.pdf                 single-column article (page count verified after build)
     └── main.pdf                    two-column conference build (page count verified after build)
 ```
@@ -110,7 +110,7 @@ the retained pipeline pseudocode, and archived detailed listings; all plots are 
 `generated_figures/`.
 
 The tracked distribution PDF is
-compiling-recurrent-agent-workflows-into-guarded-programs.pdf. The files under build/
+compiling-recurrent-agent-workflows-into-guarded-programs.pdf. The files under open_research/
 remain the conference and long-form article products used by the validator.
 
 ## Two builds, one body

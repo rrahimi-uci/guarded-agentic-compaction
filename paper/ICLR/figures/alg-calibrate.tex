@@ -16,7 +16,8 @@ which is what makes the union bound legitimate.}
          \Comment{vacuous bound $U_\eta=1$}
   \State $k_\eta\gets|\{\,g\in K_\eta : g\ \text{contains a violation}\,\}|$
          \Comment{\emph{wrong after dispatch} only, never abstention}
-  \State $U_\eta\gets\operatorname{Beta}^{-1}\!\big(1-\tfrac{\delta}{|\Lambda|};\,
+  \State $U_\eta\gets 1$ if $k_\eta=n_\eta$, else
+         $\operatorname{Beta}^{-1}\!\big(1-\tfrac{\delta}{|\Lambda|};\,
          k_\eta+1,\ n_\eta-k_\eta\big)$;\quad
          \textbf{if} $U_\eta\le\alpha$ \textbf{then}
          $\mathcal{A}\gets\mathcal{A}\cup\{(n_\eta/|\mathcal{K}|,\eta)\}$

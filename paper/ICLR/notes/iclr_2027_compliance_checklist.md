@@ -22,7 +22,7 @@ Source references used for this checklist:
 - [x] **PDF author block is anonymous.** `\iclrfinalcopy` is commented out; the style file prints "Anonymous authors", uses the "Under review" running head, and clears the PDF author metadata. Recheck this after every build intended for upload.
 - [x] No acknowledgements are included in the blind-ready submission source.
 - [x] The main paper avoids linking directly to the identified public repository.
-- [ ] Prepare an anonymous supplementary artifact bundle or anonymous repository before submission. The reproducibility statement and appendix F currently assert this bundle exists; it must actually be built before upload.
+- [ ] Prepare an anonymous supplementary artifact bundle or anonymous repository before submission. The paper states this as a pre-upload action and does not claim that the current identified repository is anonymous.
 
 ## Required and recommended sections
 
@@ -56,6 +56,11 @@ Source references used for this checklist:
 ## Submission operations
 
 - [x] Recompiled the final PDF and verified page count for the current draft.
-- [x] Related work cites the trace-JIT, partial-evaluation, effect-system, program-synthesis, and risk-control lineage rather than only agent-optimization papers (47 distinct citations of 52 bib entries).
+- [x] Related work cites the trace-JIT, partial-evaluation, effect-system,
+  program-synthesis, and risk-control lineage rather than only
+  agent-optimization papers. All 24 cited keys resolve, with no unused entries.
 - [x] Sanity-checked that the current figures, captions, and appendix do not reveal author identity.
-- [ ] Before uploading, recheck the official ICLR 2027 submission portal and deadline page. The current guide lists an abstract deadline of `September 11, 2026` AOE and a full-paper deadline of `September 16, 2026` AOE.
+- [x] Official ICLR 2027 pages rechecked on August 14, 2026. The current guide
+  lists the abstract deadline as `September 18, 2026` AOE and the full-paper
+  deadline as `September 25, 2026` AOE. Recheck once more immediately before
+  upload because conference instructions can change.

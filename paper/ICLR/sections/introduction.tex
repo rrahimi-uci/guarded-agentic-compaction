@@ -15,36 +15,34 @@ answer. The problem is therefore not just ``find recurring traces.'' The
 problem is to decide when a recurrent model-mediated region can be replaced by a
 deterministic program and when it should be refused.
 
-Consider issue \#6602 (``Index error when data is large'') from the public
-GitHub snapshot. Given \code{issue\_number=6602}, the agent repeatedly reads
-\code{record}, \code{labels}, and \code{comments(limit=3)} before rendering an
-auditable triage answer. A recurrence-only optimizer would emit that whole
-three-read macro. GAC instead produces two decisions: it \emph{retires} the
-full candidate because the integer \code{comments.limit} varies across traces
-and has no consistent provenance expression, then it emits the grounded
-\code{record -> labels} prefix and returns control to the agent for comments
-and rendering. The emitted prefix passes 92/92 calibration groups at
-$\alpha=.05$ (upper bound 0.0498).
+Consider held-out issue \#4420 in the expanded 30-record study. Given only
+\code{issue\_number=4420}, the observed trace reads \code{record(4420)},
+\code{labels(4420)}, and \code{comments(4420, limit=100)} before rendering an
+auditable triage answer. A recurrence-only optimizer would emit all three
+reads. GAC instead retires that candidate because \code{comments.limit} varies
+across traces and has no consistent provenance expression; it emits only the
+grounded \code{record -> labels} prefix and returns control to the agent. That
+two-read artifact passes 92/92 calibration groups at $\alpha=.05$ (upper bound
+0.0498).
 
-This partial artifact is not a cosmetic compromise. In an earlier 18-record
-follow-up, the aggressive three-read artifact replayed all 45 tool calls but
-produced only 17/18 exact downstream answers: for this issue, it dropped a URL
-from a Markdown link even though its tool contract passed. A provider-free
-continuation guard detects and checked-renders that miss; it is a mechanism
-check, not a live safety claim. Recurrence says what may be compilable;
-provenance, continuation scope, and evidence determine what may replace the
-model.
+Why stop there? A separate, earlier 18-record study supplies the counterexample:
+its aggressive three-read artifact replayed all 45 tool calls, yet issue \#6602
+lost the URL from a Markdown link and only 17/18 downstream answers remained
+exact. A provider-free continuation guard detects and checked-renders that miss;
+it is a mechanism check, not live safety evidence. Together, the two cohorts
+show why recurrence proposes a candidate, while provenance, continuation scope,
+and statistical evidence determine what may replace the model.
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{../generated_figures/gac_aha_example.pdf}
+  \includegraphics[width=\linewidth]{figures/gac_aha_example.pdf}
   \Description{A real GitHub issue trace repeats record, labels, and comments, but GAC
   rejects the full candidate because the comments limit is ungroundable and emits only
   the record and labels prefix.  A separate issue 6602 continuation miss shows why clean
   tool replay does not certify the final answer.}
-  \caption{A real-record example of guarded compilation: recurring tool names identify a
-  candidate, but an ungroundable argument and a downstream continuation contract can
-  still require refusal or fallback.}
+  \caption{Two retained cohorts expose different failure modes. In the expanded study,
+  issue \#4420 forces a shorter grounded prefix; in the earlier study, issue \#6602
+  shows that clean tool replay need not preserve the downstream answer.}
   \label{fig:aha-example}
 \end{figure}
 

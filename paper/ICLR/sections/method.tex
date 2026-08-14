@@ -90,12 +90,14 @@ then frozen together with a finite threshold grid $\Lambda$. For each
 $\eta\in\Lambda$ the compiler counts admitted calibration groups ($n_\eta$) and
 those containing at least one post-dispatch violation ($k_\eta$), and inverts
 the one-sided exact binomial test~\citep{clopper1934binomial} at a
-Bonferroni-corrected level:
+Bonferroni-corrected level, with explicit empty and all-violation cases:
 \begin{equation}
-  U_\eta=\operatorname{Beta}^{-1}\!\left(1-\tfrac{\delta}{|\Lambda|};\;
-  k_\eta+1,\; n_\eta-k_\eta\right),
-  \qquad
-  U_\eta \Big|_{k_\eta=0} = 1-\left(\tfrac{\delta}{|\Lambda|}\right)^{1/n_\eta}.
+  U_\eta=\begin{cases}
+  1, & n_\eta=0\ \text{or}\ k_\eta=n_\eta,\\
+  \operatorname{Beta}^{-1}\!\left(1-\tfrac{\delta}{|\Lambda|};
+  k_\eta+1,n_\eta-k_\eta\right), & 0\le k_\eta<n_\eta,
+  \end{cases}
+  \quad U_\eta\big|_{k_\eta=0}=1-\left(\tfrac{\delta}{|\Lambda|}\right)^{1/n_\eta}.
   \label{eq:cp}
 \end{equation}
 It admits the largest-coverage threshold with $U_\eta\le\alpha$ and retires the
@@ -109,13 +111,12 @@ groups. The default output is refusal, not emission.
 
 \begin{proposition}[Per-candidate selective-risk admission]
 \label{prop:admission}
-Fix one candidate program, hard guard, verifier, score, and finite threshold
-grid $\Lambda$ before calibration. If admitted calibration groups are i.i.d.,
-then with probability at least $1-\delta$ every $\eta\in\Lambda$ satisfies
-$r_\eta\le U_\eta$, where $r_\eta$ is the selective risk at $\eta$ and $U_\eta$
-is given by \cref{eq:cp}. Hence the data-selected threshold satisfies the
-target selective risk of \cref{eq:objective} whenever its upper bound is at
-most $\alpha$.
+Fix one candidate program, hard guard, verifier, score, group-level violation
+rule, and finite grid $\Lambda$ before calibration. If calibration groups are
+i.i.d. from the future-group distribution, then with probability at least
+$1-\delta$, every $\eta\in\Lambda$ satisfies $r_\eta\le U_\eta$, where
+$r_\eta$ is post-dispatch group risk. Hence the selected threshold satisfies
+$r_\eta\le\alpha$ whenever $U_\eta\le\alpha$.
 \end{proposition}
 
 \Cref{app:proof} gives the proof. The guarantee is deliberately narrow: it is

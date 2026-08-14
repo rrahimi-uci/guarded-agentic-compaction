@@ -9,7 +9,7 @@ Recurrent Agent Workflows
 ## What to read
 
 - [ ] `paper/ICLR/build/main.pdf` — 9-page submission (build: `cd paper/ICLR && tectonic --outdir build main.tex`)
-- [ ] `paper/open_research/article.pdf` — full 43-page article, if the short version raises questions
+- [ ] `paper/open_research/article.pdf` — full article, if the short version raises questions
 - [ ] `paper/ICLR/notes/reviewer_gap_analysis.md` — known weaknesses, so you can skip re-finding them
 
 ## TODO — please cover

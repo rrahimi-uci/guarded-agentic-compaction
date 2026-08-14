@@ -1,6 +1,6 @@
 # Review: "From Traces to Guarded Programs: Evidence-Gated Compilation of Recurrent Agent Workflows"
 
-**Author:** Reza Rahimi (Jazzx AI) · Single-author manuscript; reviewed against the current article build and conference build<br>
+**Author:** Reza Rahimi (JazzX AI) · Single-author manuscript; reviewed against the current article build and conference build<br>
 **Reviewer stance:** Calibrated to top-venue standards (NeurIPS/ICLR/MLSys). Scores are
 0-100 per dimension; overall is a weighted composite. This pass is artifact-aware and
 credits repository-grounded evidence, including retained executed results and fresh

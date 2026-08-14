@@ -4,9 +4,10 @@
 Fix one threshold $\eta\in\Lambda$ and write $\gamma=\delta/|\Lambda|$.
 Conditional on $n_\eta=m>0$ admitted calibration groups, the number of
 violating groups $k_\eta$ is binomial with success probability equal to the
-selective risk $r_\eta$ at that threshold, because the candidate program, guard,
-verifier, score, and grid were all frozen before any calibration group was
-observed and admitted groups are i.i.d. Inverting the one-sided exact binomial
+group-level selective risk $r_\eta$ at that threshold, because the candidate
+program, guard, verifier, score, violation rule, and grid were frozen before
+any calibration group was observed and the original calibration groups are
+i.i.d. Inverting the one-sided exact binomial
 test~\citep{clopper1934binomial} gives the upper bound
 $U_\eta=\operatorname{Beta}^{-1}(1-\gamma;\,k_\eta+1,\,m-k_\eta)$ of
 \cref{eq:cp}, which satisfies

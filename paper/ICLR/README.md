@@ -13,7 +13,7 @@ for:
   `conclusion`).
 - `figures/`: the TikZ architecture diagram (`pipeline_overview.tex`), the four
   algorithm floats (`alg-compile`, `alg-calibrate`, `alg-patg`,
-  `alg-dispatch`), and the generated result PDFs.
+  `alg-dispatch`), and self-contained copies of the generated result PDFs.
 - `tables/`: compact tables written for the ICLR version.
 - `appendix.tex`: proof, additional algorithms, configuration, extended
   limitations. Included after the references.
