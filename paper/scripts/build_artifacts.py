@@ -41,6 +41,7 @@ OPTIMIZER_HEAD_TO_HEAD_PATH = RESULTS / "optimizer_head_to_head" / "results.json
 PILOT_PATH = RESULTS / "github_live" / "pilot_2026-08-03" / "results.json"
 NESTFUL_PATH = RESULTS / "nestful" / "results.json"
 FAMILY_PATH = RESULTS / "nestful" / "family_results.csv"
+NATURAL_CONTINUATION_PATH = RESULTS / "github_natural_live" / "continuation_replay.json"
 #: Checked cross-family roll-up written by build_github_family_summary.py.
 FAMILY_SUMMARY_PATH = RESULTS / "github_workflow_families" / "summary.json"
 EXTERNAL_PATH = RESULTS / "external_benchmarks" / "reference_analysis.json"
@@ -112,7 +113,7 @@ def tex(value: object) -> str:
     return re.sub(r"\S{25,}", lambda match: breakable(match.group(0)), text)
 
 
-def savefig(name: str) -> None:
+def savefig(name: str, *, png_dpi: int = 220) -> None:
     FIGURES.mkdir(parents=True, exist_ok=True)
     plt.savefig(
         FIGURES / f"{name}.pdf",
@@ -120,7 +121,7 @@ def savefig(name: str) -> None:
         pad_inches=0.02,
         metadata=PDF_METADATA,
     )
-    plt.savefig(FIGURES / f"{name}.png", dpi=220, bbox_inches="tight", pad_inches=0.02)
+    plt.savefig(FIGURES / f"{name}.png", dpi=png_dpi, bbox_inches="tight", pad_inches=0.02)
     plt.close()
 
 
@@ -315,6 +316,138 @@ def gate_support_figure(nestful: dict[str, Any]) -> None:
     )
     fig.tight_layout()
     savefig("gate_support")
+
+
+def aha_example_figure(
+    natural: dict[str, Any], replication: dict[str, Any]
+) -> None:
+    """Render the real-record example used to explain GAC in the introduction.
+
+    The figure binds itself to the retained issue-6602 rows and the expanded compiler
+    report. It deliberately separates a tool-program certificate from the downstream
+    continuation contract: the former passes while the latter fails on the compiled arm.
+    """
+
+    compiled = next(
+        row for row in natural["results"]
+        if row["issue_number"] == 6602 and row["condition"] == "compiled"
+    )
+    baseline = next(
+        row for row in natural["results"]
+        if row["issue_number"] == 6602 and row["condition"] == "baseline"
+    )
+    macro = next(
+        row for row in natural["results"]
+        if row["issue_number"] == 6602 and row["condition"] == "macro"
+    )
+    continuation = json.loads(NATURAL_CONTINUATION_PATH.read_text(encoding="utf-8"))
+    continuation_case = next(
+        case for case in continuation["cases"] if case["issue_number"] == 6602
+    )
+    candidates = replication["compiler"]["candidates"]
+    full_candidate = next(
+        candidate for candidate in candidates
+        if candidate["tools"] == [
+            "issue_get_record", "issue_get_labels", "issue_get_comments"
+        ]
+    )
+    emitted = next(candidate for candidate in candidates if candidate["stage"] == "emitted")
+    exact_gate = emitted["gate"]
+
+    assert compiled["tool_sequence"] == [
+        "issue_get_record", "issue_get_labels", "issue_get_comments"
+    ]
+    assert compiled["metrics"]["requests"] == 1
+    assert baseline["metrics"]["requests"] == 4
+    assert macro["metrics"]["requests"] == 2
+    assert compiled["quality"]["tool_contract"] is True
+    assert compiled["quality"]["comment_grounded"] is False
+    assert compiled["quality"]["overall"] is False
+    assert baseline["quality"]["comment_grounded"] is True
+    assert macro["quality"]["comment_grounded"] is True
+    assert full_candidate["rejected"] == (
+        "ungroundable_slot:issue_get_comments.limit:no_consistent_expression"
+    )
+    assert emitted["tools"] == ["issue_get_record", "issue_get_labels"]
+    assert exact_gate["n_accepted"] == 92
+    assert exact_gate["risk_upper_bound"] < 0.05
+    assert continuation_case["original_pass"] is False
+    assert continuation_case["final_pass"] is True
+    assert continuation_case["decision"]["outcome"] == "RENDERED"
+
+    fig, ax = plt.subplots(figsize=(FIG_W, 3.55))
+    ax.set_xlim(0, 100)
+    ax.set_ylim(0, 100)
+    ax.axis("off")
+
+    def card(x: float, y: float, w: float, h: float, edge: str, fill: str) -> None:
+        ax.add_patch(
+            plt.Rectangle(
+                (x, y), w, h, facecolor=fill, edgecolor=edge, linewidth=1.0,
+                joinstyle="round", zorder=1,
+            )
+        )
+
+    def lines(
+        x: float,
+        y: float,
+        text: str,
+        *,
+        size: float = 7.4,
+        color: str = COLORS["ink2"],
+        family: str | None = None,
+        weight: str | None = None,
+        leading: float = 1.25,
+    ) -> None:
+        ax.text(
+            x,
+            y,
+            text,
+            fontsize=size,
+            color=color,
+            family=family,
+            fontweight=weight,
+            va="top",
+            linespacing=leading,
+        )
+
+    # One wide trace card makes the actual dependency and the concrete held-out record
+    # legible at the paper's native width.
+    card(2, 78, 96, 19, COLORS["track"], "#F8FAFC")
+    lines(5, 92.5, "A real GitHub trace that looks safe to compile", size=10.0,
+          color=COLORS["ink"], weight="bold")
+    lines(5, 86.5, 'Issue #6602 — “Index error when data is large”', size=8.5)
+    lines(5, 81.5, "record  →  labels  →  comments(limit=3)", size=8.2,
+          color=COLORS["ink"], family="monospace")
+
+    card(2, 43, 46, 29, COLORS["series2"], "#FFF7F4")
+    lines(5, 68, "Naive substitution", size=9.0, color=COLORS["series2"], weight="bold")
+    lines(5, 61, "recur + replay → ship", size=8.5, color=COLORS["ink"], family="monospace")
+    lines(5, 54, "45/45 tool replays\n4 requests → 1\ntool contract passes", size=7.3)
+
+    card(52, 43, 46, 29, COLORS["series2"], "#FFF7F4")
+    lines(55, 68, "But the answer has a live-out", size=9.0,
+          color=COLORS["series2"], weight="bold")
+    lines(55, 61, "expected: Markdown link\ncompiled: link text only", size=7.5,
+          color=COLORS["ink"], family="monospace")
+    lines(55, 51, "tool contract = pass\nanswer contract = fail", size=7.5,
+          color=COLORS["series2"], weight="bold")
+
+    card(2, 4, 96, 35, COLORS["series1"], "#F2F8FC")
+    lines(5, 35.5, "GAC: compile only what the evidence can justify", size=9.5,
+          color=COLORS["series1"], weight="bold")
+    lines(5, 28.5, "full candidate: RETIRE\ncomments.limit: ungroundable\nno consistent expression", size=7.5,
+          color=COLORS["ink"], family="monospace")
+    lines(5, 18.5, "emit record → labels\nleave comments + rendering with the agent", size=7.5,
+          color=COLORS["ink"], family="monospace")
+    lines(5, 10, "92/92 at α=.05 · upper bound 0.0498", size=7.5,
+          color=COLORS["series1"], weight="bold")
+    lines(55, 28.5, "Continuation guard", size=8.2, color=COLORS["series1"], weight="bold")
+    lines(55, 22.5, "detects comment_evidence:mismatch\nchecked render: 18/18 pass", size=7.5,
+          color=COLORS["ink"], family="monospace")
+    lines(55, 12, "provider-free mechanism check;\nnot live safety evidence", size=7.0)
+    fig.tight_layout(pad=0.2)
+    savefig("gac_aha_example", png_dpi=440)
 
 
 def family_reduction_figure(summary: dict[str, Any]) -> None:
@@ -1292,6 +1425,7 @@ def main() -> None:
     live_efficiency_figure(live)
     paired_figure(live)
     gate_support_figure(nestful)
+    aha_example_figure(natural, replication)
     pilot_figure(live, pilot)
     natural_comparison_figure(replication)
     portfolio_selection_figure(portfolio)

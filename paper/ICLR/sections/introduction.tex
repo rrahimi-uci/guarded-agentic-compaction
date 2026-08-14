@@ -15,6 +15,41 @@ answer. The problem is therefore not just ``find recurring traces.'' The
 problem is to decide when a recurrent model-mediated region can be replaced by a
 deterministic program and when it should be refused.
 
+Consider a real GitHub workflow rather than an invented routing rule.  In the expanded
+replication, all 132 discovery traces read an issue record, its labels, and its comments,
+so a full three-read macro looks obvious.  Yet the comments call carries a varying integer
+\code{limit}; no trace-grounded expression reproduces it.  GAC rejects the full candidate
+with \code{ungroundable\_slot}, emits only \code{record -> labels}, and leaves the comments
+read and final rendering to the agent.  The admitted prefix passes 92/92 calibration
+groups at the registered $\alpha=.05$ level, with exact upper bound 0.0498.
+
+The same distinction appears in the earlier 18-record follow-up.  Its aggressive
+three-read artifact had 45/45 clean tool replays, but only 17/18 downstream answers: on
+real issue 6602, the compiled continuation dropped the URL from a Markdown link while its
+tool contract still passed.  A provider-free continuation guard detected and
+checked-rendered the miss, but this is a mechanism check rather than a live safety claim.
+Recurrence says what may be compilable; provenance, continuation scope, and evidence
+determine whether replacement is justified.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{../generated_figures/gac_aha_example.pdf}
+  \Description{A real GitHub issue trace repeats record, labels, and comments, but GAC
+  rejects the full candidate because the comments limit is ungroundable and emits only
+  the record and labels prefix.  A separate issue 6602 continuation miss shows why clean
+  tool replay does not certify the final answer.}
+  \caption{A real-record example of guarded compilation: recurring tool names identify a
+  candidate, but an ungroundable argument and a downstream continuation contract can
+  still require refusal or fallback.}
+  \label{fig:aha-example}
+\end{figure}
+
+The benchmark also shows why tool replay is not full substitution evidence.  In an
+earlier 18-record GitHub study, a more aggressive three-read artifact had 45/45 clean
+tool replays but only 17/18 exact downstream answers: one Markdown URL was lost from the
+continuation.  A checked continuation renderer recovered 18/18 in provider-free replay,
+but the paper treats that as a detection mechanism rather than a live safety claim.
+
 Framed this way, the closest precedent is not prompt optimization but the
 tracing just-in-time compiler. Dynamo~\citep{bala2000dynamo}, trace-based type
 specialization~\citep{gal2009tracejit}, and meta-tracing~\citep{bolz2009pypy}

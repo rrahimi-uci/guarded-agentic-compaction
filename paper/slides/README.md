@@ -59,6 +59,18 @@ After editing a deck, refresh its recorded hash in
 `paper/results/slide_generation.json` and re-run
 `paper/scripts/validate_artifacts.py`.
 
+The shipped deck also carries the benchmark-grounded GitHub continuation example on slide 17.
+When the pinned generator output is restored, replay the normal `retitle`/`restyle` steps
+and then apply the narrow evidence-text transform:
+
+```bash
+python paper/scripts/refresh_aha_example_slide.py
+```
+
+It is assertive and changes only slide 17. The example is bound to the natural-order
+GitHub results and continuation replay by the paper's publication manifest; it is not a
+synthetic workflow illustration.
+
 ## One design system, not two
 
 The two decks were rendered from two unrelated templates, so they shipped two

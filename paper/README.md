@@ -11,6 +11,11 @@ workflow families with real public records and live provider calls, plus refusal
 on two trace-complete public compiler substrates. A broader interoperability audit remains
 supplementary because it does not measure optimizer value.
 
+The introduction's concrete example is drawn from the natural-order GitHub study, not a
+fictional triage workflow: issue #6602 has the recurring `record -> labels -> comments`
+trace, yet the compiled arm loses the Markdown URL in the downstream answer. The example
+shows why recurrence and tool replay identify a candidate but do not justify substitution.
+
 For readers who do not need a checkout, the maintained [publication shelf](https://rrahimi-uci.github.io/guarded-agentic-compaction/artifacts.html)
 provides the complete [HTML article](https://rrahimi-uci.github.io/guarded-agentic-compaction/article.html),
 the [distribution PDF](https://rrahimi-uci.github.io/guarded-agentic-compaction/downloads/compiling-recurrent-agent-workflows.pdf),
