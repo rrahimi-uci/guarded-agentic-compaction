@@ -397,6 +397,7 @@ def aha_example_figure(
     ax.set_xlim(0, 100)
     ax.set_ylim(0, 100)
     ax.axis("off")
+    text_bounds: list[tuple[Any, tuple[float, float, float, float], str]] = []
 
     def card(x: float, y: float, w: float, h: float, edge: str, fill: str) -> None:
         ax.add_patch(
@@ -416,8 +417,9 @@ def aha_example_figure(
         family: str | None = None,
         weight: str | None = None,
         leading: float = 1.25,
+        within: tuple[float, float, float, float] | None = None,
     ) -> None:
-        ax.text(
+        artist = ax.text(
             x,
             y,
             text,
@@ -428,42 +430,64 @@ def aha_example_figure(
             va="top",
             linespacing=leading,
         )
+        if within is not None:
+            text_bounds.append((artist, within, text))
 
     # One wide trace card makes the actual dependency and the concrete held-out record
     # legible at the paper's native width.
-    card(2, 78, 96, 19, COLORS["track"], "#F8FAFC")
-    lines(5, 92.5, "Two cohorts expose different substitution failures", size=10.0,
-          color=COLORS["ink"], weight="bold")
-    lines(5, 86.5, 'Expanded issue #4420 — multi-node metric evaluation', size=8.5)
-    lines(5, 81.5, "record  →  labels  →  comments(limit=100)", size=8.2,
-          color=COLORS["ink"], family="monospace")
+    card(2, 76, 96, 21, COLORS["track"], "#F8FAFC")
+    lines(5, 92.5, "Two cohorts, two substitution failures", size=9.5,
+          color=COLORS["ink"], weight="bold", within=(2, 76, 96, 21))
+    lines(5, 86.5, 'Expanded issue #4420 — multi-node metric evaluation', size=8.5,
+          within=(2, 76, 96, 21))
+    lines(5, 82.5, "record  →  labels  →  comments(limit=100)", size=8.2,
+          color=COLORS["ink"], family="monospace", within=(2, 76, 96, 21))
 
     card(2, 43, 46, 29, COLORS["series2"], "#FFF7F4")
-    lines(5, 68, "Earlier artifact: issue #6602", size=9.0, color=COLORS["series2"], weight="bold")
-    lines(5, 61, "recur + replay → ship", size=8.5, color=COLORS["ink"], family="monospace")
-    lines(5, 54, "45/45 tool replays\n4 requests → 1\ntool contract passes", size=7.3)
+    lines(5, 68, "Earlier artifact: #6602", size=9.0, color=COLORS["series2"],
+          weight="bold", within=(2, 43, 46, 29))
+    lines(5, 61, "recur + replay → ship", size=8.5, color=COLORS["ink"],
+          family="monospace", within=(2, 43, 46, 29))
+    lines(5, 58, "45/45 tool replays\n4 requests → 1\ntool contract passes", size=7.3,
+          within=(2, 43, 46, 29))
 
     card(52, 43, 46, 29, COLORS["series2"], "#FFF7F4")
-    lines(55, 68, "Downstream miss on issue #6602", size=9.0,
-          color=COLORS["series2"], weight="bold")
+    lines(55, 68, "Answer miss: #6602", size=9.0,
+          color=COLORS["series2"], weight="bold", within=(52, 43, 46, 29))
     lines(55, 61, "expected: Markdown link\ncompiled: link text only", size=7.5,
-          color=COLORS["ink"], family="monospace")
-    lines(55, 51, "tool contract = pass\nanswer contract = fail", size=7.5,
-          color=COLORS["series2"], weight="bold")
+          color=COLORS["ink"], family="monospace", within=(52, 43, 46, 29))
+    lines(55, 54, "tool contract = pass\nanswer contract = fail", size=7.5,
+          color=COLORS["series2"], weight="bold", within=(52, 43, 46, 29))
 
     card(2, 4, 96, 35, COLORS["series1"], "#F2F8FC")
     lines(5, 35.5, "Expanded compiler: stop where provenance ends", size=9.5,
-          color=COLORS["series1"], weight="bold")
+          color=COLORS["series1"], weight="bold", within=(2, 4, 96, 35))
     lines(5, 28.5, "full candidate: RETIRE\ncomments.limit: ungroundable\nno consistent expression", size=7.5,
-          color=COLORS["ink"], family="monospace")
-    lines(5, 18.5, "emit record → labels\nleave comments + rendering with the agent", size=7.5,
-          color=COLORS["ink"], family="monospace")
-    lines(5, 10, "92/92 at α=.05 · upper bound 0.0498", size=7.5,
-          color=COLORS["series1"], weight="bold")
-    lines(55, 28.5, "Earlier continuation check", size=8.2, color=COLORS["series1"], weight="bold")
-    lines(55, 22.5, "detects comment_evidence:mismatch\nchecked render: 18/18 pass", size=7.5,
-          color=COLORS["ink"], family="monospace")
-    lines(55, 12, "provider-free mechanism check;\nnot live safety evidence", size=7.0)
+          color=COLORS["ink"], family="monospace", within=(2, 4, 52, 35))
+    lines(5, 18.5, "emit record → labels\ncomments + render stay with agent", size=7.1,
+          color=COLORS["ink"], family="monospace", within=(2, 4, 52, 35))
+    lines(5, 10, "92/92 · U=.0498 ≤ α=.05", size=7.5,
+          color=COLORS["series1"], weight="bold", within=(2, 4, 52, 35))
+    lines(55, 28.5, "Earlier continuation check", size=8.2, color=COLORS["series1"],
+          weight="bold", within=(52, 4, 46, 35))
+    lines(55, 22.5, "detects evidence mismatch\nrender check: 18/18 pass", size=7.3,
+          color=COLORS["ink"], family="monospace", within=(52, 4, 46, 35))
+    lines(55, 14, "provider-free mechanism check;\nnot live safety evidence", size=7.0,
+          within=(52, 4, 46, 35))
+
+    # Fail the deterministic artifact build if any label escapes its intended card.
+    # This catches layout regressions at the source rather than relying on visual review.
+    fig.canvas.draw()
+    renderer = fig.canvas.get_renderer()
+    for artist, (bx, by, bw, bh), label in text_bounds:
+        extent = artist.get_window_extent(renderer=renderer).transformed(ax.transData.inverted())
+        pad = 1.0
+        assert extent.x0 >= bx + pad and extent.x1 <= bx + bw - pad, (
+            f"figure text exceeds horizontal bounds: {label!r} -> {extent.bounds}"
+        )
+        assert extent.y0 >= by + pad and extent.y1 <= by + bh - pad, (
+            f"figure text exceeds vertical bounds: {label!r} -> {extent.bounds}"
+        )
     fig.tight_layout(pad=0.2)
     savefig("gac_aha_example", png_dpi=440)
 
