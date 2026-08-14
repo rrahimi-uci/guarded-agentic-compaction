@@ -38,6 +38,9 @@
 \newcommand{\code}[1]{\texttt{#1}}
 \newtheorem{proposition}{Proposition}
 \setlength{\emergencystretch}{1em}
+% The expanded introduction adds one compact evidence figure; keep the existing
+% two-column page count without letting the final float stack overrun by a few points.
+\addtolength{\textheight}{7pt}
 
 \definecolor{paperblue}{HTML}{2F6B8A}
 \definecolor{paperteal}{HTML}{2A9D8F}
@@ -84,5 +87,4 @@ selective prediction, risk control, OpenAI Agents SDK}
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{../bibliography/references}
 
-\balance
 \end{document}

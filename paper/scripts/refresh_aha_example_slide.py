@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Refresh the evidence-first NESTFUL example on the shipped technical deck.
+"""Refresh the evidence-first GitHub continuation example on the shipped deck.
 
 The artifact-tool presentation workspace used by ``generate_slides.mjs`` is not part of
 this repository.  This narrow, assertive transform therefore updates only the reviewed
@@ -38,36 +38,52 @@ def refresh(deck: bytes) -> bytes:
             content = zin.read(item.filename)
             if item.filename == SLIDE:
                 full_replacements = {
+                    "RESULTS  ·  RQ1 AND RQ3  ·  §5.1  ·  TABLE 4":
+                        "RESULTS  ·  RQ2  ·  §5.3  ·  TABLE 6",
                     "Provenance succeeds; certification does not":
-                        "Replay passes; the gate still refuses",
+                        "The full trace repeats; the boundary does not",
                     "Recurrence is fragmented: 714 candidate families exist, only 32 have support of at least five, and the best reaches 26 groups.":
-                        "One NESTFUL trace looks like an obvious macro:",
+                        "A real GitHub trace looks like an obvious macro:",
                     "Of 32 attempted families, 12 synthesize. Their 36 held-out windows give 24 passes, 12 abstentions and zero wrong executions.":
-                        "subtract(60,50) → divide(result,50) → multiply(result,100)",
+                        "issue #6602: record → labels → comments(limit=3)",
                     "Zero wrong does not certify the programs. The gate needs 92 zero-violation groups, so every family retires.":
-                        "Grounded, executable, and recurrent at the raw sequence level (33 records).",
+                        "45/45 tool replays; issue #6602 loses its Markdown URL.",
                     "A scientifically useful negative result. ":
-                        "Naive rule: recurrence + replay → ship.",
+                        "Naive rule: recurrence + replay + one request → ship.",
                     "It is what distinguishes a guarded compiler from a recurrence-only macro miner — and it exposes the data requirement instead of hiding it in a heuristic.":
-                        "GAC: 26 groups < 92 required → 0 certifiable families → RETIRE to baseline.",
-                    "Replay still looks reassuring: 24 pass / 12 abstain / 0 wrong across 32 attempted families.":
-                        "Naive rule: recurrence + replay → ship.",
-                    "GAC still asks: can evidence certify replacement on a new episode?":
-                        "GAC: 26 groups < 92 required → 0 certifiable families → RETIRE to baseline.",
-                    "1,207 / 1,415": "5,531 / 5,746",
-                    "complete groundable windows (85.3%)": "candidate producers (96.3%)",
-                    "12 / 32": "33",
-                    "families synthesized": "raw sequence support",
-                    "24 / 12 / 0": "24 / 12 / 0",
-                    "held-out pass / abstain / wrong": "replay pass / abstain / wrong",
-                    "0": "26 / 92",
-                    "certifiable families": "best family / gate minimum",
+                        "GAC: ungroundable comments limit → keep comments and rendering with the agent.",
+                    "1,207 / 1,415": "132",
+                    "complete groundable windows (85.3%)": "discovery traces",
+                    "12 / 32": "116",
+                    "families synthesized": "full-candidate support windows",
+                    "24 / 12 / 0": "92 / 92",
+                    "held-out pass / abstain / wrong": "GAC calibration groups",
+                    "0": "18 / 18",
+                    "certifiable families": "checked-rendered answers",
                 }
                 current_replacements = {
-                    "Replay still looks reassuring: 24 pass / 12 abstain / 0 wrong across 32 attempted families.":
-                        "Naive rule: recurrence + replay → ship.",
-                    "GAC still asks: can evidence certify replacement on a new episode?":
-                        "GAC: 26 groups < 92 required → 0 certifiable families → RETIRE to baseline.",
+                    "RESULTS  ·  RQ1 AND RQ3  ·  §5.1  ·  TABLE 4":
+                        "RESULTS  ·  RQ2  ·  §5.3  ·  TABLE 6",
+                    "Replay passes; the gate still refuses":
+                        "The full trace repeats; the boundary does not",
+                    "One NESTFUL trace looks like an obvious macro:":
+                        "A real GitHub trace looks like an obvious macro:",
+                    "subtract(60,50) → divide(result,50) → multiply(result,100)":
+                        "issue #6602: record → labels → comments(limit=3)",
+                    "Grounded, executable, and recurrent at the raw sequence level (33 records).":
+                        "45/45 tool replays; issue #6602 loses its Markdown URL.",
+                    "Naive rule: recurrence + replay → ship.":
+                        "Naive rule: recurrence + replay + one request → ship.",
+                    "GAC: 26 groups < 92 required → 0 certifiable families → RETIRE to baseline.":
+                        "GAC: ungroundable comments limit → keep comments and rendering with the agent.",
+                    "5,531 / 5,746": "132",
+                    "candidate producers (96.3%)": "discovery traces",
+                    "33": "116",
+                    "raw sequence support": "full-candidate support windows",
+                    "24 / 12 / 0": "92 / 92",
+                    "replay pass / abstain / wrong": "GAC calibration groups",
+                    "26 / 92": "18 / 18",
+                    "best family / gate minimum": "checked-rendered answers",
                 }
                 replacements = (
                     full_replacements

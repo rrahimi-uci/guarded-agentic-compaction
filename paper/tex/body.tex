@@ -25,42 +25,49 @@ that can replace model-mediated control flow, and dispatch it only where observa
 evidence supports that replacement.}
 \end{quote}
 
-Here is the trap in a concrete benchmark trace.  One NESTFUL record asks for the
-percentage increase from a weekly wage of 50 dollars to 60 dollars.  Its recorded
-program is the apparently harmless sequence
-\code{subtract(60,50) -> divide(result,50) -> multiply(result,100)}: every later
-argument is grounded in an entry value or an earlier result.  At the raw exact-sequence
-level, this shape recurs in 33 records, and the compiled benchmark obtains 24 held-out
-replay passes, 12 abstentions, and zero wrong replays across its 32 attempted families.
-A recurrence-only optimizer would be tempted to emit the macro.  GAC asks the missing
-question: how much independent evidence licenses replacing the model on a new episode?
-After provenance, window, and group filtering, the strongest candidate family has only
-26 independent groups.  At the registered $\alpha=.05$, $\delta=.10$, and eleven
-thresholds, even zero observed violations require 92 groups.  The correct GAC result is
-therefore \emph{retire}, not ship: the unchanged agent remains the fallback.
+Here is the trap in a real GitHub workflow.  In the expanded replication, all 132
+discovery traces read an issue record, its labels, and its comments.  A full-prefix
+optimizer therefore has an attractive macro: replace the repeated
+\code{record -> labels -> comments} region, remove three provider requests, and let the
+model see the same evidence in one deterministic projection.  The candidate is not
+merely frequent: it has 116 supporting windows.
+
+But the comments call carries a varying integer \code{limit}.  The compiler cannot derive
+that argument from entry state or prior observations, so GAC rejects the three-read
+candidate with \code{ungroundable\_slot} and emits only the groundable
+\code{record -> labels} prefix.  The ordinary agent still chooses the comments read and
+renders the final answer.  That admitted two-read artifact passes 92/92 calibration
+groups at $\alpha=.05$, $\delta=.10$, and eleven thresholds, with an exact upper bound of
+0.0498.  This is a more informative optimization than a rule keyed only to recurring
+tool names: it preserves the model boundary exactly where the trace stops determining
+the next action.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{../generated_figures/gac_aha_example.pdf}
-  \Description{A concrete NESTFUL arithmetic trace appears easy to compile.  A naive
-  recurrence-and-replay rule would ship it, but the strongest filtered family has 26
-  independent groups while GAC requires 92 zero-violation groups, so GAC retires the
-  family and keeps the baseline agent.}
-  \caption{The central distinction in one benchmark-grounded example.  Recurrence and
-  successful replay identify a candidate; the finite-sample gate decides whether the
-  candidate is admissible.  The NESTFUL run is provider-free structural compiler
-  evidence, not a live planning or production-safety result.}
+  \Description{A real GitHub issue trace repeats record, labels, and comments.  A naive
+  full-prefix compiler appears attractive because an earlier three-read artifact had
+  clean tool replays, but issue 6602 loses a Markdown URL in the downstream answer.  GAC
+  rejects the full candidate because the comments limit is ungroundable, emits only the
+  record and labels prefix, and leaves comments and rendering to the agent.}
+  \caption{Why recurrence and tool replay do not license full substitution.  The expanded
+  GitHub compiler rejects the three-read candidate at an ungroundable argument and admits
+  the two-read prefix under 92/92 calibration groups at $\alpha=.05$.  In the separate
+  18-record follow-up, a three-read artifact replayed tools cleanly but lost the URL on
+  issue 6602; a provider-free continuation guard detected and checked-rendered the miss.}
   \label{fig:aha-example}
 \end{figure}
 
 Replay is also narrower than substitution.  In an earlier 18-record GitHub study, the
 more aggressive three-read artifact produced 45/45 clean tool replays, yet its downstream
-answer contract passed only 17/18: on issue 6602, the compiled continuation dropped the
-URL from a Markdown link and returned only its anchor text.  A provider-free
-\code{ContinuationGuard} detected that miss and checked-rendered 18/18, but that is a
-mechanism check, not a live safety claim.  Clean tool replay therefore certifies the
-compiled region's registered program contract; it does not by itself certify the answer
-that a later model continuation will write.
+answer contract passed only 17/18.  On issue 6602, the baseline and a hand-written
+composite preserve the full Markdown URL, while the compiled continuation returns only
+the anchor text.  Its tool contract still passes, so tool replay alone cannot see the
+failure.  A provider-free \code{ContinuationGuard} detects
+\code{comment\_evidence:mismatch} and checked-renders 18/18, but that is a mechanism
+check, not a live safety claim.  The example makes the contribution concrete: GAC
+separates trace recurrence, provenance-grounded synthesis, continuation scope, and the
+finite-sample evidence gate instead of treating them as one optimization score.
 
 This problem differs from current-query scheduling in LLMCompiler~\cite{kim2024llmcompiler},
 prompt-program optimization in DSPy~\cite{khattab2024dspy,opsahlong2024mipro}, graph

@@ -99,14 +99,14 @@
         <div>
           <p class="eyebrow">The aha moment</p>
           <h2>Replay can pass while admission still fails.</h2>
-          <p class="lead">A real NESTFUL trace looks like an obvious arithmetic macro:</p>
-          <pre><code>subtract(60,50) → divide(result,50) → multiply(result,100)</code></pre>
-          <p>The raw sequence recurs in 33 records, and the benchmark records 24 held-out replay passes, 12 abstentions, and zero wrong replays across 32 attempted families. After provenance and group filtering, however, the strongest candidate family has only 26 independent groups; the configured exact gate needs 92 zero-violation groups.</p>
-          <p class="callout callout-warn"><strong>GAC retires the family and keeps the baseline.</strong> Repetition says what may be compilable. Evidence determines whether replacement is justified.</p>
-          <p class="muted">The NESTFUL result is provider-free structural compiler evidence, not a live planning or production-safety claim. In the separate 18-record GitHub continuation study, clean tool replay still accompanied a 17/18 downstream answer result.</p>
+          <p class="lead">A real GitHub trace looks like an obvious full macro:</p>
+          <pre><code>issue_get_record → issue_get_labels → issue_get_comments(limit=3)</code></pre>
+          <p>Across 132 discovery traces, this three-read shape recurs with 116 supporting windows. But the comments limit varies and has no consistent trace-grounded expression. GAC rejects the full candidate with <code>ungroundable_slot</code>, emits only <code>record → labels</code>, and leaves comments plus final rendering to the agent. The admitted prefix passes 92/92 calibration groups at α=.05.</p>
+          <p class="callout callout-warn"><strong>Replay can still miss the answer.</strong> In the separate 18-record study, tool replay was 45/45 clean, yet issue #6602 lost the URL from a Markdown link and the downstream result was 17/18. GAC’s continuation guard detects the mismatch and checked-renders 18/18 in provider-free replay.</p>
+          <p class="muted">Repetition says what may be compilable. Provenance, continuation scope, and evidence determine whether replacement is justified.</p>
         </div>
         <figure class="figure">
-          <img src="assets/figures/gac_aha_example.png" alt="A real NESTFUL arithmetic trace appears safe to compile, but the best filtered family has 26 independent groups against a 92-group exact-gate requirement, so GAC retires it.">
+          <img src="assets/figures/gac_aha_example.png" alt="A real GitHub issue trace repeats record, labels, and comments, but GAC rejects the full candidate at an ungroundable comments limit and the separate issue 6602 continuation miss shows why clean tool replay is not enough.">
           <figcaption>Recurrence and replay identify a candidate; the finite-sample gate decides whether it is admissible.</figcaption>
         </figure>
       </div>

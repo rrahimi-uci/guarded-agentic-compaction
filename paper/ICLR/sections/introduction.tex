@@ -15,26 +15,32 @@ answer. The problem is therefore not just ``find recurring traces.'' The
 problem is to decide when a recurrent model-mediated region can be replaced by a
 deterministic program and when it should be refused.
 
-Consider the smallest version of this decision in the benchmark.  A NESTFUL record asks
-for the percentage increase from 50 dollars to 60 dollars and records
-\code{subtract(60,50) -> divide(result,50) -> multiply(result,100)}.  The trace is
-executable and every later argument is grounded in an earlier value, so a recurrence-only
-optimizer would have a plausible macro.  The benchmark even supplies successful replay:
-across 32 attempted families, 24 held-out windows pass, 12 abstain, and none are wrong.
-But after provenance and group filtering the strongest candidate family has only 26
-independent groups, while the configured exact gate needs 92 zero-violation groups
-($\alpha=.05$, $\delta=.10$, eleven thresholds).  GAC therefore retires every family and
-keeps the unchanged agent.  The example makes the distinction concrete: recurrence says
-what may be compilable; evidence determines whether replacement is justified.
+Consider a real GitHub workflow rather than an invented routing rule.  In the expanded
+replication, all 132 discovery traces read an issue record, its labels, and its comments,
+so a full three-read macro looks obvious.  Yet the comments call carries a varying integer
+\code{limit}; no trace-grounded expression reproduces it.  GAC rejects the full candidate
+with \code{ungroundable\_slot}, emits only \code{record -> labels}, and leaves the comments
+read and final rendering to the agent.  The admitted prefix passes 92/92 calibration
+groups at the registered $\alpha=.05$ level, with exact upper bound 0.0498.
+
+The same distinction appears in the earlier 18-record follow-up.  Its aggressive
+three-read artifact had 45/45 clean tool replays, but only 17/18 downstream answers: on
+real issue 6602, the compiled continuation dropped the URL from a Markdown link while its
+tool contract still passed.  A provider-free continuation guard detected and
+checked-rendered the miss, but this is a mechanism check rather than a live safety claim.
+Recurrence says what may be compilable; provenance, continuation scope, and evidence
+determine whether replacement is justified.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{../generated_figures/gac_aha_example.pdf}
-  \Description{A benchmark-grounded arithmetic trace looks safe to compile, but a
-  recurrence-and-replay rule would ship while GAC retires because 26 independent groups
-  fall short of the 92-group exact-gate requirement.}
-  \caption{The recurrence-versus-admission distinction on NESTFUL.  This is provider-free
-  structural compiler evidence, not a live planning or production-safety result.}
+  \Description{A real GitHub issue trace repeats record, labels, and comments, but GAC
+  rejects the full candidate because the comments limit is ungroundable and emits only
+  the record and labels prefix.  A separate issue 6602 continuation miss shows why clean
+  tool replay does not certify the final answer.}
+  \caption{A real-record example of guarded compilation: recurring tool names identify a
+  candidate, but an ungroundable argument and a downstream continuation contract can
+  still require refusal or fallback.}
   \label{fig:aha-example}
 \end{figure}
 
