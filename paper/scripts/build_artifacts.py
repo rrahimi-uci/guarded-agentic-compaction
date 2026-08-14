@@ -41,6 +41,7 @@ OPTIMIZER_HEAD_TO_HEAD_PATH = RESULTS / "optimizer_head_to_head" / "results.json
 PILOT_PATH = RESULTS / "github_live" / "pilot_2026-08-03" / "results.json"
 NESTFUL_PATH = RESULTS / "nestful" / "results.json"
 FAMILY_PATH = RESULTS / "nestful" / "family_results.csv"
+NESTFUL_DATA_PATH = RESULTS / "datasets" / "nestful" / "nestful_data.jsonl"
 #: Checked cross-family roll-up written by build_github_family_summary.py.
 FAMILY_SUMMARY_PATH = RESULTS / "github_workflow_families" / "summary.json"
 EXTERNAL_PATH = RESULTS / "external_benchmarks" / "reference_analysis.json"
@@ -315,6 +316,88 @@ def gate_support_figure(nestful: dict[str, Any]) -> None:
     )
     fig.tight_layout()
     savefig("gate_support")
+
+
+def aha_example_figure(nestful: dict[str, Any]) -> None:
+    """Render the benchmark-grounded introduction example.
+
+    The example is intentionally assembled from the pinned NESTFUL row rather than
+    retyping a plausible arithmetic task.  The plot separates raw exact-sequence
+    recurrence from the smaller, grouped candidate-family support used by the gate.
+    """
+
+    target_id = "406d0c79-b87a-4a04-885d-81ac834107e9"
+    row = None
+    with NESTFUL_DATA_PATH.open(encoding="utf-8") as handle:
+        for line in handle:
+            candidate = json.loads(line)
+            if candidate.get("sample_id") == target_id:
+                row = candidate
+                break
+    if row is None:
+        raise RuntimeError(f"NESTFUL example row {target_id} is missing")
+    calls = row["output"]
+    names = [call["name"] for call in calls]
+    if names != ["subtract", "divide", "multiply"]:
+        raise RuntimeError(f"unexpected NESTFUL example sequence: {names}")
+    if calls[1]["arguments"]["arg_0"] != "$var_1.result$":
+        raise RuntimeError("NESTFUL example lost its producer dependency")
+
+    exact_support = next(
+        item["support"]
+        for item in nestful["dataset"]["exact_tool_sequence_support"]["top"]
+        if item["signature"] == "subtract -> divide -> multiply"
+    )
+    compiler = nestful["compiler"]
+    best_support = compiler["exact_gate"]["max_observed_family_support"]
+    required = compiler["exact_gate"]["minimum_zero_violation_groups"]
+    replay = compiler["held_out_replay"]
+
+    fig, ax = plt.subplots(figsize=(FIG_W, 2.85))
+    ax.set_xlim(0, 100)
+    ax.set_ylim(0, 100)
+    ax.axis("off")
+
+    def card(x: float, y: float, w: float, h: float, edge: str, fill: str) -> None:
+        ax.add_patch(
+            plt.Rectangle((x, y), w, h, facecolor=fill, edgecolor=edge,
+                          linewidth=0.9, joinstyle="round", zorder=1)
+        )
+
+    card(2, 57, 96, 39, COLORS["track"], "#F8FAFC")
+    ax.text(5, 90, "A real NESTFUL trace that looks safe to compile",
+            fontsize=10, fontweight="bold", color=COLORS["ink"], va="top")
+    ax.text(5, 81, "John makes 50 dollars a week, then 60: what is the percentage increase?",
+            fontsize=8.2, color=COLORS["ink2"], va="top")
+    code = "subtract(60, 50)  →  divide(result, 50)  →  multiply(result, 100)"
+    ax.text(5, 69, code, fontsize=8.2, family="monospace", color=COLORS["ink"], va="center")
+    ax.text(5, 61, "Every later argument is grounded in the entry values or the prior result.",
+            fontsize=7.4, color=COLORS["ink2"], va="center")
+
+    card(2, 7, 46, 41, COLORS["series2"], "#FFF7F4")
+    ax.text(5, 43, "Naive rule", fontsize=9.5, fontweight="bold", color=COLORS["series2"], va="top")
+    ax.text(5, 35.5, "recurs + replays → ship", fontsize=9.0, family="monospace",
+            color=COLORS["ink"], va="top")
+    ax.text(5, 27, f"Exact sequence support: {exact_support} records", fontsize=7.7,
+            color=COLORS["ink2"], va="top")
+    ax.text(5, 20, f"Replay: {replay['test_passed']} pass / {replay['test_abstained']} abstain / "
+            f"{replay['test_wrong']} wrong", fontsize=7.7, color=COLORS["ink2"], va="top")
+    ax.text(5, 11.5, "Tempting conclusion: ship it.", fontsize=7.7,
+            fontweight="bold", color=COLORS["series2"], va="top")
+
+    card(52, 7, 46, 41, COLORS["series1"], "#F2F8FC")
+    ax.text(55, 43, "GAC's evidence gate", fontsize=9.5, fontweight="bold",
+            color=COLORS["series1"], va="top")
+    ax.text(55, 35.5, f"best candidate family: {best_support} groups",
+            fontsize=8.2, family="monospace", color=COLORS["ink"], va="top")
+    ax.text(55, 27, f"zero-violation requirement: {required} groups",
+            fontsize=8.2, family="monospace", color=COLORS["ink"], va="top")
+    ax.text(55, 19, "26 < 92  →  no certificate", fontsize=9.0, fontweight="bold",
+            color=COLORS["series1"], va="top")
+    ax.text(55, 10.5, "RETIRE → baseline fallback", fontsize=7.7,
+            fontweight="bold", color=COLORS["series1"], va="top")
+    fig.tight_layout(pad=0.2)
+    savefig("gac_aha_example")
 
 
 def family_reduction_figure(summary: dict[str, Any]) -> None:
@@ -1292,6 +1375,7 @@ def main() -> None:
     live_efficiency_figure(live)
     paired_figure(live)
     gate_support_figure(nestful)
+    aha_example_figure(nestful)
     pilot_figure(live, pilot)
     natural_comparison_figure(replication)
     portfolio_selection_figure(portfolio)

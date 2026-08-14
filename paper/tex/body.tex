@@ -25,6 +25,43 @@ that can replace model-mediated control flow, and dispatch it only where observa
 evidence supports that replacement.}
 \end{quote}
 
+Here is the trap in a concrete benchmark trace.  One NESTFUL record asks for the
+percentage increase from a weekly wage of 50 dollars to 60 dollars.  Its recorded
+program is the apparently harmless sequence
+\code{subtract(60,50) -> divide(result,50) -> multiply(result,100)}: every later
+argument is grounded in an entry value or an earlier result.  At the raw exact-sequence
+level, this shape recurs in 33 records, and the compiled benchmark obtains 24 held-out
+replay passes, 12 abstentions, and zero wrong replays across its 32 attempted families.
+A recurrence-only optimizer would be tempted to emit the macro.  GAC asks the missing
+question: how much independent evidence licenses replacing the model on a new episode?
+After provenance, window, and group filtering, the strongest candidate family has only
+26 independent groups.  At the registered $\alpha=.05$, $\delta=.10$, and eleven
+thresholds, even zero observed violations require 92 groups.  The correct GAC result is
+therefore \emph{retire}, not ship: the unchanged agent remains the fallback.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{../generated_figures/gac_aha_example.pdf}
+  \Description{A concrete NESTFUL arithmetic trace appears easy to compile.  A naive
+  recurrence-and-replay rule would ship it, but the strongest filtered family has 26
+  independent groups while GAC requires 92 zero-violation groups, so GAC retires the
+  family and keeps the baseline agent.}
+  \caption{The central distinction in one benchmark-grounded example.  Recurrence and
+  successful replay identify a candidate; the finite-sample gate decides whether the
+  candidate is admissible.  The NESTFUL run is provider-free structural compiler
+  evidence, not a live planning or production-safety result.}
+  \label{fig:aha-example}
+\end{figure}
+
+Replay is also narrower than substitution.  In an earlier 18-record GitHub study, the
+more aggressive three-read artifact produced 45/45 clean tool replays, yet its downstream
+answer contract passed only 17/18: on issue 6602, the compiled continuation dropped the
+URL from a Markdown link and returned only its anchor text.  A provider-free
+\code{ContinuationGuard} detected that miss and checked-rendered 18/18, but that is a
+mechanism check, not a live safety claim.  Clean tool replay therefore certifies the
+compiled region's registered program contract; it does not by itself certify the answer
+that a later model continuation will write.
+
 This problem differs from current-query scheduling in LLMCompiler~\cite{kim2024llmcompiler},
 prompt-program optimization in DSPy~\cite{khattab2024dspy,opsahlong2024mipro}, graph
 compression in AgentSlimming~\cite{chen2026agentslimming}, model routing~\cite{ong2025routellm},

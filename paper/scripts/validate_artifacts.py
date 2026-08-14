@@ -1396,6 +1396,7 @@ def validate_publication() -> None:
         "scripts/build_github_family_summary.py",
         "generated_figures/live_efficiency.pdf", "generated_figures/paired_test.pdf",
         "generated_figures/gate_support.pdf", "generated_figures/pilot_ablation.pdf",
+        "generated_figures/gac_aha_example.pdf",
         "generated_figures/natural_live_comparison.pdf",
         "tables/natural_live_results.tex",
         "tables/natural_replication_results.tex",
@@ -1424,6 +1425,7 @@ def validate_publication() -> None:
         "slides/README.md",
         "slides/compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx",
         "scripts/restyle_detailed_deck.py",
+        "scripts/refresh_aha_example_slide.py",
         "scripts/generate_slides.mjs",
         "results/slide_generation.json",
         "compiling-recurrent-agent-workflows-into-guarded-programs.pdf",
@@ -2113,6 +2115,7 @@ def validate_slide_generation() -> None:
         "gcs_replay": PAPER / "results/gcs_validation/provider_free.json",
         "optimizer_head_to_head": PAPER / "results/optimizer_head_to_head/results.json",
         "external_benchmarks": PAPER / "results/external_benchmarks/reference_analysis.json",
+        "nestful": PAPER / "results/nestful/results.json",
         "github_workflow_families": PAPER / "results/github_workflow_families/summary.json",
     }
     for name, path in evidence_paths.items():

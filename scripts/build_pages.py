@@ -18,6 +18,7 @@ SITE = ROOT / "site"
 FIGURES = (
     "demo_suite.png",
     "family_reductions.png",
+    "gac_aha_example.png",
     "gate_support.png",
     "live_efficiency.png",
     "natural_live_comparison.png",
