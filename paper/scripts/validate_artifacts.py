@@ -1557,8 +1557,6 @@ def validate_publication() -> None:
                 for phrase in ("What is in this appendix",
                                "Reproducibility Details",
                                "Implementation Audit",
-                               "Complete Claims Register",
-                               "Claim-to-evidence mapping",
                                "Additional Numerical Results"):
                     normalized_phrase = re.sub(r"[^a-z0-9]+", "", phrase.lower())
                     ok(normalized_phrase in searchable_pdf_text,

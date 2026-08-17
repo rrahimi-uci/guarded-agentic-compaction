@@ -5,9 +5,7 @@ holds the material that would otherwise interrupt that argument, in the order a 
 likely to want it.  \Cref{app:repro} pins the environment and gives the exact command for
 every study, so each number can be traced to the run that produced it.  \Cref{app:audit}
 reports test coverage and the residual engineering debt, including the compiler--runtime
-mismatch this review found and corrected.  \Cref{app:claims} is the complete claim register:
-every claim the work could be read as making, its direct evidence, and its verdict,
-including the claims the evidence does \emph{not} support.  \Cref{app:numerical} gives the
+mismatch this review found and corrected.  \Cref{app:numerical} gives the
 per-metric numbers and confidence intervals behind the body's figures.
 Nothing here introduces a result that the body does not already report.
 
@@ -144,27 +142,6 @@ non-atomic directory\hyp{}level registry save, no runtime concurrency scheduler,
 multi-framework runtime adapters beyond a generic wrapper, and incomplete CI/provenance
 metadata in this checkout.
 
-\section{Complete Claims Register}
-\label{app:claims}
-
-\Cref{tab:claims-register} is the register in full.  Thirteen of its 24 entries --- C5, C6,
-C7, C8, C9, C12, C13, C15, C16, C18, C22, C23 and C24 --- are recorded as not supported,
-contradicted, not established, not implemented, or not evaluated.  They are listed because
-a claim retired quietly tends to return; keeping them beside the claims that did survive is
-what stops the paper's scope from drifting after publication.
-
-\begin{table*}[t]
-  \centering
-  \caption{Claim-to-evidence mapping.  Unsupported claims are included to prevent later
-  narrative drift.}
-  \label{tab:claims-register}
-  \small
-  \input{../tables/claims_register.tex}
-\end{table*}
-
-% Flush this section's exhibits before the next one starts. Without it the five
-% full-width appendix floats queue up and the end-of-document flush lands every
-% one of them pages after the text that refers to it.
 \clearpage
 
 \section{Additional Numerical Results}
