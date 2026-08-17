@@ -49,11 +49,9 @@ runtime dominance over correct manual code.
 \end{table}
 
 In the five-repository cohort, \method completes 120/120 exact held-out pairs on
-four repositories and retires \code{pytorch/pytorch} at compile time rather
-than loosening its gate (\cref{tab:multirepo}). The balanced three-repository
-rerun reaches 180/180 exact pairs with 66.7\% fewer requests. A fixed two-read
-template is essentially tied, so this is evidence of automatic discovery,
-validation, and principled retirement---not that learning dominates engineering.
+four repositories and retires \code{pytorch/pytorch} at compile time rather than
+loosening its gate (\cref{tab:multirepo}); the balanced three-repository rerun
+reaches 180/180 exact pairs with 66.7\% fewer requests.
 
 \subsection{Refusal when evidence is insufficient}
 \label{sec:res-refusal}
@@ -78,8 +76,6 @@ retires (\cref{tab:funnel}). API-Bank fails earlier: its effect catalog blocks
 28 of 49 tools before mining, leaving maximum support of eight; its two
 synthesized candidates also retire.
 
-These outcomes separate trace-level properties from deployment evidence.
-Provenance reachability and replay correctness can identify a plausible
-program; they do not certify that it should replace a model. Refusal is the
-intended result when the sample cannot support the registered risk constraint,
-not an implementation failure.
+Both benchmarks therefore separate trace-level properties from deployment
+evidence: provenance reachability and replay correctness identify a plausible
+program without certifying that it should replace a model.

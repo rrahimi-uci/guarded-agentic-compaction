@@ -17,29 +17,24 @@ $q$ \emph{discriminates}. Refitting $q$ for a genuine frontier is the key
 follow-up.
 
 \paragraph{Group independence is assumed, not established.}
-\Cref{prop:admission} needs i.i.d.\ groups and no distribution shift. The live
-studies set \code{min\_days}\,=\,1 and \code{min\_principals}\,=\,1 over a
-single repository snapshot, so a ``group'' is one record from one project at one
-instant; records drawn that way share a repository, a schema, an author
-community, and a period. The grouped split makes exchangeability plausible by
-construction but nothing in the calibration verifies it, so the bound is
-conditional on a sampling assumption the snapshot cannot check.
+\Cref{prop:admission} needs i.i.d.\ groups. The live studies set
+\code{min\_days}\,=\,1 and \code{min\_principals}\,=\,1 over one repository
+snapshot, so a ``group'' is one record from one project at one instant, sharing a
+schema, an author community, and a period with its neighbours. The grouped split
+makes exchangeability plausible; nothing in the calibration verifies it.
 
 \paragraph{External validity and practical competitiveness.}
 The richer evidence comes from one revision-pinned repository and one
-provider/model family; the cross-repository extension is a narrower,
-template-tied task. We establish no superiority on full cross-repository
-workflows, under drift, or across providers, and do not price manual authoring
-or maintenance against hand-written programs.
+provider/model family, and the cross-repository extension is a narrower,
+template-tied task. We establish no superiority under drift or across providers,
+and do not price manual authoring or maintenance.
 
 \paragraph{Semantic scope, and where ``unchanged baseline'' is exact.}
 Exact task contracts do not certify semantic equivalence once a model
 continuation follows; retained-continuation replay exposes that gap. Writes,
 handoffs, hosted tools, undeclared effects, and guardrail evaluations at a
-removed turn lie outside \cref{prop:admission}: they are deployment boundaries,
-not implementation accidents. The fallback claim is likewise scoped. Every check
-that can reject \emph{before} emission is exact for both integration paths, but
-only a staging-owning outer runner can restore byte-identical model input; a
-model-boundary adapter cannot withdraw a response the host has already committed
-to conversation history, so its post-emission verifier failures are weaker
+removed turn lie outside \cref{prop:admission}. The fallback claim is scoped too:
+every check that rejects \emph{before} emission is exact for both integration
+paths, but only a staging-owning runner can restore byte-identical model input,
+since an adapter cannot withdraw a response the host already committed
 (\cref{app:algorithms}).

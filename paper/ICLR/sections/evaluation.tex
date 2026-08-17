@@ -51,17 +51,17 @@ in the result. A balanced rerun on three repositories controls the
 \code{open}/\code{merged}/\code{closed\_unmerged} mix.
 
 \paragraph{External refusal benchmarks.}
-NESTFUL and API-Bank test valid executable traces whose evidence is still
-insufficient. They retain the argument-level producer structure needed to
-measure provenance, synthesis, replay, and admission---not live planning
-quality~\citep{basu2025nestful,li2023apibank}.
+NESTFUL and API-Bank supply valid executable traces whose evidence is still
+insufficient; they retain the argument-level producer structure that provenance,
+synthesis, replay, and admission need, and they measure none of them as live
+planning quality~\citep{basu2025nestful,li2023apibank}.
 
 \paragraph{Conditions, metrics, and statistics.}
 Each GitHub family compares the unchanged baseline $B$, the compiled artifact,
-and a hand-written pre-model program on the same records. Quality is exact
-task-contract satisfaction; resources are requests, interfaces, tokens,
-latency, and estimated cost. We use paired exact McNemar tests, bootstrap
-intervals, and Wilcoxon signed-rank tests; the only guaranteed multiplicity
-control is the Bonferroni term in \cref{eq:cp}. All admission runs use
-$\alpha=0.05$, $\delta=0.1$, and $|\Lambda|=11$; \cref{app:config} lists the
-remaining settings.
+and a hand-written pre-model program on the same records, so the comparison is
+paired rather than across cohorts. Quality is exact task-contract satisfaction;
+resources are requests, interfaces, tokens, latency, and estimated cost. We use
+paired exact McNemar tests, bootstrap intervals, and Wilcoxon signed-rank tests;
+the only guaranteed multiplicity control is the Bonferroni term in
+\cref{eq:cp}. All admission runs use $\alpha=0.05$, $\delta=0.1$, and
+$|\Lambda|=11$ (\cref{app:config}).

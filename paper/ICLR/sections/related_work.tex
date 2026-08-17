@@ -6,12 +6,20 @@
 return to the interpreter on a miss~\citep{bala2000dynamo,holzle1992deopt}---to
 agents, whose arguments must remain grounded in observed state and whose
 speculation must be licensed by declared effects~\citep{lucassen1988effects}.
-Recent systems mine meta-tools (AWO), induce workflows, cache plans, compile
-typed orchestration, validate tool-state plans, search workflow graphs, or
-prune multi-agent topology
+Recent systems mine meta-tools, induce workflows, cache plans, compile typed
+orchestration, validate tool-state plans, search workflow graphs, or prune
+multi-agent topology
 \citep{abuzakuk2026awo,wang2025awm,zhang2025plancache,wei2026evoc2f,winston2026agentjit,li2026flowcompile,chen2026agentslimming}.
-They motivate workflow optimization; \method's distinct claim is an evidence gate
-for whether recurrence licenses replacement, not unmeasured superiority.
+They share our premise that recurrence is exploitable and differ in what they
+demand before exploiting it. The delta is three-fold. \emph{First}, they take a
+recurring subsequence as the unit; we take the subsequence as a proposal and the
+argument-level witness as the unit, which is why the motivating region shrinks
+from three reads to two instead of being accepted or dropped whole.
+\emph{Second}, their guards test the input, whereas ours are a cascade in which
+provenance, effects, position, contracts, and a finite-sample bound each hold a
+veto --- so a candidate can fail for reasons no additional trace evidence can
+repair. \emph{Third}, they report what compilation achieved, whereas a compile-or-retire
+system must also report what it refused.
 
 \paragraph{Other optimization targets.}
 DSPy optimizes prompts, GEPA evolves them, RouteLLM changes models, and

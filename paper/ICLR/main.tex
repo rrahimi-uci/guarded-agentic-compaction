@@ -152,42 +152,35 @@ Los Altos, CA, USA \\
 \input{sections/conclusion}
 
 \section*{AI Use Statement}
-In preparing this submission, the authors used generative AI tools to help
-restructure the manuscript, improve readability, suggest section organization,
-draft and revise parts of the paper text, critique methodological exposition
-and internal consistency, and convert repository-grounded results into LaTeX
-tables and submission materials. We did not use generative AI tools to generate
-experimental results or to replace manual verification of claims. All reported
-numbers, citations, equations, and comparisons were checked against the
-repository artifacts, retained outputs, and source files, and the authors take
-responsibility for the final content of the paper.
+The authors used generative AI tools to restructure and copy-edit the
+manuscript, suggest section organization, draft and revise paper text, critique
+methodological exposition and internal consistency, and convert
+repository-grounded results into LaTeX tables. They were not used to generate
+experimental results or to replace manual verification. Every reported number,
+citation, equation, and comparison was checked against the repository artifacts
+and retained outputs, and the authors take responsibility for the final content.
 
 \section*{Ethics Statement}
-This paper studies methods for removing model-mediated decisions from
-tool-using agents. The main risk is over-trusting a compiled prefix and thereby
-accelerating unsafe automation or silently removing safeguards; deleting a
-model boundary can also delete a guardrail evaluation that happened to run at
-that boundary. Our method mitigates this risk by compiling only read-only
-prefixes, treating unknown effects, approvals, handoffs, and writes as hard
-barriers, and defaulting to retirement or fallback when evidence is
-insufficient. All study data are public records (GitHub repository metadata)
-or public benchmarks; no personal or private data were collected. The reported
-artifact is not a license to bypass human review, legal or compliance controls,
-or safety guardrails in high-stakes domains; unsupported regimes are part of
-the result, not exceptions to hide.
+The main risk in removing model-mediated decisions is over-trusting a compiled
+prefix, and thereby accelerating unsafe automation or deleting a guardrail
+evaluation that happened to run at the removed boundary. The method mitigates
+this by compiling only read-only prefixes, treating unknown effects, approvals,
+handoffs, and writes as hard barriers, and defaulting to retirement or fallback
+when evidence is insufficient. All study data are public records (GitHub
+repository metadata) or public benchmarks; no personal or private data were
+collected. The artifact is not a license to bypass human review, legal or
+compliance controls, or safety guardrails; unsupported regimes are part of the
+result, not exceptions to hide.
 
 \section*{Reproducibility Statement}
-The main paper reports exact cohort sizes, evaluation protocols, quantitative
-metrics, and the claim boundaries attached to each study.
-\Cref{alg:compile,alg:calibrate} give the deployed compiler and admission rule;
-\Cref{alg:patg,alg:dispatch} in the appendix give provenance construction and
-runtime dispatch. \Cref{app:proof} proves \Cref{prop:admission}, and
-\Cref{app:config} lists every hyperparameter used by the reported runs. The
-repository contains source manifests, raw result files, deterministic table and
-figure generation, and scripts for the live GitHub studies, the
-cross-repository extension, NESTFUL, and API-Bank. For anonymous submission,
-the code and retained artifacts should be packaged as an anonymous
-supplementary archive with hashes and manifests preserved.
+\Cref{alg:compile,alg:calibrate} give the deployed compiler and admission rule,
+\cref{alg:patg,alg:dispatch} give provenance construction and runtime dispatch,
+\cref{app:proof} proves \cref{prop:admission}, and \cref{app:config} lists every
+hyperparameter of the reported runs. The accompanying artifact contains source
+manifests, raw result files, deterministic table and figure generation, and the
+scripts for the live GitHub studies, the cross-repository extension, NESTFUL,
+and API-Bank; it is supplied as an anonymous archive with hashes and manifests
+preserved.
 
 \bibliographystyle{iclr2027_conference}
 \bibliography{references}
