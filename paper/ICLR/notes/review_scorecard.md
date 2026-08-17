@@ -73,3 +73,60 @@ whose remaining acceptance risks are primarily empirical: limited provider and
 repository breadth, manual-program parity, a step-like admission gate, and the
 lack of a compiler-wide multiplicity guarantee. Those limitations cannot be
 removed honestly using only the existing evidence.
+
+---
+
+# Second review pass, August 16, 2026
+
+This pass reviewed the draft again against `paper/open_research/article.pdf` as the source
+of truth and against the official ICLR 2027 template's own instruction text. It found
+compliance defects the first pass had marked as clean, so several dimensions are scored
+*below* their previous "final" values: the earlier 97 for compliance was not supportable.
+
+## What the second pass found
+
+Every quantitative claim re-derived from `paper/tex/body.tex` and the sealed result JSON
+checked out, including `559/881 = 63.5%` for API-Bank, which appears in no prose and had to
+be reconstructed from `graph_diagnostics`. The defects were presentational and definitional:
+
+- Figure 1 and the per-family reduction figure were never referenced from the body, though
+  the compliance checklist asserted otherwise.
+- The benchmark table was a hand-built pseudo-float with a literal bold `Table N.` in place
+  of a caption, bypassing the class's table rules entirely.
+- `\retire` printed as a red word in running text.
+- The introduction wrote `labels(4420)` and `comments(4420, ...)` where both consume the
+  *returned* `record.issue_number` — the witness the provenance argument depends on.
+- Table 3's caption overstated the fixed template as "at least as efficient in both
+  settings"; it is marginally worse on cost in the balanced rerun.
+- `\kappa` had no value, `\Lambda` no elements, and Proposition 1 reused `\eta` for the
+  data-selected threshold.
+
+## Scores after the second pass
+
+| Dimension | Score | Weight | Binding limit |
+|---|---:|---:|---|
+| Problem importance and motivation | 92 | 0.10 | Prevalence of the situation in deployed agents is argued, not measured. |
+| Novelty and significance | 82 | 0.18 | Every ingredient is established; the contribution is the composition and the discipline, and the empirical payoff is deliberately modest. |
+| Technical soundness | 89 | 0.15 | The certificate is per fixed candidate, not compiler-wide over the search the system performs. |
+| Method clarity | 92 | 0.08 | Runtime detail necessarily lives in the appendix at nine pages. |
+| Evaluation design | 83 | 0.12 | One provider/model family, one primary snapshot, and a transfer task simple enough for a fixed template to tie. |
+| Evidence strength | 80 | 0.15 | The gate never demonstrates selectivity at the registered level; n=90 held-out records carries the headline. |
+| Results and interpretation | 93 | 0.07 | Refusals, manual parity, and the single baseline error are all reported rather than buried. |
+| Reproducibility | 93 | 0.05 | The anonymous artifact bundle is still a pre-upload action. |
+| Writing and presentation | 91 | 0.05 | Dense; figure 1 remains a loose infographic occupying a third of page 2. |
+| ICLR compliance and anonymity | 96 | 0.03 | Author-side OpenReview obligations need human confirmation. |
+| Limitations and responsible claims | 96 | 0.02 | Remaining weaknesses are empirical, not concealed. |
+
+**Weighted overall: 87/100.**
+
+The submission is mechanically ready and unusually honest. The acceptance risk is not
+compliance or rigour but reach: novelty is compositional and the strongest empirical claim
+is preservation-with-savings on 90 held-out records from one provider, against a manual
+program that ties. On the ICLR 1--10 scale this reads as a borderline paper whose fate turns
+on how a reviewer weighs a well-evidenced negative result and a refusal discipline against a
+modest positive one.
+
+The three changes that would move the score most, in order, are: a gate that demonstrates a
+real risk--coverage frontier rather than a support threshold; a second provider or model
+family; and a compiler-wide multiplicity treatment. None can be produced honestly from the
+existing evidence, which is why they are named as follow-ups rather than repaired in prose.
