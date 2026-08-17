@@ -42,6 +42,8 @@ GCS_VALIDATION_PATH = RESULTS / "gcs_validation" / "provider_free.json"
 OPTIMIZER_HEAD_TO_HEAD_PATH = RESULTS / "optimizer_head_to_head" / "results.json"
 PILOT_PATH = RESULTS / "github_live" / "pilot_2026-08-03" / "results.json"
 NESTFUL_PATH = RESULTS / "nestful" / "results.json"
+#: Per-threshold frontier of every sealed gate, written by analyze_gate_selectivity.py.
+GATE_SELECTIVITY_PATH = RESULTS / "gate_selectivity_analysis.json"
 FAMILY_PATH = RESULTS / "nestful" / "family_results.csv"
 NATURAL_CONTINUATION_PATH = RESULTS / "github_natural_live" / "continuation_replay.json"
 #: Checked cross-family roll-up written by build_github_family_summary.py.
@@ -321,6 +323,107 @@ def gate_support_figure(nestful: dict[str, Any]) -> None:
     )
     fig.tight_layout()
     savefig("gate_support")
+
+
+def admission_frontier_figure(selectivity: dict[str, Any]) -> None:
+    """Fixed-grid admission, drawn from the sealed gates rather than schematically.
+
+    Coverage and the Clopper-Pearson upper bound are both fractions in [0, 1], so they
+    share one axis: a second y-axis would have implied two unrelated scales and doubled
+    the ink for no information. The two panels are chosen for contrast, not convenience.
+    The left gate is degenerate -- it admits every calibration group the moment it admits
+    any -- and the right one is the only gate in the paper that rejects a group at its
+    selected threshold, which is exactly why its bound sits above the registered target.
+    """
+
+    by_id = {art["artifact_id"]: art for art in selectivity["artifacts"]}
+    registered = selectivity["registered_alpha"]
+    panels = (
+        ("github_natural_replication", "Two-read issue-type artifact"),
+        ("gcs_live", "Guarded-composite artifact"),
+    )
+
+    fig, axes = plt.subplots(1, 2, figsize=(FIG_W, 2.45), sharey=True)
+    guarded: list[tuple[Any, Any]] = []
+    for ax, (artifact_id, title) in zip(axes, panels):
+        art = by_id[artifact_id]
+        rows = art["grid_rows"]
+        index = np.arange(len(rows))
+        etas = [row["eta"] for row in rows]
+
+        ax.bar(index, [row["coverage"] for row in rows], width=0.72,
+               color=COLORS["series1"], zorder=3, label="coverage")
+        ax.plot(index, [row["upper"] for row in rows], color=COLORS["series2"],
+                lw=1.1, marker="o", ms=2.4, zorder=5, label=r"$U_\eta$")
+        ax.axhline(art["alpha"], color=COLORS["ink2"], lw=0.9,
+                   ls=(0, (4, 2)), zorder=4)
+        if art["alpha"] != registered:
+            ax.axhline(registered, color=COLORS["muted"], lw=0.8,
+                       ls=(0, (1, 2)), zorder=4)
+
+        selected = index[etas.index(art["threshold"])]
+        ax.annotate(
+            "",
+            xy=(selected, art["coverage"]), xytext=(selected, art["coverage"] + 0.20),
+            arrowprops=dict(arrowstyle="-|>", color=COLORS["ink2"], lw=0.7,
+                            shrinkA=0, shrinkB=1),
+            zorder=6,
+        )
+        # The whole point of the panel is whether the bound clears the budget, and at
+        # this scale 0.0498 and 0.0520 are two pixels either side of the same line.
+        # State the comparison in words rather than asking the reader to measure it.
+        bound = art["risk_upper_bound"]
+        if bound <= registered:
+            verdict = f"$\\leq\\alpha={registered:.2f}$"
+        else:
+            verdict = f"$>{registered:.2f}$, $\\leq\\alpha={art['alpha']:.2f}$"
+        guarded.append((ax, ax.text(
+            selected, art["coverage"] + 0.23,
+            f"$\\hat\\eta={art['threshold']:.2f}$\n"
+            f"{art['n_accepted']}/{art['n_calibration_groups']} admitted, "
+            f"$k_\\eta=0$\n"
+            f"$U={bound:.4f}$ {verdict}",
+            fontsize=6.6, color=COLORS["ink"], ha="right", va="bottom", zorder=6,
+        )))
+
+        ax.set_xticks(index[::2])
+        ax.set_xticklabels([f"{value:.2f}"[1:] for value in etas[::2]])
+        ax.set_xlim(-0.7, len(rows) - 0.3)
+        ax.set_ylim(0, 1.62)
+        ax.set_yticks([0, 0.25, 0.5, 0.75, 1.0])
+        # The budget lines are described under the axis rather than beside them: at
+        # this scale the two rules sit within a few points of each other, and every
+        # in-axes placement for the second label landed on a coverage bar.
+        rules = f"dashed: $\\alpha={art['alpha']:.2f}$"
+        if art["alpha"] != registered:
+            rules += f"  $\\cdot$  dotted: registered ${registered:.2f}$"
+        ax.set_xlabel(f"{title}\nfrozen threshold grid $\\Lambda$\n{rules}")
+        ax.yaxis.grid(True, zorder=0)
+        ax.set_axisbelow(True)
+
+    axes[0].set_ylabel("Fraction of calibration groups")
+    _outside_legend(axes[0], ncol=2)
+
+    # The annotation blocks are the only free-floating text here, and they are anchored
+    # to a data point that moves with the sealed results. Fail the build if one of them
+    # leaves its axes rather than shipping a figure whose label has drifted off-panel.
+    fig.canvas.draw()
+    renderer = fig.canvas.get_renderer()
+    for ax, artist in guarded:
+        extent = artist.get_window_extent(renderer=renderer).transformed(
+            ax.transData.inverted()
+        )
+        x0, x1 = ax.get_xlim()
+        y0, y1 = ax.get_ylim()
+        assert x0 <= extent.x0 and extent.x1 <= x1, (
+            f"admission frontier annotation exceeds horizontal bounds: {extent.bounds}"
+        )
+        assert y0 <= extent.y0 and extent.y1 <= y1, (
+            f"admission frontier annotation exceeds vertical bounds: {extent.bounds}"
+        )
+
+    fig.tight_layout()
+    savefig("admission_frontier")
 
 
 def aha_example_figure(
@@ -1463,10 +1566,12 @@ def main() -> None:
     pilot = load_json(PILOT_PATH)
     nestful = load_json(NESTFUL_PATH)
     external = load_json(EXTERNAL_PATH)
+    selectivity = load_json(GATE_SELECTIVITY_PATH)
     family_summary = load_json(FAMILY_SUMMARY_PATH)
     live_efficiency_figure(live)
     paired_figure(live)
     gate_support_figure(nestful)
+    admission_frontier_figure(selectivity)
     aha_example_figure(natural, replication)
     pilot_figure(live, pilot)
     natural_comparison_figure(replication)
@@ -1492,6 +1597,7 @@ def main() -> None:
         GCS_LIVE_PATH, GCS_VALIDATION_PATH,
         OPTIMIZER_HEAD_TO_HEAD_PATH,
         PILOT_PATH, NESTFUL_PATH, FAMILY_PATH, EXTERNAL_PATH,
+        GATE_SELECTIVITY_PATH,
         FAMILY_SUMMARY_PATH,
         RESULTS / "admission_register.json",
         RESULTS / "cache_accounting.json",

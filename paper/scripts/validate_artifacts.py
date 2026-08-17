@@ -1526,6 +1526,24 @@ def validate_publication() -> None:
                 normalized_phrase = re.sub(r"[^a-z0-9]+", "", phrase.lower())
                 ok(normalized_phrase in searchable_pdf_text,
                    f"{build}: compiled PDF contains algorithm caption: {phrase}")
+            # The Section 2-3 reader aids are shared-body \input artwork, which is the
+            # same shape of dependency that once let Algorithms 2-4 be authored without
+            # reaching any build. Gate them on their captions in both wrappers.
+            for phrase in ("Anatomy of one episode",
+                           "applied to the held-out issue-4420 record",
+                           "Why prefix-only",
+                           "the slice they condition on",
+                           "What a canonical family is",
+                           "Two pre-synthesis questions",
+                           "Four claims, tested at three times",
+                           "The executed compiler rule applied to held-out issue 4420",
+                           "Fixed-grid selection on two sealed gates",
+                           "What the proposition licenses",
+                           "Guarded composite synthesis as a sealed envelope",
+                           "Both integration paths share every check"):
+                normalized_phrase = re.sub(r"[^a-z0-9]+", "", phrase.lower())
+                ok(normalized_phrase in searchable_pdf_text,
+                   f"{build}: compiled PDF contains reader aid: {phrase}")
             ok("Algorithm 4" in pdf_text,
                f"{build}: all four algorithms are numbered and typeset")
             ok("GACreconstructs" not in pdf_text,

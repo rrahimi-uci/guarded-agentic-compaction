@@ -1,0 +1,95 @@
+% Provenance wiring for the held-out issue-4420 record: which argument slots have a
+% witness under Eq. (1), and which do not.
+% Authored artwork (TikZ), included by both the ACM and the article build.
+% Colours are declared in each wrapper preamble so the figure is class-neutral.
+%
+% Explicit geometry (x=y=1mm, anchor=north west). The witness lane sits above the
+% call lane so every wire is drawn downward and no wire crosses a call card: the
+% first version routed the long record->comments wire through the labels card and
+% buried its own edge label. Natural width ~162mm.
+\begin{tikzpicture}[
+  x=1mm, y=1mm,
+  font=\sffamily\scriptsize,
+  wit/.style={
+    draw=gacteal!85, line width=0.55pt, rounded corners=1.4pt, fill=gacteal!10,
+    anchor=north west, align=center, inner sep=2.2pt,
+    minimum width=40mm, minimum height=8mm, text width=36mm, font=\sffamily\tiny},
+  call/.style={
+    draw=gacline!85, line width=0.5pt, rounded corners=1.4pt, fill=white,
+    anchor=north west, align=center, inner sep=2pt,
+    minimum width=40mm, minimum height=6.4mm, text width=36mm, font=\sffamily\tiny},
+  ok/.style={
+    draw=gacteal!85, line width=0.45pt, rounded corners=1.2pt, fill=gacteal!8,
+    anchor=north west, align=left, inner sep=2pt,
+    minimum width=36mm, minimum height=6mm, text width=32mm, font=\sffamily\tiny},
+  bad/.style={ok, draw=gacred!85, fill=gacred!8},
+  amb/.style={ok, draw=orange!80!black, fill=orange!12},
+  wire/.style={-{Latex[length=1.4mm,width=1.1mm]}, draw=gacteal!90, line width=0.55pt},
+  nowire/.style={draw=gacred!85, line width=0.55pt, densely dashed},
+  lbl/.style={font=\sffamily\tiny, inner sep=1pt, fill=white, text=gacline},
+  gnote/.style={font=\sffamily\tiny, text=gacline, anchor=north west, align=left},
+  ghd/.style={font=\sffamily\bfseries\tiny, text=gacblue, anchor=north west},
+  reg/.style={rounded corners=2pt, line width=0.6pt, densely dashed},
+]
+
+% ------------------------------------------------------------- witness lane
+\node[ghd] at (0,4.6) {available witnesses (entry state, then each prior result)};
+\node[wit] (w1) at (0,   0) {\code{z.issue\_number} $=4420$};
+\node[wit] (w2) at (56,  0) {\code{record.issue\_number}};
+\node[wit] (w3) at (112, 0) {\code{labels.names[\,]}};
+
+% ------------------------------------------------------------- call lane
+\node[call] (c1) at (0,  -22) {\code{record(issue\_number=$\bullet$)}};
+\node[ok]   (s1) at (2,  -29) {\code{issue\_number} $\leftarrow$ witness};
+\node[call] (c2) at (56, -22) {\code{labels(issue\_number=$\bullet$)}};
+\node[ok]   (s2) at (58, -29) {\code{issue\_number} $\leftarrow$ witness};
+\node[call] (c3) at (112,-22) {\code{comments(issue\_number=$\bullet$, limit=$\bullet$)}};
+\node[ok]   (s3) at (114,-29) {\code{issue\_number} $\leftarrow$ witness};
+\node[bad]  (s4) at (114,-36) {\code{limit} $=100$ \textcolor{gacred!90}{\textbf{no witness}}};
+
+\begin{scope}[on background layer]
+  \node[draw=gacline!45, line width=0.4pt, rounded corners=1.8pt, fill=gacgrey!60,
+        inner sep=2.2pt, fit=(c1)(s1)] (f1) {};
+  \node[draw=gacline!45, line width=0.4pt, rounded corners=1.8pt, fill=gacgrey!60,
+        inner sep=2.2pt, fit=(c2)(s2)] (f2) {};
+  \node[draw=gacline!45, line width=0.4pt, rounded corners=1.8pt, fill=gacgrey!60,
+        inner sep=2.2pt, fit=(c3)(s3)(s4)] (f3) {};
+\end{scope}
+
+% --------------------------------------------------------------------- wires
+% Every edge is labelled with the expression in the closed library L that produces
+% the value, which is the object Eq. (1) quantifies over.
+\draw[wire] (w1.south) -- (c1.north) node[lbl, pos=0.52] {$g\in\mathcal{L}$: \code{z.issue\_number}};
+\draw[wire] (w2.south) -- (c2.north) node[lbl, pos=0.52] {$g\in\mathcal{L}$: \code{record.issue\_number}};
+\draw[wire] (w2.south east) -- ++(0,-6) -| ([xshift=-6mm]c3.north)
+  node[lbl, pos=0.28] {\code{record.issue\_number}};
+
+% The refusal is drawn as an absent edge, not as a dashed line into the socket: a
+% dashed arrow would read as a weak wire, when the point is that there is no wire.
+\node[gnote, text width=28mm, text=gacred!90, anchor=north east] at (157,-11.5)
+  {no expression in $\mathcal{L}$ over $z$ or $o_{<j}$ produces \code{limit}};
+
+% ----------------------------------------------------------- region verdicts
+\begin{scope}[on background layer]
+  \node[reg, draw=gacred!80, fit=(f1)(f2)(f3), inner sep=4.6pt] (rbad) {};
+  \node[reg, draw=gacteal!90, fit=(f1)(f2), inner sep=2.6pt] (rgood) {};
+\end{scope}
+\node[gnote, text=gacred!90, text width=78mm] at (0,-46.5)
+  {\textbf{\retire{}: \code{ungroundable\_slot}} --- one unwitnessed slot blocks the
+   \emph{whole} three-read region.  The compiler does not guess a modal \code{limit}.};
+\node[gnote, text=gacteal!75!black, text width=72mm] at (84,-46.5)
+  {\textbf{maximal justified prefix} --- the two-read program $P$ that survives and
+   reaches contracts and calibration.  The agent still chooses the limit.};
+
+% --------------------------------------------------------- ambiguity inset
+\node[amb, minimum width=74mm, text width=70mm, minimum height=9mm] (ai) at (0,-56)
+  {\textbf{Too many witnesses is also a refusal.}  A value such as
+   \code{owner\_email} that matches both \code{record.user.email} and
+   \code{labels.owner.email} exceeds the ambiguity cap: the provenance is uncertain,
+   so the region is blocked rather than resolved to the cheapest explanation.};
+\node[gnote, text width=68mm] at (80,-56)
+  {\textbf{Both branches of \cref{alg:patg} block.}  A repeated tool name, a matching
+   literal value, and a successful replay are \emph{not} a provenance witness; only an
+   expression in $\mathcal{L}$ over $z$ or a prior result is.};
+
+\end{tikzpicture}

@@ -1,0 +1,92 @@
+% Two questions asked before any synthesis runs, and neither of them is admission:
+% which candidate to spend effort on (Eq. 6), and whether the target is reachable at
+% all (Eq. 7).
+% Authored artwork (TikZ), included by both the ACM and the article build.
+% Colours are declared in each wrapper preamble so the figure is class-neutral.
+%
+% Explicit geometry; natural width ~162mm. The two panels are separated by a rule
+% rather than merged, because the reader's error this figure exists to prevent is
+% treating either quantity as a licence to dispatch.
+\begin{tikzpicture}[
+  x=1mm, y=1mm,
+  font=\sffamily\scriptsize,
+  row/.style={
+    draw=gacline!55, line width=0.4pt, rounded corners=1pt, fill=white,
+    anchor=north west, align=left, inner sep=1.8pt,
+    minimum width=30mm, text width=27mm, minimum height=6.4mm, font=\sffamily\tiny},
+  sbar/.style={draw=gacblue!70, line width=0.4pt, fill=gacblue!22, anchor=west,
+               minimum height=3.4mm},
+  panel/.style={draw=gacline!35, line width=0.5pt, rounded corners=2pt,
+                fill=gacgrey!55, inner sep=3.4pt},
+  gauge/.style={draw=gacline!70, line width=0.5pt, fill=white, anchor=north west,
+                minimum height=7mm},
+  fillg/.style={draw=gacteal!85, line width=0.5pt, fill=gacteal!22, anchor=north west,
+                minimum height=7mm},
+  gnote/.style={font=\sffamily\tiny, text=gacline, anchor=north west, align=left},
+  ghd/.style={font=\sffamily\bfseries\tiny, text=gacblue, anchor=north west},
+  cut/.style={draw=gacred!75, line width=0.6pt, densely dashed},
+]
+
+% =============================================================== left: ranking
+\node[ghd] at (0,4.6) {A\quad sorting table \normalfont\itshape --- Eq.~\eqref{eq:score}};
+\node[row] (r1) at (0,0)   {family $F_1$};
+\node[row] (r2) at (0,-8)  {family $F_2$};
+\node[row] (r3) at (0,-16) {family $F_3$};
+\node[row] (r4) at (0,-24) {family $F_4$};
+\node[sbar, minimum width=32mm] (bar1) at (31,-3.2)  {};
+\node[sbar, minimum width=24mm] at (31,-11.2) {};
+\node[sbar, minimum width=15mm] at (31,-19.2) {};
+\node[sbar, minimum width=7mm]  (bar4) at (31,-27.2) {};
+\node[gnote, anchor=west] at (64,-3.2)  {highest score};
+\node[gnote, anchor=west] at (56,-27.2) {lowest score};
+
+\node[gnote, text width=74mm] at (0,-33)
+  {$\operatorname{score}(F)=s_F\bar{k}_F c_m-\lambda_1H(F)-\lambda_2\rho_{\mathrm{eff}}(F)-\lambda_3|F|$};
+
+\draw[cut] (0,-38.5) -- (78,-38.5);
+\node[gnote, text=gacred!85, text width=78mm] at (0,-40)
+  {\textbf{Ranking only.}  Nothing below this line is an admission decision.  The
+   implementation ships the \emph{first} family that survives synthesis, contracts, and
+   calibration, so the order still decides \emph{which} artifact is registered ---
+   including through the two terms the paper reports as coarse:
+   $\rho_{\mathrm{eff}}$ is approximated by a tool-name convention and $|F|$ by an
+   argument-slot count.};
+
+% =============================================================== right: ceiling
+\node[ghd] at (90,4.6) {B\quad feasibility ceiling \normalfont\itshape --- Eq.~\eqref{eq:ceiling}};
+\node[gauge, minimum width=68mm] (g) at (90,0) {};
+\node[fillg, minimum width=51mm] at (90,0) {};
+\draw[draw=gacline!85, line width=0.7pt] (141,1.6) -- (141,-8.6);
+\node[gnote, anchor=north] at (141,-9.4) {$\Delta_{\max}=0.750$};
+\node[gnote, anchor=north west] at (90,-9.4) {$0$};
+\node[gnote, anchor=north east] at (158,-9.4) {$1$};
+
+\node[gnote, text width=68mm] at (90,-16)
+  {$\Delta_{\max}=\varphi k/n_B$ with $\varphi=1$, $k=3$, $n_B=4$ --- the values
+   \cref{sec:rq2} reports.  The shaded span is what a \emph{perfect} verifier and a gate
+   that never abstains could remove.};
+
+\node[gnote, text=gacteal!65!black, text width=68mm] at (90,-27)
+  {\textbf{Necessary, not sufficient.}  \eqref{eq:ceiling} assumes $\rho=1$, so no
+   measured reduction can exceed it and equality holds exactly when nothing abstains and
+   nothing fails.  A saturated ceiling therefore reports that the task determined the
+   region --- it is not evidence that the compiler did anything.};
+
+\node[gnote, text width=68mm] at (90,-40)
+  {Reporting it first makes a negative answer cheap: a workload whose ceiling sits under
+   the target can be declined before a compiler is built for it.};
+
+% The portfolio layer belongs on this figure rather than on the architecture diagram: it
+% is a third quantity readers mistake for admission, and it is measured after the fact.
+\node[gnote, text width=158mm, text=gacline] at (0,-56)
+  {\textbf{And a third quantity that is also not admission.}  The evidence portfolio of
+   \cref{sec:portfolio-method} sits after everything above: it selects among actions that
+   have already been \emph{measured} on the same independent groups, and it can neither
+   synthesize an artifact nor certify one the compiler refused.};
+
+\begin{scope}[on background layer]
+  \node[panel, fit=(r1)(r4)(bar1)(bar4)] {};
+  \node[panel, fit=(g)] {};
+\end{scope}
+
+\end{tikzpicture}

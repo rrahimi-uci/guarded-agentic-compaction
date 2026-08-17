@@ -4,6 +4,21 @@
 % this gobbling default, so a shared-body pointer can never become a dangling reference.
 \providecommand{\appendixonly}[1]{}
 
+% Shared reader-aid callout, used where a boundary is easy to over-read. It is defined
+% here rather than in a wrapper preamble because body.tex is the only file the two
+% builds share, and both wrappers already load tikz and xcolor and declare the palette.
+% Built from primitives on purpose: neither wrapper loads tcolorbox, and a shared body
+% may not depend on a package only one of them has.
+\newcommand{\gaccallout}[2]{%
+  \par\addvspace{5pt}\noindent
+  \begin{tikzpicture}
+    \node[draw=gacline!40, line width=0.5pt, fill=gacgrey, rounded corners=1.6pt,
+          inner sep=5pt, align=left,
+          text width=\dimexpr\linewidth-14pt\relax]
+      {\small\textbf{#1}\hspace{0.45em}#2};
+  \end{tikzpicture}%
+  \par\addvspace{5pt}}
+
 \section{Introduction}
 
 The standard reasoning--acting loop delegates every tool boundary to a language model:
@@ -160,12 +175,44 @@ claims are retained rather than pruned, so the denominator of each result stays 
 
 \subsection{Executions and candidate regions}
 
+\paragraph{Reading guide.}  Everything in this section refines one informal invariant.
+Picture a careful operations assistant that asks a model what to do before each read.
+\method may replace a short, repeated stretch of those questions with a pre-checked
+checklist, and only while all of the following hold: every value the checklist needs can
+be traced to the entry form or to an earlier receipt; every action in it is a declared
+safe-to-stage read in the same security compartment; the checklist begins at the one
+point where the runtime can substitute it; the present case matches the pinned workflow
+and passes its guard and its risk gate; and the staged result passes inspection before
+release.  If any of those fails, the ordinary assistant continues --- which is a designed
+outcome, not a failure.  The definitions below are what make each clause precise, and
+they, not this paragraph, are authoritative.
+
 An episode $E=(z,M,e_{1:T},y)$ contains an entry-state snapshot $z$, a content-addressed
 execution manifest $M$, ordered events $e_t$, and an observable outcome $y$.  Events
 include model requests/responses, tool calls/results, handoffs, guardrails, approvals,
 errors, and commit boundaries.  Each tool $f$ has an application-owned effect declaration
 $\epsilon(f)$ and capabilities such as \emph{speculatable} and \emph{replayable}.
 Unknown effects are not reads.
+
+\begin{figure*}[t]
+  \centering
+  \input{../figures/fig-episode-anatomy.tex}
+  \caption{Anatomy of one episode, and of a candidate region inside it.  An episode is a
+  typed, version-pinned execution record rather than a prompt/answer pair: the manifest
+  $M$ pins the identities a learned artifact may later be reused under, and the events
+  $e_{1:T}$ retain the tool receipts a compiler would have to reconstruct arguments from.
+  A candidate region is a bounded segment of that record, and it never contains the
+  outcome $y$.  The icons in the lower strip are examples of event kinds that act as
+  barriers; they are not an exhaustive state machine.}
+  \Description{A horizontal timeline. On the left, the entry state z holding only an
+  issue number, and the manifest M listing the pinned prompt, policy, guardrail, tools,
+  model, SDK, tracer, entry contract and effect catalog. In the middle, alternating model
+  requests and tool results for record, labels and comments. On the right, the observed
+  outcome. A bracket under the first four events marks the candidate region, and a strip
+  below lists approval, handoff, write, error, unknown effect and commit boundary as
+  barrier event kinds.}
+  \label{fig:episode-anatomy}
+\end{figure*}
 
 A candidate region $R=[a,b]$ begins at a model-request boundary and ends after a tool
 result.  It is \emph{groundable} when every call argument has an expression over entry
@@ -175,7 +222,31 @@ state or prior results within $R$:
   u = g_{j,u}\!\left(z,o_{<j}\right), \qquad g_{j,u}\in\mathcal{L},
   \label{eq:grounding}
 \end{equation}
-where $\mathcal{L}$ is a closed, bounded transform library.  It is
+
+\begin{figure*}[t]
+  \centering
+  \input{../figures/fig-provenance-wiring.tex}
+  \caption{Equation~\eqref{eq:grounding} applied to the held-out issue-4420 record.  Each argument
+  slot needs an expression in $\mathcal{L}$ over the entry state or a prior result; the
+  green edges carry that expression, and the \code{limit} socket has no incoming edge at
+  all.  The diagram therefore asks a strictly harder question than recurrence: not
+  ``did this sequence repeat?'' but ``can every socket be wired from an allowed prior
+  value?''  One unwitnessed slot retires the whole three-read region, and a slot with too
+  many witnesses does the same --- both branches of \cref{alg:patg} block rather than
+  resolving to the cheapest available explanation.  The ambiguity inset is illustrative;
+  the wiring and the refusal are the executed compiler's decision on that record.}
+  \Description{Three tool calls drawn as cards with argument sockets, above them a lane
+  of available witness values. Green arrows carry an expression from the closed library
+  into the issue-number sockets of record, labels and comments. The limit socket of the
+  comments call has no incoming arrow and is marked no witness in red. A red dashed
+  rectangle around all three calls is labelled retire, ungroundable slot; a green dashed
+  rectangle around the first two is labelled maximal justified prefix. An amber inset
+  shows an ambiguous value with two equally plausible producers, which is also a
+  refusal.}
+  \label{fig:provenance-wiring}
+\end{figure*}
+
+\noindent where $\mathcal{L}$ is a closed, bounded transform library.  It is
 \emph{effect\hyp{}admissible}
 when all tools are declared read-only, speculatable, replayable, and within the same
 principal/isolation partition.  Handoffs, approvals, writes, errors, and unknown effects
@@ -187,14 +258,43 @@ deployable compiler adds a position invariant:
   a=0 \quad\text{in the normalized model-boundary index.}
   \label{eq:prefix}
 \end{equation}
+
+\begin{figure*}[t]
+  \centering
+  \input{../figures/fig-prefix-suffix.tex}
+  \caption{Why prefix-only, drawn as the two orders the runtime can actually produce.
+  Because resolution happens at the initial model boundary, a region with $a>0$ can only
+  be deployed by injecting it there, which either repeats reads the agent will make
+  anyway or runs them before the values they depend on exist.  This panel depicts the
+  current runtime placement and carries no measurement: the archived live pilot that took
+  the lower lane, and what it cost, is reported in \cref{sec:pilot}.}
+  \Description{Two lanes on a shared time axis. The upper lane starts at the entry
+  boundary, runs a compiled two-read prefix, then hands back to the ordinary agent, which
+  chooses the comment limit and renders the answer, with order preserved and each read
+  run once. The lower lane injects a suffix region at the same entry boundary, so the
+  labels and comments reads run before the agent's own first record read, producing
+  reordered and duplicated reads.}
+  \label{fig:prefix-suffix}
+\end{figure*}
+
 This restriction is not aesthetic.  A suffix program dispatched at entry may reorder or
 duplicate earlier calls; \cref{sec:pilot} demonstrates the failure empirically.
+
+\gaccallout{Do not infer.}{A repeated tool name, a matching literal value, and a
+successful replay are not a provenance witness.  Only an expression in $\mathcal{L}$ over
+$z$ or a prior result is, which is why \cref{sec:worked-example} can reject a region
+whose three reads recur in every observed execution.}
 
 \subsection{Selective optimization objective}
 
 The compiler emits an artifact $A=(P,H,V,q,\eta,M)$: deterministic program $P$, hard
 guard $H$, verifier $V$, nonconformity score $q$, threshold $\eta$, and manifest pins $M$.
-For a future episode, dispatch is selective:
+The six components answer six different questions and none of them is ``the guard'':
+$P$ is the checklist to run; $H$ decides whether this entry state is eligible to run it;
+$V$ inspects what the run produced; $q$ scores how unfamiliar the entry state is; $\eta$
+is the cutoff chosen from a frozen grid so that a bound on selective risk holds
+(\cref{eq:cp}); and $M$ is the compatibility seal that says which deployment the whole kit
+was learned under.  For a future episode, dispatch is selective:
 \begin{equation}
   d_A(z)=\mathbb{1}\{H(z)=1 \land q(z)\leq\eta \land M\text{ matches}\}.
 \end{equation}
@@ -213,6 +313,36 @@ to bounded selective risk:
 where $B$ is the unchanged agent.  The implementation may return no artifact
 (\retire); this is a valid optimizer output.
 
+\begin{figure*}[t]
+  \centering
+  \input{../figures/fig-dispatch-population.tex}
+  \caption{The population that Eqs.~(3)--(5) quantify over, and the slice they
+  condition on.  Savings are earned across the dispatched segment, while selective risk
+  is measured \emph{inside} it: an episode that misses on the manifest, the guard, or the
+  gate returns the baseline and never enters the denominator, so it is not a compacted
+  failure.  A staged failure caught before the commit line also returns the baseline, but
+  it does stay in the denominator, and only a post-commit dirty failure is an incident.
+  The 40/30/30 split is illustrative and is drawn only to separate the two quantities; no
+  coverage rate is claimed here.}
+  \Description{A horizontal strip of one hundred future episodes divided into three
+  segments: forty missing the manifest or hard guard, thirty abstained by the gate, and
+  thirty dispatched. A bracket under the dispatched segment alone is labelled with the
+  conditional selective-risk probability. The first two segments flow to an unchanged
+  baseline agent box; the dispatched segment flows to a staged execution box, which
+  splits into a compacted outcome when the verifier passes and a baseline outcome when it
+  fails cleanly, with a separate red box for a dirty post-commit incident.}
+  \label{fig:dispatch-population}
+\end{figure*}
+
+A worked count makes the denominator concrete.  Suppose 100 future episodes reach the
+entry boundary, 40 fail the manifest or hard guard, 30 are abstained by the gate, and 30
+are dispatched.  The savings term of \eqref{eq:objective} accumulates over those 30, and
+so does the risk constraint: it bounds the fraction of \emph{those 30} that were wrong
+after dispatch, not the fraction of all 100 that were answered correctly.  A workload
+where the gate abstains on 70 of 100 episodes therefore has poor coverage and can still
+satisfy the constraint exactly, which is the trade \cref{fig:dispatch-population} is drawn
+to expose.
+
 At the compiler layer the implemented action set is $\{B,A\}$: retain the baseline or
 admit one compiled artifact.  The separate portfolio layer in
 \cref{sec:portfolio-method} consumes paired measurements for arbitrary named actions.  It
@@ -227,6 +357,11 @@ admissible family ships, the two coarse terms in \eqref{eq:score} can change \em
 artifact is registered even though neither participates in any admission decision.  Reading
 $\rho_{\mathrm{eff}}$ from the effect catalog and evaluating all admissible families before
 selecting are both small changes, and both are future work.
+
+\gaccallout{Optimization is not certification.}{\Cref{eq:score} decides where synthesis
+effort goes; \eqref{eq:ceiling} decides whether a target is reachable at all; neither one
+admits an artifact.  Admission is \cref{eq:cp} plus the hard guard and the verifier, and
+\retire{} is a legitimate answer at every stage.}
 
 \section{Guarded Agentic Compaction}
 \label{sec:method}
@@ -256,13 +391,18 @@ selecting are both small changes, and both are future work.
   \label{fig:pipeline}
 \end{figure*}
 
-\method is a cascade of independent rejection points (\cref{fig:pipeline}).
+\method is a cascade of independent rejection points (\cref{fig:pipeline}).  It is worth
+reading that diagram as a map of refusal boundaries rather than a dataflow: almost every
+edge in it ends at the unchanged agent, and the shaded band names the conditions under
+which no amount of evidence changes that.
 \Cref{alg:compile} states that cascade in one place, because the order the stages run in is
 itself part of the argument: each stage can only weaken a candidate, never rescue one, and
 every \retire is recorded with the stage that caused it, so rejected candidates stay in the
 denominator.  The rest of this section expands the three stages that carry the safety
 claim --- provenance (\cref{alg:patg}), calibration (\cref{alg:calibrate}), and the runtime
-boundary (\cref{alg:dispatch}).
+boundary (\cref{alg:dispatch}).  Read \cref{alg:compile} as a one-way security checkpoint:
+a later stage may reject a candidate an earlier one passed, but no later stage can
+authorize one a prior stage blocked.
 
 \input{../figures/alg-compile.tex}
 
@@ -299,6 +439,28 @@ model decision and a slot with too many witnesses is ambiguous, and both block t
 instead of resolving to the cheapest available explanation.
 
 \input{../figures/alg-provenance.tex}
+
+\begin{figure*}[t]
+  \centering
+  \input{../figures/fig-canonical-family.tex}
+  \caption{What a canonical family is, and what it is not.  Hashing the tool signatures,
+  dependency topology, run shape, and live-in/out shape while abstracting literals groups
+  \emph{structural proposals} so that provenance, contracts, and calibration have a
+  repeated object to work on.  Support is counted across independent scenario groups
+  rather than by event frequency.  A shared stencil is not evidence that the records mean
+  the same thing, and it licenses nothing on its own: the abstracted \code{limit} is
+  exactly the slot \cref{alg:patg} goes on to refuse.  The three observed windows are
+  written with symbolic identifiers because only issue 4420 is a reported held-out
+  record.}
+  \Description{Three observed tool windows differing only in their literal issue numbers
+  and comment limits collapse into one canonical card that retains tool signatures,
+  dependency topology, run shape, live-in and live-out shape and effect qualification
+  while abstracting every literal. A sidebar explains that support is counted over
+  independent scenario groups rather than events, that the live study sets a minimum of
+  one distinct day, and that within-family variants feed the heterogeneity penalty. A
+  second panel warns that a shared stencil is not semantic equivalence.}
+  \label{fig:canonical-family}
+\end{figure*}
 
 The miner enumerates model-boundary-to-result windows with at most $w_{\max}$ tool calls,
 qualifies effects and live-ins, and hashes the tool signatures, dependency topology,
@@ -354,6 +516,29 @@ region, which for that workload it does.  Reporting the ceiling first makes a de
 answer cheap: a workload whose ceiling is under the target can be declined without
 building a compiler for it.
 
+\begin{figure*}[t]
+  \centering
+  \input{../figures/fig-rank-ceiling.tex}
+  \caption{Two pre-synthesis questions, neither of which is admission.  \textbf{(A)}
+  Equation~\eqref{eq:score} orders candidates so that synthesis effort goes somewhere useful.
+  Because the implementation ships the first family that survives, this ranking still
+  decides \emph{which} artifact is registered --- including through the two terms the
+  paper reports as coarser than the notation suggests --- but no admission decision reads
+  it.  \textbf{(B)} Equation~\eqref{eq:ceiling} bounds what a perfect verifier and a
+  never-abstaining gate could remove.  It is necessary, not sufficient: a saturated
+  ceiling reports that the task determined the region rather than that the compiler
+  succeeded.  The gauge is drawn at the values \cref{sec:rq2} reports.}
+  \Description{Two panels. The left panel is a sorting table of four candidate families
+  with score bars in descending order, the score expression beneath it, and a dashed rule
+  labelled ranking only, warning that no admission decision depends on it and that two
+  terms are coarse in the implementation. The right panel is a gauge from zero to one
+  with the feasibility ceiling marked at 0.750 for the reported values, annotated that
+  the ceiling assumes a perfect verifier and is therefore necessary rather than
+  sufficient. A footer notes that the portfolio layer is a third quantity that is also
+  not admission.}
+  \label{fig:rank-ceiling}
+\end{figure*}
+
 \subsection{Bounded synthesis and contracts}
 
 Program synthesis searches a 23-operator library with depth at most two.  Operators
@@ -364,6 +549,25 @@ The approach resembles programming-by-example~\cite{gulwani2011flashfill} and bo
 sketching~\cite{solarlezama2006sketching}, but the hypothesis space is deliberately small
 enough to inspect.  It does not generate arbitrary Python.
 
+\begin{figure}[t]
+  \centering
+  \input{../figures/fig-locks.tex}
+  \caption{Four claims, tested at three times, in one direction.  Provenance licenses
+  \emph{construction} before $P$ exists; the hard guard licenses an \emph{attempted}
+  execution at the entry boundary; the calibrated gate licenses the \emph{frequency} of
+  that attempt under its assumptions; and the verifier checks the staged result before
+  release.  ``Constructible,'' ``entry eligible,'' ``risk admitted,'' and ``conformant
+  after execution'' are independent, and no later lock reopens a door an earlier one
+  closed.}
+  \Description{Four stacked lock panels grouped by when they run. At compile time, the
+  provenance lock asks whether every argument slot can be constructed. At dispatch time,
+  the hard guard asks whether the entry state is eligible and the risk gate asks whether
+  dispatch is admitted under the sealed certificate. After staged execution, the verifier
+  asks whether the produced receipts conform. A closing note states that the cascade is
+  one-way.}
+  \label{fig:locks}
+\end{figure}
+
 Hard guards constrain entry types, required fields, categorical sets, numeric intervals,
 patterns, isolation keys, allowed effects, and manifest pins.  Verifiers constrain
 live-out presence, type, cardinality, empirical hulls, provenance, effect multisets, and
@@ -371,7 +575,8 @@ call counts.  These are likely invariants~\cite{ernst2001daikon}, not proofs for
 inputs.  Replay and perturbation are therefore available to challenge a candidate before
 calibration, but they are only as strong as the substrate supplied: without a sandbox the
 suite cannot run at all, and the artifact then records \code{perturbations\_claimed:
-false} rather than implying a challenge occurred.  The headline live artifact of
+false} rather than implying a challenge occurred.  A missing sandbox is therefore a
+recorded absence of challenge, not a silent pass.  The headline live artifact of
 \cref{sec:rq2} is in exactly that position, and we report it there as a limitation of that
 run rather than as a property of the method.
 
@@ -384,30 +589,75 @@ the returned \mbox{\code{record.issue\_number}} to \code{labels} and \code{comme
 uses \code{limit=100} for the latter.  The following applies the executed compiler rule
 to that record; it is not a separate experiment.
 
-\begin{enumerate}[leftmargin=*,itemsep=2pt,topsep=3pt]
-  \item \textbf{Propose.} Repeated normalized traces place the three reads in one
-  candidate family.  This establishes a pattern, not permission to deploy it.
-  \item \textbf{Trace values backward.} The first argument is \code{z.issue\_number}; the
-  later issue identifiers are the stable result path
-  \mbox{\code{record.issue\_number}}.  These slots have
-  witnesses in the closed binding language.
-  \item \textbf{Try the remaining argument.} The observed \code{limit} varies across
-  otherwise similar entries and is neither in $z$ nor recoverable from \code{record} or
-  \code{labels}.  With no witness for that slot, the full region is rejected as
-  \mbox{\code{ungroundable\_slot}}; the compiler does not guess a modal value.
-  \item \textbf{Emit the maximal justified prefix.} \code{record(z.issue\_number) ->
-  labels(record.issue\_number)} is groundable, read-only, and at the entry boundary, so it can reach
-  contract checks and calibration.  The ordinary agent still selects the comment limit and
-  renders the answer.
-  \item \textbf{Dispatch or decline.} A manifest or guard mismatch, failed verification,
-  or failed risk gate runs the unchanged agent.  Only a matching, calibrated episode
-  receives the two-read prefix.
-\end{enumerate}
+\Cref{tab:worked-trace} walks the record from left to right: what the trace contains, and
+what the compiler is entitled to conclude from it.
+
+\begin{table*}[t]
+  \centering
+  \caption{The executed compiler rule applied to held-out issue 4420, with the formal
+  object responsible for each decision.  The left column is the observed record; the
+  right column is the entitlement it produces.  The decisive line is the third: one
+  argument slot without a witness retires the \emph{whole} region, and the compiler keeps
+  the justified prefix instead of guessing the missing value or discarding the episode.
+  Nothing in this table is a separate experiment.}
+  \label{tab:worked-trace}
+  \small
+  \begin{tabularx}{\textwidth}{@{}p{0.29\textwidth}X@{}}
+    \toprule
+    \textbf{Observed trace} & \textbf{Compiler decision, and what licenses it} \\
+    \midrule
+    Entry state $z=\{\code{issue\_number}=4420\}$; manifest $M$ pins the workflow &
+    \textbf{Propose} ($E$, $M$, $z$).  All 132 discovery executions take the same route,
+    so the normalized traces form one candidate family.  Recurrence establishes a
+    pattern, not permission to deploy it. \\
+    \addlinespace[2pt]
+    \code{record(4420)} &
+    \textbf{Trace backward} (Eq.~\eqref{eq:grounding}, \cref{alg:patg}).  The argument is
+    \code{z.issue\_number} --- a witness in the closed binding language. \\
+    \addlinespace[2pt]
+    \code{labels(record.issue\_number)} &
+    Same verdict through the stable result path \mbox{\code{record.issue\_number}}. \\
+    \addlinespace[2pt]
+    \code{comments(record.issue\_number,} \code{limit=100)} &
+    \textbf{Refuse} the region.  The observed \code{limit} varies across otherwise
+    similar entries and is neither in $z$ nor recoverable from \code{record} or
+    \code{labels}.  With no witness for that slot the full three-read region is rejected
+    as \mbox{\code{ungroundable\_slot}}; the compiler does not guess a modal value. \\
+    \addlinespace[2pt]
+    --- &
+    \textbf{Emit the maximal justified prefix} ($P$).
+    \code{record(z.issue\_number) -> labels(record.issue\_number)} is groundable,
+    read-only, and at the entry boundary, so it reaches the induced contracts $H$ and $V$
+    and the manifest pins $M$. \\
+    \addlinespace[2pt]
+    92 held-out calibration groups &
+    \textbf{Calibrate} ($q$, $\eta$, $U_\eta$).  All 92 are admitted with zero
+    violations at $\alpha=.05$, $\delta=.10$ and $|\Lambda|=11$, for simultaneous upper
+    bound $0.0498$ (Eq.~\eqref{eq:cp}).  This is a per-candidate threshold-grid certificate,
+    not a proof of semantic correctness. \\
+    \addlinespace[2pt]
+    A future compatible record &
+    \textbf{Dispatch} ($d_A$).  A matching, low-score entry receives the two-read prefix
+    in staging.  The ordinary agent still selects the comment limit and renders the
+    answer, so the decisions the evidence did not determine stay with the model. \\
+    \addlinespace[2pt]
+    Anything else &
+    \textbf{Decline}.  A manifest or guard mismatch, a failed verification, or a failed
+    risk gate runs the unchanged agent. \\
+    \bottomrule
+  \end{tabularx}
+\end{table*}
 
 This also shows why replay alone is insufficient.  A hard-coded comment limit can replay
 the observed source calls yet alter the evidence seen by the final model.  In the earlier
 three-read follow-up, tool replay passed but one answer lost a required URL.  Provenance
 decides what can be constructed; contracts and the gate decide whether it may be used.
+The two checks are worth naming apart: \emph{tool replay passed} is a statement about the
+source calls a program reproduces, while \emph{continuation answer preserved} is a
+statement about the answer the model then writes.  The earlier 18-record cohort satisfied
+the first and failed the second on issue 6602, and it is a separate study with a separate
+artifact --- calibrated at $\alpha=.10$ --- not an earlier run of the two-read artifact
+described here.
 
 \subsection{Guarded composite synthesis}
 \label{sec:gcs-method}
@@ -420,7 +670,29 @@ program as
 \(\widetilde P=(P,\Pi,\tau_c)\), where \(P\) is the verified internal program,
 \(\Pi\) is a declared projection over verified live-outs, and \(\tau_c\) is the exact
 compatibility key of the continuation that consumes the projection.  A tool must carry an
-explicit \code{batchable} capability before it can appear inside this interface.
+explicit \code{batchable} capability before it can appear inside this interface.  The
+outer composite is a declared \emph{view} of verified internal receipts, not a new source
+operation, and \cref{fig:gcs-envelope} draws it that way.
+
+\begin{figure}[t]
+  \centering
+  \input{../figures/fig-gcs-envelope.tex}
+  \caption{Guarded composite synthesis as a sealed envelope.  The three source reads are
+  still executed, still serial, and still verified with field-level provenance; $\Pi$
+  exposes only verified live-outs, and $\tau_c$ seals the result to the continuation that
+  consumes it.  What changes is the interface the provider sees, not the work done behind
+  it.  Its gate is also the only one in this paper that rejects a calibration group at
+  its selected threshold, which is why every result resting on it is licensed at
+  $\alpha=.10$ rather than the registered $.05$.}
+  \Description{A vertical diagram. At the top, the required gates: an explicit batchable
+  capability on every tool and, for a pre-model dispatch, an exact continuation-manifest
+  match. In the middle, a staging box containing three sequential internal reads for
+  record, labels and comments, retained with provenance. Below it, the projection selects
+  only verified live-outs in the bounded binding language and returns the baseline on a
+  missing field. At the bottom, one composite observation is exposed to the provider, and
+  a warning panel lists what the construction does not do.}
+  \label{fig:gcs-envelope}
+\end{figure}
 
 Some recurrent calls differ only in arguments that are irrelevant to the registered task.
 The effect catalog may therefore attach a signed, declarative task-semantic
@@ -430,7 +702,11 @@ and finite aliases), and integer rules may declare an admissible input domain.  
 learned equivalence: values outside that domain raise and deoptimize.  In the GitHub task,
 the consumer uses at most the first three comments and the snapshot tool already caps its
 result at three, so observed limits of at least three share the representative
-\code{limit=3}; \code{limit=1} is deliberately outside the contract.
+\code{limit=3}; \code{limit=1} is deliberately outside the contract.  The intuition to
+keep is that this is a \emph{declaration the compiler enforces}, supplied and signed by
+the application and bounded to a stated domain, rather than an equivalence the compiler
+inferred from traces --- which is why a value outside the domain raises instead of being
+folded into the representative.
 
 The projection language reuses the bounded binding DSL.  It can select only existing
 verified live-outs and cannot call arbitrary code, resolve a dynamic tool, or access
@@ -443,9 +719,11 @@ record on its first request rather than spending a request selecting the composi
 
 GCS is consequently narrower than automatic API fusion.  It does not parallelize the
 internal calls, reduce the number of source reads, generate a new remote service, or prove
-the application-supplied task-semantic contract.  Its contribution is a serializable,
-fail-closed interface transformation over a program the existing compiler can already
-verify.
+the application-supplied task-semantic contract.  Each of those non-claims is visible in
+\cref{fig:gcs-envelope} rather than only asserted here: the three source reads are drawn
+inside the staging box, in sequence, with their receipts retained.  Its contribution is a
+serializable, fail-closed interface transformation over a program the existing compiler
+can already verify, and every result that uses it in this paper is a $10\%$-risk result.
 
 \subsection{Fair manual and learned-optimizer interfaces}
 \label{sec:optimizer-method}
@@ -468,6 +746,13 @@ therefore change orthogonal variables and can be evaluated alone or together.  O
 requests, tokens, latency, and cost are accounted separately from held-out evaluation.
 
 \subsection{Exact risk-gated admission}
+
+The gate is a conservative admission test over a fixed menu of thresholds, not a
+confidence score that proves an individual output correct.  Two data signals do two
+different jobs in it, and conflating them is the easiest way to misread the guarantee:
+the score is \emph{fitted} on development groups that turned out unproductive in any way
+--- wrong or abstained --- and then frozen, while the bound is \emph{counted} only from
+groups that were dispatched and turned out wrong.
 
 The score $q(z)$ is a logistic model over entry-observable features: unseen category,
 distance proxy, missing fields, hull margin, temporal drift, provenance ambiguity, and
@@ -500,7 +785,32 @@ cases match the implementation and prevent an empty admitted set or an all-viola
 from producing an undefined beta quantile.  \Cref{alg:calibrate} gives the selection loop.
 The ordering in it is the load-bearing part: the score and the grid are frozen before the
 procedure reads a single calibration group, which is what makes the union bound over
-$\Lambda$ legitimate.
+$\Lambda$ legitimate.  \Cref{fig:admission-frontier} runs that selection on two sealed
+gates.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\linewidth]{../generated_figures/admission_frontier.pdf}
+  \caption{Fixed-grid selection on two sealed gates, from frozen grid to counts
+  $(n_\eta,k_\eta)$ to the bound $U_\eta$ to the admitted threshold.  Coverage and
+  $U_\eta$ are both fractions, so they share one axis.  \textbf{Left:} the two-read
+  issue-type artifact.  It is degenerate --- it admits every calibration group as soon as
+  it admits any --- and clears the registered budget.  \textbf{Right:} the
+  guarded-composite artifact, the only gate here that rejects groups at its selected
+  threshold; the same selectivity puts $n$ below the 92 a zero-violation $5\%$ bound
+  needs, so its bound is $0.0520$ and it is admitted only at $\alpha=.10$.  Zero observed
+  violations never produces a zero bound: $\gamma=\delta/|\Lambda|$ pays for the union
+  bound over the grid, and reading the counts before choosing $\hat\eta$ is legitimate
+  only because the candidate, the score, and the grid were frozen first.}
+  \Description{Two panels sharing a y-axis for the fraction of calibration groups. In
+  each, blue bars give coverage at each of the eleven frozen thresholds and a red line
+  gives the Clopper-Pearson upper bound, with dashed and dotted horizontal rules for the
+  risk budgets. The left panel jumps from zero to full coverage at threshold 0.11 and
+  ends with 92 of 92 groups admitted at bound 0.0498, which clears the registered five
+  percent. The right panel jumps at threshold 0.17 to coverage 0.957, admitting 88 of 92
+  groups at bound 0.0520, which exceeds five percent but clears ten percent.}
+  \label{fig:admission-frontier}
+\end{figure*}
 
 \input{../figures/alg-calibrate.tex}
 
@@ -548,6 +858,29 @@ violations, the requirement rises from 92 to 106 admitted groups.  Alternatively
 compiler must freeze one candidate before calibration or use a valid fixed-sequence
 procedure.  The retained experiments are therefore reported with per-candidate conditional
 certificates, not a multiplicity-corrected compiler-wide certificate.
+\Cref{fig:scope-fence} draws that boundary as a fence around the proposition rather than
+as a caveat beside it.
+
+\begin{figure}[t]
+  \centering
+  \input{../figures/fig-scope-fence.tex}
+  \caption{What the proposition licenses, and what it does not.  \textbf{(A)} One fixed
+  candidate against the predeclared grid is covered: $\gamma=\delta/|\Lambda|$ buys a
+  bound that holds simultaneously at every $\eta$, which is what permits reading the
+  calibration counts before choosing $\hat\eta$.  \textbf{(B)} Several candidates sharing
+  one calibration set is a search the certificate does not price, and the assumptions
+  travel with the fence: the live configuration makes group independence an assumption
+  the snapshot cannot verify.}
+  \Description{Two stacked panels. The upper panel shows eleven threshold chips for one
+  fixed candidate and states that the union bound over the frozen grid covers this case.
+  The lower panel shows several candidate families sharing one calibration set, separated
+  by a red dashed fence, and states that the confidence budget is split across thresholds
+  rather than families, that a Bonferroni repair at two candidates raises the requirement
+  from 92 admitted groups to 106, and that freezing one candidate or using a
+  fixed-sequence procedure is the alternative. A closing note records that the live
+  studies set one distinct day and one principal over a single repository snapshot.}
+  \label{fig:scope-fence}
+\end{figure}
 
 \noindent The guarantee concerns disagreement with the induced verifier $V$, not semantic
 task error.  It also requires independent group indicators, no distribution shift, and a
@@ -601,7 +934,10 @@ admits all of them.  Rejecting four groups reduces $n$ below the 92 that a zero-
 $5\%$ bound requires, so the same discrimination that makes this gate less degenerate than
 the others is what puts its bound at $0.052$.  Coverage and risk trade off against each
 other exactly as the finite-sample calculation says they must, and at these sample sizes
-the trade is visible at the first sign of any selectivity at all.
+the trade is visible at the first sign of any selectivity at all.  The right panel of
+\cref{fig:admission-frontier} is that row drawn against the left panel: identical grid,
+identical $\delta$, zero violations in both, and the only difference is that four groups
+fall outside the admitted set.
 
 \subsection{Risk-bounded transformation portfolio}
 \label{sec:portfolio-method}
@@ -636,6 +972,28 @@ commitment has already been made and rollback would be a fiction.
 
 \input{../figures/alg-dispatch.tex}
 
+\begin{figure*}[t]
+  \centering
+  \input{../figures/fig-commit-boundary.tex}
+  \caption{Where ``the baseline runs unchanged'' is exact.  Both integration paths share
+  every check that can reject \emph{before} emission, so those rejections are exact for
+  both.  They differ only to the right of the commit line: the outer runner owns the
+  entry snapshot and can restore byte-identical model-visible input, while the
+  model-boundary adapter cannot withdraw a \code{ModelResponse} the host may already have
+  committed to session history.  The difference is structural rather than an
+  implementation gap, and it is why one terminal edge of \cref{alg:dispatch} raises an
+  incident instead of reporting a fallback.}
+  \Description{Two aligned lanes sharing a band of pre-emission checks: lifecycle,
+  signature, manifest pins, hard guard, already-observed tools, quota attestation and the
+  calibrated gate. A vertical commit line separates the lanes' outcomes. The outer runner
+  lane ends in an exact clean fallback with byte-identical model-visible input. The
+  model-boundary adapter lane ends in weaker post-emission semantics, because the host
+  may already have committed the synthesized response to session history. A side panel
+  tallies the terminal edges as one compacted execution, five returns to the unmodified
+  agent, and one incident.}
+  \label{fig:commit-boundary}
+\end{figure*}
+
 For the OpenAI Agents SDK, the library provides trace capture plus a custom model-boundary
 adapter for local function tools.  Streaming, hosted tools, MCP tools, handoffs, loops,
 and assertions bypass rather than degrade.  The SDK provides the loop and lifecycle, but it
@@ -645,7 +1003,7 @@ is not itself an offline optimizer~\cite{openai2026agents}.
 \label{sec:runtime-scope}
 
 The two integration paths do not offer the same guarantee, and the difference is
-structural rather than an implementation gap.  The outer runner owns the entry snapshot and
+structural rather than an implementation gap (\cref{fig:commit-boundary}).  The outer runner owns the entry snapshot and
 the commit boundary, so a rejected attempt restores byte-identical model-visible input: for
 that path, ``the baseline runs unchanged'' is exact at every failure point.  The
 model-boundary adapter cannot make the same promise.  Once it has returned a synthesized
@@ -660,6 +1018,10 @@ should be read as scoped to the staging-owning runner; the adapter is guarded su
 with explicitly weaker post-emission semantics.  A general solution requires artifacts to
 target explicit control points with continuation tokens rather than implicit model
 boundaries, which we leave to future work (\cref{sec:extension}).
+
+The operational invariant of the whole runtime fits in one sentence: one path compacts,
+clean misses preserve the baseline at the stated boundary, and post-commit contamination
+is reported as an incident rather than relabelled as fallback.
 
 \section{Experimental Methodology}
 \label{sec:methodology}

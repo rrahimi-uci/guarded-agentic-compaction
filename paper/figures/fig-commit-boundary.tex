@@ -1,0 +1,70 @@
+% Where "the baseline runs unchanged" is exact, and where it is only guarded
+% substitution with weaker post-emission semantics.
+% Authored artwork (TikZ), included by both the ACM and the article build.
+% Colours are declared in each wrapper preamble so the figure is class-neutral.
+%
+% Both lanes share one horizontal axis and one vertical commit line, so the reader
+% sees that the paths differ only to the right of that line. Natural width ~162mm.
+\begin{tikzpicture}[
+  x=1mm, y=1mm,
+  font=\sffamily\scriptsize,
+  chk/.style={
+    draw=gacblue!85, line width=0.5pt, rounded corners=1.4pt, fill=gacblue!8,
+    anchor=north west, align=left, inner sep=2.4pt,
+    minimum width=98mm, text width=93mm, font=\sffamily\tiny},
+  lane/.style={
+    draw=gacline!70, line width=0.5pt, rounded corners=1.4pt, fill=white,
+    anchor=north west, align=left, inner sep=2.2pt,
+    minimum width=44mm, text width=40mm, minimum height=13mm, font=\sffamily\tiny},
+  okl/.style={lane, draw=gacline!55, fill=gacgrey},
+  badl/.style={lane, draw=gacred!80, fill=gacred!8},
+  stg/.style={lane, draw=gacteal!85, fill=gacteal!10, minimum width=42mm, text width=38mm},
+  tally/.style={
+    draw=gacline!55, line width=0.5pt, rounded corners=1.4pt, fill=gacgrey,
+    anchor=north west, align=left, inner sep=2.4pt,
+    minimum width=58mm, text width=53mm, font=\sffamily\tiny},
+  flow/.style={-{Latex[length=1.4mm,width=1.1mm]}, draw=gacline!85, line width=0.45pt},
+  commit/.style={draw=gacred!85, line width=0.8pt},
+  gnote/.style={font=\sffamily\tiny, text=gacline, anchor=north west, align=left},
+  ghd/.style={font=\sffamily\bfseries\tiny, anchor=north west},
+]
+
+% ------------------------------------------------------ shared pre-emission band
+\node[chk] (band) at (0,0)
+  {\textbf{Exact for both paths --- every check that can reject \emph{before} emission}\\
+   lifecycle $\cdot$ signature $\cdot$ manifest pins $\cdot$ hard guard $H$ $\cdot$
+   already-observed tools $\cdot$ quota attestation $\cdot$ calibrated gate $q\le\eta$};
+
+\node[tally] (tal) at (104,0)
+  {\textbf{Terminal edges of \cref{alg:dispatch}}\\
+   1 compacted execution $\cdot$ 5 return the unmodified agent $\cdot$ 1 raises an
+   incident, which happens only when an external commitment has already been made and
+   rollback would be a fiction.};
+
+% -------------------------------------------------------------- the commit line
+\draw[commit] (94,-16) -- (94,-62);
+\node[ghd, text=gacred!85, anchor=south] at (94,-15.4) {commit line};
+
+% ---------------------------------------------------------------- lane A: runner
+\node[ghd, text=gacteal!65!black] at (0,-18.4) {A\quad outer runner \normalfont\itshape --- owns the entry snapshot and the commit boundary};
+\node[stg] (a1) at (0,-23)  {staged execution\\nothing model-visible has been written};
+\node[okl] (a2) at (98,-23) {\textbf{clean fallback is exact}\\the baseline agent sees
+                             byte-identical model-visible input at every failure point};
+\draw[flow] (a1.east) -- (a2.west);
+
+% --------------------------------------------------------------- lane B: adapter
+\node[ghd, text=gacred!85] at (0,-41.4) {B\quad model-boundary adapter \normalfont\itshape --- the host runner owns session history};
+\node[stg] (b1) at (0,-46)  {staged execution\\then a synthesized \code{ModelResponse} is
+                             returned};
+\node[badl] (b2) at (98,-46) {\textbf{weaker post-emission semantics}\\the host may already
+                              have committed the item; the \code{Model} interface cannot
+                              withdraw it, so a later verifier failure delegates with
+                              history the baseline would never have contained};
+\draw[flow] (b1.east) -- (b2.west);
+
+\node[gnote, text width=92mm] at (0,-64)
+  {Read every ``unmodified baseline'' claim in this paper as scoped to a staging-owning
+   runner.  The adapter is guarded substitution, not byte-identical restoration, and the
+   difference is structural rather than an implementation gap.};
+
+\end{tikzpicture}
