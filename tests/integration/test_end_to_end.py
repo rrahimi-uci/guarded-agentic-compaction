@@ -88,6 +88,10 @@ def test_compilation_emits_a_readable_grounded_artifact(compiled):
         for family in (res.mining.families if res.mining else ())
     )
     art = res.artifacts[0]
+    record = next(
+        candidate for candidate in res.candidates if candidate.candidate_id == art.artifact_id
+    )
+    assert art.evidence.support_days == record.support_days
     text = art.explain()
     assert "z.ticket.requester_email |> lower" in text
     assert "filter(status == 'active') |> project('id')" in text

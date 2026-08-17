@@ -516,7 +516,7 @@ def compile_grc(
             continue
 
         artifact = _emit(
-            family,
+            train_family,
             program,
             names,
             guard,

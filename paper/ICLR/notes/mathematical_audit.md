@@ -58,8 +58,9 @@ stored experimental number.
     theorem-to-code correspondence.
 11. **Candidate/data separation.** The compiler now fits the provenance policy,
     mines support, and ranks candidate families on train groups only. Development
-    and calibration graphs are attached only after that ranked list is fixed;
-    sealed-test and shadow episodes are never graphed. This repairs an
+    and calibration graphs are attached only for held-in window lookup after
+    that ranked list is fixed; emitted identity and evidence remain train-only,
+    and sealed-test and shadow episodes are never graphed. This repairs an
     implementation path that could otherwise make the nominally fixed candidate
     depend on calibration or test covariates.
 
