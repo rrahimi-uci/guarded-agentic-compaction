@@ -15,7 +15,31 @@
 \input{figures/alg-compile.tex}
 
 \Cref{fig:pipeline} and \cref{alg:compile} give the same six stages at two
-levels of detail. We describe each and state what it can refuse.
+levels of detail. The order is itself part of the argument: each stage can only
+weaken a candidate, so a later stage may reject one an earlier stage passed, but
+no later stage can authorize one an earlier stage blocked. We describe each and
+state what it can refuse.
+
+\begin{figure}[t]
+  \centering
+  \input{figures/provenance_witness.tex}
+  \caption{\Cref{eq:grounding} on the held-out issue-4420 record. Every argument
+  slot needs an expression in $\mathcal{L}$ over the entry state or a prior
+  result; the two \code{issue\_number} slots have one and the \code{limit} slot
+  has none, so it is drawn as a socket with no incoming edge. The question is
+  strictly harder than recurrence: not ``did this sequence repeat?'' --- all 132
+  discovery executions did --- but ``can every socket be wired from an allowed
+  prior value?'' One unwitnessed slot retires the whole region, and a slot with
+  more than $\kappa$ witnesses does the same.}
+  \Description{Two witness chips, the entry-state issue number and the issue
+  number returned by the record call, sit above three tool-call cards. Green
+  arrows labelled with the producing expression connect a witness to the issue
+  number socket of the record, labels and comments calls. The limit socket of
+  the comments call has no incoming arrow and is marked no witness. A red dashed
+  frame around all three calls marks the retired region and a green dashed frame
+  around the first two marks the emitted prefix.}
+  \label{fig:provenance}
+\end{figure}
 
 \paragraph{1. Typed provenance.}
 A capture adapter normalizes framework traces into the Episode IR; manifests
@@ -27,7 +51,9 @@ prior-result paths for typed values reachable by a bounded transform --- executi
 provenance in the database sense~\citep{cheney2009provenance}, specialized to
 tool arguments. Two outcomes block a region rather than guessing: a slot with
 \emph{no} witness is a genuine model decision, and a slot with more than
-$\kappa$ witnesses is ambiguous.
+$\kappa=3$ witnesses is ambiguous. \Cref{fig:provenance} shows both branches on
+the motivating record. A repeated tool name, a matching literal, and a
+successful replay are not witnesses; only an expression in $\mathcal{L}$ is.
 
 \paragraph{2. Region mining and ranking.}
 The miner enumerates model-boundary-to-result windows of at most $w_{\max}$
@@ -86,7 +112,12 @@ why a statistical gate follows them rather than replacing them.
 \Cref{alg:calibrate} decides deployment. The score $q$ is fitted on \emph{dev}
 groups only --- never on calibration groups --- from entry-observable features
 such as missing fields, hull margin, temporal drift, and provenance ambiguity,
-then frozen together with a finite threshold grid $\Lambda$. For each
+then frozen together with the finite threshold grid
+$\Lambda=\{.02,.05,.08,.11,.14,.17,.20,.25,.30,.40,.50\}$. Two data signals do
+two different jobs here, and conflating them is the easiest way to misread the
+guarantee: $q$ is \emph{fitted} on development groups that turned out
+unproductive in any way --- wrong or abstained --- while the bound below is
+\emph{counted} only from groups that were dispatched and turned out wrong. For each
 $\eta\in\Lambda$ the compiler counts admitted calibration groups ($n_\eta$) and
 those containing at least one post-dispatch violation ($k_\eta$), and inverts
 the one-sided exact binomial test~\citep{clopper1934binomial} at a
@@ -113,10 +144,10 @@ groups. The default output is refusal, not emission.
 \label{prop:admission}
 Fix one candidate program, hard guard, verifier, score, group-level violation
 rule, and finite grid $\Lambda$ before calibration. If calibration groups are
-i.i.d. from the future-group distribution, then with probability at least
-$1-\delta$, every $\eta\in\Lambda$ satisfies $r_\eta\le U_\eta$, where
-$r_\eta$ is post-dispatch group risk. Hence the selected threshold satisfies
-$r_\eta\le\alpha$ whenever $U_\eta\le\alpha$.
+i.i.d.\ from the future-group distribution, then with probability at least
+$1-\delta$, every $\eta\in\Lambda$ satisfies $r_\eta\le U_\eta$, where $r_\eta$
+is post-dispatch group risk. Consequently the data-selected threshold
+$\hat\eta$ satisfies $r_{\hat\eta}\le\alpha$ whenever $U_{\hat\eta}\le\alpha$.
 \end{proposition}
 
 \Cref{app:proof} gives the proof. The guarantee is deliberately narrow: it is

@@ -2,7 +2,7 @@
 \label{sec:related}
 
 \paragraph{Guarded trace and agent workflow compilation.}
-GAC adapts the tracing-JIT pattern---compile a hot path behind a guard and
+\method adapts the tracing-JIT pattern---compile a hot path behind a guard and
 return to the interpreter on a miss~\citep{bala2000dynamo,holzle1992deopt}---to
 agents, whose arguments must remain grounded in observed state and whose
 speculation must be licensed by declared effects~\citep{lucassen1988effects}.
@@ -10,14 +10,14 @@ Recent systems mine meta-tools (AWO), induce workflows, cache plans, compile
 typed orchestration, validate tool-state plans, search workflow graphs, or
 prune multi-agent topology
 \citep{abuzakuk2026awo,wang2025awm,zhang2025plancache,wei2026evoc2f,winston2026agentjit,li2026flowcompile,chen2026agentslimming}.
-They motivate workflow optimization; GAC's distinct claim is an evidence gate
+They motivate workflow optimization; \method's distinct claim is an evidence gate
 for whether recurrence licenses replacement, not unmeasured superiority.
 
 \paragraph{Other optimization targets.}
 DSPy optimizes prompts, GEPA evolves them, RouteLLM changes models, and
 LLMCompiler parallelizes current calls
 \citep{khattab2024dspy,agrawal2026gepa,ong2025routellm,kim2024llmcompiler}.
-GAC instead replaces a historical boundary only after guarded evidence.
+\method instead replaces a historical boundary only after guarded evidence.
 
 \paragraph{Synthesis, risk control, and evaluation.}
 The bounded search draws on programming by example, sketching, and execution

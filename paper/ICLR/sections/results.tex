@@ -38,15 +38,17 @@ runtime dominance over correct manual code.
   \caption{Cross-repository time-forward results on the narrower two-read
   pull-request outcome task. Held-out records are strictly newer than discovery
   records and selection is sealed before any provider call. The 5-repo cohort
-  retires \code{pytorch/pytorch}; a fixed template is at least as efficient in
-  both settings.}
+  retires \code{pytorch/pytorch}. A fixed two-read template is more efficient in
+  the 5-repo core (66.7\% fewer requests against 44.4\%) and essentially tied in
+  the balanced rerun, which is why this result is evidence of automatic
+  discovery and principled retirement rather than of runtime dominance.}
   \label{tab:multirepo}
   \small
   \setlength{\tabcolsep}{5pt}
   \input{tables/multirepo_results.tex}
 \end{table}
 
-In the five-repository cohort, GAC completes 120/120 exact held-out pairs on
+In the five-repository cohort, \method completes 120/120 exact held-out pairs on
 four repositories and retires \code{pytorch/pytorch} at compile time rather
 than loosening its gate (\cref{tab:multirepo}). The balanced three-repository
 rerun reaches 180/180 exact pairs with 66.7\% fewer requests. A fixed two-read

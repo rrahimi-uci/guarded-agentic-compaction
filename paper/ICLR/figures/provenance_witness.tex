@@ -1,0 +1,73 @@
+% Groundability, Eq. (1), applied to the held-out issue-4420 record.
+% Authored TikZ. Colours are declared in main.tex so the figure is class-neutral.
+%
+% Explicit geometry (x=y=1mm, anchor=north west) and a natural width of ~135mm, which
+% fits the 5.5in ICLR measure without scaling, so the \tiny labels stay \tiny.
+% The witness lane sits above the call lane so every edge is drawn downward and the
+% refusal is visible as a socket with no incoming edge rather than as a dashed arrow,
+% which would read as a weak wire when the point is that there is no wire at all.
+\begin{tikzpicture}[
+  x=1mm, y=1mm,
+  font=\sffamily\scriptsize,
+  wit/.style={
+    draw=gacteal!85, line width=0.5pt, rounded corners=1.2pt, fill=gacteal!10,
+    anchor=north west, align=center, inner sep=1.8pt,
+    minimum width=40mm, minimum height=6.4mm, text width=36mm, font=\sffamily\tiny},
+  call/.style={
+    draw=gacline!85, line width=0.45pt, rounded corners=1.2pt, fill=white,
+    anchor=north west, align=center, inner sep=1.6pt,
+    minimum width=40mm, minimum height=5.2mm, text width=36mm, font=\sffamily\tiny},
+  ok/.style={
+    draw=gacteal!85, line width=0.4pt, rounded corners=1pt, fill=gacteal!8,
+    anchor=north west, align=left, inner sep=1.6pt,
+    minimum width=37mm, minimum height=4.8mm, text width=33mm, font=\sffamily\tiny},
+  bad/.style={ok, draw=gacred!85, fill=gacred!8},
+  wire/.style={-{Latex[length=1.3mm,width=1mm]}, draw=gacteal!90, line width=0.5pt},
+  lbl/.style={font=\sffamily\tiny, inner sep=0.8pt, fill=white, text=gacline},
+  gnote/.style={font=\sffamily\tiny, text=gacline, anchor=north west, align=left},
+  ghd/.style={font=\sffamily\bfseries\tiny, text=gacblue, anchor=north west},
+  reg/.style={rounded corners=1.6pt, line width=0.55pt, densely dashed},
+]
+
+\node[ghd] at (0,4.2) {witnesses available at each step: entry state, then each prior result};
+\node[wit] (w1) at (0,  0) {\code{z.issue\_number} $=4420$};
+\node[wit] (w2) at (46, 0) {\code{record.issue\_number}};
+
+\node[call] (c1) at (0,  -15) {\code{record(issue\_number=$\bullet$)}};
+\node[ok]   (s1) at (1.5,-21) {\code{issue\_number} $\leftarrow$ witness};
+\node[call] (c2) at (46, -15) {\code{labels(issue\_number=$\bullet$)}};
+\node[ok]   (s2) at (47.5,-21) {\code{issue\_number} $\leftarrow$ witness};
+\node[call] (c3) at (92, -15) {\code{comments(issue\_number=$\bullet$, limit=$\bullet$)}};
+\node[ok]   (s3) at (93.5,-21) {\code{issue\_number} $\leftarrow$ witness};
+% The refusal is carried by the socket itself. A separate note in the right margin
+% collided with the long record->comments wire, and the caption states the rule anyway.
+\node[bad]  (s4) at (93.5,-27)
+  {\code{limit}$=100$ \;\textcolor{gacred!90}{\textbf{no witness in} $\mathcal{L}$}};
+
+\begin{scope}[on background layer]
+  \node[draw=gacline!45, line width=0.35pt, rounded corners=1.6pt, fill=gacgrey!60,
+        inner sep=1.8pt, fit=(c1)(s1)] (f1) {};
+  \node[draw=gacline!45, line width=0.35pt, rounded corners=1.6pt, fill=gacgrey!60,
+        inner sep=1.8pt, fit=(c2)(s2)] (f2) {};
+  \node[draw=gacline!45, line width=0.35pt, rounded corners=1.6pt, fill=gacgrey!60,
+        inner sep=1.8pt, fit=(c3)(s3)(s4)] (f3) {};
+\end{scope}
+
+\draw[wire] (w1.south) -- (c1.north) node[lbl, pos=0.5] {$g\in\mathcal{L}$: \code{z.issue\_number}};
+\draw[wire] (w2.south) -- (c2.north) node[lbl, pos=0.5] {\code{record.issue\_number}};
+\draw[wire] (w2.south east) -- ++(0,-5) -| ([xshift=-8mm]c3.north);
+
+\begin{scope}[on background layer]
+  \node[reg, draw=gacred!80, fit=(f1)(f2)(f3), inner sep=3.4pt] {};
+  \node[reg, draw=gacteal!90, fit=(f1)(f2), inner sep=1.8pt] {};
+\end{scope}
+
+% The two verdicts are one line rather than two blocks: the caption carries the
+% argument, and repeating it inside the frame doubled the figure's height.
+\node[gnote, text width=134mm] at (0,-34.5)
+  {\textcolor{gacred!90}{\textbf{Red:} \retire{} \code{ungroundable\_slot}}, the whole
+   three-read region.\quad
+   \textcolor{gacteal!75!black}{\textbf{Green:} the maximal justified prefix $P$ that
+   reaches contracts and calibration.}};
+
+\end{tikzpicture}

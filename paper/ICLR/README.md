@@ -11,9 +11,10 @@ for:
 - `sections/`: main-paper sections (`abstract`, `introduction`, `problem`,
   `method`, `evaluation`, `results`, `related_work`, `discussion`,
   `conclusion`).
-- `figures/`: the TikZ architecture diagram (`pipeline_overview.tex`), the four
-  algorithm floats (`alg-compile`, `alg-calibrate`, `alg-patg`,
-  `alg-dispatch`), and self-contained copies of the generated result PDFs.
+- `figures/`: the TikZ architecture diagram (`pipeline_overview.tex`), the
+  provenance-witness diagram (`provenance_witness.tex`), the four algorithm
+  floats (`alg-compile`, `alg-calibrate`, `alg-patg`, `alg-dispatch`), and
+  self-contained copies of the generated result PDFs.
 - `tables/`: compact tables written for the ICLR version.
 - `appendix.tex`: proof, additional algorithms, configuration, extended
   limitations. Included after the references.

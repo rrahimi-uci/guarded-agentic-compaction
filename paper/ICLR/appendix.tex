@@ -63,7 +63,12 @@ groups; at exactly $n_\eta=92$ and $k_\eta=0$ the bound is
 $U_\eta=1-(0.1/11)^{1/92}=0.0498\le\alpha$. Tightening the confidence budget to
 $\delta=0.05$ would raise the requirement to 106 groups, which no study in this
 paper reaches, so $\delta=0.1$ is the operative setting throughout and is
-reported as such rather than rounded to match $\alpha$.
+reported as such rather than rounded to match $\alpha$. A Bonferroni repair over
+$m=2$ candidate families would use $\gamma=\delta/(m|\Lambda|)$ and land on the
+same 106-group requirement, which is why the paper reports per-candidate
+certificates rather than a compiler-wide one. The grid is
+$\Lambda=\{.02,.05,.08,.11,.14,.17,.20,.25,.30,.40,.50\}$ and the ambiguity cap
+is $\kappa=3$.
 Synthesis uses a 23-operator closed library at depth $\le 2$; region mining
 uses $w_{\max}$ tool calls per window and requires support across independent
 scenario groups. The implementation also supports a minimum-distinct-days
@@ -176,8 +181,10 @@ exploratory.
   \label{fig:gate-support}
 \end{figure}
 
-The current empirical gate does not yet demonstrate a useful risk--coverage
-frontier at the registered 5\% level. The strongest current runs are mostly
+\Cref{fig:family-reductions} plots the per-family spread behind
+\cref{tab:primary}: admissible prefix depth, not the optimizer, sets the
+savings. The current empirical gate does not yet demonstrate a useful
+risk--coverage frontier at the registered 5\% level. The strongest current runs are mostly
 all-or-none support tests (\cref{fig:gate-support}), and the compiler-wide
 candidate-search problem is not yet multiplicity-corrected. Likewise, exact task
 contracts do not certify full semantic equivalence of the final answer,
