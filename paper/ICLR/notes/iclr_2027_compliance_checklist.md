@@ -109,7 +109,7 @@ caption placement and typography rules, and the statement/appendix ordering.
 ### Substance ported from the source article
 
 - The compile cascade is one-way: a later stage may reject a candidate an earlier stage
-  passed, but no later stage can authorize one an earlier stage blocked.
+  passed, but no later stage can authorize one that an earlier stage blocked.
 - $q$ is *fitted* on development groups that were unproductive in any way (wrong or
   abstained); the bound is *counted* only from dispatched groups that were wrong.
 - The candidate-multiplicity repair, $\gamma=\delta/(m|\Lambda|)$: 92 groups become 106 at
