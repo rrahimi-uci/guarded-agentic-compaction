@@ -153,10 +153,10 @@ Two earlier presentations are preserved verbatim and still build:
 
 `article.pdf` is the complete article: it carries `appendix/appendix.tex` after the
 bibliography, holding the per-study reproduction commands, the implementation audit,
-the complete claims register, the per-metric numbers behind the figures, the disposition
-of all ten benchmark families, and the artifact lifecycle boundary. `main.pdf` is the
-submission format and does not — that appendix ships as separate supplementary material,
-and its verbatim command blocks would overrun a two-column measure anyway.
+the complete claims register, the per-metric numbers behind the figures, and the
+disposition of all ten benchmark families. `main.pdf` is the submission format and does
+not — that appendix ships as separate supplementary material, and its verbatim command
+blocks would overrun a two-column measure anyway.
 
 That asymmetry is the one place the shared body could produce a dangling reference, so
 the pointers into the appendix go through `\appendixonly{...}`: `article.tex` defines it

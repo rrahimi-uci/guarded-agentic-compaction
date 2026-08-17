@@ -1561,8 +1561,7 @@ def validate_publication() -> None:
                                "Claim-to-evidence mapping",
                                "Additional Numerical Results",
                                "Benchmark Selection Rationale",
-                               "Disposition of every named benchmark family",
-                               "Artifact Lifecycle Boundary"):
+                               "Disposition of every named benchmark family"):
                     normalized_phrase = re.sub(r"[^a-z0-9]+", "", phrase.lower())
                     ok(normalized_phrase in searchable_pdf_text,
                        f"{build}: compiled PDF contains appendix section: {phrase}")
