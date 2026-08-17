@@ -4,34 +4,21 @@
 \paragraph{Guarded trace and agent workflow compilation.}
 \method adapts the tracing-JIT pattern---compile a hot path behind a guard and
 return to the interpreter on a miss~\citep{bala2000dynamo,holzle1992deopt}---to
-agents, whose arguments must remain grounded in observed state and whose
-speculation must be licensed by declared effects~\citep{lucassen1988effects}.
-Recent systems mine meta-tools, induce workflows, cache plans, compile typed
-orchestration, validate tool-state plans, search workflow graphs, or prune
-multi-agent topology
+agents, adding grounded arguments and declared effects~\citep{lucassen1988effects}.
+Agent systems mine meta-tools or workflows, cache plans, compile orchestration,
+validate plans, search graphs, or prune topology
 \citep{abuzakuk2026awo,wang2025awm,zhang2025plancache,wei2026evoc2f,winston2026agentjit,li2026flowcompile,chen2026agentslimming}.
-They share our premise that recurrence is exploitable and differ in what they
-demand before exploiting it. The delta is three-fold. \emph{First}, they take a
-recurring subsequence as the unit; we take the subsequence as a proposal and the
-argument-level witness as the unit, which is why the motivating region shrinks
-from three reads to two instead of being accepted or dropped whole.
-\emph{Second}, their guards test the input, whereas ours are a cascade in which
-provenance, effects, position, contracts, and a finite-sample bound each hold a
-veto --- so a candidate can fail for reasons no additional trace evidence can
-repair. \emph{Third}, they report what compilation achieved, whereas a compile-or-retire
-system must also report what it refused.
-
-\paragraph{Other optimization targets.}
 DSPy optimizes prompts, GEPA evolves them, RouteLLM changes models, and
 LLMCompiler parallelizes current calls
 \citep{khattab2024dspy,agrawal2026gepa,ong2025routellm,kim2024llmcompiler}.
-\method instead replaces a historical boundary only after guarded evidence.
+Unlike these targets, \method treats recurrence only as a proposal: provenance,
+effects, position, contracts, and finite-sample risk each retain a veto.
 
 \paragraph{Synthesis, risk control, and evaluation.}
-The bounded search draws on programming by example, sketching, and execution
-provenance~\citep{gulwani2011flashfill,solarlezama2006sketching,cheney2009provenance};
-admission uses a Clopper--Pearson bound with fixed-grid learn-then-test, not a
-new bound~\citep{clopper1934binomial,angelopoulos2022ltt}. BFCL and ToolLLM
-score tool use broadly~\citep{patil2025bfcl,qin2023toolllm};
-NESTFUL and API-Bank retain the producer references and call results needed for
-post-trace provenance, replay, and refusal~\citep{basu2025nestful,li2023apibank}.
+Bounded search draws on programming by example, sketching, and provenance
+\citep{gulwani2011flashfill,solarlezama2006sketching,cheney2009provenance};
+admission combines Clopper--Pearson with fixed-grid learn-then-test
+\citep{clopper1934binomial,angelopoulos2022ltt}. BFCL and ToolLLM score tool use
+broadly~\citep{patil2025bfcl,qin2023toolllm}, while NESTFUL and API-Bank retain
+the references and results needed for provenance and refusal
+\citep{basu2025nestful,li2023apibank}.

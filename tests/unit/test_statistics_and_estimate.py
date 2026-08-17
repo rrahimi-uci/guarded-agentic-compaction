@@ -76,6 +76,25 @@ def test_gate_certificate_describes_the_deployed_threshold_row():
     assert gate.n_accepted == 1
 
 
+def test_calibration_excludes_hard_guard_ineligible_samples_from_dispatch():
+    samples = [
+        CalibrationSample(
+            f"g{i}",
+            {},
+            unproductive=False,
+            violation=False,
+            eligible=i < 92,
+        )
+        for i in range(100)
+    ]
+    gate = calibrate_gate(samples, alpha=0.05, delta=0.10)
+    assert not gate.retire
+    assert gate.n_calibration_groups == 100
+    assert gate.n_accepted == 92
+    assert gate.coverage == pytest.approx(0.92)
+    assert gate.risk_upper_bound <= 0.05
+
+
 def test_group_bootstrap_interval_brackets_the_point_estimate():
     values = [1.0, 1.2, 0.8, 1.1, 0.9, 1.0] * 6
     groups = [f"g{i % 6}" for i in range(len(values))]

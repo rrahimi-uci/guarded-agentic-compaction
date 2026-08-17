@@ -268,16 +268,40 @@ def compile_grc(
 
     res = CompileResult(config=config, rejection_by_stage=qualification_counts)
 
-    if graphs is None:
-        built, policy = build_all(
-            episodes, catalog, policy, max_depth=config.max_transform_depth, kappa=config.kappa
-        )
-        graphs = built
-    res.graphs = list(graphs)
+    train_episodes = [ep for ep in episodes if ep.group_id in splits.train]
+    if not train_episodes:
+        res.rejection_by_stage["split:no_train_groups"] += 1
+        return res
+
+    # Candidate identity, provenance policy, support, and ranking are train-only.
+    # A graph or corpus-derived policy fitted on calibration/test inputs would make
+    # the candidate data-dependent and invalidate the fixed-candidate premise of
+    # the exact calibration theorem. PATGs do not carry fit-lineage metadata, so
+    # this correctness-critical path rebuilds them even if a caller supplied a
+    # precomputed all-snapshot cache through the backwards-compatible arguments.
+    train_graphs, policy = build_all(
+        train_episodes,
+        catalog,
+        None,
+        max_depth=config.max_transform_depth,
+        kappa=config.kappa,
+    )
+
+    calibration_visible = set(splits.dev) | set(splits.calibration)
+    heldin_episodes = [ep for ep in episodes if ep.group_id in calibration_visible]
+    heldin_graphs, _ = build_all(
+        heldin_episodes,
+        catalog,
+        policy,
+        max_depth=config.max_transform_depth,
+        kappa=config.kappa,
+    )
+    usable_graphs = list(train_graphs) + list(heldin_graphs)
+    res.graphs = usable_graphs
     res.policy = policy
 
     mining = mine(
-        graphs,
+        train_graphs,
         catalog,
         entry_schema=config.entry_schema,
         w_min=config.w_min,
@@ -292,16 +316,33 @@ def compile_grc(
     for _, reason in mining.rejected_families:
         res.rejection_by_stage[f"mine:{reason.split(':')[0]}"] += 1
 
+    # Attach dev/calibration windows only after train mining has fixed the ranked
+    # family list. The sealed test and prospective shadow sets are never graphed.
+    attached = mine(
+        usable_graphs,
+        catalog,
+        entry_schema=config.entry_schema,
+        w_min=config.w_min,
+        w_max=config.w_max,
+        b_min=config.b_min,
+        s_min=1,
+        min_principals=1,
+        min_days=1,
+        prefix_only=config.prefix_only,
+    )
+    attached_by_hash = {family.canon_hash: family for family in attached.families}
+
     frozen_precalibration_selected = False
 
-    for idx, family in enumerate(mining.families[: config.max_candidates]):
-        cid = f"cand-{idx:02d}-{family.canon_hash}"
+    for idx, train_family in enumerate(mining.families[: config.max_candidates]):
+        family = attached_by_hash.get(train_family.canon_hash, train_family)
+        cid = f"cand-{idx:02d}-{train_family.canon_hash}"
         rec = CandidateRecord(
             candidate_id=cid,
-            tools=family.tools,
-            support_groups=family.support,
-            support_days=len(family.days),
-            removed_requests=family.mean_removed,
+            tools=train_family.tools,
+            support_groups=train_family.support,
+            support_days=len(train_family.days),
+            removed_requests=train_family.mean_removed,
         )
         res.candidates.append(rec)
 
@@ -403,7 +444,7 @@ def compile_grc(
             guard,
             train_w,
             provenance_ambiguity=min(1.0, rec.notes.get("n_alternative_bindings", 0) / 50.0),
-            branch_entropy=family.branch_entropy(),
+            branch_entropy=train_family.branch_entropy(),
         )
         dev_samples = _calibration_samples(
             program,
@@ -475,7 +516,7 @@ def compile_grc(
             continue
 
         artifact = _emit(
-            family,
+            train_family,
             program,
             names,
             guard,
@@ -590,6 +631,22 @@ def _first_replay_reason(chal: ChallengeReport) -> str:
     return "unknown"
 
 
+def _calibration_guard_context(guard, episode: Episode, catalog: EffectCatalog) -> dict[str, Any]:
+    manifest = episode.manifest
+    context = {
+        key: (
+            catalog.catalog_version
+            if key == "effect_catalog_version"
+            else getattr(manifest, key, None)
+        )
+        for key in guard.manifest_pins
+    }
+    context.update(
+        {key: getattr(episode.envelope, key, "unknown") for key in guard.isolation}
+    )
+    return context
+
+
 def _calibration_samples(
     program: Program,
     guard,
@@ -615,6 +672,8 @@ def _calibration_samples(
 
     samples: list[CalibrationSample] = []
     for w in cal_windows:
+        guard_context = _calibration_guard_context(guard, w.episode, catalog)
+        eligible = not guard.evaluate(w.episode.entry_state, guard_context)
         facade, _ = _make_facade(program, catalog, w, None, sandbox)
         res = run_program(program, w.episode.entry_state, facade)
         unproductive = not res.ok
@@ -651,6 +710,7 @@ def _calibration_samples(
                 features=features.raw(w.episode.entry_state, day=w.day),
                 unproductive=unproductive,
                 violation=violation,
+                eligible=eligible,
                 episode_id=w.episode.episode_id,
                 reason=reason,
             )
@@ -692,6 +752,7 @@ def _calibration_samples(
                     features=feats,
                     unproductive=p_unproductive,
                     violation=p_violation,
+                    eligible=eligible,
                     episode_id=w.episode.episode_id + f"#{pert.name}",
                     reason=("perturbation_unproductive" if p_unproductive else ""),
                 )

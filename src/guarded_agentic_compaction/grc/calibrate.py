@@ -259,6 +259,7 @@ class CalibrationSample:
     features: dict[str, float]
     unproductive: bool
     violation: bool
+    eligible: bool = True
     episode_id: str = ""
     reason: str = ""
 
@@ -392,7 +393,12 @@ def calibrate_gate(
     best: tuple[float, float, int, int, float] | None = None  # (eta, R+, n_acc, viol, coverage)
     rows: list[dict[str, Any]] = []
     for eta in sorted(grid):
-        accepted = [i for i, q in enumerate(scores) if q <= eta]
+        # A group enters selective risk only when the score and frozen hard
+        # guard both permit dispatch. Keeping eligibility explicit avoids an
+        # unsafe requirement that every caller prefilter its sample cohort.
+        accepted = [
+            i for i, q in enumerate(scores) if samples[i].eligible and q <= eta
+        ]
         if not accepted:
             rows.append({"eta": eta, "n": 0, "violations": 0, "upper": 1.0, "coverage": 0.0})
             continue
