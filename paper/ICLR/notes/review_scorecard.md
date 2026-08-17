@@ -130,3 +130,27 @@ The three changes that would move the score most, in order, are: a gate that dem
 real risk--coverage frontier rather than a support threshold; a second provider or model
 family; and a compiler-wide multiplicity treatment. None can be produced honestly from the
 existing evidence, which is why they are named as follow-ups rather than repaired in prose.
+
+---
+
+# Submission-surface verification, August 16, 2026
+
+The final upload-surface audit found one anonymity weakness that a PDF-only
+check could miss: the blind-rendered PDF was anonymous, but `main.tex` still
+carried a real author block and named PDF-metadata branch. If that source were
+included in supplementary material, it could reveal identity despite the blind
+rendering. The submission source now contains only `Anonymous authors`, has
+empty author metadata unconditionally, and documents that named variants belong
+in a separate non-submission copy.
+
+An isolated Tectonic rebuild of that anonymous source completed without errors,
+unresolved references, or overfull boxes. The rendered PDF remains 17 pages;
+Sections 1--8 end on page 9, the required statements begin on page 10, and the
+appendix follows the bibliography. Text extraction found no author identity or
+acknowledgement in the rendered PDF.
+
+**Final weighted score: 87/100.** The anonymity hardening closes an accidental
+source-disclosure route but does not change the score: the anonymous artifact
+bundle and author-side OpenReview disclosures still need human completion, and
+the binding ICLR risks remain scientific reach, evaluation breadth, and
+compiler-wide multiplicity control rather than presentation mechanics.

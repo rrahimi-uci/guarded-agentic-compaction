@@ -19,7 +19,11 @@ Source references used for this checklist:
 
 ## Anonymity
 
-- [x] **PDF author block is anonymous.** `\iclrfinalcopy` is commented out; the style file prints "Anonymous authors", uses the "Under review" running head, and clears the PDF author metadata. Recheck this after every build intended for upload.
+- [x] **The submission source and PDF are anonymous.** `main.tex` contains no
+  identifying author block; `\iclrfinalcopy` is commented out; the style file
+  prints "Anonymous authors" and uses the "Under review" running head; and the
+  PDF author metadata is explicitly empty. Recheck this after every build
+  intended for upload.
 - [x] No acknowledgements are included in the blind-ready submission source.
 - [x] The main paper avoids linking directly to the identified public repository.
 - [ ] Prepare an anonymous supplementary artifact bundle or anonymous repository before submission. The paper states this as a pre-upload action and does not claim that the current identified repository is anonymous.
