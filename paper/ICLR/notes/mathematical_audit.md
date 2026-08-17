@@ -47,6 +47,8 @@ stored experimental number.
    defines the i.i.d. group admission/violation pairs, derives the conditional
    binomial law, and applies the union bound only over the frozen threshold
    grid.
+   Proposition 1 defines conditional risk once, with an explicit zero-admission
+   case, and Algorithm 1 declares every symbol used by its provenance call.
 9. **Declared literals and null dispatch.** The grounding definition now admits
    only schema-allowlisted literals outside provenance, matching Algorithm 3,
    and the optimization defines zero conditional risk when population dispatch
