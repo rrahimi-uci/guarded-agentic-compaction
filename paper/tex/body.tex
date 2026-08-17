@@ -3,6 +3,9 @@
 % separate supplementary material. Any wrapper that does not define \appendixonly gets
 % this gobbling default, so a shared-body pointer can never become a dangling reference.
 \providecommand{\appendixonly}[1]{}
+% Conference wrappers retain the original label; the complete technical-report
+% wrapper overrides it to identify its reader guide explicitly.
+\providecommand{\reportstructurelabel}{Roadmap}
 
 % Shared reader-aid callout, used where a boundary is easy to over-read. It is defined
 % here rather than in a wrapper preamble because body.tex is the only file the two
@@ -152,7 +155,7 @@ undeclared semantics or fuse physical reads.
 The six-case manual result is parity, and the bounded GEPA result does not generalize to
 prompt optimization as a whole.
 
-\paragraph{Roadmap.}
+\paragraph{\reportstructurelabel.}
 \Cref{sec:problem} formalizes episodes, candidate regions, the position invariant, and the
 selective objective.  \Cref{sec:method} presents the method as a cascade of independent
 rejection points (\cref{fig:pipeline}) and states the calibration guarantee.
@@ -167,8 +170,7 @@ claims are retained rather than pruned, so the denominator of each result stays 
   behind every study (\cref{app:repro}), the implementation audit (\cref{app:audit}), the
   complete claim register including the thirteen claims the evidence does not support
   (\cref{app:claims}), the per-metric numbers behind the figures (\cref{app:numerical}),
-  the disposition of all ten benchmark families (\cref{app:benchmarks}), and the artifact
-  lifecycle boundary (\cref{app:lifecycle}).}
+the disposition of all ten benchmark families (\cref{app:benchmarks}).}
 
 \section{Problem Formulation}
 \label{sec:problem}

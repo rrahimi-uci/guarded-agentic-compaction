@@ -10,9 +10,8 @@ every claim the work could be read as making, its direct evidence, and its verdi
 including the claims the evidence does \emph{not} support.  \Cref{app:numerical} gives the
 per-metric numbers and confidence intervals behind the body's figures.
 \Cref{app:benchmarks} explains why each of the ten named benchmark families receives the
-integration depth it does, and \cref{app:lifecycle} states what the artifact's lab-only
-promotion did and did not demonstrate.  Nothing here introduces a result that the body does
-not already report.
+integration depth it does.  Nothing here introduces a result that the body does not already
+report.
 
 \section{Reproducibility Details}
 \label{app:repro}
@@ -364,23 +363,3 @@ and supplies hash-chained execution and sealed-analysis controls.  SEC acquisiti
 gated on a compliant source contact, so the three-domain protocol cannot yet freeze and
 no provider, quality, latency, cost, or determinism result exists.  The retained preflight
 is feasibility evidence, not a third empirical tier in this manuscript.
-
-% Flush this section's exhibits before the next one starts. Without it the five
-% full-width appendix floats queue up and the end-of-document flush lands every
-% one of them pages after the text that refers to it.
-\clearpage
-
-\section{Artifact Lifecycle Boundary}
-\label{app:lifecycle}
-
-The study artifact passed replay and calibration, then was activated only under
-\code{paper-protocol-lab-only} to measure its runtime path.  That flag is what makes the
-runtime numbers in \cref{sec:rq2} observations of a real dispatch rather than a simulation,
-and it is also the limit of what they cover.
-
-Nothing in this study bears on approval, shadow or canary health, rollback, or monitoring:
-no such condition was run, so the paper reports no evidence for or against the artifact's
-behaviour under any of them.  The same holds for privacy, tenant isolation, incident
-response, and drift.  Readers should treat every result here as measured under a single
-lab-only activation of one artifact, and treat the operational questions as untested rather
-than as satisfied.
