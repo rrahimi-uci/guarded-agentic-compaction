@@ -1559,9 +1559,7 @@ def validate_publication() -> None:
                                "Implementation Audit",
                                "Complete Claims Register",
                                "Claim-to-evidence mapping",
-                               "Additional Numerical Results",
-                               "Benchmark Selection Rationale",
-                               "Disposition of every named benchmark family"):
+                               "Additional Numerical Results"):
                     normalized_phrase = re.sub(r"[^a-z0-9]+", "", phrase.lower())
                     ok(normalized_phrase in searchable_pdf_text,
                        f"{build}: compiled PDF contains appendix section: {phrase}")

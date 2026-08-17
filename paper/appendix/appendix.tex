@@ -9,9 +9,7 @@ mismatch this review found and corrected.  \Cref{app:claims} is the complete cla
 every claim the work could be read as making, its direct evidence, and its verdict,
 including the claims the evidence does \emph{not} support.  \Cref{app:numerical} gives the
 per-metric numbers and confidence intervals behind the body's figures.
-\Cref{app:benchmarks} explains why each of the ten named benchmark families receives the
-integration depth it does.  Nothing here introduces a result that the body does not already
-report.
+Nothing here introduces a result that the body does not already report.
 
 \section{Reproducibility Details}
 \label{app:repro}
@@ -293,73 +291,3 @@ specializes a route and costs 123.0\% more, because fusing the prompt surface fr
 cache reuse that made the baseline cheap.  The last three are negative controls: undeclared
 MCP effects, a loop-bearing candidate, and entry-schema drift each produce a refusal, and
 the residual cost increase is what the guard costs when it declines to act.
-
-% Flush this section's exhibits before the next one starts. Without it the five
-% full-width appendix floats queue up and the end-of-document flush lands every
-% one of them pages after the text that refers to it.
-\clearpage
-
-\section{Benchmark Selection Rationale}
-\label{app:benchmarks}
-
-\begin{table*}[t]
-  \centering
-  \caption{Disposition of every named benchmark family.  Only NESTFUL and API-Bank retain
-  the observed intermediate values a post-trace compiler needs; the rest are
-  interoperability evidence, and no gated path receives an imputed metric.}
-  \label{tab:external-matrix}
-  \small
-  \input{../tables/external_benchmark_matrix.tex}
-\end{table*}
-
-The extension now gives all ten named benchmark families an explicit path.  NESTFUL and
-API-Bank execute the compiler because they preserve complete values.  BFCL executes 200
-gold plans through its official checker.  ToolSandbox, the maintained $\tau^2/\tau^3$
-implementation, and BrowseComp execute bounded official paths with real provider calls.
-ToolBench and AgentBench execute source adapters but remain full-evaluation gated by
-unversioned external data, live backends, and services.  SWE-bench Verified's 500 real
-issues are normalized, while its container execution is host-gated.  GAIA remains
-authorization gated.  No missing path receives an imputed metric.
-
-These integrations do not make the benchmarks interchangeable.  A gold plan lacks
-observed tool results; an encrypted web question lacks a replay-safe local search trace; a
-stateful simulator can measure the agent but is not a real-world deployment; a real issue
-without an agent trajectory tests generation but not post-trace compilation.  A future
-compiler benchmark should record entry snapshots, full argument/result payloads, effect
-and permission labels, independent grouping keys, commit boundaries, task outcomes, and a
-frozen paired protocol.  Without these fields, a benchmark can measure tool use but cannot
-substantiate safe trace-derived replacement.
-
-\subsection{Reproduction commands for the all-source audit}
-
-Source acquisition writes into a caller-provided disposable directory and serializes only
-revisions, hashes, and gate reasons.  After acquisition, the provider-free matrix and the
-API-Bank/BFCL paths are rebuilt with:
-
-\begin{verbatim}
-SCRIPTS=paper/scripts
-OUT=paper/results/external_benchmarks
-python "$SCRIPTS/external_benchmark_sources.py" \
-  --root "$SOURCE_ROOT" \
-  --output "$OUT/source_preflight.json"
-python "$SCRIPTS/external_benchmark_matrix.py" \
-  --source-root "$SOURCE_ROOT"
-python "$SCRIPTS/api_bank_benchmark.py" \
-  --source-root "$SOURCE_ROOT"
-python "$SCRIPTS/bfcl_structural_benchmark.py" \
-  --source-root "$SOURCE_ROOT"
-\end{verbatim}
-
-ToolSandbox is isolated by the pinned Dockerfile.  The $\tau$ and BrowseComp live runs
-require \code{OPENAI\_API\_KEY}; GAIA acquisition additionally checks \code{HF\_TOKEN}.
-The sanitizers retain hashes, counts, scores, timing, and usage only.  Raw ToolSandbox and
-$\tau$ trajectories remain in disposable upstream run directories, and BrowseComp
-questions and answers are decrypted only in process memory.
-
-The repository now contains the provider-free portion of such a prospective extension.
-It checksum-binds 420 real vulnerability groups and 420 privacy-modified public HMDA
-groups, independently reconstructs exact gold, freezes group/lineage-aware study roles,
-and supplies hash-chained execution and sealed-analysis controls.  SEC acquisition remains
-gated on a compliant source contact, so the three-domain protocol cannot yet freeze and
-no provider, quality, latency, cost, or determinism result exists.  The retained preflight
-is feasibility evidence, not a third empirical tier in this manuscript.
