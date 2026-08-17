@@ -27,7 +27,7 @@ FIGURES = (
     "portfolio_selection.png",
 )
 DOWNLOADS = {
-    ROOT / "paper" / "compiling-recurrent-agent-workflows-into-guarded-programs.pdf":
+    ROOT / "paper" / "open_research" / "article.pdf":
         "compiling-recurrent-agent-workflows.pdf",
     # The 27-slide seminar deck was removed; one deck ships, and it carries the
     # seminar design system. See paper/slides/gac-template-map.json.

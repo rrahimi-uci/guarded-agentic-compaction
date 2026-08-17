@@ -94,6 +94,7 @@ MACROS = {
     r"\patg": "PATG",
     r"\retire": "Retire",
     r"\fallback": "Fallback",
+    r"\reportstructurelabel": "Technical Report Structure",
 }
 
 # cleveref's rendered names, matching \crefname/\Crefname in paper/tex/article.tex.
@@ -412,6 +413,11 @@ def preprocess(body: str, registry: dict[str, dict[str, str]], *, floats: bool =
 
     tex = strip_descriptions(tex)
 
+    # The PDF wrappers define a report-only reader-guide label while the shared body
+    # provides a conference-safe default.  The web article uses the report wording and
+    # must remove the TeX declaration before expanding the macro for pandoc.
+    tex = re.sub(r"\\providecommand\{\\reportstructurelabel\}\{[^}]*\}", "", tex)
+
     for macro, expansion in MACROS.items():
         tex = re.sub(re.escape(macro) + r"(\{\})?", expansion, tex)
     tex = tex.replace(r"\code{", r"\texttt{")
@@ -716,7 +722,7 @@ def render(article_html: str, abstract_html: str, outline: list[tuple[str, str]]
         <div class="breadcrumbs"><a href="index.html">Guarded Agentic Compaction</a> / Article</div>
         <p class="eyebrow">Full article</p>
         <h1>{esc(TITLE)}</h1>
-        <p class="paper-byline">Reza Rahimi &#183; JazzX AI, Los Altos, CA</p>
+        <p class="paper-byline">Reza Rahimi &#183; Huaxing Wang &#183; Mi Hwangbo &#183; Roberto Borgione &#183; ArunKumar Patange &#183; Indranil Dutta<br><span>JazzX AI &#183; 3300 Hillview Ave, Palo Alto, CA 94304</span></p>
         <div class="paper-actions">
           <a class="button button-primary" href="downloads/compiling-recurrent-agent-workflows.pdf">Download the PDF</a>
           <a class="button button-secondary" href="https://github.com/rrahimi-uci/guarded-agentic-compaction">Code and artifacts</a>
