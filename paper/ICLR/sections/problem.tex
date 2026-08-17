@@ -10,14 +10,18 @@ application-owned effect declaration $\epsilon(f)$ and capability flags such as
 \emph{speculatable}; an unknown effect is not a read.
 
 A candidate region $R=[a,b]$ begins at a model-request boundary and ends after
-a tool result. It is \emph{groundable} when every call argument is an
-expression over entry state or prior results inside $R$,
+a tool result. It is \emph{groundable} when every call argument is either an
+application-declared literal for that slot or an expression over entry state
+or prior results inside $R$,
 \begin{equation}
   \forall c_j \in R,\ \forall u \in \operatorname{args}(c_j):\quad
-  u = g_{j,u}\!\left(z, o_{<j}\right),\qquad g_{j,u}\in\mathcal{L},
+  \operatorname{Lit}(c_j,u)\ \vee\
+  \left[u = g_{j,u}\!\left(z, o_{<j}\right),
+  g_{j,u}\in\mathcal{L}\right],
   \label{eq:grounding}
 \end{equation}
-for a closed, bounded transform library $\mathcal{L}$; and
+where $\operatorname{Lit}$ is a schema-level allowlist fixed independently of
+the traces and $\mathcal{L}$ is a closed, bounded transform library; and
 \emph{effect-admissible} when every tool in $R$ is declared read-only,
 speculatable, replayable, and inside one principal and isolation partition.
 Handoffs, approvals, writes, errors, and unknown effects are hard barriers, not
@@ -36,31 +40,38 @@ a pilot that violated \cref{eq:prefix} produced exactly that fault
 \paragraph{Selective optimization objective.}
 The compiler emits an artifact $A=(P,H,V,q,\eta,M)$: a deterministic program
 $P$, hard guard $H$, output verifier $V$, nonconformity score $q$, threshold
-$\eta$, and manifest pins $M$. On a future episode with entry state $z$,
-dispatch is \emph{selective},
+$\eta$, and manifest pins $M$. Let $x=(z,M',\omega)$ denote a future entry state,
+runtime manifest, and external state. Here $M'\simeq M$ means equality on every
+pinned compatibility field; $\omega$ can affect outcomes and cost but is not
+observable at the dispatch boundary. Dispatch is \emph{selective},
 \begin{equation}
-  d_A(z) = \mathbf{1}\{\,H(z)=1 \ \wedge\ q(z)\le\eta \ \wedge\ M \text{ matches}\,\},
+  d_A(x) = \mathbf{1}\{\,H(z,M')=1 \ \wedge\ q(z)\le\eta
+              \ \wedge\ M'\simeq M\,\},
   \label{eq:dispatch}
 \end{equation}
 and any failed precondition runs the unchanged baseline agent $B$. If execution
 fails before a commit and staging proves the attempt clean, $B$ runs; a dirty
-failure after a commit is an incident, not a fallback. Writing $L(A,z)\in\{0,1\}$
-for a wrong compiled execution \emph{after} dispatch and $C(\cdot,z)$ for
-execution cost, we seek
+failure after a commit is an incident, not a fallback. Fix $L(A,x)=1$ for an
+externally visible task/contract violation or incident after dispatch; a clean
+abort followed by unchanged $B$ has $L=0$. Let $C(A,x)$ include the complete
+realized cost of that attempt, including a clean fallback. For a
+future group $G=(x_1,\ldots,x_m)$, define
+$D_A(G)=\max_i d_A(x_i)$ and
+$W_A(G)=\max_i d_A(x_i)L(A,x_i)$. We seek
 \begin{equation}
-  \max_A\ \ \mathbb{E}\big[d_A(z)\,\{C(B,z)-C(A,z)\}\big]
+  \max_A\ \ \mathbb{E}\big[d_A(X)\,\{C(B,X)-C(A,X)\}\big]
   \quad\text{s.t.}\quad
-  \Pr\!\left[L(A,z)=1 \mid d_A(z)=1\right] \le \alpha .
+  \Pr\!\left[W_A(G)=1 \mid D_A(G)=1\right] \le \alpha .
   \label{eq:objective}
 \end{equation}
 Two properties shape everything that follows. The constraint conditions on
-dispatch, so abstention is free and only post-dispatch errors are charged ---
-the reject-option formulation applied to a compiler rather than a classifier ---
-and returning \emph{no} artifact is feasible, so \retire{}
-is a legitimate output rather than a failure mode. \Cref{eq:objective} is a
-design target: the implementation returns the first family that survives every
-stage of \cref{alg:compile}, and we prove no bound on the gap to the best one.
-Calibration uses independent scenario groups as its statistical units: a group
-is admitted if any member dispatches and violates if any dispatched member is
-wrong. This conservative group risk equals episode risk in the reported live
-studies, where each group is one public record.
+dispatch: abstention does not enter its denominator, although it earns no
+savings in the objective; by convention its conditional risk is zero when
+population dispatch probability is zero. Returning \emph{no} artifact is feasible, so
+\retire{} is a legitimate output. \Cref{eq:objective} is a design target: the
+implementation calibrates a bounded ranked set and retains nondominated
+survivors, and we prove neither optimality nor a compiler-wide guarantee for
+that search. Calibration uses independent scenario groups as its statistical
+units. The group and episode risks coincide in the reported live studies,
+where every group contains exactly one public record; they need not coincide
+for unequal multi-episode groups.

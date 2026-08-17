@@ -61,17 +61,17 @@ tool calls, qualifies effects and live-ins, and hashes tool signatures,
 dependency topology, run shape, and live-in/live-out shape while abstracting
 literal values. Families require support across independent scenario
 \emph{groups} rather than raw event frequency, which prevents a single chatty
-scenario from manufacturing recurrence. Survivors are ranked by a
-minimum-description-length trade-off that pays for expected savings and charges
+scenario from manufacturing recurrence. Survivors are ranked by an
+MDL-inspired trade-off that pays for expected savings and charges
 for heterogeneity, effect exposure, and program size:
 \begin{equation}
   \operatorname{score}(F)=
-  \underbrace{s_F\,\bar{k}_F\,c_m}_{\text{expected saving}}
-  -\lambda_1 H(F)-\lambda_2\rho_{\mathrm{eff}}(F)-\lambda_3|F| ,
+  \underbrace{s_F\,\bar{k}_F\,c_m}_{\text{support-weighted saving}}
+  -\lambda_1 \mathsf{Ent}(F)-\lambda_2\rho_{\mathrm{eff}}(F)-\lambda_3|F| ,
   \label{eq:score}
 \end{equation}
-with $s_F$ the group support, $\bar{k}_F$ the mean removable model requests,
-$c_m$ their unit cost, and $H(F)$ the Shannon entropy over canonical variants
+with $s_F$ the number of supporting train groups, $\bar{k}_F$ the mean removable model requests,
+$c_m$ their unit cost, and $\mathsf{Ent}(F)$ the Shannon entropy over canonical variants
 inside the family; without $\lambda_1$ the ranking prefers a heterogeneous
 family whose single canonical form fits none of its members.
 \Cref{eq:score} affects only \emph{which} family is tried first --- no
@@ -142,12 +142,14 @@ groups. The default output is refusal, not emission.
 
 \begin{proposition}[Per-candidate selective-risk admission]
 \label{prop:admission}
-Fix one candidate program, hard guard, verifier, score, group-level violation
-rule, and finite grid $\Lambda$ before calibration. If calibration groups are
-i.i.d.\ from the future-group distribution, then with probability at least
-$1-\delta$, every $\eta\in\Lambda$ satisfies $r_\eta\le U_\eta$, where $r_\eta$
-is post-dispatch group risk. Consequently the data-selected threshold
-$\hat\eta$ satisfies $r_{\hat\eta}\le\alpha$ whenever $U_{\hat\eta}\le\alpha$.
+Condition on train/development data and fix one candidate $(P,H,V,q)$,
+group-level violation rule, and finite grid $\Lambda$ before observing
+calibration. If calibration groups are i.i.d.\ from the future-group
+distribution, then with probability at least $1-\delta$, every
+$\eta\in\Lambda$ satisfies $r_\eta\le U_\eta$, where
+$r_\eta=\Pr(W^\eta=1\mid D^\eta=1)$ and $r_\eta:=0$ when population admission
+is zero. Consequently the selected $\hat\eta$ satisfies
+$r_{\hat\eta}\le\alpha$ whenever $U_{\hat\eta}\le\alpha$.
 \end{proposition}
 
 \Cref{app:proof} gives the proof. The guarantee is deliberately narrow: it is

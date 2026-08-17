@@ -5,16 +5,20 @@ which is what makes the union bound legitimate.}
 \label{alg:calibrate}
 \footnotesize
 \begin{algorithmic}[1]
-\Require frozen score $q$; hard guard $H$; calibration groups $\mathcal{K}$;
+\Require frozen candidate $A_0=(P,H,V,q,M)$ without threshold; calibration
+         groups $\mathcal{K}$ with fixed per-instance violations $L(A_0,x)$;
          grid $\Lambda$; budgets $\alpha,\delta$
 \Ensure threshold $\eta$ with a simultaneous guarantee, or $\bot$ (\retire)
 \State $\mathcal{A}\gets\emptyset$ \Comment{admissible (coverage, threshold) pairs}
 \ForAll{$\eta\in\Lambda$}
-  \State $K_\eta\gets\{\,g\in\mathcal{K} : \exists z\in g,\ q(z)\le\eta
-         \ \wedge\ H(z)=1\,\}$;\quad $n_\eta\gets|K_\eta|$;\quad
+  \State define $d^\eta(x)$ by Eq.~\eqref{eq:dispatch} with threshold $\eta$;
+         $D^\eta(g)\gets\max_{x\in g}d^\eta(x)$;
+         $W^\eta(g)\gets\max_{x\in g}d^\eta(x)L(A_0,x)$
+  \State $K_\eta\gets\{\,g\in\mathcal{K}:D^\eta(g)=1\,\}$;\quad
+         $n_\eta\gets|K_\eta|$;\quad
          \textbf{if} $n_\eta=0$ \textbf{then continue}
          \Comment{vacuous bound $U_\eta=1$}
-  \State $k_\eta\gets|\{\,g\in K_\eta : g\ \text{contains a violation}\,\}|$
+  \State $k_\eta\gets|\{\,g\in K_\eta:W^\eta(g)=1\,\}|$
          \Comment{\emph{wrong after dispatch} only, never abstention}
   \State $U_\eta\gets 1$ if $k_\eta=n_\eta$, else
          $\operatorname{Beta}^{-1}\!\big(1-\tfrac{\delta}{|\Lambda|};\,
@@ -23,8 +27,9 @@ which is what makes the union bound legitimate.}
          $\mathcal{A}\gets\mathcal{A}\cup\{(n_\eta/|\mathcal{K}|,\eta)\}$
          \Comment{Eq.~\eqref{eq:cp}}
 \EndFor
-\State \Return $\bot$ if $\mathcal{A}=\emptyset$, else
-       $\arg\max_{(\mathrm{cov},\eta)\in\mathcal{A}}\ \mathrm{cov}$
-       \Comment{largest coverage among certified thresholds}
+\State \Return $\bot$ if $\mathcal{A}=\emptyset$, else the $\eta$ component of
+       $\operatorname*{lexmax}_{(\mathrm{cov},\eta)\in\mathcal{A}}
+       (\mathrm{cov},\eta)$
+       \Comment{largest empirical group coverage; larger threshold breaks ties}
 \end{algorithmic}
 \end{algorithm}

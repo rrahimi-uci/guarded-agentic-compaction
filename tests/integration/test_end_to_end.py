@@ -78,8 +78,15 @@ def test_estimator_finds_headroom_and_names_the_blockers(compiled):
 
 
 def test_compilation_emits_a_readable_grounded_artifact(compiled):
-    *_, res = compiled
+    *_, splits, _, res = compiled
     assert res.artifacts, res.report()
+    graph_groups = {graph.episode.group_id for graph in res.graphs}
+    assert graph_groups <= set(splits.train | splits.dev | splits.calibration)
+    assert graph_groups.isdisjoint(splits.test | splits.shadow)
+    assert all(
+        family.groups <= set(splits.train)
+        for family in (res.mining.families if res.mining else ())
+    )
     art = res.artifacts[0]
     text = art.explain()
     assert "z.ticket.requester_email |> lower" in text

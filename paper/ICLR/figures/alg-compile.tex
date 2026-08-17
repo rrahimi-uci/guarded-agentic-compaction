@@ -1,6 +1,6 @@
 \begin{algorithm}[t]
-\caption{\textsc{Compile} --- the compile-or-retire cascade. Every exit is either a
-registered artifact or an attributed \retire, so rejections stay in the denominator.
+\caption{\textsc{Compile} --- the compile-or-retire cascade. Every candidate is either
+registered or assigned an attributed \retire, so refusal accounting remains explicit.
 Stages marked \textsc{(caller)} are separate library entry points run in this order
 rather than steps inside one function.}
 \label{alg:compile}
@@ -8,7 +8,8 @@ rather than steps inside one function.}
 \begin{algorithmic}[1]
 \Require episodes $\mathcal{E}$; effect catalog $\mathcal{C}$; entry schema $\Theta$;
          budgets $\alpha,\delta$; grid $\Lambda$; feasibility target $\Delta$
-\Ensure artifact $A=(P,H,V,q,\eta,M)$, or \retire{} with an attributed reason
+\Ensure artifact set $\mathcal{A}$, or \retire{} with attributed reasons
+\State $\mathcal{A}\gets\emptyset$
 \State $\mathcal{E}\gets\textsc{Qualify}(\mathcal{E},\mathcal{C})$;\quad
        $\{\mathcal{E}_M\}\gets\textsc{PartitionBy}(\mathcal{E},\text{manifest},
        \text{principal},\text{isolation})$
@@ -17,30 +18,30 @@ rather than steps inside one function.}
   \State $(\mathcal{T},\mathcal{D},\mathcal{K},\mathcal{S})\gets
          \textsc{GroupedSplit}(\mathcal{E}_M)$ \hfill\textsc{(caller)}
          \Comment{train / dev / calibration / sealed test, split by \emph{group}}
-  \State $G\gets\textsc{BuildPatg}(\mathcal{T},\Theta)$ \Comment{\cref{alg:patg}: block
+  \State $G\gets\textsc{BuildPatg}(\mathcal{T},\Theta,\mathcal{C},\mathcal{L},\kappa)$ \Comment{\cref{alg:patg}: block
          ungrounded or ambiguous slots}
   \State $\mathcal{F}\gets\textsc{Canonicalize}(\textsc{MineRegions}
          (G,\mathcal{C},w_{\max}))$, keeping only cross-group support
-  \If{$\varphi k / n_B < \Delta$} \hfill\textsc{(caller)}
+  \If{$\textsc{Ceiling}(\mathcal{T},\mathcal{F}) < \Delta$} \hfill\textsc{(caller)}
      \State \textbf{record} \retire{} \textbf{(infeasible ceiling, Eq.~\ref{eq:ceiling})};
             \textbf{continue}
      \Comment{try the next compatible partition}
   \EndIf
   \ForAll{families $F\in\mathcal{F}$ ranked by Eq.~\eqref{eq:score}}
     \State $P\gets\textsc{Synthesize}(F,\mathcal{L})$ at depth $\le 2$;\quad
-           \textbf{if} $P=\bot$ \textbf{then continue}
-           \Comment{ungroundable slot}
+           \textbf{if} $P=\bot$ \textbf{then record} \retire{} \textbf{(synthesis); continue}
     \State $(H,V)\gets\textsc{InduceContract}(F)$;\quad
            \textbf{if} $\neg\textsc{ReplayAndChallenge}(P,V,\mathcal{D})$
-           \textbf{then continue} \Comment{counterexample}
+           \textbf{then record} \retire{} \textbf{(counterexample); continue}
     \State $q\gets\textsc{FitScore}(\mathcal{D})$; \textbf{freeze} $q$
            \Comment{dev groups only; never calibration}
-    \State $\eta\gets\textsc{Calibrate}(q,H,\mathcal{K},\Lambda,\alpha,\delta)$;\quad
-           \textbf{if} $\eta=\bot$ \textbf{then continue}
+    \State $\eta\gets\textsc{Calibrate}(P,H,V,q,M,\mathcal{K},\Lambda,\alpha,\delta)$;\quad
+           \textbf{if} $\eta=\bot$ \textbf{then record} \retire{} \textbf{(risk); continue}
            \Comment{\cref{alg:calibrate}}
-    \State \Return $\textsc{Package}(P,H,V,q,\eta,M)$ with evidence and lifecycle
+    \State $\mathcal{A}\gets\mathcal{A}\cup
+           \{\textsc{Package}(P,H,V,q,\eta,M)\}$ with evidence and lifecycle
   \EndFor
 \EndFor
-\State \Return \retire
+\State \Return $\textsc{SelectUndominated}(\mathcal{A})$ if nonempty, else \retire
 \end{algorithmic}
 \end{algorithm}

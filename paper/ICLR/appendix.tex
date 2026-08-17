@@ -1,13 +1,14 @@
 \section{Proof of \texorpdfstring{\Cref{prop:admission}}{Proposition 1}}
 \label{app:proof}
 
-Fix one threshold $\eta\in\Lambda$ and write $\gamma=\delta/|\Lambda|$.
-Conditional on $n_\eta=m>0$ admitted calibration groups, the number of
-violating groups $k_\eta$ is binomial with success probability equal to the
-group-level selective risk $r_\eta$ at that threshold, because the candidate
-program, guard, verifier, score, violation rule, and grid were frozen before
-any calibration group was observed and the original calibration groups are
-i.i.d. Inverting the one-sided exact binomial
+Condition on the train/development data, fix $\eta\in\Lambda$, and write
+$\gamma=\delta/|\Lambda|$. Let $D_i^\eta$ and $W_i^\eta$ be the group admission
+and violation indicators defined in \cref{sec:problem}. Because the entire
+candidate and grid were frozen before calibration and groups are i.i.d., the
+pairs $(D_i^\eta,W_i^\eta)$ are i.i.d. Conditional on $n_\eta=m>0$ admitted
+groups, their violation count therefore satisfies
+$k_\eta\mid n_\eta=m\sim\operatorname{Binomial}(m,r_\eta)$, where
+$r_\eta=\Pr(W^\eta=1\mid D^\eta=1)$. Inverting the one-sided exact binomial
 test~\citep{clopper1934binomial} gives the upper bound
 $U_\eta=\operatorname{Beta}^{-1}(1-\gamma;\,k_\eta+1,\,m-k_\eta)$ of
 \cref{eq:cp}, which satisfies
@@ -17,15 +18,15 @@ vacuous bound $U_\eta=1$. Averaging over the random value of $n_\eta$ therefore
 yields $\Pr\{r_\eta > U_\eta\}\le\gamma$ for each fixed threshold. Applying the
 union bound over the finite grid gives
 $\Pr\{\exists\eta\in\Lambda: r_\eta > U_\eta\}\le|\Lambda|\gamma=\delta$, i.e.
-simultaneous coverage with probability at least $1-\delta$. On that event, any
-threshold whose upper bound is at most $\alpha$ also satisfies the target
-selective risk of \cref{eq:objective}, including the coverage-maximizing
-threshold returned by \cref{alg:calibrate}. $\qquad\blacksquare$
+simultaneous coverage with probability at least $1-\delta$. On that event,
+every threshold whose upper bound is at most $\alpha$ satisfies the group-level
+target in \cref{eq:objective}, including the threshold returned by
+\cref{alg:calibrate}. $\qquad\blacksquare$
 
 Two scope conditions are worth restating. First, the statement is
-\emph{per fixed candidate}: \cref{alg:compile} searches over families and
-returns the first admissible one, and that outer search is not
-multiplicity-corrected. Second, i.i.d.\ admitted groups is an assumption about
+\emph{per fixed candidate}: \cref{alg:compile} may calibrate several families
+and retain survivors, and that outer search is not multiplicity-corrected.
+Second, i.i.d.\ source groups is an assumption about
 the calibration cohort, not a property the compiler verifies; the grouped split
 in \cref{alg:compile} makes it plausible by construction but does not establish
 it under temporal drift.
@@ -45,9 +46,10 @@ an argument by picking the cheapest available explanation.
 \Cref{alg:dispatch} is the runtime counterpart of \cref{eq:dispatch}. Cheap
 deterministic checks reject first and the calibrated gate runs only on what
 survives them, so the common case costs a registry lookup and a guard
-evaluation. Exactly one exit path compacts; five return the unmodified baseline
-agent, and one --- a post-commit failure --- raises an incident rather than
-feigning a rollback. ``Baseline'' is byte-exact only where a staging owner holds
+evaluation. Exactly one exit path compacts; every clean rejection returns the
+unmodified baseline agent, and any failure whose reversibility cannot be
+attested raises an incident rather than feigning a rollback. ``Baseline'' is
+byte-exact only where a staging owner holds
 the commit boundary: the outer runner can restore byte-identical model input,
 whereas a model-boundary adapter cannot un-emit a response the host has already
 committed to conversation history.
