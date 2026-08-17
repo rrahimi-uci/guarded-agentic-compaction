@@ -57,7 +57,8 @@ stored experimental number.
     result of the frozen hard guard, and the low-level calibrator excludes
     guard-ineligible instances from admission while retaining all source groups
     in the empirical-coverage denominator. A regression test fixes this
-    theorem-to-code correspondence.
+    theorem-to-code correspondence. Calibration reconstructs context from the
+    guard's declared manifest and isolation keys, including custom partitions.
 11. **Candidate/data separation.** The compiler now fits the provenance policy,
     mines support, and ranks candidate families on train groups only. Development
     and calibration graphs are attached only for held-in window lookup after

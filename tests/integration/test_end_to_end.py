@@ -17,12 +17,16 @@ from guarded_agentic_compaction.evaluation.metrics import condition_metrics
 from guarded_agentic_compaction.evaluation.splits import make_splits
 from guarded_agentic_compaction.estimate.headroom import estimate
 from guarded_agentic_compaction.graph.provenance import build_all
-from guarded_agentic_compaction.grc.compile import GrcConfig, compile_grc
+from guarded_agentic_compaction.grc.compile import (
+    GrcConfig,
+    _calibration_guard_context,
+    compile_grc,
+)
 from guarded_agentic_compaction.registry.lifecycle import promote
 from guarded_agentic_compaction.registry.store import Registry
 from guarded_agentic_compaction.runtime.dispatch import DispatchMode, Dispatcher
 from guarded_agentic_compaction.runtime.runner import CompactingRunner
-from guarded_agentic_compaction.schema.artifacts import Lifecycle
+from guarded_agentic_compaction.schema.artifacts import HardGuard, Lifecycle
 from guarded_agentic_compaction.schema.effects import EffectCatalog
 
 import demos.support as support
@@ -105,6 +109,18 @@ def test_compilation_emits_a_readable_grounded_artifact(compiled):
     # nothing that writes may appear in the program
     for tool in art.program.tools:
         assert compiled[0].compilable(tool)
+
+
+def test_calibration_guard_context_follows_custom_isolation_keys(compiled):
+    catalog, *_, res = compiled
+    episode = res.graphs[0].episode
+    guard = HardGuard(
+        manifest_pins={"model": episode.manifest.model},
+        isolation={"privacy_class": episode.envelope.privacy_class},
+    )
+    context = _calibration_guard_context(guard, episode, catalog)
+    assert context["privacy_class"] == episode.envelope.privacy_class
+    assert not guard.evaluate(episode.entry_state, context)
 
 
 def test_dispatch_reduces_requests_without_changing_quality_or_effects(compiled):

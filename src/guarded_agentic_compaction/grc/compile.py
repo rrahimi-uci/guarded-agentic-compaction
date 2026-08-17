@@ -631,6 +631,22 @@ def _first_replay_reason(chal: ChallengeReport) -> str:
     return "unknown"
 
 
+def _calibration_guard_context(guard, episode: Episode, catalog: EffectCatalog) -> dict[str, Any]:
+    manifest = episode.manifest
+    context = {
+        key: (
+            catalog.catalog_version
+            if key == "effect_catalog_version"
+            else getattr(manifest, key, None)
+        )
+        for key in guard.manifest_pins
+    }
+    context.update(
+        {key: getattr(episode.envelope, key, "unknown") for key in guard.isolation}
+    )
+    return context
+
+
 def _calibration_samples(
     program: Program,
     guard,
@@ -656,20 +672,7 @@ def _calibration_samples(
 
     samples: list[CalibrationSample] = []
     for w in cal_windows:
-        manifest = w.episode.manifest
-        envelope = w.episode.envelope
-        guard_context = {
-            "model": manifest.model,
-            "prompt_hash": manifest.prompt_hash,
-            "tools_hash": manifest.tools_hash,
-            "policy_hash": manifest.policy_hash,
-            "guardrail_hash": manifest.guardrail_hash,
-            "effect_catalog_version": catalog.catalog_version,
-            "entry_contract_version": manifest.entry_contract_version,
-            "tenant_partition": envelope.tenant_partition,
-            "principal": envelope.principal,
-            "policy_version": envelope.policy_version,
-        }
+        guard_context = _calibration_guard_context(guard, w.episode, catalog)
         eligible = not guard.evaluate(w.episode.entry_state, guard_context)
         facade, _ = _make_facade(program, catalog, w, None, sandbox)
         res = run_program(program, w.episode.entry_state, facade)
