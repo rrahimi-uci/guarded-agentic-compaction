@@ -41,14 +41,15 @@
 \node[gnote, anchor=west] at (56,-27.2) {lowest score};
 
 \node[gnote, text width=74mm] at (0,-33)
-  {$\operatorname{score}(F)=s_F\bar{k}_F c_m-\lambda_1H(F)-\lambda_2\rho_{\mathrm{eff}}(F)-\lambda_3|F|$};
+  {$\operatorname{score}(F)=s_F\bar{k}_F c_m-\lambda_1\mathsf{Ent}(F)-\lambda_2\rho_{\mathrm{eff}}(F)-\lambda_3|F|$};
 
 \draw[cut] (0,-38.5) -- (78,-38.5);
 \node[gnote, text=gacred!85, text width=78mm] at (0,-40)
   {\textbf{Ranking only.}  Nothing below this line is an admission decision.  The
-   implementation ships the \emph{first} family that survives synthesis, contracts, and
-   calibration, so the order still decides \emph{which} artifact is registered ---
-   including through the two terms the paper reports as coarse:
+   implementation ranks a bounded train-derived candidate set before calibration; it retains
+   nondominated certified survivors rather than claiming a first-family optimum.  The order
+   still decides which candidates receive synthesis effort --- including through the two terms
+   the paper reports as coarse:
    $\rho_{\mathrm{eff}}$ is approximated by a tool-name convention and $|F|$ by an
    argument-slot count.};
 

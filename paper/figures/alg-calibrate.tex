@@ -1,36 +1,35 @@
-% Algorithm 3: exact risk-gated threshold selection.
 \begin{algorithm}[t]
-\caption{\textsc{Calibrate} --- fixed-grid exact selective admission.  The grid and the
-score are frozen \emph{before} this procedure sees a calibration group, which is what
+\caption{\textsc{Calibrate} --- fixed-grid exact selective admission. The score $q$ and
+the grid $\Lambda$ are frozen \emph{before} this procedure sees a calibration group, which is what
 makes the union bound legitimate.}
 \label{alg:calibrate}
-\small
+\footnotesize
 \begin{algorithmic}[1]
-\Require frozen score $q$; calibration groups $\mathcal{K}$; grid $\Lambda$
-         ($|\Lambda|=11$); risk budget $\alpha$; confidence budget $\delta$
+\Require frozen candidate $A_0=(P,H,V,q,M)$ without threshold; calibration
+         groups $\mathcal{K}$ with fixed per-instance violations $L(A_0,x)$;
+         grid $\Lambda$; budgets $\alpha,\delta$
 \Ensure threshold $\eta$ with simultaneous guarantee, or $\bot$ (\retire)
-\State $\mathcal{A}\gets\emptyset$
-       \Comment{admissible (coverage, threshold) pairs}
+\State $\mathcal{A}\gets\emptyset$ \Comment{admissible (coverage, threshold) pairs}
 \ForAll{$\eta\in\Lambda$}
-  \State $K_\eta\gets\{\,g\in\mathcal{K} : \exists z\in g,\ q(z)\le\eta
-         \ \land\ H(z)=1\,\}$
-         \Comment{groups this threshold would admit}
-  \State $n_\eta\gets|K_\eta|$
-  \State $k_\eta\gets|\{\,g\in K_\eta : g\ \text{contains a violation}\,\}|$
+  \State define $d^\eta(x)$ by \cref{eq:dispatch} with threshold $\eta$;
+         $D^\eta(g)\gets\max_{x\in g}d^\eta(x)$;
+         $W^\eta(g)\gets\max_{x\in g}d^\eta(x)L(A_0,x)$
+  \State $K_\eta\gets\{\,g\in\mathcal{K}:D^\eta(g)=1\,\}$;\quad
+         $n_\eta\gets|K_\eta|$;\quad
+         \textbf{if} $n_\eta=0$ \textbf{then continue}
+         \Comment{vacuous bound $U_\eta=1$}
+  \State $k_\eta\gets|\{\,g\in K_\eta:W^\eta(g)=1\,\}|$
          \Comment{\emph{wrong after dispatch} only, never abstention}
-  \If{$n_\eta=0$} \State \textbf{continue} \EndIf
-  \State $U_\eta\gets\operatorname{Beta}^{-1}\!\left(1-\tfrac{\delta}{|\Lambda|};\,
-         k_\eta+1,\;n_\eta-k_\eta\right)$
-         \Comment{Eq.~\eqref{eq:cp}; closed form $1-(\delta/|\Lambda|)^{1/n_\eta}$ when $k_\eta=0$}
-  \If{$U_\eta\le\alpha$}
-    \State $\mathcal{A}\gets\mathcal{A}\cup\{(n_\eta/|\mathcal{K}|,\ \eta)\}$
-  \EndIf
+  \State $U_\eta\gets 1$ if $k_\eta=n_\eta$, else
+         $\operatorname{Beta}^{-1}\!\big(1-\tfrac{\delta}{|\Lambda|};\,
+         k_\eta+1,\ n_\eta-k_\eta\big)$;\quad
+         \textbf{if} $U_\eta\le\alpha$ \textbf{then}
+         $\mathcal{A}\gets\mathcal{A}\cup\{(n_\eta/|\mathcal{K}|,\eta)\}$
+         \Comment{\cref{eq:cp}}
 \EndFor
-\If{$\mathcal{A}=\emptyset$}
-  \State \Return $\bot$
-         \Comment{with $k=0$ this needs $n_\eta\ge\log(\delta/|\Lambda|)/\log(1-\alpha)\approx 92$}
-\EndIf
-\State \Return $\arg\max_{(\text{cov},\eta)\in\mathcal{A}}\ \text{cov}$
-       \Comment{largest coverage among certified thresholds}
+\State \Return $\bot$ if $\mathcal{A}=\emptyset$, else the $\eta$ component of
+       $\operatorname*{lexmax}_{(\mathrm{cov},\eta)\in\mathcal{A}}
+       (\mathrm{cov},\eta)$
+       \Comment{largest empirical group coverage; larger threshold breaks ties}
 \end{algorithmic}
 \end{algorithm}

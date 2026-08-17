@@ -1,9 +1,9 @@
 % ---------------------------------------------------------------------------
-% Guarded Agentic Compaction — open-research build in the arXiv preprint format.
+% Guarded Agentic Compaction — open-research technical-report build.
 %
 % Same abstract, body, figures, algorithms and tables as the ACM conference
 % build in main.tex; only the presentation layer differs. This wrapper dresses
-% the article in ../arxiv/arxiv.sty, the "A Preprint" style used by preprints
+% the article in ../arxiv/arxiv.sty, with the report label configured below
 % such as arXiv:1910.04944: US Letter, single column, 6.5x9in text block, Times
 % body, block paragraphs, small-caps title between two heavy rules, and a ruled
 % running head. The previous ICLR styling is kept in article-iclr.tex and the
@@ -145,21 +145,42 @@
 
 \author{%
   Reza Rahimi \\
-  JazzX AI \\
-  Los Altos, CA 94022, USA \\
-  \texttt{reza.rahimi@jazzx.ai}}
+  \normalfont\small JazzX AI, 3300 Hillview Ave, Palo Alto, CA 94304 \\
+  \normalfont\small\texttt{reza.rahimi@jazzx.ai}
+  \And
+  Huaxing Wang \\
+  \normalfont\small JazzX AI, 3300 Hillview Ave, Palo Alto, CA 94304 \\
+  \normalfont\small\texttt{huaxing.wang@jazzx.ai}
+  \AND
+  Mi Hwangbo \\
+  \normalfont\small JazzX AI, 3300 Hillview Ave, Palo Alto, CA 94304 \\
+  \normalfont\small\texttt{mi.hwangbo@jazzx.ai}
+  \And
+  Roberto Borgione \\
+  \normalfont\small JazzX AI, 3300 Hillview Ave, Palo Alto, CA 94304 \\
+  \normalfont\small\texttt{roberto.borgione@jazzx.ai}
+  \AND
+  ArunKumar Patange \\
+  \normalfont\small JazzX AI, 3300 Hillview Ave, Palo Alto, CA 94304 \\
+  \normalfont\small\texttt{arunkumar.patange@jazzx.ai}
+  \And
+  Indranil Dutta \\
+  \normalfont\small JazzX AI, 3300 Hillview Ave, Palo Alto, CA 94304 \\
+  \normalfont\small\texttt{indranil.dutta@jazzx.ai}}
+\date{}
 
 % arxiv.sty prints \undertitle under the title rule and \headeright at the top
-% right of every later page. This is an open-research preprint, so both say so.
-\renewcommand{\undertitle}{A Preprint}
-\renewcommand{\headeright}{A Preprint \textendash\ \today}
+% right of every later page. This is an open-research technical report.
+\renewcommand{\undertitle}{Technical Report}
+\renewcommand{\headeright}{Technical Report}
+\newcommand{\reportstructurelabel}{Technical Report Structure}
 % The style also centres \shorttitle in the running head. The title is 84
 % characters and would collide with the banner on the right, so the head carries
 % the banner alone, as in the reference layout.
 \renewcommand{\shorttitle}{}
 
 \hypersetup{
-  pdfauthor={Reza Rahimi},
+  pdfauthor={Reza Rahimi; Huaxing Wang; Mi Hwangbo; Roberto Borgione; ArunKumar Patange; Indranil Dutta},
   pdftitle={From Traces to Guarded Programs: Evidence-Gated Compilation of Recurrent Agent Workflows},
   pdfsubject={LLM agents, tool use, workflow optimization, program synthesis, provenance, selective risk control},
   pdfkeywords={LLM agents, tool use, workflow optimization, program synthesis, provenance, selective prediction, risk control, OpenAI Agents SDK},
@@ -185,6 +206,10 @@ OpenAI Agents SDK}
 \textbf{Evidence.}\ A ten-benchmark audit with two compiler substrates and six
 pilot-separated live-provider protocols on real public GitHub records.}\\[-1mm]
 \rule{\textwidth}{0.4pt}
+
+\clearpage
+\tableofcontents
+\clearpage
 
 \input{body}
 

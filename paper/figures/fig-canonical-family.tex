@@ -58,7 +58,7 @@
    live-out shape: record $\cdot$ label set $\cdot$ comment list\\
    effect qualification: read-only, speculatable,\\
    \phantom{effect qualification: }replayable, one isolation key\\[2pt]
-   \textbf{abstracted}\quad every literal value, including
+   \textbf{abstracted}\quad every non-schema-declared literal, including
    \code{limit}};
 
 \node[bar] (sb) at (118,0)
@@ -68,7 +68,7 @@
    A minimum-distinct-days requirement is implemented; the
    live study of \cref{sec:rq2} sets \code{min\_days}\,=\,1
    over a single snapshot.\\[2pt]
-   Within-family variants feed $H(F)$, the heterogeneity
+   Within-family variants feed $\mathsf{Ent}(F)$, the heterogeneity
    penalty in \eqref{eq:score}.};
 
 \node[warn] (wn) at (118,-30)
@@ -81,7 +81,7 @@
 \node[gnote, text width=112mm] at (0,-40)
   {Canonicalization groups \emph{structural proposals} so that provenance, contracts, and
    calibration have a repeated object to work on.  Literals are abstracted for mining only;
-   the synthesized program binds each argument to an expression in $\mathcal{L}$, never to a
-   hashed placeholder.};
+   schema-declared literal slots are preserved as constants, and every other synthesized
+   argument binds to an expression in $\mathcal{L}$, never to a hashed placeholder.};
 
 \end{tikzpicture}

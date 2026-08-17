@@ -3,6 +3,9 @@
 % separate supplementary material. Any wrapper that does not define \appendixonly gets
 % this gobbling default, so a shared-body pointer can never become a dangling reference.
 \providecommand{\appendixonly}[1]{}
+% Conference wrappers retain the original label; the complete technical-report
+% wrapper overrides it to identify its reader guide explicitly.
+\providecommand{\reportstructurelabel}{Roadmap}
 
 % Shared reader-aid callout, used where a boundary is easy to over-read. It is defined
 % here rather than in a wrapper preamble because body.tex is the only file the two
@@ -152,7 +155,7 @@ undeclared semantics or fuse physical reads.
 The six-case manual result is parity, and the bounded GEPA result does not generalize to
 prompt optimization as a whole.
 
-\paragraph{Roadmap.}
+\paragraph{\reportstructurelabel.}
 \Cref{sec:problem} formalizes episodes, candidate regions, the position invariant, and the
 selective objective.  \Cref{sec:method} presents the method as a cascade of independent
 rejection points (\cref{fig:pipeline}) and states the calibration guarantee.
@@ -164,11 +167,8 @@ optimizers, and \cref{sec:limits} groups the threats to validity by the kind of 
 each endangers.  Every rejected candidate, the archived failed pilot, and the unsupported
 claims are retained rather than pruned, so the denominator of each result stays visible.\appendixonly{
   The appendix carries what would otherwise interrupt that argument: the exact command
-  behind every study (\cref{app:repro}), the implementation audit (\cref{app:audit}), the
-  complete claim register including the thirteen claims the evidence does not support
-  (\cref{app:claims}), the per-metric numbers behind the figures (\cref{app:numerical}),
-  the disposition of all ten benchmark families (\cref{app:benchmarks}), and the artifact
-  lifecycle boundary (\cref{app:lifecycle}).}
+  behind every study (\cref{app:repro}), the implementation audit (\cref{app:audit}), and
+  the per-metric numbers behind the figures (\cref{app:numerical}).}
 
 \section{Problem Formulation}
 \label{sec:problem}
@@ -215,21 +215,25 @@ Unknown effects are not reads.
 \end{figure*}
 
 A candidate region $R=[a,b]$ begins at a model-request boundary and ends after a tool
-result.  It is \emph{groundable} when every call argument has an expression over entry
-state or prior results within $R$:
+result.  It is \emph{groundable} when every call argument is either an
+application-declared literal for that slot or has an expression over entry state or prior
+results within $R$:
 \begin{equation}
-  \forall c_j \in R,\; \forall u \in \operatorname{args}(c_j),\quad
-  u = g_{j,u}\!\left(z,o_{<j}\right), \qquad g_{j,u}\in\mathcal{L},
+  \begin{aligned}
+    \forall c_j \in R,\; \forall u \in \operatorname{args}(c_j):\quad
+    &\operatorname{Lit}(c_j,u)\ \vee\\[-2pt]
+    &\left[u = g_{j,u}\!\left(z,o_{<j}\right),\quad g_{j,u}\in\mathcal{L}\right],
+  \end{aligned}
   \label{eq:grounding}
 \end{equation}
 
 \begin{figure*}[t]
   \centering
   \input{../figures/fig-provenance-wiring.tex}
-  \caption{Equation~\eqref{eq:grounding} applied to the held-out issue-4420 record.  Each argument
-  slot needs an expression in $\mathcal{L}$ over the entry state or a prior result; the
-  green edges carry that expression, and the \code{limit} socket has no incoming edge at
-  all.  The diagram therefore asks a strictly harder question than recurrence: not
+  \caption{Equation~\eqref{eq:grounding} applied to the held-out issue-4420 record.  Each
+  nonliteral argument slot needs an expression in $\mathcal{L}$ over the entry state or a
+  prior result; the green edges carry that expression, and the \code{limit} socket has no
+  incoming edge at all.  The diagram therefore asks a strictly harder question than recurrence: not
   ``did this sequence repeat?'' but ``can every socket be wired from an allowed prior
   value?''  One unwitnessed slot retires the whole three-read region, and a slot with too
   many witnesses does the same --- both branches of \cref{alg:patg} block rather than
@@ -237,8 +241,9 @@ state or prior results within $R$:
   the wiring and the refusal are the executed compiler's decision on that record.}
   \Description{Three tool calls drawn as cards with argument sockets, above them a lane
   of available witness values. Green arrows carry an expression from the closed library
-  into the issue-number sockets of record, labels and comments. The limit socket of the
-  comments call has no incoming arrow and is marked no witness in red. A red dashed
+  into the issue-number sockets of record, labels and comments. Schema-declared literal
+  slots would be preserved as constants. The limit socket of the comments call has no
+  incoming arrow and is marked no witness in red. A red dashed
   rectangle around all three calls is labelled retire, ungroundable slot; a green dashed
   rectangle around the first two is labelled maximal justified prefix. An amber inset
   shows an ambiguous value with two equally plausible producers, which is also a
@@ -246,7 +251,8 @@ state or prior results within $R$:
   \label{fig:provenance-wiring}
 \end{figure*}
 
-\noindent where $\mathcal{L}$ is a closed, bounded transform library.  It is
+\noindent where $\operatorname{Lit}$ is a schema-level allowlist fixed independently of
+the traces and $\mathcal{L}$ is a closed, bounded transform library.  It is
 \emph{effect\hyp{}admissible}
 when all tools are declared read-only, speculatable, replayable, and within the same
 principal/isolation partition.  Handoffs, approvals, writes, errors, and unknown effects
@@ -280,10 +286,11 @@ deployable compiler adds a position invariant:
 This restriction is not aesthetic.  A suffix program dispatched at entry may reorder or
 duplicate earlier calls; \cref{sec:pilot} demonstrates the failure empirically.
 
-\gaccallout{Do not infer.}{A repeated tool name, a matching literal value, and a
-successful replay are not a provenance witness.  Only an expression in $\mathcal{L}$ over
-$z$ or a prior result is, which is why \cref{sec:worked-example} can reject a region
-whose three reads recur in every observed execution.}
+\gaccallout{Do not infer.}{A repeated tool name, an \emph{undeclared} matching literal
+value, and a successful replay are not provenance witnesses.  An allowed literal must be
+fixed by the schema; every other slot needs an expression in $\mathcal{L}$ over $z$ or a
+prior result.  That is why \cref{sec:worked-example} can reject a region whose three
+reads recur in every observed execution.}
 
 \subsection{Selective optimization objective}
 
@@ -294,25 +301,33 @@ $P$ is the checklist to run; $H$ decides whether this entry state is eligible to
 $V$ inspects what the run produced; $q$ scores how unfamiliar the entry state is; $\eta$
 is the cutoff chosen from a frozen grid so that a bound on selective risk holds
 (\cref{eq:cp}); and $M$ is the compatibility seal that says which deployment the whole kit
-was learned under.  For a future episode, dispatch is selective:
+was learned under.  Let $x=(z,M',\omega)$ denote a future entry state, runtime manifest,
+and external state.  Here $M'\simeq M$ means equality on every pinned compatibility field;
+$\omega$ can affect outcomes and cost but is not observable at the dispatch boundary.
+Dispatch is selective:
 \begin{equation}
-  d_A(z)=\mathbb{1}\{H(z)=1 \land q(z)\leq\eta \land M\text{ matches}\}.
+  d_A(x)=\mathbb{1}\{H(z,M')=1 \land q(z)\leq\eta \land M'\simeq M\}.
   \label{eq:dispatch}
 \end{equation}
 If any precondition fails, the baseline agent runs.  If execution fails before a
 commit and staging proves the attempt clean, the baseline agent runs.  Dirty failure is
 an incident, not fallback.
 
-Let $L(A,z)\in\{0,1\}$ indicate a wrong compiled execution after dispatch and
-$C(A,z)$ its execution cost.  We seek an artifact with high coverage and savings subject
-to bounded selective risk:
+Let $L(A,x)=1$ indicate an externally visible task/contract violation or incident after
+dispatch; a clean abort followed by the unchanged baseline has $L=0$.  Let $C(A,x)$ include
+the complete realized cost of the attempt, including a clean fallback.  For a future group
+$G=(x_1,\ldots,x_m)$, define $D_A(G)=\max_i d_A(x_i)$ and
+$W_A(G)=\max_i d_A(x_i)L(A,x_i)$.  We seek an artifact with high coverage and savings
+subject to bounded selective risk:
 \begin{align}
-  \max_A\quad & \mathbb{E}\left[d_A(z)\{C(B,z)-C(A,z)\}\right] \\
-  \text{s.t.}\quad & \Pr[L(A,z)=1\mid d_A(z)=1]\leq\alpha,
+  \max_A\quad & \mathbb{E}\left[d_A(X)\{C(B,X)-C(A,X)\}\right] \\
+  \text{s.t.}\quad & \Pr[W_A(G)=1\mid D_A(G)=1]\leq\alpha,
   \label{eq:objective}
 \end{align}
-where $B$ is the unchanged agent.  The implementation may return no artifact
-(\retire); this is a valid optimizer output.
+where $B$ is the unchanged agent.  The constraint conditions on dispatch: abstention does
+not enter its denominator, although it earns no savings in the objective; by convention
+its conditional risk is zero when population dispatch probability is zero.  The
+implementation may return no artifact (\retire); this is a valid optimizer output.
 
 \begin{figure*}[t]
   \centering
@@ -335,14 +350,15 @@ where $B$ is the unchanged agent.  The implementation may return no artifact
   \label{fig:dispatch-population}
 \end{figure*}
 
-A worked count makes the denominator concrete.  Suppose 100 future episodes reach the
+A singleton-group worked count makes the denominator concrete.  Suppose 100 future episodes reach the
 entry boundary, 40 fail the manifest or hard guard, 30 are abstained by the gate, and 30
 are dispatched.  The savings term of \eqref{eq:objective} accumulates over those 30, and
 so does the risk constraint: it bounds the fraction of \emph{those 30} that were wrong
 after dispatch, not the fraction of all 100 that were answered correctly.  A workload
 where the gate abstains on 70 of 100 episodes therefore has poor coverage and can still
 satisfy the constraint exactly, which is the trade \cref{fig:dispatch-population} is drawn
-to expose.
+to expose. The reported live studies use one episode per group; for multi-episode groups,
+the formal objective instead counts a group as admitted or violating when any member does.
 
 At the compiler layer the implemented action set is $\{B,A\}$: retain the baseline or
 admit one compiled artifact.  The separate portfolio layer in
@@ -350,14 +366,13 @@ admit one compiled artifact.  The separate portfolio layer in
 does not weaken compiler admission or turn an unevaluated macro into deployable code.
 
 \Cref{eq:objective} is a design target, not a problem the implementation solves.
-\Cref{alg:compile} ranks families by \eqref{eq:score} and returns the \emph{first} family
-that survives synthesis, contracts, and calibration; it neither enumerates all admissible
-families nor argues a bound on the gap to the best one.  This matters more than a
-presentational note, because it makes the ranking load-bearing after all: since the first
-admissible family ships, the two coarse terms in \eqref{eq:score} can change \emph{which}
-artifact is registered even though neither participates in any admission decision.  Reading
-$\rho_{\mathrm{eff}}$ from the effect catalog and evaluating all admissible families before
-selecting are both small changes, and both are future work.
+\Cref{alg:compile} ranks a bounded set of families, calibrates each fixed candidate, and
+retains nondominated survivors; it neither establishes global optimality nor provides a
+compiler-wide guarantee for that search.  The two coarse terms in \eqref{eq:score} can
+therefore change which candidates receive synthesis effort, even though neither participates
+in an admission decision.  Reading $\rho_{\mathrm{eff}}$ from the effect catalog and
+measuring program size after synthesis are future work rather than semantics the code claims
+to enforce.
 
 \gaccallout{Optimization is not certification.}{\Cref{eq:score} decides where synthesis
 effort goes; \eqref{eq:ceiling} decides whether a target is reachable at all; neither one
@@ -377,8 +392,9 @@ admits an artifact.  Admission is \cref{eq:cp} plus the hard guard and the verif
   production traffic and is a cascade of independent rejection points; the shaded
   \emph{barrier} band lists conditions under which no statistical evidence can license
   an artifact.  \textbf{(C)} Runtime resolves at the entry boundary.  Of the terminal
-  runtime edges, exactly one produces a compacted execution; five return the baseline and
-  one raises an incident.  ``Baseline'' is exact only where a staging owner holds the
+  runtime edges, exactly one produces a compacted execution; every clean rejection returns
+  the baseline and any failure whose reversibility cannot be attested raises an incident.
+  ``Baseline'' is exact only where a staging owner holds the
   commit boundary: the outer runner can restore byte-identical model input, whereas the
   model-boundary adapter cannot un-emit a response the host has already committed to
   history (\cref{sec:runtime-scope}).}
@@ -430,8 +446,9 @@ program construction, empirical action selection, and runtime lifecycle as indep
 auditable boundaries.
 
 For each call-argument slot, the program-argument trace graph (\patg) searches entry-state
-and prior-result paths for typed values and bounded transforms.  Exact matches, stable
-field paths, and transformations in $\mathcal{L}$ become candidate producer edges.
+and prior-result paths for typed values and bounded transforms. Schema-declared literal-only
+slots are preserved as constants; exact matches, stable field paths, and transformations in
+$\mathcal{L}$ become candidate producer edges for every other slot.
 Ambiguous candidate sets above a configured cap and ungrounded values block a region.
 This is execution provenance in the database sense~\cite{cheney2009provenance}, specialized
 to tool arguments rather than tuple derivations.  \Cref{alg:patg} states the search.  Its
@@ -475,16 +492,16 @@ reachable result boundaries; the implementation's nested scan is worst-case $O(N
 when non-call spans are adversarial.  We report this rather than the stronger $O(NT)$
 claim sometimes suggested by the bounded-call intuition.
 
-Surviving families are ranked by a minimum-description-length trade-off that pays for
-expected savings and charges for variance, effect exposure, and program size:
+Surviving families are ranked by an MDL-inspired trade-off that pays for
+support-weighted savings and charges for heterogeneity, effect exposure, and program size:
 \begin{equation}
-  \operatorname{score}(F)=\underbrace{s_F\,\bar{k}_F\,c_m}_{\text{expected saving}}
-  -\lambda_1 H(F)-\lambda_2\rho_{\mathrm{eff}}(F)-\lambda_3|F|,
+  \operatorname{score}(F)=\underbrace{s_F\,\bar{k}_F\,c_m}_{\text{support-weighted saving}}
+  -\lambda_1 \mathsf{Ent}(F)-\lambda_2\rho_{\mathrm{eff}}(F)-\lambda_3|F|,
   \label{eq:score}
 \end{equation}
-where $s_F$ is scenario-group support, $\bar{k}_F$ the mean removable model requests,
-$c_m$ their unit cost, and $H(F)$ the Shannon entropy over canonical variants inside the
-family.  The penalties matter: without $\lambda_1$ the ranking prefers a heterogeneous
+where $s_F$ is the number of supporting train groups, $\bar{k}_F$ the mean removable model
+requests, $c_m$ their unit cost, and $\mathsf{Ent}(F)$ the Shannon entropy over canonical
+variants inside the family.  The penalties matter: without $\lambda_1$ the ranking prefers a heterogeneous
 family whose single canonical form fits none of its members.
 
 Two terms are coarser in the implementation than the notation suggests, and we state them
@@ -522,10 +539,9 @@ building a compiler for it.
   \input{../figures/fig-rank-ceiling.tex}
   \caption{Two pre-synthesis questions, neither of which is admission.  \textbf{(A)}
   Equation~\eqref{eq:score} orders candidates so that synthesis effort goes somewhere useful.
-  Because the implementation ships the first family that survives, this ranking still
-  decides \emph{which} artifact is registered --- including through the two terms the
-  paper reports as coarser than the notation suggests --- but no admission decision reads
-  it.  \textbf{(B)} Equation~\eqref{eq:ceiling} bounds what a perfect verifier and a
+  It affects which fixed candidates are tried, but no admission decision reads it and the
+  compiler retains nondominated calibrated survivors rather than claiming a first-family
+  optimum.  \textbf{(B)} Equation~\eqref{eq:ceiling} bounds what a perfect verifier and a
   never-abstaining gate could remove.  It is necessary, not sufficient: a saturated
   ceiling reports that the task determined the region rather than that the compiler
   succeeded.  The gauge is drawn at the values \cref{sec:rq2} reports.}
@@ -815,50 +831,55 @@ gates.
 
 \input{../figures/alg-calibrate.tex}
 
-\begin{proposition}[Per-candidate simultaneous calibration]
-Condition on the train/development data and fix one candidate program, hard guard, score
-$q$, group-level violation rule, and finite grid $\Lambda$ before calibration.  Let the
-calibration groups be i.i.d.\ from the same distribution as future groups.  For each
-$\eta$, let $A_i^\eta$ indicate admission, let $Y_i^\eta$ be the potential group-level
-violation under dispatch, and define
-\begin{equation*}
-  r_\eta=\Pr(Y^\eta=1\mid A^\eta=1),\qquad
-  n_\eta=\sum_i A_i^\eta,\qquad
-  k_\eta=\sum_i A_i^\eta Y_i^\eta.
-\end{equation*}
-For a threshold with zero population admission probability set $r_\eta=0$.  Then, with
-probability at least $1-\delta$ over calibration, $r_\eta\leq U_\eta$ simultaneously for
-every $\eta\in\Lambda$.  Consequently, the data-selected threshold $\hat\eta$ satisfies
+\begin{proposition}[Per-candidate selective-risk admission]
+\label{prop:admission}
+\small
+Condition on train/development data and fix one candidate $(P,H,V,q)$, group-level
+violation rule, and finite grid $\Lambda$ before observing calibration.  If calibration
+groups are i.i.d.\ from the future-group distribution, then with probability at least
+$1-\delta$, every $\eta\in\Lambda$ satisfies $r_\eta\leq U_\eta$. For positive
+population admission, define
+{\small\begin{equation*}
+  r_\eta=\Pr(W^\eta=1\mid D^\eta=1);
+\end{equation*}}
+otherwise define $r_\eta=0$. Consequently the selected $\hat\eta$ satisfies
 $r_{\hat\eta}\leq\alpha$ whenever $U_{\hat\eta}\leq\alpha$.
 \end{proposition}
 
 \begin{proof}
-Fix $\eta$.  Conditional on $n_\eta=m>0$, admitted groups are draws from the group
-distribution conditional on $A^\eta=1$, so
-$k_\eta\mid n_\eta=m\sim\operatorname{Binomial}(m,r_\eta)$.  Inverting the exact
-one-sided binomial test gives
-$\Pr\{r_\eta>U_\eta\mid n_\eta=m\}\leq\gamma$; for $m=0$ the event is impossible because
-$U_\eta=1$.  Averaging over the random $n_\eta$ therefore gives
-$\Pr\{r_\eta>U_\eta\}\leq\gamma$.  The union bound over the fixed grid yields
+Condition on the train/development data, fix $\eta\in\Lambda$, and write
+$\gamma=\delta/|\Lambda|$. Let $D_i^\eta$ and $W_i^\eta$ be the group admission and
+violation indicators defined in \cref{sec:problem}. Because the entire candidate and
+grid were frozen before calibration and groups are i.i.d., the pairs
+$(D_i^\eta,W_i^\eta)$ are i.i.d. Conditional on $n_\eta=m>0$ admitted groups, their
+violation count therefore satisfies
+$k_\eta\mid n_\eta=m\sim\operatorname{Binomial}(m,r_\eta)$, where
+$r_\eta=\Pr(W^\eta=1\mid D^\eta=1)$. Inverting the one-sided exact binomial
+test~\cite{clopper1934binomial} gives the upper bound
+$U_\eta=\operatorname{Beta}^{-1}(1-\gamma;\,k_\eta+1,\,m-k_\eta)$ of
+\cref{eq:cp}, which satisfies
+$\Pr\{r_\eta>U_\eta\mid n_\eta=m\}\leq\gamma$. When $m=0$ the event is
+impossible under the convention that empty-admission thresholds receive the vacuous bound
+$U_\eta=1$. Averaging over the random value of $n_\eta$ therefore yields
+$\Pr\{r_\eta>U_\eta\}\leq\gamma$ for each fixed threshold. Applying the union bound
+over the finite grid gives
 \begin{equation*}
   \Pr\!\left\{\exists\eta\in\Lambda:r_\eta>U_\eta\right\}
   \leq |\Lambda|\gamma=\delta.
 \end{equation*}
-On the complementary simultaneous event the inequality holds for every grid point, hence
-also for the calibration-dependent choice $\hat\eta$.  If
-$U_{\hat\eta}\leq\alpha$, then $r_{\hat\eta}\leq\alpha$.
+On the complementary simultaneous event, every threshold whose upper bound is at most
+$\alpha$ satisfies the group-level target in \cref{eq:objective}, including the threshold
+returned by \cref{alg:calibrate}.
 \end{proof}
 
-This proposition is deliberately \emph{per fixed candidate}.  The compiler implementation
-may calibrate more than one candidate family on the same groups and retain a surviving
-candidate after observing those calibration outcomes.  Its current confidence budget is
-split across thresholds, not candidate families, so \eqref{eq:cp} alone does not provide a
-compiler-wide guarantee for that search.  A direct Bonferroni repair for $m$ candidates
-would use $\gamma=\delta/(m|\Lambda|)$; at $m=2$, $\alpha=.05$, $\delta=.10$, and zero
-violations, the requirement rises from 92 to 106 admitted groups.  Alternatively, the
-compiler must freeze one candidate before calibration or use a valid fixed-sequence
-procedure.  The retained experiments are therefore reported with per-candidate conditional
-certificates, not a multiplicity-corrected compiler-wide certificate.
+This proposition is deliberately \emph{per fixed candidate}.  The compiler may calibrate
+several train-fixed candidate families and retain survivors, but its current confidence
+budget is split across thresholds rather than candidate families, so \eqref{eq:cp} alone
+does not provide a compiler-wide guarantee for that outer search. A direct Bonferroni
+repair for $m$ candidates would use $\gamma=\delta/(m|\Lambda|)$; at $m=2$,
+$\alpha=.05$, $\delta=.10$, and zero violations, the requirement rises from 92 to 106
+admitted groups. The retained experiments are therefore reported with per-candidate
+conditional certificates, not a multiplicity-corrected compiler-wide certificate.
 \Cref{fig:scope-fence} draws that boundary as a fence around the proposition rather than
 as a caveat beside it.
 
@@ -967,9 +988,9 @@ version compiles reads only; irreversible operations remain with the baseline ag
 
 \Cref{alg:dispatch} gives that boundary in full, and reading it against \cref{fig:pipeline}
 makes the asymmetry explicit: the cheap deterministic checks reject first, the calibrated
-gate runs only on what survives them, and of the terminal edges exactly one compacts.  Five
-return the unmodified agent and one raises an incident, which happens only when an external
-commitment has already been made and rollback would be a fiction.
+gate runs only on what survives them, and of the terminal edges exactly one compacts. Every
+clean rejection returns the unmodified agent; a failed abort, failed commit, or post-commit
+failure raises an incident rather than feigning a rollback.
 
 \input{../figures/alg-dispatch.tex}
 
@@ -990,8 +1011,8 @@ commitment has already been made and rollback would be a fiction.
   lane ends in an exact clean fallback with byte-identical model-visible input. The
   model-boundary adapter lane ends in weaker post-emission semantics, because the host
   may already have committed the synthesized response to session history. A side panel
-  tallies the terminal edges as one compacted execution, five returns to the unmodified
-  agent, and one incident.}
+  distinguishes the one compacted path, clean baseline fallbacks, and incidents whose
+  reversibility cannot be attested.}
   \label{fig:commit-boundary}
 \end{figure*}
 

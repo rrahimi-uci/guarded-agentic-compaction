@@ -1,119 +1,138 @@
 {
- "schema": "agent-compaction-slide-generation/v1",
- "generator": "paper/scripts/generate_slides.mjs",
- "generator_sha256_current": "ab6a33a06a6549b1a526428eb01ef948ba6e5c289e61bc6226b01b6320df8650",
- "template_map": "paper/slides/gac-template-map.json",
- "evidence": {
-  "gcs_live": {
-   "path": "paper/results/gcs_live/results.json",
-   "sha256": "c5c4907db6c0b451793fd4be61d12576ebbfc4a07a2215f0db27a24d3f5e9a43"
+  "evidence": {
+    "admission_register": {
+      "path": "paper/results/admission_register.json",
+      "sha256": "7ba824772d23cefda9aedf6b024caff656bc44b4492d61e6ce7c505f850284c7"
+    },
+    "external_benchmarks": {
+      "path": "paper/results/external_benchmarks/reference_analysis.json",
+      "sha256": "db07176f91bc7d815e7840e83939bdc5d11c4e8cb507c01ad5e1eaad089e34a9"
+    },
+    "gcs_live": {
+      "path": "paper/results/gcs_live/results.json",
+      "sha256": "c5c4907db6c0b451793fd4be61d12576ebbfc4a07a2215f0db27a24d3f5e9a43"
+    },
+    "gcs_replay": {
+      "path": "paper/results/gcs_validation/provider_free.json",
+      "sha256": "178cab2f7ae4c851c4057079248544ed9a7f058888a54bb4ef2fc9b984841433"
+    },
+    "github_workflow_families": {
+      "path": "paper/results/github_workflow_families/summary.json",
+      "sha256": "620bfe2d1c93e3b7c0a3bac55abbb7315e21e3424c7fd7da47dbe080efe9e4df"
+    },
+    "nestful": {
+      "path": "paper/results/nestful/results.json",
+      "sha256": "88d305dd65601afc64a8cb4d1d206b9499fca113d4f04b0339b4331e4d3b00fa"
+    },
+    "optimizer_head_to_head": {
+      "path": "paper/results/optimizer_head_to_head/results.json",
+      "sha256": "94319b5ba5056363359378fb383612c14fe91c381db50ef5e1749bda9ade8584"
+    }
   },
-  "gcs_replay": {
-   "path": "paper/results/gcs_validation/provider_free.json",
-   "sha256": "178cab2f7ae4c851c4057079248544ed9a7f058888a54bb4ef2fc9b984841433"
+  "evidence_boundary": "Three real-record workflow families support the primary transfer result: compiled 90/90, baseline 89/90, manual 90/90, all admitted at the registered alpha=.05 with a pooled 3.3% compiled-only discordance bound. The snapshot does not establish cross-repository or time-forward transfer, and part of the reported 32.0-75.3% cost range reflects prompt-cache warmth rather than compiled depth. GCS and comparator results rest on an artifact calibrated at alpha=.10 and are not licensed at .05. NESTFUL and API-Bank remain refusal evidence; eight other benchmark paths are supplementary interoperability audits.",
+  "generator": "paper/scripts/generate_slides.mjs",
+  "generator_sha256_current": "ab6a33a06a6549b1a526428eb01ef948ba6e5c289e61bc6226b01b6320df8650",
+  "outputs": {
+    "technical": {
+      "path": "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx",
+      "sha256": "6bde12cd107385505a6484133ff3c8c1380952f15ba76de25582e26e110686f6",
+      "slides": 26
+    }
   },
-  "optimizer_head_to_head": {
-   "path": "paper/results/optimizer_head_to_head/results.json",
-   "sha256": "94319b5ba5056363359378fb383612c14fe91c381db50ef5e1749bda9ade8584"
+  "restyle": {
+    "changes": [
+      "palette remapped from the dark-teal system to the seminar navy/teal system",
+      "all-caps labels tracked as the seminar tracks them; sub-heads take the muted ink",
+      "footer, page-number, eyebrow, and title boxes set to the seminar geometry and top-anchored",
+      "three section dividers inserted from the seminar divider frame (23 -> 26 slides)",
+      "eyebrows extended with the manuscript section, algorithm, table, and figure each slide answers",
+      "title and closing decorative circles set to the seminar positions and alphas",
+      "charts moved from ppt/slides/charts/ to ppt/charts/, each given a generated workbook, and two cached three-point series repointed from a two-row range",
+      "two paragraphs that overflowed their boxes in the generated deck brought onto the seminar type-density scale: a 501-character alert body 12pt -> 10pt, and a 330-character lede 13pt -> 11.5pt in a 0.5in -> 0.62in box",
+      "slide headlines shortened from 52-75 characters to 23-43, dropping the second clause where the body or eyebrow already carries it; the title slide keeps the manuscript title verbatim"
+    ],
+    "coordinate_source": "Section, algorithm, table, and figure numbers in the eyebrows are read off the current manuscript, not copied from the seminar deck: that deck predates subsections 3.3 and 3.4 and eight of the tables, so its own coordinates are stale.",
+    "not_changed": "The seminar renders display maths as images and numbers the equations in the margin. The technical deck states the same material as prose and has no equations to number, so that part of the formula is not transferred.",
+    "reason": "The two decks were rendered from two unrelated source templates and therefore shipped two visual systems. The technical deck is brought onto the seminar template design system in place, because generate_slides.mjs needs an external artifact-tool workspace that is not in this repository.",
+    "rebuild": "The deck is rebuilt by deleting it, restoring the generator output pinned at 248eb1f22a1a94c7f4bc6a2e97d26fe89637e2d0ab9ddf5d9203f818a4468643, and re-running retitle_slides.py then restyle_detailed_deck.py. generate_slides.mjs itself cannot run here: it needs an external artifact-tool presentation workspace.",
+    "script": "paper/scripts/restyle_detailed_deck.py",
+    "sha256": "274ff8538f6822d6ca9397ee063fafea6d0f8c367d4dbc7252436a8a3e62e2b2",
+    "style_source": "paper/slides/GAC-seminar.pptx",
+    "target": "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx"
   },
-  "external_benchmarks": {
-   "path": "paper/results/external_benchmarks/reference_analysis.json",
-   "sha256": "db07176f91bc7d815e7840e83939bdc5d11c4e8cb507c01ad5e1eaad089e34a9"
+  "resync": {
+    "applied_after": [
+      "retitle_slides.py",
+      "restyle_detailed_deck.py",
+      "refresh_aha_example_slide.py"
+    ],
+    "changes": [
+      "twelve eyebrow coordinates recomputed and each asserted against paper/open_research/article.aux",
+      "slide 12 outcome tally: exactly one edge still compacts, the other two counts become n, matching the manuscript's invariant instead of a count it no longer states",
+      "slide 12 incident body restated as failed abort / failed commit / post-commit failure with unattestable reversibility, kept near the sibling card's length because the 3.18x0.8in card has no autofit",
+      "slide 13 records that the score is fitted on development groups while the bound counts only dispatched-and-wrong groups"
+    ],
+    "input_sha256": "5f680b0b2ca221d1dc73db0e568171c967e09f64f554a68edc92d10e9da5cfca",
+    "reason": "Inserting the Section 2-3 reader aids added twelve figures and one table to the article, renumbering every float after them, so twelve eyebrow coordinates pointed at the wrong exhibit. The manuscript also stopped enumerating the runtime terminal edges as 1/5/1, which slide 12 still asserted.",
+    "script": "paper/scripts/resync_slide_coordinates.py",
+    "sha256": "747556ed02bdab37c1b0229d477763c6ad78c8d8b93fde20e1ccdbed000e5355",
+    "target": "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx",
+    "verification": "Box geometry checked by hand against each edited shape's extent and run size; no renderer is available in this environment, so the deck was not opened visually."
   },
-  "nestful": {
-   "path": "paper/results/nestful/results.json",
-   "sha256": "88d305dd65601afc64a8cb4d1d206b9499fca113d4f04b0339b4331e4d3b00fa"
+  "retired_outputs": {
+    "seminar": {
+      "path": "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs.pptx",
+      "reason": "The 27-slide seminar deck was removed; the technical deck carries the same design system and is the only shipped deck. The hash above is the last value it was verified at.",
+      "recover": "git show <commit>:paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs.pptx",
+      "sha256": "4867b288df8a7c02ca1efbfefa12ef0b55833649be59552aeb3bb58e503dad9d",
+      "slides": 27
+    }
   },
-  "github_workflow_families": {
-   "path": "paper/results/github_workflow_families/summary.json",
-   "sha256": "620bfe2d1c93e3b7c0a3bac55abbb7315e21e3424c7fd7da47dbe080efe9e4df"
+  "schema": "agent-compaction-slide-generation/v1",
+  "source_slide_for_output": {
+    "technical": [
+      1,
+      2,
+      null,
+      3,
+      4,
+      5,
+      6,
+      null,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      null,
+      13,
+      14,
+      14,
+      15,
+      16,
+      17,
+      18,
+      18,
+      19,
+      20,
+      21
+    ]
   },
-  "admission_register": {
-   "path": "paper/results/admission_register.json",
-   "sha256": "7ba824772d23cefda9aedf6b024caff656bc44b4492d61e6ce7c505f850284c7"
+  "template_map": "paper/slides/gac-template-map.json",
+  "templates": {
+    "seminar": {
+      "path": "paper/slides/GAC-seminar.pptx",
+      "role": "Design-system source read by paper/scripts/restyle_detailed_deck.py against the hash above. It no longer renders a deck of its own.",
+      "sha256": "a5204149a5fdc2dc4e2e2f79a6926a17336a3e5c5740b5ebb7d95ec7c59df8a0",
+      "source_slides": 25
+    },
+    "technical": {
+      "path": "paper/slides/GAC-technical-review.pptx",
+      "retired": true,
+      "retired_reason": "GAC-technical-review.pptx was removed; nothing reads it at build time. See paper/slides/gac-template-map.json for the full declaration.",
+      "sha256": "e0febc7b9dd9dc01c89bedb78c0f731a99dd24434e491ecfc627c21511ce0c54",
+      "source_slides": 21
+    }
   }
- },
- "templates": {
-  "seminar": {
-   "path": "paper/slides/GAC-seminar.pptx",
-   "sha256": "a5204149a5fdc2dc4e2e2f79a6926a17336a3e5c5740b5ebb7d95ec7c59df8a0",
-   "source_slides": 25,
-   "role": "Design-system source read by paper/scripts/restyle_detailed_deck.py against the hash above. It no longer renders a deck of its own."
-  },
-  "technical": {
-   "path": "paper/slides/GAC-technical-review.pptx",
-   "sha256": "e0febc7b9dd9dc01c89bedb78c0f731a99dd24434e491ecfc627c21511ce0c54",
-   "source_slides": 21,
-   "retired": true,
-   "retired_reason": "GAC-technical-review.pptx was removed; nothing reads it at build time. See paper/slides/gac-template-map.json for the full declaration."
-  }
- },
- "outputs": {
-  "technical": {
-   "path": "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx",
-   "sha256": "5f680b0b2ca221d1dc73db0e568171c967e09f64f554a68edc92d10e9da5cfca",
-   "slides": 26
-  }
- },
- "source_slide_for_output": {
-  "technical": [
-   1,
-   2,
-   null,
-   3,
-   4,
-   5,
-   6,
-   null,
-   7,
-   8,
-   9,
-   10,
-   11,
-   12,
-   null,
-   13,
-   14,
-   14,
-   15,
-   16,
-   17,
-   18,
-   18,
-   19,
-   20,
-   21
-  ]
- },
- "evidence_boundary": "Three real-record workflow families support the primary transfer result: compiled 90/90, baseline 89/90, manual 90/90, all admitted at the registered alpha=.05 with a pooled 3.3% compiled-only discordance bound. The snapshot does not establish cross-repository or time-forward transfer, and part of the reported 32.0-75.3% cost range reflects prompt-cache warmth rather than compiled depth. GCS and comparator results rest on an artifact calibrated at alpha=.10 and are not licensed at .05. NESTFUL and API-Bank remain refusal evidence; eight other benchmark paths are supplementary interoperability audits.",
- "restyle": {
-  "script": "paper/scripts/restyle_detailed_deck.py",
-  "sha256": "274ff8538f6822d6ca9397ee063fafea6d0f8c367d4dbc7252436a8a3e62e2b2",
-  "target": "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx",
-  "style_source": "paper/slides/GAC-seminar.pptx",
-  "reason": "The two decks were rendered from two unrelated source templates and therefore shipped two visual systems. The technical deck is brought onto the seminar template design system in place, because generate_slides.mjs needs an external artifact-tool workspace that is not in this repository.",
-  "changes": [
-   "palette remapped from the dark-teal system to the seminar navy/teal system",
-   "all-caps labels tracked as the seminar tracks them; sub-heads take the muted ink",
-   "footer, page-number, eyebrow, and title boxes set to the seminar geometry and top-anchored",
-   "three section dividers inserted from the seminar divider frame (23 -> 26 slides)",
-   "eyebrows extended with the manuscript section, algorithm, table, and figure each slide answers",
-   "title and closing decorative circles set to the seminar positions and alphas",
-   "charts moved from ppt/slides/charts/ to ppt/charts/, each given a generated workbook, and two cached three-point series repointed from a two-row range",
-   "two paragraphs that overflowed their boxes in the generated deck brought onto the seminar type-density scale: a 501-character alert body 12pt -> 10pt, and a 330-character lede 13pt -> 11.5pt in a 0.5in -> 0.62in box",
-   "slide headlines shortened from 52-75 characters to 23-43, dropping the second clause where the body or eyebrow already carries it; the title slide keeps the manuscript title verbatim"
-  ],
-  "not_changed": "The seminar renders display maths as images and numbers the equations in the margin. The technical deck states the same material as prose and has no equations to number, so that part of the formula is not transferred.",
-  "coordinate_source": "Section, algorithm, table, and figure numbers in the eyebrows are read off the current manuscript, not copied from the seminar deck: that deck predates subsections 3.3 and 3.4 and eight of the tables, so its own coordinates are stale.",
-  "rebuild": "The deck is rebuilt by deleting it, restoring the generator output pinned at 248eb1f22a1a94c7f4bc6a2e97d26fe89637e2d0ab9ddf5d9203f818a4468643, and re-running retitle_slides.py then restyle_detailed_deck.py. generate_slides.mjs itself cannot run here: it needs an external artifact-tool presentation workspace."
- },
- "retired_outputs": {
-  "seminar": {
-   "path": "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs.pptx",
-   "sha256": "4867b288df8a7c02ca1efbfefa12ef0b55833649be59552aeb3bb58e503dad9d",
-   "slides": 27,
-   "reason": "The 27-slide seminar deck was removed; the technical deck carries the same design system and is the only shipped deck. The hash above is the last value it was verified at.",
-   "recover": "git show <commit>:paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs.pptx"
-  }
- }
 }
