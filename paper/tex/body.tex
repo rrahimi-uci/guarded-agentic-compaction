@@ -297,6 +297,7 @@ is the cutoff chosen from a frozen grid so that a bound on selective risk holds
 was learned under.  For a future episode, dispatch is selective:
 \begin{equation}
   d_A(z)=\mathbb{1}\{H(z)=1 \land q(z)\leq\eta \land M\text{ matches}\}.
+  \label{eq:dispatch}
 \end{equation}
 If any precondition fails, the baseline agent runs.  If execution fails before a
 commit and staging proves the attempt clean, the baseline agent runs.  Dirty failure is
@@ -316,8 +317,8 @@ where $B$ is the unchanged agent.  The implementation may return no artifact
 \begin{figure*}[t]
   \centering
   \input{../figures/fig-dispatch-population.tex}
-  \caption{The population that Eqs.~(3)--(5) quantify over, and the slice they
-  condition on.  Savings are earned across the dispatched segment, while selective risk
+  \caption{The population that \eqref{eq:dispatch} and \eqref{eq:objective} quantify
+  over, and the slice the risk constraint conditions on.  Savings are earned across the dispatched segment, while selective risk
   is measured \emph{inside} it: an episode that misses on the manifest, the guard, or the
   gate returns the baseline and never enters the denominator, so it is not a compacted
   failure.  A staged failure caught before the commit line also returns the baseline, but

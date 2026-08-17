@@ -1532,7 +1532,7 @@ def validate_publication() -> None:
             for phrase in ("Anatomy of one episode",
                            "applied to the held-out issue-4420 record",
                            "Why prefix-only",
-                           "the slice they condition on",
+                           "the slice the risk constraint conditions on",
                            "What a canonical family is",
                            "Two pre-synthesis questions",
                            "Four claims, tested at three times",
