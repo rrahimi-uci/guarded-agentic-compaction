@@ -69,9 +69,9 @@ draft says so and names counterfactual trace auditing as the instrument that
 would measure it.
 
 6. `Anonymous artifact packaging remains an operational blocker.`
-The reproducibility statement and appendix F assert an anonymous supplementary
-archive. That archive must actually be built before upload; the current
-repository is identified.
+The reproducibility statement describes an anonymous supplementary archive as a
+pre-upload deliverable. That archive must actually be built before upload; the
+current repository is identified.
 
 ## Why the draft excludes some prior material from the main text
 

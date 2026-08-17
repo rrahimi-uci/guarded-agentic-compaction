@@ -156,3 +156,27 @@ source-disclosure route but does not change the score: the anonymous artifact
 bundle and author-side OpenReview disclosures still need human completion, and
 the binding ICLR risks remain scientific reach, evaluation breadth, and
 compiler-wide multiplicity control rather than presentation mechanics.
+
+---
+
+# Evidence-breadth revision, August 17, 2026
+
+This revision adds no new experiments. It moves four retained, previously
+compressed records into the appendix: repository-level outcomes for both
+time-forward protocols, the 17/18-to-18/18 continuation counterexample and
+checked repair, a ten-benchmark evidence-disposition map, and the full
+registered-versus-exploratory gate-behaviour inventory. These additions use the
+unlimited appendix rather than the nine-page main-text budget and retain the
+distinction between compiler measurement, provider-free auditing, screening,
+and access-blocked work.
+
+| Dimension | Previous | Revised | Reason for revision |
+|---|---:|---:|---|
+| Evaluation design | 83 | 85 | The disaggregated core and balanced time-forward cohorts make the four successes, one retirement, and different class mixes inspectable rather than only pooled. |
+| Evidence strength | 80 | 82 | The continuation failure/repair and ten-benchmark disposition map expose both negative and out-of-scope evidence instead of hiding it. |
+| Remaining dimensions | unchanged | unchanged | No retained result adds a second provider, a harder workflow family, or compiler-wide multiplicity control. |
+
+**Revised weighted score: 88/100.** This is a presentation and auditability
+gain, not a claim of stronger causal evidence. The score remains capped by one
+provider/model family, one rich snapshot, the narrow transfer task, and the
+registered gate's all-or-none behaviour.
