@@ -59,6 +59,39 @@ After editing a deck, refresh its recorded hash in
 `paper/results/slide_generation.json` and re-run
 `paper/scripts/validate_artifacts.py`.
 
+## Resynchronizing coordinates after a manuscript change
+
+Each slide's eyebrow names the section, figure, table, or algorithm that slide answers, and
+those coordinates go stale whenever the article renumbers. Inserting the Section 2--3 reader
+aids added twelve figures and one table, which moved every float after them, so twelve
+eyebrows pointed at the wrong exhibit --- the architecture figure was still cited as Figure 1
+when it had become Figure 6.
+
+```bash
+python paper/scripts/resync_slide_coordinates.py --check   # report
+python paper/scripts/resync_slide_coordinates.py           # apply
+```
+
+The script does not trust its own table of numbers: every coordinate it writes is asserted
+against `paper/open_research/article.aux` first, so a later renumbering fails here loudly
+instead of shipping another stale pointer. Build the article before running it.
+
+It also repairs two claims that had drifted from the paper:
+
+- **Slide 12's terminal-edge tally.** The manuscript used to enumerate the dispatch exits as
+  one compaction, five baseline returns, and one incident, and now states the invariant
+  without the counts. Exactly one edge still compacts, so that box keeps its `1`; the other
+  two become `n`. The words `any` and `every` were tried first and do not fit --- the box is
+  0.7in wide at 27pt, which leaves about one glyph of usable measure.
+- **Slide 13's calibration signals.** The paper now separates them explicitly: the score is
+  *fitted* on development groups that were unproductive in any way, while the bound is
+  *counted* only from dispatched groups that were wrong.
+
+Text lengths were checked against each edited shape's extent and run size rather than by
+opening the deck; no PowerPoint or LibreOffice renderer is available in this environment, so
+**open the deck once before presenting it.** The slide-12 incident card is 3.18in x 0.8in at
+11pt with no autofit, which is why its replacement text is kept near the original length.
+
 The shipped deck also carries the benchmark-grounded GitHub continuation example on slide 17.
 When the pinned generator output is restored, replay the normal `retitle`/`restyle` steps
 and then apply the narrow evidence-text transform:
