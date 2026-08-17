@@ -470,3 +470,24 @@ in one wrapper only.  Style keys are prefixed (`gnote`, `ghd`, `gstep`, `gout`, 
 `validate_artifacts.py` now gates all twelve reader aids by caption text in both builds,
 for the same reason the README records for Algorithms 2--4: shared-body `\input` artwork can
 otherwise be authored without ever reaching a page.
+
+### Two generator bugs this surfaced
+
+`site/article.html` is generated from `paper/tex/`, so it had to be regenerated.  Doing so
+exposed two latent defects in `scripts/build_article_page.py`, both fixed here:
+
+- `\Description{...}` was rewritten to `\iffalse{` before pandoc.  An `\iffalse` with no
+  `\fi` makes pandoc's reader reconsider the rest of the document, and the cost compounds
+  with every float carrying one.  At eleven floats the build was slow; at twenty-one it
+  stopped terminating.  The alt text is already extracted from the unpreprocessed body, so
+  pandoc never needed to see the macro --- deleting the call takes the build from *does not
+  finish* to 0.4 s.
+- The architecture SVG's caption hardcoded `Figure 1.`, which collided with the
+  introduction's figure and skipped a number in the sequence.  It now reads the number from
+  the label registry.  Moving that figure from second to sixth is what made the collision
+  visible.
+
+The ten authored-TikZ floats are tokenized before pandoc and published as the prose
+description each float already carries for screen readers.  Rasterizing them is not the
+alternative: the generator's own header rejects raster TikZ as neither scalable nor
+legible, which is why the architecture figure is hand-authored SVG.
