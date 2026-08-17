@@ -1,0 +1,75 @@
+% Guarded composite synthesis: a declared view over verified receipts, drawn so the
+% internal source calls stay visible. Sized for one column (~80mm).
+% Authored artwork (TikZ), included by both the ACM and the article build.
+% Colours are declared in each wrapper preamble so the figure is class-neutral.
+\begin{tikzpicture}[
+  x=1mm, y=1mm,
+  font=\sffamily\scriptsize,
+  read/.style={
+    draw=gacteal!85, line width=0.45pt, rounded corners=1.2pt, fill=gacteal!10,
+    anchor=north west, align=center, inner sep=1.8pt,
+    minimum width=22mm, minimum height=7mm, text width=19mm, font=\sffamily\tiny},
+  stage/.style={draw=gacline!55, line width=0.5pt, rounded corners=2pt,
+                fill=gacgrey!60, inner sep=3.2pt},
+  gate/.style={
+    draw=gacblue!85, line width=0.5pt, rounded corners=1.2pt, fill=gacblue!8,
+    anchor=north west, align=left, inner sep=2pt,
+    minimum width=78mm, text width=73mm, font=\sffamily\tiny},
+  proj/.style={
+    draw=gacline!85, line width=0.5pt, rounded corners=1.2pt, fill=white,
+    anchor=north west, align=left, inner sep=2pt,
+    minimum width=78mm, text width=73mm, font=\sffamily\tiny},
+  outb/.style={
+    draw=gacteal!90, line width=0.65pt, rounded corners=1.4pt, fill=gacteal!16,
+    anchor=north west, align=center, inner sep=2pt,
+    minimum width=78mm, text width=73mm, font=\sffamily\tiny},
+  warn/.style={
+    draw=gacred!75, line width=0.45pt, rounded corners=1.2pt, fill=gacred!7,
+    anchor=north west, align=left, inner sep=2pt,
+    minimum width=78mm, text width=73mm, font=\sffamily\tiny},
+  flow/.style={-{Latex[length=1.4mm,width=1.1mm]}, draw=gacline!85, line width=0.45pt},
+  gnote/.style={font=\sffamily\tiny, text=gacline, anchor=north west, align=left},
+  ghd/.style={font=\sffamily\bfseries\tiny, text=gacblue, anchor=north west},
+]
+
+\node[gate] (g1) at (0,0)
+  {\textbf{required before the interface exists}\quad every tool carries an explicit
+   \code{batchable} capability $\cdot$ a pre-model dispatch additionally requires an exact
+   continuation-manifest match $\tau_c$};
+
+\node[ghd] at (2,-11.6) {inside the staging boundary};
+\node[read] (r1) at (2,-16) {\code{record}};
+\node[read] (r2) at (28,-16) {\code{labels}};
+\node[read] (r3) at (54,-16) {\code{comments}};
+\draw[flow] (r1.east) -- (r2.west);
+\draw[flow] (r2.east) -- (r3.west);
+\node[gnote, text width=76mm] at (2,-24.5)
+  {three \emph{sequential} source calls, still executed, still verified, with field-level
+   provenance retained};
+
+\begin{scope}[on background layer]
+  \node[stage, fit=(r1)(r3)] (sb) {};
+\end{scope}
+
+\node[proj] (pj) at (0,-33)
+  {\textbf{$\Pi$ \;projection}\quad selects only \emph{verified} live-outs, in the same
+   bounded binding DSL.  It cannot call arbitrary code, resolve a dynamic tool, or read
+   unverified state.  A missing projected field returns the baseline before release.};
+
+\node[outb] (ob) at (0,-48)
+  {$\widetilde P=(P,\Pi,\tau_c)$ \;$\Rightarrow$\; \textbf{one composite observation} to the
+   provider, sealed to the continuation that consumes it};
+
+\node[warn] (wn) at (0,-58)
+  {\textbf{What the envelope does not do.}  It does not parallelize the internal calls,
+   reduce the number of source reads, generate a new remote service, or prove the
+   application-supplied task-semantic contract.  Argument canonicalization is an
+   application-signed declaration over five closed operations with a declared domain
+   --- values outside it raise and deoptimize --- not equivalence the compiler learned.};
+
+\node[gnote, text width=78mm] at (0,-77)
+  {Its gate is also the one gate in this paper with real selectivity: 88 of 92 groups
+   admitted (coverage $0.957$), simultaneous bound $0.0520$, so every result resting on
+   it is licensed at $\alpha=.10$, not at the registered $.05$.};
+
+\end{tikzpicture}

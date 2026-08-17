@@ -1,0 +1,87 @@
+% Same stencil, different literals: what a canonical family does and does not claim.
+% Authored artwork (TikZ), included by both the ACM and the article build.
+% Colours are declared in each wrapper preamble so the figure is class-neutral.
+%
+% The observed cards are stacked on the left and the canonical card sits beside
+% them, so the collapse reads left-to-right on one line rather than as three
+% arrows converging from three directions. Explicit geometry; natural width ~162mm.
+%
+% The three observed records are written with symbolic identifiers. Only issue 4420
+% is a reported held-out record; inventing two more real-looking issue numbers would
+% put fabricated data in a figure caption.
+\begin{tikzpicture}[
+  x=1mm, y=1mm,
+  font=\sffamily\scriptsize,
+  card/.style={
+    draw=gacblue!70, line width=0.45pt, rounded corners=1.2pt, fill=gacblue!7,
+    anchor=north west, align=left, inner sep=2pt,
+    minimum width=46mm, text width=42mm, minimum height=10mm, font=\sffamily\tiny},
+  canon/.style={
+    draw=gacline!85, line width=0.6pt, rounded corners=1.6pt, fill=white,
+    anchor=north west, align=left, inner sep=2.6pt,
+    minimum width=56mm, text width=51mm, font=\sffamily\tiny},
+  bar/.style={
+    draw=gacline!45, line width=0.45pt, rounded corners=1.6pt, fill=gacgrey,
+    anchor=north west, align=left, inner sep=2.6pt,
+    minimum width=42mm, text width=37mm, font=\sffamily\tiny},
+  warn/.style={
+    draw=gacred!70, line width=0.45pt, rounded corners=1.2pt, fill=gacred!7,
+    anchor=north west, align=left, inner sep=2.4pt,
+    minimum width=42mm, text width=37mm, font=\sffamily\tiny},
+  flow/.style={-{Latex[length=1.6mm,width=1.2mm]}, draw=gacline!85, line width=0.55pt},
+  gnote/.style={font=\sffamily\tiny, text=gacline, anchor=north west, align=left},
+  ghd/.style={font=\sffamily\bfseries\tiny, text=gacblue, anchor=north west},
+]
+
+\node[ghd] at (0,4.6) {observed windows \normalfont\itshape (literal ink differs)};
+\node[card] (c1) at (0,0)
+  {\code{record($n_1$)} $\rightarrow$ \code{labels($n_1$)} $\rightarrow$
+   \code{comments($n_1$, limit=100)}};
+\node[card] (c2) at (0,-12)
+  {\code{record($n_2$)} $\rightarrow$ \code{labels($n_2$)} $\rightarrow$
+   \code{comments($n_2$, limit=25)}};
+\node[card] (c3) at (0,-24)
+  {\code{record($n_3$)} $\rightarrow$ \code{labels($n_3$)} $\rightarrow$
+   \code{comments($n_3$, limit=3)}};
+
+% No edge label: the gutter is 10mm and the word is wider, so it printed over the
+% canonical card. Both sides already carry a heading.
+\draw[flow] (c2.east) -- ++(8,0);
+
+\node[ghd] at (56,4.6) {canonical form \normalfont\itshape (same stencil)};
+\node[canon] (cn) at (56,0)
+  {\textbf{hashed and preserved}\\[1pt]
+   tool signatures: \code{record} $\cdot$ \code{labels} $\cdot$ \code{comments}\\
+   dependency topology: $1\!\rightarrow\!2$, $1\!\rightarrow\!3$\\
+   run shape: 3 calls, no branch, no loop\\
+   live-in shape: \{\code{issue\_number}: int\}\\
+   live-out shape: record $\cdot$ label set $\cdot$ comment list\\
+   effect qualification: read-only, speculatable,\\
+   \phantom{effect qualification: }replayable, one isolation key\\[2pt]
+   \textbf{abstracted}\quad every literal value, including
+   \code{limit}};
+
+\node[bar] (sb) at (118,0)
+  {\textbf{Support is counted over groups}\\[1pt]
+   $s_F$: independent scenario groups, \emph{not} event
+   frequency --- ten repeats of one record are one group.\\[2pt]
+   A minimum-distinct-days requirement is implemented; the
+   live study of \cref{sec:rq2} sets \code{min\_days}\,=\,1
+   over a single snapshot.\\[2pt]
+   Within-family variants feed $H(F)$, the heterogeneity
+   penalty in \eqref{eq:score}.};
+
+\node[warn] (wn) at (118,-30)
+  {\textbf{What this is not.}  A shared stencil says three
+   executions had the same \emph{shape}.  It does not say the
+   records mean the same thing, and it licenses nothing on its
+   own: the abstracted \code{limit} is exactly the slot that
+   \cref{alg:patg} later refuses.};
+
+\node[gnote, text width=112mm] at (0,-40)
+  {Canonicalization groups \emph{structural proposals} so that provenance, contracts, and
+   calibration have a repeated object to work on.  Literals are abstracted for mining only;
+   the synthesized program binds each argument to an expression in $\mathcal{L}$, never to a
+   hashed placeholder.};
+
+\end{tikzpicture}

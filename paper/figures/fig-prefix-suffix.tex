@@ -1,0 +1,66 @@
+% Why the position invariant a=0 is a deployment constraint and not a tuning knob.
+% Authored artwork (TikZ), included by both the ACM and the article build.
+% Colours are declared in each wrapper preamble so the figure is class-neutral.
+%
+% Two lanes on a shared time axis (x=y=1mm, anchor=north west) so the reader can
+% read the two orders against each other. The figure carries no measurement: the
+% archived pilot's numbers live in the pilot ablation figure, and duplicating them
+% here would present a schematic as an experimental result.
+\begin{tikzpicture}[
+  x=1mm, y=1mm,
+  font=\sffamily\scriptsize,
+  gstep/.style={
+    draw=gacline!85, line width=0.45pt, rounded corners=1.2pt, fill=white,
+    anchor=north west, align=center, inner sep=1.8pt,
+    minimum width=25mm, minimum height=8.4mm, text width=22mm, font=\sffamily\tiny},
+  comp/.style={gstep, fill=gacteal!12, draw=gacteal!85},
+  base/.style={gstep, fill=gacgrey, draw=gacline!55},
+  wrong/.style={gstep, fill=gacred!9, draw=gacred!80},
+  entry/.style={
+    draw=gacblue!85, line width=0.6pt, rounded corners=1.2pt, fill=gacblue!10,
+    anchor=north west, align=center, inner sep=1.8pt,
+    minimum width=17mm, minimum height=8.4mm, text width=14mm, font=\sffamily\tiny},
+  flow/.style={-{Latex[length=1.4mm,width=1.1mm]}, draw=gacline!85, line width=0.45pt},
+  bad/.style={-{Latex[length=1.4mm,width=1.1mm]}, draw=gacred!80, line width=0.5pt,
+              densely dashed},
+  gnote/.style={font=\sffamily\tiny, text=gacline, anchor=north west, align=left},
+  ghd/.style={font=\sffamily\bfseries\tiny, anchor=north west},
+  gaxis/.style={draw=gacline!45, line width=0.4pt, densely dotted},
+]
+
+% --------------------------------------------------------- shared time axis
+\draw[gaxis] (20,3) -- (20,-46);
+\node[gnote, text=gacblue, anchor=south] at (20,3.4) {the one substitution point the runtime owns};
+
+% ------------------------------------------------------------- top lane: a=0
+\node[ghd, text=gacteal!70!black] at (0,4.6) {\textbf{A}\quad entry-prefix substitution, $a=0$};
+\node[entry] (e1)  at (0,   0) {entry\\boundary};
+\node[comp]  (p1)  at (22,  0) {compiled prefix\\\code{record} $\rightarrow$ \code{labels}};
+\node[base]  (a1)  at (50,  0) {ordinary agent\\chooses \code{limit}};
+\node[base]  (a2)  at (78,  0) {\code{comments}};
+\node[base]  (a3)  at (106, 0) {ordinary agent\\renders answer};
+\node[gstep, fill=gacteal!16, draw=gacteal!85, minimum width=26mm, text width=23mm]
+  (ok) at (130,0) {\textbf{order preserved}\\each read runs once};
+\foreach \a/\b in {e1/p1, p1/a1, a1/a2, a2/a3, a3/ok} {\draw[flow] (\a.east) -- (\b.west);}
+
+% ------------------------------------------------- bottom lane: suffix at entry
+\node[ghd, text=gacred!85] at (0,-19.4) {\textbf{B}\quad suffix region dispatched at the same boundary, $a>0$};
+\node[entry] (e2)  at (0,  -24) {entry\\boundary};
+\node[wrong] (q1)  at (22, -24) {injected suffix\\\code{labels} $\rightarrow$ \code{comments}};
+\node[wrong] (q2)  at (50, -24) {agent's own\\first read \code{record}};
+\node[wrong] (q3)  at (78, -24) {\code{labels} again};
+\node[gstep, fill=gacred!12, draw=gacred!85, minimum width=26mm, text width=23mm]
+  (nok) at (130,-24) {\textbf{reordered and\\duplicated reads}};
+\foreach \a/\b in {e2/q1, q1/q2, q2/q3} {\draw[flow] (\a.east) -- (\b.west);}
+\draw[bad] (q3.east) -- (nok.west);
+
+% ------------------------------------------------------------------- caption
+\node[gnote, text width=152mm] at (0,-40)
+  {The dispatcher resolves artifacts at the initial model boundary, so lane~B is the
+   only way to deploy a suffix there --- and it either repeats earlier calls or runs
+   them out of order, because \textcolor{gacred!90}{the suffix consumes values its own
+   prefix has not produced yet}.  Eq.~\eqref{eq:prefix} therefore refuses lane~B at compile time
+   rather than repairing it at runtime.  \Cref{sec:pilot} reports the archived live
+   pilot that took lane~B, and what it cost.};
+
+\end{tikzpicture}

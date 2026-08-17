@@ -1,0 +1,77 @@
+% What Eqs. (3)-(5) quantify over: the population of future episodes, and the
+% sub-population that the selective-risk constraint is conditioned on.
+% Authored artwork (TikZ), included by both the ACM and the article build.
+% Colours are declared in each wrapper preamble so the figure is class-neutral.
+%
+% The segment widths are illustrative and are labelled as such: they exist to show
+% that the risk denominator is a *slice* of the population, not to assert a coverage
+% rate. Explicit geometry (x=y=1mm, anchor=north west); natural width ~162mm.
+\begin{tikzpicture}[
+  x=1mm, y=1mm,
+  font=\sffamily\scriptsize,
+  gseg/.style={
+    draw=gacline!70, line width=0.5pt, anchor=north west, align=center,
+    inner sep=1.6pt, minimum height=9mm, font=\sffamily\tiny},
+  miss/.style={gseg, fill=gacgrey, draw=gacline!55},
+  hit/.style={gseg, fill=gacteal!16, draw=gacteal!90, line width=0.65pt},
+  gout/.style={
+    draw=gacline!70, line width=0.5pt, rounded corners=1.4pt, fill=white,
+    anchor=north west, align=center, inner sep=2pt,
+    minimum height=10mm, font=\sffamily\tiny},
+  gbox/.style={gout, fill=gacgrey, draw=gacline!55},
+  tbox/.style={gout, fill=gacteal!12, draw=gacteal!85},
+  rbox/.style={gout, fill=gacred!9, draw=gacred!80},
+  flow/.style={-{Latex[length=1.4mm,width=1.1mm]}, draw=gacline!85, line width=0.45pt},
+  gnote/.style={font=\sffamily\tiny, text=gacline, anchor=north west, align=left},
+  ghd/.style={font=\sffamily\bfseries\tiny, text=gacblue, anchor=north west},
+  gtick/.style={draw=gacteal!90, line width=0.5pt},
+]
+
+\node[ghd] at (0,5.2) {100 future episodes reaching the entry boundary \normalfont\itshape (illustrative split)};
+
+% ------------------------------------------------------------ population strip
+\node[miss, minimum width=44mm, text width=41mm] (s1) at (0,  0)
+  {40: $M$ mismatch or $H(z)=0$};
+\node[miss, minimum width=32mm, text width=29mm] (s2) at (44, 0)
+  {30: gate abstains, $q(z)>\eta$};
+\node[hit,  minimum width=44mm, text width=41mm] (s3) at (76, 0)
+  {\textbf{30: dispatched}};
+
+\node[gnote, text=gacteal!65!black, anchor=south west] at (76,0.6) {$d_A(z)=1$ \quad Eq.~\eqref{eq:dispatch} is conjunctive};
+
+% ------------------------------------------------- conditional-risk denominator
+\draw[gtick] (76,-10.4) -- (76,-12.4) -- (120,-12.4) -- (120,-10.4);
+\node[gnote, text=gacteal!65!black, text width=44mm] at (76,-13.2)
+  {$\Pr[L=1\mid d_A=1]\le\alpha$\\Eq.~\eqref{eq:objective}: the denominator is these 30,
+   not the 100};
+
+% ------------------------------------------------------------------- outcomes
+\node[gbox, minimum width=70mm, text width=66mm] (base) at (0,-24)
+  {\textbf{unchanged baseline agent}\\a miss is a designed outcome: it is not a compacted
+   attempt, and it never enters the risk denominator};
+\draw[flow] (s1.south) -- ++(0,-6) -| ([xshift=-20mm]base.north);
+\draw[flow] (s2.south) -- ++(0,-6) -| ([xshift=20mm]base.north);
+
+\node[tbox, minimum width=44mm, text width=40mm] (stage) at (76,-24)
+  {\textbf{staged compiled execution}\\sealed tray, nothing committed yet};
+\draw[flow] (s3.south) -- (stage.north);
+
+\node[tbox, minimum width=44mm, text width=40mm] (good) at (76,-42)
+  {$V$ passes $\Rightarrow$ \textbf{compacted}\\provider turns elided};
+\node[gbox, minimum width=44mm, text width=40mm] (fbk) at (118,-42)
+  {$V$ fails \emph{cleanly} $\Rightarrow$ baseline\\still inside the denominator};
+\draw[flow] (stage.south) -- (good.north);
+\draw[flow] (stage.south east) -- ++(0,-4) -| ([xshift=-8mm]fbk.north);
+
+\node[rbox, minimum width=44mm, text width=40mm, minimum height=8mm] (inc) at (118,-56)
+  {a \emph{dirty} post-commit failure is an \textbf{incident}, not fallback};
+\draw[flow, draw=gacred!80] (fbk.south) -- (inc.north);
+
+% ------------------------------------------------------------------ side note
+\node[gnote, text width=36mm, anchor=north east] at (160,-2)
+  {\textbf{Coverage and savings} scale with the width of the green segment.
+   \textbf{Selective risk} is measured only inside it.  The two are different
+   quantities, and a calibrated bound on the second says nothing about any one
+   individual case.};
+
+\end{tikzpicture}

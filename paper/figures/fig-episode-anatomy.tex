@@ -1,0 +1,79 @@
+% Anatomy of an episode E=(z,M,e_{1:T},y), and of a candidate region inside it.
+% Authored artwork (TikZ), included by both the ACM and the article build.
+% Colours are declared in each wrapper preamble so the figure is class-neutral.
+%
+% Geometry is explicit (x=y=1mm, anchor=north west) for the same reason as
+% architecture.tex: the event lane, the region bracket and the barrier strip must
+% not collide at any scale. Natural width is ~162mm, which fits the article
+% measure (165mm) and the two-column figure* span (178mm) without scaling.
+\begin{tikzpicture}[
+  x=1mm, y=1mm,
+  font=\sffamily\scriptsize,
+  gev/.style={
+    draw=gacline!85, line width=0.45pt, rounded corners=1.2pt, fill=white,
+    anchor=north west, align=center, inner sep=1.6pt,
+    minimum width=16mm, minimum height=9mm, text width=13.6mm,
+    font=\sffamily\tiny},
+  mod/.style={gev, fill=gacblue!9,  draw=gacblue!85},
+  tres/.style={gev, fill=gacteal!12, draw=gacteal!85},
+  gside/.style={
+    draw=gacline!70, line width=0.5pt, rounded corners=1.6pt, fill=gacgrey,
+    anchor=north west, align=left, inner sep=2.6pt,
+    minimum width=24mm, text width=21mm, font=\sffamily\tiny},
+  barrier/.style={
+    draw=gacred!65, line width=0.45pt, rounded corners=1.2pt, fill=gacred!8,
+    anchor=north west, align=center, inner sep=1.6pt,
+    minimum width=17mm, minimum height=6.4mm, text width=14.6mm,
+    font=\sffamily\tiny},
+  flow/.style={-{Latex[length=1.4mm,width=1.1mm]}, draw=gacline!85, line width=0.45pt},
+  gtick/.style={draw=gacline!55, line width=0.4pt},
+  gnote/.style={font=\sffamily\tiny, text=gacline, anchor=north west, align=left},
+  ghd/.style={font=\sffamily\bfseries\tiny, text=gacblue, anchor=north west},
+]
+
+% ---------------------------------------------------------------- entry side
+\node[gside] (z) at (0,0)
+  {\textbf{entry state $z$}\\\code{issue\_number}: 4420};
+\node[gside] (man) at (0,-12)
+  {\textbf{manifest $M$}\\prompt $\cdot$ policy $\cdot$ guardrail\\tools $\cdot$ model $\cdot$ SDK\\
+   tracer $\cdot$ entry contract\\effect catalog};
+
+% ------------------------------------------------------------- ordered events
+\node[mod]  (m1) at (30,   0) {model\\request};
+\node[tres] (t1) at (48,   0) {tool result\\\code{record}};
+\node[mod]  (m2) at (66,   0) {model\\request};
+\node[tres] (t2) at (84,   0) {tool result\\\code{labels}};
+\node[mod]  (m3) at (103,  0) {model\\request};
+\node[tres] (t3) at (121,  0) {tool result\\\code{comments}};
+\node[gnote]  (dots) at (99.5,-3.4) {$\cdots$};
+
+\node[gside, minimum width=18mm, text width=15mm, fill=white, draw=gacline!70]
+  (y) at (141,0) {\textbf{outcome $y$}\\classification\\+ excerpt};
+
+\draw[flow] (z.east) -- (m1.west);
+\draw[flow] (t3.east) -- (y.west);
+\foreach \a/\b in {m1/t1, t1/m2, m2/t2, m3/t3} {\draw[flow] (\a.east) -- (\b.west);}
+
+\node[ghd] at (30,4.8) {ordered events $e_{1:T}$ \normalfont\itshape (one recorded execution, not a prompt/answer pair)};
+
+% ------------------------------------------------------- candidate region R
+% Drawn as a plain bracket rather than a decoration: neither wrapper loads
+% decorations.pathreplacing, and the figure must stay class-neutral.
+\draw[gtick] (30,-11.4) -- (30,-13.4) -- (100,-13.4) -- (100,-11.4);
+\node[gnote, text width=124mm] at (30,-14.2)
+  {\textbf{candidate region $R=[a,b]$}: begins at a model-request boundary, ends after a tool
+   result.  The deployable compiler additionally requires $a=0$, Eq.~\eqref{eq:prefix}.  The
+   outcome $y$ is never inside $R$ --- \method removes intermediate control decisions, not the
+   task result.};
+
+% -------------------------------------------------------------- barrier strip
+\node[barrier] (b1) at (22,-27) {approval};
+\node[barrier] (b2) at (41,-27) {handoff};
+\node[barrier] (b3) at (60,-27) {write};
+\node[barrier] (b4) at (79,-27) {error};
+\node[barrier] (b5) at (98,-27) {unknown\\effect};
+\node[barrier] (b6) at (117,-27) {commit\\boundary};
+\node[gnote, text width=25mm, text=gacred!85] at (135,-27.4)
+  {any of these inside $R$ is a \textbf{barrier}, not a slow read};
+
+\end{tikzpicture}

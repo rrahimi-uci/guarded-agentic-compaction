@@ -1,0 +1,58 @@
+% What the per-candidate proposition licenses, and what it does not. Sized for one
+% column (~80mm) so it sits with the limitation paragraph it fences rather than
+% floating away from it.
+% Authored artwork (TikZ), included by both the ACM and the article build.
+% Colours are declared in each wrapper preamble so the figure is class-neutral.
+\begin{tikzpicture}[
+  x=1mm, y=1mm,
+  font=\sffamily\scriptsize,
+  inside/.style={
+    draw=gacteal!85, line width=0.55pt, rounded corners=1.4pt, fill=gacteal!9,
+    anchor=north west, align=left, inner sep=2.4pt,
+    minimum width=78mm, text width=73mm, font=\sffamily\tiny},
+  outside/.style={inside, draw=gacred!80, fill=gacred!7},
+  chip/.style={draw=gacline!70, line width=0.4pt, rounded corners=0.8pt, fill=white,
+               anchor=north west, align=center, inner sep=1.2pt,
+               minimum width=5.6mm, minimum height=4.4mm, font=\sffamily\tiny},
+  cand/.style={draw=gacblue!80, line width=0.45pt, rounded corners=1pt, fill=gacblue!8,
+               anchor=north west, align=center, inner sep=1.4pt,
+               minimum width=22mm, minimum height=6mm, text width=19mm,
+               font=\sffamily\tiny},
+  fence/.style={draw=gacred!85, line width=0.8pt, densely dashed},
+  gnote/.style={font=\sffamily\tiny, text=gacline, anchor=north west, align=left},
+  ghd/.style={font=\sffamily\bfseries\tiny, anchor=north west},
+]
+
+% ------------------------------------------------------- covered by the proposition
+\node[ghd, text=gacteal!65!black] at (0,4.4) {A\quad one fixed candidate, 11 predeclared thresholds};
+\foreach \i in {0,...,10} {\node[chip] at ({\i*6.8},0) {};}
+\node[gnote] at (0,-6.2) {$\Lambda=\{.02,\ldots,.50\}$, frozen with the score before calibration};
+\node[inside] (in) at (0,-11)
+  {\textbf{Covered.}  $\gamma=\delta/|\Lambda|$ pays for a union bound over the grid, so
+   with probability $\ge 1-\delta$ the bound holds \emph{simultaneously} at every $\eta$
+   --- which is what lets the compiler read the calibration counts and then choose
+   $\hat\eta$.};
+
+% --------------------------------------------------------------- not covered
+\node[ghd, text=gacred!85] at (0,-27.6) {B\quad several candidate families, one calibration set};
+\node[cand] (k1) at (0,-32)  {candidate 1};
+\node[cand] (k2) at (26,-32) {candidate 2};
+\node[cand] (k3) at (52,-32) {$\ldots$ candidate $m$};
+\draw[fence] (-1.5,-40.5) -- (78,-40.5);
+\node[outside] (out) at (0,-42.5)
+  {\textbf{Not covered without a further allocation.}  The confidence budget is split
+   across thresholds, not families, so retaining whichever candidate survived is a
+   search the certificate does not price.  A Bonferroni repair uses
+   $\gamma=\delta/(m|\Lambda|)$: at $m=2$, $\alpha=.05$, $\delta=.10$ and zero
+   violations the requirement rises from 92 admitted groups to 106.  Freezing one
+   candidate before calibration, or a valid fixed-sequence procedure, is the
+   alternative.};
+
+\node[gnote, text width=78mm] at (0,-68)
+  {\textbf{And the assumptions travel with it.}  The bound needs i.i.d.\ groups and no
+   distribution shift.  The live studies set \code{min\_days}\,=\,1 and
+   \code{min\_principals}\,=\,1 over a single repository snapshot, so a ``group'' is one
+   record from one project at one instant: independence is assumed there, not
+   established.};
+
+\end{tikzpicture}

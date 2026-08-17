@@ -352,6 +352,29 @@ def preprocess(body: str, registry: dict[str, dict[str, str]], *, floats: bool =
         tex = drop_environment(tex, r"\begin{figure*}", r"\end{figure*}", r"\label{fig:pipeline}")
         tex = tex.replace(r"\input{../figures/alg-compile.tex}", "\n\nGACALGCOMPILE\n\n")
 
+        # The Section 2-3 reader aids are authored TikZ too. Pandoc resolves \input and
+        # then spends minutes parsing pgfkeys into markup nobody would publish, so each
+        # float's artwork becomes a token that post-processing swaps for the prose
+        # description the float already carries for screen readers. Rasterizing them is
+        # not the alternative: a raster TikZ float would neither scale nor stay legible,
+        # which is the same reason the architecture figure is hand-authored as SVG.
+        def tokenize_tikz(match: re.Match[str]) -> str:
+            block = match.group(0)
+            if r"\input{../figures/fig-" not in block:
+                return block
+            label = re.search(r"\\label\{(fig:[^}]+)\}", block)
+            if label is None:
+                raise BuildError(f"authored-TikZ float has no fig: label: {block[:80]!r}")
+            return re.sub(
+                r"\\input\{\.\./figures/fig-[a-z-]+\.tex\}",
+                f"\n\nGACTIKZ{label.group(1)}GACTIKZ\n\n",
+                block,
+            )
+
+        tex = re.sub(
+            r"\\begin\{figure\*?\}.*?\\end\{figure\*?\}", tokenize_tikz, tex, flags=re.S
+        )
+
     # A starred float spans both columns of a two-column layout and means nothing in one
     # column; the PDF's article wrapper remaps them for the same reason.  Pandoc does not
     # treat table* as a float at all, so its \label -- and with it the anchor every
@@ -365,8 +388,29 @@ def preprocess(body: str, registry: dict[str, dict[str, str]], *, floats: bool =
         tex = tex.replace(f"../generated_figures/{stem}.pdf", target)
 
     # \Description is an acmart accessibility macro with no pandoc meaning; the alt text
-    # it carries is re-attached to the <img> during post-processing.
-    tex = re.sub(r"\\Description\{", r"\\iffalse{", tex)
+    # it carries is extracted from the *unpreprocessed* body and re-attached during
+    # post-processing, so pandoc never needs to see it. Delete the whole call rather than
+    # neutralizing it: this used to rewrite the macro to \iffalse{, and an \iffalse with
+    # no \fi makes pandoc's reader reconsider the remainder of the document, at a cost
+    # that compounds with every float carrying one. At eleven floats that was merely slow;
+    # at twenty-one the build stopped terminating.
+    def strip_descriptions(source: str) -> str:
+        pieces: list[str] = []
+        index = 0
+        while True:
+            found = source.find(r"\Description", index)
+            if found < 0:
+                pieces.append(source[index:])
+                return "".join(pieces)
+            brace = source.find("{", found)
+            if brace < 0:
+                pieces.append(source[index:])
+                return "".join(pieces)
+            _, end = balanced(source, brace)
+            pieces.append(source[index:found])
+            index = end
+
+    tex = strip_descriptions(tex)
 
     for macro, expansion in MACROS.items():
         tex = re.sub(re.escape(macro) + r"(\{\})?", expansion, tex)
@@ -467,15 +511,35 @@ def postprocess(
     )
     html = html.replace("<p>GACALGCOMPILE</p>", algorithm)
 
+    # Authored-TikZ reader aids: publish the float's own alt text as visible prose rather
+    # than dropping the figure or shipping a raster of it. The caption is numbered by the
+    # ordinary figure machinery below, so the page keeps the manuscript's figure sequence.
+    def render_tikz_description(match: re.Match[str]) -> str:
+        label = match.group(1)
+        text = descriptions.get(label)
+        if not text:
+            raise BuildError(f"authored-TikZ float {label} carries no \\Description")
+        return (
+            '<div class="callout"><p><strong>Diagram, described in full.</strong> '
+            f"{html_entities.escape(text)}</p></div>"
+        )
+
+    html = re.sub(r"<p>GACTIKZ(fig:[^G]+)GACTIKZ</p>", render_tikz_description, html)
+
     # The architecture SVG is a figure in its own right; give it the caption the float had.
     html = html.replace(
         '<svg viewBox="0 0 960 722"',
         '<figure class="figure figure-diagram" id="fig:pipeline">'
         '<div class="diagram-scroll"><svg viewBox="0 0 960 706"',
     )
+    # The number comes from the registry, not from a literal: the float this SVG replaces
+    # is dropped before pandoc sees it, and a hardcoded "Figure 1." collided with the
+    # introduction's figure and skipped a number in the sequence. Inserting the Section 2-3
+    # reader aids moved the architecture figure from second to sixth and made that visible.
+    pipeline_number = registry.get("fig:pipeline", {}).get("number", "?")
     html = html.replace(
         "</svg>",
-        "</svg></div><figcaption><span class=\"fig-number\">Figure 1.</span> System "
+        f"</svg></div><figcaption><span class=\"fig-number\">Figure {pipeline_number}.</span> System "
         "architecture. <strong>(A)</strong> Capture normalizes framework traces into one "
         "typed Episode IR. <strong>(B)</strong> Offline compilation touches no production "
         "traffic and is a cascade of independent rejection points; the barrier band lists "
