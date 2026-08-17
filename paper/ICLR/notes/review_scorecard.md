@@ -141,7 +141,9 @@ carried a real author block and named PDF-metadata branch. If that source were
 included in supplementary material, it could reveal identity despite the blind
 rendering. The submission source now contains only `Anonymous authors`, has
 empty author metadata unconditionally, and documents that named variants belong
-in a separate non-submission copy.
+in a separate non-submission copy. The reproducibility statement now likewise
+describes the anonymous archive as a pre-upload deliverable, matching the
+appendix release plan rather than claiming an archive already exists.
 
 An isolated Tectonic rebuild of that anonymous source completed without errors,
 unresolved references, or overfull boxes. The rendered PDF remains 17 pages;
