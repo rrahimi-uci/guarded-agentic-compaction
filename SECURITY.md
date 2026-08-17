@@ -1,21 +1,17 @@
-# Security policy
+# Security Policy
 
-## Supported versions
+## Reporting a Vulnerability
 
-The latest released `0.x` version receives security fixes. The package is research-alpha
-software: live deployment still requires application-specific effect review, shadow
-evidence, a kill switch, and rollback.
+**Please do not open a public issue for security vulnerabilities.**
 
-## Reporting a vulnerability
+Instead, use GitHub's private vulnerability reporting (Security → *Report a vulnerability*) or email the maintainers privately. Include:
 
-Report vulnerabilities privately through the repository host's security-advisory feature.
-Do not include credentials, production traces, personal data, or exploit payloads in a
-public issue. Include the affected version, execution mode, effect catalog entry, minimal
-reproduction, and whether an external effect was committed.
+- a description of the issue and its impact,
+- steps to reproduce (a minimal proof of concept if possible),
+- affected version / commit.
 
-## Security boundaries
+We aim to acknowledge reports within a few business days and to provide a remediation timeline after triage.
 
-Unknown tools, writes, approvals, unsupported SDK surfaces, invalid modes, manifest drift,
-and unverifiable signed artifacts fail closed. HMAC registry signing detects tampering but
-is not a public-key software-supply-chain signature. Trace storage and deletion policy are
-owned by the deploying application.
+## Supported Versions
+
+This project is pre-1.0; only the latest `main` is supported. Pin a commit/tag for production use.
