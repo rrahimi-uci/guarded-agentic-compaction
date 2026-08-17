@@ -9,12 +9,14 @@ but whether the available evidence justifies substituting the model.
 
 We introduce guarded agentic compaction (\method), a trace-to-program compiler
 for this decision. \method normalizes recorded episodes, mines recurrent
-read-only prefixes, reconstructs every tool argument from entry state or prior
-results, and synthesizes a bounded deterministic program with manifest, input,
-and output guards. It deploys a candidate only when a finite-sample
-selective-risk test certifies its error bound; otherwise it retires the
-candidate and runs the unchanged agent. On three live GitHub workflow families,
-\method preserves 90/90 exact held-out contracts while reducing provider
+read-only prefixes, and admits a region only if \emph{every} tool argument in it
+can be reconstructed from entry state or a prior result; one unwitnessed
+argument retires the region, leaving the maximal justified prefix. Surviving
+regions become bounded deterministic programs with manifest, input, and output
+guards, and deploy only when a finite-sample selective-risk test certifies their
+error bound; otherwise \method retires the candidate and runs the unchanged
+agent. On three live GitHub workflow families, \method reaches 90/90 exact
+held-out contracts against 89/90 for the unchanged agent while reducing provider
 requests by 66.6\% and tokens by 63.1\% in aggregate. On a time-forward
 five-repository extension it completes four repositories and retires one; on
 NESTFUL and API-Bank it retires every recurrent family despite successful

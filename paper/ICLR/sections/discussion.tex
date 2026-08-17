@@ -9,20 +9,32 @@ inadequate, including on NESTFUL, API-Bank, and one cross-repository cohort.
 \paragraph{Gate maturity is the main scientific risk.}
 \Cref{prop:admission} is per-candidate, not compiler-wide over the adaptive
 search of \cref{alg:compile}; certification requires freezing the candidate
-relative to calibration. The gate is empirically step-like at $n_\eta\ge 92$:
-we show that it \emph{refuses} correctly far better than that $q$
-\emph{discriminates}. Refitting $q$ for a genuine frontier is the key follow-up.
+relative to calibration, and a Bonferroni repair over $m$ candidates would use
+$\gamma=\delta/(m|\Lambda|)$, raising the zero-violation requirement from 92
+admitted groups to 106 at $m=2$. The gate is also empirically step-like at
+$n_\eta\ge 92$: we show that it \emph{refuses} correctly far better than that
+$q$ \emph{discriminates}. Refitting $q$ for a genuine frontier is the key
+follow-up.
+
+\paragraph{Group independence is assumed, not established.}
+\Cref{prop:admission} needs i.i.d.\ groups. The live studies set
+\code{min\_days}\,=\,1 and \code{min\_principals}\,=\,1 over one repository
+snapshot, so a ``group'' is one record from one project at one instant, sharing a
+schema, an author community, and a period with its neighbours. The grouped split
+makes exchangeability plausible; nothing in the calibration verifies it.
 
 \paragraph{External validity and practical competitiveness.}
 The richer evidence comes from one revision-pinned repository and one
-provider/model family; the cross-repository extension is a narrower,
-template-tied task. We establish no superiority on full cross-repository
-workflows, under drift, or across providers, and do not price manual authoring
-or maintenance against hand-written programs.
+provider/model family, and the cross-repository extension is a narrower,
+template-tied task. We establish no superiority under drift or across providers,
+and do not price manual authoring or maintenance.
 
-\paragraph{Semantic scope.}
+\paragraph{Semantic scope, and where ``unchanged baseline'' is exact.}
 Exact task contracts do not certify semantic equivalence once a model
 continuation follows; retained-continuation replay exposes that gap. Writes,
 handoffs, hosted tools, undeclared effects, and guardrail evaluations at a
-removed turn lie outside \cref{prop:admission}: they are deployment boundaries,
-not implementation accidents.
+removed turn lie outside \cref{prop:admission}. The fallback claim is scoped too:
+every check that rejects \emph{before} emission is exact for both integration
+paths, but only a staging-owning runner can restore byte-identical model input,
+since an adapter cannot withdraw a response the host already committed
+(\cref{app:algorithms}).

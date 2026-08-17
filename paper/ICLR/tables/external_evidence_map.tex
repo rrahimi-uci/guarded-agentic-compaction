@@ -1,0 +1,16 @@
+\begin{tabularx}{\linewidth}{@{}l >{\raggedright\arraybackslash}p{0.28\linewidth} >{\raggedright\arraybackslash}X@{}}
+\toprule
+Benchmark & Evidence tier & Retained result / claim boundary \\
+\midrule
+NESTFUL & Compiler measurement & 1{,}415 traces; 24 / 12 / 0 replay; all families retire. \\
+API-Bank & Compiler measurement & 212 traces; 0 / 2 / 0 replay; all candidates retire. \\
+BFCL v4 & Gold-plan checker & 200/200 valid plans; not a model or compiler score. \\
+ToolSandbox & Live-provider subset & One simulated scenario; compiler not run. \\
+$\tau^2/\tau^3$ & Live-provider subset & 0/4 pass; compiler not run. \\
+ToolBench & Adapter smoke & Ten fixtures; full data/backend unavailable. \\
+AgentBench & Adapter/preflight & Services and Freebase data gated. \\
+GAIA & Access preflight & Authorization denied; no metric. \\
+SWE-bench Verified & Task adapter & Official run host-gated. \\
+BrowseComp & Live-web subset & 1/3 correct, 28 searches; bypassed by the compiler. \\
+\bottomrule
+\end{tabularx}

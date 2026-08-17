@@ -73,3 +73,110 @@ whose remaining acceptance risks are primarily empirical: limited provider and
 repository breadth, manual-program parity, a step-like admission gate, and the
 lack of a compiler-wide multiplicity guarantee. Those limitations cannot be
 removed honestly using only the existing evidence.
+
+---
+
+# Second review pass, August 16, 2026
+
+This pass reviewed the draft again against `paper/open_research/article.pdf` as the source
+of truth and against the official ICLR 2027 template's own instruction text. It found
+compliance defects the first pass had marked as clean, so several dimensions are scored
+*below* their previous "final" values: the earlier 97 for compliance was not supportable.
+
+## What the second pass found
+
+Every quantitative claim re-derived from `paper/tex/body.tex` and the sealed result JSON
+checked out, including `559/881 = 63.5%` for API-Bank, which appears in no prose and had to
+be reconstructed from `graph_diagnostics`. The defects were presentational and definitional:
+
+- Figure 1 and the per-family reduction figure were never referenced from the body, though
+  the compliance checklist asserted otherwise.
+- The benchmark table was a hand-built pseudo-float with a literal bold `Table N.` in place
+  of a caption, bypassing the class's table rules entirely.
+- `\retire` printed as a red word in running text.
+- The introduction wrote `labels(4420)` and `comments(4420, ...)` where both consume the
+  *returned* `record.issue_number` — the witness the provenance argument depends on.
+- Table 3's caption overstated the fixed template as "at least as efficient in both
+  settings"; it is marginally worse on cost in the balanced rerun.
+- `\kappa` had no value, `\Lambda` no elements, and Proposition 1 reused `\eta` for the
+  data-selected threshold.
+
+## Scores after the second pass
+
+| Dimension | Score | Weight | Binding limit |
+|---|---:|---:|---|
+| Problem importance and motivation | 92 | 0.10 | Prevalence of the situation in deployed agents is argued, not measured. |
+| Novelty and significance | 82 | 0.18 | Every ingredient is established; the contribution is the composition and the discipline, and the empirical payoff is deliberately modest. |
+| Technical soundness | 89 | 0.15 | The certificate is per fixed candidate, not compiler-wide over the search the system performs. |
+| Method clarity | 92 | 0.08 | Runtime detail necessarily lives in the appendix at nine pages. |
+| Evaluation design | 83 | 0.12 | One provider/model family, one primary snapshot, and a transfer task simple enough for a fixed template to tie. |
+| Evidence strength | 80 | 0.15 | The gate never demonstrates selectivity at the registered level; n=90 held-out records carries the headline. |
+| Results and interpretation | 93 | 0.07 | Refusals, manual parity, and the single baseline error are all reported rather than buried. |
+| Reproducibility | 93 | 0.05 | The anonymous artifact bundle is still a pre-upload action. |
+| Writing and presentation | 91 | 0.05 | Dense; figure 1 remains a loose infographic occupying a third of page 2. |
+| ICLR compliance and anonymity | 96 | 0.03 | Author-side OpenReview obligations need human confirmation. |
+| Limitations and responsible claims | 96 | 0.02 | Remaining weaknesses are empirical, not concealed. |
+
+**Weighted overall: 87/100.**
+
+The submission is mechanically ready and unusually honest. The acceptance risk is not
+compliance or rigour but reach: novelty is compositional and the strongest empirical claim
+is preservation-with-savings on 90 held-out records from one provider, against a manual
+program that ties. On the ICLR 1--10 scale this reads as a borderline paper whose fate turns
+on how a reviewer weighs a well-evidenced negative result and a refusal discipline against a
+modest positive one.
+
+The three changes that would move the score most, in order, are: a gate that demonstrates a
+real risk--coverage frontier rather than a support threshold; a second provider or model
+family; and a compiler-wide multiplicity treatment. None can be produced honestly from the
+existing evidence, which is why they are named as follow-ups rather than repaired in prose.
+
+---
+
+# Submission-surface verification, August 16, 2026
+
+The final upload-surface audit found one anonymity weakness that a PDF-only
+check could miss: the blind-rendered PDF was anonymous, but `main.tex` still
+carried a real author block and named PDF-metadata branch. If that source were
+included in supplementary material, it could reveal identity despite the blind
+rendering. The submission source now contains only `Anonymous authors`, has
+empty author metadata unconditionally, and documents that named variants belong
+in a separate non-submission copy. The reproducibility statement now likewise
+describes the anonymous archive as a pre-upload deliverable rather than
+claiming an archive already exists.
+
+An isolated Tectonic rebuild of that anonymous source completed without errors,
+unresolved references, or overfull boxes. The rendered PDF remains 17 pages;
+Sections 1--8 end on page 9, the required statements begin on page 10, and the
+appendix follows the bibliography. Text extraction found no author identity or
+acknowledgement in the rendered PDF.
+
+**Final weighted score: 87/100.** The anonymity hardening closes an accidental
+source-disclosure route but does not change the score: the anonymous artifact
+bundle and author-side OpenReview disclosures still need human completion, and
+the binding ICLR risks remain scientific reach, evaluation breadth, and
+compiler-wide multiplicity control rather than presentation mechanics.
+
+---
+
+# Evidence-breadth revision, August 17, 2026
+
+This revision adds no new experiments. It moves four retained, previously
+compressed records into the appendix: repository-level outcomes for both
+time-forward protocols, the 17/18-to-18/18 continuation counterexample and
+checked repair, a ten-benchmark evidence-disposition map, and the full
+registered-versus-exploratory gate-behaviour inventory. These additions use the
+unlimited appendix rather than the nine-page main-text budget and retain the
+distinction between compiler measurement, provider-free auditing, screening,
+and access-blocked work.
+
+| Dimension | Previous | Revised | Reason for revision |
+|---|---:|---:|---|
+| Evaluation design | 83 | 85 | The disaggregated core and balanced time-forward cohorts make the four successes, one retirement, and different class mixes inspectable rather than only pooled. |
+| Evidence strength | 80 | 82 | The continuation failure/repair and ten-benchmark disposition map expose both negative and out-of-scope evidence instead of hiding it. |
+| Remaining dimensions | unchanged | unchanged | No retained result adds a second provider, a harder workflow family, or compiler-wide multiplicity control. |
+
+**Revised weighted score: 88/100.** This is a presentation and auditability
+gain, not a claim of stronger causal evidence. The score remains capped by one
+provider/model family, one rich snapshot, the narrow transfer task, and the
+registered gate's all-or-none behaviour.

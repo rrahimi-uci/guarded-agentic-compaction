@@ -63,7 +63,12 @@ groups; at exactly $n_\eta=92$ and $k_\eta=0$ the bound is
 $U_\eta=1-(0.1/11)^{1/92}=0.0498\le\alpha$. Tightening the confidence budget to
 $\delta=0.05$ would raise the requirement to 106 groups, which no study in this
 paper reaches, so $\delta=0.1$ is the operative setting throughout and is
-reported as such rather than rounded to match $\alpha$.
+reported as such rather than rounded to match $\alpha$. A Bonferroni repair over
+$m=2$ candidate families would use $\gamma=\delta/(m|\Lambda|)$ and land on the
+same 106-group requirement, which is why the paper reports per-candidate
+certificates rather than a compiler-wide one. The grid is
+$\Lambda=\{.02,.05,.08,.11,.14,.17,.20,.25,.30,.40,.50\}$ and the ambiguity cap
+is $\kappa=3$.
 Synthesis uses a 23-operator closed library at depth $\le 2$; region mining
 uses $w_{\max}$ tool calls per window and requires support across independent
 scenario groups. The implementation also supports a minimum-distinct-days
@@ -154,6 +159,83 @@ These studies remain important to the broader artifact, but they either use a
 weaker risk level, address a narrower engineering question, or are explicitly
 exploratory.
 
+\section{Evidence Breadth and Boundary Audits}
+\label{app:breadth}
+
+The main text uses the nine-page budget for the registered live studies, the
+time-forward extension, and the two compiler-measured refusal benchmarks. This
+appendix makes the retained breadth visible without pooling incomparable cohorts
+or promoting screened and exploratory work to deployment evidence.
+
+\subsection{Repository-level time-forward outcomes}
+
+\begin{table}[t]
+  \centering
+  \caption{Disaggregated cross-repository outcomes behind \cref{tab:multirepo}.
+  The core protocol uses four completed repositories and one compile-time
+  retirement; the balanced rerun changes the selected repositories and class
+  mix, so it is reported separately rather than pooled with the core protocol.
+  Reductions compare the compiled condition with the paired unchanged baseline.}
+  \label{tab:multirepo-disaggregated}
+  \footnotesize
+  \setlength{\tabcolsep}{3.5pt}
+  \input{tables/multirepo_disaggregated.tex}
+\end{table}
+
+The core result succeeds on four repositories (120/120 held-out pairs) and
+retains the fifth as a compile-time retirement after 116 exact discovery traces.
+The balanced rerun has a distinct three-repository cohort and reaches 180/180
+held-out pairs. These rows show breadth across repositories, not independent
+evidence for an average effect: all runs share the same provider family and
+the same narrow two-read outcome task.
+
+\subsection{Continuation audit}
+
+The earlier natural-order three-read study is excluded from the registered
+$\alpha=.05$ headline because it used $\alpha=.10$ and exposed a downstream
+continuation error. Its retained counterfactual replay nevertheless tests a
+boundary the exact tool contract cannot see: 17/18 candidate continuations pass
+unchanged, while issue 6602 has a comment-evidence mismatch. Checked rendering
+repairs that one case, yielding 18/18 final contracts. This audit makes no
+provider calls and does not estimate live agent quality; it establishes only
+that the continuation check caught a concrete failure the compacted tool trace
+alone would miss.
+
+\subsection{External evidence map}
+
+\Cref{tab:external-evidence-map} records every named external benchmark in the
+retained evidence register and its admissible interpretation.
+
+\begin{table}[t]
+  \centering
+  \caption{Disposition of every retained external benchmark family. Only the
+  first two rows support compiler measurements; the remaining rows document
+  why broader benchmark names are not silently converted into GAC results.}
+  \label{tab:external-evidence-map}
+  \footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \renewcommand{\arraystretch}{1.05}
+  \input{tables/external_evidence_map.tex}
+\end{table}
+
+\subsection{What the registered gate has and has not demonstrated}
+
+This audit strengthens the evidentiary record precisely by preserving the
+negative result: the registered gate currently behaves as a support threshold,
+not as a demonstrated risk--coverage frontier. The exploratory partial
+frontiers therefore remain diagnostic rather than evidence for the main claim.
+
+\begin{table}[t]
+  \centering
+  \caption{Gate-behaviour inventory from the retained threshold analysis. A
+  partial frontier would show graded coverage as the threshold changes; none
+  appears among the seven current registered artifacts.}
+  \label{tab:gate-profile}
+  \footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \input{tables/gate_profile.tex}
+\end{table}
+
 \section{Extended Limitations}
 
 \begin{figure}[t]
@@ -176,8 +258,10 @@ exploratory.
   \label{fig:gate-support}
 \end{figure}
 
-The current empirical gate does not yet demonstrate a useful risk--coverage
-frontier at the registered 5\% level. The strongest current runs are mostly
+\Cref{fig:family-reductions} plots the per-family spread behind
+\cref{tab:primary}: admissible prefix depth, not the optimizer, sets the
+savings. The current empirical gate does not yet demonstrate a useful
+risk--coverage frontier at the registered 5\% level. The strongest current runs are mostly
 all-or-none support tests (\cref{fig:gate-support}), and the compiler-wide
 candidate-search problem is not yet multiplicity-corrected. Likewise, exact task
 contracts do not certify full semantic equivalence of the final answer,
@@ -188,11 +272,3 @@ compiled without a sandbox available to the perturbation suite, so it records
 registry signature verification was configured off in the reported run. These
 are not hidden defects in the repository; they are the reasons the paper avoids
 stronger deployment claims.
-
-\section{Anonymous Artifact Release Plan}
-
-Before anonymous submission, package the code and retained artifacts as an
-anonymous supplementary archive preserving hashes, manifests, scripts, and raw
-results for the studies cited in the main paper. Direct links to the identified
-public repository should remain withheld until the review process permits
-deanonymization.

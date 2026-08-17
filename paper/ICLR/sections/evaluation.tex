@@ -3,9 +3,9 @@
 
 Because the claim is an \emph{admissibility} claim, the evaluation asks three
 questions: does specialization preserve outcomes while saving work on real
-records (\S\ref{sec:res-primary})? Does it transfer under a time-forward split
-(\S\ref{sec:res-multirepo})? And does it refuse when evidence is thin
-(\S\ref{sec:res-refusal})?
+records (\cref{sec:res-primary})? Does it transfer under a time-forward split
+(\cref{sec:res-multirepo})? And does it refuse when evidence is thin
+(\cref{sec:res-refusal})?
 
 \subsection{Benchmark at a glance}
 \label{sec:benchmark}
@@ -18,32 +18,30 @@ calls. \Cref{tab:benchmark-glance} shows what one sample asks an agent to read
 and return; it tests both the structured answer and whether its evidence remains
 available after compaction.
 
-\begin{center}
-  \begin{minipage}{\linewidth}
-    \refstepcounter{table}\label{tab:benchmark-glance}
-    \footnotesize\textbf{Table~\thetable. Primary GitHub benchmark at a glance.}
-    Each sample supplies one record number from a pinned public snapshot; every
-    listed answer field is checked against the source record.
-    \smallskip
-
-    \setlength{\tabcolsep}{2.5pt}
-    \renewcommand{\arraystretch}{1.12}
-    \begin{tabularx}{\linewidth}{@{}p{0.16\linewidth}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
-      \toprule
-      Task & Read-only evidence path & Exact answer contract \\
-      \midrule
-      Issue type & \code{issue\_number} $\rightarrow$ record, official labels,
-      comments & Title, state, label-derived category, verbatim excerpt \\
-      PR outcome & \code{pr\_number} $\rightarrow$ PR record, merge status,
-      discussion & \code{open}, \code{merged}, or \code{closed\_unmerged}, plus
-      title and comment excerpt \\
-      Backlog attention & \code{issue\_number} $\rightarrow$ open-issue record,
-      assignees, discussion & \code{owned}, \code{discussed\_unowned}, or
-      \code{awaiting\_first\_response}, plus title, owner, and excerpt \\
-      \bottomrule
-    \end{tabularx}
-  \end{minipage}
-\end{center}
+\begin{table}[t]
+  \centering
+  \caption{Primary GitHub benchmark at a glance. Each sample supplies one record
+  number from a pinned public snapshot; every listed answer field is checked
+  against the source record.}
+  \label{tab:benchmark-glance}
+  \footnotesize
+  \setlength{\tabcolsep}{2.5pt}
+  \renewcommand{\arraystretch}{1.12}
+  \begin{tabularx}{\linewidth}{@{}p{0.16\linewidth}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
+    \toprule
+    Task & Read-only evidence path & Exact answer contract \\
+    \midrule
+    Issue type & \code{issue\_number} $\rightarrow$ record, official labels,
+    comments & Title, state, label-derived category, verbatim excerpt \\
+    PR outcome & \code{pr\_number} $\rightarrow$ PR record, merge status,
+    discussion & \code{open}, \code{merged}, or \code{closed\_unmerged}, plus
+    title and comment excerpt \\
+    Backlog attention & \code{issue\_number} $\rightarrow$ open-issue record,
+    assignees, discussion & \code{owned}, \code{discussed\_unowned}, or
+    \code{awaiting\_first\_response}, plus title, owner, and excerpt \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
 
 \paragraph{Cross-repository time-forward extension.}
 A narrower two-read PR-outcome task spans five frozen public repositories.
@@ -53,17 +51,17 @@ in the result. A balanced rerun on three repositories controls the
 \code{open}/\code{merged}/\code{closed\_unmerged} mix.
 
 \paragraph{External refusal benchmarks.}
-NESTFUL and API-Bank test valid executable traces whose evidence is still
-insufficient. They retain the argument-level producer structure needed to
-measure provenance, synthesis, replay, and admission---not live planning
-quality~\citep{basu2025nestful,li2023apibank}.
+NESTFUL and API-Bank supply valid executable traces whose evidence is still
+insufficient; they retain the argument-level producer structure that provenance,
+synthesis, replay, and admission need, and they measure none of them as live
+planning quality~\citep{basu2025nestful,li2023apibank}.
 
 \paragraph{Conditions, metrics, and statistics.}
 Each GitHub family compares the unchanged baseline $B$, the compiled artifact,
-and a hand-written pre-model program on the same records. Quality is exact
-task-contract satisfaction; resources are requests, interfaces, tokens,
-latency, and estimated cost. We use paired exact McNemar tests, bootstrap
-intervals, and Wilcoxon signed-rank tests; the only guaranteed multiplicity
-control is the Bonferroni term in \cref{eq:cp}. All admission runs use
-$\alpha=0.05$, $\delta=0.1$, and $|\Lambda|=11$; \cref{app:config} lists the
-remaining settings.
+and a hand-written pre-model program on the same records, so the comparison is
+paired rather than across cohorts. Quality is exact task-contract satisfaction;
+resources are requests, interfaces, tokens, latency, and estimated cost. We use
+paired exact McNemar tests, bootstrap intervals, and Wilcoxon signed-rank tests;
+the only guaranteed multiplicity control is the Bonferroni term in
+\cref{eq:cp}. All admission runs use $\alpha=0.05$, $\delta=0.1$, and
+$|\Lambda|=11$ (\cref{app:config}).

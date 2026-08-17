@@ -51,10 +51,12 @@
 % -------------------------------------------------------------------- macros
 \newcommand{\method}{\textsc{GAC}\xspace}
 \newcommand{\grc}{\textsc{GRC}\xspace}
-\newcommand{\patg}{\textsc{Patg}\xspace}
+\newcommand{\patg}{\textsc{PATG}\xspace}
 \newcommand{\code}[1]{\texttt{#1}}
 \providecommand{\Description}[1]{}
-\newcommand{\retire}{\textcolor{gacred}{\textsc{retire}}\xspace}
+% Set in small caps rather than colour: the template asks that the paper body make
+% sense in black and white, and a coloured word in running text does not.
+\newcommand{\retire}{\textsc{retire}\xspace}
 \newcommand{\fallback}{\textsc{fallback}\xspace}
 
 % The official math_commands.tex redefines \eqref to "equation~N", which makes
@@ -94,47 +96,27 @@
 \title{From Traces to Guarded Programs: Evidence-Gated Compilation of Recurrent Agent Workflows}
 
 % ===========================================================================
-%  AUTHORSHIP AND ANONYMITY  --  READ BEFORE UPLOADING
+%  AUTHORSHIP AND ANONYMITY
 %
-%  ICLR 2027 initial submissions are DOUBLE BLIND.  The switch is the single
-%  \iclrfinalcopy line below:
+%  ICLR 2027 initial submissions are double blind.  This distributed source is
+%  intentionally anonymous as well as its PDF: it is safe to include in an
+%  anonymous supplementary archive without relying on the style file to hide a
+%  real author block.  Put names, affiliations, contact details, and any named
+%  preprint configuration only in a separate, non-submission copy after review.
 %
-%    \iclrfinalcopy present  -> NAMED build.  The author block below is shown.
-%                               Use for preprints, arXiv, and circulation.
-%    \iclrfinalcopy removed  -> BLIND build.  The style file prints "Anonymous
-%                               authors / Paper under double-blind review",
-%                               ignores \author entirely, and clears the PDF
-%                               author metadata.  Use for the OpenReview
-%                               upload.
-%
-%  As shipped this is the BLIND submission build.  Uncomment \iclrfinalcopy
-%  only when preparing a named preprint or camera-ready version.
 % ===========================================================================
-\author{Reza Rahimi \\
-JazzX AI \\
-Los Altos, CA, USA \\
-\texttt{reza.rahimi@jazzx.ai}}
+\author{Anonymous authors}
 
 % \iclrfinalcopy
 
-% Author name reaches the PDF metadata only in the named build, so a blind
-% build cannot leak it through `pdfinfo'.
-\ificlrfinal
-  \hypersetup{pdfauthor={Reza Rahimi}}
-\else
-  \hypersetup{pdfauthor={}}
-\fi
+% Keep the submission PDF metadata anonymous even if a future local build
+% changes the title treatment.
+\hypersetup{pdfauthor={}}
 \hypersetup{pdftitle={From Traces to Guarded Programs: Evidence-Gated Compilation of Recurrent Agent Workflows}}
 
 \begin{document}
 
 \maketitle
-
-% \iclrfinalcopy also sets the running head to "Published as a conference paper
-% at ICLR 2027".  That is a false claim on an unpublished manuscript, so the
-% named build states what this actually is.  The blind build keeps the style
-% file's "Under review as a conference paper at ICLR 2027" untouched.
-\ificlrfinal\lhead{Preprint. Under review.}\fi
 
 \begin{abstract}
 \input{sections/abstract}
@@ -150,42 +132,35 @@ Los Altos, CA, USA \\
 \input{sections/conclusion}
 
 \section*{AI Use Statement}
-In preparing this submission, the authors used generative AI tools to help
-restructure the manuscript, improve readability, suggest section organization,
-draft and revise parts of the paper text, critique methodological exposition
-and internal consistency, and convert repository-grounded results into LaTeX
-tables and submission materials. We did not use generative AI tools to generate
-experimental results or to replace manual verification of claims. All reported
-numbers, citations, equations, and comparisons were checked against the
-repository artifacts, retained outputs, and source files, and the authors take
-responsibility for the final content of the paper.
+The authors used generative AI tools to restructure and copy-edit the
+manuscript, suggest section organization, draft and revise paper text, critique
+methodological exposition and internal consistency, and convert
+repository-grounded results into LaTeX tables. They were not used to generate
+experimental results or to replace manual verification. Every reported number,
+citation, equation, and comparison was checked against the repository artifacts
+and retained outputs, and the authors take responsibility for the final content.
 
 \section*{Ethics Statement}
-This paper studies methods for removing model-mediated decisions from
-tool-using agents. The main risk is over-trusting a compiled prefix and thereby
-accelerating unsafe automation or silently removing safeguards; deleting a
-model boundary can also delete a guardrail evaluation that happened to run at
-that boundary. Our method mitigates this risk by compiling only read-only
-prefixes, treating unknown effects, approvals, handoffs, and writes as hard
-barriers, and defaulting to retirement or fallback when evidence is
-insufficient. All study data are public records (GitHub repository metadata)
-or public benchmarks; no personal or private data were collected. The reported
-artifact is not a license to bypass human review, legal or compliance controls,
-or safety guardrails in high-stakes domains; unsupported regimes are part of
-the result, not exceptions to hide.
+The main risk in removing model-mediated decisions is over-trusting a compiled
+prefix, and thereby accelerating unsafe automation or deleting a guardrail
+evaluation that happened to run at the removed boundary. The method mitigates
+this by compiling only read-only prefixes, treating unknown effects, approvals,
+handoffs, and writes as hard barriers, and defaulting to retirement or fallback
+when evidence is insufficient. All study data are public records (GitHub
+repository metadata) or public benchmarks; no personal or private data were
+collected. The artifact is not a license to bypass human review, legal or
+compliance controls, or safety guardrails; unsupported regimes are part of the
+result, not exceptions to hide.
 
 \section*{Reproducibility Statement}
-The main paper reports exact cohort sizes, evaluation protocols, quantitative
-metrics, and the claim boundaries attached to each study.
-\Cref{alg:compile,alg:calibrate} give the deployed compiler and admission rule;
-\Cref{alg:patg,alg:dispatch} in the appendix give provenance construction and
-runtime dispatch. \Cref{app:proof} proves \Cref{prop:admission}, and
-\Cref{app:config} lists every hyperparameter used by the reported runs. The
-repository contains source manifests, raw result files, deterministic table and
-figure generation, and scripts for the live GitHub studies, the
-cross-repository extension, NESTFUL, and API-Bank. For anonymous submission,
-the code and retained artifacts should be packaged as an anonymous
-supplementary archive with hashes and manifests preserved.
+\Cref{alg:compile,alg:calibrate} give the deployed compiler and admission rule,
+\cref{alg:patg,alg:dispatch} give provenance construction and runtime dispatch,
+\cref{app:proof} proves \cref{prop:admission}, and \cref{app:config} lists every
+hyperparameter of the reported runs. The accompanying artifact contains source
+manifests, raw result files, deterministic table and figure generation, and the
+scripts for the live GitHub studies, the cross-repository extension, NESTFUL,
+and API-Bank. Before upload, these materials will be supplied as an anonymous
+archive with hashes and manifests preserved.
 
 \bibliographystyle{iclr2027_conference}
 \bibliography{references}

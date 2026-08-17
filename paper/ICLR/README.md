@@ -11,9 +11,10 @@ for:
 - `sections/`: main-paper sections (`abstract`, `introduction`, `problem`,
   `method`, `evaluation`, `results`, `related_work`, `discussion`,
   `conclusion`).
-- `figures/`: the TikZ architecture diagram (`pipeline_overview.tex`), the four
-  algorithm floats (`alg-compile`, `alg-calibrate`, `alg-patg`,
-  `alg-dispatch`), and self-contained copies of the generated result PDFs.
+- `figures/`: the TikZ architecture diagram (`pipeline_overview.tex`), the
+  provenance-witness diagram (`provenance_witness.tex`), the four algorithm
+  floats (`alg-compile`, `alg-calibrate`, `alg-patg`, `alg-dispatch`), and
+  self-contained copies of the generated result PDFs.
 - `tables/`: compact tables written for the ICLR version.
 - `appendix.tex`: proof, additional algorithms, configuration, extended
   limitations. Included after the references.
@@ -50,18 +51,18 @@ in the output before submitting** — the failure is silent.
 All page geometry, title treatment, page numbering, and the review line-number
 ruler are otherwise supplied unchanged by the official ICLR 2027 style file.
 
-## Authorship / anonymity switch
+## Authorship / anonymity
 
-`main.tex` carries a real author block (Reza Rahimi, JazzX AI) and a single
-`\iclrfinalcopy` switch that selects between two builds:
+`main.tex` is an **anonymous-only submission source**: it contains neither a
+real author block nor author PDF metadata. This makes it safe to include in an
+anonymous supplementary archive; do not rely on the class file to conceal a
+real author block. It ships with `\iclrfinalcopy` commented out, so the official
+style prints `Anonymous authors` and the review running head.
 
-| `\iclrfinalcopy` | Title block | Running head | PDF `Author` | Use for |
-|---|---|---|---|---|
-| present | Reza Rahimi, JazzX AI | `Preprint. Under review.` | `Reza Rahimi` | preprint, arXiv, circulation |
-| commented out (as shipped) | `Anonymous authors` | `Under review as a conference paper at ICLR 2027` | empty | **the OpenReview upload** |
-
-**ICLR 2027 initial submissions are double blind.** The repository defaults to
-the blind build. Before uploading, confirm:
+**ICLR 2027 initial submissions are double blind.** Keep this source anonymous
+through upload and review. Make any named preprint or camera-ready version in a
+separate, non-submission copy after adding the final author information. Before
+uploading, confirm:
 
 ```bash
 pdftotext -f 1 -l 1 build/main.pdf - | head -3   # must say "Anonymous authors"
