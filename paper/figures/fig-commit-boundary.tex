@@ -37,9 +37,8 @@
 
 \node[tally] (tal) at (104,0)
   {\textbf{Terminal edges of \cref{alg:dispatch}}\\
-   1 compacted execution $\cdot$ 5 return the unmodified agent $\cdot$ 1 raises an
-   incident, which happens only when an external commitment has already been made and
-   rollback would be a fiction.};
+   1 compacted execution $\cdot$ every clean rejection returns the baseline $\cdot$
+   an unattested abort, failed commit, or post-commit failure raises an incident.};
 
 % -------------------------------------------------------------- the commit line
 \draw[commit] (94,-16) -- (94,-62);

@@ -64,8 +64,8 @@
 \draw[flow] (stage.south east) -- ++(0,-4) -| ([xshift=-8mm]fbk.north);
 
 \node[rbox, minimum width=44mm, text width=40mm, minimum height=8mm] (inc) at (118,-56)
-  {a \emph{dirty} post-commit failure is an \textbf{incident}, not fallback};
-\draw[flow, draw=gacred!80] (fbk.south) -- (inc.north);
+  {an unattested abort, failed commit, or post-commit failure is an \textbf{incident}};
+\draw[flow, draw=gacred!80] (stage.south east) -- ++(0,-8) -| ([xshift=8mm]inc.north);
 
 % ------------------------------------------------------------------ side note
 \node[gnote, text width=36mm, anchor=north east] at (160,-2)

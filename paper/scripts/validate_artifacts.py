@@ -1265,14 +1265,14 @@ def validate_claim_boundaries() -> None:
        "body states the consequence of the looser level at the registered target")
     ok("10\\%-selective-risk result" in body,
        "body labels the GCS result by the risk level that licenses it")
-    ok("Per-candidate simultaneous calibration" in body and
+    ok("Per-candidate selective-risk admission" in body and
        r"k_\eta\mid n_\eta=m\sim\operatorname{Binomial}(m,r_\eta)" in body and
        r"|\Lambda|\gamma=\delta" in body,
        "body includes the conditional-binomial and union-bound proof")
     ok(r"n_\eta=0\ \text{or}\ k_\eta=n_\eta" in body,
        "body gives the Clopper-Pearson edge cases explicitly")
     ok("not a multiplicity-corrected compiler-wide certificate" in body and
-       "92 to 106 admitted groups" in body,
+       re.search(r"92\s+to\s+106\s+admitted groups", body) is not None,
        "body discloses candidate-family multiplicity and its sample-size consequence")
 
     # Cache accounting is the evidence behind the token-versus-dollar claim; keep the
@@ -1293,10 +1293,11 @@ def validate_claim_boundaries() -> None:
     abstract_words = re.findall(r"\b[\w'-]+\b", re.sub(r"\\[A-Za-z]+", " ", abstract))
     ok(len(abstract_words) <= 275,
        f"abstract stays concise at {len(abstract_words)} words")
-    ok("its normal output is refusal" in abstract.lower()
-       and "retain the unchanged agent" in abstract.lower(),
+    ok("compile-or-retire" in abstract.lower()
+       and re.search(r"falls back to the\s+unchanged agent", abstract.lower()) is not None,
        "abstract scopes compiler admission as compile-or-retain")
-    ok("traces establish recurrence, not" in abstract.lower(),
+    ok("recurrence, replay, and workflow-induction signals" in abstract.lower()
+       and "do not establish that replacing the model is safe" in abstract.lower(),
        "abstract states the central evidence boundary")
     ok("portfolio optimization beyond the pilot" in body.lower(),
        "body distinguishes the implemented pilot from extension work")
@@ -1505,12 +1506,12 @@ def validate_publication() -> None:
                    f"{build}: compiled PDF contains: {phrase}")
             # The architecture figure and retained end-to-end algorithm must actually
             # reach the page.
-            # Algorithm 1's caption was retitled when it was corrected to describe the
-            # end-to-end cascade rather than one function; match the current wording.
-            for phrase in ("System architecture", "end-to-end compilation cascade",
+            # The shared algorithms are validated by their current formal captions, so a
+            # stale source cannot satisfy the gate through an old nearby comment.
+            for phrase in ("System architecture", "compile-or-retire cascade",
                            "hand-written composite tool",
-                           "typed provenance search",
-                           "fixed-grid exact admission",
+                           "typed argument provenance",
+                           "fixed-grid exact selective admission",
                            "staged dispatch"):
                 normalized_phrase = re.sub(r"[^a-z0-9]+", "", phrase.lower())
                 ok(normalized_phrase in searchable_pdf_text,
@@ -1519,7 +1520,7 @@ def validate_publication() -> None:
             # pseudocode comments. The three phrases above them appear as \Comment text
             # inside Algorithm 1, so for a long time they were satisfied while Algorithms
             # 2-4 reached no build at all and nothing noticed.
-            for phrase in ("end-to-end compilation cascade",
+            for phrase in ("compile-or-retire cascade",
                            "typed argument provenance",
                            "fixed-grid exact selective admission",
                            "boundary-time admission"):
