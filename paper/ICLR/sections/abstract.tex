@@ -16,11 +16,11 @@ region while preserving its maximal justified prefix. Manifest, input, and
 output guards enforce the resulting contract, and a fixed finite-sample
 selective-risk test decides deployment; a failed check falls back to the
 unchanged agent. We evaluate this lifecycle on three live GitHub workflow
-families, a time-forward five-repository extension, and two refusal benchmarks.
+families, a time-forward five-repository extension, and three refusal benchmarks.
 On the live families, \method attains 90/90 exact held-out contracts, versus
 89/90 for the unchanged agent, while reducing provider requests by 66.6\% and
 tokens by 63.1\% in aggregate. It completes four of five extension repositories
-and retires one; it also retires every recurrent NESTFUL and API-Bank family
-despite successful provenance, synthesis, and replay. \method thus turns
+and retires one; on all three refusal benchmarks it retires every recurrent
+family despite successful provenance, synthesis, and replay. \method thus turns
 recurrence from permission to rewrite an agent into a testable,
 evidence-gated specialization decision with principled refusal and fallback.
