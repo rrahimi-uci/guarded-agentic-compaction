@@ -1,0 +1,1151 @@
+{
+  "benchmark": "BFCL v4 multi_turn_base gold plans executed on the pinned backend",
+  "catalog_audits": {
+    "compilable_declarations_observed_advancing_rng": 0,
+    "pure_declarations": 3,
+    "read_like_declarations_observed_mutating": 0
+  },
+  "catalog_coverage": {
+    "blocked": {
+      "GorillaFileSystem.cd": "EFFECT_WRITE_REVERSIBLE",
+      "GorillaFileSystem.cp": "EFFECT_WRITE_REVERSIBLE",
+      "GorillaFileSystem.echo": "EFFECT_WRITE_REVERSIBLE",
+      "GorillaFileSystem.mkdir": "EFFECT_WRITE_REVERSIBLE",
+      "GorillaFileSystem.mv": "EFFECT_WRITE_REVERSIBLE",
+      "GorillaFileSystem.rm": "EFFECT_WRITE_REVERSIBLE",
+      "GorillaFileSystem.rmdir": "EFFECT_WRITE_REVERSIBLE",
+      "GorillaFileSystem.touch": "EFFECT_WRITE_REVERSIBLE",
+      "MessageAPI.add_contact": "EFFECT_WRITE_REVERSIBLE",
+      "MessageAPI.delete_message": "EFFECT_WRITE_REVERSIBLE",
+      "MessageAPI.message_login": "EFFECT_WRITE_REVERSIBLE",
+      "MessageAPI.send_message": "EFFECT_WRITE_IRREVERSIBLE",
+      "TicketAPI.close_ticket": "EFFECT_WRITE_REVERSIBLE",
+      "TicketAPI.create_ticket": "EFFECT_WRITE_REVERSIBLE",
+      "TicketAPI.edit_ticket": "EFFECT_WRITE_REVERSIBLE",
+      "TicketAPI.resolve_ticket": "EFFECT_WRITE_REVERSIBLE",
+      "TicketAPI.ticket_login": "EFFECT_WRITE_REVERSIBLE",
+      "TradingBot.add_to_watchlist": "EFFECT_WRITE_REVERSIBLE",
+      "TradingBot.cancel_order": "EFFECT_WRITE_IRREVERSIBLE",
+      "TradingBot.fund_account": "EFFECT_WRITE_IRREVERSIBLE",
+      "TradingBot.place_order": "EFFECT_WRITE_IRREVERSIBLE",
+      "TradingBot.remove_stock_from_watchlist": "EFFECT_WRITE_REVERSIBLE",
+      "TradingBot.trading_logout": "EFFECT_WRITE_REVERSIBLE",
+      "TradingBot.withdraw_funds": "EFFECT_WRITE_IRREVERSIBLE",
+      "TravelAPI.authenticate_travel": "EFFECT_WRITE_REVERSIBLE",
+      "TravelAPI.book_flight": "EFFECT_WRITE_IRREVERSIBLE",
+      "TravelAPI.cancel_booking": "EFFECT_WRITE_IRREVERSIBLE",
+      "TravelAPI.contact_customer_support": "EFFECT_WRITE_IRREVERSIBLE",
+      "TravelAPI.get_flight_cost": "EFFECT_WRITE_REVERSIBLE",
+      "TravelAPI.purchase_insurance": "EFFECT_WRITE_IRREVERSIBLE",
+      "TravelAPI.register_credit_card": "EFFECT_WRITE_REVERSIBLE",
+      "TravelAPI.set_budget_limit": "EFFECT_WRITE_REVERSIBLE",
+      "TravelAPI.verify_traveler_information": "MISSING_CAPABILITY_speculatable+replayable",
+      "TwitterAPI.authenticate_twitter": "EFFECT_WRITE_REVERSIBLE",
+      "TwitterAPI.comment": "EFFECT_WRITE_IRREVERSIBLE",
+      "TwitterAPI.mention": "EFFECT_WRITE_IRREVERSIBLE",
+      "TwitterAPI.post_tweet": "EFFECT_WRITE_IRREVERSIBLE",
+      "TwitterAPI.retweet": "EFFECT_WRITE_IRREVERSIBLE",
+      "VehicleControlAPI.activateParkingBrake": "EFFECT_WRITE_IRREVERSIBLE",
+      "VehicleControlAPI.fillFuelTank": "EFFECT_WRITE_IRREVERSIBLE",
+      "VehicleControlAPI.get_outside_temperature_from_google": "MISSING_CAPABILITY_speculatable+replayable",
+      "VehicleControlAPI.lockDoors": "EFFECT_WRITE_IRREVERSIBLE",
+      "VehicleControlAPI.pressBrakePedal": "EFFECT_WRITE_IRREVERSIBLE",
+      "VehicleControlAPI.setCruiseControl": "EFFECT_WRITE_IRREVERSIBLE",
+      "VehicleControlAPI.setHeadlights": "EFFECT_WRITE_IRREVERSIBLE",
+      "VehicleControlAPI.set_navigation": "EFFECT_WRITE_IRREVERSIBLE",
+      "VehicleControlAPI.startEngine": "EFFECT_WRITE_IRREVERSIBLE"
+    },
+    "compilable": [
+      "GorillaFileSystem.cat",
+      "GorillaFileSystem.diff",
+      "GorillaFileSystem.du",
+      "GorillaFileSystem.find",
+      "GorillaFileSystem.grep",
+      "GorillaFileSystem.ls",
+      "GorillaFileSystem.sort",
+      "GorillaFileSystem.tail",
+      "GorillaFileSystem.wc",
+      "MathAPI.logarithm",
+      "MathAPI.mean",
+      "MathAPI.standard_deviation",
+      "MessageAPI.get_user_id",
+      "MessageAPI.view_messages_sent",
+      "TicketAPI.get_ticket",
+      "TradingBot.get_account_info",
+      "TradingBot.get_available_stocks",
+      "TradingBot.get_current_time",
+      "TradingBot.get_order_details",
+      "TradingBot.get_stock_info",
+      "TradingBot.get_watchlist",
+      "TravelAPI.compute_exchange_rate",
+      "TravelAPI.get_credit_card_balance",
+      "TravelAPI.get_nearest_airport_by_city",
+      "TravelAPI.list_all_airports",
+      "TravelAPI.retrieve_invoice",
+      "VehicleControlAPI.check_tire_pressure",
+      "VehicleControlAPI.displayCarStatus",
+      "VehicleControlAPI.estimate_distance",
+      "VehicleControlAPI.estimate_drive_feasibility_by_mileage",
+      "VehicleControlAPI.find_nearest_tire_shop",
+      "VehicleControlAPI.gallon_to_liter",
+      "VehicleControlAPI.get_zipcode_based_on_city",
+      "VehicleControlAPI.liter_to_gallon"
+    ],
+    "coverage": 1.0,
+    "n_tools": 81,
+    "undeclared": []
+  },
+  "compiler": {
+    "blocked_by_tool": {
+      "GorillaFileSystem.cd": 259,
+      "GorillaFileSystem.cp": 64,
+      "GorillaFileSystem.echo": 40,
+      "GorillaFileSystem.mkdir": 42,
+      "GorillaFileSystem.mv": 55,
+      "GorillaFileSystem.rm": 5,
+      "GorillaFileSystem.rmdir": 1,
+      "GorillaFileSystem.touch": 100,
+      "MessageAPI.add_contact": 6,
+      "MessageAPI.delete_message": 2,
+      "MessageAPI.message_login": 45,
+      "MessageAPI.send_message": 71,
+      "TicketAPI.close_ticket": 1,
+      "TicketAPI.create_ticket": 20,
+      "TicketAPI.edit_ticket": 2,
+      "TicketAPI.resolve_ticket": 10,
+      "TicketAPI.ticket_login": 13,
+      "TradingBot.add_to_watchlist": 72,
+      "TradingBot.cancel_order": 67,
+      "TradingBot.fund_account": 7,
+      "TradingBot.place_order": 220,
+      "TradingBot.remove_stock_from_watchlist": 46,
+      "TradingBot.withdraw_funds": 2,
+      "TravelAPI.authenticate_travel": 9,
+      "TravelAPI.book_flight": 127,
+      "TravelAPI.cancel_booking": 32,
+      "TravelAPI.contact_customer_support": 65,
+      "TravelAPI.get_flight_cost": 193,
+      "TravelAPI.purchase_insurance": 32,
+      "TravelAPI.register_credit_card": 12,
+      "TravelAPI.set_budget_limit": 88,
+      "TravelAPI.verify_traveler_information": 33,
+      "TwitterAPI.authenticate_twitter": 47,
+      "TwitterAPI.post_tweet": 60,
+      "TwitterAPI.retweet": 2,
+      "VehicleControlAPI.activateParkingBrake": 36,
+      "VehicleControlAPI.fillFuelTank": 487,
+      "VehicleControlAPI.get_outside_temperature_from_google": 2,
+      "VehicleControlAPI.lockDoors": 187,
+      "VehicleControlAPI.pressBrakePedal": 137,
+      "VehicleControlAPI.set_navigation": 45,
+      "VehicleControlAPI.startEngine": 93
+    },
+    "blocked_window_candidates": {
+      "ambiguous_slot": 31,
+      "effect_capability": 35,
+      "effect_write": 2802,
+      "live_in_not_in_entry_schema": 45,
+      "partial_run": 5
+    },
+    "candidate_families": 77,
+    "candidate_windows": 146,
+    "episodes": 200,
+    "episodes_with_candidate_window": 86,
+    "exact_gate": {
+      "alpha": 0.05,
+      "certifiable_families_even_if_zero_violations": 0,
+      "delta": 0.1,
+      "max_observed_family_support": 15,
+      "minimum_zero_violation_groups": 92,
+      "outcome": "RETIRE"
+    },
+    "families_support_ge_3": 9,
+    "family_results": [
+      {
+        "family_hash": "258218432889",
+        "support": 3,
+        "synthesis": "ungroundable_slot",
+        "test_groups": 1,
+        "tool_count": 2,
+        "train_groups": 2
+      },
+      {
+        "family_hash": "3b192f7d1153",
+        "support": 6,
+        "synthesis": "ungroundable_slot",
+        "test_groups": 1,
+        "tool_count": 3,
+        "train_groups": 5
+      },
+      {
+        "family_hash": "53f113b9a9d6",
+        "support": 15,
+        "synthesis": "ungroundable_slot",
+        "test_groups": 3,
+        "tool_count": 1,
+        "train_groups": 12
+      },
+      {
+        "family_hash": "56d9e6a89f00",
+        "support": 15,
+        "synthesis": "ungroundable_slot",
+        "test_groups": 3,
+        "tool_count": 2,
+        "train_groups": 12
+      },
+      {
+        "family_hash": "58663dac88ef",
+        "program_size": 8,
+        "program_steps": 2,
+        "replay_abstained": 1,
+        "replay_passed": 0,
+        "replay_wrong": 0,
+        "support": 4,
+        "synthesis": "ok",
+        "test_groups": 1,
+        "tool_count": 2,
+        "train_groups": 3
+      },
+      {
+        "family_hash": "62c8aff83498",
+        "program_size": 6,
+        "program_steps": 1,
+        "replay_abstained": 1,
+        "replay_passed": 0,
+        "replay_wrong": 0,
+        "support": 3,
+        "synthesis": "ok",
+        "test_groups": 1,
+        "tool_count": 1,
+        "train_groups": 2
+      },
+      {
+        "family_hash": "74d3564a8a9c",
+        "program_size": 6,
+        "program_steps": 2,
+        "replay_abstained": 1,
+        "replay_passed": 0,
+        "replay_wrong": 0,
+        "support": 3,
+        "synthesis": "ok",
+        "test_groups": 1,
+        "tool_count": 2,
+        "train_groups": 2
+      },
+      {
+        "family_hash": "9131cae22fcb",
+        "support": 4,
+        "synthesis": "ungroundable_slot",
+        "test_groups": 1,
+        "tool_count": 2,
+        "train_groups": 3
+      },
+      {
+        "family_hash": "d58007ba1690",
+        "program_size": 4,
+        "program_steps": 2,
+        "replay_abstained": 0,
+        "replay_passed": 3,
+        "replay_wrong": 0,
+        "support": 13,
+        "synthesis": "ok",
+        "test_groups": 3,
+        "tool_count": 2,
+        "train_groups": 10
+      }
+    ],
+    "graph_diagnostics": {
+      "ambiguous": 130,
+      "grounded": 1445,
+      "model_originated": 13,
+      "not_groundable": 536,
+      "transform_cache_hits": 995,
+      "transform_cache_misses": 3940,
+      "transform_search": 229,
+      "ungrounded": 13
+    },
+    "graphs": 200,
+    "held_out_recorded_replay": {
+      "families_attempted": 9,
+      "families_synthesized": 4,
+      "pass_rate": 0.5,
+      "test_abstained": 3,
+      "test_passed": 3,
+      "test_windows": 6,
+      "test_wrong": 0,
+      "wrong_rate": 0.0
+    },
+    "maximum_family_support": 15,
+    "mining_parameters": {
+      "b_min": 2,
+      "entry_schema": [
+        "inputs",
+        "environment"
+      ],
+      "kappa": 3,
+      "max_depth": 2,
+      "min_support_groups": 3,
+      "n_permutations": 25,
+      "w_max": 12,
+      "w_min": 2
+    },
+    "runtime": {
+      "patg_seconds": 3.3412309589912184,
+      "peak_memory_mib": 7.994698524475098,
+      "total_seconds": 3.6605483749881387
+    }
+  },
+  "dataset": {
+    "calls_per_task_max": 10,
+    "calls_per_task_median": 5.5,
+    "calls_per_task_min": 2,
+    "compilable_tools": 34,
+    "complete_observed_traces": 200,
+    "declared_effect_mix": {
+      "PURE": 3,
+      "READ_EXTERNAL": 2,
+      "READ_LOCAL": 31,
+      "WRITE_IRREVERSIBLE": 21,
+      "WRITE_REVERSIBLE": 24
+    },
+    "independent_groups": 200,
+    "involved_classes": [
+      "GorillaFileSystem",
+      "MathAPI",
+      "MessageAPI",
+      "TicketAPI",
+      "TradingBot",
+      "TravelAPI",
+      "TwitterAPI",
+      "VehicleControlAPI"
+    ],
+    "observed_calls": 1142,
+    "observed_cross_call_value_reuse_slots": 352,
+    "tasks": 200,
+    "turns": 734,
+    "unique_tools": 81
+  },
+  "effect_catalog": "bfcl-v4-multi-turn-base-pinned-backend@1#e413532986b5f5cd",
+  "effect_catalog_sha256": "071f1928e8d40bab91eec0fe553d748c9389c754c19e6daa1baa5fa577358456",
+  "evidence": {
+    "class": "public executable simulator with gold plans executed for observed results",
+    "compiler_execution": true,
+    "is_live_provider_evaluation": false,
+    "is_real_world_demo": false,
+    "licenses_end_to_end_planning_quality_claim": false,
+    "licenses_function_calling_accuracy_claim": false,
+    "licenses_production_safety_claim": false,
+    "measures": [
+      "gold-plan execution on the pinned stateful backend",
+      "signed effect-catalog audit against observed state mutation",
+      "exact re-execution replay oracle",
+      "provenance and candidate mining",
+      "synthesis and held-out recorded replay where support permits"
+    ],
+    "prompts_arguments_outputs_serialized": false,
+    "provider_calls": 0
+  },
+  "execution_audit": {
+    "error_results": 0,
+    "error_results_by_tool": {},
+    "executed_calls": 1142,
+    "execution_seconds": 0.15343445798498578,
+    "observed_output_parse": {
+      "json": 1082,
+      "literal": 56,
+      "raw_string": 4
+    },
+    "state_mutation_audit": {
+      "by_tool": {
+        "GorillaFileSystem.cat": {
+          "calls": 19,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "GorillaFileSystem.cd": {
+          "calls": 51,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_REVERSIBLE",
+          "mutated_fields": [
+            "GorillaFileSystem._current_dir"
+          ],
+          "mutating_calls": 51,
+          "rng_advancing_calls": 0
+        },
+        "GorillaFileSystem.cp": {
+          "calls": 15,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_REVERSIBLE",
+          "mutated_fields": [
+            "GorillaFileSystem._current_dir",
+            "GorillaFileSystem.root"
+          ],
+          "mutating_calls": 30,
+          "rng_advancing_calls": 0
+        },
+        "GorillaFileSystem.diff": {
+          "calls": 11,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "GorillaFileSystem.du": {
+          "calls": 3,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "GorillaFileSystem.echo": {
+          "calls": 22,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_REVERSIBLE",
+          "mutated_fields": [
+            "GorillaFileSystem._current_dir",
+            "GorillaFileSystem.root"
+          ],
+          "mutating_calls": 44,
+          "rng_advancing_calls": 0
+        },
+        "GorillaFileSystem.find": {
+          "calls": 8,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "GorillaFileSystem.grep": {
+          "calls": 10,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "GorillaFileSystem.ls": {
+          "calls": 12,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "GorillaFileSystem.mkdir": {
+          "calls": 6,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_REVERSIBLE",
+          "mutated_fields": [
+            "GorillaFileSystem._current_dir",
+            "GorillaFileSystem.root"
+          ],
+          "mutating_calls": 12,
+          "rng_advancing_calls": 0
+        },
+        "GorillaFileSystem.mv": {
+          "calls": 15,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_REVERSIBLE",
+          "mutated_fields": [
+            "GorillaFileSystem._current_dir",
+            "GorillaFileSystem.root"
+          ],
+          "mutating_calls": 30,
+          "rng_advancing_calls": 0
+        },
+        "GorillaFileSystem.rm": {
+          "calls": 2,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_REVERSIBLE",
+          "mutated_fields": [
+            "GorillaFileSystem._current_dir",
+            "GorillaFileSystem.root"
+          ],
+          "mutating_calls": 4,
+          "rng_advancing_calls": 0
+        },
+        "GorillaFileSystem.rmdir": {
+          "calls": 2,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_REVERSIBLE",
+          "mutated_fields": [
+            "GorillaFileSystem._current_dir",
+            "GorillaFileSystem.root"
+          ],
+          "mutating_calls": 4,
+          "rng_advancing_calls": 0
+        },
+        "GorillaFileSystem.sort": {
+          "calls": 8,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "GorillaFileSystem.tail": {
+          "calls": 9,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "GorillaFileSystem.touch": {
+          "calls": 22,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_REVERSIBLE",
+          "mutated_fields": [
+            "GorillaFileSystem._current_dir",
+            "GorillaFileSystem.root"
+          ],
+          "mutating_calls": 44,
+          "rng_advancing_calls": 0
+        },
+        "GorillaFileSystem.wc": {
+          "calls": 16,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "MathAPI.logarithm": {
+          "calls": 4,
+          "declared_compilable": true,
+          "declared_effect": "PURE",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "MathAPI.mean": {
+          "calls": 9,
+          "declared_compilable": true,
+          "declared_effect": "PURE",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "MathAPI.standard_deviation": {
+          "calls": 1,
+          "declared_compilable": true,
+          "declared_effect": "PURE",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "MessageAPI.add_contact": {
+          "calls": 2,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_REVERSIBLE",
+          "mutated_fields": [
+            "MessageAPI.user_count",
+            "MessageAPI.user_map"
+          ],
+          "mutating_calls": 4,
+          "rng_advancing_calls": 0
+        },
+        "MessageAPI.delete_message": {
+          "calls": 5,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_REVERSIBLE",
+          "mutated_fields": [
+            "MessageAPI.inbox"
+          ],
+          "mutating_calls": 5,
+          "rng_advancing_calls": 0
+        },
+        "MessageAPI.get_user_id": {
+          "calls": 1,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "MessageAPI.message_login": {
+          "calls": 10,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_REVERSIBLE",
+          "mutated_fields": [
+            "MessageAPI.current_user"
+          ],
+          "mutating_calls": 7,
+          "rng_advancing_calls": 0
+        },
+        "MessageAPI.send_message": {
+          "calls": 28,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_IRREVERSIBLE",
+          "mutated_fields": [
+            "MessageAPI.generated_ids",
+            "MessageAPI.inbox",
+            "MessageAPI.message_count"
+          ],
+          "mutating_calls": 84,
+          "rng_advancing_calls": 28
+        },
+        "MessageAPI.view_messages_sent": {
+          "calls": 17,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "TicketAPI.close_ticket": {
+          "calls": 5,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_REVERSIBLE",
+          "mutated_fields": [
+            "TicketAPI.ticket_queue"
+          ],
+          "mutating_calls": 5,
+          "rng_advancing_calls": 0
+        },
+        "TicketAPI.create_ticket": {
+          "calls": 18,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_REVERSIBLE",
+          "mutated_fields": [
+            "TicketAPI.ticket_counter",
+            "TicketAPI.ticket_queue"
+          ],
+          "mutating_calls": 36,
+          "rng_advancing_calls": 0
+        },
+        "TicketAPI.edit_ticket": {
+          "calls": 2,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_REVERSIBLE",
+          "mutated_fields": [
+            "TicketAPI.ticket_queue"
+          ],
+          "mutating_calls": 2,
+          "rng_advancing_calls": 0
+        },
+        "TicketAPI.get_ticket": {
+          "calls": 7,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "TicketAPI.resolve_ticket": {
+          "calls": 8,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_REVERSIBLE",
+          "mutated_fields": [
+            "TicketAPI.ticket_queue"
+          ],
+          "mutating_calls": 8,
+          "rng_advancing_calls": 0
+        },
+        "TicketAPI.ticket_login": {
+          "calls": 8,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_REVERSIBLE",
+          "mutated_fields": [
+            "TicketAPI.current_user"
+          ],
+          "mutating_calls": 8,
+          "rng_advancing_calls": 0
+        },
+        "TradingBot.add_to_watchlist": {
+          "calls": 19,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_REVERSIBLE",
+          "mutated_fields": [
+            "TradingBot.watch_list"
+          ],
+          "mutating_calls": 12,
+          "rng_advancing_calls": 0
+        },
+        "TradingBot.cancel_order": {
+          "calls": 19,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_IRREVERSIBLE",
+          "mutated_fields": [
+            "TradingBot.orders"
+          ],
+          "mutating_calls": 19,
+          "rng_advancing_calls": 0
+        },
+        "TradingBot.fund_account": {
+          "calls": 5,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_IRREVERSIBLE",
+          "mutated_fields": [
+            "TradingBot.account_info",
+            "TradingBot.transaction_history"
+          ],
+          "mutating_calls": 10,
+          "rng_advancing_calls": 5
+        },
+        "TradingBot.get_account_info": {
+          "calls": 14,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "TradingBot.get_available_stocks": {
+          "calls": 10,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "TradingBot.get_current_time": {
+          "calls": 2,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "TradingBot.get_order_details": {
+          "calls": 32,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "TradingBot.get_stock_info": {
+          "calls": 43,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "TradingBot.get_watchlist": {
+          "calls": 20,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "TradingBot.place_order": {
+          "calls": 29,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_IRREVERSIBLE",
+          "mutated_fields": [
+            "TradingBot.order_counter",
+            "TradingBot.orders"
+          ],
+          "mutating_calls": 58,
+          "rng_advancing_calls": 0
+        },
+        "TradingBot.remove_stock_from_watchlist": {
+          "calls": 7,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_REVERSIBLE",
+          "mutated_fields": [
+            "TradingBot.watch_list"
+          ],
+          "mutating_calls": 7,
+          "rng_advancing_calls": 0
+        },
+        "TradingBot.trading_logout": {
+          "calls": 2,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_REVERSIBLE",
+          "mutated_fields": [
+            "TradingBot.authenticated"
+          ],
+          "mutating_calls": 2,
+          "rng_advancing_calls": 0
+        },
+        "TradingBot.withdraw_funds": {
+          "calls": 1,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_IRREVERSIBLE",
+          "mutated_fields": [
+            "TradingBot.account_info",
+            "TradingBot.transaction_history"
+          ],
+          "mutating_calls": 2,
+          "rng_advancing_calls": 1
+        },
+        "TravelAPI.authenticate_travel": {
+          "calls": 3,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_REVERSIBLE",
+          "mutated_fields": [
+            "TravelAPI.access_token",
+            "TravelAPI.token_expires_in",
+            "TravelAPI.token_scope"
+          ],
+          "mutating_calls": 7,
+          "rng_advancing_calls": 3
+        },
+        "TravelAPI.book_flight": {
+          "calls": 41,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_IRREVERSIBLE",
+          "mutated_fields": [
+            "TravelAPI._flight_cost_lookup",
+            "TravelAPI.booking_record",
+            "TravelAPI.credit_card_list"
+          ],
+          "mutating_calls": 93,
+          "rng_advancing_calls": 41
+        },
+        "TravelAPI.cancel_booking": {
+          "calls": 19,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_IRREVERSIBLE",
+          "mutated_fields": [
+            "TravelAPI.booking_record",
+            "TravelAPI.credit_card_list"
+          ],
+          "mutating_calls": 38,
+          "rng_advancing_calls": 0
+        },
+        "TravelAPI.compute_exchange_rate": {
+          "calls": 12,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "TravelAPI.contact_customer_support": {
+          "calls": 15,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_IRREVERSIBLE",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "TravelAPI.get_credit_card_balance": {
+          "calls": 1,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "TravelAPI.get_flight_cost": {
+          "calls": 36,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_REVERSIBLE",
+          "mutated_fields": [
+            "TravelAPI._flight_cost_lookup"
+          ],
+          "mutating_calls": 36,
+          "rng_advancing_calls": 0
+        },
+        "TravelAPI.get_nearest_airport_by_city": {
+          "calls": 7,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "TravelAPI.list_all_airports": {
+          "calls": 6,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "TravelAPI.purchase_insurance": {
+          "calls": 12,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_IRREVERSIBLE",
+          "mutated_fields": [
+            "TravelAPI.credit_card_list"
+          ],
+          "mutating_calls": 12,
+          "rng_advancing_calls": 12
+        },
+        "TravelAPI.register_credit_card": {
+          "calls": 3,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_REVERSIBLE",
+          "mutated_fields": [
+            "TravelAPI.credit_card_list"
+          ],
+          "mutating_calls": 3,
+          "rng_advancing_calls": 3
+        },
+        "TravelAPI.retrieve_invoice": {
+          "calls": 25,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "TravelAPI.set_budget_limit": {
+          "calls": 17,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_REVERSIBLE",
+          "mutated_fields": [
+            "TravelAPI.budget_limit"
+          ],
+          "mutating_calls": 9,
+          "rng_advancing_calls": 0
+        },
+        "TravelAPI.verify_traveler_information": {
+          "calls": 7,
+          "declared_compilable": false,
+          "declared_effect": "READ_EXTERNAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "TwitterAPI.authenticate_twitter": {
+          "calls": 14,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_REVERSIBLE",
+          "mutated_fields": [
+            "TwitterAPI.authenticated"
+          ],
+          "mutating_calls": 8,
+          "rng_advancing_calls": 0
+        },
+        "TwitterAPI.comment": {
+          "calls": 6,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_IRREVERSIBLE",
+          "mutated_fields": [
+            "TwitterAPI.comments"
+          ],
+          "mutating_calls": 6,
+          "rng_advancing_calls": 0
+        },
+        "TwitterAPI.mention": {
+          "calls": 2,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_IRREVERSIBLE",
+          "mutated_fields": [
+            "TwitterAPI.tweets"
+          ],
+          "mutating_calls": 2,
+          "rng_advancing_calls": 0
+        },
+        "TwitterAPI.post_tweet": {
+          "calls": 34,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_IRREVERSIBLE",
+          "mutated_fields": [
+            "TwitterAPI.tweet_counter",
+            "TwitterAPI.tweets"
+          ],
+          "mutating_calls": 68,
+          "rng_advancing_calls": 0
+        },
+        "TwitterAPI.retweet": {
+          "calls": 9,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_IRREVERSIBLE",
+          "mutated_fields": [
+            "TwitterAPI.retweets"
+          ],
+          "mutating_calls": 8,
+          "rng_advancing_calls": 0
+        },
+        "VehicleControlAPI.activateParkingBrake": {
+          "calls": 7,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_IRREVERSIBLE",
+          "mutated_fields": [
+            "VehicleControlAPI._parkingBrakeForce",
+            "VehicleControlAPI._slopeAngle",
+            "VehicleControlAPI.parkingBrakeStatus"
+          ],
+          "mutating_calls": 20,
+          "rng_advancing_calls": 0
+        },
+        "VehicleControlAPI.check_tire_pressure": {
+          "calls": 24,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "VehicleControlAPI.displayCarStatus": {
+          "calls": 8,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "VehicleControlAPI.estimate_distance": {
+          "calls": 20,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "VehicleControlAPI.estimate_drive_feasibility_by_mileage": {
+          "calls": 12,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "VehicleControlAPI.fillFuelTank": {
+          "calls": 32,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_IRREVERSIBLE",
+          "mutated_fields": [
+            "VehicleControlAPI.fuelLevel"
+          ],
+          "mutating_calls": 32,
+          "rng_advancing_calls": 0
+        },
+        "VehicleControlAPI.find_nearest_tire_shop": {
+          "calls": 13,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "VehicleControlAPI.gallon_to_liter": {
+          "calls": 6,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "VehicleControlAPI.get_outside_temperature_from_google": {
+          "calls": 1,
+          "declared_compilable": false,
+          "declared_effect": "READ_EXTERNAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 1
+        },
+        "VehicleControlAPI.get_zipcode_based_on_city": {
+          "calls": 38,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "VehicleControlAPI.liter_to_gallon": {
+          "calls": 9,
+          "declared_compilable": true,
+          "declared_effect": "READ_LOCAL",
+          "mutated_fields": [],
+          "mutating_calls": 0,
+          "rng_advancing_calls": 0
+        },
+        "VehicleControlAPI.lockDoors": {
+          "calls": 42,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_IRREVERSIBLE",
+          "mutated_fields": [
+            "VehicleControlAPI.doorStatus",
+            "VehicleControlAPI.remainingUnlockedDoors"
+          ],
+          "mutating_calls": 84,
+          "rng_advancing_calls": 0
+        },
+        "VehicleControlAPI.pressBrakePedal": {
+          "calls": 44,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_IRREVERSIBLE",
+          "mutated_fields": [
+            "VehicleControlAPI._brakePedalForce",
+            "VehicleControlAPI.brakePedalStatus"
+          ],
+          "mutating_calls": 88,
+          "rng_advancing_calls": 0
+        },
+        "VehicleControlAPI.setCruiseControl": {
+          "calls": 1,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_IRREVERSIBLE",
+          "mutated_fields": [
+            "VehicleControlAPI.cruiseStatus"
+          ],
+          "mutating_calls": 1,
+          "rng_advancing_calls": 0
+        },
+        "VehicleControlAPI.setHeadlights": {
+          "calls": 1,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_IRREVERSIBLE",
+          "mutated_fields": [
+            "VehicleControlAPI.headLightStatus"
+          ],
+          "mutating_calls": 1,
+          "rng_advancing_calls": 0
+        },
+        "VehicleControlAPI.set_navigation": {
+          "calls": 12,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_IRREVERSIBLE",
+          "mutated_fields": [
+            "VehicleControlAPI.destination"
+          ],
+          "mutating_calls": 12,
+          "rng_advancing_calls": 0
+        },
+        "VehicleControlAPI.startEngine": {
+          "calls": 44,
+          "declared_compilable": false,
+          "declared_effect": "WRITE_IRREVERSIBLE",
+          "mutated_fields": [
+            "VehicleControlAPI.engine_state"
+          ],
+          "mutating_calls": 44,
+          "rng_advancing_calls": 0
+        }
+      },
+      "mutating_calls": 1060,
+      "rng_advancing_calls": 94,
+      "tools_observed_mutating": 44
+    }
+  },
+  "preregistration": {
+    "maximum_available_independent_groups": 200,
+    "note": "A retirement here is the predeclared outcome, not a failed measurement: 200 single-episode tasks over eight scenario classes cannot supply the exact zero-violation group count the promotion gate requires.",
+    "observed_gate_outcome": "RETIRE",
+    "predeclared_gate_outcome": "RETIRE",
+    "prediction_held": true,
+    "protocol": "paper/supplementary/bfcl-compiler-protocol.md",
+    "required_zero_violation_groups": 92
+  },
+  "protocol": "paper/supplementary/bfcl-compiler-protocol.md",
+  "replay_oracle": {
+    "checks": [
+      "second independent execution pass reproduces every observed result",
+      "per-call and per-turn invocation shapes agree"
+    ],
+    "compared_calls": 1142,
+    "exact_replay_rate": 1.0,
+    "mismatched_by_tool": {},
+    "mismatched_calls": 0,
+    "replay_seconds": 0.03762649997952394
+  },
+  "schema": "agent-compaction-external-execution/v1",
+  "source_license": "Apache-2.0",
+  "source_license_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+  "source_revision": "6ea57973c7a6097fd7c5915698c54c17c5b1b6c8"
+}
