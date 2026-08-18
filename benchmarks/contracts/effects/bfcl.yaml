@@ -1,0 +1,224 @@
+# Signed effect declarations for the pinned BFCL v4 multi-turn-base executable backend.
+#
+# Every entry is a human declaration about the pinned upstream implementation at
+# revision 6ea57973c7a6097fd7c5915698c54c17c5b1b6c8, keyed by the qualified
+# `<Class>.<method>` name used by the execution adapter.  Two mechanical audits in
+# paper/scripts/bfcl_compiler_benchmark.py fail closed against this file:
+#
+#   1. no tool declared read-like may be observed mutating instance state, and
+#   2. no tool declared compilable may be observed advancing the scenario RNG.
+#
+# PURE is reserved for the one class upstream itself lists in STATELESS_CLASSES.
+# Simulated in-memory mutations are WRITE_REVERSIBLE; modeled outward actions
+# (publishing, vehicle actuation, money movement, booking) are WRITE_IRREVERSIBLE
+# even where the pinned simulator implements them without mutation, because the
+# barrier is a claim about the modeled action and not about the fixture.
+version: 1
+name: bfcl-v4-multi-turn-base-pinned-backend
+tools:
+  # --- MathAPI: upstream STATELESS_CLASSES -----------------------------------
+  MathAPI.logarithm: &pure
+    effect: PURE
+    capabilities: [speculatable, replayable, cacheable]
+    resource: bfcl_stateless_math
+    notes: Upstream declares MathAPI stateless; arguments-only computation in the pinned revision.
+  MathAPI.mean:
+    <<: *pure
+  MathAPI.standard_deviation:
+    <<: *pure
+
+  # --- Read-like over the in-memory scenario fixture -------------------------
+  GorillaFileSystem.cat: &fixture_read
+    effect: READ_LOCAL
+    capabilities: [speculatable, replayable, cacheable]
+    resource: bfcl_scenario_fixture
+    notes: Audited read over the pinned in-memory scenario; observed to leave instance state unchanged.
+  GorillaFileSystem.diff:
+    <<: *fixture_read
+  GorillaFileSystem.du:
+    <<: *fixture_read
+  GorillaFileSystem.find:
+    <<: *fixture_read
+  GorillaFileSystem.grep:
+    <<: *fixture_read
+  GorillaFileSystem.ls:
+    <<: *fixture_read
+  GorillaFileSystem.sort:
+    <<: *fixture_read
+  GorillaFileSystem.tail:
+    <<: *fixture_read
+  GorillaFileSystem.wc:
+    <<: *fixture_read
+  MessageAPI.get_user_id:
+    <<: *fixture_read
+  MessageAPI.view_messages_sent:
+    <<: *fixture_read
+  TicketAPI.get_ticket:
+    <<: *fixture_read
+  TradingBot.get_account_info:
+    <<: *fixture_read
+  TradingBot.get_available_stocks:
+    <<: *fixture_read
+  TradingBot.get_current_time:
+    <<: *fixture_read
+    notes: Returns a module-level constant in the pinned revision, not the host clock.
+  TradingBot.get_order_details:
+    <<: *fixture_read
+  TradingBot.get_stock_info:
+    <<: *fixture_read
+  TradingBot.get_watchlist:
+    <<: *fixture_read
+  TravelAPI.compute_exchange_rate:
+    <<: *fixture_read
+  TravelAPI.get_credit_card_balance:
+    <<: *fixture_read
+  TravelAPI.get_nearest_airport_by_city:
+    <<: *fixture_read
+  TravelAPI.list_all_airports:
+    <<: *fixture_read
+  TravelAPI.retrieve_invoice:
+    <<: *fixture_read
+  VehicleControlAPI.check_tire_pressure:
+    <<: *fixture_read
+  VehicleControlAPI.displayCarStatus:
+    <<: *fixture_read
+  VehicleControlAPI.estimate_distance:
+    <<: *fixture_read
+  VehicleControlAPI.estimate_drive_feasibility_by_mileage:
+    <<: *fixture_read
+  VehicleControlAPI.find_nearest_tire_shop:
+    <<: *fixture_read
+  VehicleControlAPI.gallon_to_liter:
+    <<: *fixture_read
+  VehicleControlAPI.get_zipcode_based_on_city:
+    <<: *fixture_read
+  VehicleControlAPI.liter_to_gallon:
+    <<: *fixture_read
+
+  # --- Read-like but deliberately not replay-licensed ------------------------
+  TravelAPI.verify_traveler_information:
+    effect: READ_EXTERNAL
+    capabilities: []
+    resource: bfcl_wall_clock_dependent
+    notes: Derives an age from datetime.today(); the observed value is host-date dependent, so it is never compiled.
+  VehicleControlAPI.get_outside_temperature_from_google:
+    effect: READ_EXTERNAL
+    capabilities: []
+    resource: bfcl_scenario_rng
+    notes: Draws from the seeded scenario RNG and advances it, so repeat calls differ; never compiled.
+
+  # --- Simulated in-memory mutations ----------------------------------------
+  GorillaFileSystem.cd: &reversible_write
+    effect: WRITE_REVERSIBLE
+    capabilities: []
+    resource: bfcl_mutable_scenario
+    notes: Mutation barrier in the pinned upstream simulator.
+  GorillaFileSystem.cp:
+    <<: *reversible_write
+  GorillaFileSystem.echo:
+    <<: *reversible_write
+    notes: Writes into the simulated filesystem when redirected; observed to mutate the scenario tree.
+  GorillaFileSystem.mkdir:
+    <<: *reversible_write
+  GorillaFileSystem.mv:
+    <<: *reversible_write
+  GorillaFileSystem.rm:
+    <<: *reversible_write
+  GorillaFileSystem.rmdir:
+    <<: *reversible_write
+  GorillaFileSystem.touch:
+    <<: *reversible_write
+  MessageAPI.add_contact:
+    <<: *reversible_write
+  MessageAPI.delete_message:
+    <<: *reversible_write
+  MessageAPI.message_login:
+    <<: *reversible_write
+  TicketAPI.close_ticket:
+    <<: *reversible_write
+  TicketAPI.create_ticket:
+    <<: *reversible_write
+  TicketAPI.edit_ticket:
+    <<: *reversible_write
+  TicketAPI.resolve_ticket:
+    <<: *reversible_write
+  TicketAPI.ticket_login:
+    <<: *reversible_write
+  TradingBot.add_to_watchlist:
+    <<: *reversible_write
+  TradingBot.remove_stock_from_watchlist:
+    <<: *reversible_write
+  TradingBot.trading_logout:
+    <<: *reversible_write
+  TravelAPI.authenticate_travel:
+    <<: *reversible_write
+  TravelAPI.get_flight_cost:
+    <<: *reversible_write
+    notes: >-
+      Nominal getter that writes the instance's internal flight-cost lookup; the empirical
+      mutation audit observed 36/36 calls mutating TravelAPI._flight_cost_lookup, so it is
+      declared a write rather than a read.
+  TravelAPI.register_credit_card:
+    <<: *reversible_write
+  TravelAPI.set_budget_limit:
+    <<: *reversible_write
+  TwitterAPI.authenticate_twitter:
+    <<: *reversible_write
+
+  # --- Modeled outward actions ---------------------------------------------
+  MessageAPI.send_message: &irreversible_write
+    effect: WRITE_IRREVERSIBLE
+    capabilities: []
+    resource: bfcl_modeled_external_action
+    notes: Modeled outward action; never compiled regardless of the fixture implementation.
+  TwitterAPI.post_tweet:
+    <<: *irreversible_write
+  TwitterAPI.retweet:
+    <<: *irreversible_write
+  TwitterAPI.comment:
+    <<: *irreversible_write
+  TwitterAPI.mention:
+    <<: *irreversible_write
+  TravelAPI.contact_customer_support:
+    <<: *irreversible_write
+    notes: >-
+      The pinned implementation only reads the booking record, but the modeled action sends a
+      support message, so the stricter outward-action barrier is declared deliberately.
+  TravelAPI.book_flight:
+    <<: *irreversible_write
+  TravelAPI.cancel_booking:
+    <<: *irreversible_write
+  TravelAPI.purchase_insurance:
+    <<: *irreversible_write
+  TradingBot.place_order:
+    <<: *irreversible_write
+  TradingBot.cancel_order:
+    <<: *irreversible_write
+  TradingBot.fund_account:
+    <<: *irreversible_write
+  TradingBot.withdraw_funds:
+    <<: *irreversible_write
+  VehicleControlAPI.startEngine:
+    <<: *irreversible_write
+    notes: Modeled physical actuation; never compiled.
+  VehicleControlAPI.lockDoors:
+    <<: *irreversible_write
+    notes: Modeled physical actuation; never compiled.
+  VehicleControlAPI.pressBrakePedal:
+    <<: *irreversible_write
+    notes: Modeled physical actuation; never compiled.
+  VehicleControlAPI.activateParkingBrake:
+    <<: *irreversible_write
+    notes: Modeled physical actuation; never compiled.
+  VehicleControlAPI.setCruiseControl:
+    <<: *irreversible_write
+    notes: Modeled physical actuation; never compiled.
+  VehicleControlAPI.setHeadlights:
+    <<: *irreversible_write
+    notes: Modeled physical actuation; never compiled.
+  VehicleControlAPI.fillFuelTank:
+    <<: *irreversible_write
+    notes: Modeled physical actuation; never compiled.
+  VehicleControlAPI.set_navigation:
+    <<: *irreversible_write
+    notes: Modeled physical actuation; never compiled.
