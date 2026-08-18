@@ -109,9 +109,9 @@ paper/
 the retained pipeline pseudocode, and archived detailed listings; all plots are script-generated and live under
 `generated_figures/`.
 
-The tracked distribution PDF is
-compiling-recurrent-agent-workflows-into-guarded-programs.pdf. The files under open_research/
-remain the conference and long-form article products used by the validator.
+The tracked distribution PDFs both live under open_research/: article.pdf is the
+long-form article used as the primary download, and main.pdf is the conference
+build. The validator checks both.
 
 ## Two builds, one body
 
@@ -153,10 +153,9 @@ Two earlier presentations are preserved verbatim and still build:
 
 `article.pdf` is the complete article: it carries `appendix/appendix.tex` after the
 bibliography, holding the per-study reproduction commands, the implementation audit,
-the complete claims register, the per-metric numbers behind the figures, and the
-disposition of all ten benchmark families. `main.pdf` is the submission format and does
-not — that appendix ships as separate supplementary material, and its verbatim command
-blocks would overrun a two-column measure anyway.
+and the per-metric numbers behind the figures. `main.pdf` is
+the submission format and does not — that appendix ships as separate supplementary
+material, and its verbatim command blocks would overrun a two-column measure anyway.
 
 That asymmetry is the one place the shared body could produce a dangling reference, so
 the pointers into the appendix go through `\appendixonly{...}`: `article.tex` defines it

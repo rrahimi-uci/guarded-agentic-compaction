@@ -1429,7 +1429,8 @@ def validate_publication() -> None:
         "scripts/refresh_aha_example_slide.py",
         "scripts/generate_slides.mjs",
         "results/slide_generation.json",
-        "compiling-recurrent-agent-workflows-into-guarded-programs.pdf",
+        "open_research/article.pdf",
+        "open_research/main.pdf",
     ]
     for rel in required:
         ok((PAPER / rel).exists(), f"publication artifact exists: {rel}")
