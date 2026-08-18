@@ -99,7 +99,8 @@ paper/
 │   ├── external-benchmark-audit.md why eight interoperability paths are supplementary
 │   ├── implementation-audit.md     repository and component review
 │   ├── quality-assessment.md       publication-readiness rubric
-│   └── natural-live-study-protocol.md  expanded real-record experiment protocol
+│   ├── natural-live-study-protocol.md  expanded real-record experiment protocol
+│   └── drift-robustness-ablation-protocol.md  pre-registered, unrun contract ablation
 └── open_research/
     ├── article.pdf                 single-column article (page count verified after build)
     └── main.pdf                    two-column conference build (page count verified after build)
