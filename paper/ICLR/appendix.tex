@@ -204,15 +204,47 @@ that the continuation check caught a concrete failure the compacted tool trace
 alone would miss.
 
 \subsection{External evidence map}
+\label{app:external}
 
 \Cref{tab:external-evidence-map} records every named external benchmark in the
 retained evidence register and its admissible interpretation.
 
+\paragraph{Obtaining observed results from BFCL.}
+BFCL's reference plans carry no tool results, which is why the plan-format row
+and the compiler row are listed separately. Its multi-turn categories, however,
+ship an executable stateful backend: each task publishes an \code{initial\_config}
+snapshot and the classes it involves, so executing the \emph{official gold plan}
+through the upstream helper yields observed results, an entry snapshot, and an
+in-process replay oracle, with no model in the loop. Five preconditions fail the
+run closed rather than publishing: an undeclared method, any upstream execution
+error, a read-like declaration observed mutating state, a compilable declaration
+observed advancing the scenario RNG, and any inexact re-execution. All held: 200
+tasks and 1{,}142 calls executed cleanly and a second independent pass reproduced
+every result byte for byte, executing turn-at-a-time where the first pass executed
+call-at-a-time.
+
+\paragraph{Why the catalog is signed rather than inferred.}
+The same run audits the declarations empirically by snapshotting every involved
+instance around every call. It observed 1{,}060 state-mutating calls over 44 of
+the 81 methods and 94 calls that advanced the seeded scenario RNG, with zero cases
+of a read-like declaration mutating state or a compilable declaration advancing the
+RNG. One case is worth naming: a method whose name and docstring present it as a
+cost getter mutated its instance's internal lookup on all 36 of its calls and is
+therefore declared a write. A name- or docstring-derived effect label would have
+admitted a write into a compiled region. Two further methods are read-like but
+carry no capabilities, because one derives an age from the host date and the other
+draws from --- and advances --- the seeded RNG; they are barriers by declaration and
+account for 35 suppressed spans. Write barriers suppress 2{,}802 spans in total,
+against 45 for entry-schema admissibility, 31 for slot ambiguity, and 5 for
+partial runs.
+
 \begin{table}[t]
   \centering
   \caption{Disposition of every retained external benchmark family. Only the
-  first two rows support compiler measurements; the remaining rows document
-  why broader benchmark names are not silently converted into GAC results.}
+  three compiler-measurement rows support compiler claims; the remaining rows
+  document why broader benchmark names are not silently converted into GAC
+  results. BFCL appears twice because its reference plans and its executed gold
+  plans are different evidence.}
   \label{tab:external-evidence-map}
   \footnotesize
   \setlength{\tabcolsep}{3pt}
