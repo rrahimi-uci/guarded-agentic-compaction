@@ -1409,6 +1409,7 @@ def validate_publication() -> None:
         "results/external_benchmarks/reference_analysis.json",
         "results/external_benchmarks/api_bank_execution.json",
         "results/external_benchmarks/bfcl_gold_execution.json",
+        "results/external_benchmarks/bfcl_compiler_execution.json",
         "results/external_benchmarks/toolsandbox_live.json",
         "results/external_benchmarks/tau2_live.json",
         "results/external_benchmarks/browsecomp_live.json",
@@ -1416,6 +1417,8 @@ def validate_publication() -> None:
         "scripts/external_benchmark_matrix.py",
         "scripts/api_bank_benchmark.py",
         "scripts/bfcl_structural_benchmark.py",
+        "scripts/bfcl_compiler_benchmark.py",
+        "supplementary/bfcl-compiler-protocol.md",
         "scripts/toolsandbox_live_summary.py",
         "scripts/tau2_live_summary.py",
         "scripts/browsecomp_live_benchmark.py",
@@ -1924,6 +1927,85 @@ def validate_external_benchmarks() -> None:
        "all-source evidence serializes no credential value")
 
 
+def validate_bfcl_compiler() -> None:
+    """The pre-registered BFCL gold-plan compiler substrate, exact and fail-closed."""
+
+    path = PAPER / "results/external_benchmarks/bfcl_compiler_execution.json"
+    ok(path.exists(), "BFCL gold-plan compiler evidence exists")
+    if not path.exists():
+        return
+    result = load(path)
+    ok(result.get("schema") == "agent-compaction-external-execution/v1",
+       "BFCL compiler evidence schema")
+    ok(result.get("source_revision") == "6ea57973c7a6097fd7c5915698c54c17c5b1b6c8",
+       "BFCL compiler evidence pins the sealed source revision")
+
+    dataset = result.get("dataset", {})
+    ok((dataset.get("tasks"), dataset.get("observed_calls"), dataset.get("unique_tools")) ==
+       (200, 1142, 81), "BFCL executed corpus size is exact")
+    ok(dataset.get("complete_observed_traces") == dataset.get("tasks"),
+       "every BFCL episode retains an observed result for every call")
+    ok(dataset.get("independent_groups") == 200,
+       "each BFCL task is one independent group")
+    ok(len(dataset.get("involved_classes") or []) == 8,
+       "all eight BFCL scenario classes are exercised")
+
+    replay = result.get("replay_oracle", {})
+    ok((replay.get("compared_calls"), replay.get("mismatched_calls")) == (1142, 0),
+       "BFCL re-execution reproduces every observed result exactly")
+
+    audit = result.get("execution_audit", {})
+    ok(audit.get("error_results") == 0,
+       "no BFCL gold call returned an upstream execution error")
+    mutation = audit.get("state_mutation_audit", {})
+    ok((mutation.get("mutating_calls"), mutation.get("rng_advancing_calls"),
+        mutation.get("tools_observed_mutating")) == (1060, 94, 44),
+       "BFCL empirical state-mutation audit counts are exact")
+    audits = result.get("catalog_audits", {})
+    ok((audits.get("read_like_declarations_observed_mutating"),
+        audits.get("compilable_declarations_observed_advancing_rng")) == (0, 0),
+       "no BFCL read-like or compilable declaration is looser than observed behaviour")
+
+    compiler = result.get("compiler", {})
+    ok((compiler.get("episodes"), compiler.get("candidate_windows"),
+        compiler.get("candidate_families"), compiler.get("families_support_ge_3")) ==
+       (200, 146, 77, 9), "BFCL mining counts are exact")
+    ok(compiler.get("maximum_family_support") == 15,
+       "BFCL maximum family support is exact")
+    held_out = compiler.get("held_out_recorded_replay", {})
+    ok((held_out.get("families_synthesized"), held_out.get("test_passed"),
+        held_out.get("test_abstained"), held_out.get("test_wrong")) == (4, 3, 3, 0),
+       "BFCL held-out recorded replay outcome is exact and never wrong")
+    gate = compiler.get("exact_gate", {})
+    ok((gate.get("minimum_zero_violation_groups"), gate.get("outcome"),
+        gate.get("certifiable_families_even_if_zero_violations")) == (92, "RETIRE", 0),
+       "BFCL exact gate retires every family")
+    ok(compiler.get("mining_parameters", {}).get("entry_schema") ==
+       ["inputs", "environment"],
+       "BFCL entry schema admits the published initial_config as well as user inputs")
+
+    pre = result.get("preregistration", {})
+    ok((pre.get("predeclared_gate_outcome"), pre.get("observed_gate_outcome"),
+        pre.get("prediction_held")) == ("RETIRE", "RETIRE", True),
+       "BFCL outcome matches the pre-registered expectation")
+    protocol = PAPER / "supplementary/bfcl-compiler-protocol.md"
+    ok(protocol.exists() and pre.get("protocol") ==
+       "paper/supplementary/bfcl-compiler-protocol.md",
+       "BFCL result cites its committed pre-registration protocol")
+
+    evidence = result.get("evidence", {})
+    ok(evidence.get("compiler_execution") is True and evidence.get("provider_calls") == 0,
+       "BFCL compiler substrate executed the compiler with zero provider calls")
+    ok(all(evidence.get(key) is False for key in (
+        "prompts_arguments_outputs_serialized",
+        "is_real_world_demo",
+        "is_live_provider_evaluation",
+        "licenses_end_to_end_planning_quality_claim",
+        "licenses_function_calling_accuracy_claim",
+        "licenses_production_safety_claim",
+    )), "BFCL compiler substrate claim boundary is fail-closed")
+
+
 def validate_slides() -> None:
     # One deck ships. It gained three section dividers when it was restyled onto the
     # seminar design system by paper/scripts/restyle_detailed_deck.py; the 27-slide
@@ -2172,6 +2254,7 @@ def main() -> None:
     validate_github_workflow_families()
     validate_github_multirepo_pr_outcome_core()
     validate_external_benchmarks()
+    validate_bfcl_compiler()
     validate_slide_generation()
     validate_slides()
     validate_no_secrets()

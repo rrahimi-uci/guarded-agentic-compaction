@@ -1,18 +1,17 @@
-\begin{tabular}{@{}lcc@{}}
+\begin{tabular}{@{}lccc@{}}
 \toprule
-Stage of \cref{alg:compile} & NESTFUL & API-Bank \\
+Stage of \cref{alg:compile} & NESTFUL & API-Bank & BFCL v4 \\
 \midrule
-Episodes / recorded traces                          & 1{,}415 & 212 \\
-Tools compilable / effect-blocked                   & ---     & 21 / 28 \\
+Episodes / recorded traces                          & 1{,}415 & 212 & 200 \\
+Tools compilable / effect-blocked                   & ---     & 21 / 28 & 34 / 47 \\
 \addlinespace[1pt]
-Dependency slots with producer recovered (1)        & 5{,}531 / 5{,}746 (96.3\%) & 559 / 881 (63.5\%) \\
-Episodes yielding an admissible window (2)          & 1{,}207 (85.3\%) & 37 (17.5\%) \\
-Families reaching the support floor (2)             & 32 & 19 \\
-Families that synthesize a program (4)              & 12 & 2 \\
-Held-out replay: pass / abstain / \textbf{wrong} (5)& 24 / 12 / \textbf{0} & 0 / 2 / \textbf{0} \\
+Dependency slots with producer recovered (1)        & 5{,}531 / 5{,}746 (96.3\%) & 559 / 881 (63.5\%) & 1{,}445 / 2{,}124 (68.0\%) \\
+Episodes yielding an admissible window (2)          & 1{,}207 (85.3\%) & 37 (17.5\%) & 86 (43.0\%) \\
+Families at or above the support floor (2)          & 32 & 8 & 9 \\
+Families that synthesize a program (4)              & 12 & 2 & 4 \\
+Held-out replay: pass / abstain / \textbf{wrong} (5)& 24 / 12 / \textbf{0} & 0 / 2 / \textbf{0} & 3 / 3 / \textbf{0} \\
 \addlinespace[1pt]
-Largest family support $n_{\max}$ (6)               & 26 & 8 \\
-Groups required at (6), Eq.~\eqref{eq:cp}            & 92 & 92 \\
-\textbf{Artifacts admitted}                         & \textbf{0} & \textbf{0} \\
+Largest family support $n_{\max}$ (6)               & 26 & 8 & 15 \\
+\textbf{Artifacts admitted}                         & \textbf{0} & \textbf{0} & \textbf{0} \\
 \bottomrule
 \end{tabular}

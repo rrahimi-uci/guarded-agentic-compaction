@@ -57,7 +57,8 @@ successful replay are not witnesses; only an expression in $\mathcal{L}$ is.
 
 \paragraph{2. Region mining and ranking.}
 The miner enumerates model-boundary-to-result windows of at most $w_{\max}$
-tool calls, qualifies effects and live-ins, and hashes tool signatures,
+tool calls, qualifies live-ins and effects against a human-signed rather than
+inferred catalog, and hashes tool signatures,
 dependency topology, run shape, and live-in/live-out shape while abstracting
 literal values. Families require support across independent scenario
 \emph{groups} rather than raw event frequency, which prevents a single chatty

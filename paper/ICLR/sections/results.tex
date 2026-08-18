@@ -58,24 +58,24 @@ reaches 180/180 exact pairs with 66.7\% fewer requests.
 
 \begin{table}[t]
   \centering
-  \caption{Where refusal happens. Both benchmarks clear provenance, synthesis,
-  and replay, then retire at calibration with \emph{zero} wrong held-out
-  executions: the binding constraint is sample size, not correctness. Stages
-  refer to \cref{alg:compile}.}
+  \caption{Where refusal happens. All three benchmarks clear provenance,
+  synthesis, and replay with \emph{zero} wrong held-out executions, then retire
+  at calibration: sample size binds, not correctness. Stages refer to
+  \cref{alg:compile}; all three need 92 zero-violation groups by
+  Eq.~\eqref{eq:cp}.}
   \label{tab:funnel}
   \footnotesize
   \setlength{\tabcolsep}{4pt}
   \input{tables/refusal_funnel.tex}
 \end{table}
 
-The external benchmarks expose the opposite outcome. NESTFUL clears
-provenance, synthesis, and held-out replay: 12 families synthesize, with 24
-replays passing and none wrong. Yet its largest family has only 26 groups,
-below the 92 zero-violation groups required by \cref{eq:cp}, so every candidate
-retires (\cref{tab:funnel}). API-Bank fails earlier: its effect catalog blocks
-28 of 49 tools before mining, leaving maximum support of eight; its two
-synthesized candidates also retire.
+The external benchmarks expose the opposite outcome, stage by stage in
+\cref{tab:funnel}. All three clear provenance, synthesis, and held-out replay
+with \emph{no} wrong execution anywhere, and all three still retire: their
+largest families reach 26, 8, and 15 groups against the 92 that \cref{eq:cp}
+requires. Executed BFCL gold plans are the pre-registered case: their outcome was
+recorded before the compiler saw them.
 
-Both benchmarks therefore separate trace-level properties from deployment
-evidence: provenance reachability and replay correctness identify a plausible
-program without certifying that it should replace a model.
+All three therefore separate trace-level properties from deployment evidence:
+provenance reachability and replay correctness identify a plausible program
+without certifying that it should replace a model.
