@@ -52,6 +52,12 @@ from guarded_agentic_compaction.capture.agents_sdk import (  # noqa: E402
     episode_from_agents_trace,
 )
 from guarded_agentic_compaction.capture.manifests import build_manifest  # noqa: E402
+from guarded_agentic_compaction.benchmarking.headroom import (  # noqa: E402
+    HeadroomAblationConfig,
+    HeadroomCompression,
+    HeadroomCompressor,
+    aggregate_headroom,
+)
 from guarded_agentic_compaction.evaluation.splits import Splits  # noqa: E402
 from guarded_agentic_compaction.grc.compile import GrcConfig, compile_grc  # noqa: E402
 from guarded_agentic_compaction.grc.composite import synthesize_composite  # noqa: E402
@@ -84,6 +90,13 @@ from demos.live_runtime import observations_from_trace, trace_metrics  # noqa: E
 OUT_ROOT = ROOT / "paper/results/github_workflow_families"
 DATA_PATH = fixed.DATA_PATH
 CONDITIONS = ("baseline", "compiled", "manual_pre_model")
+HEADROOM_CONDITIONS = ("headroom_only", "compiled_headroom")
+
+
+def evaluation_conditions(*, headroom_ablation: bool) -> tuple[str, ...]:
+    """Return a sealed condition set without altering historical three-arm runs."""
+
+    return CONDITIONS + HEADROOM_CONDITIONS if headroom_ablation else CONDITIONS
 
 
 class PullRequestOutcomeAnswer(BaseModel):
@@ -313,14 +326,27 @@ def grade(spec: FamilySpec, row: dict[str, Any], answer: dict[str, Any], tools: 
     }
 
 
-def _wrap_function_tool(tool: Any) -> Any:
+def _wrap_function_tool(
+    tool: Any,
+    *,
+    headroom: HeadroomCompressor | None = None,
+    headroom_records: list[HeadroomCompression] | None = None,
+) -> Any:
     from agents import FunctionTool
 
     original = tool.on_invoke_tool
 
     async def invoke(context: Any, args_json: str) -> str:
         value = await original(context, args_json)
-        return json.dumps(value, sort_keys=True, default=str)
+        content = json.dumps(value, sort_keys=True, default=str)
+        if headroom is None:
+            return content
+        record = headroom.compress_json(
+            content, required_fields=("record_number", "source_revision")
+        )
+        if headroom_records is not None:
+            headroom_records.append(record)
+        return record.content
 
     return FunctionTool(
         name=tool.name,
@@ -331,7 +357,13 @@ def _wrap_function_tool(tool: Any) -> Any:
     )
 
 
-def make_tools(spec: FamilySpec, store: dict[int, dict[str, Any]]) -> tuple[Any, ...]:
+def make_tools(
+    spec: FamilySpec,
+    store: dict[int, dict[str, Any]],
+    *,
+    headroom: HeadroomCompressor | None = None,
+    headroom_records: list[HeadroomCompression] | None = None,
+) -> tuple[Any, ...]:
     from agents import function_tool
 
     if spec.name == "pr_outcome":
@@ -374,7 +406,9 @@ def make_tools(spec: FamilySpec, store: dict[int, dict[str, Any]]) -> tuple[Any,
                 "source_revision": fixed.HF_REVISION,
             }
 
-        return tuple(_wrap_function_tool(value) for value in (
+        return tuple(_wrap_function_tool(
+            value, headroom=headroom, headroom_records=headroom_records
+        ) for value in (
             pr_get_record, pr_get_merge_status, pr_get_discussion
         ))
 
@@ -419,7 +453,9 @@ def make_tools(spec: FamilySpec, store: dict[int, dict[str, Any]]) -> tuple[Any,
             "source_revision": fixed.HF_REVISION,
         }
 
-    return tuple(_wrap_function_tool(value) for value in (
+    return tuple(_wrap_function_tool(
+        value, headroom=headroom, headroom_records=headroom_records
+    ) for value in (
         backlog_get_record, backlog_get_ownership, backlog_get_discussion
     ))
 
@@ -651,6 +687,8 @@ async def run_batch(
     fallback_tools: Sequence[Any] = (),
     fallback_manifest: Any | None = None,
     instructions: str | None = None,
+    headroom: HeadroomCompressor | None = None,
+    headroom_records: list[HeadroomCompression] | None = None,
 ) -> tuple[list[fixed.RunResult], list[dict[str, Any]]]:
     from agents import RunConfig, Runner
 
@@ -695,10 +733,18 @@ async def run_batch(
         agent = make_agent(spec, model_name, effective_tools, instructions=instructions)
         user_input = f"Audit public snapshot record_number={number}"
         if pre_result is not None:
+            evidence = json.dumps(
+                pre_result.observations[0].result, sort_keys=True, separators=(",", ":")
+            )
+            if headroom is not None:
+                compression = headroom.compress_json(evidence)
+                if headroom_records is not None:
+                    headroom_records.append(compression)
+                evidence = compression.content
             user_input += (
                 "\nThe runtime already executed an approved guarded evidence plan. "
                 "Do not call tools. Use only this source-grounded JSON evidence:\n"
-                + json.dumps(pre_result.observations[0].result, sort_keys=True, separators=(",", ":"))
+                + evidence
             )
         async with semaphore:
             started = time.perf_counter()
@@ -833,7 +879,38 @@ def select_cases(
     seed: int,
     excluded: set[int],
     fixed_discovery_numbers: Sequence[int] = (),
+    fixed_test_numbers: Sequence[int] = (),
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, Any]]:
+    if fixed_test_numbers:
+        if not fixed_discovery_numbers:
+            raise RuntimeError("a sealed held-out cohort requires its sealed discovery cohort")
+        discovery = [store[int(number)] for number in fixed_discovery_numbers]
+        test = [store[int(number)] for number in fixed_test_numbers]
+        if (len(discovery) != discovery_n or len(test) != test_n
+                or not all(spec.eligible(row) for row in (*discovery, *test))):
+            raise RuntimeError("sealed selection is incomplete or family-ineligible")
+        discovery_ids = {int(row["number"]) for row in discovery}
+        test_ids = {int(row["number"]) for row in test}
+        if discovery_ids & test_ids:
+            raise RuntimeError("sealed discovery and held-out cohorts overlap")
+        selection = {
+            "schema": "agent-compaction-github-family-selection/v1",
+            "family": spec.name,
+            "seed": seed,
+            "selection_uses_provider_outcomes": False,
+            "discovery_reused_from_sealed_checkpoint": True,
+            "test_reused_from_sealed_checkpoint": True,
+            "excluded_prior_record_numbers": len(excluded),
+            "discovery": [int(row["number"]) for row in discovery],
+            "test": [int(row["number"]) for row in test],
+            "discovery_class_counts": dict(Counter(spec.class_for(row) for row in discovery)),
+            "test_class_counts": dict(Counter(spec.class_for(row) for row in test)),
+            "fresh_pool_counts_before_selection": {},
+            "class_balance_rule": "reuses an existing provider-outcome-free sealed cohort",
+            "disjoint": True,
+        }
+        return discovery, test, selection
+
     pools: dict[str, list[dict[str, Any]]] = {name: [] for name in spec.classes}
     for row in store.values():
         if int(row["number"]) in excluded or not spec.eligible(row):
@@ -885,6 +962,7 @@ def select_cases(
         "seed": seed,
         "selection_uses_provider_outcomes": False,
         "discovery_reused_from_sealed_checkpoint": bool(fixed_discovery_numbers),
+        "test_reused_from_sealed_checkpoint": False,
         "excluded_prior_record_numbers": len(excluded),
         "discovery": [int(row["number"]) for row in discovery],
         "test": [int(row["number"]) for row in test],
@@ -1062,7 +1140,13 @@ def make_manual_plan(
     )
 
 
-def paired(baseline: Sequence[Any], candidate: Sequence[Any], name: str) -> dict[str, Any]:
+def paired(
+    baseline: Sequence[Any],
+    candidate: Sequence[Any],
+    name: str,
+    *,
+    reference_label: str = "baseline",
+) -> dict[str, Any]:
     from scipy.stats import binomtest, wilcoxon
 
     left = {int(run.issue_number): run for run in baseline}
@@ -1081,9 +1165,9 @@ def paired(baseline: Sequence[Any], candidate: Sequence[Any], name: str) -> dict
         except ValueError:
             p_value = 1.0
         metrics[metric] = {
-            "baseline_mean": statistics.mean(before) if before else None,
+            f"{reference_label}_mean": statistics.mean(before) if before else None,
             f"{name}_mean": statistics.mean(after) if after else None,
-            f"paired_difference_{name}_minus_baseline": statistics.mean(diffs) if diffs else None,
+            f"paired_difference_{name}_minus_{reference_label}": statistics.mean(diffs) if diffs else None,
             "paired_difference_95pct_bootstrap_ci": list(fixed.bootstrap_ci(diffs)),
             "aggregate_reduction": 1.0 - sum(after) / sum(before) if sum(before) else 0.0,
             "wilcoxon_p": p_value,
@@ -1096,7 +1180,7 @@ def paired(baseline: Sequence[Any], candidate: Sequence[Any], name: str) -> dict
         candidate_only = sum(b and not a for a, b in zip(before, after))
         discordant = baseline_only + candidate_only
         quality[metric] = {
-            "baseline_rate": statistics.mean(before) if before else None,
+            f"{reference_label}_rate": statistics.mean(before) if before else None,
             f"{name}_rate": statistics.mean(after) if after else None,
             "paired_difference": (
                 statistics.mean(after) - statistics.mean(before) if before else None
@@ -1106,7 +1190,7 @@ def paired(baseline: Sequence[Any], candidate: Sequence[Any], name: str) -> dict
                 if discordant
                 else 1.0
             ),
-            "baseline_only_successes": baseline_only,
+            f"{reference_label}_only_successes": baseline_only,
             f"{name}_only_successes": candidate_only,
         }
     return {"candidate_label": name, "n_pairs": len(common), "metrics": metrics, "quality": quality}
@@ -1229,10 +1313,12 @@ def reconstruct_discovery(
 async def run(args: argparse.Namespace) -> dict[str, Any]:
     load_dotenv(ROOT / ".env")
     spec = FAMILIES[args.family]
+    conditions = evaluation_conditions(headroom_ablation=args.headroom_ablation)
     store, source_audit = load_store()
     output_dir = OUT_ROOT / spec.name / args.run_tag
     external_checkpoint = None
     fixed_discovery_numbers: list[int] = []
+    fixed_test_numbers: list[int] = []
     if args.discovery_checkpoint is not None:
         external_checkpoint = json.loads(args.discovery_checkpoint.read_text(encoding="utf-8"))
         if external_checkpoint.get("family") != spec.name:
@@ -1240,6 +1326,22 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
         fixed_discovery_numbers = [
             int(value["issue_number"]) for value in external_checkpoint.get("results", ())
         ]
+    if args.sealed_selection is not None:
+        sealed = json.loads(args.sealed_selection.read_text(encoding="utf-8"))
+        selection = sealed.get("selection", {})
+        sealed_run = sealed.get("run", {})
+        if sealed_run.get("family") != spec.name:
+            raise RuntimeError("sealed selection belongs to a different family")
+        fixed_discovery_numbers = [int(value) for value in selection.get("discovery", ())]
+        fixed_test_numbers = [int(value) for value in selection.get("test", ())]
+        if not fixed_discovery_numbers or not fixed_test_numbers:
+            raise RuntimeError("sealed selection must contain both discovery and held-out records")
+        if external_checkpoint is not None:
+            checkpoint_numbers = [
+                int(value["issue_number"]) for value in external_checkpoint.get("results", ())
+            ]
+            if checkpoint_numbers != fixed_discovery_numbers:
+                raise RuntimeError("discovery checkpoint does not match the sealed selection")
     discovery_rows, test_rows, selection = select_cases(
         spec,
         store,
@@ -1248,6 +1350,7 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
         seed=args.seed,
         excluded=_prior_numbers(current_output=output_dir),
         fixed_discovery_numbers=fixed_discovery_numbers,
+        fixed_test_numbers=fixed_test_numbers,
     )
     output_dir.mkdir(parents=True, exist_ok=True)
     preflight_path = output_dir / "preflight.json"
@@ -1258,16 +1361,27 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
         "source": source_audit,
         "selection": selection,
         "provider_calls": 0,
+        "execution_status": "preflight_only" if args.preflight_only else "not_started",
+        "spend_authorization_required_before_execution": bool(args.headroom_ablation),
         "real_public_records": True,
         "simulated": False,
         "exact_contract": True,
         "distinct_tool_vocabulary": list(spec.tools),
+        "conditions": list(conditions),
+        "headroom_ablation": (
+            HeadroomAblationConfig(model=args.model).as_dict()
+            if args.headroom_ablation else None
+        ),
     }
     preflight_path.write_text(json.dumps(preflight, indent=2, sort_keys=True) + "\n")
     if args.preflight_only:
         return {"preflight": preflight}
     if not os.getenv("OPENAI_API_KEY"):
         raise RuntimeError("OPENAI_API_KEY is not set")
+    headroom = (
+        HeadroomCompressor.installed(config=HeadroomAblationConfig(model=args.model))
+        if args.headroom_ablation else None
+    )
     result_path = output_dir / ("smoke.json" if args.smoke else "results.json")
     if result_path.exists() and not args.force:
         raise RuntimeError(f"refusing to overwrite {result_path}; pass --force")
@@ -1392,7 +1506,8 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
     failures: list[dict[str, Any]] = []
     if args.resume and evaluation_checkpoint.exists():
         saved_evaluation = json.loads(evaluation_checkpoint.read_text(encoding="utf-8"))
-        if saved_evaluation.get("selection") != selection:
+        if (saved_evaluation.get("selection") != selection
+                or tuple(saved_evaluation.get("conditions", CONDITIONS)) != conditions):
             raise RuntimeError("evaluation checkpoint does not match the frozen selection")
         results = [
             SimpleNamespace(
@@ -1412,8 +1527,15 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
         ]
         failures = list(saved_evaluation.get("failures", ()))
     completed = {(row.condition, int(row.issue_number)) for row in results}
+    headroom_records: dict[str, list[HeadroomCompression]] = {
+        condition: [] for condition in HEADROOM_CONDITIONS if condition in conditions
+    }
     schedule: list[dict[str, Any]] = []
-    orders = list(permutations(CONDITIONS))
+    if args.headroom_ablation:
+        forward = [conditions[offset:] + conditions[:offset] for offset in range(len(conditions))]
+        orders = forward + [tuple(reversed(order)) for order in forward]
+    else:
+        orders = list(permutations(conditions))
     for index, row in enumerate(test_rows):
         order = orders[index % len(orders)]
         schedule.append({"record_number": int(row["number"]), "order": list(order)})
@@ -1423,6 +1545,17 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
             kwargs: dict[str, Any] = {}
             condition_tools: Sequence[Any] = tools
             manifest = baseline_manifest
+            if condition in HEADROOM_CONDITIONS:
+                condition_tools = make_tools(
+                    spec,
+                    store,
+                    headroom=headroom,
+                    headroom_records=headroom_records[condition],
+                )
+                kwargs.update({
+                    "headroom": headroom,
+                    "headroom_records": headroom_records[condition],
+                })
             if condition == "compiled":
                 condition_tools = ()
                 manifest = continuation_manifest
@@ -1440,6 +1573,20 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
                     "fallback_tools": tools,
                     "fallback_manifest": baseline_manifest,
                 }
+            elif condition == "compiled_headroom":
+                condition_tools = ()
+                manifest = continuation_manifest
+                kwargs.update({
+                    "registry": registry,
+                    "artifact_manifest": source_manifest,
+                    "fallback_tools": make_tools(
+                        spec,
+                        store,
+                        headroom=headroom,
+                        headroom_records=headroom_records[condition],
+                    ),
+                    "fallback_manifest": baseline_manifest,
+                })
             rows, errors = await run_batch(
                 spec,
                 [row],
@@ -1463,6 +1610,7 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
                         "schema": "agent-compaction-github-family-evaluation-checkpoint/v1",
                         "family": spec.name,
                         "selection": selection,
+                        "conditions": list(conditions),
                         "results": [value.public_dict() for value in results],
                         "failures": failures,
                     },
@@ -1474,8 +1622,8 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
                 encoding="utf-8",
             )
 
-    grouped = {condition: [row for row in results if row.condition == condition] for condition in CONDITIONS}
-    complete = all(len(grouped[name]) == args.test_cases for name in CONDITIONS)
+    grouped = {condition: [row for row in results if row.condition == condition] for condition in conditions}
+    complete = all(len(grouped[name]) == args.test_cases for name in conditions)
     payload = {
         "schema": "agent-compaction-github-workflow-family/v1",
         "run": {
@@ -1492,6 +1640,8 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
             "openai_api_key_used": True,
             "secrets_serialized": False,
             "comparative_claim_allowed": bool(complete and not failures),
+            "headroom_ablation": args.headroom_ablation,
+            "approved_spend_usd": args.approved_spend_usd if args.headroom_ablation else None,
             "resolved_config": vars(args),
         },
         "source": source_audit,
@@ -1510,7 +1660,35 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
             "baseline_vs_manual_pre_model": paired(
                 grouped["baseline"], grouped["manual_pre_model"], "manual_pre_model"
             ),
+            **(
+                {
+                    "baseline_vs_headroom_only": paired(
+                        grouped["baseline"], grouped["headroom_only"], "headroom_only"
+                    ),
+                    "compiled_vs_compiled_headroom": paired(
+                        grouped["compiled"],
+                        grouped["compiled_headroom"],
+                        "compiled_headroom",
+                        reference_label="compiled",
+                    ),
+                }
+                if args.headroom_ablation else {}
+            ),
         },
+        "headroom": (
+            {
+                "config": HeadroomAblationConfig(model=args.model).as_dict(),
+                "condition_audits": {
+                    condition: aggregate_headroom(records)
+                    for condition, records in sorted(headroom_records.items())
+                },
+                "claim_boundary": (
+                    "Headroom is an optional payload-compression comparator. It does not "
+                    "modify the GRC admission gate, compiler, or fallback policy."
+                ),
+            }
+            if args.headroom_ablation else None
+        ),
         "failures": failures,
         "results": [value.public_dict() for value in results],
         "metric_definitions": {
@@ -1535,15 +1713,33 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--seed", type=int, default=20260805)
     parser.add_argument("--run-tag", default="final")
     parser.add_argument("--discovery-checkpoint", type=Path)
+    parser.add_argument(
+        "--sealed-selection",
+        type=Path,
+        help="reuse a prior result's provider-outcome-free discovery and held-out cohorts",
+    )
     parser.add_argument("--preflight-only", action="store_true")
     parser.add_argument("--smoke", action="store_true")
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--force", action="store_true")
+    parser.add_argument(
+        "--headroom-ablation",
+        action="store_true",
+        help="add Headroom-only and GAC-plus-Headroom conditions using headroom-ai==0.5.18",
+    )
+    parser.add_argument(
+        "--approved-spend-usd",
+        type=float,
+        help="explicit user-approved maximum spend required for a live Headroom ablation",
+    )
     args = parser.parse_args()
     if args.discovery_cases < 116 and not (args.preflight_only or args.smoke):
         parser.error("--discovery-cases must be at least 116 for the exact gate")
     if args.test_cases <= 0 or args.concurrency <= 0:
         parser.error("--test-cases and --concurrency must be positive")
+    if (args.headroom_ablation and not args.preflight_only
+            and (args.approved_spend_usd is None or args.approved_spend_usd <= 0)):
+        parser.error("live Headroom ablations require a positive --approved-spend-usd")
     return args
 
 

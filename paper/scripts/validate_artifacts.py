@@ -1584,6 +1584,48 @@ def validate_no_secrets() -> None:
     ok(not findings, f"publication tree contains no API-secret-shaped value ({findings})")
 
 
+def validate_headroom_ablation_preflights() -> None:
+    """Keep the unrun Headroom protocol visibly separate from live evidence."""
+
+    conditions = [
+        "baseline", "compiled", "manual_pre_model", "headroom_only", "compiled_headroom"
+    ]
+    for family in ("pr_outcome", "backlog_attention"):
+        path = PAPER / f"results/github_workflow_families/{family}/headroom_ablation/preflight.json"
+        final_path = PAPER / f"results/github_workflow_families/{family}/final/results.json"
+        ok(path.exists(), f"{family}: Headroom ablation preflight exists")
+        ok(final_path.exists(), f"{family}: source final selection exists for Headroom preflight")
+        if not path.exists() or not final_path.exists():
+            continue
+        preflight = load(path)
+        final = load(final_path)
+        config = preflight.get("headroom_ablation", {})
+        selection = preflight.get("selection", {})
+        original = final.get("selection", {})
+        ok(preflight.get("schema") == "agent-compaction-github-family-preflight/v1",
+           f"{family}: Headroom preflight schema")
+        ok(preflight.get("provider_calls") == 0
+           and preflight.get("execution_status") == "preflight_only",
+           f"{family}: Headroom preflight made no provider calls")
+        ok(preflight.get("real_public_records") is True and preflight.get("simulated") is False,
+           f"{family}: Headroom preflight retains real-record provenance")
+        ok(preflight.get("conditions") == conditions,
+           f"{family}: Headroom preflight seals all five conditions")
+        ok(config.get("package") == "headroom-ai" and config.get("version") == "0.5.18"
+           and config.get("cross_session_memory") is False
+           and config.get("output_shaping") is False
+           and config.get("learning") is False
+           and config.get("retrieval_tool") is False,
+           f"{family}: Headroom preflight pins the isolated comparator configuration")
+        ok(selection.get("discovery") == original.get("discovery")
+           and selection.get("test") == original.get("test")
+           and selection.get("discovery_reused_from_sealed_checkpoint") is True
+           and selection.get("test_reused_from_sealed_checkpoint") is True,
+           f"{family}: Headroom preflight reuses the sealed paired cohort")
+        ok(not (path.parent / "results.json").exists(),
+           f"{family}: no unverified Headroom provider result is present")
+
+
 def validate_github_workflow_families() -> None:
     """Recompute the new real-record family claims from condition-level evidence."""
 
@@ -2170,6 +2212,7 @@ def main() -> None:
     validate_manifest()
     validate_claim_boundaries()
     validate_publication()
+    validate_headroom_ablation_preflights()
     validate_github_workflow_families()
     validate_github_multirepo_pr_outcome_core()
     validate_external_benchmarks()
