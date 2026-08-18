@@ -1609,6 +1609,21 @@ dominance over a correct manual implementation.  All records come from one snaps
 one repository, so RQ6 is supported for workflow-family transfer only, not cross-repository
 or time-forward generalization.
 
+\paragraph{Context-compression ablation.}
+To distinguish replacing model-mediated decisions from merely shortening the remaining
+context, we reran the PR-outcome and backlog-attention cohorts with version-pinned
+Headroom 0.5.18.  The paired design adds Headroom-only and \method plus Headroom to the
+unchanged and compiled conditions (and retains the manual pre-model reference as a fifth
+arm).  At the deliberately narrow, model-visible JSON boundary, Headroom attempted 120
+eligible payloads per family (90 tool results and 30 compiled evidence objects), applied
+zero transformations, and saved zero tokens.  All four new paired quality contrasts remain
+30/30 versus 30/30 exact contracts (McNemar $p=1$).  The observed total-token differences
+are therefore ordinary generation variation rather than compression: Headroom-only is
+$-0.15\%$ on PR outcome and $+0.30\%$ on backlog attention, while \method plus Headroom is
+$+0.28\%$ and $+0.25\%$ relative to \method alone.  This is a negative result for this
+short JSON-payload boundary, not evidence that Headroom cannot help on longer or differently
+shaped contexts; it neither changes the compiler nor enters the primary 90-record aggregate.
+
 \subsubsection{Cross-repository, time-forward extension}
 \label{sec:multirepo-results}
 

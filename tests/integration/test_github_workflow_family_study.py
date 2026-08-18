@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+import asyncio
 import json
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -89,3 +91,39 @@ def test_backlog_attention_exact_grader_and_snapshot_tools() -> None:
     assert study.grade(spec, row, answer, spec.tools)["overall"] is True
     answer["owner"] = "not-the-owner"
     assert study.grade(spec, row, answer, spec.tools)["overall"] is False
+
+
+def test_headroom_ablation_preflight_is_provider_free_and_seals_all_five_conditions(
+    monkeypatch, tmp_path
+) -> None:
+    monkeypatch.setattr(study, "OUT_ROOT", tmp_path)
+    args = SimpleNamespace(
+        family="pr_outcome",
+        model="gpt-5.6-luna",
+        discovery_cases=132,
+        test_cases=30,
+        concurrency=1,
+        seed=20260805,
+        run_tag="headroom_ablation",
+        discovery_checkpoint=None,
+        sealed_selection=(
+            ROOT / "paper/results/github_workflow_families/pr_outcome/final/results.json"
+        ),
+        preflight_only=True,
+        smoke=False,
+        resume=False,
+        force=False,
+        headroom_ablation=True,
+        approved_spend_usd=None,
+    )
+
+    payload = asyncio.run(study.run(args))["preflight"]
+
+    assert payload["provider_calls"] == 0
+    assert payload["execution_status"] == "preflight_only"
+    assert payload["selection"]["test_reused_from_sealed_checkpoint"] is True
+    assert payload["conditions"] == [
+        "baseline", "compiled", "manual_pre_model", "headroom_only", "compiled_headroom"
+    ]
+    assert payload["headroom_ablation"]["version"] == "0.5.18"
+    assert not list(tmp_path.rglob("results.json"))
