@@ -1,0 +1,745 @@
+{
+  "name": "paper-github-pr_outcome",
+  "kill_switch": false,
+  "active_stages": [
+    "active"
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "cand-00-a1de3856bb6c",
+      "name": "pr_get_record.pr_get_merge_status.region@a1de3856",
+      "kind": "grc",
+      "version": 1,
+      "program": {
+        "theta": [
+          "record_number"
+        ],
+        "steps": [
+          {
+            "kind": "call",
+            "var": "pr",
+            "tool": "pr_get_record",
+            "args": {
+              "record_number": {
+                "kind": "expr",
+                "source": "z.record_number",
+                "ops": []
+              }
+            },
+            "when": null,
+            "schema_version": null
+          },
+          {
+            "kind": "call",
+            "var": "pr2",
+            "tool": "pr_get_merge_status",
+            "args": {
+              "record_number": {
+                "kind": "expr",
+                "source": "pr.record_number",
+                "ops": []
+              }
+            },
+            "when": null,
+            "schema_version": null
+          },
+          {
+            "kind": "call",
+            "var": "pr3",
+            "tool": "pr_get_discussion",
+            "args": {
+              "limit": {
+                "kind": "const",
+                "value": 3
+              },
+              "record_number": {
+                "kind": "expr",
+                "source": "pr.record_number",
+                "ops": []
+              }
+            },
+            "when": null,
+            "schema_version": null
+          }
+        ],
+        "outputs": {
+          "pr": {
+            "kind": "expr",
+            "source": "pr",
+            "ops": []
+          },
+          "pr2": {
+            "kind": "expr",
+            "source": "pr2",
+            "ops": []
+          },
+          "pr3": {
+            "kind": "expr",
+            "source": "pr3",
+            "ops": []
+          }
+        },
+        "library_version": "T-v1",
+        "removed_requests": 3.0,
+        "tools": [
+          "pr_get_record",
+          "pr_get_merge_status",
+          "pr_get_discussion"
+        ],
+        "composite": {
+          "name": "compiled_pr_get_record_2bd34511a8",
+          "description": "Guarded composite synthesized from a verified recurrent read program.",
+          "inputs": [
+            "record_number"
+          ],
+          "projection": {
+            "comments": {
+              "kind": "expr",
+              "source": "pr3.comments",
+              "ops": []
+            },
+            "is_merged": {
+              "kind": "expr",
+              "source": "pr2.is_merged",
+              "ops": []
+            },
+            "record_number": {
+              "kind": "expr",
+              "source": "pr.record_number",
+              "ops": []
+            },
+            "source_revision": {
+              "kind": "expr",
+              "source": "pr.source_revision",
+              "ops": []
+            },
+            "state": {
+              "kind": "expr",
+              "source": "pr.state",
+              "ops": []
+            },
+            "title": {
+              "kind": "expr",
+              "source": "pr.title",
+              "ops": []
+            }
+          },
+          "internal_tools": [
+            "pr_get_record",
+            "pr_get_merge_status",
+            "pr_get_discussion"
+          ],
+          "pre_model": true,
+          "continuation_compatibility_key": "2b9947513001c59e",
+          "schema_version": 1
+        }
+      },
+      "route": null,
+      "guard": {
+        "manifest_pins": {
+          "model": "gpt-5.6-luna",
+          "prompt_hash": "#46773695",
+          "tools_hash": "#77db95dc",
+          "policy_hash": "#00e10402",
+          "guardrail_hash": "#a9614876",
+          "effect_catalog_version": "github-pr_outcome-pinned-reads@1#821a5aef76e5ebf1",
+          "entry_contract_version": "github-pr_outcome-record-number-v1"
+        },
+        "isolation": {},
+        "clauses": [
+          {
+            "path": "z.record_number",
+            "type_name": "int",
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "required": true,
+            "role": "hull"
+          }
+        ],
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "required_capabilities": [
+          "speculatable",
+          "replayable"
+        ]
+      },
+      "verifier": {
+        "clauses": [
+          {
+            "name": "pr",
+            "type_name": "dict",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "pr_get_record"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "pr.record_number",
+            "type_name": "int",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "pr_get_record"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "pr.source_revision",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "e344be7b84d199661a9956036991e1fc25715a47"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "pr_get_record"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "pr.state",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "closed",
+                "open"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "pr_get_record"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "pr.title",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "pr_get_record"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "pr2",
+            "type_name": "dict",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "pr_get_merge_status"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "pr2.is_merged",
+            "type_name": "bool",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                false,
+                true
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "pr_get_merge_status"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "pr2.record_number",
+            "type_name": "int",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "pr_get_merge_status"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "pr2.source_revision",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "e344be7b84d199661a9956036991e1fc25715a47"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "pr_get_merge_status"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "pr3",
+            "type_name": "dict",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "pr_get_discussion"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "pr3.comments",
+            "type_name": "list",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": 3,
+            "min_len": 0,
+            "provenance": [
+              "pr_get_discussion"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "pr3.record_number",
+            "type_name": "int",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "pr_get_discussion"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "pr3.source_revision",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "e344be7b84d199661a9956036991e1fc25715a47"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "pr_get_discussion"
+            ],
+            "present_iff": null
+          }
+        ],
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "call_counts": [
+          3
+        ]
+      },
+      "gate": {
+        "model": {
+          "features": [
+            "unseen_category",
+            "knn_distance",
+            "missing_optional",
+            "hull_margin",
+            "drift_days",
+            "provenance_ambiguity",
+            "branch_entropy"
+          ],
+          "weights": [
+            0.0,
+            0.0,
+            0.0,
+            1.2876427485983468,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "bias": -0.6060873903367311,
+          "feature_means": [
+            0.0,
+            0.0,
+            0.0,
+            0.25,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "feature_scales": [
+            1.0,
+            1.0,
+            1.0,
+            0.25,
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        "features_spec": {
+          "paths": [
+            "z.record_number"
+          ],
+          "hull_kinds": {
+            "z.record_number": "any"
+          },
+          "categories": {},
+          "numeric_ranges": {},
+          "patterns": {},
+          "max_day": "2024-11-08",
+          "provenance_ambiguity": 1.0,
+          "branch_entropy": 0.0
+        },
+        "threshold": 0.5,
+        "grid": [
+          0.02,
+          0.05,
+          0.08,
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "alpha": 0.05,
+        "delta": 0.1,
+        "n_calibration_groups": 92,
+        "n_accepted": 92,
+        "observed_violations": 0,
+        "risk_upper_bound": 0.049808920112407784,
+        "coverage": 1.0,
+        "admissible": [
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "retire": false,
+        "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.17, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.2, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.25, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.3, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.4, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.5, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}]"
+      },
+      "manifest": {
+        "manifest_id": "9c2d27abc964",
+        "commit": "workspace-without-git-metadata",
+        "model": "gpt-5.6-luna",
+        "prompt_hash": "#46773695",
+        "tools_hash": "#77db95dc",
+        "policy_hash": "#00e10402",
+        "guardrail_hash": "#a9614876",
+        "effect_catalog_version": "github-pr_outcome-pinned-reads@1#821a5aef76e5ebf1",
+        "entry_contract_version": "github-pr_outcome-record-number-v1",
+        "sdk_version": "0.19.2",
+        "tracer_version": "agent-compaction/0.6.0"
+      },
+      "compatibility_key": "9c2d27abc964b0af",
+      "partition": {},
+      "evidence": {
+        "support_groups": 16,
+        "total_groups": 16,
+        "support_principals": 1,
+        "support_days": 16,
+        "removed_requests": 3.0,
+        "split_ids": {
+          "train": [
+            "github-pr_outcome:1058",
+            "github-pr_outcome:1203",
+            "github-pr_outcome:1318",
+            "github-pr_outcome:1394",
+            "github-pr_outcome:1650",
+            "github-pr_outcome:1927",
+            "github-pr_outcome:2039",
+            "github-pr_outcome:4016",
+            "github-pr_outcome:5140",
+            "github-pr_outcome:5449",
+            "github-pr_outcome:5509",
+            "github-pr_outcome:6289",
+            "github-pr_outcome:6416",
+            "github-pr_outcome:7094",
+            "github-pr_outcome:7224",
+            "github-pr_outcome:7283"
+          ],
+          "dev": [
+            "github-pr_outcome:1474",
+            "github-pr_outcome:2792",
+            "github-pr_outcome:3042",
+            "github-pr_outcome:3199",
+            "github-pr_outcome:4660",
+            "github-pr_outcome:5347",
+            "github-pr_outcome:593",
+            "github-pr_outcome:7132"
+          ],
+          "calibration": [
+            "github-pr_outcome:1021",
+            "github-pr_outcome:1122",
+            "github-pr_outcome:1128",
+            "github-pr_outcome:113",
+            "github-pr_outcome:1147",
+            "github-pr_outcome:1172",
+            "github-pr_outcome:1204",
+            "github-pr_outcome:1206",
+            "github-pr_outcome:1293",
+            "github-pr_outcome:1333",
+            "github-pr_outcome:1369",
+            "github-pr_outcome:1520",
+            "github-pr_outcome:1537",
+            "github-pr_outcome:154",
+            "github-pr_outcome:1574",
+            "github-pr_outcome:1658",
+            "github-pr_outcome:1742",
+            "github-pr_outcome:2150",
+            "github-pr_outcome:2198",
+            "github-pr_outcome:2249",
+            "github-pr_outcome:2355",
+            "github-pr_outcome:2384",
+            "github-pr_outcome:2491",
+            "github-pr_outcome:253",
+            "github-pr_outcome:2582",
+            "github-pr_outcome:2725",
+            "github-pr_outcome:2960",
+            "github-pr_outcome:33",
+            "github-pr_outcome:3364",
+            "github-pr_outcome:3375",
+            "github-pr_outcome:3436",
+            "github-pr_outcome:344",
+            "github-pr_outcome:3489",
+            "github-pr_outcome:3607",
+            "github-pr_outcome:3774",
+            "github-pr_outcome:3812",
+            "github-pr_outcome:3913",
+            "github-pr_outcome:3943",
+            "github-pr_outcome:3963",
+            "github-pr_outcome:402",
+            "github-pr_outcome:4177",
+            "github-pr_outcome:4296",
+            "github-pr_outcome:4302",
+            "github-pr_outcome:4567",
+            "github-pr_outcome:4573",
+            "github-pr_outcome:5034",
+            "github-pr_outcome:505",
+            "github-pr_outcome:5122",
+            "github-pr_outcome:5197",
+            "github-pr_outcome:5208",
+            "github-pr_outcome:5289",
+            "github-pr_outcome:5327",
+            "github-pr_outcome:5339",
+            "github-pr_outcome:5501",
+            "github-pr_outcome:5510",
+            "github-pr_outcome:5635",
+            "github-pr_outcome:569",
+            "github-pr_outcome:5704",
+            "github-pr_outcome:5740",
+            "github-pr_outcome:5748",
+            "github-pr_outcome:5850",
+            "github-pr_outcome:5934",
+            "github-pr_outcome:6167",
+            "github-pr_outcome:6231",
+            "github-pr_outcome:6310",
+            "github-pr_outcome:6343",
+            "github-pr_outcome:6391",
+            "github-pr_outcome:6601",
+            "github-pr_outcome:6639",
+            "github-pr_outcome:6786",
+            "github-pr_outcome:6828",
+            "github-pr_outcome:6835",
+            "github-pr_outcome:6889",
+            "github-pr_outcome:6911",
+            "github-pr_outcome:711",
+            "github-pr_outcome:7124",
+            "github-pr_outcome:7136",
+            "github-pr_outcome:7181",
+            "github-pr_outcome:7274",
+            "github-pr_outcome:7296",
+            "github-pr_outcome:7361",
+            "github-pr_outcome:7437",
+            "github-pr_outcome:7490",
+            "github-pr_outcome:7491",
+            "github-pr_outcome:7556",
+            "github-pr_outcome:7565",
+            "github-pr_outcome:7589",
+            "github-pr_outcome:7602",
+            "github-pr_outcome:7609",
+            "github-pr_outcome:7613",
+            "github-pr_outcome:954",
+            "github-pr_outcome:968"
+          ]
+        },
+        "replay": {
+          "n": 8,
+          "passed": 8,
+          "abstained": 0,
+          "wrong": 0,
+          "effect_mismatch": 0,
+          "state_delta": 0,
+          "pass_rate": 1.0,
+          "reasons": {}
+        },
+        "perturbation": {},
+        "counterexamples": [],
+        "metrics": {
+          "sandbox": {
+            "n": 0,
+            "passed": 0,
+            "abstained": 0,
+            "wrong": 0,
+            "effect_mismatch": 0,
+            "state_delta": 0,
+            "pass_rate": 0.0,
+            "reasons": {}
+          },
+          "perturbations_claimed": false,
+          "branch": "none",
+          "branch_permutation_p": null,
+          "branch_alternatives": 0,
+          "n_alternative_bindings": 99,
+          "composite": "synthesized",
+          "composite_name": "compiled_pr_get_record_2bd34511a8",
+          "gate_grid": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0",
+          "var_names": [
+            "pr",
+            "pr2",
+            "pr3"
+          ],
+          "dev_windows_evaluated": 8,
+          "calibration_windows_evaluated": 92
+        },
+        "rejection_reasons": [],
+        "fallback_reasons": {},
+        "dataset_digest": "46a609a3016bcf4a",
+        "notes": "substrate and evidence are recorded in the run manifest"
+      },
+      "lifecycle": "active",
+      "owner": "paper-github-pr_outcome-study",
+      "approved_by": "paper-family-protocol-lab-only",
+      "expiry_day": null,
+      "rollback_target": null,
+      "monitoring": {
+        "min_verifier_pass_rate": 0.9,
+        "max_unsafe_dispatch": 0.05,
+        "expected_coverage": 1.0
+      },
+      "signature": ""
+    }
+  ]
+}

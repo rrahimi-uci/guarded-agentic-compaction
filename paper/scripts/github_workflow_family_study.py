@@ -1361,7 +1361,10 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
         "source": source_audit,
         "selection": selection,
         "provider_calls": 0,
-        "execution_status": "preflight_only" if args.preflight_only else "not_started",
+        # This file records only the provider-free setup phase.  A subsequent
+        # live invocation may write results beside it, but must never relabel
+        # the preflight itself as a provider-backed or pending execution.
+        "execution_status": "preflight_only",
         "spend_authorization_required_before_execution": bool(args.headroom_ablation),
         "real_public_records": True,
         "simulated": False,

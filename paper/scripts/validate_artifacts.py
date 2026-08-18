@@ -1387,6 +1387,10 @@ def validate_publication() -> None:
         "results/optimizer_head_to_head/results.json",
         "results/github_workflow_families/pr_outcome/final/results.json",
         "results/github_workflow_families/backlog_attention/final/results.json",
+        "results/github_workflow_families/pr_outcome/headroom_ablation/preflight.json",
+        "results/github_workflow_families/pr_outcome/headroom_ablation/results.json",
+        "results/github_workflow_families/backlog_attention/headroom_ablation/preflight.json",
+        "results/github_workflow_families/backlog_attention/headroom_ablation/results.json",
         "results/github_workflow_families/summary.json",
         "scripts/validate_guarded_composite.py",
         "scripts/github_gcs_live_study.py",
@@ -1585,7 +1589,7 @@ def validate_no_secrets() -> None:
 
 
 def validate_headroom_ablation_preflights() -> None:
-    """Keep the unrun Headroom protocol visibly separate from live evidence."""
+    """Verify the sealed Headroom comparison and its provider-backed results."""
 
     conditions = [
         "baseline", "compiled", "manual_pre_model", "headroom_only", "compiled_headroom"
@@ -1593,12 +1597,15 @@ def validate_headroom_ablation_preflights() -> None:
     for family in ("pr_outcome", "backlog_attention"):
         path = PAPER / f"results/github_workflow_families/{family}/headroom_ablation/preflight.json"
         final_path = PAPER / f"results/github_workflow_families/{family}/final/results.json"
+        result_path = path.parent / "results.json"
         ok(path.exists(), f"{family}: Headroom ablation preflight exists")
         ok(final_path.exists(), f"{family}: source final selection exists for Headroom preflight")
-        if not path.exists() or not final_path.exists():
+        ok(result_path.exists(), f"{family}: Headroom ablation result exists")
+        if not path.exists() or not final_path.exists() or not result_path.exists():
             continue
         preflight = load(path)
         final = load(final_path)
+        result = load(result_path)
         config = preflight.get("headroom_ablation", {})
         selection = preflight.get("selection", {})
         original = final.get("selection", {})
@@ -1622,8 +1629,27 @@ def validate_headroom_ablation_preflights() -> None:
            and selection.get("discovery_reused_from_sealed_checkpoint") is True
            and selection.get("test_reused_from_sealed_checkpoint") is True,
            f"{family}: Headroom preflight reuses the sealed paired cohort")
-        ok(not (path.parent / "results.json").exists(),
-           f"{family}: no unverified Headroom provider result is present")
+        run = result.get("run", {})
+        aggregate = result.get("aggregate", {})
+        audits = result.get("headroom", {}).get("condition_audits", {})
+        ok(run.get("provider_backed") is True
+           and run.get("real_public_records") is True
+           and run.get("simulated") is False
+           and run.get("comparative_claim_allowed") is True
+           and result.get("selection") == selection,
+           f"{family}: Headroom result is a complete paired provider-backed evaluation")
+        ok(result.get("failures") == []
+           and all(aggregate.get(condition, {}).get("n") == 30
+                   and aggregate.get(condition, {}).get("success_rate") == 1
+                   and aggregate.get(condition, {}).get("tool_contract_rate") == 1
+                   for condition in conditions),
+           f"{family}: every Headroom-ablation arm passes all 30 exact contracts")
+        ok(all(audits.get(condition, {}).get("attempted_payloads") == expected
+                   and audits.get(condition, {}).get("applied_payloads") == 0
+                   and audits.get(condition, {}).get("fallback_payloads") == 0
+                   and audits.get(condition, {}).get("tokens_saved") == 0
+                   for condition, expected in (("headroom_only", 90), ("compiled_headroom", 30))),
+           f"{family}: Headroom attempts each eligible payload but applies no transformation")
 
 
 def validate_github_workflow_families() -> None:

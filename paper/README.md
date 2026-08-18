@@ -62,7 +62,7 @@ paper/
 │   ├── optimizer_head_to_head/     live GEPA/GCS/manual pre-model comparison
 │   ├── github_natural_replication/ expanded paid 30-pair replication
 │   ├── github_workflow_families/  PR-outcome and backlog-attention live studies plus summary
-│   │   └── */headroom_ablation/   provider-free preflights for the unrun Headroom comparison
+│   │   └── */headroom_ablation/   sealed preflights and provider-backed Headroom comparison
 │   ├── multidomain/                real-record provider-free extension preflight
 │   ├── nestful/                    public-benchmark raw results
 │   ├── external_benchmarks/         all-source preflight, compiler, checker, and bounded live results
@@ -101,7 +101,7 @@ paper/
 │   ├── implementation-audit.md     repository and component review
 │   ├── quality-assessment.md       publication-readiness rubric
 │   ├── natural-live-study-protocol.md  expanded real-record experiment protocol
-│   └── headroom-ablation-protocol.md  version-pinned, unrun context-compression protocol
+│   └── headroom-ablation-protocol.md  version-pinned context-compression results and limits
 └── open_research/
     ├── article.pdf                 single-column article (page count verified after build)
     └── main.pdf                    two-column conference build (page count verified after build)
