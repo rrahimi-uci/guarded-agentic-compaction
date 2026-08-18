@@ -120,9 +120,10 @@ oracle precondition held.
 
 Five of the nine eligible families failed synthesis on an ungroundable slot; the four that
 synthesized produced programs of one or two steps. One family (support 13) reproduced all
-three of its held-out windows exactly, which is the first held-out *pass* recorded on an
-external substrate — the NESTFUL and API-Bank held-out windows abstained. No held-out
-window was wrong on any family, so the adverse branch of the decision rule was not taken.
+three of its held-out windows exactly. The 3/6 held-out pass rate sits between NESTFUL's
+24/36 and API-Bank's 0/2, so it is a second corpus with passing held-out replay rather than
+the first. No held-out window was wrong on any family, so the adverse branch of the decision
+rule was not taken.
 
 Candidate suppression is dominated by the declared write barriers, as the catalog intends:
 
@@ -145,7 +146,9 @@ have admitted it into a compiled region.
 The reading is therefore the predicted one: a third independent public substrate, with a
 different tool surface and a more generous entry contract, reproduces the fail-closed
 refusal while demonstrating that the compiler does synthesize and does replay correctly
-where support exists. It remains a retirement, not a compaction result.
+where support exists. What is new here is the pre-registration, the obtained-rather-than-
+retained results, and the empirical effect audit — not the existence of passing held-out
+replay, which NESTFUL already showed. It remains a retirement, not a compaction result.
 
 ## Claim boundary
 
