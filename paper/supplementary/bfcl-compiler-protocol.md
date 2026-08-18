@@ -1,11 +1,12 @@
 # BFCL gold-plan compiler protocol
 
-**Status: pre-registered on 2026-08-18, not yet executed.** This protocol turns the
-existing BFCL v4 compatibility row into a third independent substrate for the read-only
-compiler. It changes no compiler code, no admission gate, no artifact, and no fallback
-policy, and it makes no provider call. The predeclared expectation below is recorded
-before the compiler has been run on this corpus so that the anticipated null is not later
-read as a failed experiment.
+**Status: pre-registered and executed on 2026-08-18; the predeclared expectation held.**
+This protocol turns the existing BFCL v4 compatibility row into a third independent
+substrate for the read-only compiler. It changes no compiler code, no admission gate, no
+artifact, and no fallback policy, and it makes no provider call. The predeclared
+expectation, decision rule, and preconditions below were written and committed before the
+compiler was run on this corpus, so that the anticipated null could not later be read as a
+failed experiment; the observed results were recorded in a second commit.
 
 ## Why BFCL can be a compiler substrate at all
 
@@ -95,6 +96,56 @@ difference is the entry schema: API-Bank admits `inputs` only, while this substr
 `inputs` and `environment`, because BFCL genuinely publishes the entry snapshot. That is
 the more generous choice, so a refusal here cannot be attributed to a starved entry
 contract.
+
+## Observed results
+
+The corpus executed and retired exactly as predicted. All 200 tasks and 1,142 gold calls
+executed on the pinned backend with no upstream error sentinel, and the independent
+re-execution pass reproduced 1,142/1,142 observed results byte for byte, so the replay
+oracle precondition held.
+
+| Quantity | Observed |
+|---|---:|
+| Tasks / independent groups | 200 / 200 |
+| Observed calls (all with retained results) | 1,142 |
+| Turns | 734 |
+| Distinct tools declared and exercised | 81 |
+| Episodes with at least one candidate window | 86 |
+| Candidate windows / candidate families | 146 / 77 |
+| Families with support of at least three groups | 9 |
+| Maximum family support | 15 |
+| Families synthesized | 4 of 9 attempted |
+| Held-out recorded replay | 3 pass, 3 abstain, **0 wrong** |
+| Exact gate | `RETIRE` (15 observed groups against 92 required) |
+
+Five of the nine eligible families failed synthesis on an ungroundable slot; the four that
+synthesized produced programs of one or two steps. One family (support 13) reproduced all
+three of its held-out windows exactly, which is the first held-out *pass* recorded on an
+external substrate — the NESTFUL and API-Bank held-out windows abstained. No held-out
+window was wrong on any family, so the adverse branch of the decision rule was not taken.
+
+Candidate suppression is dominated by the declared write barriers, as the catalog intends:
+
+| Blocking reason | Suppressed spans |
+|---|---:|
+| `effect_write` | 2,802 |
+| `live_in_not_in_entry_schema` | 45 |
+| `effect_capability` | 35 |
+| `ambiguous_slot` | 31 |
+| `partial_run` | 5 |
+
+The empirical audit observed 1,060 state-mutating calls across 44 tools and 94 RNG-advancing
+calls. Zero read-like declarations were observed mutating state and zero compilable
+declarations were observed advancing the RNG, so the signed catalog was never looser than the
+behaviour it describes. The audit also produced one finding worth stating on its own:
+`TravelAPI.get_flight_cost` is a nominal getter that mutated `_flight_cost_lookup` on 36 of
+36 calls, so it is declared a write. A name-based or docstring-based effect inference would
+have admitted it into a compiled region.
+
+The reading is therefore the predicted one: a third independent public substrate, with a
+different tool surface and a more generous entry contract, reproduces the fail-closed
+refusal while demonstrating that the compiler does synthesize and does replay correctly
+where support exists. It remains a retirement, not a compaction result.
 
 ## Claim boundary
 

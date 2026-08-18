@@ -82,6 +82,7 @@ paper/
 │   ├── nestful_benchmark.py        provider-free external benchmark
 │   ├── external_benchmark_sources.py pinned all-source acquisition/preflight
 │   ├── external_benchmark_matrix.py shared-IR screening and evidence matrix
+│   ├── bfcl_compiler_benchmark.py  BFCL gold-plan execution and compiler evaluation
 │   ├── api_bank_benchmark.py       second provider-free compiler benchmark
 │   ├── bfcl_structural_benchmark.py official BFCL gold checker
 │   ├── toolsandbox_live_summary.py redacted official live-run summary
@@ -96,10 +97,11 @@ paper/
 ├── supplementary/                  evidence register, audit, and rubric
 │   ├── evidence-register.md        claim-level evidence boundaries
 │   ├── experiment-verification.md  independent recomputation and statistical audit
-│   ├── external-benchmark-audit.md why eight interoperability paths are supplementary
+│   ├── external-benchmark-audit.md why nine interoperability paths are supplementary
 │   ├── implementation-audit.md     repository and component review
 │   ├── quality-assessment.md       publication-readiness rubric
-│   └── natural-live-study-protocol.md  expanded real-record experiment protocol
+│   ├── natural-live-study-protocol.md  expanded real-record experiment protocol
+│   └── bfcl-compiler-protocol.md   pre-registered BFCL gold-plan compiler substrate
 └── open_research/
     ├── article.pdf                 single-column article (page count verified after build)
     └── main.pdf                    two-column conference build (page count verified after build)
@@ -182,6 +184,10 @@ and [changelog](../CHANGELOG.md).
 - **NESTFUL:** real public benchmark data, deterministic executable functions, no model
   calls. This tests post-trace provenance, synthesis, replay, and refusal; it is not a
   model-planning score.
+- **BFCL v4 multi-turn:** the official gold plans executed on the pinned stateful backend,
+  no model calls. The predeclared outcome — every family retires — is recorded in
+  [`supplementary/bfcl-compiler-protocol.md`](supplementary/bfcl-compiler-protocol.md). It
+  is a third fail-closed compiler substrate, never a function-calling accuracy score.
 - **Three-family primary evaluation:** issue-type routing, PR-outcome audit, and
   backlog-attention routing each use 132 discovery plus 30 held-out real records, distinct
   tools and exact graders, and live provider calls. Compiled programs reach 90/90 exact
@@ -256,6 +262,8 @@ From the repository root:
 .venv/bin/python paper/scripts/api_bank_benchmark.py \
     --source-root "$BENCHMARK_SOURCE_ROOT"
 .venv/bin/python paper/scripts/bfcl_structural_benchmark.py \
+    --source-root "$BENCHMARK_SOURCE_ROOT"
+.venv/bin/python paper/scripts/bfcl_compiler_benchmark.py \
     --source-root "$BENCHMARK_SOURCE_ROOT"
 .venv/bin/python paper/scripts/github_live_study.py \
     --task-design natural-extractive-v2 --evaluation-order counterbalanced \
@@ -491,6 +499,11 @@ producer in the candidate set for 96.3% of dependency slots and resolves 80.7% u
 Held-out synthesized-family replay records 24 passes, 12 abstentions, and zero wrong runs.
 No family reaches the configured 92-record zero-violation gate requirement, so all retire;
 interpreting group records as independent remains a sampling assumption.
+
+The same pipeline over 200 executed BFCL `multi_turn_base` gold plans (1,142 observed calls,
+1,142/1,142 exact re-execution) mines 146 candidate windows, synthesizes four families, and
+records 3 passes, 3 abstentions, and zero wrong held-out runs. Its maximum family support is
+15 against the same 92-group requirement, so every family retires there too.
 
 These are scoped results, not claims of production safety, universal equivalence,
 cross-domain generalization, or state-of-the-art superiority.
