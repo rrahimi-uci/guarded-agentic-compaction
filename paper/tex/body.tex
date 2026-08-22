@@ -2829,6 +2829,21 @@ is committed \emph{unexecuted}: no repository or provider has been acquired unde
 this paper reports no result from it.  It exists so that if the evidence is gathered, the
 design cannot be revised in light of what it shows.
 
+A cheap, live pilot for that study now exists
+(\path{gate-frontier-pilot-protocol.md}), run before committing the
+full budget rather than after, on 90 records stratified by whether an issue's evidence
+comments contain a Markdown-style link --- the one mechanism this codebase has on record
+for a compiled artifact's returned excerpt to diverge from its source, having already
+caused one recorded violation.  The pilot's own held-out records reproduce that mechanism
+twice more: violations concentrate in the Markdown-link stratum ($4/60$ against $0/60$ in
+the matched baseline stratum, one-sided $p=.059$, short of significance at this sample
+size) while a plain nearby URL predicts nothing ($1/60$, $p=.50$), refining rather than
+confirming the original two-feature hypothesis.  One issue failed under both the
+unchanged agent and the compiled artifact independently, which is stronger evidence that
+the record itself is hard than that either arm is.  This is a weak go signal for the full
+protocol above, using Markdown-link syntax specifically as the calibration feature, not a
+claim that a frontier now exists.
+
 \section{Limitations and Threats to Validity}
 \label{sec:limits}
 

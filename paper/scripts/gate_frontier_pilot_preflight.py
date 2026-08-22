@@ -48,7 +48,13 @@ DEFAULT_OUT = ROOT / "paper" / "results" / "gate_frontier_pilot" / "preflight.js
 # any earlier discovery, calibration, or held-out set already spent. Excludes external
 # benchmarks (NESTFUL, API-Bank, BFCL, AppWorld, ...), which do not share this record space.
 RESULTS_ROOT = ROOT / "paper" / "results"
-EXCLUDED_SUBSTRINGS = ("external_benchmarks", "multidomain", "nestful", "frozen_candidate")
+# "gate_frontier_pilot" excludes this preflight's own prior output: without it, re-running
+# the preflight after the pilot has executed would treat its own already-selected records
+# as "used" and shrink the eligible pool on every subsequent run, which is not what
+# "already used by a PRIOR, independent study" is supposed to mean.
+EXCLUDED_SUBSTRINGS = (
+    "external_benchmarks", "multidomain", "nestful", "frozen_candidate", "gate_frontier_pilot",
+)
 
 RECORD_NUMBER_PATTERN = re.compile(r'"(?:issue_number|record_number)"\s*:\s*(\d+)')
 MARKDOWN_LINK_PATTERN = re.compile(r"\[[^\]]+\]\(https?://")
