@@ -1,0 +1,13 @@
+\begin{tabularx}{\linewidth}{@{}l >{\raggedright\arraybackslash}X rrr@{}}
+\toprule
+Candidate window (mined) & Synthesized program & Support & Elig.\ cal.\ groups & $U$ \\
+\midrule
+\code{profile $\to$ passwords} & 2 steps & 22 & 92 & \textbf{0.0498} \\
+\code{profile $\to$ passwords $\to$ phone.login} & 2 steps (maximal justified prefix) & 22 & 92 & \textbf{0.0498} \\
+\addlinespace[2pt]
+\code{profile $\to$ passwords $\to$ spotify.login} & 2 steps & 22 & 89 & 0.051 \\
+\code{profile $\to$ passwords $\to$ simple\_note.login} & 2 steps & 19 & 90 & 0.051 \\
+\code{profile $\to$ passwords $\to$ spotify.login} & 3 steps & 11 & 46 & 1.000 \\
+\code{profile $\to$ passwords $\to$ phone.login} & 3 steps & 8 & 26 & 1.000 \\
+\bottomrule
+\end{tabularx}
