@@ -171,3 +171,109 @@ python paper/scripts/appworld_compiler_benchmark.py \
 The driver writes only counts, hashes, structural field names, and per-family aggregates.
 Instructions, arguments, observed results, credentials, and application state are not
 serialized.
+
+## Observed results
+
+**The prediction held, and the substrate went further than the prediction claimed.** Both
+arms reached `candidate_present`, and the deployable compile pipeline then *admitted* an
+artifact in both — the first admitted artifact on any external corpus in this paper.
+
+All 147 gold solutions were executed twice on the pinned backend. 136 completed; 11 dev-split
+solutions raised against the shipped `0.1.0` database and are reported as upstream
+compatibility outcomes rather than dropped, in the same way API-Bank's partial re-execution
+is reported. The independent second pass reproduced 7,070/7,070 observed results byte for
+byte, minted access tokens included, so the replay-oracle precondition held.
+
+| Quantity | Observed |
+|---|---:|
+| Tasks collected / clean | 147 / 136 |
+| Scenarios / distinct supervisors in the clean corpus | 46 / 79 |
+| Observed calls (all with retained results) | 7,070 |
+| Calls per task (min / median / max) | 5 / 36 / 244 |
+| Distinct APIs declared and exercised | 68 |
+| Exact re-execution | 7,070 / 7,070 |
+| Mutating calls observed | 1,320 |
+| Read-like declarations observed mutating | 0 |
+| APIs mutating on some but not all calls | 0 |
+
+### Mining and held-out replay
+
+| | Arm A (`login` write) | Arm B (`login` read) |
+|---|---:|---:|
+| Compilable / effect-blocked APIs | 32 / 36 | 37 / 31 |
+| Candidate families | 43 | 102 |
+| Families at or above the support floor | 33 | 87 |
+| Families that synthesize | 1 | 19 |
+| Held-out replay pass / abstain / **wrong** | 34 / 0 / **0** | 88 / 22 / **0** |
+| Largest family support $n_{\max}$ | 136 | 136 |
+| Exact-gate outcome | `candidate_present` | `candidate_present` |
+
+$n_{\max}=136$ against a requirement of 92 is the number this substrate exists to produce.
+The three substrates already in the paper reached 26, 8, and 15.
+
+### Admission
+
+The deployable pipeline was then run with the calibration share fixed at exactly the 92
+groups the bound needs: 22 train, 11 development, 92 calibration, 11 held-out test, split
+by seed 20260821.
+
+Both arms admit one artifact, and it is the same artifact in both: the two-step program
+`supervisor.show_profile -> supervisor.show_account_passwords`, at 92 of 92 calibration
+groups accepted with zero violations, $\hat\eta=0.50$, and $U=0.0498\le\alpha=0.05$.
+Held-out replay is 11/11 with zero wrong.
+
+Two properties of that admission have to be stated with it, because both cut against the
+result.
+
+**The gate is degenerate.** It admits every calibration group as soon as it admits any:
+coverage jumps from 0 at $\eta=0.05$ to 1.00 at $\eta=0.08$ and stays there. This is the
+same non-discrimination the paper already reports for five of its six live gates. AppWorld
+reproduces that finding on a public corpus; it does not repair it. What the mechanism
+provides here is a sample-size requirement and a refusal, not a demonstrated risk--coverage
+frontier.
+
+**The admitted program is argument-free.** Both of its calls take no arguments, so the
+admitted artifact does not exercise provenance at all. The provenance machinery is what
+decided its *length*, not its content — which is the next result.
+
+### What the login barrier actually did
+
+Arm B is where the substrate earns its keep. Six candidates reached the pipeline; one was
+admitted, one was dominated, and **four reached calibration and retired**. The four
+retirements are not support failures. They are the admission arithmetic biting at the
+boundary:
+
+| Candidate window | Support | Eligible calibration groups | $U$ | Outcome |
+|---|---:|---:|---:|:--|
+| `show_profile -> show_account_passwords -> spotify.login` | 22 | 89 | 0.051 | retire |
+| `show_profile -> show_account_passwords -> simple_note.login` | 19 | 90 | 0.051 | retire |
+| `show_profile -> show_account_passwords -> spotify.login` (full 3-step program) | 11 | 46 | 1.000 | retire |
+| `show_profile -> show_account_passwords -> phone.login` (full 3-step program) | 8 | 26 | 1.000 | retire |
+
+The first two missed by three and two calibration groups respectively, and by 0.001 of
+bound. The last two are app-specific, so only the calibration tasks touching that app are
+eligible, and 46 and 26 groups cannot reach a 5% bound at any threshold.
+
+The admitted Arm B candidate is the third instance of the same mechanism. Its *mined window*
+is three calls including `phone.login`, but its *synthesized program* is two steps: the
+login's password slot is not groundable in every supporting group, so the compiler retired
+the region and kept its maximal justified prefix. That is the behaviour of
+\cref{fig:provenance-wiring} occurring on a public corpus rather than on the paper's own
+GitHub record.
+
+### Reading
+
+The substrate does what it was run to do. It removes the reading that the paper's three
+external retirements were foregone conclusions, because on this corpus the requirement is
+reachable and the gate still refuses four of six candidates — and refuses them at the
+margin, on eligible-group counts of 89 and 90 against 92, rather than by an order of
+magnitude. It also produces the paper's first external admission, and that admission is
+honest about its own smallness: an argument-free two-read prefix, behind a gate that does
+not discriminate.
+
+What it does not do is show a saving. No model ran. The admitted artifact removes two
+model boundaries out of a median 36 observed calls per task, but the number of boundaries a
+real AppWorld agent would spend on those two reads is a property of that agent's interface —
+a function-calling agent spends two, a code-as-action agent may spend one — and this corpus
+cannot measure it. Every efficiency statement in the paper continues to rest on the live
+GitHub families.
