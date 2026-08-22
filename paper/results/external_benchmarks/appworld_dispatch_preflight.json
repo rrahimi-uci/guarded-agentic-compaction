@@ -1,0 +1,750 @@
+{
+  "artifact_under_test": {
+    "admitted_program_tools": [
+      "supervisor.show_profile",
+      "supervisor.show_account_passwords"
+    ],
+    "compiled_on": "public train+dev gold solutions",
+    "evaluated_on": "released official baseline agent trajectories, test_normal and test_challenge",
+    "program": [
+      "get /supervisor/profile",
+      "get /supervisor/account_passwords"
+    ],
+    "source": "paper/results/external_benchmarks/appworld_compiler_execution.json"
+  },
+  "barrier_at_depth_zero": {
+    "amazon.login": 18,
+    "amazon.search_products": 7,
+    "api_docs.show_api_descriptions": 3752,
+    "api_docs.show_api_doc": 87,
+    "api_docs.show_app_descriptions": 229,
+    "gmail.login": 12,
+    "supervisor.show_active_task": 158,
+    "supervisor.show_addresses": 6
+  },
+  "benchmark": "appworld",
+  "by_agent_family": {
+    "full_code_refl": {
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 2339,
+      "label": "Full code + reflection",
+      "occurs_but_not_at_position_0": 1,
+      "program_occurs_anywhere": 2340,
+      "runs": 8,
+      "structural_eligibility_at_position_0": 0.9995726495726496,
+      "structural_eligibility_with_entry_read": 0.9995726495726496,
+      "tasks": 2340
+    },
+    "ipfuncall": {
+      "eligible_after_entry_read": 131,
+      "eligible_at_position_0": 762,
+      "label": "Iterative parallel function calling",
+      "occurs_but_not_at_position_0": 6,
+      "program_occurs_anywhere": 899,
+      "runs": 4,
+      "structural_eligibility_at_position_0": 0.6512820512820513,
+      "structural_eligibility_with_entry_read": 0.7632478632478632,
+      "tasks": 1170
+    },
+    "plan_exec": {
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 1,
+      "label": "Plan and execute",
+      "occurs_but_not_at_position_0": 38,
+      "program_occurs_anywhere": 39,
+      "runs": 8,
+      "structural_eligibility_at_position_0": 0.00042735042735042735,
+      "structural_eligibility_with_entry_read": 0.00042735042735042735,
+      "tasks": 2340
+    },
+    "react": {
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 0,
+      "label": "ReAct",
+      "occurs_but_not_at_position_0": 16,
+      "program_occurs_anywhere": 16,
+      "runs": 8,
+      "structural_eligibility_at_position_0": 0.0,
+      "structural_eligibility_with_entry_read": 0.0,
+      "tasks": 2340
+    }
+  },
+  "by_split": {
+    "test_challenge": {
+      "eligible_after_entry_read": 103,
+      "eligible_at_position_0": 2216,
+      "occurs_but_not_at_position_0": 42,
+      "program_occurs_anywhere": 2361,
+      "runs": 14,
+      "structural_eligibility_at_position_0": 0.37958204864679684,
+      "structural_eligibility_with_entry_read": 0.3972250770811922,
+      "tasks": 5838
+    },
+    "test_normal": {
+      "eligible_after_entry_read": 28,
+      "eligible_at_position_0": 886,
+      "occurs_but_not_at_position_0": 19,
+      "program_occurs_anywhere": 933,
+      "runs": 14,
+      "structural_eligibility_at_position_0": 0.37670068027210885,
+      "structural_eligibility_with_entry_read": 0.38860544217687076,
+      "tasks": 2352
+    }
+  },
+  "declared_routes": 457,
+  "does_not_measure": [
+    "n_B: the released logs retain API calls, not model boundaries",
+    "any saving in requests, tokens, dollars, or latency",
+    "task quality: the released evaluations are upstream results for the baselines, not for a dispatched artifact"
+  ],
+  "effect_catalog": {
+    "path": "benchmarks/contracts/effects/appworld.yaml",
+    "sha256": "487a6a4cfb2d31d0d395c594b60b021e3d3f13bb2f2edba3b3270529d95512e8"
+  },
+  "first_call_in_released_trajectories": {
+    "get:/api_docs/api_descriptions": 3752,
+    "get:/api_docs/api_doc": 87,
+    "get:/api_docs/app_descriptions": 229,
+    "get:/supervisor/account_passwords": 599,
+    "get:/supervisor/active_task": 158,
+    "get:/supervisor/profile": 3126,
+    "post:/amazon/auth/token": 18,
+    "post:/gmail/auth/token": 12
+  },
+  "measures": [
+    "structural eligibility: the admitted program's exact call sequence at normalized position 0",
+    "an upper bound on phi, not phi: the manifest check and the calibrated gate are not evaluated here",
+    "maximal read prefix: how deep any compiled region could reach before a declared barrier"
+  ],
+  "package_version": "0.1.3.post1",
+  "per_run": [
+    {
+      "calls_per_task": {
+        "max": 5486,
+        "median": 30,
+        "min": 3,
+        "n": 417
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 417,
+      "empty_trajectory": 0,
+      "family": "full_code_refl",
+      "maximal_read_prefix": {
+        "max": 12,
+        "median": 2,
+        "min": 2,
+        "n": 417
+      },
+      "program_occurs_anywhere": 417,
+      "run": "full_code_refl_deepseekcoder_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "calls_per_task": {
+        "max": 422,
+        "median": 40,
+        "min": 5,
+        "n": 168
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 168,
+      "empty_trajectory": 0,
+      "family": "full_code_refl",
+      "maximal_read_prefix": {
+        "max": 2,
+        "median": 2,
+        "min": 2,
+        "n": 168
+      },
+      "program_occurs_anywhere": 168,
+      "run": "full_code_refl_deepseekcoder_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "calls_per_task": {
+        "max": 2594,
+        "median": 42,
+        "min": 6,
+        "n": 417
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 417,
+      "empty_trajectory": 0,
+      "family": "full_code_refl",
+      "maximal_read_prefix": {
+        "max": 2,
+        "median": 2,
+        "min": 2,
+        "n": 417
+      },
+      "program_occurs_anywhere": 417,
+      "run": "full_code_refl_gpt4o_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "calls_per_task": {
+        "max": 2261,
+        "median": 34,
+        "min": 6,
+        "n": 168
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 168,
+      "empty_trajectory": 0,
+      "family": "full_code_refl",
+      "maximal_read_prefix": {
+        "max": 14,
+        "median": 2,
+        "min": 2,
+        "n": 168
+      },
+      "program_occurs_anywhere": 168,
+      "run": "full_code_refl_gpt4o_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "calls_per_task": {
+        "max": 1378,
+        "median": 35,
+        "min": 5,
+        "n": 417
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 416,
+      "empty_trajectory": 0,
+      "family": "full_code_refl",
+      "maximal_read_prefix": {
+        "max": 2,
+        "median": 2,
+        "min": 1,
+        "n": 417
+      },
+      "program_occurs_anywhere": 417,
+      "run": "full_code_refl_gpt4turbo_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "calls_per_task": {
+        "max": 1193,
+        "median": 24,
+        "min": 5,
+        "n": 168
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 168,
+      "empty_trajectory": 0,
+      "family": "full_code_refl",
+      "maximal_read_prefix": {
+        "max": 2,
+        "median": 2,
+        "min": 2,
+        "n": 168
+      },
+      "program_occurs_anywhere": 168,
+      "run": "full_code_refl_gpt4turbo_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "calls_per_task": {
+        "max": 954,
+        "median": 41,
+        "min": 7,
+        "n": 417
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 417,
+      "empty_trajectory": 0,
+      "family": "full_code_refl",
+      "maximal_read_prefix": {
+        "max": 5,
+        "median": 2,
+        "min": 2,
+        "n": 417
+      },
+      "program_occurs_anywhere": 417,
+      "run": "full_code_refl_llama3_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "calls_per_task": {
+        "max": 2171,
+        "median": 44,
+        "min": 5,
+        "n": 168
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 168,
+      "empty_trajectory": 0,
+      "family": "full_code_refl",
+      "maximal_read_prefix": {
+        "max": 2,
+        "median": 2,
+        "min": 2,
+        "n": 168
+      },
+      "program_occurs_anywhere": 168,
+      "run": "full_code_refl_llama3_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "calls_per_task": {
+        "max": 58,
+        "median": 14,
+        "min": 4,
+        "n": 417
+      },
+      "eligible_after_entry_read": 103,
+      "eligible_at_position_0": 195,
+      "empty_trajectory": 0,
+      "family": "ipfuncall",
+      "maximal_read_prefix": {
+        "max": 6,
+        "median": 2,
+        "min": 0,
+        "n": 417
+      },
+      "program_occurs_anywhere": 300,
+      "run": "ipfuncall_gpt4o_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "calls_per_task": {
+        "max": 91,
+        "median": 12,
+        "min": 5,
+        "n": 168
+      },
+      "eligible_after_entry_read": 28,
+      "eligible_at_position_0": 67,
+      "empty_trajectory": 0,
+      "family": "ipfuncall",
+      "maximal_read_prefix": {
+        "max": 4,
+        "median": 2,
+        "min": 0,
+        "n": 168
+      },
+      "program_occurs_anywhere": 97,
+      "run": "ipfuncall_gpt4o_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "calls_per_task": {
+        "max": 33,
+        "median": 12,
+        "min": 4,
+        "n": 417
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 353,
+      "empty_trajectory": 0,
+      "family": "ipfuncall",
+      "maximal_read_prefix": {
+        "max": 2,
+        "median": 2,
+        "min": 0,
+        "n": 417
+      },
+      "program_occurs_anywhere": 355,
+      "run": "ipfuncall_gpt4turbo_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "calls_per_task": {
+        "max": 49,
+        "median": 10,
+        "min": 4,
+        "n": 166
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 147,
+      "empty_trajectory": 2,
+      "family": "ipfuncall",
+      "maximal_read_prefix": {
+        "max": 2,
+        "median": 2,
+        "min": 0,
+        "n": 166
+      },
+      "program_occurs_anywhere": 147,
+      "run": "ipfuncall_gpt4turbo_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "calls_per_task": {
+        "max": 36009,
+        "median": 11,
+        "min": 1,
+        "n": 393
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 1,
+      "empty_trajectory": 24,
+      "family": "plan_exec",
+      "maximal_read_prefix": {
+        "max": 2,
+        "median": 0,
+        "min": 0,
+        "n": 393
+      },
+      "program_occurs_anywhere": 2,
+      "run": "plan_exec_deepseekcoder_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "calls_per_task": {
+        "max": 1378,
+        "median": 15,
+        "min": 2,
+        "n": 163
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 0,
+      "empty_trajectory": 5,
+      "family": "plan_exec",
+      "maximal_read_prefix": {
+        "max": 1,
+        "median": 0,
+        "min": 0,
+        "n": 163
+      },
+      "program_occurs_anywhere": 6,
+      "run": "plan_exec_deepseekcoder_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "calls_per_task": {
+        "max": 76541,
+        "median": 63,
+        "min": 5,
+        "n": 409
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 0,
+      "empty_trajectory": 8,
+      "family": "plan_exec",
+      "maximal_read_prefix": {
+        "max": 0,
+        "median": 0,
+        "min": 0,
+        "n": 409
+      },
+      "program_occurs_anywhere": 6,
+      "run": "plan_exec_gpt4o_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "calls_per_task": {
+        "max": 24576,
+        "median": 41,
+        "min": 8,
+        "n": 164
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 0,
+      "empty_trajectory": 4,
+      "family": "plan_exec",
+      "maximal_read_prefix": {
+        "max": 0,
+        "median": 0,
+        "min": 0,
+        "n": 164
+      },
+      "program_occurs_anywhere": 0,
+      "run": "plan_exec_gpt4o_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "calls_per_task": {
+        "max": 23943,
+        "median": 30,
+        "min": 2,
+        "n": 364
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 0,
+      "empty_trajectory": 53,
+      "family": "plan_exec",
+      "maximal_read_prefix": {
+        "max": 1,
+        "median": 0,
+        "min": 0,
+        "n": 364
+      },
+      "program_occurs_anywhere": 0,
+      "run": "plan_exec_gpt4turbo_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "calls_per_task": {
+        "max": 8068,
+        "median": 30,
+        "min": 7,
+        "n": 153
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 0,
+      "empty_trajectory": 15,
+      "family": "plan_exec",
+      "maximal_read_prefix": {
+        "max": 1,
+        "median": 0,
+        "min": 0,
+        "n": 153
+      },
+      "program_occurs_anywhere": 0,
+      "run": "plan_exec_gpt4turbo_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "calls_per_task": {
+        "max": 23190,
+        "median": 95,
+        "min": 6,
+        "n": 413
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 0,
+      "empty_trajectory": 4,
+      "family": "plan_exec",
+      "maximal_read_prefix": {
+        "max": 2,
+        "median": 0,
+        "min": 0,
+        "n": 413
+      },
+      "program_occurs_anywhere": 19,
+      "run": "plan_exec_llama3_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "calls_per_task": {
+        "max": 15998,
+        "median": 42,
+        "min": 7,
+        "n": 164
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 0,
+      "empty_trajectory": 4,
+      "family": "plan_exec",
+      "maximal_read_prefix": {
+        "max": 2,
+        "median": 0,
+        "min": 0,
+        "n": 164
+      },
+      "program_occurs_anywhere": 6,
+      "run": "plan_exec_llama3_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "calls_per_task": {
+        "max": 68008,
+        "median": 19,
+        "min": 1,
+        "n": 383
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 0,
+      "empty_trajectory": 34,
+      "family": "react",
+      "maximal_read_prefix": {
+        "max": 70,
+        "median": 0,
+        "min": 0,
+        "n": 383
+      },
+      "program_occurs_anywhere": 0,
+      "run": "react_deepseekcoder_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "calls_per_task": {
+        "max": 62009,
+        "median": 16,
+        "min": 1,
+        "n": 158
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 0,
+      "empty_trajectory": 10,
+      "family": "react",
+      "maximal_read_prefix": {
+        "max": 2,
+        "median": 0,
+        "min": 0,
+        "n": 158
+      },
+      "program_occurs_anywhere": 0,
+      "run": "react_deepseekcoder_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "calls_per_task": {
+        "max": 3751,
+        "median": 27,
+        "min": 6,
+        "n": 417
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 0,
+      "empty_trajectory": 0,
+      "family": "react",
+      "maximal_read_prefix": {
+        "max": 1,
+        "median": 0,
+        "min": 0,
+        "n": 417
+      },
+      "program_occurs_anywhere": 0,
+      "run": "react_gpt4o_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "calls_per_task": {
+        "max": 4410,
+        "median": 30,
+        "min": 7,
+        "n": 168
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 0,
+      "empty_trajectory": 0,
+      "family": "react",
+      "maximal_read_prefix": {
+        "max": 1,
+        "median": 0,
+        "min": 0,
+        "n": 168
+      },
+      "program_occurs_anywhere": 0,
+      "run": "react_gpt4o_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "calls_per_task": {
+        "max": 3907,
+        "median": 19,
+        "min": 4,
+        "n": 417
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 0,
+      "empty_trajectory": 0,
+      "family": "react",
+      "maximal_read_prefix": {
+        "max": 1,
+        "median": 0,
+        "min": 0,
+        "n": 417
+      },
+      "program_occurs_anywhere": 0,
+      "run": "react_gpt4turbo_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "calls_per_task": {
+        "max": 237,
+        "median": 17,
+        "min": 5,
+        "n": 168
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 0,
+      "empty_trajectory": 0,
+      "family": "react",
+      "maximal_read_prefix": {
+        "max": 1,
+        "median": 0,
+        "min": 0,
+        "n": 168
+      },
+      "program_occurs_anywhere": 0,
+      "run": "react_gpt4turbo_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "calls_per_task": {
+        "max": 6525,
+        "median": 38,
+        "min": 5,
+        "n": 417
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 0,
+      "empty_trajectory": 0,
+      "family": "react",
+      "maximal_read_prefix": {
+        "max": 2,
+        "median": 0,
+        "min": 0,
+        "n": 417
+      },
+      "program_occurs_anywhere": 11,
+      "run": "react_llama3_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "calls_per_task": {
+        "max": 5303,
+        "median": 30,
+        "min": 7,
+        "n": 168
+      },
+      "eligible_after_entry_read": 0,
+      "eligible_at_position_0": 0,
+      "empty_trajectory": 0,
+      "family": "react",
+      "maximal_read_prefix": {
+        "max": 2,
+        "median": 0,
+        "min": 0,
+        "n": 168
+      },
+      "program_occurs_anywhere": 5,
+      "run": "react_llama3_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    }
+  ],
+  "pooled": {
+    "eligible_after_entry_read": 131,
+    "eligible_at_position_0": 3102,
+    "occurs_but_not_at_position_0": 61,
+    "program_occurs_anywhere": 3294,
+    "runs": 28,
+    "structural_eligibility_at_position_0": 0.37875457875457874,
+    "structural_eligibility_with_entry_read": 0.39474969474969474,
+    "tasks": 8190
+  },
+  "runtime_seconds": 27.71226562501397,
+  "schema": "gac-appworld-dispatch-preflight/v1"
+}

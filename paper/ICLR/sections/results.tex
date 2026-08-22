@@ -16,66 +16,67 @@
 \end{table}
 
 Across the 90 held-out records, \method satisfies 90/90 exact contracts versus
-89/90 for the unchanged agent (\cref{tab:primary}). It reduces provider
-requests by 66.6\%, tokens by 63.1\%, latency by 64.2\%, and estimated cost by
-58.7\% in aggregate. The per-family pattern is intuitive: issue-type routing
-admits only a two-read prefix, whereas the two deeper workflows approach 75\%
-fewer requests.
+89/90 for the unchanged agent (\cref{tab:primary}), reducing provider requests by
+66.6\%, tokens by 63.1\%, latency by 64.2\%, and estimated cost by 58.7\% in
+aggregate. Issue-type routing admits only a two-read prefix, whereas the two
+deeper workflows approach 75\% fewer requests.
 
-No held-out record is a compiled-only failure; the one-sided 95\% upper bound
-on that discordance is 3.3\%. This supports preservation on the observed
-cohort, not equivalence in general. Each artifact was admitted with 92
-zero-violation calibration groups ($U_\eta=0.0498\le .05$). Hand-written
-programs also achieve 90/90 and are cheaper for issue-type routing, so the
-evidence supports automatic discovery and guarded lifecycle management---not
-runtime dominance over correct manual code.
+No held-out record is a compiled-only failure; the one-sided 95\% upper bound on
+that discordance is 3.3\%, which supports preservation on the observed cohort, not
+equivalence in general. Each artifact was admitted with 92 zero-violation
+calibration groups ($U_\eta=0.0498\le.05$). Hand-written programs also achieve
+90/90 and are cheaper for issue-type routing.
 
 \subsection{Time-forward transfer: compile or retire}
 \label{sec:res-multirepo}
 
-\begin{table}[t]
-  \centering
-  \caption{Cross-repository time-forward results on the narrower two-read
-  pull-request outcome task. Held-out records are strictly newer than discovery
-  records and selection is sealed before any provider call. The 5-repo cohort
-  retires \code{pytorch/pytorch}. A fixed two-read template is more efficient in
-  the 5-repo core (66.7\% fewer requests against 44.4\%) and essentially tied in
-  the balanced rerun, which is why this result is evidence of automatic
-  discovery and principled retirement rather than of runtime dominance.}
-  \label{tab:multirepo}
-  \small
-  \setlength{\tabcolsep}{5pt}
-  \input{tables/multirepo_results.tex}
-\end{table}
+On a narrower two-read pull-request outcome task across frozen public
+repositories, with held-out records strictly newer than discovery records and
+selection sealed before any provider call, \method completes 120/120 exact
+held-out pairs on four of five repositories and retires \code{pytorch/pytorch} at
+compile time rather than loosening its gate; requests fall 44.4\% and tokens
+52.4\%. A balanced three-repository rerun reaches 180/180 exact pairs at 66.7\%
+fewer requests and 78.4\% fewer tokens
+(\cref{tab:multirepo-disaggregated}). A fixed two-read template is more efficient
+in the five-repository core and essentially tied in the rerun, so this is again
+evidence of automatic discovery and principled retirement rather than of runtime
+dominance.
 
-In the five-repository cohort, \method completes 120/120 exact held-out pairs on
-four repositories and retires \code{pytorch/pytorch} at compile time rather than
-loosening its gate (\cref{tab:multirepo}); the balanced three-repository rerun
-reaches 180/180 exact pairs with 66.7\% fewer requests.
-
-\subsection{Refusal when evidence is insufficient}
+\subsection{What binds: sample size, then deployability}
 \label{sec:res-refusal}
 
 \begin{table}[t]
   \centering
-  \caption{Where refusal happens. All three benchmarks clear provenance,
-  synthesis, and replay with \emph{zero} wrong held-out executions, then retire
-  at calibration: sample size binds, not correctness. Stages refer to
-  \cref{alg:compile}; all three need 92 zero-violation groups by
-  Eq.~\eqref{eq:cp}.}
+  \caption{Where refusal happens, and what happens where it does not. Stage
+  numbers are \cref{alg:compile}'s; ``slots'' is the share of dependency slots with
+  a recovered producer and $n_{\max}$ the largest family support against the 92
+  \cref{eq:cp} requires.}
   \label{tab:funnel}
   \footnotesize
   \setlength{\tabcolsep}{4pt}
   \input{tables/refusal_funnel.tex}
 \end{table}
 
-The external benchmarks expose the opposite outcome, stage by stage in
-\cref{tab:funnel}. All three clear provenance, synthesis, and held-out replay
-with \emph{no} wrong execution anywhere, and all three still retire: their
-largest families reach 26, 8, and 15 groups against the 92 that \cref{eq:cp}
-requires. Executed BFCL gold plans are the pre-registered case: their outcome was
-recorded before the compiler saw them.
+The external substrates isolate the binding constraint (\cref{tab:funnel}). All
+four clear provenance, synthesis, and held-out replay with \emph{no} wrong
+execution anywhere. NESTFUL, API-Bank, and executed BFCL gold plans then retire,
+and each retirement was arithmetically settled before the compiler ran---which is
+why a fourth substrate was needed. AppWorld's public gold solutions reach
+$n_{\max}=136$, so it is the first external corpus where \cref{eq:cp} is
+satisfiable, and it admits one artifact at 92/92 zero-violation groups
+($U_{\hat\eta}=0.0498$) with 11/11 exact held-out replay, under both
+pre-registered effect arms. Two features bound it: the gate is step-like, and the
+admitted program is argument-free, so provenance fixed its \emph{length} rather
+than its content---four further candidates retired, two on 89 and 90 eligible
+groups at $U=0.051$, and one mined three calls but synthesized two because its
+login password slot is not groundable in every supporting group
+(\cref{app:external}).
 
-All three therefore separate trace-level properties from deployment evidence:
-provenance reachability and replay correctness identify a plausible program
-without certifying that it should replace a model.
+Admissibility is not dispatchability. Gold solutions are not agent
+trajectories, so we also test the admitted region against AppWorld's 28 released
+baseline runs. Over 8{,}190 held-out trajectories it is structurally eligible at
+the entry boundary in $37.9\%$, and that average is bimodal: near-total for
+full-code agents, and $1$ of $4{,}680$ for ReAct and plan-and-execute, which open
+by reading API documentation so the prefix leaves position~0
+(\cref{tab:appworld-dispatch}). A miss abstains cleanly, and this bounds $\phi$
+from above rather than measuring it, so no saving is claimed.

@@ -6,33 +6,28 @@ programs that preserve held-out contracts on the tested GitHub families and
 retire when evidence is inadequate.
 
 \paragraph{Gate maturity is the main scientific risk.}
-\Cref{prop:admission} is per-candidate, not compiler-wide over the adaptive
-search of \cref{alg:compile}; certification requires freezing the candidate
-relative to calibration, and a Bonferroni repair over $m$ candidates would use
-$\gamma=\delta/(m|\Lambda|)$, raising the zero-violation requirement from 92
-admitted groups to 106 at $m=2$. The gate is also empirically step-like at
-$n_\eta\ge 92$: we show that it \emph{refuses} correctly far better than that
-$q$ \emph{discriminates}. Refitting $q$ for a genuine frontier is the key
+\Cref{prop:admission} is per-candidate, not compiler-wide over
+\cref{alg:compile}'s adaptive search; certification requires freezing the
+candidate relative to calibration, and a multiplicity repair raises the
+requirement further (\cref{app:config}). The gate is also empirically step-like at
+$n_\eta\ge 92$, AppWorld included: it \emph{refuses} correctly far better than $q$
+\emph{discriminates}, and refitting $q$ for a genuine frontier is the key
 follow-up.
 
 \paragraph{Group independence is assumed, not established.}
 \Cref{prop:admission} needs i.i.d.\ groups. Here each group is one record from
-one snapshot with \code{min\_days}=\code{min\_principals}=1; the grouped split
-does not establish exchangeability under shared schema, community, or time.
-The calibration cohort must also be sampled before filtering on whether the
-baseline happened to exhibit the mined region, with violation labels defined
-for every dispatch-eligible member; post-selecting only recurrent successes
-would not satisfy the proposition.
+one snapshot with \code{min\_days}=\code{min\_principals}=1, and AppWorld's
+task-level groups share a scenario's supervisor and database, so neither corpus
+establishes exchangeability and the second inherits the conditional rather than
+repairing it (\cref{app:limits}).
 
-\paragraph{External validity and practical competitiveness.}
+\paragraph{External validity, dispatchability, and competitiveness.}
 The richer evidence comes from one revision-pinned repository and one
 provider/model family, and the cross-repository extension is a narrower,
-template-tied task. We establish no superiority under drift or across providers,
-and do not price manual authoring or maintenance.
-
-\paragraph{Semantic scope, and where ``unchanged baseline'' is exact.}
-Exact task contracts do not certify a downstream model continuation. Writes,
-handoffs, hosted tools, undeclared effects, and removed-turn guardrails lie
-outside \cref{prop:admission}. Pre-emission rejection is exact on both paths;
-only a staging-owning runner can restore byte-identical model input after an
-attempt (\cref{app:algorithms}).
+template-tied task. Admission is also not dispatchability: a prefix is only worth
+compiling for an architecture that issues one, which neither
+\cref{prop:admission} nor the guard tests. We establish no superiority under
+drift or across providers, and do not price manual authoring or maintenance.
+Finally, exact task contracts do not certify a downstream model continuation, and
+writes, handoffs, hosted tools, undeclared effects, and removed-turn guardrails
+lie outside \cref{prop:admission} entirely (\cref{app:limits}).

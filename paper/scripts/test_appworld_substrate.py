@@ -10,6 +10,7 @@ and a data download.
 from __future__ import annotations
 
 import importlib.util
+import json
 import sys
 from pathlib import Path
 
@@ -241,3 +242,69 @@ def test_sealed_result_matches_the_preregistered_prediction() -> None:
             if not row["retire"]:
                 assert row["observed_violations"] == 0
                 assert row["risk_upper_bound"] <= 0.05
+
+
+# --- dispatch preflight ----------------------------------------------------
+
+
+def _preflight():
+    spec = importlib.util.spec_from_file_location(
+        "appworld_dispatch_preflight",
+        Path(__file__).with_name("appworld_dispatch_preflight.py"),
+    )
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(module)
+    return module
+
+
+PREFLIGHT = _preflight()
+
+
+def test_route_table_matches_parameterised_paths(tmp_path) -> None:
+    """216 of AppWorld's 457 paths are templated, so a released url needs matching."""
+
+    docs = tmp_path / "api_docs"
+    docs.mkdir()
+    (docs / "simple_note.json").write_text(json.dumps({
+        "show_note": {"app_name": "simple_note", "api_name": "show_note",
+                      "path": "/simple_note/notes/{note_id}", "method": "GET"},
+        "search_notes": {"app_name": "simple_note", "api_name": "search_notes",
+                         "path": "/simple_note/notes", "method": "GET"},
+    }))
+    routes = PREFLIGHT._load_route_table(docs)
+    assert PREFLIGHT._resolve("get", "/simple_note/notes/930", routes) == "simple_note.show_note"
+    # a literal route must not be captured by a template that would also match it
+    assert PREFLIGHT._resolve("get", "/simple_note/notes", routes) == "simple_note.search_notes"
+    assert PREFLIGHT._resolve("get", "/simple_note/notes?query=x", routes) == "simple_note.search_notes"
+    assert PREFLIGHT._resolve("post", "/simple_note/notes", routes) is None
+
+
+def test_unknown_route_terminates_the_read_prefix() -> None:
+    """Unknown effects are not reads, so an undeclared call is a barrier at depth 0."""
+
+    catalog = MODULE._arm_catalog("A")
+    routes = [("get", __import__("re").compile("^/x$"), "not_in_catalog")]
+    depth, barrier = PREFLIGHT._maximal_read_prefix([("get", "/x")], routes, catalog)
+    assert depth == 0
+    assert barrier == "not_in_catalog"
+    depth, barrier = PREFLIGHT._maximal_read_prefix([("get", "/unroutable")], routes, catalog)
+    assert (depth, barrier) == (0, "undeclared_route")
+
+
+def test_sealed_preflight_reports_the_architecture_split() -> None:
+    """The published artifact must still separate admissible from dispatchable."""
+
+    payload = json.loads(PREFLIGHT.DEFAULT_OUT.read_text())
+    pooled = payload["pooled"]
+    assert pooled["tasks"] == 8190
+    assert 0.0 <= pooled["structural_eligibility_at_position_0"] <= 1.0
+    families = payload["by_agent_family"]
+    # the finding: eligibility is architecture-conditional, not workload-conditional
+    assert families["full_code_refl"]["structural_eligibility_at_position_0"] > 0.99
+    assert families["react"]["structural_eligibility_at_position_0"] < 0.01
+    normal = payload["by_split"]["test_normal"]["structural_eligibility_at_position_0"]
+    challenge = payload["by_split"]["test_challenge"]["structural_eligibility_at_position_0"]
+    assert abs(normal - challenge) < 0.05, "eligibility should not track task difficulty"
+    # the position invariant, not the effect catalog, is what refuses the ReAct traces
+    assert pooled["occurs_but_not_at_position_0"] >= 0

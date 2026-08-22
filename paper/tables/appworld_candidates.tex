@@ -1,0 +1,14 @@
+\begin{tabular}{@{}llrrrl@{}}
+\toprule
+Mined candidate window & Synthesized & Support & Elig.\ cal. & $U$ & Outcome \\
+\midrule
+\code{profile $\to$ passwords} & 2 steps & 22 & 92 & \textbf{0.0498} & admitted \\
+\code{profile $\to$ passwords $\to$ phone.login} & 2 steps & 22 & 92 & \textbf{0.0498} & admitted \\
+\code{profile $\to$ passwords} & 2 steps & 22 & 92 & 0.0498 & dominated \\
+\addlinespace[2pt]
+\code{profile $\to$ passwords $\to$ spotify.login} & 2 steps & 22 & 89 & 0.051 & retire \\
+\code{profile $\to$ passwords $\to$ simple\_note.login} & 2 steps & 19 & 90 & 0.051 & retire \\
+\code{profile $\to$ passwords $\to$ spotify.login} & 3 steps & 11 & 46 & 1.000 & retire \\
+\code{profile $\to$ passwords $\to$ phone.login} & 3 steps &  8 & 26 & 1.000 & retire \\
+\bottomrule
+\end{tabular}

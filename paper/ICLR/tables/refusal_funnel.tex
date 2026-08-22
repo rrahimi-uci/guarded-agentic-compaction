@@ -1,17 +1,10 @@
-\begin{tabular}{@{}lccc@{}}
+\begin{tabular}{@{}lrrrrrcrc@{}}
 \toprule
-Stage of \cref{alg:compile} & NESTFUL & API-Bank & BFCL v4 \\
+Substrate & Traces & Slots (1) & Windows (2) & At floor (2) & Synth.\ (4) & Replay p/a/\textbf{w} (5) & $n_{\max}$ (6) & Adm. \\
 \midrule
-Episodes / recorded traces                          & 1{,}415 & 212 & 200 \\
-Tools compilable / effect-blocked                   & ---     & 21 / 28 & 34 / 47 \\
-\addlinespace[1pt]
-Dependency slots with producer recovered (1)        & 5{,}531 / 5{,}746 (96.3\%) & 559 / 881 (63.5\%) & 1{,}445 / 2{,}124 (68.0\%) \\
-Episodes yielding an admissible window (2)          & 1{,}207 (85.3\%) & 37 (17.5\%) & 86 (43.0\%) \\
-Families at or above the support floor (2)          & 32 & 8 & 9 \\
-Families that synthesize a program (4)              & 12 & 2 & 4 \\
-Held-out replay: pass / abstain / \textbf{wrong} (5)& 24 / 12 / \textbf{0} & 0 / 2 / \textbf{0} & 3 / 3 / \textbf{0} \\
-\addlinespace[1pt]
-Largest family support $n_{\max}$ (6)               & 26 & 8 & 15 \\
-\textbf{Artifacts admitted}                         & \textbf{0} & \textbf{0} & \textbf{0} \\
+NESTFUL   & 1{,}415 & 96.3\% & 1{,}207 & 32 & 12 & 24 / 12 / \textbf{0} & 26 & \textbf{0} \\
+API-Bank  &     212 & 63.5\% &      37 &  8 &  2 &  0 /  2 / \textbf{0} &  8 & \textbf{0} \\
+BFCL v4   &     200 & 68.0\% &      86 &  9 &  4 &  3 /  3 / \textbf{0} & 15 & \textbf{0} \\
+AppWorld  &     136 & 63.2\% &     136 & 33 &  1 & 34 /  0 / \textbf{0} & \textbf{136} & \textbf{1} \\
 \bottomrule
 \end{tabular}

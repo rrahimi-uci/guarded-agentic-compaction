@@ -1099,8 +1099,11 @@ live source-grounded workflow studies from post-trace compiler substrates.
   \centering
   \caption{Benchmark at a glance. ``Trace'' is what the compiler observes after an agent
   execution; ``contract'' is the outcome checked on a held-out input. GitHub inputs are
-  real public records from one pinned snapshot. NESTFUL and API-Bank use retained
-  executable traces and therefore cannot support an end-to-end agent-quality claim.}
+  real public records from one pinned snapshot. The four external substrates use retained
+  or obtained executable traces with no model in the loop, and therefore cannot support an
+  end-to-end agent-quality claim; NESTFUL and API-Bank retain their results upstream,
+  while BFCL and AppWorld obtain them by executing official gold artifacts on their own
+  pinned backends.}
   \label{tab:benchmark-glance}
   \footnotesize
   \begin{tabularx}{\textwidth}{@{}p{0.17\textwidth} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X@{}}
@@ -1135,6 +1138,18 @@ live source-grounded workflow studies from post-trace compiler substrates.
     Recorded cross-call values over 49 APIs, including write-bearing tools &
     Effect barriers and support-gate refusal: write-bearing windows are blocked, and
     remaining recurrent families lack sufficient support. \\
+    BFCL v4 multi-turn & Official gold plan executed on the pinned stateful backend
+    $\rightarrow$ observed results for every reference call &
+    1,142 calls over 81 methods and eight scenario classes, with a byte-exact
+    provider-free replay oracle &
+    A pre-registered third refusal on a corpus with a different tool surface and a
+    more generous entry contract; not planning accuracy. \\
+    AppWorld & Official gold solution executed on the pinned resettable backend
+    $\rightarrow$ observed results, plus the task's own entry snapshot &
+    7,070 calls over 68 typed APIs in 136 tasks, byte-exactly reproducible &
+    The first external substrate whose group count makes \eqref{eq:cp} satisfiable:
+    one admitted artifact, four marginal retirements, and a held-out
+    dispatch-eligibility measurement. \\
     \bottomrule
   \end{tabularx}
 \end{table*}
@@ -1207,6 +1222,71 @@ expected producer references, mine families, split within families by group, syn
 from train/dev windows, and replay on held-out windows.  This experiment does not call an
 LLM and does not measure NESTFUL planning accuracy.  It tests the compiler after a valid
 trace exists.  The exact gate is then applied to observed family support.
+
+\subsection{External benchmarks: BFCL v4 and AppWorld}
+\label{sec:appworld-method}
+
+Two further public corpora ship an executable backend but no recorded tool results, so both
+are converted the same way: execute the official gold artifact on the pinned backend, retain
+each call's observed result, and let the task's own snapshot supply the entry state. Neither
+runs a model, so neither measures function-calling accuracy.
+
+BFCL v4's \code{multi\_turn\_base} tasks each publish an \code{initial\_config} snapshot and
+the API classes they involve. Executing the 200 official gold plans through the upstream
+helper yields 1,142 calls over 81 methods. Five preconditions fail the run closed rather than
+publishing a number: an undeclared method, any upstream execution-error sentinel, a read-like
+declaration observed mutating state, a compilable declaration observed advancing the seeded
+scenario RNG, and any inexact re-execution. All held. The predeclared outcome, decision rule,
+and claim boundary were committed before the compiler saw the corpus.
+
+AppWorld supplies nine simulated apps, 457 typed APIs, 100 fictional people, and a
+resettable per-task database~\cite{trivedi2024appworld}. Its public \code{minimal} data mode
+carries gold solution programs for the \code{train} and \code{dev} splits only, so those 147
+tasks are the substrate; \code{test\_normal} and \code{test\_challenge} withhold ground truth
+and cannot serve a post-trace question. Calls are captured at the single dispatch point every
+\code{apis.<app>.<api>(...)} invocation passes through, so the recorded identity is a
+semantic app/API pair with typed keyword arguments and a decoded JSON result rather than a
+URL and a form body.
+
+AppWorld is included for one reason, stated before the run. The three earlier substrates
+reached largest family supports of 26, 8, and 15 against the 92 zero-violation groups
+\eqref{eq:cp} requires, so each retirement was settled by corpus size before any compilation
+happened, and a reader is entitled to read all three as foregone conclusions rather than as
+tests of the gate. AppWorld is the first external corpus where the requirement is reachable,
+and therefore the first where the gate can be wrong. The pre-registration accordingly records
+the paper's first non-null external prediction.
+
+It also has exactly one contestable effect declaration, and that declaration decides how deep
+a region can go, so both readings are declared in advance. Each app's \code{login} is a
+\code{POST} that mints a bearer credential; it was observed to leave the database unchanged on
+all 184 of its calls and its token is byte-identical under re-execution, because AppWorld
+freezes each task's clock. \emph{Arm A} declares it \code{WRITE\_REVERSIBLE}, treating
+credential minting as a state claim the fixture need not record. \emph{Arm B} declares it
+\code{READ\_EXTERNAL} with \code{speculatable} and \code{replayable}, licensed by the audit.
+Exactly those five entries change. Arm A is primary because it is stricter; Arm B is reported
+because Arm A's winning family is argument-free and therefore does not exercise provenance at
+all, while Arm B's third call does.
+
+Groups are tasks rather than scenarios, which is the weaker of the two available choices and
+is declared as such: AppWorld's three variants of a scenario share a supervisor and a
+database, so their violation indicators are not independent, while scenario-level grouping
+gives 49 groups and could not reach 92 under any outcome. The bound is therefore conditional
+on task-level independence, the same conditional \cref{sec:limits} already records for the
+live studies; this substrate inherits it rather than repairing it. The calibration share is
+pinned at exactly the 92 groups the bound needs, drawn by seeded shuffle over all clean
+tasks, because a larger set would make the bound easier and a smaller one would make it
+unreachable.
+
+Finally, admission is compiled from gold solutions, which are not agent trajectories: they
+contain no planning turns, no documentation lookups, and no recovery steps. AppWorld also
+releases the official baseline agents' experiment outputs --- 28 runs over four agent
+architectures and four models --- each retaining the ordered API calls the agent actually
+issued. Those released runs are used for one measurement only: whether the admitted region is
+\emph{structurally eligible} at the entry boundary, meaning its exact call sequence occurs at
+normalized position~0. That is an upper bound on the dispatch rate $\phi$ and not $\phi$
+itself, because the manifest check and the calibrated gate are not evaluated against runs that
+never used the artifact's pinned manifest; and it cannot bound savings at all, because the
+released logs retain API calls rather than model boundaries.
 
 \subsection{Three real-record workflow families}
 \label{sec:github-families}
@@ -1553,6 +1633,130 @@ executable structural benchmark, not end-to-end validation of the deployed gate.
 The provider-free NESTFUL analysis completes in about six seconds, including roughly 1.4 for
 provenance construction, with 23.3 MiB peak traced memory.  These numbers characterize
 this pinned dataset and Python process, not distributed production throughput.
+
+\subsection{The reachable case: one external admission, and four marginal refusals}
+\label{sec:appworld-results}
+
+\begin{table*}[t]
+  \centering
+  \caption{The four external compiler substrates at the stages of
+  \cref{alg:compile}. Every substrate clears provenance, synthesis, and held-out replay
+  with zero wrong executions. Three retire because $n_{\max}$ falls short of the 92
+  zero-violation groups \eqref{eq:cp} requires --- a shortfall settled by corpus size before
+  the compiler ran. AppWorld reaches 136 and admits.}
+  \label{tab:external-substrates}
+  \footnotesize
+  \resizebox{\textwidth}{!}{\input{../tables/external_substrates.tex}}
+\end{table*}
+
+BFCL executed exactly as pre-registered. All 200 gold plans and 1,142 calls ran with no
+upstream error sentinel, an independent pass reproduced 1,142/1,142 results byte for byte,
+declared write barriers suppressed 2,802 candidate spans, and 146 candidate windows in 86
+tasks formed 77 families. Nine reached the support floor, four synthesized, and held-out
+replay returned 3 passes, 3 abstentions, and zero wrong executions. The gate retired every
+family at $n_{\max}=15$ against 92. Its empirical effect audit also produced the finding that
+justifies signing catalogs by hand: over 1,060 observed mutating calls, no read-like
+declaration was ever observed mutating and no compilable declaration ever advanced the RNG,
+but \code{TravelAPI.get\_flight\_cost} --- a nominal getter by name and docstring --- mutated
+its instance's internal lookup on 36 of 36 calls. A name- or docstring-derived effect label
+would have admitted a write into a compiled region.
+
+AppWorld is the case the other three could not test. Of 147 public gold solutions, 136
+execute cleanly; 11 \code{dev} solutions raise against the shipped database version and are
+reported as upstream compatibility outcomes rather than dropped, in the same way as
+API-Bank's partial re-execution. The independent second pass reproduced 7,070/7,070 observed
+results byte for byte, minted access tokens included. The corpus spans 46 scenarios and 79
+distinct fictional supervisors, with 5/36/244 calls per task at minimum, median, and maximum.
+
+The empirical effect audit is cleaner here than on BFCL. Of 7,070 calls, 1,320 mutate the
+application database; no read-like declaration was observed mutating; and --- unlike BFCL ---
+no API mutates on some calls but not others. Every \code{GET} was clean on every call and
+every \code{DELETE} and \code{PATCH} mutated on every call, so the effect boundary is crisp.
+The five \code{*.login} endpoints are the only non-\code{GET} APIs that never mutate, which is
+precisely why they are the pre-registered contestable declaration.
+
+\Cref{tab:external-substrates} shows the consequence. AppWorld reaches $n_{\max}=136$, so
+\eqref{eq:cp} is satisfiable, and the deployable pipeline admits one artifact in \emph{both}
+arms --- the same artifact in each: the two-step program
+\code{supervisor.show\_profile}~$\rightarrow$~\code{supervisor.show\_account\_passwords}, at 92
+of 92 calibration groups accepted, zero violations, $\hat\eta=0.50$, and
+$U_{\hat\eta}=0.0498\le\alpha=0.05$, with 11/11 exact held-out replay. This is the first
+admitted artifact on any external corpus in this paper.
+
+Three properties bound that admission, and all three cut against it. First, the gate is
+degenerate: coverage moves from 0 at $\eta=.05$ to 1.00 at $\eta=.08$ and stays there, so it
+admits every calibration group as soon as it admits any. AppWorld therefore \emph{reproduces}
+the gate non-discrimination reported in \cref{sec:negative} on a public corpus rather than
+repairing it. Second, the admitted program is argument-free: both calls take no arguments, so
+the admitted artifact does not exercise provenance, and what provenance decided was its
+\emph{length}. Third, no saving is shown, because no model ran.
+
+\begin{table*}[t]
+  \centering
+  \caption{Every candidate the deployable pipeline reached in the permissive arm. The
+  refusals are not support failures: two miss on 89 and 90 eligible calibration groups
+  against the 92 required, at $U=0.051$ against $\alpha=0.05$. Two rows mine a three-call
+  window but synthesize two steps, because the login password slot is not groundable in
+  every supporting group --- the maximal-justified-prefix retirement of
+  \cref{fig:provenance-wiring}, on a public corpus.}
+  \label{tab:appworld-candidates}
+  \footnotesize
+  \resizebox{\textwidth}{!}{\input{../tables/appworld_candidates.tex}}
+\end{table*}
+
+Where provenance and the barriers do bind is the permissive arm's refusals
+(\cref{tab:appworld-candidates}). Six candidates reached the pipeline: one was admitted, one
+was dominated by a longer region, and four retired at calibration. None retired for lack of
+support. Two retired on 89 and 90 eligible calibration groups against 92 --- short by three
+groups and two groups, and by $0.001$ of bound. The other two are app-specific, so only the
+calibration tasks touching that app are eligible, and 46 and 26 groups cannot reach a 5\%
+bound at any threshold on the frozen grid. The admitted candidate is the same mechanism a
+third time: its mined window is three calls including \code{phone.login}, but its synthesized
+program is two steps, because the login's password slot is not groundable in every supporting
+group.
+
+\subsubsection{Admissible is not dispatchable}
+\label{sec:appworld-dispatch}
+
+\begin{table}[t]
+  \centering
+  \caption{Structural dispatch eligibility of the admitted AppWorld artifact on the 28
+  released official baseline runs, by agent architecture. Eligibility is the admitted
+  program's exact call sequence at normalized position~0, so it is an upper bound on $\phi$
+  and not $\phi$: the manifest check and the calibrated gate are not evaluated, and the
+  released logs retain API calls rather than model boundaries. A miss is a clean abstention
+  to the unchanged agent.}
+  \label{tab:appworld-dispatch}
+  \footnotesize
+  \resizebox{\columnwidth}{!}{\input{../tables/appworld_dispatch.tex}}
+\end{table}
+
+The admitted artifact was compiled from gold solutions. Measured instead against the 28
+released official baseline runs, it is structurally eligible on 3,102 of 8,190 held-out
+trajectories (37.9\%) --- and that pooled number averages over a sharply bimodal population
+(\cref{tab:appworld-dispatch}). Full-code agents present the region on 2,339 of 2,340
+trajectories and iterative parallel function-calling agents on 762 of 1,170, while ReAct and
+plan-and-execute agents present it on 1 of 4,680. The mechanism is legible in the first call:
+3,752 of the released trajectories begin with an API-description lookup, because those
+architectures read documentation before acting, and the compiled prefix is then no longer at
+position~0, so \eqref{eq:prefix} refuses. A further 61 trajectories contain the program
+somewhere other than position~0, which the same invariant also refuses.
+
+Two secondary observations sharpen the reading. The rate is flat across task difficulty
+(0.377 on \code{test\_normal} against 0.380 on \code{test\_challenge}), so this tracks the
+agent's calling discipline rather than the workload. And the maximal compilable depth on the
+eligible families is 2, so the admitted two-step program sits at the ceiling the effect
+catalog permits rather than short of it; on the ineligible families the measured depth is a
+floor rather than an estimate, because the API-description call is undeclared in the signed
+catalog and unknown effects are not reads.
+
+The consequence is a deployment precondition that no admission condition in
+\cref{sec:method} expresses. A miss costs a forgone saving rather than an error, because the
+guard abstains and the unchanged agent runs. But a compiled prefix is only worth compiling
+for an architecture that actually issues one, and nothing in \cref{prop:admission}, the hard
+guard, or the calibrated gate tests that. It also explains the paper's own live results
+rather than sitting beside them: the GitHub agents share the fixed-prefix discipline of the
+full-code family, which is the regime in which a prefix artifact can pay at all.
 
 \subsection{RQ6: transfer across three workflow families}
 \label{sec:family-results}
@@ -2137,14 +2341,34 @@ Five results in this section are negative, and they constrain the contribution m
 sharply than the efficiency numbers do.  They are collected here because each one closes a
 different explanation that a reader would otherwise be entitled to keep open.
 
-\emph{Every externally sourced recurrent family retired.} Twelve synthesized NESTFUL
-families and both API-Bank families reached held-out replay without a single wrong
-execution --- 24 passes and 12 abstentions on NESTFUL, two abstentions on API-Bank ---
-and still none reached the 92 zero-violation groups the configured gate requires
-(\cref{sec:rq1}).  This rules out the reading that recurrence plus successful
-replay is sufficient evidence to rewrite an agent, which is the assumption a
-recurrence-only macro miner makes.  It also fixes the cost of the guarantee: on these
-corpora the admission requirement, not the synthesizer, is the binding constraint.
+\emph{Three externally sourced substrates retired, and the fourth exposed why that was
+not yet informative.} Twelve synthesized NESTFUL families, both API-Bank families, and
+four executed-BFCL families reached held-out replay without a single wrong execution ---
+24 passes and 12 abstentions, two abstentions, and 3 passes with 3 abstentions
+respectively --- and none reached the 92 zero-violation groups the configured gate requires
+(\cref{sec:rq1}).  This rules out the reading that recurrence plus successful replay is
+sufficient evidence to rewrite an agent, which is the assumption a recurrence-only macro
+miner makes.  It also fixes the cost of the guarantee: on these corpora the admission
+requirement, not the synthesizer, is the binding constraint.
+
+The honest weakness of that argument is that all three shortfalls were settled by corpus
+size --- largest supports of 26, 8, and 15 against 92 --- before any compilation happened, so
+none of the three actually tested whether the gate can be wrong.  AppWorld does
+(\cref{sec:appworld-results}): it reaches 136 groups, admits one artifact at
+$U_{\hat\eta}=0.0498$, and then still refuses four further candidates --- two of them short
+by three and two eligible calibration groups, at $U=0.051$ against $\alpha=0.05$.  What
+that buys is a refusal that was not arithmetically pre-determined.  What it does not buy is
+a demonstrated risk--coverage frontier, because the admitted gate is as step-like as the
+live ones, or a provenance demonstration, because the admitted program is argument-free.
+
+\emph{The admitted artifact does not dispatch on most real agents.} Measured against 8,190
+released third-party AppWorld baseline trajectories, the admitted region is structurally
+eligible at the entry boundary on essentially every full-code agent trajectory and on 1 of
+4,680 ReAct and plan-and-execute trajectories (\cref{sec:appworld-dispatch}).  This rules
+out reading admission as deployability: an artifact can satisfy every provenance, effect,
+position, contract, and finite-sample condition in this paper and still never fire, because
+whether an agent presents a compilable prefix at its entry boundary is a property of its
+calling discipline that no admission condition tests.
 
 \emph{The suffix pilot reduced requests while destroying the task.} It cut provider
 requests 36.7\% at 16.7\% contract validity (\cref{sec:pilot}).  This rules out
@@ -2153,8 +2377,10 @@ broken compiler above no compiler at all.
 
 \emph{The gate did not discriminate.} Five of six live gates admit all or none, and the
 single partially selective gate refuses four of its 92 groups --- which is precisely what
-lifts its own bound above the registered 5\% (\cref{sec:limits}).  This rules out any claim that the calibrated score separates risky
-inputs from safe ones on this evidence; what the mechanism demonstrably provides is a
+lifts its own bound above the registered 5\% (\cref{sec:limits}).  The AppWorld admission
+replicates this on a public corpus: its coverage moves from 0 at $\eta=.05$ to 1.00 at
+$\eta=.08$ and stays there.  This rules out any claim that the calibrated score separates
+risky inputs from safe ones on this evidence; what the mechanism demonstrably provides is a
 sample-size requirement and a refusal, not a demonstrated risk--coverage frontier.
 
 \emph{Bounded prompt optimization selected no change.} GEPA spent 59 provider requests and
@@ -2658,6 +2884,18 @@ prior-record exclusion.
 There is no human study of
 productivity or user experience and no multi-domain production canary.
 
+The AppWorld substrate widens the tool surface without widening the efficiency claim.  It
+adds a second domain, 68 typed APIs across nine simulated apps, 46 scenarios, and 79
+distinct fictional supervisors, and it is scored against an independent third-party
+oracle rather than a contract this paper registered.  But no model runs on it, so it
+carries no request, token, latency, or cost number, and its group definition inherits the
+same independence conditional as the live studies: three variants of an AppWorld scenario
+share a supervisor and a database, and scenario-level grouping would give 49 groups, below
+the 92 the bound needs.  Its dispatch measurement is likewise bounded --- it establishes
+structural eligibility at the entry boundary, not $\phi$, because the released baseline
+runs never used the artifact's pinned manifest, and it cannot speak to savings because
+those logs retain API calls rather than model boundaries.
+
 The artifact includes a prospective three-domain extension harness for vulnerability
 evidence, SEC filing facts, and privacy-modified public HMDA records.  The HMDA checkpoint
 is now reported explicitly: 420/420 independent exact-gold reconstructions pass and
@@ -2692,12 +2930,17 @@ rewrite an agent. It compiles only value-grounded, read-only prefixes that satis
 compatibility, verification, and finite-sample admission requirements; otherwise it keeps
 the original agent.
 
-The results separate discovery and admission from runtime efficiency. Across the three
-real-record GitHub families, the compiler preserves 90/90 exact held-out contracts and
-reduces provider requests by 50--75\%. The time-forward extension reproduces the pattern
-on a narrower task in four repositories and retires the fifth. The historical three-read
-artifact still has a factual miss, and fairly placed hand-written programs match the
-compiler where they share an interface. NESTFUL and API-Bank provide the complementary
+The results separate discovery and admission from runtime efficiency, and separate both
+from deployability. Across the three real-record GitHub families, the compiler preserves
+90/90 exact held-out contracts and reduces provider requests by 50--75\%. The time-forward
+extension reproduces the pattern on a narrower task in four repositories and retires the
+fifth. The historical three-read artifact still has a factual miss, and fairly placed
+hand-written programs match the compiler where they share an interface. AppWorld is the one
+external corpus whose sample size lets the gate decide rather than arithmetic: it admits a
+small argument-free region and refuses four more at the margin, and that admitted region
+proves structurally eligible on essentially every full-code agent trajectory and
+essentially no ReAct one --- so an artifact can satisfy every condition in this paper and
+still never fire. NESTFUL, API-Bank, and executed BFCL gold plans provide the complementary
 result: recurrent, executable traces still retire when the configured evidence requirement
 is unmet. Thus the contribution is automatic, evidence-gated discovery of a safe partial
 program, not a claim that generated code universally outruns a well-placed manual macro.

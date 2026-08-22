@@ -115,6 +115,32 @@ statistic would measure the degeneracy rather than the effect.
 
 \section{Additional Experimental Detail}
 
+\begin{table}[t]
+  \centering
+  \caption{Primary GitHub benchmark at a glance. Each sample supplies one record
+  number from a pinned public snapshot; every listed answer field is checked
+  against the source record.}
+  \label{tab:benchmark-glance}
+  \footnotesize
+  \setlength{\tabcolsep}{2.5pt}
+  \renewcommand{\arraystretch}{1.12}
+  \begin{tabularx}{\linewidth}{@{}p{0.16\linewidth}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
+    \toprule
+    Task & Read-only evidence path & Exact answer contract \\
+    \midrule
+    Issue type & \code{issue\_number} $\rightarrow$ record, official labels,
+    comments & Title, state, label-derived category, verbatim excerpt \\
+    PR outcome & \code{pr\_number} $\rightarrow$ PR record, merge status,
+    discussion & \code{open}, \code{merged}, or \code{closed\_unmerged}, plus
+    title and comment excerpt \\
+    Backlog attention & \code{issue\_number} $\rightarrow$ open-issue record,
+    assignees, discussion & \code{owned}, \code{discussed\_unowned}, or
+    \code{awaiting\_first\_response}, plus title, owner, and excerpt \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+
 \paragraph{Primary workflow families.}
 The three-family result is the main paper's strongest live evidence because it
 combines distinct tool vocabularies, exact task graders, balanced held-out
@@ -165,7 +191,7 @@ exploratory.
 \label{app:breadth}
 
 The main text uses the nine-page budget for the registered live studies, the
-time-forward extension, and the two compiler-measured refusal benchmarks. This
+time-forward extension, and the four compiler-measured external substrates. This
 appendix makes the retained breadth visible without pooling incomparable cohorts
 or promoting screened and exploratory work to deployment evidence.
 
@@ -173,7 +199,8 @@ or promoting screened and exploratory work to deployment evidence.
 
 \begin{table}[t]
   \centering
-  \caption{Disaggregated cross-repository outcomes behind \cref{tab:multirepo}.
+  \caption{Disaggregated cross-repository time-forward outcomes behind
+  \cref{sec:res-multirepo}.
   The core protocol uses four completed repositories and one compile-time
   retirement; the balanced rerun changes the selected repositories and class
   mix, so it is reported separately rather than pooled with the core protocol.
@@ -238,10 +265,70 @@ account for 35 suppressed spans. Write barriers suppress 2{,}802 spans in total,
 against 45 for entry-schema admissibility, 31 for slot ambiguity, and 5 for
 partial runs.
 
+\paragraph{Obtaining observed results from AppWorld, and why it is the reachable case.}
+AppWorld's shipped \code{api\_calls.json} records method, url, and request data but
+no responses, so it fails closed for the same reason BFCL's plans do. Executing
+the official \code{compiled\_solution\_code} against the pinned
+\code{0.1.3.post1} backend supplies the results; each task's own \code{specs.json}
+supplies the entry snapshot; a second execution supplies the replay oracle. Calls
+are captured at the single dispatch point every \code{apis.<app>.<api>(...)} call
+passes through, so the recorded identity is a semantic app/API pair with typed
+keyword arguments and a decoded JSON result. Of the 147 public train+dev gold
+solutions, 136 execute cleanly; 11 dev solutions raise against the shipped data
+version and are reported as upstream compatibility outcomes rather than dropped.
+The second pass reproduced 7{,}070/7{,}070 results byte for byte, minted access
+tokens included, because AppWorld freezes each task's clock.
+
+The empirical audit attributes every \code{INSERT}/\code{UPDATE}/\code{DELETE}/
+\code{CREATE}/\code{DROP} statement to the enclosing call. It observed 1{,}320
+mutating calls, zero read-like declarations mutating, and---unlike BFCL---zero APIs
+that mutate on some calls but not others. Every \code{GET} was clean on every call
+and every \code{DELETE} and \code{PATCH} mutated on every call, so the effect
+boundary is crisp; the five \code{*.login} endpoints are the only non-\code{GET}
+APIs that never mutate, which is why they are the single contestable declaration
+and why the run is pre-registered in two arms. Groups are tasks, not scenarios:
+AppWorld's three variants of a scenario share a supervisor and a database, so the
+bound is conditional on task-level independence, which this corpus does not
+establish---the same conditional the live studies carry, neither weakened nor
+repaired here. The calibration share is fixed at exactly the 92 groups the bound
+needs, since a larger set would make the bound easier and a smaller one would make
+it unreachable.
+
+\begin{table}[t]
+  \centering
+  \caption{Structural dispatch eligibility of the admitted AppWorld artifact on
+  the 28 released official baseline runs. Eligibility is the admitted program's
+  exact call sequence at normalized position~0; it is an upper bound on $\phi$,
+  because the manifest check and the calibrated gate are not evaluated and the
+  released logs retain API calls rather than model boundaries. A miss abstains to
+  the unchanged agent.}
+  \label{tab:appworld-dispatch}
+  \footnotesize
+  \setlength{\tabcolsep}{5pt}
+  \input{tables/appworld_dispatch.tex}
+\end{table}
+
+\paragraph{Admissible is not dispatchable.}
+\Cref{tab:appworld-dispatch} separates the two. The admitted region is eligible on
+essentially every full-code trajectory and essentially no ReAct or
+plan-and-execute trajectory, because those architectures open by reading API
+documentation---3{,}752 of the 8{,}190 released trajectories begin with an
+API-description call---so the compiled prefix is no longer at position~0 and
+\eqref{eq:prefix} refuses. A further 61 trajectories contain the program somewhere
+other than position~0, which the same invariant refuses. Full-code agents are eligible on $2{,}339/2{,}340$ trajectories and iterative
+parallel function-calling agents on $762/1{,}170$. Two secondary observations: the
+rate is flat across task difficulty ($0.377$ on \code{test\_normal} against
+$0.380$ on \code{test\_challenge}), so this is a calling-discipline property
+rather than a workload property; and the maximal compilable depth is 2 on
+the eligible families, so the admitted two-step program sits at the ceiling the
+effect catalog permits rather than short of it. On the ineligible families the
+measured depth is a floor, not an estimate, because the API-documentation call is
+undeclared in the signed catalog and unknown effects are not reads.
+
 \begin{table}[t]
   \centering
   \caption{Disposition of every retained external benchmark family. Only the
-  three compiler-measurement rows support compiler claims; the remaining rows
+  four compiler-measurement rows support compiler claims; the remaining rows
   document why broader benchmark names are not silently converted into GAC
   results. BFCL appears twice because its reference plans and its executed gold
   plans are different evidence.}
@@ -271,6 +358,23 @@ frontiers therefore remain diagnostic rather than evidence for the main claim.
 \end{table}
 
 \section{Extended Limitations}
+\label{app:limits}
+
+\paragraph{Where ``unchanged baseline'' is exact.}
+Pre-emission rejection is exact on both runtime paths; only a staging-owning
+runner can restore byte-identical model input after an attempt has been emitted
+(\cref{app:algorithms}). Without one, a post-commit verifier failure is an
+incident rather than a fallback, which is why the compiled region is confined to
+the pre-commit prefix.
+
+\paragraph{How the calibration cohort must be sampled.}
+The calibration cohort must be sampled before filtering on whether the baseline
+happened to exhibit the mined region, with violation labels defined for every
+dispatch-eligible member; post-selecting only recurrent successes would not
+satisfy \cref{prop:admission}. This is why the AppWorld substrate fixes its
+calibration share at exactly the 92 groups the bound requires and draws them by
+seeded shuffle over all clean tasks, rather than taking the tasks in which the
+mined family happens to have the deepest support.
 
 \begin{figure}[t]
   \centering
