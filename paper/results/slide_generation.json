@@ -20,6 +20,14 @@
       "path": "paper/results/github_workflow_families/summary.json",
       "sha256": "620bfe2d1c93e3b7c0a3bac55abbb7315e21e3424c7fd7da47dbe080efe9e4df"
     },
+    "headroom_backlog_attention": {
+      "path": "paper/results/github_workflow_families/backlog_attention/headroom_ablation/results.json",
+      "sha256": "5b90452bc62275f9e6e9e139dc8307443c7db69419e44a6b7ffbb278f2b4eb48"
+    },
+    "headroom_pr_outcome": {
+      "path": "paper/results/github_workflow_families/pr_outcome/headroom_ablation/results.json",
+      "sha256": "1df818b3ebcceecb7e1183624ae087defd3716348dd3d88fa3474671ab1c3290"
+    },
     "nestful": {
       "path": "paper/results/nestful/results.json",
       "sha256": "88d305dd65601afc64a8cb4d1d206b9499fca113d4f04b0339b4331e4d3b00fa"
@@ -29,13 +37,13 @@
       "sha256": "94319b5ba5056363359378fb383612c14fe91c381db50ef5e1749bda9ade8584"
     }
   },
-  "evidence_boundary": "Three real-record workflow families support the primary transfer result: compiled 90/90, baseline 89/90, manual 90/90, all admitted at the registered alpha=.05 with a pooled 3.3% compiled-only discordance bound. The snapshot does not establish cross-repository or time-forward transfer, and part of the reported 32.0-75.3% cost range reflects prompt-cache warmth rather than compiled depth. GCS and comparator results rest on an artifact calibrated at alpha=.10 and are not licensed at .05. NESTFUL and API-Bank remain refusal evidence; eight other benchmark paths are supplementary interoperability audits.",
+  "evidence_boundary": "Three real-record workflow families support the primary transfer result: compiled 90/90, baseline 89/90, manual 90/90, all admitted at the registered alpha=.05 with a pooled 3.3% compiled-only discordance bound. The Headroom ablation is limited to two reused 30-record cohorts: its 240 eligible JSON payloads received zero transformations and saved zero tokens, so it is a boundary-specific negative result rather than a rival mechanism for GAC savings. The snapshot does not establish cross-repository or time-forward transfer, and part of the reported 32.0-75.3% cost range reflects prompt-cache warmth rather than compiled depth. GCS and comparator results rest on an artifact calibrated at alpha=.10 and are not licensed at .05. NESTFUL and API-Bank remain refusal evidence; eight other benchmark paths are supplementary interoperability audits.",
   "generator": "paper/scripts/generate_slides.mjs",
-  "generator_sha256_current": "ab6a33a06a6549b1a526428eb01ef948ba6e5c289e61bc6226b01b6320df8650",
+  "generator_sha256_current": "fa90d993552838c2d514292f69c1bf8089f242352d9b459d7f5dcf972e6ff2af",
   "outputs": {
     "technical": {
       "path": "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx",
-      "sha256": "6bde12cd107385505a6484133ff3c8c1380952f15ba76de25582e26e110686f6",
+      "sha256": "053e1a99f43a9b41d4cd36ee989476ccec46420bc60bb4268d086af7ff6691c5",
       "slides": 26
     }
   },
@@ -64,14 +72,21 @@
     "applied_after": [
       "retitle_slides.py",
       "restyle_detailed_deck.py",
-      "refresh_aha_example_slide.py"
+      "refresh_aha_example_slide.py",
+      "refresh_headroom_ablation_slide.py"
     ],
     "changes": [
       "twelve eyebrow coordinates recomputed and each asserted against paper/open_research/article.aux",
       "slide 12 outcome tally: exactly one edge still compacts, the other two counts become n, matching the manuscript's invariant instead of a count it no longer states",
       "slide 12 incident body restated as failed abort / failed commit / post-commit failure with unattestable reversibility, kept near the sibling card's length because the 3.18x0.8in card has no autofit",
-      "slide 13 records that the score is fitted on development groups while the bound counts only dispatched-and-wrong groups"
+      "slide 13 records that the score is fitted on development groups while the bound counts only dispatched-and-wrong groups",
+      "slide 18 records Headroom's fixed-cohort negative result: 240 attempted JSON payloads, zero transformations, and zero tokens saved"
     ],
+    "headroom_ablation": {
+      "script": "paper/scripts/refresh_headroom_ablation_slide.py",
+      "target": "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx",
+      "verification": "The exact inherited text box is replaced once; the checked-in artifact-tool runtime is unavailable, so this narrow post-generation edit preserves existing slide geometry and chart parts."
+    },
     "input_sha256": "5f680b0b2ca221d1dc73db0e568171c967e09f64f554a68edc92d10e9da5cfca",
     "reason": "Inserting the Section 2-3 reader aids added twelve figures and one table to the article, renumbering every float after them, so twelve eyebrow coordinates pointed at the wrong exhibit. The manuscript also stopped enumerating the runtime terminal edges as 1/5/1, which slide 12 still asserted.",
     "script": "paper/scripts/resync_slide_coordinates.py",

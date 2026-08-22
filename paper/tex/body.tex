@@ -1904,6 +1904,21 @@ dominance over a correct manual implementation.  All records come from one snaps
 one repository, so RQ6 is supported for workflow-family transfer only, not cross-repository
 or time-forward generalization.
 
+\paragraph{Context-compression ablation.}
+To distinguish replacing model-mediated decisions from merely shortening the remaining
+context, we reran the PR-outcome and backlog-attention cohorts with version-pinned
+Headroom 0.5.18.  The paired design adds Headroom-only and \method plus Headroom to the
+unchanged and compiled conditions (and retains the manual pre-model reference as a fifth
+arm).  At the deliberately narrow, model-visible JSON boundary, Headroom attempted 120
+eligible payloads per family (90 tool results and 30 compiled evidence objects), applied
+zero transformations, and saved zero tokens.  All four new paired quality contrasts remain
+30/30 versus 30/30 exact contracts (McNemar $p=1$).  The observed total-token differences
+are therefore ordinary generation variation rather than compression: Headroom-only is
+$-0.15\%$ on PR outcome and $+0.30\%$ on backlog attention, while \method plus Headroom is
+$+0.28\%$ and $+0.25\%$ relative to \method alone.  This is a negative result for this
+short JSON-payload boundary, not evidence that Headroom cannot help on longer or differently
+shaped contexts; it neither changes the compiler nor enters the primary 90-record aggregate.
+
 \subsubsection{Cross-repository, time-forward extension}
 \label{sec:multirepo-results}
 
@@ -2634,19 +2649,13 @@ to ours on a superficially similar workload.  Such systems shrink the payload of
 that still happen; they never remove a model boundary, so they cannot reduce provider
 requests at all.  \method removes the boundary and leaves the payload alone.  The two
 therefore compose rather than compete --- one could compress the reads that a compiled
-prefix still performs.  We ran that comparator rather than only naming it: a live
-Headroom v0.5.18 ablation adds \code{headroom\_only} and \code{compiled\_headroom} arms to
-both live GitHub families on the same 30-record held-out cohort
-(\cref{sec:limits}).  Headroom attempted every eligible payload --- 90 JSON tool results
-per family in the uncompiled arm, 30 pre-model evidence objects per family in the
-compiled arm --- and applied \emph{zero} transformations, saving zero tokens in either
-family; all four paired quality contrasts stay 30/30 with exact McNemar $p=1$.  This is a
-null engagement with these payload shapes, not a compression result: \method's own
-80.9\% and 81.6\% total-token reductions on the two families are unaffected by whether
-Headroom is in the loop, and the ablation does not establish Headroom's behavior on
-longer or differently shaped contexts.  It does, however, retire the specific concern
-that our reduction is really Headroom's reduction under another name --- on this
-workload the two systems visibly do not touch the same bytes.
+prefix still performs.  We ran that comparator rather than only naming it, adding a live
+Headroom v0.5.18 ablation to both live GitHub families (\cref{sec:family-results}):
+Headroom attempted every eligible payload and applied \emph{zero} transformations, a null
+engagement with these payload shapes rather than a compression result.  It nonetheless
+retires the specific concern that our reduction is really Headroom's reduction under
+another name --- on this workload the two systems visibly do not touch the same bytes ---
+though it says nothing about longer or differently shaped contexts.
 Their accuracy evidence is also of a different kind: measured benchmark deltas over
 lossy compression, with no abstention path and no finite-sample bound, which is the same
 distinction that separates \method from every other row of \cref{tab:related-work}.
@@ -2866,20 +2875,17 @@ experiment demonstrates.
 Every headline resource number in this paper compares a compiled prefix against an
 \emph{uncompressed} baseline agent, because deployed context\hyp{}compression middleware
 reports token reductions of the same order on a comparable GitHub triage workload by an
-entirely different mechanism~\cite{headroom2026}.  We added a live Headroom v0.5.18 arm to
-both GitHub families on the existing 30-record held-out cohort to check this directly
-rather than leave it asserted (\code{paper/supplementary/headroom-ablation-protocol.md}).
-Headroom attempted every eligible JSON tool result and pre-model evidence object and
-applied none of them, saving zero tokens in either family while all four paired quality
-contrasts held 30/30 at exact $p=1$.  The result is a null engagement at this payload
-shape, not a measured composition or a measured floor: it does not establish that
-Headroom would behave the same on larger or differently structured contexts, and the
-committed protocol says so.  What it licenses is narrower than ``the best available
-reduction on these axes'' but still real --- on this workload, over these payloads,
-compression and compaction visibly do not compete for the same bytes, so \method's
-reduction is not a relabeling of what a compression pass would already have captured.
-The provider-request reduction was never exposed to this threat in the first place,
-because compression never removes a call.
+entirely different mechanism~\cite{headroom2026}.  The live Headroom v0.5.18 ablation of
+\cref{sec:family-results} checks this directly rather than leaving it asserted
+(\code{paper/supplementary/headroom-ablation-protocol.md}): Headroom applied none of its
+eligible payloads on either family, a null engagement at this payload shape rather than a
+measured composition or a measured floor, and the committed protocol says the finding does
+not extend to larger or differently structured contexts.  What it licenses is narrower
+than ``the best available reduction on these axes'' but still real --- on this workload,
+over these payloads, compression and compaction visibly do not compete for the same
+bytes, so \method's reduction is not a relabeling of what a compression pass would already
+have captured.  The provider-request reduction was never exposed to this threat in the
+first place, because compression never removes a call.
 
 \paragraph{Baseline scope.}
 The natural study runs both the unchanged SDK loop and a live hand-written composite tool.

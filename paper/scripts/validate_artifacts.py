@@ -1434,9 +1434,11 @@ def validate_publication() -> None:
         "slides/compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx",
         "scripts/restyle_detailed_deck.py",
         "scripts/refresh_aha_example_slide.py",
+        "scripts/refresh_headroom_ablation_slide.py",
         "scripts/generate_slides.mjs",
         "results/slide_generation.json",
-        "compiling-recurrent-agent-workflows-into-guarded-programs.pdf",
+        "open_research/article.pdf",
+        "open_research/main.pdf",
     ]
     for rel in required:
         ok((PAPER / rel).exists(), f"publication artifact exists: {rel}")
@@ -2119,6 +2121,8 @@ def validate_slides() -> None:
                 # which is the stronger thing to assert anyway.
                 ok(b"The two new families compile verified three-read pre-model programs" in payload,
                    f"{label} publication slide deck contains the workflow-family result")
+                ok(b"attempted 240 model-visible JSON payloads, transformed zero, and saved zero tokens" in payload,
+                   f"{label} publication slide deck contains the Headroom negative result")
                 ok(b"90 / 90" in payload,
                    f"{label} publication slide deck contains the three-family exact result")
                 media = [name for name in names if name.startswith("ppt/media/")]
@@ -2281,6 +2285,8 @@ def validate_slide_generation() -> None:
         "external_benchmarks": PAPER / "results/external_benchmarks/reference_analysis.json",
         "nestful": PAPER / "results/nestful/results.json",
         "github_workflow_families": PAPER / "results/github_workflow_families/summary.json",
+        "headroom_pr_outcome": PAPER / "results/github_workflow_families/pr_outcome/headroom_ablation/results.json",
+        "headroom_backlog_attention": PAPER / "results/github_workflow_families/backlog_attention/headroom_ablation/results.json",
     }
     for name, path in evidence_paths.items():
         ok(path.exists(), f"slide evidence exists: {name}")

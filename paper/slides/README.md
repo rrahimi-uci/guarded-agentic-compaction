@@ -59,6 +59,15 @@ After editing a deck, refresh its recorded hash in
 `paper/results/slide_generation.json` and re-run
 `paper/scripts/validate_artifacts.py`.
 
+The Headroom result is a post-generation, one-box update to the workflow-family slide:
+
+```bash
+.venv/bin/python paper/scripts/refresh_headroom_ablation_slide.py
+```
+
+It asserts the inherited text before replacing it, updates the slide-generation record, and
+does not alter the slide's chart or geometry.
+
 ## Resynchronizing coordinates after a manuscript change
 
 Each slide's eyebrow names the section, figure, table, or algorithm that slide answers, and
@@ -239,4 +248,9 @@ compiled and manual programs reach 90/90 exact outcomes versus 89/90 baseline, w
 weighted request, token, latency, and cost reductions bound to the source JSON. Its native
 editable chart shows per-family token reduction. It explicitly limits transfer to one
 repository snapshot and states that fair manual programs remain the runtime baseline.
+
+That slide also carries the paired Headroom result for the PR-outcome and backlog-attention
+cohorts: the pinned comparator attempted 240 eligible model-visible JSON payloads, applied
+zero transformations, and saved zero tokens. It is reported as a boundary-specific negative
+result, rather than an explanation of the compiler's savings or a claim about long contexts.
 NESTFUL/API-Bank refusal and the eight other benchmark dispositions remain supplementary.
