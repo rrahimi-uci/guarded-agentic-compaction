@@ -54,7 +54,11 @@ from guarded_agentic_compaction.benchmarking.external import (  # noqa: E402
 )
 from guarded_agentic_compaction.evaluation.splits import Splits  # noqa: E402
 from guarded_agentic_compaction.grc.compile import GrcConfig, compile_grc  # noqa: E402
-from guarded_agentic_compaction.schema.effects import EffectCatalog, EffectClass  # noqa: E402
+from guarded_agentic_compaction.schema.effects import (  # noqa: E402
+    Capability,
+    EffectCatalog,
+    EffectClass,
+)
 from guarded_agentic_compaction.schema.traces import (  # noqa: E402
     Episode,
     ExecutionManifest,
@@ -440,7 +444,7 @@ def _manifest(catalog: EffectCatalog, tools: Sequence[str], arm: str) -> Executi
         policy_hash="public-benchmark-executed-gold-solution",
         guardrail_hash="none-recorded-replay-only",
         effect_catalog_version=catalog.catalog_version,
-        entry_contract_version="task-specs-plus-first-appearance-literals-v1",
+        entry_contract_version="entry-snapshot-plus-first-appearance-literals-v1",
         sdk_version="not-applicable",
         tracer_version="paper-appworld-execution-adapter-v1",
     )
@@ -479,7 +483,11 @@ def _arm_catalog(arm: str) -> EffectCatalog:
         tools[name] = tools[name].model_copy(
             update={
                 "effect": EffectClass.READ_EXTERNAL,
-                "capabilities": ("speculatable", "replayable"),
+                "capabilities": (
+                    Capability.SPECULATABLE,
+                    Capability.REPLAYABLE,
+                    Capability.CACHEABLE,
+                ),
             }
         )
     return EffectCatalog.from_dict(
