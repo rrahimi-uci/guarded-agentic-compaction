@@ -1,0 +1,1677 @@
+{
+  "admission": {
+    "A": {
+      "arm": "A",
+      "artifacts_admitted": 1,
+      "artifacts_emitted": 1,
+      "candidate_records": [
+        {
+          "candidate_id": "cand-00-7bb944b98cd7",
+          "gate": {
+            "accepted_groups": 92,
+            "calibration_groups": 92,
+            "coverage": 1.0,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "rejected": null,
+          "removed_requests": 2.0,
+          "stage": "emitted",
+          "support_groups": 22,
+          "tools": [
+            "supervisor.show_profile",
+            "supervisor.show_account_passwords"
+          ]
+        }
+      ],
+      "candidates": 1,
+      "gates": [
+        {
+          "accepted_groups": 92,
+          "admissible_thresholds": [
+            0.08,
+            0.11,
+            0.14,
+            0.17,
+            0.2,
+            0.25,
+            0.3,
+            0.4,
+            0.5
+          ],
+          "artifact_id": "cand-00-7bb944b98cd7",
+          "calibration_groups": 92,
+          "coverage": 1.0,
+          "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.11, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.17, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.2, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.25, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.3, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.4, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.5, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}]",
+          "observed_violations": 0,
+          "program_steps": 2,
+          "program_tools": [
+            "supervisor.show_profile",
+            "supervisor.show_account_passwords"
+          ],
+          "removed_requests": 2.0,
+          "replay": {
+            "abstained": 0,
+            "effect_mismatch": 0,
+            "n": 11,
+            "pass_rate": 1.0,
+            "passed": 11,
+            "reasons": {},
+            "state_delta": 0,
+            "wrong": 0
+          },
+          "retire": false,
+          "risk_upper_bound": 0.049808920112407784,
+          "support_groups": 22,
+          "support_principals": 1,
+          "threshold": 0.5
+        }
+      ],
+      "outcome": "ADMITTED",
+      "rejection_by_stage": {},
+      "split_seed": 20260821,
+      "split_sizes": {
+        "calibration": 92,
+        "dev": 11,
+        "test": 11,
+        "train": 22
+      }
+    },
+    "B": {
+      "arm": "B",
+      "artifacts_admitted": 1,
+      "artifacts_emitted": 1,
+      "candidate_records": [
+        {
+          "candidate_id": "cand-00-merge:bd8ecb873b",
+          "gate": {
+            "accepted_groups": 0,
+            "calibration_groups": 89,
+            "coverage": 0.0,
+            "observed_violations": 0,
+            "retire": true,
+            "risk_upper_bound": 1.0,
+            "threshold": 0.0
+          },
+          "rejected": "gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.051 > alph",
+          "removed_requests": 2.5,
+          "stage": "calibrated",
+          "support_groups": 22,
+          "tools": [
+            "supervisor.show_profile",
+            "supervisor.show_account_passwords",
+            "spotify.login"
+          ]
+        },
+        {
+          "candidate_id": "cand-01-merge:c80bc01d83",
+          "gate": {
+            "accepted_groups": 92,
+            "calibration_groups": 92,
+            "coverage": 1.0,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "rejected": null,
+          "removed_requests": 2.3636363636363638,
+          "stage": "emitted",
+          "support_groups": 22,
+          "tools": [
+            "supervisor.show_profile",
+            "supervisor.show_account_passwords",
+            "phone.login"
+          ]
+        },
+        {
+          "candidate_id": "cand-02-7bb944b98cd7",
+          "gate": {
+            "accepted_groups": 92,
+            "calibration_groups": 92,
+            "coverage": 1.0,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "rejected": "dominated_by_longer_region",
+          "removed_requests": 2.0,
+          "stage": "dominated",
+          "support_groups": 22,
+          "tools": [
+            "supervisor.show_profile",
+            "supervisor.show_account_passwords"
+          ]
+        },
+        {
+          "candidate_id": "cand-03-merge:0b854b5a34",
+          "gate": {
+            "accepted_groups": 0,
+            "calibration_groups": 90,
+            "coverage": 0.0,
+            "observed_violations": 0,
+            "retire": true,
+            "risk_upper_bound": 1.0,
+            "threshold": 0.0
+          },
+          "rejected": "gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.051 > alph",
+          "removed_requests": 2.1052631578947367,
+          "stage": "calibrated",
+          "support_groups": 19,
+          "tools": [
+            "supervisor.show_profile",
+            "supervisor.show_account_passwords",
+            "simple_note.login"
+          ]
+        },
+        {
+          "candidate_id": "cand-04-282b75217608",
+          "gate": {
+            "accepted_groups": 0,
+            "calibration_groups": 46,
+            "coverage": 0.0,
+            "observed_violations": 0,
+            "retire": true,
+            "risk_upper_bound": 1.0,
+            "threshold": 0.0
+          },
+          "rejected": "gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 1.000 > alph",
+          "removed_requests": 3.0,
+          "stage": "calibrated",
+          "support_groups": 11,
+          "tools": [
+            "supervisor.show_profile",
+            "supervisor.show_account_passwords",
+            "spotify.login"
+          ]
+        },
+        {
+          "candidate_id": "cand-05-a513c133043b",
+          "gate": {
+            "accepted_groups": 0,
+            "calibration_groups": 26,
+            "coverage": 0.0,
+            "observed_violations": 0,
+            "retire": true,
+            "risk_upper_bound": 1.0,
+            "threshold": 0.0
+          },
+          "rejected": "gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 1.000 > alph",
+          "removed_requests": 3.0,
+          "stage": "calibrated",
+          "support_groups": 8,
+          "tools": [
+            "supervisor.show_profile",
+            "supervisor.show_account_passwords",
+            "phone.login"
+          ]
+        }
+      ],
+      "candidates": 6,
+      "gates": [
+        {
+          "accepted_groups": 92,
+          "admissible_thresholds": [
+            0.08,
+            0.11,
+            0.14,
+            0.17,
+            0.2,
+            0.25,
+            0.3,
+            0.4,
+            0.5
+          ],
+          "artifact_id": "cand-01-merge:c80bc01d83",
+          "calibration_groups": 92,
+          "coverage": 1.0,
+          "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.11, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.17, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.2, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.25, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.3, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.4, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.5, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}]",
+          "observed_violations": 0,
+          "program_steps": 2,
+          "program_tools": [
+            "supervisor.show_profile",
+            "supervisor.show_account_passwords"
+          ],
+          "removed_requests": 2.3636363636363638,
+          "replay": {
+            "abstained": 0,
+            "effect_mismatch": 0,
+            "n": 11,
+            "pass_rate": 1.0,
+            "passed": 11,
+            "reasons": {},
+            "state_delta": 0,
+            "wrong": 0
+          },
+          "retire": false,
+          "risk_upper_bound": 0.049808920112407784,
+          "support_groups": 22,
+          "support_principals": 1,
+          "threshold": 0.5
+        }
+      ],
+      "outcome": "ADMITTED",
+      "rejection_by_stage": {
+        "calibrate:retire": 4,
+        "mine:low_support": 14,
+        "select:dominated": 1
+      },
+      "split_seed": 20260821,
+      "split_sizes": {
+        "calibration": 92,
+        "dev": 11,
+        "test": 11,
+        "train": 22
+      }
+    }
+  },
+  "arms": {
+    "A": {
+      "arm": "A",
+      "blocked_by_tool": {
+        "file_system.compress_directory": 45,
+        "file_system.create_file": 1865,
+        "file_system.login": 897,
+        "file_system.move_file": 7056,
+        "phone.delete_text_message": 503,
+        "phone.delete_voice_message": 393,
+        "phone.login": 1272,
+        "phone.send_text_message": 18,
+        "phone.update_alarm": 204,
+        "simple_note.login": 504,
+        "simple_note.update_note": 15,
+        "spotify.add_song_to_playlist": 1153,
+        "spotify.add_to_queue": 15,
+        "spotify.create_playlist": 372,
+        "spotify.delete_account": 3,
+        "spotify.follow_artist": 1229,
+        "spotify.like_song": 1084,
+        "spotify.login": 2246,
+        "spotify.next_song": 44,
+        "spotify.play_music": 132,
+        "spotify.previous_song": 88,
+        "spotify.remove_album_from_library": 184,
+        "spotify.remove_song_from_library": 1345,
+        "spotify.remove_song_from_playlist": 2143,
+        "spotify.review_song": 2172,
+        "spotify.unfollow_artist": 66,
+        "spotify.update_song_review": 554,
+        "supervisor.complete_task": 392,
+        "venmo.approve_payment_request": 328,
+        "venmo.create_payment_request": 169,
+        "venmo.create_transaction": 15,
+        "venmo.create_transaction_comment": 277,
+        "venmo.deny_payment_request": 164,
+        "venmo.like_transaction": 3222,
+        "venmo.login": 1980,
+        "venmo.remind_payment_request": 349
+      },
+      "blocked_window_candidates": {
+        "ambiguous_slot": 6729,
+        "effect_write": 32498,
+        "live_in_not_in_entry_schema": 2738,
+        "partial_run": 26763,
+        "ungrounded_slot": 18
+      },
+      "candidate_families": 43,
+      "candidate_windows": 246,
+      "episodes": 136,
+      "episodes_with_candidate_window": 136,
+      "exact_gate": {
+        "alpha": 0.05,
+        "certifiable_families_even_if_zero_violations": 1,
+        "delta": 0.1,
+        "max_observed_family_support": 136,
+        "minimum_zero_violation_groups": 92,
+        "outcome": "candidate_present"
+      },
+      "families_support_ge_3": 33,
+      "family_results": [
+        {
+          "family_hash": "091d32778b46",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "0a35e554b53b",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "1bf5b08e45b8",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "1d600f6ff538",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "237d73da608c",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 2,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "2e558d5eaf2b",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "3252f93a991d",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "382a0ee7af63",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "3e28c2cfbc4b",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "41578059b689",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "4d68dc64ae61",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "4d8d1da132dd",
+          "support": 3,
+          "synthesis": "loop_predicate_unsynthesizable",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "4d9a78eaca2f",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 3,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "5eab5b618c90",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "6554282df887",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "669e4aba7f87",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "728cae8fe951",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "74e3d34164bd",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "7a00261426f9",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "7bb944b98cd7",
+          "program_size": 4,
+          "program_steps": 2,
+          "replay_abstained": 0,
+          "replay_passed": 34,
+          "replay_wrong": 0,
+          "support": 136,
+          "synthesis": "ok",
+          "test_groups": 34,
+          "tool_count": 2,
+          "train_groups": 102
+        },
+        {
+          "family_hash": "82a5274fe351",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "84a77792b74c",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 4,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "9197e80edb27",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "b21ac6415955",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 3,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "bbea5c5f3841",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 2,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "c62a541c9fa8",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "c983b6782b65",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "d5f55db26d29",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "d9d429b37fcd",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "db90d4d16f0e",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "e3214fbc49b2",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "f42d17828f40",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "f6e957946d77",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 2,
+          "train_groups": 2
+        }
+      ],
+      "graph_diagnostics": {
+        "ambiguous": 2933,
+        "grounded": 9480,
+        "model_originated": 279,
+        "not_groundable": 2309,
+        "transform_cache_hits": 5828,
+        "transform_cache_misses": 17522,
+        "transform_search": 696,
+        "ungrounded": 279
+      },
+      "graphs": 136,
+      "held_out_recorded_replay": {
+        "families_attempted": 33,
+        "families_synthesized": 1,
+        "pass_rate": 1.0,
+        "test_abstained": 0,
+        "test_passed": 34,
+        "test_windows": 34,
+        "test_wrong": 0,
+        "wrong_rate": 0.0
+      },
+      "login_declared": "WRITE_REVERSIBLE",
+      "maximum_family_support": 136,
+      "mining_parameters": {
+        "b_min": 2,
+        "entry_schema": [
+          "inputs",
+          "environment"
+        ],
+        "kappa": 3,
+        "max_depth": 2,
+        "min_support_groups": 3,
+        "n_permutations": 25,
+        "w_max": 12,
+        "w_min": 2
+      },
+      "reused_argument_slots_excluded_from_entry_inputs": 11455,
+      "runtime": {
+        "patg_seconds": 39.66400824999437,
+        "peak_memory_mib": 32.67402648925781,
+        "total_seconds": 44.30339183402248
+      },
+      "tools_compilable": 32,
+      "tools_effect_blocked": 36
+    },
+    "B": {
+      "arm": "B",
+      "blocked_by_tool": {
+        "file_system.compress_directory": 90,
+        "file_system.create_file": 2120,
+        "file_system.move_file": 7200,
+        "phone.delete_text_message": 506,
+        "phone.delete_voice_message": 393,
+        "phone.send_text_message": 54,
+        "phone.update_alarm": 279,
+        "simple_note.update_note": 33,
+        "spotify.add_song_to_playlist": 1153,
+        "spotify.add_to_queue": 33,
+        "spotify.create_playlist": 375,
+        "spotify.delete_account": 3,
+        "spotify.follow_artist": 1232,
+        "spotify.like_song": 1147,
+        "spotify.next_song": 70,
+        "spotify.play_music": 132,
+        "spotify.previous_song": 140,
+        "spotify.remove_album_from_library": 184,
+        "spotify.remove_song_from_library": 1345,
+        "spotify.remove_song_from_playlist": 2143,
+        "spotify.review_song": 2172,
+        "spotify.unfollow_artist": 66,
+        "spotify.update_song_review": 554,
+        "supervisor.complete_task": 407,
+        "venmo.approve_payment_request": 330,
+        "venmo.create_payment_request": 286,
+        "venmo.create_transaction": 135,
+        "venmo.create_transaction_comment": 277,
+        "venmo.deny_payment_request": 165,
+        "venmo.like_transaction": 3231,
+        "venmo.remind_payment_request": 352
+      },
+      "blocked_window_candidates": {
+        "ambiguous_slot": 7274,
+        "effect_write": 26607,
+        "live_in_not_in_entry_schema": 3099,
+        "partial_run": 31231,
+        "ungrounded_slot": 43
+      },
+      "candidate_families": 102,
+      "candidate_windows": 738,
+      "episodes": 136,
+      "episodes_with_candidate_window": 136,
+      "exact_gate": {
+        "alpha": 0.05,
+        "certifiable_families_even_if_zero_violations": 1,
+        "delta": 0.1,
+        "max_observed_family_support": 136,
+        "minimum_zero_violation_groups": 92,
+        "outcome": "candidate_present"
+      },
+      "families_support_ge_3": 87,
+      "family_results": [
+        {
+          "family_hash": "0392377815d8",
+          "program_size": 20,
+          "program_steps": 2,
+          "replay_abstained": 3,
+          "replay_passed": 0,
+          "replay_wrong": 0,
+          "support": 12,
+          "synthesis": "ok",
+          "test_groups": 3,
+          "tool_count": 2,
+          "train_groups": 9
+        },
+        {
+          "family_hash": "04fad06b78a6",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 4,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "091d32778b46",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "0a35e554b53b",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "0a6e4377acee",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 4,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "0ce1b9691723",
+          "program_size": 26,
+          "program_steps": 3,
+          "replay_abstained": 1,
+          "replay_passed": 0,
+          "replay_wrong": 0,
+          "support": 6,
+          "synthesis": "ok",
+          "test_groups": 1,
+          "tool_count": 3,
+          "train_groups": 5
+        },
+        {
+          "family_hash": "1a1212c94eaf",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 4,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "1bf5b08e45b8",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "1d600f6ff538",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "1e0e0e05665e",
+          "program_size": 20,
+          "program_steps": 3,
+          "replay_abstained": 3,
+          "replay_passed": 0,
+          "replay_wrong": 0,
+          "support": 12,
+          "synthesis": "ok",
+          "test_groups": 3,
+          "tool_count": 3,
+          "train_groups": 9
+        },
+        {
+          "family_hash": "1f033a0fba8e",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 6,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "237d73da608c",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 2,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "254cd7bec86b",
+          "program_size": 30,
+          "program_steps": 3,
+          "replay_abstained": 2,
+          "replay_passed": 0,
+          "replay_wrong": 0,
+          "support": 9,
+          "synthesis": "ok",
+          "test_groups": 2,
+          "tool_count": 3,
+          "train_groups": 7
+        },
+        {
+          "family_hash": "25b41aaba8f5",
+          "program_size": 20,
+          "program_steps": 3,
+          "replay_abstained": 2,
+          "replay_passed": 0,
+          "replay_wrong": 0,
+          "support": 9,
+          "synthesis": "ok",
+          "test_groups": 2,
+          "tool_count": 3,
+          "train_groups": 7
+        },
+        {
+          "family_hash": "26ed5d612d9a",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 5,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "282b75217608",
+          "program_size": 19,
+          "program_steps": 3,
+          "replay_abstained": 0,
+          "replay_passed": 16,
+          "replay_wrong": 0,
+          "support": 67,
+          "synthesis": "ok",
+          "test_groups": 16,
+          "tool_count": 3,
+          "train_groups": 51
+        },
+        {
+          "family_hash": "295f52e1ea0a",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 5,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "2d4bb92143bc",
+          "support": 6,
+          "synthesis": "loop_predicate_unsynthesizable",
+          "test_groups": 1,
+          "tool_count": 3,
+          "train_groups": 5
+        },
+        {
+          "family_hash": "2e558d5eaf2b",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "3252f93a991d",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "35df7f55673d",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 7,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "382a0ee7af63",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "3e28c2cfbc4b",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "3ee0cd38b20b",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 4,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "3f4167527cad",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 3,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "412c9794ad57",
+          "support": 11,
+          "synthesis": "loop_predicate_unsynthesizable",
+          "test_groups": 2,
+          "tool_count": 3,
+          "train_groups": 9
+        },
+        {
+          "family_hash": "41578059b689",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "4661bd7e82e9",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 3,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "475b8219f09a",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 7,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "4d68dc64ae61",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "4d8d1da132dd",
+          "support": 3,
+          "synthesis": "loop_predicate_unsynthesizable",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "4d9a78eaca2f",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 3,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "57ec7d9434d5",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 6,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "5e389b6c157b",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 5,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "5eab5b618c90",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "651428670977",
+          "program_size": 30,
+          "program_steps": 4,
+          "replay_abstained": 2,
+          "replay_passed": 0,
+          "replay_wrong": 0,
+          "support": 9,
+          "synthesis": "ok",
+          "test_groups": 2,
+          "tool_count": 4,
+          "train_groups": 7
+        },
+        {
+          "family_hash": "6554282df887",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "669e4aba7f87",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "728cae8fe951",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "740dc2f43d7a",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 3,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "74e3d34164bd",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "779b6fcbe468",
+          "program_size": 24,
+          "program_steps": 3,
+          "replay_abstained": 1,
+          "replay_passed": 0,
+          "replay_wrong": 0,
+          "support": 6,
+          "synthesis": "ok",
+          "test_groups": 1,
+          "tool_count": 3,
+          "train_groups": 5
+        },
+        {
+          "family_hash": "77de19a242c1",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 4,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "7a00261426f9",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "7a9b0ae61885",
+          "program_size": 38,
+          "program_steps": 4,
+          "replay_abstained": 1,
+          "replay_passed": 0,
+          "replay_wrong": 0,
+          "support": 6,
+          "synthesis": "ok",
+          "test_groups": 1,
+          "tool_count": 4,
+          "train_groups": 5
+        },
+        {
+          "family_hash": "7bb944b98cd7",
+          "program_size": 4,
+          "program_steps": 2,
+          "replay_abstained": 0,
+          "replay_passed": 34,
+          "replay_wrong": 0,
+          "support": 136,
+          "synthesis": "ok",
+          "test_groups": 34,
+          "tool_count": 2,
+          "train_groups": 102
+        },
+        {
+          "family_hash": "82a5274fe351",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "84a77792b74c",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 4,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "886133cf7b4f",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 3,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "8a2ea259247a",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 4,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "8aff808567e2",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 8,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "8c7356b97dd8",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 5,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "9197e80edb27",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "927e79e62af3",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 4,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "9709b6b63fda",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 4,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "98270395269d",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 5,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "9a7a7e44c5a0",
+          "program_size": 38,
+          "program_steps": 5,
+          "replay_abstained": 1,
+          "replay_passed": 0,
+          "replay_wrong": 0,
+          "support": 6,
+          "synthesis": "ok",
+          "test_groups": 1,
+          "tool_count": 5,
+          "train_groups": 5
+        },
+        {
+          "family_hash": "9c603b39a1a4",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 2,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "9dbda8066253",
+          "program_size": 19,
+          "program_steps": 2,
+          "replay_abstained": 0,
+          "replay_passed": 16,
+          "replay_wrong": 0,
+          "support": 67,
+          "synthesis": "ok",
+          "test_groups": 16,
+          "tool_count": 2,
+          "train_groups": 51
+        },
+        {
+          "family_hash": "9e56c892cfab",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 3,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "a513c133043b",
+          "program_size": 19,
+          "program_steps": 3,
+          "replay_abstained": 0,
+          "replay_passed": 10,
+          "replay_wrong": 0,
+          "support": 42,
+          "synthesis": "ok",
+          "test_groups": 10,
+          "tool_count": 3,
+          "train_groups": 32
+        },
+        {
+          "family_hash": "a93c5a0ab0ee",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 3,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "b21ac6415955",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 3,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "b85729d555ef",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 3,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "b8e5b84a4835",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 6,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "bbea5c5f3841",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 2,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "bd716a42494d",
+          "program_size": 24,
+          "program_steps": 4,
+          "replay_abstained": 1,
+          "replay_passed": 0,
+          "replay_wrong": 0,
+          "support": 6,
+          "synthesis": "ok",
+          "test_groups": 1,
+          "tool_count": 4,
+          "train_groups": 5
+        },
+        {
+          "family_hash": "c00ca38c54df",
+          "support": 15,
+          "synthesis": "loop_predicate_unsynthesizable",
+          "test_groups": 3,
+          "tool_count": 3,
+          "train_groups": 12
+        },
+        {
+          "family_hash": "c62a541c9fa8",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "c983b6782b65",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "c9fbc707586d",
+          "program_size": 19,
+          "program_steps": 2,
+          "replay_abstained": 0,
+          "replay_passed": 10,
+          "replay_wrong": 0,
+          "support": 42,
+          "synthesis": "ok",
+          "test_groups": 10,
+          "tool_count": 2,
+          "train_groups": 32
+        },
+        {
+          "family_hash": "cd5dec78ab7f",
+          "program_size": 26,
+          "program_steps": 4,
+          "replay_abstained": 1,
+          "replay_passed": 0,
+          "replay_wrong": 0,
+          "support": 6,
+          "synthesis": "ok",
+          "test_groups": 1,
+          "tool_count": 4,
+          "train_groups": 5
+        },
+        {
+          "family_hash": "cefe38c6204d",
+          "support": 23,
+          "synthesis": "loop_predicate_unsynthesizable",
+          "test_groups": 5,
+          "tool_count": 3,
+          "train_groups": 18
+        },
+        {
+          "family_hash": "d50267b4da57",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 3,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "d53cbcdb79c7",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 5,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "d5f55db26d29",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "d9d429b37fcd",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "db90d4d16f0e",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "dcb797b6e1ff",
+          "support": 4,
+          "synthesis": "loop_predicate_unsynthesizable",
+          "test_groups": 1,
+          "tool_count": 3,
+          "train_groups": 3
+        },
+        {
+          "family_hash": "e06e9d49adc5",
+          "program_size": 30,
+          "program_steps": 3,
+          "replay_abstained": 1,
+          "replay_passed": 1,
+          "replay_wrong": 0,
+          "support": 9,
+          "synthesis": "ok",
+          "test_groups": 2,
+          "tool_count": 3,
+          "train_groups": 7
+        },
+        {
+          "family_hash": "e16502396215",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 5,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "e3214fbc49b2",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "edd81892c7ff",
+          "program_size": 30,
+          "program_steps": 4,
+          "replay_abstained": 1,
+          "replay_passed": 1,
+          "replay_wrong": 0,
+          "support": 9,
+          "synthesis": "ok",
+          "test_groups": 2,
+          "tool_count": 4,
+          "train_groups": 7
+        },
+        {
+          "family_hash": "f42d17828f40",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 1,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "f5d6271ed5f2",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 5,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "f6e957946d77",
+          "support": 3,
+          "synthesis": "ungroundable_slot",
+          "test_groups": 1,
+          "tool_count": 2,
+          "train_groups": 2
+        },
+        {
+          "family_hash": "f878874b42b3",
+          "program_size": 20,
+          "program_steps": 2,
+          "replay_abstained": 2,
+          "replay_passed": 0,
+          "replay_wrong": 0,
+          "support": 9,
+          "synthesis": "ok",
+          "test_groups": 2,
+          "tool_count": 2,
+          "train_groups": 7
+        }
+      ],
+      "graph_diagnostics": {
+        "ambiguous": 2933,
+        "grounded": 9480,
+        "model_originated": 279,
+        "not_groundable": 2309,
+        "transform_cache_hits": 5828,
+        "transform_cache_misses": 17522,
+        "transform_search": 696,
+        "ungrounded": 279
+      },
+      "graphs": 136,
+      "held_out_recorded_replay": {
+        "families_attempted": 87,
+        "families_synthesized": 19,
+        "pass_rate": 0.8,
+        "test_abstained": 22,
+        "test_passed": 88,
+        "test_windows": 110,
+        "test_wrong": 0,
+        "wrong_rate": 0.0
+      },
+      "login_declared": "READ_EXTERNAL",
+      "maximum_family_support": 136,
+      "mining_parameters": {
+        "b_min": 2,
+        "entry_schema": [
+          "inputs",
+          "environment"
+        ],
+        "kappa": 3,
+        "max_depth": 2,
+        "min_support_groups": 3,
+        "n_permutations": 25,
+        "w_max": 12,
+        "w_min": 2
+      },
+      "reused_argument_slots_excluded_from_entry_inputs": 11455,
+      "runtime": {
+        "patg_seconds": 38.90732025000034,
+        "peak_memory_mib": 61.868666648864746,
+        "total_seconds": 53.27604758401867
+      },
+      "tools_compilable": 37,
+      "tools_effect_blocked": 31
+    }
+  },
+  "benchmark": "appworld",
+  "claim_boundary": [
+    "no model runs; the gold solution is supplied, not predicted",
+    "no function-calling accuracy, planning, quality, or efficiency claim",
+    "groups are tasks, not scenarios; task-level independence is assumed, not established",
+    "not a leaderboard submission; only the public train and dev splits are touched",
+    "never pooled with the real-record GitHub workflow families or any other substrate"
+  ],
+  "corpus": {
+    "calls_per_task": {
+      "max": 244,
+      "median": 36,
+      "min": 5,
+      "n": 136,
+      "total": 7070
+    },
+    "distinct_supervisors": 79,
+    "note": "an excluded task is an upstream gold-solution/data compatibility outcome, reported rather than dropped; it is not a compiler error",
+    "observed_calls": 7070,
+    "scenarios_clean": 46,
+    "tasks_clean": 136,
+    "tasks_collected": 147,
+    "tasks_excluded": [
+      {
+        "reason": "gold solution raised during execution",
+        "split": "dev",
+        "task_id": "0d8a4ee_1"
+      },
+      {
+        "reason": "gold solution raised during execution",
+        "split": "dev",
+        "task_id": "0d8a4ee_2"
+      },
+      {
+        "reason": "gold solution raised during execution",
+        "split": "dev",
+        "task_id": "0d8a4ee_3"
+      },
+      {
+        "reason": "gold solution raised during execution",
+        "split": "dev",
+        "task_id": "37a8675_1"
+      },
+      {
+        "reason": "gold solution raised during execution",
+        "split": "dev",
+        "task_id": "37a8675_2"
+      },
+      {
+        "reason": "gold solution raised during execution",
+        "split": "dev",
+        "task_id": "37a8675_3"
+      },
+      {
+        "reason": "gold solution raised during execution",
+        "split": "dev",
+        "task_id": "3ab5b8b_1"
+      },
+      {
+        "reason": "gold solution raised during execution",
+        "split": "dev",
+        "task_id": "3ab5b8b_2"
+      },
+      {
+        "reason": "gold solution raised during execution",
+        "split": "dev",
+        "task_id": "3ab5b8b_3"
+      },
+      {
+        "reason": "gold solution raised during execution",
+        "split": "dev",
+        "task_id": "57c3486_1"
+      },
+      {
+        "reason": "gold solution raised during execution",
+        "split": "dev",
+        "task_id": "57c3486_3"
+      }
+    ]
+  },
+  "effect_audit": {
+    "checks": [
+      "every observed API carries a signed declaration",
+      "no read-like declaration was observed mutating the application database",
+      "PURE is not licensed on this substrate"
+    ],
+    "declared_stricter_than_observed": [
+      "file_system.login",
+      "phone.login",
+      "simple_note.login",
+      "spotify.login",
+      "venmo.login"
+    ],
+    "mutating_calls": 1320,
+    "observed_calls": 7070,
+    "read_like_declarations_observed_mutating": 0,
+    "tools_ever_mutating": 31,
+    "tools_mutating_on_some_but_not_all_calls": [],
+    "tools_never_mutating": 37,
+    "tools_observed": 68
+  },
+  "effect_catalog": {
+    "declared_tools": 68,
+    "path": "benchmarks/contracts/effects/appworld.yaml",
+    "sha256": "487a6a4cfb2d31d0d395c594b60b021e3d3f13bb2f2edba3b3270529d95512e8",
+    "tools_observed": 68
+  },
+  "exact_replay": {
+    "checks": [
+      "second independent execution reproduces every observed result",
+      "minted access tokens are byte-identical under re-execution"
+    ],
+    "compared_calls": 7070,
+    "exact_replay_rate": 1.0,
+    "mismatched_by_tool": {},
+    "mismatched_calls": 0
+  },
+  "package_version": "0.1.3.post1",
+  "protocol": {
+    "observed_gate_outcome": {
+      "A": "candidate_present",
+      "B": "candidate_present"
+    },
+    "path": "paper/supplementary/appworld-compiler-protocol.md",
+    "predeclared_gate_outcome": "candidate_present",
+    "prediction_held": true,
+    "sha256": "f72523531b72742bedb3d127e19168a43b4c1b875ff573a54c56f8da6f9e576e"
+  },
+  "runtime_seconds": 115.45095045899507,
+  "schema": "gac-appworld-compiler-execution/v1",
+  "splits": [
+    "train",
+    "dev"
+  ],
+  "substrate": "public_simulation"
+}

@@ -10,7 +10,9 @@ supported result is:
 - those programs preserve exact held-out task contracts on three real GitHub
   workflow families and on a narrower cross-repository extension, and
 - recurrence alone is insufficient without admission support, as shown by
-  NESTFUL, API-Bank, and one retained compile-time retirement.
+  NESTFUL, API-Bank, and executed BFCL retirements, while AppWorld supplies the
+  first reachable external admission and shows that an admissible artifact may
+  still be structurally ineligible under most agent architectures.
 
 ## Presentation gaps closed in this revision
 
@@ -39,6 +41,15 @@ ICLR submission. All are now addressed.
    uses the full budget on technical content.
 7. `Review formatting.` The blind PDF retains the official template's
    line-number ruler and anonymous running head.
+8. Cross-version AppWorld drift. The open-research abstract and results
+   opener now describe all four compiler substrates; the ICLR abstract reports
+   2,339/2,340 rather than “all” full-code trajectories.
+9. Repeated-run interpretation. Both manuscripts now state that the 8,190
+   AppWorld trajectories repeat tasks across 28 runs, so 37.9% is a descriptive
+   structural-eligibility diagnostic rather than an independent-sample estimate.
+10. Reproduction surface. Exact provider-free entry points for executed BFCL,
+    AppWorld compilation, and AppWorld dispatch analysis now appear in both
+    appendices and the ICLR reproducibility statement names all four substrates.
 
 ## Remaining weaknesses before submission
 
@@ -72,6 +83,13 @@ would measure it.
 The reproducibility statement describes an anonymous supplementary archive as a
 pre-upload deliverable. That archive must actually be built before upload; the
 current repository is identified.
+
+7. AppWorld broadens admissibility evidence, not the live efficiency claim.
+Its gold-solution compiler run makes the 5% bound reachable and its released
+agent traces reveal an architecture-dependent dispatch precondition. No model
+runs in the compiler substrate, the repeated trajectory units are not
+independent, and the logs do not retain model boundaries, so the result licenses
+neither agent quality nor provider savings.
 
 ## Why the draft excludes some prior material from the main text
 

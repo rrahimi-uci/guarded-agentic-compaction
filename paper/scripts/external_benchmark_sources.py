@@ -175,6 +175,52 @@ def _http_source(name: str, spec: Mapping[str, Any], root: Path) -> dict[str, An
     }
 
 
+def _pip_source(name: str, spec: Mapping[str, Any], root: Path) -> dict[str, Any]:
+    """A distribution pinned by version rather than by revision.
+
+    AppWorld ships its apps and its task data through its own installer rather than
+    through the repository tree, and it pins ``pydantic<2``, so it cannot share this
+    repository's interpreter.  The manifest therefore records the exact distribution and
+    data versions, and this check reports whether an environment satisfying them has been
+    prepared under the disposable source root.  Nothing is installed here: the environment
+    is created by the reproduction commands in the protocol, because a pip install into an
+    arbitrary interpreter is not a checksum-verifiable acquisition.
+    """
+
+    target = root / str(spec["checkout_name"])
+    marker = target / "data" / "version.txt"
+    if not marker.is_file():
+        return {
+            "status": "unprepared",
+            "kind": "pip",
+            "path": target.name,
+            "revision": spec["revision"],
+            "reason": (
+                "no installed AppWorld data found; run the protocol's "
+                "`appworld install` and `appworld download data` commands"
+            ),
+            "license": spec.get("license"),
+            "benchmark_scope": spec.get("benchmark_scope"),
+        }
+    observed_data_version = marker.read_text(encoding="utf-8").strip()
+    expected_data_version = str(spec.get("data_version") or "")
+    if expected_data_version and observed_data_version != expected_data_version:
+        raise RuntimeError(
+            f"{name} installed data version {observed_data_version!r} does not match the "
+            f"sealed manifest {expected_data_version!r}"
+        )
+    return {
+        "status": "available",
+        "kind": "pip",
+        "path": target.name,
+        "revision": spec["revision"],
+        "data_version": observed_data_version,
+        "requirements": spec.get("requirements"),
+        "license": spec.get("license"),
+        "benchmark_scope": spec.get("benchmark_scope"),
+    }
+
+
 def acquire(manifest_path: Path, source_root: Path) -> dict[str, Any]:
     manifest = _load_manifest(manifest_path)
     records: dict[str, Any] = {}
@@ -185,6 +231,8 @@ def acquire(manifest_path: Path, source_root: Path) -> dict[str, Any]:
                 records[str(name)] = _git_source(str(name), spec, source_root)
             elif spec["kind"] in {"http", "gated_http"}:
                 records[str(name)] = _http_source(str(name), spec, source_root)
+            elif spec["kind"] == "pip":
+                records[str(name)] = _pip_source(str(name), spec, source_root)
             else:
                 raise ValueError(f"unsupported source kind {spec['kind']!r}")
         except Exception as exc:

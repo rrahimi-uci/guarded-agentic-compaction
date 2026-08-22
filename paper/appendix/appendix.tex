@@ -31,6 +31,14 @@ artifact digests are in the artifact manifest under \path{paper/results}.
 The provider-free reproduction is:
 \begin{verbatim}
 .venv/bin/python paper/scripts/nestful_benchmark.py
+B=paper/scripts/bfcl_compiler_benchmark.py
+.venv/bin/python "$B" --source-root "$BENCHMARK_SOURCE_ROOT"
+A=paper/scripts/appworld_compiler_benchmark.py
+.venv/bin/python "$A" \
+    --source-root "$BENCHMARK_SOURCE_ROOT" \
+    --appworld-python "$APPWORLD_VENV/bin/python"
+D=paper/scripts/appworld_dispatch_preflight.py
+.venv/bin/python "$D" --source-root "$BENCHMARK_SOURCE_ROOT"
 R=paper/results/github_natural_replication
 .venv/bin/python paper/scripts/github_live_study.py \
     --task-design natural-extractive-v2 \
@@ -192,7 +200,11 @@ Two provider-free derivations accompany the primary result and are regenerated b
 \path{results/cache_accounting.json}.  The admission register reads the sealed gate of
 every admitted artifact.  Its bounds are per fixed candidate: the compiler's search over
 multiple candidate families is not included in the multiplicity budget, and a simple
-two-candidate correction would require 106 rather than 92 zero-violation groups.  Subject
+two-candidate correction would require 106 rather than 92 zero-violation groups.
+\Cref{cor:frozen} gives the alternative to a post-hoc correction --- freeze one candidate
+before calibration is ever touched, and no correction is owed --- and the cross-repository
+extension of \cref{sec:multirepo-method} already runs that way; the three primary families
+below do not, and their bounds remain scoped exactly as stated here.  Subject
 to that scope, the prescribed-prefix ablation and all three primary families use
 $\alpha=.05$ with 92 of 92 calibration groups admitted and upper bound $0.049809$, while the
 earlier three-read natural-order artifact ($\alpha=.10$, 45/45, $0.099185$) and the

@@ -102,9 +102,11 @@ paper/
 │   ├── implementation-audit.md     repository and component review
 │   ├── quality-assessment.md       publication-readiness rubric
 │   ├── natural-live-study-protocol.md  expanded real-record experiment protocol
-│   ├── headroom-ablation-protocol.md  version-pinned context-compression results and limits
-│   ├── bfcl-compiler-protocol.md   pre-registered BFCL gold-plan compiler substrate
-│   └── drift-robustness-ablation-protocol.md  pre-registered, unrun contract ablation
+│   ├── bfcl-compiler-protocol.md   pre-registered, executed BFCL gold-plan compiler substrate
+│   ├── appworld-compiler-protocol.md  pre-registered, executed AppWorld compiler substrate
+│   ├── headroom-ablation-protocol.md  version-pinned, executed context-compression ablation
+│   ├── drift-robustness-ablation-protocol.md  pre-registered, unrun contract ablation
+│   └── prospective-gate-frontier-protocol.md  pre-registered, unrun gate-frontier study
 └── open_research/
     ├── article.pdf                 single-column article (page count verified after build)
     └── main.pdf                    two-column conference build (page count verified after build)

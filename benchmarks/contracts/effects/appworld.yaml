@@ -1,0 +1,215 @@
+# Signed effect declarations for the pinned AppWorld 0.1.3.post1 executable backend.
+#
+# Every entry is a human declaration about the pinned upstream implementation, keyed by
+# the qualified `<app>.<api_name>` identity the execution adapter records.  Two mechanical
+# audits in paper/scripts/appworld_compiler_benchmark.py fail closed against this file:
+#
+#   1. no tool declared read-like may be observed mutating the application database, and
+#   2. every tool a gold solution calls must carry a declaration here.
+#
+# The audit listens on SQLAlchemy `after_cursor_execute` for INSERT/UPDATE/DELETE/CREATE/
+# DROP and attributes each statement to the enclosing API call, so a declaration is
+# checked against observed behaviour rather than against the HTTP verb or the docstring.
+# Declaring a stricter effect than observed is always permitted; the audit is
+# one-directional by design.
+#
+# PURE is not used: every AppWorld API reads the per-task application database, so no
+# call is a function of its arguments alone.
+#
+# Modeled outward actions (sending a message, moving money, deleting an account,
+# submitting the task) are WRITE_IRREVERSIBLE even where the pinned simulator implements
+# them against an in-memory fixture, because the barrier is a claim about the modeled
+# action and not about the fixture.
+#
+# `*.login` is the one contestable declaration in this file and is called out in
+# paper/supplementary/appworld-compiler-protocol.md.  It is a POST that mints a bearer
+# credential; it was observed to leave the database unchanged on all 184 of its calls, and
+# its token is byte-identical under re-execution because AppWorld freezes each task's
+# clock.  It is nevertheless declared a reversible write here, because minting a
+# credential is a state claim the fixture does not have to record for the claim to be
+# true.  The protocol reports the pre-registered sensitivity arm that flips exactly these
+# five entries to READ_EXTERNAL and nothing else.
+version: 1
+name: appworld-0-1-3-post1-pinned-backend
+tools:
+
+  # --- supervisor: the task-entry app ----------------------------------------
+  supervisor.show_profile: &supervisor_read
+    effect: READ_LOCAL
+    capabilities: [speculatable, replayable, cacheable]
+    resource: appworld_supervisor_fixture
+    notes: >-
+      Audited read over the pinned per-task supervisor fixture; observed to leave the
+      database unchanged on all 136 calls.
+  supervisor.show_account_passwords:
+    <<: *supervisor_read
+
+  supervisor.complete_task:
+    effect: WRITE_IRREVERSIBLE
+    capabilities: []
+    resource: appworld_task_submission
+    approval_required: true
+    notes: >-
+      The task-submission commit boundary. Observed mutating on all 136 calls, and a
+      barrier by construction regardless: nothing after a commit may enter a compiled
+      read region.
+
+  # --- audited read-like APIs ------------------------------------------------
+  # All GET, all observed to leave the application database unchanged on every call.
+  file_system.show_directory: &app_read
+    effect: READ_LOCAL
+    capabilities: [speculatable, replayable, cacheable]
+    resource: appworld_app_fixture
+    notes: >-
+      Audited read over the pinned per-task application fixture; observed to leave the
+      database unchanged on every call in the corpus.
+  file_system.show_file:
+    <<: *app_read
+  phone.search_contacts:
+    <<: *app_read
+  phone.search_text_messages:
+    <<: *app_read
+  phone.search_voice_messages:
+    <<: *app_read
+  phone.show_alarms:
+    <<: *app_read
+  simple_note.search_notes:
+    <<: *app_read
+  simple_note.show_note:
+    <<: *app_read
+  spotify.search_albums:
+    <<: *app_read
+  spotify.search_artists:
+    <<: *app_read
+  spotify.search_songs:
+    <<: *app_read
+  spotify.show_album:
+    <<: *app_read
+  spotify.show_album_library:
+    <<: *app_read
+  spotify.show_artist:
+    <<: *app_read
+  spotify.show_current_song:
+    <<: *app_read
+  spotify.show_downloaded_songs:
+    <<: *app_read
+  spotify.show_following_artists:
+    <<: *app_read
+  spotify.show_liked_albums:
+    <<: *app_read
+  spotify.show_liked_songs:
+    <<: *app_read
+  spotify.show_playlist:
+    <<: *app_read
+  spotify.show_playlist_library:
+    <<: *app_read
+  spotify.show_recommendations:
+    <<: *app_read
+  spotify.show_song:
+    <<: *app_read
+  spotify.show_song_library:
+    <<: *app_read
+  spotify.show_song_queue:
+    <<: *app_read
+  spotify.show_song_reviews:
+    <<: *app_read
+  venmo.show_received_payment_requests:
+    <<: *app_read
+  venmo.show_sent_payment_requests:
+    <<: *app_read
+  venmo.show_social_feed:
+    <<: *app_read
+  venmo.show_transactions:
+    <<: *app_read
+
+  # --- authentication: declared writes, see the file header ------------------
+  file_system.login: &login
+    effect: WRITE_REVERSIBLE
+    capabilities: []
+    resource: appworld_credential_mint
+    notes: >-
+      Mints a bearer credential. Observed to leave the database unchanged on every call
+      and byte-deterministic under re-execution, and declared a write regardless because
+      issuing a credential is a state claim the fixture need not record. The pinned
+      sensitivity arm flips this entry to READ_EXTERNAL.
+  phone.login:
+    <<: *login
+  simple_note.login:
+    <<: *login
+  spotify.login:
+    <<: *login
+  venmo.login:
+    <<: *login
+
+  # --- reversible in-application writes --------------------------------------
+  file_system.compress_directory: &reversible
+    effect: WRITE_REVERSIBLE
+    capabilities: []
+    resource: appworld_app_fixture
+    notes: Observed mutating the application database on every call.
+  file_system.create_file:
+    <<: *reversible
+  file_system.move_file:
+    <<: *reversible
+  phone.update_alarm:
+    <<: *reversible
+  simple_note.update_note:
+    <<: *reversible
+  spotify.add_song_to_playlist:
+    <<: *reversible
+  spotify.add_to_queue:
+    <<: *reversible
+  spotify.create_playlist:
+    <<: *reversible
+  spotify.follow_artist:
+    <<: *reversible
+  spotify.like_song:
+    <<: *reversible
+  spotify.next_song:
+    <<: *reversible
+  spotify.play_music:
+    <<: *reversible
+  spotify.previous_song:
+    <<: *reversible
+  spotify.remove_album_from_library:
+    <<: *reversible
+  spotify.remove_song_from_library:
+    <<: *reversible
+  spotify.remove_song_from_playlist:
+    <<: *reversible
+  spotify.review_song:
+    <<: *reversible
+  spotify.unfollow_artist:
+    <<: *reversible
+  spotify.update_song_review:
+    <<: *reversible
+  venmo.create_transaction_comment:
+    <<: *reversible
+  venmo.like_transaction:
+    <<: *reversible
+
+  # --- modeled outward actions ----------------------------------------------
+  phone.delete_text_message: &irreversible
+    effect: WRITE_IRREVERSIBLE
+    capabilities: []
+    resource: appworld_outward_action
+    approval_required: true
+    notes: >-
+      A modeled outward or destructive action. Declared irreversible on the modeled
+      action, not on the in-memory fixture that implements it.
+  phone.delete_voice_message:
+    <<: *irreversible
+  phone.send_text_message:
+    <<: *irreversible
+  spotify.delete_account:
+    <<: *irreversible
+  venmo.approve_payment_request:
+    <<: *irreversible
+  venmo.create_payment_request:
+    <<: *irreversible
+  venmo.create_transaction:
+    <<: *irreversible
+  venmo.deny_payment_request:
+    <<: *irreversible
+  venmo.remind_payment_request:
+    <<: *irreversible

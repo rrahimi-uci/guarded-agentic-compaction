@@ -103,3 +103,16 @@ sources:
     sha256: d9141bad0081af438d1ee36d188c5197035dc22a01f64e3f2ee17e45469518e9
     bytes: 116994
     benchmark_scope: validation metadata; current token can inspect metadata but is not authorized to download bytes
+  appworld:
+    kind: pip
+    repository: https://github.com/StonyBrookNLP/appworld
+    revision: "0.1.3.post1"
+    data_version: "0.1.0"
+    license: Apache-2.0
+    checkout_name: appworld
+    adapter_root: appworld
+    requirements: benchmarks/external/requirements/appworld.txt
+    benchmark_scope: >-
+      public train (90 tasks / 30 scenarios) and dev (57 / 19) splits, the only splits whose
+      gold solution programs ship in the public minimal data mode; test_normal (168) and
+      test_challenge (417) withhold ground truth and cannot serve as a post-trace substrate

@@ -14,34 +14,11 @@ Every GitHub sample begins with one issue or pull-request number from a pinned
 public snapshot. The agent must make read-only calls and return exact,
 source-grounded fields, not a subjective preference. The three primary families
 use 132 discovery and 30 balanced held-out records each, with live provider
-calls. \Cref{tab:benchmark-glance} shows what one sample asks an agent to read
-and return; it tests both the structured answer and whether its evidence remains
-available after compaction.
-
-\begin{table}[t]
-  \centering
-  \caption{Primary GitHub benchmark at a glance. Each sample supplies one record
-  number from a pinned public snapshot; every listed answer field is checked
-  against the source record.}
-  \label{tab:benchmark-glance}
-  \footnotesize
-  \setlength{\tabcolsep}{2.5pt}
-  \renewcommand{\arraystretch}{1.12}
-  \begin{tabularx}{\linewidth}{@{}p{0.16\linewidth}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
-    \toprule
-    Task & Read-only evidence path & Exact answer contract \\
-    \midrule
-    Issue type & \code{issue\_number} $\rightarrow$ record, official labels,
-    comments & Title, state, label-derived category, verbatim excerpt \\
-    PR outcome & \code{pr\_number} $\rightarrow$ PR record, merge status,
-    discussion & \code{open}, \code{merged}, or \code{closed\_unmerged}, plus
-    title and comment excerpt \\
-    Backlog attention & \code{issue\_number} $\rightarrow$ open-issue record,
-    assignees, discussion & \code{owned}, \code{discussed\_unowned}, or
-    \code{awaiting\_first\_response}, plus title, owner, and excerpt \\
-    \bottomrule
-  \end{tabularx}
-\end{table}
+calls. Each family pairs a read-only evidence path with an exact answer contract
+--- issue type, pull-request outcome, or backlog attention route, each returning a
+category plus title and a verbatim source excerpt --- so the benchmark tests both
+the structured answer and whether its evidence survives compaction
+(\cref{tab:benchmark-glance}).
 
 \paragraph{Cross-repository time-forward extension.}
 A narrower two-read PR-outcome task spans five frozen public repositories.
@@ -50,12 +27,18 @@ sealed before provider calls; repositories without an admitted artifact remain
 in the result. A balanced rerun on three repositories controls the
 \code{open}/\code{merged}/\code{closed\_unmerged} mix.
 
-\paragraph{External refusal benchmarks.}
-NESTFUL and API-Bank supply valid executable traces whose evidence is still
-insufficient; they retain the argument-level producer structure that provenance,
-synthesis, replay, and admission need, and they measure none of them as live
-planning quality~\citep{basu2025nestful,li2023apibank}. Executed BFCL v4 gold
-plans add a third such substrate (\cref{app:external}).
+\paragraph{External compiler substrates.}
+NESTFUL, API-Bank, and executed BFCL v4 gold plans supply valid executable traces
+with the argument-level producer structure provenance, synthesis, replay, and
+admission need, and measure none of them as live planning
+quality~\citep{basu2025nestful,li2023apibank,patil2025bfcl}. AppWorld adds a
+fourth substrate and a different one~\citep{trivedi2024appworld}: its public gold
+solutions, executed on its pinned resettable backend, give 136 byte-exactly
+reproducible traces over 68 typed APIs and enough groups for \cref{eq:cp} to be
+satisfiable, and its released baseline runs supply held-out trajectories for the
+dispatch measurement. No model runs on any substrate, so none licenses an
+accuracy, quality, or efficiency claim, and none is pooled with the GitHub
+families (\cref{app:external}).
 
 \paragraph{Conditions, metrics, and statistics.}
 Each GitHub family compares the unchanged baseline $B$, the compiled artifact,
