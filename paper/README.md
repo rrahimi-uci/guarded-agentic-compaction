@@ -106,7 +106,7 @@ paper/
 │   ├── appworld-compiler-protocol.md  pre-registered, executed AppWorld compiler substrate
 │   ├── headroom-ablation-protocol.md  version-pinned, executed context-compression ablation
 │   ├── drift-robustness-ablation-protocol.md  pre-registered, unrun contract ablation
-│   ├── prospective-gate-frontier-protocol.md  pre-registered, unrun gate-frontier study
+│   ├── prospective-gate-frontier-protocol.md  design resolved and sealed; full cohort unrun
 │   ├── gate-frontier-pilot-protocol.md  executed pilot for the study above
 │   └── awo-comparator-feasibility-spike.md  completed spike, result: no-go
 └── open_research/

@@ -1,0 +1,634 @@
+{
+  "name": "paper-github-psf__requests-pr_outcome_core-support-only",
+  "kill_switch": false,
+  "active_stages": [
+    "active"
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "cand-00-4ea713b44da7",
+      "name": "pr_get_record.pr_get_merge_status.region@4ea713b4",
+      "kind": "grc",
+      "version": 1,
+      "program": {
+        "theta": [
+          "record_number"
+        ],
+        "steps": [
+          {
+            "kind": "call",
+            "var": "pr",
+            "tool": "pr_get_record",
+            "args": {
+              "record_number": {
+                "kind": "expr",
+                "source": "z.record_number",
+                "ops": []
+              }
+            },
+            "when": null,
+            "schema_version": null
+          },
+          {
+            "kind": "call",
+            "var": "pr2",
+            "tool": "pr_get_merge_status",
+            "args": {
+              "record_number": {
+                "kind": "expr",
+                "source": "pr.record_number",
+                "ops": []
+              }
+            },
+            "when": null,
+            "schema_version": null
+          }
+        ],
+        "outputs": {
+          "pr": {
+            "kind": "expr",
+            "source": "pr",
+            "ops": []
+          },
+          "pr2": {
+            "kind": "expr",
+            "source": "pr2",
+            "ops": []
+          }
+        },
+        "library_version": "T-v1",
+        "removed_requests": 2.0,
+        "tools": [
+          "pr_get_record",
+          "pr_get_merge_status"
+        ],
+        "composite": {
+          "name": "compiled_pr_get_record_2f64b991da",
+          "description": "Guarded composite synthesized from a verified recurrent read program.",
+          "inputs": [
+            "record_number"
+          ],
+          "projection": {
+            "is_merged": {
+              "kind": "expr",
+              "source": "pr2.is_merged",
+              "ops": []
+            },
+            "record_number": {
+              "kind": "expr",
+              "source": "pr.record_number",
+              "ops": []
+            },
+            "source_revision": {
+              "kind": "expr",
+              "source": "pr.source_revision",
+              "ops": []
+            },
+            "state": {
+              "kind": "expr",
+              "source": "pr.state",
+              "ops": []
+            },
+            "title": {
+              "kind": "expr",
+              "source": "pr.title",
+              "ops": []
+            }
+          },
+          "internal_tools": [
+            "pr_get_record",
+            "pr_get_merge_status"
+          ],
+          "pre_model": true,
+          "continuation_compatibility_key": "32e1722c5465d700",
+          "schema_version": 1
+        }
+      },
+      "route": null,
+      "guard": {
+        "manifest_pins": {
+          "model": "gpt-5.6-luna",
+          "prompt_hash": "#c473e680",
+          "tools_hash": "#a95ed7cb",
+          "policy_hash": "#92426526",
+          "guardrail_hash": "#a9614876",
+          "effect_catalog_version": "github-psf__requests-pr_outcome_core-pinned-reads@1#599903686ff068b5",
+          "entry_contract_version": "github-pr_outcome_core-record-number-v1"
+        },
+        "isolation": {},
+        "clauses": [
+          {
+            "path": "z.record_number",
+            "type_name": "int",
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "required": true,
+            "role": "hull"
+          }
+        ],
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "required_capabilities": [
+          "speculatable",
+          "replayable"
+        ]
+      },
+      "verifier": {
+        "clauses": [
+          {
+            "name": "pr",
+            "type_name": "dict",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "pr_get_record"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "pr.record_number",
+            "type_name": "int",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "pr_get_record"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "pr.source_revision",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "Raibek/requests-github-issues@main"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "pr_get_record"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "pr.state",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "closed"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "pr_get_record"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "pr.title",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "pr_get_record"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "pr2",
+            "type_name": "dict",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "pr_get_merge_status"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "pr2.is_merged",
+            "type_name": "bool",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                false,
+                true
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "pr_get_merge_status"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "pr2.record_number",
+            "type_name": "int",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "pr_get_merge_status"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "pr2.source_revision",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "Raibek/requests-github-issues@main"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "pr_get_merge_status"
+            ],
+            "present_iff": null
+          }
+        ],
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "call_counts": [
+          2
+        ]
+      },
+      "gate": {
+        "model": {
+          "features": [
+            "unseen_category",
+            "knn_distance",
+            "missing_optional",
+            "hull_margin",
+            "drift_days",
+            "provenance_ambiguity",
+            "branch_entropy"
+          ],
+          "weights": [
+            0.0,
+            0.0,
+            0.0,
+            0.8009320658459648,
+            0.0,
+            0.8009320658459673,
+            0.0
+          ],
+          "bias": -0.8200142710821297,
+          "feature_means": [
+            0.0,
+            0.0,
+            0.0,
+            0.25,
+            0.0,
+            0.9900000000000001,
+            0.0
+          ],
+          "feature_scales": [
+            1.0,
+            1.0,
+            1.0,
+            0.25,
+            1.0,
+            0.010000000000000009,
+            1.0
+          ]
+        },
+        "features_spec": {
+          "paths": [
+            "z.record_number"
+          ],
+          "hull_kinds": {
+            "z.record_number": "any"
+          },
+          "categories": {},
+          "numeric_ranges": {},
+          "patterns": {},
+          "max_day": "2024-01-04",
+          "provenance_ambiguity": 0.98,
+          "branch_entropy": 0.0
+        },
+        "threshold": 1.0,
+        "grid": [
+          0.02,
+          0.05,
+          0.08,
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5,
+          1.0
+        ],
+        "alpha": 1.0,
+        "delta": 0.1,
+        "n_calibration_groups": 92,
+        "n_accepted": 92,
+        "observed_violations": 0,
+        "risk_upper_bound": 0.05070716304096534,
+        "coverage": 1.0,
+        "admissible": [
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5,
+          1.0
+        ],
+        "retire": false,
+        "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 92, 'violations': 0, 'upper': 0.0507, 'coverage': 1.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0507, 'coverage': 1.0}, {'eta': 0.17, 'n': 92, 'violations': 0, 'upper': 0.0507, 'coverage': 1.0}, {'eta': 0.2, 'n': 92, 'violations': 0, 'upper': 0.0507, 'coverage': 1.0}, {'eta': 0.25, 'n': 92, 'violations': 0, 'upper': 0.0507, 'coverage': 1.0}, {'eta': 0.3, 'n': 92, 'violations': 0, 'upper': 0.0507, 'coverage': 1.0}, {'eta': 0.4, 'n': 92, 'violations': 0, 'upper': 0.0507, 'coverage': 1.0}, {'eta': 0.5, 'n': 92, 'violations': 0, 'upper': 0.0507, 'coverage': 1.0}, {'eta': 1.0, 'n': 92, 'violations': 0, 'upper': 0.0507, 'coverage': 1.0}]"
+      },
+      "manifest": {
+        "manifest_id": "da7a9a38e180",
+        "commit": "workspace-without-git-metadata",
+        "model": "gpt-5.6-luna",
+        "prompt_hash": "#c473e680",
+        "tools_hash": "#a95ed7cb",
+        "policy_hash": "#92426526",
+        "guardrail_hash": "#a9614876",
+        "effect_catalog_version": "github-psf__requests-pr_outcome_core-pinned-reads@1#599903686ff068b5",
+        "entry_contract_version": "github-pr_outcome_core-record-number-v1",
+        "sdk_version": "0.19.2",
+        "tracer_version": "agent-compaction/0.6.0"
+      },
+      "compatibility_key": "da7a9a38e18007ff",
+      "partition": {},
+      "evidence": {
+        "support_groups": 16,
+        "total_groups": 16,
+        "support_principals": 1,
+        "support_days": 15,
+        "removed_requests": 2.0,
+        "split_ids": {
+          "train": [
+            "github-psf__requests-pr_outcome_core:1115",
+            "github-psf__requests-pr_outcome_core:2005",
+            "github-psf__requests-pr_outcome_core:2047",
+            "github-psf__requests-pr_outcome_core:2049",
+            "github-psf__requests-pr_outcome_core:215",
+            "github-psf__requests-pr_outcome_core:2221",
+            "github-psf__requests-pr_outcome_core:2489",
+            "github-psf__requests-pr_outcome_core:2640",
+            "github-psf__requests-pr_outcome_core:3274",
+            "github-psf__requests-pr_outcome_core:4387",
+            "github-psf__requests-pr_outcome_core:4779",
+            "github-psf__requests-pr_outcome_core:5452",
+            "github-psf__requests-pr_outcome_core:5617",
+            "github-psf__requests-pr_outcome_core:5715",
+            "github-psf__requests-pr_outcome_core:643",
+            "github-psf__requests-pr_outcome_core:6617"
+          ],
+          "dev": [
+            "github-psf__requests-pr_outcome_core:1883",
+            "github-psf__requests-pr_outcome_core:238",
+            "github-psf__requests-pr_outcome_core:2926",
+            "github-psf__requests-pr_outcome_core:5406",
+            "github-psf__requests-pr_outcome_core:5968",
+            "github-psf__requests-pr_outcome_core:6434",
+            "github-psf__requests-pr_outcome_core:645",
+            "github-psf__requests-pr_outcome_core:789"
+          ],
+          "calibration": [
+            "github-psf__requests-pr_outcome_core:1012",
+            "github-psf__requests-pr_outcome_core:1031",
+            "github-psf__requests-pr_outcome_core:1089",
+            "github-psf__requests-pr_outcome_core:1091",
+            "github-psf__requests-pr_outcome_core:1134",
+            "github-psf__requests-pr_outcome_core:1214",
+            "github-psf__requests-pr_outcome_core:1291",
+            "github-psf__requests-pr_outcome_core:1296",
+            "github-psf__requests-pr_outcome_core:1341",
+            "github-psf__requests-pr_outcome_core:1345",
+            "github-psf__requests-pr_outcome_core:146",
+            "github-psf__requests-pr_outcome_core:1512",
+            "github-psf__requests-pr_outcome_core:1566",
+            "github-psf__requests-pr_outcome_core:1625",
+            "github-psf__requests-pr_outcome_core:1676",
+            "github-psf__requests-pr_outcome_core:1814",
+            "github-psf__requests-pr_outcome_core:1873",
+            "github-psf__requests-pr_outcome_core:191",
+            "github-psf__requests-pr_outcome_core:2038",
+            "github-psf__requests-pr_outcome_core:211",
+            "github-psf__requests-pr_outcome_core:2176",
+            "github-psf__requests-pr_outcome_core:2257",
+            "github-psf__requests-pr_outcome_core:2265",
+            "github-psf__requests-pr_outcome_core:2332",
+            "github-psf__requests-pr_outcome_core:2375",
+            "github-psf__requests-pr_outcome_core:2453",
+            "github-psf__requests-pr_outcome_core:2506",
+            "github-psf__requests-pr_outcome_core:2513",
+            "github-psf__requests-pr_outcome_core:2516",
+            "github-psf__requests-pr_outcome_core:2586",
+            "github-psf__requests-pr_outcome_core:2648",
+            "github-psf__requests-pr_outcome_core:2763",
+            "github-psf__requests-pr_outcome_core:2825",
+            "github-psf__requests-pr_outcome_core:2923",
+            "github-psf__requests-pr_outcome_core:2948",
+            "github-psf__requests-pr_outcome_core:3034",
+            "github-psf__requests-pr_outcome_core:3053",
+            "github-psf__requests-pr_outcome_core:3184",
+            "github-psf__requests-pr_outcome_core:3295",
+            "github-psf__requests-pr_outcome_core:3387",
+            "github-psf__requests-pr_outcome_core:348",
+            "github-psf__requests-pr_outcome_core:3632",
+            "github-psf__requests-pr_outcome_core:3634",
+            "github-psf__requests-pr_outcome_core:3819",
+            "github-psf__requests-pr_outcome_core:3876",
+            "github-psf__requests-pr_outcome_core:3903",
+            "github-psf__requests-pr_outcome_core:4015",
+            "github-psf__requests-pr_outcome_core:413",
+            "github-psf__requests-pr_outcome_core:4145",
+            "github-psf__requests-pr_outcome_core:4217",
+            "github-psf__requests-pr_outcome_core:4273",
+            "github-psf__requests-pr_outcome_core:4428",
+            "github-psf__requests-pr_outcome_core:4498",
+            "github-psf__requests-pr_outcome_core:4510",
+            "github-psf__requests-pr_outcome_core:464",
+            "github-psf__requests-pr_outcome_core:4669",
+            "github-psf__requests-pr_outcome_core:4671",
+            "github-psf__requests-pr_outcome_core:4832",
+            "github-psf__requests-pr_outcome_core:4839",
+            "github-psf__requests-pr_outcome_core:4922",
+            "github-psf__requests-pr_outcome_core:5043",
+            "github-psf__requests-pr_outcome_core:5088",
+            "github-psf__requests-pr_outcome_core:5171",
+            "github-psf__requests-pr_outcome_core:5305",
+            "github-psf__requests-pr_outcome_core:531",
+            "github-psf__requests-pr_outcome_core:5353",
+            "github-psf__requests-pr_outcome_core:5431",
+            "github-psf__requests-pr_outcome_core:5459",
+            "github-psf__requests-pr_outcome_core:5505",
+            "github-psf__requests-pr_outcome_core:559",
+            "github-psf__requests-pr_outcome_core:5596",
+            "github-psf__requests-pr_outcome_core:5610",
+            "github-psf__requests-pr_outcome_core:5774",
+            "github-psf__requests-pr_outcome_core:589",
+            "github-psf__requests-pr_outcome_core:6036",
+            "github-psf__requests-pr_outcome_core:6098",
+            "github-psf__requests-pr_outcome_core:618",
+            "github-psf__requests-pr_outcome_core:6199",
+            "github-psf__requests-pr_outcome_core:6230",
+            "github-psf__requests-pr_outcome_core:6236",
+            "github-psf__requests-pr_outcome_core:6244",
+            "github-psf__requests-pr_outcome_core:6552",
+            "github-psf__requests-pr_outcome_core:6619",
+            "github-psf__requests-pr_outcome_core:6624",
+            "github-psf__requests-pr_outcome_core:6649",
+            "github-psf__requests-pr_outcome_core:690",
+            "github-psf__requests-pr_outcome_core:751",
+            "github-psf__requests-pr_outcome_core:783",
+            "github-psf__requests-pr_outcome_core:893",
+            "github-psf__requests-pr_outcome_core:990",
+            "github-psf__requests-pr_outcome_core:992",
+            "github-psf__requests-pr_outcome_core:999"
+          ]
+        },
+        "replay": {
+          "n": 8,
+          "passed": 8,
+          "abstained": 0,
+          "wrong": 0,
+          "effect_mismatch": 0,
+          "state_delta": 0,
+          "pass_rate": 1.0,
+          "reasons": {}
+        },
+        "perturbation": {},
+        "counterexamples": [],
+        "metrics": {
+          "sandbox": {
+            "n": 0,
+            "passed": 0,
+            "abstained": 0,
+            "wrong": 0,
+            "effect_mismatch": 0,
+            "state_delta": 0,
+            "pass_rate": 0.0,
+            "reasons": {}
+          },
+          "perturbations_claimed": false,
+          "branch": "none",
+          "branch_permutation_p": null,
+          "branch_alternatives": 0,
+          "n_alternative_bindings": 49,
+          "composite": "synthesized",
+          "composite_name": "compiled_pr_get_record_2f64b991da",
+          "gate_grid": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 92, 'violations': 0, 'upper': 0.0507, 'coverage': 1.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0507, 'coverage':",
+          "var_names": [
+            "pr",
+            "pr2"
+          ],
+          "dev_windows_evaluated": 8,
+          "calibration_windows_evaluated": 92
+        },
+        "rejection_reasons": [],
+        "fallback_reasons": {},
+        "dataset_digest": "6495e5a45b7e5093",
+        "notes": "substrate and evidence are recorded in the run manifest"
+      },
+      "lifecycle": "active",
+      "owner": "paper-github-psf__requests-pr_outcome_core-support-only-study",
+      "approved_by": "paper-multirepo-protocol-lab-only",
+      "expiry_day": null,
+      "rollback_target": null,
+      "monitoring": {
+        "min_verifier_pass_rate": 0.9,
+        "max_unsafe_dispatch": 1.0,
+        "expected_coverage": 1.0
+      },
+      "signature": ""
+    }
+  ]
+}

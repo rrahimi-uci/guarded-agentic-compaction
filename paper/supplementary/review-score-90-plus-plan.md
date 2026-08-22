@@ -1,5 +1,40 @@
 # GAC 90+ Main-Track Readiness Plan
 
+## Update (2026-08-22, later): prospective gate-frontier design resolved and sealed
+
+Item 4 in the 2026-08-22 update above ("the exact-`.05` gate still lacks a non-degenerate
+current frontier") now has a concrete, sealed, provider-free cohort behind it, closing the
+gap this plan's Phase 2B and 2A both named without naming a script:
+
+- `github_multirepo_pr_outcome_core.py`'s own selection logic, at
+  `discovery_cases=116, test_cases_per_repo=60` across its existing five repositories,
+  is the unique configuration that keeps all five repositories selectable while hitting
+  the pre-registered >=300 pooled held-out target exactly (300, not more, not fewer
+  repositories dropped to reach it). This is the Phase 2B target this plan set and never
+  reached with the 120-pair (`core`) and 180-pair (`balanced`) runs, which remain two
+  separate, smaller, already-reported results rather than components pooled into this
+  design.
+- The pre-registered third arm ("support-only gate: dispatch on recurrence alone") is
+  now implemented as `alpha=1.0` in a second, independent `compile_grc` pass per
+  repository, reusing this repository's own precedented "published support-only research
+  ablation" comment in `calibrate.py` rather than inventing a new statistic. See
+  `prospective-gate-frontier-protocol.md`'s update for the exact reasoning and its
+  stated limits.
+- New file: `paper/scripts/github_multirepo_gate_frontier_study.py`
+  (`test_github_multirepo_gate_frontier_study.py`), extending, not replacing, `core.py`.
+- Sealed provider-free: `paper/results/github_multirepo_gate_frontier/preflight.json`
+  (`complete_repo_count: 5`, `pooled_test_cases: 300`, `provider_calls_executed: 0`).
+- Smoke-validated at real but trivial cost against one repository (`psf/requests`,
+  full 116-case discovery, all three conditions on its 60-case held-out split) to confirm
+  the new support-only compile path and the coverage-curve extraction both work before
+  any five-repository spend is authorized.
+
+**What this does not change:** the full five-repository run has not happened. This still
+requires the explicit spend authorization this plan's Phase 4 always required, at the
+estimated (not yet spent) cost stated in the protocol update. Score levers "Experimental
+rigor" and "Technical soundness" move only once that run completes and is reported,
+exactly as the "Realistic score path" table below already anticipated.
+
 ## Update (2026-08-22): recovered Headroom ablation, orphaned drift-robustness pointer
 
 Two items of already-executed or already-designed material were recovered from a stranded
