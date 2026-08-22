@@ -511,13 +511,14 @@ stronger deployment claims.
 \section{Prospective Gate-Frontier Protocol}
 \label{app:prospective}
 
-\code{paper/supplementary/prospective-gate-frontier-protocol.md} pre-registers,
-but does not run, the experiment that could turn \cref{sec:discussion}'s
-step-like gate into a genuine risk--coverage frontier. \textbf{Status: PRE-REGISTERED,
-NOT EXECUTED.} No repository beyond what this paper already reports has been
-acquired under it, no provider call has been made, and no held-out case has
-been selected; this appendix summarizes the committed design so it cannot be
-revised in light of results it does not yet have.
+\code{paper/supplementary/prospective-gate-frontier-protocol.md} pre-registers
+the experiment that could turn \cref{sec:discussion}'s step-like gate into a
+genuine risk--coverage frontier. \textbf{Status: PRE-REGISTERED, THEN
+PARTIALLY EXECUTED.} The design below was committed before any repository or
+provider had been acquired under it, so it could not be revised in light of
+results it did not yet have; the cohort has since been sealed and executed on
+four of five repositories, reported at the end of this section without
+changing anything committed here.
 
 \textbf{Cohort.} At least three repositories or domains, extending the
 provider-free \code{github\_multirepo\_preflight.py} harness, with at least 300
@@ -563,3 +564,55 @@ than substituting for it.
 the same directory): AWO~\citep{abuzakuk2026awo} has no confirmed public
 implementation to build against, so this workstream closes on that no-go
 rather than on a forced, unverifiable reimplementation.
+
+\subsection{Observed results}
+
+The sealed cohort targets 300 pooled held-out pairs across the five
+repositories \cref{sec:res-multirepo} already uses, 116 discovery and 60
+held-out cases each under frozen-candidate selection. Discovery reaches
+580/580 exact traces. Four repositories admit an artifact and complete 240
+held-out triples under all three arms; \code{pytorch/pytorch} again retires
+at compile time --- the same repository, under an independent
+five-times-larger cohort, reproducing rather than revealing an artifact of
+the smaller core cohort's retirement. The pooled result is therefore 240 of
+the pre-registered 300 pairs, short of target for the stated reason, not
+concealed.
+
+\begin{table}[t]
+  \centering
+  \caption{Disaggregated outcomes for the gate-frontier study. ``Nonzero
+  coverage in sweep'' lists every coverage value the frozen $\Lambda$ grid
+  produces for the learned gate before threshold selection; ``Admitted''
+  is the value actually deployed. Support-only ($\alpha=1$) produces the
+  identical sweep and admission on every repository.}
+  \label{tab:gate-frontier-disaggregated}
+  \footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \input{tables/gate_frontier_disaggregated.tex}
+\end{table}
+
+On the 240 pairs, baseline, learned-gate, and support-only conditions all
+pass exact task contracts (240/240, 239/239 after one held-out record failed
+under a transient provider timeout independent of condition or repository).
+Relative to baseline, the learned gate reduces provider requests 44.4\%,
+total tokens 52.3\%, observed wall latency 51.0\%, and estimated cost 48.3\%;
+the support-only gate --- $\alpha=1$ in an otherwise byte-for-byte identical
+second \code{compile\_grc} pass, so mining, synthesis, challenge, and
+freezing are unchanged and only the risk budget is removed --- is
+statistically indistinguishable: 44.4\%, 52.4\%, 47.9\%, and 48.8\%.
+\Cref{tab:gate-frontier-disaggregated} shows why: three of four admitting
+repositories never accept a calibration group below $\eta=.11$ and accept
+all 92 at $\eta\ge.11$, a pure two-point step; the fourth,
+\code{huggingface/datasets}, additionally accepts 10 of 92 groups at
+$\eta\le.08$, but that point's exact upper bound (.375) exceeds the
+registered $\alpha=.05$ budget and is never admissible, so every repository
+deploys the same coverage-1.0 threshold. No repository, under either gate,
+ever deploys at an intermediate admissible coverage.
+
+Per the decision rule fixed in advance (\cref{sec:discussion}), this is the
+fourth listed outcome: neither gate produces graded coverage on this cohort,
+so the null is reported rather than a manufactured frontier. At four times
+the prior cross-repository scale, and against a comparator that shares every
+statistical mechanism except the risk budget, the exact-$\alpha=.05$ gate
+remains a support threshold. This confirms, and does not resolve, the
+step-gate finding \cref{sec:discussion} already reports.

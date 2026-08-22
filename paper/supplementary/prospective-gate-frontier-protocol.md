@@ -1,13 +1,13 @@
 # Prospective gate-frontier protocol
 
-**Status: DESIGN RESOLVED AND SEALED PROVIDER-FREE; FULL COHORT NOT YET EXECUTED.** The
-update below records the concrete configuration this document's design resolves to and a
-tiny, real, single-repository smoke validation of the pipeline that implements it. The
-300-pair, five-repository held-out cohort itself is sealed (hashed, provider-free) but not
-yet run at full scale; that step still requires the same explicit spend authorization this
-document has always required, at an estimated cost this update states precisely. The
-original text below is unchanged from when it was pre-registered, since none of it needed
-revision in light of anything the resolved design or the smoke check showed.
+**Status: EXECUTED on four of five repositories (2026-08-22); reported below.** The
+cohort was sealed provider-free, then run: 240 of the pre-registered 300 pooled held-out
+pairs were completed, short of the target because `pytorch/pytorch` retires at compile
+time (the same repository, and the same kind of outcome, `github_multirepo_pr_outcome_core.py`'s
+own smaller cohort already reports), not because of any new failure mode. See
+"Observed results" below for the full account. The original design text further below is
+unchanged from when it was pre-registered: nothing in it was revised in light of what
+execution showed.
 
 ## Update (2026-08-22): design resolved, support-only arm implemented, cohort sealed
 
@@ -66,6 +66,95 @@ additive with):
   900 held-out episodes (300 cases × 3 conditions) puts the full five-repository run at
   under $2 even with a generous safety margin over the per-repository smoke check's
   observed cost. This is a cost estimate stated before spending it, not a result.
+
+## Observed results (2026-08-22)
+
+Executed against all five sealed repositories at a total real cost of **$0.41**
+(discovery + all three conditions' held-out evaluation, across every attempt including
+two retries of `streamlit/streamlit` after transient provider timeouts during discovery —
+see "What happened to the other repository" below).
+
+**Cohort achieved: 240 of 300 pooled held-out pairs, four of five repositories.**
+Discovery reaches 580/580 exact traces (116/116 per repository, including
+`pytorch/pytorch`). Four repositories admit a candidate and complete their full 60-case
+held-out split under all three conditions: `huggingface/datasets`, `pandas-dev/pandas`,
+`psf/requests`, `streamlit/streamlit`. `pytorch/pytorch` retires at compile time: the
+compiler mines one candidate with support 16 across the calibration split, but the
+tightest attainable Clopper–Pearson upper bound at every grid point is 1.000 — no
+calibration group is ever accepted, so the candidate never reaches an admissible
+threshold. This reproduces, on an independent, five-times-larger cohort, exactly the
+retirement `github_multirepo_pr_outcome_core.py`'s own 30-per-repository cohort already
+reports for the same repository: not a new failure mode, and not an artifact of the
+smaller cohort's specific record selection.
+
+**Exact-contract preservation:** 240/240 on baseline and learned-gate; 239/240 on
+support-only after one held-out record (`psf/requests` #6708) failed under a transient
+`TimeoutError` independent of condition or repository — the identical record that failed
+identically during the single-repository pipeline smoke check this document recorded
+above, confirming it is a provider-side transient rather than a new fault.
+
+**Efficiency, relative to the unchanged baseline, pooled over 240 (239 for support-only)
+pairs:**
+
+| Arm | Requests | Total tokens | Wall latency | Estimated cost |
+|---|---:|---:|---:|---:|
+| Learned gate ($\alpha=.05$) | -44.4% | -52.3% | -51.0% | -48.3% |
+| Support-only gate ($\alpha=1$) | -44.4% | -52.4% | -47.9% | -48.8% |
+
+The two arms are statistically indistinguishable on every metric. This is expected given
+the coverage finding below, not a separate result: two gates that admit the identical
+threshold produce identical dispatch behavior regardless of what risk budget separates
+them on paper.
+
+**Coverage-level finding — the null, not a frontier.** Reading every point the frozen
+11-point grid produces for the learned gate, before threshold selection, directly out of
+`Gate.notes` (not re-derived): three of the four admitting repositories
+(`pandas-dev/pandas`, `psf/requests`, `streamlit/streamlit`) accept zero calibration
+groups at every $\eta \le .08$ and all 92 at every $\eta \ge .11$ — a pure two-point step,
+0.0 then 1.0, with nothing between. The fourth, `huggingface/datasets`, additionally
+accepts 10 of 92 groups at $\eta \le .08$ (coverage 0.1087) — the one place in this whole
+cohort where the raw sweep shows a third value — but that point's exact upper bound is
+**.375**, far above the registered $\alpha=.05$ budget, so it is never admissible and is
+never selected. Every repository, under both the learned gate and the support-only
+ablation, deploys the identical coverage-1.0 threshold. No repository, under either arm,
+ever deploys at an intermediate admissible coverage. Support-only's own sweep is
+pointwise identical to the learned gate's on every repository (expected: raw
+accept/reject counts at a given $\eta$ do not depend on $\alpha$, only which $\eta$ ends
+up selected does), which is itself informative: even removing the risk budget entirely
+does not surface a coverage point the risk-budgeted gate was suppressing.
+
+Per the decision rule fixed in advance, this is the pre-declared fourth outcome:
+*"Neither gate produces graded coverage (both step-like). The workload did not supply
+enough gradient; report the null and do not manufacture a frontier from a homogeneous
+cohort."* No held-out wrong dispatch was observed on either gate at the admitted
+threshold in any repository, so the pre-declared adverse-finding row (row 3) also does
+not apply. At four times the previous cross-repository scale, and against a comparator
+built to share every statistical mechanism except the risk budget, the exact-$\alpha=.05$
+gate remains a support threshold. This confirms, rather than resolves, the step-gate
+finding this paper already reports from its primary families and from AppWorld.
+
+**What happened to the other repository, in full.** `streamlit/streamlit`'s discovery
+pass failed twice before succeeding: the first full five-repository run lost 2 of 116
+discovery calls to `APITimeoutError`, leaving 114 exact traces (113 with `quality.overall`
+true) against the 116 the frozen split requires, so `github_multirepo_gate_frontier_study.py`
+correctly raised rather than compiling on a short discovery set. A retry lost 8 of 116 to
+the same transient error. A second retry succeeded, reaching 116/116 exact traces and
+completing the full held-out split reported above. Nothing about the selection, the
+candidate, or the admitted threshold differs between attempts — only the discovery calls
+that happened to time out — and the final, reported numbers come from the successful
+attempt exclusively; no partial or failed attempt's data is pooled into the results above.
+
+**What this does and does not change.** It does not change the hypotheses, the decision
+rule, the cohort design, or the $\ge 3$-repository / $\ge 300$-pair target stated below:
+those were fixed before this run and nothing here revises them retroactively. It does not
+reach the pre-registered 300-pair target — 240 is reported as short of target, not
+rounded up to it. It does not authorize or perform the deferred model/provider-breadth or
+executable-comparator extensions (the latter is separately closed, no-go, in
+`awo-comparator-feasibility-spike.md`). A fifth repository could in principle be added to
+reach 300 pooled pairs outright, since `pytorch/pytorch`'s retirement is a compile-time
+finding about that specific repository's calibration split, not a ceiling on how many
+repositories this design can support; none is currently pinned and acquiring one is not
+authorized by this update.
 
 Nothing above changes the hypotheses, the decision rule, the >=300/>=3 target, or the
 stopping rule stated in the original design below; it resolves the previously-open
