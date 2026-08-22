@@ -1,0 +1,40 @@
+{
+  "comparisons_vs_plain_text": {
+    "bare_url": {
+      "n": 60,
+      "rate": 0.9833333333333333,
+      "violations": 1,
+      "vs_plain_text_one_sided_p": 0.5
+    },
+    "markdown_link": {
+      "n": 60,
+      "rate": 0.9333333333333333,
+      "violations": 4,
+      "vs_plain_text_one_sided_p": 0.05936220642102995
+    }
+  },
+  "counts_by_stratum": {
+    "bare_url": {
+      "n": 60,
+      "violations": 1
+    },
+    "markdown_link": {
+      "n": 60,
+      "violations": 4
+    },
+    "plain_text": {
+      "n": 60,
+      "violations": 0
+    }
+  },
+  "pooled_markdown_link_and_bare_url_vs_plain_text": {
+    "n": 120,
+    "one_sided_p": 0.12800372059050108,
+    "violations": 5
+  },
+  "reading": "Exact one-sided Fisher tests, uncorrected for the two strata compared. markdown_link is the only stratum approaching the predicted signal; bare_url shows no discriminable elevation at this sample size. Read together with the decision rule in gate-frontier-pilot-protocol.md, not as a standalone significance claim.",
+  "records_failing_in_both_conditions": [
+    5710
+  ],
+  "schema": "gac-gate-frontier-pilot-analysis/v1"
+}
