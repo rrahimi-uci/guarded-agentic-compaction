@@ -31,6 +31,14 @@ artifact digests are in the artifact manifest under \path{paper/results}.
 The provider-free reproduction is:
 \begin{verbatim}
 .venv/bin/python paper/scripts/nestful_benchmark.py
+B=paper/scripts/bfcl_compiler_benchmark.py
+.venv/bin/python "$B" --source-root "$BENCHMARK_SOURCE_ROOT"
+A=paper/scripts/appworld_compiler_benchmark.py
+.venv/bin/python "$A" \
+    --source-root "$BENCHMARK_SOURCE_ROOT" \
+    --appworld-python "$APPWORLD_VENV/bin/python"
+D=paper/scripts/appworld_dispatch_preflight.py
+.venv/bin/python "$D" --source-root "$BENCHMARK_SOURCE_ROOT"
 R=paper/results/github_natural_replication
 .venv/bin/python paper/scripts/github_live_study.py \
     --task-design natural-extractive-v2 \

@@ -84,6 +84,23 @@ synthesis. Both appear only in a ranking heuristic --- no admission decision
 depends on either, and the effect catalog is consulted where it is load-bearing,
 in qualification and in the runtime facade.
 
+The two executable-gold external substrates are provider-free after their pinned
+sources are prepared. Their exact compiler entry points are:
+\begin{verbatim}
+B=paper/scripts/bfcl_compiler_benchmark.py
+python "$B" --source-root "$BENCHMARK_SOURCE_ROOT"
+A=paper/scripts/appworld_compiler_benchmark.py
+python "$A" --source-root "$BENCHMARK_SOURCE_ROOT" \
+  --appworld-python "$APPWORLD_VENV/bin/python"
+D=paper/scripts/appworld_dispatch_preflight.py
+python "$D" --source-root "$BENCHMARK_SOURCE_ROOT"
+\end{verbatim}
+The AppWorld environment uses Python~3.12 with package version
+\code{0.1.3.post1} and data version \code{0.1.0}; the signed source manifest and
+requirements file pin the remaining acquisition inputs. The BFCL source is pinned
+to revision \code{6ea57973c7a6}. These commands regenerate only aggregate,
+non-sensitive evidence; no model or provider call is made.
+
 \section{Paired Statistics for the Primary Families}
 \label{app:stats}
 
@@ -300,8 +317,9 @@ it unreachable.
   the 28 released official baseline runs. Eligibility is the admitted program's
   exact call sequence at normalized position~0; it is an upper bound on $\phi$,
   because the manifest check and the calibrated gate are not evaluated and the
-  released logs retain API calls rather than model boundaries. A miss abstains to
-  the unchanged agent.}
+  released logs retain API calls rather than model boundaries. Trajectories repeat
+  tasks across runs and are descriptive rather than independent samples. A miss
+  abstains to the unchanged agent.}
   \label{tab:appworld-dispatch}
   \footnotesize
   \setlength{\tabcolsep}{5pt}

@@ -49,8 +49,8 @@ dominance.
   \centering
   \caption{Where refusal happens, and what happens where it does not. Stage
   numbers are \cref{alg:compile}'s; ``slots'' is the share of dependency slots with
-  a recovered producer and $n_{\max}$ the largest family support against the 92
-  \cref{eq:cp} requires.}
+  a recovered producer, ``p/a/w'' means held-out replay pass/abstain/wrong, and
+  $n_{\max}$ is the largest family support against the 92 \cref{eq:cp} requires.}
   \label{tab:funnel}
   \footnotesize
   \setlength{\tabcolsep}{4pt}
@@ -78,5 +78,7 @@ baseline runs. Over 8{,}190 held-out trajectories it is structurally eligible at
 the entry boundary in $37.9\%$, and that average is bimodal: near-total for
 full-code agents, and $1$ of $4{,}680$ for ReAct and plan-and-execute, which open
 by reading API documentation so the prefix leaves position~0
-(\cref{tab:appworld-dispatch}). A miss abstains cleanly, and this bounds $\phi$
-from above rather than measuring it, so no saving is claimed.
+(\cref{tab:appworld-dispatch}). These trajectories repeat tasks across 28 released
+runs and are descriptive units, not 8{,}190 independent samples. A miss abstains
+cleanly, and this measurement bounds $\phi$ from above rather than estimating a
+population dispatch rate, so no saving or inferential interval is claimed.

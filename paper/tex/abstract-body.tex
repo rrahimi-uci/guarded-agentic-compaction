@@ -1,23 +1,22 @@
 Tool-using agents often revisit the same read-only evidence path while paying for a model
-decision at every tool boundary. Replacing a recurring model-mediated prefix could save
-these calls, but it is not ordinary caching: a later tool argument may encode a decision
-unrecoverable from observed state, an apparently read-only call may cross an effect
-boundary, and correct tool replay may still change the remaining agent's answer. Existing
-recurrence, replay, and workflow-induction signals therefore identify candidate regions,
-but do not establish that replacing the model is safe.
+decision at every tool boundary. Replacing a recurring prefix could save calls, but it is
+not ordinary caching: later arguments may encode decisions absent from observed state,
+apparently read-only calls may cross effect boundaries, and correct replay may alter the
+remaining agent's answer. Recurrence, replay, and workflow-induction signals therefore
+identify candidates but do not establish that replacing the model is safe.
 
 We introduce \emph{guarded agentic compaction} (\method), a compile-or-retire
-trace-to-program system that makes this evidence requirement explicit. \method normalizes
-recorded episodes, mines recurrent read-only prefixes, and emits a bounded deterministic
-program only when every tool argument has a provenance witness from entry state or a prior
-result; an unwitnessed argument retires the region while preserving its maximal justified
-prefix. Manifest, input, and output guards enforce the resulting contract, and a fixed
-finite-sample selective-risk test decides deployment; a failed check falls back to the
-unchanged agent. We evaluate this lifecycle on three live GitHub workflow families, a
-time-forward five-repository extension, and two refusal benchmarks. On the live families,
-\method attains 90/90 exact held-out contracts, versus 89/90 for the unchanged agent,
-while reducing provider requests by 66.6\% and tokens by 63.1\% in aggregate. It completes
-four of five extension repositories and retires one; it also retires every recurrent
-NESTFUL and API-Bank family despite successful provenance, synthesis, and replay. \method
-thus turns recurrence from permission to rewrite an agent into a testable, evidence-gated
-specialization decision with principled refusal and fallback.
+trace-to-program system. \method normalizes episodes, mines recurrent read-only prefixes,
+and emits a bounded deterministic program only when every argument has a provenance
+witness from entry state or a prior result; otherwise it retires the region. Manifest,
+input, and output guards enforce the contract, a fixed finite-sample selective-risk test
+gates deployment, and a failed check falls back to the unchanged agent. We evaluate this lifecycle
+on three live GitHub workflow families, a time-forward five-repository extension, and four
+public compiler substrates. On the live families, \method attains 90/90 exact held-out
+contracts, versus 89/90 for the unchanged agent, while reducing provider requests by
+66.6\% and tokens by 63.1\% in aggregate. It completes four of five extension repositories
+and retires one. NESTFUL, API-Bank, and executed BFCL families retire after successful
+provenance, synthesis, and replay; AppWorld is the first external substrate where admission
+is reachable, admits one artifact, but has architecture-conditioned dispatch eligibility.
+\method thus turns recurrence into a testable, evidence-gated specialization decision with
+principled refusal and fallback.

@@ -122,7 +122,7 @@ The evaluation asks six reader-facing questions:
   real-record workflow families with different tool vocabularies and output contracts?
 \end{description}
 
-The paper makes three contributions:
+The paper makes four contributions:
 
 \begin{enumerate}[leftmargin=*]
   \item An evidence-licensed trace-to-program formulation that combines typed value
@@ -136,6 +136,10 @@ The paper makes three contributions:
   PR-outcome task.  Together they separate execution conformance from source-grounded
   answer quality, preserve retained negative outcomes, and compare unchanged, compiled,
   and fair manual or template baselines without claiming superiority where they tie.
+  \item A four-substrate external compiler audit in which three corpora retire and
+  AppWorld supplies the first reachable admission, followed by a released-agent
+  trajectory analysis that separates artifact admissibility from structural
+  dispatchability without claiming agent quality or resource savings.
 \end{enumerate}
 
 Alongside the primary live study, we add two narrower extensions.  First, a frozen-source
@@ -1539,7 +1543,9 @@ metrics.
 The evidence separates three questions. First, can a trace be reconstructed and
 synthesized? Second, is there enough independent evidence to admit the result? Third, if
 admitted, does it improve the end-to-end workflow against a strong manual alternative?
-NESTFUL and API-Bank answer the second question with refusal (\cref{sec:rq1}). The three
+NESTFUL, API-Bank, and executed BFCL answer the second question with refusal, while
+AppWorld supplies the first reachable external admission and then exposes a distinct
+dispatchability constraint (\cref{sec:rq1,sec:appworld-results}). The three
 GitHub workflow families answer the third within one repository, and the later
 cross-repository extension tests the same question on a simpler time-forward task
 (\cref{sec:family-results,sec:multirepo-results,sec:comparator}). The remaining sections
@@ -2362,13 +2368,15 @@ a demonstrated risk--coverage frontier, because the admitted gate is as step-lik
 live ones, or a provenance demonstration, because the admitted program is argument-free.
 
 \emph{The admitted artifact does not dispatch on most real agents.} Measured against 8,190
-released third-party AppWorld baseline trajectories, the admitted region is structurally
+released official-baseline AppWorld trajectories, the admitted region is structurally
 eligible at the entry boundary on essentially every full-code agent trajectory and on 1 of
 4,680 ReAct and plan-and-execute trajectories (\cref{sec:appworld-dispatch}).  This rules
 out reading admission as deployability: an artifact can satisfy every provenance, effect,
 position, contract, and finite-sample condition in this paper and still never fire, because
 whether an agent presents a compilable prefix at its entry boundary is a property of its
-calling discipline that no admission condition tests.
+calling discipline that no admission condition tests. The 8,190 trajectories repeat tasks
+across 28 released runs and are therefore descriptive units, not independent samples; the
+reported 37.9\% is an architecture diagnostic rather than a population estimate.
 
 \emph{The suffix pilot reduced requests while destroying the task.} It cut provider
 requests 36.7\% at 16.7\% contract validity (\cref{sec:pilot}).  This rules out
@@ -2480,8 +2488,10 @@ spans interactive environments~\cite{liu2023agentbench}; GAIA and BrowseComp tes
 assistant and persistent browsing capabilities~\cite{mialon2023gaia,wei2025browsecomp};
 and SWE-bench grounds agents in real software issues~\cite{jimenez2024swebench}.  These
 primarily test whether an agent can choose and execute actions or produce a final answer.
-NESTFUL exposes nested producer references, while API-Bank retains recorded call results,
-making those two suitable for our post-trace question~\cite{basu2025nestful}.  The artifact
+NESTFUL exposes nested producer references, while API-Bank retains recorded call results
+directly~\cite{basu2025nestful}. BFCL and AppWorld become suitable for the same post-trace
+question only after their official gold artifacts are executed on pinned backends to obtain
+the missing intermediate results. No model runs in any of those four compiler rows. The artifact
 retains a revision-pinned supplementary interoperability ledger for the other benchmarks;
 we do not turn absent trajectories into compiler failures. Stateful and write-bearing
 compilation remains future work until transactional staging exists.
@@ -2895,6 +2905,9 @@ the 92 the bound needs.  Its dispatch measurement is likewise bounded --- it est
 structural eligibility at the entry boundary, not $\phi$, because the released baseline
 runs never used the artifact's pinned manifest, and it cannot speak to savings because
 those logs retain API calls rather than model boundaries.
+The 8,190 trajectories also repeat benchmark tasks across 28 released runs, models, and
+architectures. Their pooled eligibility rate is therefore descriptive and intentionally has
+no independent-sample confidence interval.
 
 The artifact includes a prospective three-domain extension harness for vulnerability
 evidence, SEC filing facts, and privacy-modified public HMDA records.  The HMDA checkpoint

@@ -1,182 +1,90 @@
-# ICLR 2027 Review and Revision Scorecard
+# ICLR 2027 Deep Review and Revision Scorecard
 
-Review date: August 14, 2026. Scores use a 0--100 scale and assess the blind
-submission as an ICLR paper, not the larger open-research article. The review
-checked the LaTeX source, compiled PDF, retained result JSON, admission
-register, generated figures and tables, bibliography, artifact validators, and
-the official [ICLR 2027 Author Guidelines](https://iclr.cc/Conferences/2027/AuthorGuidelines),
-[Call for Papers](https://iclr.cc/Conferences/2027/CallForPapers), and
-[AI Policy for Authors](https://iclr.cc/Conferences/2027/AIPolicyForAuthors).
+Review date: August 21, 2026. This scorecard evaluates the 55-page open-research
+article and the 20-page blind ICLR PDF at branch commit 155a442. Scores use a
+0--10 scale. The assessment follows the official ICLR 2027 reviewer questions:
+whether the problem and approach are well motivated, the claims are technically
+and empirically supported, the work is significant, and the paper is clear and
+reproducible. It also checks the official nine-page main-text, double-blind, and
+AI-use requirements.
 
-## Baseline assessment
+## Initial assessment
 
-| Dimension | Before | Main reason for the baseline score |
+| Dimension | Initial | Short justification |
 |---|---:|---|
-| Problem importance and motivation | 92 | Clear operational problem with a concrete safety and efficiency tension. |
-| Novelty and significance | 85 | Distinct compile-or-retire framing, but built from established tracing, synthesis, and risk-control ideas. |
-| Technical soundness | 83 | Strong core design, but the calibration edge cases and multi-partition control flow were not represented precisely. |
-| Method clarity | 85 | Good architecture and algorithms, with ambiguity around group-level versus episode-level risk. |
-| Evaluation design | 82 | Paired live tests, negative benchmarks, and time-forward transfer are valuable; breadth remains limited. |
-| Evidence strength | 80 | Exact retained evidence is unusually auditable, but the richest study uses one provider/model and one primary repository snapshot. |
-| Results and interpretation | 87 | Refusals and manual parity are reported honestly; the introduction mixed two distinct empirical cohorts. |
-| Reproducibility | 91 | Raw outputs, manifests, generators, algorithms, and configuration are retained; anonymous packaging remains a pre-upload task. |
-| Writing and presentation | 87 | Strong nine-page narrative and figures, weakened by the cohort inconsistency and a few formal omissions. |
-| ICLR compliance and anonymity | 86 | Correct blind template and page budget, but the checklist contained stale deadlines and the source depended on an external figure path. |
-| Limitations and responsible claims | 94 | Claim boundaries, refusal evidence, ethics, and unresolved scientific risks are unusually explicit. |
+| Originality | 8.0 | The compile-or-retire admissibility argument is a distinctive composition of tracing-JIT ideas, typed provenance, effect barriers, bounded synthesis, and exact selective admission; the ingredients and adjacent workflow optimizers are established. |
+| Technical soundness | 8.0 | The per-candidate proposition and exact-grid calculation are stated correctly and narrowly, but the guarantee assumes i.i.d. groups, does not cover adaptive candidate search, and the new 8,190-trajectory result was presented without stating that tasks repeat across runs. |
+| Clarity and presentation | 7.5 | The ICLR narrative is coherent, but the long article's abstract and results opener still described only two refusal substrates after BFCL and AppWorld were added; the ICLR abstract also rounded 2,339/2,340 full-code trajectories up to “all.” |
+| Significance and impact | 7.5 | Removing recurrent provider boundaries under explicit refusal rules is practically relevant, but prevalence in deployed agents is unmeasured and a correctly placed manual program ties the compiler at runtime. |
+| Related-work coverage | 8.0 | The paper covers tracing JITs, effect systems, synthesis, risk control, prompt/workflow optimizers, caching, and tool-use benchmarks, but the condensed ICLR text still implied only NESTFUL and API-Bank were suitable post-trace substrates. |
+| Empirical rigor | 7.5 | Paired live studies, negative results, time-forward repositories, exact contracts, and AppWorld's reachable admission are valuable. The richest task remains one provider/model and snapshot; the registered gate is step-like; AppWorld runs no model and cannot support savings or quality claims. |
+| Reproducibility | 8.0 | Raw results, manifests, deterministic generators, pinned sources, and validators are unusually strong, but the ICLR reproduction statement and appendix omitted the executable BFCL and AppWorld entry points. |
+| Responsible claims and limitations | 9.5 | Manual parity, the continuation failure, effect/catalog trust, cache confounding, missing signature verification, conditional independence, and unrun work are disclosed rather than hidden. |
+| ICLR compliance and anonymity | 9.0 | The blind source is anonymous and the main text uses nine pages with the required AI-use statement. An anonymous artifact bundle and author-side OpenReview obligations remain pre-upload actions. |
 
-**Baseline overall: 86/100.** The draft was already technically substantial,
-but the cohort conflation and formal pseudocode defects were material enough to
-prevent a submission-ready rating.
+**Initial unweighted diagnostic mean: 8.1/10. Initial reviewer-style overall:
+6/10 (borderline / weak reject).** The binding issue was not an invalid theorem
+or failed experiment. It was confidence in the paper's evidence accounting:
+the two manuscript versions drifted after a material new experiment, one
+headline phrase overstated a count, and the new deployment diagnostic looked
+more inferential than its repeated-run design permits.
 
-## Evidence-bounded revisions
+## Revision made
 
-The revision uses no new experiments and changes no reported result.
+No new experiment was run and no retained numerical result changed.
 
-1. The worked example now separates held-out issue #4420 in the expanded
-   30-record study from issue #6602 in the earlier 18-record continuation
-   study. The former supports the grounded two-read prefix and 92/92
-   certificate; the latter demonstrates that correct tool replay can still
-   lose answer evidence.
-2. The paper now defines the conservative scenario-group statistical unit and
-   states when it coincides with episode-level risk in the reported live data.
-3. The Clopper--Pearson equation and calibration algorithm now define empty and
-   all-violation edge cases rather than invoking an undefined beta quantile.
-4. The compile cascade now records an infeasible partition and continues to
-   other compatible partitions instead of prematurely returning from the
-   entire search.
-5. The proposition and proof now state the required order correctly: original
-   calibration groups are i.i.d.; admission is induced by a candidate frozen
-   before calibration.
-6. The ICLR source is self-contained with a local copy of every included
-   figure, and the generator refreshes those copies deterministically.
-7. The AI-use disclosure now includes methodological critique and consistency
-   review, and the compliance notes use the current official deadlines.
+1. Synchronized the open-research abstract, contribution list, results opener,
+   related-work discussion, limitations, and appendix with the four-substrate
+   evidence now present in the paper.
+2. Replaced “all full-code agents” with the exact
+   2,339/2,340 trajectory count and replaced “third-party” with the more
+   precise “released official-baseline” description in the ICLR abstract and
+   introduction.
+3. Stated in both manuscripts that the 8,190 AppWorld trajectories repeat tasks
+   across 28 runs, models, and architectures. The 37.9% structural-eligibility
+   rate is now explicitly descriptive, with no independent-sample interval or
+   population-dispatch interpretation.
+4. Defined the compact table notation p/a/w as pass/abstain/wrong.
+5. Updated the ICLR related-work paragraph to distinguish corpora that retain
+   intermediate results directly from BFCL and AppWorld, whose official gold
+   artifacts must be executed on pinned backends.
+6. Added exact provider-free BFCL, AppWorld compiler, and AppWorld dispatch
+   entry points to both reproducibility appendices and included all four
+   substrates in the ICLR reproducibility statement.
 
 ## Final assessment
 
-| Dimension | Final | Change | Residual cap |
+| Dimension | Initial | Final | Why it moved, or why it did not |
 |---|---:|---:|---|
-| Problem importance and motivation | 94 | +2 | Practical deployment prevalence is not measured. |
-| Novelty and significance | 86 | +1 | The ingredients are established even though their guarded composition is distinctive. |
-| Technical soundness | 90 | +7 | The certificate remains per fixed candidate, not compiler-wide. |
-| Method clarity | 92 | +7 | Full runtime detail remains in the appendix by necessity. |
-| Evaluation design | 85 | +3 | No new experiment can remove the one-provider and simplified-transfer limitations. |
-| Evidence strength | 82 | +2 | Gate selectivity is still mostly a support threshold rather than a risk--coverage frontier. |
-| Results and interpretation | 93 | +6 | Manual parity and negative results appropriately limit the conclusion. |
-| Reproducibility | 94 | +3 | An anonymous artifact bundle must still be created before upload. |
-| Writing and presentation | 94 | +7 | The main text uses the complete nine-page allowance without reducing font or margins. |
-| ICLR compliance and anonymity | 97 | +11 | Author-side OpenReview profiles, quotas, and reciprocal-review eligibility require human confirmation. |
-| Limitations and responsible claims | 96 | +2 | Remaining weaknesses are empirical rather than hidden in the prose. |
+| Originality | 8.0 | 8.0 | The revision clarifies the contribution but adds no new method. |
+| Technical soundness | 8.0 | 8.5 | Exact counts replace an overstatement, and the repeated-run structure of the AppWorld diagnostic is now part of the claim boundary. The per-candidate and i.i.d. limitations remain. |
+| Clarity and presentation | 7.5 | 8.5 | The article and ICLR submission now tell the same four-substrate story; compact notation and the admissible-versus-dispatchable distinction are explicit. |
+| Significance and impact | 7.5 | 7.5 | Clearer framing cannot establish deployment prevalence, manual engineering savings, or runtime superiority. |
+| Related-work coverage | 8.0 | 8.5 | The condensed submission now explains how all four external substrates relate to the post-trace question instead of naming only the two that retain results upstream. |
+| Empirical rigor | 7.5 | 7.5 | Interpretation is more rigorous, but no new provider, powered comparison, risk--coverage frontier, or compiler-wide correction was added. |
+| Reproducibility | 8.0 | 9.0 | The ICLR statement and both appendices now expose the exact entry points and environment boundary for BFCL and AppWorld. The anonymous bundle is still pending. |
+| Responsible claims and limitations | 9.5 | 9.5 | Already a major strength; the revision makes one more dependency caveat explicit. |
+| ICLR compliance and anonymity | 9.0 | 9.0 | The revision preserves the blind source and page-budget contract; operational upload checks remain human actions. |
 
-**Final overall: 90/100.** This is a rigorous, coherent, blind-ready paper
-whose remaining acceptance risks are primarily empirical: limited provider and
-repository breadth, manual-program parity, a step-like admission gate, and the
-lack of a compiler-wide multiplicity guarantee. Those limitations cannot be
-removed honestly using only the existing evidence.
+**Final unweighted diagnostic mean: 8.4/10. Final reviewer-style overall:
+7/10 (weak accept).** The recommendation moves because the paper is now
+internally consistent and the newest result is stated at the strength its
+sampling structure supports. The score does not move higher because the
+remaining caps are empirical, not editorial.
 
----
+## Residual acceptance risks
 
-# Second review pass, August 16, 2026
-
-This pass reviewed the draft again against `paper/open_research/article.pdf` as the source
-of truth and against the official ICLR 2027 template's own instruction text. It found
-compliance defects the first pass had marked as clean, so several dimensions are scored
-*below* their previous "final" values: the earlier 97 for compliance was not supportable.
-
-## What the second pass found
-
-Every quantitative claim re-derived from `paper/tex/body.tex` and the sealed result JSON
-checked out, including `559/881 = 63.5%` for API-Bank, which appears in no prose and had to
-be reconstructed from `graph_diagnostics`. The defects were presentational and definitional:
-
-- Figure 1 and the per-family reduction figure were never referenced from the body, though
-  the compliance checklist asserted otherwise.
-- The benchmark table was a hand-built pseudo-float with a literal bold `Table N.` in place
-  of a caption, bypassing the class's table rules entirely.
-- `\retire` printed as a red word in running text.
-- The introduction wrote `labels(4420)` and `comments(4420, ...)` where both consume the
-  *returned* `record.issue_number` — the witness the provenance argument depends on.
-- Table 3's caption overstated the fixed template as "at least as efficient in both
-  settings"; it is marginally worse on cost in the balanced rerun.
-- `\kappa` had no value, `\Lambda` no elements, and Proposition 1 reused `\eta` for the
-  data-selected threshold.
-
-## Scores after the second pass
-
-| Dimension | Score | Weight | Binding limit |
-|---|---:|---:|---|
-| Problem importance and motivation | 92 | 0.10 | Prevalence of the situation in deployed agents is argued, not measured. |
-| Novelty and significance | 82 | 0.18 | Every ingredient is established; the contribution is the composition and the discipline, and the empirical payoff is deliberately modest. |
-| Technical soundness | 89 | 0.15 | The certificate is per fixed candidate, not compiler-wide over the search the system performs. |
-| Method clarity | 92 | 0.08 | Runtime detail necessarily lives in the appendix at nine pages. |
-| Evaluation design | 83 | 0.12 | One provider/model family, one primary snapshot, and a transfer task simple enough for a fixed template to tie. |
-| Evidence strength | 80 | 0.15 | The gate never demonstrates selectivity at the registered level; n=90 held-out records carries the headline. |
-| Results and interpretation | 93 | 0.07 | Refusals, manual parity, and the single baseline error are all reported rather than buried. |
-| Reproducibility | 93 | 0.05 | The anonymous artifact bundle is still a pre-upload action. |
-| Writing and presentation | 91 | 0.05 | Dense; figure 1 remains a loose infographic occupying a third of page 2. |
-| ICLR compliance and anonymity | 96 | 0.03 | Author-side OpenReview obligations need human confirmation. |
-| Limitations and responsible claims | 96 | 0.02 | Remaining weaknesses are empirical, not concealed. |
-
-**Weighted overall: 87/100.**
-
-The submission is mechanically ready and unusually honest. The acceptance risk is not
-compliance or rigour but reach: novelty is compositional and the strongest empirical claim
-is preservation-with-savings on 90 held-out records from one provider, against a manual
-program that ties. On the ICLR 1--10 scale this reads as a borderline paper whose fate turns
-on how a reviewer weighs a well-evidenced negative result and a refusal discipline against a
-modest positive one.
-
-The three changes that would move the score most, in order, are: a gate that demonstrates a
-real risk--coverage frontier rather than a support threshold; a second provider or model
-family; and a compiler-wide multiplicity treatment. None can be produced honestly from the
-existing evidence, which is why they are named as follow-ups rather than repaired in prose.
-
----
-
-# Submission-surface verification, August 16, 2026
-
-The final upload-surface audit found one anonymity weakness that a PDF-only
-check could miss: the blind-rendered PDF was anonymous, but `main.tex` still
-carried a real author block and named PDF-metadata branch. If that source were
-included in supplementary material, it could reveal identity despite the blind
-rendering. The submission source now contains only `Anonymous authors`, has
-empty author metadata unconditionally, and documents that named variants belong
-in a separate non-submission copy. The reproducibility statement now likewise
-describes the anonymous archive as a pre-upload deliverable rather than
-claiming an archive already exists.
-
-An isolated Tectonic rebuild of that anonymous source completed without errors,
-unresolved references, or overfull boxes. The rendered PDF remains 17 pages;
-Sections 1--8 end on page 9, the required statements begin on page 10, and the
-appendix follows the bibliography. Text extraction found no author identity or
-acknowledgement in the rendered PDF.
-
-**Final weighted score: 87/100.** The anonymity hardening closes an accidental
-source-disclosure route but does not change the score: the anonymous artifact
-bundle and author-side OpenReview disclosures still need human completion, and
-the binding ICLR risks remain scientific reach, evaluation breadth, and
-compiler-wide multiplicity control rather than presentation mechanics.
-
----
-
-# Evidence-breadth revision, August 17, 2026
-
-This revision adds no new experiments. It moves four retained, previously
-compressed records into the appendix: repository-level outcomes for both
-time-forward protocols, the 17/18-to-18/18 continuation counterexample and
-checked repair, a ten-benchmark evidence-disposition map, and the full
-registered-versus-exploratory gate-behaviour inventory. These additions use the
-unlimited appendix rather than the nine-page main-text budget and retain the
-distinction between compiler measurement, provider-free auditing, screening,
-and access-blocked work.
-
-| Dimension | Previous | Revised | Reason for revision |
-|---|---:|---:|---|
-| Evaluation design | 83 | 85 | The disaggregated core and balanced time-forward cohorts make the four successes, one retirement, and different class mixes inspectable rather than only pooled. |
-| Evidence strength | 80 | 82 | The continuation failure/repair and ten-benchmark disposition map expose both negative and out-of-scope evidence instead of hiding it. |
-| Remaining dimensions | unchanged | unchanged | No retained result adds a second provider, a harder workflow family, or compiler-wide multiplicity control. |
-
-**Revised weighted score: 88/100.** This is a presentation and auditability
-gain, not a claim of stronger causal evidence. The score remains capped by one
-provider/model family, one rich snapshot, the narrow transfer task, and the
-registered gate's all-or-none behaviour.
+1. The registered 5% gate still behaves as a support threshold rather than a
+   demonstrated risk--coverage frontier.
+2. Proposition 1 is per fixed candidate; the compiler's adaptive family search
+   has no candidate-level multiplicity allocation.
+3. The strongest live evidence uses one provider/model family and one rich
+   repository snapshot; the cross-repository task is deliberately simpler.
+4. Correctly placed hand-written programs tie or beat the compiler on runtime
+   resources, and manual construction, review, maintenance, and drift cost are
+   unmeasured.
+5. AppWorld establishes provider-free post-trace admissibility and structural
+   eligibility only. It does not measure agent quality, provider requests,
+   tokens, latency, cost, or a population dispatch rate.
+6. The anonymous supplementary artifact must still be built and checked before
+   submission.
