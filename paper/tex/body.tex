@@ -2807,7 +2807,7 @@ while still pricing the search at a compiler-wide $\delta$, rather than trading 
 away for the guarantee or paying the full Bonferroni cost for every family a workload
 happens to produce.
 
-\subsubsection{A prospective gate-frontier protocol, pre-registered and not yet run}
+\subsubsection{A prospective gate-frontier protocol, pre-registered and partially executed}
 \label{sec:prospective-frontier}
 
 Five of six live gates in this paper admit all or none, so no registered $\alpha=.05$
@@ -2825,9 +2825,11 @@ frozen candidate selection throughout, so any admitted gate there inherits
 hypotheses, and stopping rules are fixed and hashed before acquisition; the protocol also
 states, and defers, a model/provider breadth plan and the feasibility bar an executable
 workflow-compiler comparator would have to clear before being run at all.  The document
-is committed \emph{unexecuted}: no repository or provider has been acquired under it, and
-this paper reports no result from it.  It exists so that if the evidence is gathered, the
-design cannot be revised in light of what it shows.
+was committed \emph{unexecuted}, before any repository or provider had been acquired
+under it, so that if the evidence were later gathered, the design could not be revised in
+light of what it showed.  The cohort has since been sealed and partially executed; the
+observed result is reported below at the end of this subsection, using exactly the
+design, arms, and decision rule committed above.
 
 The comparator feasibility bar has been checked, and it returns no-go rather than open
 (\path{awo-comparator-feasibility-spike.md}): AWO~\cite{abuzakuk2026awo}, the closest
@@ -2851,6 +2853,43 @@ unchanged agent and the compiled artifact independently, which is stronger evide
 the record itself is hard than that either arm is.  This is a weak go signal for the full
 protocol above, using Markdown-link syntax specifically as the calibration feature, not a
 claim that a frontier now exists.
+
+\paragraph{Observed results.}
+The sealed cohort (\path{preflight.json}, same directory as the results below) targets
+300 pooled held-out pairs across the same five repositories as
+\cref{sec:multirepo-results}, each with 116 discovery cases and 60 held-out cases under
+frozen-candidate selection.  Discovery reaches 580/580 exact traces (116/116 per
+repository).  Four repositories admit a candidate and complete 240 held-out triples under
+all three arms; the fifth, \code{pytorch/pytorch}, again retires at compile time --- the
+identical repository, under an independent five-times-larger cohort, reproduces the
+retirement \cref{sec:multirepo-results} already reports rather than revealing a
+data-availability artifact of the smaller cohort.  The pooled cohort therefore reaches
+240 of the pre-registered 300 pairs, short of the target for the reason just stated,
+reported here rather than concealed.
+
+On those 240 pairs, baseline, learned-gate, and support-only conditions all pass exact
+task contracts (240/240, 239/239 after one held-out record failed under a transient
+provider timeout independent of condition or repository).  Relative to baseline, the
+learned gate reduces provider requests 44.4\%, total tokens 52.3\%, observed wall latency
+51.0\%, and estimated cost 48.3\%; the support-only gate (\cref{sec:prospective-frontier}'s
+third arm, operationalized as $\alpha=1$ so mining, synthesis, challenge, and freezing
+stay byte-for-byte identical to the learned-gate pass and only the risk budget is
+removed) is statistically indistinguishable: 44.4\%, 52.4\%, 47.9\%, and 48.8\%.  Every
+admitting repository's own calibration sweep --- the full grid, not only the selected
+threshold --- is inspected directly rather than only the outcome: three of four
+(\code{pandas-dev/pandas}, \code{psf/requests}, \code{streamlit/streamlit}) accept zero
+calibration groups below $\eta=.11$ and all 92 at $\eta\ge.11$, a pure two-point step; the
+fourth, \code{huggingface/datasets}, additionally accepts 10 of 92 groups at
+$\eta\le.08$, but that point's exact upper bound (.375) exceeds the registered $\alpha=.05$
+budget and is never admissible, so the deployed threshold is the same coverage-1.0 point
+as the other three.  No repository, under either gate, ever deploys at an intermediate
+admissible coverage.  Per the decision rule fixed in advance, this is the fourth listed
+outcome: neither gate produces graded coverage on this cohort, so the null is reported
+rather than a manufactured frontier.  This strengthens, rather than resolves, the
+paper's existing step-gate finding: at four times the previous cross-repository scale,
+under a genuinely alternative comparator that shares every statistical mechanism except
+the risk budget, the exact-$\alpha=.05$ gate remains a support threshold, not a
+demonstrated risk--coverage frontier.
 
 \section{Limitations and Threats to Validity}
 \label{sec:limits}
