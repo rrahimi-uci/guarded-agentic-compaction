@@ -1,5 +1,28 @@
 # GAC 90+ Main-Track Readiness Plan
 
+## Update (2026-08-22): recovered Headroom ablation, orphaned drift-robustness pointer
+
+Two items of already-executed or already-designed material were recovered from a stranded
+branch and linked into the paper for the first time in this update; neither is a new
+experiment.
+
+- **The compressed-baseline comparator (Phase 3A's spirit, executed against Headroom
+  rather than a workflow compiler) was run on 2026-08-18** but never reached this line of
+  work: its PR (`experiment/headroom-context-ablation`) targeted `docs/sync-site-readme-with-article`,
+  which itself was never merged to `main`, so the executed result sat disconnected from
+  every subsequent branch. Recovered by cherry-pick; see
+  `paper/supplementary/headroom-ablation-protocol.md`. Result: Headroom v0.5.18 attempted
+  every eligible JSON payload on both GitHub families' 30-record held-out cohort and
+  applied none of them, saving zero tokens; GAC's own 80.9%/81.6% token reductions are
+  unaffected. This is a null engagement, not a measured composition or a measured floor —
+  it retires the narrower "is this just relabeled compression" concern without answering
+  the broader resource-comparison question a working compressed baseline would.
+- **The drift-robustness ablation protocol (`drift-robustness-ablation-protocol.md`,
+  pre-registered 2026-08-18) was never linked from either manuscript.** It is now
+  referenced from the article's negative-results list and the ICLR appendix. It remains
+  **not executed**; nothing here moves item 2 below, which is a different gap (engineering
+  cost, not behavioral parity under drift) that this protocol does not target.
+
 **Status:** partially executed. The repository now contains enough new evidence to justify
 an artifact-aware review in the low 90s, but the remaining route to a defensible **95**
 is still blocked by gate maturity and missing manual-maintenance evidence.

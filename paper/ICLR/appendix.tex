@@ -425,6 +425,36 @@ frontiers therefore remain diagnostic rather than evidence for the main claim.
 \section{Extended Limitations}
 \label{app:limits}
 
+\paragraph{A compression comparator ran, and did not engage.}
+Every headline resource number compares a compiled prefix against an
+\emph{uncompressed} baseline, because deployed compression middleware reports
+token reductions of the same order on a comparable workload by an entirely
+different mechanism~\citep{headroom2026}. A live Headroom v0.5.18 ablation adds
+\code{headroom\_only}/\code{compiled\_headroom} arms to both GitHub families on
+the existing 30-record held-out cohort
+(\code{paper/supplementary/headroom-ablation-protocol.md}). Headroom attempted
+every eligible JSON tool result and pre-model evidence object and applied
+\emph{none} of them, saving zero tokens in either family, with all four paired
+quality contrasts holding 30/30 at exact $p{=}1$. This is a null engagement at
+this payload shape, not a measured composition or a measured floor --- it does
+not establish Headroom's behavior on larger contexts --- but it does retire the
+narrower concern that our reduction is compression under another name: on this
+workload the two systems visibly do not touch the same bytes.
+
+\paragraph{A drift-parity protocol, pre-registered and not yet run.}
+The strongest standing objection is that a hand-written program reaches the
+same 90/90 contracts as the compiled artifact and is cheaper on one family. A
+three-arm design isolates the \emph{induced verifier} from the \emph{program}
+by pairing the compiled artifact with a permissive no-op verifier and testing
+both against the hand-written program under the nine-family metamorphic
+perturbation suite already implemented in \code{evaluation/perturb.py}
+(reordering, duplication, formatting, empty/null fields, schema drift, tool
+errors and timeouts), asking whether the compiled artifact abstains where an
+unverified program would answer silently
+(\code{paper/supplementary/drift-robustness-ablation-protocol.md}). Status:
+pre-registered on the deterministic demonstration substrate, not executed; no
+result from it is reported here.
+
 \paragraph{Where ``unchanged baseline'' is exact.}
 Pre-emission rejection is exact on both runtime paths; only a staging-owning
 runner can restore byte-identical model input after an attempt has been emitted
