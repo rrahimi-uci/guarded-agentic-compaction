@@ -107,7 +107,8 @@ paper/
 │   ├── headroom-ablation-protocol.md  version-pinned, executed context-compression ablation
 │   ├── drift-robustness-ablation-protocol.md  pre-registered, unrun contract ablation
 │   ├── prospective-gate-frontier-protocol.md  pre-registered, unrun gate-frontier study
-│   └── gate-frontier-pilot-protocol.md  executed pilot for the study above
+│   ├── gate-frontier-pilot-protocol.md  executed pilot for the study above
+│   └── awo-comparator-feasibility-spike.md  completed spike, result: no-go
 └── open_research/
     ├── article.pdf                 single-column article (page count verified after build)
     └── main.pdf                    two-column conference build (page count verified after build)

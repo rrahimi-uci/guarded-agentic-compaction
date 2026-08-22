@@ -2829,6 +2829,14 @@ is committed \emph{unexecuted}: no repository or provider has been acquired unde
 this paper reports no result from it.  It exists so that if the evidence is gathered, the
 design cannot be revised in light of what it shows.
 
+The comparator feasibility bar has been checked, and it returns no-go rather than open
+(\path{awo-comparator-feasibility-spike.md}): AWO~\cite{abuzakuk2026awo}, the closest
+published candidate, has no confirmed public implementation to build against, so a
+from-scratch reimplementation could not be verified to match the system it claims to
+compare against.  Building one anyway is exactly the ``forced or mismatched comparator''
+this protocol already declines in advance; the gate is exercised, not skipped, and the
+workstream closes on that finding rather than on a fabricated baseline.
+
 A cheap, live pilot for that study now exists
 (\path{gate-frontier-pilot-protocol.md}), run before committing the
 full budget rather than after, on 90 records stratified by whether an issue's evidence
