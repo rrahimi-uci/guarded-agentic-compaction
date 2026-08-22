@@ -62,6 +62,7 @@ paper/
 │   ├── optimizer_head_to_head/     live GEPA/GCS/manual pre-model comparison
 │   ├── github_natural_replication/ expanded paid 30-pair replication
 │   ├── github_workflow_families/  PR-outcome and backlog-attention live studies plus summary
+│   │   └── */headroom_ablation/   sealed preflights and provider-backed Headroom comparison
 │   ├── multidomain/                real-record provider-free extension preflight
 │   ├── nestful/                    public-benchmark raw results
 │   ├── external_benchmarks/         all-source preflight, compiler, checker, and bounded live results
@@ -101,8 +102,11 @@ paper/
 │   ├── implementation-audit.md     repository and component review
 │   ├── quality-assessment.md       publication-readiness rubric
 │   ├── natural-live-study-protocol.md  expanded real-record experiment protocol
-│   ├── bfcl-compiler-protocol.md   pre-registered BFCL gold-plan compiler substrate
-│   └── drift-robustness-ablation-protocol.md  pre-registered, unrun contract ablation
+│   ├── bfcl-compiler-protocol.md   pre-registered, executed BFCL gold-plan compiler substrate
+│   ├── appworld-compiler-protocol.md  pre-registered, executed AppWorld compiler substrate
+│   ├── headroom-ablation-protocol.md  version-pinned, executed context-compression ablation
+│   ├── drift-robustness-ablation-protocol.md  pre-registered, unrun contract ablation
+│   └── prospective-gate-frontier-protocol.md  pre-registered, unrun gate-frontier study
 └── open_research/
     ├── article.pdf                 single-column article (page count verified after build)
     └── main.pdf                    two-column conference build (page count verified after build)
@@ -295,6 +299,8 @@ records and seals the free-order 30-pair design while making zero OpenAI calls. 
 run subsequently used that exact selection. The regrade command recomputes semantic and
 exact-source quality without calling the provider; see
 [`supplementary/natural-live-study-protocol.md`](supplementary/natural-live-study-protocol.md).
+The Headroom comparison is separately prepared and explicitly unrun; see
+[`supplementary/headroom-ablation-protocol.md`](supplementary/headroom-ablation-protocol.md).
 `continuation_replay.py` independently recomputes the post-model contract decisions from
 the retained live-provider answers and pinned source observations; it makes no provider
 call and reports no counterfactual latency or cost.

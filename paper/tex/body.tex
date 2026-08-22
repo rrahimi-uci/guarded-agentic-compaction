@@ -2486,7 +2486,16 @@ optimization alone on this task.
 families, and an independently authored pre-model program ties GCS at 6/6 with identical
 request and interface counts (\cref{sec:comparator}).  This rules out runtime dominance as
 the contribution and leaves automatic discovery under a stated admission rule as the part
-of the claim the evidence still supports.
+of the claim the evidence still supports.  A pre-registered, not-yet-run protocol targets
+this specific parity directly rather than only naming it: a three-arm design isolates the
+\emph{induced verifier} from the \emph{program} by pairing the compiled artifact with a
+permissive no-op verifier and pairing the hand-written program with the same nine-family
+metamorphic perturbation suite already implemented in \code{evaluation/perturb.py}
+(reordering, duplication, formatting, empty/null fields, schema drift, tool errors and
+timeouts), asking whether the compiled artifact abstains where an unverified program
+would answer silently
+(\code{paper/supplementary/drift-robustness-ablation-protocol.md}).  Status:
+pre-registered, not executed; no result from it is reported here.
 
 \section{Related Work}
 \label{sec:related}
@@ -2625,9 +2634,19 @@ to ours on a superficially similar workload.  Such systems shrink the payload of
 that still happen; they never remove a model boundary, so they cannot reduce provider
 requests at all.  \method removes the boundary and leaves the payload alone.  The two
 therefore compose rather than compete --- one could compress the reads that a compiled
-prefix still performs --- and the honest consequence is that our token reduction has a
-comparator we did not run.  A compressed baseline is the single most informative addition
-to the resource story in this paper, and \cref{sec:limits} records it as unmeasured.
+prefix still performs.  We ran that comparator rather than only naming it: a live
+Headroom v0.5.18 ablation adds \code{headroom\_only} and \code{compiled\_headroom} arms to
+both live GitHub families on the same 30-record held-out cohort
+(\cref{sec:limits}).  Headroom attempted every eligible payload --- 90 JSON tool results
+per family in the uncompiled arm, 30 pre-model evidence objects per family in the
+compiled arm --- and applied \emph{zero} transformations, saving zero tokens in either
+family; all four paired quality contrasts stay 30/30 with exact McNemar $p=1$.  This is a
+null engagement with these payload shapes, not a compression result: \method's own
+80.9\% and 81.6\% total-token reductions on the two families are unaffected by whether
+Headroom is in the loop, and the ablation does not establish Headroom's behavior on
+longer or differently shaped contexts.  It does, however, retire the specific concern
+that our reduction is really Headroom's reduction under another name --- on this
+workload the two systems visibly do not touch the same bytes.
 Their accuracy evidence is also of a different kind: measured benchmark deltas over
 lossy compression, with no abstention path and no finite-sample bound, which is the same
 distinction that separates \method from every other row of \cref{tab:related-work}.
@@ -2843,16 +2862,24 @@ signing was not enabled.  The immutability and signature-verification semantics 
 in \cref{sec:method} are therefore capabilities of the registry, not properties this
 experiment demonstrates.
 
-\paragraph{No compressed baseline.}
-Every resource number in this paper compares a compiled prefix against an
-\emph{uncompressed} baseline agent.  Deployed context\hyp{}compression middleware reports
-token reductions of the same order on a comparable GitHub triage workload by an entirely
-different mechanism~\cite{headroom2026}, so our token, cost, and latency reductions should
-not be read as the best available on those axes --- only as the reduction attributable to
-removing model boundaries.  The provider-request reduction is not exposed to this
-threat, because compression never removes a call.  Running \method against a compressed
-baseline, and against the composition of both, is the most informative missing experiment
-in the resource story.
+\paragraph{The compressed-baseline comparator ran, and did not engage.}
+Every headline resource number in this paper compares a compiled prefix against an
+\emph{uncompressed} baseline agent, because deployed context\hyp{}compression middleware
+reports token reductions of the same order on a comparable GitHub triage workload by an
+entirely different mechanism~\cite{headroom2026}.  We added a live Headroom v0.5.18 arm to
+both GitHub families on the existing 30-record held-out cohort to check this directly
+rather than leave it asserted (\code{paper/supplementary/headroom-ablation-protocol.md}).
+Headroom attempted every eligible JSON tool result and pre-model evidence object and
+applied none of them, saving zero tokens in either family while all four paired quality
+contrasts held 30/30 at exact $p=1$.  The result is a null engagement at this payload
+shape, not a measured composition or a measured floor: it does not establish that
+Headroom would behave the same on larger or differently structured contexts, and the
+committed protocol says so.  What it licenses is narrower than ``the best available
+reduction on these axes'' but still real --- on this workload, over these payloads,
+compression and compaction visibly do not compete for the same bytes, so \method's
+reduction is not a relabeling of what a compression pass would already have captured.
+The provider-request reduction was never exposed to this threat in the first place,
+because compression never removes a call.
 
 \paragraph{Baseline scope.}
 The natural study runs both the unchanged SDK loop and a live hand-written composite tool.
