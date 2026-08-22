@@ -1,0 +1,27 @@
+artifact  pr_get_record.pr_get_merge_status.region@a1de3856@1   support 16/16 groups   removes k=3.00   [active]
+──────────────────────────────────────────────────────────────────────────────
+guard   effect_catalog_version=github-pr_outcome-pinned-reads@1#821a5aef76e5ebf1  entry_contract_version=github-pr_outcome-record-number-v1  guardrail_hash=#a9614876  model=gpt-5.6-luna  policy_hash=#00e10402  prompt_hash=#46773695  tools_hash=#77db95dc
+        z.record_number : int
+        effects ⊆ {READ_LOCAL}  all speculatable ∧ replayable
+
+program (θ = {record_number}):
+   pr   = call pr_get_record(record_number = z.record_number)
+   pr2  = call pr_get_merge_status(record_number = pr.record_number)
+   pr3  = call pr_get_discussion(limit = Const(3), record_number = pr.record_number)
+   return  { pr: pr, pr2: pr2, pr3: pr3 }
+expose   compiled_pr_get_record_2bd34511a8(record_number) -> { comments, is_merged, record_number, source_revision, state, title } [internal=3]
+verify  pr : dict, non-null, provenance ∈ {pr_get_record}
+        pr.record_number : int, non-null, provenance ∈ {pr_get_record}
+        pr.source_revision : str, non-null, ∈ {e344be7b84d199661a9956036991e1fc25715a47}, provenance ∈ {pr_get_record}
+        pr.state : str, non-null, ∈ {closed, open}, provenance ∈ {pr_get_record}
+        pr.title : str, non-null, provenance ∈ {pr_get_record}
+        pr2 : dict, non-null, provenance ∈ {pr_get_merge_status}
+        pr2.is_merged : bool, non-null, ∈ {False, True}, provenance ∈ {pr_get_merge_status}
+        pr2.record_number : int, non-null, provenance ∈ {pr_get_merge_status}
+        pr2.source_revision : str, non-null, ∈ {e344be7b84d199661a9956036991e1fc25715a47}, provenance ∈ {pr_get_merge_status}
+        pr3 : dict, non-null, provenance ∈ {pr_get_discussion}
+        pr3.comments : list, non-null, len ≤ 3, len ≥ 0, provenance ∈ {pr_get_discussion}
+        pr3.record_number : int, non-null, provenance ∈ {pr_get_discussion}
+        pr3.source_revision : str, non-null, ∈ {e344be7b84d199661a9956036991e1fc25715a47}, provenance ∈ {pr_get_discussion}
+        effect_multiset ⊆ {READ_LOCAL},  |calls| ∈ {3},  no WRITE_*
+gate    q = logistic(entry features)   η = 0.50   (cal n=92 groups, α=0.05, δ=0.1, |Λ|=11, R⁺=0.050, φ̂=1.00)

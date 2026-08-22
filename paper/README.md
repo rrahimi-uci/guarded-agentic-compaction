@@ -62,7 +62,7 @@ paper/
 │   ├── optimizer_head_to_head/     live GEPA/GCS/manual pre-model comparison
 │   ├── github_natural_replication/ expanded paid 30-pair replication
 │   ├── github_workflow_families/  PR-outcome and backlog-attention live studies plus summary
-│   │   └── */headroom_ablation/   provider-free preflights for the unrun Headroom comparison
+│   │   └── */headroom_ablation/   sealed preflights and provider-backed Headroom comparison
 │   ├── multidomain/                real-record provider-free extension preflight
 │   ├── nestful/                    public-benchmark raw results
 │   ├── external_benchmarks/         all-source preflight, compiler, checker, and bounded live results
