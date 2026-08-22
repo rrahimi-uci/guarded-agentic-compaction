@@ -59,7 +59,7 @@
             <tr><td><strong>Weighted total</strong></td><td><strong>89/90 → 90/90</strong></td><td><strong>−66.6%</strong></td><td><strong>−44.2%</strong></td><td><strong>−63.1%</strong></td><td><strong>−64.2%</strong></td><td><strong>−58.7%</strong></td></tr>
           </tbody>
         </table></div>
-        <p>The single backlog baseline miss is not a statistically meaningful quality improvement. Fair manual programs tie learned programs structurally on both new families. The evidence supports workflow-family transfer on one snapshot—not cross-repository, time-forward, or runtime superiority over correct manual code.</p>
+        <p>The single backlog baseline miss is not a statistically meaningful quality improvement. Fair manual programs tie learned programs structurally on both new families. The evidence supports workflow-family transfer on one snapshot—not full-workflow cross-repository or time-forward generalization, and not runtime superiority over correct manual code. A separate, deliberately narrower two-read extension tests the cross-repository, time-forward question on its own terms (<a href="#extension">below</a>).</p>
 
         <h2 id="issue-detail">Issue-type family detail</h2>
         <p>All 132 discovery traces choose the same three-read order, but the comment-limit argument varies and is not trace-groundable. GAC refuses the complete region and emits the longest valid prefix: record → labels. The ordinary agent performs the comments read and final rendering.</p>
@@ -73,6 +73,22 @@
         </table></div>
         <p>The compiler reduces requests 50.0%, total tokens 39.5%, observed wall latency 51.7%, and estimated cost 32.0% versus unchanged. The macro matches request reduction and is better on tools, tokens, and dollars. The paired latency interval between macro and compiler crosses zero; no runtime-superiority claim is licensed.</p>
         <figure class="figure"><img src="assets/figures/natural_live_comparison.png" alt="Natural live comparison of requests, tools, tokens, latency, cost, and exact pass rates."><figcaption>Expanded real-record comparison. All three conditions preserve 30/30 exact contracts; the macro is the strongest practical runtime comparator.</figcaption></figure>
+
+        <h2 id="extension">Cross-repository, time-forward extension</h2>
+        <p class="lead">A separate frozen-source study asks the narrower question the primary families cannot: does a guarded artifact survive a different repository and a later time window? The task is simplified to an exact two-read PR-outcome contract, so this extends reach, not scope.</p>
+        <p>A provider-free preflight seals five repositories under a strict time-forward split. Executed discovery reaches 580/580 exact traces (116/116 per repository). Four repositories admit an artifact and complete 120 held-out paired records; <code>pytorch/pytorch</code> retires at compile time under the frozen-candidate exact gate. Baseline, compiled, and fixed-template conditions all pass 120/120.</p>
+        <div class="table-scroll"><table class="evidence-table">
+          <thead><tr><th>Cohort</th><th>Discovery</th><th>Held-out exact</th><th>Requests</th><th>Tokens</th><th>Latency</th><th>Cost</th></tr></thead>
+          <tbody>
+            <tr><td>Frozen five-repository — compiled vs baseline</td><td>580/580</td><td>120/120</td><td>−44.4%</td><td>−52.4%</td><td>−49.4%</td><td>−48.6%</td></tr>
+            <tr><td>Frozen five-repository — fixed template vs baseline</td><td>580/580</td><td>120/120</td><td>−66.7%</td><td>−78.6%</td><td>−68.1%</td><td>−73.3%</td></tr>
+            <tr><td>Balanced rerun — compiled vs baseline</td><td>360/360</td><td>180/180</td><td>−66.7%</td><td>−78.4%</td><td>−60.7%</td><td>−72.7%</td></tr>
+            <tr><td>Balanced rerun — fixed template vs baseline</td><td>360/360</td><td>180/180</td><td>−66.7%</td><td>−78.4%</td><td>−63.0%</td><td>−72.3%</td></tr>
+          </tbody>
+        </table></div>
+        <p>On the frozen cohort the ungated fixed template is more efficient than the learned artifact, which sharpens rather than weakens the claim: the artifact earns its place through automatic discovery, guarded admission, and retirement—not by dominating hand-placed code on a simplified task. That cohort also keeps a principled negative. Across the four completed repositories the artifact compacts all 40 merged and all 40 <code>closed_unmerged</code> held-out pull requests and falls back on all 40 open ones.</p>
+        <p>A balanced rerun asks whether that open-only fallback is intrinsic. On the three repositories with enough class support for a balanced strict time-forward split (<code>pandas-dev/pandas</code>, <code>psf/requests</code>, <code>pytorch/pytorch</code>), a round-robin preflight seals 120 discovery and 60 held-out pull requests per repository, evenly split across open, merged, and <code>closed_unmerged</code>. All three admit the same two-read artifact, it compacts all 180 held-out records, and the verifier's <code>pr.state</code> hull contains both open and closed everywhere. The earlier fallback pattern and the <code>pytorch/pytorch</code> retirement are properties of the original frozen cohort design, not limits of the guarded runtime.</p>
+        <div class="callout callout-warn"><p><strong>What this does and does not add.</strong> The extension strengthens cross-repository, time-forward evidence for a two-read task. It does not widen the task: both cohorts remain narrower than the three-tool workflow-family studies, so full-workflow generalization is still unestablished.</p></div>
 
         <h2 id="depth">Compilation depth is a safety variable</h2>
         <p>An earlier aggressive three-read artifact reduces provider requests by 75%, but records one compiler-only factual miss: 17/18 exact versus 18/18 for unchanged and macro. Clean tool replay therefore does not certify the model continuation. A provider-free continuation checker later detects and repairs that retained miss, but it is not a prospective live safety result.</p>
@@ -113,7 +129,7 @@
         <p>Exact commands for the external benchmark paths are in the <a href="https://github.com/rrahimi-uci/guarded-agentic-compaction/blob/main/paper/supplementary/external-benchmark-audit.md">benchmark audit</a>. The <a href="https://github.com/rrahimi-uci/guarded-agentic-compaction/blob/main/paper/supplementary/experiment-verification.md">experiment verification report</a> records the independent consistency checks and residual threats.</p>
       </article>
       <aside class="toc"><strong>On this page</strong><ul>
-        <li><a href="#design">Design</a></li><li><a href="#primary">Primary result</a></li><li><a href="#depth">Depth failure</a></li>
+        <li><a href="#design">Design</a></li><li><a href="#primary">Primary result</a></li><li><a href="#extension">Cross-repository</a></li><li><a href="#depth">Depth failure</a></li>
         <li><a href="#gcs">GCS and baselines</a></li><li><a href="#benchmarks">Benchmark audit</a></li>
         <li><a href="#statistics">Statistics</a></li><li><a href="#reproduce">Reproduce</a></li>
       </ul></aside>

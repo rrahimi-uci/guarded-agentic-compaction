@@ -1,21 +1,21 @@
-## What changed
+## Summary
 
-Describe the smallest behaviorally meaningful change.
+<!-- What changed and why? Link the issue or ticket. -->
 
-## Evidence
+## Tests and validation
 
-- [ ] Focused tests added or updated
-- [ ] Full `python -m pytest` passes
-- [ ] `python scripts/verify_release.py` passes
-- [ ] Documentation and compatibility notes are updated
+- [ ] Added or updated tests for changed behavior, or explained why tests are not applicable.
+- [ ] Ran the affected test, release-evidence, artifact, Pages-build, and package checks and recorded exact commands/results below.
+- [ ] Ran `git diff --check`.
+- [ ] Checked evidence tiers, generated artifacts, manifests, and publication implications.
 
-## Safety boundary
+Validation commands and results:
 
-- [ ] Refusal remains the default when evidence is missing
-- [ ] Partition, permission, effect, freshness, position, and fallback behavior were considered
-- [ ] Benchmark splits and negative results remain intact
-- [ ] No credentials, restricted traces, or customer payloads are included
+## Risks and follow-up
 
-## Reproducibility
+<!-- State risks, limitations, migrations, deployment implications, and rollback notes. -->
 
-List exact commands and any public inputs or pinned revisions used.
+## Copilot handoff
+
+- [ ] This PR is ready for human review only after all applicable validation passes.
+- [ ] Copilot did not approve or merge this PR.

@@ -14,7 +14,7 @@ permission, runtime-position, replay, compatibility, and finite-sample evidence 
 Otherwise the original agent remains unchanged.
 
 [Documentation](https://rrahimi-uci.github.io/guarded-agentic-compaction/) ·
-[Paper](paper/compiling-recurrent-agent-workflows-into-guarded-programs.pdf) ·
+[Paper](paper/open_research/article.pdf) ·
 [Latest review](paper/reviews/GAC_paper_review.md) ·
 [Adversarial review](paper/paper-review.md) ·
 [Experiment verification](paper/supplementary/experiment-verification.md)
@@ -91,6 +91,7 @@ different tool vocabulary and exact decision contract.
 | Aggressive GAC | 17/18 versus 18/18 for both comparators | clean program replay does not certify the final answer |
 | GCS vs provider-visible macro | 12/12 each; GCS uses one versus two requests | pre-model projection removes an interface request |
 | GCS vs fair pre-model manual | 6/6 each; tied requests, interfaces, and input tokens | automatic runtime superiority is not established |
+| Cross-repository, time-forward extension | 580/580 exact discovery traces over five frozen repositories; four complete 120/120 held-out pairs, `pytorch/pytorch` retires at compile time; a balanced rerun adds 360/360 discovery and 180/180 held-out on three repositories | the guarded lifecycle survives a new repository and a later window on an exact two-read task |
 | NESTFUL and API-Bank | every recurrent family retires | recurrence does not imply admissibility |
 | Selective-risk levels | four artifacts at `alpha=.05`, three at `alpha=.10`, portfolio at 15% | GCS and comparator results are licensed only at 10%, not the registered 5% |
 | Calibration proof scope | exact Clopper--Pearson plus 11-threshold union bound for one fixed candidate | candidate-family search is not multiplicity-adjusted; two candidates require 106 rather than 92 zero-violation groups |
@@ -101,9 +102,11 @@ The artifact also preserves a revision-pinned supplementary audit of eight other
 benchmarks. Those paths verify interoperability or explicit gates but do not demonstrate
 optimizer value and are excluded from the main comparison.
 
-These are research-prototype results from one repository snapshot. They do **not**
-establish semantic equivalence, production certification, cross-repository or time-forward
-generalization, or state-of-the-art quality. See the
+The three-family headline results are research-prototype measurements on one repository
+snapshot. The separate PR-outcome extension carries the cross-repository, time-forward
+evidence, but only for an exact two-read task, so neither line establishes **full-workflow**
+cross-repository or time-forward generalization. Nothing here establishes semantic
+equivalence, production certification, or state-of-the-art quality. See the
 [latest score-grounded review](paper/reviews/GAC_paper_review.md), the
 [earlier adversarial review](paper/paper-review.md),
 [limitations](https://rrahimi-uci.github.io/guarded-agentic-compaction/limitations.html),
@@ -257,6 +260,7 @@ paper/          LaTeX sources, figures, tables, raw results, scripts, slides
   LinkedIn_Article/  practitioner write-up and its figure sources
   open_research/     compiled manuscript PDFs
 site/           source for the GitHub Pages documentation
+team-reviews/   per-reviewer manuscript review records
 tests/          unit, property, integration, mutation, and fault-injection tests
 
 docs/ holds deeper engineering records (ADRs, safety model, trace contract, and
@@ -281,11 +285,12 @@ The project follows the [code of conduct](CODE_OF_CONDUCT.md) and is licensed un
 ## Citation
 
 The manuscript is **From Traces to Guarded Programs: Evidence-Gated Compilation of
-Recurrent Agent Workflows** by Reza Rahimi (JazzX AI).
+Recurrent Agent Workflows** by Reza Rahimi, Huaxing Wang, Mi Hwangbo, Roberto Borgione,
+ArunKumar Patange, and Indranil Dutta (JazzX AI, Palo Alto, CA).
 
 | Build | Path |
 | --- | --- |
-| Complete article, arXiv preprint format (appendix included) | `paper/open_research/article.pdf` |
+| Complete technical report, single column (appendix included) | `paper/open_research/article.pdf` |
 | Two-column conference build (appendix ships separately) | `paper/open_research/main.pdf` |
 | ICLR submission (9 pp. + appendix) | `paper/ICLR/` (build with `tectonic --outdir build main.tex`) |
 

@@ -197,6 +197,23 @@ function validateEvidence(gcs, replay, optimizer, external, families, admission)
   }
 }
 
+function validateHeadroomAblation(result, family) {
+  assertEqual(result.run.provider_backed, true, `${family} Headroom provider-backed flag`);
+  assertEqual(result.run.comparative_claim_allowed, true, `${family} Headroom comparative result`);
+  assertEqual(result.failures.length, 0, `${family} Headroom failures`);
+  for (const condition of ["baseline", "compiled", "manual_pre_model", "headroom_only", "compiled_headroom"]) {
+    assertEqual(result.aggregate[condition].n, 30, `${family} ${condition} Headroom cases`);
+    assertClose(result.aggregate[condition].success_rate, 1, `${family} ${condition} Headroom exact rate`);
+  }
+  for (const [condition, expected] of [["headroom_only", 90], ["compiled_headroom", 30]]) {
+    const audit = result.headroom.condition_audits[condition];
+    assertEqual(audit.attempted_payloads, expected, `${family} ${condition} Headroom attempts`);
+    assertEqual(audit.applied_payloads, 0, `${family} ${condition} Headroom applied payloads`);
+    assertEqual(audit.fallback_payloads, 0, `${family} ${condition} Headroom fallbacks`);
+    assertEqual(audit.tokens_saved, 0, `${family} ${condition} Headroom tokens saved`);
+  }
+}
+
 function editWorkflowFamilySlide(slide, families, mode) {
   const seminar = mode === "seminar";
   setShapeText(slide, 2, seminar
@@ -213,7 +230,7 @@ function editWorkflowFamilySlide(slide, families, mode) {
   setShapeText(
     slide,
     6,
-    "The two new families compile verified three-read pre-model programs; the original issue family retains its conservative two-read prefix. Both newer families are cache-cold in every arm, so part of the 32.0–75.3% cost range is prompt-cache warmth rather than compiled depth; provider-side break-even is 411, 182, and 181 episodes against 132 paid discovery episodes each. The study changes decision and tools, but not repository or time: cross-repository and time-forward transfer remain open.",
+    "The two new families compile verified three-read pre-model programs; the original issue family retains its conservative two-read prefix. Headroom on the two fixed cohorts attempted 240 model-visible JSON payloads, transformed zero, and saved zero tokens: a boundary-specific negative result, not a rival mechanism for GAC's savings. The study changes decision and tools, not repository or time; cross-repository and time-forward transfer remain open.",
   );
   const chart = slide.charts.items[0];
   if (!chart || chart.series.length !== 1) {
@@ -508,19 +525,25 @@ async function main() {
   const optimizerPath = path.join(PAPER, "results/optimizer_head_to_head/results.json");
   const externalPath = path.join(PAPER, "results/external_benchmarks/reference_analysis.json");
   const familiesPath = path.join(PAPER, "results/github_workflow_families/summary.json");
+  const prHeadroomPath = path.join(PAPER, "results/github_workflow_families/pr_outcome/headroom_ablation/results.json");
+  const backlogHeadroomPath = path.join(PAPER, "results/github_workflow_families/backlog_attention/headroom_ablation/results.json");
   const admissionPath = path.join(PAPER, "results/admission_register.json");
-  const [map, gcs, replay, optimizer, external, families, admission, artifact] = await Promise.all([
+  const [map, gcs, replay, optimizer, external, families, prHeadroom, backlogHeadroom, admission, artifact] = await Promise.all([
     readJson(mapPath),
     readJson(gcsPath),
     readJson(replayPath),
     readJson(optimizerPath),
     readJson(externalPath),
     readJson(familiesPath),
+    readJson(prHeadroomPath),
+    readJson(backlogHeadroomPath),
     readJson(admissionPath),
     loadArtifactTool(artifactWorkspace),
   ]);
   assertEqual(map.schema, "agent-compaction-slide-template-map/v1", "slide map schema");
   validateEvidence(gcs, replay, optimizer, external, families, admission);
+  validateHeadroomAblation(prHeadroom, "PR-outcome");
+  validateHeadroomAblation(backlogHeadroom, "backlog-attention");
   const rows = metricRows(optimizer);
   const seminar = map.templates.seminar;
   const technical = map.templates.technical;
@@ -559,6 +582,8 @@ async function main() {
       optimizer_head_to_head: { path: "paper/results/optimizer_head_to_head/results.json", sha256: await sha256(optimizerPath) },
       external_benchmarks: { path: "paper/results/external_benchmarks/reference_analysis.json", sha256: await sha256(externalPath) },
       github_workflow_families: { path: "paper/results/github_workflow_families/summary.json", sha256: await sha256(familiesPath) },
+      headroom_pr_outcome: { path: "paper/results/github_workflow_families/pr_outcome/headroom_ablation/results.json", sha256: await sha256(prHeadroomPath) },
+      headroom_backlog_attention: { path: "paper/results/github_workflow_families/backlog_attention/headroom_ablation/results.json", sha256: await sha256(backlogHeadroomPath) },
       admission_register: { path: "paper/results/admission_register.json", sha256: await sha256(admissionPath) },
     },
     templates: {
@@ -570,7 +595,7 @@ async function main() {
       seminar: seminar.source_slide_for_output,
       technical: technical.source_slide_for_output,
     },
-    evidence_boundary: "Three real-record workflow families support the primary transfer result: compiled 90/90, baseline 89/90, manual 90/90, all admitted at the registered alpha=.05 with a pooled 3.3% compiled-only discordance bound. The snapshot does not establish cross-repository or time-forward transfer, and part of the reported 32.0-75.3% cost range reflects prompt-cache warmth rather than compiled depth. GCS and comparator results rest on an artifact calibrated at alpha=.10 and are not licensed at .05. NESTFUL and API-Bank remain refusal evidence; eight other benchmark paths are supplementary interoperability audits.",
+    evidence_boundary: "Three real-record workflow families support the primary transfer result: compiled 90/90, baseline 89/90, manual 90/90, all admitted at the registered alpha=.05 with a pooled 3.3% compiled-only discordance bound. The Headroom ablation is limited to two reused 30-record cohorts: its 240 eligible JSON payloads received zero transformations and saved zero tokens, so it is a boundary-specific negative result rather than a rival mechanism for GAC savings. The snapshot does not establish cross-repository or time-forward transfer, and part of the reported 32.0-75.3% cost range reflects prompt-cache warmth rather than compiled depth. GCS and comparator results rest on an artifact calibrated at alpha=.10 and are not licensed at .05. NESTFUL and API-Bank remain refusal evidence; eight other benchmark paths are supplementary interoperability audits.",
   };
   const manifestPath = path.join(PAPER, "results/slide_generation.json");
   await fs.writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");

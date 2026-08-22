@@ -62,6 +62,7 @@ paper/
 │   ├── optimizer_head_to_head/     live GEPA/GCS/manual pre-model comparison
 │   ├── github_natural_replication/ expanded paid 30-pair replication
 │   ├── github_workflow_families/  PR-outcome and backlog-attention live studies plus summary
+│   │   └── */headroom_ablation/   sealed preflights and provider-backed Headroom comparison
 │   ├── multidomain/                real-record provider-free extension preflight
 │   ├── nestful/                    public-benchmark raw results
 │   ├── external_benchmarks/         all-source preflight, compiler, checker, and bounded live results
@@ -101,6 +102,7 @@ paper/
 │   ├── implementation-audit.md     repository and component review
 │   ├── quality-assessment.md       publication-readiness rubric
 │   ├── natural-live-study-protocol.md  expanded real-record experiment protocol
+│   ├── headroom-ablation-protocol.md  version-pinned context-compression results and limits
 │   ├── bfcl-compiler-protocol.md   pre-registered BFCL gold-plan compiler substrate
 │   └── drift-robustness-ablation-protocol.md  pre-registered, unrun contract ablation
 └── open_research/
@@ -112,9 +114,9 @@ paper/
 the retained pipeline pseudocode, and archived detailed listings; all plots are script-generated and live under
 `generated_figures/`.
 
-The tracked distribution PDF is
-compiling-recurrent-agent-workflows-into-guarded-programs.pdf. The files under open_research/
-remain the conference and long-form article products used by the validator.
+The tracked distribution PDFs both live under open_research/: article.pdf is the
+long-form article used as the primary download, and main.pdf is the conference
+build. The validator checks both.
 
 ## Two builds, one body
 
@@ -156,10 +158,9 @@ Two earlier presentations are preserved verbatim and still build:
 
 `article.pdf` is the complete article: it carries `appendix/appendix.tex` after the
 bibliography, holding the per-study reproduction commands, the implementation audit,
-the complete claims register, the per-metric numbers behind the figures, and the
-disposition of all ten benchmark families. `main.pdf` is the submission format and does
-not — that appendix ships as separate supplementary material, and its verbatim command
-blocks would overrun a two-column measure anyway.
+and the per-metric numbers behind the figures. `main.pdf` is
+the submission format and does not — that appendix ships as separate supplementary
+material, and its verbatim command blocks would overrun a two-column measure anyway.
 
 That asymmetry is the one place the shared body could produce a dangling reference, so
 the pointers into the appendix go through `\appendixonly{...}`: `article.tex` defines it
@@ -295,6 +296,8 @@ records and seals the free-order 30-pair design while making zero OpenAI calls. 
 run subsequently used that exact selection. The regrade command recomputes semantic and
 exact-source quality without calling the provider; see
 [`supplementary/natural-live-study-protocol.md`](supplementary/natural-live-study-protocol.md).
+The Headroom comparison is separately prepared and explicitly unrun; see
+[`supplementary/headroom-ablation-protocol.md`](supplementary/headroom-ablation-protocol.md).
 `continuation_replay.py` independently recomputes the post-model contract decisions from
 the retained live-provider answers and pinned source observations; it makes no provider
 call and reports no counterfactual latency or cost.
