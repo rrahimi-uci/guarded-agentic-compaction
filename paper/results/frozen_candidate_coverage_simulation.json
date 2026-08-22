@@ -1,0 +1,297 @@
+{
+  "part_one_exact_multiplicity": {
+    "alpha": 0.05,
+    "candidate_rows": [
+      {
+        "bonferroni_corrected_exceeds_delta": false,
+        "bonferroni_corrected_union_miscoverage": 0.00908991465563902,
+        "candidates": 1,
+        "uncorrected_exceeds_delta": false,
+        "uncorrected_union_miscoverage": 0.00908991465563902,
+        "zero_violation_groups_required": 92
+      },
+      {
+        "bonferroni_corrected_exceeds_delta": false,
+        "bonferroni_corrected_union_miscoverage": 0.005403435571625814,
+        "candidates": 2,
+        "uncorrected_exceeds_delta": false,
+        "uncorrected_union_miscoverage": 0.01809720276283122,
+        "zero_violation_groups_required": 106
+      },
+      {
+        "bonferroni_corrected_exceeds_delta": false,
+        "bonferroni_corrected_union_miscoverage": 0.008094194558617596,
+        "candidates": 3,
+        "uncorrected_exceeds_delta": false,
+        "uncorrected_union_miscoverage": 0.02702261538985029,
+        "zero_violation_groups_required": 114
+      },
+      {
+        "bonferroni_corrected_exceeds_delta": false,
+        "bonferroni_corrected_union_miscoverage": 0.006932646420212962,
+        "candidates": 5,
+        "uncorrected_exceeds_delta": false,
+        "uncorrected_union_miscoverage": 0.04463078440278945,
+        "zero_violation_groups_required": 124
+      },
+      {
+        "bonferroni_corrected_exceeds_delta": false,
+        "bonferroni_corrected_union_miscoverage": 0.005477611862171661,
+        "candidates": 8,
+        "uncorrected_exceeds_delta": false,
+        "uncorrected_union_miscoverage": 0.07044735927117585,
+        "zero_violation_groups_required": 133
+      },
+      {
+        "bonferroni_corrected_exceeds_delta": false,
+        "bonferroni_corrected_union_miscoverage": 0.007523971997322243,
+        "candidates": 11,
+        "uncorrected_exceeds_delta": false,
+        "uncorrected_union_miscoverage": 0.09556630276621059,
+        "zero_violation_groups_required": 139
+      },
+      {
+        "bonferroni_corrected_exceeds_delta": false,
+        "bonferroni_corrected_union_miscoverage": 0.005192167960485938,
+        "candidates": 16,
+        "uncorrected_exceeds_delta": true,
+        "uncorrected_union_miscoverage": 0.13593188811406964,
+        "zero_violation_groups_required": 146
+      }
+    ],
+    "cross_check": {
+      "m1_matches_published_92": true,
+      "m2_matches_published_106": true,
+      "published_two_candidate_zero_violation_groups_required": 106,
+      "simulated_m1_zero_violation_groups_required": 92,
+      "simulated_m2_zero_violation_groups_required": 106
+    },
+    "delta": 0.1,
+    "frozen_confidence": 0.990909090909091,
+    "grid_size": 11,
+    "reading": "Frozen single-candidate calibration (m=1) inherits Proposition 1's bound exactly: no candidate is now available whose miscoverage the union bound must absorb. An uncorrected search over m candidates at the same per-candidate budget lets the union probability of *some* reported certificate being wrong grow with m past the registered delta once m exceeds roughly the threshold-grid size; the Bonferroni correction (gamma=delta/(m|Lambda|)) restores the budget at every m tested, at the cost of the larger admitted-group requirement the paper already reports.",
+    "registered_n": 92,
+    "worst_case_miscoverage_within_gamma_budget": true,
+    "worst_case_population_rate": 0.6365,
+    "worst_case_single_candidate_miscoverage": 0.00908991465563897
+  },
+  "part_two_clustered_groups_monte_carlo": {
+    "baseline_iid_miscoverage": 0.0,
+    "confidence": 0.990909090909091,
+    "nominal_gamma": 0.009090909090909092,
+    "reading": "The i.i.d.-group precondition is not decorative: at zero within-block correlation the realized miscoverage matches the i.i.d. baseline closely, but once groups are drawn in correlated blocks the realized miscoverage rate on the *marginal* population violation rate rises with block size and with the probability and size of a block-level shift, exceeding the nominal per-threshold budget at the more clustered configurations tested. This quantifies, rather than only asserts, why the live studies' min_days=min_principals=1 configuration is the weakest link in the guarantee (\\cref{sec:limits}).",
+    "replicates_per_cell": 200000,
+    "rows": [
+      {
+        "bad_shift": 0.0,
+        "base_rate": 0.0,
+        "block_size": 1,
+        "empirical_miscoverage": 0.0,
+        "marginal_rate": 0.0,
+        "n_groups": 92,
+        "p_bad_block": 0.0,
+        "replicates": 200000
+      },
+      {
+        "bad_shift": 0.15,
+        "base_rate": 0.0,
+        "block_size": 1,
+        "empirical_miscoverage": 0.0,
+        "marginal_rate": 0.015,
+        "n_groups": 92,
+        "p_bad_block": 0.1,
+        "replicates": 200000
+      },
+      {
+        "bad_shift": 0.15,
+        "base_rate": 0.0,
+        "block_size": 1,
+        "empirical_miscoverage": 0.0,
+        "marginal_rate": 0.0375,
+        "n_groups": 92,
+        "p_bad_block": 0.25,
+        "replicates": 200000
+      },
+      {
+        "bad_shift": 0.3,
+        "base_rate": 0.0,
+        "block_size": 1,
+        "empirical_miscoverage": 0.00668,
+        "marginal_rate": 0.075,
+        "n_groups": 92,
+        "p_bad_block": 0.25,
+        "replicates": 200000
+      },
+      {
+        "bad_shift": 0.0,
+        "base_rate": 0.0,
+        "block_size": 2,
+        "empirical_miscoverage": 0.0,
+        "marginal_rate": 0.0,
+        "n_groups": 92,
+        "p_bad_block": 0.0,
+        "replicates": 200000
+      },
+      {
+        "bad_shift": 0.15,
+        "base_rate": 0.0,
+        "block_size": 2,
+        "empirical_miscoverage": 0.0,
+        "marginal_rate": 0.015,
+        "n_groups": 92,
+        "p_bad_block": 0.1,
+        "replicates": 200000
+      },
+      {
+        "bad_shift": 0.15,
+        "base_rate": 0.0,
+        "block_size": 2,
+        "empirical_miscoverage": 0.0,
+        "marginal_rate": 0.0375,
+        "n_groups": 92,
+        "p_bad_block": 0.25,
+        "replicates": 200000
+      },
+      {
+        "bad_shift": 0.3,
+        "base_rate": 0.0,
+        "block_size": 2,
+        "empirical_miscoverage": 0.012405,
+        "marginal_rate": 0.075,
+        "n_groups": 92,
+        "p_bad_block": 0.25,
+        "replicates": 200000
+      },
+      {
+        "bad_shift": 0.0,
+        "base_rate": 0.0,
+        "block_size": 4,
+        "empirical_miscoverage": 0.0,
+        "marginal_rate": 0.0,
+        "n_groups": 92,
+        "p_bad_block": 0.0,
+        "replicates": 200000
+      },
+      {
+        "bad_shift": 0.15,
+        "base_rate": 0.0,
+        "block_size": 4,
+        "empirical_miscoverage": 0.0,
+        "marginal_rate": 0.015,
+        "n_groups": 92,
+        "p_bad_block": 0.1,
+        "replicates": 200000
+      },
+      {
+        "bad_shift": 0.15,
+        "base_rate": 0.0,
+        "block_size": 4,
+        "empirical_miscoverage": 0.0,
+        "marginal_rate": 0.0375,
+        "n_groups": 92,
+        "p_bad_block": 0.25,
+        "replicates": 200000
+      },
+      {
+        "bad_shift": 0.3,
+        "base_rate": 0.0,
+        "block_size": 4,
+        "empirical_miscoverage": 0.031115,
+        "marginal_rate": 0.075,
+        "n_groups": 92,
+        "p_bad_block": 0.25,
+        "replicates": 200000
+      },
+      {
+        "bad_shift": 0.0,
+        "base_rate": 0.0,
+        "block_size": 23,
+        "empirical_miscoverage": 0.0,
+        "marginal_rate": 0.0,
+        "n_groups": 92,
+        "p_bad_block": 0.0,
+        "replicates": 200000
+      },
+      {
+        "bad_shift": 0.15,
+        "base_rate": 0.0,
+        "block_size": 23,
+        "empirical_miscoverage": 0.0,
+        "marginal_rate": 0.015,
+        "n_groups": 92,
+        "p_bad_block": 0.1,
+        "replicates": 200000
+      },
+      {
+        "bad_shift": 0.15,
+        "base_rate": 0.0,
+        "block_size": 23,
+        "empirical_miscoverage": 0.0,
+        "marginal_rate": 0.0375,
+        "n_groups": 92,
+        "p_bad_block": 0.25,
+        "replicates": 200000
+      },
+      {
+        "bad_shift": 0.3,
+        "base_rate": 0.0,
+        "block_size": 23,
+        "empirical_miscoverage": 0.318955,
+        "marginal_rate": 0.075,
+        "n_groups": 92,
+        "p_bad_block": 0.25,
+        "replicates": 200000
+      },
+      {
+        "bad_shift": 0.0,
+        "base_rate": 0.0,
+        "block_size": 46,
+        "empirical_miscoverage": 0.0,
+        "marginal_rate": 0.0,
+        "n_groups": 92,
+        "p_bad_block": 0.0,
+        "replicates": 200000
+      },
+      {
+        "bad_shift": 0.15,
+        "base_rate": 0.0,
+        "block_size": 46,
+        "empirical_miscoverage": 0.0,
+        "marginal_rate": 0.015,
+        "n_groups": 92,
+        "p_bad_block": 0.1,
+        "replicates": 200000
+      },
+      {
+        "bad_shift": 0.15,
+        "base_rate": 0.0,
+        "block_size": 46,
+        "empirical_miscoverage": 0.0,
+        "marginal_rate": 0.0375,
+        "n_groups": 92,
+        "p_bad_block": 0.25,
+        "replicates": 200000
+      },
+      {
+        "bad_shift": 0.3,
+        "base_rate": 0.0,
+        "block_size": 46,
+        "empirical_miscoverage": 0.562585,
+        "marginal_rate": 0.075,
+        "n_groups": 92,
+        "p_bad_block": 0.25,
+        "replicates": 200000
+      }
+    ],
+    "seed": 20260822,
+    "worst_clustered_configuration": {
+      "bad_shift": 0.3,
+      "block_size": 46,
+      "p_bad_block": 0.25
+    },
+    "worst_clustered_miscoverage": 0.562585,
+    "worst_exceeds_nominal_gamma": true
+  },
+  "runtime_seconds": 80.48211675003404,
+  "schema": "gac-frozen-candidate-coverage-simulation/v1"
+}

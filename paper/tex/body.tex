@@ -908,6 +908,88 @@ as a caveat beside it.
   \label{fig:scope-fence}
 \end{figure}
 
+The fence has a gate, and the compiler already ships it: \code{GrcConfig}'s
+\code{freeze\_one\_candidate\_before\_calibration} flag ranks families on train data,
+synthesizes and challenges each on train and development windows only, and halts the
+search the instant any candidate reaches the calibration stage --- admitted, retired, or
+lacking calibration groups --- without ever evaluating a second candidate against
+calibration windows.  That is precisely \cref{prop:admission}'s hypothesis, applied to the
+compiler's entire search rather than to a single candidate assumed fixed in advance.
+
+\begin{corollary}[Compiler-wide guarantee under frozen selection]
+\label{cor:frozen}
+\small
+If \cref{alg:compile} runs with \code{freeze\_one\_candidate\_before\_calibration} enabled,
+\cref{prop:admission}'s guarantee holds for the compiler's actual reported output with no
+adjustment to $\gamma=\delta/|\Lambda|$: no Bonferroni correction over candidates is
+needed, because the run leaves no candidate multiplicity to correct for.
+\end{corollary}
+
+\begin{proof}
+By construction, family ranking is a function of train windows alone; synthesis and the
+challenge test are functions of train and development windows alone; and the frozen score
+model $q$ is fit on development samples before a single calibration window is inspected.
+The search reaches the calibration stage for the top-ranked surviving candidate exactly
+once and halts immediately after that candidate's outcome --- admission, retirement for
+want of an admissible threshold, or absence of calibration groups --- with no other
+candidate's program, guard, verifier, or score model ever compared against a calibration
+window.  \Cref{prop:admission}'s precondition, ``fix one candidate\ldots before observing
+calibration,'' is therefore satisfied by the run's entire candidate search, not by a
+hypothetical single-candidate sub-procedure, so its conclusion transfers unchanged.
+\end{proof}
+
+\Cref{cor:frozen} is a corollary, not a new inequality: every bit of its statistical
+content is \cref{prop:admission}'s, restated for a search that never lets a second
+candidate see calibration data.  It is also not hypothetical here.  The cross-repository
+extension of \cref{sec:multirepo-method} already runs with freezing enabled, and every
+sealed repository report there shows exactly one candidate reaching calibration, so
+\cref{cor:frozen} applies to those admissions directly.  The three primary GitHub
+families do not: each mines two candidates that both reach calibration, and the
+higher-removal survivor is kept by dominance, so they remain the per-candidate
+certificates \cref{prop:admission} was always scoped to and are not retroactively
+strengthened by this corollary.
+
+A provider-free simulation
+(\path{frozen_candidate_coverage_simulation.py}) quantifies exactly what
+freezing buys and what an uncorrected search would spend.  Its first part is
+exact combinatorics, not Monte Carlo: for $n=92$ calibration groups it locates the
+population violation rate that maximizes a single candidate's Clopper--Pearson
+miscoverage probability ($r^\star\approx0.637$, miscoverage $\approx0.00909$, matching
+$\gamma=\delta/|\Lambda|$ to four digits, which is the guarantee's own defining property
+rather than a new fact) and then asks what happens if $m$ such candidates are each
+calibrated independently at that same per-candidate budget with no correction.
+\Cref{tab:frozen-simulation} shows the consequence: the union probability that
+\emph{some} reported certificate is wrong grows with $m$, crossing the registered
+$\delta=.10$ once $m$ exceeds the eleven-point grid it shares the budget with, while the
+Bonferroni correction already stated above holds every tested $m$ under $1\%$ at the
+published cost in admitted groups.  The same script independently recomputes the $m=1$
+and $m=2$ group requirements (92 and 106) from this combinatorial argument, matching the
+figures already reported above rather than merely restating them.\appendixonly{  The same
+92-and-106 pair is also recorded in the admission register of \cref{app:audit}.}
+
+\begin{table*}[t]
+  \centering
+  \caption{Exact miscoverage under an uncorrected versus Bonferroni-corrected
+  $m$-candidate search, at the population rate $r^\star\approx0.637$ that maximizes a
+  single candidate's Clopper--Pearson miscoverage at $n=92$.  ``Groups required'' is the
+  zero-violation admission count the correction demands at that $m$.}
+  \label{tab:frozen-simulation}
+  \small
+  \resizebox{0.7\textwidth}{!}{\input{../tables/frozen_candidate_simulation.tex}}
+\end{table*}
+
+Its second part is a seeded Monte
+Carlo stress test ($M=200{,}000$ replicates, seed \texttt{20260822}) of exactly the
+independence caveat below: at zero within-block correlation realized miscoverage matches
+the exact baseline, but drawing the 92 groups in two 46-group blocks that each carry a
+$0.30$ elevated violation rate with probability $0.25$ pushes realized miscoverage on the
+population's marginal rate to $56\%$ against a $0.9\%$ nominal budget, while milder
+clustering at the same shift probability but a smaller shift leaves it unmeasurable over
+that many replicates.  The magnitude is a property of the stress configuration chosen for
+contrast, not a measurement of the live studies' true correlation structure, which remains
+unknown; what it establishes is that the independence assumption is load-bearing by a wide
+margin once records are drawn correlated rather than merely once, not only in principle.
+
 \noindent The guarantee concerns disagreement with the induced verifier $V$, not semantic
 task error.  It also requires independent group indicators, no distribution shift, and a
 candidate fixed relative to calibration; clustered data or adaptive candidate/artifact
@@ -917,7 +999,9 @@ and it is worth naming here rather than only in \cref{sec:limits}: the live stud
 so a ``group'' is one record from one project at one instant.  Records drawn that way share
 a repository, a schema, an author community, and a period, and nothing in the calibration
 establishes that their violation indicators are independent.  The bound is therefore
-conditional on a sampling assumption the snapshot cannot verify.  For one fixed candidate,
+conditional on a sampling assumption the snapshot cannot verify, and the clustered-group
+simulation above quantifies rather than only asserts how far a bound can drift once that
+assumption fails.  For one fixed candidate,
 with $\alpha=.05$, $\delta=.10$, $|\Lambda|=11$, and zero violations, 92 admitted groups
 are required.  A single precommitted threshold would require 45, so the
 NESTFUL refusal is specific to the declared grid and risk configuration, not an intrinsic
@@ -1332,10 +1416,11 @@ earlier paper cohorts, seals 116 older discovery pull requests, and selects a ba
 30-record held-out cohort whose timestamps are strictly newer.  The complete preflight
 supports 150 held-out pairs across the five repositories.  Discovery then runs with the
 same provider, SDK, and model configuration as the earlier GitHub studies.  Compilation
-freezes one candidate before calibration, uses 16 train, 8 development, and 92
-calibration traces, and compares unchanged, compiled, and a fixed two-read template
-pre-model baseline on held-out records.  Repositories with no admitted artifact are
-retained as fail-closed negatives rather than dropped.
+freezes one candidate before calibration --- so any admitted artifact here carries
+\cref{cor:frozen}'s compiler-wide guarantee, not only the per-candidate one --- uses 16
+train, 8 development, and 92 calibration traces, and compares unchanged, compiled, and a
+fixed two-read template pre-model baseline on held-out records.  Repositories with no
+admitted artifact are retained as fail-closed negatives rather than dropped.
 
 Because that first five-repository cohort is class-skewed on some mirrors, we also run a
 balanced rerun on the three repositories with enough older records to satisfy the exact
@@ -2401,7 +2486,16 @@ optimization alone on this task.
 families, and an independently authored pre-model program ties GCS at 6/6 with identical
 request and interface counts (\cref{sec:comparator}).  This rules out runtime dominance as
 the contribution and leaves automatic discovery under a stated admission rule as the part
-of the claim the evidence still supports.
+of the claim the evidence still supports.  A pre-registered, not-yet-run protocol targets
+this specific parity directly rather than only naming it: a three-arm design isolates the
+\emph{induced verifier} from the \emph{program} by pairing the compiled artifact with a
+permissive no-op verifier and pairing the hand-written program with the same nine-family
+metamorphic perturbation suite already implemented in \code{evaluation/perturb.py}
+(reordering, duplication, formatting, empty/null fields, schema drift, tool errors and
+timeouts), asking whether the compiled artifact abstains where an unverified program
+would answer silently
+(\code{paper/supplementary/drift-robustness-ablation-protocol.md}).  Status:
+pre-registered, not executed; no result from it is reported here.
 
 \section{Related Work}
 \label{sec:related}
@@ -2540,9 +2634,19 @@ to ours on a superficially similar workload.  Such systems shrink the payload of
 that still happen; they never remove a model boundary, so they cannot reduce provider
 requests at all.  \method removes the boundary and leaves the payload alone.  The two
 therefore compose rather than compete --- one could compress the reads that a compiled
-prefix still performs --- and the honest consequence is that our token reduction has a
-comparator we did not run.  A compressed baseline is the single most informative addition
-to the resource story in this paper, and \cref{sec:limits} records it as unmeasured.
+prefix still performs.  We ran that comparator rather than only naming it: a live
+Headroom v0.5.18 ablation adds \code{headroom\_only} and \code{compiled\_headroom} arms to
+both live GitHub families on the same 30-record held-out cohort
+(\cref{sec:limits}).  Headroom attempted every eligible payload --- 90 JSON tool results
+per family in the uncompiled arm, 30 pre-model evidence objects per family in the
+compiled arm --- and applied \emph{zero} transformations, saving zero tokens in either
+family; all four paired quality contrasts stay 30/30 with exact McNemar $p=1$.  This is a
+null engagement with these payload shapes, not a compression result: \method's own
+80.9\% and 81.6\% total-token reductions on the two families are unaffected by whether
+Headroom is in the loop, and the ablation does not establish Headroom's behavior on
+longer or differently shaped contexts.  It does, however, retire the specific concern
+that our reduction is really Headroom's reduction under another name --- on this
+workload the two systems visibly do not touch the same bytes.
 Their accuracy evidence is also of a different kind: measured benchmark deltas over
 lossy compression, with no abstention path and no finite-sample bound, which is the same
 distinction that separates \method from every other row of \cref{tab:related-work}.
@@ -2681,13 +2785,40 @@ always-compile, cache-only, FlowCompile-style configuration selection, and a lea
 contextual policy.  Only then can the central selection claim be stronger than ``the pilot
 correctly chose the already stronger macro.''
 
-One further question is structural rather than empirical.  \Cref{sec:limits} shows that the
-per-candidate bound does not compose: the compiler searches candidate families, but the
-guarantee is stated for one fixed candidate, and a two-candidate correction already moves
-the requirement from 92 to 106 zero-violation groups.  Whether familywise risk can be
-allocated across the artifacts a compiler actually produces without making the data
-requirement prohibitive is the open problem that most limits what this method can claim,
-and it is not answered here.
+One further question is structural rather than empirical, and \cref{cor:frozen} answers
+half of it.  \Cref{sec:limits} shows that the per-candidate bound does not compose: the
+compiler searches candidate families, but the guarantee is stated for one fixed candidate,
+and a two-candidate correction already moves the requirement from 92 to 106 zero-violation
+groups.  Freezing selection before calibration closes that gap exactly, at the cost of
+never exploring a second candidate once the first reaches calibration --- which is why the
+primary GitHub families, whose dominance search keeps the higher-removal survivor of two
+admitted candidates, do not use it.  What remains open is a procedure that keeps that
+exploration --- letting several candidates compete for admission and retaining the best ---
+while still pricing the search at a compiler-wide $\delta$, rather than trading exploration
+away for the guarantee or paying the full Bonferroni cost for every family a workload
+happens to produce.
+
+\subsubsection{A prospective gate-frontier protocol, pre-registered and not yet run}
+\label{sec:prospective-frontier}
+
+Five of six live gates in this paper admit all or none, so no registered $\alpha=.05$
+result yet shows a genuine risk--coverage frontier rather than a support threshold
+(\cref{sec:limits}).  Closing that gap needs new evidence, not new arithmetic, so we
+commit the design before spending on it.
+\code{paper/supplementary/prospective-gate-frontier-protocol.md} pre-registers a
+time-forward cohort across at least three repositories or domains, at least 300 sealed
+held-out paired cases (chosen so that zero compiled-only failures give a one-sided upper
+bound near 1\%, well below the current small-cohort bounds), and three arms compared
+under identical records, model, cache policy, and ordering: the unchanged agent, the
+learned gate of \cref{sec:problem}, and a support-only frequency gate.  Compilation uses
+frozen candidate selection throughout, so any admitted gate there inherits
+\cref{cor:frozen} rather than a per-candidate certificate.  Thresholds, features, splits,
+hypotheses, and stopping rules are fixed and hashed before acquisition; the protocol also
+states, and defers, a model/provider breadth plan and the feasibility bar an executable
+workflow-compiler comparator would have to clear before being run at all.  The document
+is committed \emph{unexecuted}: no repository or provider has been acquired under it, and
+this paper reports no result from it.  It exists so that if the evidence is gathered, the
+design cannot be revised in light of what it shows.
 
 \section{Limitations and Threats to Validity}
 \label{sec:limits}
@@ -2731,16 +2862,24 @@ signing was not enabled.  The immutability and signature-verification semantics 
 in \cref{sec:method} are therefore capabilities of the registry, not properties this
 experiment demonstrates.
 
-\paragraph{No compressed baseline.}
-Every resource number in this paper compares a compiled prefix against an
-\emph{uncompressed} baseline agent.  Deployed context\hyp{}compression middleware reports
-token reductions of the same order on a comparable GitHub triage workload by an entirely
-different mechanism~\cite{headroom2026}, so our token, cost, and latency reductions should
-not be read as the best available on those axes --- only as the reduction attributable to
-removing model boundaries.  The provider-request reduction is not exposed to this
-threat, because compression never removes a call.  Running \method against a compressed
-baseline, and against the composition of both, is the most informative missing experiment
-in the resource story.
+\paragraph{The compressed-baseline comparator ran, and did not engage.}
+Every headline resource number in this paper compares a compiled prefix against an
+\emph{uncompressed} baseline agent, because deployed context\hyp{}compression middleware
+reports token reductions of the same order on a comparable GitHub triage workload by an
+entirely different mechanism~\cite{headroom2026}.  We added a live Headroom v0.5.18 arm to
+both GitHub families on the existing 30-record held-out cohort to check this directly
+rather than leave it asserted (\code{paper/supplementary/headroom-ablation-protocol.md}).
+Headroom attempted every eligible JSON tool result and pre-model evidence object and
+applied none of them, saving zero tokens in either family while all four paired quality
+contrasts held 30/30 at exact $p=1$.  The result is a null engagement at this payload
+shape, not a measured composition or a measured floor: it does not establish that
+Headroom would behave the same on larger or differently structured contexts, and the
+committed protocol says so.  What it licenses is narrower than ``the best available
+reduction on these axes'' but still real --- on this workload, over these payloads,
+compression and compaction visibly do not compete for the same bytes, so \method's
+reduction is not a relabeling of what a compression pass would already have captured.
+The provider-request reduction was never exposed to this threat in the first place,
+because compression never removes a call.
 
 \paragraph{Baseline scope.}
 The natural study runs both the unchanged SDK loop and a live hand-written composite tool.

@@ -1387,6 +1387,10 @@ def validate_publication() -> None:
         "results/optimizer_head_to_head/results.json",
         "results/github_workflow_families/pr_outcome/final/results.json",
         "results/github_workflow_families/backlog_attention/final/results.json",
+        "results/github_workflow_families/pr_outcome/headroom_ablation/preflight.json",
+        "results/github_workflow_families/pr_outcome/headroom_ablation/results.json",
+        "results/github_workflow_families/backlog_attention/headroom_ablation/preflight.json",
+        "results/github_workflow_families/backlog_attention/headroom_ablation/results.json",
         "results/github_workflow_families/summary.json",
         "scripts/validate_guarded_composite.py",
         "scripts/github_gcs_live_study.py",
@@ -1584,6 +1588,70 @@ def validate_no_secrets() -> None:
         if any(pattern.search(data) for pattern in patterns):
             findings.append(str(path.relative_to(ROOT)))
     ok(not findings, f"publication tree contains no API-secret-shaped value ({findings})")
+
+
+def validate_headroom_ablation_preflights() -> None:
+    """Verify the sealed Headroom comparison and its provider-backed results."""
+
+    conditions = [
+        "baseline", "compiled", "manual_pre_model", "headroom_only", "compiled_headroom"
+    ]
+    for family in ("pr_outcome", "backlog_attention"):
+        path = PAPER / f"results/github_workflow_families/{family}/headroom_ablation/preflight.json"
+        final_path = PAPER / f"results/github_workflow_families/{family}/final/results.json"
+        result_path = path.parent / "results.json"
+        ok(path.exists(), f"{family}: Headroom ablation preflight exists")
+        ok(final_path.exists(), f"{family}: source final selection exists for Headroom preflight")
+        ok(result_path.exists(), f"{family}: Headroom ablation result exists")
+        if not path.exists() or not final_path.exists() or not result_path.exists():
+            continue
+        preflight = load(path)
+        final = load(final_path)
+        result = load(result_path)
+        config = preflight.get("headroom_ablation", {})
+        selection = preflight.get("selection", {})
+        original = final.get("selection", {})
+        ok(preflight.get("schema") == "agent-compaction-github-family-preflight/v1",
+           f"{family}: Headroom preflight schema")
+        ok(preflight.get("provider_calls") == 0
+           and preflight.get("execution_status") == "preflight_only",
+           f"{family}: Headroom preflight made no provider calls")
+        ok(preflight.get("real_public_records") is True and preflight.get("simulated") is False,
+           f"{family}: Headroom preflight retains real-record provenance")
+        ok(preflight.get("conditions") == conditions,
+           f"{family}: Headroom preflight seals all five conditions")
+        ok(config.get("package") == "headroom-ai" and config.get("version") == "0.5.18"
+           and config.get("cross_session_memory") is False
+           and config.get("output_shaping") is False
+           and config.get("learning") is False
+           and config.get("retrieval_tool") is False,
+           f"{family}: Headroom preflight pins the isolated comparator configuration")
+        ok(selection.get("discovery") == original.get("discovery")
+           and selection.get("test") == original.get("test")
+           and selection.get("discovery_reused_from_sealed_checkpoint") is True
+           and selection.get("test_reused_from_sealed_checkpoint") is True,
+           f"{family}: Headroom preflight reuses the sealed paired cohort")
+        run = result.get("run", {})
+        aggregate = result.get("aggregate", {})
+        audits = result.get("headroom", {}).get("condition_audits", {})
+        ok(run.get("provider_backed") is True
+           and run.get("real_public_records") is True
+           and run.get("simulated") is False
+           and run.get("comparative_claim_allowed") is True
+           and result.get("selection") == selection,
+           f"{family}: Headroom result is a complete paired provider-backed evaluation")
+        ok(result.get("failures") == []
+           and all(aggregate.get(condition, {}).get("n") == 30
+                   and aggregate.get(condition, {}).get("success_rate") == 1
+                   and aggregate.get(condition, {}).get("tool_contract_rate") == 1
+                   for condition in conditions),
+           f"{family}: every Headroom-ablation arm passes all 30 exact contracts")
+        ok(all(audits.get(condition, {}).get("attempted_payloads") == expected
+                   and audits.get(condition, {}).get("applied_payloads") == 0
+                   and audits.get(condition, {}).get("fallback_payloads") == 0
+                   and audits.get(condition, {}).get("tokens_saved") == 0
+                   for condition, expected in (("headroom_only", 90), ("compiled_headroom", 30))),
+           f"{family}: Headroom attempts each eligible payload but applies no transformation")
 
 
 def validate_github_workflow_families() -> None:
@@ -2251,6 +2319,7 @@ def main() -> None:
     validate_manifest()
     validate_claim_boundaries()
     validate_publication()
+    validate_headroom_ablation_preflights()
     validate_github_workflow_families()
     validate_github_multirepo_pr_outcome_core()
     validate_external_benchmarks()

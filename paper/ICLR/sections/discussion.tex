@@ -7,12 +7,14 @@ retire when evidence is inadequate.
 
 \paragraph{Gate maturity is the main scientific risk.}
 \Cref{prop:admission} is per-candidate, not compiler-wide over
-\cref{alg:compile}'s adaptive search; certification requires freezing the
-candidate relative to calibration, and a multiplicity repair raises the
-requirement further (\cref{app:config}). The gate is also empirically step-like at
-$n_\eta\ge 92$, AppWorld included: it \emph{refuses} correctly far better than $q$
-\emph{discriminates}, and refitting $q$ for a genuine frontier is the key
-follow-up.
+\cref{alg:compile}'s adaptive search unless that search is frozen
+(\cref{cor:frozen}); the primary GitHub families do not freeze, so a
+multiplicity repair would raise their requirement further (\cref{app:config}).
+The gate is also empirically step-like at $n_\eta\ge 92$, AppWorld included: it
+\emph{refuses} correctly far better than $q$ \emph{discriminates}, and
+refitting $q$ for a genuine frontier is the key follow-up, for which a
+pre-registered but not-yet-run protocol already exists
+(\cref{app:prospective}).
 
 \paragraph{Group independence is assumed, not established.}
 \Cref{prop:admission} needs i.i.d.\ groups. Here each group is one record from
@@ -29,7 +31,9 @@ provider/model family, and the cross-repository extension is a narrower,
 template-tied task. Admission is also not dispatchability: a prefix is only worth
 compiling for an architecture that issues one, which neither
 \cref{prop:admission} nor the guard tests. We establish no superiority under
-drift or across providers, and do not price manual authoring or maintenance.
+drift or across providers and do not price manual authoring or maintenance,
+though a live compression-comparator ablation and a pre-registered
+drift-parity protocol narrow both gaps (\cref{app:limits}).
 Finally, exact task contracts do not certify a downstream model continuation, and
 writes, handoffs, hosted tools, undeclared effects, and removed-turn guardrails
 lie outside \cref{prop:admission} entirely (\cref{app:limits}).
