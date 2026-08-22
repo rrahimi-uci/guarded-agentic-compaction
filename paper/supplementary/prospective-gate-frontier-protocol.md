@@ -1,13 +1,77 @@
 # Prospective gate-frontier protocol
 
-**Status: PRE-REGISTERED, NOT EXECUTED.** No repository beyond what this paper already
-reports has been acquired under this protocol, no provider call has been made under it,
-and no held-out case has been selected. This document commits the design, the sample
-size, the three arms, the coverage levels, and the decision rule *before* any of that
-evidence exists, so that if the evidence is later gathered, the design cannot be revised
-in light of what it shows. Running it is future work requiring provider budget
-authorization; this commit does not authorize that spend, and this paper reports no
-result from it.
+**Status: DESIGN RESOLVED AND SEALED PROVIDER-FREE; FULL COHORT NOT YET EXECUTED.** The
+update below records the concrete configuration this document's design resolves to and a
+tiny, real, single-repository smoke validation of the pipeline that implements it. The
+300-pair, five-repository held-out cohort itself is sealed (hashed, provider-free) but not
+yet run at full scale; that step still requires the same explicit spend authorization this
+document has always required, at an estimated cost this update states precisely. The
+original text below is unchanged from when it was pre-registered, since none of it needed
+revision in light of anything the resolved design or the smoke check showed.
+
+## Update (2026-08-22): design resolved, support-only arm implemented, cohort sealed
+
+This protocol named its cohort target (>=3 repositories, >=300 pooled held-out pairs) and
+its three arms without fixing which script would produce them. That gap is now closed by
+extending, not replacing, the already-executed cross-repository harness
+[`github_multirepo_pr_outcome_core.py`](../scripts/github_multirepo_pr_outcome_core.py)
+(see `github-multirepo-pr-outcome-core-summary.md` and `evidence-register.md` for its own
+prior 120- and 180-pair results, which this protocol's cohort is independent of, not
+additive with):
+
+- **Resolved cohort.** `discovery_cases=116` (this repository's own 16 train + 8 dev + 92
+  calibration minimum, unchanged), `test_cases_per_repo=60`, across the same five
+  repositories `github_multirepo_pr_outcome_core.py` already uses
+  (huggingface/datasets, pandas-dev/pandas, psf/requests, streamlit/streamlit,
+  pytorch/pytorch). This is the *unique* configuration — checked provider-free before any
+  code was written for this update — at which all five repositories stay selectable and
+  the pooled held-out cohort is exactly the pre-registered 300, with no repository
+  dropped to reach the target. Sealed at
+  [`../results/github_multirepo_gate_frontier/preflight.json`](../results/github_multirepo_gate_frontier/preflight.json)
+  (`provider_calls_executed: 0`).
+- **Support-only arm, operationalized.** `docs/related-work-matrix.md`'s "dispatch on
+  recurrence alone" comparator is implemented as `alpha=1.0` in a second, independent
+  `compile_grc` pass per repository — this repository's own precedented "published
+  support-only research ablation" (see the comment above the `alpha == 1.0` branch in
+  `src/guarded_agentic_compaction/grc/calibrate.py`, which predates this update). It keeps
+  mining, synthesis, challenge, and frozen-candidate selection byte-for-byte identical to
+  the learned-gate pass and changes only the Clopper–Pearson risk budget, which this
+  family's minimal `entry_schema=("record_number",)` design makes the more tractable
+  operationalization here than fitting a new standalone recurrence feature from scratch.
+  This substitution is stated plainly so a reader can judge it rather than discover it:
+  it is not a literal second scoring function, only a literal second risk budget, on the
+  same candidate.
+- **Coverage levels, read back out rather than re-derived.** `calibrate_gate` already
+  computes one row (accepted count, violations, exact upper bound, coverage) per point on
+  the frozen eleven-point grid before selecting a threshold, and stores the full sweep in
+  `Gate.notes`. The implementation only parses that back out; it does not add a new
+  statistical procedure to decide the coverage-levels question.
+- **Implementation.**
+  [`github_multirepo_gate_frontier_study.py`](../scripts/github_multirepo_gate_frontier_study.py),
+  tested provider-free in
+  [`test_github_multirepo_gate_frontier_study.py`](../scripts/test_github_multirepo_gate_frontier_study.py).
+  Live execution is gated behind `--approved-spend-usd > 0`, matching every other live
+  study in this repository.
+- **Smoke-validated at trivial real cost.** A single-repository run (`psf/requests`,
+  full 116-case discovery plus all three conditions on its 60-case held-out split) was
+  executed to confirm the new support-only compile path and coverage-curve extraction
+  work end to end before committing to the full five-repository spend; see the results
+  register this update also adds for the observed cost and outcome. This is a pipeline
+  check, not the pre-registered evidence — the full cohort's result is what this
+  protocol's hypotheses bind to, and it has not been run.
+- **Estimated full-cohort cost.** Scaling from `github_multirepo_pr_outcome_core.py`'s
+  own recorded single-repository costs
+  (`paper/results/github_workflow_families/pr_outcome/final/results.json`: baseline
+  $0.0203763/30 cases, compiled $0.0050332/30 cases) across 580 discovery episodes plus
+  900 held-out episodes (300 cases × 3 conditions) puts the full five-repository run at
+  under $2 even with a generous safety margin over the per-repository smoke check's
+  observed cost. This is a cost estimate stated before spending it, not a result.
+
+Nothing above changes the hypotheses, the decision rule, the >=300/>=3 target, or the
+stopping rule stated in the original design below; it resolves the previously-open
+question of which script and which configuration realizes them, and reports one honest
+implementation choice (the support-only operationalization) that a later reviewer could
+otherwise reasonably ask about.
 
 This is a different kind of protocol from
 [`bfcl-compiler-protocol.md`](bfcl-compiler-protocol.md) and
