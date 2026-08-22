@@ -221,3 +221,61 @@ def test_freeze_one_candidate_before_calibration_avoids_lower_ranked_calibration
         (candidate.rejected or "").startswith("gate_retire:")
         for candidate in frozen.candidates
     )
+
+
+def test_freeze_one_candidate_stops_at_the_first_retirement_too(compiled):
+    """The Corollary this guards: freezing must halt the search on EITHER outcome the
+    candidate that *reaches calibration* gets, not only on admission. Candidates that fail
+    earlier (synthesis, contracting, the dev-window challenge) never observe calibration
+    data, so several of those may appear before the one that does; what must never happen
+    is a SECOND candidate reaching calibration after the first one retires there. That
+    would let two candidates observe the same calibration split -- exactly the
+    compiler-wide multiplicity gap `paper/scripts/frozen_candidate_coverage_simulation.py`
+    quantifies -- so this test forces the retire branch with an unreachably strict alpha
+    and checks that exactly one candidate ever reaches calibration, with no artifact
+    emitted.
+    """
+
+    catalog, world, specs, episodes, splits, _, normal = compiled
+    graphs, policy = build_all(episodes, catalog)
+    frozen = compile_grc(
+        episodes,
+        catalog,
+        splits,
+        support.MANIFEST,
+        GrcConfig(
+            entry_schema=support.ENTRY_ALLOWLIST,
+            s_min=5,
+            min_days=3,
+            n_permutations=100,
+            max_candidates=6,
+            max_artifacts=8,
+            alpha=1e-9,  # unreachable at any realistic calibration size: forces retire
+            seed=4242,
+            freeze_one_candidate_before_calibration=True,
+        ),
+        sandbox=(lambda _w=world: _w),
+        graphs=graphs,
+        policy=policy,
+    )
+
+    assert not frozen.artifacts, frozen.report()
+    # Candidates that fail before calibration (synthesis, contracting, the dev-window
+    # challenge) never touch calibration data, so more than one MAY appear here; what the
+    # Corollary needs is that at most one candidate ever reaches the calibration stage.
+    reached_calibration = [
+        candidate
+        for candidate in frozen.candidates
+        if "gate_calibration_samples" in candidate.notes
+    ]
+    assert len(reached_calibration) == 1, (
+        "freezing must stop after the sole candidate's calibration outcome, whether it "
+        "is admitted or retires; a second candidate reaching calibration here would let "
+        "two candidates observe the same calibration split"
+    )
+    assert reached_calibration[0].notes.get("candidate_selection") == "frozen_before_calibration"
+    assert (reached_calibration[0].rejected or "").startswith("gate_retire:")
+    assert frozen.candidates[-1] is reached_calibration[0], (
+        "the calibration-reaching candidate must be where the search stops"
+    )
+    assert len(normal.artifacts) >= 1, "unrestricted mode on the same fixture must still succeed"

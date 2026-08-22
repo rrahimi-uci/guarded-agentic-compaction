@@ -7,12 +7,14 @@ retire when evidence is inadequate.
 
 \paragraph{Gate maturity is the main scientific risk.}
 \Cref{prop:admission} is per-candidate, not compiler-wide over
-\cref{alg:compile}'s adaptive search; certification requires freezing the
-candidate relative to calibration, and a multiplicity repair raises the
-requirement further (\cref{app:config}). The gate is also empirically step-like at
-$n_\eta\ge 92$, AppWorld included: it \emph{refuses} correctly far better than $q$
-\emph{discriminates}, and refitting $q$ for a genuine frontier is the key
-follow-up.
+\cref{alg:compile}'s adaptive search unless that search is frozen
+(\cref{cor:frozen}); the primary GitHub families do not freeze, so a
+multiplicity repair would raise their requirement further (\cref{app:config}).
+The gate is also empirically step-like at $n_\eta\ge 92$, AppWorld included: it
+\emph{refuses} correctly far better than $q$ \emph{discriminates}, and
+refitting $q$ for a genuine frontier is the key follow-up, for which a
+pre-registered but not-yet-run protocol already exists
+(\cref{app:prospective}).
 
 \paragraph{Group independence is assumed, not established.}
 \Cref{prop:admission} needs i.i.d.\ groups. Here each group is one record from

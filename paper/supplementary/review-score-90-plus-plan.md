@@ -36,13 +36,48 @@ The most important score-changing items in this plan are now partly satisfied:
      all **7** current exact-`.05` artifacts are still step gates, while partial
      frontiers appear only in an archived pilot and the looser-`alpha=.10` GCS study.
 
+## Update (2026-08-22): frozen-candidate compiler-wide guarantee
+
+Item 3 below is now resolved for the search mode that adopts it, not for every reported
+result:
+
+- `Corollary (compiler-wide guarantee under frozen selection)` is now proved in the paper
+  (main text, right after Proposition 1) and backed by an exact, non-Monte-Carlo
+  combinatorial simulation plus a seeded clustered-group stress test:
+  `paper/scripts/frozen_candidate_coverage_simulation.py`, tested in
+  `paper/scripts/test_frozen_candidate_coverage_simulation.py`.
+- The corollary is a direct consequence of `freeze_one_candidate_before_calibration`,
+  which was already implemented before this update; what was missing was the formal
+  statement that it closes the compiler-wide gap, not the mechanism itself.
+- The cross-repository time-forward extension (Phase 2 below) already runs with freezing
+  enabled and every sealed repository report shows exactly one candidate reaching
+  calibration, so its admissions carry the compiler-wide guarantee retroactively, without
+  rerunning anything.
+- The three primary GitHub families do **not** freeze — each mines two candidates that
+  both reach calibration, with the higher-removal survivor kept by dominance — so they
+  remain per-candidate certificates, honestly. Freezing trades that exploration away for
+  the guarantee; combining both is the open question `\cref{sec:extension}` now states
+  explicitly and `paper/supplementary/prospective-gate-frontier-protocol.md`
+  (pre-registered, **not executed**) is designed to eventually test.
+- A new integration test
+  (`tests/integration/test_end_to_end.py::test_freeze_one_candidate_stops_at_the_first_retirement_too`)
+  forces the adverse branch — the frozen candidate retires rather than admits — and checks
+  the search still stops after exactly one candidate reaches calibration, which is the
+  algorithmic premise the corollary's proof depends on.
+
+This does not move item 4 (the exact-`.05` gate still lacks a non-degenerate frontier) or
+item 1/2 below; the prospective protocol above is aimed at item 4 but is explicitly unrun.
+
 What is **not** solved yet:
 
 1. The new cross-repo task is still simplified relative to the richer workflow families.
 2. Manual authoring / maintenance cost is still unmeasured.
-3. Compiler-wide multiplicity control is still not implemented.
+3. ~~Compiler-wide multiplicity control is still not implemented.~~ Implemented and proved
+   for frozen searches (above); unrestricted multi-candidate searches, including the three
+   primary GitHub families, remain per-candidate by design, not by omission.
 4. The exact-`.05` gate still lacks a non-degenerate current frontier even after the
-   new analysis; the audit clarifies the problem but does not solve it.
+   new analysis; the audit clarifies the problem but does not solve it. A pre-registered,
+   not-yet-run protocol for closing this is now committed (above).
 
 The balanced rerun changes the score ceiling in one important way: the strongest
 cross-repository negative is no longer "the learned artifact cannot cover open PRs" or

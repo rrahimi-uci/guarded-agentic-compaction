@@ -25,11 +25,58 @@ target in \cref{eq:objective}, including the threshold returned by
 
 Two scope conditions are worth restating. First, the statement is
 \emph{per fixed candidate}: \cref{alg:compile} may calibrate several families
-and retain survivors, and that outer search is not multiplicity-corrected.
-Second, i.i.d.\ source groups is an assumption about
-the calibration cohort, not a property the compiler verifies; the grouped split
-in \cref{alg:compile} makes it plausible by construction but does not establish
-it under temporal drift.
+and retain survivors, and that outer search is not multiplicity-corrected ---
+except when the search is frozen, per the corollary below. Second, i.i.d.\
+source groups is an assumption about the calibration cohort, not a property
+the compiler verifies; the grouped split in \cref{alg:compile} makes it
+plausible by construction but does not establish it under temporal drift.
+
+\begin{corollary}[Compiler-wide guarantee under frozen selection]
+\label{cor:frozen}
+If \cref{alg:compile} runs with candidate freezing enabled --- ranking on train
+data, synthesizing and challenging on train and development windows only, and
+halting the search the instant any candidate reaches calibration, whatever its
+outcome --- \cref{prop:admission}'s guarantee holds for the run's actual
+reported output with no adjustment to $\gamma=\delta/|\Lambda|$: no candidate
+multiplicity remains to correct for.
+\end{corollary}
+\begin{proof}
+Ranking, synthesis, the challenge test, and the frozen score model $q$ are all
+functions of train and development windows alone, fixed before a single
+calibration window is inspected. The search reaches calibration for the
+top-ranked surviving candidate exactly once and halts immediately after that
+candidate's outcome, so no second candidate's program, guard, verifier, or
+score model is ever compared against calibration data.
+\Cref{prop:admission}'s precondition --- one candidate fixed before observing
+calibration --- is met by the run's entire search, not by a hypothetical
+single-candidate sub-procedure, so its conclusion transfers unchanged.
+$\qquad\blacksquare$
+\end{proof}
+This is a corollary, not a new inequality: it is a restatement of
+\cref{prop:admission} for a search that never lets a second candidate see
+calibration data. It is not hypothetical: the cross-repository extension
+already runs with freezing enabled, and every sealed repository report there
+shows exactly one candidate reaching calibration, so \cref{cor:frozen} applies
+to those admissions directly. The three primary GitHub families do not use it
+--- each mines two candidates that both reach calibration, with the
+higher-removal survivor kept by dominance --- so they remain the per-candidate
+certificates above and are not retroactively strengthened.
+\code{paper/scripts/frozen\_candidate\_coverage\_simulation.py} backs this with
+an exact (non-Monte-Carlo) combinatorial check: at $n=92$, the population rate
+maximizing a single candidate's miscoverage is $r^\star\!\approx\!0.637$ at
+miscoverage $\approx\!0.00909\!\approx\!\gamma$; pooling $m$ such candidates at
+the same per-candidate budget with no correction lets the probability that
+\emph{some} certificate is wrong grow with $m$ (1.8\% at $m=2$ to 13.6\% at
+$m=16$, crossing $\delta=.10$ past the eleven-point grid), while the
+Bonferroni correction already discussed keeps every tested $m$ under 1\%, at
+the group cost this appendix already reports (106 at $m=2$, recomputed here
+independently). A companion seeded Monte Carlo check (seed \code{20260822},
+$M{=}200{,}000$) draws the 92 groups in correlated blocks instead of i.i.d.\ and
+finds realized miscoverage matches the exact baseline at zero correlation but
+reaches 56\% against a 0.9\% nominal budget at the most clustered
+configuration tested, quantifying rather than only asserting why the live
+studies' \code{min\_days}=\code{min\_principals}=1 configuration is this
+guarantee's weakest link.
 
 \section{Additional Algorithms}
 \label{app:algorithms}
@@ -419,7 +466,9 @@ mined family happens to have the deepest support.
 savings. The current empirical gate does not yet demonstrate a useful
 risk--coverage frontier at the registered 5\% level. The strongest current runs are mostly
 all-or-none support tests (\cref{fig:gate-support}), and the compiler-wide
-candidate-search problem is not yet multiplicity-corrected. Likewise, exact task
+candidate-search problem is multiplicity-corrected only when the search is
+frozen (\cref{cor:frozen}); the primary families' dominance search over two
+candidates is not. Likewise, exact task
 contracts do not certify full semantic equivalence of the final answer,
 especially once a downstream model continuation is involved. Two further
 operational caveats belong in the record: the headline live artifact was
@@ -428,3 +477,43 @@ compiled without a sandbox available to the perturbation suite, so it records
 registry signature verification was configured off in the reported run. These
 are not hidden defects in the repository; they are the reasons the paper avoids
 stronger deployment claims.
+
+\section{Prospective Gate-Frontier Protocol}
+\label{app:prospective}
+
+\code{paper/supplementary/prospective-gate-frontier-protocol.md} pre-registers,
+but does not run, the experiment that could turn \cref{sec:discussion}'s
+step-like gate into a genuine risk--coverage frontier. \textbf{Status: PRE-REGISTERED,
+NOT EXECUTED.} No repository beyond what this paper already reports has been
+acquired under it, no provider call has been made, and no held-out case has
+been selected; this appendix summarizes the committed design so it cannot be
+revised in light of results it does not yet have.
+
+\textbf{Cohort.} At least three repositories or domains, extending the
+provider-free \code{github\_multirepo\_preflight.py} harness, with at least 300
+sealed held-out paired cases (zero compiled-only failures in 300 gives a
+one-sided 95\% upper bound near 1\%, well below the current small-cohort
+bounds), reported pooled and per-repository. \textbf{Compilation} freezes
+candidate selection throughout, so any admitted gate inherits
+\cref{cor:frozen} rather than a per-candidate certificate. \textbf{Three arms}
+compared under identical records, model, cache policy, and ordering: the
+unchanged agent, the learned gate of \cref{sec:problem}, and a support-only
+frequency gate. \textbf{At least three distinct nonzero coverage levels} must
+be observed for the learned gate, which requires a cohort deliberately
+including record classes expected to sit at different points on a
+certification-difficulty gradient, not two endpoints from a homogeneous task.
+Thresholds, features, splits, hypotheses, and the stopping rule are fixed and
+hashed before acquisition.
+
+\textbf{Decision rule.} A frontier with wrong-dispatch at or below the
+registered bound at every level, dominating the support-only gate at matched
+coverage, is the predicted positive outcome. A gate that stays step-like while
+the support-only comparator does not (or vice versa) is a reported negative for
+the learned score specifically. Any held-out wrong dispatch on either gate is
+an adverse finding reported in full, ahead of every other reading. Two
+extensions are named and explicitly deferred pending their own feasibility
+bar: model/provider breadth, and an executable workflow-compiler comparator
+(AWO is the closest published candidate), run only if it can match records,
+model, execution placement, overhead accounting, cache policy, and grading
+without hand-waving --- a forced comparator would weaken the paper more than
+omitting one.

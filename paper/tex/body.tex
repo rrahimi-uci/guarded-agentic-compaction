@@ -908,6 +908,88 @@ as a caveat beside it.
   \label{fig:scope-fence}
 \end{figure}
 
+The fence has a gate, and the compiler already ships it: \code{GrcConfig}'s
+\code{freeze\_one\_candidate\_before\_calibration} flag ranks families on train data,
+synthesizes and challenges each on train and development windows only, and halts the
+search the instant any candidate reaches the calibration stage --- admitted, retired, or
+lacking calibration groups --- without ever evaluating a second candidate against
+calibration windows.  That is precisely \cref{prop:admission}'s hypothesis, applied to the
+compiler's entire search rather than to a single candidate assumed fixed in advance.
+
+\begin{corollary}[Compiler-wide guarantee under frozen selection]
+\label{cor:frozen}
+\small
+If \cref{alg:compile} runs with \code{freeze\_one\_candidate\_before\_calibration} enabled,
+\cref{prop:admission}'s guarantee holds for the compiler's actual reported output with no
+adjustment to $\gamma=\delta/|\Lambda|$: no Bonferroni correction over candidates is
+needed, because the run leaves no candidate multiplicity to correct for.
+\end{corollary}
+
+\begin{proof}
+By construction, family ranking is a function of train windows alone; synthesis and the
+challenge test are functions of train and development windows alone; and the frozen score
+model $q$ is fit on development samples before a single calibration window is inspected.
+The search reaches the calibration stage for the top-ranked surviving candidate exactly
+once and halts immediately after that candidate's outcome --- admission, retirement for
+want of an admissible threshold, or absence of calibration groups --- with no other
+candidate's program, guard, verifier, or score model ever compared against a calibration
+window.  \Cref{prop:admission}'s precondition, ``fix one candidate\ldots before observing
+calibration,'' is therefore satisfied by the run's entire candidate search, not by a
+hypothetical single-candidate sub-procedure, so its conclusion transfers unchanged.
+\end{proof}
+
+\Cref{cor:frozen} is a corollary, not a new inequality: every bit of its statistical
+content is \cref{prop:admission}'s, restated for a search that never lets a second
+candidate see calibration data.  It is also not hypothetical here.  The cross-repository
+extension of \cref{sec:multirepo-method} already runs with freezing enabled, and every
+sealed repository report there shows exactly one candidate reaching calibration, so
+\cref{cor:frozen} applies to those admissions directly.  The three primary GitHub
+families do not: each mines two candidates that both reach calibration, and the
+higher-removal survivor is kept by dominance, so they remain the per-candidate
+certificates \cref{prop:admission} was always scoped to and are not retroactively
+strengthened by this corollary.
+
+A provider-free simulation
+(\path{frozen_candidate_coverage_simulation.py}) quantifies exactly what
+freezing buys and what an uncorrected search would spend.  Its first part is
+exact combinatorics, not Monte Carlo: for $n=92$ calibration groups it locates the
+population violation rate that maximizes a single candidate's Clopper--Pearson
+miscoverage probability ($r^\star\approx0.637$, miscoverage $\approx0.00909$, matching
+$\gamma=\delta/|\Lambda|$ to four digits, which is the guarantee's own defining property
+rather than a new fact) and then asks what happens if $m$ such candidates are each
+calibrated independently at that same per-candidate budget with no correction.
+\Cref{tab:frozen-simulation} shows the consequence: the union probability that
+\emph{some} reported certificate is wrong grows with $m$, crossing the registered
+$\delta=.10$ once $m$ exceeds the eleven-point grid it shares the budget with, while the
+Bonferroni correction already stated above holds every tested $m$ under $1\%$ at the
+published cost in admitted groups.  The same script independently recomputes the $m=1$
+and $m=2$ group requirements (92 and 106) from this combinatorial argument, matching the
+figures already reported above rather than merely restating them.\appendixonly{  The same
+92-and-106 pair is also recorded in the admission register of \cref{app:audit}.}
+
+\begin{table*}[t]
+  \centering
+  \caption{Exact miscoverage under an uncorrected versus Bonferroni-corrected
+  $m$-candidate search, at the population rate $r^\star\approx0.637$ that maximizes a
+  single candidate's Clopper--Pearson miscoverage at $n=92$.  ``Groups required'' is the
+  zero-violation admission count the correction demands at that $m$.}
+  \label{tab:frozen-simulation}
+  \small
+  \resizebox{0.7\textwidth}{!}{\input{../tables/frozen_candidate_simulation.tex}}
+\end{table*}
+
+Its second part is a seeded Monte
+Carlo stress test ($M=200{,}000$ replicates, seed \texttt{20260822}) of exactly the
+independence caveat below: at zero within-block correlation realized miscoverage matches
+the exact baseline, but drawing the 92 groups in two 46-group blocks that each carry a
+$0.30$ elevated violation rate with probability $0.25$ pushes realized miscoverage on the
+population's marginal rate to $56\%$ against a $0.9\%$ nominal budget, while milder
+clustering at the same shift probability but a smaller shift leaves it unmeasurable over
+that many replicates.  The magnitude is a property of the stress configuration chosen for
+contrast, not a measurement of the live studies' true correlation structure, which remains
+unknown; what it establishes is that the independence assumption is load-bearing by a wide
+margin once records are drawn correlated rather than merely once, not only in principle.
+
 \noindent The guarantee concerns disagreement with the induced verifier $V$, not semantic
 task error.  It also requires independent group indicators, no distribution shift, and a
 candidate fixed relative to calibration; clustered data or adaptive candidate/artifact
@@ -917,7 +999,9 @@ and it is worth naming here rather than only in \cref{sec:limits}: the live stud
 so a ``group'' is one record from one project at one instant.  Records drawn that way share
 a repository, a schema, an author community, and a period, and nothing in the calibration
 establishes that their violation indicators are independent.  The bound is therefore
-conditional on a sampling assumption the snapshot cannot verify.  For one fixed candidate,
+conditional on a sampling assumption the snapshot cannot verify, and the clustered-group
+simulation above quantifies rather than only asserts how far a bound can drift once that
+assumption fails.  For one fixed candidate,
 with $\alpha=.05$, $\delta=.10$, $|\Lambda|=11$, and zero violations, 92 admitted groups
 are required.  A single precommitted threshold would require 45, so the
 NESTFUL refusal is specific to the declared grid and risk configuration, not an intrinsic
@@ -1332,10 +1416,11 @@ earlier paper cohorts, seals 116 older discovery pull requests, and selects a ba
 30-record held-out cohort whose timestamps are strictly newer.  The complete preflight
 supports 150 held-out pairs across the five repositories.  Discovery then runs with the
 same provider, SDK, and model configuration as the earlier GitHub studies.  Compilation
-freezes one candidate before calibration, uses 16 train, 8 development, and 92
-calibration traces, and compares unchanged, compiled, and a fixed two-read template
-pre-model baseline on held-out records.  Repositories with no admitted artifact are
-retained as fail-closed negatives rather than dropped.
+freezes one candidate before calibration --- so any admitted artifact here carries
+\cref{cor:frozen}'s compiler-wide guarantee, not only the per-candidate one --- uses 16
+train, 8 development, and 92 calibration traces, and compares unchanged, compiled, and a
+fixed two-read template pre-model baseline on held-out records.  Repositories with no
+admitted artifact are retained as fail-closed negatives rather than dropped.
 
 Because that first five-repository cohort is class-skewed on some mirrors, we also run a
 balanced rerun on the three repositories with enough older records to satisfy the exact
@@ -2681,13 +2766,40 @@ always-compile, cache-only, FlowCompile-style configuration selection, and a lea
 contextual policy.  Only then can the central selection claim be stronger than ``the pilot
 correctly chose the already stronger macro.''
 
-One further question is structural rather than empirical.  \Cref{sec:limits} shows that the
-per-candidate bound does not compose: the compiler searches candidate families, but the
-guarantee is stated for one fixed candidate, and a two-candidate correction already moves
-the requirement from 92 to 106 zero-violation groups.  Whether familywise risk can be
-allocated across the artifacts a compiler actually produces without making the data
-requirement prohibitive is the open problem that most limits what this method can claim,
-and it is not answered here.
+One further question is structural rather than empirical, and \cref{cor:frozen} answers
+half of it.  \Cref{sec:limits} shows that the per-candidate bound does not compose: the
+compiler searches candidate families, but the guarantee is stated for one fixed candidate,
+and a two-candidate correction already moves the requirement from 92 to 106 zero-violation
+groups.  Freezing selection before calibration closes that gap exactly, at the cost of
+never exploring a second candidate once the first reaches calibration --- which is why the
+primary GitHub families, whose dominance search keeps the higher-removal survivor of two
+admitted candidates, do not use it.  What remains open is a procedure that keeps that
+exploration --- letting several candidates compete for admission and retaining the best ---
+while still pricing the search at a compiler-wide $\delta$, rather than trading exploration
+away for the guarantee or paying the full Bonferroni cost for every family a workload
+happens to produce.
+
+\subsubsection{A prospective gate-frontier protocol, pre-registered and not yet run}
+\label{sec:prospective-frontier}
+
+Five of six live gates in this paper admit all or none, so no registered $\alpha=.05$
+result yet shows a genuine risk--coverage frontier rather than a support threshold
+(\cref{sec:limits}).  Closing that gap needs new evidence, not new arithmetic, so we
+commit the design before spending on it.
+\code{paper/supplementary/prospective-gate-frontier-protocol.md} pre-registers a
+time-forward cohort across at least three repositories or domains, at least 300 sealed
+held-out paired cases (chosen so that zero compiled-only failures give a one-sided upper
+bound near 1\%, well below the current small-cohort bounds), and three arms compared
+under identical records, model, cache policy, and ordering: the unchanged agent, the
+learned gate of \cref{sec:problem}, and a support-only frequency gate.  Compilation uses
+frozen candidate selection throughout, so any admitted gate there inherits
+\cref{cor:frozen} rather than a per-candidate certificate.  Thresholds, features, splits,
+hypotheses, and stopping rules are fixed and hashed before acquisition; the protocol also
+states, and defers, a model/provider breadth plan and the feasibility bar an executable
+workflow-compiler comparator would have to clear before being run at all.  The document
+is committed \emph{unexecuted}: no repository or provider has been acquired under it, and
+this paper reports no result from it.  It exists so that if the evidence is gathered, the
+design cannot be revised in light of what it shows.
 
 \section{Limitations and Threats to Validity}
 \label{sec:limits}
