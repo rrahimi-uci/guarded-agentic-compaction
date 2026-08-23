@@ -1296,8 +1296,8 @@ def validate_claim_boundaries() -> None:
     ok("compile-or-retire" in abstract.lower()
        and re.search(r"falls back to the\s+unchanged agent", abstract.lower()) is not None,
        "abstract scopes compiler admission as compile-or-retain")
-    ok("recurrence, replay, and workflow-induction signals" in abstract.lower()
-       and "do not establish that replacing the model is safe" in abstract.lower(),
+    ok("repetition alone does not make this safe" in abstract.lower()
+       and "recurrence identifies an opportunity" in abstract.lower(),
        "abstract states the central evidence boundary")
     ok("portfolio optimization beyond the pilot" in body.lower(),
        "body distinguishes the implemented pilot from extension work")
