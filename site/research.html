@@ -90,6 +90,21 @@
         <p>A balanced rerun asks whether that open-only fallback is intrinsic. On the three repositories with enough class support for a balanced strict time-forward split (<code>pandas-dev/pandas</code>, <code>psf/requests</code>, <code>pytorch/pytorch</code>), a round-robin preflight seals 120 discovery and 60 held-out pull requests per repository, evenly split across open, merged, and <code>closed_unmerged</code>. All three admit the same two-read artifact, it compacts all 180 held-out records, and the verifier's <code>pr.state</code> hull contains both open and closed everywhere. The earlier fallback pattern and the <code>pytorch/pytorch</code> retirement are properties of the original frozen cohort design, not limits of the guarded runtime.</p>
         <div class="callout callout-warn"><p><strong>What this does and does not add.</strong> The extension strengthens cross-repository, time-forward evidence for a two-read task. It does not widen the task: both cohorts remain narrower than the three-tool workflow-family studies, so full-workflow generalization is still unestablished.</p></div>
 
+        <h2 id="gate-frontier">Prospective gate-frontier study: the pre-declared null</h2>
+        <p>Every registered <code>alpha=.05</code> gate this paper reports is a step function, so a pre-registered protocol committed a design — before any evidence existed for it — to test that at scale: the same five repositories above, 116 discovery and 60 held-out cases each, three arms compared under identical records, model, cache policy, and ordering. The third arm, a support-only comparator, is operationalized as <code>alpha=1</code> in an otherwise byte-for-byte identical compile pass — same mining, synthesis, challenge, and frozen-candidate selection — so it isolates the risk budget specifically rather than testing a different mechanism.</p>
+        <p>Four repositories admit a candidate and complete 240 of the pre-registered 300 held-out pairs (580/580 exact discovery traces); <code>pytorch/pytorch</code> again retires at compile time, reproducing — on an independent, five-times-larger cohort — the same repository's retirement above rather than revealing a new failure mode. On those 240 pairs the learned gate and the support-only gate are statistically indistinguishable on every efficiency metric, because every admitting repository deploys the identical coverage-1.0 threshold.</p>
+        <div class="table-scroll"><table class="evidence-table">
+          <thead><tr><th>Repository</th><th>Held-out</th><th>Exact</th><th>Nonzero coverage in sweep</th><th>Admitted</th></tr></thead>
+          <tbody>
+            <tr><td>huggingface/datasets</td><td>60</td><td>60/60</td><td>0.1087 (upper .375, rejected), 1.0</td><td>1.0</td></tr>
+            <tr><td>pandas-dev/pandas</td><td>60</td><td>60/60</td><td>1.0</td><td>1.0</td></tr>
+            <tr><td>psf/requests</td><td>60</td><td>59/60</td><td>1.0</td><td>1.0</td></tr>
+            <tr><td>streamlit/streamlit</td><td>60</td><td>60/60</td><td>1.0</td><td>1.0</td></tr>
+            <tr><td>pytorch/pytorch</td><td>—</td><td>retire</td><td>none (upper 1.0 at every threshold)</td><td>—</td></tr>
+          </tbody>
+        </table></div>
+        <div class="callout callout-warn"><p><strong>This is the pre-declared null, not a frontier.</strong> Reading every point the frozen threshold grid produces, not just the selected one: three of four repositories show a pure two-value step; the fourth's one intermediate value has an exact upper bound (.375) far above the registered budget and is never admissible. No held-out wrong dispatch occurred on either gate. At four times the prior cross-repository scale, against a comparator built to isolate exactly the mechanism in question, the exact-<code>alpha=.05</code> gate remains a support threshold — this confirms, rather than resolves, the step-gate finding below.</p></div>
+
         <h2 id="depth">Compilation depth is a safety variable</h2>
         <p>An earlier aggressive three-read artifact reduces provider requests by 75%, but records one compiler-only factual miss: 17/18 exact versus 18/18 for unchanged and macro. Clean tool replay therefore does not certify the model continuation. A provider-free continuation checker later detects and repairs that retained miss, but it is not a prospective live safety result.</p>
 
@@ -118,7 +133,7 @@
 
         <h2 id="statistics">Statistical interpretation</h2>
         <p>Efficiency comparisons are paired by issue. The artifacts report 10,000-sample paired bootstrap intervals and two-sided Wilcoxon signed-rank tests; binary quality uses exact McNemar tests. These secondary tests are descriptive and unadjusted. Zero observed failures is not equivalence: 0/30 still gives a one-sided 95% upper failure bound of approximately 9.5%.</p>
-        <div class="callout callout-warn"><p><strong>The gate did not demonstrate a risk–coverage frontier.</strong> Its score is effectively all-or-none because development contains no unproductive examples. The current evidence demonstrates sample-size refusal and admission mechanics, not selective discrimination among future inputs.</p></div>
+        <div class="callout callout-warn"><p><strong>The gate did not demonstrate a risk–coverage frontier.</strong> Its score is effectively all-or-none because development contains no unproductive examples. The current evidence demonstrates sample-size refusal and admission mechanics, not selective discrimination among future inputs. This is no longer only an under-tested limitation: the <a href="#gate-frontier">gate-frontier study above</a> ran a purpose-built, statistically matched comparator at four times the prior cross-repository scale specifically to check it, and confirms the same finding rather than resolving it.</p></div>
 
         <h2 id="reproduce">Reproducibility</h2>
         <p>All quantitative tables and figures are regenerated from sealed JSON/CSV artifacts. Dataset revisions, source trees, checksums, task splits, native trace identifiers, model versions, and price assumptions are retained. The core verification path makes no provider calls.</p>
@@ -129,7 +144,7 @@
         <p>Exact commands for the external benchmark paths are in the <a href="https://github.com/rrahimi-uci/guarded-agentic-compaction/blob/main/paper/supplementary/external-benchmark-audit.md">benchmark audit</a>. The <a href="https://github.com/rrahimi-uci/guarded-agentic-compaction/blob/main/paper/supplementary/experiment-verification.md">experiment verification report</a> records the independent consistency checks and residual threats.</p>
       </article>
       <aside class="toc"><strong>On this page</strong><ul>
-        <li><a href="#design">Design</a></li><li><a href="#primary">Primary result</a></li><li><a href="#extension">Cross-repository</a></li><li><a href="#depth">Depth failure</a></li>
+        <li><a href="#design">Design</a></li><li><a href="#primary">Primary result</a></li><li><a href="#extension">Cross-repository</a></li><li><a href="#gate-frontier">Gate frontier</a></li><li><a href="#depth">Depth failure</a></li>
         <li><a href="#gcs">GCS and baselines</a></li><li><a href="#benchmarks">Benchmark audit</a></li>
         <li><a href="#statistics">Statistics</a></li><li><a href="#reproduce">Reproduce</a></li>
       </ul></aside>

@@ -1,5 +1,37 @@
 # GAC 90+ Main-Track Readiness Plan
 
+## Update (2026-08-22, latest): prospective gate-frontier study executed — the null
+
+The design resolved and sealed in the update directly below has now been run on four of
+five repositories: 240 of the pre-registered 300 pooled held-out pairs, at a real cost of
+$0.41. `pytorch/pytorch` retires at compile time — the same repository and the same kind
+of outcome `github_multirepo_pr_outcome_core.py`'s own smaller cohort already reports, not
+a new failure. Full account: `prospective-gate-frontier-protocol.md`'s "Observed results"
+section; manuscript integration: `paper/tex/body.tex`'s "prospective gate-frontier
+protocol" subsection and `paper/ICLR/appendix.tex`'s "Prospective Gate-Frontier Protocol"
+section.
+
+**The result is the pre-declared null, not the pre-declared positive.** The learned gate
+and a support-only comparator ($\alpha=1$, otherwise byte-for-byte identical) are
+statistically indistinguishable on every metric, and neither produces graded coverage:
+every admitting repository deploys the identical coverage-1.0 threshold. One repository's
+raw calibration sweep shows a third value (coverage 0.1087 at `huggingface/datasets`), but
+its exact upper bound (.375) is far above the registered budget and it is never
+admissible. This is the fourth outcome named in the protocol's own decision rule
+("neither gate produces graded coverage... report the null"), reported as such.
+
+**What this changes on the score levers table below:** "Experimental rigor" moves --
+this is the paper's first live-provider test of a genuine second gate operationalization
+against the registered budget, at four times the prior cross-repository scale, and it is
+retained as a negative result rather than omitted. "Technical soundness" does not move on
+the gate-maturity axis specifically: hard-stop condition 2 ("a non-degenerate risk-coverage
+frontier... or the paper permanently narrows its claim to an exact support-threshold
+gate") is now answered, and the answer this evidence supports is the second branch, not
+the first. That is a resolved question, not an open one, but it resolves toward the
+narrower claim the paper already carries throughout, not toward a stronger one. See the
+re-score in `GAC_paper_review.md`'s next revision (that file remains stale as of this
+update and is flagged for a refresh separately from this run).
+
 ## Update (2026-08-22, later): prospective gate-frontier design resolved and sealed
 
 Item 4 in the 2026-08-22 update above ("the exact-`.05` gate still lacks a non-degenerate
@@ -467,6 +499,15 @@ Every iteration must re-check all of the following:
 | Phase 1 only | 88-89 |
 | Phase 2 preflight without paid runs | 88-89 |
 | Phase 2 + Phase 3 + strong paid evidence | 90-92 |
+
+This row predates the corollary, AppWorld, Headroom, the pilot, the AWO spike, and the
+gate-frontier study above; it is left as historical record rather than edited, since this
+file's own convention is to append updates, not rewrite earlier milestones. `GAC_paper_review.md`
+(overall 94/100, itself dated before this entire run of updates) is the more recent
+formal baseline, and it is now also stale relative to everything through the gate-frontier
+study's null result. Neither number should be quoted as current without a fresh pass; see
+the 2026-08-22 conversational re-score delivered alongside this update for the reasoning
+a refreshed `GAC_paper_review.md` would need to formalize.
 
 ## Recommended next step
 

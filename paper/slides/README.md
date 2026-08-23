@@ -68,6 +68,21 @@ The Headroom result is a post-generation, one-box update to the workflow-family 
 It asserts the inherited text before replacing it, updates the slide-generation record, and
 does not alter the slide's chart or geometry.
 
+The prospective gate-frontier study's null result is the same kind of post-generation,
+one-box update, applied to the limitations slide's "The gate never discriminated" claim:
+
+```bash
+.venv/bin/python paper/scripts/refresh_gate_frontier_slide.py
+```
+
+It follows the Headroom script's pattern exactly, including keeping `generate_slides.mjs`'s
+own embedded `evidence_boundary` literal in sync with the manifest — `validate_artifacts.py`
+asserts the two match verbatim, so a refresh that only edited the manifest would pass once
+and then fail on every later validation run. The replacement text was length-checked against
+the shape's extent (2954426x1371600 EMU, a 10.5pt run) rather than by opening the deck, the
+same discipline slide 12 and 13's coordinates were checked under; **open the deck once before
+presenting it.**
+
 ## Resynchronizing coordinates after a manuscript change
 
 Each slide's eyebrow names the section, figure, table, or algorithm that slide answers, and
