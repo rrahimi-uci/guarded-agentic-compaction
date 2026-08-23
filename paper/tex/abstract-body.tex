@@ -10,17 +10,25 @@ that converts recurrent execution paths into deterministic programs only when th
 supports it. \method grounds every tool argument in the task input or a prior tool result,
 treats writes, approvals, handoffs, and unknown effects as hard barriers, protects
 compiled execution with input, output, and environment guards, and requires a
-finite-sample risk test before deployment. If any requirement fails, \method keeps the
-largest justified prefix when possible, or falls back to the unchanged agent.
+finite-sample risk test before deployment. Admission depends jointly on a configured risk
+bound and the statistical confidence supported by the available traces. If any requirement
+fails, \method keeps the largest justified prefix when possible, or falls back to the
+unchanged agent.
 
 Across three live GitHub workflow families and 90 unseen test cases, \method satisfies the
 exact task requirements on all 90 cases, compared with 89 of 90 for the unchanged agent,
 while reducing model requests by 66.6\%, tokens by 63.1\%, latency by 64.2\%, and estimated
 cost by 58.7\%. A time-forward evaluation across five more repositories shows \method
 specializing four and refusing the fifth. Experiments on four public trace benchmarks
-further show recurrence and successful replay are not sufficient for specialization: three
-lack enough evidence to pass admission, while the fourth shows a compiled program can
-still be incompatible with a given agent architecture.
+further show that recurrence and successful replay are not sufficient for specialization.
+Under \method's default 0.05 risk bound and associated confidence requirement, NESTFUL,
+API-Bank, and BFCL do not provide sufficient qualifying recurrent evidence to establish
+that substitution risk is within the admissible bound, so \method conservatively declines
+specialization; relaxing the risk or confidence requirements can admit additional
+opportunities, making the trade-off between optimization coverage and substitution
+assurance explicit. The fourth benchmark demonstrates a distinct limitation: even when
+trace evidence supports compilation, the resulting deterministic program can remain
+incompatible with the target agent architecture.
 
 \method reframes optimization as evidence-gated specialization: compile only what is
 justified, and preserve the agent everywhere else.
