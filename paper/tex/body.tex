@@ -2855,41 +2855,36 @@ protocol above, using Markdown-link syntax specifically as the calibration featu
 claim that a frontier now exists.
 
 \paragraph{Observed results.}
-The sealed cohort (\path{preflight.json}, same directory as the results below) targets
-300 pooled held-out pairs across the same five repositories as
-\cref{sec:multirepo-results}, each with 116 discovery cases and 60 held-out cases under
-frozen-candidate selection.  Discovery reaches 580/580 exact traces (116/116 per
-repository).  Four repositories admit a candidate and complete 240 held-out triples under
-all three arms; the fifth, \code{pytorch/pytorch}, again retires at compile time --- the
-identical repository, under an independent five-times-larger cohort, reproduces the
-retirement \cref{sec:multirepo-results} already reports rather than revealing a
-data-availability artifact of the smaller cohort.  The pooled cohort therefore reaches
-240 of the pre-registered 300 pairs, short of the target for the reason just stated,
-reported here rather than concealed.
+Executed against all five repositories: four admit a candidate and complete 240 of the
+pre-registered 300 held-out triples (580/580 exact discovery traces); \code{pytorch/pytorch}
+again retires at compile time, reproducing --- on an independent, five-times-larger cohort
+--- the same repository's retirement in \cref{sec:multirepo-results} rather than revealing
+a new data-availability artifact.  \Cref{tab:gate-frontier} gives the per-repository
+account; the full numeric ledger is in
+\path{prospective-gate-frontier-protocol.md}.  On the 240 pairs, exact task contracts hold
+throughout (240/240, one transient provider timeout aside), and the learned gate and the
+support-only comparator --- $\alpha=1$ in an otherwise byte-for-byte identical compile
+pass, so only the risk budget differs --- are statistically indistinguishable on every
+efficiency metric (44--52\% reductions, both arms).  That is exactly what
+\cref{tab:gate-frontier}'s coverage column explains: every admitting repository deploys
+the identical coverage-1.0 threshold, and the one sweep that shows a third value
+(\code{huggingface/datasets}) rejects it on the risk bound, not on coverage.  No held-out
+wrong dispatch occurred on either gate.  Per the decision rule fixed in advance, this is
+the pre-declared null, not a frontier: at four times the prior cross-repository scale,
+against a comparator built to isolate the risk budget specifically, the
+exact-$\alpha=.05$ gate remains a support threshold.  This confirms, rather than
+resolves, the step-gate finding already reported above.
 
-On those 240 pairs, baseline, learned-gate, and support-only conditions all pass exact
-task contracts (240/240, 239/239 after one held-out record failed under a transient
-provider timeout independent of condition or repository).  Relative to baseline, the
-learned gate reduces provider requests 44.4\%, total tokens 52.3\%, observed wall latency
-51.0\%, and estimated cost 48.3\%; the support-only gate (\cref{sec:prospective-frontier}'s
-third arm, operationalized as $\alpha=1$ so mining, synthesis, challenge, and freezing
-stay byte-for-byte identical to the learned-gate pass and only the risk budget is
-removed) is statistically indistinguishable: 44.4\%, 52.4\%, 47.9\%, and 48.8\%.  Every
-admitting repository's own calibration sweep --- the full grid, not only the selected
-threshold --- is inspected directly rather than only the outcome: three of four
-(\code{pandas-dev/pandas}, \code{psf/requests}, \code{streamlit/streamlit}) accept zero
-calibration groups below $\eta=.11$ and all 92 at $\eta\ge.11$, a pure two-point step; the
-fourth, \code{huggingface/datasets}, additionally accepts 10 of 92 groups at
-$\eta\le.08$, but that point's exact upper bound (.375) exceeds the registered $\alpha=.05$
-budget and is never admissible, so the deployed threshold is the same coverage-1.0 point
-as the other three.  No repository, under either gate, ever deploys at an intermediate
-admissible coverage.  Per the decision rule fixed in advance, this is the fourth listed
-outcome: neither gate produces graded coverage on this cohort, so the null is reported
-rather than a manufactured frontier.  This strengthens, rather than resolves, the
-paper's existing step-gate finding: at four times the previous cross-repository scale,
-under a genuinely alternative comparator that shares every statistical mechanism except
-the risk budget, the exact-$\alpha=.05$ gate remains a support threshold, not a
-demonstrated risk--coverage frontier.
+\begin{table}[t]
+  \centering
+  \caption{Gate-frontier study outcomes by repository. ``Nonzero coverage in sweep''
+  lists every value the frozen $\Lambda$ grid produces for the learned gate before
+  threshold selection; the support-only ablation ($\alpha=1$) produces the identical
+  sweep and admission on every repository.}
+  \label{tab:gate-frontier}
+  \footnotesize
+  \resizebox{\columnwidth}{!}{\input{../tables/gate_frontier_results.tex}}
+\end{table}
 
 \section{Limitations and Threats to Validity}
 \label{sec:limits}

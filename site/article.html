@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="The full article: a trace-to-program compiler that reconstructs typed provenance, rejects unsafe effects, synthesizes from a closed operator language, and admits a guarded program only under an exact finite-sample risk bound.">
-  <meta name="gac-article-sources" content="b41f82aec862f931007ea38f82014b1a67dc4f8fda3d462b43a6b9891f6b3db6">
+  <meta name="gac-article-sources" content="7533621eaf457ad38f75af18ab2791db9aa36f480dc9f1018002fc0b1e3cedad">
   <title>From Traces to Guarded Programs: Evidence-Gated Compilation of Recurrent Agent Workflows &mdash; Guarded Agentic Compaction</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/css/styles.css"><script defer src="assets/js/site.js"></script>
@@ -1745,8 +1745,64 @@
 <p>The comparator feasibility bar has been checked, and it returns no-go rather than open (): AWO <span class="citation" data-cites="abuzakuk2026awo">(Abuzakuk et al. 2026)</span>, the closest published candidate, has no confirmed public implementation to build against, so a from-scratch reimplementation could not be verified to match the system it claims to compare against. Building one anyway is exactly the “forced or mismatched comparator” this protocol already declines in advance; the gate is exercised, not skipped, and the workstream closes on that finding rather than on a fabricated baseline.</p>
 <p>A cheap, live pilot for that study now exists (), run before committing the full budget rather than after, on 90 records stratified by whether an issue’s evidence comments contain a Markdown-style link — the one mechanism this codebase has on record for a compiled artifact’s returned excerpt to diverge from its source, having already caused one recorded violation. The pilot’s own held-out records reproduce that mechanism twice more: violations concentrate in the Markdown-link stratum (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mi>/</mi><mn>60</mn></mrow><annotation encoding="application/x-tex">4/60</annotation></semantics></math> against <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mi>/</mi><mn>60</mn></mrow><annotation encoding="application/x-tex">0/60</annotation></semantics></math> in the matched baseline stratum, one-sided <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>.059</mn></mrow><annotation encoding="application/x-tex">p=.059</annotation></semantics></math>, short of significance at this sample size) while a plain nearby URL predicts nothing (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>60</mn></mrow><annotation encoding="application/x-tex">1/60</annotation></semantics></math>, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>.50</mn></mrow><annotation encoding="application/x-tex">p=.50</annotation></semantics></math>), refining rather than confirming the original two-feature hypothesis. One issue failed under both the unchanged agent and the compiled artifact independently, which is stronger evidence that the record itself is hard than that either arm is. This is a weak go signal for the full protocol above, using Markdown-link syntax specifically as the calibration feature, not a claim that a frontier now exists.</p>
 <h5 id="observed-results.">Observed results.</h5>
-<p>The sealed cohort (, same directory as the results below) targets 300 pooled held-out pairs across the same five repositories as <a href="#sec:multirepo-results">section&nbsp;5.3.1</a>, each with 116 discovery cases and 60 held-out cases under frozen-candidate selection. Discovery reaches 580/580 exact traces (116/116 per repository). Four repositories admit a candidate and complete 240 held-out triples under all three arms; the fifth, <code>pytorch/pytorch</code>, again retires at compile time — the identical repository, under an independent five-times-larger cohort, reproduces the retirement <a href="#sec:multirepo-results">section&nbsp;5.3.1</a> already reports rather than revealing a data-availability artifact of the smaller cohort. The pooled cohort therefore reaches 240 of the pre-registered 300 pairs, short of the target for the reason just stated, reported here rather than concealed.</p>
-<p>On those 240 pairs, baseline, learned-gate, and support-only conditions all pass exact task contracts (240/240, 239/239 after one held-out record failed under a transient provider timeout independent of condition or repository). Relative to baseline, the learned gate reduces provider requests 44.4%, total tokens 52.3%, observed wall latency 51.0%, and estimated cost 48.3%; the support-only gate (<a href="#sec:prospective-frontier">section&nbsp;7.3.1</a>’s third arm, operationalized as <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\alpha=1</annotation></semantics></math> so mining, synthesis, challenge, and freezing stay byte-for-byte identical to the learned-gate pass and only the risk budget is removed) is statistically indistinguishable: 44.4%, 52.4%, 47.9%, and 48.8%. Every admitting repository’s own calibration sweep — the full grid, not only the selected threshold — is inspected directly rather than only the outcome: three of four (<code>pandas-dev/pandas</code>, <code>psf/requests</code>, <code>streamlit/streamlit</code>) accept zero calibration groups below <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>η</mi><mo>=</mo><mn>.11</mn></mrow><annotation encoding="application/x-tex">\eta=.11</annotation></semantics></math> and all 92 at <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>η</mi><mo>≥</mo><mn>.11</mn></mrow><annotation encoding="application/x-tex">\eta\ge.11</annotation></semantics></math>, a pure two-point step; the fourth, <code>huggingface/datasets</code>, additionally accepts 10 of 92 groups at <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>η</mi><mo>≤</mo><mn>.08</mn></mrow><annotation encoding="application/x-tex">\eta\le.08</annotation></semantics></math>, but that point’s exact upper bound (.375) exceeds the registered <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>.05</mn></mrow><annotation encoding="application/x-tex">\alpha=.05</annotation></semantics></math> budget and is never admissible, so the deployed threshold is the same coverage-1.0 point as the other three. No repository, under either gate, ever deploys at an intermediate admissible coverage. Per the decision rule fixed in advance, this is the fourth listed outcome: neither gate produces graded coverage on this cohort, so the null is reported rather than a manufactured frontier. This strengthens, rather than resolves, the paper’s existing step-gate finding: at four times the previous cross-repository scale, under a genuinely alternative comparator that shares every statistical mechanism except the risk budget, the exact-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>.05</mn></mrow><annotation encoding="application/x-tex">\alpha=.05</annotation></semantics></math> gate remains a support threshold, not a demonstrated risk–coverage frontier.</p>
+<p>Executed against all five repositories: four admit a candidate and complete 240 of the pre-registered 300 held-out triples (580/580 exact discovery traces); <code>pytorch/pytorch</code> again retires at compile time, reproducing — on an independent, five-times-larger cohort — the same repository’s retirement in <a href="#sec:multirepo-results">section&nbsp;5.3.1</a> rather than revealing a new data-availability artifact. <a href="#tab:gate-frontier">Table&nbsp;19</a> gives the per-repository account; the full numeric ledger is in . On the 240 pairs, exact task contracts hold throughout (240/240, one transient provider timeout aside), and the learned gate and the support-only comparator — <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\alpha=1</annotation></semantics></math> in an otherwise byte-for-byte identical compile pass, so only the risk budget differs — are statistically indistinguishable on every efficiency metric (44–52% reductions, both arms). That is exactly what <a href="#tab:gate-frontier">table&nbsp;19</a>’s coverage column explains: every admitting repository deploys the identical coverage-1.0 threshold, and the one sweep that shows a third value (<code>huggingface/datasets</code>) rejects it on the risk bound, not on coverage. No held-out wrong dispatch occurred on either gate. Per the decision rule fixed in advance, this is the pre-declared null, not a frontier: at four times the prior cross-repository scale, against a comparator built to isolate the risk budget specifically, the exact-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>.05</mn></mrow><annotation encoding="application/x-tex">\alpha=.05</annotation></semantics></math> gate remains a support threshold. This confirms, rather than resolves, the step-gate finding already reported above.</p>
+<div class="table-scroll" id="tab:gate-frontier">
+<table class="evidence-table">
+<caption><span class="tab-number">Table 19.</span> Gate-frontier study outcomes by repository. “Nonzero coverage in sweep” lists every value the frozen <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Λ</mi><annotation encoding="application/x-tex">\Lambda</annotation></semantics></math> grid produces for the learned gate before threshold selection; the support-only ablation (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\alpha=1</annotation></semantics></math>) produces the identical sweep and admission on every repository.</caption>
+<thead>
+<tr>
+<th>Repository</th>
+<th class="num">Held-out</th>
+<th class="num">Exact</th>
+<th class="mid">Nonzero coverage in sweep</th>
+<th class="mid">Admitted</th>
+<th class="num">Req. <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>↓</mo><annotation encoding="application/x-tex">\downarrow</annotation></semantics></math></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>huggingface/datasets</td>
+<td class="num">60</td>
+<td class="num">60/60</td>
+<td class="mid">0.1087 (upper .375, rejected), 1.0</td>
+<td class="mid">1.0</td>
+<td class="num">44.4%</td>
+</tr>
+<tr>
+<td>pandas-dev/pandas</td>
+<td class="num">60</td>
+<td class="num">60/60</td>
+<td class="mid">1.0</td>
+<td class="mid">1.0</td>
+<td class="num">44.4%</td>
+</tr>
+<tr>
+<td>psf/requests</td>
+<td class="num">60</td>
+<td class="num">59/60</td>
+<td class="mid">1.0</td>
+<td class="mid">1.0</td>
+<td class="num">44.4%</td>
+</tr>
+<tr>
+<td>streamlit/streamlit</td>
+<td class="num">60</td>
+<td class="num">60/60</td>
+<td class="mid">1.0</td>
+<td class="mid">1.0</td>
+<td class="num">44.4%</td>
+</tr>
+<tr>
+<td>pytorch/pytorch</td>
+<td class="num">—</td>
+<td class="num"><span class="smallcaps">retire</span></td>
+<td class="mid">none (upper 1.0 at every <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>η</mi><annotation encoding="application/x-tex">\eta</annotation></semantics></math>)</td>
+<td class="mid">—</td>
+<td class="num">—</td>
+</tr>
+</tbody>
+</table>
+</div>
 <h2 id="sec:limits"><span class="sec-number">8</span> Limitations and Threats to Validity</h2>
 <p>The threats below are grouped by the kind of inference each one endangers, so that a reader can tell which results a given caveat actually touches. Each is stated at the strength the evidence forces, including the four that undercut a headline number.</p>
 <h3 id="sec:auto-17"><span class="sec-number">8.1</span> Internal validity</h3>
