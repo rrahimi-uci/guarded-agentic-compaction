@@ -12,32 +12,30 @@ retire when evidence is inadequate.
 multiplicity repair would raise their requirement further (\cref{app:config}).
 The gate is also empirically step-like at $n_\eta\ge 92$, AppWorld included: it
 \emph{refuses} correctly far better than $q$ \emph{discriminates}, and
-refitting $q$ for a genuine frontier is the key follow-up.  A pre-registered
-protocol for testing this at scale has since been partially executed
-(\cref{app:prospective}): across four repositories and 240 held-out triples,
-a support-only comparator that shares every statistical mechanism except the
-risk budget is indistinguishable from the learned gate, and neither produces
-graded coverage --- confirmation of the step-gate finding at four times the
-prior cross-repository scale, not yet its resolution.
+refitting $q$ for a genuine frontier is the key follow-up. A pre-registered
+protocol testing this at scale (\cref{app:prospective}) has since run across
+four repositories and 240 held-out triples: a support-only comparator sharing
+every mechanism but the risk budget is indistinguishable from the learned
+gate, and neither shows graded coverage --- confirming, not resolving, the
+step-gate finding at four times the prior scale.
 
 \paragraph{Group independence is assumed, not established.}
 \Cref{prop:admission} needs i.i.d.\ groups. Here each group is one record from
 one snapshot with \code{min\_days}=\code{min\_principals}=1, and AppWorld's
-task-level groups share a scenario's supervisor and database, so neither corpus
-establishes exchangeability and the second inherits the conditional rather than
-repairing it (\cref{app:limits}). The 8{,}190 released AppWorld trajectories also
-repeat tasks across models, architectures, and runs; their structural-eligibility
-rate is a descriptive deployment diagnostic, not an independent-sample estimate.
+task-level groups likewise share a scenario's supervisor and database, so
+neither corpus establishes exchangeability (\cref{app:limits}). The 8{,}190
+released AppWorld trajectories also repeat tasks across models and runs, so
+their structural-eligibility rate is descriptive, not an independent-sample
+estimate.
 
 \paragraph{External validity, dispatchability, and competitiveness.}
 The richer evidence comes from one revision-pinned repository and one
 provider/model family, and the cross-repository extension is a narrower,
-template-tied task. Admission is also not dispatchability: a prefix is only worth
+template-tied task. Admission is not dispatchability: a prefix is only worth
 compiling for an architecture that issues one, which neither
 \cref{prop:admission} nor the guard tests. We establish no superiority under
 drift or across providers and do not price manual authoring or maintenance,
-though a live compression-comparator ablation and a pre-registered
-drift-parity protocol narrow both gaps (\cref{app:limits}).
-Finally, exact task contracts do not certify a downstream model continuation, and
-writes, handoffs, hosted tools, undeclared effects, and removed-turn guardrails
-lie outside \cref{prop:admission} entirely (\cref{app:limits}).
+though appendix ablations narrow both gaps (\cref{app:limits}); exact task
+contracts also do not certify a downstream model continuation, and writes,
+handoffs, hosted tools, undeclared effects, and removed-turn guardrails lie
+outside \cref{prop:admission} entirely.

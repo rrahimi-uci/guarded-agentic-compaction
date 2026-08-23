@@ -90,9 +90,8 @@ with $n_B$ baseline model requests per episode, $\varphi$ the fraction of
 episodes holding an eligible region, $k$ the requests removed per successful
 dispatch, and $\rho$ the verifier pass rate. Since \cref{eq:ceiling} assumes
 $\rho=1$, no measured reduction can exceed it, and it is met with equality
-exactly when nothing abstains and nothing fails. Reporting it first makes a
-decisive negative answer cheap: a workload whose ceiling sits under the target
-can be declined without building a compiler for it.
+exactly when nothing abstains and nothing fails. Reporting it first lets a
+workload under the target be declined without building a compiler for it.
 
 \paragraph{4--5. Bounded synthesis and contracts.}
 Synthesis searches a 23-operator library at depth at most two, covering path
@@ -115,8 +114,7 @@ groups only --- never on calibration groups --- from entry-observable features
 such as missing fields, hull margin, temporal drift, and provenance ambiguity,
 then frozen together with the finite threshold grid
 $\Lambda=\{.02,.05,.08,.11,.14,.17,.20,.25,.30,.40,.50\}$. Two data signals do
-two different jobs here, and conflating them is the easiest way to misread the
-guarantee: $q$ is \emph{fitted} on development groups that turned out
+two different jobs here: $q$ is \emph{fitted} on development groups that turned out
 unproductive in any way --- wrong or abstained --- while the bound below is
 \emph{counted} only from groups that were dispatched and turned out wrong. For each
 $\eta\in\Lambda$ the compiler counts admitted calibration groups ($n_\eta$) and
