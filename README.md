@@ -92,9 +92,10 @@ different tool vocabulary and exact decision contract.
 | GCS vs provider-visible macro | 12/12 each; GCS uses one versus two requests | pre-model projection removes an interface request |
 | GCS vs fair pre-model manual | 6/6 each; tied requests, interfaces, and input tokens | automatic runtime superiority is not established |
 | Cross-repository, time-forward extension | 580/580 exact discovery traces over five frozen repositories; four complete 120/120 held-out pairs, `pytorch/pytorch` retires at compile time; a balanced rerun adds 360/360 discovery and 180/180 held-out on three repositories | the guarded lifecycle survives a new repository and a later window on an exact two-read task |
+| Prospective gate-frontier study | 240/300 pooled held-out pairs on four of five repositories (`pytorch/pytorch` retires, reproducing the finding above independently at 4x scale); a support-only comparator (`alpha=1`, otherwise byte-for-byte identical) is statistically indistinguishable from the learned gate on every metric | the exact `alpha=.05` gate remains a support threshold against a comparator built to isolate the risk budget specifically — the pre-declared null, not a demonstrated frontier |
 | NESTFUL and API-Bank | every recurrent family retires | recurrence does not imply admissibility |
 | Selective-risk levels | four artifacts at `alpha=.05`, three at `alpha=.10`, portfolio at 15% | GCS and comparator results are licensed only at 10%, not the registered 5% |
-| Calibration proof scope | exact Clopper--Pearson plus 11-threshold union bound for one fixed candidate | candidate-family search is not multiplicity-adjusted; two candidates require 106 rather than 92 zero-violation groups |
+| Calibration proof scope | exact Clopper--Pearson plus 11-threshold union bound for one fixed candidate; a frozen-selection corollary closes the compiler-wide multiplicity gap for searches that adopt it | the three primary GitHub families do not freeze and remain per-candidate; two candidates there require 106 rather than 92 zero-violation groups |
 | Cache accounting | macro: −30.9% tokens but only −8.0% cost at 0.0% cache reads vs. 27.8% | token reduction is not a proxy for cost reduction |
 | Amortization | provider-side break-even 411 / 182 / 181 episodes per family | a shallow admitted prefix may never repay its discovery |
 

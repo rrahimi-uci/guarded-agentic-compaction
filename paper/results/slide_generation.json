@@ -8,6 +8,10 @@
       "path": "paper/results/external_benchmarks/reference_analysis.json",
       "sha256": "db07176f91bc7d815e7840e83939bdc5d11c4e8cb507c01ad5e1eaad089e34a9"
     },
+    "gate_frontier_study": {
+      "path": "paper/results/github_multirepo_gate_frontier/results.json",
+      "sha256": "be7f41469e7c438255ec2f3c4e0910310c135190fd6a4bd71a1001daafc963e1"
+    },
     "gcs_live": {
       "path": "paper/results/gcs_live/results.json",
       "sha256": "c5c4907db6c0b451793fd4be61d12576ebbfc4a07a2215f0db27a24d3f5e9a43"
@@ -37,13 +41,13 @@
       "sha256": "94319b5ba5056363359378fb383612c14fe91c381db50ef5e1749bda9ade8584"
     }
   },
-  "evidence_boundary": "Three real-record workflow families support the primary transfer result: compiled 90/90, baseline 89/90, manual 90/90, all admitted at the registered alpha=.05 with a pooled 3.3% compiled-only discordance bound. The Headroom ablation is limited to two reused 30-record cohorts: its 240 eligible JSON payloads received zero transformations and saved zero tokens, so it is a boundary-specific negative result rather than a rival mechanism for GAC savings. The snapshot does not establish cross-repository or time-forward transfer, and part of the reported 32.0-75.3% cost range reflects prompt-cache warmth rather than compiled depth. GCS and comparator results rest on an artifact calibrated at alpha=.10 and are not licensed at .05. NESTFUL and API-Bank remain refusal evidence; eight other benchmark paths are supplementary interoperability audits.",
+  "evidence_boundary": "Three real-record workflow families support the primary transfer result: compiled 90/90, baseline 89/90, manual 90/90, all admitted at the registered alpha=.05 with a pooled 3.3% compiled-only discordance bound. The Headroom ablation is limited to two reused 30-record cohorts: its 240 eligible JSON payloads received zero transformations and saved zero tokens, so it is a boundary-specific negative result rather than a rival mechanism for GAC savings. The snapshot does not establish cross-repository or time-forward transfer, and part of the reported 32.0-75.3% cost range reflects prompt-cache warmth rather than compiled depth. GCS and comparator results rest on an artifact calibrated at alpha=.10 and are not licensed at .05. NESTFUL and API-Bank remain refusal evidence; eight other benchmark paths are supplementary interoperability audits. A prospective gate-frontier study (four of five sealed repositories, 240 of the pre-registered 300 held-out pairs; the fifth retires at compile time, reproducing the cross-repository extension's own finding) ran a support-only comparator -- alpha=1, otherwise a byte-for-byte identical compile pass -- against the learned gate. Both are statistically indistinguishable on every metric, and every repository deploys the same coverage-1.0 threshold: the pre-declared null, not a demonstrated frontier.",
   "generator": "paper/scripts/generate_slides.mjs",
-  "generator_sha256_current": "fa90d993552838c2d514292f69c1bf8089f242352d9b459d7f5dcf972e6ff2af",
+  "generator_sha256_current": "cc0894203a4970e1267c6d2e0d43235cac46d1f81208ec6a98891b5fe2be833d",
   "outputs": {
     "technical": {
       "path": "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx",
-      "sha256": "053e1a99f43a9b41d4cd36ee989476ccec46420bc60bb4268d086af7ff6691c5",
+      "sha256": "a28b4402693e910af7faee0fa98bb5e9cdd186f30b184008e7f3a0bafbbe5559",
       "slides": 26
     }
   },
@@ -73,15 +77,22 @@
       "retitle_slides.py",
       "restyle_detailed_deck.py",
       "refresh_aha_example_slide.py",
-      "refresh_headroom_ablation_slide.py"
+      "refresh_headroom_ablation_slide.py",
+      "refresh_gate_frontier_slide.py"
     ],
     "changes": [
       "twelve eyebrow coordinates recomputed and each asserted against paper/open_research/article.aux",
       "slide 12 outcome tally: exactly one edge still compacts, the other two counts become n, matching the manuscript's invariant instead of a count it no longer states",
       "slide 12 incident body restated as failed abort / failed commit / post-commit failure with unattestable reversibility, kept near the sibling card's length because the 3.18x0.8in card has no autofit",
       "slide 13 records that the score is fitted on development groups while the bound counts only dispatched-and-wrong groups",
-      "slide 18 records Headroom's fixed-cohort negative result: 240 attempted JSON payloads, zero transformations, and zero tokens saved"
+      "slide 18 records Headroom's fixed-cohort negative result: 240 attempted JSON payloads, zero transformations, and zero tokens saved",
+      "slide 25 records the gate-frontier study's null result: a support-only comparator on four repositories and 240 held-out pairs found the same all-or-none threshold as the sealed artifact"
     ],
+    "gate_frontier_study": {
+      "script": "paper/scripts/refresh_gate_frontier_slide.py",
+      "target": "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx",
+      "verification": "The exact inherited text box is replaced once; the checked-in artifact-tool runtime is unavailable, so this narrow post-generation edit preserves existing slide geometry and chart parts. Length was checked against the shape's extent (2954426x1371600 EMU, 10.5pt run) rather than by opening the deck; open it once before presenting."
+    },
     "headroom_ablation": {
       "script": "paper/scripts/refresh_headroom_ablation_slide.py",
       "target": "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx",
