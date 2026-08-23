@@ -124,3 +124,45 @@ the references begin on page 10; the appendix follows the references. Zero overf
 horizontal boxes. Blind build verified ("Anonymous authors" on page 1, empty PDF `Author`).
 The recovered space came from the introduction, where one paragraph restated the
 contributions list and another restated the abstract.
+
+## Revision pass, 2026-08-23
+
+Full ICLR 2027 Author Guidelines re-fetched and cross-checked line by line: 9-page main-text
+cap (desk-reject if exceeded), references/AI-use/ethics/reproducibility statements exempt
+from the cap, appendix unlimited, no separate "paper checklist" is required this cycle
+(unlike NeurIPS), and double-blind anonymity must hold through the source and the PDF.
+Cross-checked against a from-scratch `tectonic --outdir build main.tex` rebuild (not just the
+committed PDF) and against rendered page images, not text extraction alone.
+
+### Compliance defect found and fixed
+
+- **Section 8 (Conclusion) spilled 3 lines onto page 10, ahead of the AI Use Statement.**
+  The two abstract edits merged just before this pass (PRs #30, #31) each reflowed the whole
+  document by a line or two; nobody re-ran the page-9 boundary check the README itself
+  documents (`pdftotext -f 9 -l 9 build/main.pdf - | tail -20`) after either merge, and the
+  committed `build/main.pdf` had main text bleeding onto page 10 -- a `main text beyond the
+  page limit` desk-reject condition, not a cosmetic issue. Confirmed by rendering pages 9-10
+  to PNG (text extraction alone would not show *where* on the physical page the break falls).
+  Fixed by copy-editing (not by touching template spacing, which would read as gaming the
+  limit): tightened redundant phrasing in `sections/discussion.tex`, `evaluation.tex`,
+  `method.tex`, and `related_work.tex` (no claim, number, or citation removed), and shortened
+  `sections/conclusion.tex` to drop a restated numeric detail already reported in full in
+  section 5.3 and appendix F.3 (four further candidates retiring at the margin). Verified by
+  full rebuild: section 8 now ends on page 9 with the AI Use Statement starting cleanly at the
+  top of page 10, `pdfinfo` still reports 22 total pages, `pdffonts` still shows every font
+  embedded, and no `??` unresolved cross-references appear anywhere in the extracted text.
+- Proofread every section file, `appendix.tex`, and every table/figure caption for typos and
+  grammar (grep sweep for doubled words, common misspellings, and `it's`/`its` confusion, plus
+  a full manual read); none survived from the prior passes. No wording changes were made
+  beyond the space-recovery copy-edits above.
+
+### Verification commands run
+
+```bash
+tectonic --outdir build main.tex        # from-scratch rebuild, not the checked-in PDF
+pdftotext -f 9 -l 9 -layout build/main.pdf - | tail -8   # section 8 ends here, in full
+pdftotext -f 10 -l 10 -layout build/main.pdf - | head -6 # AI USE STATEMENT starts here
+pdfinfo build/main.pdf | grep -E "Pages|Author"          # 22 pages, empty Author
+pdffonts build/main.pdf | awk '{print $4}' | sort -u     # every row "yes" (embedded)
+pdftotext -layout build/main.pdf - | grep -n '??'        # no unresolved refs
+```
