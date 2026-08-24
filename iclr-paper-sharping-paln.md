@@ -262,6 +262,19 @@ It should avoid sounding like:
 - general optimization,
 - broad safe automation.
 
+## Title proposal
+
+Best option:
+
+`Compile or Retire: Evidence-Gated Specialization of Recurrent Agent Workflows`
+
+Why this is the best option:
+
+- it is shorter and more memorable than the current long-form title,
+- it centers the paper's real contribution, `compile or retire`,
+- it matches the current evidence boundary,
+- it avoids implying broad workflow-optimization or mature universal safety claims.
+
 ## Definition of success
 
 This sharpening pass succeeds if the paper is read as:
