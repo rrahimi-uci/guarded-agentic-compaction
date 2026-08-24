@@ -1585,7 +1585,7 @@ def validate_iclr_page_budget() -> None:
     use statement, ethics statement, reproducibility statement, and references
     are explicitly exempt and may start on page ten onward. Two abstract edits
     (PRs #30, #31) each reflowed the compiled PDF by a line or two, and neither
-    re-ran the page-boundary check this repo's own paper/ICLR/README.md
+    re-ran the page-boundary check this repo's own paper/iclr/README.md
     documents, so Section 8's closing lines silently spilled onto page 10,
     ahead of the AI Use Statement, undetected until a manual review caught it.
 
@@ -1599,7 +1599,7 @@ def validate_iclr_page_budget() -> None:
     page means the main text ran past its nine-page budget even if the
     statement itself still starts "on time."
     """
-    pdf_path = PAPER / "ICLR/build/main.pdf"
+    pdf_path = PAPER / "iclr/build/main.pdf"
     ok(pdf_path.exists(), "ICLR submission: compiled PDF exists")
     if not pdf_path.exists():
         return

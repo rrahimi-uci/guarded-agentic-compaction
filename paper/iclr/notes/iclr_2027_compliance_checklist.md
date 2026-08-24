@@ -15,7 +15,7 @@ Source references used for this checklist:
 - [x] Confirmed from the compiled PDF that the main text (sections 1--8) ends within the `<= 9` page limit.
 - [x] References are separated from the main text and do not count toward the page limit.
 - [x] Appendix is placed after the references.
-- [x] The paper source stays in a dedicated `paper/ICLR/` working directory.
+- [x] The paper source stays in a dedicated `paper/iclr/` working directory.
 
 ## Anonymity
 

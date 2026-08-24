@@ -33,7 +33,7 @@ Because it is untracked, do not add repository links that point into `docs/` —
 404 for anyone browsing the repository. Reference local paths as inline code instead.
 
 Paper artifacts live in `paper/`: sources in `paper/tex/`, compiled manuscripts in
-`paper/open_research/`, and the conference submission in `paper/ICLR/`. After changing
+`paper/open_research/`, and the conference submission in `paper/iclr/`. After changing
 anything the publication manifest covers, re-run:
 
 ```bash

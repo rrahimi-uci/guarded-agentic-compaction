@@ -257,8 +257,8 @@ src/guarded_agentic_compaction/
 benchmarks/     public-data adapters, manifests, gold, and external benchmark gates
 demos/          simulated worlds and effect catalogs used by the offline studies
 paper/          LaTeX sources, figures, tables, raw results, scripts, slides
-  ICLR/         condensed conference submission (own style files and build)
-  LinkedIn_Article/  practitioner write-up and its figure sources
+  iclr/         condensed conference submission (own style files and build)
+  linkedIn_article/  practitioner write-up and its figure sources
   open_research/     compiled manuscript PDFs
 site/           source for the GitHub Pages documentation
 team-reviews/   per-reviewer manuscript review records
@@ -293,7 +293,7 @@ ArunKumar Patange, and Indranil Dutta (JazzX AI, Palo Alto, CA).
 | --- | --- |
 | Complete technical report, single column (appendix included) | `paper/open_research/article.pdf` |
 | Two-column conference build (appendix ships separately) | `paper/open_research/main.pdf` |
-| ICLR submission (9 pp. + appendix) | `paper/ICLR/` (build with `tectonic --outdir build main.tex`) |
+| ICLR submission (9 pp. + appendix) | `paper/iclr/` (build with `tectonic --outdir build main.tex`) |
 
 A versioned citation will be added after archival release; until then, cite the
 repository commit and the paper PDF together.

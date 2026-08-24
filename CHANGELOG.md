@@ -19,7 +19,7 @@ being presented as production certification.
 - **Retitled** to *From Traces to Guarded Programs: Evidence-Gated Compilation of
   Recurrent Agent Workflows*, across the article build, the conference build, the
   ICLR submission, the LinkedIn write-up, and both slide decks.
-- Added `paper/ICLR/`, a condensed 9-page conference submission with its own style
+- Added `paper/iclr/`, a condensed 9-page conference submission with its own style
   files: formal problem statement, four algorithms, an architecture diagram, a
   refusal-funnel table, and admission certificates.
 - Renamed `paper/build/` to `paper/open_research/`. The compiled manuscripts live

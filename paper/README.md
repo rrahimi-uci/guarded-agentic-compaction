@@ -156,7 +156,7 @@ uniformly parenthetical `...text~\cite{key}` call sites.
 
 Two earlier presentations are preserved verbatim and still build:
 `article-iclr.tex` (the ICLR 2027 style shared with the condensed submission in
-`ICLR/`) and `article-journal.tex` (Palatino journal styling).
+`iclr/`) and `article-journal.tex` (Palatino journal styling).
 
 ## The appendix, and how the two builds stay honest about it
 
