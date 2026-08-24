@@ -3,7 +3,7 @@
 This directory contains the condensed ICLR 2027 submission source
 for:
 
-> **Compile or Retire: Evidence-Gated Specialization of Recurrent Agent Workflows**
+> **From Traces to Guarded Programs: Evidence-Gated Compilation of Recurrent Agent Workflows**
 
 ## Contents
 
