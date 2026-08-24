@@ -7,7 +7,7 @@
 %
 % Same abstract, body, figures, algorithms and tables as the ACM conference
 % build in main.tex; only the presentation layer differs. This wrapper reuses
-% the ICLR style file that dresses the condensed submission in ../ICLR, so the
+% the ICLR style file that dresses the condensed submission in ../iclr, so the
 % full-length open-research article and the submission read as one document
 % family. The previous Palatino journal styling is kept in article-journal.tex.
 %
@@ -17,10 +17,10 @@
 %   (or: pdflatex -output-directory=../open_research article.tex; bibtex; pdflatex x2)
 %
 % \usepackage and \bibliographystyle take a path relative to this directory, so
-% the style files live in exactly one place (../ICLR) rather than being copied.
+% the style files live in exactly one place (../iclr) rather than being copied.
 % ---------------------------------------------------------------------------
 \documentclass{article}
-\usepackage{../ICLR/iclr2027_conference}
+\usepackage{../iclr/iclr2027_conference}
 
 % ---------------------------------------------------------------------------
 % Fonts. The ICLR template calls \usepackage{times}. Under pdfTeX that resolves
@@ -186,7 +186,7 @@ control \textperiodcentered\ OpenAI Agents SDK}\\[-1mm]
 
 \input{body}
 
-\bibliographystyle{../ICLR/iclr2027_conference}
+\bibliographystyle{../iclr/iclr2027_conference}
 \bibliography{../bibliography/references}
 
 \end{document}

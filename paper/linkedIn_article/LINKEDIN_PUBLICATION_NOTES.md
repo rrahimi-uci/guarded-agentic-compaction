@@ -19,7 +19,7 @@ roughly the people who already visit your profile.
 
 ## What to publish
 
-- **Article text:** `LinkedIn_Article_Polished.md` is canonical. Paste the prose
+- **Article text:** `linkedIn_article_polished.md` is canonical. Paste the prose
   into LinkedIn's editor and upload the images separately — LinkedIn does not
   resolve relative image paths.
 - **Cover image:** `images/01_hero.png`.
@@ -32,7 +32,7 @@ roughly the people who already visit your profile.
 
 ## Alt text
 
-Every image in `LinkedIn_Article_Polished.md` already carries descriptive alt
+Every image in `linkedIn_article_polished.md` already carries descriptive alt
 text in its markdown `![...]` tag. Copy that string into LinkedIn's alt-text
 field rather than rewriting it — the wording is deliberate and describes what
 the figure shows, not merely what it is called.

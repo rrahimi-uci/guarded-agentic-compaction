@@ -2,7 +2,7 @@
 
 | File | What it is |
 | --- | --- |
-| `LinkedIn_Article_Polished.md` | the article — canonical source |
+| `linkedIn_article_polished.md` | the article — canonical source |
 | `LinkedIn_Post.md` | companion feed posts, three variants, plus the first comment |
 | `LINKEDIN_PUBLICATION_NOTES.md` | how to upload it |
 | `images/` | six figures, HTML sources, and the shared design system |
@@ -57,7 +57,7 @@ text, which made it possible to publish from the wrong file. Regenerate on
 demand instead:
 
 ```bash
-pandoc LinkedIn_Article_Polished.md -o LinkedIn_Article.docx --resource-path=.
+pandoc linkedIn_article_polished.md -o linkedIn_article.docx --resource-path=.
 ```
 
 The result embeds the 2x figures and lands around 4.6 MB, which is why it is

@@ -8,7 +8,7 @@ $0.41. `pytorch/pytorch` retires at compile time — the same repository and the
 of outcome `github_multirepo_pr_outcome_core.py`'s own smaller cohort already reports, not
 a new failure. Full account: `prospective-gate-frontier-protocol.md`'s "Observed results"
 section; manuscript integration: `paper/tex/body.tex`'s "prospective gate-frontier
-protocol" subsection and `paper/ICLR/appendix.tex`'s "Prospective Gate-Frontier Protocol"
+protocol" subsection and `paper/iclr/appendix.tex`'s "Prospective Gate-Frontier Protocol"
 section.
 
 **The result is the pre-declared null, not the pre-declared positive.** The learned gate

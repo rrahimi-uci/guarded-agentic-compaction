@@ -47,7 +47,7 @@ def included_files() -> list[Path]:
             "article.pdf",
         }:
             continue
-        # Nested build directories (paper/ICLR/build, and anything like it) hold
+        # Nested build directories (paper/iclr/build, and anything like it) hold
         # LaTeX output.  The compiled PDF is a tracked deliverable and belongs in the
         # manifest; the logs and auxiliaries are gitignored, so listing them would make
         # the manifest reference files absent from a fresh clone and fail on checkout.
