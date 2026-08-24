@@ -2,7 +2,7 @@
 
 This directory is the complete, reproducible artifact for:
 
-> **Compile or Retire: Evidence-Gated Specialization of Recurrent Agent Workflows**
+> **From Traces to Guarded Programs: Evidence-Gated Compilation of Recurrent Agent Workflows**
 
 The paper studies whether repeated model-mediated, read-only tool prefixes can be
 replaced by trace-derived deterministic programs without hiding provenance, effect,

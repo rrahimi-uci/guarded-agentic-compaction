@@ -1,4 +1,4 @@
-# Review: "Compile or Retire: Evidence-Gated Specialization of Recurrent Agent Workflows"
+# Review: "From Traces to Guarded Programs: Evidence-Gated Compilation of Recurrent Agent Workflows"
 
 **Author:** Reza Rahimi (JazzX AI) · Single-author manuscript; reviewed against the current article build and conference build<br>
 **Reviewer stance:** Calibrated to top-venue standards (NeurIPS/ICLR/MLSys). Scores are

@@ -55,7 +55,7 @@ BIBLIOGRAPHY = PAPER / "bibliography" / "references.bib"
 # page has fallen behind the manuscript.  Order is fixed so the digest is stable.
 SOURCES = (BODY, ABSTRACT, BIBLIOGRAPHY)
 
-TITLE = "Compile or Retire: Evidence-Gated Specialization of Recurrent Agent Workflows"
+TITLE = "From Traces to Guarded Programs: Evidence-Gated Compilation of Recurrent Agent Workflows"
 DESCRIPTION = (
     "The full article: a trace-to-program compiler that reconstructs typed provenance, "
     "rejects unsafe effects, synthesizes from a closed operator language, and admits a "
