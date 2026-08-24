@@ -16,10 +16,10 @@ source template whose hash both the generator and
 What it changes
 ---------------
 * every ``<a:t>`` run containing the old title, in any slide;
-* the title-slide font size, because the new title is 31 characters longer and
-  at the original size it overflows its text box (measured in Cambria at the
-  real box width: 2.40in of text in a 1.70in box, which would collide with the
-  subtitle beneath it);
+* the title-slide font size -- unchanged this pass, because the current
+  retitling (``From Traces to Guarded Programs...`` -> ``Compile or
+  Retire...``) is 11 characters *shorter*, so the box that already fit the
+  longer title fits the new one at the same size with room to spare;
 * ``<a:normAutofit/>`` on the title body, so PowerPoint re-fits if a renderer
   disagrees with that measurement;
 * ``<dc:title>`` in docProps, which was the placeholder "Presentation".
@@ -41,19 +41,25 @@ from pathlib import Path
 
 SLIDES = Path(__file__).resolve().parents[1] / "slides"
 
-OLD_TITLE = "Compiling Recurrent Agent Workflows into Guarded Programs"
-NEW_TITLE = (
+OLD_TITLE = (
     "From Traces to Guarded Programs: "
     "Evidence-Gated Compilation of Recurrent Agent Workflows"
 )
+NEW_TITLE = (
+    "Compile or Retire: "
+    "Evidence-Gated Specialization of Recurrent Agent Workflows"
+)
 
 # deck -> (old title-slide font size in hundredths of a point, new size)
-# The size was chosen by measuring the wrapped height of NEW_TITLE in Cambria at
-# the deck's actual title-box width; it lands just inside the existing box.
+# NEW_TITLE (77 chars) is shorter than OLD_TITLE (88 chars), so the box that
+# already held the longer title at 3300 (33pt) holds the shorter one at the
+# same size; old_sz == new_sz makes the shrink step a harmless no-op while
+# keeping the same code path -- and the normAutofit backstop below -- for the
+# next retitling pass.
 # The 27-slide seminar deck was removed, so only one deck is retitled now; its
 # entry, (3600, 3200), is recorded here in case those bytes are ever recovered.
 DECKS = {
-    "compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx": (3700, 3300),
+    "compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx": (3300, 3300),
 }
 
 

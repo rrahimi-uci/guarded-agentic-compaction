@@ -98,6 +98,6 @@ An optimizer that never declines isn't confident. It's unmeasured.
 **The full paper**, code, data manifests, and every retired candidate are open:
 [github.com/rrahimi-uci/guarded-agentic-compaction](https://github.com/rrahimi-uci/guarded-agentic-compaction)
 
-*From Traces to Guarded Programs: Evidence-Gated Compilation of Recurrent Agent Workflows* — Reza Rahimi, JazzX AI.
+*Compile or Retire: Evidence-Gated Specialization of Recurrent Agent Workflows* — Reza Rahimi, JazzX AI.
 
 **Curious where others land:** if you're running agents in production, what share of your model turns do you think are genuinely re-deriving a known answer? I'd guess most teams are surprised by the number.

@@ -1,7 +1,7 @@
 # Review — HU
 
 **Status:** TODO — not started
-**Paper:** From Traces to Guarded Programs: Evidence-Gated Compilation of
+**Paper:** Compile or Retire: Evidence-Gated Specialization of
 Recurrent Agent Workflows
 **Reviewer:** HU
 **Date:**

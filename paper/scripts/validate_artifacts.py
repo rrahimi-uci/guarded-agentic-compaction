@@ -1495,8 +1495,8 @@ def validate_publication() -> None:
             # Assert the current title, not the method name: the phrase "Guarded Agentic
             # Compaction" still appears in the body where the method is defined, so
             # checking it would pass even if the title were dropped entirely.
-            for phrase in ("From Traces to Guarded Programs",
-                           "Evidence-Gated Compilation of Recurrent Agent Workflows",
+            for phrase in ("Compile or Retire",
+                           "Evidence-Gated Specialization of Recurrent Agent Workflows",
                            "Reza Rahimi",
                            "JazzX AI",
                            "NESTFUL",
@@ -2158,15 +2158,17 @@ def validate_slides() -> None:
                 ok(len(slide_parts) == expected_slides,
                    f"{label} publication slide deck contains {expected_slides} slides")
                 payload = b"\n".join(package.read(name) for name in slide_parts)
-                ok(b"From Traces to Guarded Programs" in payload
-                   and b"Evidence-Gated Compilation of Recurrent Agent Workflows" in payload,
+                ok(b"Compile or Retire" in payload
+                   and b"Evidence-Gated Specialization of Recurrent Agent Workflows" in payload,
                    f"{label} publication slide deck contains the current paper title")
-                # Both superseded titles must be gone. The decks are retitled in place by
+                # All superseded titles must be gone. The decks are retitled in place by
                 # paper/scripts/retitle_slides.py because generate_slides.mjs needs an
                 # external artifact-tool workspace; if the generator is ever run without
-                # the new title wired in, these two checks catch the regression.
+                # the new title wired in, these checks catch the regression.
                 for stale in (b"When Traces Are Not Enough",
-                              b"Compiling Recurrent Agent Workflows into Guarded Programs"):
+                              b"Compiling Recurrent Agent Workflows into Guarded Programs",
+                              b"From Traces to Guarded Programs: Evidence-Gated Compilation "
+                              b"of Recurrent Agent Workflows"):
                     ok(stale not in payload,
                        f"{label} publication slide deck contains no superseded title: "
                        f"{stale.decode()[:44]}")

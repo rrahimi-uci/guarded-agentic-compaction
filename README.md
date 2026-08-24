@@ -285,7 +285,7 @@ The project follows the [code of conduct](CODE_OF_CONDUCT.md) and is licensed un
 
 ## Citation
 
-The manuscript is **From Traces to Guarded Programs: Evidence-Gated Compilation of
+The manuscript is **Compile or Retire: Evidence-Gated Specialization of
 Recurrent Agent Workflows** by Reza Rahimi, Huaxing Wang, Mi Hwangbo, Roberto Borgione,
 ArunKumar Patange, and Indranil Dutta (JazzX AI, Palo Alto, CA).
 

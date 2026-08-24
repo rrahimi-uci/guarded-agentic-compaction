@@ -5,6 +5,15 @@ for its Python API and artifact schemas while it remains research-alpha software
 
 ## Unreleased
 
+### Paper and publication artifacts
+
+- **Retitled** from *From Traces to Guarded Programs: Evidence-Gated
+  Compilation of Recurrent Agent Workflows* to *Compile or Retire:
+  Evidence-Gated Specialization of Recurrent Agent Workflows*, across the
+  article build, the conference build, the ICLR submission, the LinkedIn
+  write-up, the published article page, and the shipped slide deck, per
+  `iclr-paper-sharping-paln.md`'s title recommendation.
+
 ## Gac-v0.0.1 — 2026-08-12
 
 First public GitHub research-artifact release. This tag packages the validated
