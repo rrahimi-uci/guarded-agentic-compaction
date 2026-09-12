@@ -3,39 +3,39 @@
 
 The supported claim is narrow: repeated read-only prefixes can become guarded
 programs that preserve held-out contracts on the tested GitHub families and
-retire when evidence is inadequate.
+retire when evidence is inadequate. \Cref{app:limits} expands each limitation.
 
 \paragraph{Gate maturity is the main scientific risk.}
 \Cref{prop:admission} is per-candidate, not compiler-wide over
 \cref{alg:compile}'s adaptive search unless that search is frozen
-(\cref{cor:frozen}); the primary GitHub families do not freeze, so a
-multiplicity repair would raise their requirement further (\cref{app:config}).
-The gate is also empirically step-like at $n_\eta\ge 92$, AppWorld included: it
-\emph{refuses} correctly far better than $q$ \emph{discriminates}, and
-refitting $q$ for a genuine frontier is the key follow-up. A pre-registered
-protocol testing this at scale (\cref{app:prospective}) has since run across
-four repositories and 240 held-out triples: a support-only comparator sharing
-every mechanism but the risk budget is indistinguishable from the learned
-gate, and neither shows graded coverage --- confirming, not resolving, the
-step-gate finding at four times the prior scale.
+(\cref{cor:frozen}); the primary families do not freeze, so a multiplicity
+repair would raise their requirement to 106 groups. The gate is also step-like at $n_\eta\ge 92$, from two causes this design cannot
+separate: every cohort fixes $|\mathcal{K}|=92$, so no intermediate coverage is
+\emph{certifiable} whatever $q$ ranks (\cref{sec:method}), and $q$
+\emph{refuses} correctly far better than it \emph{discriminates}. A pre-registered protocol (\cref{app:prospective}) has since run across five
+repositories and 240 held-out triples, where a support-only comparator sharing
+every mechanism but the risk budget is indistinguishable from the learned gate,
+and neither shows graded coverage. The follow-up is to buy calibration groups
+first: below $\lceil 92/c\rceil$, no refit of $q$ can be read.
 
 \paragraph{Group independence is assumed, not established.}
-\Cref{prop:admission} needs i.i.d.\ groups. Here each group is one record from
-one snapshot with \code{min\_days}=\code{min\_principals}=1, and AppWorld's
-task-level groups likewise share a scenario's supervisor and database, so
-neither corpus establishes exchangeability (\cref{app:limits}). The 8{,}190
-released AppWorld trajectories also repeat tasks across models and runs, so
-their structural-eligibility rate is descriptive, not an independent-sample
-estimate.
+\Cref{prop:admission} needs i.i.d.\ groups and neither corpus establishes
+exchangeability: GitHub groups are single records from one snapshot with
+\code{min\_days}=\code{min\_principals}=1, and AppWorld's task groups share a
+scenario's supervisor and database. A seeded simulation (\cref{app:proof})
+prices the exposure --- miscoverage inflates well past nominal under
+block-correlated groups --- and the cluster-aware repairs all cost effective
+sample size.
 
-\paragraph{External validity, dispatchability, and competitiveness.}
+\paragraph{External validity, dispatchability, and comparison.}
 The richer evidence comes from one revision-pinned repository and one
-provider/model family, and the cross-repository extension is a narrower,
-template-tied task. Admission is not dispatchability: a prefix is only worth
-compiling for an architecture that issues one, which neither
-\cref{prop:admission} nor the guard tests. We establish no superiority under
-drift or across providers and do not price manual authoring or maintenance,
-though appendix ablations narrow both gaps (\cref{app:limits}); exact task
-contracts also do not certify a downstream model continuation, and writes,
-handoffs, hosted tools, undeclared effects, and removed-turn guardrails lie
-outside \cref{prop:admission} entirely.
+provider/model family, and admission is not dispatchability: \cref{eq:prefix} is
+the operative limit, which \cref{sec:res-refusal} prices where ReAct and
+plan-and-execute open with a documentation read past position~0. We show no
+superiority under drift or across providers, do not price manual authoring, and
+run no head-to-head against the workflow-reuse line, whose prompt-level
+induction, parallel scheduling, and plan caching make no admissibility decision
+to compare against --- leaving the \emph{unguarded} ablation unrun. Exact
+contracts also do not certify a downstream continuation, and writes, handoffs,
+hosted tools, undeclared effects, and removed-turn guardrails lie outside
+\cref{prop:admission}.

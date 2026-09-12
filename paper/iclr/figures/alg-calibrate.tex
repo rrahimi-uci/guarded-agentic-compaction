@@ -3,13 +3,13 @@
 the grid $\Lambda$ are frozen \emph{before} this procedure sees a calibration group,
 which is what makes the union bound legitimate.}
 \label{alg:calibrate}
-\footnotesize
+\scriptsize
 \begin{algorithmic}[1]
 \Require frozen candidate $A_0=(P,H,V,q,M)$ without threshold; calibration
          groups $\mathcal{K}$ with fixed per-instance violations $L(A_0,x)$;
          grid $\Lambda$; budgets $\alpha,\delta$
 \Ensure threshold $\eta$ with a simultaneous guarantee, or $\bot$ (\retire)
-\State $\mathcal{A}\gets\emptyset$ \Comment{admissible (coverage, threshold) pairs}
+\State $\Pi\gets\emptyset$ \Comment{admissible (coverage, threshold) pairs, distinct from \cref{alg:compile}'s $\mathcal{A}$}
 \ForAll{$\eta\in\Lambda$}
   \State define $d^\eta(x)$ by Eq.~\eqref{eq:dispatch} with threshold $\eta$;
          $D^\eta(g)\gets\max_{x\in g}d^\eta(x)$;
@@ -24,11 +24,11 @@ which is what makes the union bound legitimate.}
          $\operatorname{Beta}^{-1}\!\big(1-\tfrac{\delta}{|\Lambda|};\,
          k_\eta+1,\ n_\eta-k_\eta\big)$;\quad
          \textbf{if} $U_\eta\le\alpha$ \textbf{then}
-         $\mathcal{A}\gets\mathcal{A}\cup\{(n_\eta/|\mathcal{K}|,\eta)\}$
+         $\Pi\gets\Pi\cup\{(n_\eta/|\mathcal{K}|,\eta)\}$
          \Comment{Eq.~\eqref{eq:cp}}
 \EndFor
-\State \Return $\bot$ if $\mathcal{A}=\emptyset$, else the $\eta$ component of
-       $\operatorname*{lexmax}_{(\mathrm{cov},\eta)\in\mathcal{A}}
+\State \Return $\bot$ if $\Pi=\emptyset$, else the $\eta$ component of
+       $\operatorname*{lexmax}_{(\mathrm{cov},\eta)\in\Pi}
        (\mathrm{cov},\eta)$
        \Comment{largest empirical group coverage; larger threshold breaks ties}
 \end{algorithmic}

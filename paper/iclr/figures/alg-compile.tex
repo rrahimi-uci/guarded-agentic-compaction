@@ -4,11 +4,11 @@ registered or assigned an attributed \retire, so refusal accounting remains expl
 Stages marked \textsc{(caller)} are separate library entry points run in this order
 rather than steps inside one function.}
 \label{alg:compile}
-\footnotesize
+\scriptsize
 \begin{algorithmic}[1]
 \Require episodes $\mathcal{E}$; effect catalog $\mathcal{C}$; entry schema $\Theta$;
-         transform library $\mathcal{L}$; ambiguity cap $\kappa$; budgets $\alpha,\delta$;
-         grid $\Lambda$; feasibility target $\Delta$
+         transform library $\mathcal{L}$; ambiguity cap $\kappa$; mining window
+         $w_{\max}$; budgets $\alpha,\delta$; grid $\Lambda$; feasibility target $\Delta$
 \Ensure artifact set $\mathcal{A}$, or \retire{} with attributed reasons
 \State $\mathcal{A}\gets\emptyset$
 \State $\mathcal{E}\gets\textsc{Qualify}(\mathcal{E},\mathcal{C})$;\quad
