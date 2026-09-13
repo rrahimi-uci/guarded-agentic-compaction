@@ -72,20 +72,21 @@ principled retirement, not of runtime dominance.
 The external substrates isolate the binding constraint (\cref{tab:funnel}). All
 four clear provenance, synthesis, and replay with \emph{no} wrong execution,
 then NESTFUL, API-Bank, and executed BFCL gold plans retire --- each settled
-arithmetically before the compiler ran, which is why a fourth substrate was
-needed. AppWorld's gold solutions reach $n_{\max}=136$, the first external corpus where
-\cref{eq:cp} is satisfiable, and it admits one artifact at 92/92 zero-violation
-groups ($U_{\hat\eta}=0.0498$) with 11/11 exact replay on its sealed admission
-split, under both pre-registered effect arms. Two features bound it: the gate is
-step-like, and the admitted program is argument-free, so provenance fixed its
-\emph{length} rather than its content (\cref{app:external}).
+arithmetically before the compiler ran, which is why a fourth was needed. AppWorld's gold solutions reach $n_{\max}=136$, making it the first
+external corpus where \cref{eq:cp} is satisfiable, and it admits one artifact at
+92/92 zero-violation groups ($U_{\hat\eta}=0.0498$) with 11/11 exact replay on
+its sealed admission split, under both pre-registered effect arms. Two features
+bound it: the gate is step-like, and the admitted program is argument-free, so
+provenance fixed its \emph{length} rather than its content
+(\cref{app:external}).
 
 Admissibility is not dispatchability. Gold solutions are not agent trajectories,
 so we also test the admitted region against AppWorld's 28 released baseline
-runs. Over 8{,}190 trajectories it is structurally eligible at the entry
-boundary in $37.9\%$, bimodal across architectures: near-total for full-code
-agents, $1$ of $4{,}680$ for ReAct and plan-and-execute, which open by reading
+runs. Over 8{,}190 trajectories it is structurally eligible at the entry boundary in
+$37.9\%$, and the architecture explains the spread: $2{,}339/2{,}340$ for full
+code with reflection and $762/1{,}170$ for iterative parallel function calling,
+against $1$ of $4{,}680$ for ReAct and plan-and-execute, which open by reading
 API documentation so the prefix leaves position~0
-(\cref{tab:appworld-dispatch}). These are descriptive units, not independent
-samples; a miss abstains cleanly, and the measurement bounds $\varphi$ from
-above.
+(\cref{tab:appworld-dispatch}). These repeat tasks across the 28 runs, so they
+are descriptive units, not independent samples; a miss abstains cleanly, and the
+measurement bounds $\varphi$ from above rather than estimating a dispatch rate.

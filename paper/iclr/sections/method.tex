@@ -41,14 +41,17 @@ authorize one an earlier stage blocked.
 
 \paragraph{1. Typed provenance.}
 A capture adapter normalizes framework traces into the Episode IR; manifests pin
-prompt, policy, guardrail, tool, model, SDK, tracer, entry-contract, and effect-catalog identities, and episodes with different compatibility keys are
-partitioned before any learning. For each call-argument slot, the program-argument trace graph (\patg, \cref{alg:patg}) searches entry-state and prior-result paths for typed values reachable by a bounded transform --- execution
-provenance in the database sense~\citep{cheney2009provenance}, specialized to
-tool arguments. Two outcomes block a region rather than guessing: a slot with
-\emph{no} witness is a genuine model decision, and one with more than $\kappa=3$
-witnesses is ambiguous (\cref{fig:provenance}). A repeated tool name, a matching
-literal, and a successful replay are not witnesses; only an expression in
-$\mathcal{L}$ is.
+prompt, policy, guardrail, tool, model, SDK, tracer, entry-contract, and
+effect-catalog identities, and episodes with different compatibility keys are
+partitioned before any learning. For each call-argument slot, the
+program-argument trace graph (\patg, \cref{alg:patg}) searches entry-state and
+prior-result paths for typed values reachable by a bounded transform ---
+execution provenance in the database sense~\citep{cheney2009provenance},
+specialized to tool arguments. Two outcomes block a region rather than guessing:
+a slot with \emph{no} witness is a genuine model decision, and one with more
+than $\kappa=3$ witnesses is ambiguous (\cref{fig:provenance}). A repeated tool
+name, a matching literal, and a successful replay are not witnesses; only an
+expression in $\mathcal{L}$ is.
 
 \paragraph{2. Region mining and ranking.}
 The miner enumerates model-boundary-to-result windows of at most $w_{\max}$ tool
@@ -94,14 +97,15 @@ target is declined before a compiler is built for it.
 Synthesis searches the 23-operator library of \cref{tab:dsl} at depth at most
 two; bindings are ranked by cross-group stability, and a group-wise refit
 rejects bindings exploiting row-level coincidence. The hypothesis space is
-deliberately small enough to read --- the approach resembles programming-by-example~\citep{gulwani2011flashfill} and bounded
+deliberately small enough to read --- the approach resembles
+programming-by-example~\citep{gulwani2011flashfill} and bounded
 sketching~\citep{solarlezama2006sketching} --- and it does \emph{not} generate
-arbitrary Python. Hard guards then constrain entry types, required fields, categorical sets,
-numeric intervals, patterns, isolation keys, allowed effects, and manifest pins;
-verifiers constrain live-out presence, type, cardinality, empirical hulls,
-provenance, effect multisets, and call counts. These are candidate invariants,
-not proofs --- which is why a statistical gate follows rather than replaces
-them.
+arbitrary Python. Hard guards then constrain entry types, required fields,
+categorical sets, numeric intervals, patterns, isolation keys, allowed effects,
+and manifest pins; verifiers constrain live-out presence, type, cardinality,
+empirical hulls, provenance, effect multisets, and call counts. These are
+candidate invariants, not proofs --- which is why a statistical gate follows
+rather than replaces them.
 
 \paragraph{6. Exact risk-gated admission.}
 \Cref{alg:calibrate} decides deployment. The score $q$ is a logistic model over
@@ -109,7 +113,7 @@ entry-observable features --- missing fields, hull margin, temporal drift, and
 provenance ambiguity --- fitted by regularized maximum likelihood on \emph{dev}
 groups only, never on calibration groups, then frozen together with the finite
 threshold grid
-$\Lambda=\{.02,.05,.08,.11,.14,.17,.20,.25,.30,.40,.50\}$. Two data signals do different jobs. $q$ is \emph{fitted} to predict an
+$\Lambda=\{0.02,0.05,0.08,0.11,0.14,0.17,0.20,0.25,0.30,0.40,0.50\}$. Two data signals do different jobs. $q$ is \emph{fitted} to predict an
 \emph{unproductive} dev group --- guard rejection, abstention, or manifest
 mismatch --- never a wrong execution, since \textsc{ReplayAndChallenge} already
 retired those; the bound below is \emph{counted} only on dispatched groups that
@@ -133,10 +137,11 @@ constraint here: at $\alpha=0.05$, $\delta=0.1$, $|\Lambda|=11$, a zero-violatio
 output is refusal.
 
 That floor also bounds what selectivity is \emph{certifiable}: coverage
-$c=n_\eta/|\mathcal{K}|$ needs $|\mathcal{K}|\ge\lceil 92/c\rceil$, so the
+$c=n_\eta/|\mathcal{K}|$ needs $|\mathcal{K}|\ge\lceil 92/c\rceil$, so on the
 $|\mathcal{K}|=92$ cohorts used throughout --- the smallest satisfiable pool ---
-confine the grid to $c\in\{0,1\}$ whatever $q$ ranks, since abstaining on one
-group leaves $U_\eta=0.0503>\alpha$ (\cref{app:config}).
+the only admissible coverages are $c\in\{0,1\}$ whatever $q$ ranks, since
+abstaining on one group leaves $U_\eta=0.0503>\alpha$. Intermediate coverage can
+still be \emph{observed}; it cannot be certified (\cref{app:config}).
 
 \input{figures/alg-calibrate.tex}
 
@@ -152,8 +157,8 @@ and is defined as zero otherwise. Consequently the selected $\hat\eta$ satisfies
 $r_{\hat\eta}\le\alpha$ whenever $U_{\hat\eta}\le\alpha$.
 \end{proposition}
 
-\Cref{app:proof} gives the proof. The guarantee is deliberately narrow: \emph{per
-fixed candidate}, not compiler-wide over the adaptive search \cref{alg:compile}
-performs, and conditional on group exchangeability rather than establishing it
-(\cref{sec:discussion}). Guarded deployment requires an explicit evidence
-boundary, not just a recurrent trace and a successful replay.
+\Cref{app:proof} gives the proof. The guarantee is deliberately narrow:
+\emph{per fixed candidate}, not compiler-wide over the adaptive search
+\cref{alg:compile} performs, and conditional on group exchangeability rather
+than establishing it (\cref{sec:discussion}). Guarded deployment requires an
+explicit evidence boundary, not just a recurrent trace and a successful replay.
