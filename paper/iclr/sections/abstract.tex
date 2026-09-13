@@ -1,31 +1,32 @@
-Tool-using agents often invoke a model at every step, even along recurrent read-only
-paths. Replacing repeated reasoning with deterministic execution could reduce inference
-cost, but recurrence alone does not make substitution safe: tool arguments may depend on
-prior observations, apparently read-only operations may hide effects, and replaying the
-same calls may still alter the final answer. Recurrence identifies an optimization
-opportunity, not permission to remove reasoning.
+Tool-using agents often invoke a model at every step, even along recurrent
+read-only paths. Replacing repeated reasoning with deterministic execution could
+reduce inference cost, but recurrence alone does not make substitution safe:
+tool arguments may depend on prior observations, apparently read-only operations
+may hide effects, and replaying the same calls may still alter the final answer.
+Recurrence identifies an optimization opportunity, not permission to remove
+reasoning.
 
-We introduce \emph{guarded agentic compaction} (\method), an evidence-gated approach that
-compiles recurrent execution paths into deterministic programs only when substitution is
-justified. \method compiles initial read-only prefixes only: it grounds tool arguments in observable
-state, treats writes, approvals, handoffs, and unknown effects as hard barriers, protects
-compiled execution with input, output, and environment guards, and admits specialization
-only when finite-sample evidence satisfies configured risk and confidence requirements.
-Otherwise, it retains the largest justified prefix when possible or falls back to the
-unchanged agent. Those admission certificates are per candidate; extending them
-compiler-wide requires freezing the candidate search.
+We introduce \emph{guarded agentic compaction} (\method), an evidence-gated
+approach that compiles recurrent execution paths into deterministic programs
+only when substitution is justified. \method compiles initial read-only prefixes
+only: it grounds tool arguments in observable state, treats writes, approvals,
+handoffs, and unknown effects as hard barriers, protects compiled execution with
+input, output, and environment guards, and admits specialization only when
+finite-sample evidence satisfies configured risk and confidence requirements.
+Otherwise, it retains the largest justified prefix when possible or falls back
+to the unchanged agent. Those admission certificates are per candidate;
+extending them compiler-wide requires freezing the candidate search.
 
 Across three live GitHub workflow families and 90 unseen test cases, \method satisfies all
 90 task requirements, compared with 89/90 for the unchanged agent, while reducing model
-requests by 66.6\%, tokens by 63.1\%, latency by 64.2\%, and estimated cost by 58.7\%. A
-time-forward evaluation across five additional repositories specializes four and refuses
-one. On four public trace benchmarks, NESTFUL, API-Bank, and BFCL v4 contain recurrent,
+requests by 66.6\%, tokens by 63.1\%, latency by 64.2\%, and estimated cost by 58.7\%. A time-forward evaluation across five frozen public repositories specializes
+four and refuses one. On four public trace benchmarks, NESTFUL, API-Bank, and BFCL v4 contain recurrent,
 replayable traces but insufficient qualifying evidence to satisfy \method's default 0.05
 risk bound at the required confidence, whereas AppWorld provides sufficient evidence for
 admission. Even after admission, \method abstains from dispatch when runtime behavior
 changes the execution structure or violates its entry requirements, falling back to the
 unchanged agent.
 
-\method reframes agent optimization as evidence-gated specialization: compile only what is
-justified, dispatch only when runtime conditions remain valid, and preserve model
-reasoning everywhere else.
+\method reframes agent optimization as evidence-gated specialization: compile
+only what is justified, dispatch only when runtime conditions remain valid, and
+preserve model reasoning everywhere else.

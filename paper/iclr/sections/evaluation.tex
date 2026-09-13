@@ -1,10 +1,10 @@
 \section{Experimental Setup}
 \label{sec:setup}
 
-The evaluation asks three questions: does specialization preserve outcomes
-while saving work on real records (\cref{sec:res-primary})? Does it transfer
-under a time-forward split (\cref{sec:res-multirepo})? And does it refuse when
-evidence is thin (\cref{sec:res-refusal})?
+The evaluation asks three questions: does specialization preserve outcomes while
+saving work on real records (\cref{sec:res-primary})? Does it transfer under a
+time-forward split (\cref{sec:res-multirepo})? And does it refuse when evidence
+is thin (\cref{sec:res-refusal})?
 
 \subsection{Benchmark at a glance}
 \label{sec:benchmark}
@@ -15,9 +15,8 @@ source-grounded fields rather than a preference. The three primary families use
 132 discovery and 30 balanced held-out records each, with live provider calls,
 and each pairs a read-only evidence path with an exact answer contract --- issue
 type, pull-request outcome, or backlog attention route, each returning a
-category plus title and a verbatim excerpt --- so the benchmark tests both the
-structured answer and whether its evidence survives compaction
-(\cref{tab:benchmark-glance}).
+category plus title and a verbatim excerpt --- so the benchmark tests both the structured answer and whether its evidence
+survives compaction (\cref{tab:benchmark-glance}, \cref{app:detail}).
 
 \paragraph{Cross-repository time-forward extension.}
 A narrower two-read PR-outcome task spans five frozen public repositories.
@@ -39,11 +38,12 @@ measurement. No model runs on any substrate, so none licenses an accuracy or
 efficiency claim and none is pooled with the GitHub families
 (\cref{app:external}).
 
-\paragraph{Provider configuration.} All live studies use one provider and model
---- OpenAI \code{gpt-5.6-luna} via the \code{openai-agents} Responses interface
-at reasoning effort \code{low} --- and price tokens from published list rates
-rather than an invoice. \Cref{app:config} gives the full settings and the rate
-table; conditions within a family differ in structure alone.
+\paragraph{Provider configuration.}
+All live studies use one provider and model --- OpenAI \code{gpt-5.6-luna} via
+the \code{openai-agents} Responses interface at reasoning effort \code{low} ---
+and price tokens from published list rates rather than an invoice.
+\Cref{app:config} gives the full settings and the rate table; conditions within
+a family differ in structure alone.
 
 \paragraph{Conditions, metrics, and statistics.}
 Each GitHub family compares the unchanged baseline $B$, the compiled artifact,
