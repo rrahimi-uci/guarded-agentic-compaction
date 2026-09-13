@@ -11,7 +11,7 @@ $k_\eta\mid n_\eta=m\sim\operatorname{Binomial}(m,r_\eta)$, where
 $r_\eta=\Pr(W^\eta=1\mid D^\eta=1)$. Inverting the one-sided exact binomial
 test~\citep{clopper1934binomial} gives the upper bound
 $U_\eta=\operatorname{Beta}^{-1}(1-\gamma;\,k_\eta+1,\,m-k_\eta)$ of
-\cref{eq:cp}, which satisfies
+\Cref{eq:cp}, which satisfies
 $\Pr\{r_\eta > U_\eta \mid n_\eta=m\}\le\gamma$. When $m=0$ the event is
 impossible under the convention that empty-admission thresholds receive the
 vacuous bound $U_\eta=1$. Averaging over the random value of $n_\eta$ therefore
@@ -21,7 +21,7 @@ $\Pr\{\exists\eta\in\Lambda: r_\eta > U_\eta\}\le|\Lambda|\gamma=\delta$, i.e.
 simultaneous coverage with probability at least $1-\delta$. On that event,
 every threshold whose upper bound is at most $\alpha$ satisfies the group-level
 target in \cref{eq:objective}, including the threshold returned by
-\cref{alg:calibrate}. $\qquad\blacksquare$
+\Cref{alg:calibrate}. $\qquad\blacksquare$
 
 Two scope conditions are worth restating. First, the statement is
 \emph{per fixed candidate}: \cref{alg:compile} may calibrate several families
@@ -53,7 +53,7 @@ single-candidate sub-procedure, so its conclusion transfers unchanged.
 $\qquad\blacksquare$
 \end{proof}
 This is a corollary, not a new inequality: it is a restatement of
-\cref{prop:admission} for a search that never lets a second candidate see
+\Cref{prop:admission} for a search that never lets a second candidate see
 calibration data. It is not hypothetical: the cross-repository extension
 already runs with freezing enabled, and every sealed repository report there
 shows exactly one candidate reaching calibration, so \cref{cor:frozen} applies
@@ -63,7 +63,7 @@ higher-removal survivor kept by dominance --- so they remain the per-candidate
 certificates above and are not retroactively strengthened.
 \code{paper/scripts/frozen\_candidate\_coverage\_simulation.py} backs this with
 an exact (non-Monte-Carlo) combinatorial check: at $n=92$, the population rate
-maximizing a single candidate's miscoverage is $r^\star\!\approx\!0.637$ at
+maximizing a single candidate's miscoverage is $r^{*}\!\approx\!0.637$ at
 miscoverage $\approx\!0.00909\!\approx\!\gamma$; pooling $m$ such candidates at
 the same per-candidate budget with no correction lets the probability that
 \emph{some} certificate is wrong grow with $m$ (1.8\% at $m=2$ to 13.6\% at
@@ -85,7 +85,7 @@ guarantee's weakest link.
 \input{figures/alg-dispatch.tex}
 
 \Cref{alg:patg} constructs the typed provenance graph that decides
-\cref{eq:grounding}. Its two block conditions are asymmetric on purpose: a slot
+\Cref{eq:grounding}. Its two block conditions are asymmetric on purpose: a slot
 with no witness is treated as a genuine model decision and a slot with more
 than $\kappa$ witnesses is treated as ambiguous, so the analysis never resolves
 an argument by picking the cheapest available explanation.
@@ -101,10 +101,24 @@ the commit boundary: the outer runner can restore byte-identical model input,
 whereas a model-boundary adapter cannot un-emit a response the host has already
 committed to conversation history.
 
-\section{Configuration}
-\label{app:config}
-
-All reported admission runs use risk budget $\alpha=0.05$, confidence budget
+\section{Configuration} \label{app:config} \paragraph{Live-provider
+configuration.} Every live study in this paper calls one provider and one model:
+OpenAI \code{gpt-5.6-luna} through the \code{openai-agents} SDK's Responses
+interface. Model settings are fixed across all conditions at reasoning effort
+\code{low} and verbosity \code{low}, with parallel tool calls disabled so
+provider-visible interface counts are comparable between the baseline and a
+compiled prefix, and server-side response storage disabled. Sampling parameters
+are not overridden and take provider defaults. Reported dollars are an
+\emph{estimate}, computed by applying the published standard short-context list
+rates below --- retrieved 2026-08-02 --- to the token counts retained per
+record; they are not an account invoice and carry no negotiated or cached-tier
+discount beyond the cached-input line. \begin{center}\footnotesize
+\begin{tabular}{@{}lr@{}} \toprule Rate (USD per million tokens) &
+\code{gpt-5.6-luna} \\ \midrule Input & 0.20 \\ Cached input & 0.02 \\ Cache
+write & 0.25 \\ Output & 1.20 \\ \bottomrule \end{tabular} \end{center} Because
+every condition within a family shares this model, these settings, the same
+records, and the same grader, the conditions differ in execution structure
+alone. All reported admission runs use risk budget $\alpha=0.05$, confidence budget
 $\delta=0.1$, and a fixed grid of $|\Lambda|=11$ thresholds, which fixes the
 zero-violation sample requirement at
 $n_\eta\ge\log(\delta/|\Lambda|)/\log(1-\alpha)=91.6$, i.e.\ 92 admitted
@@ -118,9 +132,79 @@ same 106-group requirement, which is why the paper reports per-candidate
 certificates rather than a compiler-wide one. The grid is
 $\Lambda=\{.02,.05,.08,.11,.14,.17,.20,.25,.30,.40,.50\}$ and the ambiguity cap
 is $\kappa=3$.
-Synthesis uses a 23-operator closed library at depth $\le 2$; region mining
-uses $w_{\max}$ tool calls per window and requires support across independent
-scenario groups. The implementation also supports a minimum-distinct-days
+Synthesis uses the 23-operator closed library of \cref{tab:dsl} at depth
+$\le 2$; region mining uses $w_{\max}$ tool calls per window and requires support
+across independent scenario groups.
+
+\begin{table}[h]
+  \centering
+  \caption{The closed transform library $\mathcal{L}$ (version \code{T-v1}). These
+  23 operators are the \emph{entire} expressive power of the binder: a slot with
+  no chain of length $\le 2$ over a single source is \code{ungroundable} and
+  retires its region, so this table fixes what \cref{eq:grounding} can witness.
+  Parameters shown in parentheses are drawn from the observed trace, not
+  free-searched. Every chain is typed, and a runtime type mismatch prunes it
+  during the value-directed search rather than at apply time.}
+  \label{tab:dsl}
+  \footnotesize
+  \begin{tabularx}{\linewidth}{@{}l r >{\raggedright\arraybackslash}X@{}}
+    \toprule
+    Class & $n$ & Operators \\
+    \midrule
+    Identity / coercion & 5 & \code{id}, \code{str}, \code{int}, \code{float},
+      \code{bool} \\
+    String & 6 & \code{lower}, \code{upper}, \code{strip}, \code{split(sep)[i]},
+      \code{join(sep)}, \code{fmt(template)} \\
+    Numeric & 5 & \code{add(c)}, \code{mul(c)}, \code{round(k)}, \code{sum},
+      \code{len} \\
+    Collection & 6 & \code{project(path)}, \code{filter(path\,op\,const)},
+      \code{first}, \code{last}, \code{sort(path)}, \code{topk(path,n)} \\
+    Temporal & 1 & \code{date\_fmt(pattern)} \\
+    \midrule
+    Total & 23 & \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+The library is closed and versioned deliberately. Every operator added widens
+\Cref{alg:patg}'s coverage and its spurious-match surface together, so growth is
+a two-sided trade rather than a free improvement; artifacts pin the library
+version and a runtime version mismatch is a dispatch barrier. The search is
+value-directed rather than an enumeration of $|\mathcal{L}|^{2}$ expressions: it
+runs breadth-first from the concrete source value and keeps chains whose
+denotation equals the target, which prunes by runtime type for free and collapses
+observationally equivalent chains.
+
+\paragraph{The nonconformity score $q$.}
+$q$ is an $\ell_2$-regularized logistic model over entry-observable features
+only --- missing-field indicators, empirical-hull margin, temporal drift, and
+provenance ambiguity --- standardized on the development split's own moments so no
+calibration statistic enters the fit. Its positive class is an
+\emph{unproductive} development group: one the artifact does not carry cleanly to
+a verified result, which on $\mathcal{D}$ means a guard rejection, a verifier
+abstention, or a manifest mismatch. Wrong executions are not available as
+training signal at this point in \cref{alg:compile}, because
+\textsc{ReplayAndChallenge} at line~12 retires any candidate that produces one on
+$\mathcal{D}$; every candidate reaching \textsc{FitScore} at line~13 therefore has
+zero contract violations on the development split by construction. This is a
+design consequence rather than an oversight --- the cascade is ordered so that
+deterministic checks reject before the statistical stage runs --- but it does mean
+$q$ is fitted on abstention-shaped supervision and asked at calibration to rank a
+different event, which is one plausible reason it discriminates weakly
+(\cref{sec:discussion}).
+
+\paragraph{What cohort size permits the gate to certify.}
+The zero-violation floor $n_\eta\ge 92$ constrains coverage, not just admission.
+Certifying selective coverage $c=n_\eta/|\mathcal{K}|$ requires
+$|\mathcal{K}|\ge\lceil 92/c\rceil$: 92 groups for $c=1$, 115 for $c=0.8$, 132 for
+$c=0.7$, 184 for $c=0.5$. Every cohort in this paper fixes $|\mathcal{K}|=92$,
+which is the smallest pool at which \cref{eq:cp} is satisfiable at all. At that
+size the admissible coverage set is exactly $\{0,1\}$: abstaining on one group
+leaves $n_\eta=91$ and $U_\eta=1-(0.1/11)^{1/91}=0.0503>\alpha$. The step-like
+gate profiles reported in \cref{sec:res-refusal} and \cref{app:prospective} are
+therefore consistent with two different worlds --- a score that cannot rank, and a
+cohort too small to certify a ranking --- and these experiments do not separate
+them. A frontier study must first buy calibration groups. The implementation also supports a minimum-distinct-days
 requirement, which the single-snapshot live study does not exercise
 (\code{min\_days}\,=\,1). Two terms of \cref{eq:score} are coarser in the
 implementation than the notation suggests: $\rho_{\mathrm{eff}}$ is
@@ -176,6 +260,23 @@ Family & Endpoint & Paired difference (95\% CI) & $p$ \\
 Provider-request differences are deterministic by construction (every pair
 removes the same number of turns), so no rank test is reported for them: the
 statistic would measure the degeneracy rather than the effect.
+
+\begin{table}[h]
+  \centering
+  \caption{The hand-written comparator priced on the same resource axes as
+  \cref{tab:primary}, as percentage reduction against the same baseline and the
+  same held-out records. \emph{Manual} is written with full knowledge of the
+  workflow, so this is the pessimistic comparison for the compiler: it ties on
+  provider requests, issues fewer tool interfaces, and is marginally cheaper in
+  tokens and dollars, while compilation leads only on wall latency (bold). The
+  interface gap is concentrated in issue-type routing, where the compiled prefix
+  covers two reads but the agent still issues the third. We therefore claim
+  automated discovery and guarded admission, not runtime dominance over code
+  written by someone who already knows the workflow.}
+  \label{tab:manual-resources}
+  \footnotesize
+  \input{tables/manual_resources.tex}
+\end{table}
 
 \section{Additional Experimental Detail}
 
@@ -259,7 +360,30 @@ time-forward extension, and the four compiler-measured external substrates. This
 appendix makes the retained breadth visible without pooling incomparable cohorts
 or promoting screened and exploratory work to deployment evidence.
 
-\subsection{Repository-level time-forward outcomes}
+\subsection{Repository-level time-forward outcomes} \paragraph{Why
+\code{pytorch/pytorch} retires in the core protocol and admits in the balanced
+rerun.} The core retirement is attributable to one stage. Its compile report
+records 116 windows accepted, no windows blocked and none blocked by tool, one
+candidate mined, and a single rejection at \code{calibrate:retire} --- stage~6
+--- with the message that the tightest attainable Clopper--Pearson upper bound
+over the grid is $1.000>\alpha$. A bound of exactly 1 is \cref{eq:cp}'s
+degenerate branch, reached when no calibration group is admitted at a threshold
+or when every admitted group violates, so the candidate never reached a
+countable zero-violation cohort at any $\eta$. Provenance, synthesis, and
+contract induction are therefore not implicated: the region was groundable and
+the program was synthesized. What differs between the protocols is the class
+composition of the pool the artifact was fitted and calibrated on. The core
+protocol draws discovery from the older eligible pool with class balance
+explicitly not enforced, which for this repository yields 84
+\code{closed\_unmerged}, 30 \code{open}, and 2 \code{merged} records out of 116,
+while the sealed held-out split is an exact round-robin of 10/10/10. The
+deployment distribution the gate is asked to certify therefore contains a third
+\code{merged} records against a discovery pool containing under 2\% of them. The
+balanced rerun enforces the \code{open}/\code{merged}/\code{closed\_unmerged}
+mix at selection and the same task admits. We report both rather than only the
+rerun: the core outcome is the protocol behaving as designed under a skewed
+pool, and it is the clearest instance in the paper of the gate refusing on
+evidence composition rather than on trace structure.
 
 \begin{table}[t]
   \centering
@@ -356,7 +480,15 @@ bound is conditional on task-level independence, which this corpus does not
 establish---the same conditional the live studies carry, neither weakened nor
 repaired here. The calibration share is fixed at exactly the 92 groups the bound
 needs, since a larger set would make the bound easier and a smaller one would make
-it unreachable.
+it unreachable. Two held-out replay figures appear for AppWorld and they
+count different partitions, which \cref{tab:funnel} flags but does not have room
+to explain. The 34/0/0 in that table is the test side of the \emph{family}
+partition used to challenge a mined candidate --- 102 train and 34 test groups,
+the same accounting every substrate row reports. The 11/11 quoted in
+\Cref{sec:res-refusal} is the sealed test split of the 11/92/11
+dev/calibration/test partition \cref{alg:calibrate} consumes for admission. Both
+are genuinely held out; they are held out from different fits, and neither is a
+subset of the other's training side.
 
 \begin{table}[t]
   \centering
@@ -425,6 +557,47 @@ frontiers therefore remain diagnostic rather than evidence for the main claim.
 \section{Extended Limitations}
 \label{app:limits}
 
+\paragraph{Repairs for non-exchangeable groups.} \Cref{sec:discussion} states
+that the cluster-aware repairs all cost effective sample size. Concretely, three
+are compatible with \cref{eq:cp} and none is exercised here: enforcing temporal
+separation at calibration (\code{min\_days}$>k$) so a burst of related records
+cannot populate one split; replacing the per-group binomial count with a
+cluster-level or block-bootstrap bound that treats a correlated burst as a
+single unit; and carrying the cluster structure into the conformal step
+directly. Each shrinks the number of independent units below the 92 the bound
+already demands, which is why none was affordable on these cohorts and why a
+larger corpus is the precondition for all three. \paragraph{Relaxing the
+position invariant for a read-only prologue.} \Cref{sec:res-refusal} shows
+\Cref{eq:prefix} costs essentially all ReAct and plan-and-execute eligibility,
+because those architectures open with an API-documentation read. Admitting a
+bounded read-only \emph{prologue} before the compiled prefix looks tractable and
+is narrower than general suffix dispatch: the adapter would need to recognize
+the prologue's calls as already issued and suppress their replay, rather than
+reconcile an arbitrary mid-trace entry point with whatever the agent has already
+done --- which is the fault \cref{app:pilot} records. The obligation is replay
+suppression under an extended entry contract, not a new statistical argument,
+since the compiled region itself would be unchanged. We have neither built nor
+tested it, so it is a conjecture with a named mechanism. \paragraph{Why the
+workflow-reuse line is not a drop-in comparator.}
+\Cref{sec:discussion} states that we run no head-to-head against automated
+workflow reuse, plan caching, or call scheduling. The obstruction is that each
+optimizes a different quantity than the one our metric and our gate are defined
+over. \Citet{wang2025awm} induces reusable workflows into the \emph{prompt}: the
+agent still reaches a model decision at every tool boundary, so the provider
+requests we count are not removed and there is no substituted region to guard.
+\Citet{kim2024llmcompiler} reschedules the calls of a single episode into a
+parallel DAG, which lowers latency without eliminating a model turn, and its
+planner remains in the loop. \Citet{zhang2025plancache} reuses plans across
+episodes, which is the closest target, but without argument-level provenance or
+an effect declaration it makes no admissibility decision --- so there is nothing
+to compare our gate against, only a cache-hit rate. Re-expressing any of them as
+a guarded pre-model substitution with an entry contract and a verifier would
+change the method being measured rather than benchmark it. The comparison we owe
+and did not run is instead internal: an \emph{unguarded} arm that replays the
+mined region deterministically with provenance, effect, and position barriers
+disabled, which would price the guards rather than the compilation. It is the
+single highest-value addition to this evaluation.
+
 \paragraph{A compression comparator ran, and did not engage.}
 Every headline resource number compares a compiled prefix against an
 \emph{uncompressed} baseline, because deployed compression middleware reports
@@ -492,7 +665,7 @@ mined family happens to have the deepest support.
 \end{figure}
 
 \Cref{fig:family-reductions} plots the per-family spread behind
-\cref{tab:primary}: admissible prefix depth, not the optimizer, sets the
+\Cref{tab:primary}: admissible prefix depth, not the optimizer, sets the
 savings. The current empirical gate does not yet demonstrate a useful
 risk--coverage frontier at the registered 5\% level. The strongest current runs are mostly
 all-or-none support tests (\cref{fig:gate-support}), and the compiler-wide
@@ -526,7 +699,7 @@ sealed held-out paired cases (zero compiled-only failures in 300 gives a
 one-sided 95\% upper bound near 1\%, well below the current small-cohort
 bounds), reported pooled and per-repository. \textbf{Compilation} freezes
 candidate selection throughout, so any admitted gate inherits
-\cref{cor:frozen} rather than a per-candidate certificate. \textbf{Three arms}
+\Cref{cor:frozen} rather than a per-candidate certificate. \textbf{Three arms}
 compared under identical records, model, cache policy, and ordering: the
 unchanged agent, the learned gate of \cref{sec:problem}, and a support-only
 frequency gate. \textbf{At least three distinct nonzero coverage levels} must

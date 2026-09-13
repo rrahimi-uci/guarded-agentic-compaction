@@ -7,11 +7,13 @@ opportunity, not permission to remove reasoning.
 
 We introduce \emph{guarded agentic compaction} (\method), an evidence-gated approach that
 compiles recurrent execution paths into deterministic programs only when substitution is
-justified. \method grounds tool arguments in observable state, treats writes, approvals,
-handoffs, and unknown effects as hard barriers, protects compiled execution with input,
-output, and environment guards, and admits specialization only when finite-sample evidence
-satisfies configured risk and confidence requirements. Otherwise, it retains the largest
-justified prefix when possible or falls back to the unchanged agent.
+justified. \method compiles initial read-only prefixes only: it grounds tool arguments in observable
+state, treats writes, approvals, handoffs, and unknown effects as hard barriers, protects
+compiled execution with input, output, and environment guards, and admits specialization
+only when finite-sample evidence satisfies configured risk and confidence requirements.
+Otherwise, it retains the largest justified prefix when possible or falls back to the
+unchanged agent. Those admission certificates are per candidate; extending them
+compiler-wide requires freezing the candidate search.
 
 Across three live GitHub workflow families and 90 unseen test cases, \method satisfies all
 90 task requirements, compared with 89/90 for the unchanged agent, while reducing model

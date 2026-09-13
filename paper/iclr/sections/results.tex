@@ -8,7 +8,8 @@
   \caption{Primary live-provider results ($n=30$ held-out records per family).
   ``Interfaces'' counts provider-visible tool interfaces. All conditions see
   identical records, model, and grader; \emph{Manual} is hand-written with full
-  knowledge of the workflow.}
+  knowledge of the workflow, and \cref{tab:manual-resources} prices it on these
+  same resource axes.}
   \label{tab:primary}
   \footnotesize
   \setlength{\tabcolsep}{3.5pt}
@@ -16,30 +17,40 @@
 \end{table}
 
 Across the 90 held-out records, \method satisfies 90/90 exact contracts versus
-89/90 for the unchanged agent (\cref{tab:primary}), reducing provider requests by
-66.6\%, tokens by 63.1\%, latency by 64.2\%, and estimated cost by 58.7\% in
-aggregate. Issue-type routing admits only a two-read prefix, whereas the two
-deeper workflows approach 75\% fewer requests.
+89/90 for the unchanged agent (\cref{tab:primary}), reducing provider requests
+by 66.6\%, tokens by 63.1\%, latency by 64.2\%, and cost by 58.7\%. Issue-type
+routing admits only a two-read prefix; the two deeper workflows approach 75\%
+fewer requests.
 
 No held-out record is a compiled-only failure; the one-sided 95\% upper bound on
 that discordance is 3.3\%, which supports preservation on the observed cohort, not
 equivalence in general. Each artifact was admitted with 92 zero-violation
-calibration groups ($U_\eta=0.0498\le.05$). Hand-written programs also achieve
-90/90 and are cheaper for issue-type routing.
+calibration groups ($U_{\hat\eta}=0.0498\le 0.05$). Each family mined two
+candidates and kept the survivor by empirical dominance without freezing the
+search, so these are \emph{per-candidate} certificates under
+\cref{prop:admission}, not compiler-wide ones (\cref{cor:frozen},
+\cref{app:config}).
+
+Hand-written programs also reach 90/90. \Cref{tab:manual-resources} prices them
+on the same axes: they tie on requests, issue fewer interfaces (66.5\% vs.\
+44.2\%), are marginally cheaper in tokens and dollars, and lose only on latency.
+We claim discovery and admission, not runtime dominance over code written by
+someone who already knows the workflow.
 
 \subsection{Time-forward transfer: compile or retire}
 \label{sec:res-multirepo}
 
 On a narrower two-read pull-request outcome task across frozen public
-repositories, with held-out records strictly newer than discovery records and
-selection sealed before any provider call, \method completes 120/120 exact
-held-out pairs on four of five repositories and retires \code{pytorch/pytorch} at
-compile time rather than loosening its gate; requests fall 44.4\% and tokens
-52.4\%. A balanced three-repository rerun reaches 180/180 exact pairs at 66.7\%
-fewer requests and 78.4\% fewer tokens
-(\cref{tab:multirepo-disaggregated}). A fixed two-read template is more efficient
-in the five-repository core and essentially tied in the rerun: evidence of
-discovery and principled retirement, not of runtime dominance.
+repositories, with held-out records strictly newer than discovery ones and
+selection sealed before any provider call, \method completes 120/120 exact pairs
+on four of five repositories and retires \code{pytorch/pytorch} rather than
+loosening its gate; requests fall 44.4\% and tokens 52.4\%. That retirement is the gate's, not provenance's: all 116 windows cleared with
+nothing blocked, but the unenforced discovery pool held 2 merged records against
+a balanced 10/10/10 test split, and no threshold attained $U_\eta\le\alpha$
+(\cref{app:breadth}). A balanced
+three-repository rerun, which controls that mix, reaches 180/180 exact pairs at
+66.7\% fewer requests and 78.4\% fewer tokens (\cref{tab:multirepo-disaggregated}). A fixed two-read template is more efficient in the five-repository core and essentially tied in the rerun: evidence of discovery and
+principled retirement, not of runtime dominance.
 
 \subsection{What binds: sample size, then deployability}
 \label{sec:res-refusal}
@@ -48,8 +59,10 @@ discovery and principled retirement, not of runtime dominance.
   \centering
   \caption{Where refusal happens, and what happens where it does not. Stage
   numbers are \cref{alg:compile}'s; ``slots'' is the share of dependency slots with
-  a recovered producer, ``p/a/w'' means held-out replay pass/abstain/wrong, and
-  $n_{\max}$ is the largest family support against the 92 \cref{eq:cp} requires.}
+  a recovered producer, and $n_{\max}$ is the largest family support against the 92
+  \cref{eq:cp} requires. ``p/a/w'' is pass/abstain/wrong on each substrate's
+  \emph{family-level} replay split, which is held out from a different fit than
+  the admission split quoted in the text (\cref{app:external}).}
   \label{tab:funnel}
   \footnotesize
   \setlength{\tabcolsep}{4pt}
@@ -57,27 +70,22 @@ discovery and principled retirement, not of runtime dominance.
 \end{table}
 
 The external substrates isolate the binding constraint (\cref{tab:funnel}). All
-four clear provenance, synthesis, and held-out replay with \emph{no} wrong
-execution anywhere. NESTFUL, API-Bank, and executed BFCL gold plans then retire,
-and each retirement was arithmetically settled before the compiler ran---which is
-why a fourth substrate was needed. AppWorld's public gold solutions reach
-$n_{\max}=136$, so it is the first external corpus where \cref{eq:cp} is
-satisfiable, and it admits one artifact at 92/92 zero-violation groups
-($U_{\hat\eta}=0.0498$) with 11/11 exact held-out replay, under both
-pre-registered effect arms. Two features bound it: the gate is step-like, and the
-admitted program is argument-free, so provenance fixed its \emph{length} rather
-than its content---four further candidates retired, two on 89 and 90 eligible
-groups at $U=0.051$, and one mined three calls but synthesized two because its
-login password slot is not groundable in every supporting group
-(\cref{app:external}).
+four clear provenance, synthesis, and replay with \emph{no} wrong execution,
+then NESTFUL, API-Bank, and executed BFCL gold plans retire --- each settled
+arithmetically before the compiler ran, which is why a fourth substrate was
+needed. AppWorld's gold solutions reach $n_{\max}=136$, the first external corpus where
+\cref{eq:cp} is satisfiable, and it admits one artifact at 92/92 zero-violation
+groups ($U_{\hat\eta}=0.0498$) with 11/11 exact replay on its sealed admission
+split, under both pre-registered effect arms. Two features bound it: the gate is
+step-like, and the admitted program is argument-free, so provenance fixed its
+\emph{length} rather than its content (\cref{app:external}).
 
-Admissibility is not dispatchability. Gold solutions are not agent
-trajectories, so we also test the admitted region against AppWorld's 28 released
-baseline runs. Over 8{,}190 held-out trajectories it is structurally eligible at
-the entry boundary in $37.9\%$, and that average is bimodal: near-total for
-full-code agents, and $1$ of $4{,}680$ for ReAct and plan-and-execute, which open
-by reading API documentation so the prefix leaves position~0
-(\cref{tab:appworld-dispatch}). These trajectories repeat tasks across 28 released
-runs and are descriptive units, not 8{,}190 independent samples. A miss abstains
-cleanly, and this measurement bounds $\phi$ from above rather than estimating a
-population dispatch rate, so no saving or inferential interval is claimed.
+Admissibility is not dispatchability. Gold solutions are not agent trajectories,
+so we also test the admitted region against AppWorld's 28 released baseline
+runs. Over 8{,}190 trajectories it is structurally eligible at the entry
+boundary in $37.9\%$, bimodal across architectures: near-total for full-code
+agents, $1$ of $4{,}680$ for ReAct and plan-and-execute, which open by reading
+API documentation so the prefix leaves position~0
+(\cref{tab:appworld-dispatch}). These are descriptive units, not independent
+samples; a miss abstains cleanly, and the measurement bounds $\varphi$ from
+above.
