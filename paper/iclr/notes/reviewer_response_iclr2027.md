@@ -43,3 +43,35 @@ We did not run the fresh-cohort multiplicity repair, the recurrence-only live ar
 drift-robustness ablation; each is pre-registered with a fixed decision rule and spend
 ceiling. We did not implement the read-only prologue or collect a ⌈92/c⌉ calibration pool.
 The paper states each of these as unrun.
+
+## PAT minor corrections (checked against the 12 Sept 2026 feedback, item by item)
+
+| PAT item | Status at PR #41 head |
+|---|---|
+| Abstract hyphenation/encoding artifacts (`readonly`, `reduce`, …) | Extraction artifacts of the reviewer's text copy; the source reads `read-only`, `reduce inference`; no change |
+| Index tool calls/results in the episode tuple (line 122 vs 130) | §2 now defines $c_j$ and $o_j$ in the episode-tuple sentence |
+| Eq. (1) bracket/comma notation | Eq. (1) already quantifies $\exists s\in\mathrm{Src}(z,o_{<j}),\ \exists g\in\mathcal{L}: u=g(s)$ (single-source form) |
+| Alg. 1 line 7 `F` vs $\mathcal{F}$; $w_{\max}$ missing from Input | Both already fixed in the current Alg. 1 |
+| Alg. 2 symbol overload of $\mathcal{A}$ | Local set renamed $\Pi$ |
+| Eq. (5) underbrace artifact | PDF-extraction artifact; renders correctly |
+| $\varphi$ symbol consistency; $U_\eta$ vs $U_{\hat\eta}$; leading zeros | Standardized (`\varphi`, $U_{\hat\eta}$, `0.05`); validator rejects bare decimals |
+| Main-text pointers to appendix tables | Every main-text reference to an appendix table now reads "\cref{tab:…} in \cref{app:…}" |
+| "average is bimodal" | Reworded to a distribution across architectures |
+| §7 "four repositories" | Now "five repositories and 240 held-out triples" |
+| §6 grouped citations | Distributed per system (DSPy, GEPA, RouteLLM, LLMCompiler) |
+| App. A $m$ vs $n_\eta$ in the bound; $0\le k_\eta<n_\eta$ qualification | Proof now uses $n_\eta$ throughout and states the $k_\eta=n_\eta$ branch |
+| App. A lowercase "proposition 1" | `\crefname` capitalizes every reference |
+| App. A $r^\star$ typography | $r^{*}$ |
+| Basu et al. orphaned author line | Reference list re-flows cleanly (checked in the rebuilt PDF) |
+| App. C `log` vs `ln` | `\ln` |
+| App. D "deterministic by construction" vs the 29/30 baseline record | Caption names record 5189 as the one exception |
+| Alg. 3 unbound $o_j$ | Loop head iterates over call–result pairs $(c_j,o_j)$ |
+| Alg. 4 "behaviour" | American spelling throughout |
+| App. E orphaned bullet list | Lead sentence and list kept together |
+| App. F.3 `INSERT/UPDATE/DELETE/ CREATE/DROP` | Legal break without a space |
+| App. G "both GitHub families" | Names PR-outcome and backlog-attention |
+| App. H.1 cross-reference to §7 | Points to the decision rule in Appendix H |
+
+OpenReview fields (abstract, TL;DR) still show the pre-revision text and must be replaced with
+`paper/iclr/notes/openreview_metadata.md`; the old TL;DR's "with no [quality loss]" clause is no
+longer used.
