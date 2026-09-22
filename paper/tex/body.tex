@@ -943,11 +943,17 @@ content is \cref{prop:admission}'s, restated for a search that never lets a seco
 candidate see calibration data.  It is also not hypothetical here.  The cross-repository
 extension of \cref{sec:multirepo-method} already runs with freezing enabled, and every
 sealed repository report there shows exactly one candidate reaching calibration, so
-\cref{cor:frozen} applies to those admissions directly.  The three primary GitHub
-families do not: each mines two candidates that both reach calibration, and the
-higher-removal survivor is kept by dominance, so they remain the per-candidate
-certificates \cref{prop:admission} was always scoped to and are not retroactively
-strengthened by this corollary.
+\cref{cor:frozen} applies to those admissions directly.  Conditional on train and
+development data, the number $m$ of candidates that reach calibration is fixed before any
+calibration label is read.  Issue-type routing did not freeze, but its second candidate
+retired at synthesis (an ungroundable slot) and never saw calibration, so $m=1$ and the
+same argument applies.  PR-outcome and backlog-attention routing each calibrated $m=2$
+candidates on the same 92 groups and kept the higher-removal survivor by dominance: their
+certificates are per-candidate at $\alpha=0.05$, and under $\gamma=\delta/(m|\Lambda|)$
+the retained zero-violation tables give $U=0.0569>\alpha$, a compiler-wide certificate
+only at $\alpha\ge0.057$ or after 106 groups.  A fresh 106-group calibration under the
+pre-registered protocol \path{multiplicity-repair-protocol.md} is the repair; it is
+pre-registered and not yet run.
 
 A provider-free simulation
 (\path{frozen_candidate_coverage_simulation.py}) quantifies exactly what
@@ -2857,12 +2863,23 @@ claim that a frontier now exists.
 \paragraph{Observed results.}
 Executed against all five repositories: four admit a candidate and complete 240 of the
 pre-registered 300 held-out triples (580/580 exact discovery traces); \code{pytorch/pytorch}
-again retires at compile time, reproducing --- on an independent, five-times-larger cohort
---- the same repository's retirement in \cref{sec:multirepo-results} rather than revealing
-a new data-availability artifact.  \Cref{tab:gate-frontier} gives the per-repository
+again retires at compile time.  This cohort is drawn from the same frozen snapshots with
+the same selection seed as the core study and excludes none of its records (it shares
+561/580 discovery, 442/460 calibration, and 130/150 held-out records with it), so at twice
+the core scale it is a larger sealed re-execution, not an independent replication, and the
+\code{pytorch/pytorch} retirement is a near-replay of the one in
+\cref{sec:multirepo-results}.  \Cref{tab:gate-frontier} gives the per-repository
 account; the full numeric ledger is in
-\path{prospective-gate-frontier-protocol.md}.  On the 240 pairs, exact task contracts hold
-throughout (240/240, one transient provider timeout aside), and the learned gate and the
+\path{prospective-gate-frontier-protocol.md}.  Accounting is by episode: 240 records $\times$ 3 arms, 719 of 720 completed; exact task
+contracts under intention-to-treat are 240/240 (unchanged agent), 240/240 (learned gate),
+and 239/240 (support-only), the one incomplete episode being \code{psf/requests} record
+6708 under the support-only arm, which raised the 120\,s provider timeout and, the protocol
+fixing no retry rule, was not re-attempted; the record passed in the other two arms.  The
+\code{psf/requests} block was executed once, as the single-repository pipeline check under
+the sealed selection, and reused by the five-repository run through the driver's resume
+path.  Held-out dispatch was 160/240 for the learned gate: every open-class pull request
+abstained on the induced verifier's \code{pr.state} hull and ran the unchanged agent.  The
+learned gate and the
 support-only comparator --- $\alpha=1$ in an otherwise byte-for-byte identical compile
 pass, so only the risk budget differs --- are statistically indistinguishable on every
 efficiency metric (44--52\% reductions, both arms).  That is exactly what
@@ -2870,10 +2887,14 @@ efficiency metric (44--52\% reductions, both arms).  That is exactly what
 the identical coverage-1.0 threshold, and the one sweep that shows a third value
 (\code{huggingface/datasets}) rejects it on the risk bound, not on coverage.  No held-out
 wrong dispatch occurred on either gate.  Per the decision rule fixed in advance, this is
-the pre-declared null, not a frontier: at four times the prior cross-repository scale,
-against a comparator built to isolate the risk budget specifically, the
-exact-$\alpha=.05$ gate remains a support threshold.  This confirms, rather than
-resolves, the step-gate finding already reported above.
+the pre-declared null, not a frontier: at twice the prior cross-repository scale, against
+a comparator built to isolate the risk budget specifically, the exact-$\alpha=.05$ gate
+remains a support threshold --- as it must at $|\mathcal{K}|=92$, where the registered
+bound certifies only $n_\eta=92$, so the pre-registered criterion of three admissible
+nonzero coverage levels was unattainable whatever $q$ ranks, and where held-out $q$ is
+constant within each repository because the entry state is a single record number.  The
+study audits support-threshold behavior at full coverage under two risk budgets; it does
+not test the ranking quality of $q$.
 
 \begin{table}[t]
   \centering

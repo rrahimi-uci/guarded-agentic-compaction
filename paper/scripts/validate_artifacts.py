@@ -2367,6 +2367,117 @@ def validate_slide_generation() -> None:
            "slide-generation manifest retains the current comparator evidence boundary")
 
 
+def validate_iclr_sources() -> None:
+    """Pin the ICLR submission's LaTeX sources and generated tables to retained evidence.
+
+    Until the 2026-09 revision no check read anything under ``paper/iclr/`` except the
+    compiled PDF's page budget, so a number could drift in the submission while the
+    long-form article stayed validated. This family (a) regenerates every table that
+    ``iclr_revision_statistics.py`` owns and requires the committed file to be
+    byte-identical, (b) pins the headline strings of §5.1 to ``summary.json``, (c) pins
+    the gate-frontier accounting and the certificate-level arithmetic, and (d) rejects
+    the editorial defects the ICLR 2027 feedback listed.
+    """
+    import importlib.util
+    import re as _re
+
+    iclr = PAPER / "iclr"
+    sections = {p.name: p.read_text(encoding="utf-8") for p in (iclr / "sections").glob("*.tex")}
+    appendix = (iclr / "appendix.tex").read_text(encoding="utf-8")
+    body = "\n".join(sections.values()) + "\n" + appendix
+    revision = PAPER / "results/iclr_revision"
+
+    # (a) generated tables regenerate byte-identically
+    spec = importlib.util.spec_from_file_location("iclr_revision_statistics", PAPER / "scripts/iclr_revision_statistics.py")
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(module)
+    table_names = (
+        "absolute_resources", "paired_statistics", "discordance", "multiplicity_accounting",
+        "live_provider_manifest", "live_catalog", "multirepo_dispatch", "gate_frontier_disaggregated",
+        "effective_units", "mechanism_removal")
+    committed = {name: (iclr / "tables" / f"{name}.tex").read_text(encoding="utf-8") for name in table_names}
+    # Regenerate into a scratch directory: the committed files are inputs to the
+    # manifest check and must never be rewritten by a validator. JSON is compared
+    # numerically (floats rounded to 9 significant digits) because Python/numpy
+    # versions differ in the last bits of float repr, which is not a claim change.
+    import tempfile
+
+    def _canon(value):
+        if isinstance(value, float):
+            return float(f"{value:.9g}")
+        if isinstance(value, dict):
+            return {k: _canon(v) for k, v in value.items()}
+        if isinstance(value, list):
+            return [_canon(v) for v in value]
+        return value
+
+    with tempfile.TemporaryDirectory() as scratch:
+        module.OUT = Path(scratch) / "json"
+        module.TABLES = Path(scratch) / "tables"
+        for command in ("absolute", "paired", "multiplicity", "manifest", "catalog-audit", "frontier", "clusters", "mechanisms"):
+            module.COMMANDS[command]()
+        for name, text in committed.items():
+            fresh = (module.TABLES / f"{name}.tex").read_text(encoding="utf-8")
+            ok(fresh == text, f"iclr: generated table {name}.tex regenerates byte-identically")
+        for fresh_path in sorted(module.OUT.glob("*.json")):
+            committed_path = revision / fresh_path.name
+            if not committed_path.exists():
+                ok(False, f"iclr: {fresh_path.name} is committed under paper/results/iclr_revision")
+                continue
+            same = _canon(json.loads(fresh_path.read_text())) == _canon(json.loads(committed_path.read_text()))
+            ok(same, f"iclr: {fresh_path.name} regenerates to the committed values")
+    module.OUT = revision
+    module.TABLES = iclr / "tables"
+
+    # (b) §5.1 headline strings against summary.json
+    summary = json.loads((PAPER / "results/github_workflow_families/summary.json").read_text())
+    overall = summary["overall"]
+    results_tex = sections["results.tex"]
+    ok(f"{overall['compiled_exact']}/{overall['n']}" in results_tex and f"{overall['baseline_exact']}/{overall['n']}" in results_tex,
+       "iclr: results.tex states the retained 90/90 and 89/90 counts")
+    for key, label in (("requests", "requests"), ("total_tokens", "tokens"), ("wall_latency_ms", "latency"), ("estimated_cost_usd", "cost")):
+        pct = f"{100 * overall[key]['reduction']:.1f}\\%"
+        ok(pct in results_tex, f"iclr: results.tex quotes the retained {label} reduction {pct}")
+    primary = (iclr / "tables/primary_results.tex").read_text(encoding="utf-8")
+    for fam in summary["families"]:
+        for key in ("requests", "total_tokens", "wall_latency_ms", "estimated_cost_usd"):
+            ok(f"{100 * fam['reductions'][key]:.1f}" in primary, f"iclr: primary_results.tex carries {fam['family']} {key} reduction")
+
+    # (c) gate-frontier accounting and certificate arithmetic
+    frontier = json.loads((revision / "gate_frontier_reanalysis.json").read_text())
+    pooled = frontier["gate_frontier"]["pooled"]
+    ok(pooled["baseline"]["exact"] == 240 and pooled["learned_gate"]["exact"] == 240 and pooled["support_only"]["exact"] == 239,
+       "iclr: gate-frontier arms are 240/240, 240/240, 239/240")
+    ok("240/240, learned gate 240/240, support-only 239/240" in appendix, "iclr: appendix states the per-arm gate-frontier accounting")
+    ok("160/240" in appendix, "iclr: appendix states held-out dispatch 160/240")
+    ok("239/239 after" not in appendix and "five-times" not in appendix and "four times the prior" not in appendix,
+       "iclr: appendix no longer carries the 239/239, five-times, or four-times wording")
+    multiplicity = json.loads((revision / "multiplicity_accounting.json").read_text())
+    ok(abs(multiplicity["u_at_92"]["2"] - 0.056941) < 1e-5 and multiplicity["n_min"]["2"] == 106,
+       "iclr: two-candidate bound is 0.0569 at 92 groups and needs 106")
+    ok(multiplicity["artifacts"]["issue_type"]["m"] == 1 and multiplicity["artifacts"]["pr_outcome"]["m"] == 2
+       and multiplicity["artifacts"]["backlog_attention"]["m"] == 2, "iclr: realized candidate counts are 1, 2, 2")
+    ok("0.0569" in body and "0.057" in body, "iclr: the corrected two-candidate bound appears in the manuscript")
+    ok("compiler-wide for issue-type routing" in results_tex, "iclr: §5.1 states the certificate level per family")
+
+    # (d) editorial defects from the feedback ledger
+    ok("behaviour" not in body and "behaviour" not in (iclr / "figures/alg-dispatch.tex").read_text(encoding="utf-8"),
+       "iclr: American spelling of behavior throughout")
+    ok("distribution-free" not in body.lower(), "iclr: no distribution-free claim")
+    ok(not _re.search(r"(\\ge|\\le|\\geq|\\leq|=|<|>)\s*\.\d", body), "iclr: no bare decimals without a leading zero")
+    ok("provider defaults" not in appendix, "iclr: the sampling sentence names the request manifest, not provider defaults")
+    ok("both GitHub families" not in appendix, "iclr: the Headroom ablation names its two families")
+    ok("\\crefname{proposition}{Proposition}" in (iclr / "main.tex").read_text(encoding="utf-8"),
+       "iclr: Proposition and Corollary cross-references are capitalized")
+    pdf_path = iclr / "build/main.pdf"
+    if pdf_path.exists():
+        from pypdf import PdfReader
+        text = "\n".join((page.extract_text() or "") for page in PdfReader(str(pdf_path)).pages)
+        ok("??" not in text, "iclr: compiled PDF has no unresolved reference")
+        ok("proposition 1" not in text and "corollary 2" not in text, "iclr: compiled PDF capitalizes theorem references")
+
+
 def main() -> None:
     validate_sources()
     validate_live()
@@ -2385,6 +2496,7 @@ def main() -> None:
     validate_claim_boundaries()
     validate_publication()
     validate_iclr_page_budget()
+    validate_iclr_sources()
     validate_headroom_ablation_preflights()
     validate_github_workflow_families()
     validate_github_multirepo_pr_outcome_core()

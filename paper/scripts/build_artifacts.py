@@ -30,7 +30,7 @@ ROOT = Path(__file__).resolve().parents[2]
 PAPER = ROOT / "paper"
 RESULTS = PAPER / "results"
 FIGURES = PAPER / "generated_figures"
-ICLR_FIGURES = PAPER / "ICLR" / "figures"
+ICLR_FIGURES = PAPER / "iclr" / "figures"
 TABLES = PAPER / "tables"
 
 LIVE_PATH = RESULTS / "github_live" / "results.json"
@@ -569,7 +569,7 @@ def aha_example_figure(
           color=COLORS["ink"], family="monospace", within=(2, 4, 52, 35))
     lines(5, 18.5, "emit record → labels\ncomments + render stay with agent", size=7.1,
           color=COLORS["ink"], family="monospace", within=(2, 4, 52, 35))
-    lines(5, 10, "92/92 · U=.0498 ≤ α=.05", size=7.5,
+    lines(5, 10, "92/92 · U=0.0498 ≤ α=0.05", size=7.5,
           color=COLORS["series1"], weight="bold", within=(2, 4, 52, 35))
     lines(55, 28.5, "Earlier continuation check", size=8.2, color=COLORS["series1"],
           weight="bold", within=(52, 4, 46, 35))

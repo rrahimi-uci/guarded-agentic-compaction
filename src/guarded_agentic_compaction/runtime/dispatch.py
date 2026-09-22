@@ -261,9 +261,20 @@ class Dispatcher:
                 for r in reasons:
                     self.telemetry.bump(self.telemetry.guard_misses, r.split(":")[0])
                 continue
+            if art.program is not None and len(already_observed) > 0:
+                # Position invariant (Algorithm 4): a compiled region is fitted on
+                # the entry state at position 0 of the episode. Any prior tool
+                # observation, related or not, means this boundary is not the
+                # prefix the contract was calibrated on, so we fall back.
+                reason = "non_prefix_boundary"
+                if not first_reasons:
+                    first_reasons = (reason,)
+                self.telemetry.bump(self.telemetry.guard_misses, reason)
+                continue
             if art.program is not None and any(t in already_observed for t in art.program.tools):
                 # the region has already partly run in this episode; its live-ins
-                # are no longer the ones the contract was fitted on
+                # are no longer the ones the contract was fitted on. Redundant
+                # under the position invariant above; kept for defense in depth.
                 self.telemetry.bump(self.telemetry.guard_misses, "region_already_started")
                 continue
             if (

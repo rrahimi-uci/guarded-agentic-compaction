@@ -35,11 +35,9 @@ the compiler also imposes a \emph{position invariant}:
   a = 0 \quad\text{in the normalized model-boundary index.}
   \label{eq:prefix}
 \end{equation}
-This is not aesthetic. A suffix program dispatched at entry can reorder or
-duplicate calls the agent has already made --- a semantic mismatch between
-compilation-time and resolution-time position rather than a tuning failure, and
-a pilot that violated \cref{eq:prefix} produced exactly that fault
-(\cref{app:pilot}). Everything that follows is therefore an \emph{initial read-only prefix} compiler, not the arbitrary-entry trace compiler a JIT is;
+A suffix program dispatched at entry can reorder or duplicate calls the agent
+has already made; a pilot that violated \cref{eq:prefix} produced exactly that
+fault (\cref{app:pilot}). Everything that follows is therefore an \emph{initial read-only prefix} compiler, not the arbitrary-entry trace compiler a JIT is;
 \cref{sec:res-refusal} prices what that costs.
 
 \paragraph{Selective optimization objective.}
@@ -71,16 +69,17 @@ d_A(x_i)L(A,x_i)$. We seek
   \le \alpha .
   \label{eq:objective}
 \end{equation}
-Both halves take the same group measure $\mathcal{D}_{\mathrm{grp}}$, the objective summing within a group rather than over pooled episodes, so that
-unequal groups are not weighted differently by objective and constraint. Three properties shape everything that follows. \emph{First}, the constraint
+Both halves take the same group measure $\mathcal{D}_{\mathrm{grp}}$, summing
+within a group so that objective and constraint weight groups alike. Three
+properties shape everything that follows. \emph{First}, the constraint
 conditions on dispatch: abstention does not enter its denominator, although it
 earns no savings in the objective; by convention its conditional risk is zero
 when population dispatch probability is zero. \emph{Second}, returning \emph{no}
 artifact is feasible, so \retire{} is a legitimate output, and
 \cref{eq:objective} is a design target rather than a solved program --- the
 implementation calibrates a bounded ranked set and retains nondominated
-survivors, and we prove neither optimality nor a compiler-wide guarantee for
-that search. \emph{Third}, $L$ scores the \emph{episode}: a sound prefix whose baseline
+survivors, and we prove neither optimality nor any guarantee for that search
+beyond the per-candidate and fixed-$m$ cases of \cref{sec:method}. \emph{Third}, $L$ scores the \emph{episode}: a sound prefix whose baseline
 continuation errs still contributes $L=1$, so the gate certifies end-to-end
 compliance under substitution, not non-inferiority, and admission requires $B$
 to already succeed on a $1-\alpha$ share of the dispatched slice

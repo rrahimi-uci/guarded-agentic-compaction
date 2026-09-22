@@ -23,8 +23,7 @@ entry state nor from either earlier result, so one unwitnessed slot blocks the
 three-read candidate as \code{ungroundable\_slot}. What survives is the maximal
 justified prefix \code{record} $\rightarrow$ \code{labels}; the agent still
 chooses the limit and writes the answer. That two-read artifact passes 92/92
-calibration groups at $\alpha=0.05$ (upper bound 0.0498, a per-candidate
-certificate).
+calibration groups at $\alpha=0.05$ (upper bound 0.0498).
 
 Why stop there? An earlier 18-record study supplies the counterexample: its
 three-read artifact replayed all 45 tool calls, yet issue \#6602 lost the URL
@@ -35,7 +34,7 @@ mechanism check, not live safety evidence. Together the two cohorts
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=0.88\linewidth]{figures/gac_aha_example.pdf}
+  \includegraphics[width=0.72\linewidth]{figures/gac_aha_example.pdf}
   \Description{A real GitHub issue trace repeats record, labels, and comments, but GAC
   rejects the full candidate because the comments limit is ungroundable and emits only
   the record and labels prefix.  A separate issue 6602 continuation miss shows why clean
@@ -69,15 +68,15 @@ general, but an admissibility argument for trace-derived specialization:
   \item A guarded specialization pipeline (\cref{alg:compile}) combining typed
 provenance, effect and position barriers, bounded synthesis, runtime
 verification, and finite-sample compile-or-retire admission
-(\cref{alg:calibrate}, \cref{prop:admission}); every stage can refuse, and the
-default output is the unchanged agent. \item A real-provider evaluation across
+(\cref{alg:calibrate}, \cref{prop:admission}) with the certificate level stated
+per artifact; every stage can refuse, and the default output is the unchanged
+agent. \item A real-provider evaluation across
 three public-record workflow families, plus a narrower cross-repository, time-forward extension keeping both artifacts and principled retirements.
   \item A negative-result boundary: recurrence and replayability do not license
   deployment. NESTFUL, API-Bank, and executed BFCL gold plans retire under the
   same admission logic, and hand-written programs are competitive or tied wherever
   the workflow is already known.
-  \item A pre-registered fourth substrate, AppWorld --- the first external corpus
-  whose sample size makes admission reachable, and which admits --- plus a
+  \item A pre-registered fourth substrate, AppWorld --- which admits --- plus a
   measurement on 8{,}190 released baseline trajectories where the admitted region
   is eligible on 2{,}339/2{,}340 full-code but only 1/4{,}680 ReAct or
   plan-and-execute trajectories, separating \emph{admissible} from

@@ -1,0 +1,118 @@
+{
+  "candidates": [
+    {
+      "candidate_id": "cand-00-4ea713b44da7",
+      "gate": {
+        "admissible": [],
+        "alpha": 0.05,
+        "coverage": 0.0,
+        "delta": 0.1,
+        "grid_rows": [
+          {
+            "coverage": 0.0,
+            "eta": 0.02,
+            "n": 0,
+            "upper": 1.0,
+            "violations": 0
+          },
+          {
+            "coverage": 0.0,
+            "eta": 0.05,
+            "n": 0,
+            "upper": 1.0,
+            "violations": 0
+          },
+          {
+            "coverage": 0.0,
+            "eta": 0.08,
+            "n": 0,
+            "upper": 1.0,
+            "violations": 0
+          },
+          {
+            "coverage": 0.0,
+            "eta": 0.11,
+            "n": 0,
+            "upper": 1.0,
+            "violations": 0
+          },
+          {
+            "coverage": 0.0,
+            "eta": 0.14,
+            "n": 0,
+            "upper": 1.0,
+            "violations": 0
+          },
+          {
+            "coverage": 0.0,
+            "eta": 0.17,
+            "n": 0,
+            "upper": 1.0,
+            "violations": 0
+          },
+          {
+            "coverage": 0.0,
+            "eta": 0.2,
+            "n": 0,
+            "upper": 1.0,
+            "violations": 0
+          },
+          {
+            "coverage": 0.0,
+            "eta": 0.25,
+            "n": 0,
+            "upper": 1.0,
+            "violations": 0
+          },
+          {
+            "coverage": 0.0,
+            "eta": 0.3,
+            "n": 0,
+            "upper": 1.0,
+            "violations": 0
+          },
+          {
+            "coverage": 0.0,
+            "eta": 0.4,
+            "n": 0,
+            "upper": 1.0,
+            "violations": 0
+          },
+          {
+            "coverage": 0.0,
+            "eta": 0.5,
+            "n": 0,
+            "upper": 1.0,
+            "violations": 0
+          }
+        ],
+        "n_accepted": 0,
+        "n_calibration_groups": 92,
+        "notes": "protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 1.000 > alpha=0.05; more calibration groups (or zero observed violations) are required; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.17, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.2, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.25, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.3, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.4, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.5, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}]",
+        "observed_violations": 0,
+        "retire": true,
+        "risk_upper_bound": 1.0,
+        "threshold": 0.0
+      },
+      "rejected": "gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 1.000 > alpha=0.05; more calibration groups (or zero observed violations) are required; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.17, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.2, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.25, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.3, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.4, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.5, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}]",
+      "removed_requests": 2.0,
+      "stage": "calibrated",
+      "support_groups": 16,
+      "tools": [
+        "pr_get_record",
+        "pr_get_merge_status"
+      ]
+    }
+  ],
+  "checkpoint": "paper/results/github_multirepo_pr_outcome_core/repos/pytorch__pytorch/discovery_checkpoint.json",
+  "mechanism": "n_eta = 0 at every eta: no calibration group was accepted at any threshold (the frozen score q exceeded every grid value or the hard guard rejected every group)",
+  "provider_calls": 0,
+  "recompile_error": "compiler emitted no admitted artifact:",
+  "rejection_by_stage": {
+    "calibrate:retire": 1
+  },
+  "report": "GRC compile report\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\ncandidates mined        1\nartifacts emitted       0\nrejections by stage     {'calibrate:retire': 1}\nwindows accepted        16\nwindows blocked         {}\nblocked by tool         {}\n  [calibrated  ] pr_get_record/pr_get_merge_status                 supp=16 k=2.0  REJECTED: gate_retire:protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 1.000 > alpha=0.05; more calibration groups (or zero observed violations) are required; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.17, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.2, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.25, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.3, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.4, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.5, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}]",
+  "repository": "pytorch/pytorch",
+  "retained_error_prefix": "RuntimeError: compiler emitted no admitted artifact:\nGRC compile report\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\ncandidates mined        1\nartifacts emitted       0\nrejections by stage     {'calibrate:retire': 1}\nwindows a",
+  "retained_error_reproduced": true
+}

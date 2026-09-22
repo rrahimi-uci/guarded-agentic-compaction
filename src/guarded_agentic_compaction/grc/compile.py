@@ -509,7 +509,9 @@ def compile_grc(
         rec.gate = gate
         rec.stage = "calibrated"
         if gate.retire:
-            rec.rejected = "gate_retire:" + gate.notes[:120]
+            # Keep the full notes: the per-threshold grid rows are the only record
+            # of *why* a candidate retired (n_eta = 0 versus k_eta > 0).
+            rec.rejected = "gate_retire:" + gate.notes
             res.rejection_by_stage["calibrate:retire"] += 1
             if config.freeze_one_candidate_before_calibration:
                 break

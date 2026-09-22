@@ -185,7 +185,9 @@ def test_manual_plan_rejects_catalog_demotion_and_partial_region_before_tools() 
         continuation_compatibility_key="continuation-v1",
     )
     assert not result.compacted
-    assert result.record["reasons"] == ["region_already_started"]
+    # The position invariant fires before the narrower region-already-started
+    # test: any prior tool observation leaves position 0 (Algorithm 4).
+    assert result.record["reasons"] == ["non_prefix_boundary"]
     assert calls == []
 
 

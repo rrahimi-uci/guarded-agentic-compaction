@@ -1,0 +1,387 @@
+{
+  "families": {
+    "backlog_attention": {
+      "arms": {
+        "baseline": {
+          "condition": "baseline",
+          "estimated_cost_usd": {
+            "mean": 0.0007287666666666667,
+            "median": 0.0007103000000000001,
+            "sum": 0.021863
+          },
+          "exact": 29,
+          "n": 30,
+          "requests": {
+            "mean": 3.966666666666667,
+            "median": 4.0,
+            "sum": 119.0
+          },
+          "tool_calls": {
+            "mean": 2.966666666666667,
+            "median": 3.0,
+            "sum": 89.0
+          },
+          "total_tokens": {
+            "mean": 2844.9,
+            "median": 2816.5,
+            "sum": 85347.0
+          },
+          "wall_latency_ms": {
+            "mean": 6427.6904,
+            "median": 5163.2235,
+            "sum": 192830.712
+          }
+        },
+        "compiled": {
+          "condition": "compiled",
+          "estimated_cost_usd": {
+            "mean": 0.00018161999999999999,
+            "median": 0.00016209999999999998,
+            "sum": 0.0054486
+          },
+          "exact": 30,
+          "n": 30,
+          "requests": {
+            "mean": 1.0,
+            "median": 1.0,
+            "sum": 30.0
+          },
+          "tool_calls": {
+            "mean": 1.0,
+            "median": 1.0,
+            "sum": 30.0
+          },
+          "total_tokens": {
+            "mean": 529.9333333333333,
+            "median": 468.0,
+            "sum": 15898.0
+          },
+          "wall_latency_ms": {
+            "mean": 1999.6478333333332,
+            "median": 1557.475,
+            "sum": 59989.435
+          }
+        },
+        "manual": {
+          "condition": "manual_pre_model",
+          "estimated_cost_usd": {
+            "mean": 0.00018826,
+            "median": 0.0001696,
+            "sum": 0.0056478
+          },
+          "exact": 30,
+          "n": 30,
+          "requests": {
+            "mean": 1.0,
+            "median": 1.0,
+            "sum": 30.0
+          },
+          "tool_calls": {
+            "mean": 1.0,
+            "median": 1.0,
+            "sum": 30.0
+          },
+          "total_tokens": {
+            "mean": 535.4666666666667,
+            "median": 479.0,
+            "sum": 16064.0
+          },
+          "wall_latency_ms": {
+            "mean": 1695.1043333333334,
+            "median": 1501.385,
+            "sum": 50853.13
+          }
+        }
+      },
+      "label": "Backlog-attention routing"
+    },
+    "issue_type": {
+      "arms": {
+        "baseline": {
+          "condition": "baseline",
+          "estimated_cost_usd": {
+            "mean": 0.0008718236666666666,
+            "median": 0.000874475,
+            "sum": 0.02615471
+          },
+          "exact": 30,
+          "n": 30,
+          "requests": {
+            "mean": 4.0,
+            "median": 4.0,
+            "sum": 120.0
+          },
+          "tool_calls": {
+            "mean": 3.0,
+            "median": 3.0,
+            "sum": 90.0
+          },
+          "total_tokens": {
+            "mean": 4259.433333333333,
+            "median": 4320.0,
+            "sum": 127783.0
+          },
+          "wall_latency_ms": {
+            "mean": 6160.0922,
+            "median": 5402.072,
+            "sum": 184802.766
+          }
+        },
+        "compiled": {
+          "condition": "compiled",
+          "estimated_cost_usd": {
+            "mean": 0.0005928283333333334,
+            "median": 0.00057424,
+            "sum": 0.01778485
+          },
+          "exact": 30,
+          "n": 30,
+          "requests": {
+            "mean": 2.0,
+            "median": 2.0,
+            "sum": 60.0
+          },
+          "tool_calls": {
+            "mean": 3.0,
+            "median": 3.0,
+            "sum": 90.0
+          },
+          "total_tokens": {
+            "mean": 2576.5,
+            "median": 2602.5,
+            "sum": 77295.0
+          },
+          "wall_latency_ms": {
+            "mean": 2972.7402333333334,
+            "median": 2881.2754999999997,
+            "sum": 89182.207
+          }
+        },
+        "manual": {
+          "condition": "macro",
+          "estimated_cost_usd": {
+            "mean": 0.000545285,
+            "median": 0.0005492,
+            "sum": 0.01635855
+          },
+          "exact": 30,
+          "n": 30,
+          "requests": {
+            "mean": 2.0,
+            "median": 2.0,
+            "sum": 60.0
+          },
+          "tool_calls": {
+            "mean": 1.0,
+            "median": 1.0,
+            "sum": 30.0
+          },
+          "total_tokens": {
+            "mean": 1780.8333333333333,
+            "median": 1734.0,
+            "sum": 53425.0
+          },
+          "wall_latency_ms": {
+            "mean": 3250.7514333333334,
+            "median": 2856.2805,
+            "sum": 97522.543
+          }
+        }
+      },
+      "label": "Issue-type routing"
+    },
+    "pr_outcome": {
+      "arms": {
+        "baseline": {
+          "condition": "baseline",
+          "estimated_cost_usd": {
+            "mean": 0.00067921,
+            "median": 0.0006659999999999999,
+            "sum": 0.0203763
+          },
+          "exact": 30,
+          "n": 30,
+          "requests": {
+            "mean": 4.0,
+            "median": 4.0,
+            "sum": 120.0
+          },
+          "tool_calls": {
+            "mean": 3.0,
+            "median": 3.0,
+            "sum": 90.0
+          },
+          "total_tokens": {
+            "mean": 2718.233333333333,
+            "median": 2676.5,
+            "sum": 81547.0
+          },
+          "wall_latency_ms": {
+            "mean": 5328.7546999999995,
+            "median": 4838.719999999999,
+            "sum": 159862.641
+          }
+        },
+        "compiled": {
+          "condition": "compiled",
+          "estimated_cost_usd": {
+            "mean": 0.00016777333333333334,
+            "median": 0.000151,
+            "sum": 0.0050332
+          },
+          "exact": 30,
+          "n": 30,
+          "requests": {
+            "mean": 1.0,
+            "median": 1.0,
+            "sum": 30.0
+          },
+          "tool_calls": {
+            "mean": 1.0,
+            "median": 1.0,
+            "sum": 30.0
+          },
+          "total_tokens": {
+            "mean": 521.5333333333333,
+            "median": 461.5,
+            "sum": 15646.0
+          },
+          "wall_latency_ms": {
+            "mean": 1439.5213333333334,
+            "median": 1297.469,
+            "sum": 43185.64
+          }
+        },
+        "manual": {
+          "condition": "manual_pre_model",
+          "estimated_cost_usd": {
+            "mean": 0.00016857333333333333,
+            "median": 0.0001507,
+            "sum": 0.0050571999999999995
+          },
+          "exact": 30,
+          "n": 30,
+          "requests": {
+            "mean": 1.0,
+            "median": 1.0,
+            "sum": 30.0
+          },
+          "tool_calls": {
+            "mean": 1.0,
+            "median": 1.0,
+            "sum": 30.0
+          },
+          "total_tokens": {
+            "mean": 522.2,
+            "median": 458.5,
+            "sum": 15666.0
+          },
+          "wall_latency_ms": {
+            "mean": 1827.0730333333333,
+            "median": 1363.7885,
+            "sum": 54812.191
+          }
+        }
+      },
+      "label": "PR-outcome audit"
+    }
+  },
+  "pooled": {
+    "baseline": {
+      "estimated_cost_usd": {
+        "mean": 0.0007599334444444444,
+        "median": 0.0007418500000000001,
+        "n": 90,
+        "sum": 0.06839401
+      },
+      "requests": {
+        "mean": 3.988888888888889,
+        "median": 4.0,
+        "n": 90,
+        "sum": 359.0
+      },
+      "tool_calls": {
+        "mean": 2.988888888888889,
+        "median": 3.0,
+        "n": 90,
+        "sum": 269.0
+      },
+      "total_tokens": {
+        "mean": 3274.188888888889,
+        "median": 2907.0,
+        "n": 90,
+        "sum": 294677.0
+      },
+      "wall_latency_ms": {
+        "mean": 5972.1791,
+        "median": 5163.2235,
+        "n": 90,
+        "sum": 537496.119
+      }
+    },
+    "compiled": {
+      "estimated_cost_usd": {
+        "mean": 0.00031407388888888887,
+        "median": 0.0002047,
+        "n": 90,
+        "sum": 0.02826665
+      },
+      "requests": {
+        "mean": 1.3333333333333333,
+        "median": 1.0,
+        "n": 90,
+        "sum": 120.0
+      },
+      "tool_calls": {
+        "mean": 1.6666666666666667,
+        "median": 1.0,
+        "n": 90,
+        "sum": 150.0
+      },
+      "total_tokens": {
+        "mean": 1209.3222222222223,
+        "median": 615.0,
+        "n": 90,
+        "sum": 108839.0
+      },
+      "wall_latency_ms": {
+        "mean": 2137.3031333333333,
+        "median": 1957.3609999999999,
+        "n": 90,
+        "sum": 192357.282
+      }
+    },
+    "manual": {
+      "estimated_cost_usd": {
+        "mean": 0.0003007061111111111,
+        "median": 0.00021799999999999999,
+        "n": 90,
+        "sum": 0.02706355
+      },
+      "requests": {
+        "mean": 1.3333333333333333,
+        "median": 1.0,
+        "n": 90,
+        "sum": 120.0
+      },
+      "tool_calls": {
+        "mean": 1.0,
+        "median": 1.0,
+        "n": 90,
+        "sum": 90.0
+      },
+      "total_tokens": {
+        "mean": 946.1666666666666,
+        "median": 615.5,
+        "n": 90,
+        "sum": 85155.0
+      },
+      "wall_latency_ms": {
+        "mean": 2257.6429333333335,
+        "median": 1912.537,
+        "n": 90,
+        "sum": 203187.864
+      }
+    }
+  }
+}

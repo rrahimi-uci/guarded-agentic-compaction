@@ -66,6 +66,10 @@ paper/
 │   ├── multidomain/                real-record provider-free extension preflight
 │   ├── nestful/                    public-benchmark raw results
 │   ├── external_benchmarks/         all-source preflight, compiler, checker, and bounded live results
+│   ├── iclr_revision/              provider-free reanalysis behind the ICLR revision
+│   │                                (iclr_revision_statistics.py: absolute metrics, paired
+│   │                                CIs, multiplicity accounting, dispatch coverage, overlap,
+│   │                                effective units, catalog audit, mechanism table)
 │   ├── artifact_manifest.json      checksums of quantitative paper artifacts
 │   └── publication_manifest.json   final source/evidence/PDF checksums
 ├── scripts/
@@ -90,6 +94,7 @@ paper/
 │   ├── tau2_live_summary.py        redacted four-domain live-run summary
 │   ├── browsecomp_live_benchmark.py sealed hosted-search subset
 │   ├── build_artifacts.py          deterministic figures/tables
+│   ├── iclr_revision_statistics.py provider-free reanalysis + generated ICLR tables
 │   ├── generate_slides.mjs         hash-bound GAC-template slide generator
 │   └── validate_artifacts.py       claim and integrity audit
 ├── paper-review.md                 earlier adversarial peer review
@@ -108,7 +113,11 @@ paper/
 │   ├── drift-robustness-ablation-protocol.md  pre-registered, unrun contract ablation
 │   ├── prospective-gate-frontier-protocol.md  executed on 4/5 repos; null result reported
 │   ├── gate-frontier-pilot-protocol.md  executed pilot for the study above
-│   └── awo-comparator-feasibility-spike.md  completed spike, result: no-go
+│   ├── awo-comparator-feasibility-spike.md  completed spike, result: no-go
+│   ├── multiplicity-repair-protocol.md  pre-registered, unrun: fresh 106-group calibration (m=2)
+│   ├── recurrence-only-ablation-protocol.md  pre-registered, unrun: unguarded three-read arm
+│   ├── graded-frontier-protocol.md   design only: |K| >= ceil(92/c) precondition for a frontier
+│   └── read-only-prologue-protocol.md  design only: acceptance tests for a prologue extension
 └── open_research/
     ├── article.pdf                 single-column article (page count verified after build)
     └── main.pdf                    two-column conference build (page count verified after build)

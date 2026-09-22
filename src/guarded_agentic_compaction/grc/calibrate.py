@@ -432,6 +432,7 @@ def calibrate_gate(
             notes=(
                 f"protocol={protocol}; no admissible threshold: "
                 + _why(rows, alpha, phi_min)
+                + f"; grid rows: {rows}"
             ),
         )
 

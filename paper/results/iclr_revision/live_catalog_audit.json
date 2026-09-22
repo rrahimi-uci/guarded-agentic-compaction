@@ -1,0 +1,178 @@
+{
+  "declared": {
+    "backlog_attention": {
+      "catalog_version": "github-backlog_attention-pinned-reads@1#59929859e6b14cf5",
+      "tools": {
+        "backlog_get_discussion": {
+          "capabilities": [
+            "batchable",
+            "cacheable",
+            "replayable",
+            "speculatable"
+          ],
+          "effect": "READ_LOCAL",
+          "quota_attested": false
+        },
+        "backlog_get_ownership": {
+          "capabilities": [
+            "batchable",
+            "cacheable",
+            "replayable",
+            "speculatable"
+          ],
+          "effect": "READ_LOCAL",
+          "quota_attested": false
+        },
+        "backlog_get_record": {
+          "capabilities": [
+            "batchable",
+            "cacheable",
+            "replayable",
+            "speculatable"
+          ],
+          "effect": "READ_LOCAL",
+          "quota_attested": false
+        }
+      }
+    },
+    "issue_type": {
+      "catalog_version": "github-issues-pinned-local-reads@1#1ddef0e3bd00c962",
+      "tools": {
+        "issue_get_comments": {
+          "capabilities": [
+            "cacheable",
+            "replayable",
+            "speculatable"
+          ],
+          "effect": "READ_LOCAL",
+          "quota_attested": false
+        },
+        "issue_get_labels": {
+          "capabilities": [
+            "cacheable",
+            "replayable",
+            "speculatable"
+          ],
+          "effect": "READ_LOCAL",
+          "quota_attested": false
+        },
+        "issue_get_record": {
+          "capabilities": [
+            "cacheable",
+            "replayable",
+            "speculatable"
+          ],
+          "effect": "READ_LOCAL",
+          "quota_attested": false
+        }
+      }
+    },
+    "pr_outcome": {
+      "catalog_version": "github-pr_outcome-pinned-reads@1#821a5aef76e5ebf1",
+      "tools": {
+        "pr_get_discussion": {
+          "capabilities": [
+            "batchable",
+            "cacheable",
+            "replayable",
+            "speculatable"
+          ],
+          "effect": "READ_LOCAL",
+          "quota_attested": false
+        },
+        "pr_get_merge_status": {
+          "capabilities": [
+            "batchable",
+            "cacheable",
+            "replayable",
+            "speculatable"
+          ],
+          "effect": "READ_LOCAL",
+          "quota_attested": false
+        },
+        "pr_get_record": {
+          "capabilities": [
+            "batchable",
+            "cacheable",
+            "replayable",
+            "speculatable"
+          ],
+          "effect": "READ_LOCAL",
+          "quota_attested": false
+        }
+      }
+    },
+    "pr_outcome_core": {
+      "catalog_version": "github-psf__requests-pr_outcome_core-pinned-reads@1#599903686ff068b5",
+      "tools": {
+        "pr_get_merge_status": {
+          "capabilities": [
+            "batchable",
+            "cacheable",
+            "replayable",
+            "speculatable"
+          ],
+          "effect": "READ_LOCAL",
+          "quota_attested": false
+        },
+        "pr_get_record": {
+          "capabilities": [
+            "batchable",
+            "cacheable",
+            "replayable",
+            "speculatable"
+          ],
+          "effect": "READ_LOCAL",
+          "quota_attested": false
+        }
+      }
+    }
+  },
+  "digest_match": {
+    "backlog_attention": true,
+    "issue_type": true,
+    "pr_outcome": true
+  },
+  "note": "Tools are pure functions of the pinned parquet (execute_snapshot); no network or write path exists, so hidden-state and RNG checks are vacuous by construction.",
+  "observed_calls": {
+    "backlog_get_discussion": 221,
+    "backlog_get_ownership": 222,
+    "backlog_get_record": 222,
+    "compiled_backlog_get_record_b4b504db32": 90,
+    "compiled_pr_get_record_2bd34511a8": 90,
+    "compiled_pr_get_record_2f64b991da": 579,
+    "issue_get_bundle": 40,
+    "issue_get_comments": 344,
+    "issue_get_labels": 344,
+    "issue_get_record": 344,
+    "manual_backlog_attention_bundle": 60,
+    "manual_pr_outcome_bundle": 60,
+    "pr_get_discussion": 222,
+    "pr_get_merge_status": 962,
+    "pr_get_record": 962,
+    "template_pr_outcome_core_pre_model_v1": 300
+  },
+  "pinned_digests": {
+    "backlog_attention": "github-backlog_attention-pinned-reads@1#59929859e6b14cf5",
+    "issue_type": "github-issues-pinned-local-reads@1#1ddef0e3bd00c962",
+    "pr_outcome": "github-pr_outcome-pinned-reads@1#821a5aef76e5ebf1",
+    "pr_outcome_core:psf/requests": "github-psf__requests-pr_outcome_core-pinned-reads@1#599903686ff068b5"
+  },
+  "raw_read_calls_by_tool": {
+    "backlog_get_discussion": 221,
+    "backlog_get_ownership": 222,
+    "backlog_get_record": 222,
+    "issue_get_comments": 344,
+    "issue_get_labels": 344,
+    "issue_get_record": 344,
+    "pr_get_discussion": 222,
+    "pr_get_merge_status": 962,
+    "pr_get_record": 962
+  },
+  "tool_contract": {
+    "note": "final result files only; discovery checkpoints carry the pre-regrade online grade",
+    "rows": 2351,
+    "tool_contract_true": 2351
+  },
+  "undeclared_raw_tools": []
+}
