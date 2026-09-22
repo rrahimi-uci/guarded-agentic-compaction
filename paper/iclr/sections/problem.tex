@@ -78,8 +78,8 @@ when population dispatch probability is zero. \emph{Second}, returning \emph{no}
 artifact is feasible, so \retire{} is a legitimate output, and
 \cref{eq:objective} is a design target rather than a solved program --- the
 implementation calibrates a bounded ranked set and retains nondominated
-survivors, and we prove neither optimality nor a compiler-wide guarantee for
-that search. \emph{Third}, $L$ scores the \emph{episode}: a sound prefix whose baseline
+survivors, and we prove neither optimality nor any guarantee for that search
+beyond the per-candidate and fixed-$m$ cases of \cref{sec:method}. \emph{Third}, $L$ scores the \emph{episode}: a sound prefix whose baseline
 continuation errs still contributes $L=1$, so the gate certifies end-to-end
 compliance under substitution, not non-inferiority, and admission requires $B$
 to already succeed on a $1-\alpha$ share of the dispatched slice

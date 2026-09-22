@@ -290,7 +290,7 @@ def cmd_paired() -> dict[str, Any]:
              r"Family & $n$ & Both pass & Baseline-only & Compiled-only & McNemar $p$ & Upper bound \\", r"\midrule"]
     for fam, spec in FAMILIES.items():
         x = d[fam]
-        lines.append(f"{spec['label']} & {x['n']} & {x['both']} & {x['baseline_only']} & {x['compiled_only']} & {x['mcnemar_exact_p']:.2f} & {100*x['compiled_only_failure_upper95']:.1f}\\% \\\\")
+        lines.append(f"{spec['label'].split()[0]} & {x['n']} & {x['both']} & {x['baseline_only']} & {x['compiled_only']} & {x['mcnemar_exact_p']:.2f} & {100*x['compiled_only_failure_upper95']:.1f}\\% \\\\")
     x = d["pooled"]
     lines += [r"\midrule", f"Pooled & {x['n']} & {x['both']} & {x['baseline_only']} & {x['compiled_only']} & {x['mcnemar_exact_p']:.2f} & {100*x['compiled_only_failure_upper95']:.1f}\\% \\\\",
               r"\bottomrule", r"\end{tabular}"]
@@ -725,7 +725,7 @@ MECHANISMS: list[dict[str, str]] = [
 
 
 def cmd_mechanisms() -> dict[str, Any]:
-    lines = [r"\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{0.30\linewidth}>{\raggedright\arraybackslash}p{0.19\linewidth}>{\raggedright\arraybackslash}p{0.2\linewidth}>{\raggedright\arraybackslash}X@{}}",
+    lines = [r"\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{0.29\linewidth}>{\raggedright\arraybackslash}p{0.18\linewidth}>{\raggedright\arraybackslash}p{0.17\linewidth}>{\raggedright\arraybackslash}X@{}}",
              r"\toprule", r"Hazard (where observed) & Guard that caught it & Recurrence-only replay & Retained source (\code{paper/results/}) \\", r"\midrule"]
     for m in MECHANISMS:
         source = m["source"].replace("\\_", "_")

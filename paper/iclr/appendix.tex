@@ -179,9 +179,10 @@ $U_\eta=1-(0.1/11)^{1/92}=0.0498\le\alpha$. Tightening the confidence budget to
 $\delta=0.05$ would raise the requirement to 106 groups, which no study in this
 paper reaches, so $\delta=0.1$ is the operative setting throughout and is
 reported as such rather than rounded to match $\alpha$. A Bonferroni repair over
-$m=2$ candidate families would use $\gamma=\delta/(m|\Lambda|)$ and land on the
-same 106-group requirement, which is why the paper reports per-candidate
-certificates rather than a compiler-wide one. The grid is
+$m=2$ candidate families uses $\gamma=\delta/(m|\Lambda|)$ and lands on the same
+106-group requirement, which is why PR-outcome and backlog routing carry
+per-candidate certificates while issue-type routing and the frozen
+cross-repository families are compiler-wide (\cref{tab:multiplicity-accounting}). The grid is
 $\Lambda=\{0.02,0.05,0.08,0.11,0.14,0.17,0.20,0.25,0.30,0.40,0.50\}$ and the ambiguity cap
 is $\kappa=3$. Synthesis uses the 23-operator closed library of \cref{tab:dsl}
 at depth $\le 2$; region mining uses $w_{\max}$ tool calls per window and
@@ -196,8 +197,11 @@ is conditional on i.i.d.\ calibration groups.
   per-candidate budget $\gamma=\delta/|\Lambda|$ and under the candidate-wide
   budget $\gamma=\delta/(m|\Lambda|)$. Rows are recomputed from the retained
   per-threshold tables (\code{compiler.artifact.gate.notes}) of the admitted
-  artifacts; the dominated two-read candidates' tables were not retained, which
-  does not affect the admitted artifact's corrected bound.}
+  artifacts. A provider-free recompilation from the sealed discovery
+  checkpoints reproduces both admitted artifacts (identical ids, split digests,
+  and bounds) and recovers the dominated two-read candidates' tables, which are
+  also 92/0 at every $\eta\ge0.14$ with $U=0.0498$
+  (\code{paper/results/iclr\_revision/recompiled\_candidates\_*.json}).}
   \label{tab:multiplicity-accounting}
   \footnotesize
   \setlength{\tabcolsep}{4pt}
@@ -500,7 +504,14 @@ balanced rerun enforces the \code{open}/\code{merged}/\code{closed\_unmerged}
 mix at selection and the same task admits. We report both rather than only the
 rerun: the core outcome is the protocol behaving as designed under a skewed
 pool, and it is the clearest instance in the paper of the gate refusing on
-evidence composition rather than on trace structure.
+evidence composition rather than on trace structure. A provider-free
+recompilation from the retained discovery checkpoint
+(\code{paper/results/iclr\_revision/pytorch\_core\_recompile.json}) reproduces
+the retirement and recovers the per-threshold rows the original run truncated:
+$n_\eta=0$ at every $\eta\in\Lambda$, so no calibration group was accepted at
+any threshold and the bound is the degenerate branch of \cref{eq:cp}. The rows
+identify the branch, not its cause; the class-composition explanation is
+consistent with the balanced rerun's admission but is not established by them.
 
 \paragraph{Held-out dispatch and cohort provenance.}
 \Cref{tab:multirepo-dispatch} separates calibration coverage from held-out
@@ -786,7 +797,7 @@ refusal's price directly.
   it, and what a recurrence-only replay of the mined region would have done.
   Each row is backed by a retained result file in the artifact.}
   \label{tab:mechanism-removal}
-  \footnotesize
+  \scriptsize
   \setlength{\tabcolsep}{3pt}
   \input{tables/mechanism_removal.tex}
 \end{table}
@@ -865,10 +876,11 @@ mined family happens to have the deepest support.
 \cref{tab:primary}: admissible prefix depth, not the optimizer, sets the
 savings. The current empirical gate does not yet demonstrate a useful
 risk--coverage frontier at the registered 5\% level. The strongest current runs are mostly
-all-or-none support tests (\cref{fig:gate-support}), and the compiler-wide
-candidate-search problem is multiplicity-corrected only when the search is
-frozen (\cref{cor:frozen}); the primary families' dominance search over two
-candidates is not. Likewise, exact task
+all-or-none support tests (\cref{fig:gate-support}), and the candidate-search
+problem is compiler-wide only when one candidate reaches calibration
+(\cref{cor:frozen}) or the budget is divided across those that do; for the two
+families whose dominance search calibrated two candidates the corrected bound is
+0.0569 (\cref{tab:multiplicity-accounting}). Likewise, exact task
 contracts do not certify full semantic equivalence of the final answer,
 especially once a downstream model continuation is involved. Two further
 operational caveats belong in the record: the headline live artifact was

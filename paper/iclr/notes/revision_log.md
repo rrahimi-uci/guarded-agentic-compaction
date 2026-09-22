@@ -40,3 +40,23 @@ Tasks from `improve-iclr.md` completed on this branch; numbers cite the JSON und
 Not done on this branch (Track R/F, require spend or a later window): T3.1 run, T3.2 run, T3.3 run,
 T2.11 recompile of the pytorch retirement (code fix for full retire notes is in; recompile not run),
 T2.3 step 3 recompile of the dominated candidates, T4.7 OpenReview metadata paste (user), T5.4 hostile read.
+
+## Follow-up (2026-09-22, same branch)
+
+- T2.3 step 3 / T2.11: `paper/scripts/recompile_retained_candidates.py` recompiles PR-outcome,
+  backlog, and `pytorch/pytorch` provider-free from the sealed discovery checkpoints. Determinism
+  holds (artifact ids `cand-00-a1de3856bb6c` / `cand-00-99f1b041ed7c`, split digests
+  `46a609a3016bcf4a` / `f6a22d6c8895ee87`, U = 0.049808920112407784). The dominated two-read
+  candidates are also 92/0, U = 0.0498. The pytorch retirement reproduces with n_eta = 0 at every
+  eta (no group accepted at any threshold). Note: the current library mines candidates on train
+  groups only (the 2026-08-17 candidate/data-separation fix), so the recompile reports 32/16
+  windows where the retained reports say 232/116; artifact identity, splits, and gates are
+  unchanged. Appendix C caption and Appendix F.1 updated.
+- T4.7: `paper/iclr/notes/openreview_metadata.md` (title, TL;DR, abstract, keywords).
+- T5.2: `paper/iclr/notes/number_registry.md`.
+- T5.4: two grep-driven read passes (guarantee-level sentences; runtime/implementation claims).
+  Findings fixed: Appendix C admission-budget sentence and Appendix G closing paragraph still said
+  the primary families were all per-candidate; §2 said "no compiler-wide guarantee" without the
+  fixed-m qualification. No systems-claim contradiction found against §2.4 of the plan.
+- Reviewer response draft: `paper/iclr/notes/reviewer_response_iclr2027.md`.
+- Overfull boxes: discordance and mechanism-removal tables narrowed.
