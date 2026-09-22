@@ -5,7 +5,8 @@
 An episode $E=(z,M,e_{1:T},y)$ contains an entry-state snapshot $z$, a
 content-addressed execution manifest $M$, ordered events $e_t$ (model requests
 and responses, tool calls and results, handoffs, guardrails, approvals, errors,
-commit boundaries), and an observable outcome $y$. Each tool $f$ carries an
+commit boundaries), and an observable outcome $y$; $c_j$ denotes the $j$-th tool
+call and $o_j$ its result. Each tool $f$ carries an
 application-owned effect declaration $\epsilon(f)$ and capability flags such as
 \emph{speculatable}; an unknown effect is not a read.
 

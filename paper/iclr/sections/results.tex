@@ -8,7 +8,7 @@
   \caption{Primary live-provider results ($n=30$ held-out records per family).
   ``Interfaces'' counts provider-visible tool interfaces. All conditions see
   identical records, model, and grader; \emph{Manual} is hand-written with full
-  knowledge of the workflow, and \cref{tab:manual-resources} prices it on these
+  knowledge of the workflow, and \cref{tab:manual-resources} in \cref{app:stats} prices it on these
   same resource axes.}
   \label{tab:primary}
   \footnotesize
@@ -19,12 +19,12 @@
 Across the 90 held-out records, \method satisfies 90/90 exact contracts and the
 unchanged agent 89/90 (\cref{tab:primary}), reducing provider requests by
 66.6\%, tokens by 63.1\%, latency by 64.2\%, and cost by 58.7\% (absolute
-per-record values in \cref{tab:absolute-resources}). Issue-type routing admits
+per-record values in \cref{tab:absolute-resources} in \cref{app:stats}). Issue-type routing admits
 only a two-read prefix; the two deeper workflows approach 75\% fewer requests.
 
 The discordant pair is one baseline-only miss (backlog record 5189, an
 ungrounded excerpt) against zero compiled-only misses (McNemar $p=1$; one-sided
-95\% upper bound on compiled-only discordance 3.3\%, \cref{tab:discordance});
+95\% upper bound on compiled-only discordance 3.3\%, \cref{tab:discordance} in \cref{app:stats});
 the same 30 records rerun on 2026-08-18 scored 30/30 in every arm
 (\cref{app:limits}), so the miss is a stochastic baseline event and the result
 supports preservation on this cohort, not superiority or equivalence. Each artifact was
@@ -34,7 +34,7 @@ certificate is compiler-wide for issue-type routing, where one candidate
 reached calibration, and per-candidate for PR-outcome and backlog routing,
 where two did; correcting for both gives $U=0.0569$, above $\alpha$, so those
 two are certified compiler-wide only at $\alpha\ge0.057$ (\cref{cor:frozen},
-\cref{tab:multiplicity-accounting}).
+\cref{tab:multiplicity-accounting} in \cref{app:config}).
 
 Hand-written programs also reach 90/90. \Cref{tab:manual-resources} prices them
 on the same axes: they tie on requests, issue fewer interfaces, are marginally
@@ -55,7 +55,7 @@ held-out records: every open-class record abstained on the induced verifier's
 and ran the unchanged agent, so requests fall 44.4\% overall (66.7\% on
 dispatched records) and tokens 52.4\%. A balanced three-repository rerun, with all three
 classes in discovery, dispatches on 180/180 and reaches 180/180 exact pairs at 66.7\% fewer requests and 78.4\% fewer tokens
-(\cref{tab:multirepo-disaggregated}). A fixed two-read template is more
+(\cref{tab:multirepo-disaggregated} in \cref{app:breadth}). A fixed two-read template is more
 efficient in the core protocol and essentially tied in the rerun: evidence of
 discovery and principled retirement, not of runtime dominance.
 
@@ -90,7 +90,7 @@ provenance fixed its \emph{length} rather than its content
 Admissibility is not dispatchability. Gold solutions are not agent trajectories,
 so we also test the admitted region against AppWorld's 28 released baseline
 runs. Over 8{,}190 trajectories it is structurally eligible at the entry boundary in
-$37.9\%$, and the architecture explains the spread (\cref{tab:appworld-dispatch}):
+$37.9\%$, and the architecture explains the spread (\cref{tab:appworld-dispatch} in \cref{app:external}):
 full-code agents are eligible almost always, ReAct and plan-and-execute almost
 never, because they open by reading API documentation and the prefix leaves
 position~0. Trajectories repeat tasks across the 28 runs, so they are descriptive units,
