@@ -60,3 +60,14 @@ T2.3 step 3 recompile of the dominated candidates, T4.7 OpenReview metadata past
   fixed-m qualification. No systems-claim contradiction found against §2.4 of the plan.
 - Reviewer response draft: `paper/iclr/notes/reviewer_response_iclr2027.md`.
 - Overfull boxes: discordance and mechanism-removal tables narrowed.
+
+## PAT feedback cross-check (2026-09-22, same branch)
+
+Checked every item of the 12 Sept 2026 PAT feedback (OpenReview `DF0JaS58gr`) against the
+build; the item-by-item table is in `reviewer_response_iclr2027.md`. Remaining minor items
+closed here: `c_j`/`o_j` defined in the §2 episode tuple; §6 optimizer citations placed per
+system; Proposition 1 proof uses `n_eta` throughout and states the `k_eta = n_eta` branch;
+`ln` in the sample-size derivation; every main-text pointer to an appendix table names the
+appendix; the Appendix E omitted-studies list is kept on one page. Three word-level cuts
+(§1, §5.1, §7) hold the conclusion on page 9. Validator: 3142 checks, 0 failed.
+Still a user action: replace the OpenReview abstract and TL;DR with `openreview_metadata.md`.
