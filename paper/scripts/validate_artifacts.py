@@ -2392,20 +2392,43 @@ def validate_iclr_sources() -> None:
     module = importlib.util.module_from_spec(spec)
     assert spec.loader is not None
     spec.loader.exec_module(module)
-    committed = {name: (iclr / "tables" / f"{name}.tex").read_text(encoding="utf-8") for name in (
+    table_names = (
         "absolute_resources", "paired_statistics", "discordance", "multiplicity_accounting",
         "live_provider_manifest", "live_catalog", "multirepo_dispatch", "gate_frontier_disaggregated",
-        "effective_units", "mechanism_removal")}
-    committed_json = {p.name: p.read_bytes() for p in revision.glob("*.json")}
-    for command in ("absolute", "paired", "multiplicity", "manifest", "catalog-audit", "frontier", "clusters", "mechanisms"):
-        module.COMMANDS[command]()
-    for name, text in committed.items():
-        fresh = (iclr / "tables" / f"{name}.tex").read_text(encoding="utf-8")
-        ok(fresh == text, f"iclr: generated table {name}.tex regenerates byte-identically")
-    for name, blob in committed_json.items():
-        fresh = (revision / name).read_bytes()
-        ok(fresh == blob or name in {"order_sensitivity.json", "cohort_overlap_audit.json"},
-           f"iclr: {name} regenerates byte-identically")
+        "effective_units", "mechanism_removal")
+    committed = {name: (iclr / "tables" / f"{name}.tex").read_text(encoding="utf-8") for name in table_names}
+    # Regenerate into a scratch directory: the committed files are inputs to the
+    # manifest check and must never be rewritten by a validator. JSON is compared
+    # numerically (floats rounded to 9 significant digits) because Python/numpy
+    # versions differ in the last bits of float repr, which is not a claim change.
+    import tempfile
+
+    def _canon(value):
+        if isinstance(value, float):
+            return float(f"{value:.9g}")
+        if isinstance(value, dict):
+            return {k: _canon(v) for k, v in value.items()}
+        if isinstance(value, list):
+            return [_canon(v) for v in value]
+        return value
+
+    with tempfile.TemporaryDirectory() as scratch:
+        module.OUT = Path(scratch) / "json"
+        module.TABLES = Path(scratch) / "tables"
+        for command in ("absolute", "paired", "multiplicity", "manifest", "catalog-audit", "frontier", "clusters", "mechanisms"):
+            module.COMMANDS[command]()
+        for name, text in committed.items():
+            fresh = (module.TABLES / f"{name}.tex").read_text(encoding="utf-8")
+            ok(fresh == text, f"iclr: generated table {name}.tex regenerates byte-identically")
+        for fresh_path in sorted(module.OUT.glob("*.json")):
+            committed_path = revision / fresh_path.name
+            if not committed_path.exists():
+                ok(False, f"iclr: {fresh_path.name} is committed under paper/results/iclr_revision")
+                continue
+            same = _canon(json.loads(fresh_path.read_text())) == _canon(json.loads(committed_path.read_text()))
+            ok(same, f"iclr: {fresh_path.name} regenerates to the committed values")
+    module.OUT = revision
+    module.TABLES = iclr / "tables"
 
     # (b) §5.1 headline strings against summary.json
     summary = json.loads((PAPER / "results/github_workflow_families/summary.json").read_text())
