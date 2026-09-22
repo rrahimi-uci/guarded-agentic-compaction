@@ -1,0 +1,204 @@
+{
+  "families": {
+    "backlog_attention": {
+      "by_compiled_position": {
+        "0": {
+          "n": 10,
+          "wall_latency_reduction": 0.6762510710803384
+        },
+        "1": {
+          "n": 10,
+          "wall_latency_reduction": 0.687214745466566
+        },
+        "2": {
+          "n": 10,
+          "wall_latency_reduction": 0.6998120000344994
+        }
+      },
+      "by_permutation": {
+        "baseline->compiled->manual_pre_model": {
+          "n": 5,
+          "wall_latency_reduction": 0.5973722866545697
+        },
+        "baseline->manual_pre_model->compiled": {
+          "n": 5,
+          "wall_latency_reduction": 0.7235612344096187
+        },
+        "compiled->baseline->manual_pre_model": {
+          "n": 5,
+          "wall_latency_reduction": 0.6817254344393652
+        },
+        "compiled->manual_pre_model->baseline": {
+          "n": 5,
+          "wall_latency_reduction": 0.6695476897015982
+        },
+        "manual_pre_model->baseline->compiled": {
+          "n": 5,
+          "wall_latency_reduction": 0.6745832293899683
+        },
+        "manual_pre_model->compiled->baseline": {
+          "n": 5,
+          "wall_latency_reduction": 0.7526246583499075
+        }
+      },
+      "cached_input_tokens": {
+        "baseline": 0.0,
+        "compiled": 0.0,
+        "manual": 0.0
+      },
+      "compiled_position_histogram": {
+        "0": 10,
+        "1": 10,
+        "2": 10
+      },
+      "design": "per-record permutation cycle; arms sequential (concurrency 1)",
+      "orders_histogram": {
+        "baseline->compiled->manual_pre_model": 5,
+        "baseline->manual_pre_model->compiled": 5,
+        "compiled->baseline->manual_pre_model": 5,
+        "compiled->manual_pre_model->baseline": 5,
+        "manual_pre_model->baseline->compiled": 5,
+        "manual_pre_model->compiled->baseline": 5
+      },
+      "permutation_max": 0.7526246583499075,
+      "permutation_min": 0.5973722866545697,
+      "provider_latency_reduction": 0.6887875283551083,
+      "wall_latency_reduction": 0.6889010346028281
+    },
+    "issue_type": {
+      "by_compiled_position": {
+        "0": {
+          "n": 10,
+          "wall_latency_reduction": 0.49713719822557345
+        },
+        "1": {
+          "n": 10,
+          "wall_latency_reduction": 0.47075968928345324
+        },
+        "2": {
+          "n": 10,
+          "wall_latency_reduction": 0.5778435396792492
+        }
+      },
+      "by_permutation": {
+        "baseline->compiled->macro": {
+          "n": 5,
+          "wall_latency_reduction": 0.4665961923031956
+        },
+        "baseline->macro->compiled": {
+          "n": 5,
+          "wall_latency_reduction": 0.59122515540282
+        },
+        "compiled->baseline->macro": {
+          "n": 5,
+          "wall_latency_reduction": 0.5485219521725848
+        },
+        "compiled->macro->baseline": {
+          "n": 5,
+          "wall_latency_reduction": 0.43207365491681615
+        },
+        "macro->baseline->compiled": {
+          "n": 5,
+          "wall_latency_reduction": 0.5640690344988561
+        },
+        "macro->compiled->baseline": {
+          "n": 5,
+          "wall_latency_reduction": 0.4749792560464886
+        }
+      },
+      "cached_input_tokens": {
+        "baseline": 39388.0,
+        "compiled": 20345.0,
+        "manual": 0.0
+      },
+      "compiled_position_histogram": {
+        "0": 10,
+        "1": 10,
+        "2": 10
+      },
+      "design": "balanced-six-permutation-latin-order; blocked, concurrency 8",
+      "orders_histogram": {
+        "baseline->compiled->macro": 5,
+        "baseline->macro->compiled": 5,
+        "compiled->baseline->macro": 5,
+        "compiled->macro->baseline": 5,
+        "macro->baseline->compiled": 5,
+        "macro->compiled->baseline": 5
+      },
+      "permutation_max": 0.59122515540282,
+      "permutation_min": 0.43207365491681615,
+      "provider_latency_reduction": 0.5203730050669877,
+      "wall_latency_reduction": 0.5174195228225102
+    },
+    "pr_outcome": {
+      "by_compiled_position": {
+        "0": {
+          "n": 10,
+          "wall_latency_reduction": 0.6936239800774586
+        },
+        "1": {
+          "n": 10,
+          "wall_latency_reduction": 0.744479009504657
+        },
+        "2": {
+          "n": 10,
+          "wall_latency_reduction": 0.7507112833639249
+        }
+      },
+      "by_permutation": {
+        "baseline->compiled->manual_pre_model": {
+          "n": 5,
+          "wall_latency_reduction": 0.7855983143844099
+        },
+        "baseline->manual_pre_model->compiled": {
+          "n": 5,
+          "wall_latency_reduction": 0.7651225603744224
+        },
+        "compiled->baseline->manual_pre_model": {
+          "n": 5,
+          "wall_latency_reduction": 0.6651062033731205
+        },
+        "compiled->manual_pre_model->baseline": {
+          "n": 5,
+          "wall_latency_reduction": 0.7257250748640875
+        },
+        "manual_pre_model->baseline->compiled": {
+          "n": 5,
+          "wall_latency_reduction": 0.7357094519596927
+        },
+        "manual_pre_model->compiled->baseline": {
+          "n": 5,
+          "wall_latency_reduction": 0.702993580339574
+        }
+      },
+      "cached_input_tokens": {
+        "baseline": 0.0,
+        "compiled": 0.0,
+        "manual": 0.0
+      },
+      "compiled_position_histogram": {
+        "0": 10,
+        "1": 10,
+        "2": 10
+      },
+      "design": "per-record permutation cycle; arms sequential (concurrency 1)",
+      "orders_histogram": {
+        "baseline->compiled->manual_pre_model": 5,
+        "baseline->manual_pre_model->compiled": 5,
+        "compiled->baseline->manual_pre_model": 5,
+        "compiled->manual_pre_model->baseline": 5,
+        "manual_pre_model->baseline->compiled": 5,
+        "manual_pre_model->compiled->baseline": 5
+      },
+      "permutation_max": 0.7855983143844099,
+      "permutation_min": 0.6651062033731205,
+      "provider_latency_reduction": 0.7297943289536206,
+      "wall_latency_reduction": 0.7298578346394264
+    }
+  },
+  "max_abs_wall_minus_provider_points": 0.29534822444774456,
+  "overall_permutation_range": [
+    0.43207365491681615,
+    0.7855983143844099
+  ]
+}

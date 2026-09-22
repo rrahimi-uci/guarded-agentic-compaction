@@ -19,10 +19,10 @@ rather than steps inside one function.}
   \State $(\mathcal{T},\mathcal{D},\mathcal{K},\mathcal{S})\gets
          \textsc{GroupedSplit}(\mathcal{E}_M)$ \hfill\textsc{(caller)}
          \Comment{train / dev / calibration / sealed test, split by \emph{group}}
-  \State $G\gets\textsc{BuildPatg}(\mathcal{T},\Theta,\mathcal{C},\mathcal{L},\kappa)$ \Comment{\cref{alg:patg}: block
-         ungrounded or ambiguous slots}
+  \State $(G,S)\gets\textsc{BuildPatg}(\mathcal{T},\Theta,\mathcal{C},\mathcal{L},\kappa)$ \Comment{\cref{alg:patg}: annotate every slot}
   \State $\mathcal{F}\gets\textsc{Canonicalize}(\textsc{MineRegions}
-         (G,\mathcal{C},w_{\max}))$, keeping only cross-group support
+         (G,S,\mathcal{C},w_{\max}))$, keeping only cross-group support
+         \Comment{rejects any window with an \textsc{ungrounded} or \textsc{ambiguous} slot}
   \If{$\textsc{Ceiling}(\mathcal{T},\mathcal{F}) < \Delta$} \hfill\textsc{(caller)}
      \State \textbf{record} \retire{} \textbf{(infeasible ceiling, Eq.~\eqref{eq:ceiling})};
             \textbf{continue}

@@ -124,7 +124,12 @@ class ManualPreModelRunner:
             return self._reject(started, ("missing_pre_model_composite",))
         if composite.continuation_compatibility_key != continuation_compatibility_key:
             return self._reject(started, ("continuation_manifest_mismatch",))
+        if len(already_observed) > 0:
+            # Position invariant: a pre-model plan runs only at position 0, before
+            # any tool observation of the episode exists.
+            return self._reject(started, ("non_prefix_boundary",))
         if any(tool in already_observed for tool in program.tools):
+            # redundant under the position invariant; kept for defense in depth
             return self._reject(started, ("region_already_started",))
         if snapshot_fn is None and any(
             self.catalog.get(tool).quota_attested for tool in program.tools

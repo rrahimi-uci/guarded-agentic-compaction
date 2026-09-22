@@ -16,24 +16,29 @@
   \input{tables/primary_results.tex}
 \end{table}
 
-Across the 90 held-out records, \method satisfies 90/90 exact contracts versus
-89/90 for the unchanged agent (\cref{tab:primary}), reducing provider requests
-by 66.6\%, tokens by 63.1\%, latency by 64.2\%, and cost by 58.7\%. Issue-type
-routing admits only a two-read prefix; the two deeper workflows approach 75\%
-fewer requests.
+Across the 90 held-out records, \method satisfies 90/90 exact contracts and the
+unchanged agent 89/90 (\cref{tab:primary}), reducing provider requests by
+66.6\%, tokens by 63.1\%, latency by 64.2\%, and cost by 58.7\% (absolute
+per-record values in \cref{tab:absolute-resources}). Issue-type routing admits
+only a two-read prefix; the two deeper workflows approach 75\% fewer requests.
 
-No held-out record is a compiled-only failure; the one-sided 95\% upper bound on
-that discordance is 3.3\%, which supports preservation on the observed cohort, not
-equivalence in general. Each artifact was admitted with 92 zero-violation
-calibration groups ($U_{\hat\eta}=0.0498\le 0.05$). Each family mined two
-candidates and kept the survivor by empirical dominance without freezing the
-search, so these are \emph{per-candidate} certificates under
-\cref{prop:admission}, not compiler-wide ones (\cref{cor:frozen},
-\cref{app:config}).
+The discordant pair is one baseline-only miss (backlog record 5189, an
+ungrounded excerpt) against zero compiled-only misses (McNemar $p=1$; one-sided
+95\% upper bound on compiled-only discordance 3.3\%, \cref{tab:discordance});
+the same 30 records rerun on 2026-08-18 scored 30/30 in every arm
+(\cref{app:limits}), so the miss is a stochastic baseline event and the result
+supports preservation on this cohort, not superiority or equivalence. Each artifact was
+admitted with 92 zero-violation calibration groups
+($U_{\hat\eta}=0.0498\le0.05$), a bound conditional on i.i.d.\ groups. The
+certificate is compiler-wide for issue-type routing, where one candidate
+reached calibration, and per-candidate for PR-outcome and backlog routing,
+where two did; correcting for both gives $U=0.0569$, above $\alpha$, so those
+two are certified compiler-wide only at $\alpha\ge0.057$ (\cref{cor:frozen},
+\cref{tab:multiplicity-accounting}).
 
 Hand-written programs also reach 90/90. \Cref{tab:manual-resources} prices them
-on the same axes: they tie on requests, issue fewer interfaces (66.5\% vs.\
-44.2\%), are marginally cheaper in tokens and dollars, and lose only on latency.
+on the same axes: they tie on requests, issue fewer interfaces, are marginally
+cheaper in tokens and dollars, and lose only on latency.
 We claim discovery and admission, not runtime dominance over code written by
 someone who already knows the workflow.
 
@@ -42,15 +47,17 @@ someone who already knows the workflow.
 
 On a narrower two-read pull-request outcome task across frozen public
 repositories, with held-out records strictly newer than discovery ones and
-selection sealed before any provider call, \method completes 120/120 exact pairs
-on four of five repositories and retires \code{pytorch/pytorch} rather than
-loosening its gate; requests fall 44.4\% and tokens 52.4\%. That retirement is the gate's, not provenance's: all 116 windows cleared with
-nothing blocked, but the unenforced discovery pool held 2 merged records against
-a balanced 10/10/10 test split, and no threshold attained $U_\eta\le\alpha$
-(\cref{app:breadth}). A balanced
-three-repository rerun, which controls that mix, reaches 180/180 exact pairs at
-66.7\% fewer requests and 78.4\% fewer tokens (\cref{tab:multirepo-disaggregated}). A fixed two-read template is more efficient in the five-repository core and essentially tied in the rerun: evidence of discovery and
-principled retirement, not of runtime dominance.
+selection sealed before any provider call, \method completes 120/120 exact
+pairs on four of five repositories and retires \code{pytorch/pytorch} rather
+than loosening its gate (\cref{app:breadth}). The compiled program ran on 80/120
+held-out records: every open-class record abstained on the induced verifier's
+\code{pr.state} hull, learned from discovery pools holding 0--3 open records,
+and ran the unchanged agent, so requests fall 44.4\% overall (66.7\% on
+dispatched records) and tokens 52.4\%. A balanced three-repository rerun, with all three
+classes in discovery, dispatches on 180/180 and reaches 180/180 exact pairs at 66.7\% fewer requests and 78.4\% fewer tokens
+(\cref{tab:multirepo-disaggregated}). A fixed two-read template is more
+efficient in the core protocol and essentially tied in the rerun: evidence of
+discovery and principled retirement, not of runtime dominance.
 
 \subsection{What binds: sample size, then deployability}
 \label{sec:res-refusal}
@@ -83,10 +90,8 @@ provenance fixed its \emph{length} rather than its content
 Admissibility is not dispatchability. Gold solutions are not agent trajectories,
 so we also test the admitted region against AppWorld's 28 released baseline
 runs. Over 8{,}190 trajectories it is structurally eligible at the entry boundary in
-$37.9\%$, and the architecture explains the spread: $2{,}339/2{,}340$ for full
-code with reflection and $762/1{,}170$ for iterative parallel function calling,
-against $1$ of $4{,}680$ for ReAct and plan-and-execute, which open by reading
-API documentation so the prefix leaves position~0
-(\cref{tab:appworld-dispatch}). These repeat tasks across the 28 runs, so they
-are descriptive units, not independent samples; a miss abstains cleanly, and the
-measurement bounds $\varphi$ from above rather than estimating a dispatch rate.
+$37.9\%$, and the architecture explains the spread (\cref{tab:appworld-dispatch}):
+full-code agents are eligible almost always, ReAct and plan-and-execute almost
+never, because they open by reading API documentation and the prefix leaves
+position~0. Trajectories repeat tasks across the 28 runs, so they are descriptive units,
+not independent samples, and the measurement bounds $\varphi$ from above.

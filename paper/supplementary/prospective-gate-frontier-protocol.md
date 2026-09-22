@@ -67,12 +67,13 @@ additive with):
   under $2 even with a generous safety margin over the per-repository smoke check's
   observed cost. This is a cost estimate stated before spending it, not a result.
 
-## Observed results (2026-08-22)
+## Observed results (2026-08-22; accounting corrected 2026-09-22)
 
-Executed against all five sealed repositories at a total real cost of **$0.41**
-(discovery + all three conditions' held-out evaluation, across every attempt including
-two retries of `streamlit/streamlit` after transient provider timeouts during discovery —
-see "What happened to the other repository" below).
+Executed against all five sealed repositories. Retained `estimated_cost_usd` over every
+successful attempt (discovery for five repositories plus all three conditions' held-out
+evaluation on four) sums to **$0.41**; the two failed `streamlit/streamlit` discovery
+attempts (see "What happened to the other repository" below) are not retained, so their
+spend is unrecorded and the figure is a lower bound on total spend.
 
 **Cohort achieved: 240 of 300 pooled held-out pairs, four of five repositories.**
 Discovery reaches 580/580 exact traces (116/116 per repository, including
@@ -82,16 +83,26 @@ held-out split under all three conditions: `huggingface/datasets`, `pandas-dev/p
 compiler mines one candidate with support 16 across the calibration split, but the
 tightest attainable Clopper–Pearson upper bound at every grid point is 1.000 — no
 calibration group is ever accepted, so the candidate never reaches an admissible
-threshold. This reproduces, on an independent, five-times-larger cohort, exactly the
-retirement `github_multirepo_pr_outcome_core.py`'s own 30-per-repository cohort already
-reports for the same repository: not a new failure mode, and not an artifact of the
-smaller cohort's specific record selection.
+threshold. This cohort is drawn from the same frozen snapshots with the same selection seed
+(20260807) as `github_multirepo_pr_outcome_core.py`'s core cohort and excludes none of
+its records (`excluded_prior_record_numbers` is 0 for four repositories): it shares
+561/580 discovery, 442/460 calibration, and 130/150 held-out records with the core cohort
+(`paper/results/iclr_revision/cohort_overlap_audit.json`). At twice the core scale it is a
+larger sealed re-execution, not an independent replication, and the `pytorch/pytorch`
+retirement is a near-replay of the core one on a 93–95% identical split — the same
+outcome, not new evidence about its cause.
 
-**Exact-contract preservation:** 240/240 on baseline and learned-gate; 239/240 on
-support-only after one held-out record (`psf/requests` #6708) failed under a transient
-`TimeoutError` independent of condition or repository — the identical record that failed
-identically during the single-repository pipeline smoke check this document recorded
-above, confirming it is a provider-side transient rather than a new fault.
+**Exact-contract preservation (intention-to-treat, by episode):** 240 records × 3 arms
+= 720 attempted episodes, 719 completed. Baseline 240/240, learned gate 240/240,
+support-only 239/240. The incomplete episode is `psf/requests` #6708 under the support-only
+arm, which raised the 120 s provider timeout (`failures[0]`); the same record completed
+and passed in the other two arms. This protocol fixed no retry rule, so the episode was
+not re-attempted and counts as a failure; among the 239 records with three completed arms
+every arm passes 239/239. Provenance note: the `psf/requests` block in the pooled result
+is the single-repository pipeline check executed on 2026-08-22T18:59Z under the sealed
+selection, reused verbatim by the five-repository run through the driver's `--resume`
+short-circuit rather than re-executed; the "smoke check" and the "full run" observations
+of #6708 are therefore one event, not two.
 
 **Efficiency, relative to the unchanged baseline, pooled over 240 (239 for support-only)
 pairs:**
@@ -117,21 +128,34 @@ cohort where the raw sweep shows a third value — but that point's exact upper 
 **.375**, far above the registered $\alpha=.05$ budget, so it is never admissible and is
 never selected. Every repository, under both the learned gate and the support-only
 ablation, deploys the identical coverage-1.0 threshold. No repository, under either arm,
-ever deploys at an intermediate admissible coverage. Support-only's own sweep is
-pointwise identical to the learned gate's on every repository (expected: raw
-accept/reject counts at a given $\eta$ do not depend on $\alpha$, only which $\eta$ ends
-up selected does), which is itself informative: even removing the risk budget entirely
-does not surface a coverage point the risk-budgeted gate was suppressing.
+ever deploys at an intermediate admissible coverage — and none could: with |K| = 92 the
+registered bound certifies only n_η = 92, so the "three distinct nonzero coverage levels"
+criterion above was arithmetically unattainable at this pool size whatever `q` ranked,
+and this document should have said so before the run (see `graded-frontier-protocol.md`
+for the ⌈92/c⌉ preconditions). Held-out `q` is moreover constant within each repository
+(0.0169 for `huggingface/datasets`, 0.0815 elsewhere) because the entry state is a single
+record number. Support-only's sweep reproduces the learned gate's n and k at every η, but
+not its U: α = 1 appends η = 1.0 to the grid, so its Bonferroni split is δ/12 (U = 0.0507
+at n = 92) and it deploys threshold 1.0 rather than 0.5. Held-out dispatch was 160/240
+(learned) and 159/239 (support-only); every open-class pull request abstained on the
+induced verifier's `pr.state` hull (`dispatch.reasons = ["range:pr.state"]`) and ran the
+unchanged agent, which is why the pooled request reduction is 44.4% rather than 66.7%.
 
 Per the decision rule fixed in advance, this is the pre-declared fourth outcome:
 *"Neither gate produces graded coverage (both step-like). The workload did not supply
 enough gradient; report the null and do not manufacture a frontier from a homogeneous
 cohort."* No held-out wrong dispatch was observed on either gate at the admitted
 threshold in any repository, so the pre-declared adverse-finding row (row 3) also does
-not apply. At four times the previous cross-repository scale, and against a comparator
-built to share every statistical mechanism except the risk budget, the exact-$\alpha=.05$
-gate remains a support threshold. This confirms, rather than resolves, the step-gate
-finding this paper already reports from its primary families and from AppWorld.
+not apply. At twice the previous cross-repository scale, and against a comparator built
+to share every statistical mechanism except the risk budget, the exact-$\alpha=.05$ gate
+remains a support threshold. The study audits support-threshold behavior at full coverage
+under two risk budgets; it does not test the ranking quality of `q`, and this null is a
+statement about the design, not about `q`.
+
+**Retrospective note (2026-09-22).** This protocol fixed neither a timeout nor a retry
+policy and did not state the ⌈92/c⌉ constraint that made decision-rule row 1 unattainable
+at |K| = 92; both omissions are recorded here rather than edited out of the pre-registered
+text above.
 
 **What happened to the other repository, in full.** `streamlit/streamlit`'s discovery
 pass failed twice before succeeding: the first full five-repository run lost 2 of 116

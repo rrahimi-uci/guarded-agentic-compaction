@@ -47,7 +47,7 @@ partitioned before any learning. For each call-argument slot, the
 program-argument trace graph (\patg, \cref{alg:patg}) searches entry-state and
 prior-result paths for typed values reachable by a bounded transform ---
 execution provenance in the database sense~\citep{cheney2009provenance},
-specialized to tool arguments. Two outcomes block a region rather than guessing:
+specialized to tool arguments. Two slot marks make the region miner block rather than guess:
 a slot with \emph{no} witness is a genuine model decision, and one with more
 than $\kappa=3$ witnesses is ambiguous (\cref{fig:provenance}). A repeated tool
 name, a matching literal, and a successful replay are not witnesses; only an
@@ -70,9 +70,8 @@ for heterogeneity, effect exposure, and program size:
 \end{equation}
 with $s_F$ supporting train groups, $\bar{k}_F$ the mean removable model requests,
 $c_m$ their unit cost, and $\mathsf{Ent}(F)$ the Shannon entropy over canonical
-variants inside the family; without $\lambda_1$ the ranking prefers a
-heterogeneous family whose canonical form fits none of its members.
-\Cref{eq:score} affects only \emph{which} family is tried first.
+variants inside the family. \Cref{eq:score} affects only \emph{which} family is
+tried first.
 
 \paragraph{3. Feasibility ceiling.}
 Before any synthesis runs, an estimator bounds what the compiler could achieve
@@ -141,7 +140,9 @@ $c=n_\eta/|\mathcal{K}|$ needs $|\mathcal{K}|\ge\lceil 92/c\rceil$, so on the
 $|\mathcal{K}|=92$ cohorts used throughout --- the smallest satisfiable pool ---
 the only admissible coverages are $c\in\{0,1\}$ whatever $q$ ranks, since
 abstaining on one group leaves $U_\eta=0.0503>\alpha$. Intermediate coverage can
-still be \emph{observed}; it cannot be certified (\cref{app:config}).
+still be \emph{observed}; it cannot be certified (\cref{app:config}). These
+studies therefore test support sufficiency at full coverage and cannot identify
+whether $q$ ranks dispatch risk.
 
 \input{figures/alg-calibrate.tex}
 
@@ -157,8 +158,10 @@ and is defined as zero otherwise. Consequently the selected $\hat\eta$ satisfies
 $r_{\hat\eta}\le\alpha$ whenever $U_{\hat\eta}\le\alpha$.
 \end{proposition}
 
-\Cref{app:proof} gives the proof. The guarantee is deliberately narrow:
-\emph{per fixed candidate}, not compiler-wide over the adaptive search
-\cref{alg:compile} performs, and conditional on group exchangeability rather
-than establishing it (\cref{sec:discussion}). Guarded deployment requires an
+\Cref{app:proof} gives the proof. The guarantee is per fixed candidate and
+conditional on i.i.d.\ groups, which the cohorts assume rather than establish
+(\cref{sec:discussion}). Conditional on train and development data the number
+$m$ of candidates reaching calibration is fixed, so a run is compiler-wide when
+$m=1$ (\cref{cor:frozen}) or when $\gamma$ is divided by $m$; \cref{app:config}
+reports $m$ and both bounds for every artifact. Guarded deployment requires an
 explicit evidence boundary, not just a recurrent trace and a successful replay.

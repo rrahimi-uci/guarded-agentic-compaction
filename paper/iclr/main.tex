@@ -66,6 +66,8 @@
 \theoremstyle{plain}
 \newtheorem{proposition}{Proposition}
 \newtheorem{corollary}[proposition]{Corollary}
+\crefname{proposition}{Proposition}{Propositions}
+\crefname{corollary}{Corollary}{Corollaries}
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}
 
@@ -169,6 +171,12 @@ substrates: NESTFUL, API-Bank, executed BFCL, and executed AppWorld.
 \Cref{app:external} states how the latter two obtain observed results, and
 \cref{app:config} gives their exact provider-free entry points. Before upload, these
 materials will be supplied as an anonymous archive with hashes and manifests preserved.
+The artifact pins the provider model string, the \code{openai-agents} and
+\code{openai} SDK versions, the effective generation settings, cache policy,
+the 120\,s timeout and no-retry policy, the per-record condition order,
+concurrency, the token fields used for cost, the rate-card date, the tool and
+effect-catalog digests, and every split and candidate manifest
+(\cref{tab:live-manifest}).
 
 \bibliographystyle{iclr2027_conference}
 \bibliography{references}

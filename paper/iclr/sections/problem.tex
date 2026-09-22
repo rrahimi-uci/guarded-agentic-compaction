@@ -35,11 +35,9 @@ the compiler also imposes a \emph{position invariant}:
   a = 0 \quad\text{in the normalized model-boundary index.}
   \label{eq:prefix}
 \end{equation}
-This is not aesthetic. A suffix program dispatched at entry can reorder or
-duplicate calls the agent has already made --- a semantic mismatch between
-compilation-time and resolution-time position rather than a tuning failure, and
-a pilot that violated \cref{eq:prefix} produced exactly that fault
-(\cref{app:pilot}). Everything that follows is therefore an \emph{initial read-only prefix} compiler, not the arbitrary-entry trace compiler a JIT is;
+A suffix program dispatched at entry can reorder or duplicate calls the agent
+has already made; a pilot that violated \cref{eq:prefix} produced exactly that
+fault (\cref{app:pilot}). Everything that follows is therefore an \emph{initial read-only prefix} compiler, not the arbitrary-entry trace compiler a JIT is;
 \cref{sec:res-refusal} prices what that costs.
 
 \paragraph{Selective optimization objective.}
@@ -71,8 +69,9 @@ d_A(x_i)L(A,x_i)$. We seek
   \le \alpha .
   \label{eq:objective}
 \end{equation}
-Both halves take the same group measure $\mathcal{D}_{\mathrm{grp}}$, the objective summing within a group rather than over pooled episodes, so that
-unequal groups are not weighted differently by objective and constraint. Three properties shape everything that follows. \emph{First}, the constraint
+Both halves take the same group measure $\mathcal{D}_{\mathrm{grp}}$, summing
+within a group so that objective and constraint weight groups alike. Three
+properties shape everything that follows. \emph{First}, the constraint
 conditions on dispatch: abstention does not enter its denominator, although it
 earns no savings in the objective; by convention its conditional risk is zero
 when population dispatch probability is zero. \emph{Second}, returning \emph{no}

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import ast
 import math
 
 import pytest
@@ -175,3 +176,30 @@ def test_estimator_returns_an_empty_report_without_episodes():
     rep = estimate([], SYNTHETIC_CATALOG)
     assert rep.n_episodes == 0
     assert "no episodes" in " ".join(rep.notes)
+
+
+def test_retired_gate_notes_retain_the_full_per_threshold_grid() -> None:
+    # Two groups, both violating: no threshold can be admitted at alpha=0.05, so
+    # the retired gate must still carry one row per grid threshold, exactly as an
+    # admitted gate does. This is what lets a study distinguish "no group was
+    # accepted at any eta" from "every accepted group violated".
+    # degenerate labels -> constant-zero score, so every group is accepted at
+    # every threshold and every accepted group violates
+    samples = [
+        CalibrationSample("g1", {}, unproductive=False, violation=True),
+        CalibrationSample("g2", {}, unproductive=False, violation=True),
+    ]
+    gate = calibrate_gate(samples, alpha=0.05, delta=0.10)
+    assert gate.retire
+    assert "no admissible threshold" in gate.notes
+    assert "grid rows: [" in gate.notes
+    rows = ast.literal_eval(gate.notes.split("grid rows: ", 1)[1])
+    assert len(rows) == len(gate.grid) == 11
+    assert [row["eta"] for row in rows] == sorted(gate.grid)
+    assert {tuple(sorted(row)) for row in rows} == {
+        ("coverage", "eta", "n", "upper", "violations")
+    }
+    # the mechanism is legible from the rows: every accepted group violated
+    assert any(row["n"] > 0 and row["violations"] == row["n"] for row in rows)
+    # and the notes are far longer than the 120 characters the compiler used to keep
+    assert len(gate.notes) > 120

@@ -1,0 +1,265 @@
+{
+  "core_run": {
+    "comparative_claim_allowed": true,
+    "family": "pr_outcome_core",
+    "model": "gpt-5.6-luna",
+    "openai_agents_sdk": "0.19.2",
+    "openai_api_key_used": true,
+    "openai_python": "2.52.0",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "provider_backed": true,
+    "python": "3.14.4",
+    "real_public_records": true,
+    "repository": "psf/requests",
+    "resolved_config": {
+      "concurrency": 8,
+      "discovery_cases": 116,
+      "force": true,
+      "force_download": false,
+      "minimum_complete_repos": 5,
+      "minimum_gap_days": 0,
+      "minimum_pooled_test_cases": 150,
+      "model": "gpt-5.6-luna",
+      "preflight_only": false,
+      "repositories": [
+        "huggingface/datasets",
+        "pandas-dev/pandas",
+        "psf/requests",
+        "streamlit/streamlit",
+        "pytorch/pytorch"
+      ],
+      "resume": false,
+      "seed": 20260807,
+      "smoke": false,
+      "test_cases_per_repo": 30
+    },
+    "secrets_serialized": false,
+    "simulated": false,
+    "timestamp_utc": "2026-08-07T02:22:02+00:00"
+  },
+  "gate_frontier_run": {
+    "approved_spend_usd": 5.0,
+    "comparative_claim_allowed": false,
+    "family": "pr_outcome_core",
+    "model": "gpt-5.6-luna",
+    "openai_api_key_used": true,
+    "provider_backed": true,
+    "real_public_records": true,
+    "repositories": [
+      "huggingface/datasets",
+      "pandas-dev/pandas",
+      "psf/requests",
+      "streamlit/streamlit",
+      "pytorch/pytorch"
+    ],
+    "resolved_config": {
+      "approved_spend_usd": 5.0,
+      "concurrency": 8,
+      "force": false,
+      "force_download": false,
+      "minimum_complete_repos": 3,
+      "minimum_pooled_test_cases": 300,
+      "model": "gpt-5.6-luna",
+      "preflight_only": false,
+      "repositories": [
+        "huggingface/datasets",
+        "pandas-dev/pandas",
+        "psf/requests",
+        "streamlit/streamlit",
+        "pytorch/pytorch"
+      ],
+      "resume": true,
+      "seed": 20260807
+    },
+    "secrets_serialized": false,
+    "simulated": false,
+    "timestamp_utc": "2026-08-22T22:43:28+00:00"
+  },
+  "rows": [
+    {
+      "key": "Provider / model",
+      "source": "run.model",
+      "value": "OpenAI \\code{gpt-5.6-luna} via the \\code{openai-agents} Responses interface"
+    },
+    {
+      "key": "SDK versions",
+      "source": "run.openai_agents_sdk, run.openai_python, run.python, run.platform",
+      "value": "\\code{openai-agents 0.19.2}, \\code{openai 2.52.0}, Python 3.14.4, macOS-26.5.2 arm64"
+    },
+    {
+      "key": "Model settings",
+      "source": "paper/scripts/github_live_study.py:522-530",
+      "value": "reasoning effort \\code{low}, verbosity \\code{low}, \\code{parallel\\_tool\\_calls=False}, \\code{store=False}"
+    },
+    {
+      "key": "Sampling",
+      "source": "run.temperature (issue-type file)",
+      "value": "temperature, top-p, and seed are not exposed for this model; the SDK sends none"
+    },
+    {
+      "key": "Turn and time limits",
+      "source": "github_workflow_family_study.py run_batch; github_multirepo_pr_outcome_core.py:855-876",
+      "value": "\\code{max\\_turns} 8 (families) / 6 (cross-repository); 120\\,s per episode; no retries; failures kept in \\code{failures[]}"
+    },
+    {
+      "key": "Concurrency",
+      "source": "run.resolved_config.concurrency; schedule[]; condition_order",
+      "value": "discovery 6 (PR, backlog) / 8 (issue-type, cross-repository); held-out arms one at a time per record (PR, backlog, cross-repository); blocked Latin design, 8-way (issue-type)"
+    },
+    {
+      "key": "Condition order",
+      "source": "schedule[].order",
+      "value": "per-record permutation cycle over all six arm orders, five records per order"
+    },
+    {
+      "key": "Cache accounting",
+      "source": "results[].metrics; paper/results/cache_accounting.json",
+      "value": "fields \\code{input\\_tokens}, \\code{cached\\_tokens}, \\code{cache\\_write\\_tokens}, \\code{output\\_tokens}; no shared server state; cached tokens 0 in PR/backlog/cross-repository, non-zero in issue-type"
+    },
+    {
+      "key": "Pricing",
+      "source": "demos/live_runtime.py:58-65",
+      "value": "USD per 1M tokens: input 0.20, cached 0.02, cache write 0.25, output 1.20 (list rates, 2026-08-02); cost $=$ (input $-$ cached $-$ write)$\\cdot$0.20 $+$ cached$\\cdot$0.02 $+$ write$\\cdot$0.25 $+$ output$\\cdot$1.20"
+    },
+    {
+      "key": "Data pins",
+      "source": "paper/results/datasets/*",
+      "value": "\\code{helmo/github-issues@e344be7b} parquet sha256 \\code{09453eef\\ldots} (tracked); four cross-repository parquets pinned by sha256 in \\code{source\\_manifest.json}"
+    },
+    {
+      "key": "Tool and effect pins",
+      "source": "compiler.artifact.guard.manifest_pins",
+      "value": "per-family \\code{effect\\_catalog\\_version} digest, \\code{tools\\_hash}, \\code{prompt\\_hash}, \\code{policy\\_hash}, \\code{entry\\_contract\\_version}"
+    },
+    {
+      "key": "Run timestamps",
+      "source": "run.timestamp_utc",
+      "value": "one per study: 2026-08-04, 2026-08-05, 2026-08-05 (families); 2026-08-07 (core); 2026-08-22 (gate frontier); per-record timestamps not retained"
+    }
+  ],
+  "runs": {
+    "backlog_attention": {
+      "comparative_claim_allowed": true,
+      "family": "backlog_attention",
+      "model": "gpt-5.6-luna",
+      "openai_agents_sdk": "0.19.2",
+      "openai_api_key_used": true,
+      "openai_python": "2.52.0",
+      "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+      "provider_backed": true,
+      "python": "3.14.4",
+      "real_public_records": true,
+      "resolved_config": {
+        "concurrency": 6,
+        "discovery_cases": 132,
+        "discovery_checkpoint": null,
+        "family": "backlog_attention",
+        "force": true,
+        "model": "gpt-5.6-luna",
+        "preflight_only": false,
+        "resume": false,
+        "run_tag": "final",
+        "seed": 20260805,
+        "smoke": false,
+        "test_cases": 30
+      },
+      "secrets_serialized": false,
+      "simulated": false,
+      "timestamp_utc": "2026-08-05T17:17:55+00:00"
+    },
+    "issue_type": {
+      "argv": [
+        "--task-design",
+        "natural-extractive-v2",
+        "--evaluation-order",
+        "counterbalanced",
+        "--include-macro",
+        "--discovery-cases",
+        "132",
+        "--train-cases",
+        "16",
+        "--dev-cases",
+        "8",
+        "--calibration-cases",
+        "92",
+        "--test-per-class",
+        "10",
+        "--repeat-cases",
+        "10",
+        "--concurrency",
+        "8",
+        "--seed",
+        "20260802"
+      ],
+      "evidence_class": "real public records + deterministic snapshot tools + live OpenAI provider",
+      "hf_token_used_for_download": true,
+      "model": "gpt-5.6-luna",
+      "not_evidence_for": [
+        "live GitHub service reliability",
+        "production canary safety",
+        "cross-domain generalization",
+        "human productivity or user-experience gains"
+      ],
+      "openai_agents_sdk": "0.19.2",
+      "openai_api_key_used": true,
+      "openai_python": "2.52.0",
+      "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+      "python": "3.14.4",
+      "reasoning_effort": "low",
+      "resolved_config": {
+        "calibration_cases": 92,
+        "concurrency": 8,
+        "dev_cases": 8,
+        "discovery_cases": 132,
+        "evaluation_order": "counterbalanced",
+        "force_download": false,
+        "include_macro": true,
+        "model": "gpt-5.6-luna",
+        "output_dir": null,
+        "preflight_only": false,
+        "repeat_cases": 10,
+        "seed": 20260802,
+        "smoke": false,
+        "task_design": "natural-extractive-v2",
+        "test_per_class": 10,
+        "train_cases": 16
+      },
+      "script": "paper/scripts/github_live_study.py",
+      "secrets_serialized": false,
+      "task_design": "natural-extractive-v2",
+      "temperature": "provider default (parameter unsupported by selected model)",
+      "timestamp_utc": "2026-08-04T01:46:44+00:00",
+      "workspace_git_commit": null,
+      "workspace_git_commit_note": "repository checkout contains no .git metadata"
+    },
+    "pr_outcome": {
+      "comparative_claim_allowed": true,
+      "family": "pr_outcome",
+      "model": "gpt-5.6-luna",
+      "openai_agents_sdk": "0.19.2",
+      "openai_api_key_used": true,
+      "openai_python": "2.52.0",
+      "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+      "provider_backed": true,
+      "python": "3.14.4",
+      "real_public_records": true,
+      "resolved_config": {
+        "concurrency": 6,
+        "discovery_cases": 132,
+        "discovery_checkpoint": "paper/results/github_workflow_families/pr_outcome/pilot_v1/discovery_checkpoint.json",
+        "family": "pr_outcome",
+        "force": true,
+        "model": "gpt-5.6-luna",
+        "preflight_only": false,
+        "resume": false,
+        "run_tag": "final",
+        "seed": 20260806,
+        "smoke": false,
+        "test_cases": 30
+      },
+      "secrets_serialized": false,
+      "simulated": false,
+      "timestamp_utc": "2026-08-05T17:09:41+00:00"
+    }
+  }
+}

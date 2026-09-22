@@ -53,27 +53,46 @@ $\qquad\blacksquare$
 \end{proof}
 This is a corollary, not a new inequality: it is a restatement of
 \cref{prop:admission} for a search that never lets a second candidate see
-calibration data. It is not hypothetical: the cross-repository extension
-already runs with freezing enabled, and every sealed repository report there
-shows exactly one candidate reaching calibration, so \cref{cor:frozen} applies
-to those admissions directly. The three primary GitHub families do not use it
---- each mines two candidates that both reach calibration, with the
-higher-removal survivor kept by dominance --- so they remain the per-candidate
-certificates above and are not retroactively strengthened.
-\code{paper/scripts/frozen\_candidate\_coverage\_simulation.py} backs this with
-an exact (non-Monte-Carlo) combinatorial check: at $n=92$, the population rate
-maximizing a single candidate's miscoverage is $r^{*}\!\approx\!0.637$ at
-miscoverage $\approx\!0.00909\!\approx\!\gamma$; pooling $m$ such candidates at
-the same per-candidate budget with no correction lets the probability that
-\emph{some} certificate is wrong grow with $m$ (1.8\% at $m=2$ to 13.6\% at
-$m=16$, crossing $\delta=0.10$ past the eleven-point grid), while the
-Bonferroni correction already discussed keeps every tested $m$ under 1\%, at
-the group cost this appendix already reports (106 at $m=2$, recomputed here
-independently). A companion seeded Monte Carlo check (seed \code{20260822},
-$M{=}200{,}000$) draws the 92 groups in correlated blocks instead of i.i.d.\ and
-finds realized miscoverage matches the exact baseline at zero correlation but
-reaches 56\% against a 0.9\% nominal budget at the most clustered
-configuration tested, quantifying rather than only asserting why the live
+calibration data. Conditional on train and development data, the number $m$ of candidates that
+reach calibration is fixed before any calibration label is read. The
+cross-repository extension runs with freezing enabled and every sealed
+repository report shows one candidate reaching calibration, so \cref{cor:frozen}
+applies to those admissions directly. Issue-type routing did not freeze, but its
+second candidate retired at synthesis (an ungroundable slot) and never saw
+calibration, so $m=1$ and the same argument applies. PR-outcome and
+backlog-attention routing each calibrated $m=2$ candidates on the same 92
+groups and kept the higher-removal survivor: their certificates are
+per-candidate at $\alpha=0.05$, and under $\gamma=\delta/(m|\Lambda|)$ the
+retained zero-violation tables give $U=0.0569>\alpha$, a compiler-wide
+certificate only at $\alpha\ge0.057$ or after 106 groups
+(\cref{tab:multiplicity-accounting}). A fresh 106-group calibration under the
+pre-registered protocol
+\code{paper/supplementary/multiplicity-repair-protocol.md} is the repair; it is
+pre-registered and not yet run.
+
+\paragraph{Multiplicity accounting.} For one fixed candidate and one fixed
+threshold $\eta$, $\Pr(r_\eta>U_\eta)\le\gamma=\delta/|\Lambda|$. For one fixed
+candidate over the whole grid, the union bound gives
+$\Pr(\exists\eta\in\Lambda:r_\eta>U_\eta)\le|\Lambda|\gamma=\delta$. For a set
+of $m$ candidates fixed before calibration and each evaluated over $\Lambda$,
+choosing $\gamma=\delta/(m|\Lambda|)$ gives
+$\Pr(\exists\,a,\eta: r_{a,\eta}>U_{a,\eta})\le\delta$; at $\alpha=0.05$,
+$\delta=0.1$, $|\Lambda|=11$ the zero-violation requirement is 92 groups for
+$m=1$ and 106 for $m=2$ ($U=0.0498$ versus $0.0569$ at $n=92$).
+\code{paper/scripts/frozen\_candidate\_coverage\_simulation.py} checks the
+\emph{single-threshold} quantity exactly, without Monte Carlo: for one candidate
+at one threshold and $n=92$, the population rate that maximizes miscoverage is
+$r^{*}\approx0.637$, where miscoverage is $\approx0.00909\approx\gamma$. Pooling
+$m$ such candidates at the uncorrected per-candidate budget raises that
+single-threshold union to 1.8\% at $m=2$ and 13.6\% at $m=16$, while the
+corrected budget keeps it below 0.81\% for every $m$ tested. These are
+illustrative single-threshold figures; the grid-wide and candidate-wide
+certificates are the $\delta$ statements above, not these numbers. A companion
+seeded Monte Carlo (seed \code{20260822}, $200{,}000$ replicates per cell) draws
+the 92 groups in correlated blocks instead of i.i.d.: realized miscoverage
+matches the exact value at zero correlation and reaches 56\% against the 0.9\%
+nominal single-threshold budget at the most clustered configuration tested
+(block size 46, one quarter of blocks shifted by 0.3), which is why the live
 studies' \code{min\_days}=\code{min\_principals}=1 configuration is this
 guarantee's weakest link.
 
@@ -84,15 +103,20 @@ guarantee's weakest link.
 \input{figures/alg-dispatch.tex}
 
 \Cref{alg:patg} constructs the typed provenance graph that decides
-\cref{eq:grounding}. Its two block conditions are asymmetric on purpose: a slot
-with no witness is treated as a genuine model decision and a slot with more than
-$\kappa$ witnesses is treated as ambiguous, so the analysis never resolves an
-argument by picking the cheapest available explanation.
+\cref{eq:grounding}. \patg annotates; \textsc{MineRegions} blocks. The two
+blocking marks are asymmetric on purpose: a slot with no witness is a genuine
+model decision and a slot with more than $\kappa$ witnesses is ambiguous, so the
+analysis never resolves an argument by picking the cheapest available
+explanation. \patg keeps up to $\kappa$ single-source witnesses per grounded slot
+and \textsc{Synthesize} commits to the one source stable across every supporting
+group.
 
 \Cref{alg:dispatch} is the runtime counterpart of \cref{eq:dispatch}. Cheap
 deterministic checks reject first and the calibrated gate runs only on what
 survives them, so the common case costs a registry lookup and a guard
-evaluation. Exactly one exit path compacts; every clean rejection returns the
+evaluation; the first of them is the position check: any tool already observed
+in the episode, whether or not the compiled program uses it, returns the
+unchanged agent (\cref{eq:prefix}). Exactly one exit path compacts; every clean rejection returns the
 unmodified baseline agent, and any failure whose reversibility cannot be
 attested raises an incident rather than feigning a rollback. ``Baseline'' is
 byte-exact only where a staging owner holds the commit boundary: the outer
@@ -109,8 +133,9 @@ Every live study in this paper calls one provider and one model: OpenAI
 Model settings are fixed across all conditions at reasoning effort \code{low}
 and verbosity \code{low}, with parallel tool calls disabled so provider-visible
 interface counts are comparable between the baseline and a compiled prefix, and
-server-side response storage disabled. Sampling parameters are not overridden
-and take provider defaults. Reported dollars are an \emph{estimate}, computed by
+server-side response storage disabled. Sampling parameters are not exposed for
+this model; the SDK sends none, and the effective request manifest is
+\cref{tab:live-manifest}. Reported dollars are an \emph{estimate}, computed by
 applying the published standard short-context list rates below --- retrieved
 2026-08-02 --- to the token counts retained per record; they are not an account
 invoice and carry no negotiated or cached-tier discount beyond the cached-input
@@ -133,6 +158,17 @@ Because every condition within a family shares this model, these settings, the
 same records, and the same grader, the conditions differ in execution structure
 alone.
 
+\begin{table}[t]
+  \centering
+  \caption{Effective live-provider request manifest. Every row names its source:
+  a retained \code{run} block, or a code constant with its file and line. Cache
+  and cost fields are the ones the price formula consumes.}
+  \label{tab:live-manifest}
+  \footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \input{tables/live_provider_manifest.tex}
+\end{table}
+
 \paragraph{Admission budgets.}
 All reported admission runs use risk budget $\alpha=0.05$, confidence budget
 $\delta=0.1$, and a fixed grid of $|\Lambda|=11$ thresholds, which fixes the
@@ -149,7 +185,38 @@ certificates rather than a compiler-wide one. The grid is
 $\Lambda=\{0.02,0.05,0.08,0.11,0.14,0.17,0.20,0.25,0.30,0.40,0.50\}$ and the ambiguity cap
 is $\kappa=3$. Synthesis uses the 23-operator closed library of \cref{tab:dsl}
 at depth $\le 2$; region mining uses $w_{\max}$ tool calls per window and
-requires support across independent scenario groups.
+requires support across independent scenario groups. Every bound in this paper
+is conditional on i.i.d.\ calibration groups.
+
+\begin{table}[t]
+  \centering
+  \caption{Certificate level of every primary artifact. $m$ is the number of
+  candidates that reached calibration, fixed conditional on train and
+  development data; $U$ is the zero-violation upper bound at $n=92$ under the
+  per-candidate budget $\gamma=\delta/|\Lambda|$ and under the candidate-wide
+  budget $\gamma=\delta/(m|\Lambda|)$. Rows are recomputed from the retained
+  per-threshold tables (\code{compiler.artifact.gate.notes}) of the admitted
+  artifacts; the dominated two-read candidates' tables were not retained, which
+  does not affect the admitted artifact's corrected bound.}
+  \label{tab:multiplicity-accounting}
+  \footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \input{tables/multiplicity_accounting.tex}
+\end{table}
+
+\paragraph{Runtime capability vocabulary.} \code{quota\_attested} is a boolean
+field of a tool's signed effect declaration, not a capability flag: it marks a
+read whose invocation advances a counter (a rate quota or an audit log) that
+the staging snapshot must attest over before an attempt can be discarded as
+clean, so in live mode such a tool is not dispatched without a snapshot
+provider (\cref{alg:dispatch}). Position~0 of \cref{eq:prefix} is identified at
+runtime with ``no tool observation has been committed in this episode'': any
+earlier tool call, whether or not the compiled program uses that tool, returns
+the unchanged agent, the runtime form of the compile-time \code{prefix\_only}
+constraint. In the shipped facade every effect outside
+$\{\textsc{pure},\textsc{read-local},\textsc{read-external}\}$ is refused at
+commit and raises an incident; no post-commit path is reachable in the
+reported runs, and \cref{alg:dispatch}'s commit line is that contract.
 
 \begin{table}[h]
   \centering
@@ -219,8 +286,12 @@ $\{0,1\}$: abstaining on one group leaves $n_\eta=91$ and
 $U_\eta=1-(0.1/11)^{1/91}=0.0503>\alpha$. The step-like gate profiles reported
 in \cref{sec:res-refusal} and \cref{app:prospective} are therefore consistent
 with two different worlds --- a score that cannot rank, and a cohort too small
-to certify a ranking --- and these experiments do not separate them. A frontier
-study must first buy calibration groups. The implementation also supports a
+to certify a ranking --- and these experiments do not separate them. Two
+intermediate coverages were \emph{observed} and neither is certifiable:
+\code{huggingface/datasets} accepts 10/92 groups at $\eta\le0.08$ in the
+gate-frontier study ($U=0.375$), and \code{pandas-dev/pandas} accepts 90/92 at
+$0.08\le\eta\le0.20$ in the balanced rerun ($U=0.0509$). A frontier study must
+first buy calibration groups. The implementation also supports a
 minimum-distinct-days requirement, which the single-snapshot live study does not
 exercise (\code{min\_days}\,=\,1). Two terms of \cref{eq:score} are coarser in
 the implementation than the notation suggests: $\rho_{\mathrm{eff}}$ is
@@ -251,31 +322,61 @@ non-sensitive evidence; no model or provider call is made.
 \section{Paired Statistics for the Primary Families}
 \label{app:stats}
 
-Per-record paired differences (compiled minus baseline) on the two families that
-admit a deep prefix, with 10{,}000-sample bootstrap intervals and two-sided
-Wilcoxon signed-rank tests over $n=30$ paired held-out records:
+\begin{table}[t]
+  \centering
+  \caption{Absolute per-record resources behind the percentages of
+  \cref{tab:primary}: mean / median over the 30 held-out records of each family
+  and over all 90. Estimated dollars are list-price estimates
+  (\cref{app:config}); the entire 90-record compiled evaluation cost an
+  estimated \$0.028 against \$0.068 for the baseline. Cells are mean / median.}
+  \label{tab:absolute-resources}
+  \scriptsize
+  \setlength{\tabcolsep}{3pt}
+  \input{tables/absolute_resources.tex}
+\end{table}
 
-\begin{center}\footnotesize
-\begin{tabular}{@{}llrr@{}}
-\toprule
-Family & Endpoint & Paired difference (95\% CI) & $p$ \\
-\midrule
-\multirow{3}{*}{PR-outcome}
- & Total tokens   & $-2196.7\ [-2211.1,\,-2182.5]$ & $1.7\times10^{-6}$ \\
- & Wall latency   & $-3889$\,ms $[-4499,\,-3346]$   & $1.9\times10^{-9}$ \\
- & Estimated cost & $-\$5.11\times10^{-4}$          & $1.7\times10^{-6}$ \\
-\addlinespace[1pt]
-\multirow{3}{*}{Backlog}
- & Total tokens   & $-2315.0\ [-2366.0,\,-2224.1]$ & $1.7\times10^{-6}$ \\
- & Wall latency   & $-4428$\,ms $[-5400,\,-3558]$   & $1.9\times10^{-9}$ \\
- & Estimated cost & $-\$5.44\times10^{-4}$          & $1.7\times10^{-6}$ \\
-\bottomrule
-\end{tabular}
-\end{center}
+\begin{table}[t]
+  \centering
+  \caption{Per-record paired differences (compiled minus baseline) for all three
+  families, with 10{,}000-sample bootstrap intervals (seed 20260802) and
+  two-sided Wilcoxon signed-rank tests over $n=30$ paired held-out records.
+  Latency is reported as the mean and as the median paired difference, each with
+  its interval; cost intervals are in USD. Provider-request differences are
+  deterministic by construction (every pair removes the same number of turns),
+  so no rank test is reported for them: the statistic would measure the
+  degeneracy rather than the effect. The backlog baseline's one three-request
+  record (5189) is the only exception and appears in \cref{tab:discordance}.}
+  \label{tab:paired-statistics}
+  \footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \input{tables/paired_statistics.tex}
+\end{table}
 
-Provider-request differences are deterministic by construction (every pair
-removes the same number of turns), so no rank test is reported for them: the
-statistic would measure the degeneracy rather than the effect.
+\begin{table}[t]
+  \centering
+  \caption{Exact-contract discordance per family and pooled. ``Baseline-only''
+  counts records the unchanged agent passed and the compiled arm failed;
+  ``compiled-only'' the reverse. The upper bound is the one-sided 95\%
+  Clopper--Pearson bound on the compiled-only failure rate.}
+  \label{tab:discordance}
+  \footnotesize
+  \input{tables/discordance.tex}
+\end{table}
+
+\paragraph{Latency validity.} Latency is wall-clock provider evidence and is
+secondary to requests and tokens. In the PR-outcome and backlog families each
+held-out record ran its three arms one at a time on one host, cycling through
+all six arm orders (five records per order), with no warm-up, a 120\,s
+per-episode timeout, and no retries; the issue-type family used a blocked
+six-permutation Latin design with eight-way concurrency within each block. No
+server-side state is shared between arms (\code{store=False}); cached-input
+tokens are zero on every PR-outcome and backlog record and are priced
+separately where they occur (\code{paper/results/cache\_accounting.json}).
+Recomputing the compiled-versus-baseline wall-latency reduction within each of
+the six arm orders gives reductions between 43.2\% and 78.6\% across the eighteen permutation--family cells (every cell positive), and
+provider-response latency reproduces the wall-latency reductions to within
+0.3 percentage points, so the ordering design, not service variance,
+carries the effect.
 
 \begin{table}[h]
   \centering
@@ -401,6 +502,39 @@ rerun: the core outcome is the protocol behaving as designed under a skewed
 pool, and it is the clearest instance in the paper of the gate refusing on
 evidence composition rather than on trace structure.
 
+\paragraph{Held-out dispatch and cohort provenance.}
+\Cref{tab:multirepo-dispatch} separates calibration coverage from held-out
+dispatch. In the core protocol the artifact dispatched on 20 of 30 records in
+every repository; the ten open-class records abstained with reason
+\code{range:pr.state}, because the verifier's categorical hull, induced on
+discovery pools with 2, 0, 3, and 0 open records, contained only
+\code{closed}, and the abstention is a clean fallback that runs the unchanged
+three-request agent. The balanced rerun's 40/40/40 discovery pools induce the
+hull $\{\code{closed},\code{open}\}$ and dispatch 60/60 per repository, which is
+the whole difference between 44.4\% and 66.7\%. The core summary was produced
+in two invocations: the first, with a five-repository completeness gate,
+stopped when \code{pytorch/pytorch} retired; the second accepted four
+repositories and 120 pairs and reused the four completed per-repository
+results unchanged. The three cross-repository cohorts are drawn from the same
+frozen snapshots without mutual exclusion: the balanced rerun shares 13, 25,
+and 8 of the 30-record core held-out sets, and the gate-frontier cohort of
+\cref{app:prospective} shares 130/150 held-out and 442/460 calibration records
+with the core cohort
+(\code{paper/results/iclr\_revision/cohort\_overlap\_audit.json}).
+
+\begin{table}[t]
+  \centering
+  \caption{Held-out dispatch in the cross-repository studies. ``Dispatched''
+  counts records on which the compiled program ran; the remainder abstained on
+  the named verifier clause and ran the unchanged agent, which is why the
+  request reduction is 44.4\% under the core protocol and 66.7\% under the
+  balanced one for the same two-read artifact.}
+  \label{tab:multirepo-dispatch}
+  \footnotesize
+  \setlength{\tabcolsep}{3.5pt}
+  \input{tables/multirepo_dispatch.tex}
+\end{table}
+
 \begin{table}[t]
   \centering
   \caption{Disaggregated cross-repository time-forward outcomes behind
@@ -418,9 +552,10 @@ evidence composition rather than on trace structure.
 The core result succeeds on four repositories (120/120 held-out pairs) and
 retains the fifth as a compile-time retirement after 116 exact discovery traces.
 The balanced rerun has a distinct three-repository cohort and reaches 180/180
-held-out pairs. These rows show breadth across repositories, not independent
-evidence for an average effect: all runs share the same provider family and the
-same narrow two-read outcome task.
+held-out pairs. These rows show breadth across repositories drawn from shared
+pools --- the balanced rerun shares 13, 25, and 8 of the 30-record core
+held-out sets --- not independent evidence for an average effect: all runs
+share the same provider family and the same narrow two-read outcome task.
 
 \subsection{Continuation audit}
 
@@ -484,8 +619,8 @@ compatibility outcomes rather than dropped. The second pass reproduced
 7{,}070/7{,}070 results byte for byte, minted access tokens included, because
 AppWorld freezes each task's clock.
 
-The empirical audit attributes every \code{INSERT}/\code{UPDATE}/\code{DELETE}/
-\code{CREATE}/\code{DROP} statement to the enclosing call. It observed 1{,}320
+The empirical audit attributes every
+\code{INSERT}/\code{UPDATE}/\code{DELETE}/\allowbreak\code{CREATE}/\code{DROP} statement to the enclosing call. It observed 1{,}320
 mutating calls, zero read-like declarations mutating, and---unlike BFCL---zero
 APIs that mutate on some calls but not others. Every \code{GET} was clean on
 every call and every \code{DELETE} and \code{PATCH} mutated on every call, so
@@ -554,16 +689,18 @@ undeclared in the signed catalog and unknown effects are not reads.
   \input{tables/external_evidence_map.tex}
 \end{table}
 
-\subsection{What the registered gate has and has not demonstrated}
+\subsection{The registered gate is a support threshold}
 
 This audit strengthens the evidentiary record precisely by preserving the
-negative result: the registered gate currently behaves as a support threshold,
-not as a demonstrated risk--coverage frontier. The exploratory partial frontiers
-therefore remain diagnostic rather than evidence for the main claim.
+negative result: the registered gate behaves as, and at $|\mathcal{K}|=92$ can
+only behave as, a support threshold rather than a demonstrated risk--coverage
+frontier; the question of $q$'s ranking quality is open, not answered
+negatively. The exploratory partial frontiers therefore remain diagnostic rather
+than evidence for the main claim.
 
 \begin{table}[t]
   \centering
-  \caption{Gate-behaviour inventory from the retained threshold analysis. A
+  \caption{Gate-behavior inventory from the retained threshold analysis. A
   partial frontier would show graded coverage as the threshold changes; none
   appears among the seven current registered artifacts.}
   \label{tab:gate-profile}
@@ -584,7 +721,22 @@ replacing the per-group binomial count with a cluster-level or block-bootstrap
 bound that treats a correlated burst as a single unit; and carrying the cluster
 structure into the conformal step directly. Each shrinks the number of independent units below the 92 that the bound already
 demands, which is why none was affordable on these cohorts and why a larger corpus is the precondition for all
-three.
+three. \Cref{tab:effective-units} reports the effective unit counts the live
+calibration cohorts actually contain; where a cluster-level count falls below
+92 the corresponding conservative bound retires, which quantifies the exposure
+\cref{sec:discussion} describes.
+
+\begin{table}[t]
+  \centering
+  \caption{Effective independent units in the 92-record calibration cohorts,
+  joined to the pinned snapshot: distinct creation days, months, and authors,
+  and the zero-violation bound the registered budget would give if each cluster
+  were one unit (admits only when the count is at least 92).}
+  \label{tab:effective-units}
+  \footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \input{tables/effective_units.tex}
+\end{table}
 
 \paragraph{Relaxing the
 position invariant for a read-only prologue.}
@@ -598,7 +750,8 @@ with whatever the agent has already done --- which is the fault \cref{app:pilot}
 records. The obligation is replay suppression under an extended entry contract,
 not a new statistical argument, since the compiled region itself would be
 unchanged. We have neither built nor tested it, so it is a conjecture with a
-named mechanism.
+named mechanism; \code{paper/supplementary/read-only-prologue-protocol.md}
+fixes the acceptance tests it would have to pass.
 
 \paragraph{Why the
 workflow-reuse line is not a drop-in comparator.}
@@ -616,18 +769,35 @@ an effect declaration it makes no admissibility decision --- so there is nothing
 to compare our gate against, only a cache-hit rate. Re-expressing any of them as
 a guarded pre-model substitution with an entry contract and a verifier would
 change the method being measured rather than benchmark it. The comparison we owe
-and did not run is instead internal: an \emph{unguarded} arm that replays the
-mined region deterministically with provenance, effect, and position barriers
-disabled, which would price the guards rather than the compilation. It is the
-single highest-value addition to this evaluation.
+is internal. \Cref{tab:mechanism-removal} prices the barriers: for each
+retained hazard it names the guard that caught it and what deterministic replay
+of the mined region would have done with provenance, effect, position,
+contract, and risk barriers disabled. On PR-outcome and backlog routing the
+mined three-read sequence \emph{is} the admitted program, so an unguarded
+replay executes the same calls and differs only in guards that never fired on
+in-distribution held-out records; on issue-type routing the compiler refused
+the three-read candidate, and a pre-registered live recurrence-only arm
+(\code{paper/supplementary/recurrence-only-ablation-protocol.md}) measures that
+refusal's price directly.
+
+\begin{table}[t]
+  \centering
+  \caption{Mechanism-removal table: every retained hazard, the guard that caught
+  it, and what a recurrence-only replay of the mined region would have done.
+  Each row is backed by a retained result file in the artifact.}
+  \label{tab:mechanism-removal}
+  \footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \input{tables/mechanism_removal.tex}
+\end{table}
 
 \paragraph{A compression comparator ran, and did not engage.}
 Every headline resource number compares a compiled prefix against an
 \emph{uncompressed} baseline, because deployed compression middleware reports
 token reductions of the same order on a comparable workload by an entirely
 different mechanism~\citep{headroom2026}. A live Headroom v0.5.18 ablation adds
-\code{headroom\_only}/\code{compiled\_headroom} arms to both GitHub families on
-the existing 30-record held-out cohort
+\code{headroom\_only}/\code{compiled\_headroom} arms to the PR-outcome and
+backlog-attention families on the existing 30-record held-out cohort
 (\code{paper/supplementary/headroom-ablation-protocol.md}). Headroom attempted
 every eligible JSON tool result and pre-model evidence object and applied
 \emph{none} of them, saving zero tokens in either family, with all four paired
@@ -635,7 +805,11 @@ quality contrasts holding 30/30 at exact $p{=}1$. This is a null engagement at
 this payload shape, not a measured composition or a measured floor --- it does
 not establish Headroom's behavior on larger contexts --- but it does retire the
 narrower concern that our reduction is compression under another name: on this
-workload the two systems visibly do not touch the same bytes.
+workload the two systems visibly do not touch the same bytes. It is a
+compression comparator only; it does not stand in for a workflow-reuse or
+unguarded-replay baseline. That rerun also re-executed the unchanged agent on
+the same 30 backlog records and scored 30/30, so the single baseline miss of
+\cref{tab:primary} did not recur.
 
 \paragraph{A drift-parity protocol, pre-registered and not yet run.}
 The strongest standing objection is that a hand-written program reaches the same
@@ -766,48 +940,79 @@ than on a forced, unverifiable reimplementation.
 The sealed cohort targets 300 pooled held-out pairs across the five repositories
 \cref{sec:res-multirepo} already uses, 116 discovery and 60 held-out cases each
 under frozen-candidate selection. Discovery reaches 580/580 exact traces. Four
-repositories admit an artifact and complete 240 held-out triples under all three
-arms; \code{pytorch/pytorch} again retires at compile time --- the same
-repository, under an independent five-times-larger cohort, reproducing rather
-than revealing an artifact of the smaller core cohort's retirement. The pooled
-result is therefore 240 of the pre-registered 300 pairs, short of target for the
-stated reason, not concealed.
+repositories admit an artifact; \code{pytorch/pytorch} again retires at compile
+time. This cohort is drawn from the same frozen snapshots with the same
+selection seed as the core study and excludes none of its records, so it shares
+561/580 discovery, 442/460 calibration, and 130/150 held-out records with the
+core cohort; at twice the core scale it is a larger sealed re-execution, not an
+independent replication, and the \code{pytorch/pytorch} retirement is a
+near-replay of the core one on a 93--95\% identical split. The pooled result is
+therefore 240 of the pre-registered 300 pairs, short of target for the stated
+reason.
 
 \begin{table}[t]
   \centering
-  \caption{Disaggregated outcomes for the gate-frontier study. ``Nonzero
-  coverage in sweep'' lists every coverage value the frozen $\Lambda$ grid
-  produces for the learned gate before threshold selection; ``Admitted''
-  is the value actually deployed. Support-only ($\alpha=1$) produces the
-  identical sweep and admission on every repository.}
+  \caption{Disaggregated outcomes for the gate-frontier study. Exact contracts
+  are reported per arm under intention-to-treat; $^\dagger$ one support-only
+  episode (record 6708) raised the 120\,s provider timeout and was not
+  re-attempted, while the record passed in the other two arms. ``Dispatched''
+  counts held-out records on which the compiled program ran; the remainder fell
+  back to the unchanged agent on the guard clause \code{range:pr.state}.
+  ``Coverage in sweep'' lists every calibration coverage the frozen grid
+  produces for the learned gate. The support-only arm ($\alpha=1$) reproduces
+  the same $n$ and $k$ at every $\eta$ but, because $\alpha=1$ appends
+  $\eta=1.0$ to the grid, its Bonferroni split is $\delta/12$ ($U=0.0507$ at
+  $n=92$) and it deploys threshold 1.0 rather than 0.5.}
   \label{tab:gate-frontier-disaggregated}
   \footnotesize
   \setlength{\tabcolsep}{3pt}
   \input{tables/gate_frontier_disaggregated.tex}
 \end{table}
 
-On the 240 pairs, baseline, learned-gate, and support-only conditions all
-pass exact task contracts (240/240, 239/239 after one held-out record failed
-under a transient provider timeout independent of condition or repository).
-Relative to baseline, the learned gate reduces provider requests 44.4\%,
-total tokens 52.3\%, observed wall latency 51.0\%, and estimated cost 48.3\%;
-the support-only gate --- $\alpha=1$ in an otherwise byte-for-byte identical
-second \code{compile\_grc} pass, so mining, synthesis, challenge, and
-freezing are unchanged and only the risk budget is removed --- is
-statistically indistinguishable: 44.4\%, 52.4\%, 47.9\%, and 48.8\%.
-\Cref{tab:gate-frontier-disaggregated} shows why: three of four admitting
-repositories never accept a calibration group below $\eta=0.11$ and accept
-all 92 at $\eta\ge.11$, a pure two-point step; the fourth,
-\code{huggingface/datasets}, additionally accepts 10 of 92 groups at
-$\eta\le 0.08$, but that point's exact upper bound (0.375) exceeds the
-registered $\alpha=0.05$ budget and is never admissible, so every repository
-deploys the same coverage-1.0 threshold. No repository, under either gate,
-ever deploys at an intermediate admissible coverage.
+\textbf{Accounting.} 240 records $\times$ 3 arms = 720 attempted episodes, 719
+completed. Exact task contracts under intention-to-treat: unchanged agent
+240/240, learned gate 240/240, support-only 239/240. The incomplete episode is
+\code{psf/requests} record 6708 under the support-only arm, which raised the
+120\,s provider timeout; the same record completed and passed in the other two
+arms. The protocol fixed no retry rule, so the episode was not re-attempted and
+counts as a failure; among the 239 records with three completed arms every arm
+passes 239/239. Two provenance facts belong here. The \code{psf/requests} block
+was executed once, on 2026-08-22T18:59Z, as the single-repository pipeline
+check under the sealed selection; the five-repository run reused it through the
+driver's resume path rather than re-executing it. Retained spend for successful
+attempts sums to \$0.41; the two failed \code{streamlit/streamlit} discovery
+attempts are not retained.
 
-Per the decision rule fixed in advance (\cref{sec:discussion}), this is the
-fourth listed outcome: neither gate produces graded coverage on this cohort, so
-the null is reported rather than a manufactured frontier. At four times the
-prior cross-repository scale, and against a comparator that shares every
-statistical mechanism except the risk budget, the exact-$\alpha=0.05$ gate
-remains a support threshold. This confirms, and does not resolve, the step-gate
-finding \cref{sec:discussion} already reports.
+\textbf{Dispatch.} Calibration coverage is 1.0 in every admitting repository,
+but held-out dispatch is not: the compiled program ran on 160/240 records
+(learned gate) and 159/239 (support-only). The other 80 --- every open-class
+pull request, 20 per repository --- abstained on the induced verifier's
+\code{pr.state} hull, which the discovery pools (0--3 open records each) had
+fixed at $\{\code{closed}\}$, and ran the unchanged agent. Relative to baseline
+the learned gate reduces provider requests 44.4\%, total tokens 52.3\%,
+observed wall latency 51.0\%, and estimated cost 48.3\%; the support-only gate
+--- $\alpha=1$ in an otherwise identical second \code{compile\_grc} pass ---
+44.4\%, 52.4\%, 47.9\%, and 48.8\%. Both arms admit the same artifact; they
+differ in $\alpha$, in the grid ($\alpha=1$ appends $\eta=1.0$, so the split is
+$\delta/12$ and $U=0.0507$ at $n=92$), and in the deployed threshold (1.0
+versus 0.5).
+
+\textbf{Coverage levels.} \Cref{tab:gate-frontier-disaggregated} lists every
+coverage the frozen grid produces. Three admitting repositories accept no
+calibration group below $\eta=0.11$ and all 92 at $\eta\ge 0.11$;
+\code{huggingface/datasets} additionally accepts 10/92 at $\eta\le 0.08$, whose
+exact upper bound 0.375 exceeds $\alpha$. No repository deploys at an
+intermediate coverage --- and none could: with $|\mathcal{K}|=92$ the
+registered bound certifies only $n_\eta=92$, so the pre-registered criterion of
+three admissible nonzero coverage levels was unattainable at this cohort size
+whatever $q$ ranks, and the protocol should have said so. Held-out $q$ is
+moreover constant within each repository (0.0169; 0.0815), because the entry
+state is a single record number and every entry-observable feature is a
+function of it. Per the decision rule fixed above in this appendix, this is the
+fourth listed outcome: neither gate produces graded coverage. We report it as a
+null about the design, not as evidence about $q$: the study audits
+support-threshold behavior at full coverage under two risk budgets and does not
+test the ranking quality of $q$. The protocol that could
+(\code{paper/supplementary/graded-frontier-protocol.md}) needs
+$|\mathcal{K}|\ge\lceil 92/c\rceil$ groups per repository and an entry state
+with informative features; it is written and not run.

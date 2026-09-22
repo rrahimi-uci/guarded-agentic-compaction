@@ -5,36 +5,33 @@ The supported claim is narrow: repeated read-only prefixes can become guarded
 programs that preserve held-out contracts on the tested GitHub families and
 retire when evidence is inadequate. \Cref{app:limits} expands each limitation.
 
-\paragraph{Gate maturity is the main scientific risk.}
-\Cref{prop:admission} is per-candidate, not compiler-wide over
-\cref{alg:compile}'s adaptive search unless that search is frozen
-(\cref{cor:frozen}); the primary families do not freeze, so a multiplicity repair would raise their
-requirement to 106 groups (\cref{app:config}). The gate is also step-like
-at $n_\eta\ge 92$, for two reasons this design cannot separate: every cohort
-fixes $|\mathcal{K}|=92$, so no intermediate coverage is \emph{certifiable}
-whatever $q$ ranks (\cref{sec:method}), and $q$ \emph{refuses} correctly far
-better than it \emph{discriminates}. A pre-registered protocol (\cref{app:prospective}) has since run across five
-repositories and 240 held-out triples, where a support-only comparator sharing
-every mechanism but the risk budget is indistinguishable from the learned gate,
-neither showing graded coverage. The follow-up is to buy calibration groups first: below $\lceil
-92/c\rceil$ of them, no refit of $q$ can be read.
-
-\paragraph{Group independence is assumed, not established.}
-\Cref{prop:admission} needs i.i.d.\ groups and neither corpus establishes
-exchangeability: GitHub groups are single records from one snapshot with
-\code{min\_days}=\code{min\_principals}=1, and AppWorld's task groups share a
-scenario's supervisor and database. A seeded simulation (\cref{app:proof})
-prices the exposure --- miscoverage inflates well past nominal under
-block-correlated groups --- and the cluster-aware repairs all cost effective
-sample size.
+\paragraph{Three constraints bound the claim.} First, admission control is
+compiler-wide only when one candidate reaches calibration or the confidence
+budget is divided across all that do. That holds for issue-type routing and for
+every cross-repository family; PR-outcome and backlog routing calibrated two
+candidates on 92 groups, where the corrected bound is 0.057
+(\cref{app:config}). Second, with $|\mathcal{K}|=92$ the registered exact bound
+certifies only full coverage, so no experiment here demonstrates graded
+selectivity of $q$: the prospective protocol (\cref{app:prospective}) found the
+learned gate and a support-only comparator indistinguishable across five
+repositories and 240 held-out triples, as they must be at this cohort size, and
+$q$ is constant within a repository there because the entry state is one
+integer. Third, the binomial result is conditional on i.i.d.\ groups: the
+92-record live calibration cohorts span 86--90 distinct creation days and 60--82 distinct authors per
+family, so a bound that treats a day or an author as one unit retires in every
+family (\cref{tab:effective-units}), AppWorld's task groups share a scenario's
+supervisor and database, and a seeded simulation (\cref{app:proof}) prices the
+exposure. The follow-up is to buy calibration groups first: below
+$\lceil 92/c\rceil$ of them, no refit of $q$ can be read.
 
 \paragraph{External validity, dispatchability, and comparison.}
 The richer evidence comes from one revision-pinned repository and one
 provider/model family, and admission is not dispatchability: \cref{eq:prefix} is
 the operative limit, which \cref{sec:res-refusal} prices. We show no superiority
 under drift or across providers, do not price manual authoring, and run no
-head-to-head against the workflow-reuse line, whose prompt-level induction,
-parallel scheduling, and plan caching make no admissibility decision to compare
-against --- leaving the \emph{unguarded} ablation unrun. Exact contracts also do not certify a
+head-to-head against workflow-reuse systems, which make no admissibility
+decision to compare against; \cref{tab:mechanism-removal} prices the guards
+internally and a recurrence-only live arm is pre-registered (\cref{app:limits}).
+Exact contracts also do not certify a
 downstream continuation, and writes, handoffs, hosted tools, undeclared effects,
 and removed-turn guardrails lie outside \cref{prop:admission}.

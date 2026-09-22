@@ -1,11 +1,6 @@
 \section{Experimental Setup}
 \label{sec:setup}
 
-The evaluation asks three questions: does specialization preserve outcomes while
-saving work on real records (\cref{sec:res-primary})? Does it transfer under a
-time-forward split (\cref{sec:res-multirepo})? And does it refuse when evidence
-is thin (\cref{sec:res-refusal})?
-
 \subsection{Benchmark at a glance}
 \label{sec:benchmark}
 
@@ -41,9 +36,8 @@ efficiency claim and none is pooled with the GitHub families
 \paragraph{Provider configuration.}
 All live studies use one provider and model --- OpenAI \code{gpt-5.6-luna} via
 the \code{openai-agents} Responses interface at reasoning effort \code{low} ---
-and price tokens from published list rates rather than an invoice.
-\Cref{app:config} gives the full settings and the rate table; conditions within
-a family differ in structure alone.
+priced at list rates. \Cref{app:config} gives the effective request manifest
+and the rate table; conditions within a family differ in structure alone.
 
 \paragraph{Conditions, metrics, and statistics.}
 Each GitHub family compares the unchanged baseline $B$, the compiled artifact,
