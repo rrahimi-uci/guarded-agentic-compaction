@@ -14,18 +14,17 @@ than a caveat.
 
 ## Provider, model, and transport
 
-Anthropic, `claude-opus-5`, called through the official `anthropic` Python SDK from an Agents-SDK
+Anthropic, `claude-sonnet-5` (the provider's mainstream tier, chosen by the author), called through the official `anthropic` Python SDK from an Agents-SDK
 `Model` adapter (`guarded_agentic_compaction.capture.anthropic_model.AnthropicModel`); the model
-string is recorded as `anthropic/claude-opus-5` in every manifest and result. Settings: adaptive
+string is recorded as `anthropic/claude-sonnet-5` in every manifest and result. Settings: adaptive
 thinking (the model's default; the `thinking` parameter is omitted), `output_config.effort = low`
 (the counterpart of the OpenAI runs' reasoning effort `low`), `disable_parallel_tool_use = true`
 (the counterpart of `parallel_tool_calls=False`), structured answers through
 `output_config.format` with the same Pydantic schemas, `max_turns = 8`, 120 s per-episode timeout.
 No prompt, tool, grader, split rule, or compiler setting changes. List prices (retrieved
-2026-09-24): input $5.00, cached-read input $0.50, cache write $6.25, output $25.00 per million
-tokens; pinned in `demos/live_runtime.py`. The model was chosen as the provider's default
-general-purpose tier; the paper's OpenAI models are efficiency-tier, so cost columns are reported
-but the cross-provider cost comparison is not a claim.
+2026-09-24): input $2.00, cached-read input $0.20, cache write $2.50, output $10.00 per million
+tokens; pinned in `demos/live_runtime.py`. The paper's OpenAI models are efficiency-tier, so cost
+columns are reported but the cross-provider cost comparison is not a claim.
 
 ## Design A: same records, the second provider's own traces
 
@@ -38,8 +37,8 @@ second provider in the retained order.
 
 | Family | Harness | Arms |
 |---|---|---|
-| Issue-type routing | `paper/scripts/second_model_replication.py rediscover --model anthropic/claude-opus-5` | `baseline`, `compiled`, `macro`, retained Latin order |
-| PR-outcome audit | `github_workflow_family_study.py --model anthropic/claude-opus-5 --sealed-selection pr_outcome/final/results.json --run-tag anthropic_opus5_rediscovery` | `baseline`, `compiled`, `manual_pre_model` |
+| Issue-type routing | `paper/scripts/second_model_replication.py rediscover --model anthropic/claude-sonnet-5` | `baseline`, `compiled`, `macro`, retained Latin order |
+| PR-outcome audit | `github_workflow_family_study.py --model anthropic/claude-sonnet-5 --sealed-selection pr_outcome/final/results.json --run-tag anthropic_sonnet5_rediscovery` | `baseline`, `compiled`, `manual_pre_model` |
 | Backlog-attention routing | same with `backlog_attention/final/results.json` | same |
 
 One retry per timed-out episode in the held-out arms; both attempts retained. Discovery failures
@@ -75,10 +74,11 @@ and cost reductions against the same-provider baseline (paired, 10,000-sample bo
 
 ## Spend and outputs
 
-Expected about $4–6 per family at the pinned prices (discovery dominates); ceiling
-`--approved-spend-usd 8.00` per family. Outputs:
+Expected about $2–3 per family at the pinned prices (discovery dominates; the adapter smoke test
+priced one baseline episode at $0.022 and one compiled episode at $0.012); ceiling
+`--approved-spend-usd 6.00` per family. Outputs:
 `paper/results/second_provider_replication/issue_type/{preflight,discovery_checkpoint,results}.json`
-and `registry/`; `paper/results/github_workflow_families/{pr_outcome,backlog_attention}/anthropic_opus5_rediscovery/`;
+and `registry/`; `paper/results/github_workflow_families/{pr_outcome,backlog_attention}/anthropic_sonnet5_rediscovery/`;
 `paper/results/second_provider_replication/summary.json`; the generated table
 `paper/iclr/tables/second_provider.tex`. Paper: one paragraph and the table in Appendix G, one
 clause in §5.1 and §7; the abstract is unchanged unless all three families admit and preserve.

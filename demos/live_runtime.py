@@ -66,6 +66,11 @@ MODEL_PRICES: dict[str, ModelPrice] = {
     "gpt-5.6-terra": ModelPrice(2.00, 0.20, 2.50, 12.00),
     "gpt-5.6-luna": ModelPrice(0.20, 0.02, 0.25, 1.20),
     "gpt-6-luna": ModelPrice(0.10, 0.01, 0.125, 0.50),
+    # Anthropic list prices (input, cached-read input, cache write at 1.25x input, output),
+    # retrieved 2026-09-24 from the Anthropic pricing page. The "anthropic/" prefix is the
+    # harness's provider tag (guarded_agentic_compaction.capture.anthropic_model.resolve_model).
+    "anthropic/claude-opus-5": ModelPrice(5.00, 0.50, 6.25, 25.00),
+    "anthropic/claude-sonnet-5": ModelPrice(2.00, 0.20, 2.50, 10.00),
 }
 
 

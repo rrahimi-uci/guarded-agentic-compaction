@@ -1,0 +1,373 @@
+{
+  "compiler": {
+    "calibration": 92,
+    "dev": 8,
+    "eligibility": "compiler_eligible (factuality_exact, allowed tools, matching issue_number)",
+    "task_design": "natural-extractive-v2",
+    "train": 16
+  },
+  "condition_order": {
+    "assignments": {
+      "1514": [
+        "baseline",
+        "compiled",
+        "macro"
+      ],
+      "1906": [
+        "macro",
+        "baseline",
+        "compiled"
+      ],
+      "2108": [
+        "macro",
+        "compiled",
+        "baseline"
+      ],
+      "2187": [
+        "baseline",
+        "compiled",
+        "macro"
+      ],
+      "2196": [
+        "baseline",
+        "macro",
+        "compiled"
+      ],
+      "2256": [
+        "baseline",
+        "macro",
+        "compiled"
+      ],
+      "2402": [
+        "baseline",
+        "macro",
+        "compiled"
+      ],
+      "2481": [
+        "baseline",
+        "macro",
+        "compiled"
+      ],
+      "3013": [
+        "compiled",
+        "baseline",
+        "macro"
+      ],
+      "302": [
+        "macro",
+        "baseline",
+        "compiled"
+      ],
+      "3122": [
+        "macro",
+        "compiled",
+        "baseline"
+      ],
+      "3632": [
+        "baseline",
+        "compiled",
+        "macro"
+      ],
+      "3829": [
+        "baseline",
+        "compiled",
+        "macro"
+      ],
+      "3854": [
+        "baseline",
+        "macro",
+        "compiled"
+      ],
+      "3859": [
+        "compiled",
+        "macro",
+        "baseline"
+      ],
+      "3881": [
+        "macro",
+        "compiled",
+        "baseline"
+      ],
+      "4134": [
+        "macro",
+        "baseline",
+        "compiled"
+      ],
+      "4221": [
+        "compiled",
+        "macro",
+        "baseline"
+      ],
+      "4248": [
+        "compiled",
+        "baseline",
+        "macro"
+      ],
+      "4417": [
+        "baseline",
+        "compiled",
+        "macro"
+      ],
+      "4420": [
+        "compiled",
+        "macro",
+        "baseline"
+      ],
+      "4549": [
+        "compiled",
+        "macro",
+        "baseline"
+      ],
+      "5514": [
+        "compiled",
+        "baseline",
+        "macro"
+      ],
+      "6059": [
+        "macro",
+        "compiled",
+        "baseline"
+      ],
+      "6150": [
+        "macro",
+        "baseline",
+        "compiled"
+      ],
+      "6202": [
+        "compiled",
+        "baseline",
+        "macro"
+      ],
+      "6532": [
+        "compiled",
+        "macro",
+        "baseline"
+      ],
+      "6829": [
+        "compiled",
+        "baseline",
+        "macro"
+      ],
+      "7020": [
+        "macro",
+        "compiled",
+        "baseline"
+      ],
+      "7093": [
+        "macro",
+        "baseline",
+        "compiled"
+      ]
+    },
+    "method": "retained balanced six-permutation Latin order"
+  },
+  "conditions": [
+    "baseline",
+    "compiled",
+    "macro"
+  ],
+  "design": "A: live discovery on the second model over the sealed discovery records; compile, calibrate, and evaluate on the second model",
+  "execution_status": "preflight_only",
+  "family": "issue_type",
+  "model": "anthropic/claude-sonnet-5",
+  "model_settings": {
+    "discovery_concurrency": 8,
+    "max_turns": 8,
+    "parallel_tool_calls": false,
+    "reasoning_effort": "low",
+    "retry_policy": "held-out arms: one retry per timed-out episode, both attempts retained; discovery failures retained and excluded from eligibility",
+    "store": false,
+    "timeout_s": 120,
+    "verbosity": "low"
+  },
+  "protocol": {
+    "path": "paper/supplementary/second-provider-replication-protocol.md",
+    "sha256": "a4aa76353d72acec7ab0e5d0930248552f7c7b2de0d1981f114cf6f0a04e67a8"
+  },
+  "provider_calls": 0,
+  "real_public_records": true,
+  "schema": "agent-compaction-second-model-rediscovery-preflight/v1",
+  "selection": {
+    "discovery": [
+      6261,
+      4435,
+      5263,
+      4790,
+      5326,
+      3941,
+      3490,
+      6483,
+      865,
+      5385,
+      2279,
+      4694,
+      5148,
+      3703,
+      5855,
+      3155,
+      6274,
+      4056,
+      438,
+      5005,
+      7225,
+      6184,
+      7018,
+      4717,
+      2103,
+      807,
+      361,
+      649,
+      4047,
+      6124,
+      3027,
+      2350,
+      7260,
+      7546,
+      864,
+      3365,
+      6973,
+      2703,
+      6505,
+      4889,
+      5494,
+      6819,
+      4325,
+      157,
+      647,
+      3828,
+      2997,
+      539,
+      3533,
+      4746,
+      6604,
+      1844,
+      5378,
+      4142,
+      4341,
+      7286,
+      6668,
+      4507,
+      2211,
+      7134,
+      4398,
+      5070,
+      2032,
+      2583,
+      5094,
+      7406,
+      198,
+      6237,
+      5862,
+      4349,
+      2860,
+      5483,
+      148,
+      5600,
+      2967,
+      2441,
+      482,
+      836,
+      7561,
+      3217,
+      784,
+      320,
+      5479,
+      6752,
+      3704,
+      6936,
+      6032,
+      3716,
+      624,
+      5088,
+      709,
+      387,
+      2797,
+      5161,
+      6439,
+      3475,
+      6287,
+      7113,
+      1671,
+      2080,
+      668,
+      2901,
+      3952,
+      1831,
+      5649,
+      223,
+      7447,
+      876,
+      6460,
+      2511,
+      648,
+      6120,
+      4570,
+      6149,
+      5706,
+      166,
+      7159,
+      6865,
+      3304,
+      2663,
+      5193,
+      5152,
+      3308,
+      7127,
+      5255,
+      2498,
+      326,
+      2781,
+      4621,
+      3091,
+      2009,
+      6896
+    ],
+    "discovery_reused_from_sealed_selection": true,
+    "record_numbers_sha256": "331cd052af496997a1c6cc69af5f4ea5123007f287142a24783274c128425f70",
+    "test": [
+      7020,
+      4420,
+      4549,
+      2256,
+      4248,
+      6829,
+      3632,
+      2402,
+      3122,
+      3859,
+      302,
+      6532,
+      6150,
+      7093,
+      2481,
+      5514,
+      6059,
+      6202,
+      1906,
+      3829,
+      4221,
+      1514,
+      2108,
+      2196,
+      3881,
+      3854,
+      4134,
+      2187,
+      3013,
+      4417
+    ],
+    "test_reused_from_sealed_selection": true
+  },
+  "simulated": false,
+  "source": {
+    "dataset": "helmo/github-issues",
+    "deduplicated_non_pr_issues": 3115,
+    "parquet_sha256": "09453eefae39e45a969ab0bee72ca0e188fe79dc50403b0f2a78c39894f5d1a3",
+    "revision": "e344be7b84d199661a9956036991e1fc25715a47"
+  },
+  "spend": {
+    "approved_usd_required": 1.0,
+    "expected_usd": 0.05
+  },
+  "timestamp_utc": "2026-09-24T16:04:04+00:00"
+}

@@ -329,8 +329,9 @@ def preflight(args: argparse.Namespace) -> dict[str, Any]:
 
 async def run(args: argparse.Namespace) -> dict[str, Any]:
     load_dotenv(ROOT / ".env")
-    if not os.getenv("OPENAI_API_KEY"):
-        raise RuntimeError("OPENAI_API_KEY is not set")
+    key_env = fixed.provider_api_key_env(args.model)
+    if not os.getenv(key_env):
+        raise RuntimeError(f"{key_env} is not set")
     if args.approved_spend_usd is None or args.approved_spend_usd <= 0:
         raise RuntimeError("a positive --approved-spend-usd is required for a live run")
     pre = preflight(args)
@@ -456,6 +457,16 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
 
 REDISCOVERY_DIR = OUT_ROOT / "issue_type_rediscovery"
 REDISCOVERY_PROTOCOL = ROOT / "paper/supplementary/second-model-rediscovery-protocol.md"
+PROVIDER_ROOT = ROOT / "paper/results/second_provider_replication"
+PROVIDER_PROTOCOL = ROOT / "paper/supplementary/second-provider-replication-protocol.md"
+
+
+def rediscovery_paths(model: str) -> tuple[Path, Path]:
+    """Output directory and protocol for a re-discovery run: second model or second provider."""
+
+    if model.startswith("anthropic/"):
+        return PROVIDER_ROOT / "issue_type", PROVIDER_PROTOCOL
+    return REDISCOVERY_DIR, REDISCOVERY_PROTOCOL
 
 
 def discovery_scenarios(retained: dict[str, Any], store: dict[int, dict[str, Any]]) -> list[fixed.Scenario]:
@@ -470,6 +481,7 @@ def discovery_scenarios(retained: dict[str, Any], store: dict[int, dict[str, Any
 
 
 def rediscovery_preflight(args: argparse.Namespace) -> dict[str, Any]:
+    out_dir, protocol = rediscovery_paths(args.model)
     store, audit = shared.load_store()
     retained = shared.load_retained()
     disc = discovery_scenarios(retained, store)
@@ -485,8 +497,8 @@ def rediscovery_preflight(args: argparse.Namespace) -> dict[str, Any]:
         "provider_calls": 0,
         "real_public_records": True,
         "simulated": False,
-        "protocol": {"path": str(REDISCOVERY_PROTOCOL.relative_to(ROOT)),
-                     "sha256": shared.sha256_file(REDISCOVERY_PROTOCOL)},
+        "protocol": {"path": str(protocol.relative_to(ROOT)),
+                     "sha256": shared.sha256_file(protocol)},
         "source": audit,
         "model": args.model,
         "compiler": {"train": SPLIT["train"], "dev": SPLIT["dev"], "calibration": SPLIT["calibration"],
@@ -507,22 +519,23 @@ def rediscovery_preflight(args: argparse.Namespace) -> dict[str, Any]:
                            "retry_policy": "held-out arms: one retry per timed-out episode, both attempts retained; discovery failures retained and excluded from eligibility"},
         "spend": {"approved_usd_required": 1.0, "expected_usd": 0.05},
     }
-    REDISCOVERY_DIR.mkdir(parents=True, exist_ok=True)
-    (REDISCOVERY_DIR / "preflight.json").write_text(json.dumps(payload, indent=2, sort_keys=True, default=str) + "\n",
-                                                    encoding="utf-8")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "preflight.json").write_text(json.dumps(payload, indent=2, sort_keys=True, default=str) + "\n",
+                                            encoding="utf-8")
     return payload
 
 
 async def rediscover(args: argparse.Namespace) -> dict[str, Any]:
     load_dotenv(ROOT / ".env")
     pre = rediscovery_preflight(args)
+    out_dir, _protocol = rediscovery_paths(args.model)
     if args.preflight_only:
         return pre
     if not os.getenv("OPENAI_API_KEY"):
         raise RuntimeError("OPENAI_API_KEY is not set")
     if args.approved_spend_usd is None or args.approved_spend_usd <= 0:
         raise RuntimeError("a positive --approved-spend-usd is required for a live run")
-    result_path = REDISCOVERY_DIR / "results.json"
+    result_path = out_dir / "results.json"
     if result_path.exists() and not args.force:
         raise RuntimeError(f"refusing to overwrite {result_path}; pass --force")
     store, _audit = shared.load_store()
@@ -555,7 +568,7 @@ async def rediscover(args: argparse.Namespace) -> dict[str, Any]:
         "failures": discovery_failures,
         "results": [r.public_dict() for r in discovery],
     }
-    (REDISCOVERY_DIR / "discovery_checkpoint.json").write_text(
+    (out_dir / "discovery_checkpoint.json").write_text(
         json.dumps(checkpoint, indent=2, sort_keys=True, default=str) + "\n", encoding="utf-8")
     eligible = [r for r in discovery if fixed.compiler_eligible(r, TASK_DESIGN)]
     base_run = {
@@ -589,7 +602,7 @@ async def rediscover(args: argparse.Namespace) -> dict[str, Any]:
         }
         result_path.write_text(json.dumps(payload, indent=2, sort_keys=True, default=str) + "\n", encoding="utf-8")
         return payload
-    registry.save(REDISCOVERY_DIR / "registry")
+    registry.save(out_dir / "registry")
     artifact = artifact_fingerprint(compile_record["artifact"])
     retained_art = artifact_fingerprint(retained["compiler"]["artifact"])
 
@@ -627,7 +640,7 @@ async def rediscover(args: argparse.Namespace) -> dict[str, Any]:
                     break
                 if not any("TimeoutError" in str(f.get("error", "")) for f in failures):
                     break
-            (REDISCOVERY_DIR / "evaluation_checkpoint.json").write_text(
+            (out_dir / "evaluation_checkpoint.json").write_text(
                 json.dumps({"results": [v.public_dict() for v in results], "attempts": attempts},
                            indent=2, sort_keys=True, default=str) + "\n", encoding="utf-8")
     grouped = {c: [r for r in results if r.condition == c] for c in CONDITIONS}
@@ -690,6 +703,45 @@ def _family_block(results: dict[str, Any], baseline: str, compiled: str, manual:
         for key in ("requests", "total_tokens", "wall_latency_ms", "estimated_cost_usd")
     }
     return block
+
+
+PROVIDER_SOURCES = {
+    "Issue-type routing": (PROVIDER_ROOT / "issue_type/results.json", "baseline", "compiled", "macro"),
+    "PR-outcome audit": (FAMILY_ROOT / "pr_outcome/anthropic_sonnet5_rediscovery/results.json", "baseline", "compiled", "manual_pre_model"),
+    "Backlog-attention routing": (FAMILY_ROOT / "backlog_attention/anthropic_sonnet5_rediscovery/results.json", "baseline", "compiled", "manual_pre_model"),
+}
+PROVIDER_TABLE_PATH = ROOT / "paper/iclr/tables/second_provider.tex"
+
+
+def summarize_provider(args: argparse.Namespace) -> dict[str, Any]:
+    families, overall = _collect(PROVIDER_SOURCES)
+    payload = {
+        "schema": "agent-compaction-second-provider-summary/v1",
+        "model": "anthropic/claude-sonnet-5",
+        "design": "A: the unchanged pipeline on the second provider's own traces over the sealed records",
+        "families": families,
+        "overall": overall,
+        "claim_boundary": (
+            "Same sealed records, discovery run live on Anthropic claude-sonnet-5 through the official "
+            "SDK adapter; compile, calibrate, and evaluate on the same provider. Not a cross-provider "
+            "price comparison; certificates conditional on i.i.d. calibration groups as for the primary families."
+        ),
+    }
+    PROVIDER_ROOT.mkdir(parents=True, exist_ok=True)
+    (PROVIDER_ROOT / "summary.json").write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    if any(f.get("status") != "not_run" for f in families):
+        lines = [
+            r"\begin{tabular}{@{}lccccccc@{}}", r"\toprule",
+            r"& \multicolumn{3}{c}{Exact held-out contract} & & \multicolumn{3}{c}{Reduction (\%)} \\",
+            r"\cmidrule(lr){2-4}\cmidrule(lr){6-8}",
+            r"Family & Base & Compiled & Manual & & Requests & Tokens & Cost \\", r"\midrule",
+        ]
+        lines += _table_rows(families, overall)
+        lines += [r"\bottomrule", r"\end{tabular}"]
+        PROVIDER_TABLE_PATH.write_text(
+            "% generated by paper/scripts/second_model_replication.py summarize-provider; do not edit\n"
+            + "\n".join(lines) + "\n", encoding="utf-8")
+    return payload
 
 
 DESIGNS = {
@@ -829,7 +881,7 @@ def summarize(args: argparse.Namespace) -> dict[str, Any]:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("preflight", "run", "rediscover", "summarize"))
+    parser.add_argument("command", choices=("preflight", "run", "rediscover", "summarize", "summarize-provider"))
     parser.add_argument("--model", default="gpt-6-luna")
     parser.add_argument("--approved-spend-usd", type=float)
     parser.add_argument("--preflight-only", action="store_true")
@@ -855,6 +907,9 @@ def main() -> None:
         if "compiler" in payload:
             shown["compiler"] = {k: v for k, v in payload["compiler"].items() if k not in ("report", "candidates", "splits")}
         print(json.dumps(shown, indent=2, sort_keys=True, default=str))
+    elif args.command == "summarize-provider":
+        payload = summarize_provider(args)
+        print(json.dumps({k: v for k, v in payload.items() if k != "families"} | {"families": [(f["family"], f.get("status")) for f in payload["families"]]}, indent=2, default=str))
     else:
         payload = summarize(args)
         print(json.dumps(payload, indent=2, sort_keys=True, default=str))
