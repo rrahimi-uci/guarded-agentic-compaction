@@ -74,10 +74,27 @@ def category_for(labels: list[str]) -> str:
     return "other"
 
 
-def _already_used_record_numbers() -> set[int]:
+# Studies executed after this preflight was sealed (2026-08-22). Their record numbers
+# are not part of the "already used" set the sealing excluded; the disjointness test
+# reconstructs that set by skipping them, and the extended issue-type held-out protocol
+# discloses its five-record overlap with this pilot's cohort.
+POST_SEALING_STUDIES = (
+    "recurrence_only_ablation",
+    "second_model_replication",
+    "second_provider_replication",
+    "issue_type_extended_heldout",
+    "multiplicity_repair",
+    "gpt6_luna",
+    "anthropic_",
+    "iclr_revision",
+)
+
+
+def _already_used_record_numbers(*, exclude_post_sealing: bool = False) -> set[int]:
     used: set[int] = set()
+    markers = tuple(EXCLUDED_SUBSTRINGS) + (POST_SEALING_STUDIES if exclude_post_sealing else ())
     for path in RESULTS_ROOT.rglob("*.json"):
-        if any(marker in str(path) for marker in EXCLUDED_SUBSTRINGS):
+        if any(marker in str(path) for marker in markers):
             continue
         try:
             text = path.read_text(errors="ignore")

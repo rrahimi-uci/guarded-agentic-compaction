@@ -64,6 +64,10 @@ def used_issue_numbers() -> tuple[set[int], list[str]]:
         "paper/results/github_live/**/*.json",
         "paper/results/recurrence_only_ablation/*.json",
         "paper/results/second_model_replication/**/*.json",
+        "paper/results/second_provider_replication/**/*.json",
+        # The 2026-09-24 run omitted this directory; five of its 120 records had appeared
+        # in the gate-frontier pilot cohort (disclosed in the protocol and Appendix D).
+        "paper/results/gate_frontier_pilot/*.json",
     )
     for pattern in patterns:
         for path in sorted(glob.glob(str(ROOT / pattern), recursive=True)):
@@ -79,6 +83,9 @@ def used_issue_numbers() -> tuple[set[int], list[str]]:
             used.update(int(v) for v in selection.get("discovery", []) if not isinstance(v, dict))
             for item in selection.get("test", []):
                 used.add(int(item["issue_number"]) if isinstance(item, dict) else int(item))
+            cohort = data.get("cohort") or {}
+            for key in ("held_out_record_numbers", "calibration_dev_record_numbers"):
+                used.update(int(v) for v in cohort.get(key, []))
             for row in data.get("results", []) if isinstance(data.get("results"), list) else []:
                 if isinstance(row, dict) and "issue_number" in row:
                     used.add(int(row["issue_number"]))

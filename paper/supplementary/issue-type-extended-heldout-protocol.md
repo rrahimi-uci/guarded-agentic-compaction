@@ -87,3 +87,14 @@ fallback, and the record passed). Compiled-only bound: 1/120 → 3.9% one-sided 
 90 primary records 1/210 → 2.2%. H-E1, H-E2, and H-E3 all fail and are reported as such. Reductions
 against the same-model baseline: requests 50.0%, tokens 39.5%, latency 42.5%, cost 32.8%. Table:
 `paper/iclr/tables/extended_heldout.tex`; paper: Appendix D and one clause in §5.1 and §7.
+
+## Deviation found after execution (2026-09-24)
+
+The exclusion scan omitted `paper/results/gate_frontier_pilot/`, so five of the 120 records
+(3415, 4306, 5117, 5981, 5990) had already appeared in the gate-frontier pilot's 90-record
+cohort, which ran live on the same model. None of the four records with a miss or an abstention
+is among them. Excluding the five: baseline 113/115, compiled 113/115, macro 112/115; the
+compiled-only count is unchanged at 1, the bound is 4.1% on 115 records and 2.3% pooled over 205.
+The table keeps the pre-registered 120-record accounting; the paper states both. The scanner now
+covers the pilot directory (`gate_frontier_pilot_preflight.POST_SEALING_STUDIES` records which
+later studies may reuse that cohort).

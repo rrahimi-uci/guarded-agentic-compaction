@@ -1958,6 +1958,54 @@ def validate_live_extensions() -> None:
                 fresh = module.table(None)
             ok(fresh == table_path.read_text(encoding="utf-8"), "extended held-out: ICLR table regenerates byte-identically")
 
+    # -- second provider (Anthropic claude-sonnet-5, design A) ---------------------------
+    prov_root = PAPER / "results/second_provider_replication"
+    prov_paths = {
+        "issue_type": prov_root / "issue_type/results.json",
+        "pr_outcome": PAPER / "results/github_workflow_families/pr_outcome/anthropic_sonnet5_rediscovery/results.json",
+        "backlog_attention": PAPER / "results/github_workflow_families/backlog_attention/anthropic_sonnet5_rediscovery/results.json",
+    }
+    prov_pre = prov_root / "issue_type/preflight.json"
+    if prov_pre.exists():
+        pre = load(prov_pre)
+        ok(pre.get("provider_calls") == 0 and pre.get("model") == "anthropic/claude-sonnet-5"
+           and pre.get("selection", {}).get("test") == sealed_test,
+           "second-provider: issue-type preflight is provider-free on claude-sonnet-5 with the sealed cohort")
+    for family, path in prov_paths.items():
+        failure = path.parent / "failure.json"
+        if not path.exists() and not failure.exists():
+            continue
+        if not path.exists():
+            data = load(failure)
+            ok(data.get("test_arms_started") is False and (data.get("discovery") or {}).get("n") == 132,
+               f"second-provider: {family} refusal record covers the 132 discovery records")
+            continue
+        res = load(path)
+        run = res.get("run", {})
+        ok(run.get("provider_backed") is True and run.get("model") == "anthropic/claude-sonnet-5",
+           f"second-provider: {family} results are provider-backed on claude-sonnet-5")
+        conditions = ("baseline", "compiled", "macro") if family == "issue_type" else ("baseline", "compiled", "manual_pre_model")
+        rows = [r for r in res.get("results", []) if int(r.get("repeat", 0)) == 0]
+        if res.get("compiler", {}).get("admitted") is False:
+            ok(rows == [], f"second-provider: {family} retired at compile time and ran no held-out arm")
+        else:
+            ok(all(sum(r["condition"] == c for r in rows) == 30 for c in conditions),
+               f"second-provider: {family} completed all three arms on 30 records")
+    prov_summary = prov_root / "summary.json"
+    if prov_summary.exists() and any(p.exists() or (p.parent / "failure.json").exists() for p in prov_paths.values()):
+        module = _module("second_model_replication")
+        committed = load(prov_summary)
+        with tempfile.TemporaryDirectory() as scratch:
+            module.PROVIDER_ROOT = Path(scratch)
+            module.PROVIDER_TABLE_PATH = Path(scratch) / "second_provider.tex"
+            fresh = module.summarize_provider(SimpleNamespace())
+            fresh_table = module.PROVIDER_TABLE_PATH.read_text(encoding="utf-8") if module.PROVIDER_TABLE_PATH.exists() else None
+        ok(fresh.get("families") == committed.get("families") and fresh.get("overall") == committed.get("overall"),
+           "second-provider: summary regenerates to the committed values")
+        table_path = PAPER / "iclr/tables/second_provider.tex"
+        ok(fresh_table is not None and table_path.exists() and fresh_table == table_path.read_text(encoding="utf-8"),
+           "second-provider: ICLR table regenerates byte-identically")
+
     # -- read-only prologue measurement -----------------------------------------------
     pro = PAPER / "results/external_benchmarks/appworld_dispatch_prologue_preflight.json"
     retained_pro = PAPER / "results/external_benchmarks/appworld_dispatch_preflight.json"
