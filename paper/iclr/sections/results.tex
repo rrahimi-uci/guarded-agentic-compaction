@@ -34,10 +34,10 @@ certificate is compiler-wide for issue-type routing, where one candidate
 reached calibration, and per-candidate for PR-outcome and backlog routing,
 where two did; correcting for both gives $U=0.0569$, above $\alpha$, so those
 two are certified compiler-wide only at $\alpha\ge0.057$ (\cref{cor:frozen},
-\cref{tab:multiplicity-accounting} in \cref{app:config}). A pre-registered
-rerun on \code{gpt-6-luna}, same cohorts and recompiled artifacts, keeps the
-structure (66.6\% fewer requests, 30/30 dispatch per family) with one
-compiled-only miss in 90 (\cref{app:limits}).
+\cref{tab:multiplicity-accounting} in \cref{app:config}). On \code{gpt-6-luna}, same
+cohorts, transferring the retained artifacts keeps the structure with one
+compiled-only miss in 90, and re-discovery from that model's own traces
+re-derives two of the three artifacts and refuses the third (\cref{app:limits}).
 
 Discovery reaches the manual ceiling: programs written with full knowledge of
 the workflow also reach 90/90 and, priced on the same axes
@@ -95,5 +95,6 @@ so we also test the admitted region against AppWorld's 28 released baseline
 runs. Over 8{,}190 trajectories it is structurally eligible at the entry boundary in
 $37.9\%$, and the architecture explains the spread (\cref{tab:appworld-dispatch} in \cref{app:external}):
 full-code agents are eligible almost always, ReAct and plan-and-execute almost
-never, because they open by reading API documentation and the prefix leaves
-position~0; the measurement bounds $\varphi$ from above.
+never: they open by reading API documentation, and admitting that read as a
+prologue recovers 2 of 4{,}680, because they rarely execute the region at all
+(\cref{app:limits}); the measurement bounds $\varphi$ from above.

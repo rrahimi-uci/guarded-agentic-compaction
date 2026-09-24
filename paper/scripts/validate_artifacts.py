@@ -1857,6 +1857,121 @@ def validate_live_extensions() -> None:
         rows = [r for r in res.get("results", []) if int(r.get("repeat", 0)) == 0]
         ok(all(sum(r["condition"] == c for r in rows) == 30 for c in conditions),
            f"second-model: {family} completed all three arms on 30 records")
+    # -- multiplicity repair: NO-GO recorded per decision-rule row 3 ----------------------
+    mr = PAPER / "results/multiplicity_repair/preflight.json"
+    ok(mr.exists(), "multiplicity-repair: preflight exists")
+    if mr.exists():
+        pre = load(mr)
+        pools = pre.get("unused_eligible_per_class", {})
+        ok(pre.get("provider_calls") == 0 and pre.get("execution_status") == "NO-GO",
+           "multiplicity-repair: preflight is a provider-free NO-GO")
+        ok(pools.get("pr_outcome", {}).get("open", 99) < 36 and pools.get("backlog_attention", {}).get("owned", 99) < 36,
+           "multiplicity-repair: the NO-GO is forced by the open and owned pools")
+        ok(not (PAPER / "results/multiplicity_repair/pr_outcome").exists()
+           and not (PAPER / "results/multiplicity_repair/backlog_attention").exists(),
+           "multiplicity-repair: no live run exists after the NO-GO")
+
+    # -- design A re-discovery ------------------------------------------------------------
+    redisc_paths = {
+        "issue_type": sm_dir / "issue_type_rediscovery/results.json",
+        "pr_outcome": PAPER / "results/github_workflow_families/pr_outcome/gpt6_luna_rediscovery/results.json",
+        "backlog_attention": PAPER / "results/github_workflow_families/backlog_attention/gpt6_luna_rediscovery/results.json",
+    }
+    issue_redisc_pre = sm_dir / "issue_type_rediscovery/preflight.json"
+    ok(issue_redisc_pre.exists(), "re-discovery: issue-type preflight exists")
+    if issue_redisc_pre.exists():
+        pre = load(issue_redisc_pre)
+        ok(pre.get("provider_calls") == 0 and pre.get("selection", {}).get("test") == sealed_test
+           and len(pre.get("selection", {}).get("discovery", [])) == 132,
+           "re-discovery: issue-type preflight reuses the sealed cohorts without a provider call")
+    for family, path in redisc_paths.items():
+        if not path.exists():
+            continue
+        res = load(path)
+        run = res.get("run", {})
+        ok(run.get("provider_backed") is True and run.get("model") == "gpt-6-luna",
+           f"re-discovery: {family} results are provider-backed on gpt-6-luna")
+        if family == "issue_type":
+            if res.get("compiler", {}).get("admitted") is False:
+                ok(res.get("results") == [], "re-discovery: issue-type retired at compile time and ran no held-out arm")
+            else:
+                rows = [r for r in res.get("results", []) if int(r.get("repeat", 0)) == 0]
+                ok(all(sum(r["condition"] == c for r in rows) == 30 for c in ("baseline", "compiled", "macro")),
+                   "re-discovery: issue-type completed all three arms on 30 records")
+                ok(res.get("compiler", {}).get("artifact", {}).get("gate_n_accepted") == 92
+                   and res.get("compiler", {}).get("artifact", {}).get("gate_violations") == 0,
+                   "re-discovery: issue-type artifact carries a 92/0 gate")
+        else:
+            sel = res.get("selection", {})
+            final = load(PAPER / f"results/github_workflow_families/{family}/final/results.json").get("selection", {})
+            ok(sel.get("discovery") == final.get("discovery") and sel.get("test") == final.get("test"),
+               f"re-discovery: {family} reuses the sealed cohorts")
+            ok(sel.get("discovery_reused_from_sealed_checkpoint") is True
+               and (res.get("run", {}).get("resolved_config") or {}).get("discovery_checkpoint") is None,
+               f"re-discovery: {family} ran discovery live (no checkpoint reuse)")
+            rows = [r for r in res.get("results", []) if int(r.get("repeat", 0)) == 0]
+            ok(all(sum(r["condition"] == c for r in rows) == 30 for c in ("baseline", "compiled", "manual_pre_model")),
+               f"re-discovery: {family} completed all three arms on 30 records")
+
+    # -- extended issue-type held-out -----------------------------------------------------
+    ext_dir = PAPER / "results/issue_type_extended_heldout"
+    ext_pre = ext_dir / "preflight.json"
+    ok(ext_pre.exists(), "extended held-out: preflight exists")
+    if ext_pre.exists():
+        pre = load(ext_pre)
+        sel = pre.get("selection", {})
+        chk = pre.get("artifact", {}).get("recompilation", {}).get("checks", {})
+        ok(pre.get("provider_calls") == 0 and len(sel.get("test", [])) == 120,
+           "extended held-out: preflight seals 120 records without a provider call")
+        ok(not ({int(i["issue_number"]) for i in sel.get("test", [])} & set(sealed_test)),
+           "extended held-out: cohort is disjoint from the primary held-out records")
+        ok(chk.get("artifact_id_identical") is True and chk.get("program_identical") is True
+           and chk.get("gate_identical") is True and chk.get("splits_digest_identical") is True,
+           "extended held-out: the recompiled artifact is the retained one under the current pin")
+    ext_res = ext_dir / "results.json"
+    if ext_res.exists():
+        res = load(ext_res)
+        rows = [r for r in res.get("results", []) if int(r.get("repeat", 0)) == 0]
+        ok(res.get("run", {}).get("provider_backed") is True and res.get("run", {}).get("model") == "gpt-5.6-luna",
+           "extended held-out: results are provider-backed on the calibrated model")
+        ok(all(sum(r["condition"] == c for r in rows) == 120 for c in ("baseline", "compiled", "macro")),
+           "extended held-out: all three arms completed on 120 records")
+        base = {r["issue_number"]: bool(r["quality"].get("factuality_exact")) for r in rows if r["condition"] == "baseline"}
+        comp = {r["issue_number"]: bool(r["quality"].get("factuality_exact")) for r in rows if r["condition"] == "compiled"}
+        k = sum(base.get(i, False) and not v for i, v in comp.items())
+        bound = res.get("compiled_only_bound", {})
+        ok(bound.get("extension", {}).get("k") == k and bound.get("pooled_with_primary", {}).get("n") == 90 + len(comp),
+           "extended held-out: compiled-only count and pooled denominator recompute from the rows")
+        table_path = PAPER / "iclr/tables/extended_heldout.tex"
+        ok(table_path.exists(), "extended held-out: ICLR table exists")
+        if table_path.exists():
+            module = _module("issue_type_extended_heldout")
+            with tempfile.TemporaryDirectory() as scratch:
+                module.TABLE_PATH = Path(scratch) / "extended_heldout.tex"
+                fresh = module.table(None)
+            ok(fresh == table_path.read_text(encoding="utf-8"), "extended held-out: ICLR table regenerates byte-identically")
+
+    # -- read-only prologue measurement -----------------------------------------------
+    pro = PAPER / "results/external_benchmarks/appworld_dispatch_prologue_preflight.json"
+    retained_pro = PAPER / "results/external_benchmarks/appworld_dispatch_preflight.json"
+    ok(pro.exists(), "prologue: AppWorld before/after measurement exists")
+    if pro.exists() and retained_pro.exists():
+        data = load(pro)
+        fam = data.get("by_agent_family", {})
+        before = {k: v.get("before_eligible_at_position_0") for k, v in fam.items()}
+        after = {k: v.get("after_eligible_total") for k, v in fam.items()}
+        ok(before.get("full_code_refl") == 2339 and before.get("ipfuncall") == 762
+           and before.get("plan_exec") == 1 and before.get("react") == 0,
+           "prologue: BEFORE reproduces the retained per-architecture eligibility")
+        ok(after.get("react") == 2 and after.get("plan_exec") == 1
+           and after.get("full_code_refl") == 2339 and after.get("ipfuncall") == 762,
+           "prologue: AFTER counts match the manuscript (2/2,340 ReAct, 1/2,340 plan-and-execute)")
+        ok(all(v.get("after_eligible_total", 0) >= v.get("before_eligible_at_position_0", 0) for v in fam.values()),
+           "prologue: AFTER is a superset of BEFORE in every architecture")
+        ok((PAPER / "iclr/tables/appworld_dispatch_prologue.tex").exists(), "prologue: ICLR table exists")
+        ok("2 of 4{,}680" in (PAPER / "iclr/sections/results.tex").read_text(encoding="utf-8"),
+           "prologue: §5.3 states the measured recovery")
+
     summary_path = sm_dir / "summary.json"
     if present:
         ok(summary_path.exists(), "second-model: summary exists")

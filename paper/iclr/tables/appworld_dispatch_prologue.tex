@@ -1,0 +1,10 @@
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+Released baseline architecture & Runs & Trajectories & Before (pos.~0) & Rate & After (pos.~0 or exact prologue) & Rate \\
+\midrule
+Full code + reflection                 & 8 & 2{,}340 & 2{,}339 & 1.000 & 2{,}339 & 1.000 \\
+Iterative parallel function calling    & 4 & 1{,}170 & 762 & 0.651 & 762 & 0.651 \\
+Plan and execute                       & 8 & 2{,}340 & 1 & 0.000 & 1 & 0.000 \\
+ReAct                                  & 8 & 2{,}340 & 0 & 0.000 & 2 & 0.001 \\
+\bottomrule
+\end{tabular}

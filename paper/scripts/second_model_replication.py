@@ -709,6 +709,17 @@ DESIGNS = {
 def _collect(sources: dict[str, tuple[Path, str, str, str]]) -> tuple[list[dict[str, Any]], dict[str, Any] | None]:
     families = []
     for name, (path, b, c, m) in sources.items():
+        failure = path.parent / "failure.json"
+        if not path.exists() and failure.exists():
+            # The family harness raises before the held-out arms when discovery yields fewer
+            # exact traces than the split needs; the failure record carries the counts.
+            data = json.loads(failure.read_text(encoding="utf-8"))
+            families.append({
+                "family": name, "status": "retired", "model": data.get("model"),
+                "source": str(failure.relative_to(ROOT)), "source_sha256": shared.sha256_file(failure),
+                "discovery": data.get("discovery"), "compiler": {"admitted": False, "stage": data.get("stage"), "error": data.get("error")},
+            })
+            continue
         if not path.exists():
             families.append({"family": name, "status": "not_run", "source": str(path.relative_to(ROOT))})
             continue

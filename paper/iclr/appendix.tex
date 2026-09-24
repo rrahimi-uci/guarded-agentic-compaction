@@ -66,10 +66,13 @@ groups and kept the higher-removal survivor: their certificates are
 per-candidate at $\alpha=0.05$, and under $\gamma=\delta/(m|\Lambda|)$ the
 retained zero-violation tables give $U=0.0569>\alpha$, a compiler-wide
 certificate only at $\alpha\ge0.057$ or after 106 groups
-(\cref{tab:multiplicity-accounting}). A fresh 106-group calibration under the
-pre-registered protocol
-\code{paper/supplementary/multiplicity-repair-protocol.md} is the repair; it is
-pre-registered and not yet run.
+(\cref{tab:multiplicity-accounting}). The pre-registered repair, a fresh
+class-balanced 106-group calibration per family
+(\code{paper/supplementary/multiplicity-repair-protocol.md}), failed its own
+go/no-go check: after excluding every record used in a retained cohort, the
+pinned snapshot holds 33 unused \code{open} pull requests and 8 unused
+\code{owned} backlog issues against the 36 per class the design requires, so it
+was not run and the per-candidate wording stays.
 
 \paragraph{Multiplicity accounting.} For one fixed candidate and one fixed
 threshold $\eta$, $\Pr(r_\eta>U_\eta)\le\gamma=\delta/|\Lambda|$. For one fixed
@@ -752,20 +755,39 @@ calibration cohorts actually contain; where a cluster-level count falls below
   \input{tables/effective_units.tex}
 \end{table}
 
-\paragraph{Relaxing the
-position invariant for a read-only prologue.}
-\Cref{sec:res-refusal} shows \cref{eq:prefix} costs essentially all ReAct and
-plan-and-execute eligibility, because those architectures open with an
-API-documentation read. Admitting a bounded read-only \emph{prologue} before the
-compiled prefix looks tractable and is narrower than general suffix dispatch:
-the adapter would need to recognize the prologue's calls as already issued and
-suppress their replay, rather than reconcile an arbitrary mid-trace entry point
-with whatever the agent has already done --- which is the fault \cref{app:pilot}
-records. The obligation is replay suppression under an extended entry contract,
-not a new statistical argument, since the compiled region itself would be
-unchanged. We have neither built nor tested it, so it is a conjecture with a
-named mechanism; \code{paper/supplementary/read-only-prologue-protocol.md}
-fixes the acceptance tests it would have to pass.
+\paragraph{A read-only prologue does not recover ReAct dispatch.}
+\Cref{sec:res-refusal} shows \cref{eq:prefix} refuses essentially every ReAct
+and plan-and-execute trajectory, which open with an API-documentation read. We
+built the narrowest relaxation
+(\code{paper/supplementary/read-only-prologue-protocol.md}): an artifact may
+declare an exact, allowlisted, read-only prologue whose calls must equal the
+committed observations in tool, order, and arguments; the prologue's results
+become live-ins of the region, its calls are not replayed, and any mismatch,
+extra call, order change, manifest mismatch, unknown effect, or slot left
+ungrounded by the extended entry contract falls back. The runtime passes the
+protocol's acceptance tests, including the archived suffix-dispatch pilot as a
+regression test. Measured on the 8{,}190 released trajectories with the
+documentation call as the prologue (\cref{tab:appworld-prologue}), it changes
+nothing: ReAct eligibility rises from 0 to 2 of 2{,}340 and plan-and-execute
+stays at 1. The looser diagnostic --- any documentation-only prefix followed by
+the admitted program --- recovers 2 and 3, and the program occurs anywhere in
+only 16 and 39 of those trajectories. Position was the proximate reason those
+architectures were refused; the underlying one is that they do not execute the
+admitted region at all, so no prologue rule can dispatch it. The prologue tool
+is also undeclared in the signed catalog, and the runtime refuses an undeclared
+prologue; the measurement assumes the declaration a reviewer would have to sign.
+
+\begin{table}[t]
+  \centering
+  \caption{Structural dispatch eligibility before and after admitting an exact
+  read-only prologue (the API-documentation call these architectures open
+  with), per released AppWorld baseline architecture; never pooled. The
+  runtime rule and the measurement rule are the same function.}
+  \label{tab:appworld-prologue}
+  \footnotesize
+  \setlength{\tabcolsep}{3.5pt}
+  \input{tables/appworld_dispatch_prologue.tex}
+\end{table}
 
 \paragraph{Why the
 workflow-reuse line is not a drop-in comparator.}
@@ -857,9 +879,21 @@ latency, and 60.1\% cost against 66.6, 63.1, 64.2, and 58.7 on the calibrated
 model (\cref{tab:second-model}). We read the miss as the case the manifest pin
 exists for: the certificate is conditional on the pinned model, these artifacts
 were never calibrated on \code{gpt-6-luna}, and one compiled-only miss in 90 is
-what an uncertified transfer looks like. The paper therefore still claims one
-calibrated model family and reports the transfer, not a cross-model
-certificate.
+what an uncertified transfer looks like. Re-discovery on the second model
+(design A, \code{paper/supplementary/second-model-rediscovery-protocol.md})
+then ran the whole pipeline on \code{gpt-6-luna}'s own traces over the same
+sealed records. Issue-type routing reached 128/132 exact discovery traces and
+PR-outcome 132/132; the compiler admitted the identical artifacts (same ids and
+programs, 92/0 gates, one and two candidates at calibration as in the primary
+runs), which dispatched on 30/30 records and passed 30/30 in every arm, with
+reductions of 50.0/38.9/32.8 and 75.0/80.7/76.0 percent in requests, tokens,
+and cost; the transfer miss on record 6532 did not recur. Backlog-attention
+routing refused at compile time: 113 of its 132 discovery traces were exact,
+below the 116 the 16/8/92 split needs, because the model's own excerpts were
+ungrounded on 19 records; no held-out arm was run and no artifact is claimed.
+The paper therefore claims one calibrated model family, reports a second on
+which the pipeline re-derived two of three artifacts and refused the third,
+and makes no cross-model certificate claim.
 
 \begin{table}[t]
   \centering
@@ -867,8 +901,9 @@ certificate.
   families rerun with the sealed records, discovery traces, and recompiled
   artifacts behind \cref{tab:primary}. Reductions are against the same-model
   baseline. The issue-type compiled-only miss (record 6532) is the finding the
-  protocol reports first; every other cell reproduces the calibrated model's
-  structure.}
+  transfer protocol reports first; under re-discovery the compiler re-derives
+  the identical issue-type and PR-outcome artifacts and refuses backlog routing
+  on the second model's own traces.}
   \label{tab:second-model}
   \footnotesize
   \setlength{\tabcolsep}{4pt}

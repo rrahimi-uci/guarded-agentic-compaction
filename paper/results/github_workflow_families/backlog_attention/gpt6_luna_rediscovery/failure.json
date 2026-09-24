@@ -1,0 +1,32 @@
+{
+  "decision_rule_reading": "H-A1 fails: fewer than 116 exact discovery traces on the second model; a principled refusal reported with the stage and counts; no held-out arm was run and no artifact is claimed.",
+  "discovery": {
+    "estimated_cost_usd": 0.042043,
+    "exact_traces": 113,
+    "failures": 0,
+    "n": 132,
+    "needed": 116,
+    "non_exact_quality_flags": {
+      "{\"comment_grounded\": false, \"overall\": false}": 19
+    },
+    "tool_sequences": {
+      "backlog_get_record -> backlog_get_ownership": 22,
+      "backlog_get_record -> backlog_get_ownership -> backlog_get_discussion": 110
+    }
+  },
+  "discovery_checkpoint": "paper/results/github_workflow_families/backlog_attention/gpt6_luna_rediscovery/discovery_checkpoint.json",
+  "discovery_checkpoint_sha256": "5c93196752e260758a1eae20883c8d964e7a8a058d04b2c321a2e88d55ec0621",
+  "error": "only 113 exact discovery traces; need 116",
+  "error_type": "RuntimeError",
+  "family": "backlog_attention",
+  "model": "gpt-6-luna",
+  "provider_backed": true,
+  "real_public_records": true,
+  "schema": "agent-compaction-live-attempt-failure/v1",
+  "secrets_serialized": false,
+  "simulated": false,
+  "stage": "compilation",
+  "status": "failed_before_test_arms",
+  "test_arms_started": false,
+  "timestamp_utc": "2026-09-24T13:16:13+00:00"
+}

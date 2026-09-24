@@ -39,6 +39,7 @@
       "status": "complete"
     },
     {
+      "artifact_id": "cand-00-a1de3856bb6c",
       "baseline": {
         "estimated_cost_usd": 0.00967936,
         "exact": 30,
@@ -47,6 +48,7 @@
         "total_tokens": 81009.0,
         "wall_latency_ms": 150981.739
       },
+      "candidates_reaching_calibration": null,
       "compiled": {
         "estimated_cost_usd": 0.0022957,
         "exact": 30,
@@ -65,6 +67,7 @@
         "wall_latency_ms": 49585.393
       },
       "model": "gpt-6-luna",
+      "program_identical_to_retained": null,
       "reductions": {
         "estimated_cost_usd": 0.7628252281142555,
         "requests": 0.75,
@@ -76,6 +79,7 @@
       "status": "complete"
     },
     {
+      "artifact_id": "cand-00-99f1b041ed7c",
       "baseline": {
         "estimated_cost_usd": 0.00993129,
         "exact": 29,
@@ -84,6 +88,7 @@
         "total_tokens": 83074.0,
         "wall_latency_ms": 155467.379
       },
+      "candidates_reaching_calibration": null,
       "compiled": {
         "estimated_cost_usd": 0.0024399,
         "exact": 30,
@@ -102,6 +107,7 @@
         "wall_latency_ms": 45055.972
       },
       "model": "gpt-6-luna",
+      "program_identical_to_retained": null,
       "reductions": {
         "estimated_cost_usd": 0.7543219460915953,
         "requests": 0.7478991596638656,
@@ -140,5 +146,141 @@
       "reduction": 0.5945186576069017
     }
   },
-  "schema": "agent-compaction-second-model-summary/v1"
+  "rediscovery": {
+    "families": [
+      {
+        "artifact_id": "cand-01-1ebb8b2849c7",
+        "baseline": {
+          "estimated_cost_usd": 0.01147211,
+          "exact": 30,
+          "n": 30,
+          "requests": 120.0,
+          "total_tokens": 123068.0,
+          "wall_latency_ms": 201014.401
+        },
+        "candidates_reaching_calibration": 1,
+        "compiled": {
+          "estimated_cost_usd": 0.00770796,
+          "exact": 30,
+          "n": 30,
+          "requests": 60.0,
+          "total_tokens": 75218.0,
+          "wall_latency_ms": 105898.757
+        },
+        "family": "Issue-type routing",
+        "manual": {
+          "estimated_cost_usd": 0.00709574,
+          "exact": 30,
+          "n": 30,
+          "requests": 60.0,
+          "total_tokens": 52023.0,
+          "wall_latency_ms": 86083.942
+        },
+        "model": "gpt-6-luna",
+        "program_identical_to_retained": true,
+        "reductions": {
+          "estimated_cost_usd": 0.3281131369904926,
+          "requests": 0.5,
+          "total_tokens": 0.3888094386843046,
+          "wall_latency_ms": 0.4731782575120078
+        },
+        "source": "paper/results/second_model_replication/issue_type_rediscovery/results.json",
+        "source_sha256": "11437cdbcadbd2548905d2f64f665b112faffcb064c638597c0a797112a99b15",
+        "status": "complete"
+      },
+      {
+        "artifact_id": "cand-00-a1de3856bb6c",
+        "baseline": {
+          "estimated_cost_usd": 0.00967036,
+          "exact": 30,
+          "n": 30,
+          "requests": 120.0,
+          "total_tokens": 80991.0,
+          "wall_latency_ms": 171410.187
+        },
+        "candidates_reaching_calibration": null,
+        "compiled": {
+          "estimated_cost_usd": 0.0023242000000000002,
+          "exact": 30,
+          "n": 30,
+          "requests": 30.0,
+          "total_tokens": 15642.0,
+          "wall_latency_ms": 50086.896
+        },
+        "family": "PR-outcome audit",
+        "manual": {
+          "estimated_cost_usd": 0.0022922,
+          "exact": 30,
+          "n": 30,
+          "requests": 30.0,
+          "total_tokens": 15578.0,
+          "wall_latency_ms": 46433.748
+        },
+        "model": "gpt-6-luna",
+        "program_identical_to_retained": null,
+        "reductions": {
+          "estimated_cost_usd": 0.7596573447110552,
+          "requests": 0.75,
+          "total_tokens": 0.8068674297144127,
+          "wall_latency_ms": 0.7077951032163567
+        },
+        "source": "paper/results/github_workflow_families/pr_outcome/gpt6_luna_rediscovery/results.json",
+        "source_sha256": "2ec20604707a178c6b2ff8262660951c80b63b406378768e21e249c55fc2ba49",
+        "status": "complete"
+      },
+      {
+        "compiler": {
+          "admitted": false,
+          "error": "only 113 exact discovery traces; need 116",
+          "stage": "compilation"
+        },
+        "discovery": {
+          "estimated_cost_usd": 0.042043,
+          "exact_traces": 113,
+          "failures": 0,
+          "n": 132,
+          "needed": 116,
+          "non_exact_quality_flags": {
+            "{\"comment_grounded\": false, \"overall\": false}": 19
+          },
+          "tool_sequences": {
+            "backlog_get_record -> backlog_get_ownership": 22,
+            "backlog_get_record -> backlog_get_ownership -> backlog_get_discussion": 110
+          }
+        },
+        "family": "Backlog-attention routing",
+        "model": "gpt-6-luna",
+        "source": "paper/results/github_workflow_families/backlog_attention/gpt6_luna_rediscovery/failure.json",
+        "source_sha256": "0f138427381c82b7b819e3cbed35380df1489aa03bbfd2990fdcf5761cc0f804",
+        "status": "retired"
+      }
+    ],
+    "overall": {
+      "baseline_exact": 60,
+      "compiled_exact": 60,
+      "estimated_cost_usd": {
+        "baseline": 0.02114247,
+        "compiled": 0.01003216,
+        "reduction": 0.5254972574159973
+      },
+      "manual_exact": 60,
+      "n": 60,
+      "requests": {
+        "baseline": 240.0,
+        "compiled": 90.0,
+        "reduction": 0.625
+      },
+      "total_tokens": {
+        "baseline": 204059.0,
+        "compiled": 90860.0,
+        "reduction": 0.5547366202911903
+      },
+      "wall_latency_ms": {
+        "baseline": 372424.588,
+        "compiled": 155985.653,
+        "reduction": 0.5811617760318231
+      }
+    }
+  },
+  "schema": "agent-compaction-second-model-summary/v2"
 }
