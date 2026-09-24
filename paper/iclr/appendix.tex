@@ -798,9 +798,32 @@ contract, and risk barriers disabled. On PR-outcome and backlog routing the
 mined three-read sequence \emph{is} the admitted program, so an unguarded
 replay executes the same calls and differs only in guards that never fired on
 in-distribution held-out records; on issue-type routing the compiler refused
-the three-read candidate, and a pre-registered live recurrence-only arm
-(\code{paper/supplementary/recurrence-only-ablation-protocol.md}) measures that
-refusal's price directly.
+the three-read candidate, so its price was measured live under the
+pre-registered protocol
+(\code{paper/supplementary/recurrence-only-ablation-protocol.md}). A
+barrier-free replay of the refused three-read region --- no provenance check,
+guard, verifier, gate, or position check --- handed to one provider request on
+the same sealed 30 records passed 30/30 exact contracts with one request per
+record (\cref{tab:recurrence-only}); every excerpt was located in its source
+comment. By the decision rule fixed in advance, on this cohort the provenance
+refusal cost one request per record without a measured quality benefit, and the
+guard's value here is the refusal of an unwitnessed argument plus the retained
+issue-6602 counterexample, not a held-out failure. The measurement concerns one
+family, one cohort, and in-distribution records; it says nothing about
+behavior under shift, which the drift protocol below is written to test.
+
+\begin{table}[t]
+  \centering
+  \caption{Recurrence-only replay on issue-type routing: per-record means over
+  the 30 sealed held-out records. The first three rows are the retained arms;
+  the last replays the three reads the compiler refused (\code{limit=100} has
+  no witness) with every barrier disabled and one provider request. All four
+  arms are 30/30 exact (McNemar $p=1$ against each comparator); the replay is
+  the cheapest arm, which is the price of the refusal on this cohort.}
+  \label{tab:recurrence-only}
+  \footnotesize
+  \input{tables/recurrence_only.tex}
+\end{table}
 
 \begin{table}[t]
   \centering
@@ -811,6 +834,45 @@ refusal's price directly.
   \scriptsize
   \setlength{\tabcolsep}{3pt}
   \input{tables/mechanism_removal.tex}
+\end{table}
+
+\paragraph{A second model family on the same cohorts.}
+Every headline number comes from one model, so a pre-registered transfer
+(\code{paper/supplementary/second-model-replication-protocol.md}) reran the
+three primary families on \code{gpt-6-luna}, a different model generation at
+the same efficiency tier, keeping the sealed discovery traces, splits, and 90
+held-out records and recompiling each artifact provider-free under a manifest
+that pins the new model; the recompiled artifacts are identical to the retained
+ones (same ids, programs, and 92/0 gates). The decision rule fixed in advance
+puts one finding first: on issue-type routing the compiled arm missed one
+record the baseline passed (\#6532, an excerpt that pluralized one source
+word), so its preservation hypothesis fails there; a second record (\#3859)
+failed in both arms through line-ending normalization, and backlog record 2648
+failed in the baseline only. Every miss is an excerpt-fidelity error by the
+model on identical evidence, and the retained \code{gpt-5.6-luna} arms pass all
+three records. Structure transferred as predicted: requests per record were
+unchanged in every arm, the artifact dispatched on 30/30 records in each
+family, and pooled reductions were 66.6\% requests, 63.0\% tokens, 59.5\%
+latency, and 60.1\% cost against 66.6, 63.1, 64.2, and 58.7 on the calibrated
+model (\cref{tab:second-model}). We read the miss as the case the manifest pin
+exists for: the certificate is conditional on the pinned model, these artifacts
+were never calibrated on \code{gpt-6-luna}, and one compiled-only miss in 90 is
+what an uncertified transfer looks like. The paper therefore still claims one
+calibrated model family and reports the transfer, not a cross-model
+certificate.
+
+\begin{table}[t]
+  \centering
+  \caption{Same-cohort transfer to \code{gpt-6-luna}: the three primary
+  families rerun with the sealed records, discovery traces, and recompiled
+  artifacts behind \cref{tab:primary}. Reductions are against the same-model
+  baseline. The issue-type compiled-only miss (record 6532) is the finding the
+  protocol reports first; every other cell reproduces the calibrated model's
+  structure.}
+  \label{tab:second-model}
+  \footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \input{tables/second_model.tex}
 \end{table}
 
 \paragraph{A compression comparator ran, and did not engage.}

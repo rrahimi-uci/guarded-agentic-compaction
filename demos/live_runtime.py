@@ -58,10 +58,14 @@ class ModelPrice:
 # Official standard short-context prices retrieved 2026-08-02 from
 # https://developers.openai.com/api/docs/pricing.  Results identify this as an
 # estimate from published list prices, not an invoice or account-specific rate.
+# The gpt-6-luna row was retrieved from the same page on 2026-09-24 for the
+# pre-registered second-model replication; the gpt-5.6 rows are left as pinned
+# on 2026-08-02 so retained results keep reproducing.
 MODEL_PRICES: dict[str, ModelPrice] = {
     "gpt-5.6-sol": ModelPrice(5.00, 0.50, 6.25, 30.00),
     "gpt-5.6-terra": ModelPrice(2.00, 0.20, 2.50, 12.00),
     "gpt-5.6-luna": ModelPrice(0.20, 0.02, 0.25, 1.20),
+    "gpt-6-luna": ModelPrice(0.10, 0.01, 0.125, 0.50),
 }
 
 

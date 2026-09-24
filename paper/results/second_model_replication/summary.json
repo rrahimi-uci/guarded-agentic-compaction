@@ -1,0 +1,144 @@
+{
+  "claim_boundary": "Same sealed records, discovery traces, and splits as the gpt-5.6-luna studies; artifacts recompiled provider-free under the second-model manifest pin; held-out arms executed live on the second model. A transfer of the guarded pipeline to a second model family on the same cohorts, not an independent sample.",
+  "families": [
+    {
+      "baseline": {
+        "estimated_cost_usd": 0.01140677,
+        "exact": 29,
+        "n": 30,
+        "requests": 120.0,
+        "total_tokens": 123509.0,
+        "wall_latency_ms": 185166.878
+      },
+      "compiled": {
+        "estimated_cost_usd": 0.00764592,
+        "exact": 28,
+        "n": 30,
+        "requests": 60.0,
+        "total_tokens": 75056.0,
+        "wall_latency_ms": 98401.439
+      },
+      "family": "Issue-type routing",
+      "manual": {
+        "estimated_cost_usd": 0.00712223,
+        "exact": 30,
+        "n": 30,
+        "requests": 60.0,
+        "total_tokens": 52076.0,
+        "wall_latency_ms": 84561.009
+      },
+      "model": "gpt-6-luna",
+      "reductions": {
+        "estimated_cost_usd": 0.3297033253059368,
+        "requests": 0.5,
+        "total_tokens": 0.3923033948942992,
+        "wall_latency_ms": 0.468579693826236
+      },
+      "source": "paper/results/second_model_replication/issue_type/results.json",
+      "source_sha256": "423f717ed4dde45ac5023c81ca587541d4f0f7d148d60ee7bba2acc48aad03cd",
+      "status": "complete"
+    },
+    {
+      "baseline": {
+        "estimated_cost_usd": 0.00967936,
+        "exact": 30,
+        "n": 30,
+        "requests": 120.0,
+        "total_tokens": 81009.0,
+        "wall_latency_ms": 150981.739
+      },
+      "compiled": {
+        "estimated_cost_usd": 0.0022957,
+        "exact": 30,
+        "n": 30,
+        "requests": 30.0,
+        "total_tokens": 15585.0,
+        "wall_latency_ms": 53190.707
+      },
+      "family": "PR-outcome audit",
+      "manual": {
+        "estimated_cost_usd": 0.0022632,
+        "exact": 30,
+        "n": 30,
+        "requests": 30.0,
+        "total_tokens": 15520.0,
+        "wall_latency_ms": 49585.393
+      },
+      "model": "gpt-6-luna",
+      "reductions": {
+        "estimated_cost_usd": 0.7628252281142555,
+        "requests": 0.75,
+        "total_tokens": 0.8076139688182795,
+        "wall_latency_ms": 0.6477010574106581
+      },
+      "source": "paper/results/github_workflow_families/pr_outcome/gpt6_luna/results.json",
+      "source_sha256": "0313b57399eb2404b548f029b170876e250f18aeed65a03178ceb7ec76454a5c",
+      "status": "complete"
+    },
+    {
+      "baseline": {
+        "estimated_cost_usd": 0.00993129,
+        "exact": 29,
+        "n": 30,
+        "requests": 119.0,
+        "total_tokens": 83074.0,
+        "wall_latency_ms": 155467.379
+      },
+      "compiled": {
+        "estimated_cost_usd": 0.0024399,
+        "exact": 30,
+        "n": 30,
+        "requests": 30.0,
+        "total_tokens": 15783.0,
+        "wall_latency_ms": 47748.968
+      },
+      "family": "Backlog-attention routing",
+      "manual": {
+        "estimated_cost_usd": 0.0024954,
+        "exact": 30,
+        "n": 30,
+        "requests": 30.0,
+        "total_tokens": 15894.0,
+        "wall_latency_ms": 45055.972
+      },
+      "model": "gpt-6-luna",
+      "reductions": {
+        "estimated_cost_usd": 0.7543219460915953,
+        "requests": 0.7478991596638656,
+        "total_tokens": 0.810012759708212,
+        "wall_latency_ms": 0.6928682511589779
+      },
+      "source": "paper/results/github_workflow_families/backlog_attention/gpt6_luna/results.json",
+      "source_sha256": "fbb456d8ff040d895380e994a087bf0ee4ef2f9641b47ff0e049dcda7bdf5ae7",
+      "status": "complete"
+    }
+  ],
+  "model": "gpt-6-luna",
+  "overall": {
+    "baseline_exact": 88,
+    "compiled_exact": 88,
+    "estimated_cost_usd": {
+      "baseline": 0.03101742,
+      "compiled": 0.01238152,
+      "reduction": 0.6008204421902272
+    },
+    "manual_exact": 90,
+    "n": 90,
+    "requests": {
+      "baseline": 359.0,
+      "compiled": 120.0,
+      "reduction": 0.6657381615598885
+    },
+    "total_tokens": {
+      "baseline": 287592.0,
+      "compiled": 106424.0,
+      "reduction": 0.629947981863195
+    },
+    "wall_latency_ms": {
+      "baseline": 491615.996,
+      "compiled": 199341.114,
+      "reduction": 0.5945186576069017
+    }
+  },
+  "schema": "agent-compaction-second-model-summary/v1"
+}

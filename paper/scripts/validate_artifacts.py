@@ -1715,6 +1715,167 @@ def validate_headroom_ablation_preflights() -> None:
            f"{family}: Headroom attempts each eligible payload but applies no transformation")
 
 
+def validate_live_extensions() -> None:
+    """Pin the recurrence-only arm and the second-model replication to their protocols.
+
+    Both studies were pre-registered on 2026-09-22/24 and executed on the sealed
+    cohorts of the retained live studies. Preflights must record zero provider
+    calls; results, where present, must be provider-backed, complete under
+    intention-to-treat accounting, and regenerate their tables byte-identically.
+    """
+    import importlib.util
+    import tempfile
+
+    def _module(name: str):
+        spec = importlib.util.spec_from_file_location(name, PAPER / f"scripts/{name}.py")
+        module = importlib.util.module_from_spec(spec)
+        assert spec.loader is not None
+        spec.loader.exec_module(module)
+        return module
+
+    retained = load(PAPER / "results/github_natural_replication/results.json")
+    sealed_test = [int(item["issue_number"]) for item in retained["selection"]["test"]]
+
+    # -- recurrence-only arm -------------------------------------------------------
+    rec_dir = PAPER / "results/recurrence_only_ablation"
+    pre_path = rec_dir / "preflight.json"
+    ok(pre_path.exists(), "recurrence-only: preflight exists")
+    if pre_path.exists():
+        pre = load(pre_path)
+        ok(pre.get("provider_calls") == 0 and pre.get("execution_status") == "preflight_only",
+           "recurrence-only: preflight made no provider calls")
+        ok(pre.get("selection", {}).get("test") == sealed_test
+           and pre.get("selection", {}).get("reused_from_sealed_selection") is True,
+           "recurrence-only: preflight reuses the sealed 30-record held-out selection")
+        ok(len(pre.get("deterministic_replay", [])) == 30
+           and all(r["tool_sequence"] == ["issue_get_record", "issue_get_labels", "issue_get_comments"]
+                   and r["tool_arguments"][2].get("limit") == 100
+                   for r in pre.get("deterministic_replay", [])),
+           "recurrence-only: preflight replays the refused three-read region with limit=100 on all 30 records")
+    res_path = rec_dir / "results.json"
+    if res_path.exists():
+        res = load(res_path)
+        run = res.get("run", {})
+        ok(run.get("provider_backed") is True and run.get("simulated") is False
+           and run.get("model") == retained["run"]["model"],
+           "recurrence-only: results are provider-backed on the retained model")
+        itt = res.get("intention_to_treat", {})
+        ok(itt.get("attempted") == 30 and itt.get("completed") + itt.get("failed_after_retry", 0) == 30,
+           "recurrence-only: intention-to-treat accounting covers all 30 records")
+        ok(res.get("selection", {}).get("test") == sealed_test,
+           "recurrence-only: results use the sealed held-out selection")
+        rows = res.get("results", [])
+        ok(all(int(r["metrics"]["requests"]) == 1 for r in rows) and len(rows) == itt.get("completed"),
+           "recurrence-only: every completed episode used exactly one provider request")
+        exact = sum(bool(r["quality"].get("factuality_exact")) for r in rows)
+        ok(res.get("per_field_exact", {}).get("factuality_exact") == exact,
+           "recurrence-only: per-field exact count matches the retained rows")
+        ok(bool(res.get("decision_rule_reading")), "recurrence-only: the pre-registered decision rule was applied")
+        table_path = PAPER / "iclr/tables/recurrence_only.tex"
+        ok(table_path.exists(), "recurrence-only: ICLR table exists")
+        if table_path.exists():
+            module = _module("recurrence_only_ablation")
+            with tempfile.TemporaryDirectory() as scratch:
+                module.TABLE_PATH = Path(scratch) / "recurrence_only.tex"
+                fresh = module.table(None)
+            ok(fresh == table_path.read_text(encoding="utf-8"),
+               "recurrence-only: ICLR table regenerates byte-identically")
+
+    # -- §7 headline: compiled held-out episodes on the calibrated model ---------------
+    def _exact(row: dict[str, Any]) -> bool:
+        quality = row.get("quality", {})
+        return bool(quality.get("factuality_exact", quality.get("overall", False)))
+
+    episodes = 0
+    compiled_only = 0
+    sources = [
+        (PAPER / "results/github_natural_replication/results.json", "compiled"),
+        (PAPER / "results/github_workflow_families/pr_outcome/final/results.json", "compiled"),
+        (PAPER / "results/github_workflow_families/backlog_attention/final/results.json", "compiled"),
+    ]
+    sources += [(p, "compiled") for p in sorted((PAPER / "results/github_multirepo_pr_outcome_core/repos").glob("*/results.json"))]
+    sources += [(p, "compiled") for p in sorted((PAPER / "results/github_multirepo_pr_outcome_balanced/repos").glob("*/results.json"))]
+    sources += [(p, "learned_gate") for p in sorted((PAPER / "results/github_multirepo_gate_frontier/repos").glob("*/results.json"))]
+    for path, condition in sources:
+        if not path.exists():
+            continue
+        rows = [r for r in load(path).get("results", []) if int(r.get("repeat", 0)) == 0]
+        key = lambda r: r.get("record_number", r.get("issue_number"))  # noqa: E731
+        base = {key(r): _exact(r) for r in rows if r["condition"] == "baseline"}
+        comp = {key(r): _exact(r) for r in rows if r["condition"] == condition}
+        episodes += len(comp)
+        compiled_only += sum(base.get(k, False) and not v for k, v in comp.items())
+    ok(episodes == 630 and compiled_only == 0,
+       "§7: 630 compiled held-out episodes on the calibrated model with zero compiled-only failures")
+    ok("630 compiled held-out episodes" in (PAPER / "iclr/sections/discussion.tex").read_text(encoding="utf-8"),
+       "§7 states the 630-episode headline")
+
+    # -- second-model replication ----------------------------------------------------
+    sm_dir = PAPER / "results/second_model_replication"
+    issue_pre_path = sm_dir / "issue_type/preflight.json"
+    ok(issue_pre_path.exists(), "second-model: issue-type preflight exists")
+    if issue_pre_path.exists():
+        pre = load(issue_pre_path)
+        checks = pre.get("reproduction_under_retained_manifest", {}).get("checks", {})
+        ok(pre.get("provider_calls") == 0 and pre.get("execution_status") == "preflight_only",
+           "second-model: issue-type preflight made no provider calls")
+        ok(checks.get("program_identical") is True and checks.get("artifact_id_identical") is True
+           and checks.get("splits_digest_identical") is True
+           and all(checks.get("gate_identical", {}).values()),
+           "second-model: reconstruction reproduces the retained issue-type artifact")
+        ok(pre.get("second_model", {}).get("program_identical_to_retained") is True
+           and pre.get("second_model", {}).get("list_price_pinned") is True,
+           "second-model: recompiled artifact is the retained program with a pinned list price")
+        ok(pre.get("selection", {}).get("test") == sealed_test,
+           "second-model: issue-type preflight reuses the sealed held-out selection")
+    for family in ("pr_outcome", "backlog_attention"):
+        path = PAPER / f"results/github_workflow_families/{family}/gpt6_luna/preflight.json"
+        final = PAPER / f"results/github_workflow_families/{family}/final/results.json"
+        ok(path.exists(), f"second-model: {family} preflight exists")
+        if path.exists() and final.exists():
+            pre = load(path)
+            sel = pre.get("selection", {})
+            orig = load(final).get("selection", {})
+            ok(pre.get("provider_calls") == 0 and pre.get("execution_status") == "preflight_only",
+               f"second-model: {family} preflight made no provider calls")
+            ok(sel.get("discovery") == orig.get("discovery") and sel.get("test") == orig.get("test"),
+               f"second-model: {family} preflight reuses the sealed paired cohort")
+    result_paths = {
+        "issue_type": sm_dir / "issue_type/results.json",
+        "pr_outcome": PAPER / "results/github_workflow_families/pr_outcome/gpt6_luna/results.json",
+        "backlog_attention": PAPER / "results/github_workflow_families/backlog_attention/gpt6_luna/results.json",
+    }
+    present = {k: p for k, p in result_paths.items() if p.exists()}
+    for family, path in present.items():
+        res = load(path)
+        run = res.get("run", {})
+        ok(run.get("provider_backed") is True and run.get("simulated") is False
+           and run.get("model") == "gpt-6-luna",
+           f"second-model: {family} results are provider-backed on gpt-6-luna")
+        conditions = ("baseline", "compiled", "macro") if family == "issue_type" else (
+            "baseline", "compiled", "manual_pre_model")
+        rows = [r for r in res.get("results", []) if int(r.get("repeat", 0)) == 0]
+        ok(all(sum(r["condition"] == c for r in rows) == 30 for c in conditions),
+           f"second-model: {family} completed all three arms on 30 records")
+    summary_path = sm_dir / "summary.json"
+    if present:
+        ok(summary_path.exists(), "second-model: summary exists")
+    if summary_path.exists() and present:
+        module = _module("second_model_replication")
+        table_path = PAPER / "iclr/tables/second_model.tex"
+        committed_summary = load(summary_path)
+        with tempfile.TemporaryDirectory() as scratch:
+            module.OUT_ROOT = Path(scratch)
+            module.TABLE_PATH = Path(scratch) / "second_model.tex"
+            fresh = module.summarize(SimpleNamespace(model="gpt-6-luna"))
+            fresh_table = module.TABLE_PATH.read_text(encoding="utf-8") if module.TABLE_PATH.exists() else None
+        ok(fresh.get("families") == committed_summary.get("families")
+           and fresh.get("overall") == committed_summary.get("overall"),
+           "second-model: summary regenerates to the committed values")
+        ok(table_path.exists() and fresh_table == table_path.read_text(encoding="utf-8"),
+           "second-model: ICLR table regenerates byte-identically")
+
+
 def validate_github_workflow_families() -> None:
     """Recompute the new real-record family claims from condition-level evidence."""
 
@@ -2498,6 +2659,7 @@ def main() -> None:
     validate_iclr_page_budget()
     validate_iclr_sources()
     validate_headroom_ablation_preflights()
+    validate_live_extensions()
     validate_github_workflow_families()
     validate_github_multirepo_pr_outcome_core()
     validate_external_benchmarks()

@@ -102,3 +102,28 @@ page 9 (ruler line 485) and the AI Use Statement opens page 10; page 1 reads "An
 and the PDF carries no author; 0 unresolved references; 0 overfull boxes; publication manifest
 regenerated; validator 3142 checks, 0 failed. Still a user action: paste `openreview_metadata.md`
 (text unchanged by this pass) into the OpenReview abstract and TL;DR fields.
+
+## Live extensions and framing pass (2026-09-24, branch `paper/iclr-live-ablations-recurrence-only-and-second-model`)
+
+Two pre-registered live studies executed (protocols carry their observed-results sections):
+
+| Study | Result | Paper | Evidence |
+|---|---|---|---|
+| Recurrence-only replay, issue-type (pre-registered 2026-09-22) | 30/30 exact, 1 request/record, no retries; decision-rule row 1 (refusal cost one request per record on this cohort, no measured quality benefit) | App. G paragraph + `tab:recurrence-only`; §7 | `recurrence_only_ablation/{preflight,results}.json`, `tables/recurrence_only.tex` |
+| Second model, `gpt-6-luna`, same cohorts (pre-registered 2026-09-24) | 270/270 episodes; artifacts reproduce under the new pin; 30/30 dispatch per family; pooled 88/90 vs 88/90 vs 90/90; one compiled-only miss (issue-type #6532, excerpt pluralized one word); reductions 66.6/63.0/59.5/60.1 | App. G paragraph + `tab:second-model`; §5.1; §7 | `second_model_replication/{issue_type/*,summary.json}`, `github_workflow_families/*/gpt6_luna/`, `tables/second_model.tex` |
+
+Framing pass (facts unchanged): §1 contribution 3 is "calibrated refusal" rather than "a
+negative-result boundary" and contribution 1 states the novelty once ("to our knowledge the first
+exact finite-sample admission certificate for trace-derived agent compilation"); §5.1 opens the
+manual comparison with "Discovery reaches the manual ceiling"; §7 states the safety headline
+recomputed from the per-record files (630 compiled held-out episodes on the calibrated model,
+zero compiled-only failures: 90 + 120 + 180 + 240) and that every limitation is paired with a
+committed protocol; §7's provider sentence now says one *calibrated* model family and points to
+the transfer. Abstract unchanged (the transfer protocol allowed an abstract change only if all
+three families preserved, and issue-type did not).
+
+Page budget: the additions (§1 +2 lines, §5.1 +2, §7 +5) were paid for by Figure 1 at
+0.52\linewidth and word-level cuts in §1, §2, §3, §4, §5.2, §5.3, §7; the conclusion ends on page 9
+again and the AI Use Statement opens page 10. `demos/live_runtime.py` gains the `gpt-6-luna` list
+price (retrieved 2026-09-24); `validate_live_extensions` pins both studies, the 630 headline, and
+byte-identical regeneration of the two new tables.
