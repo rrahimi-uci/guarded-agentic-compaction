@@ -115,9 +115,9 @@ group.
 \Cref{alg:dispatch} is the runtime counterpart of \cref{eq:dispatch}. Cheap
 deterministic checks reject first and the calibrated gate runs only on what
 survives them, so the common case costs a registry lookup and a guard
-evaluation; the first of them is the position check: any tool already observed
-in the episode, whether or not the compiled program uses it, returns the
-unchanged agent (\cref{eq:prefix}). Exactly one exit path compacts; every clean rejection returns the
+evaluation. Once an artifact resolves, the position check runs before any
+guard: any tool already observed in the episode, whether or not the compiled
+program uses it, returns the unchanged agent (\cref{eq:prefix}). Exactly one exit path compacts; every clean rejection returns the
 unmodified baseline agent, and any failure whose reversibility cannot be
 attested raises an incident rather than feigning a rollback. ``Baseline'' is
 byte-exact only where a staging owner holds the commit boundary: the outer
@@ -780,7 +780,15 @@ parallel DAG, which lowers latency without eliminating a model turn, and its
 planner remains in the loop. \Citet{zhang2025plancache} reuses plans across
 episodes, which is the closest target, but without argument-level provenance or
 an effect declaration it makes no admissibility decision --- so there is nothing
-to compare our gate against, only a cache-hit rate. Re-expressing any of them as
+to compare our gate against, only a cache-hit rate. \Citet{wei2026evoc2f}
+compiles plans into an annotated intermediate representation and admits learned
+skills to a library only after verification tests, and \citet{winston2026agentjit}
+compiles a task description into code validated against tool pre- and
+postconditions and schedules it for latency; in both, the model still plans
+each task, and admission is a test or specification check within an episode,
+not a bound on post-substitution risk over a calibration distribution, so
+neither supplies the admissibility decision our gate would be compared
+against. Re-expressing any of them as
 a guarded pre-model substitution with an entry contract and a verifier would
 change the method being measured rather than benchmark it. The comparison we owe
 is internal. \Cref{tab:mechanism-removal} prices the barriers: for each
@@ -926,7 +934,10 @@ registered bound at every level, dominating the support-only gate at matched
 coverage, is the predicted positive outcome. A gate that stays step-like while
 the support-only comparator does not (or vice versa) is a reported negative for
 the learned score specifically. Any held-out wrong dispatch on either gate is an
-adverse finding reported in full, ahead of every other reading. Two extensions
+adverse finding reported in full, ahead of every other reading. Neither gate
+producing graded coverage is the fourth pre-declared outcome: the workload
+supplied no gradient, and no frontier is to be manufactured from a homogeneous
+cohort. Two extensions
 are named and explicitly deferred pending their own feasibility bar:
 model/provider breadth, and an executable workflow-compiler comparator (AWO is
 the closest published candidate), run only if it can match records, model,

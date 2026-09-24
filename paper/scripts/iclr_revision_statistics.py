@@ -623,11 +623,10 @@ def cmd_frontier() -> dict[str, Any]:
             lines.append(f"\\code{{{repo}}} & 60 sealed & \\textsc{{retire}} & --- & none ($U=1$ at every $\\eta$) & --- \\\\")
             continue
         a = e["arms"]
-        sup = f"{a['support_only']['exact']}/{a['support_only']['attempted']}" + ("$^\\dagger$" if a["support_only"]["completed"] < a["support_only"]["attempted"] else "")
+        sup = f"{a['support_only']['exact']}" + ("$^\\dagger$" if a["support_only"]["completed"] < a["support_only"]["attempted"] else "")
         exact_cell = f"{a['baseline']['exact']}/{a['learned_gate']['exact']}/{sup}"
         levels = e["coverage_curves"]["learned_gate_distinct_nonzero_coverage_levels"]
         sweep = ", ".join((f"{lv:.4f} ($U={next(r['upper'] for r in e['coverage_curves']['learned_gate'] if abs(r['coverage']-lv)<1e-6):.3f}$, rejected)" if lv < 0.999 else "1.0") for lv in levels)
-        sup = sup.replace("/60", "")
         lines.append(f"\\code{{{repo}}} & {e['sealed_test']} & {exact_cell} & {a['learned_gate']['dispatch'].get('COMPACTED',0)}/{e['sealed_test']} & {sweep} & {100*e['requests_reduction_learned']:.1f}\\% \\\\")
     lines += [r"\bottomrule", r"\end{tabularx}"]
     write_table("gate_frontier_disaggregated", "frontier", "\n".join(lines))

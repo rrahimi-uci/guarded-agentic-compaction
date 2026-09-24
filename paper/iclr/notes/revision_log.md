@@ -71,3 +71,34 @@ system; Proposition 1 proof uses `n_eta` throughout and states the `k_eta = n_et
 appendix; the Appendix E omitted-studies list is kept on one page. Three word-level cuts
 (§1, §5.1, §7) hold the conclusion on page 9. Validator: 3142 checks, 0 failed.
 Still a user action: replace the OpenReview abstract and TL;DR with `openreview_metadata.md`.
+
+## PAT feedback verification pass (2026-09-23, branch `paper/iclr-2027-pat-feedback-final-pass`)
+
+Independent re-check of every item of the 12 Sept 2026 PAT feedback (OpenReview `DF0JaS58gr`,
+export dated 23 Sept 2026) against the sources at 4df8578 (PR #42 head). The arithmetic the
+feedback rests on was re-derived and agrees with the manuscript: ln(0.1/11)/ln(0.95) = 91.64 → 92
+groups; U(92, 0) = 0.0498; U(91, 0) = 0.0503; U(92, 0) = 0.0569 at γ = δ/22, hence 106 groups;
+⌈92/c⌉ = 115 / 132 / 184 for c = 0.8 / 0.7 / 0.5; 10/92 → U = 0.375; 90/92 → U = 0.0509; δ/12 → U =
+0.0507; pooled AppWorld eligibility 3,102/8,190 = 37.9%; one-sided 95% bound on 0/90 = 3.3%;
+single-threshold unions 1.8% (m = 2) and 13.6% (m = 16). Every PAT item is a correct reading of
+the 12 Sept build and was already closed at the PR #42 head, except the residuals below.
+
+| Item | Change | Files |
+|---|---|---|
+| PAT weakness 1 (situate EvoC2F and Agent JIT) | Appendix G comparator paragraph states what each compiles, from the ICML 2026 abstracts, and why neither yields an admissibility decision to compare against | `appendix.tex` |
+| PAT §5.2 item 4 (name the stage that retired `pytorch/pytorch` in the main text) | §5.2 now reads "at admission, where no calibration group is accepted at any threshold" | `sections/results.tex` |
+| PAT Eq. (1) vs Algorithm 3 | §2's `Src` enumerates the flattened paths of `z` *and of each prior result*, matching `Flatten(o_j)` in Algorithm 3 | `sections/problem.tex` |
+| PAT App. H.1 decision-rule pointer | The Appendix H decision rule now lists the fourth pre-declared outcome (neither gate graded) that the observed-results text invokes; wording taken from the committed protocol table | `appendix.tex` |
+| PAT abstract `readonly` | `read-only` is set with `\nobreakdash` in the abstract so the PDF text layer cannot drop the hyphen at a line end; extraction now yields `read-only` 5/5 | `sections/abstract.tex` |
+| Own finding | Appendix B called the position check "the first" check; Algorithm 4 resolves the artifact first. Reworded | `appendix.tex` |
+| Own finding | Gate-frontier table cell read `60/60/59/60†` under a B/L/S header because the generator stripped `/60` after assembling the cell; generator fixed and table regenerated (`60/60/59†`) | `paper/scripts/iclr_revision_statistics.py`, `tables/gate_frontier_disaggregated.tex` |
+
+Left as is on purpose: the Eq. (5) underbrace artifact and the other abstract hyphenations the
+feedback lists (`re-/duce`, `ar-/guments`, `sat-/isfies`, …) are ordinary end-of-line hyphenation
+that the reviewer's text copy dropped; the rendered PDF is correct.
+
+Verification: `tectonic --keep-logs --outdir build main.tex`; 29 pages; the conclusion ends on
+page 9 (ruler line 485) and the AI Use Statement opens page 10; page 1 reads "Anonymous authors"
+and the PDF carries no author; 0 unresolved references; 0 overfull boxes; publication manifest
+regenerated; validator 3142 checks, 0 failed. Still a user action: paste `openreview_metadata.md`
+(text unchanged by this pass) into the OpenReview abstract and TL;DR fields.

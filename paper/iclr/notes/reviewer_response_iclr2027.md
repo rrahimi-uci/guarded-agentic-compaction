@@ -75,3 +75,16 @@ The paper states each of these as unrun.
 OpenReview fields (abstract, TL;DR) still show the pre-revision text and must be replaced with
 `paper/iclr/notes/openreview_metadata.md`; the old TL;DR's "with no [quality loss]" clause is no
 longer used.
+
+## PAT verification pass (2026-09-23)
+
+Every item above was re-checked against the PR #42 head with the bound arithmetic re-derived
+(see `revision_log.md`, same date). Residuals closed in this pass:
+
+| PAT item | Status |
+|---|---|
+| Situate GAC against EvoC2F and Agent JIT (weakness 1) | Appendix G names what each compiles and why neither makes an admissibility decision to compare against |
+| Name the barrier that retired `pytorch/pytorch` in §5.2 | "at admission, where no calibration group is accepted at any threshold", with the class-composition account in Appendix F.1 |
+| Eq. (1) source set vs Algorithm 3 | §2 enumerates flattened paths of the entry state and of each prior result |
+| Appendix H.1 pointer to the decision rule | The Appendix H decision rule now carries the fourth pre-declared outcome it is asked to point at |
+| Abstract `readonly` | `read-only` no longer breaks at the hyphen in the abstract |
