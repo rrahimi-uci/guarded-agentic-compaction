@@ -171,3 +171,13 @@ page-sized tables (the single table overflowed its page); `tab:paired-statistics
 regenerated from the source. Word-level cuts in §1, §2, §3, §4, §5.1, §5.2, §7 keep the
 conclusion on page 9. Final PDF: 36 pages, 0 overfull boxes, 0 unresolved references,
 anonymous; saved as `paper/iclr/main-final.pdf`.
+
+## Second deep review (2026-09-24, same branch)
+
+Page-by-page inspection of all 36 rendered pages, plus automated audits: every cited key exists
+in `references.bib` and none is unused; no dangling cross-reference; no doubled words; PDF
+metadata anonymous. Fixes: long repository paths in the appendix are set with `\path` so they
+break (the extended-cohort paragraph had a badly stretched first line); paths inside captions
+stay in `\code` (fragile in moving arguments). Verified Algorithms 1–4, Figures 1–6, and Tables
+1–27 render without overlap; the four claims-register tables each fit their page. Conclusion on
+page 9; 0 overfull boxes; 0 unresolved references. `main-final.pdf` refreshed.

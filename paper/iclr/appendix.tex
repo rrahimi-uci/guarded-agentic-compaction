@@ -68,7 +68,7 @@ retained zero-violation tables give $U=0.0569>\alpha$, a compiler-wide
 certificate only at $\alpha\ge0.057$ or after 106 groups
 (\cref{tab:multiplicity-accounting}). The pre-registered repair, a fresh
 class-balanced 106-group calibration per family
-(\code{paper/supplementary/multiplicity-repair-protocol.md}), failed its own
+(\path{paper/supplementary/multiplicity-repair-protocol.md}), failed its own
 go/no-go check: after excluding every record used in a retained cohort, the
 pinned snapshot holds 33 unused \code{open} pull requests and 8 unused
 \code{owned} backlog issues against the 36 per class the design requires, so it
@@ -83,7 +83,7 @@ choosing $\gamma=\delta/(m|\Lambda|)$ gives
 $\Pr(\exists\,a,\eta: r_{a,\eta}>U_{a,\eta})\le\delta$; at $\alpha=0.05$,
 $\delta=0.1$, $|\Lambda|=11$ the zero-violation requirement is 92 groups for
 $m=1$ and 106 for $m=2$ ($U=0.0498$ versus $0.0569$ at $n=92$).
-\code{paper/scripts/frozen\_candidate\_coverage\_simulation.py} checks the
+\path{paper/scripts/frozen_candidate_coverage_simulation.py} checks the
 \emph{single-threshold} quantity exactly, without Monte Carlo: for one candidate
 at one threshold and $n=92$, the population rate that maximizes miscoverage is
 $r^{*}\approx0.637$, where miscoverage is $\approx0.00909\approx\gamma$. Pooling
@@ -396,7 +396,7 @@ per-episode timeout, and no retries; the issue-type family used a blocked
 six-permutation Latin design with eight-way concurrency within each block. No
 server-side state is shared between arms (\code{store=False}); cached-input
 tokens are zero on every PR-outcome and backlog record and are priced
-separately where they occur (\code{paper/results/cache\_accounting.json}).
+separately where they occur (\path{paper/results/cache_accounting.json}).
 Recomputing the compiled-versus-baseline wall-latency reduction within each of
 the six arm orders gives reductions between 43.2\% and 78.6\% across the eighteen permutation--family cells (every cell positive), and
 provider-response latency reproduces the wall-latency reductions to within
@@ -421,7 +421,7 @@ carries the effect.
 \end{table}
 
 \paragraph{An extended issue-type held-out cohort.} A pre-registered
-extension (\code{paper/supplementary/issue-type-extended-heldout-protocol.md})
+extension (\path{paper/supplementary/issue-type-extended-heldout-protocol.md})
 ran the retained issue-type artifact on 120 further unused records of the
 pinned snapshot on the calibrated model, balanced 40/40/40 over \code{bug},
 \code{enhancement}, and \code{other} (the snapshot holds 16 exclusive
@@ -567,7 +567,7 @@ rerun: the core outcome is the protocol behaving as designed under a skewed
 pool, and it is the clearest instance in the paper of the gate refusing on
 evidence composition rather than on trace structure. A provider-free
 recompilation from the retained discovery checkpoint
-(\code{paper/results/iclr\_revision/pytorch\_core\_recompile.json}) reproduces
+(\path{paper/results/iclr_revision/pytorch_core_recompile.json}) reproduces
 the retirement and recovers the per-threshold rows the original run truncated:
 $n_\eta=0$ at every $\eta\in\Lambda$, so no calibration group was accepted at
 any threshold and the bound is the degenerate branch of \cref{eq:cp}. The rows
@@ -592,7 +592,7 @@ frozen snapshots without mutual exclusion: the balanced rerun shares 13, 25,
 and 8 of the 30-record core held-out sets, and the gate-frontier cohort of
 \cref{app:prospective} shares 130/150 held-out and 442/460 calibration records
 with the core cohort
-(\code{paper/results/iclr\_revision/cohort\_overlap\_audit.json}).
+(\path{paper/results/iclr_revision/cohort_overlap_audit.json}).
 
 \begin{table}[t]
   \centering
@@ -814,7 +814,7 @@ calibration cohorts actually contain; where a cluster-level count falls below
 \Cref{sec:res-refusal} shows \cref{eq:prefix} refuses essentially every ReAct
 and plan-and-execute trajectory, which open with an API-documentation read. We
 built the narrowest relaxation
-(\code{paper/supplementary/read-only-prologue-protocol.md}): an artifact may
+(\path{paper/supplementary/read-only-prologue-protocol.md}): an artifact may
 declare an exact, allowlisted, read-only prologue whose calls must equal the
 committed observations in tool, order, and arguments; the prologue's results
 become live-ins of the region, its calls are not replayed, and any mismatch,
@@ -877,7 +877,7 @@ replay executes the same calls and differs only in guards that never fired on
 in-distribution held-out records; on issue-type routing the compiler refused
 the three-read candidate, so its price was measured live under the
 pre-registered protocol
-(\code{paper/supplementary/recurrence-only-ablation-protocol.md}). A
+(\path{paper/supplementary/recurrence-only-ablation-protocol.md}). A
 barrier-free replay of the refused three-read region --- no provenance check,
 guard, verifier, gate, or position check --- handed to one provider request on
 the same sealed 30 records passed 30/30 exact contracts with one request per
@@ -915,7 +915,7 @@ behavior under shift, which the drift protocol below is written to test.
 
 \paragraph{A second model family on the same cohorts.}
 Every headline number comes from one model, so a pre-registered transfer
-(\code{paper/supplementary/second-model-replication-protocol.md}) reran the
+(\path{paper/supplementary/second-model-replication-protocol.md}) reran the
 three primary families on \code{gpt-6-luna}, a different model generation at
 the same efficiency tier, keeping the sealed discovery traces, splits, and 90
 held-out records and recompiling each artifact provider-free under a manifest
@@ -935,7 +935,7 @@ model (\cref{tab:second-model}). We read the miss as the case the manifest pin
 exists for: the certificate is conditional on the pinned model, these artifacts
 were never calibrated on \code{gpt-6-luna}, and one compiled-only miss in 90 is
 what an uncertified transfer looks like. Re-discovery on the second model
-(design A, \code{paper/supplementary/second-model-rediscovery-protocol.md})
+(design A, \path{paper/supplementary/second-model-rediscovery-protocol.md})
 then ran the whole pipeline on \code{gpt-6-luna}'s own traces over the same
 sealed records. Issue-type routing reached 128/132 exact discovery traces and
 PR-outcome 132/132; the compiler admitted the identical artifacts (same ids and
@@ -953,7 +953,7 @@ and makes no cross-model certificate claim.
 \paragraph{A second provider on the same cohorts.} The same design ran on
 Anthropic's \code{claude-sonnet-5} through the official SDK, with the
 unchanged Agents-SDK harness behind a provider adapter
-(\code{paper/supplementary/second-provider-replication-protocol.md}): adaptive
+(\path{paper/supplementary/second-provider-replication-protocol.md}): adaptive
 thinking at effort \code{low}, parallel tool calls disabled, and the same
 prompts, tools, structured answers, grader, and compiler settings. Discovery
 reached 126, 128, and 116 exact traces of 132. Issue-type and PR-outcome
@@ -1008,7 +1008,7 @@ token reductions of the same order on a comparable workload by an entirely
 different mechanism~\citep{headroom2026}. A live Headroom v0.5.18 ablation adds
 \code{headroom\_only}/\code{compiled\_headroom} arms to the PR-outcome and
 backlog-attention families on the existing 30-record held-out cohort
-(\code{paper/supplementary/headroom-ablation-protocol.md}). Headroom attempted
+(\path{paper/supplementary/headroom-ablation-protocol.md}). Headroom attempted
 every eligible JSON tool result and pre-model evidence object and applied
 \emph{none} of them, saving zero tokens in either family, with all four paired
 quality contrasts holding 30/30 at exact $p{=}1$. This is a null engagement at
@@ -1027,11 +1027,11 @@ The strongest standing objection is that a hand-written program reaches the same
 three-arm design isolates the \emph{induced verifier} from the \emph{program} by
 pairing the compiled artifact with a permissive no-op verifier and testing both
 against the hand-written program under the nine-family metamorphic perturbation
-suite already implemented in \code{evaluation/perturb.py} (reordering,
+suite already implemented in \path{evaluation/perturb.py} (reordering,
 duplication, formatting, empty/null fields, schema drift, tool errors and
 timeouts), asking whether the compiled artifact abstains where an unverified
 program would answer silently
-(\code{paper/supplementary/drift-robustness-ablation-protocol.md}). Status:
+(\path{paper/supplementary/drift-robustness-ablation-protocol.md}). Status:
 pre-registered on the deterministic demonstration substrate, not executed; no
 result from it is reported here.
 
@@ -1085,7 +1085,7 @@ especially once a downstream model continuation is involved. Two operational
 caveats of the reported runs have since been closed provider-free: the three
 primary artifacts were compiled with the perturbation suite disabled and
 registry signature verification off, and a recompilation from the sealed
-discovery checkpoints (\code{paper/scripts/recompile\_with\_challenge.py})
+discovery checkpoints (\path{paper/scripts/recompile_with_challenge.py})
 reproduces the identical programs, splits, artifact identifiers, and 92/0 gates
 with the suite enabled through a sandbox over the pinned snapshot; all nine
 perturbation families (reordering, duplicates, large and empty collections,
@@ -1095,13 +1095,13 @@ rejects, so each record now carries \code{perturbations\_claimed: true}. The
 same recompilation registers each artifact under an HMAC-SHA256 signing key,
 reloads it with verification on, and confirms that wrong-key, tampered, and the
 original unsigned registries are refused
-(\code{paper/results/iclr\_revision/recompile\_with\_challenge.json}); no
+(\path{paper/results/iclr_revision/recompile_with_challenge.json}); no
 reported number changes.
 
 \section{Prospective Gate-Frontier Protocol}
 \label{app:prospective}
 
-\code{paper/supplementary/prospective-gate-frontier-protocol.md} pre-registers
+\path{paper/supplementary/prospective-gate-frontier-protocol.md} pre-registers
 the experiment that could turn \cref{sec:discussion}'s step-like gate into a
 genuine risk--coverage frontier. \textbf{Status: PRE-REGISTERED, THEN PARTIALLY
 EXECUTED.} The design below was committed before any repository or provider had
@@ -1111,7 +1111,7 @@ repositories, reported at the end of this section without changing anything
 committed here.
 
 \textbf{Cohort.} At least three repositories or domains, extending the
-provider-free \code{github\_multirepo\_preflight.py} harness, with at least 300
+provider-free \path{github_multirepo_preflight.py} harness, with at least 300
 sealed held-out paired cases (zero compiled-only failures in 300 gives a
 one-sided 95\% upper bound near 1\%, well below the current small-cohort
 bounds), reported pooled and per-repository. \textbf{Compilation} freezes
@@ -1236,7 +1236,7 @@ fourth listed outcome: neither gate produces graded coverage. We report it as a
 null about the design, not as evidence about $q$: the study audits
 support-threshold behavior at full coverage under two risk budgets and does not
 test the ranking quality of $q$. The protocol that could
-(\code{paper/supplementary/graded-frontier-protocol.md}) needs
+(\path{paper/supplementary/graded-frontier-protocol.md}) needs
 $|\mathcal{K}|\ge\lceil 92/c\rceil$ groups per repository and an entry state
 with informative features; it is written and not run.
 
