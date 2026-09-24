@@ -34,13 +34,16 @@ certificate is compiler-wide for issue-type routing, where one candidate
 reached calibration, and per-candidate for PR-outcome and backlog routing,
 where two did; correcting for both gives $U=0.0569$, above $\alpha$, so those
 two are certified compiler-wide only at $\alpha\ge0.057$ (\cref{cor:frozen},
-\cref{tab:multiplicity-accounting} in \cref{app:config}).
+\cref{tab:multiplicity-accounting} in \cref{app:config}). A pre-registered
+rerun on \code{gpt-6-luna}, same cohorts and recompiled artifacts, keeps the
+structure (66.6\% fewer requests, 30/30 dispatch per family) with one
+compiled-only miss in 90 (\cref{app:limits}).
 
-Hand-written programs also reach 90/90. \Cref{tab:manual-resources} prices them
-on the same axes: they tie on requests, issue fewer interfaces, are marginally
-cheaper in tokens and dollars, and lose only on latency.
-We claim discovery and admission, not runtime dominance over hand-written
-code.
+Discovery reaches the manual ceiling: programs written with full knowledge of
+the workflow also reach 90/90 and, priced on the same axes
+(\cref{tab:manual-resources}), tie on requests, issue fewer interfaces, are
+marginally cheaper in tokens and dollars, and lose only on latency. We claim
+discovery and admission, not runtime dominance over hand-written code.
 
 \subsection{Time-forward transfer: compile or retire}
 \label{sec:res-multirepo}
@@ -56,9 +59,8 @@ held-out records: every open-class record abstained on the induced verifier's
 and ran the unchanged agent, so requests fall 44.4\% overall (66.7\% on
 dispatched records) and tokens 52.4\%. A balanced three-repository rerun, with all three
 classes in discovery, dispatches on 180/180 and reaches 180/180 exact pairs at 66.7\% fewer requests and 78.4\% fewer tokens
-(\cref{tab:multirepo-disaggregated} in \cref{app:breadth}). A fixed two-read template is more
-efficient in the core protocol and essentially tied in the rerun: evidence of
-discovery and principled retirement, not of runtime dominance.
+(\cref{tab:multirepo-disaggregated} in \cref{app:breadth}). A fixed two-read
+template is more efficient in the core protocol and tied in the rerun.
 
 \subsection{What binds: sample size, then deployability}
 \label{sec:res-refusal}
@@ -79,8 +81,8 @@ discovery and principled retirement, not of runtime dominance.
 
 The external substrates isolate the binding constraint (\cref{tab:funnel}). All
 four clear provenance, synthesis, and replay with \emph{no} wrong execution,
-then NESTFUL, API-Bank, and executed BFCL gold plans retire --- each settled
-arithmetically before the compiler ran, which is why a fourth was needed. AppWorld's gold solutions reach $n_{\max}=136$, making it the first
+then NESTFUL, API-Bank, and executed BFCL gold plans retire, each settled
+arithmetically before the compiler ran. AppWorld's gold solutions reach $n_{\max}=136$, making it the first
 external corpus where \cref{eq:cp} is satisfiable, and it admits one artifact at
 92/92 zero-violation groups ($U_{\hat\eta}=0.0498$) with 11/11 exact replay on
 its sealed admission split, under both pre-registered effect arms. Two features
@@ -94,5 +96,4 @@ runs. Over 8{,}190 trajectories it is structurally eligible at the entry boundar
 $37.9\%$, and the architecture explains the spread (\cref{tab:appworld-dispatch} in \cref{app:external}):
 full-code agents are eligible almost always, ReAct and plan-and-execute almost
 never, because they open by reading API documentation and the prefix leaves
-position~0. Trajectories repeat tasks across the 28 runs, so they are descriptive units,
-not independent samples, and the measurement bounds $\varphi$ from above.
+position~0; the measurement bounds $\varphi$ from above.

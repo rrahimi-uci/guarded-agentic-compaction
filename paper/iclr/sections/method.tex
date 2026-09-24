@@ -58,8 +58,7 @@ The miner enumerates model-boundary-to-result windows of at most $w_{\max}$ tool
 calls, qualifies live-ins and effects against a human-signed rather than
 inferred catalog, and hashes tool signatures, dependency topology, run shape,
 and live-in/live-out shape while abstracting literals. Families require support
-across independent scenario \emph{groups}, not raw event frequency, so one
-chatty scenario cannot manufacture recurrence. Survivors are ranked by an
+across independent scenario \emph{groups}, not raw event frequency. Survivors are ranked by an
 MDL-inspired trade-off that pays for expected savings and charges
 for heterogeneity, effect exposure, and program size:
 \begin{equation}
@@ -87,19 +86,19 @@ with a perfect verifier and a gate that never abstains:
 with $n_B$ baseline model requests per episode, $\varphi$ the fraction of
 episodes holding an eligible region, $k$ the requests removed per successful
 dispatch, and $\rho$ the verifier pass rate. Stage~3 runs before synthesis, so
-no verifier exists and it evaluates only the left form, which fixes $\rho=1$;
-the right form is what the workload must meet once $V$ is induced. Since
-$\rho\le 1$, no measured reduction exceeds $\Delta_{\max}$, so a workload under
-target is declined before a compiler is built for it.
+it evaluates only the left form ($\rho=1$); the right form is what the workload
+must meet once $V$ is induced, and since $\rho\le 1$ no measured reduction
+exceeds $\Delta_{\max}$, so a workload under target is declined before a
+compiler is built for it.
 
 \paragraph{4--5. Bounded synthesis and contracts.}
 Synthesis searches the 23-operator library of \cref{tab:dsl} at depth at most
 two; bindings are ranked by cross-group stability, and a group-wise refit
 rejects bindings exploiting row-level coincidence. The hypothesis space is
-deliberately small enough to read --- the approach resembles
+small enough to read, in the spirit of
 programming-by-example~\citep{gulwani2011flashfill} and bounded
-sketching~\citep{solarlezama2006sketching} --- and it does \emph{not} generate
-arbitrary Python. Hard guards then constrain entry types, required fields,
+sketching~\citep{solarlezama2006sketching}, and never generates arbitrary
+Python. Hard guards then constrain entry types, required fields,
 categorical sets, numeric intervals, patterns, isolation keys, allowed effects,
 and manifest pins; verifiers constrain live-out presence, type, cardinality,
 empirical hulls, provenance, effect multisets, and call counts. These are
@@ -112,7 +111,7 @@ entry-observable features --- missing fields, hull margin, temporal drift, and
 provenance ambiguity --- fitted by regularized maximum likelihood on \emph{dev}
 groups only, never on calibration groups, then frozen together with the finite
 threshold grid
-$\Lambda=\{0.02,0.05,0.08,0.11,0.14,0.17,0.20,0.25,0.30,0.40,0.50\}$. Two data signals do different jobs. $q$ is \emph{fitted} to predict an
+$\Lambda=\{0.02,0.05,0.08,0.11,0.14,0.17,0.20,0.25,0.30,0.40,0.50\}$. $q$ is \emph{fitted} to predict an
 \emph{unproductive} dev group --- guard rejection, abstention, or manifest
 mismatch --- never a wrong execution, since \textsc{ReplayAndChallenge} already
 retired those; the bound below is \emph{counted} only on dispatched groups that
@@ -163,5 +162,4 @@ conditional on i.i.d.\ groups, which the cohorts assume rather than establish
 (\cref{sec:discussion}). Conditional on train and development data the number
 $m$ of candidates reaching calibration is fixed, so a run is compiler-wide when
 $m=1$ (\cref{cor:frozen}) or when $\gamma$ is divided by $m$; \cref{app:config}
-reports $m$ and both bounds for every artifact. Guarded deployment requires an
-explicit evidence boundary, not just a recurrent trace and a successful replay.
+reports $m$ and both bounds for every artifact.

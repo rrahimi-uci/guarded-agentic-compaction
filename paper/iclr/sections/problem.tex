@@ -38,8 +38,8 @@ the compiler also imposes a \emph{position invariant}:
 \end{equation}
 A suffix program dispatched at entry can reorder or duplicate calls the agent
 has already made; a pilot that violated \cref{eq:prefix} produced exactly that
-fault (\cref{app:pilot}). Everything that follows is therefore an \emph{initial read-only prefix} compiler, not the arbitrary-entry trace compiler a JIT is;
-\cref{sec:res-refusal} prices what that costs.
+fault (\cref{app:pilot}). Everything that follows is therefore an \emph{initial
+read-only prefix} compiler; \cref{sec:res-refusal} prices what that costs.
 
 \paragraph{Selective optimization objective.}
 The compiler emits an artifact $A=(P,H,V,q,\eta,M)$: a deterministic program,
@@ -71,8 +71,8 @@ d_A(x_i)L(A,x_i)$. We seek
   \label{eq:objective}
 \end{equation}
 Both halves take the same group measure $\mathcal{D}_{\mathrm{grp}}$, summing
-within a group so that objective and constraint weight groups alike. Three
-properties shape everything that follows. \emph{First}, the constraint
+within a group so that objective and constraint weight groups alike.
+\emph{First}, the constraint
 conditions on dispatch: abstention does not enter its denominator, although it
 earns no savings in the objective; by convention its conditional risk is zero
 when population dispatch probability is zero. \emph{Second}, returning \emph{no}

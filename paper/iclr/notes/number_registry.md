@@ -45,3 +45,5 @@ years, equation constants, and grid values are omitted. `stats:` means
 | 23, κ = 3, depth 2, |Λ| = 11, α = 0.05, δ = 0.1 | configuration | `compiler.config`; Table 3 | validate_claim_boundaries |
 
 Rows marked "not pinned" are candidates for the next validator extension.
+| 30/30, 1.00, 1,167, 2.67, 0.038 | recurrence-only replay on issue-type routing: exact, requests, tokens, latency (s), cost (¢) per record; retained arms 4.00/2.00/2.00 requests | `recurrence_only_ablation/results.json` `per_field_exact`, `aggregate`; `tables/recurrence_only.tex` | `validate_live_extensions` (table regenerates) |
+| 630, 0 | compiled held-out episodes on the calibrated model across the four live studies (90 primary + 120 core + 180 balanced + 240 gate-frontier learned gate) and compiled-only contract failures among them | per-record `results[]` of `github_natural_replication`, `github_workflow_families/*/final`, `github_multirepo_pr_outcome_{core,balanced}/repos/*`, `github_multirepo_gate_frontier/repos/*` | `validate_live_extensions` |

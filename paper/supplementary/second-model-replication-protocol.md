@@ -1,8 +1,9 @@
 # Second-model replication protocol (three primary families)
 
-**Status: PRE-REGISTERED on 2026-09-24. Not run.** No provider call has been made under this
-document. It fixes the model, design, cohorts, arms, endpoints, and decision rule before any
-spend. Provider-free preflights are committed beside it; they record zero provider calls.
+**Status: PRE-REGISTERED on 2026-09-24 (commit 780b98e); EXECUTED the same day** (observed
+results at the end of this document). The design below is unchanged from the pre-registration;
+it fixed the model, design, cohorts, arms, endpoints, and decision rule before any spend, and
+the provider-free preflights committed with it record zero provider calls.
 
 ## Why
 
@@ -95,3 +96,30 @@ transfer, in which case "one provider/model family" in §7 is replaced by the me
 Same records, same discovery traces, same splits; a second model family on the same cohorts.
 It does not measure a second provider, a second repository snapshot, or re-discovery on the
 second model, and it does not establish generality across models.
+
+## Observed results (executed 2026-09-24T12:18–12:34Z)
+
+`gpt-6-luna` was available; no fallback was used. All 270 episodes completed with no retries;
+estimated spend $0.026 (issue-type), $0.014 (PR-outcome), $0.015 (backlog). Provider-free
+recompilation reproduced every retained artifact under the new pin (issue-type
+`cand-01-1ebb8b2849c7`, PR-outcome `cand-00-a1de3856bb6c`, backlog `cand-00-99f1b041ed7c`;
+identical programs and 92/0 gates, U = 0.0498).
+
+**Decision-rule row 2 applies and is reported first.** Issue-type routing had one compiled-only
+failure: record 6532, where the compiled arm's excerpt read "HF datasets to provide options …"
+against the source's "HF dataset to provide options …"; the baseline and macro arms passed it. A
+second issue-type record (3859) failed in both baseline and compiled arms (the model normalized
+the source's CRLF line endings inside the excerpt), and backlog record 2648 failed in the
+baseline arm only. All three are model-side excerpt-fidelity errors on identical evidence; the
+retained `gpt-5.6-luna` arms pass all three records. Exact contracts: issue-type 29/28/30,
+PR-outcome 30/30/30, backlog 29/30/30 (baseline/compiled/manual); pooled 88/90, 88/90, 90/90.
+
+H-M2 holds: provider requests per record were identical to the `gpt-5.6-luna` run in every arm
+(pooled requests reduction 66.6% on both models). H-M3 holds: the compiled artifact dispatched
+on 30/30 held-out records in every family. Pooled reductions against the same-model baseline:
+requests 66.6%, tokens 63.0%, wall latency 59.5%, estimated cost 60.1% (calibrated model: 66.6,
+63.1, 64.2, 58.7). Reading: the transfer keeps the structure and produces the paper's only
+compiled-only miss, on an artifact never calibrated on the second model; the paper keeps its
+one-calibrated-model claim, reports the transfer in Appendix G, §5.1, and §7, and does not
+claim a cross-model certificate. Table: `paper/iclr/tables/second_model.tex`; summary:
+`paper/results/second_model_replication/summary.json`.

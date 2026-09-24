@@ -1,0 +1,6497 @@
+{
+  "aggregate": {
+    "baseline": {
+      "category_accuracy": 1,
+      "estimated_cost_usd": 0.01140677,
+      "factuality_exact_rate": 0.9666666666666667,
+      "input_tokens": 119066,
+      "n": 30,
+      "output_tokens": 4443,
+      "provider_requests": 120,
+      "success_rate": 0.9666666666666667,
+      "tool_contract_rate": 1,
+      "wall_latency_ms": 185166.878
+    },
+    "compiled": {
+      "category_accuracy": 1,
+      "estimated_cost_usd": 0.00764592,
+      "factuality_exact_rate": 0.9333333333333333,
+      "input_tokens": 71768,
+      "n": 30,
+      "output_tokens": 3288,
+      "provider_requests": 60,
+      "success_rate": 0.9333333333333333,
+      "tool_contract_rate": 1,
+      "wall_latency_ms": 98401.439
+    },
+    "macro": {
+      "category_accuracy": 1,
+      "estimated_cost_usd": 0.00712223,
+      "factuality_exact_rate": 1,
+      "input_tokens": 48835,
+      "n": 30,
+      "output_tokens": 3241,
+      "provider_requests": 60,
+      "success_rate": 1,
+      "tool_contract_rate": 1,
+      "wall_latency_ms": 84561.009
+    }
+  },
+  "attempts": [],
+  "comparisons": {
+    "baseline_vs_compiled": {
+      "candidate_label": "compiled",
+      "metrics": {
+        "estimated_cost_usd": {
+          "aggregate_reduction": 0.3297033253059368,
+          "baseline_mean": 0.0003802256666666667,
+          "compiled_mean": 0.000254864,
+          "paired_difference_95pct_bootstrap_ci": [
+            -0.00013982593333333333,
+            -0.00011035930833333334
+          ],
+          "paired_difference_compiled_minus_baseline": -0.00012536166666666666,
+          "wilcoxon_p": 1.862645149230957e-09
+        },
+        "input_tokens": {
+          "aggregate_reduction": 0.3972418658559118,
+          "baseline_mean": 3968.866666666667,
+          "compiled_mean": 2392.266666666667,
+          "paired_difference_95pct_bootstrap_ci": [
+            -1672.8341666666665,
+            -1483.9991666666667
+          ],
+          "paired_difference_compiled_minus_baseline": -1576.6,
+          "wilcoxon_p": 1.862645149230957e-09
+        },
+        "output_tokens": {
+          "aggregate_reduction": 0.2599594868332208,
+          "baseline_mean": 148.1,
+          "compiled_mean": 109.6,
+          "paired_difference_95pct_bootstrap_ci": [
+            -45.36666666666667,
+            -31.533333333333335
+          ],
+          "paired_difference_compiled_minus_baseline": -38.5,
+          "wilcoxon_p": 2.29642872156785e-06
+        },
+        "provider_response_latency_ms": {
+          "aggregate_reduction": 0.4690197441860783,
+          "baseline_mean": 6161.126766666666,
+          "compiled_mean": 3271.4366666666665,
+          "paired_difference_95pct_bootstrap_ci": [
+            -3406.954615,
+            -2471.851124166667
+          ],
+          "paired_difference_compiled_minus_baseline": -2889.6901,
+          "wilcoxon_p": 1.862645149230957e-09
+        },
+        "requests": {
+          "aggregate_reduction": 0.5,
+          "baseline_mean": 4.0,
+          "compiled_mean": 2.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            -2.0,
+            -2.0
+          ],
+          "paired_difference_compiled_minus_baseline": -2.0,
+          "wilcoxon_p": 4.3204630578274876e-08
+        },
+        "tool_calls": {
+          "aggregate_reduction": 0.0,
+          "baseline_mean": 3.0,
+          "compiled_mean": 3.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            0.0,
+            0.0
+          ],
+          "paired_difference_compiled_minus_baseline": 0.0,
+          "wilcoxon_p": 1.0
+        },
+        "total_tokens": {
+          "aggregate_reduction": 0.3923033948942992,
+          "baseline_mean": 4116.966666666666,
+          "compiled_mean": 2501.866666666667,
+          "paired_difference_95pct_bootstrap_ci": [
+            -1711.5008333333333,
+            -1521.8991666666668
+          ],
+          "paired_difference_compiled_minus_baseline": -1615.1,
+          "wilcoxon_p": 1.7333066441991056e-06
+        },
+        "wall_latency_ms": {
+          "aggregate_reduction": 0.468579693826236,
+          "baseline_mean": 6172.229266666666,
+          "compiled_mean": 3280.0479666666665,
+          "paired_difference_95pct_bootstrap_ci": [
+            -3409.8820483333334,
+            -2474.046694166667
+          ],
+          "paired_difference_compiled_minus_baseline": -2892.1813,
+          "wilcoxon_p": 1.862645149230957e-09
+        }
+      },
+      "n_pairs": 30,
+      "quality": {
+        "category_correct": {
+          "baseline_only_successes": 0,
+          "baseline_rate": 1,
+          "compiled_only_successes": 0,
+          "compiled_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        },
+        "evidence_label_correct": {
+          "baseline_only_successes": 0,
+          "baseline_rate": 1,
+          "compiled_only_successes": 0,
+          "compiled_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        },
+        "factuality_exact": {
+          "baseline_only_successes": 1,
+          "baseline_rate": 0.9666666666666667,
+          "compiled_only_successes": 0,
+          "compiled_rate": 0.9333333333333333,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": -0.033333333333333326
+        },
+        "overall": {
+          "baseline_only_successes": 1,
+          "baseline_rate": 0.9666666666666667,
+          "compiled_only_successes": 0,
+          "compiled_rate": 0.9333333333333333,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": -0.033333333333333326
+        },
+        "tool_contract": {
+          "baseline_only_successes": 0,
+          "baseline_rate": 1,
+          "compiled_only_successes": 0,
+          "compiled_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        }
+      }
+    },
+    "baseline_vs_macro": {
+      "candidate_label": "macro",
+      "metrics": {
+        "estimated_cost_usd": {
+          "aggregate_reduction": 0.37561378023752556,
+          "baseline_mean": 0.0003802256666666667,
+          "macro_mean": 0.00023740766666666667,
+          "paired_difference_95pct_bootstrap_ci": [
+            -0.00016806354166666666,
+            -0.00011734306666666667
+          ],
+          "paired_difference_macro_minus_baseline": -0.00014281800000000001,
+          "wilcoxon_p": 1.862645149230957e-09
+        },
+        "input_tokens": {
+          "aggregate_reduction": 0.5898493272638705,
+          "baseline_mean": 3968.866666666667,
+          "macro_mean": 1627.8333333333333,
+          "paired_difference_95pct_bootstrap_ci": [
+            -2521.4733333333334,
+            -2167.1275
+          ],
+          "paired_difference_macro_minus_baseline": -2341.0333333333333,
+          "wilcoxon_p": 1.862645149230957e-09
+        },
+        "output_tokens": {
+          "aggregate_reduction": 0.27053792482556827,
+          "baseline_mean": 148.1,
+          "macro_mean": 108.03333333333333,
+          "paired_difference_95pct_bootstrap_ci": [
+            -47.5,
+            -32.2
+          ],
+          "paired_difference_macro_minus_baseline": -40.06666666666667,
+          "wilcoxon_p": 3.38789286388621e-06
+        },
+        "provider_response_latency_ms": {
+          "aggregate_reduction": 0.5433719177438556,
+          "baseline_mean": 6161.126766666666,
+          "macro_mean": 2813.3435,
+          "paired_difference_95pct_bootstrap_ci": [
+            -3966.712876666667,
+            -2762.3809783333336
+          ],
+          "paired_difference_macro_minus_baseline": -3347.7832666666663,
+          "wilcoxon_p": 3.725290298461914e-09
+        },
+        "requests": {
+          "aggregate_reduction": 0.5,
+          "baseline_mean": 4.0,
+          "macro_mean": 2.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            -2.0,
+            -2.0
+          ],
+          "paired_difference_macro_minus_baseline": -2.0,
+          "wilcoxon_p": 4.3204630578274876e-08
+        },
+        "tool_calls": {
+          "aggregate_reduction": 0.6666666666666667,
+          "baseline_mean": 3.0,
+          "macro_mean": 1.0,
+          "paired_difference_95pct_bootstrap_ci": [
+            -2.0,
+            -2.0
+          ],
+          "paired_difference_macro_minus_baseline": -2.0,
+          "wilcoxon_p": 4.3204630578274876e-08
+        },
+        "total_tokens": {
+          "aggregate_reduction": 0.5783627104097677,
+          "baseline_mean": 4116.966666666666,
+          "macro_mean": 1735.8666666666666,
+          "paired_difference_95pct_bootstrap_ci": [
+            -2564.3025000000002,
+            -2205.1641666666665
+          ],
+          "paired_difference_macro_minus_baseline": -2381.1,
+          "wilcoxon_p": 1.7333066441991056e-06
+        },
+        "wall_latency_ms": {
+          "aggregate_reduction": 0.5433254050975574,
+          "baseline_mean": 6172.229266666666,
+          "macro_mean": 2818.7003,
+          "paired_difference_95pct_bootstrap_ci": [
+            -3972.629873333334,
+            -2767.747819166667
+          ],
+          "paired_difference_macro_minus_baseline": -3353.5289666666667,
+          "wilcoxon_p": 3.725290298461914e-09
+        }
+      },
+      "n_pairs": 30,
+      "quality": {
+        "category_correct": {
+          "baseline_only_successes": 0,
+          "baseline_rate": 1,
+          "macro_only_successes": 0,
+          "macro_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        },
+        "evidence_label_correct": {
+          "baseline_only_successes": 0,
+          "baseline_rate": 1,
+          "macro_only_successes": 0,
+          "macro_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        },
+        "factuality_exact": {
+          "baseline_only_successes": 0,
+          "baseline_rate": 0.9666666666666667,
+          "macro_only_successes": 1,
+          "macro_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0.033333333333333326
+        },
+        "overall": {
+          "baseline_only_successes": 0,
+          "baseline_rate": 0.9666666666666667,
+          "macro_only_successes": 1,
+          "macro_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0.033333333333333326
+        },
+        "tool_contract": {
+          "baseline_only_successes": 0,
+          "baseline_rate": 1,
+          "macro_only_successes": 0,
+          "macro_rate": 1,
+          "mcnemar_exact_p": 1.0,
+          "paired_difference": 0
+        }
+      }
+    }
+  },
+  "condition_order": {
+    "assignments": {
+      "1514": [
+        "baseline",
+        "compiled",
+        "macro"
+      ],
+      "1906": [
+        "macro",
+        "baseline",
+        "compiled"
+      ],
+      "2108": [
+        "macro",
+        "compiled",
+        "baseline"
+      ],
+      "2187": [
+        "baseline",
+        "compiled",
+        "macro"
+      ],
+      "2196": [
+        "baseline",
+        "macro",
+        "compiled"
+      ],
+      "2256": [
+        "baseline",
+        "macro",
+        "compiled"
+      ],
+      "2402": [
+        "baseline",
+        "macro",
+        "compiled"
+      ],
+      "2481": [
+        "baseline",
+        "macro",
+        "compiled"
+      ],
+      "3013": [
+        "compiled",
+        "baseline",
+        "macro"
+      ],
+      "302": [
+        "macro",
+        "baseline",
+        "compiled"
+      ],
+      "3122": [
+        "macro",
+        "compiled",
+        "baseline"
+      ],
+      "3632": [
+        "baseline",
+        "compiled",
+        "macro"
+      ],
+      "3829": [
+        "baseline",
+        "compiled",
+        "macro"
+      ],
+      "3854": [
+        "baseline",
+        "macro",
+        "compiled"
+      ],
+      "3859": [
+        "compiled",
+        "macro",
+        "baseline"
+      ],
+      "3881": [
+        "macro",
+        "compiled",
+        "baseline"
+      ],
+      "4134": [
+        "macro",
+        "baseline",
+        "compiled"
+      ],
+      "4221": [
+        "compiled",
+        "macro",
+        "baseline"
+      ],
+      "4248": [
+        "compiled",
+        "baseline",
+        "macro"
+      ],
+      "4417": [
+        "baseline",
+        "compiled",
+        "macro"
+      ],
+      "4420": [
+        "compiled",
+        "macro",
+        "baseline"
+      ],
+      "4549": [
+        "compiled",
+        "macro",
+        "baseline"
+      ],
+      "5514": [
+        "compiled",
+        "baseline",
+        "macro"
+      ],
+      "6059": [
+        "macro",
+        "compiled",
+        "baseline"
+      ],
+      "6150": [
+        "macro",
+        "baseline",
+        "compiled"
+      ],
+      "6202": [
+        "compiled",
+        "baseline",
+        "macro"
+      ],
+      "6532": [
+        "compiled",
+        "macro",
+        "baseline"
+      ],
+      "6829": [
+        "compiled",
+        "baseline",
+        "macro"
+      ],
+      "7020": [
+        "macro",
+        "compiled",
+        "baseline"
+      ],
+      "7093": [
+        "macro",
+        "baseline",
+        "compiled"
+      ]
+    },
+    "method": "retained balanced six-permutation Latin order"
+  },
+  "dispatch": {
+    "compiled_compacted": 30
+  },
+  "intention_to_treat": {
+    "baseline": {
+      "attempted": 30,
+      "completed": 30
+    },
+    "compiled": {
+      "attempted": 30,
+      "completed": 30
+    },
+    "macro": {
+      "attempted": 30,
+      "completed": 30
+    }
+  },
+  "results": [
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 0,
+        "evidence_excerpt": "When trying to cast a list array to fixed size list, an AttributeError is raised:",
+        "evidence_label": "bug",
+        "issue_number": 7020,
+        "state": "closed",
+        "title": "Casting list array to fixed size list raises error"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:a98512c25d3524c5f9228cf44953eaab",
+      "issue_number": 7020,
+      "metrics": {
+        "cache_write_tokens": 1054,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00022465,
+        "handoffs": 0,
+        "input_tokens": 1533,
+        "output_tokens": 90,
+        "provider_response_latency_ms": 4032.231,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1623,
+        "wall_latency_ms": 4041.829
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 7020
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_acd8e660e32b5abbb17a9c6bac1ec5b1"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 0,
+        "evidence_excerpt": "When trying to cast a list array to fixed size list, an AttributeError is raised:",
+        "evidence_label": "bug",
+        "issue_number": 7020,
+        "state": "closed",
+        "title": "Casting list array to fixed size list raises error"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.17,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:f48d120fedaf31c01986e5c1dcb4f8d3",
+      "issue_number": 7020,
+      "metrics": {
+        "cache_write_tokens": 1255,
+        "cached_input_tokens": 1178,
+        "estimated_cost_usd": 0.00021625,
+        "handoffs": 0,
+        "input_tokens": 2439,
+        "output_tokens": 94,
+        "provider_response_latency_ms": 3067.077,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 2533,
+        "wall_latency_ms": 3075.965
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 7020
+        },
+        {
+          "issue_number": 7020
+        },
+        {
+          "issue_number": 7020,
+          "limit": 1
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_ee6c8434a20f81cfb72ac2d52c686699"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 0,
+        "evidence_excerpt": "When trying to cast a list array to fixed size list, an AttributeError is raised:",
+        "evidence_label": "bug",
+        "issue_number": 7020,
+        "state": "closed",
+        "title": "Casting list array to fixed size list raises error"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:9d8d537d5a53ce5c2f0fe8d5f6e7b8c3",
+      "issue_number": 7020,
+      "metrics": {
+        "cache_write_tokens": 1255,
+        "cached_input_tokens": 2290,
+        "estimated_cost_usd": 0.00030438,
+        "handoffs": 0,
+        "input_tokens": 4111,
+        "output_tokens": 136,
+        "provider_response_latency_ms": 4848.95,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 4247,
+        "wall_latency_ms": 4859.033
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 7020
+        },
+        {
+          "issue_number": 7020
+        },
+        {
+          "issue_number": 7020,
+          "limit": 1
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_b35380528dd2da1b40cd97554c1be33f"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 6,
+        "evidence_excerpt": "Metric evaluation fails in multi-node within a shared file system, because the master process cannot find the lock files from other nodes.",
+        "evidence_label": "bug",
+        "issue_number": 4420,
+        "state": "closed",
+        "title": "Metric evaluation problems in multi-node, shared file system"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.12,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:f3ae207056644a1993a4ff00f68d3609",
+      "issue_number": 4420,
+      "metrics": {
+        "cache_write_tokens": 1956,
+        "cached_input_tokens": 1427,
+        "estimated_cost_usd": 0.00031037,
+        "handoffs": 0,
+        "input_tokens": 3389,
+        "output_tokens": 102,
+        "provider_response_latency_ms": 2987.722,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 3491,
+        "wall_latency_ms": 2996.497
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 4420
+        },
+        {
+          "issue_number": 4420
+        },
+        {
+          "issue_number": 4420,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_172c6c072313ace000f11e82ef069214"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 6,
+        "evidence_excerpt": "Metric evaluation fails in multi-node within a shared file system, because the master process cannot find the lock files from other nodes.",
+        "evidence_label": "bug",
+        "issue_number": 4420,
+        "state": "closed",
+        "title": "Metric evaluation problems in multi-node, shared file system"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:a8e5c1b1e127526e3d8aa5eabe46f8a2",
+      "issue_number": 4420,
+      "metrics": {
+        "cache_write_tokens": 1755,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00031627,
+        "handoffs": 0,
+        "input_tokens": 2234,
+        "output_tokens": 98,
+        "provider_response_latency_ms": 3400.664,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2332,
+        "wall_latency_ms": 3406.086
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 4420
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_8bc2c22733fe5796e585b12f15d7c0db"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 6,
+        "evidence_excerpt": "Metric evaluation fails in multi-node within a shared file system, because the master process cannot find the lock files from other nodes.",
+        "evidence_label": "bug",
+        "issue_number": 4420,
+        "state": "closed",
+        "title": "Metric evaluation problems in multi-node, shared file system"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:3e0ef0c2eb37fd579f775fb9e2f69840",
+      "issue_number": 4420,
+      "metrics": {
+        "cache_write_tokens": 1956,
+        "cached_input_tokens": 2788,
+        "estimated_cost_usd": 0.00040098,
+        "handoffs": 0,
+        "input_tokens": 5310,
+        "output_tokens": 144,
+        "provider_response_latency_ms": 5505.34,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 5454,
+        "wall_latency_ms": 5518.544
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 4420
+        },
+        {
+          "issue_number": 4420
+        },
+        {
+          "issue_number": 4420,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_ae828520060648a9f70f718ade512320"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 2,
+        "evidence_excerpt": "FileNotFoundError when passing a data_file inside a directory starting with double underscores",
+        "evidence_label": "bug",
+        "issue_number": 4549,
+        "state": "closed",
+        "title": "FileNotFoundError when passing a data_file inside a directory starting with double underscores"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.15,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:8d84c998f1dfe80080cef0a4eba25a3c",
+      "issue_number": 4549,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0002246,
+        "handoffs": 0,
+        "input_tokens": 1751,
+        "output_tokens": 99,
+        "provider_response_latency_ms": 2872.98,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 1850,
+        "wall_latency_ms": 2882.225
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 4549
+        },
+        {
+          "issue_number": 4549
+        },
+        {
+          "issue_number": 4549,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_cbb3faf7b34005eb7911984ae720d8ee"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 2,
+        "evidence_excerpt": "Bug experienced in the `accelerate` CI: https://github.com/huggingface/accelerate/runs/7016055148?check_suite_focus=true",
+        "evidence_label": "bug",
+        "issue_number": 4549,
+        "state": "closed",
+        "title": "FileNotFoundError when passing a data_file inside a directory starting with double underscores"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:ff60349256203b193ba9b569af4419c9",
+      "issue_number": 4549,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0001764,
+        "handoffs": 0,
+        "input_tokens": 1204,
+        "output_tokens": 112,
+        "provider_response_latency_ms": 2334.748,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1316,
+        "wall_latency_ms": 2341.56
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 4549
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_824c5f88dde2f3c28c4d040a28e38cbb"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 2,
+        "evidence_excerpt": "Bug experienced in the `accelerate` CI: https://github.com/huggingface/accelerate/runs/7016055148?check_suite_focus=true",
+        "evidence_label": "bug",
+        "issue_number": 4549,
+        "state": "closed",
+        "title": "FileNotFoundError when passing a data_file inside a directory starting with double underscores"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:c44daf0fae25bfad298f3f308871db9e",
+      "issue_number": 4549,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0003854,
+        "handoffs": 0,
+        "input_tokens": 3064,
+        "output_tokens": 158,
+        "provider_response_latency_ms": 5203.59,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 3222,
+        "wall_latency_ms": 5214.958
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 4549
+        },
+        {
+          "issue_number": 4549
+        },
+        {
+          "issue_number": 4549,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_bed9dcd0fc0954ecf1a0a0db648c8195"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 2,
+        "evidence_excerpt": "Running `datase.map` with `num_proc > 1` uses a lot of memory",
+        "evidence_label": "bug",
+        "issue_number": 2256,
+        "state": "closed",
+        "title": "Running `datase.map` with `num_proc > 1` uses a lot of memory"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:ced2853575ddb18197dbff9849548d42",
+      "issue_number": 2256,
+      "metrics": {
+        "cache_write_tokens": 1302,
+        "cached_input_tokens": 2346,
+        "estimated_cost_usd": 0.00033131,
+        "handoffs": 0,
+        "input_tokens": 4214,
+        "output_tokens": 177,
+        "provider_response_latency_ms": 5037.015,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 4391,
+        "wall_latency_ms": 5047.798
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2256
+        },
+        {
+          "issue_number": 2256
+        },
+        {
+          "issue_number": 2256,
+          "limit": 1
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_658ae8a9beae234108ca722db63fd007"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 2,
+        "evidence_excerpt": "Running `datase.map` with `num_proc > 1`  leads to a tremendous memory usage that requires swapping on disk and it becomes very slow.",
+        "evidence_label": "bug",
+        "issue_number": 2256,
+        "state": "closed",
+        "title": "Running `datase.map` with `num_proc > 1` uses a lot of memory"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:58b3283cb321b70222cb36fbf9ef524c",
+      "issue_number": 2256,
+      "metrics": {
+        "cache_write_tokens": 1141,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00024753,
+        "handoffs": 0,
+        "input_tokens": 1620,
+        "output_tokens": 114,
+        "provider_response_latency_ms": 3966.064,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1734,
+        "wall_latency_ms": 3970.017
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2256
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_535e825f56d8e13cf774879be8d2363d"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 2,
+        "evidence_excerpt": "Running `datase.map` with `num_proc > 1`  leads to a tremendous memory usage that requires swapping on disk and it becomes very slow.",
+        "evidence_label": "bug",
+        "issue_number": 2256,
+        "state": "closed",
+        "title": "Running `datase.map` with `num_proc > 1` uses a lot of memory"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.15,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:8affebbae64b7e500c3a54933c3c5ec6",
+      "issue_number": 2256,
+      "metrics": {
+        "cache_write_tokens": 1302,
+        "cached_input_tokens": 1206,
+        "estimated_cost_usd": 0.00023441,
+        "handoffs": 0,
+        "input_tokens": 2514,
+        "output_tokens": 118,
+        "provider_response_latency_ms": 2606.573,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 2632,
+        "wall_latency_ms": 2615.596
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2256
+        },
+        {
+          "issue_number": 2256
+        },
+        {
+          "issue_number": 2256,
+          "limit": 1
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_4f14a4d7cda563f01a6717e8ba5bf35e"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 1,
+        "evidence_excerpt": "conll2003 dataset loads original data.",
+        "evidence_label": "bug",
+        "issue_number": 4248,
+        "state": "closed",
+        "title": "conll2003 dataset loads original data."
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.13,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:591e0e25aa6f9c5f79594a80108ded9a",
+      "issue_number": 4248,
+      "metrics": {
+        "cache_write_tokens": 2135,
+        "cached_input_tokens": 1746,
+        "estimated_cost_usd": 0.00032693,
+        "handoffs": 0,
+        "input_tokens": 3887,
+        "output_tokens": 84,
+        "provider_response_latency_ms": 3088.641,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 3971,
+        "wall_latency_ms": 3097.733
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 4248
+        },
+        {
+          "issue_number": 4248
+        },
+        {
+          "issue_number": 4248,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_5915735ca9c993ac628d77682c65c88f"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 1,
+        "evidence_excerpt": "## Describe the bug\r\nI load `conll2003` dataset to use refined data like",
+        "evidence_label": "bug",
+        "issue_number": 4248,
+        "state": "closed",
+        "title": "conll2003 dataset loads original data."
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:74368ccdb4c09e7b1b953bbeb63a114e",
+      "issue_number": 4248,
+      "metrics": {
+        "cache_write_tokens": 2135,
+        "cached_input_tokens": 3426,
+        "estimated_cost_usd": 0.00042624,
+        "handoffs": 0,
+        "input_tokens": 6127,
+        "output_tokens": 137,
+        "provider_response_latency_ms": 5821.713,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 6264,
+        "wall_latency_ms": 5832.761
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 4248
+        },
+        {
+          "issue_number": 4248
+        },
+        {
+          "issue_number": 4248,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_cca5f25d81d9a685e4baa78508fc8d67"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 1,
+        "evidence_excerpt": "conll2003 dataset loads original data.",
+        "evidence_label": "bug",
+        "issue_number": 4248,
+        "state": "closed",
+        "title": "conll2003 dataset loads original data."
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:9b87992441ed578b09cecaab4b30abfd",
+      "issue_number": 4248,
+      "metrics": {
+        "cache_write_tokens": 1934,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00032965,
+        "handoffs": 0,
+        "input_tokens": 2413,
+        "output_tokens": 80,
+        "provider_response_latency_ms": 2190.951,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2493,
+        "wall_latency_ms": 2196.24
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 4248
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_79979e5d31bf2478a53ba658eba4bbb6"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 0,
+        "evidence_excerpt": "Load and save from/to disk no longer accept pathlib.Path",
+        "evidence_label": "bug",
+        "issue_number": 6829,
+        "state": "open",
+        "title": "Load and save from/to disk no longer accept pathlib.Path"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.13,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:ee48f95138e1d2c4df84389aff8e9c5b",
+      "issue_number": 6829,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0002316,
+        "handoffs": 0,
+        "input_tokens": 1871,
+        "output_tokens": 89,
+        "provider_response_latency_ms": 2835.912,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 1960,
+        "wall_latency_ms": 2844.683
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6829
+        },
+        {
+          "issue_number": 6829
+        },
+        {
+          "issue_number": 6829,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_bd4a7ec44c96d76e655a90d21dca16cf"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 0,
+        "evidence_excerpt": "Load and save from/to disk no longer accept pathlib.Path",
+        "evidence_label": "bug",
+        "issue_number": 6829,
+        "state": "open",
+        "title": "Load and save from/to disk no longer accept pathlib.Path"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:fa2c2dec466930054861d00582fde9d4",
+      "issue_number": 6829,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0003914,
+        "handoffs": 0,
+        "input_tokens": 3259,
+        "output_tokens": 131,
+        "provider_response_latency_ms": 4766.8,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 3390,
+        "wall_latency_ms": 4778.354
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6829
+        },
+        {
+          "issue_number": 6829
+        },
+        {
+          "issue_number": 6829,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_3b7d698c6a2d0bc9073929e58065bb20"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 0,
+        "evidence_excerpt": "This change is breaking in \r\n> https://github.com/huggingface/datasets/blob/f96e74d5c633cd5435dd526adb4a74631eb05c43/src/datasets/arrow_dataset.py#L1515",
+        "evidence_label": "bug",
+        "issue_number": 6829,
+        "state": "open",
+        "title": "Load and save from/to disk no longer accept pathlib.Path"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:6c30e7658e238eb57372dc38f125fefd",
+      "issue_number": 6829,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0001884,
+        "handoffs": 0,
+        "input_tokens": 1249,
+        "output_tokens": 127,
+        "provider_response_latency_ms": 3761.238,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1376,
+        "wall_latency_ms": 3766.708
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6829
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_cede11e912223baa598463cb456cc2ab"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 2,
+        "evidence_excerpt": "The dataset links are no longer valid for CC-100.",
+        "evidence_label": "bug",
+        "issue_number": 3632,
+        "state": "closed",
+        "title": "Adding CC-100: Monolingual Datasets from Web Crawl Data (Datasets links are invalid)"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:2297137c9a5b46a7fc33dc4ecd343f3b",
+      "issue_number": 3632,
+      "metrics": {
+        "cache_write_tokens": 1131,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00045717,
+        "handoffs": 0,
+        "input_tokens": 3579,
+        "output_tokens": 142,
+        "provider_response_latency_ms": 5620.025,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 3721,
+        "wall_latency_ms": 5630.903
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3632
+        },
+        {
+          "issue_number": 3632
+        },
+        {
+          "issue_number": 3632,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_43d406a6e40c49fad015d986fb91642b"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 2,
+        "evidence_excerpt": "The dataset links are no longer valid for CC-100. It seems that the website which was keeping these files are no longer accessible",
+        "evidence_label": "bug",
+        "issue_number": 3632,
+        "state": "closed",
+        "title": "Adding CC-100: Monolingual Datasets from Web Crawl Data (Datasets links are invalid)"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.12,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:72612b328b884e1dcebf528204f20165",
+      "issue_number": 3632,
+      "metrics": {
+        "cache_write_tokens": 1131,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00029637,
+        "handoffs": 0,
+        "input_tokens": 2111,
+        "output_tokens": 114,
+        "provider_response_latency_ms": 3282.314,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 2225,
+        "wall_latency_ms": 3290.484
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3632
+        },
+        {
+          "issue_number": 3632
+        },
+        {
+          "issue_number": 3632,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_f5ec47037414fb3ce2740ac71baf8ca8"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 2,
+        "evidence_excerpt": "The dataset links are no longer valid for CC-100. It seems that the website which was keeping these files are no longer accessible",
+        "evidence_label": "bug",
+        "issue_number": 3632,
+        "state": "closed",
+        "title": "Adding CC-100: Monolingual Datasets from Web Crawl Data (Datasets links are invalid)"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:3b267c286602553a235ea55cb8890b9d",
+      "issue_number": 3632,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0001959,
+        "handoffs": 0,
+        "input_tokens": 1409,
+        "output_tokens": 110,
+        "provider_response_latency_ms": 3105.178,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1519,
+        "wall_latency_ms": 3109.923
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3632
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_a992644288f78d383cbc8fbcb4f738f6"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 0,
+        "evidence_excerpt": "PermissionError on Windows when using temp dir for caching",
+        "evidence_label": "bug",
+        "issue_number": 2402,
+        "state": "closed",
+        "title": "PermissionError on Windows when using temp dir for caching"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:5876a5bcdfed8cd2c07223a2b6374cd8",
+      "issue_number": 2402,
+      "metrics": {
+        "cache_write_tokens": 1269,
+        "cached_input_tokens": 2318,
+        "estimated_cost_usd": 0.0003029,
+        "handoffs": 0,
+        "input_tokens": 4153,
+        "output_tokens": 129,
+        "provider_response_latency_ms": 4694.495,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 4282,
+        "wall_latency_ms": 4704.913
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2402
+        },
+        {
+          "issue_number": 2402
+        },
+        {
+          "issue_number": 2402,
+          "limit": 1
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_4ac61578f7f99ebf416324a7caa0eb7d"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 0,
+        "evidence_excerpt": "Currently, the following code raises a PermissionError on master if working on Windows:",
+        "evidence_label": "bug",
+        "issue_number": 2402,
+        "state": "closed",
+        "title": "PermissionError on Windows when using temp dir for caching"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:d05f2f20a2bd40c3324687be798ea0e7",
+      "issue_number": 2402,
+      "metrics": {
+        "cache_write_tokens": 1068,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0002259,
+        "handoffs": 0,
+        "input_tokens": 1547,
+        "output_tokens": 89,
+        "provider_response_latency_ms": 5206.267,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1636,
+        "wall_latency_ms": 5211.172
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2402
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_c3524d1143ef876f0869868d7c89dcbb"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 0,
+        "evidence_excerpt": "Currently, the following code raises a PermissionError on master if working on Windows:",
+        "evidence_label": "bug",
+        "issue_number": 2402,
+        "state": "closed",
+        "title": "PermissionError on Windows when using temp dir for caching"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.14,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:ed34fd5775c0d580e14b9388a634fc89",
+      "issue_number": 2402,
+      "metrics": {
+        "cache_write_tokens": 1269,
+        "cached_input_tokens": 1192,
+        "estimated_cost_usd": 0.00021765,
+        "handoffs": 0,
+        "input_tokens": 2467,
+        "output_tokens": 93,
+        "provider_response_latency_ms": 3041.098,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 2560,
+        "wall_latency_ms": 3050.03
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2402
+        },
+        {
+          "issue_number": 2402
+        },
+        {
+          "issue_number": 2402,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_e28ff70ad2d6dc17f0e97605e13450de"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 8,
+        "evidence_excerpt": "I am getting an OS error when trying to load the newly uploaded dataset classla/janes_tag.",
+        "evidence_label": "bug",
+        "issue_number": 3122,
+        "state": "closed",
+        "title": "OSError with a custom dataset loading script"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:a0d62d45d0c998d53dae3b15afffc4a6",
+      "issue_number": 3122,
+      "metrics": {
+        "cache_write_tokens": 1431,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00027227,
+        "handoffs": 0,
+        "input_tokens": 1910,
+        "output_tokens": 91,
+        "provider_response_latency_ms": 2903.849,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2001,
+        "wall_latency_ms": 2908.04
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3122
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_87afdcdb0319bc4381a169e1bd285441"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 8,
+        "evidence_excerpt": "I am getting an OS error when trying to load the newly uploaded dataset classla/janes_tag.",
+        "evidence_label": "bug",
+        "issue_number": 3122,
+        "state": "closed",
+        "title": "OSError with a custom dataset loading script"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.12,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:8ec5926666ab49ec709eb68378667fb1",
+      "issue_number": 3122,
+      "metrics": {
+        "cache_write_tokens": 1506,
+        "cached_input_tokens": 1284,
+        "estimated_cost_usd": 0.00024919,
+        "handoffs": 0,
+        "input_tokens": 2796,
+        "output_tokens": 95,
+        "provider_response_latency_ms": 3088.142,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 2891,
+        "wall_latency_ms": 3096.791
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3122
+        },
+        {
+          "issue_number": 3122
+        },
+        {
+          "issue_number": 3122,
+          "limit": 1
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_fe1efce8f622bad5fa7d29b00bfcebed"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 8,
+        "evidence_excerpt": "I am getting an OS error when trying to load the newly uploaded dataset classla/janes_tag.",
+        "evidence_label": "bug",
+        "issue_number": 3122,
+        "state": "closed",
+        "title": "OSError with a custom dataset loading script"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:522988966f05ecc0f7afc3b26025e121",
+      "issue_number": 3122,
+      "metrics": {
+        "cache_write_tokens": 1506,
+        "cached_input_tokens": 2502,
+        "estimated_cost_usd": 0.00033837,
+        "handoffs": 0,
+        "input_tokens": 4574,
+        "output_tokens": 137,
+        "provider_response_latency_ms": 5301.498,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 4711,
+        "wall_latency_ms": 5312.781
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3122
+        },
+        {
+          "issue_number": 3122
+        },
+        {
+          "issue_number": 3122,
+          "limit": 1
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_984d644d1d80f6dd33e1aa7fabe46329"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 1,
+        "evidence_excerpt": "## Describe the bug\nI am trying to download some splits of the big_patent dataset",
+        "evidence_label": "bug",
+        "issue_number": 3859,
+        "state": "closed",
+        "title": "Unable to dowload big_patent (FileNotFoundError)"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.13,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:c0375e513b56b8836296cbc1d1e5bbda",
+      "issue_number": 3859,
+      "metrics": {
+        "cache_write_tokens": 1735,
+        "cached_input_tokens": 1426,
+        "estimated_cost_usd": 0.00028074,
+        "handoffs": 0,
+        "input_tokens": 3167,
+        "output_tokens": 98,
+        "provider_response_latency_ms": 3750.478,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 3265,
+        "wall_latency_ms": 3759.845
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3859
+        },
+        {
+          "issue_number": 3859
+        },
+        {
+          "issue_number": 3859,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_e94394663a02d2450f8a761e2e7f8460"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 1,
+        "evidence_excerpt": "Unable to dowload big_patent (FileNotFoundError)",
+        "evidence_label": "bug",
+        "issue_number": 3859,
+        "state": "closed",
+        "title": "Unable to dowload big_patent (FileNotFoundError)"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:0a77ed56ad207e0350f7ae8a1dbbff7f",
+      "issue_number": 3859,
+      "metrics": {
+        "cache_write_tokens": 1534,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00028415,
+        "handoffs": 0,
+        "input_tokens": 2013,
+        "output_tokens": 89,
+        "provider_response_latency_ms": 1989.269,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2102,
+        "wall_latency_ms": 1994.012
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3859
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_db8d01d00c389de060d5ab651b3ed012"
+    },
+    {
+      "answer": {
+        "category": "bug",
+        "comment_count": 1,
+        "evidence_excerpt": "## Describe the bug\nI am trying to download some splits of the big_patent dataset",
+        "evidence_label": "bug",
+        "issue_number": 3859,
+        "state": "closed",
+        "title": "Unable to dowload big_patent (FileNotFoundError)"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:b0f4fe3849f911eaaa66898d4b780c9e",
+      "issue_number": 3859,
+      "metrics": {
+        "cache_write_tokens": 1735,
+        "cached_input_tokens": 2783,
+        "estimated_cost_usd": 0.0003713,
+        "handoffs": 0,
+        "input_tokens": 5084,
+        "output_tokens": 140,
+        "provider_response_latency_ms": 7554.866,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 5224,
+        "wall_latency_ms": 7565.771
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3859
+        },
+        {
+          "issue_number": 3859
+        },
+        {
+          "issue_number": 3859,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_386d3b634ec131f4b83c41344b454cfd"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 3,
+        "evidence_excerpt": "I was wondering about adding datasets here, specifically because it's shaping up to be large and easily usable.",
+        "evidence_label": "enhancement",
+        "issue_number": 302,
+        "state": "closed",
+        "title": "Question - Sign Language Datasets"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:c7aa7953c1b951e3b6e4af25a6615226",
+      "issue_number": 302,
+      "metrics": {
+        "cache_write_tokens": 1347,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00028618,
+        "handoffs": 0,
+        "input_tokens": 1825,
+        "output_tokens": 140,
+        "provider_response_latency_ms": 3378.588,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1965,
+        "wall_latency_ms": 3382.939
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 302
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_8de1ed4cf6cd7dfa36b0a5998bbac281"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 3,
+        "evidence_excerpt": "I was wondering about adding datasets here, specifically because it's shaping up to be large and easily usable.",
+        "evidence_label": "enhancement",
+        "issue_number": 302,
+        "state": "closed",
+        "title": "Question - Sign Language Datasets"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:c438a682d73ef9153c7be1c612efbf72",
+      "issue_number": 302,
+      "metrics": {
+        "cache_write_tokens": 1311,
+        "cached_input_tokens": 1040,
+        "estimated_cost_usd": 0.00039427,
+        "handoffs": 0,
+        "input_tokens": 3886,
+        "output_tokens": 133,
+        "provider_response_latency_ms": 5380.433,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 4019,
+        "wall_latency_ms": 5390.255
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 302
+        },
+        {
+          "issue_number": 302
+        },
+        {
+          "issue_number": 302,
+          "limit": 1
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_b942af4fa4804feb2cc88eb46acecff7"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 3,
+        "evidence_excerpt": "So, what do you think about (me, or others) adding datasets here?",
+        "evidence_label": "enhancement",
+        "issue_number": 302,
+        "state": "closed",
+        "title": "Question - Sign Language Datasets"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.14,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:f7499918613cef84cc303b4735284254",
+      "issue_number": 302,
+      "metrics": {
+        "cache_write_tokens": 1311,
+        "cached_input_tokens": 1040,
+        "estimated_cost_usd": 0.00021987,
+        "handoffs": 0,
+        "input_tokens": 2357,
+        "output_tokens": 90,
+        "provider_response_latency_ms": 3733.87,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 2447,
+        "wall_latency_ms": 3743.447
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 302
+        },
+        {
+          "issue_number": 302
+        },
+        {
+          "issue_number": 302,
+          "limit": 1
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_d6014e4ce448d7e8fb514f10c104f047"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 10,
+        "evidence_excerpt": "HF datasets to provide options for users to index by a custom id column, not by row.",
+        "evidence_label": "enhancement",
+        "issue_number": 6532,
+        "state": "open",
+        "title": "[Feature request] Indexing datasets by a customly-defined id field to enable random access dataset items via the id"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.14,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:465afc3943a62f83edad90129cc0dfa9",
+      "issue_number": 6532,
+      "metrics": {
+        "cache_write_tokens": 1514,
+        "cached_input_tokens": 1130,
+        "estimated_cost_usd": 0.00025665,
+        "handoffs": 0,
+        "input_tokens": 2650,
+        "output_tokens": 111,
+        "provider_response_latency_ms": 2768.102,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 2761,
+        "wall_latency_ms": 2776.967
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6532
+        },
+        {
+          "issue_number": 6532
+        },
+        {
+          "issue_number": 6532,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_0ef440a1662d9161f5390a21a2ceb187"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 10,
+        "evidence_excerpt": "HF datasets support efficient random access via row, but not via this kinds of id fields.",
+        "evidence_label": "enhancement",
+        "issue_number": 6532,
+        "state": "open",
+        "title": "[Feature request] Indexing datasets by a customly-defined id field to enable random access dataset items via the id"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:be0224b03fe85e0bcf95b19fdd90da91",
+      "issue_number": 6532,
+      "metrics": {
+        "cache_write_tokens": 1313,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00026502,
+        "handoffs": 0,
+        "input_tokens": 1792,
+        "output_tokens": 106,
+        "provider_response_latency_ms": 2529.721,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1898,
+        "wall_latency_ms": 2534.043
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6532
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_650ca0304a389a4c3c4eee363c585650"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 10,
+        "evidence_excerpt": "I wonder if it is possible to add support for indexing by a custom \"id-like\" field to enable random access via such ids.",
+        "evidence_label": "enhancement",
+        "issue_number": 6532,
+        "state": "open",
+        "title": "[Feature request] Indexing datasets by a customly-defined id field to enable random access dataset items via the id"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:06b5c51e500c5732f9f227d7bc15c6b0",
+      "issue_number": 6532,
+      "metrics": {
+        "cache_write_tokens": 1514,
+        "cached_input_tokens": 2193,
+        "estimated_cost_usd": 0.00034828,
+        "handoffs": 0,
+        "input_tokens": 4273,
+        "output_tokens": 161,
+        "provider_response_latency_ms": 5900.439,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 4434,
+        "wall_latency_ms": 5911.547
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6532
+        },
+        {
+          "issue_number": 6532
+        },
+        {
+          "issue_number": 6532,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_868bcd22d83f27128874044510f9955f"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 4,
+        "evidence_excerpt": "Allow dataset implement .take",
+        "evidence_label": "enhancement",
+        "issue_number": 6150,
+        "state": "open",
+        "title": "Allow dataset implement .take"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:1361af9643ac688d8e39060653fcd8c9",
+      "issue_number": 6150,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0002165,
+        "handoffs": 0,
+        "input_tokens": 1305,
+        "output_tokens": 172,
+        "provider_response_latency_ms": 2999.024,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1477,
+        "wall_latency_ms": 3004.771
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6150
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_1bdce3a6de15ccdc2f4e5f55e816b4c1"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 4,
+        "evidence_excerpt": "Really surprising the above only works with streaming = True.",
+        "evidence_label": "enhancement",
+        "issue_number": 6150,
+        "state": "open",
+        "title": "Allow dataset implement .take"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:957b4cd833ce62207ab603993b1d23de",
+      "issue_number": 6150,
+      "metrics": {
+        "cache_write_tokens": 1027,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00042867,
+        "handoffs": 0,
+        "input_tokens": 3180,
+        "output_tokens": 170,
+        "provider_response_latency_ms": 6737.628,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 3350,
+        "wall_latency_ms": 6748.805
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6150
+        },
+        {
+          "issue_number": 6150
+        },
+        {
+          "issue_number": 6150,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_4841720c7e6a547596def56667c56ad1"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 4,
+        "evidence_excerpt": "uniform interface to data sets. Really surprising the above only works with streaming = True.",
+        "evidence_label": "enhancement",
+        "issue_number": 6150,
+        "state": "open",
+        "title": "Allow dataset implement .take"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.13,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:2c534350767c8a4b51c99c2f1a6280b2",
+      "issue_number": 6150,
+      "metrics": {
+        "cache_write_tokens": 1027,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00028018,
+        "handoffs": 0,
+        "input_tokens": 1860,
+        "output_tokens": 137,
+        "provider_response_latency_ms": 3546.859,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 1997,
+        "wall_latency_ms": 3556.683
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6150
+        },
+        {
+          "issue_number": 6150
+        },
+        {
+          "issue_number": 6150,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_156463779e104411ba86beb0d71d1de9"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 0,
+        "evidence_excerpt": "Add Arabic Docs to datasets",
+        "evidence_label": "enhancement",
+        "issue_number": 7093,
+        "state": "open",
+        "title": "Add Arabic Docs to datasets"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:2d9b65b4a3315f9417d92aa965aba80f",
+      "issue_number": 7093,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0001569,
+        "handoffs": 0,
+        "input_tokens": 1194,
+        "output_tokens": 75,
+        "provider_response_latency_ms": 2233.167,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1269,
+        "wall_latency_ms": 2238.569
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 7093
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_c50dae01f8557d0f13028766705c3b50"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 0,
+        "evidence_excerpt": "### Feature request\n\nAdd Arabic Docs to datasets",
+        "evidence_label": "enhancement",
+        "issue_number": 7093,
+        "state": "open",
+        "title": "Add Arabic Docs to datasets"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:c37c244b3cc9dfb0714121ced7c1fa8a",
+      "issue_number": 7093,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0003723,
+        "handoffs": 0,
+        "input_tokens": 3093,
+        "output_tokens": 126,
+        "provider_response_latency_ms": 5379.048,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 3219,
+        "wall_latency_ms": 5389.592
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 7093
+        },
+        {
+          "issue_number": 7093
+        },
+        {
+          "issue_number": 7093,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_f6ca65a88a05234d1ed1736f8373bb48"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 0,
+        "evidence_excerpt": "Add Arabic Docs to datasets",
+        "evidence_label": "enhancement",
+        "issue_number": 7093,
+        "state": "open",
+        "title": "Add Arabic Docs to datasets"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.12,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:c2e074707288cab4dd3667479fe21a8d",
+      "issue_number": 7093,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0002156,
+        "handoffs": 0,
+        "input_tokens": 1761,
+        "output_tokens": 79,
+        "provider_response_latency_ms": 2758.159,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 1840,
+        "wall_latency_ms": 2766.576
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 7093
+        },
+        {
+          "issue_number": 7093
+        },
+        {
+          "issue_number": 7093,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_a664f95ca0e9cd5588e83c3f2c9778c1"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 1,
+        "evidence_excerpt": "Delete extracted files to save disk space",
+        "evidence_label": "enhancement",
+        "issue_number": 2481,
+        "state": "closed",
+        "title": "Delete extracted files to save disk space"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:2e89287fc63bf9068596a17675f2f281",
+      "issue_number": 2481,
+      "metrics": {
+        "cache_write_tokens": 1035,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00041877,
+        "handoffs": 0,
+        "input_tokens": 3064,
+        "output_tokens": 173,
+        "provider_response_latency_ms": 7282.944,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 3237,
+        "wall_latency_ms": 7294.748
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2481
+        },
+        {
+          "issue_number": 2481
+        },
+        {
+          "issue_number": 2481,
+          "limit": 1
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_a8d5e0cf37d36856c68bafbbde3b8f2f"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 1,
+        "evidence_excerpt": "allowing the deletion of extracted files would save a great amount of disk space to typical user.",
+        "evidence_label": "enhancement",
+        "issue_number": 2481,
+        "state": "closed",
+        "title": "Delete extracted files to save disk space"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:e8f1458623c3072584c28740de0c7ba2",
+      "issue_number": 2481,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0001963,
+        "handoffs": 0,
+        "input_tokens": 1313,
+        "output_tokens": 130,
+        "provider_response_latency_ms": 2528.054,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1443,
+        "wall_latency_ms": 2533.973
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2481
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_e5157d881d81cffe7e7204225b666f7d"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 1,
+        "evidence_excerpt": "Delete extracted files to save disk space",
+        "evidence_label": "enhancement",
+        "issue_number": 2481,
+        "state": "closed",
+        "title": "Delete extracted files to save disk space"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.12,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:95407236343f714c99ba87837326ff5d",
+      "issue_number": 2481,
+      "metrics": {
+        "cache_write_tokens": 1035,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00024797,
+        "handoffs": 0,
+        "input_tokens": 1806,
+        "output_tokens": 83,
+        "provider_response_latency_ms": 3313.81,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 1889,
+        "wall_latency_ms": 3321.103
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2481
+        },
+        {
+          "issue_number": 2481
+        },
+        {
+          "issue_number": 2481,
+          "limit": 1
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_d284c549968157738b3484ae811aabe8"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 4,
+        "evidence_excerpt": "### Feature request\n\n\r\n1. Replace the `load_from_cache_file` default value to `True`. \r\n2. Remove or alter checks from `is_caching_enabled` logic.",
+        "evidence_label": "enhancement",
+        "issue_number": 5514,
+        "state": "closed",
+        "title": "Improve inconsistency of `Dataset.map` interface for `load_from_cache_file`"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.11,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:b46f902430d5988c94265e4c983ccb0b",
+      "issue_number": 5514,
+      "metrics": {
+        "cache_write_tokens": 1265,
+        "cached_input_tokens": 1063,
+        "estimated_cost_usd": 0.00023235,
+        "handoffs": 0,
+        "input_tokens": 2334,
+        "output_tokens": 126,
+        "provider_response_latency_ms": 3050.139,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 2460,
+        "wall_latency_ms": 3057.598
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 5514
+        },
+        {
+          "issue_number": 5514
+        },
+        {
+          "issue_number": 5514,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_2d3c64bd8b917a1f981b16d4f3485604"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 4,
+        "evidence_excerpt": "Improve inconsistency of `Dataset.map` interface for `load_from_cache_file`",
+        "evidence_label": "enhancement",
+        "issue_number": 5514,
+        "state": "closed",
+        "title": "Improve inconsistency of `Dataset.map` interface for `load_from_cache_file`"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:d81b86427a85d248361d48b2adb8d991",
+      "issue_number": 5514,
+      "metrics": {
+        "cache_write_tokens": 1207,
+        "cached_input_tokens": 1063,
+        "estimated_cost_usd": 0.00041171,
+        "handoffs": 0,
+        "input_tokens": 3832,
+        "output_tokens": 188,
+        "provider_response_latency_ms": 6320.692,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 4020,
+        "wall_latency_ms": 6330.644
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 5514
+        },
+        {
+          "issue_number": 5514
+        },
+        {
+          "issue_number": 5514,
+          "limit": 1
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_b988b201299fd5884ae61a68d89da70b"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 4,
+        "evidence_excerpt": "Replace the `load_from_cache_file` default value to `True`. ",
+        "evidence_label": "enhancement",
+        "issue_number": 5514,
+        "state": "closed",
+        "title": "Improve inconsistency of `Dataset.map` interface for `load_from_cache_file`"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:79392a019ce1cf6424872022e1ef98ab",
+      "issue_number": 5514,
+      "metrics": {
+        "cache_write_tokens": 1064,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0002284,
+        "handoffs": 0,
+        "input_tokens": 1543,
+        "output_tokens": 95,
+        "provider_response_latency_ms": 3525.64,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1638,
+        "wall_latency_ms": 3531.322
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 5514
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_33c3241e5b0755816f9802688427fb02"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 3,
+        "evidence_excerpt": "Provide ability to load label mappings from file",
+        "evidence_label": "enhancement",
+        "issue_number": 6059,
+        "state": "open",
+        "title": "Provide ability to load label mappings from file"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:8d9d5bdc8ad8d528f0ffabebce4f579b",
+      "issue_number": 6059,
+      "metrics": {
+        "cache_write_tokens": 1371,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00025977,
+        "handoffs": 0,
+        "input_tokens": 1850,
+        "output_tokens": 81,
+        "provider_response_latency_ms": 2583.386,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1931,
+        "wall_latency_ms": 2588.899
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6059
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_e7c816344e18ea5c88d002b71aa2e144"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 3,
+        "evidence_excerpt": "Provide ability to load label mappings from file",
+        "evidence_label": "enhancement",
+        "issue_number": 6059,
+        "state": "open",
+        "title": "Provide ability to load label mappings from file"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.13,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:52480d8db068fce87f18e01174310291",
+      "issue_number": 6059,
+      "metrics": {
+        "cache_write_tokens": 1572,
+        "cached_input_tokens": 1329,
+        "estimated_cost_usd": 0.00025289,
+        "handoffs": 0,
+        "input_tokens": 2907,
+        "output_tokens": 85,
+        "provider_response_latency_ms": 2922.457,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 2992,
+        "wall_latency_ms": 2931.538
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6059
+        },
+        {
+          "issue_number": 6059
+        },
+        {
+          "issue_number": 6059,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_27ad4e3cbb8d854d885b157b56f74434"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 3,
+        "evidence_excerpt": "Allow `datasets.DatasetInfo` to be generated based on the c",
+        "evidence_label": "enhancement",
+        "issue_number": 6059,
+        "state": "open",
+        "title": "Provide ability to load label mappings from file"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:3bc128fdffb7751370f868fb6f61bfed",
+      "issue_number": 6059,
+      "metrics": {
+        "cache_write_tokens": 1572,
+        "cached_input_tokens": 2591,
+        "estimated_cost_usd": 0.00034501,
+        "handoffs": 0,
+        "input_tokens": 4729,
+        "output_tokens": 132,
+        "provider_response_latency_ms": 10861.341,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 4861,
+        "wall_latency_ms": 10872.555
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6059
+        },
+        {
+          "issue_number": 6059
+        },
+        {
+          "issue_number": 6059,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_2385aaf67399fa653ad9db8ce06f13ab"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 1,
+        "evidence_excerpt": "Whenever I `pip install datasets[jax]` it downgrades jax to version 0.3.25.",
+        "evidence_label": "enhancement",
+        "issue_number": 6202,
+        "state": "closed",
+        "title": "avoid downgrading jax version"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.1,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:11969f41a14b7b48030621db6dbfcb82",
+      "issue_number": 6202,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0002359,
+        "handoffs": 0,
+        "input_tokens": 1854,
+        "output_tokens": 101,
+        "provider_response_latency_ms": 2907.537,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 1955,
+        "wall_latency_ms": 2914.718
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6202
+        },
+        {
+          "issue_number": 6202
+        },
+        {
+          "issue_number": 6202,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_869ee6045d8bd7efbe683e926bcd9f91"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 1,
+        "evidence_excerpt": "Whenever I `pip install datasets[jax]` it downgrades jax to version 0.3.25.",
+        "evidence_label": "enhancement",
+        "issue_number": 6202,
+        "state": "closed",
+        "title": "avoid downgrading jax version"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:f5ebdca013dffdc0b432346a1d1fb199",
+      "issue_number": 6202,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0003922,
+        "handoffs": 0,
+        "input_tokens": 3207,
+        "output_tokens": 143,
+        "provider_response_latency_ms": 7886.781,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 3350,
+        "wall_latency_ms": 7899.655
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6202
+        },
+        {
+          "issue_number": 6202
+        },
+        {
+          "issue_number": 6202,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_932c2be03a9dc8d0b7573dfcc3021e9c"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 1,
+        "evidence_excerpt": "It would be nice to not overwrite currently installed version of jax if possible.",
+        "evidence_label": "enhancement",
+        "issue_number": 6202,
+        "state": "closed",
+        "title": "avoid downgrading jax version"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:4e5800df477c21a08a6033631682df70",
+      "issue_number": 6202,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0001706,
+        "handoffs": 0,
+        "input_tokens": 1266,
+        "output_tokens": 88,
+        "provider_response_latency_ms": 2383.968,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1354,
+        "wall_latency_ms": 2389.182
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 6202
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_20e0068b12954e5c5b0285a70a2350ed"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 3,
+        "evidence_excerpt": "Feature Request: Support for Pandas `Categorical`",
+        "evidence_label": "enhancement",
+        "issue_number": 1906,
+        "state": "open",
+        "title": "Feature Request: Support for Pandas `Categorical`"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:e483143477b14095f62015305ebbaaaf",
+      "issue_number": 1906,
+      "metrics": {
+        "cache_write_tokens": 1504,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0003029,
+        "handoffs": 0,
+        "input_tokens": 1983,
+        "output_tokens": 134,
+        "provider_response_latency_ms": 2505.346,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2117,
+        "wall_latency_ms": 2511.145
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 1906
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_11c274472832642ffffedcf3e8cd4294"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 3,
+        "evidence_excerpt": "Feature Request: Support for Pandas `Categorical`",
+        "evidence_label": "enhancement",
+        "issue_number": 1906,
+        "state": "open",
+        "title": "Feature Request: Support for Pandas `Categorical`"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:c9ab15ea929facf17c351920682ff15f",
+      "issue_number": 1906,
+      "metrics": {
+        "cache_write_tokens": 1331,
+        "cached_input_tokens": 2225,
+        "estimated_cost_usd": 0.00031173,
+        "handoffs": 0,
+        "input_tokens": 4122,
+        "output_tokens": 133,
+        "provider_response_latency_ms": 8054.755,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 4255,
+        "wall_latency_ms": 8066.298
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 1906
+        },
+        {
+          "issue_number": 1906
+        },
+        {
+          "issue_number": 1906,
+          "limit": 1
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_49e9a0c5d4e4e54bb356f889360e2f89"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 3,
+        "evidence_excerpt": "Feature Request: Support for Pandas `Categorical`",
+        "evidence_label": "enhancement",
+        "issue_number": 1906,
+        "state": "open",
+        "title": "Feature Request: Support for Pandas `Categorical`"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.18,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:f1213e87631f13d510709ff19ecb9224",
+      "issue_number": 1906,
+      "metrics": {
+        "cache_write_tokens": 1705,
+        "cached_input_tokens": 1148,
+        "estimated_cost_usd": 0.00029171,
+        "handoffs": 0,
+        "input_tokens": 2859,
+        "output_tokens": 133,
+        "provider_response_latency_ms": 3562.287,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 2992,
+        "wall_latency_ms": 3570.531
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 1906
+        },
+        {
+          "issue_number": 1906
+        },
+        {
+          "issue_number": 1906,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_0375a32897a54161f47b06ea5dc82f80"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 1,
+        "evidence_excerpt": "This performance guide should detail practical options for improving performance with `datasets`, and enumerate any common best practices.",
+        "evidence_label": "enhancement",
+        "issue_number": 3829,
+        "state": "open",
+        "title": "[\ud83d\udcc4 Docs] Create a `datasets` performance guide."
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:6fa0d3d3fdf2a4cece806679c53d14c2",
+      "issue_number": 3829,
+      "metrics": {
+        "cache_write_tokens": 1347,
+        "cached_input_tokens": 2327,
+        "estimated_cost_usd": 0.00032024,
+        "handoffs": 0,
+        "input_tokens": 4240,
+        "output_tokens": 144,
+        "provider_response_latency_ms": 6137.937,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 4384,
+        "wall_latency_ms": 6149.693
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3829
+        },
+        {
+          "issue_number": 3829
+        },
+        {
+          "issue_number": 3829,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_75d31517f6615f4466a8ccff13a4d61d"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 1,
+        "evidence_excerpt": "This performance guide should detail practical options for improving performance with `datasets`, and enumerate any common best practices.",
+        "evidence_label": "enhancement",
+        "issue_number": 3829,
+        "state": "open",
+        "title": "[\ud83d\udcc4 Docs] Create a `datasets` performance guide."
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.13,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:bfa255e31eb672a88caca7fd93e4db94",
+      "issue_number": 3829,
+      "metrics": {
+        "cache_write_tokens": 1347,
+        "cached_input_tokens": 1197,
+        "estimated_cost_usd": 0.00023195,
+        "handoffs": 0,
+        "input_tokens": 2550,
+        "output_tokens": 102,
+        "provider_response_latency_ms": 3538.815,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 2652,
+        "wall_latency_ms": 3547.178
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3829
+        },
+        {
+          "issue_number": 3829
+        },
+        {
+          "issue_number": 3829,
+          "limit": 1
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_1bd2868dda04b51598d16712c8266c78"
+    },
+    {
+      "answer": {
+        "category": "enhancement",
+        "comment_count": 1,
+        "evidence_excerpt": "Could we create a performance guide for using `datasets`, similar to:",
+        "evidence_label": "enhancement",
+        "issue_number": 3829,
+        "state": "open",
+        "title": "[\ud83d\udcc4 Docs] Create a `datasets` performance guide."
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:3fa49d065d9ffc3275a0c4d87d0205c6",
+      "issue_number": 3829,
+      "metrics": {
+        "cache_write_tokens": 1146,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00023665,
+        "handoffs": 0,
+        "input_tokens": 1625,
+        "output_tokens": 91,
+        "provider_response_latency_ms": 2434.329,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1716,
+        "wall_latency_ms": 2440.032
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3829
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_66353fe37ec2c12382766ddd7b2dd11a"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 2,
+        "evidence_excerpt": "Is there any suggested workaround, am I missing something?",
+        "evidence_label": "question",
+        "issue_number": 4221,
+        "state": "closed",
+        "title": "Dictionary Feature"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.11,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:092fd156e72dc672e2ddc1ebf47ea95e",
+      "issue_number": 4221,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0002415,
+        "handoffs": 0,
+        "input_tokens": 1785,
+        "output_tokens": 126,
+        "provider_response_latency_ms": 3231.384,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 1911,
+        "wall_latency_ms": 3241.118
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 4221
+        },
+        {
+          "issue_number": 4221
+        },
+        {
+          "issue_number": 4221,
+          "limit": 1
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_2c33c9cecb134dc6ee3da1a4cddb05b1"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 2,
+        "evidence_excerpt": "Is there any suggested workaround, am I missing something?",
+        "evidence_label": "question",
+        "issue_number": 4221,
+        "state": "closed",
+        "title": "Dictionary Feature"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:9a85fd4f370e0c048f8e2db384d0b1fd",
+      "issue_number": 4221,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.000193,
+        "handoffs": 0,
+        "input_tokens": 1420,
+        "output_tokens": 102,
+        "provider_response_latency_ms": 2539.616,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1522,
+        "wall_latency_ms": 2544.126
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 4221
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_a543f926e60aa6bb45323858dcd82d89"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 2,
+        "evidence_excerpt": "Is there any suggested workaround, am I missing something?",
+        "evidence_label": "question",
+        "issue_number": 4221,
+        "state": "closed",
+        "title": "Dictionary Feature"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:7d2dca20520b240f763cf0ff1f63cd73",
+      "issue_number": 4221,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0003677,
+        "handoffs": 0,
+        "input_tokens": 3067,
+        "output_tokens": 122,
+        "provider_response_latency_ms": 4702.839,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 3189,
+        "wall_latency_ms": 4714.229
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 4221
+        },
+        {
+          "issue_number": 4221
+        },
+        {
+          "issue_number": 4221,
+          "limit": 1
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_e331417fc34c2e8afb9bb8c91eddb6c1"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 2,
+        "evidence_excerpt": "could you tell me how I can get all unique options of a property of dataset?",
+        "evidence_label": "question",
+        "issue_number": 1514,
+        "state": "closed",
+        "title": "how to get all the options of a property in datasets "
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:eeb8538054e507b18b5e342192f0d015",
+      "issue_number": 1514,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.000414,
+        "handoffs": 0,
+        "input_tokens": 3040,
+        "output_tokens": 220,
+        "provider_response_latency_ms": 6952.966,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 3260,
+        "wall_latency_ms": 6964.548
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 1514
+        },
+        {
+          "issue_number": 1514
+        },
+        {
+          "issue_number": 1514,
+          "limit": 1
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_b99c1635d8ff28bb5169a94d3ac98c59"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 2,
+        "evidence_excerpt": "could you tell me how I can get all unique options",
+        "evidence_label": "question",
+        "issue_number": 1514,
+        "state": "closed",
+        "title": "how to get all the options of a property in datasets "
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.1,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:d4fa6c40dedc7babc89aa1848aa1a8eb",
+      "issue_number": 1514,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.000261,
+        "handoffs": 0,
+        "input_tokens": 1740,
+        "output_tokens": 174,
+        "provider_response_latency_ms": 3643.374,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 1914,
+        "wall_latency_ms": 3651.124
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 1514
+        },
+        {
+          "issue_number": 1514
+        },
+        {
+          "issue_number": 1514,
+          "limit": 1
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_ffd0fe5ff7d4ee0e689f95ca059176bb"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 2,
+        "evidence_excerpt": "labels correspond to the `ClassLabel` feature that has the `names` property",
+        "evidence_label": "question",
+        "issue_number": 1514,
+        "state": "closed",
+        "title": "how to get all the options of a property in datasets "
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:1d6ed937afe2d670ceb926c82a792aec",
+      "issue_number": 1514,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0002249,
+        "handoffs": 0,
+        "input_tokens": 1359,
+        "output_tokens": 178,
+        "provider_response_latency_ms": 3070.422,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1537,
+        "wall_latency_ms": 3075.967
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 1514
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_fab60eafcacbcc1acaf6e713f132a429"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 0,
+        "evidence_excerpt": "It would be nice if we can use a GPU to do the training step and covert the index back to CPU",
+        "evidence_label": "question",
+        "issue_number": 2108,
+        "state": "open",
+        "title": "Is there a way to use a GPU only when training an Index  in the process of add_faisis_index?"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:d19f1e6fe78bf9f0a67118db2c7c1811",
+      "issue_number": 2108,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0001737,
+        "handoffs": 0,
+        "input_tokens": 1192,
+        "output_tokens": 109,
+        "provider_response_latency_ms": 2332.519,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1301,
+        "wall_latency_ms": 2338.133
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2108
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_0e40ce9b62b6a8131aa55ddbf17d06c5"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 0,
+        "evidence_excerpt": "Some FAISS indexes like IVF consist of the training step that clusters the dataset into a given number of indexes.",
+        "evidence_label": "question",
+        "issue_number": 2108,
+        "state": "open",
+        "title": "Is there a way to use a GPU only when training an Index  in the process of add_faisis_index?"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.11,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:cd07de23bc22c0a4569f88b097866a94",
+      "issue_number": 2108,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0002517,
+        "handoffs": 0,
+        "input_tokens": 1757,
+        "output_tokens": 152,
+        "provider_response_latency_ms": 3325.57,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 1909,
+        "wall_latency_ms": 3333.112
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2108
+        },
+        {
+          "issue_number": 2108
+        },
+        {
+          "issue_number": 2108,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_81f9ae4ae3924be898922f4e90407715"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 0,
+        "evidence_excerpt": "It would be nice if we can use a GPU to do the training step and covert the index back to CPU as mention in",
+        "evidence_label": "question",
+        "issue_number": 2108,
+        "state": "open",
+        "title": "Is there a way to use a GPU only when training an Index  in the process of add_faisis_index?"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:5e7e4b669bf43016b2706cc9926fd70c",
+      "issue_number": 2108,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0003878,
+        "handoffs": 0,
+        "input_tokens": 3088,
+        "output_tokens": 158,
+        "provider_response_latency_ms": 5350.347,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 3246,
+        "wall_latency_ms": 5362.073
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2108
+        },
+        {
+          "issue_number": 2108
+        },
+        {
+          "issue_number": 2108,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_410afd519ff6f06b831d38e75b2b17a3"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 3,
+        "evidence_excerpt": "I am using datasets to load large json file of 587G.",
+        "evidence_label": "question",
+        "issue_number": 2196,
+        "state": "closed",
+        "title": "`load_dataset` caches two arrow files?"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:5c56bfb9d37ae323cd9f782f36d1ee2a",
+      "issue_number": 2196,
+      "metrics": {
+        "cache_write_tokens": 1142,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00045295,
+        "handoffs": 0,
+        "input_tokens": 3314,
+        "output_tokens": 186,
+        "provider_response_latency_ms": 6130.052,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 3500,
+        "wall_latency_ms": 6139.607
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2196
+        },
+        {
+          "issue_number": 2196
+        },
+        {
+          "issue_number": 2196,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_f8a860c254fe4cf3bcc1ffa82849b89e"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 3,
+        "evidence_excerpt": "Why is the first file created?\r\nIf I delete it, would I still be able to `load_from_disk`?",
+        "evidence_label": "question",
+        "issue_number": 2196,
+        "state": "closed",
+        "title": "`load_dataset` caches two arrow files?"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:fba8049c64bf02977bbe5ddd2c6723f0",
+      "issue_number": 2196,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0002145,
+        "handoffs": 0,
+        "input_tokens": 1420,
+        "output_tokens": 145,
+        "provider_response_latency_ms": 2459.366,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1565,
+        "wall_latency_ms": 2463.668
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2196
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_1e68eb15664264207f98dda202d30eb5"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 3,
+        "evidence_excerpt": "Why is the first file created?\r\nIf I delete it, would I still be able to `load_from_disk`?",
+        "evidence_label": "question",
+        "issue_number": 2196,
+        "state": "closed",
+        "title": "`load_dataset` caches two arrow files?"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.13,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:bd4ca2049e5e4a6f42419d910a030390",
+      "issue_number": 2196,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.000258,
+        "handoffs": 0,
+        "input_tokens": 1840,
+        "output_tokens": 148,
+        "provider_response_latency_ms": 4166.648,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 1988,
+        "wall_latency_ms": 4175.808
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2196
+        },
+        {
+          "issue_number": 2196
+        },
+        {
+          "issue_number": 2196,
+          "limit": 1
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_d55eda31fb8a19d03b5f2913c0bcaad9"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 8,
+        "evidence_excerpt": "FileNotFoundError: Couldn't find a dataset script at /kaggle/working/imagefolder/imagefolder.py",
+        "evidence_label": "question",
+        "issue_number": 3881,
+        "state": "closed",
+        "title": "How to use Image folder"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:3f0d1c8a19f6d32d5c971360a960d8f5",
+      "issue_number": 3881,
+      "metrics": {
+        "cache_write_tokens": 1569,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00028902,
+        "handoffs": 0,
+        "input_tokens": 2048,
+        "output_tokens": 90,
+        "provider_response_latency_ms": 2664.085,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2138,
+        "wall_latency_ms": 2669.431
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3881
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_8a2438687a043fa69b3ffdb0fa6746d4"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 8,
+        "evidence_excerpt": "Ran this code\r\n```\r\n load_dataset(\"imagefolder\", data_dir=\"./my-dataset\")\r\n```",
+        "evidence_label": "question",
+        "issue_number": 3881,
+        "state": "closed",
+        "title": "How to use Image folder"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.11,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:cc6496f1f31ffb7f29d23af8a8ad6162",
+      "issue_number": 3881,
+      "metrics": {
+        "cache_write_tokens": 1503,
+        "cached_input_tokens": 1342,
+        "estimated_cost_usd": 0.0002514,
+        "handoffs": 0,
+        "input_tokens": 2851,
+        "output_tokens": 99,
+        "provider_response_latency_ms": 3354.02,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 2950,
+        "wall_latency_ms": 3361.492
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3881
+        },
+        {
+          "issue_number": 3881
+        },
+        {
+          "issue_number": 3881,
+          "limit": 1
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_a2f68ca6323cfd63fddc178530f78bcf"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 8,
+        "evidence_excerpt": "How to use Image folder",
+        "evidence_label": "question",
+        "issue_number": 3881,
+        "state": "closed",
+        "title": "How to use Image folder"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:7630c4abc048dfb807ed74daad020e13",
+      "issue_number": 3881,
+      "metrics": {
+        "cache_write_tokens": 1770,
+        "cached_input_tokens": 2618,
+        "estimated_cost_usd": 0.00036353,
+        "handoffs": 0,
+        "input_tokens": 4954,
+        "output_tokens": 119,
+        "provider_response_latency_ms": 6252.472,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 5073,
+        "wall_latency_ms": 6261.482
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3881
+        },
+        {
+          "issue_number": 3881
+        },
+        {
+          "issue_number": 3881,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_b7323492bcff78ac7b33de094750ecd0"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 2,
+        "evidence_excerpt": "I'm trying to load only 8% of the English common voice data with accent == \"England English.\" Can somebody assist me with this?",
+        "evidence_label": "question",
+        "issue_number": 3854,
+        "state": "closed",
+        "title": "load only England English dataset from common voice english dataset"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:deab161ec9624830e9cca12f43872bdd",
+      "issue_number": 3854,
+      "metrics": {
+        "cache_write_tokens": 1464,
+        "cached_input_tokens": 1045,
+        "estimated_cost_usd": 0.00042145,
+        "handoffs": 0,
+        "input_tokens": 4054,
+        "output_tokens": 147,
+        "provider_response_latency_ms": 5818.075,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 4201,
+        "wall_latency_ms": 5829.115
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3854
+        },
+        {
+          "issue_number": 3854
+        },
+        {
+          "issue_number": 3854,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_a719528c831d0ea84da0094ad54733bc"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 2,
+        "evidence_excerpt": "I'm trying to load only 8% of the English common voice data with accent == \"England English.\" Can somebody assist me with this?",
+        "evidence_label": "question",
+        "issue_number": 3854,
+        "state": "closed",
+        "title": "load only England English dataset from common voice english dataset"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:2d9892f0333e9694ba9a1e24919b7292",
+      "issue_number": 3854,
+      "metrics": {
+        "cache_write_tokens": 1263,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00025627,
+        "handoffs": 0,
+        "input_tokens": 1742,
+        "output_tokens": 101,
+        "provider_response_latency_ms": 2461.268,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1843,
+        "wall_latency_ms": 2466.663
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3854
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_1ba93ddbe7ff4c385435ab129cffd270"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 2,
+        "evidence_excerpt": "I'm trying to load only 8% of the English common voice data with accent == \"England English.\"",
+        "evidence_label": "question",
+        "issue_number": 3854,
+        "state": "closed",
+        "title": "load only England English dataset from common voice english dataset"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.14,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:49f34db731184981cdfd4fec882ee4ce",
+      "issue_number": 3854,
+      "metrics": {
+        "cache_write_tokens": 1464,
+        "cached_input_tokens": 1045,
+        "estimated_cost_usd": 0.00025955,
+        "handoffs": 0,
+        "input_tokens": 2515,
+        "output_tokens": 131,
+        "provider_response_latency_ms": 3893.234,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 2646,
+        "wall_latency_ms": 3901.922
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3854
+        },
+        {
+          "issue_number": 3854
+        },
+        {
+          "issue_number": 3854,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_a82fbaf1eaba9d13cd8731d29839f922"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 1,
+        "evidence_excerpt": "if i am using dense search to create supporting documents for eli5 how much time it will take",
+        "evidence_label": "question",
+        "issue_number": 4134,
+        "state": "open",
+        "title": "ELI5 supporting documents"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:a38eb663ab8758a083e4f5558b663644",
+      "issue_number": 4134,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0001588,
+        "handoffs": 0,
+        "input_tokens": 1153,
+        "output_tokens": 87,
+        "provider_response_latency_ms": 2333.412,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1240,
+        "wall_latency_ms": 2338.886
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 4134
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_3ae5753cf0e06bb5f63b1ef213c3ec4b"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 1,
+        "evidence_excerpt": "if i am using dense search to create supporting documents for eli5 how much time it will take",
+        "evidence_label": "question",
+        "issue_number": 4134,
+        "state": "open",
+        "title": "ELI5 supporting documents"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:719a81c49eb4f2034891999ab756c2d9",
+      "issue_number": 4134,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.000357,
+        "handoffs": 0,
+        "input_tokens": 2905,
+        "output_tokens": 133,
+        "provider_response_latency_ms": 6850.44,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 3038,
+        "wall_latency_ms": 6860.097
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 4134
+        },
+        {
+          "issue_number": 4134
+        },
+        {
+          "issue_number": 4134,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_c936006ca7d77987d5f529b32d796d26"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 1,
+        "evidence_excerpt": "if i am using dense search to create supporting documents for eli5 how much time it will take",
+        "evidence_label": "question",
+        "issue_number": 4134,
+        "state": "open",
+        "title": "ELI5 supporting documents"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.1,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:f239bc08f7e0b48f58d828381c70775f",
+      "issue_number": 4134,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0002101,
+        "handoffs": 0,
+        "input_tokens": 1646,
+        "output_tokens": 91,
+        "provider_response_latency_ms": 2761.464,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 1737,
+        "wall_latency_ms": 2768.939
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 4134
+        },
+        {
+          "issue_number": 4134
+        },
+        {
+          "issue_number": 4134,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_b894be1f5f66dc03f3dfe4023d696670"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 15,
+        "evidence_excerpt": "Can you please let me know what this reusing dataset csv means? I wouldn't expect any reusing with the datasets caching disabled. Thank you!",
+        "evidence_label": "question",
+        "issue_number": 2187,
+        "state": "open",
+        "title": "Question (potential issue?) related to datasets caching"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:4cbf7f606c461c53b7dc5c61874a66ad",
+      "issue_number": 2187,
+      "metrics": {
+        "cache_write_tokens": 1498,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00050535,
+        "handoffs": 0,
+        "input_tokens": 3944,
+        "output_tokens": 147,
+        "provider_response_latency_ms": 5688.464,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 4091,
+        "wall_latency_ms": 5698.962
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2187
+        },
+        {
+          "issue_number": 2187
+        },
+        {
+          "issue_number": 2187,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_0b4133854f4df778b873a623319fdcdd"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 15,
+        "evidence_excerpt": "Can you please let me know what this reusing dataset csv means? I wouldn't expect any reusing with the datasets caching disabled.",
+        "evidence_label": "question",
+        "issue_number": 2187,
+        "state": "open",
+        "title": "Question (potential issue?) related to datasets caching"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.12,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:07239bcc2961aef54b611e61cca046cd",
+      "issue_number": 2187,
+      "metrics": {
+        "cache_write_tokens": 1498,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00033615,
+        "handoffs": 0,
+        "input_tokens": 2477,
+        "output_tokens": 102,
+        "provider_response_latency_ms": 4369.563,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 2579,
+        "wall_latency_ms": 4378.92
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2187
+        },
+        {
+          "issue_number": 2187
+        },
+        {
+          "issue_number": 2187,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_08bae320aff47bc74f4bdd7e85ba03a1"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 15,
+        "evidence_excerpt": "Can you please let me know what this reusing dataset csv means? I wouldn't expect any reusing with the datasets caching disabled.",
+        "evidence_label": "question",
+        "issue_number": 2187,
+        "state": "open",
+        "title": "Question (potential issue?) related to datasets caching"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:a3b1859c8f575d8bd9c489e94a147ce6",
+      "issue_number": 2187,
+      "metrics": {
+        "cache_write_tokens": 1297,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00025902,
+        "handoffs": 0,
+        "input_tokens": 1776,
+        "output_tokens": 98,
+        "provider_response_latency_ms": 2088.902,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1874,
+        "wall_latency_ms": 2094.217
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 2187
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_92e34c5518f580db0ce85968bc6369cf"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 1,
+        "evidence_excerpt": "Using the dedicated function `get_dataset_infos` on a dataset that has no dataset-info.json file returns an empty info:",
+        "evidence_label": "question",
+        "issue_number": 3013,
+        "state": "closed",
+        "title": "Improve `get_dataset_infos`?"
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.13,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:12ae9cf3c04a5e90d890a0f1b3a86e13",
+      "issue_number": 3013,
+      "metrics": {
+        "cache_write_tokens": 1488,
+        "cached_input_tokens": 1349,
+        "estimated_cost_usd": 0.00026859,
+        "handoffs": 0,
+        "input_tokens": 2843,
+        "output_tokens": 137,
+        "provider_response_latency_ms": 3632.083,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 2980,
+        "wall_latency_ms": 3641.001
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3013
+        },
+        {
+          "issue_number": 3013
+        },
+        {
+          "issue_number": 3013,
+          "limit": 1
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_e9bd3d6611332f81de7493ea159f9259"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 1,
+        "evidence_excerpt": "Using the dedicated function `get_dataset_infos` on a dataset that has no dataset-info.json file returns an empty info:",
+        "evidence_label": "question",
+        "issue_number": 3013,
+        "state": "closed",
+        "title": "Improve `get_dataset_infos`?"
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:61f0f99978e869ad9bbe8484bf36f3a4",
+      "issue_number": 3013,
+      "metrics": {
+        "cache_write_tokens": 1488,
+        "cached_input_tokens": 2627,
+        "estimated_cost_usd": 0.00033887,
+        "handoffs": 0,
+        "input_tokens": 4681,
+        "output_tokens": 140,
+        "provider_response_latency_ms": 6475.945,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 4821,
+        "wall_latency_ms": 6490.916
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3013
+        },
+        {
+          "issue_number": 3013
+        },
+        {
+          "issue_number": 3013,
+          "limit": 100
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_0286dd4244423b4e77d49f8db0654b01"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 1,
+        "evidence_excerpt": "Using the dedicated function `get_dataset_infos` on a dataset that has no dataset-info.json file returns an empty info:",
+        "evidence_label": "question",
+        "issue_number": 3013,
+        "state": "closed",
+        "title": "Improve `get_dataset_infos`?"
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:b70da782cd37840d641c20842051638b",
+      "issue_number": 3013,
+      "metrics": {
+        "cache_write_tokens": 1287,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00027278,
+        "handoffs": 0,
+        "input_tokens": 1766,
+        "output_tokens": 128,
+        "provider_response_latency_ms": 2213.43,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 1894,
+        "wall_latency_ms": 2218.97
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 3013
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_065de30f935f52ad97b515d23242fc77"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 18,
+        "evidence_excerpt": "I need to convert the seqio_data (generator) into huggingface dataset.",
+        "evidence_label": "question",
+        "issue_number": 4417,
+        "state": "closed",
+        "title": "how to convert a dict generator into a huggingface dataset. "
+      },
+      "condition": "baseline",
+      "dispatch": {},
+      "episode_digest": "sha256:aeb09082684e63f3489d99b9194f2f2c",
+      "issue_number": 4417,
+      "metrics": {
+        "cache_write_tokens": 1538,
+        "cached_input_tokens": 2814,
+        "estimated_cost_usd": 0.00034549,
+        "handoffs": 0,
+        "input_tokens": 4918,
+        "output_tokens": 137,
+        "provider_response_latency_ms": 6315.913,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 5055,
+        "wall_latency_ms": 6326.241
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 4417
+        },
+        {
+          "issue_number": 4417
+        },
+        {
+          "issue_number": 4417,
+          "limit": 1
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_c17ee405be7fc43b10a22dd908a8331e"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 18,
+        "evidence_excerpt": "I need to convert the seqio_data (generator) into huggingface dataset.",
+        "evidence_label": "question",
+        "issue_number": 4417,
+        "state": "closed",
+        "title": "how to convert a dict generator into a huggingface dataset. "
+      },
+      "condition": "compiled",
+      "dispatch": {
+        "attempts": 3,
+        "baseline": 2,
+        "boundary_dispatch_rate": 0.3333,
+        "compacted": 1,
+        "dispatch_attempts": 1,
+        "gate_rejections": 0,
+        "guard_misses": {
+          "non_prefix_boundary": 2
+        },
+        "incidents": 0,
+        "interp_failures": {},
+        "overhead_ms_total": 3.16,
+        "removed_requests_total": 2.0,
+        "shadow_would_dispatch": 0,
+        "shadow_would_dispatch_rate": 0.0,
+        "verifier_failures": {},
+        "verifier_pass_rate": 1.0
+      },
+      "episode_digest": "sha256:d903672e1432cddc7bd327d14326b5be",
+      "issue_number": 4417,
+      "metrics": {
+        "cache_write_tokens": 1538,
+        "cached_input_tokens": 1440,
+        "estimated_cost_usd": 0.00025475,
+        "handoffs": 0,
+        "input_tokens": 2984,
+        "output_tokens": 95,
+        "provider_response_latency_ms": 3042.788,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 3079,
+        "wall_latency_ms": 3051.815
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 4417
+        },
+        {
+          "issue_number": 4417
+        },
+        {
+          "issue_number": 4417,
+          "limit": 1
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "trace_id": "trace_283db90ba7f5886d7df025409a65e42c"
+    },
+    {
+      "answer": {
+        "category": "question",
+        "comment_count": 18,
+        "evidence_excerpt": "I need to convert the seqio_data (generator) into huggingface dataset.",
+        "evidence_label": "question",
+        "issue_number": 4417,
+        "state": "closed",
+        "title": "how to convert a dict generator into a huggingface dataset. "
+      },
+      "condition": "macro",
+      "dispatch": {},
+      "episode_digest": "sha256:59ae850775a4f855f6fcd7cbdf42e20c",
+      "issue_number": 4417,
+      "metrics": {
+        "cache_write_tokens": 1652,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0002999,
+        "handoffs": 0,
+        "input_tokens": 2131,
+        "output_tokens": 91,
+        "provider_response_latency_ms": 2245.603,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2222,
+        "wall_latency_ms": 2250.486
+      },
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": true,
+        "score": 1,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "issue_number": 4417
+        }
+      ],
+      "tool_sequence": [
+        "issue_get_bundle"
+      ],
+      "trace_id": "trace_499ef27ce8f47a8631c35768f9700bff"
+    }
+  ],
+  "retained": {
+    "artifact": {
+      "artifact_id": "cand-01-1ebb8b2849c7",
+      "gate_n_accepted": 92,
+      "gate_n_calibration_groups": 92,
+      "gate_retire": false,
+      "gate_threshold": 0.5,
+      "gate_upper_bound": 0.049808920112407784,
+      "gate_violations": 0,
+      "program": {
+        "library_version": "T-v1",
+        "outputs": {
+          "get": {
+            "kind": "expr",
+            "ops": [],
+            "source": "get"
+          },
+          "get2": {
+            "kind": "expr",
+            "ops": [],
+            "source": "get2"
+          }
+        },
+        "removed_requests": 2.0,
+        "steps": [
+          {
+            "args": {
+              "issue_number": {
+                "kind": "expr",
+                "ops": [],
+                "source": "z.issue_number"
+              }
+            },
+            "kind": "call",
+            "schema_version": null,
+            "tool": "issue_get_record",
+            "var": "get",
+            "when": null
+          },
+          {
+            "args": {
+              "issue_number": {
+                "kind": "expr",
+                "ops": [],
+                "source": "get.issue_number"
+              }
+            },
+            "kind": "call",
+            "schema_version": null,
+            "tool": "issue_get_labels",
+            "var": "get2",
+            "when": null
+          }
+        ],
+        "theta": [
+          "issue_number"
+        ],
+        "tools": [
+          "issue_get_record",
+          "issue_get_labels"
+        ]
+      }
+    },
+    "discovery_checkpoint": "paper/results/github_natural_replication/discovery_checkpoint.json",
+    "discovery_checkpoint_sha256": "9be6ab211fa99498edac5be5c5f098dc0f52fdb9cb19f1dae159e4fcc23cd1c8",
+    "model": "gpt-5.6-luna",
+    "path": "paper/results/github_natural_replication/results.json",
+    "sha256": "415f057f0d5e036a765eb97da78df8de7b252c76a39c509c3a5d111538040722"
+  },
+  "run": {
+    "approved_spend_usd": 1.0,
+    "comparative_claim_allowed": true,
+    "estimated_spend_usd": 0.026175,
+    "family": "issue_type",
+    "model": "gpt-6-luna",
+    "openai_agents_sdk": "0.19.2",
+    "openai_api_key_used": true,
+    "openai_python": "2.52.0",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "protocol": {
+      "path": "paper/supplementary/second-model-replication-protocol.md",
+      "sha256": "9d9c074adacdc44e7988f6c36643d36d6664e8aff7fe0d9d388e8c9d03026b6a"
+    },
+    "provider_backed": true,
+    "python": "3.14.4",
+    "real_public_records": true,
+    "script": "paper/scripts/second_model_replication.py",
+    "secrets_serialized": false,
+    "simulated": false,
+    "timestamp_utc": "2026-09-24T12:24:44+00:00"
+  },
+  "schema": "agent-compaction-second-model-replication/v1",
+  "second_model": {
+    "artifact": {
+      "artifact_id": "cand-01-1ebb8b2849c7",
+      "gate_n_accepted": 92,
+      "gate_n_calibration_groups": 92,
+      "gate_retire": false,
+      "gate_threshold": 0.5,
+      "gate_upper_bound": 0.049808920112407784,
+      "gate_violations": 0,
+      "program": {
+        "library_version": "T-v1",
+        "outputs": {
+          "get": {
+            "kind": "expr",
+            "ops": [],
+            "source": "get"
+          },
+          "get2": {
+            "kind": "expr",
+            "ops": [],
+            "source": "get2"
+          }
+        },
+        "removed_requests": 2.0,
+        "steps": [
+          {
+            "args": {
+              "issue_number": {
+                "kind": "expr",
+                "ops": [],
+                "source": "z.issue_number"
+              }
+            },
+            "kind": "call",
+            "schema_version": null,
+            "tool": "issue_get_record",
+            "var": "get",
+            "when": null
+          },
+          {
+            "args": {
+              "issue_number": {
+                "kind": "expr",
+                "ops": [],
+                "source": "get.issue_number"
+              }
+            },
+            "kind": "call",
+            "schema_version": null,
+            "tool": "issue_get_labels",
+            "var": "get2",
+            "when": null
+          }
+        ],
+        "theta": [
+          "issue_number"
+        ],
+        "tools": [
+          "issue_get_record",
+          "issue_get_labels"
+        ]
+      }
+    },
+    "list_price_pinned": true,
+    "manifest_compatibility_key": "1086ab3c289eeadc",
+    "model": "gpt-6-luna",
+    "program_identical_to_retained": true,
+    "registry": "paper/results/second_model_replication/issue_type/registry"
+  },
+  "selection": {
+    "discovery": [
+      6261,
+      4435,
+      5263,
+      4790,
+      5326,
+      3941,
+      3490,
+      6483,
+      865,
+      5385,
+      2279,
+      4694,
+      5148,
+      3703,
+      5855,
+      3155,
+      6274,
+      4056,
+      438,
+      5005,
+      7225,
+      6184,
+      7018,
+      4717,
+      2103,
+      807,
+      361,
+      649,
+      4047,
+      6124,
+      3027,
+      2350,
+      7260,
+      7546,
+      864,
+      3365,
+      6973,
+      2703,
+      6505,
+      4889,
+      5494,
+      6819,
+      4325,
+      157,
+      647,
+      3828,
+      2997,
+      539,
+      3533,
+      4746,
+      6604,
+      1844,
+      5378,
+      4142,
+      4341,
+      7286,
+      6668,
+      4507,
+      2211,
+      7134,
+      4398,
+      5070,
+      2032,
+      2583,
+      5094,
+      7406,
+      198,
+      6237,
+      5862,
+      4349,
+      2860,
+      5483,
+      148,
+      5600,
+      2967,
+      2441,
+      482,
+      836,
+      7561,
+      3217,
+      784,
+      320,
+      5479,
+      6752,
+      3704,
+      6936,
+      6032,
+      3716,
+      624,
+      5088,
+      709,
+      387,
+      2797,
+      5161,
+      6439,
+      3475,
+      6287,
+      7113,
+      1671,
+      2080,
+      668,
+      2901,
+      3952,
+      1831,
+      5649,
+      223,
+      7447,
+      876,
+      6460,
+      2511,
+      648,
+      6120,
+      4570,
+      6149,
+      5706,
+      166,
+      7159,
+      6865,
+      3304,
+      2663,
+      5193,
+      5152,
+      3308,
+      7127,
+      5255,
+      2498,
+      326,
+      2781,
+      4621,
+      3091,
+      2009,
+      6896
+    ],
+    "discovery_reused_from_sealed_checkpoint": true,
+    "record_numbers_sha256": "331cd052af496997a1c6cc69af5f4ea5123007f287142a24783274c128425f70",
+    "test": [
+      7020,
+      4420,
+      4549,
+      2256,
+      4248,
+      6829,
+      3632,
+      2402,
+      3122,
+      3859,
+      302,
+      6532,
+      6150,
+      7093,
+      2481,
+      5514,
+      6059,
+      6202,
+      1906,
+      3829,
+      4221,
+      1514,
+      2108,
+      2196,
+      3881,
+      3854,
+      4134,
+      2187,
+      3013,
+      4417
+    ],
+    "test_reused_from_sealed_selection": true
+  },
+  "source": {
+    "dataset": "helmo/github-issues",
+    "deduplicated_non_pr_issues": 3115,
+    "parquet_sha256": "09453eefae39e45a969ab0bee72ca0e188fe79dc50403b0f2a78c39894f5d1a3",
+    "revision": "e344be7b84d199661a9956036991e1fc25715a47"
+  }
+}

@@ -88,3 +88,11 @@ Every item above was re-checked against the PR #42 head with the bound arithmeti
 | Eq. (1) source set vs Algorithm 3 | §2 enumerates flattened paths of the entry state and of each prior result |
 | Appendix H.1 pointer to the decision rule | The Appendix H decision rule now carries the fourth pre-declared outcome it is asked to point at |
 | Abstract `readonly` | `read-only` no longer breaks at the hyphen in the abstract |
+
+## Live extensions (2026-09-24)
+
+| Concern | Response | Where | Evidence |
+|---|---|---|---|
+| No unguarded / recurrence-only comparator was run | The pre-registered arm has now run: a barrier-free replay of the refused three-read region passed 30/30 with one request per record on the sealed issue-type cohort. By the decision rule fixed in advance we report that on this cohort the provenance refusal cost one request per record without a measured quality benefit, and that the guard's value is the refusal of an unwitnessed argument plus the 6602 counterexample. | App. G, Table (recurrence-only); §7 | `recurrence_only_ablation/results.json` |
+| One provider / model family | A pre-registered same-cohort transfer to `gpt-6-luna` (different generation, same tier) reproduces the structure exactly (identical artifacts under the new pin, 30/30 dispatch per family, 66.6% fewer requests) and produces the paper's only compiled-only miss (issue-type #6532, a one-word excerpt paraphrase on identical evidence). We report the miss first, keep the one-calibrated-model claim, and read the miss as the case the manifest pin exists for. | App. G, Table (second model); §5.1; §7 | `second_model_replication/summary.json`, `github_workflow_families/*/gpt6_luna/results.json` |
+| Results read as mostly negative | §1, §5.1, and §7 now state the positive claims the evidence supports: calibrated refusal (retire exactly where support is below the exact floor, no wrong execution), discovery reaching the manual ceiling, and zero compiled-only failures across 630 compiled held-out episodes on the calibrated model. No caveat was removed. | §1, §5.1, §7 | `validate_live_extensions` recomputes the 630/0 headline |

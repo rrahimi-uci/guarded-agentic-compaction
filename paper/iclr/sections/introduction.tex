@@ -9,9 +9,9 @@ cost without adding adaptation.
 Removing that decision is not ordinary caching. A tool argument may depend on a
 specific earlier observation, a repeated sequence may cross an approval or
 write, an apparently read-only tool may hide an undeclared effect, and replaying
-the same outputs may still change the downstream answer. The problem is not
-``find recurring traces'' but deciding when a recurrent model-mediated region
-may be replaced by a deterministic program, and when it must be refused.
+the same outputs may still change the downstream answer. The question is when
+a recurrent model-mediated region may be replaced by a deterministic program,
+and when it must be refused.
 
 Consider held-out issue \#4420. Given only \code{issue\_number=4420}, the
 observed trace calls \code{record(4420)}, passes the \emph{returned}
@@ -27,14 +27,13 @@ calibration groups at $\alpha=0.05$ (upper bound 0.0498).
 
 An earlier 18-record study supplies the counterexample: its
 three-read artifact replayed all 45 tool calls, yet issue \#6602 lost the URL
-from a Markdown link and only 17/18 downstream answers stayed exact. A
-provider-free continuation guard detects and checked-renders that miss --- a
-mechanism check, not live safety evidence. Together the two cohorts
+from a Markdown link and only 17/18 downstream answers stayed exact; a
+provider-free continuation guard catches that miss. Together the two cohorts
 (\cref{fig:aha-example}) show why recurrence only proposes a candidate.
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=0.72\linewidth]{figures/gac_aha_example.pdf}
+  \includegraphics[width=0.56\linewidth]{figures/gac_aha_example.pdf}
   \Description{A real GitHub issue trace repeats record, labels, and comments, but GAC
   rejects the full candidate because the comments limit is ungroundable and emits only
   the record and labels prefix.  A separate issue 6602 continuation miss shows why clean
@@ -69,13 +68,15 @@ general, but an admissibility argument for trace-derived specialization:
 provenance, effect and position barriers, bounded synthesis, runtime
 verification, and finite-sample compile-or-retire admission
 (\cref{alg:calibrate}, \cref{prop:admission}) with the certificate level stated
-per artifact; every stage can refuse, and the default output is the unchanged
-agent. \item A real-provider evaluation across
+per artifact --- to our knowledge the first exact finite-sample admission
+certificate for trace-derived agent compilation; every stage can refuse, and
+the default output is the unchanged agent. \item A real-provider evaluation across
 three public-record workflow families, plus a narrower cross-repository, time-forward extension keeping both artifacts and principled retirements.
-  \item A negative-result boundary: recurrence and replayability do not license
-  deployment. NESTFUL, API-Bank, and executed BFCL gold plans retire under the
-  same admission logic, and hand-written programs are competitive or tied wherever
-  the workflow is already known.
+  \item Calibrated refusal: recurrence and replayability do not license
+  deployment. NESTFUL, API-Bank, and executed BFCL gold plans clear provenance,
+  synthesis, and replay with no wrong execution and retire exactly where their
+  support falls below the exact sample floor; the discovered programs match
+  hand-written ones wherever the workflow is already known.
   \item A pre-registered fourth substrate, AppWorld --- which admits --- plus a
   measurement on 8{,}190 released baseline trajectories where the admitted region
   is eligible on 2{,}339/2{,}340 full-code but only 1/4{,}680 ReAct or
