@@ -329,8 +329,9 @@ def preflight(args: argparse.Namespace) -> dict[str, Any]:
 
 async def run(args: argparse.Namespace) -> dict[str, Any]:
     load_dotenv(ROOT / ".env")
-    if not os.getenv("OPENAI_API_KEY"):
-        raise RuntimeError("OPENAI_API_KEY is not set")
+    key_env = fixed.provider_api_key_env(args.model)
+    if not os.getenv(key_env):
+        raise RuntimeError(f"{key_env} is not set")
     if args.approved_spend_usd is None or args.approved_spend_usd <= 0:
         raise RuntimeError("a positive --approved-spend-usd is required for a live run")
     pre = preflight(args)
@@ -451,6 +452,230 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
     return payload
 
 
+# ------------------------------------------------------------ design A: re-discovery
+
+
+REDISCOVERY_DIR = OUT_ROOT / "issue_type_rediscovery"
+REDISCOVERY_PROTOCOL = ROOT / "paper/supplementary/second-model-rediscovery-protocol.md"
+PROVIDER_ROOT = ROOT / "paper/results/second_provider_replication"
+PROVIDER_PROTOCOL = ROOT / "paper/supplementary/second-provider-replication-protocol.md"
+
+
+def rediscovery_paths(model: str) -> tuple[Path, Path]:
+    """Output directory and protocol for a re-discovery run: second model or second provider."""
+
+    if model.startswith("anthropic/"):
+        return PROVIDER_ROOT / "issue_type", PROVIDER_PROTOCOL
+    return REDISCOVERY_DIR, REDISCOVERY_PROTOCOL
+
+
+def discovery_scenarios(retained: dict[str, Any], store: dict[int, dict[str, Any]]) -> list[fixed.Scenario]:
+    out = []
+    for number in retained["selection"]["discovery_issue_numbers"]:
+        item = store[int(number)]
+        out.append(fixed.Scenario(
+            issue_number=int(number), category=fixed.category_for(item["labels"]),
+            labels=tuple(item["labels"]), html_url=item["html_url"], day=item["day"], state=item["state"],
+        ))
+    return out
+
+
+def rediscovery_preflight(args: argparse.Namespace) -> dict[str, Any]:
+    out_dir, protocol = rediscovery_paths(args.model)
+    store, audit = shared.load_store()
+    retained = shared.load_retained()
+    disc = discovery_scenarios(retained, store)
+    test = shared.sealed_scenarios(retained)
+    if len(disc) != 132 or len(test) != 30 or {s.issue_number for s in disc} & {s.issue_number for s in test}:
+        raise RuntimeError("sealed issue-type cohorts are incomplete or overlap")
+    payload = {
+        "schema": "agent-compaction-second-model-rediscovery-preflight/v1",
+        "timestamp_utc": datetime.now(UTC).isoformat(timespec="seconds"),
+        "family": "issue_type",
+        "design": "A: live discovery on the second model over the sealed discovery records; compile, calibrate, and evaluate on the second model",
+        "execution_status": "preflight_only",
+        "provider_calls": 0,
+        "real_public_records": True,
+        "simulated": False,
+        "protocol": {"path": str(protocol.relative_to(ROOT)),
+                     "sha256": shared.sha256_file(protocol)},
+        "source": audit,
+        "model": args.model,
+        "compiler": {"train": SPLIT["train"], "dev": SPLIT["dev"], "calibration": SPLIT["calibration"],
+                     "task_design": TASK_DESIGN, "eligibility": "compiler_eligible (factuality_exact, allowed tools, matching issue_number)"},
+        "selection": {
+            "discovery": [s.issue_number for s in disc],
+            "test": [s.issue_number for s in test],
+            "discovery_reused_from_sealed_selection": True,
+            "test_reused_from_sealed_selection": True,
+            "record_numbers_sha256": hashlib.sha256(json.dumps(sorted(s.issue_number for s in test)).encode()).hexdigest(),
+        },
+        "conditions": list(CONDITIONS),
+        "condition_order": {"method": "retained balanced six-permutation Latin order",
+                            "assignments": retained["condition_order"]["primary"]["assignments"]},
+        "model_settings": {"reasoning_effort": "low", "verbosity": "low", "parallel_tool_calls": False,
+                           "store": False, "max_turns": 8, "timeout_s": 120,
+                           "discovery_concurrency": 8,
+                           "retry_policy": "held-out arms: one retry per timed-out episode, both attempts retained; discovery failures retained and excluded from eligibility"},
+        "spend": {"approved_usd_required": 1.0, "expected_usd": 0.05},
+    }
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "preflight.json").write_text(json.dumps(payload, indent=2, sort_keys=True, default=str) + "\n",
+                                            encoding="utf-8")
+    return payload
+
+
+async def rediscover(args: argparse.Namespace) -> dict[str, Any]:
+    load_dotenv(ROOT / ".env")
+    pre = rediscovery_preflight(args)
+    out_dir, _protocol = rediscovery_paths(args.model)
+    if args.preflight_only:
+        return pre
+    if not os.getenv("OPENAI_API_KEY"):
+        raise RuntimeError("OPENAI_API_KEY is not set")
+    if args.approved_spend_usd is None or args.approved_spend_usd <= 0:
+        raise RuntimeError("a positive --approved-spend-usd is required for a live run")
+    result_path = out_dir / "results.json"
+    if result_path.exists() and not args.force:
+        raise RuntimeError(f"refusing to overwrite {result_path}; pass --force")
+    store, _audit = shared.load_store()
+    retained = shared.load_retained()
+    disc_scenarios = discovery_scenarios(retained, store)
+    test_scenarios = shared.sealed_scenarios(retained)
+
+    from agents import add_trace_processor
+
+    processor = AgentsTraceProcessor(include_sensitive_data=True, max_completed=2000)
+    add_trace_processor(processor)
+    catalog = fixed.make_catalog()
+    tools = fixed.make_tools(store)
+    manifest = fixed.make_manifest(args.model, tools, catalog, TASK_DESIGN)
+
+    # Live discovery on the second model over the sealed 132 records.
+    discovery, discovery_failures = await fixed.run_agents_batch(
+        disc_scenarios, condition="discovery", repeat=0, model_name=args.model, tools=tools,
+        processor=processor, manifest=manifest, catalog=catalog, registry=None, concurrency=8,
+        task_design=TASK_DESIGN, source_store=store,
+    )
+    spent = sum(float(r.metrics.get("estimated_cost_usd") or 0.0) for r in discovery)
+    checkpoint = {
+        "schema": "agent-compaction-live-discovery-checkpoint/v1",
+        "status": "discovery_complete_compilation_pending",
+        "timestamp_utc": datetime.now(UTC).isoformat(timespec="seconds"),
+        "model": args.model, "openai_api_key_used": True, "secrets_serialized": False,
+        "selection": pre["selection"],
+        "aggregate": fixed.aggregate_runs(discovery),
+        "failures": discovery_failures,
+        "results": [r.public_dict() for r in discovery],
+    }
+    (out_dir / "discovery_checkpoint.json").write_text(
+        json.dumps(checkpoint, indent=2, sort_keys=True, default=str) + "\n", encoding="utf-8")
+    eligible = [r for r in discovery if fixed.compiler_eligible(r, TASK_DESIGN)]
+    base_run = {
+        "timestamp_utc": datetime.now(UTC).isoformat(timespec="seconds"),
+        "script": "paper/scripts/second_model_replication.py rediscover", "family": "issue_type",
+        "model": args.model, "openai_agents_sdk": version("openai-agents"), "openai_python": version("openai"),
+        "python": platform.python_version(), "platform": platform.platform(), "provider_backed": True,
+        "real_public_records": True, "simulated": False, "openai_api_key_used": True,
+        "secrets_serialized": False, "approved_spend_usd": args.approved_spend_usd, "protocol": pre["protocol"],
+    }
+    discovery_block = {
+        "n": len(discovery), "failures": len(discovery_failures), "exact_traces": len(eligible),
+        "needed": sum(SPLIT.values()), "aggregate": checkpoint["aggregate"],
+        "tool_sequences": dict(__import__("collections").Counter(" -> ".join(r.tool_sequence) for r in discovery)),
+    }
+    try:
+        registry, compile_record, _numbers = fixed.compile_artifact(
+            discovery, catalog=catalog, manifest=manifest, train_n=SPLIT["train"], dev_n=SPLIT["dev"],
+            calibration_n=SPLIT["calibration"], task_design=TASK_DESIGN,
+        )
+    except Exception as exc:
+        payload = {
+            "schema": "agent-compaction-second-model-rediscovery/v1",
+            "run": {**base_run, "estimated_spend_usd": round(spent, 6), "comparative_claim_allowed": False,
+                    "status": "retired_before_held_out_arms"},
+            "source": pre["source"], "selection": pre["selection"], "discovery": discovery_block,
+            "compiler": {"admitted": False, "stage": "compilation", "error_type": type(exc).__name__,
+                         "error": str(exc)[:2000]},
+            "decision_rule_reading": "H-A1 fails: a principled refusal on the second model; no held-out arm was run and no artifact is claimed.",
+            "results": [], "attempts": [],
+        }
+        result_path.write_text(json.dumps(payload, indent=2, sort_keys=True, default=str) + "\n", encoding="utf-8")
+        return payload
+    registry.save(out_dir / "registry")
+    artifact = artifact_fingerprint(compile_record["artifact"])
+    retained_art = artifact_fingerprint(retained["compiler"]["artifact"])
+
+    macro_tools = fixed.make_macro_tool(store)
+    macro_catalog = fixed.make_macro_catalog()
+    macro_manifest = fixed.make_manifest(args.model, macro_tools, macro_catalog, TASK_DESIGN)
+    arms = {
+        "baseline": {"tools": tools, "catalog": catalog, "manifest": manifest, "registry": None},
+        "compiled": {"tools": tools, "catalog": catalog, "manifest": manifest, "registry": registry},
+        "macro": {"tools": macro_tools, "catalog": macro_catalog, "manifest": macro_manifest, "registry": None},
+    }
+    orders = pre["condition_order"]["assignments"]
+    results: list[fixed.RunResult] = []
+    attempts: list[dict[str, Any]] = []
+    for scenario in test_scenarios:
+        for condition in orders[str(scenario.issue_number)]:
+            if spent > args.approved_spend_usd:
+                attempts.append({"issue_number": scenario.issue_number, "condition": condition,
+                                 "error": "approved spend exhausted"})
+                continue
+            arm = arms[condition]
+            for attempt in (0, 1):
+                rows, failures = await fixed.run_agents_batch(
+                    [scenario], condition=condition, repeat=attempt, model_name=args.model,
+                    tools=arm["tools"], processor=processor, manifest=arm["manifest"], catalog=arm["catalog"],
+                    registry=arm["registry"], concurrency=1, task_design=TASK_DESIGN, source_store=store,
+                )
+                for failure in failures:
+                    attempts.append({**failure, "attempt": attempt})
+                if rows:
+                    row = rows[0]
+                    row.repeat = 0
+                    results.append(row)
+                    spent += float(row.metrics.get("estimated_cost_usd") or 0.0)
+                    break
+                if not any("TimeoutError" in str(f.get("error", "")) for f in failures):
+                    break
+            (out_dir / "evaluation_checkpoint.json").write_text(
+                json.dumps({"results": [v.public_dict() for v in results], "attempts": attempts},
+                           indent=2, sort_keys=True, default=str) + "\n", encoding="utf-8")
+    grouped = {c: [r for r in results if r.condition == c] for c in CONDITIONS}
+    n = len(test_scenarios)
+    comparison = fixed.paired_analysis(grouped["baseline"], grouped["compiled"])
+    compiled_only = comparison["quality"].get("factuality_exact", comparison["quality"]["overall"])["baseline_only_successes"]
+    payload = {
+        "schema": "agent-compaction-second-model-rediscovery/v1",
+        "run": {**base_run, "estimated_spend_usd": round(spent, 6),
+                "comparative_claim_allowed": all(len(grouped[c]) == n for c in CONDITIONS), "status": "complete"},
+        "source": pre["source"], "selection": pre["selection"], "condition_order": pre["condition_order"],
+        "discovery": discovery_block,
+        "compiler": {
+            "admitted": True, "artifact": artifact, "retained_artifact": retained_art,
+            "program_identical_to_retained": artifact["program"] == retained_art["program"],
+            "candidates_reaching_calibration": sum(1 for c in compile_record["candidates"] if c.get("gate") is not None),
+            "report": compile_record["report"], "splits": compile_record["splits"],
+            "rejection_by_stage": compile_record["rejection_by_stage"],
+            "candidates": compile_record["candidates"],
+        },
+        "intention_to_treat": {c: {"attempted": n, "completed": len(grouped[c])} for c in CONDITIONS},
+        "aggregate": fixed.aggregate_runs(results),
+        "comparisons": {"baseline_vs_compiled": comparison,
+                        "baseline_vs_macro": fixed.paired_analysis(grouped["baseline"], grouped["macro"], candidate_label="macro")},
+        "dispatch": {"compiled_compacted": sum(int(r.dispatch.get("compacted", 0) > 0) for r in grouped["compiled"])},
+        "hypotheses": {"H-A1_admitted_92_zero_violation": artifact["gate_n_accepted"] == 92 and artifact["gate_violations"] == 0,
+                       "H-A2_same_program": artifact["program"] == retained_art["program"],
+                       "H-A3_zero_compiled_only_failures": compiled_only == 0},
+        "attempts": attempts,
+        "results": [v.public_dict() for v in results],
+    }
+    result_path.write_text(json.dumps(payload, indent=2, sort_keys=True, default=str) + "\n", encoding="utf-8")
+    return payload
+
+
 # -------------------------------------------------------------------------- summary
 
 
@@ -480,26 +705,108 @@ def _family_block(results: dict[str, Any], baseline: str, compiled: str, manual:
     return block
 
 
-def summarize(args: argparse.Namespace) -> dict[str, Any]:
-    sources = {
+PROVIDER_SOURCES = {
+    "Issue-type routing": (PROVIDER_ROOT / "issue_type/results.json", "baseline", "compiled", "macro"),
+    "PR-outcome audit": (FAMILY_ROOT / "pr_outcome/anthropic_sonnet5_rediscovery/results.json", "baseline", "compiled", "manual_pre_model"),
+    "Backlog-attention routing": (FAMILY_ROOT / "backlog_attention/anthropic_sonnet5_rediscovery/results.json", "baseline", "compiled", "manual_pre_model"),
+}
+PROVIDER_TABLE_PATH = ROOT / "paper/iclr/tables/second_provider.tex"
+
+
+def summarize_provider(args: argparse.Namespace) -> dict[str, Any]:
+    families, overall = _collect(PROVIDER_SOURCES)
+    payload = {
+        "schema": "agent-compaction-second-provider-summary/v1",
+        "model": "anthropic/claude-sonnet-5",
+        "design": "A: the unchanged pipeline on the second provider's own traces over the sealed records",
+        "families": families,
+        "overall": overall,
+        "claim_boundary": (
+            "Same sealed records, discovery run live on Anthropic claude-sonnet-5 through the official "
+            "SDK adapter; compile, calibrate, and evaluate on the same provider. Not a cross-provider "
+            "price comparison; certificates conditional on i.i.d. calibration groups as for the primary families."
+        ),
+    }
+    PROVIDER_ROOT.mkdir(parents=True, exist_ok=True)
+    (PROVIDER_ROOT / "summary.json").write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    if any(f.get("status") != "not_run" for f in families):
+        lines = [
+            r"\begin{tabular}{@{}lccccccc@{}}", r"\toprule",
+            r"& \multicolumn{3}{c}{Exact held-out contract} & & \multicolumn{3}{c}{Reduction (\%)} \\",
+            r"\cmidrule(lr){2-4}\cmidrule(lr){6-8}",
+            r"Family & Base & Compiled & Manual & & Requests & Tokens & Cost \\", r"\midrule",
+        ]
+        lines += _table_rows(families, overall)
+        lines += [r"\bottomrule", r"\end{tabular}"]
+        PROVIDER_TABLE_PATH.write_text(
+            "% generated by paper/scripts/second_model_replication.py summarize-provider; do not edit\n"
+            + "\n".join(lines) + "\n", encoding="utf-8")
+    return payload
+
+
+DESIGNS = {
+    "transfer": {
         "Issue-type routing": (ISSUE_DIR / "results.json", "baseline", "compiled", "macro"),
         "PR-outcome audit": (FAMILY_ROOT / "pr_outcome/gpt6_luna/results.json", "baseline", "compiled", "manual_pre_model"),
         "Backlog-attention routing": (FAMILY_ROOT / "backlog_attention/gpt6_luna/results.json", "baseline", "compiled", "manual_pre_model"),
-    }
+    },
+    "rediscovery": {
+        "Issue-type routing": (REDISCOVERY_DIR / "results.json", "baseline", "compiled", "macro"),
+        "PR-outcome audit": (FAMILY_ROOT / "pr_outcome/gpt6_luna_rediscovery/results.json", "baseline", "compiled", "manual_pre_model"),
+        "Backlog-attention routing": (FAMILY_ROOT / "backlog_attention/gpt6_luna_rediscovery/results.json", "baseline", "compiled", "manual_pre_model"),
+    },
+}
+
+
+def _collect(sources: dict[str, tuple[Path, str, str, str]]) -> tuple[list[dict[str, Any]], dict[str, Any] | None]:
     families = []
     for name, (path, b, c, m) in sources.items():
+        failure = path.parent / "failure.json"
+        if not path.exists() and failure.exists():
+            # The family harness raises before the held-out arms when discovery yields fewer
+            # exact traces than the split needs; the failure record carries the counts.
+            data = json.loads(failure.read_text(encoding="utf-8"))
+            families.append({
+                "family": name, "status": "retired", "model": data.get("model"),
+                "source": str(failure.relative_to(ROOT)), "source_sha256": shared.sha256_file(failure),
+                "discovery": data.get("discovery"),
+                "compiler": {"admitted": False, "stage": data.get("stage"), "error": data.get("error"),
+                             **{k: v for k, v in (data.get("compiler") or {}).items() if k in ("candidates", "rejection_by_stage")}},
+            })
+            continue
         if not path.exists():
             families.append({"family": name, "status": "not_run", "source": str(path.relative_to(ROOT))})
             continue
         data = json.loads(path.read_text(encoding="utf-8"))
+        if data.get("compiler", {}).get("admitted") is False or data["run"].get("status") == "retired_before_held_out_arms":
+            families.append({
+                "family": name, "status": "retired", "model": data["run"]["model"],
+                "source": str(path.relative_to(ROOT)), "source_sha256": shared.sha256_file(path),
+                "discovery": data.get("discovery"), "compiler": data.get("compiler"),
+            })
+            continue
         block = _family_block(data, b, c, m)
+        itt = data.get("intention_to_treat") or {}
+        attempted = {c: v.get("attempted") for c, v in itt.items()} if itt else {}
+        itt_complete = bool(itt) and all(
+            sum(1 for r in data["results"] if r["condition"] == c and int(r.get("repeat", 0)) == 0)
+            + sum(1 for a in data.get("attempts", []) if a.get("condition") == c and a.get("attempt") == 1)
+            >= v.get("attempted", 0) for c, v in itt.items())
+        if attempted:
+            for arm, cond in (("baseline", b), ("compiled", c), ("manual", m)):
+                block[arm]["attempted"] = attempted.get(cond, block[arm]["n"])
         block.update({
             "family": name,
-            "status": "complete" if data["run"].get("comparative_claim_allowed") else "incomplete",
+            "status": "complete" if (data["run"].get("comparative_claim_allowed") or itt_complete) else "incomplete",
             "model": data["run"]["model"],
             "source": str(path.relative_to(ROOT)),
             "source_sha256": shared.sha256_file(path),
         })
+        art = (data.get("compiler") or {}).get("artifact") or {}
+        if art:
+            block["artifact_id"] = art.get("artifact_id")
+            block["program_identical_to_retained"] = (data.get("compiler") or {}).get("program_identical_to_retained")
+            block["candidates_reaching_calibration"] = (data.get("compiler") or {}).get("candidates_reaching_calibration")
         families.append(block)
     complete = [f for f in families if f.get("status") == "complete"]
     overall = None
@@ -514,11 +821,53 @@ def summarize(args: argparse.Namespace) -> dict[str, Any]:
             b = sum(f["baseline"][key] for f in complete)
             c = sum(f["compiled"][key] for f in complete)
             overall[key] = {"baseline": b, "compiled": c, "reduction": (1.0 - c / b) if b else None}
+    return families, overall
+
+
+def _table_rows(families: list[dict[str, Any]], overall: dict[str, Any] | None) -> list[str]:
+    lines = []
+    for f in families:
+        if f.get("status") == "retired":
+            d = f.get("discovery") or {}
+            comp = f.get("compiler") or {}
+            if comp.get("stage") == "calibration":
+                cands = comp.get("candidates") or []
+                best = max((c.get("max_n_accepted") or 0) for c in cands) if cands else "?"
+                why = f"at calibration ({best}/92 groups, $U>\\alpha$; {d.get('exact_traces', '?')}/{d.get('n', '?')} exact traces)"
+            else:
+                why = f"at compile time ({d.get('exact_traces', '?')}/{d.get('n', '?')} exact discovery traces)"
+            lines.append(f"\\quad {f['family']} & \\multicolumn{{7}}{{l}}{{\\textsc{{retire}} {why}}} \\\\")
+            continue
+        if f.get("status") != "complete":
+            lines.append(f"\\quad {f['family']} & \\multicolumn{{7}}{{l}}{{not run}} \\\\")
+            continue
+        r = f["reductions"]
+        den = {arm: f[arm].get("attempted", f[arm]["n"]) for arm in ("baseline", "compiled", "manual")}
+        lines.append(
+            f"\\quad {f['family']} & {f['baseline']['exact']}/{den['baseline']} & "
+            f"\\textbf{{{f['compiled']['exact']}/{den['compiled']}}} & {f['manual']['exact']}/{den['manual']} & & "
+            f"{100*r['requests']:.1f} & {100*r['total_tokens']:.1f} & {100*r['estimated_cost_usd']:.1f} \\\\"
+        )
+    complete = [f for f in families if f.get("status") == "complete"]
+    if overall and complete and len(complete) == len(families):
+        lines.append(
+            f"\\quad Weighted total ($n={overall['n']}$) & {overall['baseline_exact']}/{overall['n']} & "
+            f"\\textbf{{{overall['compiled_exact']}/{overall['n']}}} & {overall['manual_exact']}/{overall['n']} & & "
+            f"{100*overall['requests']['reduction']:.1f} & {100*overall['total_tokens']['reduction']:.1f} & "
+            f"{100*overall['estimated_cost_usd']['reduction']:.1f} \\\\")
+    return lines
+
+
+def summarize(args: argparse.Namespace) -> dict[str, Any]:
+    families, overall = _collect(DESIGNS["transfer"])
+    families_a, overall_a = _collect(DESIGNS["rediscovery"])
+    complete = [f for f in families if f.get("status") == "complete"]
     payload = {
-        "schema": "agent-compaction-second-model-summary/v1",
+        "schema": "agent-compaction-second-model-summary/v2",
         "model": args.model,
         "families": families,
         "overall": overall,
+        "rediscovery": {"families": families_a, "overall": overall_a},
         "claim_boundary": (
             "Same sealed records, discovery traces, and splits as the gpt-5.6-luna studies; "
             "artifacts recompiled provider-free under the second-model manifest pin; held-out "
@@ -535,23 +884,13 @@ def summarize(args: argparse.Namespace) -> dict[str, Any]:
             r"& \multicolumn{3}{c}{Exact held-out contract} & & \multicolumn{3}{c}{Reduction (\%)} \\",
             r"\cmidrule(lr){2-4}\cmidrule(lr){6-8}",
             r"Family & Base & Compiled & Manual & & Requests & Tokens & Cost \\", r"\midrule",
+            r"\multicolumn{8}{@{}l}{\emph{Transfer (design B): retained artifacts recompiled under the new pin}} \\",
         ]
-        for f in families:
-            if f.get("status") != "complete":
-                lines.append(f"{f['family']} & \\multicolumn{{7}}{{l}}{{not run}} \\\\")
-                continue
-            r = f["reductions"]
-            lines.append(
-                f"{f['family']} & {f['baseline']['exact']}/{f['baseline']['n']} & "
-                f"\\textbf{{{f['compiled']['exact']}/{f['compiled']['n']}}} & {f['manual']['exact']}/{f['manual']['n']} & & "
-                f"{100*r['requests']:.1f} & {100*r['total_tokens']:.1f} & {100*r['estimated_cost_usd']:.1f} \\\\"
-            )
-        if overall and len(complete) == len(families):
-            lines += [r"\midrule",
-                      f"Weighted total ($n={overall['n']}$) & {overall['baseline_exact']}/{overall['n']} & "
-                      f"\\textbf{{{overall['compiled_exact']}/{overall['n']}}} & {overall['manual_exact']}/{overall['n']} & & "
-                      f"{100*overall['requests']['reduction']:.1f} & {100*overall['total_tokens']['reduction']:.1f} & "
-                      f"{100*overall['estimated_cost_usd']['reduction']:.1f} \\\\"]
+        lines += _table_rows(families, overall)
+        if any(f.get("status") != "not_run" for f in families_a):
+            lines += [r"\addlinespace[2pt]",
+                      r"\multicolumn{8}{@{}l}{\emph{Re-discovery (design A): the pipeline run on the second model's own traces}} \\"]
+            lines += _table_rows(families_a, overall_a)
         lines += [r"\bottomrule", r"\end{tabular}"]
         TABLE_PATH.write_text(
             "% generated by paper/scripts/second_model_replication.py summarize; do not edit\n"
@@ -561,9 +900,10 @@ def summarize(args: argparse.Namespace) -> dict[str, Any]:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("preflight", "run", "summarize"))
+    parser.add_argument("command", choices=("preflight", "run", "rediscover", "summarize", "summarize-provider"))
     parser.add_argument("--model", default="gpt-6-luna")
     parser.add_argument("--approved-spend-usd", type=float)
+    parser.add_argument("--preflight-only", action="store_true")
     parser.add_argument("--force", action="store_true")
     return parser.parse_args()
 
@@ -578,6 +918,17 @@ def main() -> None:
         payload = asyncio.run(run(args))
         print(json.dumps({k: payload[k] for k in ("run", "intention_to_treat", "aggregate", "dispatch")},
                          indent=2, sort_keys=True, default=str))
+    elif args.command == "rediscover":
+        payload = asyncio.run(rediscover(args))
+        keys = [k for k in ("run", "discovery", "intention_to_treat", "aggregate", "dispatch", "hypotheses",
+                            "decision_rule_reading", "execution_status", "selection") if k in payload]
+        shown = {k: payload[k] for k in keys}
+        if "compiler" in payload:
+            shown["compiler"] = {k: v for k, v in payload["compiler"].items() if k not in ("report", "candidates", "splits")}
+        print(json.dumps(shown, indent=2, sort_keys=True, default=str))
+    elif args.command == "summarize-provider":
+        payload = summarize_provider(args)
+        print(json.dumps({k: v for k, v in payload.items() if k != "families"} | {"families": [(f["family"], f.get("status")) for f in payload["families"]]}, indent=2, default=str))
     else:
         payload = summarize(args)
         print(json.dumps(payload, indent=2, sort_keys=True, default=str))

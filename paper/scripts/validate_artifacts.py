@@ -1733,6 +1733,18 @@ def validate_live_extensions() -> None:
         spec.loader.exec_module(module)
         return module
 
+    def _canon(value):
+        # Python 3.12 switched float sum() to compensated summation, so totals and
+        # reductions can differ in the last bits between interpreters; compare at
+        # nine significant digits, as validate_iclr_sources does.
+        if isinstance(value, float):
+            return float(f"{value:.9g}")
+        if isinstance(value, dict):
+            return {k: _canon(v) for k, v in value.items()}
+        if isinstance(value, list):
+            return [_canon(v) for v in value]
+        return value
+
     retained = load(PAPER / "results/github_natural_replication/results.json")
     sealed_test = [int(item["issue_number"]) for item in retained["selection"]["test"]]
 
@@ -1805,10 +1817,17 @@ def validate_live_extensions() -> None:
         comp = {key(r): _exact(r) for r in rows if r["condition"] == condition}
         episodes += len(comp)
         compiled_only += sum(base.get(k, False) and not v for k, v in comp.items())
-    ok(episodes == 630 and compiled_only == 0,
-       "§7: 630 compiled held-out episodes on the calibrated model with zero compiled-only failures")
-    ok("630 compiled held-out episodes" in (PAPER / "iclr/sections/discussion.tex").read_text(encoding="utf-8"),
-       "§7 states the 630-episode headline")
+    ext_results = PAPER / "results/issue_type_extended_heldout/results.json"
+    if ext_results.exists():
+        rows = [r for r in load(ext_results).get("results", []) if int(r.get("repeat", 0)) == 0]
+        base = {r["issue_number"]: _exact(r) for r in rows if r["condition"] == "baseline"}
+        comp = {r["issue_number"]: _exact(r) for r in rows if r["condition"] == "compiled"}
+        episodes += len(comp)
+        compiled_only += sum(base.get(k, False) and not v for k, v in comp.items())
+    ok(episodes == 750 and compiled_only == 1,
+       "§7: 750 compiled held-out episodes on the calibrated model with one compiled-only failure")
+    ok("750 compiled held-out episodes" in (PAPER / "iclr/sections/discussion.tex").read_text(encoding="utf-8"),
+       "§7 states the 750-episode headline")
 
     # -- second-model replication ----------------------------------------------------
     sm_dir = PAPER / "results/second_model_replication"
@@ -1857,6 +1876,176 @@ def validate_live_extensions() -> None:
         rows = [r for r in res.get("results", []) if int(r.get("repeat", 0)) == 0]
         ok(all(sum(r["condition"] == c for r in rows) == 30 for c in conditions),
            f"second-model: {family} completed all three arms on 30 records")
+    # -- multiplicity repair: NO-GO recorded per decision-rule row 3 ----------------------
+    mr = PAPER / "results/multiplicity_repair/preflight.json"
+    ok(mr.exists(), "multiplicity-repair: preflight exists")
+    if mr.exists():
+        pre = load(mr)
+        pools = pre.get("unused_eligible_per_class", {})
+        ok(pre.get("provider_calls") == 0 and pre.get("execution_status") == "NO-GO",
+           "multiplicity-repair: preflight is a provider-free NO-GO")
+        ok(pools.get("pr_outcome", {}).get("open", 99) < 36 and pools.get("backlog_attention", {}).get("owned", 99) < 36,
+           "multiplicity-repair: the NO-GO is forced by the open and owned pools")
+        ok(not (PAPER / "results/multiplicity_repair/pr_outcome").exists()
+           and not (PAPER / "results/multiplicity_repair/backlog_attention").exists(),
+           "multiplicity-repair: no live run exists after the NO-GO")
+
+    # -- design A re-discovery ------------------------------------------------------------
+    redisc_paths = {
+        "issue_type": sm_dir / "issue_type_rediscovery/results.json",
+        "pr_outcome": PAPER / "results/github_workflow_families/pr_outcome/gpt6_luna_rediscovery/results.json",
+        "backlog_attention": PAPER / "results/github_workflow_families/backlog_attention/gpt6_luna_rediscovery/results.json",
+    }
+    issue_redisc_pre = sm_dir / "issue_type_rediscovery/preflight.json"
+    ok(issue_redisc_pre.exists(), "re-discovery: issue-type preflight exists")
+    if issue_redisc_pre.exists():
+        pre = load(issue_redisc_pre)
+        ok(pre.get("provider_calls") == 0 and pre.get("selection", {}).get("test") == sealed_test
+           and len(pre.get("selection", {}).get("discovery", [])) == 132,
+           "re-discovery: issue-type preflight reuses the sealed cohorts without a provider call")
+    for family, path in redisc_paths.items():
+        if not path.exists():
+            continue
+        res = load(path)
+        run = res.get("run", {})
+        ok(run.get("provider_backed") is True and run.get("model") == "gpt-6-luna",
+           f"re-discovery: {family} results are provider-backed on gpt-6-luna")
+        if family == "issue_type":
+            if res.get("compiler", {}).get("admitted") is False:
+                ok(res.get("results") == [], "re-discovery: issue-type retired at compile time and ran no held-out arm")
+            else:
+                rows = [r for r in res.get("results", []) if int(r.get("repeat", 0)) == 0]
+                ok(all(sum(r["condition"] == c for r in rows) == 30 for c in ("baseline", "compiled", "macro")),
+                   "re-discovery: issue-type completed all three arms on 30 records")
+                ok(res.get("compiler", {}).get("artifact", {}).get("gate_n_accepted") == 92
+                   and res.get("compiler", {}).get("artifact", {}).get("gate_violations") == 0,
+                   "re-discovery: issue-type artifact carries a 92/0 gate")
+        else:
+            sel = res.get("selection", {})
+            final = load(PAPER / f"results/github_workflow_families/{family}/final/results.json").get("selection", {})
+            ok(sel.get("discovery") == final.get("discovery") and sel.get("test") == final.get("test"),
+               f"re-discovery: {family} reuses the sealed cohorts")
+            ok(sel.get("discovery_reused_from_sealed_checkpoint") is True
+               and (res.get("run", {}).get("resolved_config") or {}).get("discovery_checkpoint") is None,
+               f"re-discovery: {family} ran discovery live (no checkpoint reuse)")
+            rows = [r for r in res.get("results", []) if int(r.get("repeat", 0)) == 0]
+            ok(all(sum(r["condition"] == c for r in rows) == 30 for c in ("baseline", "compiled", "manual_pre_model")),
+               f"re-discovery: {family} completed all three arms on 30 records")
+
+    # -- extended issue-type held-out -----------------------------------------------------
+    ext_dir = PAPER / "results/issue_type_extended_heldout"
+    ext_pre = ext_dir / "preflight.json"
+    ok(ext_pre.exists(), "extended held-out: preflight exists")
+    if ext_pre.exists():
+        pre = load(ext_pre)
+        sel = pre.get("selection", {})
+        chk = pre.get("artifact", {}).get("recompilation", {}).get("checks", {})
+        ok(pre.get("provider_calls") == 0 and len(sel.get("test", [])) == 120,
+           "extended held-out: preflight seals 120 records without a provider call")
+        ok(not ({int(i["issue_number"]) for i in sel.get("test", [])} & set(sealed_test)),
+           "extended held-out: cohort is disjoint from the primary held-out records")
+        ok(chk.get("artifact_id_identical") is True and chk.get("program_identical") is True
+           and chk.get("gate_identical") is True and chk.get("splits_digest_identical") is True,
+           "extended held-out: the recompiled artifact is the retained one under the current pin")
+    ext_res = ext_dir / "results.json"
+    if ext_res.exists():
+        res = load(ext_res)
+        rows = [r for r in res.get("results", []) if int(r.get("repeat", 0)) == 0]
+        ok(res.get("run", {}).get("provider_backed") is True and res.get("run", {}).get("model") == "gpt-5.6-luna",
+           "extended held-out: results are provider-backed on the calibrated model")
+        ok(all(sum(r["condition"] == c for r in rows) == 120 for c in ("baseline", "compiled", "macro")),
+           "extended held-out: all three arms completed on 120 records")
+        base = {r["issue_number"]: bool(r["quality"].get("factuality_exact")) for r in rows if r["condition"] == "baseline"}
+        comp = {r["issue_number"]: bool(r["quality"].get("factuality_exact")) for r in rows if r["condition"] == "compiled"}
+        k = sum(base.get(i, False) and not v for i, v in comp.items())
+        bound = res.get("compiled_only_bound", {})
+        ok(bound.get("extension", {}).get("k") == k and bound.get("pooled_with_primary", {}).get("n") == 90 + len(comp),
+           "extended held-out: compiled-only count and pooled denominator recompute from the rows")
+        table_path = PAPER / "iclr/tables/extended_heldout.tex"
+        ok(table_path.exists(), "extended held-out: ICLR table exists")
+        if table_path.exists():
+            module = _module("issue_type_extended_heldout")
+            with tempfile.TemporaryDirectory() as scratch:
+                module.TABLE_PATH = Path(scratch) / "extended_heldout.tex"
+                fresh = module.table(None)
+            ok(fresh == table_path.read_text(encoding="utf-8"), "extended held-out: ICLR table regenerates byte-identically")
+
+    # -- second provider (Anthropic claude-sonnet-5, design A) ---------------------------
+    prov_root = PAPER / "results/second_provider_replication"
+    prov_paths = {
+        "issue_type": prov_root / "issue_type/results.json",
+        "pr_outcome": PAPER / "results/github_workflow_families/pr_outcome/anthropic_sonnet5_rediscovery/results.json",
+        "backlog_attention": PAPER / "results/github_workflow_families/backlog_attention/anthropic_sonnet5_rediscovery/results.json",
+    }
+    prov_pre = prov_root / "issue_type/preflight.json"
+    if prov_pre.exists():
+        pre = load(prov_pre)
+        ok(pre.get("provider_calls") == 0 and pre.get("model") == "anthropic/claude-sonnet-5"
+           and pre.get("selection", {}).get("test") == sealed_test,
+           "second-provider: issue-type preflight is provider-free on claude-sonnet-5 with the sealed cohort")
+    for family, path in prov_paths.items():
+        failure = path.parent / "failure.json"
+        if not path.exists() and not failure.exists():
+            continue
+        if not path.exists():
+            data = load(failure)
+            ok(data.get("test_arms_started") is False and (data.get("discovery") or {}).get("n") == 132,
+               f"second-provider: {family} refusal record covers the 132 discovery records")
+            continue
+        res = load(path)
+        run = res.get("run", {})
+        ok(run.get("provider_backed") is True and run.get("model") == "anthropic/claude-sonnet-5",
+           f"second-provider: {family} results are provider-backed on claude-sonnet-5")
+        conditions = ("baseline", "compiled", "macro") if family == "issue_type" else ("baseline", "compiled", "manual_pre_model")
+        rows = [r for r in res.get("results", []) if int(r.get("repeat", 0)) == 0]
+        if res.get("compiler", {}).get("admitted") is False:
+            ok(rows == [], f"second-provider: {family} retired at compile time and ran no held-out arm")
+        else:
+            # Intention-to-treat: every arm attempted 30 episodes; an episode that failed
+            # after its one retry stays counted as a failure of that arm, never dropped.
+            attempts = res.get("attempts") or res.get("failures") or []
+            failed = {(a.get("condition"), a.get("issue_number") or a.get("record_number")) for a in attempts
+                      if a.get("attempt", 1) == 1 or "attempt" not in a}
+            ok(all(sum(r["condition"] == c for r in rows) + sum(1 for f in failed if f[0] == c) >= 30
+                   and sum(r["condition"] == c for r in rows) <= 30 for c in conditions),
+               f"second-provider: {family} accounts for all 30 records per arm under intention-to-treat")
+    prov_summary = prov_root / "summary.json"
+    if prov_summary.exists() and any(p.exists() or (p.parent / "failure.json").exists() for p in prov_paths.values()):
+        module = _module("second_model_replication")
+        committed = load(prov_summary)
+        with tempfile.TemporaryDirectory() as scratch:
+            module.PROVIDER_ROOT = Path(scratch)
+            module.PROVIDER_TABLE_PATH = Path(scratch) / "second_provider.tex"
+            fresh = module.summarize_provider(SimpleNamespace())
+            fresh_table = module.PROVIDER_TABLE_PATH.read_text(encoding="utf-8") if module.PROVIDER_TABLE_PATH.exists() else None
+        ok(_canon(fresh.get("families")) == _canon(committed.get("families"))
+           and _canon(fresh.get("overall")) == _canon(committed.get("overall")),
+           "second-provider: summary regenerates to the committed values")
+        table_path = PAPER / "iclr/tables/second_provider.tex"
+        ok(fresh_table is not None and table_path.exists() and fresh_table == table_path.read_text(encoding="utf-8"),
+           "second-provider: ICLR table regenerates byte-identically")
+
+    # -- read-only prologue measurement -----------------------------------------------
+    pro = PAPER / "results/external_benchmarks/appworld_dispatch_prologue_preflight.json"
+    retained_pro = PAPER / "results/external_benchmarks/appworld_dispatch_preflight.json"
+    ok(pro.exists(), "prologue: AppWorld before/after measurement exists")
+    if pro.exists() and retained_pro.exists():
+        data = load(pro)
+        fam = data.get("by_agent_family", {})
+        before = {k: v.get("before_eligible_at_position_0") for k, v in fam.items()}
+        after = {k: v.get("after_eligible_total") for k, v in fam.items()}
+        ok(before.get("full_code_refl") == 2339 and before.get("ipfuncall") == 762
+           and before.get("plan_exec") == 1 and before.get("react") == 0,
+           "prologue: BEFORE reproduces the retained per-architecture eligibility")
+        ok(after.get("react") == 2 and after.get("plan_exec") == 1
+           and after.get("full_code_refl") == 2339 and after.get("ipfuncall") == 762,
+           "prologue: AFTER counts match the manuscript (2/2,340 ReAct, 1/2,340 plan-and-execute)")
+        ok(all(v.get("after_eligible_total", 0) >= v.get("before_eligible_at_position_0", 0) for v in fam.values()),
+           "prologue: AFTER is a superset of BEFORE in every architecture")
+        ok((PAPER / "iclr/tables/appworld_dispatch_prologue.tex").exists(), "prologue: ICLR table exists")
+        ok("2 of 4{,}680" in (PAPER / "iclr/sections/results.tex").read_text(encoding="utf-8"),
+           "prologue: §5.3 states the measured recovery")
+
     summary_path = sm_dir / "summary.json"
     if present:
         ok(summary_path.exists(), "second-model: summary exists")
@@ -1869,11 +2058,143 @@ def validate_live_extensions() -> None:
             module.TABLE_PATH = Path(scratch) / "second_model.tex"
             fresh = module.summarize(SimpleNamespace(model="gpt-6-luna"))
             fresh_table = module.TABLE_PATH.read_text(encoding="utf-8") if module.TABLE_PATH.exists() else None
-        ok(fresh.get("families") == committed_summary.get("families")
-           and fresh.get("overall") == committed_summary.get("overall"),
+        ok(_canon(fresh.get("families")) == _canon(committed_summary.get("families"))
+           and _canon(fresh.get("overall")) == _canon(committed_summary.get("overall"))
+           and _canon(fresh.get("rediscovery")) == _canon(committed_summary.get("rediscovery")),
            "second-model: summary regenerates to the committed values")
         ok(table_path.exists() and fresh_table == table_path.read_text(encoding="utf-8"),
            "second-model: ICLR table regenerates byte-identically")
+
+
+def validate_recompile_with_challenge() -> None:
+    """Pin the provider-free closure of the two Appendix G operational caveats.
+
+    ``recompile_with_challenge.py`` recompiles the three primary live artifacts from their
+    sealed discovery checkpoints with the perturbation suite running through a
+    pinned-snapshot sandbox and with registry signature verification on. The record must
+    show the recompiled program, splits, and 92/0 gate are the retained ones (no reported
+    number changes), every default perturbation family ran with zero wrong answers and
+    zero hard rejects, ``perturbations_claimed`` is true, and signed registries verify,
+    while wrong-key and tampered loads are refused. The retained files must remain as
+    they were reported (unsigned, ``perturbations_claimed: false``).
+    """
+    from guarded_agentic_compaction.evaluation.perturb import DEFAULT_PERTURBATIONS
+
+    path = PAPER / "results/iclr_revision/recompile_with_challenge.json"
+    ok(path.exists(), "challenge-recompile: record exists")
+    if not path.exists():
+        return
+    rec = load(path)
+    ok(rec.get("schema") == "agent-compaction-recompile-with-challenge/v1" and rec.get("provider_calls") == 0,
+       "challenge-recompile: schema and zero provider calls")
+    expected = {
+        "issue_type": ("cand-01-1ebb8b2849c7", PAPER / "results/github_natural_replication"),
+        "pr_outcome": ("cand-00-a1de3856bb6c", PAPER / "results/github_workflow_families/pr_outcome/final"),
+        "backlog_attention": ("cand-00-99f1b041ed7c", PAPER / "results/github_workflow_families/backlog_attention/final"),
+    }
+    suite = [p.name for p in DEFAULT_PERTURBATIONS]
+    ok([p["perturbation"] for p in rec.get("perturbation_suite", [])] == suite,
+       "challenge-recompile: the recorded suite is the library's default perturbation suite")
+    artifacts = rec.get("artifacts", {})
+    ok(sorted(artifacts) == sorted(expected), "challenge-recompile: all three primary artifacts are covered")
+    # Present-day recompiles differ from the retained files in a few non-reported fields
+    # that the no-challenge control carries too (checkpoint reconstruction and library
+    # changes since the runs); the set is pinned so a new difference cannot slip in.
+    retained_drift = {
+        "issue_type": [
+            ".compatibility_key", ".evidence.metrics.composite", ".evidence.metrics.composite_name",
+            ".evidence.support_days", ".gate.features_spec.hull_kinds.z.issue_number",
+            ".gate.features_spec.numeric_ranges.z.issue_number", ".guard.clauses[0].hull.high",
+            ".guard.clauses[0].hull.kind", ".guard.clauses[0].hull.low", ".manifest.manifest_id",
+            ".manifest.tracer_version", ".program.composite", ".verifier.clauses[1].hull.high",
+            ".verifier.clauses[1].hull.kind", ".verifier.clauses[1].hull.low",
+        ],
+        "pr_outcome": [".evidence.support_days"],
+        "backlog_attention": [".evidence.support_days"],
+    }
+    challenge_paths = (".evidence.perturbation", ".evidence.metrics.perturbations_claimed", ".evidence.metrics.sandbox")
+    for family, (artifact_id, retained_dir) in expected.items():
+        art = artifacts.get(family, {})
+        retained = load(retained_dir / "results.json").get("compiler", {})
+        retained_art = retained.get("artifact", {})
+        identity = art.get("identity", {}).get("vs_retained", {})
+        control = art.get("identity", {}).get("vs_control", {})
+        ok(art.get("artifact_id") == artifact_id and identity.get("artifact_id", {}).get("identical") is True,
+           f"challenge-recompile: {family} recompiles to the retained artifact id {artifact_id}")
+        ok(identity.get("program_identical") is True and identity.get("splits_digest", {}).get("identical") is True
+           and identity.get("name_identical") is True,
+           f"challenge-recompile: {family} program, name, and splits are the retained ones")
+        gate = identity.get("gate", {})
+        ok(all(identity.get("gate_identical", {}).get(k) is True for k in
+               ("n_calibration_groups", "n_accepted", "observed_violations", "risk_upper_bound", "threshold", "retire"))
+           and gate.get("n_calibration_groups") == 92 and gate.get("observed_violations") == 0
+           and gate.get("retire") is False
+           and evidence_equal(gate.get("risk_upper_bound"), retained_art.get("gate", {}).get("risk_upper_bound")),
+           f"challenge-recompile: {family} keeps the retained 92/0 gate")
+        ok(identity.get("splits_digest", {}).get("retained") == retained.get("splits", {}).get("digest"),
+           f"challenge-recompile: {family} splits digest matches the retained study file")
+        ok(identity.get("paths_that_differ_outside_challenge_evidence") == retained_drift[family]
+           and identity.get("unclassified_differences") == []
+           and (family == "issue_type" or (identity.get("guard_identical") is True
+                                           and identity.get("verifier_identical") is True
+                                           and identity.get("compatibility_key_identical") is True)),
+           f"challenge-recompile: {family} differs from the retained file only in challenge evidence and the pinned drift fields")
+        ok(control.get("only_challenge_evidence_differs") is True
+           and all(control.get(k) is True for k in ("artifact_id_identical", "splits_digest_identical", "program_identical",
+                                                      "guard_identical", "verifier_identical", "gate_identical",
+                                                      "manifest_identical", "candidate_stages_identical"))
+           and control.get("control_perturbations_claimed") is False
+           and all(any(p == c or p.startswith(c + ".") for c in challenge_paths)
+                   for p in control.get("paths_that_differ", ["<none>"])),
+           f"challenge-recompile: {family} enabling the challenge changes only the challenge evidence relative to the no-sandbox control")
+        inputs = art.get("inputs", {})
+        checkpoint = PAPER.parent / inputs.get("discovery_checkpoint", "missing")
+        ok(checkpoint.exists() and sha256(checkpoint) == inputs.get("discovery_checkpoint_sha256"),
+           f"challenge-recompile: {family} names the sealed discovery checkpoint by checksum")
+        challenge = art.get("challenge", {})
+        rows = {r["perturbation"]: r for r in challenge.get("perturbation_families", [])}
+        ok(list(rows) == suite and all(rows[n].get("ran") is True and rows[n].get("n") == 8 for n in suite),
+           f"challenge-recompile: {family} ran all {len(suite)} perturbation families on the 8 dev windows")
+        ok(all(rows[n].get("wrong", 0) == 0 and rows[n].get("state_delta", 0) == 0
+               and rows[n].get("no_reference", 0) == 0 for n in suite)
+           and challenge.get("hard_rejects") == [] and challenge.get("families_not_run") == [],
+           f"challenge-recompile: {family} has zero wrong answers, state deltas, or hard rejects")
+        ok(all(rows[n].get("passed") == 8 for n in ("reorder_lists", "empty_lists", "formatting"))
+           and all(rows[n].get("abstained") == 8 for n in ("schema_drift", "tool_4xx", "tool_timeout"))
+           and rows["null_fields"].get("verifier_abstained") == 8,
+           f"challenge-recompile: {family} abstains on schema drift, tool errors, timeouts, and nulled fields")
+        ok(challenge.get("perturbations_claimed") is True and art.get("perturbations_claimed") is True
+           and challenge.get("survives_challenge") is True and challenge.get("candidate_stage") == "emitted",
+           f"challenge-recompile: {family} perturbations are claimed and the candidate survives")
+        sandbox = challenge.get("sandbox_replay", {})
+        ok(sandbox.get("n") == 8 and sandbox.get("passed") == 8 and sandbox.get("wrong") == 0
+           and sandbox.get("state_delta") == 0 and art.get("compile_call", {}).get("sandbox", {}).get("tool_calls", 0) > 0,
+           f"challenge-recompile: {family} sandbox replay passes 8/8 dev windows through the snapshot world")
+        sig = art.get("signature", {})
+        ok(sig.get("verify_signature") is True and sig.get("verify_signature_wrong_key") is False
+           and sig.get("saved_signature_persisted") is True
+           and all(sig.get("reload_with_key", {}).get(k) is True for k in
+                   ("loaded", "verify_signature", "body_digest_identical", "resolve_returns_artifact"))
+           and art.get("signature_verified") is True,
+           f"challenge-recompile: {family} signed registry verifies on save and reload")
+        ok(sig.get("reload_with_wrong_key_refused") is True and sig.get("tampered_gate_refused") is True
+           and sig.get("tampered_gate_loads_when_verification_is_off") is True,
+           f"challenge-recompile: {family} wrong-key and tampered registries are refused only when verification is on")
+        ok(len(sig.get("signature", "")) == 64 and len(sig.get("body_digest", "")) == 64,
+           f"challenge-recompile: {family} records the HMAC-SHA256 signature and body digest")
+        # The reported artifacts are untouched: still unsigned, still perturbations_claimed: false.
+        retained_registry = load(retained_dir / "registry/registry.json")
+        ok(retained_art.get("signature", "") == "" and retained_art.get("evidence", {}).get("metrics", {}).get("perturbations_claimed") is False
+           and retained_art.get("evidence", {}).get("perturbation") == {}
+           and all(a.get("signature", "") == "" for a in retained_registry.get("artifacts", []))
+           and sig.get("retained_registry", {}).get("refused_when_verification_on") is True
+           and identity.get("retained_perturbations_claimed") is False,
+           f"challenge-recompile: {family} retained study files are unchanged and refuse a verified load")
+    summary = rec.get("summary", {})
+    ok(all(summary.get(k) is True for k in ("all_identity_checks_passed", "all_perturbations_claimed",
+                                             "all_survive_challenge", "all_signatures_verified"))
+       and summary.get("hard_rejects_total") == 0,
+       "challenge-recompile: summary states identity, claimed perturbations, survival, and verified signatures")
 
 
 def validate_github_workflow_families() -> None:
@@ -2660,6 +2981,7 @@ def main() -> None:
     validate_iclr_sources()
     validate_headroom_ablation_preflights()
     validate_live_extensions()
+    validate_recompile_with_challenge()
     validate_github_workflow_families()
     validate_github_multirepo_pr_outcome_core()
     validate_external_benchmarks()

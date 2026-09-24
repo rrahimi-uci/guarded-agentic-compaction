@@ -42,6 +42,7 @@ from ..schema.artifacts import Artifact, DispatchOutcome, Lifecycle
 from ..schema.effects import EffectCatalog
 from ..schema.traces import ExecutionManifest
 from .dispatch import DispatchMode, Dispatcher
+from .prologue import CommittedCall
 
 __all__ = ["ArtifactPlan", "CompactingModel", "UnsupportedFeature"]
 
@@ -78,9 +79,19 @@ class ArtifactPlan:
     pending_call_id: str = ""
     calls: list[str] = field(default_factory=list)
     provenance: dict[str, set[str]] = field(default_factory=dict)
+    #: Admitted prologue outputs: seeded into the environment, never emitted as
+    #: calls, so ``calls`` and the verifier's call count cover the region only.
+    live_ins: dict[str, Any] = field(default_factory=dict)
+    live_in_provenance: dict[str, str] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         self.env = {"z": self.entry_state}
+        for name, value in self.live_ins.items():
+            if name != "z":
+                self.env[name] = value
+                tool = self.live_in_provenance.get(name)
+                if tool:
+                    self.provenance[name] = {tool}
 
     def active(self) -> bool:
         return not self.finished and not self.aborted
@@ -272,6 +283,8 @@ class CompactingModel(_AgentsModel):
             # A region that already ran in this conversation must not be dispatched
             # again: its live-ins are no longer the ones the contract was fitted on.
             already_observed=_observed_tools(input),
+            # The ordered committed record, consulted only by prologue artifacts.
+            committed_calls=_committed_calls(input),
             defer_execution=True,
         )
         if decision.artifact is not None:
@@ -285,7 +298,12 @@ class CompactingModel(_AgentsModel):
                 system_instructions, input, model_settings, tools, output_schema, handoffs, tracing, **kwargs
             )
 
-        plan = ArtifactPlan(decision.artifact, entry_state)
+        plan = ArtifactPlan(
+            decision.artifact,
+            entry_state,
+            live_ins=dict(decision.prologue_live_ins),
+            live_in_provenance=dict(decision.prologue_provenance),
+        )
         self._set_plan(run_key, plan)
         self.dispatcher.telemetry.dispatch_attempts += 1
         response = self._emit_next(plan, tools)
@@ -421,6 +439,53 @@ def _observed_tools(input: Any) -> tuple[str, ...]:
             if isinstance(name, str):
                 out.append(name)
     return tuple(dict.fromkeys(out))
+
+
+def _committed_calls(input: Any) -> tuple[CommittedCall, ...] | None:
+    """The ordered committed record from native history items, duplicates kept.
+
+    A ``function_call`` is paired with its ``function_call_output`` by ``call_id``;
+    a call whose output is not in the history is recorded as ``pending`` and can
+    never satisfy a prologue. Returns ``None`` for a string prompt, which carries no
+    committed record at all.
+    """
+
+    import json
+
+    if isinstance(input, str) or input is None:
+        return None
+    outputs: dict[str, Any] = {}
+    for item in input:
+        if isinstance(item, dict) and item.get("type") == "function_call_output":
+            raw = item.get("output")
+            if isinstance(raw, str):
+                try:
+                    raw = json.loads(raw)
+                except json.JSONDecodeError:
+                    pass
+            outputs[str(item.get("call_id", ""))] = raw
+    out: list[CommittedCall] = []
+    for item in input:
+        if not (isinstance(item, dict) and item.get("type") == "function_call"):
+            continue
+        name = item.get("name")
+        if not isinstance(name, str):
+            continue
+        raw_args = item.get("arguments")
+        args: Any = raw_args
+        if isinstance(raw_args, str):
+            try:
+                args = json.loads(raw_args)
+            except json.JSONDecodeError:
+                args = {"__unparsed__": raw_args}
+        if not isinstance(args, dict):
+            args = {"__value__": args}
+        call_id = str(item.get("call_id", ""))
+        if call_id in outputs:
+            out.append(CommittedCall(name, dict(args), outputs[call_id], "ok"))
+        else:
+            out.append(CommittedCall(name, dict(args), None, "pending"))
+    return tuple(out)
 
 
 def _tool_result(input: Any, call_id: str) -> tuple[bool, Any]:

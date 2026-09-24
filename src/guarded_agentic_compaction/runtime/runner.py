@@ -38,6 +38,7 @@ from .continuation import (
 )
 from .dispatch import DispatchDecision, DispatchMode, Dispatcher
 from ..grc.composite import CompositeProjectionError
+from .prologue import CommittedCall
 from .staging import Snapshot
 
 __all__ = ["CompactingRunner", "RouteResolver", "compact", "Decision"]
@@ -130,7 +131,18 @@ class CompactingRunner:
             "max_train_day": self.max_train_day,
             **partition,
         }
-        observed = {o.tool for o in getattr(ctx, "observations", [])}
+        history = list(getattr(ctx, "observations", []))
+        observed = {o.tool for o in history}
+        # the ordered committed record, for artifacts that declare a prologue
+        committed = tuple(
+            CommittedCall(
+                tool=o.tool,
+                args=dict(getattr(o, "args", None) or {}),
+                result=getattr(o, "result", None),
+                status=str(getattr(o, "status", "ok")),
+            )
+            for o in history
+        )
 
         decision = self.dispatcher.decide(
             compatibility_key=manifest.compatibility_key(),
@@ -140,6 +152,7 @@ class CompactingRunner:
             executor=(lambda tool, args: world.execute(tool, args)),
             snapshot_fn=(lambda: self._snapshot(world, ctx, spec)),
             already_observed=tuple(observed),
+            committed_calls=committed,
         )
         self.records.append(decision.record)
         observations = self._materialize_observations(
@@ -164,6 +177,7 @@ class CompactingRunner:
         snapshot_fn: Callable[[], Snapshot] | None = None,
         already_observed: Sequence[str] = (),
         continuation_compatibility_key: str = "",
+        committed_calls: Sequence[CommittedCall] | None = None,
     ) -> RunnerDecision:
         """Execute an admitted composite before the first provider request.
 
@@ -196,6 +210,7 @@ class CompactingRunner:
             already_observed=already_observed,
             require_pre_model_composite=True,
             continuation_compatibility_key=continuation_compatibility_key,
+            committed_calls=committed_calls,
         )
         self.records.append(decision.record)
         observations = self._materialize_observations(

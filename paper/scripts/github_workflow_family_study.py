@@ -572,11 +572,15 @@ def make_agent(
 ) -> Any:
     from agents import Agent
 
+    from guarded_agentic_compaction.capture.anthropic_model import resolve_model
+
+    if isinstance(model, str):
+        model = resolve_model(model)
     return Agent(
         name=f"real-github-{spec.name}",
         instructions=instructions or spec.prompt,
         model=model,
-        model_settings=fixed.model_settings(),
+        model_settings=fixed.provider_model_settings(model),
         tools=list(tools),
         output_type=spec.answer_model,
     )
@@ -1379,8 +1383,9 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
     preflight_path.write_text(json.dumps(preflight, indent=2, sort_keys=True) + "\n")
     if args.preflight_only:
         return {"preflight": preflight}
-    if not os.getenv("OPENAI_API_KEY"):
-        raise RuntimeError("OPENAI_API_KEY is not set")
+    key_env = fixed.provider_api_key_env(args.model)
+    if not os.getenv(key_env):
+        raise RuntimeError(f"{key_env} is not set")
     headroom = (
         HeadroomCompressor.installed(config=HeadroomAblationConfig(model=args.model))
         if args.headroom_ablation else None

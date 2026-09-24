@@ -1,6 +1,6 @@
 # Multiplicity-repair protocol: fresh calibration cohorts for PR-outcome and backlog-attention
 
-**Status: PRE-REGISTERED on 2026-09-22. Not run.** No provider call has been made under this
+**Status: PRE-REGISTERED on 2026-09-22; NO-GO at preflight on 2026-09-24** (see the end of this document). No provider call has been made under this
 document. It fixes the design, candidates, sample size, decision rule, and claim boundary before
 any spend is authorized, so that whichever way the experiment comes out it is reported as a
 result. It changes no compiler code path used by the retained studies.
@@ -64,3 +64,15 @@ Success licenses one statement: that the admitted PR-outcome and backlog artifac
 registered bound under a budget corrected over every candidate that reached calibration, on a
 fresh cohort from the same pinned snapshot. It says nothing about drift, other providers, other
 repositories, or the ranking quality of q, and it remains conditional on i.i.d. calibration groups.
+
+## Preflight outcome (2026-09-24): NO-GO
+
+The go/no-go check above was run provider-free (`paper/results/multiplicity_repair/preflight.json`).
+After excluding every record used in any retained PR-outcome or backlog cohort (357 records), the
+pinned snapshot holds, per class: PR-outcome `merged` 3,557, `open` 33, `closed_unmerged` 543;
+backlog `awaiting_first_response` 132, `discussed_unowned` 501, `owned` 8. Two classes fall below
+the required 36, so decision-rule row 3 applies: no provider call was made, the per-candidate
+(Track B) wording stays, and these pool counts are reported. An unbalanced draw was considered and
+not taken, because the calibration cohort would then certify a class distribution unlike the
+held-out mix (8 `owned` records in 106); if a future snapshot supplies the classes, the design
+above runs unchanged.

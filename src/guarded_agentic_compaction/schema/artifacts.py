@@ -20,6 +20,7 @@ from typing import TYPE_CHECKING
 from .traces import ExecutionManifest, resolve_path
 
 if TYPE_CHECKING:  # pragma: no cover - typing only
+    from ..grc.dsl import Binding
     from ..grc.program import Predicate, Program
 
 # The program IR lives in `grc.program` and imports the DSL, which imports these
@@ -36,6 +37,8 @@ __all__ = [
     "GateModel",
     "Gate",
     "Evidence",
+    "PrologueCall",
+    "Prologue",
     "Artifact",
     "RouteConfig",
     "DispatchOutcome",
@@ -52,6 +55,12 @@ def _program_from_dict(d: dict[str, Any]) -> "Program":
     from ..grc.program import program_from_dict
 
     return program_from_dict(d)
+
+
+def _binding_from_dict(d: dict[str, Any]) -> "Binding":
+    from ..grc.dsl import binding_from_dict
+
+    return binding_from_dict(d)
 
 
 class Lifecycle(str, Enum):
@@ -499,6 +508,90 @@ class Gate:
 
 
 # ---------------------------------------------------------------------------
+# read-only prologue (extended entry contract)
+# ---------------------------------------------------------------------------
+
+
+@dataclass(slots=True)
+class PrologueCall:
+    """One host-issued call the extended entry contract expects *before* the region.
+
+    ``args`` are DSL bindings over the entry state only (``Const`` or ``Expr``
+    rooted at ``z``): the prologue is fixed at authoring time, never reconstructed
+    from earlier observations. At dispatch the evaluated arguments must equal the
+    committed call's arguments exactly, and the committed result becomes the
+    live-in ``var`` of the compiled region. The call itself is never replayed.
+    """
+
+    var: str
+    tool: str
+    args: dict[str, Binding] = field(default_factory=dict)
+
+    def pretty(self) -> str:
+        arglist = ", ".join(f"{k} = {v.pretty()}" for k, v in sorted(self.args.items()))
+        return f"{self.var:<5}= committed {self.tool}({arglist})"
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "var": self.var,
+            "tool": self.tool,
+            "args": {k: v.to_dict() for k, v in self.args.items()},
+        }
+
+    @classmethod
+    def from_dict(cls, d: dict[str, Any]) -> "PrologueCall":
+        return cls(
+            var=str(d["var"]),
+            tool=str(d["tool"]),
+            args={
+                str(k): _binding_from_dict(dict(v)) for k, v in dict(d.get("args", {})).items()
+            },
+        )
+
+
+@dataclass(slots=True)
+class Prologue:
+    """The read-only prologue of an extended entry contract.
+
+    Position 0 of Eq. (2) is relaxed to "the committed observations of the episode
+    are *exactly* these calls, in this order, with these arguments, and nothing
+    else" (``paper/supplementary/read-only-prologue-protocol.md``). Every prologue
+    tool must be declared read-like, speculatable and replayable in the signed
+    effect catalog; any deviation returns the unchanged baseline. An artifact
+    without a prologue keeps the strict position-0 rule.
+    """
+
+    calls: tuple[PrologueCall, ...] = ()
+    schema_version: int = 1
+
+    @property
+    def tools(self) -> tuple[str, ...]:
+        return tuple(call.tool for call in self.calls)
+
+    @property
+    def vars(self) -> tuple[str, ...]:
+        return tuple(call.var for call in self.calls)
+
+    def pretty(self) -> str:
+        lines = ["prologue (committed by the host before the region; never replayed):"]
+        lines.extend("   " + call.pretty() for call in self.calls)
+        return "\n".join(lines)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "calls": [call.to_dict() for call in self.calls],
+            "schema_version": self.schema_version,
+        }
+
+    @classmethod
+    def from_dict(cls, d: dict[str, Any]) -> "Prologue":
+        return cls(
+            calls=tuple(PrologueCall.from_dict(dict(c)) for c in d.get("calls", ())),
+            schema_version=int(d.get("schema_version", 1)),
+        )
+
+
+# ---------------------------------------------------------------------------
 # evidence + artifact
 # ---------------------------------------------------------------------------
 
@@ -606,6 +699,8 @@ class Artifact:
     rollback_target: str | None = None
     monitoring: dict[str, float] = field(default_factory=dict)
     signature: str = ""
+    #: Extended entry contract. ``None`` keeps the strict position-0 rule.
+    prologue: Prologue | None = None
 
     # -- identity / signing ----------------------------------------------
     def body_digest(self) -> str:
@@ -632,6 +727,9 @@ class Artifact:
         parts = [head, "─" * 78, self.guard.pretty()]
         if self.route is not None:
             parts.append(self.route.pretty())
+        if self.prologue is not None:
+            parts.append("")
+            parts.append(self.prologue.pretty())
         if self.program is not None:
             parts.append("")
             parts.append(self.program.pretty())
@@ -662,6 +760,10 @@ class Artifact:
             "rollback_target": self.rollback_target,
             "monitoring": self.monitoring,
         }
+        # Additive field, emitted only when declared: the body digest, and hence
+        # the signature, of every artifact without a prologue is unchanged.
+        if self.prologue is not None:
+            d["prologue"] = self.prologue.to_dict()
         if include_signature:
             d["signature"] = self.signature
         return d
@@ -689,4 +791,5 @@ class Artifact:
             rollback_target=d.get("rollback_target"),
             monitoring=d.get("monitoring", {}),
             signature=d.get("signature", ""),
+            prologue=Prologue.from_dict(d["prologue"]) if d.get("prologue") else None,
         )

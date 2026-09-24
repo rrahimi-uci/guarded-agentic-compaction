@@ -23,6 +23,8 @@ _EXPORTS: dict[str, str] = {
     "Hull": "artifacts",
     "Lifecycle": "artifacts",
     "OutputClause": "artifacts",
+    "Prologue": "artifacts",
+    "PrologueCall": "artifacts",
     "RouteConfig": "artifacts",
     "Verifier": "artifacts",
     "Capability": "effects",

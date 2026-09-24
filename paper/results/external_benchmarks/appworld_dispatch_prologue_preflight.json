@@ -1,0 +1,467 @@
+{
+  "argument_sources_in_released_logs": {
+    "data": 1575340,
+    "none": 78145,
+    "query+data": 2
+  },
+  "artifact_under_test": {
+    "evaluated_on": "released official baseline agent trajectories, test_normal and test_challenge",
+    "program": [
+      "get /supervisor/profile",
+      "get /supervisor/account_passwords"
+    ]
+  },
+  "assumptions": {
+    "note": "the runtime refuses an undeclared prologue tool; AFTER assumes the declaration above is signed",
+    "prologue_definition": [
+      "get /api_docs/api_descriptions app_name=supervisor"
+    ],
+    "required_catalog_declaration": {
+      "api_docs.show_api_descriptions": {
+        "capabilities": [
+          "speculatable",
+          "replayable",
+          "cacheable"
+        ],
+        "effect": "READ_LOCAL",
+        "notes": "Documentation lookup over the pinned api_docs fixture. Not covered by the mutation audit because no gold solution calls it; a reviewer must sign it before any prologue over it can dispatch.",
+        "resource": "appworld_api_docs"
+      }
+    }
+  },
+  "benchmark": "appworld",
+  "by_agent_family": {
+    "full_code_refl": {
+      "after_eligible_after_exact_prologue": 0,
+      "after_eligible_total": 2339,
+      "after_rate": 0.9995726495726496,
+      "before_eligible_at_position_0": 2339,
+      "before_rate": 0.9995726495726496,
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "label": "Full code + reflection",
+      "runs": 8,
+      "tasks": 2340
+    },
+    "ipfuncall": {
+      "after_eligible_after_exact_prologue": 0,
+      "after_eligible_total": 762,
+      "after_rate": 0.6512820512820513,
+      "before_eligible_at_position_0": 762,
+      "before_rate": 0.6512820512820513,
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "label": "Iterative parallel function calling",
+      "runs": 4,
+      "tasks": 1170
+    },
+    "plan_exec": {
+      "after_eligible_after_exact_prologue": 0,
+      "after_eligible_total": 1,
+      "after_rate": 0.00042735042735042735,
+      "before_eligible_at_position_0": 1,
+      "before_rate": 0.00042735042735042735,
+      "diagnostic_documentation_prefix_then_program": 3,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "label": "Plan and execute",
+      "runs": 8,
+      "tasks": 2340
+    },
+    "react": {
+      "after_eligible_after_exact_prologue": 2,
+      "after_eligible_total": 2,
+      "after_rate": 0.0008547008547008547,
+      "before_eligible_at_position_0": 0,
+      "before_rate": 0.0,
+      "diagnostic_documentation_prefix_then_program": 2,
+      "diagnostic_prologue_routes_any_arguments": 2,
+      "label": "ReAct",
+      "runs": 8,
+      "tasks": 2340
+    }
+  },
+  "declared_routes": 457,
+  "does_not_measure": [
+    "phi: the manifest check and the calibrated gate are not evaluated here",
+    "n_B: the released logs retain API calls, not model boundaries",
+    "any saving in requests, tokens, dollars, or latency"
+  ],
+  "effect_catalog": {
+    "path": "benchmarks/contracts/effects/appworld.yaml",
+    "sha256": "487a6a4cfb2d31d0d395c594b60b021e3d3f13bb2f2edba3b3270529d95512e8"
+  },
+  "first_call_arguments_for_prologue_route": {
+    "{\"app_name\": \"amazon\"}": 1068,
+    "{\"app_name\": \"file_system\"}": 156,
+    "{\"app_name\": \"gmail\"}": 886,
+    "{\"app_name\": \"phone\"}": 495,
+    "{\"app_name\": \"simple_note\"}": 352,
+    "{\"app_name\": \"spotify\"}": 123,
+    "{\"app_name\": \"supervisor\"}": 219,
+    "{\"app_name\": \"venmo\"}": 368
+  },
+  "package_version": "0.1.3.post1",
+  "per_run": [
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 417,
+      "eligible_before_or_after": 417,
+      "empty_trajectory": 0,
+      "family": "full_code_refl",
+      "run": "full_code_refl_deepseekcoder_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 168,
+      "eligible_before_or_after": 168,
+      "empty_trajectory": 0,
+      "family": "full_code_refl",
+      "run": "full_code_refl_deepseekcoder_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 417,
+      "eligible_before_or_after": 417,
+      "empty_trajectory": 0,
+      "family": "full_code_refl",
+      "run": "full_code_refl_gpt4o_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 168,
+      "eligible_before_or_after": 168,
+      "empty_trajectory": 0,
+      "family": "full_code_refl",
+      "run": "full_code_refl_gpt4o_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 416,
+      "eligible_before_or_after": 416,
+      "empty_trajectory": 0,
+      "family": "full_code_refl",
+      "run": "full_code_refl_gpt4turbo_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 168,
+      "eligible_before_or_after": 168,
+      "empty_trajectory": 0,
+      "family": "full_code_refl",
+      "run": "full_code_refl_gpt4turbo_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 417,
+      "eligible_before_or_after": 417,
+      "empty_trajectory": 0,
+      "family": "full_code_refl",
+      "run": "full_code_refl_llama3_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 168,
+      "eligible_before_or_after": 168,
+      "empty_trajectory": 0,
+      "family": "full_code_refl",
+      "run": "full_code_refl_llama3_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 195,
+      "eligible_before_or_after": 195,
+      "empty_trajectory": 0,
+      "family": "ipfuncall",
+      "run": "ipfuncall_gpt4o_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 67,
+      "eligible_before_or_after": 67,
+      "empty_trajectory": 0,
+      "family": "ipfuncall",
+      "run": "ipfuncall_gpt4o_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 353,
+      "eligible_before_or_after": 353,
+      "empty_trajectory": 0,
+      "family": "ipfuncall",
+      "run": "ipfuncall_gpt4turbo_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 147,
+      "eligible_before_or_after": 147,
+      "empty_trajectory": 2,
+      "family": "ipfuncall",
+      "run": "ipfuncall_gpt4turbo_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 1,
+      "eligible_before_or_after": 1,
+      "empty_trajectory": 24,
+      "family": "plan_exec",
+      "run": "plan_exec_deepseekcoder_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 0,
+      "eligible_before_or_after": 0,
+      "empty_trajectory": 5,
+      "family": "plan_exec",
+      "run": "plan_exec_deepseekcoder_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 0,
+      "eligible_before_or_after": 0,
+      "empty_trajectory": 8,
+      "family": "plan_exec",
+      "run": "plan_exec_gpt4o_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 0,
+      "eligible_before_or_after": 0,
+      "empty_trajectory": 4,
+      "family": "plan_exec",
+      "run": "plan_exec_gpt4o_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 0,
+      "eligible_before_or_after": 0,
+      "empty_trajectory": 53,
+      "family": "plan_exec",
+      "run": "plan_exec_gpt4turbo_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 0,
+      "eligible_before_or_after": 0,
+      "empty_trajectory": 15,
+      "family": "plan_exec",
+      "run": "plan_exec_gpt4turbo_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 2,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 0,
+      "eligible_before_or_after": 0,
+      "empty_trajectory": 4,
+      "family": "plan_exec",
+      "run": "plan_exec_llama3_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 1,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 0,
+      "eligible_before_or_after": 0,
+      "empty_trajectory": 4,
+      "family": "plan_exec",
+      "run": "plan_exec_llama3_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 0,
+      "eligible_before_or_after": 0,
+      "empty_trajectory": 34,
+      "family": "react",
+      "run": "react_deepseekcoder_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 0,
+      "eligible_before_or_after": 0,
+      "empty_trajectory": 10,
+      "family": "react",
+      "run": "react_deepseekcoder_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 0,
+      "eligible_before_or_after": 0,
+      "empty_trajectory": 0,
+      "family": "react",
+      "run": "react_gpt4o_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 0,
+      "eligible_before_or_after": 0,
+      "empty_trajectory": 0,
+      "family": "react",
+      "run": "react_gpt4o_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 0,
+      "eligible_before_or_after": 0,
+      "empty_trajectory": 0,
+      "family": "react",
+      "run": "react_gpt4turbo_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 0,
+      "eligible_before_or_after": 0,
+      "empty_trajectory": 0,
+      "family": "react",
+      "run": "react_gpt4turbo_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 2,
+      "diagnostic_prologue_routes_any_arguments": 2,
+      "eligible_after_exact_prologue": 2,
+      "eligible_at_position_0": 0,
+      "eligible_before_or_after": 2,
+      "empty_trajectory": 0,
+      "family": "react",
+      "run": "react_llama3_test_challenge",
+      "split": "test_challenge",
+      "tasks": 417
+    },
+    {
+      "diagnostic_documentation_prefix_then_program": 0,
+      "diagnostic_prologue_routes_any_arguments": 0,
+      "eligible_after_exact_prologue": 0,
+      "eligible_at_position_0": 0,
+      "eligible_before_or_after": 0,
+      "empty_trajectory": 0,
+      "family": "react",
+      "run": "react_llama3_test_normal",
+      "split": "test_normal",
+      "tasks": 168
+    }
+  ],
+  "prologue": [
+    {
+      "arguments": {
+        "app_name": "supervisor"
+      },
+      "method": "get",
+      "path": "/api_docs/api_descriptions",
+      "tool": "api_docs.show_api_descriptions"
+    }
+  ],
+  "prologue_tools_declared_in_catalog": {
+    "api_docs.show_api_descriptions": false
+  },
+  "retained_cross_check": {
+    "mismatches": {},
+    "reproduced": true,
+    "retained": "paper/results/external_benchmarks/appworld_dispatch_preflight.json"
+  },
+  "rules": {
+    "after": "before, or committed calls == declared prologue exactly (routes, order, arguments, nothing else) followed immediately by the admitted program (runtime match_prologue rule)",
+    "before": "admitted program's exact call sequence at normalized position 0 (retained rule)",
+    "diagnostics": "reported per architecture but not eligibility: prologue routes with any arguments; any documentation-only prefix then the program"
+  },
+  "runtime_seconds": 30.28247920796275,
+  "schema": "gac-appworld-dispatch-prologue-preflight/v1"
+}

@@ -39,3 +39,31 @@ statistical argument are unchanged.
 A dispatchability result per architecture on the released AppWorld runs, still provider-free and
 still descriptive (trajectories repeat tasks across runs). It would not license an efficiency or
 quality claim and would not change any GitHub result, whose agents already start at position 0.
+
+## Implementation and observed results (2026-09-24)
+
+**Status update: IMPLEMENTED and MEASURED, provider-free.** The runtime admits an exact,
+allowlisted, read-only prologue (`runtime/prologue.py`, `match_prologue`; `Artifact.prologue`,
+`ManualPreModelPlan.prologue`; committed-call records derived from native history in the SDK
+adapter and from `ctx.observations` in the runner). Acceptance tests 1–4 pass
+(`tests/unit/test_dispatch_prologue.py`, 23 tests; full suite 496 passed), including the archived
+suffix-dispatch pilot as a regression test (every prefix of every archived reordered or duplicated
+sequence returns the baseline). Acceptance test 3 is covered on the runtime side (every region
+slot, predicate, and live-out must resolve to `z`, a declared prologue variable, or an earlier
+region variable, else the region retires at that boundary); compile-time re-mining with prologue
+outputs as pseudo-producers is not implemented, so prologue-bearing artifacts must be authored.
+
+Acceptance test 5 ran on the released AppWorld baseline trajectories (`appworld download
+experiment-outputs`, package 0.1.3.post1, data 0.1.0; `paper/scripts/appworld_dispatch_prologue_preflight.py`,
+output `paper/results/external_benchmarks/appworld_dispatch_prologue_preflight.json`). The
+BEFORE rule reproduces the retained per-architecture counts exactly. With the prologue
+`GET /api_docs/api_descriptions app_name=supervisor` (the runtime's exact-match rule), AFTER is:
+full code 2,339/2,340 (unchanged), iterative parallel function calling 762/1,170 (unchanged),
+plan-and-execute 1/2,340 (unchanged), ReAct 2/2,340 (from 0). The looser diagnostics recover 2
+(ReAct) and 3 (plan-and-execute) under "any documentation-only prefix then the program"; the
+admitted program occurs anywhere in only 16 and 39 of those trajectories. Reading: the position
+invariant was the proximate reason those architectures were refused, but they do not execute the
+admitted region at all, so no prologue rule dispatches it; the paper's Appendix G replaces the
+conjecture with this measurement. The prologue tool `api_docs.show_api_descriptions` is
+undeclared in the signed catalog; AFTER assumes the declaration recorded under `assumptions`
+in the output JSON, which a reviewer would have to sign before any dispatch.

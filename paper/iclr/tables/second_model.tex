@@ -5,10 +5,15 @@
 \cmidrule(lr){2-4}\cmidrule(lr){6-8}
 Family & Base & Compiled & Manual & & Requests & Tokens & Cost \\
 \midrule
-Issue-type routing & 29/30 & \textbf{28/30} & 30/30 & & 50.0 & 39.2 & 33.0 \\
-PR-outcome audit & 30/30 & \textbf{30/30} & 30/30 & & 75.0 & 80.8 & 76.3 \\
-Backlog-attention routing & 29/30 & \textbf{30/30} & 30/30 & & 74.8 & 81.0 & 75.4 \\
-\midrule
-Weighted total ($n=90$) & 88/90 & \textbf{88/90} & 90/90 & & 66.6 & 63.0 & 60.1 \\
+\multicolumn{8}{@{}l}{\emph{Transfer (design B): retained artifacts recompiled under the new pin}} \\
+\quad Issue-type routing & 29/30 & \textbf{28/30} & 30/30 & & 50.0 & 39.2 & 33.0 \\
+\quad PR-outcome audit & 30/30 & \textbf{30/30} & 30/30 & & 75.0 & 80.8 & 76.3 \\
+\quad Backlog-attention routing & 29/30 & \textbf{30/30} & 30/30 & & 74.8 & 81.0 & 75.4 \\
+\quad Weighted total ($n=90$) & 88/90 & \textbf{88/90} & 90/90 & & 66.6 & 63.0 & 60.1 \\
+\addlinespace[2pt]
+\multicolumn{8}{@{}l}{\emph{Re-discovery (design A): the pipeline run on the second model's own traces}} \\
+\quad Issue-type routing & 30/30 & \textbf{30/30} & 30/30 & & 50.0 & 38.9 & 32.8 \\
+\quad PR-outcome audit & 30/30 & \textbf{30/30} & 30/30 & & 75.0 & 80.7 & 76.0 \\
+\quad Backlog-attention routing & \multicolumn{7}{l}{\textsc{retire} at compile time (113/132 exact discovery traces)} \\
 \bottomrule
 \end{tabular}

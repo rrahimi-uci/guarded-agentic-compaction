@@ -530,14 +530,54 @@ def model_settings() -> Any:
     )
 
 
+def _provider_model(model_name: str) -> Any:
+    """The provider-native Model object for ``model_name`` (wrapped by CompactingModel)."""
+
+    from guarded_agentic_compaction.capture.anthropic_model import is_anthropic_model, resolve_model
+
+    if is_anthropic_model(model_name):
+        return resolve_model(model_name)
+    from agents.models.openai_provider import OpenAIProvider
+
+    return OpenAIProvider().get_model(model_name)
+
+
+def provider_api_key_env(model: Any) -> str:
+    from guarded_agentic_compaction.capture.anthropic_model import provider_api_key_env as _env
+
+    return _env(model)
+
+
+def provider_model_settings(model: Any) -> Any:
+    """Settings for the provider behind ``model`` (a name, a Model, or a wrapper).
+
+    OpenAI names keep the study's pinned settings above. Anthropic models express
+    only ``parallel_tool_calls=False``; reasoning effort ``low`` is applied inside
+    ``AnthropicModel`` and ``verbosity``/``store`` have no Messages API analogue.
+    """
+
+    from guarded_agentic_compaction.capture.anthropic_model import (
+        anthropic_model_settings,
+        is_anthropic_model,
+    )
+
+    if is_anthropic_model(model):
+        return anthropic_model_settings()
+    return model_settings()
+
+
 def make_agent(model: Any, tools: Sequence[Any], task_design: TaskDesign) -> Any:
     from agents import Agent
 
+    from guarded_agentic_compaction.capture.anthropic_model import resolve_model
+
+    if isinstance(model, str):
+        model = resolve_model(model)
     return Agent(
         name="real-github-issue-triage",
         instructions=prompt_for(task_design),
         model=model,
-        model_settings=model_settings(),
+        model_settings=provider_model_settings(model),
         tools=list(tools),
         output_type=(
             ExtractiveIssueTriageAnswer
@@ -595,7 +635,8 @@ async def run_agents_batch(
     source_store: dict[int, dict[str, Any]] | None = None,
 ) -> tuple[list[RunResult], list[dict[str, Any]]]:
     from agents import RunConfig, Runner
-    from agents.models.openai_provider import OpenAIProvider
+
+    from guarded_agentic_compaction.capture.anthropic_model import resolve_model
 
     semaphore = asyncio.Semaphore(concurrency)
     failures: list[dict[str, Any]] = []
@@ -604,11 +645,11 @@ async def run_agents_batch(
         trace_id = _trace_id(condition, repeat, scenario.issue_number)
         entry = {"issue_number": scenario.issue_number}
         if registry is None:
-            model: Any = model_name
+            model: Any = resolve_model(model_name)
             compacting = None
         else:
             compacting = CompactingModel(
-                OpenAIProvider().get_model(model_name),
+                _provider_model(model_name),
                 registry=registry,
                 catalog=catalog,
                 manifest=manifest,
@@ -1648,8 +1689,9 @@ async def async_main(args: argparse.Namespace) -> None:
         print(json.dumps(payload, indent=2, sort_keys=True, default=str))
         return
 
-    if not os.getenv("OPENAI_API_KEY"):
-        raise RuntimeError("OPENAI_API_KEY is not set in .env or the environment")
+    key_env = provider_api_key_env(args.model)
+    if not os.getenv(key_env):
+        raise RuntimeError(f"{key_env} is not set in .env or the environment")
     tools = make_tools(store)
     catalog = make_catalog()
     manifest = make_manifest(args.model, tools, catalog, args.task_design)

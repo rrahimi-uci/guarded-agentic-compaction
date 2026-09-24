@@ -167,6 +167,10 @@ def test_sealed_preflight_cohort_is_disjoint_from_prior_studies() -> None:
     cohort = payload["cohort"]
     selected = set(cohort["held_out_record_numbers"]) | set(cohort["calibration_dev_record_numbers"])
     excluded_count = payload["risk_stratification"]["already_used_record_numbers_excluded"]
-    used = MODULE._already_used_record_numbers()
-    assert len(used) == excluded_count
-    assert not selected & used
+    # The sealed count is a fact about 2026-08-22; studies run since then (listed in
+    # POST_SEALING_STUDIES) add records and may legitimately reuse this cohort, which
+    # their protocols disclose. Reconstruct the set as it stood at sealing.
+    used_at_sealing = MODULE._already_used_record_numbers(exclude_post_sealing=True)
+    assert len(used_at_sealing) == excluded_count
+    assert not selected & used_at_sealing
+    assert MODULE._already_used_record_numbers() >= used_at_sealing
