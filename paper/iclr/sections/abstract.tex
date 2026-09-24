@@ -1,14 +1,14 @@
 Tool-using agents often invoke a model at every step, even along recurrent
-read-only paths. Replacing repeated reasoning with deterministic execution could
+read\nobreakdash-only paths. Replacing repeated reasoning with deterministic execution could
 reduce inference cost, but recurrence alone does not make substitution safe:
-tool arguments may depend on prior observations, apparently read-only operations
+tool arguments may depend on prior observations, apparently read\nobreakdash-only operations
 may hide effects, and replaying the same calls may still alter the final answer.
 Recurrence identifies an optimization opportunity, not permission to remove
 reasoning.
 
 We introduce \emph{guarded agentic compaction} (\method), an evidence-gated
 approach that compiles recurrent execution paths into deterministic programs
-only when substitution is justified. \method compiles initial read-only prefixes
+only when substitution is justified. \method compiles initial read\nobreakdash-only prefixes
 only: it grounds tool arguments in observable state, treats writes, approvals,
 handoffs, and unknown effects as hard barriers, protects compiled execution with
 input, output, and environment guards, and admits specialization only when
