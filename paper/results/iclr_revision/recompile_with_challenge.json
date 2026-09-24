@@ -1,0 +1,1297 @@
+{
+  "artifacts": {
+    "backlog_attention": {
+      "artifact_id": "cand-00-99f1b041ed7c",
+      "candidates": [
+        {
+          "candidate_id": "cand-00-99f1b041ed7c",
+          "challenge": {
+            "hard_rejects": 0,
+            "ok": true,
+            "perturbations_claimed": true,
+            "wrong": 0
+          },
+          "gate": {
+            "alpha": 0.05,
+            "coverage": 1.0,
+            "delta": 0.1,
+            "n_accepted": 92,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "rejected": null,
+          "stage": "emitted",
+          "tools": [
+            "backlog_get_record",
+            "backlog_get_ownership",
+            "backlog_get_discussion"
+          ]
+        },
+        {
+          "candidate_id": "cand-01-2f2e9a7272f7",
+          "challenge": {
+            "hard_rejects": 0,
+            "ok": true,
+            "perturbations_claimed": true,
+            "wrong": 0
+          },
+          "gate": {
+            "alpha": 0.05,
+            "coverage": 1.0,
+            "delta": 0.1,
+            "n_accepted": 92,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "rejected": "dominated_by_longer_region",
+          "stage": "dominated",
+          "tools": [
+            "backlog_get_record",
+            "backlog_get_ownership"
+          ]
+        }
+      ],
+      "challenge": {
+        "candidate_rejected": null,
+        "candidate_stage": "emitted",
+        "families_not_run": [],
+        "families_ran": 9,
+        "families_total": 9,
+        "hard_rejects": [],
+        "perturbation_families": [
+          {
+            "abstained": 0,
+            "abstention_rate": 0.0,
+            "expect": "invariant",
+            "family": "reordering",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 8,
+            "perturbation": "reorder_lists",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 0,
+            "wrong": 0
+          },
+          {
+            "abstained": 0,
+            "abstention_rate": 0.625,
+            "expect": "invariant",
+            "family": "duplicates",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 3,
+            "perturbation": "duplicate_record",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 5,
+            "wrong": 0
+          },
+          {
+            "abstained": 0,
+            "abstention_rate": 0.625,
+            "expect": "either",
+            "family": "large_collections",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 3,
+            "perturbation": "pad_lists",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 5,
+            "wrong": 0
+          },
+          {
+            "abstained": 0,
+            "abstention_rate": 0.0,
+            "expect": "abstain",
+            "family": "empty_collections",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 8,
+            "perturbation": "empty_lists",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 0,
+            "wrong": 0
+          },
+          {
+            "abstained": 0,
+            "abstention_rate": 1.0,
+            "expect": "abstain",
+            "family": "nulls",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 0,
+            "perturbation": "null_fields",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 8,
+            "wrong": 0
+          },
+          {
+            "abstained": 8,
+            "abstention_rate": 1.0,
+            "expect": "abstain",
+            "family": "schema_drift",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 0,
+            "perturbation": "schema_drift",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 0,
+            "wrong": 0
+          },
+          {
+            "abstained": 0,
+            "abstention_rate": 0.0,
+            "expect": "invariant",
+            "family": "irrelevant_formatting",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 8,
+            "perturbation": "formatting",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 0,
+            "wrong": 0
+          },
+          {
+            "abstained": 8,
+            "abstention_rate": 1.0,
+            "expect": "abstain",
+            "family": "tool_error",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 0,
+            "perturbation": "tool_4xx",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 0,
+            "wrong": 0
+          },
+          {
+            "abstained": 8,
+            "abstention_rate": 1.0,
+            "expect": "abstain",
+            "family": "timeout",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 0,
+            "perturbation": "tool_timeout",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 0,
+            "wrong": 0
+          }
+        ],
+        "perturbations_claimed": true,
+        "recorded_replay": {
+          "abstained": 0,
+          "effect_mismatch": 0,
+          "n": 8,
+          "pass_rate": 1.0,
+          "passed": 8,
+          "reasons": {},
+          "state_delta": 0,
+          "wrong": 0
+        },
+        "sandbox_replay": {
+          "abstained": 0,
+          "effect_mismatch": 0,
+          "n": 8,
+          "pass_rate": 1.0,
+          "passed": 8,
+          "reasons": {},
+          "state_delta": 0,
+          "wrong": 0
+        },
+        "state_delta_total": 0,
+        "survives_challenge": true,
+        "wrong_total": 0
+      },
+      "compile_call": {
+        "recompiled": "compile_grc(..., sandbox=SnapshotWorld factory, perturbations=DEFAULT_PERTURBATIONS)",
+        "retained": "compile_grc(..., sandbox=None, perturbations=())",
+        "sandbox": {
+          "executor": "paper/scripts/github_workflow_family_study.py::execute_snapshot",
+          "source": {
+            "deduplicated_records": 7440,
+            "duplicate_rows": 100,
+            "parquet_sha256": "09453eefae39e45a969ab0bee72ca0e188fe79dc50403b0f2a78c39894f5d1a3",
+            "raw_rows": 7540,
+            "source_revision": "e344be7b84d199661a9956036991e1fc25715a47"
+          },
+          "state_digest": "09453eefae39e45a969ab0bee72ca0e188fe79dc50403b0f2a78c39894f5d1a3:7440",
+          "tool_calls": 878,
+          "worlds_created": 396
+        }
+      },
+      "identity": {
+        "vs_control": {
+          "artifact_id_identical": true,
+          "candidate_ids_identical": true,
+          "candidate_stages_identical": true,
+          "control_call": "compile_grc(..., sandbox=None, perturbations=()) through the retained driver, same process",
+          "control_perturbations_claimed": false,
+          "gate_identical": true,
+          "guard_identical": true,
+          "manifest_identical": true,
+          "only_challenge_evidence_differs": true,
+          "paths_that_differ": [
+            ".evidence.metrics.perturbations_claimed",
+            ".evidence.metrics.sandbox.n",
+            ".evidence.metrics.sandbox.pass_rate",
+            ".evidence.metrics.sandbox.passed",
+            ".evidence.perturbation.duplicate_record",
+            ".evidence.perturbation.empty_lists",
+            ".evidence.perturbation.formatting",
+            ".evidence.perturbation.null_fields",
+            ".evidence.perturbation.pad_lists",
+            ".evidence.perturbation.reorder_lists",
+            ".evidence.perturbation.schema_drift",
+            ".evidence.perturbation.tool_4xx",
+            ".evidence.perturbation.tool_timeout"
+          ],
+          "paths_that_differ_outside_challenge_evidence": [],
+          "program_identical": true,
+          "splits_digest_identical": true,
+          "verifier_identical": true
+        },
+        "vs_retained": {
+          "artifact_id": {
+            "identical": true,
+            "recompiled": "cand-00-99f1b041ed7c",
+            "retained": "cand-00-99f1b041ed7c"
+          },
+          "compatibility_key_identical": true,
+          "drift_notes": {
+            ".evidence.support_days": "checkpoint reconstruction: envelope.day of a reconstructed episode is the record's snapshot day rather than the live run day"
+          },
+          "gate": {
+            "alpha": 0.05,
+            "coverage": 1.0,
+            "delta": 0.1,
+            "n_accepted": 92,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "gate_identical": {
+            "alpha": true,
+            "coverage": true,
+            "delta": true,
+            "n_accepted": true,
+            "n_calibration_groups": true,
+            "observed_violations": true,
+            "retire": true,
+            "risk_upper_bound": true,
+            "threshold": true
+          },
+          "guard_identical": true,
+          "name_identical": true,
+          "paths_that_differ": [
+            ".evidence.metrics.perturbations_claimed",
+            ".evidence.metrics.sandbox.n",
+            ".evidence.metrics.sandbox.pass_rate",
+            ".evidence.metrics.sandbox.passed",
+            ".evidence.perturbation.duplicate_record",
+            ".evidence.perturbation.empty_lists",
+            ".evidence.perturbation.formatting",
+            ".evidence.perturbation.null_fields",
+            ".evidence.perturbation.pad_lists",
+            ".evidence.perturbation.reorder_lists",
+            ".evidence.perturbation.schema_drift",
+            ".evidence.perturbation.tool_4xx",
+            ".evidence.perturbation.tool_timeout",
+            ".evidence.support_days"
+          ],
+          "paths_that_differ_outside_challenge_evidence": [
+            ".evidence.support_days"
+          ],
+          "program_identical": true,
+          "retained_perturbations_claimed": false,
+          "retained_signature": "",
+          "splits_digest": {
+            "identical": true,
+            "recompiled": "f6a22d6c8895ee87",
+            "retained": "f6a22d6c8895ee87"
+          },
+          "unclassified_differences": [],
+          "verifier_identical": true
+        }
+      },
+      "inputs": {
+        "config_digest": "adf5b01d2044",
+        "discovery_checkpoint": "paper/results/github_workflow_families/backlog_attention/final/discovery_checkpoint.json",
+        "discovery_checkpoint_sha256": "8363f4fd3b47a05dcd3d16dc2684aa95f945421c6b0caffe82fb12d977ea39c1",
+        "retained_results": "paper/results/github_workflow_families/backlog_attention/final/results.json",
+        "retained_results_sha256": "2e19afd504a637a62213292b47b92d082d679e5ce7aa0ff2fb8c46f7c0fa54ef"
+      },
+      "model": "gpt-5.6-luna",
+      "name": "backlog_get_record.backlog_get_ownership.region@99f1b041",
+      "perturbations_claimed": true,
+      "provider_calls": 0,
+      "rejection_by_stage": {
+        "select:dominated": 1
+      },
+      "retained_files_modified": false,
+      "signature": {
+        "body_digest": "06afb8d5f0004564cbc13bc9ed91c357efb595776b4e590d449dd155d7118036",
+        "reload_with_key": {
+          "body_digest_identical": true,
+          "loaded": true,
+          "resolve_returns_artifact": true,
+          "verify_signature": true
+        },
+        "reload_with_wrong_key_error": "signature verification failed for ['cand-00-99f1b041ed7c']",
+        "reload_with_wrong_key_refused": true,
+        "retained_registry": {
+          "error": "signature verification failed for ['cand-00-99f1b041ed7c']",
+          "path": "paper/results/github_workflow_families/backlog_attention/final/registry",
+          "refused_when_verification_on": true,
+          "signatures": [
+            ""
+          ]
+        },
+        "saved_signature_persisted": true,
+        "signature": "b9b93232cd3b0e2e3203c80eab3b008842e0c4eadd6a88cc4d15ecffe44894a2",
+        "signing": "HMAC-SHA256 over Artifact.body_digest(); key = sha256(SIGNING_KEY_DERIVATION)",
+        "signing_key_derivation": "guarded-agentic-compaction/paper/results/iclr_revision/recompile_with_challenge/lab-signing-key/v1",
+        "signing_key_sha256": "c656226d0850e3bc05508dd9080046d4096dacee44fa436e1ecb32ad8859d72f",
+        "tampered_gate_error": "signature verification failed for ['cand-00-99f1b041ed7c']",
+        "tampered_gate_loads_when_verification_is_off": true,
+        "tampered_gate_refused": true,
+        "verify_signature": true,
+        "verify_signature_wrong_key": false
+      },
+      "signature_verified": true,
+      "survives_challenge": true
+    },
+    "issue_type": {
+      "artifact_id": "cand-01-1ebb8b2849c7",
+      "candidates": [
+        {
+          "candidate_id": "cand-00-9704d2d4a908",
+          "challenge": null,
+          "gate": null,
+          "rejected": "ungroundable_slot:issue_get_comments.limit:no_consistent_expression",
+          "stage": "synthesized",
+          "tools": [
+            "issue_get_record",
+            "issue_get_labels",
+            "issue_get_comments"
+          ]
+        },
+        {
+          "candidate_id": "cand-01-1ebb8b2849c7",
+          "challenge": {
+            "hard_rejects": 0,
+            "ok": true,
+            "perturbations_claimed": true,
+            "wrong": 0
+          },
+          "gate": {
+            "alpha": 0.05,
+            "coverage": 1.0,
+            "delta": 0.1,
+            "n_accepted": 92,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "rejected": null,
+          "stage": "emitted",
+          "tools": [
+            "issue_get_record",
+            "issue_get_labels"
+          ]
+        }
+      ],
+      "challenge": {
+        "candidate_rejected": null,
+        "candidate_stage": "emitted",
+        "families_not_run": [],
+        "families_ran": 9,
+        "families_total": 9,
+        "hard_rejects": [],
+        "perturbation_families": [
+          {
+            "abstained": 0,
+            "abstention_rate": 0.0,
+            "expect": "invariant",
+            "family": "reordering",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 8,
+            "perturbation": "reorder_lists",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 0,
+            "wrong": 0
+          },
+          {
+            "abstained": 0,
+            "abstention_rate": 0.0,
+            "expect": "invariant",
+            "family": "duplicates",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 8,
+            "perturbation": "duplicate_record",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 0,
+            "wrong": 0
+          },
+          {
+            "abstained": 0,
+            "abstention_rate": 0.0,
+            "expect": "either",
+            "family": "large_collections",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 8,
+            "perturbation": "pad_lists",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 0,
+            "wrong": 0
+          },
+          {
+            "abstained": 0,
+            "abstention_rate": 0.0,
+            "expect": "abstain",
+            "family": "empty_collections",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 8,
+            "perturbation": "empty_lists",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 0,
+            "wrong": 0
+          },
+          {
+            "abstained": 0,
+            "abstention_rate": 1.0,
+            "expect": "abstain",
+            "family": "nulls",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 0,
+            "perturbation": "null_fields",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 8,
+            "wrong": 0
+          },
+          {
+            "abstained": 8,
+            "abstention_rate": 1.0,
+            "expect": "abstain",
+            "family": "schema_drift",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 0,
+            "perturbation": "schema_drift",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 0,
+            "wrong": 0
+          },
+          {
+            "abstained": 0,
+            "abstention_rate": 0.0,
+            "expect": "invariant",
+            "family": "irrelevant_formatting",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 8,
+            "perturbation": "formatting",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 0,
+            "wrong": 0
+          },
+          {
+            "abstained": 8,
+            "abstention_rate": 1.0,
+            "expect": "abstain",
+            "family": "tool_error",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 0,
+            "perturbation": "tool_4xx",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 0,
+            "wrong": 0
+          },
+          {
+            "abstained": 8,
+            "abstention_rate": 1.0,
+            "expect": "abstain",
+            "family": "timeout",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 0,
+            "perturbation": "tool_timeout",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 0,
+            "wrong": 0
+          }
+        ],
+        "perturbations_claimed": true,
+        "recorded_replay": {
+          "abstained": 0,
+          "effect_mismatch": 0,
+          "n": 8,
+          "pass_rate": 1.0,
+          "passed": 8,
+          "reasons": {},
+          "state_delta": 0,
+          "wrong": 0
+        },
+        "sandbox_replay": {
+          "abstained": 0,
+          "effect_mismatch": 0,
+          "n": 8,
+          "pass_rate": 1.0,
+          "passed": 8,
+          "reasons": {},
+          "state_delta": 0,
+          "wrong": 0
+        },
+        "state_delta_total": 0,
+        "survives_challenge": true,
+        "wrong_total": 0
+      },
+      "compile_call": {
+        "recompiled": "compile_grc(..., sandbox=SnapshotWorld factory, perturbations=DEFAULT_PERTURBATIONS)",
+        "retained": "compile_grc(..., sandbox=None, perturbations=())",
+        "sandbox": {
+          "executor": "paper/scripts/recurrence_only_ablation.py::execute_issue_snapshot",
+          "source": {
+            "dataset": "helmo/github-issues",
+            "deduplicated_non_pr_issues": 3115,
+            "parquet_sha256": "09453eefae39e45a969ab0bee72ca0e188fe79dc50403b0f2a78c39894f5d1a3",
+            "revision": "e344be7b84d199661a9956036991e1fc25715a47"
+          },
+          "state_digest": "09453eefae39e45a969ab0bee72ca0e188fe79dc50403b0f2a78c39894f5d1a3:3115",
+          "tool_calls": 355,
+          "worlds_created": 199
+        }
+      },
+      "identity": {
+        "vs_control": {
+          "artifact_id_identical": true,
+          "candidate_ids_identical": true,
+          "candidate_stages_identical": true,
+          "control_call": "compile_grc(..., sandbox=None, perturbations=()) through the retained driver, same process",
+          "control_perturbations_claimed": false,
+          "gate_identical": true,
+          "guard_identical": true,
+          "manifest_identical": true,
+          "only_challenge_evidence_differs": true,
+          "paths_that_differ": [
+            ".evidence.metrics.perturbations_claimed",
+            ".evidence.metrics.sandbox.n",
+            ".evidence.metrics.sandbox.pass_rate",
+            ".evidence.metrics.sandbox.passed",
+            ".evidence.perturbation.duplicate_record",
+            ".evidence.perturbation.empty_lists",
+            ".evidence.perturbation.formatting",
+            ".evidence.perturbation.null_fields",
+            ".evidence.perturbation.pad_lists",
+            ".evidence.perturbation.reorder_lists",
+            ".evidence.perturbation.schema_drift",
+            ".evidence.perturbation.tool_4xx",
+            ".evidence.perturbation.tool_timeout"
+          ],
+          "paths_that_differ_outside_challenge_evidence": [],
+          "program_identical": true,
+          "splits_digest_identical": true,
+          "verifier_identical": true
+        },
+        "vs_retained": {
+          "artifact_id": {
+            "identical": true,
+            "recompiled": "cand-01-1ebb8b2849c7",
+            "retained": "cand-01-1ebb8b2849c7"
+          },
+          "compatibility_key_identical": false,
+          "drift_notes": {
+            ".compatibility_key": "derived from tracer_version",
+            ".evidence.metrics.composite": "Evidence.metrics gained composite keys after the retained issue-type run",
+            ".evidence.metrics.composite_name": "Evidence.metrics gained composite keys after the retained issue-type run",
+            ".evidence.support_days": "checkpoint reconstruction: envelope.day of a reconstructed episode is the record's snapshot day rather than the live run day",
+            ".gate.features_spec.hull_kinds.z.issue_number": "library change after the retained issue-type run: the gate feature spec mirrors the nominal identifier hull",
+            ".gate.features_spec.numeric_ranges.z.issue_number": "library change after the retained issue-type run: the gate feature spec mirrors the nominal identifier hull",
+            ".guard.clauses[0].hull.high": "library change after the retained issue-type run: grc/contracts.py fits Hull('any') to nominal identifier paths (z.issue_number) instead of an interval",
+            ".guard.clauses[0].hull.kind": "library change after the retained issue-type run: grc/contracts.py fits Hull('any') to nominal identifier paths (z.issue_number) instead of an interval",
+            ".guard.clauses[0].hull.low": "library change after the retained issue-type run: grc/contracts.py fits Hull('any') to nominal identifier paths (z.issue_number) instead of an interval",
+            ".manifest.manifest_id": "derived from tracer_version",
+            ".manifest.tracer_version": "library version string agent-compaction/0.5.0 -> 0.6.0",
+            ".program.composite": "Program.to_dict gained an always-present composite key (null here)",
+            ".verifier.clauses[1].hull.high": "library change after the retained issue-type run: nominal identifier paths keep Hull('any') in the verifier",
+            ".verifier.clauses[1].hull.kind": "library change after the retained issue-type run: nominal identifier paths keep Hull('any') in the verifier",
+            ".verifier.clauses[1].hull.low": "library change after the retained issue-type run: nominal identifier paths keep Hull('any') in the verifier"
+          },
+          "gate": {
+            "alpha": 0.05,
+            "coverage": 1.0,
+            "delta": 0.1,
+            "n_accepted": 92,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "gate_identical": {
+            "alpha": true,
+            "coverage": true,
+            "delta": true,
+            "n_accepted": true,
+            "n_calibration_groups": true,
+            "observed_violations": true,
+            "retire": true,
+            "risk_upper_bound": true,
+            "threshold": true
+          },
+          "guard_identical": false,
+          "name_identical": true,
+          "paths_that_differ": [
+            ".compatibility_key",
+            ".evidence.metrics.composite",
+            ".evidence.metrics.composite_name",
+            ".evidence.metrics.perturbations_claimed",
+            ".evidence.metrics.sandbox.n",
+            ".evidence.metrics.sandbox.pass_rate",
+            ".evidence.metrics.sandbox.passed",
+            ".evidence.perturbation.duplicate_record",
+            ".evidence.perturbation.empty_lists",
+            ".evidence.perturbation.formatting",
+            ".evidence.perturbation.null_fields",
+            ".evidence.perturbation.pad_lists",
+            ".evidence.perturbation.reorder_lists",
+            ".evidence.perturbation.schema_drift",
+            ".evidence.perturbation.tool_4xx",
+            ".evidence.perturbation.tool_timeout",
+            ".evidence.support_days",
+            ".gate.features_spec.hull_kinds.z.issue_number",
+            ".gate.features_spec.numeric_ranges.z.issue_number",
+            ".guard.clauses[0].hull.high",
+            ".guard.clauses[0].hull.kind",
+            ".guard.clauses[0].hull.low",
+            ".manifest.manifest_id",
+            ".manifest.tracer_version",
+            ".program.composite",
+            ".verifier.clauses[1].hull.high",
+            ".verifier.clauses[1].hull.kind",
+            ".verifier.clauses[1].hull.low"
+          ],
+          "paths_that_differ_outside_challenge_evidence": [
+            ".compatibility_key",
+            ".evidence.metrics.composite",
+            ".evidence.metrics.composite_name",
+            ".evidence.support_days",
+            ".gate.features_spec.hull_kinds.z.issue_number",
+            ".gate.features_spec.numeric_ranges.z.issue_number",
+            ".guard.clauses[0].hull.high",
+            ".guard.clauses[0].hull.kind",
+            ".guard.clauses[0].hull.low",
+            ".manifest.manifest_id",
+            ".manifest.tracer_version",
+            ".program.composite",
+            ".verifier.clauses[1].hull.high",
+            ".verifier.clauses[1].hull.kind",
+            ".verifier.clauses[1].hull.low"
+          ],
+          "program_identical": true,
+          "retained_perturbations_claimed": false,
+          "retained_signature": "",
+          "splits_digest": {
+            "identical": true,
+            "recompiled": "9ec5ba30dbeb8d4c",
+            "retained": "9ec5ba30dbeb8d4c"
+          },
+          "unclassified_differences": [],
+          "verifier_identical": false
+        }
+      },
+      "inputs": {
+        "config_digest": "6a8872838563",
+        "discovery_checkpoint": "paper/results/github_natural_replication/discovery_checkpoint.json",
+        "discovery_checkpoint_sha256": "9be6ab211fa99498edac5be5c5f098dc0f52fdb9cb19f1dae159e4fcc23cd1c8",
+        "retained_results": "paper/results/github_natural_replication/results.json",
+        "retained_results_sha256": "415f057f0d5e036a765eb97da78df8de7b252c76a39c509c3a5d111538040722"
+      },
+      "model": "gpt-5.6-luna",
+      "name": "issue_get_record.issue_get_labels.region@1ebb8b28",
+      "perturbations_claimed": true,
+      "provider_calls": 0,
+      "rejection_by_stage": {
+        "synthesize:ungroundable_slot": 1
+      },
+      "retained_files_modified": false,
+      "signature": {
+        "body_digest": "d72c0f1ffe71b7bcbfc4a3a846e129cda9ef4a7ca71110571be162c45f6a525e",
+        "reload_with_key": {
+          "body_digest_identical": true,
+          "loaded": true,
+          "resolve_returns_artifact": true,
+          "verify_signature": true
+        },
+        "reload_with_wrong_key_error": "signature verification failed for ['cand-01-1ebb8b2849c7']",
+        "reload_with_wrong_key_refused": true,
+        "retained_registry": {
+          "error": "signature verification failed for ['cand-01-1ebb8b2849c7']",
+          "path": "paper/results/github_natural_replication/registry",
+          "refused_when_verification_on": true,
+          "signatures": [
+            ""
+          ]
+        },
+        "saved_signature_persisted": true,
+        "signature": "17dea07c067833cd978695f72fbb7faa9682b475363f9d2d699eeca71bb90748",
+        "signing": "HMAC-SHA256 over Artifact.body_digest(); key = sha256(SIGNING_KEY_DERIVATION)",
+        "signing_key_derivation": "guarded-agentic-compaction/paper/results/iclr_revision/recompile_with_challenge/lab-signing-key/v1",
+        "signing_key_sha256": "c656226d0850e3bc05508dd9080046d4096dacee44fa436e1ecb32ad8859d72f",
+        "tampered_gate_error": "signature verification failed for ['cand-01-1ebb8b2849c7']",
+        "tampered_gate_loads_when_verification_is_off": true,
+        "tampered_gate_refused": true,
+        "verify_signature": true,
+        "verify_signature_wrong_key": false
+      },
+      "signature_verified": true,
+      "survives_challenge": true
+    },
+    "pr_outcome": {
+      "artifact_id": "cand-00-a1de3856bb6c",
+      "candidates": [
+        {
+          "candidate_id": "cand-00-a1de3856bb6c",
+          "challenge": {
+            "hard_rejects": 0,
+            "ok": true,
+            "perturbations_claimed": true,
+            "wrong": 0
+          },
+          "gate": {
+            "alpha": 0.05,
+            "coverage": 1.0,
+            "delta": 0.1,
+            "n_accepted": 92,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "rejected": null,
+          "stage": "emitted",
+          "tools": [
+            "pr_get_record",
+            "pr_get_merge_status",
+            "pr_get_discussion"
+          ]
+        },
+        {
+          "candidate_id": "cand-01-4ea713b44da7",
+          "challenge": {
+            "hard_rejects": 0,
+            "ok": true,
+            "perturbations_claimed": true,
+            "wrong": 0
+          },
+          "gate": {
+            "alpha": 0.05,
+            "coverage": 1.0,
+            "delta": 0.1,
+            "n_accepted": 92,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "rejected": "dominated_by_longer_region",
+          "stage": "dominated",
+          "tools": [
+            "pr_get_record",
+            "pr_get_merge_status"
+          ]
+        }
+      ],
+      "challenge": {
+        "candidate_rejected": null,
+        "candidate_stage": "emitted",
+        "families_not_run": [],
+        "families_ran": 9,
+        "families_total": 9,
+        "hard_rejects": [],
+        "perturbation_families": [
+          {
+            "abstained": 0,
+            "abstention_rate": 0.0,
+            "expect": "invariant",
+            "family": "reordering",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 8,
+            "perturbation": "reorder_lists",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 0,
+            "wrong": 0
+          },
+          {
+            "abstained": 0,
+            "abstention_rate": 0.375,
+            "expect": "invariant",
+            "family": "duplicates",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 5,
+            "perturbation": "duplicate_record",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 3,
+            "wrong": 0
+          },
+          {
+            "abstained": 0,
+            "abstention_rate": 0.375,
+            "expect": "either",
+            "family": "large_collections",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 5,
+            "perturbation": "pad_lists",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 3,
+            "wrong": 0
+          },
+          {
+            "abstained": 0,
+            "abstention_rate": 0.0,
+            "expect": "abstain",
+            "family": "empty_collections",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 8,
+            "perturbation": "empty_lists",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 0,
+            "wrong": 0
+          },
+          {
+            "abstained": 0,
+            "abstention_rate": 1.0,
+            "expect": "abstain",
+            "family": "nulls",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 0,
+            "perturbation": "null_fields",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 8,
+            "wrong": 0
+          },
+          {
+            "abstained": 8,
+            "abstention_rate": 1.0,
+            "expect": "abstain",
+            "family": "schema_drift",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 0,
+            "perturbation": "schema_drift",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 0,
+            "wrong": 0
+          },
+          {
+            "abstained": 0,
+            "abstention_rate": 0.0,
+            "expect": "invariant",
+            "family": "irrelevant_formatting",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 8,
+            "perturbation": "formatting",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 0,
+            "wrong": 0
+          },
+          {
+            "abstained": 8,
+            "abstention_rate": 1.0,
+            "expect": "abstain",
+            "family": "tool_error",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 0,
+            "perturbation": "tool_4xx",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 0,
+            "wrong": 0
+          },
+          {
+            "abstained": 8,
+            "abstention_rate": 1.0,
+            "expect": "abstain",
+            "family": "timeout",
+            "hard_rejects": [],
+            "mode": "sandbox",
+            "n": 8,
+            "no_reference": 0,
+            "passed": 0,
+            "perturbation": "tool_timeout",
+            "ran": true,
+            "state_delta": 0,
+            "verifier_abstained": 0,
+            "wrong": 0
+          }
+        ],
+        "perturbations_claimed": true,
+        "recorded_replay": {
+          "abstained": 0,
+          "effect_mismatch": 0,
+          "n": 8,
+          "pass_rate": 1.0,
+          "passed": 8,
+          "reasons": {},
+          "state_delta": 0,
+          "wrong": 0
+        },
+        "sandbox_replay": {
+          "abstained": 0,
+          "effect_mismatch": 0,
+          "n": 8,
+          "pass_rate": 1.0,
+          "passed": 8,
+          "reasons": {},
+          "state_delta": 0,
+          "wrong": 0
+        },
+        "state_delta_total": 0,
+        "survives_challenge": true,
+        "wrong_total": 0
+      },
+      "compile_call": {
+        "recompiled": "compile_grc(..., sandbox=SnapshotWorld factory, perturbations=DEFAULT_PERTURBATIONS)",
+        "retained": "compile_grc(..., sandbox=None, perturbations=())",
+        "sandbox": {
+          "executor": "paper/scripts/github_workflow_family_study.py::execute_snapshot",
+          "source": {
+            "deduplicated_records": 7440,
+            "duplicate_rows": 100,
+            "parquet_sha256": "09453eefae39e45a969ab0bee72ca0e188fe79dc50403b0f2a78c39894f5d1a3",
+            "raw_rows": 7540,
+            "source_revision": "e344be7b84d199661a9956036991e1fc25715a47"
+          },
+          "state_digest": "09453eefae39e45a969ab0bee72ca0e188fe79dc50403b0f2a78c39894f5d1a3:7440",
+          "tool_calls": 883,
+          "worlds_created": 398
+        }
+      },
+      "identity": {
+        "vs_control": {
+          "artifact_id_identical": true,
+          "candidate_ids_identical": true,
+          "candidate_stages_identical": true,
+          "control_call": "compile_grc(..., sandbox=None, perturbations=()) through the retained driver, same process",
+          "control_perturbations_claimed": false,
+          "gate_identical": true,
+          "guard_identical": true,
+          "manifest_identical": true,
+          "only_challenge_evidence_differs": true,
+          "paths_that_differ": [
+            ".evidence.metrics.perturbations_claimed",
+            ".evidence.metrics.sandbox.n",
+            ".evidence.metrics.sandbox.pass_rate",
+            ".evidence.metrics.sandbox.passed",
+            ".evidence.perturbation.duplicate_record",
+            ".evidence.perturbation.empty_lists",
+            ".evidence.perturbation.formatting",
+            ".evidence.perturbation.null_fields",
+            ".evidence.perturbation.pad_lists",
+            ".evidence.perturbation.reorder_lists",
+            ".evidence.perturbation.schema_drift",
+            ".evidence.perturbation.tool_4xx",
+            ".evidence.perturbation.tool_timeout"
+          ],
+          "paths_that_differ_outside_challenge_evidence": [],
+          "program_identical": true,
+          "splits_digest_identical": true,
+          "verifier_identical": true
+        },
+        "vs_retained": {
+          "artifact_id": {
+            "identical": true,
+            "recompiled": "cand-00-a1de3856bb6c",
+            "retained": "cand-00-a1de3856bb6c"
+          },
+          "compatibility_key_identical": true,
+          "drift_notes": {
+            ".evidence.support_days": "checkpoint reconstruction: envelope.day of a reconstructed episode is the record's snapshot day rather than the live run day"
+          },
+          "gate": {
+            "alpha": 0.05,
+            "coverage": 1.0,
+            "delta": 0.1,
+            "n_accepted": 92,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "gate_identical": {
+            "alpha": true,
+            "coverage": true,
+            "delta": true,
+            "n_accepted": true,
+            "n_calibration_groups": true,
+            "observed_violations": true,
+            "retire": true,
+            "risk_upper_bound": true,
+            "threshold": true
+          },
+          "guard_identical": true,
+          "name_identical": true,
+          "paths_that_differ": [
+            ".evidence.metrics.perturbations_claimed",
+            ".evidence.metrics.sandbox.n",
+            ".evidence.metrics.sandbox.pass_rate",
+            ".evidence.metrics.sandbox.passed",
+            ".evidence.perturbation.duplicate_record",
+            ".evidence.perturbation.empty_lists",
+            ".evidence.perturbation.formatting",
+            ".evidence.perturbation.null_fields",
+            ".evidence.perturbation.pad_lists",
+            ".evidence.perturbation.reorder_lists",
+            ".evidence.perturbation.schema_drift",
+            ".evidence.perturbation.tool_4xx",
+            ".evidence.perturbation.tool_timeout",
+            ".evidence.support_days"
+          ],
+          "paths_that_differ_outside_challenge_evidence": [
+            ".evidence.support_days"
+          ],
+          "program_identical": true,
+          "retained_perturbations_claimed": false,
+          "retained_signature": "",
+          "splits_digest": {
+            "identical": true,
+            "recompiled": "46a609a3016bcf4a",
+            "retained": "46a609a3016bcf4a"
+          },
+          "unclassified_differences": [],
+          "verifier_identical": true
+        }
+      },
+      "inputs": {
+        "config_digest": "aac1fd160d81",
+        "discovery_checkpoint": "paper/results/github_workflow_families/pr_outcome/pilot_v1/discovery_checkpoint.json",
+        "discovery_checkpoint_sha256": "5b103fa9f4c04630e42581546a3ce4d86c894584e790a08c60598ccbf4a1a102",
+        "retained_results": "paper/results/github_workflow_families/pr_outcome/final/results.json",
+        "retained_results_sha256": "4722a35c5eda017bdb22b6f2d75c062b9a085ef65168e3dc41ace82d885ee36f"
+      },
+      "model": "gpt-5.6-luna",
+      "name": "pr_get_record.pr_get_merge_status.region@a1de3856",
+      "perturbations_claimed": true,
+      "provider_calls": 0,
+      "rejection_by_stage": {
+        "select:dominated": 1
+      },
+      "retained_files_modified": false,
+      "signature": {
+        "body_digest": "d38ed06b94c738373b18e10e9790366764dfd038071c47efebb38da81b324c79",
+        "reload_with_key": {
+          "body_digest_identical": true,
+          "loaded": true,
+          "resolve_returns_artifact": true,
+          "verify_signature": true
+        },
+        "reload_with_wrong_key_error": "signature verification failed for ['cand-00-a1de3856bb6c']",
+        "reload_with_wrong_key_refused": true,
+        "retained_registry": {
+          "error": "signature verification failed for ['cand-00-a1de3856bb6c']",
+          "path": "paper/results/github_workflow_families/pr_outcome/final/registry",
+          "refused_when_verification_on": true,
+          "signatures": [
+            ""
+          ]
+        },
+        "saved_signature_persisted": true,
+        "signature": "57ee207f1cbeb2291676714e7bdd9d0603d96ccbc79f077daf9b2b4d5dc8574d",
+        "signing": "HMAC-SHA256 over Artifact.body_digest(); key = sha256(SIGNING_KEY_DERIVATION)",
+        "signing_key_derivation": "guarded-agentic-compaction/paper/results/iclr_revision/recompile_with_challenge/lab-signing-key/v1",
+        "signing_key_sha256": "c656226d0850e3bc05508dd9080046d4096dacee44fa436e1ecb32ad8859d72f",
+        "tampered_gate_error": "signature verification failed for ['cand-00-a1de3856bb6c']",
+        "tampered_gate_loads_when_verification_is_off": true,
+        "tampered_gate_refused": true,
+        "verify_signature": true,
+        "verify_signature_wrong_key": false
+      },
+      "signature_verified": true,
+      "survives_challenge": true
+    }
+  },
+  "challenge_evidence_paths": [
+    ".evidence.perturbation",
+    ".evidence.metrics.perturbations_claimed",
+    ".evidence.metrics.sandbox",
+    ".evidence.counterexamples"
+  ],
+  "perturbation_suite": [
+    {
+      "expect": "invariant",
+      "family": "reordering",
+      "mechanism": "response transform",
+      "perturbation": "reorder_lists"
+    },
+    {
+      "expect": "invariant",
+      "family": "duplicates",
+      "mechanism": "response transform",
+      "perturbation": "duplicate_record"
+    },
+    {
+      "expect": "either",
+      "family": "large_collections",
+      "mechanism": "response transform",
+      "perturbation": "pad_lists"
+    },
+    {
+      "expect": "abstain",
+      "family": "empty_collections",
+      "mechanism": "response transform",
+      "perturbation": "empty_lists"
+    },
+    {
+      "expect": "abstain",
+      "family": "nulls",
+      "mechanism": "response transform",
+      "perturbation": "null_fields"
+    },
+    {
+      "expect": "abstain",
+      "family": "schema_drift",
+      "mechanism": "response transform",
+      "perturbation": "schema_drift"
+    },
+    {
+      "expect": "invariant",
+      "family": "irrelevant_formatting",
+      "mechanism": "response transform",
+      "perturbation": "formatting"
+    },
+    {
+      "expect": "abstain",
+      "family": "tool_error",
+      "mechanism": "injected tool failure",
+      "perturbation": "tool_4xx"
+    },
+    {
+      "expect": "abstain",
+      "family": "timeout",
+      "mechanism": "injected tool failure",
+      "perturbation": "tool_timeout"
+    }
+  ],
+  "provider_calls": 0,
+  "purpose": "Close the two Appendix G operational caveats provider-free: run the perturbation suite through a pinned-snapshot sandbox and verify registry signatures, on the retained programs, splits, and gates.",
+  "sandbox_interface": {
+    "compile_grc": "sandbox: Callable[[], world] | None; perturbations: Sequence[Perturbation]",
+    "implementation": "paper/scripts/recompile_with_challenge.py::SnapshotWorld",
+    "world": "execute(tool, args) -> result; state_digest() -> str"
+  },
+  "schema": "agent-compaction-recompile-with-challenge/v1",
+  "summary": {
+    "all_identity_checks_passed": true,
+    "all_perturbations_claimed": true,
+    "all_signatures_verified": true,
+    "all_survive_challenge": true,
+    "families_not_run": {
+      "backlog_attention": [],
+      "issue_type": [],
+      "pr_outcome": []
+    },
+    "hard_rejects_total": 0
+  }
+}
