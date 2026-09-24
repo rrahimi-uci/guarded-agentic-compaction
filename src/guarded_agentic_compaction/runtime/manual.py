@@ -27,11 +27,12 @@ from typing import Any, Callable, Sequence
 from ..grc.composite import CompositeProjectionError
 from ..grc.dsl import LIBRARY_VERSION
 from ..grc.program import Program
-from ..schema.artifacts import HardGuard, Verifier
+from ..schema.artifacts import HardGuard, Prologue, Verifier
 from ..schema.effects import Capability, EffectCatalog, EffectClass
 from ..schema.traces import ExecutionManifest
 from .facade import FacadeMode, ToolFacade
 from .interp import run_program
+from .prologue import CommittedCall, match_prologue
 from .runner import CompactedObservation
 from .staging import Snapshot, Staging, StagingViolation
 
@@ -54,9 +55,11 @@ class ManualPreModelPlan:
     owner: str = "unassigned"
     approved_by: str | None = None
     schema_version: int = 1
+    #: Extended entry contract (read-only prologue). ``None`` keeps position 0.
+    prologue: Prologue | None = None
 
     def to_dict(self) -> dict[str, Any]:
-        return {
+        payload = {
             "name": self.name,
             "program": self.program.to_dict(),
             "source_compatibility_key": self.source_compatibility_key,
@@ -68,6 +71,10 @@ class ManualPreModelPlan:
             "construction": "manual",
             "statistical_gate": False,
         }
+        # emitted only when declared, so existing plan ids are unchanged
+        if self.prologue is not None:
+            payload["prologue"] = self.prologue.to_dict()
+        return payload
 
     @property
     def plan_id(self) -> str:
@@ -110,10 +117,13 @@ class ManualPreModelRunner:
         snapshot_fn: Callable[[], Snapshot] | None = None,
         already_observed: Sequence[str] = (),
         continuation_compatibility_key: str = "",
+        committed_calls: Sequence[CommittedCall] | None = None,
     ) -> ManualPreModelDecision:
         started = time.perf_counter()
         program = self.plan.program
         composite = program.composite
+        live_ins: dict[str, Any] = {}
+        live_in_provenance: dict[str, str] = {}
 
         reasons = self._structural_reasons()
         if reasons:
@@ -124,10 +134,27 @@ class ManualPreModelRunner:
             return self._reject(started, ("missing_pre_model_composite",))
         if composite.continuation_compatibility_key != continuation_compatibility_key:
             return self._reject(started, ("continuation_manifest_mismatch",))
-        if len(already_observed) > 0:
-            # Position invariant: a pre-model plan runs only at position 0, before
-            # any tool observation of the episode exists.
-            return self._reject(started, ("non_prefix_boundary",))
+        if self.plan.prologue is None:
+            if len(already_observed) > 0:
+                # Position invariant: a pre-model plan runs only at position 0,
+                # before any tool observation of the episode exists.
+                return self._reject(started, ("non_prefix_boundary",))
+        else:
+            # Read-only prologue: the same exact-match admission the dispatcher
+            # applies (see runtime/prologue.py). Matched results become explicit
+            # live-ins and are not replayed through the facade.
+            match = match_prologue(
+                program,
+                self.plan.prologue,
+                self.catalog,
+                entry_state,
+                committed_calls,
+                guard=self.plan.guard,
+                already_observed=already_observed,
+            )
+            if not match.ok:
+                return self._reject(started, match.reasons)
+            live_ins, live_in_provenance = match.live_ins, match.provenance
         if any(tool in already_observed for tool in program.tools):
             # redundant under the position invariant; kept for defense in depth
             return self._reject(started, ("region_already_started",))
@@ -165,7 +192,13 @@ class ManualPreModelRunner:
             allowed_tools=program.tools,
             max_calls=self.max_calls,
         )
-        result = run_program(program, entry_state, facade)
+        result = run_program(
+            program,
+            entry_state,
+            facade,
+            live_ins=live_ins,
+            live_in_provenance=live_in_provenance,
+        )
         if not result.ok:
             return self._abort_or_incident(started, stage, "interp_failed", len(result.calls))
 

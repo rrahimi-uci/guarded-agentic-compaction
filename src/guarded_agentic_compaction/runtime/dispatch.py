@@ -31,6 +31,7 @@ from ..schema.effects import EffectCatalog
 from ..grc.composite import CompositeProjectionError
 from .facade import FacadeMode, ForbiddenTool, Recording, ToolFacade
 from .interp import InterpResult, PostCommitError, PreCommitError, run_program
+from .prologue import CommittedCall, match_prologue
 from .staging import Snapshot, Staging, StagingViolation
 
 __all__ = ["DispatchMode", "DispatchDecision", "Dispatcher", "DispatchTelemetry"]
@@ -66,6 +67,12 @@ class DispatchDecision:
     overhead_ms: float = 0.0
     shadow: bool = False
     error: str = ""
+    #: Admitted read-only prologue outputs (var -> committed result) and the tool
+    #: that produced each. Empty unless the artifact declares a prologue and the
+    #: committed observations matched it exactly. Deferred executors seed their
+    #: environment from these instead of re-issuing the calls.
+    prologue_live_ins: dict[str, Any] = field(default_factory=dict)
+    prologue_provenance: dict[str, str] = field(default_factory=dict)
 
     @property
     def compacted(self) -> bool:
@@ -188,7 +195,17 @@ class Dispatcher:
         defer_execution: bool = False,
         require_pre_model_composite: bool = False,
         continuation_compatibility_key: str = "",
+        committed_calls: Sequence[CommittedCall] | None = None,
     ) -> DispatchDecision:
+        """Decide one model boundary.
+
+        ``already_observed`` is the set of tools the episode has already called and
+        drives the strict position-0 rule. ``committed_calls`` is the *ordered*
+        committed record (tool, arguments, result, status); it is consulted only
+        for artifacts that declare a read-only prologue, and a host that cannot
+        supply it simply never dispatches those artifacts.
+        """
+
         t0 = time.perf_counter()
         self.telemetry.attempts += 1
 
@@ -213,9 +230,11 @@ class Dispatcher:
             )
 
         # ---- lines 2-3: hard guard --------------------------------------
-        admissible: list[tuple[Artifact, float]] = []
+        admissible: list[tuple[Artifact, float, dict[str, Any], dict[str, str]]] = []
         first_reasons: tuple[str, ...] = ()
         for art in candidates:
+            live_ins: dict[str, Any] = {}
+            live_in_provenance: dict[str, str] = {}
             if require_pre_model_composite and (
                 art.program is None
                 or art.program.composite is None
@@ -261,7 +280,7 @@ class Dispatcher:
                 for r in reasons:
                     self.telemetry.bump(self.telemetry.guard_misses, r.split(":")[0])
                 continue
-            if art.program is not None and len(already_observed) > 0:
+            if art.program is not None and art.prologue is None and len(already_observed) > 0:
                 # Position invariant (Algorithm 4): a compiled region is fitted on
                 # the entry state at position 0 of the episode. Any prior tool
                 # observation, related or not, means this boundary is not the
@@ -271,6 +290,30 @@ class Dispatcher:
                     first_reasons = (reason,)
                 self.telemetry.bump(self.telemetry.guard_misses, reason)
                 continue
+            if art.program is not None and art.prologue is not None:
+                # Read-only prologue (extended entry contract): position 0 is
+                # relaxed to "the committed observations are exactly the declared
+                # prologue". Any deviation -- a different call, an extra call, an
+                # order change, an undeclared or non-read effect, a slot the
+                # prologue leaves ungrounded -- returns the baseline with a
+                # specific reason. On a match the committed results become the
+                # region's explicit live-ins and are never re-issued.
+                match = match_prologue(
+                    art.program,
+                    art.prologue,
+                    self.catalog,
+                    entry_state,
+                    committed_calls,
+                    guard=art.guard,
+                    already_observed=already_observed,
+                )
+                if not match.ok:
+                    if not first_reasons:
+                        first_reasons = match.reasons
+                    for reason in match.reasons:
+                        self.telemetry.bump(self.telemetry.guard_misses, reason.split(":")[0])
+                    continue
+                live_ins, live_in_provenance = match.live_ins, match.provenance
             if art.program is not None and any(t in already_observed for t in art.program.tools):
                 # the region has already partly run in this episode; its live-ins
                 # are no longer the ones the contract was fitted on. Redundant
@@ -293,7 +336,7 @@ class Dispatcher:
             if not ok:
                 self.telemetry.gate_rejections += 1
                 continue
-            admissible.append((art, q))
+            admissible.append((art, q, live_ins, live_in_provenance))
 
         if not admissible:
             self.telemetry.baseline += 1
@@ -304,8 +347,8 @@ class Dispatcher:
             )
 
         # ---- line 4: deterministic argmin, ties by artifact id ----------
-        admissible.sort(key=lambda pair: (pair[1], pair[0].artifact_id))
-        artifact, q = admissible[0]
+        admissible.sort(key=lambda row: (row[1], row[0].artifact_id))
+        artifact, q, live_ins, live_in_provenance = admissible[0]
 
         if self.mode == DispatchMode.SHADOW:
             self.telemetry.shadow_would_dispatch += 1
@@ -331,6 +374,8 @@ class Dispatcher:
                 reasons=("execution_deferred",),
                 removed_requests=artifact.evidence.removed_requests,
                 overhead_ms=self._elapsed(t0),
+                prologue_live_ins=dict(live_ins),
+                prologue_provenance=dict(live_in_provenance),
             )
 
         # ---- lines 6-14: stage, run, verify, commit ---------------------
@@ -347,7 +392,13 @@ class Dispatcher:
             allowed_tools=tuple(artifact.program.tools) if artifact.program else (),
             max_calls=self.max_calls,
         )
-        result = run_program(artifact.program, entry_state, facade)
+        result = run_program(
+            artifact.program,
+            entry_state,
+            facade,
+            live_ins=live_ins,
+            live_in_provenance=live_in_provenance,
+        )
 
         if not result.ok:
             self.telemetry.bump(self.telemetry.interp_failures, result.error.split(":")[0][:40])
@@ -470,6 +521,8 @@ class Dispatcher:
             effects=result.effects,
             removed_requests=artifact.evidence.removed_requests,
             overhead_ms=self._elapsed(t0),
+            prologue_live_ins=dict(live_ins),
+            prologue_provenance=dict(live_in_provenance),
         )
 
     # -- helpers ----------------------------------------------------------

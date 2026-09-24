@@ -18,7 +18,7 @@ Failure taxonomy matters more than the happy path (proposal §4.7):
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Sequence
+from typing import Any, Mapping, Sequence
 
 from ..grc.dsl import Binding, Const, Expr, TypeMismatch
 from ..grc.program import AssertStep, CallStep, LoopStep, Program
@@ -85,9 +85,21 @@ def run_program(
     facade: ToolFacade,
     *,
     max_calls: int | None = None,
+    live_ins: Mapping[str, Any] | None = None,
+    live_in_provenance: Mapping[str, str] | None = None,
 ) -> InterpResult:
     env: dict[str, Any] = {"z": entry_state}
     provenance: dict[str, set[str]] = {}
+    # Prologue outputs (read-only prologue protocol): results the host already
+    # committed, bound as explicit live-ins. They are seeded, never re-issued, so
+    # they contribute no call, no effect and no facade budget.
+    for name, value in dict(live_ins or {}).items():
+        if name == "z":
+            raise ValueError("live-in name 'z' is reserved for the entry state")
+        env[name] = value
+        tool = (live_in_provenance or {}).get(name)
+        if tool:
+            provenance[name] = {tool}
     branch_taken: dict[str, bool] = {}
     facade.reset()
     if max_calls is not None:
