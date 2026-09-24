@@ -2960,35 +2960,59 @@ def validate_iclr_sources() -> None:
         ok("proposition 1" not in text and "corollary 2" not in text, "iclr: compiled PDF capitalizes theorem references")
 
 
-def main() -> None:
-    validate_sources()
-    validate_live()
-    validate_natural_preflight()
-    validate_natural_live()
-    validate_natural_replication()
-    validate_portfolio_live()
-    validate_guarded_composite()
-    validate_optimizer_head_to_head()
-    validate_continuation_replay()
-    validate_nestful()
-    validate_demo_suite()
-    validate_multidomain_preflight()
-    validate_offline_comparator()
-    validate_manifest()
-    validate_claim_boundaries()
-    validate_publication()
-    validate_iclr_page_budget()
-    validate_iclr_sources()
-    validate_headroom_ablation_preflights()
-    validate_live_extensions()
-    validate_recompile_with_challenge()
-    validate_github_workflow_families()
-    validate_github_multirepo_pr_outcome_core()
-    validate_external_benchmarks()
-    validate_bfcl_compiler()
-    validate_slide_generation()
-    validate_slides()
-    validate_no_secrets()
+FAMILIES: dict[str, Any] = {
+    "sources": validate_sources,
+    "live": validate_live,
+    "natural_preflight": validate_natural_preflight,
+    "natural_live": validate_natural_live,
+    "natural_replication": validate_natural_replication,
+    "portfolio_live": validate_portfolio_live,
+    "guarded_composite": validate_guarded_composite,
+    "optimizer_head_to_head": validate_optimizer_head_to_head,
+    "continuation_replay": validate_continuation_replay,
+    "nestful": validate_nestful,
+    "demo_suite": validate_demo_suite,
+    "multidomain_preflight": validate_multidomain_preflight,
+    "offline_comparator": validate_offline_comparator,
+    "manifest": validate_manifest,
+    "claim_boundaries": validate_claim_boundaries,
+    "publication": validate_publication,
+    "iclr_page_budget": validate_iclr_page_budget,
+    "iclr_sources": validate_iclr_sources,
+    "headroom_ablation_preflights": validate_headroom_ablation_preflights,
+    "live_extensions": validate_live_extensions,
+    "recompile_with_challenge": validate_recompile_with_challenge,
+    "github_workflow_families": validate_github_workflow_families,
+    "github_multirepo_pr_outcome_core": validate_github_multirepo_pr_outcome_core,
+    "external_benchmarks": validate_external_benchmarks,
+    "bfcl_compiler": validate_bfcl_compiler,
+    "slide_generation": validate_slide_generation,
+    "slides": validate_slides,
+    "no_secrets": validate_no_secrets,
+}
+
+
+def main(argv: list[str] | None = None) -> None:
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Validate every pinned number in the paper.")
+    parser.add_argument(
+        "--families",
+        default=None,
+        help="Comma-separated subset of validation families to run (default: all). "
+        "Use --list-families to see the names.",
+    )
+    parser.add_argument("--list-families", action="store_true", help="Print the family names and exit.")
+    args = parser.parse_args(argv)
+    if args.list_families:
+        print("\n".join(FAMILIES))
+        return
+    selected = list(FAMILIES) if args.families is None else [name.strip() for name in args.families.split(",") if name.strip()]
+    unknown = [name for name in selected if name not in FAMILIES]
+    if unknown:
+        parser.error(f"unknown families: {', '.join(unknown)} (see --list-families)")
+    for name in selected:
+        FAMILIES[name]()
     summary = {
         "validator": "paper/scripts/validate_artifacts.py",
         "checks_passed": len(checks),
@@ -2996,9 +3020,10 @@ def main() -> None:
         "passed": not errors,
         "failures": errors,
     }
-    (PAPER / "results/validation_summary.json").write_text(
-        json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+    if args.families is None:
+        (PAPER / "results/validation_summary.json").write_text(
+            json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
     for item in checks:
         print(f"[ok] {item}")
     for item in errors:
