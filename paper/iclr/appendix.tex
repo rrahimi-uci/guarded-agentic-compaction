@@ -265,6 +265,18 @@ runs breadth-first from the concrete source value and keeps chains whose
 denotation equals the target, which prunes by runtime type for free and
 collapses observationally equivalent chains.
 
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/gate_floor.pdf}
+  \caption{Why a 92-group pool certifies only full coverage. Left: the
+  zero-violation bound $U(n)=1-(\delta/|\Lambda|)^{1/n}$ at $\delta=0.1$,
+  $|\Lambda|=11$ crosses $\alpha=0.05$ between $n=91$ (0.0503) and $n=92$
+  (0.0498). Right: the smallest pool $\lceil 92/c\rceil$ that can certify
+  selective coverage $c$; every calibration pool in this paper is 92, so the
+  certifiable coverages are 0 and 1 whatever $q$ ranks.}
+  \label{fig:gate-floor}
+\end{figure}
+
 \paragraph{The nonconformity score $q$.}
 $q$ is an $\ell_2$-regularized logistic model over entry-observable features
 only --- missing-field indicators, empirical-hull margin, temporal drift, and
@@ -299,7 +311,7 @@ intermediate coverages were \emph{observed} and neither is certifiable:
 \code{huggingface/datasets} accepts 10/92 groups at $\eta\le0.08$ in the
 gate-frontier study ($U=0.375$), and \code{pandas-dev/pandas} accepts 90/92 at
 $0.08\le\eta\le0.20$ in the balanced rerun ($U=0.0509$). A frontier study must
-first buy calibration groups. The implementation also supports a
+first buy calibration groups (\cref{fig:gate-floor}). The implementation also supports a
 minimum-distinct-days requirement, which the single-snapshot live study does not
 exercise (\code{min\_days}\,=\,1). Two terms of \cref{eq:score} are coarser in
 the implementation than the notation suggests: $\rho_{\mathrm{eff}}$ is
@@ -401,6 +413,40 @@ carries the effect.
   \label{tab:manual-resources}
   \footnotesize
   \input{tables/manual_resources.tex}
+\end{table}
+
+\paragraph{An extended issue-type held-out cohort.} A pre-registered
+extension (\code{paper/supplementary/issue-type-extended-heldout-protocol.md})
+ran the retained issue-type artifact on 120 further unused records of the
+pinned snapshot on the calibrated model, balanced 40/40/40 over \code{bug},
+\code{enhancement}, and \code{other} (the snapshot holds 16 exclusive
+\code{question} issues, 10 already used, so the retained three-way mix could
+not be reproduced), with the three retained arms in a balanced Latin order and
+the artifact recompiled provider-free under the current tracer pin (identical
+id, program, splits, and 92/0 gate). By the decision rule fixed in advance the
+compiled-only miss comes first: record 2737, where the compiled arm quoted an
+error line with backticks the source does not contain; the baseline missed
+record 3040 (a doubled space) and all three arms missed record 3968. Exact
+contracts were 118/120 baseline, 118/120 compiled, and 117/120 hand-written
+(\cref{tab:extended-heldout}); the artifact dispatched on 119/120 records and
+abstained cleanly on record 5102 on the induced verifier's cardinality clause,
+running the unchanged agent. The one-sided 95\% bound on compiled-only failures
+is 3.9\% on these 120 records and 2.2\% pooled with the 90 primary records
+(1/210); the pre-registered targets of zero misses, 120/120 dispatch, and a
+pooled bound at or below 1.5\% were all missed and are reported as such.
+Requests fell 50.0\%, tokens 39.5\%, latency 42.5\%, and cost 32.8\% against
+the same-model baseline, matching the primary family within a point.
+
+\begin{table}[t]
+  \centering
+  \caption{Extended issue-type held-out cohort on the calibrated model:
+  per-record means over 120 unused records with a disclosed class mix
+  (40 \code{bug} / 40 \code{enhancement} / 40 \code{other}). The compiled-only
+  miss (record 2737) and the pooled bound are the pre-registered primary
+  endpoints.}
+  \label{tab:extended-heldout}
+  \footnotesize
+  \input{tables/extended_heldout.tex}
 \end{table}
 
 \section{Additional Experimental Detail}
@@ -784,8 +830,8 @@ prologue; the measurement assumes the declaration a reviewer would have to sign.
   with), per released AppWorld baseline architecture; never pooled. The
   runtime rule and the measurement rule are the same function.}
   \label{tab:appworld-prologue}
-  \footnotesize
-  \setlength{\tabcolsep}{3.5pt}
+  \scriptsize
+  \setlength{\tabcolsep}{3pt}
   \input{tables/appworld_dispatch_prologue.tex}
 \end{table}
 
@@ -990,13 +1036,22 @@ problem is compiler-wide only when one candidate reaches calibration
 families whose dominance search calibrated two candidates the corrected bound is
 0.0569 (\cref{tab:multiplicity-accounting}). Likewise, exact task
 contracts do not certify full semantic equivalence of the final answer,
-especially once a downstream model continuation is involved. Two further
-operational caveats belong in the record: the headline live artifact was
-compiled without a sandbox available to the perturbation suite, so it records
-\code{perturbations\_claimed: false} rather than a completed challenge, and
-registry signature verification was configured off in the reported run. These
-are not hidden defects in the repository; they are the reasons the paper avoids
-stronger deployment claims.
+especially once a downstream model continuation is involved. Two operational
+caveats of the reported runs have since been closed provider-free: the three
+primary artifacts were compiled with the perturbation suite disabled and
+registry signature verification off, and a recompilation from the sealed
+discovery checkpoints (\code{paper/scripts/recompile\_with\_challenge.py})
+reproduces the identical programs, splits, artifact identifiers, and 92/0 gates
+with the suite enabled through a sandbox over the pinned snapshot; all nine
+perturbation families (reordering, duplicates, large and empty collections,
+nulls, schema drift, formatting, tool errors, timeouts) complete on the eight
+development windows of each artifact with zero wrong answers and zero hard
+rejects, so each record now carries \code{perturbations\_claimed: true}. The
+same recompilation registers each artifact under an HMAC-SHA256 signing key,
+reloads it with verification on, and confirms that wrong-key, tampered, and the
+original unsigned registries are refused
+(\code{paper/results/iclr\_revision/recompile\_with\_challenge.json}); no
+reported number changes.
 
 \section{Prospective Gate-Frontier Protocol}
 \label{app:prospective}
@@ -1139,3 +1194,23 @@ test the ranking quality of $q$. The protocol that could
 (\code{paper/supplementary/graded-frontier-protocol.md}) needs
 $|\mathcal{K}|\ge\lceil 92/c\rceil$ groups per repository and an entry state
 with informative features; it is written and not run.
+
+\section{Claims and Evidence}
+\label{app:claims}
+
+\Cref{tab:claims-evidence} lists every claim the paper makes, what was
+measured, the retained file that carries the number, and what the claim does
+not license. Rows are grouped as the paper is: the primary live families, the
+external substrates, and the studies added after the pre-submission review.
+
+\begin{table}[p]
+  \centering
+  \caption{Claims, evidence, retained sources, and claim boundaries. Every
+  number is copied from the file named in the third column; the number
+  registry in the artifact maps each to its producing script.}
+  \label{tab:claims-evidence}
+  \scriptsize
+  \setlength{\tabcolsep}{3pt}
+  \renewcommand{\arraystretch}{1.05}
+  \input{tables/claims_evidence.tex}
+\end{table}

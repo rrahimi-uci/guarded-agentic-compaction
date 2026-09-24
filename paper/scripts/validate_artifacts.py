@@ -1805,10 +1805,17 @@ def validate_live_extensions() -> None:
         comp = {key(r): _exact(r) for r in rows if r["condition"] == condition}
         episodes += len(comp)
         compiled_only += sum(base.get(k, False) and not v for k, v in comp.items())
-    ok(episodes == 630 and compiled_only == 0,
-       "§7: 630 compiled held-out episodes on the calibrated model with zero compiled-only failures")
-    ok("630 compiled held-out episodes" in (PAPER / "iclr/sections/discussion.tex").read_text(encoding="utf-8"),
-       "§7 states the 630-episode headline")
+    ext_results = PAPER / "results/issue_type_extended_heldout/results.json"
+    if ext_results.exists():
+        rows = [r for r in load(ext_results).get("results", []) if int(r.get("repeat", 0)) == 0]
+        base = {r["issue_number"]: _exact(r) for r in rows if r["condition"] == "baseline"}
+        comp = {r["issue_number"]: _exact(r) for r in rows if r["condition"] == "compiled"}
+        episodes += len(comp)
+        compiled_only += sum(base.get(k, False) and not v for k, v in comp.items())
+    ok(episodes == 750 and compiled_only == 1,
+       "§7: 750 compiled held-out episodes on the calibrated model with one compiled-only failure")
+    ok("750 compiled held-out episodes" in (PAPER / "iclr/sections/discussion.tex").read_text(encoding="utf-8"),
+       "§7 states the 750-episode headline")
 
     # -- second-model replication ----------------------------------------------------
     sm_dir = PAPER / "results/second_model_replication"

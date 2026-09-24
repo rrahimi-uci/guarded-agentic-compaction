@@ -127,3 +127,22 @@ Page budget: the additions (§1 +2 lines, §5.1 +2, §7 +5) were paid for by Fig
 again and the AI Use Statement opens page 10. `demos/live_runtime.py` gains the `gpt-6-luna` list
 price (retrieved 2026-09-24); `validate_live_extensions` pins both studies, the 630 headline, and
 byte-identical regeneration of the two new tables.
+
+## Re-discovery, extended held-out, prologue, caveats, packaging (2026-09-24, branch `paper/iclr-live-rediscovery-heldout-prologue`)
+
+| Study / item | Result | Paper | Evidence |
+|---|---|---|---|
+| Multiplicity repair (pre-registered 2026-09-22) | NO-GO at preflight: 33 unused `open` PRs, 8 unused `owned` issues against 36 per class; not run, per-candidate wording stays | App. A | `multiplicity_repair/preflight.json` |
+| Design A re-discovery on `gpt-6-luna` (pre-registered 2026-09-24) | issue-type 128/132 exact traces, identical artifact, 30/30/30; PR-outcome 132/132, identical artifact, 30/30/30; backlog 113/132 < 116 → compile-time refusal, no arms run | App. G (+ design-A block of `tab:second-model`), §5.1 | `second_model_replication/issue_type_rediscovery/`, `github_workflow_families/*/gpt6_luna_rediscovery/` |
+| Extended issue-type held-out, 120 records on the calibrated model (pre-registered 2026-09-24) | 118/118/117 of 120; one compiled-only miss (2737), dispatch 119/120 (5102 cardinality abstention); bound 3.9% here, 2.2% pooled (1/210); all three targets missed and reported | App. D + `tab:extended-heldout`; §5.1; §7 headline now 750 episodes / 1 compiled-only failure | `issue_type_extended_heldout/results.json` |
+| Read-only prologue (protocol 2026-09-22) | implemented in the runtime (23 acceptance tests, suite 496 green), measured on the released AppWorld trajectories after acquiring them: ReAct 0 → 2 of 2,340, plan-and-execute 1 → 1; those architectures do not execute the admitted region (16 and 39 occurrences anywhere) | App. G replaces the conjecture; `tab:appworld-prologue`; §5.3 clause | `external_benchmarks/appworld_dispatch_prologue_preflight.json`, `tests/unit/test_dispatch_prologue.py` |
+| Two operational caveats | closed provider-free: perturbation suite runs through a snapshot sandbox on the recompiled artifacts (9 families, 8 dev windows, 0 wrong, 0 hard rejects, identical programs/gates); HMAC-signed registries verified, unsigned/tampered refused | App. G | `iclr_revision/recompile_with_challenge.json`; `validate_recompile_with_challenge` |
+| Packaging | `fig:gate-floor` (why 92 groups certify only coverage 0 or 1) in App. C; `tab:claims-evidence` in a new Appendix I | App. C, App. I | `paper/scripts/plot_gate_floor.py`, `tables/claims_evidence.tex` |
+
+Not done: the certified-frontier study (recommended against: every calibration label in the paper
+is a replay-contract violation on deterministic tools and there have been none, so the gate picks full
+coverage at any pool size); the second-provider replication (protocol pre-registered,
+`second-provider-replication-protocol.md`, model `claude-opus-5`; the Agents-SDK adapter on the
+official `anthropic` SDK is partially written and untested); the drift-robustness ablation and the
+anonymous-archive builder (see the branch state). Page budget: the §5.1 and §7 additions were paid
+for by cuts in §5.1, §6, and §7; the conclusion ends on page 9.

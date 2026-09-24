@@ -1,6 +1,6 @@
 # Second-model re-discovery protocol (design A, three primary families)
 
-**Status: PRE-REGISTERED on 2026-09-24. Not run.** No provider call has been made under this
+**Status: PRE-REGISTERED on 2026-09-24; EXECUTED the same day** (observed results at the end). Before execution no provider call had been made under this
 document. It fixes the model, cohorts, pipeline, endpoints, and decision rule before any spend.
 
 ## Why
@@ -75,3 +75,18 @@ paragraph, one clause in §5.1 and §7.
 Same records and same snapshot; a second model's own traces through the unchanged pipeline. It does
 not measure a second provider or a second repository snapshot, and the certificate, if any, is
 conditional on i.i.d. calibration groups exactly as the primary ones are.
+
+## Observed results (executed 2026-09-24T12:57–13:15Z)
+
+Issue-type routing: 128/132 exact discovery traces, no failures; the compiler admitted
+`cand-01-1ebb8b2849c7` (identical program, one candidate at calibration, 92/0, U = 0.0498);
+30/30 dispatch; exact contracts 30/30/30; reductions 50.0/38.9/47.3/32.8 (requests/tokens/latency/cost).
+H-A1, H-A2, H-A3 hold. PR-outcome audit: 132/132 exact discovery traces; `cand-00-a1de3856bb6c`
+admitted (identical program, two candidates at calibration with the two-read sibling dominated, as
+in the primary run); 30/30 dispatch; 30/30/30; reductions 75.0/80.7/70.8/76.0. H-A1–H-A3 hold.
+Backlog-attention routing: 113/132 exact discovery traces (19 with `comment_grounded` false; 22
+traces used only two reads), below the 116 the 16/8/92 split needs, so the harness stopped before
+the held-out arms (`gpt6_luna_rediscovery/failure.json`): decision-rule row 1, a principled refusal
+on the second model; no artifact is claimed. Spend: $0.078, $0.05, $0.042. The transfer miss on
+record 6532 did not recur under re-discovery. Table: design-A block of
+`paper/iclr/tables/second_model.tex`; paper: Appendix G, §5.1, §7.

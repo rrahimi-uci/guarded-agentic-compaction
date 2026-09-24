@@ -1,6 +1,6 @@
 # Extended held-out cohort for issue-type routing (calibrated model)
 
-**Status: PRE-REGISTERED on 2026-09-24. Not run.** No provider call has been made under this
+**Status: PRE-REGISTERED on 2026-09-24; EXECUTED the same day** (observed results at the end). Before execution no provider call had been made under this
 document. It fixes the cohort, arms, endpoints, and decision rule before any spend.
 
 ## Why
@@ -74,3 +74,16 @@ provider-free from the sealed discovery checkpoint under the current pin and ass
 live call, that the result is the same artifact (id `cand-01-1ebb8b2849c7`, identical program,
 splits digest, and 92/0 gate); the preflight records both compatibility keys. Nothing else in the
 design changes.
+
+## Observed results (executed 2026-09-24T13:15–14:07Z; `paper/results/issue_type_extended_heldout/results.json`)
+
+360/360 episodes completed, no retries, estimated spend $0.25. Exact contracts: baseline 118/120,
+compiled 118/120, macro 117/120. Decision-rule row 2 applies and is reported first: one
+compiled-only failure, record 2737 (the compiled arm's excerpt wrapped an error line in backticks
+absent from the source); the baseline missed record 3040 (a doubled space) and all three arms
+missed record 3968. McNemar $p = 1$. Dispatch 119/120: record 5102 abstained on the induced
+verifier's `cardinality` clause and ran the unchanged agent (row 3 of the decision rule; a clean
+fallback, and the record passed). Compiled-only bound: 1/120 → 3.9% one-sided 95%; pooled with the
+90 primary records 1/210 → 2.2%. H-E1, H-E2, and H-E3 all fail and are reported as such. Reductions
+against the same-model baseline: requests 50.0%, tokens 39.5%, latency 42.5%, cost 32.8%. Table:
+`paper/iclr/tables/extended_heldout.tex`; paper: Appendix D and one clause in §5.1 and §7.
