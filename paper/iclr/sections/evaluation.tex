@@ -5,8 +5,8 @@
 \label{sec:benchmark}
 
 Every GitHub sample begins with one issue or pull-request number from a pinned
-public snapshot, and the agent must make read-only calls and return exact,
-source-grounded fields rather than a preference. The three primary families use
+public snapshot; the agent must make read-only calls and return exact,
+source-grounded fields. The three primary families use
 132 discovery and 30 balanced held-out records each, with live provider calls,
 and each pairs a read-only evidence path with an exact answer contract --- issue
 type, pull-request outcome, or backlog attention route, each returning a
@@ -33,10 +33,11 @@ efficiency claim and none is pooled with the GitHub families
 (\cref{app:external}).
 
 \paragraph{Provider configuration.}
-All live studies use one provider and model --- OpenAI \code{gpt-5.6-luna} via
-the \code{openai-agents} Responses interface at reasoning effort \code{low} ---
-priced at list rates (\cref{app:config} gives the request manifest and rate
-table); conditions within a family differ in structure alone.
+The primary studies use one provider and model --- OpenAI \code{gpt-5.6-luna}
+via the \code{openai-agents} Responses interface at reasoning effort
+\code{low} --- priced at list rates; the replications in \cref{app:limits} use
+\code{gpt-6-luna} and Anthropic \code{claude-sonnet-5} under the same settings
+(\cref{app:config}). Conditions within a family differ in structure alone.
 
 \paragraph{Conditions, metrics, and statistics.}
 Each GitHub family compares the unchanged baseline $B$, the compiled artifact,

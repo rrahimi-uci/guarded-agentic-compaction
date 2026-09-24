@@ -1,0 +1,37 @@
+% Claims-versus-evidence register, part D (studies added after the pre-submission review, II) for the ICLR 2027 appendix. Hand-written; every number is
+% copied from the retained file named in the third column (see paper/iclr/notes/number_registry.md).
+% Include at \footnotesize inside a float, for example:
+%   \begin{table}[p]\centering
+%   \caption{...}\label{tab:claims-evidence}
+%   \footnotesize\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.05}
+%   \input{tables/claims_evidence.tex}
+%   \end{table}
+% If the float overflows one page at \footnotesize, split at the \midrule before the
+% "External substrates" row or set \scriptsize; tabularx does not break across pages.
+% Rows whose sources live under second_model_replication/*_rediscovery, github_workflow_families/*/
+% gpt6_luna_rediscovery, multiplicity_repair, and issue_type_extended_heldout were written from the
+% 2026-09-24 live runs on branch paper/iclr-live-rediscovery-heldout-prologue.
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{0.14\linewidth}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{0.22\linewidth}>{\raggedright\arraybackslash}p{0.23\linewidth}@{}}
+\toprule
+Claim & Evidence (what was measured) & Retained source & Claim boundary (what it does not license) \\
+\midrule
+Continuation check (introduction example) &
+On 18 retained compiled cases, deterministic replay detection accepts 17 without repair; one case (issue 6602) carries a comment-evidence mismatch and checked rendering repairs it: 18/18 final contracts, 0 provider calls. &
+\path{paper/results/github_natural_live/continuation_replay.json} (\code{summary}). &
+Establishes detection and repair on retained outputs; no live latency, cost, or generalization claim. \\
+Extended issue-type held-out &
+120 new records (40 bug / 40 enhancement / 40 other) on \code{gpt-5.6-luna} with the retained artifact recompiled under the current tracer pin (identical id, program, splits, 92/0 gate): baseline 118/120, compiled 118/120, manual 117/120; one compiled-only miss (record 2737), one baseline-only miss (3040), one three-arm miss (3968); dispatch 119/120 (record 5102 abstained on the verifier's cardinality clause); compiled-only bound 3.9\% on 120 and 2.2\% pooled over 210 records; reductions 50.0/39.5/42.5/32.8. All three pre-registered targets missed and reported; five records had appeared in the gate-frontier pilot cohort (none a missed record; 113/113/112 of 115 without them). &
+\path{paper/results/issue_type_extended_heldout/results.json} (\code{compiled\_only\_bound}, \code{dispatch}); \path{paper/supplementary/issue-type-extended-heldout-protocol.md}. &
+A different class mix from the primary cohort (\code{other} replaces \code{question}); Table~1 is unchanged. In-distribution, one snapshot, calibrated model. \\
+\addlinespace[2pt]
+Read-only prologue &
+The runtime admits an exact allowlisted read-only prologue (23 acceptance tests, including the archived suffix-dispatch pilot as a regression). Measured on the 8{,}190 released AppWorld trajectories with the documentation call as prologue: ReAct 0 $\to$ 2 of 2{,}340, plan-and-execute 1 $\to$ 1; the loosest documentation-prefix reading recovers 2 and 3; the program occurs anywhere in only 16 and 39. &
+\path{paper/results/external_benchmarks/appworld_dispatch_prologue_preflight.json} (\code{by\_agent\_family}); \path{tests/unit/test_dispatch_prologue.py}; \path{paper/supplementary/read-only-prologue-protocol.md}. &
+Position was the proximate refusal reason; those architectures do not execute the admitted region. The prologue tool is undeclared in the signed catalog; the measurement assumes the declaration a reviewer would sign. \\
+\addlinespace[2pt]
+Perturbation challenge and signed registries &
+Provider-free recompilation of the three primary artifacts with the perturbation suite enabled through a snapshot sandbox reproduces identical programs, splits, ids, and 92/0 gates; all nine families complete on the eight development windows with zero wrong answers and zero hard rejects (\code{perturbations\_claimed: true}); HMAC-SHA256 signing with verification on refuses wrong-key, tampered, and the original unsigned registries. &
+\path{paper/results/iclr_revision/recompile_with_challenge.json}; \path{paper/scripts/recompile_with_challenge.py}. &
+Closes two disclosed operational caveats of the reported runs; changes no reported number. \\
+\bottomrule
+\end{tabularx}

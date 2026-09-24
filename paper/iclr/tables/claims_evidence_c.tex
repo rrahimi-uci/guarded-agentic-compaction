@@ -1,0 +1,43 @@
+% Claims-versus-evidence register, part C (studies added after the pre-submission review, I) for the ICLR 2027 appendix. Hand-written; every number is
+% copied from the retained file named in the third column (see paper/iclr/notes/number_registry.md).
+% Include at \footnotesize inside a float, for example:
+%   \begin{table}[p]\centering
+%   \caption{...}\label{tab:claims-evidence}
+%   \footnotesize\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.05}
+%   \input{tables/claims_evidence.tex}
+%   \end{table}
+% If the float overflows one page at \footnotesize, split at the \midrule before the
+% "External substrates" row or set \scriptsize; tabularx does not break across pages.
+% Rows whose sources live under second_model_replication/*_rediscovery, github_workflow_families/*/
+% gpt6_luna_rediscovery, multiplicity_repair, and issue_type_extended_heldout were written from the
+% 2026-09-24 live runs on branch paper/iclr-live-rediscovery-heldout-prologue.
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{0.14\linewidth}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{0.22\linewidth}>{\raggedright\arraybackslash}p{0.23\linewidth}@{}}
+\toprule
+Claim & Evidence (what was measured) & Retained source & Claim boundary (what it does not license) \\
+\midrule
+\code{gpt-6-luna} transfer (design B) &
+Retained artifacts recompiled under a manifest pinning \code{gpt-6-luna} (identical ids, programs, 92/0 gates); three families rerun on the sealed 90 records: compiled 88/90, baseline 88/90, manual 90/90. Issue-type 28/30 against 29/30 with one compiled-only miss (record 6532) and one both-arm miss (3859); backlog baseline-only miss 2648; 30/30 dispatch per family; reductions 66.6/63.0/59.5/60.1. &
+\path{paper/results/second_model_replication/summary.json}; \path{paper/results/second_model_replication/issue_type/results.json}; \path{paper/results/github_workflow_families/pr_outcome/gpt6_luna/results.json}, \path{.../backlog_attention/gpt6_luna/results.json}. &
+The artifacts were never calibrated on \code{gpt-6-luna}: an uncertified transfer, reported ahead of every other reading. No cross-model certificate. \\
+\addlinespace[2pt]
+\code{gpt-6-luna} re-discovery (design A) &
+The whole pipeline on the second model's own traces over the same sealed records. Issue-type: 128/132 exact discovery traces, $m=1$, artifact \code{cand-01-1ebb8b2849c7} identical to the retained one, 92/0, $U=0.0498$, 30/30 in every arm. PR-outcome: 132/132 exact traces, $m=2$ (the two-read sibling dominated), artifact \code{cand-00-a1de3856bb6c} identical, 30/30 in every arm, 75.0\% fewer requests. Backlog: 113/132 exact traces against the 116 required, so the compiler refuses at compile time and no held-out arm runs. &
+\path{paper/results/second_model_replication/issue_type_rediscovery/results.json}; \path{paper/results/github_workflow_families/pr_outcome/gpt6_luna_rediscovery/results.json}; \path{paper/results/github_workflow_families/backlog_attention/gpt6_luna_rediscovery/failure.json}; \path{paper/supplementary/second-model-rediscovery-protocol.md}. &
+Same snapshot and records. The backlog outcome is a principled refusal (decision-rule row 1), not a failure; each family's certificate follows $m$ exactly as for the primary families. \\
+\addlinespace[2pt]
+Second provider: Anthropic \code{claude-sonnet-5} (design A) &
+The unchanged pipeline on Sonnet's own traces through an adapter over the official SDK. Issue-type: 126/132 exact traces, identical artifact ($m=1$), 30/30 dispatch, exact 29/28/28 of 30 (one hand-written episode timed out twice). PR-outcome: 128/132, identical artifact ($m=2$), 30/30 dispatch, 27/27/29. Backlog: 116/132 (the split's minimum); both candidates retire at calibration with 91 and 90 of 92 groups accepted ($U=0.050$, $0.051$). Compiled-only misses: 4248, 6829 (issue-type), 5401, 6988 (PR-outcome); every miss in every arm drops Markdown link markup or normalizes whitespace in the excerpt. Reductions 48.3/40.4/47.6/39.8 and 75.0/84.9/73.5/83.4. &
+\path{paper/results/second_provider_replication/issue_type/results.json}; \path{paper/results/github_workflow_families/pr_outcome/anthropic_sonnet5_rediscovery/results.json}; \path{.../backlog_attention/anthropic_sonnet5_rediscovery/failure.json}; \path{paper/supplementary/second-provider-replication-protocol.md}. &
+Same records and snapshot; not a cross-provider price comparison; the misses are the model's excerpt fidelity, charged to whichever arm produced them; the backlog refusal is the 92-group floor, not a trace-structure failure. \\
+\addlinespace[2pt]
+Multiplicity repair: NO-GO &
+The pre-registered fresh 106-group cohorts need 36 unused records per class. After excluding the 357 records used in any retained PR-outcome or backlog cohort, the snapshot holds 33 unused \code{open} pull requests and 8 unused \code{owned} issues, so the preflight recorded NO-GO; no provider call was made and the per-candidate wording stays. &
+\path{paper/results/multiplicity_repair/preflight.json}; \path{paper/supplementary/multiplicity-repair-protocol.md}. &
+Says nothing about the corrected bound itself. An unbalanced draw was considered and not taken; a later snapshot with the classes runs the design unchanged. \\
+\addlinespace[2pt]
+Group independence &
+The 92-record calibration cohorts span 86--90 distinct creation days, 60--82 authors, and 45--50 months per family; a bound that treats a day or an author as one unit retires every family. &
+\path{paper/results/iclr_revision/effective_units.json} (\code{primary\_ranges}). &
+The binomial certificate is conditional on i.i.d.\ groups, which the snapshot does not establish. \\
+\bottomrule
+\end{tabularx}

@@ -132,28 +132,32 @@ history.
 \label{app:config}
 
 \paragraph{Live-provider configuration.}
-Every live study in this paper calls one provider and one model: OpenAI
+Every primary live study calls one provider and one model: OpenAI
 \code{gpt-5.6-luna} through the \code{openai-agents} SDK's Responses interface.
 Model settings are fixed across all conditions at reasoning effort \code{low}
 and verbosity \code{low}, with parallel tool calls disabled so provider-visible
 interface counts are comparable between the baseline and a compiled prefix, and
 server-side response storage disabled. Sampling parameters are not exposed for
 this model; the SDK sends none, and the effective request manifest is
-\cref{tab:live-manifest}. Reported dollars are an \emph{estimate}, computed by
+\cref{tab:live-manifest}. The replications in \cref{app:limits} run the same
+harness on \code{gpt-6-luna} (same settings) and on Anthropic
+\code{claude-sonnet-5} through an adapter over the official SDK (adaptive
+thinking at effort \code{low}, parallel tool use disabled, structured answers
+through the same schemas). Reported dollars are an \emph{estimate}, computed by
 applying the published standard short-context list rates below --- retrieved
-2026-08-02 --- to the token counts retained per record; they are not an account
-invoice and carry no negotiated or cached-tier discount beyond the cached-input
-line.
+2026-08-02 for \code{gpt-5.6-luna} and 2026-09-24 for the other two --- to the
+token counts retained per record; they are not an account invoice and carry no
+negotiated or cached-tier discount beyond the cached-input line.
 
 \begin{center}\footnotesize
-\begin{tabular}{@{}lr@{}}
+\begin{tabular}{@{}lrrr@{}}
 \toprule
-Rate (USD per million tokens) & \code{gpt-5.6-luna} \\
+Rate (USD per million tokens) & \code{gpt-5.6-luna} & \code{gpt-6-luna} & \code{claude-sonnet-5} \\
 \midrule
-Input        & 0.20 \\
-Cached input & 0.02 \\
-Cache write  & 0.25 \\
-Output       & 1.20 \\
+Input        & 0.20 & 0.10  & 2.00 \\
+Cached input & 0.02 & 0.01  & 0.20 \\
+Cache write  & 0.25 & 0.125 & 2.50 \\
+Output       & 1.20 & 0.50  & 10.00 \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -383,8 +387,9 @@ non-sensitive evidence; no model or provider call is made.
   \input{tables/discordance.tex}
 \end{table}
 
-\paragraph{Latency validity.} Latency is wall-clock provider evidence and is
-secondary to requests and tokens. In the PR-outcome and backlog families each
+\paragraph{Latency validity.} \Cref{tab:paired-statistics} gives the paired
+differences behind \cref{tab:primary}. Latency is wall-clock provider evidence
+and is secondary to requests and tokens. In the PR-outcome and backlog families each
 held-out record ran its three arms one at a time on one host, cycling through
 all six arm orders (five records per order), with no warm-up, a 120\,s
 per-episode timeout, and no retries; the issue-type family used a blocked
@@ -761,9 +766,9 @@ undeclared in the signed catalog and unknown effects are not reads.
 This audit strengthens the evidentiary record precisely by preserving the
 negative result: the registered gate behaves as, and at $|\mathcal{K}|=92$ can
 only behave as, a support threshold rather than a demonstrated risk--coverage
-frontier; the question of $q$'s ranking quality is open, not answered
-negatively. The exploratory partial frontiers therefore remain diagnostic rather
-than evidence for the main claim.
+frontier (\cref{tab:gate-profile}); the question of $q$'s ranking quality is
+open, not answered negatively. The exploratory partial frontiers therefore
+remain diagnostic rather than evidence for the main claim.
 
 \begin{table}[t]
   \centering
@@ -1238,19 +1243,47 @@ with informative features; it is written and not run.
 \section{Claims and Evidence}
 \label{app:claims}
 
-\Cref{tab:claims-evidence} lists every claim the paper makes, what was
-measured, the retained file that carries the number, and what the claim does
-not license. Rows are grouped as the paper is: the primary live families, the
+\Cref{tab:claims-evidence,tab:claims-evidence-b,tab:claims-evidence-c,tab:claims-evidence-d} list every claim the paper
+makes, what was measured, the retained file that carries the number, and what
+the claim does not license. Rows are grouped as the paper is: the primary live families, the
 external substrates, and the studies added after the pre-submission review.
 
 \begin{table}[p]
   \centering
-  \caption{Claims, evidence, retained sources, and claim boundaries. Every
-  number is copied from the file named in the third column; the number
-  registry in the artifact maps each to its producing script.}
+  \caption{Claims, evidence, retained sources, and claim boundaries, part A: the primary families. Every number is copied from the file named in the third column; the number registry in the artifact maps each to its producing script.}
   \label{tab:claims-evidence}
   \scriptsize
   \setlength{\tabcolsep}{3pt}
   \renewcommand{\arraystretch}{1.05}
-  \input{tables/claims_evidence.tex}
+  \input{tables/claims_evidence_a.tex}
+\end{table}
+
+\begin{table}[p]
+  \centering
+  \caption{Claims and evidence, part B: the cross-repository studies, the external substrates, and the recurrence-only replay.}
+  \label{tab:claims-evidence-b}
+  \scriptsize
+  \setlength{\tabcolsep}{3pt}
+  \renewcommand{\arraystretch}{1.05}
+  \input{tables/claims_evidence_b.tex}
+\end{table}
+
+\begin{table}[p]
+  \centering
+  \caption{Claims and evidence, part C: the second model family, the second provider, the multiplicity-repair NO-GO, and group independence.}
+  \label{tab:claims-evidence-c}
+  \scriptsize
+  \setlength{\tabcolsep}{3pt}
+  \renewcommand{\arraystretch}{1.05}
+  \input{tables/claims_evidence_c.tex}
+\end{table}
+
+\begin{table}[p]
+  \centering
+  \caption{Claims and evidence, part D: the continuation check, the extended held-out cohort, the read-only prologue, and the closed operational caveats.}
+  \label{tab:claims-evidence-d}
+  \scriptsize
+  \setlength{\tabcolsep}{3pt}
+  \renewcommand{\arraystretch}{1.05}
+  \input{tables/claims_evidence_d.tex}
 \end{table}

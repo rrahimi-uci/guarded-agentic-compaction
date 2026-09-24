@@ -25,9 +25,9 @@ baseline miss, while reducing model requests by 66.6\%, tokens by 63.1\%, latenc
 four and refuses one. On four public trace benchmarks, NESTFUL, API-Bank, and BFCL v4 contain recurrent,
 replayable traces but insufficient qualifying evidence to satisfy \method's default 0.05
 risk bound at the required confidence, whereas AppWorld provides sufficient evidence for
-admission. Even after admission, \method abstains from dispatch when runtime behavior
-changes the execution structure or violates its entry requirements, falling back to the
-unchanged agent.
+admission. On a second model family and a second provider, the unchanged pipeline
+re-derives the same artifacts from each model's own traces on two of the three families
+and refuses the third.
 
 \method reframes agent optimization as evidence-gated specialization: compile
 only what is justified, dispatch only when runtime conditions remain valid, and

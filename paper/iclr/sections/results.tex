@@ -18,8 +18,8 @@
 
 Across the 90 held-out records, \method satisfies 90/90 exact contracts and the
 unchanged agent 89/90 (\cref{tab:primary}), reducing provider requests by
-66.6\%, tokens by 63.1\%, latency by 64.2\%, and cost by 58.7\% (absolute
-per-record values in \cref{tab:absolute-resources} in \cref{app:stats}). Issue-type routing admits
+66.6\%, tokens by 63.1\%, latency by 64.2\%, and cost by 58.7\% (per-record
+values in \cref{tab:absolute-resources}, \cref{app:stats}). Issue-type routing admits
 only a two-read prefix; the two deeper workflows approach 75\% fewer requests.
 
 The discordant pair is one baseline-only miss (backlog record 5189, an
@@ -50,9 +50,8 @@ discovery and admission, not runtime dominance over hand-written code.
 \subsection{Time-forward transfer: compile or retire}
 \label{sec:res-multirepo}
 
-On a narrower two-read pull-request outcome task across frozen public
-repositories, with held-out records strictly newer than discovery ones and
-selection sealed before any provider call, \method completes 120/120 exact
+On the narrower two-read pull-request outcome task across frozen public
+repositories (\cref{sec:setup}), \method completes 120/120 exact
 pairs on four of five repositories and retires \code{pytorch/pytorch} at
 admission, where no calibration group is accepted at any threshold, rather
 than loosening its gate (\cref{app:breadth}). The compiled program ran on 80/120
@@ -96,6 +95,6 @@ so we also test the admitted region against AppWorld's 28 released baseline
 runs. Over 8{,}190 trajectories it is structurally eligible at the entry boundary in
 $37.9\%$, and the architecture explains the spread (\cref{tab:appworld-dispatch} in \cref{app:external}):
 full-code agents are eligible almost always, ReAct and plan-and-execute almost
-never: they open by reading API documentation, and admitting that read as a
-prologue recovers 2 of 4{,}680, because they rarely execute the region at all
-(\cref{app:limits}); the measurement bounds $\varphi$ from above.
+never. They open by reading API documentation, yet admitting that read as a
+prologue recovers only 2 of 4{,}680, because they rarely execute the region at
+all (\cref{app:limits}); the measurement bounds $\varphi$ from above.
