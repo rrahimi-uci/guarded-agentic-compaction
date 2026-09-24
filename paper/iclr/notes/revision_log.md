@@ -181,3 +181,18 @@ break (the extended-cohort paragraph had a badly stretched first line); paths in
 stay in `\code` (fragile in moving arguments). Verified Algorithms 1–4, Figures 1–6, and Tables
 1–27 render without overlap; the four claims-register tables each fit their page. Conclusion on
 page 9; 0 overfull boxes; 0 unresolved references. `main-final.pdf` refreshed.
+
+## Anonymous supplementary archive (2026-09-24, branch `paper/iclr-anonymous-supplementary`)
+
+`paper/scripts/build_anonymous_archive.py` assembles the single-file supplementary zip the venue
+asks for from tracked files only (sources, tests, protocols, retained results, scripts, ICLR
+sources, the compiled anonymous PDF, and the Apache-2.0 GitHub-issues snapshot), scrubs the five
+files that carry repository URLs, author literals, or absolute paths, refuses to write if any
+identifying token survives anywhere (binary files included; the byte-pinned upstream snapshot is
+checked against its manifest sha256 and scanned for author-specific tokens only), and writes
+`MANIFEST.sha256` plus a reviewer README. The zip is 14.7 MB, 690 files, and is not committed
+(`paper/iclr/build/` is ignored). Inside the unpacked archive the full test suite passes and 21
+of 28 validator families pass (498 checks); the README names the seven that check the earlier
+preprint, the full-repository manifests, or the four non-redistributed cross-repository snapshots.
+`validate_artifacts.py` gained `--families`/`--list-families` (default behaviour unchanged) and
+the publication manifest was refreshed.
