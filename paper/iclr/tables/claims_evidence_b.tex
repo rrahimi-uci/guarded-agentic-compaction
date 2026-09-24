@@ -1,0 +1,52 @@
+% Claims-versus-evidence register, part B (cross-repository studies and external substrates) for the ICLR 2027 appendix. Hand-written; every number is
+% copied from the retained file named in the third column (see paper/iclr/notes/number_registry.md).
+% Include at \footnotesize inside a float, for example:
+%   \begin{table}[p]\centering
+%   \caption{...}\label{tab:claims-evidence}
+%   \footnotesize\setlength{\tabcolsep}{3pt}\renewcommand{\arraystretch}{1.05}
+%   \input{tables/claims_evidence.tex}
+%   \end{table}
+% If the float overflows one page at \footnotesize, split at the \midrule before the
+% "External substrates" row or set \scriptsize; tabularx does not break across pages.
+% Rows whose sources live under second_model_replication/*_rediscovery, github_workflow_families/*/
+% gpt6_luna_rediscovery, multiplicity_repair, and issue_type_extended_heldout were written from the
+% 2026-09-24 live runs on branch paper/iclr-live-rediscovery-heldout-prologue.
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{0.14\linewidth}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{0.22\linewidth}>{\raggedright\arraybackslash}p{0.23\linewidth}@{}}
+\toprule
+Claim & Evidence (what was measured) & Retained source & Claim boundary (what it does not license) \\
+\midrule
+Time-forward cross-repository core protocol &
+4/5 repositories admit: 580/580 exact discovery traces, 120/120 exact held-out pairs; the compiled program dispatched on 80/120 records (fallback \code{range:pr.state}, 10 per repository; discovery pools held 2/0/3/0 open records); reductions 44.4/52.4/49.4/48.6 (66.7\% fewer requests on dispatched records). \code{pytorch/pytorch} retires at calibration: no group accepted at any threshold; discovery class mix 84 closed-unmerged / 30 open / 2 merged, 116 windows; the retirement is reproduced provider-free. &
+\path{paper/results/github_multirepo_pr_outcome_core/results.json}; \path{paper/results/iclr_revision/gate_frontier_reanalysis.json} (\code{core}); \path{paper/results/iclr_revision/pytorch_core_recompile.json}. &
+A two-read task; held-out records newer than discovery records. The retirement is the gate acting on a skewed discovery pool, not a model failure. A fixed two-read template is more efficient here. \\
+\addlinespace[2pt]
+Balanced three-repository rerun &
+All three PR classes in discovery: 360/360 discovery, 180/180 dispatched, 180/180 exact; reductions 66.7/78.4/60.7/72.7. &
+\path{paper/results/github_multirepo_pr_outcome_balanced/results.json}; \path{paper/results/github_multirepo_pr_outcome_balanced/repos/*/results.json}. &
+Shares 13, 25, and 8 of the 30-record core held-out sets (\path{paper/results/iclr_revision/cohort_overlap_audit.json}); not an independent replication of the core protocol. The two-read template ties. \\
+\addlinespace[2pt]
+Prospective gate-frontier study &
+5 repositories, 240 held-out triples: learned gate 240/240 exact, dispatched 160/240; support-only comparator ($\alpha=1$) 239/239 with one timeout (record 6708); reductions 44.4/52.3/51.0/48.3 against 44.4/52.4/47.9/48.8; held-out $q$ is constant within each repository (0.0169; 0.0815); retained spend \$0.41. &
+\path{paper/results/github_multirepo_gate_frontier/results.json}; \path{paper/results/iclr_revision/gate_frontier_reanalysis.json} (\code{gate\_frontier}). &
+A null about the design at $|\mathcal{K}|=92$: the pre-registered three nonzero coverage levels were unattainable whatever $q$ ranks; neither evidence for nor against $q$. \\
+\addlinespace[2pt]
+External substrates retire at the exact floor &
+NESTFUL 1{,}415 traces, $n_{\max}=26$; API-Bank 212 traces, $n_{\max}=8$; BFCL v4 executed gold plans 200 traces, 1{,}142/1{,}142 exact re-execution, $n_{\max}=15$. Each is below 92, so every family retires; held-out replay pass/abstain/wrong is 24/12/0, 0/2/0, 3/3/0. &
+\path{paper/results/nestful/results.json} (\code{compiler.exact\_gate}); \path{paper/results/external_benchmarks/api_bank_execution.json}; \path{paper/results/external_benchmarks/bfcl_compiler_execution.json}, \path{.../bfcl_gold_execution.json}. &
+No model ran; the refusals are settled arithmetically before compilation. No accuracy or efficiency claim; never pooled with the GitHub families. \\
+\addlinespace[2pt]
+AppWorld admits one artifact &
+136/147 gold solutions execute; 7{,}070/7{,}070 results reproduced byte for byte; $n_{\max}=136\ge92$. One two-step artifact (\code{supervisor.show\_profile} $\to$ \code{show\_account\_passwords}) admitted at 92/92 zero-violation groups, $U=0.0498$, 11/11 exact on the sealed test split, under both pre-registered effect arms; four candidates retire ($U=0.051$ at 89 and 90 eligible groups; $U=1$ at 46 and 26). &
+\path{paper/results/external_benchmarks/appworld_compiler_execution.json} (\code{admission}, \code{exact\_replay}, \code{effect\_audit}); \path{paper/supplementary/appworld-compiler-protocol.md}. &
+Gold solutions, not agent trajectories; groups are tasks that share a scenario's supervisor and database; the admitted program is argument-free; no efficiency claim. \\
+\addlinespace[2pt]
+Admissible is not dispatchable &
+On 28 released baseline runs (8{,}190 trajectories) the admitted program is at position 0 in 3{,}102 (37.9\%): full code $+$ reflection 2{,}339/2{,}340, iterative parallel function calling 762/1{,}170, plan-and-execute 1/2{,}340, ReAct 0/2{,}340. 3{,}752 trajectories open with \code{api\_docs.show\_api\_descriptions}; 61 contain the program elsewhere; 0.377 on \code{test\_normal} against 0.380 on \code{test\_challenge}. &
+\path{paper/results/external_benchmarks/appworld_dispatch_preflight.json} (\code{pooled}, \code{by\_agent\_family}, \code{first\_call\_in\_\allowbreak released\_\allowbreak trajectories}). &
+An upper bound on $\varphi$: the manifest check and calibrated gate are not evaluated; trajectories repeat tasks across runs; no request, token, or cost saving is measured. \\
+Recurrence-only replay &
+The three-read region the compiler refused on issue-type routing, replayed with every barrier disabled and one provider request: 30/30 exact at 1.00 request, 1{,}167 tokens, 2.67 s, 0.038\textcent{} per record; the retained arms are 30/30 at 4.00/2.00/2.00 requests. &
+\path{paper/results/recurrence_only_ablation/results.json} (\code{aggregate}, \code{per\_field\_exact}); \path{paper/supplementary/recurrence-only-ablation-protocol.md}. &
+One family, one cohort, in-distribution records: on this cohort the refusal bought no measured quality. Says nothing about shift or the other families. \\
+\bottomrule
+\end{tabularx}

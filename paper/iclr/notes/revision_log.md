@@ -156,3 +156,18 @@ groups accepted at best. Compiled-only misses on issue-type (2) and PR-outcome (
 excerpt-fidelity errors of the model present in every arm; reported first. App. G paragraph +
 `tab:second-provider`; §5.1 and §7 clauses. Also this branch: the CI fix for the pilot
 disjointness test and the disclosed five-record overlap of the extended cohort with the pilot.
+
+## Final deep review (2026-09-24, branch `paper/iclr-final-deep-review`)
+
+End-to-end read of every section and the appendix against the retained numbers. Changes: the
+abstract and §1 contribution 2 now state the second-model and second-provider replications;
+§4 and Appendix C no longer say "one provider and one model" (the replications use `gpt-6-luna`
+and `claude-sonnet-5`; both are in the rate table with retrieval dates); the conclusion names
+the replications; §3 points at the floor figure; §7 points at the claims register; §5.3's
+prologue clause reads as one sentence; the Reproducibility Statement covers the adapter; the
+claims register gained the second-provider row and the overlap clause and is split into four
+page-sized tables (the single table overflowed its page); `tab:paired-statistics` and
+`tab:gate-profile` are now referenced from the text; the OpenReview abstract text was
+regenerated from the source. Word-level cuts in §1, §2, §3, §4, §5.1, §5.2, §7 keep the
+conclusion on page 9. Final PDF: 36 pages, 0 overfull boxes, 0 unresolved references,
+anonymous; saved as `paper/iclr/main-final.pdf`.

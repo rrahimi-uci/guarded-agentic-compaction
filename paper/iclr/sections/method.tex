@@ -45,9 +45,9 @@ prompt, policy, guardrail, tool, model, SDK, tracer, entry-contract, and
 effect-catalog identities, and episodes with different compatibility keys are
 partitioned before any learning. For each call-argument slot, the
 program-argument trace graph (\patg, \cref{alg:patg}) searches entry-state and
-prior-result paths for typed values reachable by a bounded transform ---
-execution provenance in the database sense~\citep{cheney2009provenance},
-specialized to tool arguments. Two slot marks make the region miner block rather than guess:
+prior-result paths for typed values reachable by a bounded transform
+(database-style provenance~\citep{cheney2009provenance} for tool arguments).
+Two slot marks make the region miner block rather than guess:
 a slot with \emph{no} witness is a genuine model decision, and one with more
 than $\kappa=3$ witnesses is ambiguous (\cref{fig:provenance}). A repeated tool
 name, a matching literal, and a successful replay are not witnesses; only an
@@ -139,7 +139,8 @@ $c=n_\eta/|\mathcal{K}|$ needs $|\mathcal{K}|\ge\lceil 92/c\rceil$, so on the
 $|\mathcal{K}|=92$ cohorts used throughout --- the smallest satisfiable pool ---
 the only admissible coverages are $c\in\{0,1\}$ whatever $q$ ranks, since
 abstaining on one group leaves $U_\eta=0.0503>\alpha$. Intermediate coverage can
-still be \emph{observed}; it cannot be certified (\cref{app:config}). These
+still be \emph{observed}; it cannot be certified (\cref{app:config},
+\cref{fig:gate-floor}). These
 studies therefore test support sufficiency at full coverage and cannot identify
 whether $q$ ranks dispatch risk.
 

@@ -33,7 +33,7 @@ provider-free continuation guard catches that miss. Together the two cohorts
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=0.56\linewidth]{figures/gac_aha_example.pdf}
+  \includegraphics[width=0.52\linewidth]{figures/gac_aha_example.pdf}
   \Description{A real GitHub issue trace repeats record, labels, and comments, but GAC
   rejects the full candidate because the comments limit is ungroundable and emits only
   the record and labels prefix.  A separate issue 6602 continuation miss shows why clean
@@ -52,11 +52,11 @@ mining, guard synthesis an entry contract, deoptimization fallback to the
 unchanged agent --- but add three obligations, and claim one capability less: a
 JIT enters a trace at an arbitrary program point, whereas \method compiles only
 \emph{initial} read-only prefixes (\cref{eq:prefix}), because its runtime
-resolves artifacts at the entry boundary. The obligations are that tool
-arguments be shown \emph{grounded} in observable state rather than invented;
-that declared \emph{effects} permit speculation, since an agent's
-``interpreter'' can call the outside world; and that the residual error rate,
-being statistical, needs a finite-sample bound rather than a soundness proof.
+resolves artifacts at the entry boundary. The obligations: tool arguments must
+be shown \emph{grounded} in observable state; declared \emph{effects} must
+permit speculation, since an agent's ``interpreter'' calls the outside world;
+and the residual error rate, being statistical, needs a finite-sample bound,
+not a soundness proof.
 
 We study these obligations through \emph{guarded agentic compaction} (\method),
 a compile-or-retire trace-to-program system for recurrent read-only prefixes
@@ -71,7 +71,9 @@ verification, and finite-sample compile-or-retire admission
 per artifact --- to our knowledge the first exact finite-sample admission
 certificate for trace-derived agent compilation; every stage can refuse, and
 the default output is the unchanged agent. \item A real-provider evaluation across
-three public-record workflow families, plus a narrower cross-repository, time-forward extension keeping both artifacts and principled retirements.
+three public-record workflow families, a narrower cross-repository, time-forward
+extension keeping both artifacts and principled retirements, and same-cohort
+replications on a second model family and a second provider.
   \item Calibrated refusal: recurrence and replayability do not license
   deployment. NESTFUL, API-Bank, and executed BFCL gold plans clear provenance,
   synthesis, and replay with no wrong execution and retire exactly where their
