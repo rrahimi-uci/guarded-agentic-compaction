@@ -71,3 +71,18 @@ sentence each in §6 and §7.
 The result concerns one family, one cohort, one provider, and the in-distribution held-out records.
 It does not measure behaviour under shift (that is the drift-robustness protocol) and does not
 establish that recurrence-only replay is safe or unsafe in general.
+
+## Execution note (2026-09-24, written before any provider call)
+
+The driver named above now exists (`paper/scripts/recurrence_only_ablation.py`, sub-commands
+`preflight` and `run`). One deviation from the arm as worded: the guarded manual runner
+(`ManualPreModelRunner`) rejects a plan whose `Verifier()` has no clauses (it requires one
+output clause per live-out and a call count) and requires the `batchable` capability the
+retained issue catalog does not declare. A clause-free verifier is therefore not executable
+through that runner. The arm replays the three reads directly on the pinned snapshot tools
+and hands the evidence to one provider request with no tools exposed, which is the
+barrier-free replay this protocol defines. Guard, verifier, gate, and position are all absent
+rather than present-but-permissive; the preflight records this. Cohort, comparators,
+hypotheses, endpoints, decision rule, spend, and outputs are unchanged. The provider-free
+preflight (`paper/results/recurrence_only_ablation/preflight.json`) executes the replay on
+all 30 sealed records and records zero provider calls.
