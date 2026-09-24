@@ -1991,6 +1991,137 @@ def validate_live_extensions() -> None:
            "second-model: ICLR table regenerates byte-identically")
 
 
+def validate_recompile_with_challenge() -> None:
+    """Pin the provider-free closure of the two Appendix G operational caveats.
+
+    ``recompile_with_challenge.py`` recompiles the three primary live artifacts from their
+    sealed discovery checkpoints with the perturbation suite running through a
+    pinned-snapshot sandbox and with registry signature verification on. The record must
+    show the recompiled program, splits, and 92/0 gate are the retained ones (no reported
+    number changes), every default perturbation family ran with zero wrong answers and
+    zero hard rejects, ``perturbations_claimed`` is true, and signed registries verify,
+    while wrong-key and tampered loads are refused. The retained files must remain as
+    they were reported (unsigned, ``perturbations_claimed: false``).
+    """
+    from guarded_agentic_compaction.evaluation.perturb import DEFAULT_PERTURBATIONS
+
+    path = PAPER / "results/iclr_revision/recompile_with_challenge.json"
+    ok(path.exists(), "challenge-recompile: record exists")
+    if not path.exists():
+        return
+    rec = load(path)
+    ok(rec.get("schema") == "agent-compaction-recompile-with-challenge/v1" and rec.get("provider_calls") == 0,
+       "challenge-recompile: schema and zero provider calls")
+    expected = {
+        "issue_type": ("cand-01-1ebb8b2849c7", PAPER / "results/github_natural_replication"),
+        "pr_outcome": ("cand-00-a1de3856bb6c", PAPER / "results/github_workflow_families/pr_outcome/final"),
+        "backlog_attention": ("cand-00-99f1b041ed7c", PAPER / "results/github_workflow_families/backlog_attention/final"),
+    }
+    suite = [p.name for p in DEFAULT_PERTURBATIONS]
+    ok([p["perturbation"] for p in rec.get("perturbation_suite", [])] == suite,
+       "challenge-recompile: the recorded suite is the library's default perturbation suite")
+    artifacts = rec.get("artifacts", {})
+    ok(sorted(artifacts) == sorted(expected), "challenge-recompile: all three primary artifacts are covered")
+    # Present-day recompiles differ from the retained files in a few non-reported fields
+    # that the no-challenge control carries too (checkpoint reconstruction and library
+    # changes since the runs); the set is pinned so a new difference cannot slip in.
+    retained_drift = {
+        "issue_type": [
+            ".compatibility_key", ".evidence.metrics.composite", ".evidence.metrics.composite_name",
+            ".evidence.support_days", ".gate.features_spec.hull_kinds.z.issue_number",
+            ".gate.features_spec.numeric_ranges.z.issue_number", ".guard.clauses[0].hull.high",
+            ".guard.clauses[0].hull.kind", ".guard.clauses[0].hull.low", ".manifest.manifest_id",
+            ".manifest.tracer_version", ".program.composite", ".verifier.clauses[1].hull.high",
+            ".verifier.clauses[1].hull.kind", ".verifier.clauses[1].hull.low",
+        ],
+        "pr_outcome": [".evidence.support_days"],
+        "backlog_attention": [".evidence.support_days"],
+    }
+    challenge_paths = (".evidence.perturbation", ".evidence.metrics.perturbations_claimed", ".evidence.metrics.sandbox")
+    for family, (artifact_id, retained_dir) in expected.items():
+        art = artifacts.get(family, {})
+        retained = load(retained_dir / "results.json").get("compiler", {})
+        retained_art = retained.get("artifact", {})
+        identity = art.get("identity", {}).get("vs_retained", {})
+        control = art.get("identity", {}).get("vs_control", {})
+        ok(art.get("artifact_id") == artifact_id and identity.get("artifact_id", {}).get("identical") is True,
+           f"challenge-recompile: {family} recompiles to the retained artifact id {artifact_id}")
+        ok(identity.get("program_identical") is True and identity.get("splits_digest", {}).get("identical") is True
+           and identity.get("name_identical") is True,
+           f"challenge-recompile: {family} program, name, and splits are the retained ones")
+        gate = identity.get("gate", {})
+        ok(all(identity.get("gate_identical", {}).get(k) is True for k in
+               ("n_calibration_groups", "n_accepted", "observed_violations", "risk_upper_bound", "threshold", "retire"))
+           and gate.get("n_calibration_groups") == 92 and gate.get("observed_violations") == 0
+           and gate.get("retire") is False
+           and evidence_equal(gate.get("risk_upper_bound"), retained_art.get("gate", {}).get("risk_upper_bound")),
+           f"challenge-recompile: {family} keeps the retained 92/0 gate")
+        ok(identity.get("splits_digest", {}).get("retained") == retained.get("splits", {}).get("digest"),
+           f"challenge-recompile: {family} splits digest matches the retained study file")
+        ok(identity.get("paths_that_differ_outside_challenge_evidence") == retained_drift[family]
+           and identity.get("unclassified_differences") == []
+           and (family == "issue_type" or (identity.get("guard_identical") is True
+                                           and identity.get("verifier_identical") is True
+                                           and identity.get("compatibility_key_identical") is True)),
+           f"challenge-recompile: {family} differs from the retained file only in challenge evidence and the pinned drift fields")
+        ok(control.get("only_challenge_evidence_differs") is True
+           and all(control.get(k) is True for k in ("artifact_id_identical", "splits_digest_identical", "program_identical",
+                                                      "guard_identical", "verifier_identical", "gate_identical",
+                                                      "manifest_identical", "candidate_stages_identical"))
+           and control.get("control_perturbations_claimed") is False
+           and all(any(p == c or p.startswith(c + ".") for c in challenge_paths)
+                   for p in control.get("paths_that_differ", ["<none>"])),
+           f"challenge-recompile: {family} enabling the challenge changes only the challenge evidence relative to the no-sandbox control")
+        inputs = art.get("inputs", {})
+        checkpoint = PAPER.parent / inputs.get("discovery_checkpoint", "missing")
+        ok(checkpoint.exists() and sha256(checkpoint) == inputs.get("discovery_checkpoint_sha256"),
+           f"challenge-recompile: {family} names the sealed discovery checkpoint by checksum")
+        challenge = art.get("challenge", {})
+        rows = {r["perturbation"]: r for r in challenge.get("perturbation_families", [])}
+        ok(list(rows) == suite and all(rows[n].get("ran") is True and rows[n].get("n") == 8 for n in suite),
+           f"challenge-recompile: {family} ran all {len(suite)} perturbation families on the 8 dev windows")
+        ok(all(rows[n].get("wrong", 0) == 0 and rows[n].get("state_delta", 0) == 0
+               and rows[n].get("no_reference", 0) == 0 for n in suite)
+           and challenge.get("hard_rejects") == [] and challenge.get("families_not_run") == [],
+           f"challenge-recompile: {family} has zero wrong answers, state deltas, or hard rejects")
+        ok(all(rows[n].get("passed") == 8 for n in ("reorder_lists", "empty_lists", "formatting"))
+           and all(rows[n].get("abstained") == 8 for n in ("schema_drift", "tool_4xx", "tool_timeout"))
+           and rows["null_fields"].get("verifier_abstained") == 8,
+           f"challenge-recompile: {family} abstains on schema drift, tool errors, timeouts, and nulled fields")
+        ok(challenge.get("perturbations_claimed") is True and art.get("perturbations_claimed") is True
+           and challenge.get("survives_challenge") is True and challenge.get("candidate_stage") == "emitted",
+           f"challenge-recompile: {family} perturbations are claimed and the candidate survives")
+        sandbox = challenge.get("sandbox_replay", {})
+        ok(sandbox.get("n") == 8 and sandbox.get("passed") == 8 and sandbox.get("wrong") == 0
+           and sandbox.get("state_delta") == 0 and art.get("compile_call", {}).get("sandbox", {}).get("tool_calls", 0) > 0,
+           f"challenge-recompile: {family} sandbox replay passes 8/8 dev windows through the snapshot world")
+        sig = art.get("signature", {})
+        ok(sig.get("verify_signature") is True and sig.get("verify_signature_wrong_key") is False
+           and sig.get("saved_signature_persisted") is True
+           and all(sig.get("reload_with_key", {}).get(k) is True for k in
+                   ("loaded", "verify_signature", "body_digest_identical", "resolve_returns_artifact"))
+           and art.get("signature_verified") is True,
+           f"challenge-recompile: {family} signed registry verifies on save and reload")
+        ok(sig.get("reload_with_wrong_key_refused") is True and sig.get("tampered_gate_refused") is True
+           and sig.get("tampered_gate_loads_when_verification_is_off") is True,
+           f"challenge-recompile: {family} wrong-key and tampered registries are refused only when verification is on")
+        ok(len(sig.get("signature", "")) == 64 and len(sig.get("body_digest", "")) == 64,
+           f"challenge-recompile: {family} records the HMAC-SHA256 signature and body digest")
+        # The reported artifacts are untouched: still unsigned, still perturbations_claimed: false.
+        retained_registry = load(retained_dir / "registry/registry.json")
+        ok(retained_art.get("signature", "") == "" and retained_art.get("evidence", {}).get("metrics", {}).get("perturbations_claimed") is False
+           and retained_art.get("evidence", {}).get("perturbation") == {}
+           and all(a.get("signature", "") == "" for a in retained_registry.get("artifacts", []))
+           and sig.get("retained_registry", {}).get("refused_when_verification_on") is True
+           and identity.get("retained_perturbations_claimed") is False,
+           f"challenge-recompile: {family} retained study files are unchanged and refuse a verified load")
+    summary = rec.get("summary", {})
+    ok(all(summary.get(k) is True for k in ("all_identity_checks_passed", "all_perturbations_claimed",
+                                             "all_survive_challenge", "all_signatures_verified"))
+       and summary.get("hard_rejects_total") == 0,
+       "challenge-recompile: summary states identity, claimed perturbations, survival, and verified signatures")
+
+
 def validate_github_workflow_families() -> None:
     """Recompute the new real-record family claims from condition-level evidence."""
 
@@ -2775,6 +2906,7 @@ def main() -> None:
     validate_iclr_sources()
     validate_headroom_ablation_preflights()
     validate_live_extensions()
+    validate_recompile_with_challenge()
     validate_github_workflow_families()
     validate_github_multirepo_pr_outcome_core()
     validate_external_benchmarks()
