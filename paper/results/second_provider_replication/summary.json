@@ -1,0 +1,330 @@
+{
+  "claim_boundary": "Same sealed records, discovery run live on Anthropic claude-sonnet-5 through the official SDK adapter; compile, calibrate, and evaluate on the same provider. Not a cross-provider price comparison; certificates conditional on i.i.d. calibration groups as for the primary families.",
+  "design": "A: the unchanged pipeline on the second provider's own traces over the sealed records",
+  "families": [
+    {
+      "artifact_id": "cand-01-1ebb8b2849c7",
+      "baseline": {
+        "attempted": 30,
+        "estimated_cost_usd": 0.641604,
+        "exact": 29,
+        "n": 30,
+        "requests": 120.0,
+        "total_tokens": 285558.0,
+        "wall_latency_ms": 245393.253
+      },
+      "candidates_reaching_calibration": 1,
+      "compiled": {
+        "attempted": 30,
+        "estimated_cost_usd": 0.386168,
+        "exact": 28,
+        "n": 30,
+        "requests": 62.0,
+        "total_tokens": 170168.0,
+        "wall_latency_ms": 128493.146
+      },
+      "family": "Issue-type routing",
+      "manual": {
+        "attempted": 30,
+        "estimated_cost_usd": 0.262774,
+        "exact": 28,
+        "n": 29,
+        "requests": 58.0,
+        "total_tokens": 112551.0,
+        "wall_latency_ms": 107398.225
+      },
+      "model": "anthropic/claude-sonnet-5",
+      "program_identical_to_retained": true,
+      "reductions": {
+        "estimated_cost_usd": 0.39812095934563996,
+        "requests": 0.4833333333333333,
+        "total_tokens": 0.40408603506117846,
+        "wall_latency_ms": 0.47637865169830074
+      },
+      "source": "paper/results/second_provider_replication/issue_type/results.json",
+      "source_sha256": "945dd164213928f8d2ecb08e3c251c0c4382abce2982e6625f5da196f3f6ff3d",
+      "status": "complete"
+    },
+    {
+      "artifact_id": "cand-00-a1de3856bb6c",
+      "baseline": {
+        "estimated_cost_usd": 0.479882,
+        "exact": 27,
+        "n": 30,
+        "requests": 120.0,
+        "total_tokens": 209597.0,
+        "wall_latency_ms": 213745.427
+      },
+      "candidates_reaching_calibration": null,
+      "compiled": {
+        "estimated_cost_usd": 0.079518,
+        "exact": 27,
+        "n": 30,
+        "requests": 30.0,
+        "total_tokens": 31687.0,
+        "wall_latency_ms": 56721.234000000004
+      },
+      "family": "PR-outcome audit",
+      "manual": {
+        "estimated_cost_usd": 0.079628,
+        "exact": 29,
+        "n": 30,
+        "requests": 30.0,
+        "total_tokens": 31698.0,
+        "wall_latency_ms": 55984.21
+      },
+      "model": "anthropic/claude-sonnet-5",
+      "program_identical_to_retained": null,
+      "reductions": {
+        "estimated_cost_usd": 0.8342967646213028,
+        "requests": 0.75,
+        "total_tokens": 0.8488194010410455,
+        "wall_latency_ms": 0.7346318244272894
+      },
+      "source": "paper/results/github_workflow_families/pr_outcome/anthropic_sonnet5_rediscovery/results.json",
+      "source_sha256": "9d39d06c4026294b6f9ec3985e3f8126d8fed8a9d119f4c48d2d2e7d77c1e33e",
+      "status": "complete"
+    },
+    {
+      "compiler": {
+        "admitted": false,
+        "candidates": [
+          {
+            "grid_rows": [
+              {
+                "coverage": 0.0,
+                "eta": 0.02,
+                "n": 0,
+                "upper": 1.0,
+                "violations": 0
+              },
+              {
+                "coverage": 0.0,
+                "eta": 0.05,
+                "n": 0,
+                "upper": 1.0,
+                "violations": 0
+              },
+              {
+                "coverage": 0.0,
+                "eta": 0.08,
+                "n": 0,
+                "upper": 1.0,
+                "violations": 0
+              },
+              {
+                "coverage": 0.0,
+                "eta": 0.11,
+                "n": 0,
+                "upper": 1.0,
+                "violations": 0
+              },
+              {
+                "coverage": 1.0,
+                "eta": 0.14,
+                "n": 90,
+                "upper": 0.0509,
+                "violations": 0
+              },
+              {
+                "coverage": 1.0,
+                "eta": 0.17,
+                "n": 90,
+                "upper": 0.0509,
+                "violations": 0
+              },
+              {
+                "coverage": 1.0,
+                "eta": 0.2,
+                "n": 90,
+                "upper": 0.0509,
+                "violations": 0
+              },
+              {
+                "coverage": 1.0,
+                "eta": 0.25,
+                "n": 90,
+                "upper": 0.0509,
+                "violations": 0
+              },
+              {
+                "coverage": 1.0,
+                "eta": 0.3,
+                "n": 90,
+                "upper": 0.0509,
+                "violations": 0
+              },
+              {
+                "coverage": 1.0,
+                "eta": 0.4,
+                "n": 90,
+                "upper": 0.0509,
+                "violations": 0
+              },
+              {
+                "coverage": 1.0,
+                "eta": 0.5,
+                "n": 90,
+                "upper": 0.0509,
+                "violations": 0
+              }
+            ],
+            "max_n_accepted": 90,
+            "program_tools": [
+              "backlog_get_record",
+              "backlog_get_ownership",
+              "backlog_get_discussion"
+            ],
+            "removed_requests": 3.0,
+            "support": 16,
+            "tightest_upper": 0.051,
+            "violations_at_max_n": 0
+          },
+          {
+            "grid_rows": [
+              {
+                "coverage": 0.0,
+                "eta": 0.02,
+                "n": 0,
+                "upper": 1.0,
+                "violations": 0
+              },
+              {
+                "coverage": 0.0,
+                "eta": 0.05,
+                "n": 0,
+                "upper": 1.0,
+                "violations": 0
+              },
+              {
+                "coverage": 1.0,
+                "eta": 0.08,
+                "n": 91,
+                "upper": 0.0503,
+                "violations": 0
+              },
+              {
+                "coverage": 1.0,
+                "eta": 0.11,
+                "n": 91,
+                "upper": 0.0503,
+                "violations": 0
+              },
+              {
+                "coverage": 1.0,
+                "eta": 0.14,
+                "n": 91,
+                "upper": 0.0503,
+                "violations": 0
+              },
+              {
+                "coverage": 1.0,
+                "eta": 0.17,
+                "n": 91,
+                "upper": 0.0503,
+                "violations": 0
+              },
+              {
+                "coverage": 1.0,
+                "eta": 0.2,
+                "n": 91,
+                "upper": 0.0503,
+                "violations": 0
+              },
+              {
+                "coverage": 1.0,
+                "eta": 0.25,
+                "n": 91,
+                "upper": 0.0503,
+                "violations": 0
+              },
+              {
+                "coverage": 1.0,
+                "eta": 0.3,
+                "n": 91,
+                "upper": 0.0503,
+                "violations": 0
+              },
+              {
+                "coverage": 1.0,
+                "eta": 0.4,
+                "n": 91,
+                "upper": 0.0503,
+                "violations": 0
+              },
+              {
+                "coverage": 1.0,
+                "eta": 0.5,
+                "n": 91,
+                "upper": 0.0503,
+                "violations": 0
+              }
+            ],
+            "max_n_accepted": 91,
+            "program_tools": [
+              "backlog_get_record",
+              "backlog_get_ownership"
+            ],
+            "removed_requests": 2.0,
+            "support": 16,
+            "tightest_upper": 0.05,
+            "violations_at_max_n": 0
+          }
+        ],
+        "error": "compiler emitted no admitted artifact: both mined candidates retired at calibration (tightest Clopper-Pearson upper bound 0.051 and 0.050 > alpha 0.05)",
+        "rejection_by_stage": {
+          "calibrate:retire": 2
+        },
+        "stage": "calibration"
+      },
+      "discovery": {
+        "estimated_cost_usd": 2.159292,
+        "exact_traces": 116,
+        "failures": 0,
+        "n": 132,
+        "needed": 116,
+        "non_exact_quality_flags": {
+          "{\"comment_grounded\": false, \"overall\": false}": 16
+        },
+        "tool_sequences": {
+          "backlog_get_ownership -> backlog_get_record -> backlog_get_discussion": 1,
+          "backlog_get_record -> backlog_get_ownership": 14,
+          "backlog_get_record -> backlog_get_ownership -> backlog_get_discussion": 117
+        }
+      },
+      "family": "Backlog-attention routing",
+      "model": "anthropic/claude-sonnet-5",
+      "source": "paper/results/github_workflow_families/backlog_attention/anthropic_sonnet5_rediscovery/failure.json",
+      "source_sha256": "8347c3f8530dd9370b03736da0c59230b666285c3cac11eaffb633022afdf5c1",
+      "status": "retired"
+    }
+  ],
+  "model": "anthropic/claude-sonnet-5",
+  "overall": {
+    "baseline_exact": 56,
+    "compiled_exact": 55,
+    "estimated_cost_usd": {
+      "baseline": 1.121486,
+      "compiled": 0.46568600000000004,
+      "reduction": 0.5847598632528627
+    },
+    "manual_exact": 57,
+    "n": 60,
+    "requests": {
+      "baseline": 240.0,
+      "compiled": 92.0,
+      "reduction": 0.6166666666666667
+    },
+    "total_tokens": {
+      "baseline": 495155.0,
+      "compiled": 201855.0,
+      "reduction": 0.5923397723945028
+    },
+    "wall_latency_ms": {
+      "baseline": 459138.68,
+      "compiled": 185214.38,
+      "reduction": 0.5966047121100753
+    }
+  },
+  "schema": "agent-compaction-second-provider-summary/v1"
+}

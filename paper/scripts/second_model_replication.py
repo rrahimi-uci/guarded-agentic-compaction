@@ -769,7 +769,9 @@ def _collect(sources: dict[str, tuple[Path, str, str, str]]) -> tuple[list[dict[
             families.append({
                 "family": name, "status": "retired", "model": data.get("model"),
                 "source": str(failure.relative_to(ROOT)), "source_sha256": shared.sha256_file(failure),
-                "discovery": data.get("discovery"), "compiler": {"admitted": False, "stage": data.get("stage"), "error": data.get("error")},
+                "discovery": data.get("discovery"),
+                "compiler": {"admitted": False, "stage": data.get("stage"), "error": data.get("error"),
+                             **{k: v for k, v in (data.get("compiler") or {}).items() if k in ("candidates", "rejection_by_stage")}},
             })
             continue
         if not path.exists():
@@ -784,9 +786,18 @@ def _collect(sources: dict[str, tuple[Path, str, str, str]]) -> tuple[list[dict[
             })
             continue
         block = _family_block(data, b, c, m)
+        itt = data.get("intention_to_treat") or {}
+        attempted = {c: v.get("attempted") for c, v in itt.items()} if itt else {}
+        itt_complete = bool(itt) and all(
+            sum(1 for r in data["results"] if r["condition"] == c and int(r.get("repeat", 0)) == 0)
+            + sum(1 for a in data.get("attempts", []) if a.get("condition") == c and a.get("attempt") == 1)
+            >= v.get("attempted", 0) for c, v in itt.items())
+        if attempted:
+            for arm, cond in (("baseline", b), ("compiled", c), ("manual", m)):
+                block[arm]["attempted"] = attempted.get(cond, block[arm]["n"])
         block.update({
             "family": name,
-            "status": "complete" if data["run"].get("comparative_claim_allowed") else "incomplete",
+            "status": "complete" if (data["run"].get("comparative_claim_allowed") or itt_complete) else "incomplete",
             "model": data["run"]["model"],
             "source": str(path.relative_to(ROOT)),
             "source_sha256": shared.sha256_file(path),
@@ -818,15 +829,23 @@ def _table_rows(families: list[dict[str, Any]], overall: dict[str, Any] | None) 
     for f in families:
         if f.get("status") == "retired":
             d = f.get("discovery") or {}
-            lines.append(f"\\quad {f['family']} & \\multicolumn{{7}}{{l}}{{\\textsc{{retire}} at compile time ({d.get('exact_traces', '?')}/{d.get('n', '?')} exact discovery traces)}} \\\\")
+            comp = f.get("compiler") or {}
+            if comp.get("stage") == "calibration":
+                cands = comp.get("candidates") or []
+                best = max((c.get("max_n_accepted") or 0) for c in cands) if cands else "?"
+                why = f"at calibration ({best}/92 groups, $U>\\alpha$; {d.get('exact_traces', '?')}/{d.get('n', '?')} exact traces)"
+            else:
+                why = f"at compile time ({d.get('exact_traces', '?')}/{d.get('n', '?')} exact discovery traces)"
+            lines.append(f"\\quad {f['family']} & \\multicolumn{{7}}{{l}}{{\\textsc{{retire}} {why}}} \\\\")
             continue
         if f.get("status") != "complete":
             lines.append(f"\\quad {f['family']} & \\multicolumn{{7}}{{l}}{{not run}} \\\\")
             continue
         r = f["reductions"]
+        den = {arm: f[arm].get("attempted", f[arm]["n"]) for arm in ("baseline", "compiled", "manual")}
         lines.append(
-            f"\\quad {f['family']} & {f['baseline']['exact']}/{f['baseline']['n']} & "
-            f"\\textbf{{{f['compiled']['exact']}/{f['compiled']['n']}}} & {f['manual']['exact']}/{f['manual']['n']} & & "
+            f"\\quad {f['family']} & {f['baseline']['exact']}/{den['baseline']} & "
+            f"\\textbf{{{f['compiled']['exact']}/{den['compiled']}}} & {f['manual']['exact']}/{den['manual']} & & "
             f"{100*r['requests']:.1f} & {100*r['total_tokens']:.1f} & {100*r['estimated_cost_usd']:.1f} \\\\"
         )
     complete = [f for f in families if f.get("status") == "complete"]

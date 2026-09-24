@@ -146,3 +146,13 @@ coverage at any pool size); the second-provider replication (protocol pre-regist
 official `anthropic` SDK is partially written and untested); the drift-robustness ablation and the
 anonymous-archive builder (see the branch state). Page budget: the §5.1 and §7 additions were paid
 for by cuts in §5.1, §6, and §7; the conclusion ends on page 9.
+
+## Second provider (2026-09-24, same branch)
+
+Anthropic `claude-sonnet-5` through a new Agents-SDK adapter on the official SDK; design A on all
+three families (pre-registered `second-provider-replication-protocol.md`). Issue-type and PR-outcome
+re-derive the identical artifacts (30/30 dispatch); backlog retires at calibration with 91/92
+groups accepted at best. Compiled-only misses on issue-type (2) and PR-outcome (2), all
+excerpt-fidelity errors of the model present in every arm; reported first. App. G paragraph +
+`tab:second-provider`; §5.1 and §7 clauses. Also this branch: the CI fix for the pilot
+disjointness test and the disclosed five-record overlap of the extended cohort with the pilot.

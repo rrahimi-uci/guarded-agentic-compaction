@@ -1,6 +1,6 @@
 # Second-provider replication protocol (Anthropic, three primary families)
 
-**Status: PRE-REGISTERED on 2026-09-24. Not run.** No provider call has been made under this
+**Status: PRE-REGISTERED on 2026-09-24; EXECUTED the same day** (observed results at the end). Before execution no provider call had been made under this
 document beyond the adapter smoke tests it names. It fixes the provider, model, design, cohorts,
 arms, endpoints, decision rule, and spend before any study call.
 
@@ -89,3 +89,26 @@ Same records and same snapshot; a second provider's own traces through the uncha
 It does not measure a second repository snapshot or a third provider, its cost column is not a
 cross-provider price comparison, and any certificate remains conditional on i.i.d. calibration
 groups exactly as the primary ones are.
+
+## Observed results (executed 2026-09-24T16:04–16:26Z)
+
+Adapter: `guarded_agentic_compaction.capture.anthropic_model.AnthropicModel` (official `anthropic`
+SDK 1.8.0, Agents SDK 0.19.2); offline mapping tests in `tests/unit/test_anthropic_model.py`.
+Spend: issue-type $4.26, PR-outcome ≈ $1.8, backlog discovery $2.16 (the issue-type estimate was
+low: Sonnet's discovery traces are longer). Decision-rule row 4 applies and is reported first:
+compiled-only failures on issue-type (records 4248, 6829) and PR-outcome (5401, 6988); every miss on
+this provider, in every arm, is a `comment_grounded`/excerpt-exactness failure (Markdown link
+markup dropped, whitespace or line endings normalized), the issue-6602 mechanism.
+
+- Issue-type: 126/132 exact discovery traces; `cand-01-1ebb8b2849c7` admitted (identical program,
+  m = 1, 92/0, U = 0.0498); dispatch 30/30; exact 29/28/28 of 30 (one macro episode failed twice on
+  `APITimeoutError` and counts as a failure); two compiled records used three requests (H-P4
+  partially fails); reductions 48.3/40.4/47.6/39.8. H-P1, H-P2 hold; H-P3 fails.
+- PR-outcome: 128/132; `cand-00-a1de3856bb6c` admitted (identical program, m = 2, 92/0); dispatch
+  30/30; exact 27/27/29 of 30; reductions 75.0/84.9/73.5/83.4. H-P1, H-P2, H-P4 hold; H-P3 fails.
+- Backlog: 116/132 exact traces (the split's minimum); both mined candidates retired at calibration
+  with at best 91 and 90 groups accepted at any threshold (U = 0.050 and 0.051 > α); decision-rule
+  row 1, a principled refusal; no held-out arm was run (`anthropic_sonnet5_rediscovery/failure.json`).
+
+Table: `paper/iclr/tables/second_provider.tex`; summary `second_provider_replication/summary.json`;
+paper: Appendix G, §5.1, §7. The abstract is unchanged.

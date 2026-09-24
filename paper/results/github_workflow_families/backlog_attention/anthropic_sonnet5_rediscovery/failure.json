@@ -1,0 +1,227 @@
+{
+  "compiler": {
+    "admitted": false,
+    "candidates": [
+      {
+        "grid_rows": [
+          {
+            "coverage": 0.0,
+            "eta": 0.02,
+            "n": 0,
+            "upper": 1.0,
+            "violations": 0
+          },
+          {
+            "coverage": 0.0,
+            "eta": 0.05,
+            "n": 0,
+            "upper": 1.0,
+            "violations": 0
+          },
+          {
+            "coverage": 0.0,
+            "eta": 0.08,
+            "n": 0,
+            "upper": 1.0,
+            "violations": 0
+          },
+          {
+            "coverage": 0.0,
+            "eta": 0.11,
+            "n": 0,
+            "upper": 1.0,
+            "violations": 0
+          },
+          {
+            "coverage": 1.0,
+            "eta": 0.14,
+            "n": 90,
+            "upper": 0.0509,
+            "violations": 0
+          },
+          {
+            "coverage": 1.0,
+            "eta": 0.17,
+            "n": 90,
+            "upper": 0.0509,
+            "violations": 0
+          },
+          {
+            "coverage": 1.0,
+            "eta": 0.2,
+            "n": 90,
+            "upper": 0.0509,
+            "violations": 0
+          },
+          {
+            "coverage": 1.0,
+            "eta": 0.25,
+            "n": 90,
+            "upper": 0.0509,
+            "violations": 0
+          },
+          {
+            "coverage": 1.0,
+            "eta": 0.3,
+            "n": 90,
+            "upper": 0.0509,
+            "violations": 0
+          },
+          {
+            "coverage": 1.0,
+            "eta": 0.4,
+            "n": 90,
+            "upper": 0.0509,
+            "violations": 0
+          },
+          {
+            "coverage": 1.0,
+            "eta": 0.5,
+            "n": 90,
+            "upper": 0.0509,
+            "violations": 0
+          }
+        ],
+        "max_n_accepted": 90,
+        "program_tools": [
+          "backlog_get_record",
+          "backlog_get_ownership",
+          "backlog_get_discussion"
+        ],
+        "removed_requests": 3.0,
+        "support": 16,
+        "tightest_upper": 0.051,
+        "violations_at_max_n": 0
+      },
+      {
+        "grid_rows": [
+          {
+            "coverage": 0.0,
+            "eta": 0.02,
+            "n": 0,
+            "upper": 1.0,
+            "violations": 0
+          },
+          {
+            "coverage": 0.0,
+            "eta": 0.05,
+            "n": 0,
+            "upper": 1.0,
+            "violations": 0
+          },
+          {
+            "coverage": 1.0,
+            "eta": 0.08,
+            "n": 91,
+            "upper": 0.0503,
+            "violations": 0
+          },
+          {
+            "coverage": 1.0,
+            "eta": 0.11,
+            "n": 91,
+            "upper": 0.0503,
+            "violations": 0
+          },
+          {
+            "coverage": 1.0,
+            "eta": 0.14,
+            "n": 91,
+            "upper": 0.0503,
+            "violations": 0
+          },
+          {
+            "coverage": 1.0,
+            "eta": 0.17,
+            "n": 91,
+            "upper": 0.0503,
+            "violations": 0
+          },
+          {
+            "coverage": 1.0,
+            "eta": 0.2,
+            "n": 91,
+            "upper": 0.0503,
+            "violations": 0
+          },
+          {
+            "coverage": 1.0,
+            "eta": 0.25,
+            "n": 91,
+            "upper": 0.0503,
+            "violations": 0
+          },
+          {
+            "coverage": 1.0,
+            "eta": 0.3,
+            "n": 91,
+            "upper": 0.0503,
+            "violations": 0
+          },
+          {
+            "coverage": 1.0,
+            "eta": 0.4,
+            "n": 91,
+            "upper": 0.0503,
+            "violations": 0
+          },
+          {
+            "coverage": 1.0,
+            "eta": 0.5,
+            "n": 91,
+            "upper": 0.0503,
+            "violations": 0
+          }
+        ],
+        "max_n_accepted": 91,
+        "program_tools": [
+          "backlog_get_record",
+          "backlog_get_ownership"
+        ],
+        "removed_requests": 2.0,
+        "support": 16,
+        "tightest_upper": 0.05,
+        "violations_at_max_n": 0
+      }
+    ],
+    "candidates_mined": 2,
+    "rejection_by_stage": {
+      "calibrate:retire": 2
+    },
+    "windows_accepted": 32,
+    "windows_blocked": {
+      "non_prefix_runtime": 16
+    }
+  },
+  "decision_rule_reading": "H-P1 fails at calibration: 116 exact traces meet the split exactly, but fewer than 92 calibration groups were accepted at any threshold, so the zero-violation bound stays above alpha; a principled refusal reported with the stage and counts; no held-out arm was run and no artifact is claimed.",
+  "discovery": {
+    "estimated_cost_usd": 2.159292,
+    "exact_traces": 116,
+    "failures": 0,
+    "n": 132,
+    "needed": 116,
+    "non_exact_quality_flags": {
+      "{\"comment_grounded\": false, \"overall\": false}": 16
+    },
+    "tool_sequences": {
+      "backlog_get_ownership -> backlog_get_record -> backlog_get_discussion": 1,
+      "backlog_get_record -> backlog_get_ownership": 14,
+      "backlog_get_record -> backlog_get_ownership -> backlog_get_discussion": 117
+    }
+  },
+  "discovery_checkpoint": "paper/results/github_workflow_families/backlog_attention/anthropic_sonnet5_rediscovery/discovery_checkpoint.json",
+  "discovery_checkpoint_sha256": "c1510850d3dd51a0d893e7051f6e97e055d6b854c7b12f703d629e3f162052c5",
+  "error": "compiler emitted no admitted artifact: both mined candidates retired at calibration (tightest Clopper-Pearson upper bound 0.051 and 0.050 > alpha 0.05)",
+  "error_type": "RuntimeError",
+  "family": "backlog_attention",
+  "model": "anthropic/claude-sonnet-5",
+  "provider_backed": true,
+  "real_public_records": true,
+  "schema": "agent-compaction-live-attempt-failure/v1",
+  "secrets_serialized": false,
+  "simulated": false,
+  "stage": "calibration",
+  "status": "failed_before_test_arms",
+  "test_arms_started": false,
+  "timestamp_utc": "2026-09-24T16:27:19+00:00"
+}
