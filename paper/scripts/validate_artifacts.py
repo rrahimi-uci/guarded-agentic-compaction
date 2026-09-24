@@ -1733,6 +1733,18 @@ def validate_live_extensions() -> None:
         spec.loader.exec_module(module)
         return module
 
+    def _canon(value):
+        # Python 3.12 switched float sum() to compensated summation, so totals and
+        # reductions can differ in the last bits between interpreters; compare at
+        # nine significant digits, as validate_iclr_sources does.
+        if isinstance(value, float):
+            return float(f"{value:.9g}")
+        if isinstance(value, dict):
+            return {k: _canon(v) for k, v in value.items()}
+        if isinstance(value, list):
+            return [_canon(v) for v in value]
+        return value
+
     retained = load(PAPER / "results/github_natural_replication/results.json")
     sealed_test = [int(item["issue_number"]) for item in retained["selection"]["test"]]
 
@@ -2006,7 +2018,8 @@ def validate_live_extensions() -> None:
             module.PROVIDER_TABLE_PATH = Path(scratch) / "second_provider.tex"
             fresh = module.summarize_provider(SimpleNamespace())
             fresh_table = module.PROVIDER_TABLE_PATH.read_text(encoding="utf-8") if module.PROVIDER_TABLE_PATH.exists() else None
-        ok(fresh.get("families") == committed.get("families") and fresh.get("overall") == committed.get("overall"),
+        ok(_canon(fresh.get("families")) == _canon(committed.get("families"))
+           and _canon(fresh.get("overall")) == _canon(committed.get("overall")),
            "second-provider: summary regenerates to the committed values")
         table_path = PAPER / "iclr/tables/second_provider.tex"
         ok(fresh_table is not None and table_path.exists() and fresh_table == table_path.read_text(encoding="utf-8"),
@@ -2045,8 +2058,9 @@ def validate_live_extensions() -> None:
             module.TABLE_PATH = Path(scratch) / "second_model.tex"
             fresh = module.summarize(SimpleNamespace(model="gpt-6-luna"))
             fresh_table = module.TABLE_PATH.read_text(encoding="utf-8") if module.TABLE_PATH.exists() else None
-        ok(fresh.get("families") == committed_summary.get("families")
-           and fresh.get("overall") == committed_summary.get("overall"),
+        ok(_canon(fresh.get("families")) == _canon(committed_summary.get("families"))
+           and _canon(fresh.get("overall")) == _canon(committed_summary.get("overall"))
+           and _canon(fresh.get("rediscovery")) == _canon(committed_summary.get("rediscovery")),
            "second-model: summary regenerates to the committed values")
         ok(table_path.exists() and fresh_table == table_path.read_text(encoding="utf-8"),
            "second-model: ICLR table regenerates byte-identically")
