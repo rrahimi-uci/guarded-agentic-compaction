@@ -1,546 +1,524 @@
-# proposal-90.md — Deep review of the ICLR 2027 submission and a feasible plan to 90+
+# proposal-90.md — Feasibility review and staged revision plan
 
-Prepared 2026-10-02 against `paper/iclr/main-final.pdf` (36 pages; main text ends on page 9),
-`paper/iclr/sections/*.tex`, `paper/iclr/appendix.tex`, the 27 ICLR tables, the retained
-results under `paper/results/`, the compiler source under `src/guarded_agentic_compaction/`,
-and every prior review and plan in the repository (`paper/paper-review.md`,
-`paper/reviews/GAC_paper_review.md`, `paper/reviews/GAC_ICLR_2027_Detailed_Revision_Plan.md`,
-`paper/supplementary/review-score-90-plus-plan.md`, `paper/supplementary/quality-assessment.md`,
-`paper/iclr/notes/*.md`, `improve-iclr.md`, `iclr-paper-sharping-paln.md`).
+Reviewed 2026-10-02 against checkout `71574c6`, the ICLR manuscript source,
+calibration/compiler code, retained effective-unit and multidomain preflight artifacts,
+existing study protocols, runner interfaces, and official ICLR 2027 guidance. This revision
+assesses and corrects the plan; it does not implement the workstreams or run new studies.
 
-The scale throughout is 0–100, read as "probability-weighted standing at a top venue": 90+
-means a paper that a careful area chair would defend as a clear accept without needing the
-authors' rebuttal to rescue it.
+## 0. Assessment
 
----
+**The direction is reasonable; the original five-week, part-time, under-$100 promise for
+all workstreams was not established.** Correct the certified-event wording and improve
+presentation first. Then implement a small provider-free mechanism study. Treat fresh
+cohorts, end-to-end certification, and a second live domain as conditional extensions.
 
-## 0. Bottom line
+The original 76-to-90+ scores are editorial judgments, not measured acceptance probabilities
+or official ICLR scores. A strong artifact and useful new results can improve the paper,
+but no task list or positive experiment guarantees a clear accept. Keep the filename as a
+planning identifier; use the evidence milestones below to judge completion.
 
-| | Score |
-|---|---:|
-| Where the paper stands today, read as an ICLR reviewer who did not build it | **76** (ICLR 5–6, borderline) |
-| After the provider-free work in Phase 0 (two weeks, $0) | ~82 |
-| After Phases 0–2 with the two cheap live studies positive | ~88 |
-| After Phases 0–3 (adds a second live domain and end-to-end calibration labels) | **90–93** |
-
-The repository's own reviews score the paper at 91–94. Those scores credit the artifact
-(which deserves 95+) and the honesty of the writing (which deserves 95+). They do not model
-how a reviewer who reads only the nine pages experiences the paper, and they under-weight
-four problems that the same repository documents in its own notes. Those four problems are
-what this plan fixes:
-
-1. **The certificate does not bound what the paper says it bounds.** §2 defines the loss
-   $L$ end-to-end ("a sound prefix whose baseline continuation errs still contributes
-   $L=1$, so the gate certifies end-to-end compliance under substitution"). The
-   implementation labels a calibration violation as a *recorded-output mismatch or verifier
-   failure of the deterministic tool region*
-   (`src/guarded_agentic_compaction/grc/compile.py:683-705`,
-   `grc/calibrate.py:14-16`). Downstream answer misses, which are the only misses that ever
-   occur on these families, never enter $k_\eta$. The revision log already says so in
-   passing ("every calibration label in the paper is a replay-contract violation on
-   deterministic tools and there have been none"). A statistics-literate reviewer will find
-   this, and it converts the paper's strongest sentence into its weakest.
-2. **The gate is carrying a component that does nothing, and paying for it.** The learned
-   score $q$ never ranks, the paper says so, and the 11-point grid it needs costs a
-   Bonferroni factor of 11. Under a single pre-registered threshold the same retained
-   tables give compiler-wide certificates for all three primary families at $m=2$
-   ($U=0.032$ at 92 groups) and the cluster-level bound by author admits rather than
-   retires. See §5 for the arithmetic. That is not a trick; it is the design the paper's
-   own evidence says it should have had.
-3. **No held-out result shows a guard preventing a failure.** Every "guard caught it" row in
-   the mechanism-removal table is a retrospective counterexample, and the one live
-   recurrence-only ablation found the refusal bought *no* measured quality. The drift
-   protocol that would answer this has been pre-registered since 2026-08-18 and never run.
-   It costs under $5.
-4. **The nine pages are hard to read and the related work is 116 words.** The paper has
-   zero result figures in the main text, 27 appendix tables, a contribution list that
-   cannot be summarized in one sentence, and 26 references. Clarity and positioning are
-   where the cheapest points are.
-
-Everything below is sized so that the whole plan fits in roughly five weeks of part-time
-work and under $100 of provider spend at list prices, with every live study pre-registered
-under the repository's existing protocol discipline.
-
----
-
-## 1. How this review was done, and why the number differs from the repository's
-
-I read the compiled PDF page by page, the LaTeX of every section and the appendix, every
-ICLR table, the two algorithm files in the main text, the calibration and compile source,
-the retained compiler reports for the three families, the recorded spend, and all prior
-review and plan documents. I recomputed every admission bound quoted in this document with
-`scipy.stats.beta` (§5).
-
-Calibration note. `GAC_paper_review.md` (94) and `quality-assessment.md` (91) are
-artifact-aware rubrics: they award 97–99 on reproducibility and engineering and let that
-lift the composite. `review_scorecard.md` (2026-08-21), which follows the official ICLR
-reviewer questions, lands at **7/10 weak accept** after revision and lists the same residual
-risks this document does. An ICLR composite does not let artifact quality offset soundness
-and clarity, so 76 is the honest translation. The 76 is not a judgment on the work; it is a
-judgment on how the work currently reads.
-
----
-
-## 2. Deep review
-
-### 2.1 What is genuinely strong (keep every one of these)
-
-- The research question is right and durable: recurrence proposes, admissibility decides.
-- The two concrete counterexamples (#4420 ungroundable slot, #6602 clean replay / wrong
-  answer) make the abstract idea tangible in half a page.
-- The compile-or-retire cascade with hard barriers that no statistic can override, and the
-  position invariant learned from a real pilot fault.
-- The refusal results on NESTFUL, API-Bank, and executed BFCL, with the binding stage named
-  and the arithmetic settled before the compiler ran; AppWorld's admissible-versus-
-  dispatchable split is a real observation about agent architectures.
-- A manual comparator with full workflow knowledge, reported even where it wins.
-- Second model and second provider replications that re-derive two artifacts and refuse the
-  third from each model's own traces.
-- The artifact: pinned manifests, retained raw results, signed catalogs, a validator with
-  3,523 checks, a claims-to-evidence register, an anonymous archive builder.
-
-### 2.2 Findings, ranked by how much they cost at review
-
-Each finding names where it lives and what the fix is. "Cost" is my estimate of the score
-the finding currently removes.
-
-| # | Finding | Where | Cost |
-|---|---|---|---:|
-| F1 | **Certified event ≠ stated objective.** Eq. (4)'s constraint and Prop. 1 are stated for the episode-level loss $L$; $k_\eta$ counts only tool-region replay/verifier violations. On deterministic reads of a pinned snapshot that event is structurally near-impossible, which is *why* every gate is a step function and why "there have been none." The abstract's "exact finite-sample bounds" therefore describes a bound on an event that cannot occur, while the misses that do occur (excerpt fidelity: 1/210 compiled-only on the calibrated model, 4 on Sonnet) are outside the certificate. | §2 last paragraph; §3 stage 6; `compile.py:683-705` | 6 |
-| F2 | **Two of three headline artifacts carry per-candidate certificates only** ($m=2$, corrected $U=0.0569$), disclosed in the abstract itself. Disclosure is honest but places the paper's weakest fact in its first 200 words. The pre-registered 106-group repair was a NO-GO for lack of records. | Abstract; §5.1; App. A | 4 |
-| F3 | **The learned score $q$ is dead weight.** It is fitted on abstention-shaped labels, is constant within a repository on the cross-repo task, never produced graded coverage, and the paper concedes the registered pools cannot certify any coverage but 0 and 1. Yet it remains in the method statement, Alg. 2, Prop. 1, and costs $|\Lambda|=11$ in the union bound. A reviewer reads this as a method with an unmotivated component. | §3 stage 6; Alg. 2; App. C; App. H | 4 |
-| F4 | **The i.i.d. assumption fails its own sensitivity check.** Treating a creation day or an author as the unit retires the bound in every family (Table 17). The paper says so and stops. | §7; App. G | 3 |
-| F5 | **No held-out evidence that guards buy anything.** The mechanism-removal table is retrospective. The one live ablation (recurrence-only, issue-type) is 30/30 at one request per record, cheaper than GAC. The drift-robustness protocol that isolates the induced verifier is unrun. A reviewer's summary will be "the guards are insurance with an unmeasured premium and an unmeasured payout." | App. G; `drift-robustness-ablation-protocol.md` | 6 |
-| F6 | **Effect size is small in absolute terms and manual code ties.** The 90-record compiled evaluation cost \$0.028 against \$0.068. Hand-written programs reach 90/90, tie on requests, and win on tokens and dollars. The paper's answer (discovery and maintenance) is asserted, not measured. | §5.1; Table 9 | 4 |
-| F7 | **External validity rests on one repository snapshot.** All richer evidence is one pinned GitHub snapshot (7,440 records); the cross-repository task is a two-read template a fixed program matches; all external substrates retire or admit an argument-free two-call program. The multidomain pools (420 vulnerability, 420 HMDA groups) have passed provider-free gold validation since 2026-08-04 and have never been run. | §4; §5.2; `paper/results/multidomain/` | 5 |
-| F8 | **Clarity.** The intro reaches `record(4420)` and `limit=100` before defining a prefix, a witness, or a family. The abstract contains "(two of three primary families, whose corrected bound is 0.057)". §3 stage 6 is a wall of thresholds. The main text has no results figure; Figure 1 is set at 0.52 linewidth and is unreadable at print size. Five near-synonyms (region, candidate, family, artifact, program, prefix) rotate without a glossary. The appendix has 27 tables and four claims-register pages. | throughout | 8 |
-| F9 | **Related work is 116 words and 26 references.** Missing threads a reviewer will name: process mining of event logs (the literal precedent for "family mining"); selective prediction and conformal/risk-control lineage beyond LTT; LLM-call caching and memoization; speculative tool execution; skill libraries (Voyager, SkillWeaver); partial evaluation and meta-tracing (Futamura, PyPy); tool-use safety evaluation (ToolEmu, AgentDojo); trace-based optimizers (Trace, TextGrad). | §6 | 5 |
-| F10 | **Novelty framing.** "To our knowledge the first exact finite-sample admission certificate for trace-derived agent compilation" invites the reply that it is Clopper–Pearson with a union bound. The novelty is the admissibility *composition* and the refusal discipline; the paper should claim that and not the inequality. | §1 contribution 1 | 2 |
-| F11 | **Minor consistency items.** The abstract's "90 unseen test cases" vs. the extended 210; §5.3 "settled arithmetically before the compiler ran" reads as if the compiler was unnecessary; the reproducibility statement's "will be supplied as an anonymous archive" is now done (`build_anonymous_archive.py`); Table 2's p/a/w column mixes two partitions and needs a footnote at the table, not a pointer. | various | 1 |
-| F12 | **Working-tree anomaly, not a paper finding.** The current checkout carries an uncommitted edit to `paper/supplementary/second-provider-replication-protocol.md` that deletes the "Observed results" section and resets the status to "Not run," while `tables/second_provider.tex`, Appendix G, and the abstract still report that run. I did not touch it. If it is intentional, the paper and the protocol will contradict each other; if not, discard it. | git status | — |
-
-### 2.3 Scorecard, now and at target
-
-ICLR-style weights. Target values assume the plan below completes with the live studies at
-or near their expected outcomes; §7 gives the scenarios where they do not.
-
-| Dimension | Weight | Now | Target | What moves it |
-|---|:-:|:-:|:-:|---|
-| Problem and motivation | 5 | 85 | 88 | prevalence/absolute-savings framing (WS-E) |
-| Novelty and positioning | 15 | 78 | 86 | composition claim + comparison table (WS-F) |
-| Technical soundness | 20 | 74 | 90 | F1, F2, F3, F4 (WS-A, WS-B, WS-G) |
-| Empirical rigor | 20 | 76 | 90 | drift study, time-forward cohort, second domain (WS-C, WS-D) |
-| Significance | 10 | 70 | 86 | guards shown to prevent silent errors; authoring cost (WS-C, WS-H) |
-| Clarity and presentation | 10 | 62 | 88 | rewrite, figures, appendix diet (WS-E) |
-| Reproducibility | 10 | 95 | 96 | archive already built |
-| Honesty and limitations | 5 | 96 | 96 | keep |
-| Related work | 5 | 60 | 88 | WS-F |
-| **Weighted** | | **76.5** | **≈89.9** | |
-
-The target composite crosses 90 only if WS-A through WS-E all land. WS-F through WS-H are
-what give margin.
-
----
-
-## 3. Design decisions this plan commits to
-
-These are the three decisions that change the paper's shape. Everything else is execution.
-
-**D1. The gate's certified event is the tool-region contract, and the paper says so
-everywhere.** Eq. (4), Prop. 1, Alg. 2, the abstract, §5.1 and §7 state the bound for
-$W$ = "dispatched and the compiled region's replay or verifier contract was violated."
-End-to-end preservation is reported as an empirical held-out result with its own exact
-bound (currently 1/210, 2.2 %). An end-to-end *certificate* is then pursued as a separate,
-pre-registered experiment (WS-A2) whose data demands §5 computes. This resolves F1 without
-a single provider call and is the one change that cannot wait.
-
-**D2. The admission rule in the main text becomes a single pre-registered threshold.**
-With $|\mathcal{K}|=92$ the only certifiable coverages are 0 and 1, so the operative rule
-*already is* "dispatch on every guard-passing group." Writing the method that way removes
-$q$ and the grid from the main text, drops the Bonferroni factor from 11 to 1, and makes the
-zero-violation floor 45 groups ($m=1$) or 59 ($m=2$) instead of 92 or 106. The learned
-score and the graded-frontier protocol move to an appendix as the extension they are. For
-the already-run studies this is reported as a **sensitivity analysis** (the registered
-certificates stand as printed; the simplified design is one the retained tables cannot
-distinguish from the registered one because every admitted threshold had coverage 1). For
-every new run in this plan the single-threshold design is pre-registered and primary.
-
-**D3. Every new live study is small, pre-registered, and has a decision rule under which a
-null is a reportable result.** The repository already does this well. The plan adds no
-study whose only useful outcome is positive.
-
----
-
-## 4. Workstreams and task cards
-
-Priority: P0 = required for 90; P1 = required for margin; P2 = valuable if time permits.
-Track: **S** provider-free (writing or re-analysis of retained data), **L** live provider
-calls (each with a spend cap), **H** human time. Costs are list-price estimates from the
-retained per-record costs (baseline ≈ \$0.0008/record, discovery traces ≈ \$1–4 per family
-on OpenAI, more on Anthropic); every L task sets `--approved-spend-usd` at twice the
-estimate and stops there.
-
-### WS-A — Make the certificate say what it bounds (P0)
-
-**A1. Align text with implementation.** Track S. 1 day.
-- §2: redefine $W_A(G)$ as the tool-region contract event; keep $L$ as the reported
-  end-to-end quality metric but remove "the gate certifies end-to-end compliance under
-  substitution." Add one sentence: "the gate certifies the substituted region; the
-  continuation remains the model's and is measured, not certified."
-- §3 stage 6, Alg. 2 input line, Prop. 1 statement, App. A first paragraph, abstract
-  sentence 3, §5.1, §7: same change, same words.
-- App. C: add the exact definition of a violation as the code computes it
-  (`recorded_output_mismatch`, `recorded_output_missing`, `verifier:*`) and state that no
-  such event has been observed in any calibration pool, which is why every gate is
-  step-like. This converts F1 from a hidden inconsistency into a stated scope.
-- Done when: `grep -n "end-to-end" paper/iclr/sections/*.tex paper/iclr/appendix.tex`
-  returns only sentences that describe empirical results; `validate_artifacts.py` passes.
-
-**A2. End-to-end calibration labels, pre-registered.** Track L, ≈ \$2–6. 3 days incl. protocol.
-- Goal: the first certificate whose event includes the continuation.
-- Design: for each calibration group of issue-type routing (the $m=1$ family), dispatch the
-  retained artifact, run the unchanged continuation once, grade the exact contract; a miss
-  is a violation. Under D2 at 92 groups, $k=1$ admits at $m=1$ ($U=0.0416$) and $k\ge2$
-  retires. Pre-register both outcomes. If WS-C2's time-forward cohort lands first, run A2
-  on its larger pool instead (at 132 groups, $k\le3$ admits; §5).
-- Expected: the calibrated model misses excerpt fidelity on roughly 1–2 % of records, so
-  issue-type has a fair chance of admitting at 92 and a good chance at 132+. PR-outcome and
-  backlog ($m=2$) need 93 groups for $k=1$ and are run only on the time-forward pool.
-- Files: new `paper/supplementary/end-to-end-calibration-protocol.md`; new
-  `paper/scripts/end_to_end_calibration.py` (reuses the continuation harness in
-  `github_workflow_family_study.py`); results under
-  `paper/results/end_to_end_calibration/<family>/`.
-- Decision rule: report the per-family $k$, $n$, $U$ under D2 first; an admission is a
-  new sentence in §5.1; a retirement is a new row in the refusal narrative and the paper
-  states the pool size that would be needed.
-- Done when: results JSON is pinned by a new validator family and the table is generated,
-  not typed.
-
-### WS-B — Simplify the gate to the rule the evidence supports (P0)
-
-**B1. Single-threshold re-analysis of every retained gate table.** Track S. 1 day.
-- Recompute $U$ for the seven registered artifacts and the retained dominated candidates
-  from `compiler.artifact.gate.notes` with $\gamma=\delta$ ($m=1$) and $\gamma=\delta/2$
-  ($m=2$). Expected from the retained 92/0 tables: $U=0.0247$ and $0.032$. Also recompute
-  the cluster-level bounds of Table 17 under the same design: by day every family admits;
-  by author all three primary families admit ($0.0376$ at 82, $0.0487$ at 60 under $m=2$)
-  and only `streamlit/streamlit` (25 authors) retires.
-- Report as a sensitivity table in App. C ("Certificate under a single pre-registered
-  threshold"), with one honest paragraph: this design was not registered for these runs,
-  so the registered certificates are unchanged; it is adopted prospectively.
-- Files: extend `paper/scripts/iclr_revision_statistics.py` with a `single-threshold`
-  subcommand writing `paper/iclr/tables/single_threshold_sensitivity.tex`; add validator
-  checks; add the arithmetic to `paper/iclr/notes/number_registry.md`.
-
-**B2. Rewrite §3 stage 6 and Alg. 2 around the single threshold.** Track S. 2 days.
-- Main text: "Admission: dispatch on every group the hard guard and verifier accept;
-  admit iff the exact one-sided binomial upper bound on the tool-region violation rate
-  over $n$ calibration groups is $\le\alpha$ at confidence $1-\delta$, Bonferroni-split
-  over the $m$ candidates that reach calibration." One equation, one floor
-  ($n\ge45$ at $m=1$, $59$ at $m=2$, zero violations), Prop. 1 unchanged in substance
-  with $|\Lambda|=1$.
-- $q$, the grid, the gate-floor figure, and the graded-frontier material become App. C.2
-  "A selective extension and why these pools cannot exercise it."
-- Reclaims roughly 25 lines of page 6 for WS-E.
-- Done when: the main text contains no $\Lambda$, no 0.0498, and no 92 except in the
-  sensitivity sentence that says what the registered design required.
-
-**B3. Make D2 the default in code, behind a flag.** Track S. 1 day.
-- `grc/calibrate.py`: add `grid=("single",)` mode; the registered 11-point grid stays
-  available and is the recorded setting for the retained runs. Unit tests for both.
-
-### WS-C — Show, on held-out data, what the guards prevent (P0)
-
-**C1. Drift-robustness ablation on recorded GitHub traces.** Track L, ≈ \$3–8. 4 days.
-- The pre-registered protocol exists (`drift-robustness-ablation-protocol.md`) on the
-  deterministic demo substrate. Extend it, before any run, to the 90 primary held-out
-  records in recorded-replay mode: perturb the recorded tool outputs with the nine
-  metamorphic families already in `evaluation/perturb.py` (reorder, duplicate, formatting,
-  empty lists, null fields, schema drift, tool 4xx, timeout, pad lists).
-- Four arms on identical perturbed episodes: `compiled_guarded`, `compiled_unverified`
-  (same program, permissive verifier), `manual_unverified`, and `recurrence_only_replay`
-  (the arm the issue-type ablation used). The continuation is one provider call per
-  episode-arm; 90 × 9 × 4 = 3,240 calls at ≈ \$0.001.
-- Endpoints, fixed in advance: silent wrong answers (contract miss with no abstention)
-  per arm per family; clean abstentions followed by baseline success; the two-by-two
-  table guarded-vs-unverified on the same episodes with an exact McNemar test.
-- Decision rule: (i) guarded abstains where unverified answers wrongly on at least one
-  perturbation family, with McNemar $p<0.05$ pooled — the guards buy safety under drift,
-  priced by the clean-abstention rate; (ii) no difference anywhere — the paper states that
-  on these families the induced verifier has not been shown to add safety and the
-  guards' value rests on the retrospective hazards; (iii) guarded itself answers wrongly
-  under a perturbation — reported first, as an adverse finding.
-- Why this is the single most valuable experiment: it is the only one that can turn the
-  guards from a design argument into a measured result, and both outcomes are publishable.
-- Files: protocol update; new `paper/scripts/drift_robustness_ablation.py`; results under
-  `paper/results/drift_robustness/`; table `tables/drift_robustness.tex`; a results
-  figure (WS-E4).
-
-**C2. Time-forward cohort on the same three families.** Track L, ≈ \$10–25. 5 days.
-- Acquire a newer snapshot of the pinned repository (records created after the retained
-  snapshot's revision `e344be7b…`). Preflight, provider-free: count unused records per
-  class per family; the design is GO for a family only if it supplies ≥ 60 held-out
-  records class-balanced **and** ≥ 93 calibration groups with distinct creation days and
-  authors (so the cluster-level bound is primary, not a sensitivity), and NO-GO is
-  committed as a result otherwise. The retained NO-GO shows `open` PRs and `owned` backlog
-  issues are the scarce classes; expect issue-type and PR-outcome to be GO and backlog to
-  be the risk.
-- Arms: unchanged agent, retained artifact dispatched under its manifest pins (no
-  recompilation), hand-written program. This is the natural-drift test the paper currently
-  lacks: the artifact was calibrated on an older snapshot, so every guard clause and hull is
-  exercised against genuinely newer data.
-- Outputs: (a) time-forward preservation per family; (b) a fresh calibration pool that
-  gives compiler-wide certificates under D2 at $m=2$ (59 groups) and, if ≥106 groups, also
-  under the registered design, closing F2 without the discarded repair; (c) the pool WS-A2
-  uses for end-to-end labels; (d) the cluster-robust bound at distinct-day and
-  distinct-author units as the **primary** certificate.
-- Decision rule: compiled-only misses reported first; a guard-clause abstention rate above
-  20 % on held-out is reported as the price of pins; a family that retires at calibration
-  on the new pool is a result.
-- Files: `paper/supplementary/time-forward-cohort-protocol.md`; extend
-  `github_workflow_family_study.py` with `--snapshot` and `--frozen-artifact`; results under
-  `paper/results/github_workflow_families/<family>/time_forward/`.
-
-### WS-D — A second live domain (P1, the main source of margin)
-
-**D1. HMDA family under the frozen multidomain protocol.** Track L, ≈ \$10–30. 6 days.
-- 420 real, privacy-modified public HMDA groups pass independent provider-free gold
-  reconstruction with 416/420 variable paths; the runner (`multidomain_study.py`), the
-  frozen-protocol machinery, pricing manifest, and macro-approval gates exist; no provider
-  call has been made. Choose HMDA over vulnerability because vulnerability's 11 % variable
-  path makes compaction trivial.
-- Design: 132 discovery, 92 calibration (D2 primary), 60 held-out, class-balanced over the
-  record-interpretation outcomes the gold defines; the independently reviewed macro is
-  the manual comparator the protocol already requires. Candidate freezing on. Entry state
-  carries more than one integer, so this is also the first cohort where $q$ *could* vary
-  (report that observation in App. C.2 but make no frontier claim).
-- Why it moves the score: it is the first live family outside GitHub, outside one
-  snapshot, with a different tool vocabulary and answer contract, and it comes from a pool
-  large enough that A2's end-to-end labels tolerate $k\le3$ at 132 groups.
-- Decision rule: compile-or-retire reported as such; if HMDA retires at provenance or
-  synthesis (its paths are variable), that is a refusal result on a real-record domain and
-  belongs in §5.3's funnel as a fifth row.
-- Prerequisite: a human-signed macro approval file, which the protocol requires and which
-  only the author can supply.
-
-### WS-E — Rewrite for a reader who has nine pages (P0)
-
-**E1. Abstract.** Track S. One sentence each: problem, method rule, certified event (D1),
-headline live result (90/90 vs 89/90, 66.6 % fewer requests), transfer and refusal, one
-sentence on replications. Remove the 0.057 clause and the 90-unseen-vs-210 ambiguity.
-Six numbers maximum.
-
-**E2. Introduction.** Open with the general loop and the three obligations (grounding,
-effects, finite-sample risk) in plain language before any record number. Then #4420 and
-#6602 in one paragraph each with Figure 1 at full column width. Contributions reduced to
-three: (i) the admissibility cascade with a certified tool-region contract and refusal as
-the default output; (ii) live evidence: three families, time-forward, drift, two models,
-two providers, one second domain; (iii) calibrated refusal on four external substrates
-and the admissible-versus-dispatchable split.
-
-**E3. Numbers budget.** Cut the count of distinct numerals in §1–§7 by half. Every
-threshold, bound, and group count that is not a headline moves to App. C. A reader should
-leave §3 knowing: hard guards, bounded synthesis, exact zero-violation floor at 45/59
-groups, retire otherwise.
-
-**E4. One results figure in the main text.** Three panels: per-family resource reductions
-(exists as `family_reductions.pdf`), the refusal funnel across the five substrates (new,
-replaces part of Table 2's prose), and the drift result from C1 (silent-wrong versus
-clean-abstain per arm). Place on page 7 or 8 where Table 1 and Table 2 currently sit.
-
-**E5. Appendix diet.** From 27 tables to at most 14 in the PDF: keep proof, algorithms,
-configuration manifest, absolute resources, paired statistics, discordance, manual
-resources, funnel detail, AppWorld dispatch, second model, second provider, effective
-units, drift, time-forward. The four claims-register tables, the external evidence map,
-the gate profile, the multiplicity accounting, the prologue table, and the gate-frontier
-table move to the supplementary archive with a one-page index in the appendix. The
-appendix opens with a half-page reading guide.
-
-**E6. Terminology.** One glossary box (eight terms) at the start of §2: episode, group,
-family, candidate, region, program, artifact, prefix. Use each consistently; "compaction"
-for the runtime act, "compilation" for the offline act, never "specialization" except in
-the title's sense.
-
-**E7. Page budget.** B2 and E3 free roughly 35 lines; E4 costs about 20. Validate with the
-existing page-9 check.
-
-### WS-F — Related work and positioning (P1)
-
-**F1. Expand §6 to about 0.6 page in five threads**, with a four-column table (system;
-what it removes; admissibility decision; guarantee and fallback):
-1. Trace JITs, deoptimization, meta-tracing, partial evaluation: Dynamo, Hölzle, PyPy/Bolz,
-   Futamura, Jones–Gomard–Sestoft.
-2. Mining workflows from logs: process mining (van der Aalst), programming by
-   demonstration, program synthesis from traces; FlashFill and sketching stay.
-3. LLM agent reuse and caching: AWM, plan caching, EvoC2F, Agent JIT, FlowCompile,
-   AgentSlimming, GPTCache/semantic caching, speculative tool execution, skill libraries
-   (Voyager, SkillWeaver), DSPy/GEPA/Trace/TextGrad as optimizers of a different quantity.
-4. Selective prediction and distribution-free risk control: Geifman & El-Yaniv, Vovk et al.,
-   RCPS (Bates et al.), conformal risk control and LTT (Angelopoulos et al.),
-   Clopper–Pearson.
-5. Tool-use safety and effects: effect systems (Lucassen–Gifford), ToolEmu, AgentDojo,
-   τ-bench, and the benchmark line (BFCL, ToolLLM, AppWorld, NESTFUL, API-Bank).
-Target ≈ 45 references, each resolved and cited.
-
-**F2. Reword the novelty sentence** (F10): claim the admissibility composition and
-compile-or-retire discipline; cite LTT and Clopper–Pearson as the tools, not the
-contribution.
-
-### WS-G — Statistical hygiene (P1)
-
-**G1.** Replace "i.i.d." with "exchangeable" where that is the assumption actually needed
-and state the unit (record, day, author) at every bound; make the cluster-level bound at
-author units the primary certificate for every cohort where it admits under D2 (all three
-primary families), and the record-level bound the sensitivity.
-**G2.** Report the 1/210 compiled-only bound and the 4/60 Sonnet misses in one
-"end-to-end preservation" table so the empirical quality claim has one home.
-**G3.** One sentence on why McNemar $p=1$ with one discordant pair is not evidence of
-equivalence, which the text already implies but should say.
-
-### WS-H — Price manual authoring (P2)
-
-**H1. Timed authoring study.** Track H, 1–2 days of three to five engineers, \$0.
-Each writes the pre-model program for each family from the task specification and tool
-schemas alone; record time to first passing version against the exact contract on the 30
-held-out records, number of defects found by the contract, and whether the author
-declared a verifier. Then hand each program the C1 perturbations and count silent wrong
-answers. This is the measurement §7 currently replaces with "we do not price manual
-authoring." Even a small-$n$ result moves significance because it is the only missing side
-of the comparison the paper itself raises.
-
----
-
-## 5. Exact arithmetic the plan relies on
-
-Zero-violation and small-$k$ requirements, $\alpha=0.05$, $\delta=0.1$, one-sided exact
-binomial, Bonferroni over the grid and over $m$ candidates. Recomputed 2026-10-02 with
-`scipy.stats.beta.ppf`.
-
-Minimum admitted groups $n$ for $U\le\alpha$ with $k$ observed violations:
-
-| Design | $k=0$ | $k=1$ | $k=2$ | $k=3$ | $k=4$ |
-|---|---:|---:|---:|---:|---:|
-| Registered grid, $m=1$ ($\gamma=0.1/11$) | 92 | 133 | 168 | 200 | 231 |
-| Registered grid, $m=2$ ($\gamma=0.1/22$) | 106 | 148 | 185 | 218 | 251 |
-| Single threshold, $m=1$ ($\gamma=0.1$) | **45** | **77** | 105 | 132 | 158 |
-| Single threshold, $m=2$ ($\gamma=0.05$) | **59** | **93** | 124 | 153 | 181 |
-
-Upper bound $U$ at the retained $n=92$:
-
-| Design | $k=0$ | $k=1$ | $k=2$ |
-|---|---:|---:|---:|
-| Grid, $m=1$ | 0.0498 | 0.0711 | 0.0895 |
-| Grid, $m=2$ | 0.0569 | 0.0791 | 0.0981 |
-| Single, $m=1$ | 0.0247 | 0.0416 | 0.0568 |
-| Single, $m=2$ | 0.0320 | 0.0505 | 0.0669 |
-
-Cluster-level units from Table 17 under the single threshold, $k=0$ (admit iff $\le0.05$):
-
-| Cohort | Authors | $U$ ($m=1$) | $U$ ($m=2$) | Days | $U$ ($m=1$) |
-|---|---:|---:|---:|---:|---:|
-| Issue-type routing ($m=1$) | 82 | 0.0277 | — | 90 | 0.0253 |
-| PR-outcome audit ($m=2$) | 60 | — | 0.0487 | 86 | 0.0342 |
-| Backlog-attention routing ($m=2$) | 73 | — | 0.0402 | 87 | 0.0338 |
-| Core `streamlit/streamlit` ($m=1$) | 25 | 0.088 | — | 87 | 0.0261 |
-
-External substrates under the single threshold, $m=1$, $k=0$: NESTFUL $n_{\max}=26\to
-U=0.085$, BFCL $15\to0.142$, API-Bank $8\to0.250$ (all still retire); AppWorld
-$136\to0.017$. The refusal result survives D2 unchanged, which matters: the simplification
-does not buy admissions it should not.
-
----
-
-## 6. Schedule, tracks, and budget
-
-Today is 2026-10-02. The ICLR 2027 full-paper deadline (2026-09-25 AOE per the compliance
-checklist) has passed; the submission is in review under forum `DF0JaS58gr`. ICLR reviews
-typically release in the second week of November with author discussion through late
-November; verify the exact dates on the ICLR 2027 site before scheduling Phase 3. ICLR
-permits a revised PDF during discussion, so Phases 0–2 feed both the rebuttal and the
-revision; Phase 4 prepares the resubmission in case of rejection, where D2 becomes the
-method rather than a sensitivity analysis.
-
-| Phase | Dates | Tasks | Spend | Exit criterion |
-|---|---|---|---:|---|
-| 0 Provider-free | Oct 2 – Oct 16 | A1, B1, B2, B3, E1–E3, E5–E7, F1, F2, G1–G3; protocols for A2, C1, C2, D1 committed | \$0 | validator green; page 9 holds; four protocols pre-registered with spend caps |
-| 1 Cheap live | Oct 9 – Oct 23 | C1 drift replay; C2 preflight and acquisition; H1 scheduled | ≤ \$15 | C1 decision rule applied and written; C2 GO/NO-GO per family committed |
-| 2 Cohorts | Oct 23 – Nov 6 | C2 run; A2 on the C2 pool; D1 HMDA; E4 figure | ≤ \$60 | all results pinned by validator families; tables generated |
-| 3 Integrate | Nov 6 – Nov 13 | rewrite pass with results; appendix diet; number registry; rebuttal kit | \$0 | revised PDF built, anonymous, 9 pages; point-by-point response drafted from `reviewer_response_iclr2027.md` |
-| 4 Discussion / resubmission | Nov – Jan | respond; upload revision; if rejected, restructure under D2 for ICML 2027 (late January) | \$0 | — |
-
-Total provider spend cap: **\$100** at list prices. Human time: roughly 25 working days
-for one person plus the H1 engineers.
-
-Dependencies: A2 waits on C2 only for the larger pool (it can run on the retained 92
-issue-type groups immediately). D1 waits on the author's macro approval. E4 waits on C1.
-Everything in Phase 0 is independent and can start today.
-
----
-
-## 7. Score projection under outcomes
-
-| Scenario | Composite | Reading |
-|---|---:|---|
-| Phase 0 only (writing, D1, D2 sensitivity, related work) | 82 | Soundness and clarity fixed; evidence unchanged. ICLR 6. |
-| + C1 positive (guards abstain where unverified arms answer wrongly) | 86 | First held-out mechanism result. |
-| + C2 GO on ≥2 families with compiler-wide, cluster-robust certificates | 88 | F2 and F4 closed with data, not wording. |
-| + A2 admits on at least one family under end-to-end labels | 90 | The certificate finally covers the continuation. |
-| + D1 compiles or retires cleanly on HMDA | 91–93 | Second domain; one-snapshot objection answered. |
-| C1 null, everything else lands | 87–88 | Guards stay a design argument; the paper says so; still a clear improvement. |
-| C2 NO-GO on all families (snapshot cannot supply classes) | subtract 2 | Fall back to A2 on retained pools and D1 for the fresh calibration pool. |
-
-The honest floor of the plan is about 82 and its honest ceiling about 93. Crossing 90
-requires at least two of C1, C2, A2, D1 to land in their positive branch.
-
----
-
-## 8. What not to do
-
-- Do not run another same-cohort replication (third model, third provider). The
-  objection is one snapshot and one domain, not one model.
-- Do not add appendix tables. The appendix is a liability at 27; every new result replaces
-  an existing table or goes to the archive.
-- Do not pursue the AWO or any workflow-reuse head-to-head; the spike memo's no-go stands,
-  and the drift study is the internal comparison that answers the same question.
-- Do not extend the read-only prologue. The measurement already shows those architectures
-  do not execute the region.
-- Do not try to make $q$ rank. Demote it (D2) and let the graded-frontier protocol be
-  future work that a 184+ group pool could run.
-- Do not relitigate Headroom. One sentence in App. G is enough.
-- Do not change $\alpha$, $\delta$, cohorts, or decision rules after seeing results. D2 is
-  reported as a sensitivity analysis for retained runs precisely for that reason.
-
----
-
-## 9. Governance
-
-- One branch and one PR per workstream, using the repository template in full; request
-  review from the author; no Copilot review; never merge.
-- Every live study: protocol file committed before the first call, with design, cohorts,
-  arms, endpoints, decision rule, and spend cap; results in a new directory; retained
-  files never overwritten; failed and NO-GO outcomes committed.
-- Every number that enters the manuscript: a JSON key path or generating script recorded
-  in `paper/iclr/notes/number_registry.md`; a validator family pins it; tables are
-  generated, not typed.
-- Build and check order unchanged: analyses → `build_artifacts.py` → open-research build
-  with `--keep-logs` → ICLR build → `finalize_manifest.py` → `validate_artifacts.py`;
-  page-9 check; anonymity check; `build_anonymous_archive.py` refreshed.
-- Resolve F12 (the uncommitted protocol edit) before anything else is committed on top of
-  it.
-
----
-
-## 10. Appendix: reviewer concern → task map
-
-| Likely reviewer sentence | Finding | Tasks |
+| Scope | Feasibility | Completion evidence |
 |---|---|---|
-| "The theorem bounds an event that never happens; the misses you observe are outside it." | F1 | A1, A2 |
-| "Two of your three headline artifacts are not covered by the theorem you prove." | F2 | B1, B2, C2 |
-| "Why is there a learned score at all?" | F3 | B2, B3 |
-| "Your own cluster analysis retires every family." | F4 | B1, C2, G1 |
-| "Show me one held-out case where a guard prevented a wrong answer." | F5 | C1 |
-| "A hand-written function ties you; what is the compiler for?" | F6 | C1, H1 |
-| "One repository, one snapshot." | F7 | C2, D1 |
-| "I could not find the contribution in the first page." | F8 | E1–E7 |
-| "Related work is a paragraph." | F9 | F1, F2 |
-| "This is Clopper–Pearson plus a union bound." | F10 | F2, B2 |
+| Correct statistical scope, preserve registered results, improve writing | High; approximately 7–12 focused person-days | Consistent event definitions, evidence-linked claims, valid builds and checks |
+| Provider-free verifier ablation and recorded-trace extension | Moderate; approximately 4–7 additional person-days | Validated perturbation oracles, paired outcomes, null/adverse results retained |
+| Fresh time-forward cohort and end-to-end labels | Conditional; approximately 6–10 additional person-days after data GO | Compatible source, disjoint frozen splits, prospective labels and multiplicity accounting |
+| HMDA live study | Conditional; approximately 6–10 additional person-days after protocol and approval GO | Existing frozen design honored, action locks, budget ledger, validated results |
+| Manual-authoring pilot | Optional; recruitment and participant time extra | Separate development/test records, timed logs, descriptive limitations |
+
+These are planning ranges, not measured delivery estimates. The full scope is roughly
+23–39 focused person-days before participant time and integration contingency. Five
+calendar weeks is plausible for a bounded core, not a reliable part-time commitment to
+all extensions. A $100 provider cap is a constraint that may force studies to stop or defer.
+
+## 1. Findings verified for this revision
+
+The strongest existing direction remains evidence-gated compilation of recurrent read-only
+prefixes: recurrence proposes; provenance, effects, position and continuation constraints
+limit substitution; otherwise the system refuses or falls back. Keep manual-comparator
+parity, the distinction between admission and runtime dispatch, and negative results visible.
+
+| ID | Finding and evidence | Required correction |
+|---|---|---|
+| F1 | `paper/iclr/sections/problem.tex` says a downstream continuation error enters the certified loss. `_calibration_samples` in `grc/compile.py` only sets the clean calibration `violation` flag on missing or unequal recorded outputs after successful interpretation and verifier acceptance. | Align the theorem's instantiated event with the labels actually used. Downstream correctness is measured separately. |
+| F2 | The original plan incorrectly included `verifier:*` among counted violations. Verifier rejection sets `unproductive=True`, leaves `violation=False`, and represents abstention. `calibrate_gate` counts groups admitted by entry eligibility and score, including attempts that later abstain. | Preserve this numerator/denominator distinction; do not describe the bound as conditional on verifier success. |
+| F3 | Single-threshold arithmetic reduces the multiplicity penalty, but choosing that rule after inspecting the retained runs is retrospective. | Keep original grid certificates and per-candidate qualifications; label the alternative as sensitivity only. |
+| F4 | Effective-unit calculations count distinct days/authors; they do not establish independent identically distributed groups. Mere exchangeability is insufficient for the binomial model used by Clopper–Pearson. | Retain the i.i.d. assumption; describe cluster calculations as sensitivity unless a prospective cluster sampling model is justified. |
+| F5 | The existing drift protocol is provider-free, uses simulated workloads and three arms, and explicitly says its driver is unwritten. Its oracle concerns program outputs, not downstream answer correctness. | Implement that bounded study first; version any real-record or live extension separately. |
+| F6 | Nine perturbations on the same record do not create nine independent records. Several generic transforms may alter a GitHub task's truth or do nothing. | Validate applicability and task semantics; aggregate the primary contrast at record/group level. |
+| F7 | `github_workflow_family_study.py` is tied to `fixed.HF_REVISION` and has no `--snapshot` or `--frozen-artifact` interface. A dataset revision hash is not an issue creation timestamp. | Budget loader, schema, provenance, compatibility and timestamp work before promising time-forward execution. |
+| F8 | HMDA preflight validates 420 groups and 416 variable paths, but reports `protocol: null` and zero provider calls. The manifest allocates five study roles, unlike the original plan's three-way split. | Honor the existing design or explicitly version and refreeze a replacement before outcomes are observed. |
+| F9 | A verifier-null result, a domain retirement, and a live quality improvement answer different questions. | Do not award predetermined score gains or describe a refusal as evidence of live quality/savings. |
+| F10 | The proposed uncommitted second-provider protocol anomaly is absent in this checkout. Initial status contains only untracked `.claude/`. | Remove that stale blocker and preserve unrelated local files. |
+| F11 | ICLR releases reviews on November 5; public discussion and paper revisions end November 18. Substantial changes may be ignored by reviewers. | Integrate the core before November 5; keep method redesign separate from corrections to submitted claims. |
+| F12 | The original governance rule prohibited Copilot review, contrary to the current user instructions. | Request the user and, when available and appropriate, Copilot; never merge. |
+
+A zero observed replay-mismatch count is not proof that this event is impossible. The narrow
+label does, however, fail to measure continuation errors. Likewise, a cluster sensitivity
+that crosses the admission threshold shows sensitivity to assumptions, not proof that the
+i.i.d. assumption is false.
+
+## 2. Decisions and claim boundaries
+
+**D1 — Describe the implemented contract precisely.** For the clean replay calibration
+path, define entry dispatch eligibility using the frozen hard guard and score threshold.
+Among those eligible groups, a violation is a recorded-output mismatch or missing-output
+mismatch after the program and verifier succeed. A verifier rejection or interpreter
+failure is unproductive/abstaining, not a positive violation label in this path. Count a
+group once, with a violation if any eligible member has that label. State the conditional
+population, group unit and assumptions next to the guarantee. Audit runtime failures,
+clean fallback and incidents separately before expanding this event beyond the replay
+contract. Do not silently recategorize labels in retained results.
+
+**D2 — Preserve the registered method; test simplification prospectively.** Keep the
+11-point grid and its certificates as the method that produced the existing results. A
+single frozen acceptance rule is a useful prospective variant and a retrospective
+sensitivity, not a retroactive repair. The proposed rule attempts every hard-guard-eligible
+group; execution and verification can still abstain. Selecting only verifier successes
+would change the existing denominator. Freeze candidates, acceptance policy, grouping,
+endpoint and confidence allocation before using fresh calibration outcomes. Calibration-
+dependent candidate generation cannot be repaired merely by dividing delta by the number
+of surviving candidates.
+
+**D3 — Separate empirical quality from admission.** A paired compiled-only miss rate, an
+absolute answer-error rate, and a tool-region replay-error rate are different estimands.
+For example, a one-sided 95% binomial upper bound for 1/210 is 0.02239 under an appropriate
+i.i.d. model; it is not an end-to-end admission certificate, and 95% is different from the
+90% confidence used in the gate arithmetic. Do not pool heterogeneous cohorts/providers
+and call the resulting bound a common future-population guarantee.
+
+**D4 — Retain nulls and adverse outcomes.** Freeze protocols before the first study call.
+Do not expand a sample until it admits, choose a favorable cohort after labels are seen,
+or revise perturbations after observing arm differences. Failed runs, budget stops,
+unavailable actions and NO-GO decisions remain reportable evidence with their limitations.
+
+## 3. Workstreams
+
+Priority P0 is the core revision; P1 is a conditional extension; P2 is optional. Estimates
+are focused person-days. Provider-free does not mean effort-free. Proposed filenames and
+CLI options below are deliverables, not interfaces assumed to exist today.
+
+### WS-A — Align the guarantee with measured labels (P0 / P1)
+
+**A1. Scope correction and label audit — P0, 1–2 days, no provider spend.**
+
+- Trace `CalibrationSample.eligible`, `unproductive`, `violation` and `reason` through
+  `_calibration_samples`, `calibrate_gate`, runtime execution and the manuscript.
+- Update the problem definition, method, algorithms, proposition instantiation, appendix,
+  abstract, results and limitations consistently. Keep an end-to-end objective only if
+  explicitly separated from the narrower implemented certificate.
+- Show the clean-path cases: hard-guard rejection excluded from accepted groups; verifier
+  rejection and execution failure unproductive but not labeled violations; accepted replay
+  mismatch a violation; downstream answer error unmeasured by these labels.
+- Reconcile the runtime incident boundary without claiming that replay calibration measures
+  incidents it does not label. This may require a follow-up code fix and fresh calibration,
+  not a wording change alone.
+- Acceptance: reviewers can reconstruct numerator, denominator, confidence, sampling unit
+  and scope from the paper. Relevant label regression checks and artifact validation pass.
+  A text search alone is not a sufficient soundness check.
+
+**A2. End-to-end labels — P1, 3–5 days after data GO; provider cap $10.**
+
+- Pre-register a new endpoint that runs the continuation and grades an independently
+  defined answer contract. Decide explicitly whether errors after clean fallback count;
+  report overall system quality separately from risk conditional on an attempted dispatch.
+- Freeze artifact, model, prompt, grader, acceptance rule, sampling population, sample size
+  and candidate multiplicity. Use fresh disjoint calibration groups for confirmatory
+  claims. New labels on already-inspected calibration records are exploratory unless their
+  reuse is justified; they do not automatically create a new prospective certificate.
+- Reserve separate held-out test records. Select the pool before observing labels; C2
+  may supply it if available, but switching pools after observing results is prohibited.
+- Under the §5 assumptions, a fixed single candidate with 92 accepted groups admits at
+  `k <= 1`; with 132 accepted groups it admits at `k <= 3`. For two fixed candidates,
+  93 groups accommodate one violation. These are conditional arithmetic, not predictions.
+- Report counts, dispatch coverage, absolute errors, paired differences, exact bounds,
+  abstention/fallback costs and failures. A retirement remains a result. No assumed 1–2%
+  error rate is used to promise admission.
+- Deliverables: new end-to-end protocol, continuation-label driver, immutable result
+  directory, generated table and validator coverage.
+
+### WS-B — Evaluate a simpler admission rule (P0 sensitivity / P1 implementation)
+
+**B1. Retained-data sensitivity — P0, 1 day, no provider spend.**
+
+- Recompute candidate-level bounds with the grid penalty removed, retaining all tested
+  candidates and the appropriate multiplicity. Use retained group labels, not rounded
+  table values, to verify acceptance sets and counts.
+- Recompute day/author effective-unit sensitivities, including all seven cohorts. Distinct
+  counts alone do not establish independent clusters; neither an author nor a day analysis
+  handles both dependence structures automatically.
+- Label the output “Retrospective single-rule sensitivity; registered certificates
+  unchanged.” Add its generating script and number-registry references if it enters the
+  manuscript. Never promote a favorable author sensitivity into the primary certificate.
+
+**B2. Make the method understandable — P0, 1–2 days, no provider spend.**
+
+- Explain hard eligibility, attempted substitution, verifier abstention, counted mismatch
+  and exact admission in that order. Preserve the grid, multiplicity and 92/106-group
+  requirements where needed to explain retained results.
+- Describe the learned score's lack of demonstrated graded coverage. Move secondary
+  mechanics to the appendix without rewriting history or suppressing certificate limits.
+- Present single-rule admission as an optional prospective variant. Replacing the primary
+  method is a later research change, not necessary for the current scope correction.
+
+**B3. Optional single-rule mode — P1, 2–3 days, no provider spend.**
+
+- Keep the published default and serialized artifacts compatible. The current API accepts
+  `Sequence[float]`; `grid=("single",)` is invalid. Evaluate a numeric singleton such as
+  `(1.0,)` or an explicit policy mode after inspecting schema and runtime scoring.
+- Make selection explicit in compile configuration, runner CLI, serialized metadata and
+  runtime behavior. A singleton grid alone need not remove model fitting/scoring overhead.
+- Implement a frozen-candidate budget across the full tested set, not just a favorable
+  selected artifact. Record whether the guarantee is per candidate, within a family, or
+  simultaneous across families.
+- Test all-eligible acceptance, hard rejection, verifier abstention, zero accepted groups,
+  exact boundary counts, multiplicity, serialization, runtime parity and legacy replay.
+- Adopt as primary only for a new frozen protocol after these checks pass.
+
+### WS-C — Measure what the induced verifier prevents (P0 / P1)
+
+**C1a. Provider-free mechanism study — P0, 2–3 days.**
+
+- Implement `drift-robustness-ablation-protocol.md` on the five simulated workloads with
+  the existing three arms and 24-window cap. Retain the hard runtime boundary in every arm;
+  only the verifier differs in the principal contrast.
+- Before execution, amend its statistics to avoid treating repeated perturbations of one
+  episode as independent observations. Define each record/group's primary binary outcome
+  as any wrong output across its fixed applicable perturbation suite; compare the paired
+  group outcomes. Report per-transform counts descriptively. If records are dependent,
+  define independent groups first or keep inference explicitly exploratory.
+- Retain the protocol's two prespecified comparisons and Holm correction. Report exact
+  McNemar discordances, effect sizes, uncertainty and invariant-family over-abstention.
+  Zero discordances is a null, not equivalence. An adverse guarded result takes precedence.
+- Validate unperturbed oracles, inert permissive verifiers, identical arm cohorts, and
+  fail-closed state-delta handling. Label this simulated mechanism evidence only.
+
+**C1b. GitHub recorded-replay extension — P1, 2–4 days; provider-free first.**
+
+- Create a separate protocol before using the 90 previously evaluated primary records.
+  Call this a new stress analysis of retained records, not a new untouched held-out cohort.
+- Check each transform against each task contract. Reordering may change an ordered-excerpt
+  requirement; duplication may change counts; some transforms are no-ops. Declare the
+  oracle and applicability in advance. Report exclusions and no-ops, and preserve original
+  gold only where the task semantics warrant it.
+- Start with the same three arms. A fourth recurrence-only arm is optional and requires
+  its own justified contrast and multiplicity budget. The main comparison isolates the
+  verifier on a fixed program, not the entire guard system.
+- Program-output mismatches and abstentions are provider-free endpoints. A live continuation
+  extension is separate and capped at $15, with independent task grading and the same
+  perturbed tool environment available to fallback. Do not promise clean-baseline success
+  by silently giving fallback unperturbed tools.
+- `90 × 9 × 3 = 2,430` is an episode-arm count, not a provider-request count. Retries,
+  baseline fallback and multi-call continuation can increase requests. Measure the live
+  pilot before approving the full schedule; report paired group outcomes and costs.
+
+**C2. Time-forward cohort — P1, 6–10 days including acquisition/runner work;
+provider cap $25, conditional on provider-free GO.**
+
+- Identify a licensable, compatible newer source and an explicit record-creation cutoff.
+  Do not interpret the pinned dataset revision hash as a timestamp, or assume a refreshed
+  dataset necessarily contains new records. Reconstruct gold and deduplicate against all
+  discovery, development, calibration and evaluation records already used.
+- Freeze disjoint calibration and test sets, provenance, sampling/stratification policy and
+  class availability. A balanced cohort targets that designed mixture, not automatically
+  natural production prevalence. State the population of every claimed bound.
+- Audit source, prompt, tool, policy, schema, catalog and entry-state compatibility. With
+  the original artifact unchanged, pin or hull failures are valid abstentions; report
+  actual coverage. Never bypass a failed pin. If migration is required, derive a separately
+  identified artifact using only permitted development data, then recalibrate and evaluate
+  it as a different arm. Measure changed pins even if runtime compatibility excludes them.
+- Freeze the candidate set before fresh calibration. Plan sample sizes from accepted groups,
+  not raw acquired records: at zero violations D2 requires 45 groups for one fixed candidate
+  or 59 for two; 93 for two candidates with one violation. The original grid needs 106 for
+  two candidates with zero violations. Preserve an independent test set (target 60 records
+  per feasible family); do not reuse it for A2 calibration.
+- Distinct authors/days are diagnostics, not a cluster-robust certificate. If a defensible
+  independent cluster design is unavailable, report descriptive time-forward performance
+  and sensitivity. A later distribution shift remains outside any fixed-distribution bound.
+- GO requires usable data, enough eligible groups, frozen splits and demonstrated runner
+  support. Record NO-GO per family without predicting which scarce classes will replenish.
+- Deliverables: versioned protocol, snapshot adapter and artifact-loading support, gold
+  validation, compatibility preflight, and new result directories. C2 is not required to
+  finish the core paper correction.
+
+### WS-D — A second live domain (P1, conditional)
+
+**D1. HMDA under the existing study design — 6–10 days; provider cap $30.**
+
+HMDA is a reasonable candidate because its retained preflight reports 420 groups, correct
+independent gold reconstruction, and 416/420 variable paths. These are readiness signals,
+not demonstrated compiler support or live success. The alternative vulnerability domain
+has fewer variable paths; that alone does not make its scientific question trivial.
+
+- Use `benchmarks/manifests/multidomain-study.yaml`: 40 discovery, 30 development,
+  100 artifact-calibration, 75 portfolio-calibration, 100 test, and 75 reserve groups.
+  These total 420. Group identity for HMDA is `lei`; rows from one lender cannot be
+  relabeled as independent groups.
+- Preserve the manifest's statistical contract: artifact/portfolio risk limits of 0.10,
+  confidence settings of 0.99, noninferiority margin, repeats and portfolio endpoints.
+  The §5 alpha=0.05/delta=0.10 arithmetic does not certify this different design.
+- The retained preflight has no frozen protocol. Create and digest the protocol, pricing,
+  action identities and pools through existing machinery before any live calls. Preserve
+  separate artifact and portfolio calibration; discovery groups are not available for
+  A2 calibration simply because a different sample size would admit more errors.
+- If a narrower D2-only study is preferred, version it explicitly with new disjoint roles,
+  endpoint/risk/confidence definitions, runner/validator support and pre-registration. Do
+  not describe it as execution of the original frozen study.
+- Follow `multidomain_study.py` controls: `--protocol`, `--action-lock`, `--max-provider-usd`,
+  `--reservation-usd-per-execution`, bounded retries/requests/timeouts, and phase-specific
+  registry/policy inputs. A valid human macro approval must match schema, implementation,
+  catalog and evaluator/gold digests. Do not fabricate that approval.
+- Pilot only on designated reserve/pilot groups, estimate all remaining phases and repeats,
+  and proceed only if the cap accommodates them. Report compiler retirement, unavailable
+  arms and incomplete runs as such. A refusal supports a domain-boundary claim; live
+  preservation or savings requires a usable artifact and the corresponding evaluation.
+
+### WS-E — Improve the nine-page presentation (P0)
+
+**E1–E3. Abstract, introduction and method — 2–3 days jointly with B2.** Lead with the
+problem and the admissibility composition. Explain prefix, group and artifact before
+record-level examples. Keep the calibrated event and per-candidate limitations visible,
+including in the abstract when needed to qualify headline claims. Distinguish the original
+90-record primary evaluation from the extended evaluation. Do not insert future time-forward,
+drift or HMDA results before they exist. Use fewer numbers without hiding assumptions.
+
+**E4. Results figure — 1–2 days, conditional on plotted evidence.** Start with retained
+per-family resource reductions and refusal/dispatchability evidence. Add a drift panel only
+after C1 is validated, labeled by substrate. Use generated figures with explicit denominators;
+do not count an unrun domain as a fifth completed benchmark.
+
+**E5–E7. Appendix, terminology and page budget — 1–2 days.** Add a short reading guide and
+consistent terminology. Move secondary audit tables only when a stable, anonymous,
+versioned supplement retains their evidence paths. Keep proof assumptions, multiplicity,
+absolute resources and failure analyses easily reachable. Use readability and evidence
+access as the criterion, not an arbitrary 14-table ceiling. Rebuild and inspect the PDF;
+no assumed number of saved lines substitutes for the actual nine-page check.
+
+### WS-F — Position the contribution (P0, 1–2 days)
+
+Expand related work selectively around trace compilation/partial evaluation, workflow
+mining, agent reuse, risk-controlled prediction, and tool-use safety. Verify primary
+sources before attributing capabilities or claiming novelty. Use a compact comparison
+only if it clarifies what is reused, the admission rule, and fallback behavior. Reference
+counts are not a quality target. Credit Clopper–Pearson and risk-control methods as
+statistical tools; emphasize the admissibility composition and its demonstrated limits.
+
+### WS-G — Statistical reporting (P0, 1–2 days, coordinated with A/B/C)
+
+- Keep the i.i.d. Bernoulli/group assumption for the stated exact binomial bound; do not
+  substitute exchangeability without a different valid argument. For example, repeated
+  copies of a single Bernoulli outcome are exchangeable but supply only one independent
+  observation. See the [binomial interval model](https://arxiv.org/abs/1302.6659).
+- Predefine cluster formation, group-level outcomes, dispatch denominators and sampling
+  population for any cluster analysis. Crossed author/day dependence needs a justified
+  design; passing two separate count sensitivities does not solve it.
+- Keep risk conditional on a fixed population, accepted groups and frozen candidates
+  separate from robustness to shift. State family-wise versus per-family confidence.
+- Give absolute end-to-end errors and paired compiled-only errors separate columns and
+  denominators, split by family, cohort and provider. Recompute their bounds rather than
+  implying that the 1/210 and second-provider counts estimate one common risk.
+- Say explicitly that a nonsignificant McNemar result is not evidence of equivalence.
+  Predeclare noninferiority/equivalence designs when those are the intended claims.
+
+### WS-H — Manual-authoring pilot (P2)
+
+Recruit three to five engineers only if useful and available; track participant-hours and
+compensation separately from provider spend. Give task specifications, schemas and a
+separate development test set; do not expose the final 30 held-out records during authoring.
+Record time, defects and verifier choices; freeze each program before final clean/drift
+assessment. Counterbalance task order and report prior familiarity. This small convenience
+sample supports descriptive observations, not a general labor-cost or productivity claim.
+
+## 4. Dependencies and decision gates
+
+| Gate | Required evidence before proceeding | On failure |
+|---|---|---|
+| A1 scope audit | Labels and dispatch denominator match the instantiated claim | Correct wording; isolate any code/label repair requiring fresh evidence |
+| B3 prospective mode | Explicit policy, complete candidate budget, compatible serialization/runtime tests | Keep original grid; publish B1 sensitivity only |
+| C1 oracle/statistics | Valid perturbation semantics, paired independent groups or descriptive scope | Revise protocol before outcomes; report excluded/no-op transforms |
+| C2 data GO | New compatible source, independent roles, gold, coverage and class inventory | Commit NO-GO; do not delay core revision |
+| A2 confirmatory GO | Frozen endpoint/artifact and fresh eligible calibration groups | Exploratory labels only, or defer |
+| D1 execution GO | Frozen protocol/actions, valid human approval, pilot-supported budget | Provider-free preflight/refusal only, or defer |
+| Live budget GO | Enforced reservation, retries and aggregate caps | Stop/defer; do not silently double the allowance |
+| Publication GO | Generated evidence, valid manifests, readable anonymous PDF, human review | Keep PR open; no upload or merge by this plan |
+
+A1 precedes the final B2/E wording. C1 results precede a new drift figure. C2 may supply A2
+records only through the disjoint roles frozen in advance. D1 is independent of C2, but
+requires its own approval and protocol. These tasks are not all independent Phase-0 work.
+
+## 5. Recomputed admission arithmetic and its limits
+
+The following values use one-sided Clopper–Pearson bounds with `alpha=0.05`, `delta=0.10`,
+`gamma = delta / (grid_size * m)`, and independent identically distributed accepted group
+outcomes for a frozen rule. `m` is a valid, preallocated fixed candidate budget. These
+numbers are sample-size calculations, not evidence that a dataset meets the assumptions.
+
+Minimum accepted groups for `U <= 0.05`:
+
+| Design | k=0 | k=1 | k=2 | k=3 | k=4 |
+|---|---:|---:|---:|---:|---:|
+| Registered grid, m=1 | 92 | 133 | 168 | 200 | 231 |
+| Registered grid, m=2 | 106 | 148 | 185 | 218 | 251 |
+| Single rule, m=1 | 45 | 77 | 105 | 132 | 158 |
+| Single rule, m=2 | 59 | 93 | 124 | 153 | 181 |
+
+Upper bound at `n=92`:
+
+| Design | k=0 | k=1 | k=2 |
+|---|---:|---:|---:|
+| Grid, m=1 | 0.0498 | 0.0711 | 0.0895 |
+| Grid, m=2 | 0.0569 | 0.0791 | 0.0981 |
+| Single, m=1 | 0.0247 | 0.0416 | 0.0568 |
+| Single, m=2 | 0.0320 | 0.0505 | 0.0669 |
+
+Retrospective effective-unit sensitivity at zero violations, using counts from
+`paper/results/iclr_revision/effective_units.json`. Each cohort's stated candidate budget
+applies to both its author and day columns; results are not simultaneous across cohorts.
+
+| Cohort | m | Authors | U at authors | Days | U at days |
+|---|---:|---:|---:|---:|---:|
+| Issue-type routing | 1 | 82 | 0.0277 | 90 | 0.0253 |
+| PR-outcome audit | 2 | 60 | 0.0487 | 86 | 0.0342 |
+| Backlog-attention routing | 2 | 73 | 0.0402 | 87 | 0.0338 |
+| Core huggingface/datasets | 1 | 46 | 0.0488 | 80 | 0.0284 |
+| Core pandas-dev/pandas | 1 | 53 | 0.0425 | 92 | 0.0247 |
+| Core psf/requests | 1 | 79 | 0.0287 | 90 | 0.0253 |
+| Core streamlit/streamlit | 1 | 25 | 0.0880 | 87 | 0.0261 |
+
+These are hypothetical bounds under a single fixed rule and the corresponding group
+model. They are not new certificates for the already selected artifacts. Author-level risk
+also targets a different population from record-level risk. The original table's day-column
+heading incorrectly suggested m=1 for the two m=2 families; the values above use m consistently.
+
+External support ceilings under a hypothetical single rule and m=1 give `U=0.0848` at
+n=26 (NESTFUL), `0.1423` at n=15 (BFCL), and `0.2501` at n=8 (API-Bank); all exceed 0.05.
+For n=136, U is 0.0168 arithmetically, but the 136 AppWorld traces are not automatically
+136 eligible independent groups for one candidate. Preserve candidate-specific counts,
+provenance/effect barriers and dispatchability limits; raw totals do not establish admission.
+
+Reproduce the main tables with the existing SciPy dependency:
+
+```bash
+.venv/bin/python - <<'PY'
+from scipy.stats import beta
+for label, grid_size, m in (("grid/1", 11, 1), ("grid/2", 11, 2),
+                            ("single/1", 1, 1), ("single/2", 1, 2)):
+    confidence = 1 - 0.10 / (grid_size * m)
+    floors = [next(n for n in range(k + 1, 1000)
+                   if beta.ppf(confidence, k + 1, n - k) <= 0.05)
+              for k in range(5)]
+    bounds = [round(float(beta.ppf(confidence, k + 1, 92 - k)), 4)
+              for k in range(3)]
+    print(label, floors, bounds)
+PY
+```
+
+## 6. Schedule and budget
+
+Official dates checked 2026-10-02: full-paper deadline September 25; reviews and discussion
+start November 5; discussion ends November 18; decisions December 16.
+[ICLR 2027 dates](https://iclr.cc/Conferences/2027/Dates).
+
+The author guidelines permit revisions after reviews release and until November 18.
+Reviewers and area chairs may ignore changes significantly different from the original
+submission. Prepare scope corrections early; do not assume a wholesale method replacement
+will be assessed in this review cycle. Repository plans do not verify the submission's
+current forum status. [ICLR author guidelines](https://iclr.cc/Conferences/2027/AuthorGuidelines).
+
+| Window | Core deliverable | Conditional work |
+|---|---|---|
+| Oct 2–9 | A1 audit/correction; B1 sensitivity; C1 protocol/statistics amendment | C2 source inventory; D1 frozen-design and approval readiness |
+| Oct 9–23 | B2, E and F/G writing; C1a provider-free study | B3 and C1b only after their gates pass |
+| Oct 23–Nov 4 | Integrate validated results; build/QA; prepare evidence-linked response material | Choose a feasible A2/C2 or D1 extension; defer work that jeopardizes core completion |
+| Nov 5–18 | Respond to actual reviews; human-approved revision if warranted | Clearly identified supplementary results completed in time |
+| After review | Follow decision and next venue's verified rules | Broader method redesign, remaining domains, authoring pilot |
+
+Do not assume a next-venue deadline or dual-submission eligibility; verify them when a
+resubmission decision is made. No response text should invent reviewer concerns before
+reviews exist.
+
+Provider allocations, including each study's pilot and retries:
+
+| Item | Cap |
+|---|---:|
+| Core writing, arithmetic and provider-free C1 | $0 |
+| C1b optional live continuation | $15 |
+| C2 live evaluation | $25 |
+| A2 continuation labels | $10 |
+| D1 HMDA pilot and feasible subsequent phases | $30 |
+| Unallocated contingency, assigned explicitly before use | $20 |
+| **Aggregate maximum** | **$100** |
+
+These are proposed caps, not verified cost estimates or permission to execute paid studies
+as part of this document review. Retained prices are historical. Freeze current model IDs,
+pricing and token/request bounds before each study, reserve worst-case per-execution spend,
+and ledger failures and retries. The GitHub runner's existing `--approved-spend-usd` checks
+are specific to its Headroom path; implement and test general enforcement before relying
+on that flag elsewhere. Use the multidomain runner's actual controls for D1. If a complete
+confirmatory study cannot fit, defer it or preregister a smaller exploratory study before
+outcomes; do not call an incomplete sample confirmatory.
+
+## 7. Completion scenarios
+
+| Outcome | Supported conclusion |
+|---|---|
+| Core scope/writing work complete | A clearer, more defensible account of existing evidence; no new empirical guarantee |
+| C1 separates guarded and unverified arms | Verifier benefit under the declared perturbations and substrate, priced by abstention |
+| C1 null | No demonstrated verifier benefit in that experiment; no equivalence claim |
+| C1 adverse | Report the guarded failure first; investigate before making stronger claims |
+| C2 succeeds | Time-forward performance at observed coverage; certification only under justified prospective assumptions |
+| A2 admits | End-to-end bound for the frozen endpoint, rule and sampled population, with stated confidence/multiplicity |
+| D1 compiles and completes evaluation | Second-domain live evidence within the stated protocol |
+| D1 retires | Additional domain-boundary evidence, not live compaction quality or savings |
+| Data, approval or budget gate fails | Explicit NO-GO/defer; core revision remains deliverable |
+
+## 8. Scope limits
+
+- Do not replace existing results, defaults or certificates merely because the alternative
+  has a smaller multiplicity penalty.
+- Do not remove inconvenient abstract qualifications or move essential assumptions out of
+  reach to improve a subjective score.
+- Do not add models/providers without a new question; prioritize the guarantee mismatch,
+  mechanism evidence and population limits.
+- Do not claim that fixed pins establish shift robustness, or that relaxing pins preserves
+  the old certificate.
+- Do not tune alpha, delta, grouping, cohorts, rules or stopping conditions after outcomes.
+- Do not spend time on an arbitrary reference/table count or promise all extensions within
+  a part-time five-week schedule.
+
+## 9. Governance and validation
+
+- Every repository change uses a dedicated branch and PR, following the repository template
+  exactly. Split implementation into bounded dependent PRs where appropriate. Request the
+  user's review; request GitHub Copilot when code review is appropriate and available.
+  If GitHub prevents self-review or a reviewer is unavailable, report that limitation.
+  Address relevant review comments on the same PR; keep its description current.
+- Never merge or enable auto-merge. Leave completed PRs open for the user's final review.
+- The present PR changes this plan only. Subsequent code, manuscript and study work must
+  satisfy its own evidence, testing and review gates. Preserve `.claude/` and any unrelated
+  local work.
+- Commit each live protocol before execution, including immutable cohort IDs/digests,
+  candidate budgets, sampling units, arms, endpoints, stopping rules and enforced caps.
+  Write results to new directories; retain failures and NO-GO outcomes.
+- Every manuscript number needs a generating script or JSON key in the number registry;
+  generated tables, result evidence and manifests must agree. Do not silently rebuild
+  historical artifacts under a changed default.
+- For this plan-only edit: recompute arithmetic, verify referenced local interfaces and
+  authoritative dates, check Markdown references/fences and `git diff --check`. New code
+  tests and PDF regeneration are not applicable until implementation/manuscript changes.
+- For later manuscript changes: follow the repository build order (analyses,
+  `build_artifacts.py`, open-research build with logs, ICLR build, `finalize_manifest.py`,
+  `validate_artifacts.py`), then inspect page count/readability/anonymity and refresh the
+  anonymous archive as applicable. Await applicable PR checks and retain unresolved failures.
+
+## 10. Concern-to-task map
+
+| Reviewer concern | Tasks |
+|---|---|
+| The certificate does not measure the continuation | A1; prospective A2 |
+| Candidate/threshold search exceeds the guarantee | B1–B3; G |
+| The score has no demonstrated graded coverage | B2; optional B3 |
+| Dependence undermines the population interpretation | G; C2 sampling preflight |
+| The verifier has no measured benefit | C1a; conditional C1b |
+| Manual code ties, with unmeasured authoring cost | E limitations; optional H |
+| Evidence is tied to one snapshot/domain | Conditional C2 and D1 |
+| Contribution and evidence are difficult to follow | E and F |
