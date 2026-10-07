@@ -2960,6 +2960,54 @@ def validate_iclr_sources() -> None:
         ok("proposition 1" not in text and "corollary 2" not in text, "iclr: compiled PDF capitalizes theorem references")
 
 
+def validate_drift_ablation() -> None:
+    """Pin the provider-free drift-robustness ablation (protocol amended and executed 2026-10-06)."""
+
+    path = PAPER / "results/drift_ablation/results.json"
+    ok(path.exists(), "drift ablation: results present")
+    if not path.exists():
+        return
+    res = load(path)
+    ok(res.get("schema") == "agent-compaction-drift-ablation/v1", "drift ablation: schema")
+    ok(res.get("provider_calls_executed") == 0, "drift ablation: provider-free")
+    ok(res.get("arms") == ["compiled_guarded", "compiled_unverified"] and "not run" in str(res.get("manual_unverified")),
+       "drift ablation: two compiled arms; the manual arm is recorded as not run")
+    ok(len(res.get("perturbations", [])) == 9, "drift ablation: nine declared perturbation families")
+    demos = res.get("demos", {})
+    completed = [(d, a) for d, r in demos.items() for a, e in r.get("artifacts", {}).items() if e.get("status") == "completed"]
+    ok(len(completed) == 6 and {d for d, _ in completed} == {"support", "permissioned_rag", "fulfillment"},
+       "drift ablation: six artifacts over three demonstrations completed")
+    ok(demos.get("incident_triage", {}).get("status") == "no_admitted_artifact"
+       and demos.get("mcp_ops", {}).get("status") == "no_admitted_artifact",
+       "drift ablation: incident_triage and mcp_ops admit no artifact under the current compiler")
+    ok(all(r.get("splits_digest") == r.get("retained_splits_digest") for r in demos.values()),
+       "drift ablation: every demonstration reproduces the retained split digest")
+    for d, a in completed:
+        e = demos[d]["artifacts"][a]
+        ok(e.get("permissive_verifier_inert") is True and e.get("n_groups") == 24 and e.get("n_windows") == 24,
+           f"drift ablation: {d}/{a} permissive verifier inert, 24 groups, one window each")
+        ok(not any("state_delta" in h.get("kind", "") for arm in e["arms"].values() for h in arm.get("hard_rejects", [])),
+           f"drift ablation: {d}/{a} no sandbox state delta")
+        ok(all(arm["wrong_total"] == 0 for arm in e["arms"].values()), f"drift ablation: {d}/{a} zero wrong in both arms")
+    pooled = res.get("pooled", {})
+    ok(pooled.get("paired_groups") == 144 and pooled.get("guarded_only_wrong") == 0 and pooled.get("unverified_only_wrong") == 0
+       and pooled.get("both_wrong") == 0, "drift ablation: 144 paired groups, no discordant pair, no wrong group")
+    ok(abs(pooled.get("guarded_wrong_groups_upper95", 1) - 0.0206) < 5e-4, "drift ablation: upper bound 0.0206 on zero of 144")
+    ok(abs(pooled.get("invariant_abstention_rate", {}).get("compiled_guarded", 0) - 0.2477) < 5e-4
+       and pooled.get("invariant_abstention_rate", {}).get("compiled_unverified") == 0.0,
+       "drift ablation: pooled invariant-family abstention 0.2477 guarded, 0 unverified")
+    rag = demos.get("permissioned_rag", {}).get("artifacts", {})
+    ok(all(abs(e["arms"]["compiled_guarded"]["invariant_abstention_rate"] - 0.3333) < 5e-4 for e in rag.values()),
+       "drift ablation: permissioned_rag guarded invariant abstention 0.3333 on every artifact")
+    ok(res.get("decision") == "null:all_arms_zero_wrong", "drift ablation: decision rule reads the null")
+    protocol = (PAPER / "supplementary/drift-robustness-ablation-protocol.md").read_text(encoding="utf-8")
+    ok("EXECUTED on 2026-10-06" in protocol and "## Observed results" in protocol and "## Amendments before execution" in protocol,
+       "drift ablation: protocol carries the amendments and observed results")
+    appendix = (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8")
+    ok("144 paired groups" in appendix and "0.2477" in appendix and "0.3333" in appendix,
+       "drift ablation: appendix quotes the retained counts")
+
+
 FAMILIES: dict[str, Any] = {
     "sources": validate_sources,
     "live": validate_live,
@@ -2988,6 +3036,7 @@ FAMILIES: dict[str, Any] = {
     "bfcl_compiler": validate_bfcl_compiler,
     "slide_generation": validate_slide_generation,
     "slides": validate_slides,
+    "drift_ablation": validate_drift_ablation,
     "no_secrets": validate_no_secrets,
 }
 

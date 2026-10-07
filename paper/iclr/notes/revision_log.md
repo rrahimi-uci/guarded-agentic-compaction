@@ -228,3 +228,17 @@ the heading "Retrospective single-rule sensitivity; registered certificates unch
 registered grid certificates are untouched; the validator regenerates the new table and the
 statistics tests pin the floors (45/59, 77/93), the $n=92$ bounds (0.0247/0.0320), and the
 cluster values. Appendix only; main-text pagination unchanged.
+## Drift-robustness ablation executed (2026-10-06, branch `paper/c1a-drift-ablation`)
+
+Workstream C1a of `proposal-90.md`. `run_perturbations` gained an optional per-(perturbation,
+window) `trace` (counts unchanged). New driver `paper/scripts/drift_ablation_study.py`
+reproduces each demonstration's sealed compile, mines the sealed test split's windows for every
+admitted family, checks the permissive verifier is inert, runs the two compiled arms over
+identical windows, and pairs outcomes at group level. Protocol amended before execution (manual
+arm not run: the demonstration comparators are not IR programs; group-level unit; one window per
+group; family-level reproduction check) and its observed results appended. Outcome: the
+pre-declared null (144 paired groups, zero wrong in both arms, guarded invariant-family
+abstention 0.2477 pooled, 0.3333 on `permissioned_rag`). Reported in Appendix G and the claims
+register part D; validator family `drift_ablation` pins the counts. Reproducibility finding:
+`incident_triage` admits no artifact under the current compiler (two in the 2026-08 run).
+Appendix only; main-text pagination unchanged.

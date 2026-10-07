@@ -1,0 +1,2671 @@
+{
+  "arms": [
+    "compiled_guarded",
+    "compiled_unverified"
+  ],
+  "decision": "null:all_arms_zero_wrong",
+  "demos": {
+    "fulfillment": {
+      "admitted_artifact_ids": [
+        "cand-04-9db61fc97412"
+      ],
+      "artifacts": {
+        "cand-04-9db61fc97412": {
+          "arms": {
+            "compiled_guarded": {
+              "group_outcomes": {
+                "order:t_northwind:ORD-2026-000009": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000020": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000026": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000037": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000052": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000072": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000079": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000082": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000106": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000120": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000121": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000122": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000125": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000127": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000147": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000157": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000159": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000162": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000171": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000172": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000198": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000224": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000253": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000265": {
+                  "applicable": 9,
+                  "wrong": false
+                }
+              },
+              "hard_rejects": [],
+              "invariant_abstention_rate": 0.0833,
+              "invariant_n": 72,
+              "per_perturbation": {
+                "duplicate_record": {
+                  "abstention_rate": 0.25,
+                  "expect": "invariant",
+                  "family": "duplicates",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 18,
+                  "verifier_abstained": 6
+                },
+                "empty_lists": {
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "empty_collections",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "verifier_abstained": 24
+                },
+                "formatting": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "irrelevant_formatting",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "null_fields": {
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "nulls",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "verifier_abstained": 24
+                },
+                "pad_lists": {
+                  "abstention_rate": 0.625,
+                  "expect": "either",
+                  "family": "large_collections",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 9,
+                  "verifier_abstained": 15
+                },
+                "reorder_lists": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "reordering",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "schema_drift": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "schema_drift",
+                  "mode": "sandbox",
+                  "n": 24
+                },
+                "tool_4xx": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "tool_error",
+                  "mode": "sandbox",
+                  "n": 24
+                },
+                "tool_timeout": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "timeout",
+                  "mode": "sandbox",
+                  "n": 24
+                }
+              },
+              "wrong_groups": [],
+              "wrong_total": 0
+            },
+            "compiled_unverified": {
+              "group_outcomes": {
+                "order:t_northwind:ORD-2026-000009": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000020": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000026": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000037": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000052": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000072": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000079": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000082": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000106": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000120": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000121": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000122": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000125": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000127": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000147": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000157": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000159": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000162": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000171": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000172": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000198": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000224": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000253": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "order:t_northwind:ORD-2026-000265": {
+                  "applicable": 9,
+                  "wrong": false
+                }
+              },
+              "hard_rejects": [],
+              "invariant_abstention_rate": 0.0,
+              "invariant_n": 72,
+              "per_perturbation": {
+                "duplicate_record": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "duplicates",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "empty_lists": {
+                  "abstention_rate": 0.0,
+                  "expect": "abstain",
+                  "family": "empty_collections",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "formatting": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "irrelevant_formatting",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "null_fields": {
+                  "abstention_rate": 0.0,
+                  "expect": "abstain",
+                  "family": "nulls",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "pad_lists": {
+                  "abstention_rate": 0.0,
+                  "expect": "either",
+                  "family": "large_collections",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "reorder_lists": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "reordering",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "schema_drift": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "schema_drift",
+                  "mode": "sandbox",
+                  "n": 24
+                },
+                "tool_4xx": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "tool_error",
+                  "mode": "sandbox",
+                  "n": 24
+                },
+                "tool_timeout": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "timeout",
+                  "mode": "sandbox",
+                  "n": 24
+                }
+              },
+              "wrong_groups": [],
+              "wrong_total": 0
+            }
+          },
+          "artifact": "issue_ops_token.get.region@9db61fc9",
+          "candidate_id": "cand-04-9db61fc97412",
+          "family_hash": "9db61fc97412",
+          "family_windows_available": 386,
+          "n_groups": 24,
+          "n_windows": 24,
+          "names": [
+            "ops",
+            "get",
+            "page"
+          ],
+          "paired_groups": {
+            "both_wrong": 0,
+            "guarded_only_wrong": 0,
+            "guarded_wrong_upper95": 0.11734615615494873,
+            "mcnemar_exact_p": 1.0,
+            "n": 24,
+            "unverified_only_wrong": 0,
+            "unverified_wrong_upper95": 0.11734615615494873
+          },
+          "partition": null,
+          "permissive_verifier_inert": true,
+          "status": "completed",
+          "test_episodes": 653,
+          "tools": [
+            "auth.issue_ops_token",
+            "orders.get",
+            "shipments.list_page"
+          ],
+          "unperturbed_ok_windows": 24,
+          "window_digest": "8967813d435fe366"
+        }
+      },
+      "compile_s": 23.62,
+      "demo": "fulfillment",
+      "elapsed_s": 28.5,
+      "family_match": {
+        "families_now": [
+          "9db61fc97412"
+        ],
+        "families_retained": [
+          "9db61fc97412"
+        ],
+        "identical_ids": false,
+        "missing_now": [],
+        "new_now": [],
+        "same_families": true
+      },
+      "n_episodes": 3000,
+      "notes": [],
+      "rejection_by_stage": {
+        "calibrate:retire": 2,
+        "challenge:hard_reject": 4,
+        "select:dominated": 1,
+        "synthesize:loop_predicate_unsynthesizable": 2
+      },
+      "retained_artifact_ids": [
+        "cand-03-9db61fc97412"
+      ],
+      "retained_splits_digest": "f98097be1511b4dd",
+      "splits": {
+        "calibration": 156,
+        "dev": 156,
+        "shadow": 87,
+        "test": 196,
+        "train": 274
+      },
+      "splits_digest": "f98097be1511b4dd",
+      "status": "completed"
+    },
+    "incident_triage": {
+      "admitted_artifact_ids": [],
+      "artifacts": {},
+      "compile_s": 8.51,
+      "demo": "incident_triage",
+      "family_match": {
+        "families_now": [],
+        "families_retained": [
+          "9452e5778bf6",
+          "c294df28f7a6"
+        ],
+        "identical_ids": false,
+        "missing_now": [
+          "9452e5778bf6",
+          "c294df28f7a6"
+        ],
+        "new_now": [],
+        "same_families": false
+      },
+      "n_episodes": 3000,
+      "notes": [],
+      "rejection_by_stage": {},
+      "retained_artifact_ids": [
+        "cand-00-9452e5778bf6",
+        "cand-01-c294df28f7a6"
+      ],
+      "retained_splits_digest": "b73a6d0df03025c0",
+      "splits": {
+        "calibration": 411,
+        "dev": 411,
+        "shadow": 229,
+        "test": 515,
+        "train": 720
+      },
+      "splits_digest": "b73a6d0df03025c0",
+      "status": "no_admitted_artifact"
+    },
+    "mcp_ops": {
+      "admitted_artifact_ids": [],
+      "artifacts": {},
+      "compile_s": 61.03,
+      "demo": "mcp_ops",
+      "family_match": {
+        "families_now": [],
+        "families_retained": [],
+        "identical_ids": true,
+        "missing_now": [],
+        "new_now": [],
+        "same_families": true
+      },
+      "n_episodes": 4000,
+      "notes": [],
+      "rejection_by_stage": {
+        "calibrate:retire": 7
+      },
+      "retained_artifact_ids": [],
+      "retained_splits_digest": "25c7a8fb3e5724e2",
+      "splits": {
+        "calibration": 348,
+        "dev": 348,
+        "shadow": 193,
+        "test": 436,
+        "train": 609
+      },
+      "splits_digest": "25c7a8fb3e5724e2",
+      "status": "no_admitted_artifact"
+    },
+    "permissioned_rag": {
+      "admitted_artifact_ids": [
+        "cand-01-2bd979e8666f-63a62eac",
+        "cand-01-2bd979e8666f-cff1b080",
+        "cand-02-2bd979e8666f-51a098b9",
+        "cand-02-2bd979e8666f-bec8e9f6"
+      ],
+      "artifacts": {
+        "cand-01-2bd979e8666f-63a62eac": {
+          "arms": {
+            "compiled_guarded": {
+              "group_outcomes": {
+                "q:finance:badge_access_011": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:badge_access_025": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:badge_access_029": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:badge_access_030": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:badge_access_032": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:badge_access_048": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:badge_access_049": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:data_retention_005": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:data_retention_008": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:data_retention_009": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:data_retention_011": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:data_retention_014": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:data_retention_020": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:data_retention_026": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:data_retention_029": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:data_retention_043": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:data_retention_049": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:expense_policy_001": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:expense_policy_012": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:expense_policy_013": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:expense_policy_020": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:expense_policy_022": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:expense_policy_024": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:expense_policy_026": {
+                  "applicable": 9,
+                  "wrong": false
+                }
+              },
+              "hard_rejects": [],
+              "invariant_abstention_rate": 0.3333,
+              "invariant_n": 72,
+              "per_perturbation": {
+                "duplicate_record": {
+                  "abstention_rate": 1.0,
+                  "expect": "invariant",
+                  "family": "duplicates",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "verifier_abstained": 24
+                },
+                "empty_lists": {
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "empty_collections",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "verifier_abstained": 24
+                },
+                "formatting": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "irrelevant_formatting",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "null_fields": {
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "nulls",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "verifier_abstained": 24
+                },
+                "pad_lists": {
+                  "abstention_rate": 1.0,
+                  "expect": "either",
+                  "family": "large_collections",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "verifier_abstained": 24
+                },
+                "reorder_lists": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "reordering",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "schema_drift": {
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "schema_drift",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "verifier_abstained": 24
+                },
+                "tool_4xx": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "tool_error",
+                  "mode": "sandbox",
+                  "n": 24
+                },
+                "tool_timeout": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "timeout",
+                  "mode": "sandbox",
+                  "n": 24
+                }
+              },
+              "wrong_groups": [],
+              "wrong_total": 0
+            },
+            "compiled_unverified": {
+              "group_outcomes": {
+                "q:finance:badge_access_011": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:badge_access_025": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:badge_access_029": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:badge_access_030": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:badge_access_032": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:badge_access_048": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:badge_access_049": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:data_retention_005": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:data_retention_008": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:data_retention_009": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:data_retention_011": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:data_retention_014": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:data_retention_020": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:data_retention_026": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:data_retention_029": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:data_retention_043": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:data_retention_049": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:expense_policy_001": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:expense_policy_012": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:expense_policy_013": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:expense_policy_020": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:expense_policy_022": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:expense_policy_024": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:finance:expense_policy_026": {
+                  "applicable": 9,
+                  "wrong": false
+                }
+              },
+              "hard_rejects": [],
+              "invariant_abstention_rate": 0.0,
+              "invariant_n": 72,
+              "per_perturbation": {
+                "duplicate_record": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "duplicates",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "empty_lists": {
+                  "abstention_rate": 0.0,
+                  "expect": "abstain",
+                  "family": "empty_collections",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "formatting": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "irrelevant_formatting",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "null_fields": {
+                  "abstention_rate": 0.0,
+                  "expect": "abstain",
+                  "family": "nulls",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "pad_lists": {
+                  "abstention_rate": 0.0,
+                  "expect": "either",
+                  "family": "large_collections",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "reorder_lists": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "reordering",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "schema_drift": {
+                  "abstention_rate": 0.0,
+                  "expect": "abstain",
+                  "family": "schema_drift",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "tool_4xx": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "tool_error",
+                  "mode": "sandbox",
+                  "n": 24
+                },
+                "tool_timeout": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "timeout",
+                  "mode": "sandbox",
+                  "n": 24
+                }
+              },
+              "wrong_groups": [],
+              "wrong_total": 0
+            }
+          },
+          "artifact": "check_scope.version.region@2bd979e8",
+          "candidate_id": "cand-01-2bd979e8666f-63a62eac",
+          "family_hash": "2bd979e8666f",
+          "family_windows_available": 306,
+          "n_groups": 24,
+          "n_windows": 24,
+          "names": [
+            "scop",
+            "vers",
+            "embe"
+          ],
+          "paired_groups": {
+            "both_wrong": 0,
+            "guarded_only_wrong": 0,
+            "guarded_wrong_upper95": 0.11734615615494873,
+            "mcnemar_exact_p": 1.0,
+            "n": 24,
+            "unverified_only_wrong": 0,
+            "unverified_wrong_upper95": 0.11734615615494873
+          },
+          "partition": {
+            "policy_version": "pol-1",
+            "principal": "role.finance",
+            "tenant_partition": "acme"
+          },
+          "permissive_verifier_inert": true,
+          "status": "completed",
+          "test_episodes": 332,
+          "tools": [
+            "acl.check_scope",
+            "index.version",
+            "search.embed"
+          ],
+          "unperturbed_ok_windows": 24,
+          "window_digest": "451d12f3ffffdf54"
+        },
+        "cand-01-2bd979e8666f-cff1b080": {
+          "arms": {
+            "compiled_guarded": {
+              "group_outcomes": {
+                "q:sales:badge_access_007": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:badge_access_010": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:badge_access_013": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:badge_access_014": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:badge_access_023": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:badge_access_024": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:badge_access_025": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:badge_access_034": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:badge_access_035": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:badge_access_038": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:badge_access_043": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:data_retention_000": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:data_retention_003": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:data_retention_005": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:data_retention_009": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:data_retention_010": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:data_retention_014": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:data_retention_024": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:data_retention_028": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:data_retention_030": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:data_retention_038": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:data_retention_043": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:data_retention_044": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:expense_policy_002": {
+                  "applicable": 9,
+                  "wrong": false
+                }
+              },
+              "hard_rejects": [],
+              "invariant_abstention_rate": 0.3333,
+              "invariant_n": 72,
+              "per_perturbation": {
+                "duplicate_record": {
+                  "abstention_rate": 1.0,
+                  "expect": "invariant",
+                  "family": "duplicates",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "verifier_abstained": 24
+                },
+                "empty_lists": {
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "empty_collections",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "verifier_abstained": 24
+                },
+                "formatting": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "irrelevant_formatting",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "null_fields": {
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "nulls",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "verifier_abstained": 24
+                },
+                "pad_lists": {
+                  "abstention_rate": 1.0,
+                  "expect": "either",
+                  "family": "large_collections",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "verifier_abstained": 24
+                },
+                "reorder_lists": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "reordering",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "schema_drift": {
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "schema_drift",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "verifier_abstained": 24
+                },
+                "tool_4xx": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "tool_error",
+                  "mode": "sandbox",
+                  "n": 24
+                },
+                "tool_timeout": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "timeout",
+                  "mode": "sandbox",
+                  "n": 24
+                }
+              },
+              "wrong_groups": [],
+              "wrong_total": 0
+            },
+            "compiled_unverified": {
+              "group_outcomes": {
+                "q:sales:badge_access_007": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:badge_access_010": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:badge_access_013": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:badge_access_014": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:badge_access_023": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:badge_access_024": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:badge_access_025": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:badge_access_034": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:badge_access_035": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:badge_access_038": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:badge_access_043": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:data_retention_000": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:data_retention_003": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:data_retention_005": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:data_retention_009": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:data_retention_010": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:data_retention_014": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:data_retention_024": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:data_retention_028": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:data_retention_030": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:data_retention_038": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:data_retention_043": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:data_retention_044": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:sales:expense_policy_002": {
+                  "applicable": 9,
+                  "wrong": false
+                }
+              },
+              "hard_rejects": [],
+              "invariant_abstention_rate": 0.0,
+              "invariant_n": 72,
+              "per_perturbation": {
+                "duplicate_record": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "duplicates",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "empty_lists": {
+                  "abstention_rate": 0.0,
+                  "expect": "abstain",
+                  "family": "empty_collections",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "formatting": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "irrelevant_formatting",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "null_fields": {
+                  "abstention_rate": 0.0,
+                  "expect": "abstain",
+                  "family": "nulls",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "pad_lists": {
+                  "abstention_rate": 0.0,
+                  "expect": "either",
+                  "family": "large_collections",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "reorder_lists": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "reordering",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "schema_drift": {
+                  "abstention_rate": 0.0,
+                  "expect": "abstain",
+                  "family": "schema_drift",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "tool_4xx": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "tool_error",
+                  "mode": "sandbox",
+                  "n": 24
+                },
+                "tool_timeout": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "timeout",
+                  "mode": "sandbox",
+                  "n": 24
+                }
+              },
+              "wrong_groups": [],
+              "wrong_total": 0
+            }
+          },
+          "artifact": "check_scope.version.region@2bd979e8",
+          "candidate_id": "cand-01-2bd979e8666f-cff1b080",
+          "family_hash": "2bd979e8666f",
+          "family_windows_available": 376,
+          "n_groups": 24,
+          "n_windows": 24,
+          "names": [
+            "scop",
+            "vers",
+            "embe"
+          ],
+          "paired_groups": {
+            "both_wrong": 0,
+            "guarded_only_wrong": 0,
+            "guarded_wrong_upper95": 0.11734615615494873,
+            "mcnemar_exact_p": 1.0,
+            "n": 24,
+            "unverified_only_wrong": 0,
+            "unverified_wrong_upper95": 0.11734615615494873
+          },
+          "partition": {
+            "policy_version": "pol-1",
+            "principal": "role.sales",
+            "tenant_partition": "acme"
+          },
+          "permissive_verifier_inert": true,
+          "status": "completed",
+          "test_episodes": 399,
+          "tools": [
+            "acl.check_scope",
+            "index.version",
+            "search.embed"
+          ],
+          "unperturbed_ok_windows": 24,
+          "window_digest": "810c9f9343d14703"
+        },
+        "cand-02-2bd979e8666f-51a098b9": {
+          "arms": {
+            "compiled_guarded": {
+              "group_outcomes": {
+                "q:support:badge_access_000": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:badge_access_002": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:badge_access_008": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:badge_access_009": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:badge_access_012": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:badge_access_017": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:badge_access_022": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:badge_access_031": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:badge_access_037": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:badge_access_038": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_000": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_006": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_010": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_015": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_028": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_029": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_031": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_033": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_039": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_043": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_044": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_046": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_048": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:expense_policy_001": {
+                  "applicable": 9,
+                  "wrong": false
+                }
+              },
+              "hard_rejects": [],
+              "invariant_abstention_rate": 0.3333,
+              "invariant_n": 72,
+              "per_perturbation": {
+                "duplicate_record": {
+                  "abstention_rate": 1.0,
+                  "expect": "invariant",
+                  "family": "duplicates",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "verifier_abstained": 24
+                },
+                "empty_lists": {
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "empty_collections",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "verifier_abstained": 24
+                },
+                "formatting": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "irrelevant_formatting",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "null_fields": {
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "nulls",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "verifier_abstained": 24
+                },
+                "pad_lists": {
+                  "abstention_rate": 1.0,
+                  "expect": "either",
+                  "family": "large_collections",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "verifier_abstained": 24
+                },
+                "reorder_lists": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "reordering",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "schema_drift": {
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "schema_drift",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "verifier_abstained": 24
+                },
+                "tool_4xx": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "tool_error",
+                  "mode": "sandbox",
+                  "n": 24
+                },
+                "tool_timeout": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "timeout",
+                  "mode": "sandbox",
+                  "n": 24
+                }
+              },
+              "wrong_groups": [],
+              "wrong_total": 0
+            },
+            "compiled_unverified": {
+              "group_outcomes": {
+                "q:support:badge_access_000": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:badge_access_002": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:badge_access_008": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:badge_access_009": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:badge_access_012": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:badge_access_017": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:badge_access_022": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:badge_access_031": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:badge_access_037": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:badge_access_038": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_000": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_006": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_010": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_015": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_028": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_029": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_031": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_033": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_039": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_043": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_044": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_046": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:data_retention_048": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:support:expense_policy_001": {
+                  "applicable": 9,
+                  "wrong": false
+                }
+              },
+              "hard_rejects": [],
+              "invariant_abstention_rate": 0.0,
+              "invariant_n": 72,
+              "per_perturbation": {
+                "duplicate_record": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "duplicates",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "empty_lists": {
+                  "abstention_rate": 0.0,
+                  "expect": "abstain",
+                  "family": "empty_collections",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "formatting": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "irrelevant_formatting",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "null_fields": {
+                  "abstention_rate": 0.0,
+                  "expect": "abstain",
+                  "family": "nulls",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "pad_lists": {
+                  "abstention_rate": 0.0,
+                  "expect": "either",
+                  "family": "large_collections",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "reorder_lists": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "reordering",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "schema_drift": {
+                  "abstention_rate": 0.0,
+                  "expect": "abstain",
+                  "family": "schema_drift",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "tool_4xx": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "tool_error",
+                  "mode": "sandbox",
+                  "n": 24
+                },
+                "tool_timeout": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "timeout",
+                  "mode": "sandbox",
+                  "n": 24
+                }
+              },
+              "wrong_groups": [],
+              "wrong_total": 0
+            }
+          },
+          "artifact": "check_scope.version.region@2bd979e8",
+          "candidate_id": "cand-02-2bd979e8666f-51a098b9",
+          "family_hash": "2bd979e8666f",
+          "family_windows_available": 323,
+          "n_groups": 24,
+          "n_windows": 24,
+          "names": [
+            "scop",
+            "vers",
+            "embe"
+          ],
+          "paired_groups": {
+            "both_wrong": 0,
+            "guarded_only_wrong": 0,
+            "guarded_wrong_upper95": 0.11734615615494873,
+            "mcnemar_exact_p": 1.0,
+            "n": 24,
+            "unverified_only_wrong": 0,
+            "unverified_wrong_upper95": 0.11734615615494873
+          },
+          "partition": {
+            "policy_version": "pol-1",
+            "principal": "role.support",
+            "tenant_partition": "acme"
+          },
+          "permissive_verifier_inert": true,
+          "status": "completed",
+          "test_episodes": 349,
+          "tools": [
+            "acl.check_scope",
+            "index.version",
+            "search.embed"
+          ],
+          "unperturbed_ok_windows": 24,
+          "window_digest": "69b6171104184296"
+        },
+        "cand-02-2bd979e8666f-bec8e9f6": {
+          "arms": {
+            "compiled_guarded": {
+              "group_outcomes": {
+                "q:engineering:badge_access_003": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:badge_access_006": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:badge_access_009": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:badge_access_021": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:badge_access_023": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:badge_access_024": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:badge_access_025": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:badge_access_026": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:badge_access_030": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:badge_access_033": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:badge_access_040": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:badge_access_045": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:badge_access_047": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:data_retention_003": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:data_retention_008": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:data_retention_012": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:data_retention_022": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:data_retention_033": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:data_retention_037": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:data_retention_040": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:data_retention_048": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:expense_policy_002": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:expense_policy_007": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:expense_policy_009": {
+                  "applicable": 9,
+                  "wrong": false
+                }
+              },
+              "hard_rejects": [],
+              "invariant_abstention_rate": 0.3333,
+              "invariant_n": 72,
+              "per_perturbation": {
+                "duplicate_record": {
+                  "abstention_rate": 1.0,
+                  "expect": "invariant",
+                  "family": "duplicates",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "verifier_abstained": 24
+                },
+                "empty_lists": {
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "empty_collections",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "verifier_abstained": 24
+                },
+                "formatting": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "irrelevant_formatting",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "null_fields": {
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "nulls",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "verifier_abstained": 24
+                },
+                "pad_lists": {
+                  "abstention_rate": 1.0,
+                  "expect": "either",
+                  "family": "large_collections",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "verifier_abstained": 24
+                },
+                "reorder_lists": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "reordering",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "schema_drift": {
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "schema_drift",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "verifier_abstained": 24
+                },
+                "tool_4xx": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "tool_error",
+                  "mode": "sandbox",
+                  "n": 24
+                },
+                "tool_timeout": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "timeout",
+                  "mode": "sandbox",
+                  "n": 24
+                }
+              },
+              "wrong_groups": [],
+              "wrong_total": 0
+            },
+            "compiled_unverified": {
+              "group_outcomes": {
+                "q:engineering:badge_access_003": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:badge_access_006": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:badge_access_009": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:badge_access_021": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:badge_access_023": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:badge_access_024": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:badge_access_025": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:badge_access_026": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:badge_access_030": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:badge_access_033": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:badge_access_040": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:badge_access_045": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:badge_access_047": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:data_retention_003": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:data_retention_008": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:data_retention_012": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:data_retention_022": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:data_retention_033": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:data_retention_037": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:data_retention_040": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:data_retention_048": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:expense_policy_002": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:expense_policy_007": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "q:engineering:expense_policy_009": {
+                  "applicable": 9,
+                  "wrong": false
+                }
+              },
+              "hard_rejects": [],
+              "invariant_abstention_rate": 0.0,
+              "invariant_n": 72,
+              "per_perturbation": {
+                "duplicate_record": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "duplicates",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "empty_lists": {
+                  "abstention_rate": 0.0,
+                  "expect": "abstain",
+                  "family": "empty_collections",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "formatting": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "irrelevant_formatting",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "null_fields": {
+                  "abstention_rate": 0.0,
+                  "expect": "abstain",
+                  "family": "nulls",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "pad_lists": {
+                  "abstention_rate": 0.0,
+                  "expect": "either",
+                  "family": "large_collections",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "reorder_lists": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "reordering",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "schema_drift": {
+                  "abstention_rate": 0.0,
+                  "expect": "abstain",
+                  "family": "schema_drift",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "tool_4xx": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "tool_error",
+                  "mode": "sandbox",
+                  "n": 24
+                },
+                "tool_timeout": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "timeout",
+                  "mode": "sandbox",
+                  "n": 24
+                }
+              },
+              "wrong_groups": [],
+              "wrong_total": 0
+            }
+          },
+          "artifact": "check_scope.version.region@2bd979e8",
+          "candidate_id": "cand-02-2bd979e8666f-bec8e9f6",
+          "family_hash": "2bd979e8666f",
+          "family_windows_available": 294,
+          "n_groups": 24,
+          "n_windows": 24,
+          "names": [
+            "scop",
+            "vers",
+            "embe"
+          ],
+          "paired_groups": {
+            "both_wrong": 0,
+            "guarded_only_wrong": 0,
+            "guarded_wrong_upper95": 0.11734615615494873,
+            "mcnemar_exact_p": 1.0,
+            "n": 24,
+            "unverified_only_wrong": 0,
+            "unverified_wrong_upper95": 0.11734615615494873
+          },
+          "partition": {
+            "policy_version": "pol-1",
+            "principal": "role.engineering",
+            "tenant_partition": "acme"
+          },
+          "permissive_verifier_inert": true,
+          "status": "completed",
+          "test_episodes": 317,
+          "tools": [
+            "acl.check_scope",
+            "index.version",
+            "search.embed"
+          ],
+          "unperturbed_ok_windows": 24,
+          "window_digest": "0063d8719975be1d"
+        }
+      },
+      "compile_s": 95.13,
+      "demo": "permissioned_rag",
+      "elapsed_s": 109.07,
+      "family_match": {
+        "families_now": [
+          "2bd979e8666f-51a098b9",
+          "2bd979e8666f-63a62eac",
+          "2bd979e8666f-bec8e9f6",
+          "2bd979e8666f-cff1b080"
+        ],
+        "families_retained": [
+          "2bd979e8666f-51a098b9",
+          "2bd979e8666f-63a62eac",
+          "2bd979e8666f-bec8e9f6",
+          "2bd979e8666f-cff1b080",
+          "307b5bb36789-51a098b9"
+        ],
+        "identical_ids": false,
+        "missing_now": [
+          "307b5bb36789-51a098b9"
+        ],
+        "new_now": [],
+        "same_families": false
+      },
+      "n_episodes": 6000,
+      "notes": [],
+      "rejection_by_stage": {
+        "calibrate:retire": 5,
+        "challenge:hard_reject": 9,
+        "mine:low_support": 31,
+        "select:dominated": 4,
+        "synthesize:ungroundable_slot": 18
+      },
+      "retained_artifact_ids": [
+        "cand-02-2bd979e8666f-51a098b9",
+        "cand-02-2bd979e8666f-63a62eac",
+        "cand-02-2bd979e8666f-bec8e9f6",
+        "cand-03-2bd979e8666f-cff1b080",
+        "cand-08-307b5bb36789-51a098b9"
+      ],
+      "retained_splits_digest": "54a50199e84a1f83",
+      "splits": {
+        "calibration": 396,
+        "dev": 396,
+        "shadow": 220,
+        "test": 496,
+        "train": 694
+      },
+      "splits_digest": "54a50199e84a1f83",
+      "status": "completed"
+    },
+    "support": {
+      "admitted_artifact_ids": [
+        "cand-01-merge:aa03daa10b"
+      ],
+      "artifacts": {
+        "cand-01-merge:aa03daa10b": {
+          "arms": {
+            "compiled_guarded": {
+              "group_outcomes": {
+                "case:t_northwind:arun.chen1111@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:arun.chen4411@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:arun.haddad5531@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:arun.nowak2221@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:arun.petrov1151@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:arun.petrov51@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:arun.raghavan3301@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:arun.silva1141@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:arun.silva5541@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.chen1120@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.das1190@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.haddad2240@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.haddad4440@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.meyer1180@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.meyer3380@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.meyer80@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.nowak2230@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.okafor2270@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.raghavan2210@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.raghavan4410@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.whitfield3300@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.whitfield4400@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:ivan.chen4466@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:ivan.chen5566@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                }
+              },
+              "hard_rejects": [],
+              "invariant_abstention_rate": 0.0694,
+              "invariant_n": 72,
+              "per_perturbation": {
+                "duplicate_record": {
+                  "abstention_rate": 0.208,
+                  "expect": "invariant",
+                  "family": "duplicates",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 19,
+                  "verifier_abstained": 5
+                },
+                "empty_lists": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "empty_collections",
+                  "mode": "sandbox",
+                  "n": 24
+                },
+                "formatting": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "irrelevant_formatting",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "null_fields": {
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "nulls",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "verifier_abstained": 24
+                },
+                "pad_lists": {
+                  "abstained": 21,
+                  "abstention_rate": 1.0,
+                  "expect": "either",
+                  "family": "large_collections",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "verifier_abstained": 3
+                },
+                "reorder_lists": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "reordering",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "schema_drift": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "schema_drift",
+                  "mode": "sandbox",
+                  "n": 24
+                },
+                "tool_4xx": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "tool_error",
+                  "mode": "sandbox",
+                  "n": 24
+                },
+                "tool_timeout": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "timeout",
+                  "mode": "sandbox",
+                  "n": 24
+                }
+              },
+              "wrong_groups": [],
+              "wrong_total": 0
+            },
+            "compiled_unverified": {
+              "group_outcomes": {
+                "case:t_northwind:arun.chen1111@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:arun.chen4411@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:arun.haddad5531@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:arun.nowak2221@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:arun.petrov1151@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:arun.petrov51@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:arun.raghavan3301@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:arun.silva1141@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:arun.silva5541@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.chen1120@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.das1190@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.haddad2240@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.haddad4440@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.meyer1180@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.meyer3380@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.meyer80@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.nowak2230@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.okafor2270@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.raghavan2210@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.raghavan4410@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.whitfield3300@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:dana.whitfield4400@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:ivan.chen4466@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                },
+                "case:t_northwind:ivan.chen5566@northwind-labs.example": {
+                  "applicable": 9,
+                  "wrong": false
+                }
+              },
+              "hard_rejects": [],
+              "invariant_abstention_rate": 0.0,
+              "invariant_n": 72,
+              "per_perturbation": {
+                "duplicate_record": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "duplicates",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "empty_lists": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "empty_collections",
+                  "mode": "sandbox",
+                  "n": 24
+                },
+                "formatting": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "irrelevant_formatting",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "null_fields": {
+                  "abstention_rate": 0.0,
+                  "expect": "abstain",
+                  "family": "nulls",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "pad_lists": {
+                  "abstained": 21,
+                  "abstention_rate": 0.875,
+                  "expect": "either",
+                  "family": "large_collections",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 3
+                },
+                "reorder_lists": {
+                  "abstention_rate": 0.0,
+                  "expect": "invariant",
+                  "family": "reordering",
+                  "mode": "sandbox",
+                  "n": 24,
+                  "passed": 24
+                },
+                "schema_drift": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "schema_drift",
+                  "mode": "sandbox",
+                  "n": 24
+                },
+                "tool_4xx": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "tool_error",
+                  "mode": "sandbox",
+                  "n": 24
+                },
+                "tool_timeout": {
+                  "abstained": 24,
+                  "abstention_rate": 1.0,
+                  "expect": "abstain",
+                  "family": "timeout",
+                  "mode": "sandbox",
+                  "n": 24
+                }
+              },
+              "wrong_groups": [],
+              "wrong_total": 0
+            }
+          },
+          "artifact": "issue_service_token.find_customer.region@br-aa03d",
+          "candidate_id": "cand-01-merge:aa03daa10b",
+          "family_hash": "merge:aa03daa10b",
+          "family_windows_available": 602,
+          "n_groups": 24,
+          "n_windows": 24,
+          "names": [
+            "serv",
+            "cust",
+            "subs"
+          ],
+          "paired_groups": {
+            "both_wrong": 0,
+            "guarded_only_wrong": 0,
+            "guarded_wrong_upper95": 0.11734615615494873,
+            "mcnemar_exact_p": 1.0,
+            "n": 24,
+            "unverified_only_wrong": 0,
+            "unverified_wrong_upper95": 0.11734615615494873
+          },
+          "partition": null,
+          "permissive_verifier_inert": true,
+          "status": "completed",
+          "test_episodes": 719,
+          "tools": [
+            "auth.issue_service_token",
+            "crm.find_customer",
+            "crm.get_subscription"
+          ],
+          "unperturbed_ok_windows": 24,
+          "window_digest": "5655c39741dd22d2"
+        }
+      },
+      "compile_s": 45.19,
+      "demo": "support",
+      "elapsed_s": 57.02,
+      "family_match": {
+        "families_now": [
+          "merge:aa03daa10b"
+        ],
+        "families_retained": [
+          "merge:aa03daa10b"
+        ],
+        "identical_ids": true,
+        "missing_now": [],
+        "new_now": [],
+        "same_families": true
+      },
+      "n_episodes": 3000,
+      "notes": [],
+      "rejection_by_stage": {
+        "select:dominated": 3,
+        "synthesize:loop_predicate_unsynthesizable": 1
+      },
+      "retained_artifact_ids": [
+        "cand-01-merge:aa03daa10b"
+      ],
+      "retained_splits_digest": "bc0bcfcf334255d5",
+      "splits": {
+        "calibration": 106,
+        "dev": 106,
+        "shadow": 59,
+        "test": 134,
+        "train": 186
+      },
+      "splits_digest": "bc0bcfcf334255d5",
+      "status": "completed"
+    }
+  },
+  "manual_unverified": "not run: the demonstration comparators are policy-level macros, not IR programs (protocol amendment 2026-10-06)",
+  "max_windows": 24,
+  "perturbations": [
+    {
+      "expect": "invariant",
+      "family": "reordering",
+      "name": "reorder_lists"
+    },
+    {
+      "expect": "invariant",
+      "family": "duplicates",
+      "name": "duplicate_record"
+    },
+    {
+      "expect": "either",
+      "family": "large_collections",
+      "name": "pad_lists"
+    },
+    {
+      "expect": "abstain",
+      "family": "empty_collections",
+      "name": "empty_lists"
+    },
+    {
+      "expect": "abstain",
+      "family": "nulls",
+      "name": "null_fields"
+    },
+    {
+      "expect": "abstain",
+      "family": "schema_drift",
+      "name": "schema_drift"
+    },
+    {
+      "expect": "invariant",
+      "family": "irrelevant_formatting",
+      "name": "formatting"
+    },
+    {
+      "expect": "abstain",
+      "family": "tool_error",
+      "name": "tool_4xx"
+    },
+    {
+      "expect": "abstain",
+      "family": "timeout",
+      "name": "tool_timeout"
+    }
+  ],
+  "pooled": {
+    "both_wrong": 0,
+    "guarded_only_wrong": 0,
+    "guarded_wrong_groups_upper95": 0.02058879229949585,
+    "invariant_abstention_rate": {
+      "compiled_guarded": 0.2477,
+      "compiled_unverified": 0.0
+    },
+    "mcnemar_exact_p": 1.0,
+    "paired_groups": 144,
+    "unverified_only_wrong": 0,
+    "unverified_wrong_groups_upper95": 0.02058879229949585,
+    "wrong_outcomes_total": {
+      "compiled_guarded": 0,
+      "compiled_unverified": 0
+    }
+  },
+  "protocol": "paper/supplementary/drift-robustness-ablation-protocol.md",
+  "provider_calls_executed": 0,
+  "schema": "agent-compaction-drift-ablation/v1",
+  "seed": 20260801,
+  "substrate": "simulated deterministic demonstration workloads; provider-free",
+  "timestamp_utc": "2026-10-07T04:03:35Z"
+}
