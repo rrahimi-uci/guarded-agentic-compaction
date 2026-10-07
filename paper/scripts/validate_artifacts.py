@@ -1579,9 +1579,9 @@ def validate_publication() -> None:
 
 
 def validate_iclr_page_budget() -> None:
-    """Guard the ICLR 2027 submission's nine-page main-text budget.
+    """Guard the ICLR 2027 main-text budget: nine pages at submission, ten in discussion.
 
-    ICLR desk-rejects any submission whose main text exceeds nine pages; the AI
+    ICLR desk-rejects any submission whose main text exceeds the limit; the AI
     use statement, ethics statement, reproducibility statement, and references
     are explicitly exempt and may start on page ten onward. Two abstract edits
     (PRs #30, #31) each reflowed the compiled PDF by a line or two, and neither
@@ -1592,8 +1592,8 @@ def validate_iclr_page_budget() -> None:
     The check below is structural rather than wording-specific -- it does not
     hardcode the conclusion's text, which will keep changing -- so it keeps
     working as the paper is edited: it finds whatever page the (exempt) AI Use
-    Statement heading starts on and asserts that (a) that page is the 10th
-    physical page or earlier, and (b) nothing but the running header and the
+    Statement heading starts on and asserts that (a) that page is the 11th
+    physical page or earlier (10th for the submitted version), and (b) nothing but the running header and the
     review line-number gutter precedes the heading on that page. Condition (b)
     is what actually catches a spill: main-text prose sharing the statement's
     page means the main text ran past its nine-page budget even if the
@@ -1619,18 +1619,24 @@ def validate_iclr_page_budget() -> None:
     if statement_page is None:
         return
 
-    ok(statement_page < 10,
-       "ICLR submission: main text (sections 1-8) fits in nine pages "
-       f"(AI Use Statement starts on page {statement_page + 1}, expected <= 10)")
+    # ICLR 2027 author guidelines: nine pages at submission; "during the
+    # discussion/rebuttal phase and for the camera ready, the page limit will be
+    # increased to 10 pages". The submission was uploaded at nine; every build
+    # after reviews release is a discussion-phase revision and is held to ten.
+    ok(statement_page < 11,
+       "ICLR revision: main text (sections 1-8) fits in ten pages "
+       f"(AI Use Statement starts on page {statement_page + 1}, expected <= 11)")
 
     # Strip the running header and the review-mode line-number gutter (both are
     # page furniture, not main text) and require nothing else remains before
     # the heading.
     before_heading = (pages[statement_page].extract_text() or "").upper().split(heading, 1)[0]
     leftover = re.sub(r"[\s0-9]+", "", before_heading.replace(header_line.upper(), ""))
-    ok(not leftover,
-       "ICLR submission: no main-text content spills onto the AI Use Statement's "
-       f"page (found leftover text: {before_heading.strip()!r})")
+    # Main text may share the statement's page only while that page is within
+    # the ten-page limit; on the 11th page nothing may precede the heading.
+    ok(statement_page < 10 or not leftover,
+       "ICLR revision: no main-text content spills onto an 11th page before the AI Use "
+       f"Statement (found leftover text: {before_heading.strip()[:200]!r})")
 
 
 def validate_no_secrets() -> None:

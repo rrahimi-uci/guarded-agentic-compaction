@@ -242,3 +242,17 @@ abstention 0.2477 pooled, 0.3333 on `permissioned_rag`). Reported in Appendix G 
 register part D; validator family `drift_ablation` pins the counts. Reproducibility finding:
 `incident_triage` admits no artifact under the current compiler (two in the 2026-08 run).
 Appendix only; main-text pagination unchanged.
+
+## Tenth page: results figure, related work, terminology (2026-10-06, branch `paper/ef-tenth-page-figure-related-work`)
+
+Workstreams E and F of `proposal-90.md`, using the ten-page discussion allowance (author
+guidelines, re-fetched 2026-10-06; `validate_iclr_page_budget` and the ICLR README now hold
+revisions to ten pages). A two-panel results figure enters §5.1 from existing generated
+assets (per-family reductions; NESTFUL support against the 92-group floor). §6 grows from two
+paragraphs to five threads (trace compilation and partial evaluation; workflow mining and
+invariant inference; agent reuse, caching and optimizers; selective prediction and
+distribution-free risk control; tool-use safety and benchmarks), citing sixteen previously
+uncited bibliography entries and eleven new ones whose identifiers were checked against arXiv
+on 2026-10-06. §2 opens with a terminology paragraph (episode, group, region, family,
+candidate, program, artifact, prefix; compilation versus compaction). Figure 1 is set at
+0.78 linewidth. No number, result or claim changed.
