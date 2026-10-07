@@ -3059,6 +3059,43 @@ def validate_drift_recorded_replay() -> None:
     ok("89 paired records" in appendix and "0.0331" in appendix and "0.1049" in appendix, "drift replay: appendix quotes the retained counts")
 
 
+def validate_time_forward_pr_outcome() -> None:
+    """Pin the time-forward PR-outcome study: re-derivation, end-to-end certificate, evaluation."""
+
+    out = PAPER / "results/time_forward/pr_outcome"
+    for name in ("selection.json", "discovery_checkpoint.json", "compile.json", "calibration_checkpoint.json", "certificate.json",
+                 "evaluation_checkpoint.json", "evaluation.json", "ledger.json"):
+        ok((out / name).exists(), f"time-forward: {name} present")
+    if not all((out / n).exists() for n in ("selection.json", "certificate.json", "evaluation.json", "ledger.json", "compile.json")):
+        return
+    sel, cert, ev, ledger, comp = (load(out / n) for n in ("selection.json", "certificate.json", "evaluation.json", "ledger.json", "compile.json"))
+    ok(sel.get("disjoint") is True and len(sel["test"]) == 60 and len(sel["discovery"]) == 132 and len(sel["calibration"]) == 132,
+       "time-forward: disjoint splits of 60 / 132 / 132")
+    ok(sel.get("test_class_counts") == {"open": 20, "merged": 20, "closed_unmerged": 20}, "time-forward: balanced test classes")
+    ok(comp.get("status") == "admitted" and comp["compilation"].get("frozen_single_candidate") is True
+       and comp["compilation"]["artifact"]["artifact_id"] == "cand-00-a1de3856bb6c",
+       "time-forward: one frozen candidate re-derived as cand-00-a1de3856bb6c")
+    disc = load(out / "discovery_checkpoint.json")
+    ok(len(disc["results"]) == 132 and sum(bool(r["quality"]["overall"]) for r in disc["results"]) == 131,
+       "time-forward: 132 discovery traces, 131 exact")
+    ok(cert["n_eligible"] == 132 and cert["attempted"] == 132 and cert["violations"] == 0 and cert["admits"] is True
+       and abs(cert["upper_90"] - 0.0173) < 5e-4, "time-forward: end-to-end certificate 132/0, U = 0.0173, admits")
+    ok(cert["rule"].startswith("single pre-registered acceptance rule") and cert["delta"] == 0.10 and cert["alpha"] == 0.05,
+       "time-forward: single rule, gamma = delta = 0.10")
+    ok(ev["exact"] == {"baseline": 60, "compiled": 60, "compiled_retained": 60, "manual_pre_model": 60}, "time-forward: 60/60 in every condition")
+    ok(ev["dispatch"]["compiled"] == {"attempted": 60} and ev["dispatch"]["compiled_retained"] == {"abstained": 60}
+       and ev["dispatch"]["manual_pre_model"] == {"attempted": 60}, "time-forward: re-derived dispatches 60/60; retained abstains 60/60 under its pin")
+    red = ev["reduction_vs_baseline_pct"]["compiled"]
+    ok(abs(red["requests"] - 75.0) < 0.05 and abs(red["total_tokens"] - 82.7) < 0.05 and abs(red["wall_latency_ms"] - 80.0) < 0.05
+       and abs(red["estimated_cost_usd"] - 76.6) < 0.05, "time-forward: reductions 75.0 / 82.7 / 80.0 / 76.6")
+    ok(all(not v for v in ev["compiled_only_misses"].values()), "time-forward: no compiled-only miss in any condition")
+    ok(0 < ledger["spent_usd"] < 1.0, "time-forward: ledgered spend under one dollar")
+    protocol = (PAPER / "supplementary/time-forward-end-to-end-protocol.md").read_text(encoding="utf-8")
+    ok("## Observed results" in protocol and "## Amendment before execution" in protocol, "time-forward: protocol carries amendment and results")
+    appendix = (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8")
+    ok("0.0173" in appendix and "132" in appendix and "75.0" in appendix, "time-forward: appendix quotes the retained numbers")
+
+
 FAMILIES: dict[str, Any] = {
     "sources": validate_sources,
     "live": validate_live,
@@ -3089,6 +3126,7 @@ FAMILIES: dict[str, Any] = {
     "slides": validate_slides,
     "drift_ablation": validate_drift_ablation,
     "drift_recorded_replay": validate_drift_recorded_replay,
+    "time_forward_pr_outcome": validate_time_forward_pr_outcome,
     "no_secrets": validate_no_secrets,
 }
 

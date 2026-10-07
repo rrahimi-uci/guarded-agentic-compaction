@@ -43,5 +43,10 @@ Recorded-replay drift ablation (provider-free, 90 primary records) &
 Three arms (induced verifier; permissive verifier; hand-written program with permissive verifier) on identical reconstructed windows; 89 paired records; zero wrong outcomes in every arm (upper bound 0.0331; Holm-adjusted McNemar $p=1$ for both comparisons); guarded abstention on invariant perturbations 0.1049 pooled; every transform changes at least one recorded call per family. &
 \path{paper/results/drift_recorded_replay/results.json} (\code{pooled}, \code{families.*.applicability}); \path{paper/scripts/drift_recorded_replay_study.py}; \path{paper/supplementary/drift-recorded-replay-protocol.md}. &
 The null, explained: the oracle compares derived call arguments and every admitted program derives its arguments from the entry record alone, so \emph{wrong} is unreachable under this suite. Program-output endpoint only; no continuation grading; not a fresh cohort; not equivalence. \\
+\addlinespace[2pt]
+Time-forward cohort; end-to-end certificate (PR-outcome) &
+1{,}095 post-cutoff records acquired; 811 fresh PRs; splits 60/132/132 frozen first. Re-derived artifact (one frozen candidate) dispatched on 132/132 fresh calibration groups with 0 end-to-end contract misses: single-rule bound 0.0173 at 90\% confidence, admits. Evaluation on 60 fresh records: 60/60 in all four conditions; re-derived artifact $-75.0\%$ requests, $-82.7\%$ tokens; retained artifact abstains 60/60 under its old pin. &
+\path{paper/results/time_forward/pr_outcome/certificate.json}, \path{.../evaluation.json}, \path{.../selection.json}; \path{paper/scripts/time_forward_pr_outcome_study.py}; \path{paper/supplementary/time-forward-end-to-end-protocol.md}. &
+Per-candidate, one family, i.i.d.\ groups from one repository's post-cutoff records; issue-type and backlog are NO-GO on class availability. Preservation at full coverage, not superiority; the hand-written program ties. \\
 \bottomrule
 \end{tabularx}

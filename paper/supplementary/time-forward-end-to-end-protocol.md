@@ -86,3 +86,41 @@ therefore applies and the design is fixed as follows, before the first call:
   digest as `source_revision`; the retained artifact is loaded from its retained registry.
 - Budget unchanged (cap $10; pilot of ten calibration groups after discovery). Discovery adds
   about 132 × $0.0007.
+
+## Observed results (executed 2026-10-07; spend $0.2154 of a $50 authorization)
+
+Retained directory: `paper/results/time_forward/pr_outcome/` (selection digest `09868598d603…`,
+discovery and calibration checkpoints, re-derived registry, `certificate.json`, `evaluation.json`,
+`ledger.json`). Model `gpt-5.6-luna`; prompts, grader, tools and compiler of the family study.
+
+**Discovery and re-derivation.** 132 fresh discovery traces, 131 exact. The compiler, with one
+frozen candidate, re-derived `cand-00-a1de3856bb6c`: the same three-read program as the retained
+artifact, its verifier now pinning the time-forward snapshot's digest; replay-contract gate 92/0
+at U = 0.0498.
+
+**A2, end-to-end certificate.** All 132 fresh calibration groups were eligible and all 132
+dispatched; the unchanged continuation met the exact task contract on every one: k = 0, n = 132.
+Under the single pre-registered rule (γ = δ = 0.10, m = 1) the one-sided upper bound on the
+end-to-end violation rate is **0.0173 ≤ 0.05: the certificate admits**. This is
+the first certificate in the project whose event includes the model's continuation. It is
+per-candidate, for one family, conditional on i.i.d. groups from records created after
+2025-06-13 in one repository.
+
+**C2, time-forward evaluation (60 fresh records, 20 per class).**
+
+| Condition | Exact | Dispatched | Requests | Tokens | Latency (ms) | Cost (USD) |
+|---|---|---|---|---|---|---|
+| Unchanged agent | 60/60 | — | 4.0 | 2799 | 6723 | 0.000693 |
+| Re-derived artifact | 60/60 | 60/60 | 1.0 | 484 | 1347 | 0.000162 |
+| Retained artifact under its pins | 60/60 | 0/60 (abstained on `pr.source_revision`; unchanged agent ran) | 4.0 | 2802 | 5742 | 0.000698 |
+| Hand-written program | 60/60 | 60/60 | 1.0 | 484 | 1483 | 0.000162 |
+
+Re-derived artifact against the unchanged agent: requests −75.0%, tokens −82.7%,
+latency −80.0%, cost −76.6%; zero compiled-only misses. The retained
+artifact's refusal on every fresh record is the designed time-forward behaviour: its pin on the
+old snapshot held and the unchanged agent answered. The hand-written program ties the re-derived
+artifact on every axis, as in the primary study.
+
+**Reading.** A2 admits; C2 shows preservation at full coverage on fresh records for the
+re-derived artifact and a correct, priced refusal for the retained one. No superiority or
+equivalence claim; one family; the two NO-GO families stand.

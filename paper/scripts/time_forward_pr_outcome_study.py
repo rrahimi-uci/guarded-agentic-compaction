@@ -289,7 +289,7 @@ async def main_async(args: argparse.Namespace) -> int:
 def classify_dispatch(row: dict[str, Any]) -> str:
     d = row.get("dispatch") or {}
     outcome = str(d.get("outcome") or "")
-    if outcome == "REPLAYED":
+    if outcome in ("REPLAYED", "COMPACTED", "EXECUTED"):  # completed dispatch (compiled or manual plan)
         return "attempted"
     reasons = " ".join(str(x) for x in (d.get("reasons") or [])) + " " + json.dumps(d, default=str)
     if "manifest" in reasons or "guard" in reasons.lower() and "verifier" not in reasons.lower():
@@ -323,6 +323,9 @@ def evaluation_summary(results: Sequence[dict[str, Any]], conditions: Sequence[s
         if v:
             out["mean_metrics"][c] = {k: round(sum(float(r["metrics"].get(k, 0)) for r in v.values()) / len(v), 6) for k in ("requests", "total_tokens", "wall_latency_ms", "estimated_cost_usd")}
     base = by.get("baseline", {})
+    if "baseline" in out["mean_metrics"]:
+        b = out["mean_metrics"]["baseline"]
+        out["reduction_vs_baseline_pct"] = {c: {k: round(100 * (1 - v[k] / b[k]), 1) for k in b if b[k]} for c, v in out["mean_metrics"].items() if c != "baseline"}
     out["compiled_only_misses"] = {c: sorted(k for k, r in v.items() if k in base and base[k]["quality"].get("overall") and not r["quality"].get("overall")) for c, v in by.items() if c != "baseline"}
     return out
 

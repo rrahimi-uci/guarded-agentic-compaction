@@ -1010,6 +1010,32 @@ abstentions guard the continuation against malformed evidence, which this
 endpoint does not grade; a live continuation extension would. Not
 equivalence; and a program whose later arguments derive from earlier results
 is where a verifier benefit could appear under this suite.
+
+\paragraph{Time-forward cohort and an end-to-end certificate (PR-outcome).}
+After submission we acquired every \code{huggingface/datasets} issue and pull
+request created after the pinned snapshot's last day (2025-06-13; 1{,}095
+records, none previously used) and pre-registered a study
+(\path{paper/supplementary/time-forward-end-to-end-protocol.md}) on the one
+family whose fresh pool supports it: PR-outcome (issue-type and backlog
+routing are NO-GO on class availability, as before). From 811 fresh pull
+requests, three disjoint splits were frozen before any call: 60 test records
+(20 per class), 132 discovery records and 132 calibration groups. The
+retained artifact's verifier pins the old snapshot revision, so on fresh
+records it abstains everywhere and the unchanged agent runs; that is the
+designed behavior and is reported as such. The compiler, with one frozen
+candidate, re-derived the same three-read program from the fresh discovery
+traces (131/132 exact), its contract now pinning the new snapshot. The
+re-derived artifact was then dispatched on all 132 calibration groups and the
+unchanged continuation run once and graded on the exact task contract: 132
+dispatched, 0 misses. Under a single pre-registered rule ($\gamma=\delta=0.10$,
+$m=1$) the one-sided bound on the \emph{end-to-end} violation rate is
+0.0173, below $\alpha=0.05$: the first certificate here whose event includes
+the continuation. On the 60 fresh test records all four conditions reach
+60/60; the re-derived artifact dispatches on every record and cuts requests
+75.0\%, tokens 82.7\%, latency 80.0\% and cost 76.6\% against the unchanged
+agent, with no compiled-only miss; the hand-written program ties it. The
+claim is per-candidate, for one family, conditional on i.i.d.\ groups from
+one repository's post-cutoff records; spend was under one dollar.
 \begin{table}[t]
   \centering
   \caption{Recurrence-only replay on issue-type routing: per-record means over

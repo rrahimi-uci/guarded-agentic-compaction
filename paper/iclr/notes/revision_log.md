@@ -273,3 +273,15 @@ derives its arguments from the entry record alone, so `wrong` is unreachable und
 the verifier's abstentions guard the continuation, which this endpoint does not grade.
 Appendix G paragraph, claims register part D row, validator family `drift_recorded_replay`,
 helper tests, number registry. Appendix only; main-text pagination unchanged.
+
+## Time-forward PR-outcome study executed (2026-10-07, branch `paper/a2-time-forward-live`)
+
+Workstreams A2/C2 of `proposal-90.md`, live, $0.22 of a $50 authorization. Fresh GitHub API
+snapshot (post-2025-06-13), 811 fresh PRs, splits 60/132/132 frozen before any call. The retained
+artifact's verifier pins the old snapshot revision and abstains on every fresh record (kept as the
+C2 arm). One frozen candidate re-derived the same three-read program from 132 fresh discovery
+traces (131 exact). End-to-end calibration on 132 fresh groups: 132 dispatched, 0 misses, single-
+rule bound 0.0173 <= 0.05, admits: the first certificate whose event includes the continuation.
+Evaluation on 60 fresh records: 60/60 in all four conditions; re-derived artifact -75.0% requests,
+-82.7% tokens, -80.0% latency, -76.6% cost; hand-written program ties. Appendix G paragraph and
+claims-register row; validator family `time_forward_pr_outcome`. Appendix only.
