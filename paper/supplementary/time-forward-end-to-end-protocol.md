@@ -57,3 +57,32 @@ after 2025-06-13 in one repository), the end-to-end task-contract violation rate
 0.05 with confidence 0.90, conditional on i.i.d. groups. It is a per-candidate certificate for
 one family. The time-forward evaluation licenses preservation on 60 fresh records at observed
 coverage, not superiority, and nothing about the two NO-GO families.
+
+## Amendment before execution (2026-10-07, recorded before any provider call)
+
+Inspection of the retained PR-outcome artifact shows its induced verifier carries an enum hull
+on `pr.source_revision` whose single value is the pinned snapshot's revision
+(`e344be7b…`). On the time-forward snapshot every tool result reports the new snapshot's digest,
+so the retained artifact abstains on every fresh record by construction. That is the designed
+time-forward behaviour and it is kept as the **C2 arm** (expected coverage 0, reported as such;
+the pin is never bypassed). It also means the retained artifact cannot be the A2 candidate:
+with no accepted group the certificate would be vacuous. The protocol's migration clause
+therefore applies and the design is fixed as follows, before the first call:
+
+- **Three disjoint fresh splits** from the PR pool, by stable hash: test 60 (20 per class),
+  discovery 132 (round-robin over classes), calibration 132. The selection file is written
+  first and digested.
+- **Discovery and re-derivation.** The unchanged agent runs the family's discovery prompt on
+  the 132 discovery records (live); the compiler re-derives an artifact from those traces under
+  the time-forward snapshot with `freeze_one_candidate_before_calibration = true` (so m = 1),
+  through the family study's own `compile_artifact` (its internal 16/8/92 split gives the
+  replay-contract gate as in the primary study). If no artifact is admitted, A2 retires at
+  compilation and that is the result.
+- **A2 end-to-end labels** on the 132 calibration groups, disjoint from discovery and test,
+  exactly as written above (single rule, m = 1, admit iff k ≤ 3).
+- **C2 time-forward evaluation** on the 60 test records: unchanged agent, re-derived artifact,
+  retained artifact under its pins (expected to abstain and fall back), hand-written program.
+- Snapshot identity: every tool result and manifest carries the time-forward snapshot's
+  digest as `source_revision`; the retained artifact is loaded from its retained registry.
+- Budget unchanged (cap $10; pilot of ten calibration groups after discovery). Discovery adds
+  about 132 × $0.0007.
