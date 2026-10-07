@@ -38,5 +38,10 @@ Drift ablation (provider-free, demonstration substrate) &
 Two arms (induced versus permissive verifier) on an identical program and identical sealed-test windows; six artifacts, three demonstrations, 144 paired groups; zero wrong outcomes in both arms (upper bound 0.0206 per arm, no discordant pair); guarded abstention on invariant perturbations 0.2477 pooled, 0.3333 on \code{permissioned\_rag}. &
 \path{paper/results/drift_ablation/results.json} (\code{pooled}, \code{decision}); \path{paper/scripts/drift_ablation_study.py}; \path{paper/supplementary/drift-robustness-ablation-protocol.md}. &
 The pre-declared null: the suite does not separate the arms on simulated total tools. Not equivalence; no claim about real records, the GitHub families, cost, or production safety. The manual arm was not run. \\
+\addlinespace[2pt]
+Recorded-replay drift ablation (provider-free, 90 primary records) &
+Three arms (induced verifier; permissive verifier; hand-written program with permissive verifier) on identical reconstructed windows; 89 paired records; zero wrong outcomes in every arm (upper bound 0.0331; Holm-adjusted McNemar $p=1$ for both comparisons); guarded abstention on invariant perturbations 0.1049 pooled; every transform changes at least one recorded call per family. &
+\path{paper/results/drift_recorded_replay/results.json} (\code{pooled}, \code{families.*.applicability}); \path{paper/scripts/drift_recorded_replay_study.py}; \path{paper/supplementary/drift-recorded-replay-protocol.md}. &
+The null, explained: the oracle compares derived call arguments and every admitted program derives its arguments from the entry record alone, so \emph{wrong} is unreachable under this suite. Program-output endpoint only; no continuation grading; not a fresh cohort; not equivalence. \\
 \bottomrule
 \end{tabularx}
