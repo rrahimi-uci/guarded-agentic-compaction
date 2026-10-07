@@ -3126,6 +3126,30 @@ def validate_drift_continuation_graded() -> None:
     ok("ADVERSE" in protocol and "## Observed results" in protocol and "## Pilot findings" in protocol, "drift cg: protocol carries amendments and the adverse reading")
     appendix = (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8")
     ok("39 of 60" in appendix and "empty" in appendix and "0.1389" in appendix, "drift cg: appendix carries the adverse result")
+def validate_demo_suite_regeneration() -> None:
+    """Pin the 2026-10-07 regeneration of the simulated suite beside the immutable 2026-08 run."""
+
+    cur = ROOT / "experiments/results_2026-10-07"
+    ret = ROOT / "experiments/results"
+    ok((cur / "README.md").exists(), "demo regeneration: disclosure note present")
+    manifest = cur / "run_manifest.json"
+    ok(manifest.exists() and load(manifest).get("seed") == 20260801, "demo regeneration: same seed as the retained run")
+
+    def _summary(path: Path) -> tuple[int, int, float, bool]:
+        r = load(path)
+        g = r["grc"]["artifacts"]
+        return (g if isinstance(g, int) else len(g), int(r["tgws"]["artifacts"]),
+                round(float(r["comparisons"].get("full", {}).get("request_ratio", {}).get("point", float("nan"))), 3),
+                bool(r["hypotheses"].get("co_primary_passed")))
+
+    for demo in ("support", "permissioned_rag", "mcp_ops", "fulfillment"):
+        ok((cur / f"{demo}.json").exists() and _summary(cur / f"{demo}.json") == _summary(ret / f"{demo}.json"),
+           f"demo regeneration: {demo} reproduces the retained artifacts, request ratio and co-primary verdict")
+    tri = load(cur / "incident_triage.json")
+    ok(_summary(cur / "incident_triage.json") == (0, 1, 0.956, False),
+       "demo regeneration: incident_triage retires at GRC under the position invariant (0 artifacts, ratio 0.956)")
+    ok("non_prefix_runtime" in tri["grc"]["report"], "demo regeneration: incident_triage windows are blocked as non_prefix_runtime")
+    ok(_summary(ret / "incident_triage.json")[0] == 2, "demo regeneration: the retained 2026-08 run still records two incident_triage artifacts")
 
 
 FAMILIES: dict[str, Any] = {
@@ -3160,6 +3184,7 @@ FAMILIES: dict[str, Any] = {
     "drift_recorded_replay": validate_drift_recorded_replay,
     "time_forward_pr_outcome": validate_time_forward_pr_outcome,
     "drift_continuation_graded": validate_drift_continuation_graded,
+    "demo_suite_regeneration": validate_demo_suite_regeneration,
     "no_secrets": validate_no_secrets,
 }
 
