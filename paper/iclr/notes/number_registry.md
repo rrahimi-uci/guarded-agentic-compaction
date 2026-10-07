@@ -16,6 +16,8 @@ years, equation constants, and grid values are omitted. `stats:` means
 | 16 / 8 / 92 | train / dev / calibration groups | `compiler.splits.sizes` | validate_github_workflow_families |
 | 92, 0.0498, 0.0503, 91.6 | zero-violation floor, U(92), U(91), log ratio | `grc/calibrate.py` closed form; `stats:multiplicity_accounting.json` | validator, test_statistics_and_estimate |
 | 0.0569, 0.057, 106 | two-candidate corrected bound at n=92 and groups needed | `stats:multiplicity_accounting.json` `u_at_92.2`, `n_min.2` | validator |
+| 45, 59, 77, 93; 0.0247, 0.0320 | single-rule floors (k=0, k=1 at m=1, 2) and U(92) | `stats:single_rule_sensitivity.json` `n_min_single`, `u_at_92_single` | validator (table regenerates), test_iclr_revision_statistics |
+| 0.0253–0.0342, 0.0277–0.0880, 25 | single-rule bounds at distinct days / authors; streamlit author count | `stats:single_rule_sensitivity.json` `clusters` | validator (table regenerates), test_iclr_revision_statistics |
 | m = 1, 2, 2 | candidates reaching calibration (issue-type, PR, backlog) | `compiler.candidates` (issue-type), `compiler.report` (PR, backlog); `stats:multiplicity_accounting.json` | validator, recompile_retained_candidates |
 | 5189 | the baseline-only miss | backlog `results[]` `issue_number 5189`, `quality.comment_grounded false` | `stats:paired_statistics.json` `discordance.backlog_attention.compiled_only_records` |
 | 1 / 0, p = 1, 3.3 % | discordant cells, McNemar, upper bound on compiled-only failure | `stats:paired_statistics.json` `discordance.pooled` | test_iclr_revision_statistics |

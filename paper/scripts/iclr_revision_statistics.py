@@ -4,7 +4,7 @@ Every sub-command reads retained result files only, writes one JSON file under
 ``paper/results/iclr_revision/`` and, where the manuscript needs one, a LaTeX
 tabular body under ``paper/iclr/tables/``.  No network or provider call is made.
 
-Sub-commands: absolute, paired, multiplicity, order, manifest, catalog-audit,
+Sub-commands: absolute, paired, multiplicity, order, manifest, catalog-audit, single-rule,
 overlap, frontier, clusters, mechanisms, all.
 """
 
@@ -709,6 +709,81 @@ def cmd_clusters() -> dict[str, Any]:
     return out
 
 
+# --------------------------------------------------------------------------- B1 single-rule sensitivity
+def gamma_single(m: int) -> float:
+    """Confidence split for a single pre-registered acceptance rule: no grid penalty."""
+    return DELTA / m
+
+
+def n_min_single(m: int, k: int = 0) -> int:
+    n = k + 1
+    while cp_upper(k, n, 1.0 - gamma_single(m)) > ALPHA:
+        n += 1
+    return n
+
+
+def cmd_single_rule() -> dict[str, Any]:
+    """Retrospective sensitivity: the retained 92/0 tables under one frozen acceptance rule.
+
+    The registered method calibrates an 11-point grid and Bonferroni-splits delta across it.
+    A single pre-registered rule (dispatch every hard-guard-eligible group) would split delta
+    only across the m candidates. This recomputes every retained bound under that rule. It is
+    a sensitivity, not a repair: the rule was not registered for these runs, and the registered
+    certificates stand unchanged. All-eligible acceptance is read from the retained grid rows
+    (the widest row's n and violations), never from rounded table values.
+    """
+    mult = cmd_multiplicity()
+    clusters = cmd_clusters()
+    out: dict[str, Any] = {
+        "label": "Retrospective single-rule sensitivity; registered certificates unchanged",
+        "alpha": ALPHA, "delta": DELTA, "registered_grid_size": GRID_SIZE,
+        "n_min_single": {str(m): {str(k): n_min_single(m, k) for k in range(5)} for m in (1, 2)},
+        "n_min_grid": {str(m): {str(k): next(n for n in range(k + 1, 1000) if cp_upper(k, n, 1 - gamma_for(m)) <= ALPHA) for k in range(5)} for m in (1, 2)},
+        "u_at_92_single": {str(m): cp_upper(0, 92, 1 - gamma_single(m)) for m in (1, 2)},
+        "artifacts": {}, "clusters": {},
+    }
+    for key, a in mult["artifacts"].items():
+        rows = a.get("grid_rows") or []
+        if not rows or a.get("n") is None:
+            out["artifacts"][key] = {"status": a.get("status", "retired"), "m": a.get("m")}
+            continue
+        widest = max(rows, key=lambda r: (r["n"], r["eta"]))
+        n, k, m = int(widest["n"]), int(widest["violations"]), int(a["m"])
+        out["artifacts"][key] = {
+            "label": a.get("label", key), "m": m, "n_all_eligible": n, "k": k,
+            "n_registered": a["n"], "k_registered": a["k"],
+            "u_registered": a["retained_u"],
+            "u_single_per_candidate": cp_upper(k, n, 1 - gamma_single(1)),
+            "u_single_m_wide": cp_upper(k, n, 1 - gamma_single(m)),
+            "admits_single_m_wide": cp_upper(k, n, 1 - gamma_single(m)) <= ALPHA,
+            "groups_needed_single_m_wide": n_min_single(m, k),
+        }
+    m_of = {"issue_type": 1, "pr_outcome": 2, "backlog_attention": 2}
+    for key, c in clusters["cohorts"].items():
+        if "distinct_days" not in c:
+            continue
+        m = m_of.get(key, 1)
+        out["clusters"][key] = {"label": c["label"], "m": m, "distinct_days": c["distinct_days"], "distinct_authors": c["distinct_authors"],
+                                "u_registered_at_days": c["U_at_distinct_days"], "u_registered_at_authors": c["U_at_distinct_authors"],
+                                "u_single_at_days": cp_upper(0, c["distinct_days"], 1 - gamma_single(m)),
+                                "u_single_at_authors": cp_upper(0, c["distinct_authors"], 1 - gamma_single(m))}
+    lines = [r"\begin{tabular}{@{}lcrrrrr@{}}", r"\toprule",
+             r"Cohort & $m$ & $n/k$ & $U$ registered & $U$ single, $\delta/m$ & $U$ single at days & $U$ single at authors \\",
+             r"\midrule"]
+    for key in list(FAMILIES) + [k for k in out["clusters"] if k.startswith("core:")]:
+        a = out["artifacts"].get(key if key in FAMILIES else key)
+        c = out["clusters"][key]
+        label = c["label"] if key in FAMILIES else f"Core: \\code{{{c['label']}}}"
+        nk = f"{a['n_all_eligible']}/{a['k']}" if a and "n_all_eligible" in a else "---"
+        ureg = f"{a['u_registered']:.4f}" if a and "u_registered" in a else "---"
+        usingle = f"{a['u_single_m_wide']:.4f}" if a and "u_single_m_wide" in a else "---"
+        lines.append(f"{label} & {c['m']} & {nk} & {ureg} & {usingle} & {c['u_single_at_days']:.4f} ({c['distinct_days']}) & {c['u_single_at_authors']:.4f} ({c['distinct_authors']}) \\\\")
+    lines += [r"\bottomrule", r"\end{tabular}"]
+    write_table("single_rule_sensitivity", "single-rule", "\n".join(lines))
+    dump("single_rule_sensitivity", out)
+    return out
+
+
 # --------------------------------------------------------------------------- T2.10 mechanisms
 MECHANISMS: list[dict[str, str]] = [
     {"hazard": r"Ungrounded argument \code{issue\_get\_comments.limit=100}, recurring in 132/132 discovery traces", "observed": "issue-type, held-out \\#4420 family", "guard": "provenance + synthesis (stage 1/4): \\code{ungroundable\\_slot}", "replay": "replays the literal; emits the three-read program", "source": "github\\_natural\\_replication/results.json \\code{compiler.candidates[0]}"},
@@ -741,7 +816,7 @@ def cmd_mechanisms() -> dict[str, Any]:
 COMMANDS: dict[str, Callable[[], dict[str, Any]]] = {
     "absolute": cmd_absolute, "paired": cmd_paired, "multiplicity": cmd_multiplicity, "order": cmd_order,
     "manifest": cmd_manifest, "catalog-audit": cmd_catalog_audit, "overlap": cmd_overlap, "frontier": cmd_frontier,
-    "clusters": cmd_clusters, "mechanisms": cmd_mechanisms,
+    "clusters": cmd_clusters, "mechanisms": cmd_mechanisms, "single-rule": cmd_single_rule,
 }
 
 

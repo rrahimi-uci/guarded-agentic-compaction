@@ -236,6 +236,43 @@ read-only region and is enforced at runtime by staging (\cref{alg:dispatch}).
   \input{tables/multiplicity_accounting.tex}
 \end{table}
 
+\paragraph{Retrospective single-rule sensitivity; registered certificates
+unchanged.}
+Because every admitting threshold in this paper has coverage~1, the operative
+rule on these cohorts is ``dispatch every hard-guard-eligible group'', and the
+11-point grid buys nothing but its Bonferroni factor. \Cref{tab:single-rule}
+recomputes every retained bound as if a single acceptance rule had been
+pre-registered instead, so the confidence budget is split only across the $m$
+candidates that reached calibration ($\gamma=\delta/m$). Under that rule the
+zero-violation floor is 45 groups for $m=1$ and 59 for $m=2$ (77 and 93 with
+one violation), the $n=92$ bounds are 0.0247 and 0.0320, and every primary and
+cross-repository artifact would be compiler-wide at $\alpha=0.05$; the
+cluster-level bounds at distinct days admit everywhere and at distinct authors
+admit everywhere except \code{streamlit/streamlit} (25 authors, 0.0880). This
+rule was \emph{not} registered for these runs, so the certificates in
+\cref{tab:multiplicity-accounting} stand as printed; the table is a
+sensitivity analysis, not a repair, and the author- and day-level columns
+inherit every caveat of \cref{tab:effective-units}: distinct counts do not
+establish independent clusters, and a cluster bound targets a different
+population from the record-level one. A single frozen rule is adopted only
+prospectively, for studies whose candidates, acceptance policy, grouping and
+endpoint are fixed before fresh calibration (\cref{sec:discussion}).
+
+\begin{table}[t]
+  \centering
+  \caption{Retrospective single-rule sensitivity. Each row recomputes the
+  retained all-eligible calibration table ($n/k$ from the widest row of
+  \code{compiler.artifact.gate.notes}) under one pre-registered acceptance rule
+  with $\gamma=\delta/m$; ``registered'' is the grid certificate as printed.
+  Day and author columns apply the same rule to the distinct-unit counts of
+  \cref{tab:effective-units} (count in parentheses). Hypothetical bounds for
+  the already selected artifacts; not new certificates.}
+  \label{tab:single-rule}
+  \footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \input{tables/single_rule_sensitivity.tex}
+\end{table}
+
 \paragraph{Runtime capability vocabulary.} \code{quota\_attested} is a boolean
 field of a tool's signed effect declaration, not a capability flag: it marks a
 read whose invocation advances a counter (a rate quota or an audit log) that
