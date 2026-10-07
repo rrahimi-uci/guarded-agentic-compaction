@@ -87,6 +87,12 @@ POST_SEALING_STUDIES = (
     "gpt6_luna",
     "anthropic_",
     "iclr_revision",
+    # 2026-10 studies: the time-forward cohort adds post-cutoff records; the two drift
+    # ablations reuse the primary cohort and are excluded for the same reason as the rest.
+    "time_forward",
+    "drift_ablation",
+    "drift_recorded_replay",
+    "drift_continuation_graded",
 )
 
 
