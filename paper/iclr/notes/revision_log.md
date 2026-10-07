@@ -273,3 +273,29 @@ derives its arguments from the entry record alone, so `wrong` is unreachable und
 the verifier's abstentions guard the continuation, which this endpoint does not grade.
 Appendix G paragraph, claims register part D row, validator family `drift_recorded_replay`,
 helper tests, number registry. Appendix only; main-text pagination unchanged.
+
+## Time-forward PR-outcome study executed (2026-10-07, branch `paper/a2-time-forward-live`)
+
+Workstreams A2/C2 of `proposal-90.md`, live, $0.22 of a $50 authorization. Fresh GitHub API
+snapshot (post-2025-06-13), 811 fresh PRs, splits 60/132/132 frozen before any call. The retained
+artifact's verifier pins the old snapshot revision and abstains on every fresh record (kept as the
+C2 arm). One frozen candidate re-derived the same three-read program from 132 fresh discovery
+traces (131 exact). End-to-end calibration on 132 fresh groups: 132 dispatched, 0 misses, single-
+rule bound 0.0173 <= 0.05, admits: the first certificate whose event includes the continuation.
+Evaluation on 60 fresh records: 60/60 in all four conditions; re-derived artifact -75.0% requests,
+-82.7% tokens, -80.0% latency, -76.6% cost; hand-written program ties. Appendix G paragraph and
+claims-register row; validator family `time_forward_pr_outcome`. Appendix only.
+
+## Continuation-graded drift ablation executed: adverse (2026-10-07, branch `paper/c1c-continuation-graded-drift`)
+
+Workstream C1c of `proposal-90.md`, live, $0.55 of a $15 cap. `run_batch` gained an optional
+pre-model `executor` (default unchanged). The driver perturbs the tool layer for both the
+pre-model path and the fallback agent (same key-sorted serialization), runs the retained artifact
+with its induced verifier and with a permissive verifier on identical corrupted tools, and grades
+the final answer against the unperturbed record. Pre-declared adverse branch: silent wrong
+answers on 39 of 60 records in both arms, all under `empty_lists`; an empty list is inside the
+learned hull, so neither arm notices. Out-of-hull corruption is refused by the composite's typed
+projection in both arms; duplicate/pad cost the guarded arm abstentions with no benefit.
+Protocol carries pilot findings, two amendments, a record-keeping note (the pilot's raw cells
+were deleted by mistake and regenerated) and the observed results. Appendix G paragraph, claims
+row, validator family `drift_continuation_graded`.

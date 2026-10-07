@@ -693,8 +693,13 @@ async def run_batch(
     instructions: str | None = None,
     headroom: HeadroomCompressor | None = None,
     headroom_records: list[HeadroomCompression] | None = None,
+    executor: Callable[[str, dict[str, Any]], Any] | None = None,
 ) -> tuple[list[fixed.RunResult], list[dict[str, Any]]]:
     from agents import RunConfig, Runner
+
+    # ``executor`` lets a study substitute the pre-model tool executor (for example to
+    # perturb tool results); the default is the snapshot executor the retained runs used.
+    pre_model_executor = executor or (lambda tool, values: execute_snapshot(spec, store, tool, values))
 
     semaphore = asyncio.Semaphore(concurrency)
 
@@ -719,7 +724,7 @@ async def run_batch(
             started = time.perf_counter()
             pre_attempt = runner.execute_pre_model(
                 {"record_number": number},
-                executor=lambda tool, values: execute_snapshot(spec, store, tool, values),
+                executor=pre_model_executor,
                 day=str(row.get("created_at"))[:10],
                 continuation_compatibility_key=manifest.compatibility_key(),
             )

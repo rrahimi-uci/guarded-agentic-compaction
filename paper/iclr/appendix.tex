@@ -1010,6 +1010,61 @@ abstentions guard the continuation against malformed evidence, which this
 endpoint does not grade; a live continuation extension would. Not
 equivalence; and a program whose later arguments derive from earlier results
 is where a verifier benefit could appear under this suite.
+
+\paragraph{Time-forward cohort and an end-to-end certificate (PR-outcome).}
+After submission we acquired every \code{huggingface/datasets} issue and pull
+request created after the pinned snapshot's last day (2025-06-13; 1{,}095
+records, none previously used) and pre-registered a study
+(\path{paper/supplementary/time-forward-end-to-end-protocol.md}) on the one
+family whose fresh pool supports it: PR-outcome (issue-type and backlog
+routing are NO-GO on class availability, as before). From 811 fresh pull
+requests, three disjoint splits were frozen before any call: 60 test records
+(20 per class), 132 discovery records and 132 calibration groups. The
+retained artifact's verifier pins the old snapshot revision, so on fresh
+records it abstains everywhere and the unchanged agent runs; that is the
+designed behavior and is reported as such. The compiler, with one frozen
+candidate, re-derived the same three-read program from the fresh discovery
+traces (131/132 exact), its contract now pinning the new snapshot. The
+re-derived artifact was then dispatched on all 132 calibration groups and the
+unchanged continuation run once and graded on the exact task contract: 132
+dispatched, 0 misses. Under a single pre-registered rule ($\gamma=\delta=0.10$,
+$m=1$) the one-sided bound on the \emph{end-to-end} violation rate is
+0.0173, below $\alpha=0.05$: the first certificate here whose event includes
+the continuation. On the 60 fresh test records all four conditions reach
+60/60; the re-derived artifact dispatches on every record and cuts requests
+75.0\%, tokens 82.7\%, latency 80.0\% and cost 76.6\% against the unchanged
+agent, with no compiled-only miss; the hand-written program ties it. The
+claim is per-candidate, for one family, conditional on i.i.d.\ groups from
+one repository's post-cutoff records; spend was under one dollar.
+
+\paragraph{Continuation-graded drift ablation: an adverse result.}
+The third drift study
+(\path{paper/supplementary/drift-continuation-graded-protocol.md}; pre-registered
+and run 2026-10-07, 1{,}080 live cells, under one dollar) grades what the two
+provider-free studies could not: the model's continuation when the evidence it
+receives is corrupted. On the 60 primary PR-outcome and backlog records, each
+of the nine perturbations was applied to the tool layer, two arms ran on
+identical corrupted tools (the retained artifact with its induced verifier,
+and the same artifact with a permissive verifier; abstention falls back to the
+unchanged agent on the same corrupted tools), and the final answer was graded
+against the unperturbed record. The pre-declared adverse branch obtained: the
+guarded arm produced a silent wrong answer on 39 of 60 records, all under
+emptied lists, and the permissive arm produced exactly the same 39 (no
+discordant record). An empty discussion or assignee list lies inside the hull
+the verifier learned, so it accepts, the artifact dispatches, and the model
+answers faithfully from the emptied evidence (``no comment evidence'';
+backlog route flipped), which is wrong against the real record. Where the
+corruption left the hull (nulled fields, error payloads, renamed keys) the
+composite's typed projection refused in both arms before any verifier ran;
+where it duplicated or padded lists the verifier abstained on 11--14 of 30
+records whose permissive counterparts answered correctly (guarded fallback
+rate on invariant families 0.1389). The induced contract therefore protects
+against out-of-hull corruption, which the typed projection already catches,
+and not against corruption that lands on a legitimate value; on these records
+the verifier prevented no silent wrong answer and bought abstention only.
+This is a statement about this contract on these corruptions with the
+calibrated model, not about production safety; it is reported ahead of every
+other reading because the protocol said it would be.
 \begin{table}[t]
   \centering
   \caption{Recurrence-only replay on issue-type routing: per-record means over
