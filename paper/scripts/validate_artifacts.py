@@ -3096,6 +3096,38 @@ def validate_time_forward_pr_outcome() -> None:
     ok("0.0173" in appendix and "132" in appendix and "75.0" in appendix, "time-forward: appendix quotes the retained numbers")
 
 
+def validate_drift_continuation_graded() -> None:
+    """Pin the continuation-graded drift ablation (live, 2026-10-07): the adverse result."""
+
+    out = PAPER / "results/drift_continuation_graded"
+    ok((out / "results.json").exists() and (out / "cells_checkpoint.json").exists() and (out / "ledger.json").exists(), "drift cg: results, cells, ledger present")
+    if not (out / "results.json").exists():
+        return
+    s, ledger = load(out / "results.json"), load(out / "ledger.json")
+    ok(s["cells"] == 1080 and s["paired_records"] == 60 and s["failures"] == 0, "drift cg: 1080 cells over 60 paired records, no failures")
+    ok(s["silent_wrong_records"] == {"guarded": 39, "unverified": 39} and s["discordant"]["guarded_only"] == 0 and s["discordant"]["unverified_only"] == 0,
+       "drift cg: 39 silent-wrong records in each arm, no discordant record")
+    ok(s["decision"] == "adverse:guarded_silent_wrong", "drift cg: decision rule reads the adverse branch")
+    per = s["per_cell"]
+    for fam, n_wrong in (("pr_outcome", 19), ("backlog_attention", 20)):
+        for arm in ("guarded", "unverified"):
+            c = per[f"{fam}:{arm}:empty_lists"]
+            ok(c["compacted"] == 30 and c["silent_wrong"] == n_wrong, f"drift cg: {fam}/{arm} empty_lists dispatched 30 with {n_wrong} silent wrong")
+        ok(all(per[f"{fam}:{arm}:{p}"]["silent_wrong"] == 0 for arm in ("guarded", "unverified") for p in
+               ("reorder_lists", "formatting", "duplicate_record", "pad_lists", "null_fields", "schema_drift", "tool_4xx", "tool_timeout")),
+           f"drift cg: {fam} silent wrong answers come only from empty_lists")
+        ok(per[f"{fam}:guarded:duplicate_record"]["compacted"] < 30 and per[f"{fam}:unverified:duplicate_record"]["compacted"] == 30
+           and per[f"{fam}:unverified:duplicate_record"]["exact"] == 30, f"drift cg: {fam} duplicate_record: guarded abstains, unverified exact 30/30")
+        ok(per[f"{fam}:guarded:schema_drift"]["compacted"] == 0 and per[f"{fam}:guarded:schema_drift"]["exact"] == 30,
+           f"drift cg: {fam} schema_drift falls back in both arms and the agent answers 30/30")
+    ok(abs(s["invariant_fallback_rate"]["guarded"] - 0.1389) < 5e-4 and s["invariant_fallback_rate"]["unverified"] == 0.0, "drift cg: guarded invariant fallback 0.1389")
+    ok(0 < ledger["spent_usd"] < 15.0, "drift cg: ledgered spend under the $15 cap")
+    protocol = (PAPER / "supplementary/drift-continuation-graded-protocol.md").read_text(encoding="utf-8")
+    ok("ADVERSE" in protocol and "## Observed results" in protocol and "## Pilot findings" in protocol, "drift cg: protocol carries amendments and the adverse reading")
+    appendix = (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8")
+    ok("39 of 60" in appendix and "empty" in appendix and "0.1389" in appendix, "drift cg: appendix carries the adverse result")
+
+
 FAMILIES: dict[str, Any] = {
     "sources": validate_sources,
     "live": validate_live,
@@ -3127,6 +3159,7 @@ FAMILIES: dict[str, Any] = {
     "drift_ablation": validate_drift_ablation,
     "drift_recorded_replay": validate_drift_recorded_replay,
     "time_forward_pr_outcome": validate_time_forward_pr_outcome,
+    "drift_continuation_graded": validate_drift_continuation_graded,
     "no_secrets": validate_no_secrets,
 }
 

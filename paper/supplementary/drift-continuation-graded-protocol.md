@@ -1,6 +1,6 @@
 # Continuation-graded drift ablation on the primary records (live, capped)
 
-**Status: pre-registered on 2026-10-07. Not run. Requires an explicit spend authorization
+**Status: pre-registered on 2026-10-07; EXECUTED the same day under the author's authorization (observed results at the end). Original status: not run; requires an explicit spend authorization
 before the first provider call; the driver refuses to run live without `--approved-spend-usd`
 and executes `--dry-run` schedules only until then.**
 
@@ -77,3 +77,82 @@ the calibrated model, the induced verifier's abstentions prevent silent wrong fi
 stated abstention and request cost. It is not a certificate, not a production-safety claim, not
 a statement about other models, and the records are the already-evaluated primary cohort, not a
 fresh one. A null licenses nothing about the verifier's value.
+
+## Amendment before execution (2026-10-07, recorded before any provider call)
+
+Issue-type routing is deferred: its retained live harness (`github_live_study.py`) differs from
+the two-family harness (`github_workflow_family_study.py`) the driver reuses, and adapting it is
+separate work. The study runs on PR-outcome and backlog-attention (60 records, 540 cells per
+arm). Injected failures (`tool_4xx`, `tool_timeout`) are surfaced as error payloads, the way the
+real tools report `not_found`, not as exceptions. Pilot: PR-outcome `null_fields` and
+`tool_4xx`, both arms, all 30 records (120 continuations at most plus fallbacks).
+
+## Pilot findings and second amendment (2026-10-07, before the remaining cells)
+
+The pilot (PR-outcome, `null_fields` and `tool_4xx`, both arms, 30 records, $0.10) ran 120
+cells with no failures and no silent wrong answer in either arm. Two facts it exposed are
+recorded before the remaining cells run:
+
+1. **The "unverified" arm is not contract-free.** The retained artifacts are packaged as
+   pre-model composites whose typed projection rejects a nulled `source_revision` or an
+   error-shaped payload (`composite_projection_failed … TypeMismatch`) before any verifier
+   clause runs. Type-breaking corruption therefore falls back to the unchanged agent in
+   both arms, and a silent wrong answer is impossible there by construction. The contrast
+   this study can measure is narrower than written: the induced verifier's hull, cardinality
+   and provenance clauses on type-preserving perturbations (`reorder_lists`,
+   `duplicate_record`, `pad_lists`, `formatting`, and `empty_lists`/`schema_drift` where the
+   projection still types). The pilot's two perturbations are kept and reported descriptively.
+2. **Fallback outcomes are not "wrong answers" in the protocol's sense.** Under `null_fields`
+   the fallback agent's tools return a nulled title and the agent reports `"null"`; graded
+   against the unperturbed record that is a contract miss, but it is a fallback miss on
+   corrupted evidence, identical in both arms. Fallback misses are reported as such and never
+   as silent wrong answers.
+3. **Harness consistency.** The pre-model executor and the fallback tools now perturb the same
+   key-sorted serialization, so a transform nulls the same field on both paths. The pilot's
+   cells were run before this fix; they are retained and flagged, not reused in the pairing.
+
+**Record-keeping note (2026-10-07).** While setting the pilot cells aside, the raw pilot cell
+file was deleted by mistake instead of moved; it was never committed. What survives is the
+pilot's printed summary (120 cells, 0 failures, 0 silent wrong in either arm, every cell a
+fallback miss, 120 and 147 requests per 30-record block) and its spend ledger
+(`ledger_pilot_prefix.json`, $0.0979). The pilot's two perturbations are rerun in full under
+the fixed harness, so no reported number depends on the lost file.
+
+## Observed results (executed 2026-10-07; spend $0.5549 of the $15 cap)
+
+Retained: `paper/results/drift_continuation_graded/` (`cells_checkpoint.json`, `results.json`,
+`ledger.json`). 1080 cells, 0 failures: 60 records (PR-outcome 30, backlog 30) × 9
+perturbations × 2 arms.
+
+**Reading, per the decision rule: ADVERSE, and it takes precedence.** The guarded arm produced
+silent wrong answers on **39 of 60 records** (PR-outcome 19, backlog 20), every one under
+`empty_lists`. The unverified arm produced exactly the same 39; no discordant record (exact
+McNemar p = 1.0). Mechanism, verified against the unperturbed store: `empty_lists` empties the
+discussion list (and, for backlog, the assignee list). An empty list is inside the hull the
+induced verifier learned from traces (records without comments and without assignees exist), so
+the verifier accepts, the artifact dispatches, and the continuation answers faithfully from the
+emptied evidence: `comment_evidence: "none"`, and for backlog `owner: "none"` with the route
+flipped to `awaiting_first_response`. Against the real record, which has comments (all 19 PR
+misses; the 11 correct PR records have none), those answers fail `comment_grounded`,
+`route_correct` and `owner_correct`. The contract induced from traces protects against
+out-of-hull corruption, not against corruption that lands on a legitimate value.
+
+| Perturbation | Both arms |
+|---|---|
+| `empty_lists` | dispatched 30/30 in both arms; silent wrong 19 (PR) and 20 (backlog) in **both** |
+| `reorder_lists`, `formatting` | dispatched 30/30, exact 30/30, both arms |
+| `duplicate_record`, `pad_lists` | guarded: verifier abstained on 11–14 of 30 and fell back (exact 30/30, 63–72 requests per 30); unverified: dispatched 30/30, exact 30/30 at 30 requests. Abstention cost, no benefit |
+| `null_fields`, `tool_4xx`, `tool_timeout` | composite projection rejected in both arms; fallback on perturbed tools wrong 30/30 (fallback misses, not silent) |
+| `schema_drift` | projection rejected in both arms; fallback agent exact 30/30 through renamed keys |
+
+Guardrail: guarded-arm fallback rate on the three invariant families 0.1389 (below 0.25).
+One-sided 95% upper bound on the silent-wrong record rate, either arm: 0.752 (pooled over the
+one perturbation that produces it; descriptive).
+
+**What this licenses.** On these 60 records with the calibrated model, the induced verifier
+prevented no silent wrong answer: where the corruption left the hull (nulls, errors, renamed
+keys) the composite's typed projection already refused in both arms, and where it stayed inside
+the hull (emptied lists) neither arm noticed. The verifier's only measured effect is abstention
+on duplicated and padded lists where the unverified arm answered correctly anyway. This is the
+adverse branch the protocol named; it is a statement about this contract on these corruptions,
+not about production safety, and it is the finding the paper's limitations section must carry.
