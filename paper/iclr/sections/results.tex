@@ -16,8 +16,31 @@
   \input{tables/primary_results.tex}
 \end{table}
 
+\begin{figure}[t]
+  \centering
+  \begin{minipage}[t]{0.50\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/family_reductions.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.48\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{figures/gate_support.pdf}
+  \end{minipage}
+  \Description{Left: bar chart of per-family reductions in requests, interfaces,
+  tokens, latency, and cost against the unchanged agent. Right: NESTFUL recurring
+  families ranked by group-record support, all far below the 92-group exact-gate
+  floor.}
+  \caption{Left: reduction against the unchanged agent per family on the 30
+  held-out records each (the values of \cref{tab:primary}; issue-type routing
+  admits only a two-read prefix). Right: NESTFUL's recurring families ranked by
+  group-record support against the 92-group floor of \cref{eq:cp}; the best
+  reaches 26, so every family retires before calibration
+  (\cref{sec:res-refusal}).}
+  \label{fig:results}
+\end{figure}
+
 Across the 90 held-out records, \method satisfies 90/90 exact contracts and the
-unchanged agent 89/90 (\cref{tab:primary}), reducing provider requests by
+unchanged agent 89/90 (\cref{tab:primary}, \cref{fig:results} left), reducing provider requests by
 66.6\%, tokens by 63.1\%, latency by 64.2\%, and cost by 58.7\% (per-record
 values in \cref{tab:absolute-resources}, \cref{app:stats}). Issue-type routing admits
 only a two-read prefix; the two deeper workflows approach 75\% fewer requests.

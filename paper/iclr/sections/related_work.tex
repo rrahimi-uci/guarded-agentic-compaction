@@ -1,24 +1,63 @@
 \section{Related Work}
 \label{sec:related}
 
-\paragraph{Guarded trace and agent workflow compilation.}
-\method adapts the tracing-JIT pattern---compile a hot path behind a guard,
-deoptimize on a miss~\citep{bala2000dynamo,holzle1992deopt}---to agents, adding
-grounded arguments and declared effects~\citep{lucassen1988effects}. Agent
-systems mine workflows, cache plans, compile orchestration, validate plans, or
-prune topology
-\citep{abuzakuk2026awo,wang2025awm,zhang2025plancache,wei2026evoc2f,winston2026agentjit,li2026flowcompile,chen2026agentslimming};
-DSPy optimizes prompts~\citep{khattab2024dspy}, GEPA evolves
-them~\citep{agrawal2026gepa}, RouteLLM changes models~\citep{ong2025routellm},
-LLMCompiler parallelizes calls~\citep{kim2024llmcompiler}.
-Unlike these, \method treats recurrence only as a proposal: provenance, effects,
-position, contracts, and finite-sample risk each retain a veto
-(\cref{tab:mechanism-removal} in \cref{app:limits}).
+\paragraph{Trace compilation and specialization.}
+\method adapts the tracing-JIT pattern---record a hot path, compile it behind
+a guard, deoptimize on a miss~\citep{bala2000dynamo,gal2009tracejit,holzle1992deopt}---and
+meta-tracing's observation that the trace, not the program, is the unit of
+specialization~\citep{bolz2009pypy}. Partial evaluation supplies the older
+frame: a program specialized to known inputs is correct only where the static
+assumptions hold~\citep{futamura1971partial,jones1993partial}. The analogues
+here are grounded arguments (the static input), declared effects
+\citep{lucassen1988effects}, and the manifest pins that play the role of the
+guard; the novelty is not the inequality but that each of these can veto.
 
-\paragraph{Synthesis, risk control, and evaluation.}
-Bounded search draws on programming by example, sketching, and provenance
-\citep{gulwani2011flashfill,solarlezama2006sketching,cheney2009provenance};
-admission combines Clopper--Pearson with fixed-grid learn-then-test
-\citep{clopper1934binomial,angelopoulos2022ltt}. BFCL, ToolLLM, and AppWorld
+\paragraph{Mining workflows from traces.}
+Family mining is a narrow form of process mining, which recovers models from
+event logs~\citep{vanderAalst2016process}, and synthesis is bounded
+programming by example and sketching
+\citep{gulwani2011flashfill,solarlezama2006sketching}, with provenance tracked
+explicitly~\citep{cheney2009provenance}. Likely invariants inferred from
+executions~\citep{ernst2001daikon} are the ancestor of the induced
+verifier, and \cref{app:limits} shows the same caveat applies: an inferred
+hull is evidence, not a proof.
+
+\paragraph{Reuse, caching, and optimization of agents.}
+Agent systems mine workflows, cache plans, compile orchestration, validate
+plans, or prune topology
+\citep{wang2025awm,zhang2025plancache,abuzakuk2026awo,wei2026evoc2f,winston2026agentjit,li2026flowcompile,chen2026agentslimming,wang2026covenant,chundru2026agenticcompilation};
+skill libraries grow reusable procedures from
+experience~\citep{wang2023voyager,zheng2025skillweaver}; semantic and prompt
+caches reuse responses~\citep{bang2023gptcache,lumer2026cache,song2026capc};
+DSPy, GEPA, TextGrad, and Trace optimize prompts and programs against task
+feedback~\citep{khattab2024dspy,agrawal2026gepa,yuksekgonul2024textgrad,cheng2024trace};
+RouteLLM changes models~\citep{ong2025routellm} and LLMCompiler parallelizes
+calls~\citep{kim2024llmcompiler}; \citet{yue2026workflowsurvey} survey the
+space. These systems decide \emph{what} to reuse; none states an admission
+rule with a finite-sample guarantee or a fallback whose semantics are
+exactly the unchanged agent. \method treats recurrence only as a proposal
+(\cref{tab:mechanism-removal} in \cref{app:limits}), and counterfactual trace
+auditing~\citep{zhou2026cta} is the instrument its continuation check
+approximates.
+
+\paragraph{Selective prediction and finite-sample risk control.}
+Dispatch-or-fall-back is selective prediction with a reject
+option~\citep{chow1970reject,geifman2017selective}. The admission bound is a
+fixed-grid instance of learn-then-test~\citep{angelopoulos2022ltt} using the
+exact binomial interval~\citep{clopper1934binomial}; the risk-controlling
+prediction-set and conformal risk-control lineage
+\citep{vovk2005algorithmic,bates2021rcps,angelopoulos2024crc} gives the
+same kind of statement for other losses. The contribution here is not the
+inequality but the composition that precedes it and the refusal it defaults
+to.
+
+\paragraph{Tool-use safety and evaluation.}
+Effect declarations descend from effect systems~\citep{lucassen1988effects};
+ToolEmu and AgentDojo evaluate agents against hazardous or injected tool
+environments~\citep{ruan2024toolemu,debenedetti2024agentdojo}, which is the
+regime the perturbation suite simulates provider-free (\cref{app:limits}).
+BFCL, ToolLLM, NESTFUL, API-Bank, AppWorld, ToolSandbox, and $\tau^2$-bench
 score tool use or interactive agents broadly
-\citep{patil2025bfcl,qin2023toolllm,trivedi2024appworld} (\cref{app:external}).
+\citep{patil2025bfcl,qin2023toolllm,basu2025nestful,li2023apibank,trivedi2024appworld,lu2025toolsandbox,barres2025tau2};
+\method uses four of them as compiler substrates and reports what each
+refuses (\cref{app:external}).

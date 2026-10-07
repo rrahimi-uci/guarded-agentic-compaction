@@ -1,6 +1,18 @@
 \section{Problem Formulation}
 \label{sec:problem}
 
+\paragraph{Terminology.}
+An \emph{episode} is one recorded run of the agent; a \emph{group} is the set
+of episodes that share an independence unit (one record, one scenario); a
+\emph{region} is a contiguous span of one episode's tool calls; a
+\emph{family} is the set of regions across episodes that share a canonical
+shape; a \emph{candidate} is a family the compiler attempts; a
+\emph{program} is the deterministic code synthesized for it; an
+\emph{artifact} is a program together with its guard, verifier, score,
+threshold, and manifest pins; and a \emph{prefix} is a region that starts at
+the first model boundary. Compilation is the offline act; compaction is the
+runtime substitution it licenses.
+
 \paragraph{Episodes and candidate regions.}
 An episode $E=(z,M,e_{1:T},y)$ contains an entry-state snapshot $z$, a
 content-addressed execution manifest $M$, ordered events $e_t$ (model requests
