@@ -31,7 +31,7 @@ authorize one an earlier stage blocked.
   whole region, and so does a slot with more than $\kappa$ witnesses.}
   \Description{Two witness chips, the entry-state issue number and the issue
   number returned by the record call, sit above three tool-call cards. Green
-  arrows labelled with the producing expression connect a witness to the issue
+  arrows labeled with the producing expression connect a witness to the issue
   number socket of the record, labels and comments calls. The limit socket of
   the comments call has no incoming arrow and is marked no witness. A red dashed
   frame around all three calls marks the retired region and a green dashed frame
@@ -138,11 +138,10 @@ That floor also bounds what selectivity is \emph{certifiable}: coverage
 $c=n_\eta/|\mathcal{K}|$ needs $|\mathcal{K}|\ge\lceil 92/c\rceil$, so on the
 $|\mathcal{K}|=92$ cohorts used throughout --- the smallest satisfiable pool ---
 the only admissible coverages are $c\in\{0,1\}$ whatever $q$ ranks, since
-abstaining on one group leaves $U_\eta=0.0503>\alpha$. Intermediate coverage can
-still be \emph{observed}; it cannot be certified (\cref{app:config},
-\cref{fig:gate-floor}). These
-studies therefore test support sufficiency at full coverage and cannot identify
-whether $q$ ranks dispatch risk.
+abstaining on one group leaves $U_\eta=0.0503>\alpha$. Intermediate coverage can be
+\emph{observed} but not certified (\cref{app:config}, \cref{fig:gate-floor}), so
+these studies test support sufficiency at full coverage and cannot tell whether
+$q$ ranks dispatch risk.
 
 \input{figures/alg-calibrate.tex}
 
@@ -162,5 +161,5 @@ $r_{\hat\eta}\le\alpha$ whenever $U_{\hat\eta}\le\alpha$.
 conditional on i.i.d.\ groups, which the cohorts assume rather than establish
 (\cref{sec:discussion}). Conditional on train and development data the number
 $m$ of candidates reaching calibration is fixed, so a run is compiler-wide when
-$m=1$ (\cref{cor:frozen}) or when $\gamma$ is divided by $m$; \cref{app:config}
+$m=1$ (\cref{cor:frozen}) or when the per-threshold budget $\gamma=\delta/|\Lambda|$ of \cref{eq:cp} is divided by $m$; \cref{app:config}
 reports $m$ and both bounds for every artifact.

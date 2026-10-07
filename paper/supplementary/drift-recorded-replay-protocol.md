@@ -131,3 +131,11 @@ extension (`proposal-90.md` C1b, capped at $15) is the instrument that would. Th
 not equivalence, and it is evidence that the perturbation suite, as an oracle on
 entry-grounded programs, cannot exhibit a verifier benefit; a program whose later arguments
 derive from earlier results (`last |> project(id)`) is where it could.
+
+## Correction after audit (2026-10-07, same day)
+
+The observed-results text says "no later call consumes an earlier result". The retained
+programs bind the record identifier at entry and re-read it from the first record tool's echo
+for the later calls, so later calls do consume an earlier result. The conclusion stands for a
+narrower reason: the only derived argument is that identifier and none of the nine transforms
+alters it, so no tool-result perturbation in this suite can change a decision.

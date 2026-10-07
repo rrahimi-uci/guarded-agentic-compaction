@@ -290,11 +290,15 @@ def _comments(row: dict[str, Any]) -> list[str]:
 def grade(spec: FamilySpec, row: dict[str, Any], answer: dict[str, Any], tools: Sequence[str]) -> dict[str, Any]:
     comments = _comments(row)
     excerpt = normalize_text(answer.get("comment_evidence"))
-    comment_grounded = (
-        any(excerpt in comment for comment in comments)
-        if comments
-        else excerpt.lower() == "none"
-    )
+    # "none" is a claim that the record has no comments; it is grounded only when
+    # that is true. Testing it as a substring accepted it against any comment
+    # containing "none" (e.g. "nonetheless"), which the 2026-10-07 drift audit
+    # caught on one record (PR 6694). Retained results were graded before this
+    # fix; the audit found no headline row affected.
+    if excerpt.lower() == "none":
+        comment_grounded = not comments
+    else:
+        comment_grounded = bool(comments) and any(excerpt in comment for comment in comments)
     checks: dict[str, bool] = {
         "record_number_correct": answer.get("record_number") == int(row["number"]),
         "title_correct": normalize_text(answer.get("title")) == normalize_text(row.get("title")),

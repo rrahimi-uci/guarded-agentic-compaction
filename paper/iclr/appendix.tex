@@ -89,7 +89,8 @@ at one threshold and $n=92$, the population rate that maximizes miscoverage is
 $r^{*}\approx0.637$, where miscoverage is $\approx0.00909\approx\gamma$. Pooling
 $m$ such candidates at the uncorrected per-candidate budget raises that
 single-threshold union to 1.8\% at $m=2$ and 13.6\% at $m=16$, while the
-corrected budget keeps it below 0.81\% for every $m$ tested. These are
+corrected budget keeps it below 0.81\% for every $m\ge2$ tested ($m=1$ sits
+at the 0.91\% per-threshold budget by construction). These are
 illustrative single-threshold figures; the grid-wide and candidate-wide
 certificates are the $\delta$ statements above, not these numbers. A companion
 seeded Monte Carlo (seed \code{20260822}, $200{,}000$ replicates per cell) draws
@@ -287,7 +288,7 @@ $\{\textsc{pure},\textsc{read-local},\textsc{read-external}\}$ is refused at
 commit and raises an incident; no post-commit path is reachable in the
 reported runs, and \cref{alg:dispatch}'s commit line is that contract.
 
-\begin{table}[h]
+\begin{table}[ht]
   \centering
   \caption{The closed transform library $\mathcal{L}$ (version \code{T-v1}). These
   23 operators are the \emph{entire} expressive power of the binder: a slot with
@@ -329,10 +330,10 @@ collapses observationally equivalent chains.
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{figures/gate_floor.pdf}
-  \caption{Why a 92-group pool certifies only full coverage. Left: the
+  \caption{Why a 92-group pool certifies only full coverage. (a): the
   zero-violation bound $U(n)=1-(\delta/|\Lambda|)^{1/n}$ at $\delta=0.1$,
   $|\Lambda|=11$ crosses $\alpha=0.05$ between $n=91$ (0.0503) and $n=92$
-  (0.0498). Right: the smallest pool $\lceil 92/c\rceil$ that can certify
+  (0.0498). (b): the smallest pool $\lceil 92/c\rceil$ that can certify
   selective coverage $c$; every calibration pool in this paper is 92, so the
   certifiable coverages are 0 and 1 whatever $q$ ranks.}
   \label{fig:gate-floor}
@@ -420,7 +421,9 @@ non-sensitive evidence; no model or provider call is made.
   \centering
   \caption{Per-record paired differences (compiled minus baseline) for all three
   families, with 10{,}000-sample bootstrap intervals (seed 20260802) and
-  two-sided Wilcoxon signed-rank tests over $n=30$ paired held-out records.
+  two-sided Wilcoxon signed-rank tests over $n=30$ paired held-out records
+  (exact where differences are tie-free, tie-corrected normal approximation
+  otherwise).
   Latency is reported as the mean and as the median paired difference, each with
   its interval; cost intervals are in USD. Provider-request differences are
   deterministic by construction (every pair removes the same number of turns),
@@ -436,9 +439,9 @@ non-sensitive evidence; no model or provider call is made.
 \begin{table}[t]
   \centering
   \caption{Exact-contract discordance per family and pooled. ``Baseline-only''
-  counts records the unchanged agent passed and the compiled arm failed;
-  ``compiled-only'' the reverse. The upper bound is the one-sided 95\%
-  Clopper--Pearson bound on the compiled-only failure rate.}
+  counts records only the unchanged agent missed; ``compiled-only'' records
+  only the compiled arm missed. The upper bound is the one-sided 95\%
+  Clopper--Pearson bound on the compiled-only count (0/90 pooled).}
   \label{tab:discordance}
   \footnotesize
   \input{tables/discordance.tex}
@@ -460,7 +463,7 @@ provider-response latency reproduces the wall-latency reductions to within
 0.3 percentage points, so the ordering design, not service variance,
 carries the effect.
 
-\begin{table}[h]
+\begin{table}[ht]
   \centering
   \caption{The hand-written comparator priced on the same resource axes as
   \cref{tab:primary}, as percentage reduction against the same baseline and the
@@ -557,8 +560,8 @@ The cross-repository study is narrower than the primary workflow families. Its
 task uses two read-only tools and a simpler exact outcome contract, which is
 precisely why a fixed template can remain tied or even more efficient than the
 learned artifact. We keep the result in the main text because it addresses a
-reviewer-critical scope question---whether guarded specialization survives
-beyond one repository---while being explicit about the reduced task complexity.
+reviewer-critical scope question --- whether guarded specialization survives
+beyond one repository --- while being explicit about the reduced task complexity.
 
 \paragraph{The position invariant, empirically.}
 \label{app:pilot}
@@ -750,7 +753,7 @@ AppWorld freezes each task's clock.
 
 The empirical audit attributes every
 \code{INSERT}/\code{UPDATE}/\code{DELETE}/\allowbreak\code{CREATE}/\code{DROP} statement to the enclosing call. It observed 1{,}320
-mutating calls, zero read-like declarations mutating, and---unlike BFCL---zero
+mutating calls, zero read-like declarations mutating, and --- unlike BFCL --- zero
 APIs that mutate on some calls but not others. Every \code{GET} was clean on
 every call and every \code{DELETE} and \code{PATCH} mutated on every call, so
 the effect boundary is crisp; the five \code{*.login} endpoints are the only
@@ -758,7 +761,7 @@ non-\code{GET} APIs that never mutate, which is why they are the single
 contestable declaration and why the run is pre-registered in two arms. Groups
 are tasks, not scenarios: AppWorld's three variants of a scenario share a
 supervisor and a database, so the bound is conditional on task-level
-independence, which this corpus does not establish---the same conditional the
+independence, which this corpus does not establish --- the same conditional the
 live studies carry, neither weakened nor repaired here. The calibration share is
 fixed at exactly the 92 groups the bound needs, since a larger set would make
 the bound easier and a smaller one would make it unreachable. Two held-out
@@ -791,7 +794,7 @@ and neither is a subset of the other's training side.
 on essentially every full-code trajectory and essentially no ReAct or
 plan-and-execute trajectory, because those architectures open by reading API
 documentation---3{,}752 of the 8{,}190 released trajectories begin with an
-API-description call---so the compiled prefix is no longer at position~0 and
+API-description call --- so the compiled prefix is no longer at position~0 and
 \eqref{eq:prefix} refuses. A further 61 trajectories contain the program
 somewhere other than position~0, which the same invariant refuses. Full-code
 agents are eligible on $2{,}339/2{,}340$ trajectories and iterative parallel
@@ -850,9 +853,12 @@ continuation misses (an excerpt that departs from its source), and they are
 outside the certificate: the one-sided 95\% upper bound on compiled-only
 discordance in \cref{app:stats} is an empirical quality statement at a
 different confidence level, not an admission certificate. An end-to-end
-certificate would need a pre-registered endpoint that runs the continuation
-and grades the task contract on fresh calibration groups; the sample floor of
-\cref{eq:cp} then applies to that event.
+certificate needs a pre-registered endpoint that runs the continuation and
+grades the task contract on fresh calibration groups, with the sample floor of
+\cref{eq:cp} applied to that event; one was obtained after submission for a
+re-derived PR-outcome artifact on 132 fresh groups (0 misses, bound 0.0173 at
+90\% confidence; below), while every certificate in the main text remains a
+replay-contract certificate.
 
 \paragraph{Repairs for non-exchangeable groups.}
 \Cref{sec:discussion} states that the cluster-aware repairs all cost effective
@@ -998,12 +1004,15 @@ at least one recorded call per family. All three arms produce zero wrong
 outcomes (upper bound 0.0331 per arm; no discordant pair; Holm-adjusted
 exact McNemar $p=1$ for both comparisons). The reason is structural, not
 total tools: the suite's oracle is the sequence of derived call arguments,
-and every admitted GitHub program derives every argument from the entry
-record alone, so no tool-result perturbation can change a decision and
-\emph{wrong} is unreachable for these programs under this suite. What the
+and every admitted GitHub program's only derived argument is the record
+identifier, bound at entry and re-read unchanged from the first record tool's
+echo; none of the nine transforms alters that identifier, so no tool-result
+perturbation in this suite can change a decision and \emph{wrong} is
+unreachable for these programs. What the
 suite does measure is the contract: the induced verifier abstains on nulled
-fields and on duplicated or padded discussion lists (0.1049 of invariant
-outcomes pooled; 0.0444, 0.1222, 0.1494 per family), the interpreter abstains
+fields and on duplicated or padded discussion (or label) lists (0.1049 of
+invariant-family outcomes pooled; 0.0444, 0.1222, 0.1494 per family; padded
+lists are expected-either and sit outside that denominator), the interpreter abstains
 on schema drift in both compiled arms, and the hand-written program answers
 through schema drift unchanged because it echoes what it is given. Those
 abstentions guard the continuation against malformed evidence, which this
@@ -1014,7 +1023,8 @@ is where a verifier benefit could appear under this suite.
 \paragraph{Time-forward cohort and an end-to-end certificate (PR-outcome).}
 After submission we acquired every \code{huggingface/datasets} issue and pull
 request created after the pinned snapshot's last day (2025-06-13; 1{,}095
-records, none previously used) and pre-registered a study
+records, 1{,}086 of them passing a preflight that drops any record number a
+retained result mentions) and pre-registered a study
 (\path{paper/supplementary/time-forward-end-to-end-protocol.md}) on the one
 family whose fresh pool supports it: PR-outcome (issue-type and backlog
 routing are NO-GO on class availability, as before). From 811 fresh pull
@@ -1048,20 +1058,29 @@ identical corrupted tools (the retained artifact with its induced verifier,
 and the same artifact with a permissive verifier; abstention falls back to the
 unchanged agent on the same corrupted tools), and the final answer was graded
 against the unperturbed record. The pre-declared adverse branch obtained: the
-guarded arm produced a silent wrong answer on 39 of 60 records, all under
-emptied lists, and the permissive arm produced exactly the same 39 (no
-discordant record). An empty discussion or assignee list lies inside the hull
+guarded arm produced a silent wrong answer on 39 of 60 records as graded,
+all under emptied lists, and the permissive arm produced exactly the same 39
+(no discordant record); a 40th record (PR 6694) answered ``none'' against a
+real comment but passed the grader's substring test because that comment
+contains ``nonetheless'', a grader defect since fixed. An empty discussion or assignee list lies inside the hull
 the verifier learned, so it accepts, the artifact dispatches, and the model
 answers faithfully from the emptied evidence (``no comment evidence'';
 backlog route flipped), which is wrong against the real record. Where the
-corruption left the hull (nulled fields, error payloads, renamed keys) the
-composite's typed projection refused in both arms before any verifier ran;
-where it duplicated or padded lists the verifier abstained on 11--14 of 30
-records whose permissive counterparts answered correctly (guarded fallback
-rate on invariant families 0.1389). The induced contract therefore protects
-against out-of-hull corruption, which the typed projection already catches,
-and not against corruption that lands on a legitimate value; on these records
-the verifier prevented no silent wrong answer and bought abstention only.
+corruption left the hull, dispatch fell back in both arms before any
+continuation ran: on renamed keys the interpreter's binding failed in both
+arms; on nulled fields and error payloads the induced verifier's non-null
+clauses refused in the guarded arm and the composite's typed projection
+refused in the permissive arm, and the fallback agent, fed the same corrupted
+tools, then answered wrong on 30/30 in both arms (fallback misses, outside the
+39). Where lists were duplicated or padded the verifier abstained on 11--14 of
+30 records whose permissive counterparts answered correctly, and one such
+fallback (backlog record 5971) itself missed comment grounding (guarded
+fallback rate on invariant families 0.1389; padded lists are expected-either
+and outside that denominator). The induced contract therefore adds nothing the
+typed projection does not already catch on out-of-hull corruption, and catches
+nothing that lands on a legitimate value; on these records the verifier
+prevented no silent wrong answer and bought abstention, and one fallback miss,
+only.
 This is a statement about this contract on these corruptions with the
 calibrated model, not about production safety; it is reported ahead of every
 other reading because the protocol said it would be.
@@ -1137,7 +1156,7 @@ admitted the identical artifacts (same ids and programs, 92/0 gates, one and
 two candidates at calibration) and dispatched on 30/30 records; backlog met
 the split exactly and both candidates retired at calibration because only 91
 and 90 groups were accepted at any threshold, leaving the zero-violation bound
-at 0.050 and 0.051, above $\alpha$: the floor of \cref{fig:gate-floor} binding
+at 0.0503 and 0.0509, above $\alpha$: the floor of \cref{fig:gate-floor} binding
 on a second provider. The decision rule reports the compiled-only misses first:
 two on issue-type (records 4248 and 6829) and two on PR-outcome (5401 and
 6988). Every miss on this provider, in every arm, is an excerpt that drops
@@ -1197,7 +1216,7 @@ unguarded-replay baseline. That rerun also re-executed the unchanged agent on
 the same 30 backlog records and scored 30/30, so the single baseline miss of
 \cref{tab:primary} did not recur.
 
-\paragraph{A drift-parity protocol, pre-registered and not yet run.}
+\paragraph{The drift-parity protocol and what it became.}
 The strongest standing objection is that a hand-written program reaches the same
 90/90 contracts as the compiled artifact and is cheaper on one family. A
 three-arm design isolates the \emph{induced verifier} from the \emph{program} by
@@ -1207,9 +1226,11 @@ suite already implemented in \path{evaluation/perturb.py} (reordering,
 duplication, formatting, empty/null fields, schema drift, tool errors and
 timeouts), asking whether the compiled artifact abstains where an unverified
 program would answer silently
-(\path{paper/supplementary/drift-robustness-ablation-protocol.md}). Status:
-pre-registered on the deterministic demonstration substrate, not executed; no
-result from it is reported here.
+(\path{paper/supplementary/drift-robustness-ablation-protocol.md}). It has
+since been run three ways, reported above in this appendix: provider-free on
+the demonstration substrate (null), provider-free on the recorded primary
+records (null, for a structural reason), and live with the continuation graded
+(adverse).
 
 \paragraph{Where ``unchanged baseline'' is exact.}
 Pre-emission rejection is exact on both runtime paths; only a staging-owning
@@ -1227,31 +1248,11 @@ calibration share at exactly the 92 groups the bound requires and draws them by
 seeded shuffle over all clean tasks, rather than taking the tasks in which the
 mined family happens to have the deepest support.
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=0.8\linewidth]{figures/family_reductions.pdf}
-  \caption{Per-family resource reductions behind \cref{tab:primary}, plotted
-  because the spread is the result: admissible prefix depth --- not the
-  optimizer --- sets the savings, and the two deeper families sit at the
-  feasibility ceiling of \cref{eq:ceiling}.}
-  \label{fig:family-reductions}
-\end{figure}
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=0.9\linewidth]{figures/gate_support.pdf}
-  \caption{NESTFUL family supports against the 92-group requirement implied by
-  \cref{eq:cp} at $\alpha=0.05$, $\delta=0.1$, $|\Lambda|=11$. The largest family
-  reaches 26 groups, so every family retires at calibration even though
-  provenance, synthesis, and replay all succeeded.}
-  \label{fig:gate-support}
-\end{figure}
-
-\Cref{fig:family-reductions} plots the per-family spread behind
+\Cref{fig:results} (left) plots the per-family spread behind
 \cref{tab:primary}: admissible prefix depth, not the optimizer, sets the
 savings. The current empirical gate does not yet demonstrate a useful
 risk--coverage frontier at the registered 5\% level. The strongest current runs are mostly
-all-or-none support tests (\cref{fig:gate-support}), and the candidate-search
+all-or-none support tests (\cref{fig:results}, right), and the candidate-search
 problem is compiler-wide only when one candidate reaches calibration
 (\cref{cor:frozen}) or the budget is divided across those that do; for the two
 families whose dominance search calibrated two candidates the corrected bound is
@@ -1419,7 +1420,7 @@ with informative features; it is written and not run.
 \section{Claims and Evidence}
 \label{app:claims}
 
-\Cref{tab:claims-evidence,tab:claims-evidence-b,tab:claims-evidence-c,tab:claims-evidence-d} list every claim the paper
+\Cref{tab:claims-evidence,tab:claims-evidence-b,tab:claims-evidence-c,tab:claims-evidence-d,tab:claims-evidence-e} list every claim the paper
 makes, what was measured, the retained file that carries the number, and what
 the claim does not license. Rows are grouped as the paper is: the primary live families, the
 external substrates, and the studies added after the pre-submission review.
@@ -1462,4 +1463,14 @@ external substrates, and the studies added after the pre-submission review.
   \setlength{\tabcolsep}{3pt}
   \renewcommand{\arraystretch}{1.05}
   \input{tables/claims_evidence_d.tex}
+\end{table}
+
+\begin{table}[p]
+  \centering
+  \caption{Claims and evidence, part E: the studies run after submission (October 2026): the two provider-free drift ablations, the time-forward cohort with its end-to-end certificate, and the continuation-graded drift ablation.}
+  \label{tab:claims-evidence-e}
+  \scriptsize
+  \setlength{\tabcolsep}{3pt}
+  \renewcommand{\arraystretch}{1.05}
+  \input{tables/claims_evidence_e.tex}
 \end{table}

@@ -156,3 +156,25 @@ the hull (emptied lists) neither arm noticed. The verifier's only measured effec
 on duplicated and padded lists where the unverified arm answered correctly anyway. This is the
 adverse branch the protocol named; it is a statement about this contract on these corruptions,
 not about production safety, and it is the finding the paper's limitations section must carry.
+
+## Corrections after audit (2026-10-07, same day; observed-results text above left as written)
+
+1. **Refusal mechanism.** The observed-results reading attributed out-of-hull refusals to the
+   composite's typed projection "in both arms". The cell-level dispatch reasons show otherwise:
+   on nulled fields and error payloads the **induced verifier's non-null clauses** refused in the
+   guarded arm (`missing:pr.title`, `missing:pr2.source_revision`, …) and the typed projection
+   refused only in the permissive arm; on renamed keys the **interpreter's binding** failed in
+   both arms (`interp_failed`). The conclusion is unchanged: both arms fell back before any
+   continuation, so the verifier adds nothing the projection does not already catch there.
+2. **Grader artifact.** `grade()` tested `comment_evidence` as a substring of each comment, so
+   the answer `none` was accepted against any comment containing "none". PR 6694 (one comment,
+   "…nonetheless…") was graded correct under `empty_lists` in both arms; the true silent-wrong
+   count is 40 of 60 in both arms, still with no discordant record. The appendix reports "39 as
+   graded" with this note. The grader is fixed so that `none` is grounded only when the record
+   has no comments; an audit of every retained row graded by this function found no other
+   affected row (the only other hit, backlog 5189, was already graded a miss).
+3. **One fallback miss.** `backlog_attention:guarded:duplicate_record` is exact 29/30, not
+   30/30: record 5971's fallback on duplicated tools missed comment grounding.
+4. **Latency.** The hand-written program ties the re-derived artifact on exactness, requests,
+   tokens and cost but not latency; "ties on every axis" in the time-forward protocol is
+   corrected there.

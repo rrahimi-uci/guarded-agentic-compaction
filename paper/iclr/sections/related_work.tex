@@ -2,8 +2,8 @@
 \label{sec:related}
 
 \paragraph{Trace compilation and specialization.}
-\method adapts the tracing-JIT pattern---record a hot path, compile it behind
-a guard, deoptimize on a miss~\citep{bala2000dynamo,gal2009tracejit,holzle1992deopt}---and
+\method adapts the tracing-JIT pattern --- record a hot path, compile it behind
+a guard, deoptimize on a miss~\citep{bala2000dynamo,gal2009tracejit,holzle1992deopt} --- and
 meta-tracing's observation that the trace, not the program, is the unit of
 specialization~\citep{bolz2009pypy}. Partial evaluation supplies the older
 frame: a program specialized to known inputs is correct only where the static
@@ -54,8 +54,8 @@ to.
 \paragraph{Tool-use safety and evaluation.}
 Effect declarations descend from effect systems~\citep{lucassen1988effects};
 ToolEmu and AgentDojo evaluate agents against hazardous or injected tool
-environments~\citep{ruan2024toolemu,debenedetti2024agentdojo}, which is the
-regime the perturbation suite simulates provider-free (\cref{app:limits}).
+environments~\citep{ruan2024toolemu,debenedetti2024agentdojo}, the regime
+our perturbation studies probe, provider-free and once live (\cref{app:limits}).
 BFCL, ToolLLM, NESTFUL, API-Bank, AppWorld, ToolSandbox, and $\tau^2$-bench
 score tool use or interactive agents broadly
 \citep{patil2025bfcl,qin2023toolllm,basu2025nestful,li2023apibank,trivedi2024appworld,lu2025toolsandbox,barres2025tau2};

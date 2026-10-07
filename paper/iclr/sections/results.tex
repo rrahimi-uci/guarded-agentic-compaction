@@ -1,4 +1,5 @@
 \section{Results}
+\label{sec:results}
 
 \subsection{Primary workflows: preserved contracts, less work}
 \label{sec:res-primary}
@@ -6,10 +7,9 @@
 \begin{table}[t]
   \centering
   \caption{Primary live-provider results ($n=30$ held-out records per family).
-  ``Interfaces'' counts provider-visible tool interfaces. All conditions see
-  identical records, model, and grader; \emph{Manual} is hand-written with full
-  knowledge of the workflow, and \cref{tab:manual-resources} in \cref{app:stats} prices it on these
-  same resource axes.}
+  ``Interfaces'' counts provider-visible tool interfaces. All conditions share
+  records, model, and grader; \emph{Manual} is hand-written with full workflow
+  knowledge (\cref{tab:manual-resources}, \cref{app:stats}).}
   \label{tab:primary}
   \footnotesize
   \setlength{\tabcolsep}{3.5pt}
@@ -20,21 +20,20 @@
   \centering
   \begin{minipage}[t]{0.50\linewidth}
     \centering
-    \includegraphics[width=\linewidth]{figures/family_reductions.pdf}
+    \includegraphics[width=\linewidth]{figures/family_reductions_panel.pdf}
   \end{minipage}\hfill
   \begin{minipage}[t]{0.48\linewidth}
     \centering
-    \includegraphics[width=\linewidth]{figures/gate_support.pdf}
+    \includegraphics[width=\linewidth]{figures/gate_support_panel.pdf}
   \end{minipage}
   \Description{Left: bar chart of per-family reductions in requests, interfaces,
   tokens, latency, and cost against the unchanged agent. Right: NESTFUL recurring
   families ranked by group-record support, all far below the 92-group exact-gate
   floor.}
-  \caption{Left: reduction against the unchanged agent per family on the 30
-  held-out records each (the values of \cref{tab:primary}; issue-type routing
-  admits only a two-read prefix). Right: NESTFUL's recurring families ranked by
-  group-record support against the 92-group floor of \cref{eq:cp}; the best
-  reaches 26, so every family retires before calibration
+  \caption{Left: reduction against the unchanged agent per family (30 held-out
+  records each; the values of \cref{tab:primary}). Right: NESTFUL's 32 recurring
+  families ranked by group-record support against the 92-group floor of
+  \cref{eq:cp}; the best reaches 26, so every family retires
   (\cref{sec:res-refusal}).}
   \label{fig:results}
 \end{figure}
@@ -42,16 +41,16 @@
 Across the 90 held-out records, \method satisfies 90/90 exact contracts and the
 unchanged agent 89/90 (\cref{tab:primary}, \cref{fig:results} left), reducing provider requests by
 66.6\%, tokens by 63.1\%, latency by 64.2\%, and cost by 58.7\% (per-record
-values in \cref{tab:absolute-resources}, \cref{app:stats}). Issue-type routing admits
-only a two-read prefix; the two deeper workflows approach 75\% fewer requests.
+values in \cref{tab:absolute-resources}, \cref{app:stats}); issue-type routing, a
+two-read prefix, is the low end of every range in \cref{fig:results}.
 
 The discordant pair is one baseline-only miss (backlog record 5189, an
 ungrounded excerpt) against zero compiled-only misses (McNemar $p=1$; one-sided
 95\% upper bound on compiled-only discordance 3.3\%, or 2.2\% over 210 records
-with the extension in \cref{app:stats});
-the same 30 records rerun on 2026-08-18 scored 30/30 in every arm
-(\cref{app:limits}), so the miss is a stochastic baseline event and the result
-supports preservation on this cohort, not superiority or equivalence. Each artifact was
+once the 120-record extension of \cref{app:stats}, which holds one compiled-only
+miss, is pooled); a rerun of the same 30 records scored 30/30 in every arm
+(\cref{app:limits}), so the miss is stochastic and the result supports
+preservation, not superiority or equivalence. Each artifact was
 admitted with 92 calibration groups and zero replay-contract violations
 ($U_{\hat\eta}=0.0498\le0.05$), a bound on the compiled region conditional on
 i.i.d.\ groups. The
@@ -65,27 +64,28 @@ own traces re-derives two of the three artifacts and refuses the third; the
 transfer of the retained artifacts to \code{gpt-6-luna} keeps the structure
 with one compiled-only miss in 90 (\cref{app:limits}).
 
-Discovery reaches the manual ceiling: programs written with full knowledge of
-the workflow also reach 90/90 and, priced on the same axes
-(\cref{tab:manual-resources}), tie on requests, issue fewer interfaces, are
-marginally cheaper in tokens and dollars, and lose only on latency. We claim
-discovery and admission, not runtime dominance over hand-written code.
+Discovery reaches the manual ceiling: programs written with full workflow
+knowledge also reach 90/90 and, on the same axes (\cref{tab:manual-resources}),
+tie on requests, issue fewer interfaces, cost marginally less, and lose only on
+latency. We claim discovery and admission, not runtime dominance.
 
 \subsection{Time-forward transfer: compile or retire}
 \label{sec:res-multirepo}
 
 On the narrower two-read pull-request outcome task across frozen public
 repositories (\cref{sec:setup}), \method completes 120/120 exact
-pairs on four of five repositories and retires \code{pytorch/pytorch} at
-admission, where no calibration group is accepted at any threshold, rather
-than loosening its gate (\cref{app:breadth}). The compiled program ran on 80/120
+contracts on paired held-out records across four of five repositories and retires \code{pytorch/pytorch} at
+admission, where no calibration group is accepted at any threshold
+(\cref{app:breadth}). The compiled program ran on 80/120
 held-out records: every open-class record abstained on the induced verifier's
-\code{pr.state} hull, learned from discovery pools holding 0--3 open records,
-and ran the unchanged agent, so requests fall 44.4\% overall (66.7\% on
-dispatched records) and tokens 52.4\%. A balanced three-repository rerun, with all three
-classes in discovery, dispatches on 180/180 and reaches 180/180 exact pairs at 66.7\% fewer requests and 78.4\% fewer tokens
-(\cref{tab:multirepo-disaggregated} in \cref{app:breadth}). A fixed two-read
-template is more efficient in the core protocol and tied in the rerun.
+\code{pr.state} hull (discovery pools held 0--3 open records) and ran the
+unchanged agent, so requests fall 44.4\% (66.7\% on dispatched records) and
+tokens 52.4\%. A balanced three-repository rerun with all three classes in discovery,
+\code{pytorch/pytorch} included, dispatches on 180/180 and reaches 180/180 exact
+contracts at 66.7\% fewer requests and 78.4\% fewer tokens
+(\cref{tab:multirepo-disaggregated} in \cref{app:breadth}); the refusal was
+composition-driven. The hand-written program is more efficient in the core
+protocol and tied in the rerun.
 
 \subsection{What binds: sample size, then deployability}
 \label{sec:res-refusal}
@@ -93,7 +93,7 @@ template is more efficient in the core protocol and tied in the rerun.
 \begin{table}[t]
   \centering
   \caption{Where refusal happens, and what happens where it does not. Stage
-  numbers are \cref{alg:compile}'s; ``slots'' is the share of dependency slots with
+  numbers follow \cref{sec:method} and \cref{fig:pipeline}; ``slots'' is the share of dependency slots with
   a recovered producer, and $n_{\max}$ is the largest family support against the 92
   \cref{eq:cp} requires. ``p/a/w'' is pass/abstain/wrong on each substrate's
   \emph{family-level} replay split, which is held out from a different fit than
@@ -105,20 +105,19 @@ template is more efficient in the core protocol and tied in the rerun.
 \end{table}
 
 The external substrates isolate the binding constraint (\cref{tab:funnel}). All
-four clear provenance, synthesis, and replay with \emph{no} wrong execution,
-then NESTFUL, API-Bank, and executed BFCL gold plans retire, each settled
-arithmetically before the compiler ran. AppWorld's gold solutions reach $n_{\max}=136$, making it the first
-external corpus where \cref{eq:cp} is satisfiable, and it admits one artifact at
-92/92 zero-violation groups ($U_{\hat\eta}=0.0498$) with 11/11 exact replay on
-its sealed admission split, under both pre-registered effect arms. Two features
-bound it: the gate is step-like and the admitted program is argument-free
-(\cref{app:external}).
+four pass provenance, synthesis, and replay with \emph{no} wrong execution
+(API-Bank's two replay windows abstain rather than pass), but NESTFUL, API-Bank,
+and executed BFCL gold plans retire at stage 6 on support alone, $n_{\max}=26$,
+$8$, $15<92$, an outcome fixed before the compiler ran. AppWorld's gold solutions reach $n_{\max}=136$, the first external corpus
+where \cref{eq:cp} is satisfiable; it admits one artifact at 92/92
+zero-violation groups ($U_{\hat\eta}=0.0498$) with 11/11 exact replay on its
+sealed split under both pre-registered effect arms, bounded by a step-like gate
+and an argument-free program (\cref{app:external}).
 
-Admissibility is not dispatchability. Gold solutions are not agent trajectories,
-so we also test the admitted region against AppWorld's 28 released baseline
-runs. Over 8{,}190 trajectories it is structurally eligible at the entry boundary in
-$37.9\%$, and the architecture explains the spread (\cref{tab:appworld-dispatch} in \cref{app:external}):
-full-code agents are eligible almost always, ReAct and plan-and-execute almost
-never. They open by reading API documentation, yet admitting that read as a
-prologue recovers only 2 of 4{,}680, because they rarely execute the region at
-all (\cref{app:limits}); the measurement bounds $\varphi$ from above.
+Admissibility is not dispatchability: against AppWorld's 28 released baseline
+runs (8{,}190 trajectories) the admitted region is eligible at the entry boundary
+in $37.9\%$, almost always for full-code agents and almost never for ReAct and
+plan-and-execute (\cref{tab:appworld-dispatch} in \cref{app:external}). Those
+open by reading API documentation, yet admitting that read as a prologue
+recovers only 2 more of 4{,}680, because they rarely execute the region at all
+(\cref{app:limits}); the measurement bounds $\varphi$ from above.

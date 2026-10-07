@@ -1830,10 +1830,18 @@ def validate_live_extensions() -> None:
         comp = {r["issue_number"]: _exact(r) for r in rows if r["condition"] == "compiled"}
         episodes += len(comp)
         compiled_only += sum(base.get(k, False) and not v for k, v in comp.items())
-    ok(episodes == 750 and compiled_only == 1,
-       "§7: 750 compiled held-out episodes on the calibrated model with one compiled-only failure")
-    ok("750 compiled held-out episodes" in (PAPER / "iclr/sections/discussion.tex").read_text(encoding="utf-8"),
-       "§7 states the 750-episode headline")
+    tf_results = PAPER / "results/time_forward/pr_outcome/evaluation_checkpoint.json"
+    if tf_results.exists():
+        # the post-cutoff evaluation: 60 fresh records under the re-derived artifact
+        rows = load(tf_results).get("results", [])
+        base = {int(r["issue_number"]): _exact(r) for r in rows if r["condition"] == "baseline"}
+        comp = {int(r["issue_number"]): _exact(r) for r in rows if r["condition"] == "compiled"}
+        episodes += len(comp)
+        compiled_only += sum(base.get(k, False) and not v for k, v in comp.items())
+    ok(episodes == 810 and compiled_only == 1,
+       "§7: 810 held-out episodes under a compiled artifact on the calibrated model with one compiled-only failure")
+    ok("Across 810 held-out episodes run under a compiled artifact" in (PAPER / "iclr/sections/discussion.tex").read_text(encoding="utf-8"),
+       "§7 states the 810-episode headline")
 
     # -- second-model replication ----------------------------------------------------
     sm_dir = PAPER / "results/second_model_replication"
@@ -2049,7 +2057,7 @@ def validate_live_extensions() -> None:
         ok(all(v.get("after_eligible_total", 0) >= v.get("before_eligible_at_position_0", 0) for v in fam.values()),
            "prologue: AFTER is a superset of BEFORE in every architecture")
         ok((PAPER / "iclr/tables/appworld_dispatch_prologue.tex").exists(), "prologue: ICLR table exists")
-        ok("2 of 4{,}680" in (PAPER / "iclr/sections/results.tex").read_text(encoding="utf-8"),
+        ok("2 more of 4{,}680" in (PAPER / "iclr/sections/results.tex").read_text(encoding="utf-8"),
            "prologue: §5.3 states the measured recovery")
 
     summary_path = sm_dir / "summary.json"

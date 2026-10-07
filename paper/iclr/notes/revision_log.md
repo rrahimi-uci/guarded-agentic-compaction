@@ -299,3 +299,38 @@ projection in both arms; duplicate/pad cost the guarded arm abstentions with no 
 Protocol carries pilot findings, two amendments, a record-keeping note (the pilot's raw cells
 were deleted by mistake and regenerated) and the observed results. Appendix G paragraph, claims
 row, validator family `drift_continuation_graded`.
+
+## Deep review after the October studies (2026-10-07, branch `paper/deep-review-fixes`)
+
+Four parallel review passes over the 42-page build (main-text clarity and stale claims; appendix
+numbers against the result files; structure, references and copy; recomputation of every
+statistic) plus a visual pass over the figures. Every number recomputed correctly. Fixes, none
+changing a result:
+
+- Main text absorbs its appendix: §2, §7 and the abstract no longer say every certificate is a
+  replay-contract certificate (the post-cutoff end-to-end certificate is named); §7 reports the
+  adverse continuation-graded drift result in one sentence; the held-out count is 810 episodes in
+  six studies; "four of five repositories" for the frontier protocol; pytorch's balanced-rerun
+  admission is stated; the 2.2%-over-210 bound says it pools one compiled-only miss; γ is defined
+  in §3; "pairs" becomes "exact contracts on paired held-out records"; the Terminology entry for
+  "candidate" covers the thresholdless tuple; 92 of 132 is explained in §4; the conclusion keeps
+  the "two of three" qualifier. Offsetting compressions hold the main text at ten pages.
+- Appendix mechanism statements corrected against the cell-level records: the recorded-replay
+  null is because the only derived argument is the record identifier (re-read from the first
+  tool's echo) and no transform alters it; in the continuation-graded study the guarded arm's
+  out-of-hull refusals came from verifier clauses and the permissive arm's from the typed
+  projection, with the interpreter failing on renamed keys in both; one fallback miss (5971)
+  noted; "39 of 60 as graded" with the PR 6694 grader artifact disclosed; Extended Limitations
+  opener acknowledges the end-to-end certificate; discordance caption labels match the text;
+  0.0503/0.0509 at four decimals; Wilcoxon caption names the tie-corrected approximation;
+  "every m ≥ 2".
+- Grader defect fixed: `grade()` accepted `comment_evidence: none` whenever any comment contained
+  the substring "none"; `none` is now grounded only when the record has no comments (unit test).
+  An audit of every retained row graded by that function found no headline row affected.
+- Structure: claims register split into parts D and E (part D overflowed its page); mechanism
+  table sets JSON keys outside `\path` (they printed literally); cleveref `capitalise`; Figure 4
+  regenerated as panel-sized assets with body-size type; duplicate appendix figures removed; Table 5
+  headers shortened; `[h]` floats → `[ht]`; em-dashes spaced consistently; five arXiv entries as
+  `@article`; edition and stray note fixed. Build now kept with its log (`--keep-logs`).
+- Protocols carry dated correction notes (mechanism attribution, grader artifact, one fallback
+  miss, latency not tied, the two wrong intermediate U values in the time-forward design).
