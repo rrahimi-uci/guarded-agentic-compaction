@@ -6,7 +6,7 @@ which is what makes the union bound legitimate.}
 \scriptsize
 \begin{algorithmic}[1]
 \Require frozen candidate $A_0=(P,H,V,q,M)$ without threshold; calibration
-         groups $\mathcal{K}$ with fixed per-instance violations $L(A_0,x)$;
+         groups $\mathcal{K}$ with fixed replay-contract labels $L(A_0,x)$;
          grid $\Lambda$; budgets $\alpha,\delta$
 \Ensure threshold $\eta$ with a simultaneous guarantee, or $\bot$ (\retire)
 \State $\Pi\gets\emptyset$ \Comment{admissible (coverage, threshold) pairs, distinct from \cref{alg:compile}'s $\mathcal{A}$}

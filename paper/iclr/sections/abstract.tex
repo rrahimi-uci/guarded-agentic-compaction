@@ -15,9 +15,9 @@ input, output, and environment guards, and admits specialization only when
 finite-sample evidence satisfies configured risk and confidence requirements.
 Otherwise, it retains the largest justified prefix when possible or falls back
 to the unchanged agent. Admission certificates are exact finite-sample bounds
-under i.i.d.\ calibration groups, compiler-wide where one candidate reached
-calibration and per-candidate where two did (two of three primary families,
-whose corrected bound is 0.057).
+on the compiled region's replay contract under i.i.d.\ calibration groups,
+compiler-wide with one calibrated candidate and per-candidate with two (two of
+three primary families, whose corrected bound is 0.057).
 
 Across three live GitHub workflow families and 90 unseen test cases, \method satisfies
 90/90 exact task contracts and the unchanged agent 89/90, a difference of one stochastic

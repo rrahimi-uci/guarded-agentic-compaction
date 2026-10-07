@@ -197,6 +197,26 @@ at depth $\le 2$; region mining uses $w_{\max}$ tool calls per window and
 requires support across independent scenario groups. Every bound in this paper
 is conditional on i.i.d.\ calibration groups.
 
+\paragraph{Calibration labels as computed.}
+For every artifact reported here, \cref{alg:calibrate} receives labels produced
+by clean replay of the frozen program over each calibration group's recorded
+tool results (\code{grc/compile.py}, \code{\_calibration\_samples}). A group
+whose entry state fails the frozen hard guard is ineligible and never enters
+$n_\eta$. An eligible group enters $n_\eta$ at every $\eta$ its score permits,
+whatever happens next. If the interpreter fails or the verifier rejects, the
+group is \emph{unproductive}: a clean abstention that stays in $n_\eta$ with
+$L=0$ and would run the unchanged agent at runtime. Only when the program
+completes and the verifier accepts is each live-out compared with the recorded
+result under the tool's declared equivalence; a missing or non-equivalent
+output is the violation counted in $k_\eta$. The downstream continuation is
+never executed in this path, so an answer-level miss after a clean region
+cannot enter $k_\eta$; it is measured on held-out records instead
+(\cref{sec:res-primary}, \cref{app:stats}). Across the retained pools every
+admitted artifact has $k_\eta=0$; verifier abstentions do occur in some pools
+and are reported as unproductive, not as violations. The incident branch of
+$L$ (a dirty failure after a commit) cannot arise in replay calibration of a
+read-only region and is enforced at runtime by staging (\cref{alg:dispatch}).
+
 \begin{table}[t]
   \centering
   \caption{Certificate level of every primary artifact. $m$ is the number of
@@ -783,6 +803,19 @@ remain diagnostic rather than evidence for the main claim.
 
 \section{Extended Limitations}
 \label{app:limits}
+
+\paragraph{The certified event is not end-to-end quality.}
+\Cref{prop:admission} bounds the replay-contract event of \cref{app:config}.
+Under deterministic reads of a pinned snapshot that event is rare by
+construction, which is one reason no retained pool records a violation and
+every gate is step-like. The misses that do occur on these families are
+continuation misses (an excerpt that departs from its source), and they are
+outside the certificate: the one-sided 95\% upper bound on compiled-only
+discordance in \cref{app:stats} is an empirical quality statement at a
+different confidence level, not an admission certificate. An end-to-end
+certificate would need a pre-registered endpoint that runs the continuation
+and grades the task contract on fresh calibration groups; the sample floor of
+\cref{eq:cp} then applies to that event.
 
 \paragraph{Repairs for non-exchangeable groups.}
 \Cref{sec:discussion} states that the cluster-aware repairs all cost effective
