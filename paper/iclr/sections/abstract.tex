@@ -14,15 +14,16 @@ handoffs, and unknown effects as hard barriers, protects compiled execution with
 input, output, and environment guards, and admits specialization only when
 finite-sample evidence satisfies configured risk and confidence requirements.
 Otherwise, it retains the largest justified prefix when possible or falls back
-to the unchanged agent. Admission certificates are exact finite-sample bounds
-on the compiled region's replay contract under i.i.d.\ calibration groups,
-compiler-wide with one calibrated candidate and per-candidate with two (two of
-three primary families, whose corrected bound is 0.057).
+to the unchanged agent. Admission certificates are exact finite-sample bounds under i.i.d.\
+calibration groups: on the compiled region's replay contract for the primary
+families (compiler-wide with one calibrated candidate, per-candidate with two,
+whose compiler-wide bound is 0.057) and, in one post-cutoff study, on the
+end-to-end task contract (0 misses in 132 fresh groups, single-rule bound 0.0173).
 
-Across three live GitHub workflow families and 90 unseen test cases, \method satisfies
+On 90 held-out records across three live GitHub workflow families, \method satisfies
 90/90 exact task contracts and the unchanged agent 89/90, a difference of one stochastic
 baseline miss, while reducing model requests by 66.6\%, tokens by 63.1\%, latency by 64.2\%, and estimated cost by 58.7\%. A time-forward evaluation across five frozen public repositories specializes
-four and refuses one. On four public trace benchmarks, NESTFUL, API-Bank, and BFCL v4 contain recurrent,
+four and refuses one whose discovery pool is class-skewed. On four public trace benchmarks, NESTFUL, API-Bank, and BFCL v4 contain recurrent,
 replayable traces but insufficient qualifying evidence to satisfy \method's default 0.05
 risk bound at the required confidence, whereas AppWorld provides sufficient evidence for
 admission. On a second model family and a second provider, the unchanged pipeline

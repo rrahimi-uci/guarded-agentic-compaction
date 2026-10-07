@@ -49,10 +49,9 @@ Dynamo~\citep{bala2000dynamo} detects a hot path, compiles it behind a
 \emph{guard}, and deoptimizes when the guard fails~\citep{holzle1992deopt}.
 Agent traces admit the same structure --- hot-trace detection becomes family
 mining, guard synthesis an entry contract, deoptimization fallback to the
-unchanged agent --- but add three obligations, and claim one capability less: a
-JIT enters a trace at an arbitrary program point, whereas \method compiles only
-\emph{initial} read-only prefixes (\cref{eq:prefix}), because its runtime
-resolves artifacts at the entry boundary. The obligations: tool arguments must
+unchanged agent --- but add three obligations and compile only \emph{initial}
+read-only prefixes (\cref{eq:prefix}), since the runtime resolves artifacts at
+the entry boundary. The obligations: tool arguments must
 be shown \emph{grounded} in observable state; declared \emph{effects} must
 permit speculation, since an agent's ``interpreter'' calls the outside world;
 and the residual error rate, being statistical, needs a finite-sample bound,
@@ -68,20 +67,21 @@ general, but an admissibility argument for trace-derived specialization:
 provenance, effect and position barriers, bounded synthesis, runtime
 verification, and finite-sample compile-or-retire admission
 (\cref{alg:calibrate}, \cref{prop:admission}) with the certificate level stated
-per artifact --- to our knowledge the first exact finite-sample admission
+per artifact. To our knowledge this is the first exact finite-sample admission
 certificate for trace-derived agent compilation; every stage can refuse, and
 the default output is the unchanged agent. \item A real-provider evaluation across
-three public-record workflow families, a narrower cross-repository, time-forward
-extension keeping both artifacts and principled retirements, and same-cohort
-replications on a second model family and a second provider.
+three public-record workflow families; a narrower cross-repository, time-forward
+extension reporting admitted artifacts and principled retirements; a post-cutoff
+cohort with an end-to-end certificate; three pre-registered drift ablations (two
+null, one adverse); and same-cohort replications on a second model family and
+provider.
   \item Calibrated refusal: recurrence and replayability do not license
   deployment. NESTFUL, API-Bank, and executed BFCL gold plans clear provenance,
   synthesis, and replay with no wrong execution and retire exactly where their
   support falls below the exact sample floor; the discovered programs match
   hand-written ones wherever the workflow is already known.
-  \item A pre-registered fourth substrate, AppWorld --- which admits --- plus a
-  measurement on 8{,}190 released baseline trajectories where the admitted region
-  is eligible on 2{,}339/2{,}340 full-code but only 1/4{,}680 ReAct or
-  plan-and-execute trajectories, separating \emph{admissible} from
-  \emph{dispatchable}.
+  \item A pre-registered fourth substrate, AppWorld, which admits, plus a
+  measurement on 8{,}190 released trajectories where the admitted region is
+  eligible on 2{,}339/2{,}340 full-code but only 1/4{,}680 ReAct or
+  plan-and-execute runs, separating \emph{admissible} from \emph{dispatchable}.
 \end{enumerate}

@@ -124,3 +124,11 @@ artifact on every axis, as in the primary study.
 **Reading.** A2 admits; C2 shows preservation at full coverage on fresh records for the
 re-derived artifact and a correct, priced refusal for the retained one. No superiority or
 equivalence claim; one family; the two NO-GO families stand.
+
+## Corrections after audit (2026-10-07, same day)
+
+- The design section's parenthetical "U = 0.0474 at k = 3; 0.0568 at k = 4" is wrong: at n = 132
+  with γ = 0.10 the values are U = 0.0499 at k = 3 and 0.0596 at k = 4. The pre-registered
+  decision (admit iff k ≤ 3) is unchanged and `certificate.json` carries the exact floors.
+- "The hand-written program ties the re-derived artifact on every axis" should read "on
+  exactness, requests, tokens and cost; its latency reduction is 77.9% against 80.0%".

@@ -126,7 +126,8 @@ def savefig(name: str, *, png_dpi: int = 220) -> None:
         metadata=PDF_METADATA,
     )
     plt.savefig(FIGURES / f"{name}.png", dpi=png_dpi, bbox_inches="tight", pad_inches=0.02)
-    if name in {"gac_aha_example", "family_reductions", "gate_support"}:
+    if name in {"gac_aha_example", "family_reductions", "gate_support",
+                "family_reductions_panel", "gate_support_panel"}:
         ICLR_FIGURES.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(FIGURES / f"{name}.pdf", ICLR_FIGURES / f"{name}.pdf")
     plt.close()
@@ -593,6 +594,70 @@ def aha_example_figure(
         )
     fig.tight_layout(pad=0.2)
     savefig("gac_aha_example", png_dpi=440)
+
+
+#: Width of one panel of the ICLR results figure (two panels side by side on a 5.5 in
+#: text width, 0.50 and 0.48 of the line). Panels are generated at this exact width so
+#: the paper includes them at scale 1 and their type stays the same size as elsewhere.
+PANEL_W = 2.72
+
+
+def gate_support_panel(nestful: dict[str, Any]) -> None:
+    """Half-width variant of :func:`gate_support_figure` for the ICLR results figure."""
+
+    with FAMILY_PATH.open(newline="", encoding="utf-8") as handle:
+        families = list(csv.DictReader(handle))
+    supports = sorted((int(row["support"]) for row in families), reverse=True)
+    required = nestful["compiler"]["exact_gate"]["minimum_zero_violation_groups"]
+    fig, ax = plt.subplots(figsize=(PANEL_W, 1.15))
+    ranks = np.arange(1, len(supports) + 1)
+    ax.bar(ranks, supports, width=0.78, color=COLORS["series1"], zorder=3)
+    ax.axhline(required, color=COLORS["series2"], lw=1.2, zorder=4)
+    ax.set_xlim(0.2, len(supports) + 0.8)
+    ax.set_ylim(0, 118)
+    ax.set_yticks([0, 25, 50, 75, 100])
+    ax.set_xlabel("NESTFUL family, ranked by support", fontsize=8)
+    ax.set_ylabel("Group records", fontsize=8)
+    ax.tick_params(labelsize=7)
+    ax.yaxis.grid(True, zorder=0)
+    ax.set_axisbelow(True)
+    ax.annotate(f"exact-gate floor = {required}: every family retires",
+                xy=(0.6, required), xytext=(0.6, required + 5), fontsize=7,
+                color=COLORS["series2"], va="bottom", ha="left")
+    ax.annotate(f"best family: {supports[0]}", xy=(1.0, supports[0]), xytext=(5.0, supports[0] + 22),
+                fontsize=7, color=COLORS["ink2"], va="bottom", ha="left",
+                arrowprops=dict(arrowstyle="-", color=COLORS["muted"], lw=0.6, shrinkA=0, shrinkB=2))
+    fig.tight_layout(pad=0.2)
+    savefig("gate_support_panel")
+
+
+def family_reduction_panel(summary: dict[str, Any]) -> None:
+    """Half-width variant of :func:`family_reduction_figure` for the ICLR results figure."""
+
+    keys = ["requests", "tool_calls", "total_tokens", "wall_latency_ms", "estimated_cost_usd"]
+    labels = ["Requests", "Tool\ninterfaces", "Tokens", "Latency", "Cost"]
+    families = summary["families"]
+    short = ["Issue type", "PR outcome", "Backlog"]
+    fills = [COLORS["series1"], COLORS["series2"], COLORS["ink2"]]
+    x = np.arange(len(keys))
+    width = 0.26
+    fig, ax = plt.subplots(figsize=(PANEL_W, 1.05))
+    for index, (family, name, fill) in enumerate(zip(families, short, fills)):
+        offset = (index - 1) * width
+        values = [100 * float(family["reductions"][key]) for key in keys]
+        ax.bar(x + offset, values, width * 0.94, color=fill, label=name, zorder=3)
+    ax.set_xticks(x, labels, fontsize=7)
+    ax.set_ylim(0, 118)
+    ax.set_yticks([0, 25, 50, 75, 100])
+    ax.tick_params(axis="y", labelsize=7)
+    ax.set_ylabel("Reduction vs. agent (%)", fontsize=8)
+    ax.yaxis.grid(True, zorder=0)
+    ax.set_axisbelow(True)
+    # legend inside the axes, in the empty band above the tallest bar (81%)
+    ax.legend(ncol=3, fontsize=7, frameon=False, loc="upper center", bbox_to_anchor=(0.5, 1.02),
+              handlelength=1.0, columnspacing=1.0, borderaxespad=0.0)
+    fig.tight_layout(pad=0.2)
+    savefig("family_reductions_panel")
 
 
 def family_reduction_figure(summary: dict[str, Any]) -> None:
@@ -1578,6 +1643,8 @@ def main() -> None:
     portfolio_selection_figure(portfolio)
     demo_suite_figure()
     family_reduction_figure(family_summary)
+    family_reduction_panel(family_summary)
+    gate_support_panel(nestful)
     write_admission_register_table(collect_admission_register())
     write_cache_accounting_table(collect_cache_accounting())
     write_live_table(live)

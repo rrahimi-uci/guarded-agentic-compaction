@@ -6,7 +6,8 @@ An \emph{episode} is one recorded run of the agent; a \emph{group} is the set
 of episodes that share an independence unit (one record, one scenario); a
 \emph{region} is a contiguous span of one episode's tool calls; a
 \emph{family} is the set of regions across episodes that share a canonical
-shape; a \emph{candidate} is a family the compiler attempts; a
+shape; a \emph{candidate} is a family the compiler attempts and, once
+synthesized, its thresholdless tuple $(P,H,V,q,M)$; a
 \emph{program} is the deterministic code synthesized for it; an
 \emph{artifact} is a program together with its guard, verifier, score,
 threshold, and manifest pins; and a \emph{prefix} is a region that starts at
@@ -40,7 +41,7 @@ each prior result $o_i$, $i<j$; and \emph{effect-admissible} when every tool in
 $R$ is declared read-only, speculatable, replayable, and inside one principal
 and isolation partition. The witness is deliberately \emph{single-source} ---
 one chain over one observation, not a join over the history --- which is the
-quantifier \cref{alg:patg} implements. Handoffs, approvals, writes, errors, and
+quantifier \cref{alg:patg} (\cref{app:algorithms}) implements. Handoffs, approvals, writes, errors, and
 unknown effects are hard barriers.
 Because the deployed runtime resolves artifacts at the initial model boundary,
 the compiler also imposes a \emph{position invariant}:
@@ -91,7 +92,9 @@ artifact is feasible, so \retire{} is a legitimate output, and
 implementation calibrates a bounded ranked set and retains nondominated
 survivors, and we prove neither optimality nor any guarantee for that search
 beyond the per-candidate and fixed-$m$ cases of \cref{sec:method}. \emph{Third}, every
-certificate here instantiates $L(A,x)=1$ as a \emph{replay-contract violation} of
-the compiled region (\cref{app:config}); a guard, interpreter, or verifier rejection
-is a clean abstention with $L=0$ inside the dispatched denominator; the continuation
-after the region is measured (\cref{sec:res-primary}), not certified.
+certificate in \cref{sec:results} instantiates $L(A,x)=1$ as a \emph{replay-contract
+violation} of the compiled region (\cref{app:config}); a guard, interpreter, or
+verifier rejection is a clean abstention with $L=0$ inside the dispatched
+denominator; the continuation is measured there (\cref{sec:res-primary}), not
+certified, except for one end-to-end certificate on fresh post-cutoff groups
+of a single family (\cref{app:limits}).

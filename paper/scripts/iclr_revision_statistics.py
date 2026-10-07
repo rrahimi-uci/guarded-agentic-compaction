@@ -768,7 +768,7 @@ def cmd_single_rule() -> dict[str, Any]:
                                 "u_single_at_days": cp_upper(0, c["distinct_days"], 1 - gamma_single(m)),
                                 "u_single_at_authors": cp_upper(0, c["distinct_authors"], 1 - gamma_single(m))}
     lines = [r"\begin{tabular}{@{}lcrrrrr@{}}", r"\toprule",
-             r"Cohort & $m$ & $n/k$ & $U$ registered & $U$ single, $\delta/m$ & $U$ single at days & $U$ single at authors \\",
+             r"Cohort & $m$ & $n/k$ & $U$ registered & $U$ single, $\delta/m$ & single, days & single, authors \\",
              r"\midrule"]
     for key in list(FAMILIES) + [k for k in out["clusters"] if k.startswith("core:")]:
         a = out["artifacts"].get(key if key in FAMILIES else key)
@@ -802,8 +802,15 @@ def cmd_mechanisms() -> dict[str, Any]:
     lines = [r"\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{0.29\linewidth}>{\raggedright\arraybackslash}p{0.18\linewidth}>{\raggedright\arraybackslash}p{0.17\linewidth}>{\raggedright\arraybackslash}X@{}}",
              r"\toprule", r"Hazard (where observed) & Guard that caught it & Recurrence-only replay & Retained source (\code{paper/results/}) \\", r"\midrule"]
     for m in MECHANISMS:
-        source = m["source"].replace("\\_", "_")
-        lines.append(f"{m['hazard']} ({m['observed']}) & {m['guard']} & {m['replay']} & {{\\scriptsize\\path{{{source}}}}} \\\\")
+        # ``\path`` is verbatim-like (underscores need no escape) but a ``\code{...}``
+        # key inside it prints literally; keep the file in ``\path`` and set the JSON
+        # key after it in text mode, where its underscores stay escaped.
+        if " \\code{" in m["source"]:
+            file_part, key_part = m["source"].split(" \\code{", 1)
+            cell = f"\\path{{{file_part.replace(chr(92) + '_', '_')}}} \\code{{{key_part}"
+        else:
+            cell = f"\\path{{{m['source'].replace(chr(92) + '_', '_')}}}"
+        lines.append(f"{m['hazard']} ({m['observed']}) & {m['guard']} & {m['replay']} & {{\\scriptsize {cell}}} \\\\")
         lines.append(r"\addlinespace[1pt]")
     lines += [r"\bottomrule", r"\end{tabularx}"]
     write_table("mechanism_removal", "mechanisms", "\n".join(lines))
