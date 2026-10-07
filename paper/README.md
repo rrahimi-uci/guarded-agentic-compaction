@@ -259,7 +259,7 @@ and [changelog](../CHANGELOG.md).
   `../experiments/live_results/`.
 - **Prospective multidomain extension (preflight only):** 420 real vulnerability groups
   and 420 privacy-modified public HMDA groups pass independent provider-free gold
-  reconstruction; HMDA has 416/420 variable paths. SEC acquisition is source-gated, no
+  reconstruction; HMDA has 420/420 variable paths under the corrected exemption semantics. SEC acquisition is source-gated, no
   three-domain protocol is frozen, no human macro approval exists, and no provider call
   has run. These artifacts establish data and control-plane feasibility only; they
   contribute no optimization result to this paper. See

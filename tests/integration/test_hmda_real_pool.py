@@ -96,6 +96,43 @@ def test_all_420_hmda_outputs_recompute_exactly_and_freeze_without_leakage() -> 
     assert len(protocol.group_roles["hmda"]) == 420
 
 
+def test_public_1111_exemption_is_distinct_from_not_applicable() -> None:
+    cases = load_case_jsonl(POOL / "cases.jsonl")
+    records = json.loads((POOL / "snapshot.json").read_text())["records"]
+    gold = _gold()
+    tools = HmdaSnapshot(
+        FrozenRecordStore.load(
+            POOL / "snapshot.json", schema="agent-compaction-hmda-snapshot/v1"
+        )
+    )
+    exempt = next(
+        case
+        for case in cases
+        if all(
+            records["rows"][
+                f"{case.inputs['activity_year']}:{case.inputs['lei']}:{case.inputs['row_digest']}"
+            ][field] == "1111"
+            for field in ("reverse_mortgage", "open-end_line_of_credit", "denial_reason-1")
+        )
+    )
+    expected = {
+        "reverse_mortgage": "EXEMPT",
+        "open-end_line_of_credit": "EXEMPT",
+        "denial_reason-1": "EXEMPT",
+    }
+    assert gold[exempt.case_id]["special_states"] == expected
+    assert hmda_gold_from_records(exempt, records)["special_states"] == expected
+    assert hmda_macro(exempt, tools)["special_states"] == expected
+
+    not_applicable = next(
+        case
+        for case in cases
+        if gold[case.case_id]["special_states"].get("denial_reason-1")
+        == "NOT_APPLICABLE"
+    )
+    assert hmda_macro(not_applicable, tools)["special_states"]["denial_reason-1"] == "NOT_APPLICABLE"
+
+
 def test_hmda_oracle_rejects_wrong_field_source_and_fabricated_claim() -> None:
     cases = load_case_jsonl(POOL / "cases.jsonl")
     case = cases[0]

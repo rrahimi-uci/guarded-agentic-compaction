@@ -146,7 +146,7 @@ def hmda_macro(case: BenchmarkCase, tools: HmdaSnapshot) -> dict[str, Any]:
         value = str(row.get(field, "UNAVAILABLE"))
         normalized = {
             "NA": "NA",
-            "1111": "NA",
+            "1111": "EXEMPT",
             "Exempt": "EXEMPT",
             "": "UNAVAILABLE",
             "UNAVAILABLE": "UNAVAILABLE",
@@ -155,7 +155,9 @@ def hmda_macro(case: BenchmarkCase, tools: HmdaSnapshot) -> dict[str, Any]:
             special[str(field)] = normalized
     for index in range(1, 5):
         field = f"denial_reason-{index}"
-        if str(row.get(field, "")) == "10":
+        if str(row.get(field, "")) == "1111":
+            special[field] = "EXEMPT"
+        elif str(row.get(field, "")) == "10":
             special[field] = "NOT_APPLICABLE"
     output.update(
         {

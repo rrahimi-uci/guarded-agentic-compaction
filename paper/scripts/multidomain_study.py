@@ -259,10 +259,17 @@ def _macro_implementation_digest(domain: str) -> str:
 
 
 def _effect_catalog_approval_digest(runtime: DomainRuntime) -> str:
-    """Full review digest; distinct from the catalog's short runtime ID."""
+    """Bind the reviewed source YAML and generated macro tool catalog."""
 
     return hashlib.sha256(
-        _canonical(runtime.macro_catalog.model_dump(mode="json")).encode("utf-8")
+        _canonical(
+            {
+                "source_catalog_sha256": _sha(
+                    ROOT / f"benchmarks/contracts/effects/{runtime.name}.yaml"
+                ),
+                "macro_catalog": runtime.macro_catalog.model_dump(mode="json"),
+            }
+        ).encode("utf-8")
     ).hexdigest()
 
 
