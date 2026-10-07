@@ -285,3 +285,17 @@ rule bound 0.0173 <= 0.05, admits: the first certificate whose event includes th
 Evaluation on 60 fresh records: 60/60 in all four conditions; re-derived artifact -75.0% requests,
 -82.7% tokens, -80.0% latency, -76.6% cost; hand-written program ties. Appendix G paragraph and
 claims-register row; validator family `time_forward_pr_outcome`. Appendix only.
+
+## Continuation-graded drift ablation executed: adverse (2026-10-07, branch `paper/c1c-continuation-graded-drift`)
+
+Workstream C1c of `proposal-90.md`, live, $0.55 of a $15 cap. `run_batch` gained an optional
+pre-model `executor` (default unchanged). The driver perturbs the tool layer for both the
+pre-model path and the fallback agent (same key-sorted serialization), runs the retained artifact
+with its induced verifier and with a permissive verifier on identical corrupted tools, and grades
+the final answer against the unperturbed record. Pre-declared adverse branch: silent wrong
+answers on 39 of 60 records in both arms, all under `empty_lists`; an empty list is inside the
+learned hull, so neither arm notices. Out-of-hull corruption is refused by the composite's typed
+projection in both arms; duplicate/pad cost the guarded arm abstentions with no benefit.
+Protocol carries pilot findings, two amendments, a record-keeping note (the pilot's raw cells
+were deleted by mistake and regenerated) and the observed results. Appendix G paragraph, claims
+row, validator family `drift_continuation_graded`.
