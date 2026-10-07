@@ -464,8 +464,14 @@ def validate_study_manifest(
         raise PreflightError("actions must remain frozen as baseline, grc, macro")
     domains = _mapping(payload.get("domains"), label="domains")
     canonical_domains = ("vulnerability", "sec", "hmda")
-    if set(domains) != set(canonical_domains):
-        raise PreflightError("domains must be vulnerability, sec, and hmda")
+    if not domains or not set(domains) <= set(canonical_domains):
+        raise PreflightError("domains must be a non-empty subset of vulnerability, sec, and hmda")
+    if set(domains) != set(canonical_domains) and not str(payload.get("scope_note") or "").strip():
+        # A study that omits a canonical domain is a different, narrower study. It must
+        # say so in the manifest so the omission is a declared scope, never a silent one.
+        raise PreflightError(
+            "a study that omits a canonical domain must declare a scope_note explaining the omission"
+        )
 
     root = Path(benchmark_root).resolve()
     required_config: dict[str, tuple[str, ...]] = {}
@@ -506,7 +512,7 @@ def validate_study_manifest(
         "provider_calls_executed": provider_calls,
         "minimum_pool_groups": minimum_pool,
         "role_groups": role_groups,
-        "domains": canonical_domains,
+        "domains": tuple(d for d in canonical_domains if d in domains),
         "required_configuration": required_config,
         "normalized_pools": normalized_pools,
     }
