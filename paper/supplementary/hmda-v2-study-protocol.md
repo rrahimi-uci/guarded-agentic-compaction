@@ -20,7 +20,7 @@ described as execution of the 2026-08 design.
 | Item | Value |
 |---|---|
 | Protocol | `paper/results/multidomain/protocol/hmda-v2-frozen.json`, digest `44843ccb23f936637c3abcc01ac9456b2896cd26de43dc008a82970b8505aa52` |
-| Pool | 420 groups (`lei`), 416 variable paths, exact independent gold 420/420, snapshot digest `945c176f…` |
+| Pool | 420 groups (`lei`), 420 variable paths under corrected exemption semantics, exact independent gold 420/420, snapshot digest `945c176f…` |
 | Roles | discovery 40, development 30, artifact calibration 100, portfolio calibration 75, test 100, reserve 75 |
 | Actions | baseline, grc, macro |
 | Model and pricing | `gpt-5.6-luna`; `paper/results/multidomain/pricing/gpt-5.6-luna-2026-10-07.json` (standard tier, input 0.20 / cached 0.02 / output 1.20 USD per million; unchanged from the primary studies' 2026-08-02 retrieval); 16,000 billable input tokens and 1,024 output tokens per request |

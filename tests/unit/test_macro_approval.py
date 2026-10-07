@@ -8,6 +8,7 @@ from pathlib import Path
 
 import jsonschema
 import pytest
+import paper.scripts.multidomain_study as multidomain_study
 
 from guarded_agentic_compaction.benchmarking.actions import (
     ActionSpec,
@@ -146,3 +147,22 @@ def test_generated_macro_review_template_satisfies_real_approval_schema() -> Non
     )
     assert template["effect_catalog_digest"] == _effect_catalog_approval_digest(runtime)
     assert len(MacroApproval(**template).digest) == 64
+
+
+def test_macro_approval_digest_binds_exact_source_effect_yaml(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    pool = ROOT / "paper/results/multidomain/preflight/hmda"
+    runtime = load_domain_runtime(
+        domain="hmda",
+        pool_dir=pool,
+        cases=load_case_jsonl(pool / "cases.jsonl"),
+        repository_root=ROOT,
+    )
+    catalog = tmp_path / "benchmarks/contracts/effects/hmda.yaml"
+    catalog.parent.mkdir(parents=True)
+    catalog.write_bytes((ROOT / "benchmarks/contracts/effects/hmda.yaml").read_bytes())
+    monkeypatch.setattr(multidomain_study, "ROOT", tmp_path)
+    original = _effect_catalog_approval_digest(runtime)
+    catalog.write_text(catalog.read_text() + "\n# review-invalidating change\n")
+    assert _effect_catalog_approval_digest(runtime) != original

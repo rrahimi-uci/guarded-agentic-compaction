@@ -451,12 +451,18 @@ def reseal_normalized_pool(output_dir: str | Path) -> dict[str, Any]:
         encoding="utf-8",
     )
     report = json.loads(report_path.read_text(encoding="utf-8"))
+    variable_path_groups = sum(
+        bool(item["output"]["denial_reasons"] or item["output"]["special_states"])
+        for item in gold
+    )
     report.update(
         {
             "snapshot_digest": snapshot_digest,
             "case_file_sha256": _sha256_file(cases_path),
             "gold_file_sha256": _sha256_file(gold_path),
             "snapshot_file_sha256": _sha256_file(snapshot_path),
+            "variable_path_groups": variable_path_groups,
+            "variable_path_fraction": variable_path_groups / len(gold),
             "agent_visible_schema_fields": list(SAFE_ROW_FIELDS),
             "gold_construction": {
                 "implementation": "benchmarks/gold.py:hmda_gold_from_records",

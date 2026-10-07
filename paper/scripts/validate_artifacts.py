@@ -1139,7 +1139,7 @@ def validate_multidomain_preflight() -> None:
        "HMDA preflight retains 420 independent groups")
     ok((hmda.get("exact_oracle_passes"), hmda.get("independent_gold_passes")) == (420, 420),
        "HMDA exact and independent gold checks pass 420/420")
-    ok(hmda.get("variable_path_fraction") == 416 / 420,
+    ok(hmda.get("variable_path_fraction") == 420 / 420,
        "HMDA variable-path fraction matches the frozen pool")
     ok(data.get("provider_calls_executed") == 0,
        "multidomain preflight records zero provider calls")

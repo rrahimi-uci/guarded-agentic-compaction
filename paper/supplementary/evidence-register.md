@@ -70,7 +70,7 @@ This register prevents claims from drifting beyond the artifacts that support th
 | Token reduction is a proxy for cost reduction | `results/cache_accounting.json` | Contradicted | the issue-type macro uses 30.9% fewer tokens for 8.0% less money at 0.0% cache reads against the compiled arm's 27.8%; both newer families are cache-cold in every arm |
 | Compiled artifacts repay their discovery cost quickly | `results/cache_accounting.json` | Not established | provider-side break-even is 411, 182, and 181 episodes per family, excluding engineering, review, monitoring, and invalidation cost |
 | Multidomain public-record substrate is feasible | `results/multidomain/preflight/validation.json` | Verified for two domains | 420/420 vulnerability and 420/420 HMDA independent-gold reconstructions; SEC unavailable |
-| HMDA provides a validated public-record extension checkpoint | `results/multidomain/preflight/validation.json` | Verified provider-free | 420 HMDA groups, 420/420 exact gold, 416/420 variable paths; protected demographics excluded; zero provider calls |
+| HMDA provides a validated public-record extension checkpoint | `results/multidomain/preflight/validation.json` | Verified provider-free | 420 HMDA groups, 420/420 exact gold, 420/420 variable paths under corrected exemption semantics; protected demographics excluded; zero provider calls |
 | Multidomain protocol is frozen and approved | preflight and review artifacts | Not established | missing SEC pool, real pricing, compliant source contact, and independent human macro approvals |
 | Multidomain optimization improves quality or efficiency | no provider ledger or analysis | Not evaluated | zero provider calls; no token, latency, cost, determinism, or workflow-reduction claim |
 
