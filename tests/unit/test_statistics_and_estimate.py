@@ -203,3 +203,23 @@ def test_retired_gate_notes_retain_the_full_per_threshold_grid() -> None:
     assert any(row["n"] > 0 and row["violations"] == row["n"] for row in rows)
     # and the notes are far longer than the 120 characters the compiler used to keep
     assert len(gate.notes) > 120
+
+
+def test_calibration_counts_abstentions_in_n_but_never_in_k() -> None:
+    # The certificate's event (paper §2, App. C): an eligible group enters n_eta
+    # whatever happens after dispatch; a verifier rejection or interpreter
+    # failure is unproductive (L = 0) and stays in n_eta; only a replay-contract
+    # violation enters k_eta; a hard-guard-ineligible group enters neither.
+    # alpha=1 appends the accept-all threshold so the self-fitted score cannot
+    # hide a group and the counts are read off the admitted gate directly.
+    samples = [
+        CalibrationSample("clean", {}, unproductive=False, violation=False),
+        CalibrationSample("abstain", {}, unproductive=True, violation=False, reason="verifier:range"),
+        CalibrationSample("wrong", {}, unproductive=True, violation=True, reason="recorded_output_mismatch"),
+        CalibrationSample("rejected", {}, unproductive=True, violation=False, eligible=False),
+    ]
+    gate = calibrate_gate(samples, alpha=1.0, delta=0.10)
+    assert not gate.retire
+    assert gate.n_calibration_groups == 4
+    assert gate.n_accepted == 3          # clean + abstain + wrong; never the rejected group
+    assert gate.observed_violations == 1  # only the replay-contract violation

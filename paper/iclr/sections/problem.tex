@@ -78,8 +78,8 @@ artifact is feasible, so \retire{} is a legitimate output, and
 \cref{eq:objective} is a design target rather than a solved program --- the
 implementation calibrates a bounded ranked set and retains nondominated
 survivors, and we prove neither optimality nor any guarantee for that search
-beyond the per-candidate and fixed-$m$ cases of \cref{sec:method}. \emph{Third}, $L$ scores the \emph{episode}: a sound prefix whose baseline
-continuation errs still contributes $L=1$, so the gate certifies end-to-end
-compliance under substitution, not non-inferiority, and admission requires $B$
-to already succeed on a $1-\alpha$ share of the dispatched slice
-(\cref{app:limits}).
+beyond the per-candidate and fixed-$m$ cases of \cref{sec:method}. \emph{Third}, every
+certificate here instantiates $L(A,x)=1$ as a \emph{replay-contract violation} of
+the compiled region (\cref{app:config}); a guard, interpreter, or verifier rejection
+is a clean abstention with $L=0$ inside the dispatched denominator; the continuation
+after the region is measured (\cref{sec:res-primary}), not certified.

@@ -196,3 +196,22 @@ of 28 validator families pass (498 checks); the README names the seven that chec
 preprint, the full-repository manifests, or the four non-redistributed cross-repository snapshots.
 `validate_artifacts.py` gained `--families`/`--list-families` (default behaviour unchanged) and
 the publication manifest was refreshed.
+
+## Certified-event scope correction (2026-10-06, branch `paper/a1-certified-event-scope`)
+
+Workstream A1 of `proposal-90.md`. §2 previously said a sound prefix whose continuation errs
+"still contributes $L=1$, so the gate certifies end-to-end compliance". The implementation
+(`grc/compile.py`, `_calibration_samples`) labels a violation only when the program completes,
+the verifier accepts, and a live-out is missing or not equivalent to the recorded result;
+guard rejection, interpreter failure and verifier rejection are unproductive abstentions
+that stay in $n_\eta$ with $L=0$; the continuation is never run in this path. The manuscript
+now states that event everywhere it states the certificate: §2 (third scope note),
+Algorithm 2's input line, the abstract, §5.1, §7, a new "Calibration labels as computed"
+paragraph in Appendix C, a new opening paragraph in Appendix I, and the certificate-level
+row of the claims register. No number changed; no result was recategorized; the 1/210
+compiled-only bound stays an empirical quality statement. A unit test pins the counting
+rule (eligible unproductive groups in $n_\eta$, not $k_\eta$; ineligible groups in
+neither). Main text held at nine pages: the §2 note is five lines as before, the abstract
+sentence was shortened elsewhere to absorb the new clause, and the detail lives in
+Appendix C. Rebuilt PDF: 37 pages, conclusion on page 9, 0 overfull boxes, 0 unresolved
+references, anonymous; `main-final.pdf` refreshed.
