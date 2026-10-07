@@ -215,3 +215,16 @@ neither). Main text held at nine pages: the §2 note is five lines as before, th
 sentence was shortened elsewhere to absorb the new clause, and the detail lives in
 Appendix C. Rebuilt PDF: 37 pages, conclusion on page 9, 0 overfull boxes, 0 unresolved
 references, anonymous; `main-final.pdf` refreshed.
+
+## Single-rule sensitivity (2026-10-06, branch `paper/b1-single-rule-sensitivity`)
+
+Workstream B1 of `proposal-90.md`. `iclr_revision_statistics.py single-rule` recomputes every
+retained bound under one pre-registered acceptance rule ($\gamma=\delta/m$, no grid factor),
+reading $n/k$ from the widest retained grid row rather than from rounded table values, and
+applies the same rule to the distinct-day and distinct-author counts of all seven cohorts.
+Output: `paper/results/iclr_revision/single_rule_sensitivity.json` and the generated
+`tables/single_rule_sensitivity.tex`, placed in Appendix C after the multiplicity table under
+the heading "Retrospective single-rule sensitivity; registered certificates unchanged". The
+registered grid certificates are untouched; the validator regenerates the new table and the
+statistics tests pin the floors (45/59, 77/93), the $n=92$ bounds (0.0247/0.0320), and the
+cluster values. Appendix only; main-text pagination unchanged.

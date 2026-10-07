@@ -2877,7 +2877,7 @@ def validate_iclr_sources() -> None:
     table_names = (
         "absolute_resources", "paired_statistics", "discordance", "multiplicity_accounting",
         "live_provider_manifest", "live_catalog", "multirepo_dispatch", "gate_frontier_disaggregated",
-        "effective_units", "mechanism_removal")
+        "effective_units", "mechanism_removal", "single_rule_sensitivity")
     committed = {name: (iclr / "tables" / f"{name}.tex").read_text(encoding="utf-8") for name in table_names}
     # Regenerate into a scratch directory: the committed files are inputs to the
     # manifest check and must never be rewritten by a validator. JSON is compared
@@ -2897,7 +2897,7 @@ def validate_iclr_sources() -> None:
     with tempfile.TemporaryDirectory() as scratch:
         module.OUT = Path(scratch) / "json"
         module.TABLES = Path(scratch) / "tables"
-        for command in ("absolute", "paired", "multiplicity", "manifest", "catalog-audit", "frontier", "clusters", "mechanisms"):
+        for command in ("absolute", "paired", "multiplicity", "manifest", "catalog-audit", "frontier", "clusters", "mechanisms", "single-rule"):
             module.COMMANDS[command]()
         for name, text in committed.items():
             fresh = (module.TABLES / f"{name}.tex").read_text(encoding="utf-8")
