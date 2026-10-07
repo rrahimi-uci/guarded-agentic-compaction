@@ -1,0 +1,1898 @@
+{
+  "arms": [
+    "compiled_guarded",
+    "compiled_unverified",
+    "manual_unverified"
+  ],
+  "decision": "null:all_arms_zero_wrong",
+  "families": {
+    "backlog_attention": {
+      "applicability": {
+        "duplicate_record": {
+          "applicable": true,
+          "expect": "invariant",
+          "injected": false,
+          "per_tool": {
+            "backlog_get_discussion": {
+              "calls": 29,
+              "changed": 17
+            },
+            "backlog_get_ownership": {
+              "calls": 29,
+              "changed": 9
+            },
+            "backlog_get_record": {
+              "calls": 29,
+              "changed": 0
+            }
+          }
+        },
+        "empty_lists": {
+          "applicable": true,
+          "expect": "abstain",
+          "injected": false,
+          "per_tool": {
+            "backlog_get_discussion": {
+              "calls": 29,
+              "changed": 17
+            },
+            "backlog_get_ownership": {
+              "calls": 29,
+              "changed": 9
+            },
+            "backlog_get_record": {
+              "calls": 29,
+              "changed": 0
+            }
+          }
+        },
+        "formatting": {
+          "applicable": true,
+          "expect": "invariant",
+          "injected": false,
+          "per_tool": {
+            "backlog_get_discussion": {
+              "calls": 29,
+              "changed": 16
+            },
+            "backlog_get_ownership": {
+              "calls": 29,
+              "changed": 0
+            },
+            "backlog_get_record": {
+              "calls": 29,
+              "changed": 29
+            }
+          }
+        },
+        "null_fields": {
+          "applicable": true,
+          "expect": "abstain",
+          "injected": false,
+          "per_tool": {
+            "backlog_get_discussion": {
+              "calls": 29,
+              "changed": 29
+            },
+            "backlog_get_ownership": {
+              "calls": 29,
+              "changed": 29
+            },
+            "backlog_get_record": {
+              "calls": 29,
+              "changed": 29
+            }
+          }
+        },
+        "pad_lists": {
+          "applicable": true,
+          "expect": "either",
+          "injected": false,
+          "per_tool": {
+            "backlog_get_discussion": {
+              "calls": 29,
+              "changed": 17
+            },
+            "backlog_get_ownership": {
+              "calls": 29,
+              "changed": 9
+            },
+            "backlog_get_record": {
+              "calls": 29,
+              "changed": 0
+            }
+          }
+        },
+        "reorder_lists": {
+          "applicable": true,
+          "expect": "invariant",
+          "injected": false,
+          "per_tool": {
+            "backlog_get_discussion": {
+              "calls": 29,
+              "changed": 10
+            },
+            "backlog_get_ownership": {
+              "calls": 29,
+              "changed": 0
+            },
+            "backlog_get_record": {
+              "calls": 29,
+              "changed": 0
+            }
+          }
+        },
+        "schema_drift": {
+          "applicable": true,
+          "expect": "abstain",
+          "injected": false,
+          "per_tool": {
+            "backlog_get_discussion": {
+              "calls": 29,
+              "changed": 29
+            },
+            "backlog_get_ownership": {
+              "calls": 29,
+              "changed": 29
+            },
+            "backlog_get_record": {
+              "calls": 29,
+              "changed": 29
+            }
+          }
+        },
+        "tool_4xx": {
+          "applicable": true,
+          "expect": "abstain",
+          "injected": true,
+          "per_tool": {
+            "backlog_get_discussion": {
+              "calls": 29,
+              "changed": 29
+            },
+            "backlog_get_ownership": {
+              "calls": 29,
+              "changed": 29
+            },
+            "backlog_get_record": {
+              "calls": 29,
+              "changed": 29
+            }
+          }
+        },
+        "tool_timeout": {
+          "applicable": true,
+          "expect": "abstain",
+          "injected": true,
+          "per_tool": {
+            "backlog_get_discussion": {
+              "calls": 29,
+              "changed": 29
+            },
+            "backlog_get_ownership": {
+              "calls": 29,
+              "changed": 29
+            },
+            "backlog_get_record": {
+              "calls": 29,
+              "changed": 29
+            }
+          }
+        }
+      },
+      "applicable_perturbations": [
+        "duplicate_record",
+        "empty_lists",
+        "formatting",
+        "null_fields",
+        "pad_lists",
+        "reorder_lists",
+        "schema_drift",
+        "tool_4xx",
+        "tool_timeout"
+      ],
+      "arms": {
+        "compiled_guarded": {
+          "group_outcomes": {
+            "github-backlog_attention:2106": false,
+            "github-backlog_attention:2396": false,
+            "github-backlog_attention:2478": false,
+            "github-backlog_attention:2648": false,
+            "github-backlog_attention:2849": false,
+            "github-backlog_attention:2878": false,
+            "github-backlog_attention:2998": false,
+            "github-backlog_attention:3366": false,
+            "github-backlog_attention:5080": false,
+            "github-backlog_attention:5172": false,
+            "github-backlog_attention:5523": false,
+            "github-backlog_attention:5962": false,
+            "github-backlog_attention:5971": false,
+            "github-backlog_attention:6046": false,
+            "github-backlog_attention:6267": false,
+            "github-backlog_attention:6348": false,
+            "github-backlog_attention:6568": false,
+            "github-backlog_attention:6585": false,
+            "github-backlog_attention:6733": false,
+            "github-backlog_attention:6782": false,
+            "github-backlog_attention:6814": false,
+            "github-backlog_attention:6879": false,
+            "github-backlog_attention:6923": false,
+            "github-backlog_attention:7037": false,
+            "github-backlog_attention:7058": false,
+            "github-backlog_attention:7080": false,
+            "github-backlog_attention:7084": false,
+            "github-backlog_attention:7088": false,
+            "github-backlog_attention:7594": false
+          },
+          "hard_rejects": [],
+          "invariant_abstention_rate": 0.1494,
+          "invariant_n": 87,
+          "per_perturbation": {
+            "duplicate_record": {
+              "abstention_rate": 0.448,
+              "expect": "invariant",
+              "family": "duplicates",
+              "mode": "sandbox",
+              "n": 29,
+              "passed": 16,
+              "verifier_abstained": 13
+            },
+            "empty_lists": {
+              "abstention_rate": 0.0,
+              "expect": "abstain",
+              "family": "empty_collections",
+              "mode": "sandbox",
+              "n": 29,
+              "passed": 29
+            },
+            "formatting": {
+              "abstention_rate": 0.0,
+              "expect": "invariant",
+              "family": "irrelevant_formatting",
+              "mode": "sandbox",
+              "n": 29,
+              "passed": 29
+            },
+            "null_fields": {
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "nulls",
+              "mode": "sandbox",
+              "n": 29,
+              "verifier_abstained": 29
+            },
+            "pad_lists": {
+              "abstention_rate": 0.448,
+              "expect": "either",
+              "family": "large_collections",
+              "mode": "sandbox",
+              "n": 29,
+              "passed": 16,
+              "verifier_abstained": 13
+            },
+            "reorder_lists": {
+              "abstention_rate": 0.0,
+              "expect": "invariant",
+              "family": "reordering",
+              "mode": "sandbox",
+              "n": 29,
+              "passed": 29
+            },
+            "schema_drift": {
+              "abstained": 29,
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "schema_drift",
+              "mode": "sandbox",
+              "n": 29
+            },
+            "tool_4xx": {
+              "abstained": 29,
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "tool_error",
+              "mode": "sandbox",
+              "n": 29
+            },
+            "tool_timeout": {
+              "abstained": 29,
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "timeout",
+              "mode": "sandbox",
+              "n": 29
+            }
+          },
+          "wrong_groups": [],
+          "wrong_total": 0,
+          "wrong_total_applicable": 0
+        },
+        "compiled_unverified": {
+          "group_outcomes": {
+            "github-backlog_attention:2106": false,
+            "github-backlog_attention:2396": false,
+            "github-backlog_attention:2478": false,
+            "github-backlog_attention:2648": false,
+            "github-backlog_attention:2849": false,
+            "github-backlog_attention:2878": false,
+            "github-backlog_attention:2998": false,
+            "github-backlog_attention:3366": false,
+            "github-backlog_attention:5080": false,
+            "github-backlog_attention:5172": false,
+            "github-backlog_attention:5523": false,
+            "github-backlog_attention:5962": false,
+            "github-backlog_attention:5971": false,
+            "github-backlog_attention:6046": false,
+            "github-backlog_attention:6267": false,
+            "github-backlog_attention:6348": false,
+            "github-backlog_attention:6568": false,
+            "github-backlog_attention:6585": false,
+            "github-backlog_attention:6733": false,
+            "github-backlog_attention:6782": false,
+            "github-backlog_attention:6814": false,
+            "github-backlog_attention:6879": false,
+            "github-backlog_attention:6923": false,
+            "github-backlog_attention:7037": false,
+            "github-backlog_attention:7058": false,
+            "github-backlog_attention:7080": false,
+            "github-backlog_attention:7084": false,
+            "github-backlog_attention:7088": false,
+            "github-backlog_attention:7594": false
+          },
+          "hard_rejects": [],
+          "invariant_abstention_rate": 0.0,
+          "invariant_n": 87,
+          "per_perturbation": {
+            "duplicate_record": {
+              "abstention_rate": 0.0,
+              "expect": "invariant",
+              "family": "duplicates",
+              "mode": "sandbox",
+              "n": 29,
+              "passed": 29
+            },
+            "empty_lists": {
+              "abstention_rate": 0.0,
+              "expect": "abstain",
+              "family": "empty_collections",
+              "mode": "sandbox",
+              "n": 29,
+              "passed": 29
+            },
+            "formatting": {
+              "abstention_rate": 0.0,
+              "expect": "invariant",
+              "family": "irrelevant_formatting",
+              "mode": "sandbox",
+              "n": 29,
+              "passed": 29
+            },
+            "null_fields": {
+              "abstention_rate": 0.0,
+              "expect": "abstain",
+              "family": "nulls",
+              "mode": "sandbox",
+              "n": 29,
+              "passed": 29
+            },
+            "pad_lists": {
+              "abstention_rate": 0.0,
+              "expect": "either",
+              "family": "large_collections",
+              "mode": "sandbox",
+              "n": 29,
+              "passed": 29
+            },
+            "reorder_lists": {
+              "abstention_rate": 0.0,
+              "expect": "invariant",
+              "family": "reordering",
+              "mode": "sandbox",
+              "n": 29,
+              "passed": 29
+            },
+            "schema_drift": {
+              "abstained": 29,
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "schema_drift",
+              "mode": "sandbox",
+              "n": 29
+            },
+            "tool_4xx": {
+              "abstained": 29,
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "tool_error",
+              "mode": "sandbox",
+              "n": 29
+            },
+            "tool_timeout": {
+              "abstained": 29,
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "timeout",
+              "mode": "sandbox",
+              "n": 29
+            }
+          },
+          "wrong_groups": [],
+          "wrong_total": 0,
+          "wrong_total_applicable": 0
+        },
+        "manual_unverified": {
+          "group_outcomes": {
+            "github-backlog_attention:2106": false,
+            "github-backlog_attention:2396": false,
+            "github-backlog_attention:2478": false,
+            "github-backlog_attention:2648": false,
+            "github-backlog_attention:2849": false,
+            "github-backlog_attention:2878": false,
+            "github-backlog_attention:2998": false,
+            "github-backlog_attention:3366": false,
+            "github-backlog_attention:5080": false,
+            "github-backlog_attention:5172": false,
+            "github-backlog_attention:5523": false,
+            "github-backlog_attention:5962": false,
+            "github-backlog_attention:5971": false,
+            "github-backlog_attention:6046": false,
+            "github-backlog_attention:6267": false,
+            "github-backlog_attention:6348": false,
+            "github-backlog_attention:6568": false,
+            "github-backlog_attention:6585": false,
+            "github-backlog_attention:6733": false,
+            "github-backlog_attention:6782": false,
+            "github-backlog_attention:6814": false,
+            "github-backlog_attention:6879": false,
+            "github-backlog_attention:6923": false,
+            "github-backlog_attention:7037": false,
+            "github-backlog_attention:7058": false,
+            "github-backlog_attention:7080": false,
+            "github-backlog_attention:7084": false,
+            "github-backlog_attention:7088": false,
+            "github-backlog_attention:7594": false
+          },
+          "hard_rejects": [],
+          "invariant_abstention_rate": 0.0,
+          "invariant_n": 87,
+          "per_perturbation": {
+            "duplicate_record": {
+              "abstention_rate": 0.0,
+              "expect": "invariant",
+              "family": "duplicates",
+              "mode": "sandbox",
+              "n": 29,
+              "passed": 29
+            },
+            "empty_lists": {
+              "abstention_rate": 0.0,
+              "expect": "abstain",
+              "family": "empty_collections",
+              "mode": "sandbox",
+              "n": 29,
+              "passed": 29
+            },
+            "formatting": {
+              "abstention_rate": 0.0,
+              "expect": "invariant",
+              "family": "irrelevant_formatting",
+              "mode": "sandbox",
+              "n": 29,
+              "passed": 29
+            },
+            "null_fields": {
+              "abstention_rate": 0.0,
+              "expect": "abstain",
+              "family": "nulls",
+              "mode": "sandbox",
+              "n": 29,
+              "passed": 29
+            },
+            "pad_lists": {
+              "abstention_rate": 0.0,
+              "expect": "either",
+              "family": "large_collections",
+              "mode": "sandbox",
+              "n": 29,
+              "passed": 29
+            },
+            "reorder_lists": {
+              "abstention_rate": 0.0,
+              "expect": "invariant",
+              "family": "reordering",
+              "mode": "sandbox",
+              "n": 29,
+              "passed": 29
+            },
+            "schema_drift": {
+              "abstention_rate": 0.0,
+              "expect": "abstain",
+              "family": "schema_drift",
+              "mode": "sandbox",
+              "n": 29,
+              "passed": 29
+            },
+            "tool_4xx": {
+              "abstained": 29,
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "tool_error",
+              "mode": "sandbox",
+              "n": 29
+            },
+            "tool_timeout": {
+              "abstained": 29,
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "timeout",
+              "mode": "sandbox",
+              "n": 29
+            }
+          },
+          "wrong_groups": [],
+          "wrong_total": 0,
+          "wrong_total_applicable": 0
+        }
+      },
+      "artifact_id": "cand-00-99f1b041ed7c",
+      "comparisons": {
+        "program:unverified_vs_manual": {
+          "both_wrong": 0,
+          "first_only_wrong": 0,
+          "first_wrong_upper95": 0.0981446276772957,
+          "mcnemar_exact_p": 1.0,
+          "n": 29,
+          "second_only_wrong": 0,
+          "second_wrong_upper95": 0.0981446276772957
+        },
+        "verifier:guarded_vs_unverified": {
+          "both_wrong": 0,
+          "first_only_wrong": 0,
+          "first_wrong_upper95": 0.0981446276772957,
+          "mcnemar_exact_p": 1.0,
+          "n": 29,
+          "second_only_wrong": 0,
+          "second_wrong_upper95": 0.0981446276772957
+        }
+      },
+      "elapsed_s": 0.33,
+      "excluded_records": 1,
+      "family": "backlog_attention",
+      "family_windows_available": 29,
+      "holm_adjusted_p": {
+        "program:unverified_vs_manual": 1.0,
+        "verifier:guarded_vs_unverified": 1.0
+      },
+      "manual_tools": [
+        "backlog_get_record",
+        "backlog_get_ownership",
+        "backlog_get_discussion"
+      ],
+      "n_heldout_records": 30,
+      "n_windows": 29,
+      "names": [
+        "back",
+        "back2",
+        "back3"
+      ],
+      "preconditions": {
+        "compiled": {
+          "permissive_verifier_inert": true,
+          "unperturbed_ok_windows": 29
+        },
+        "manual": {
+          "permissive_verifier_inert": true,
+          "unperturbed_ok_windows": 29
+        }
+      },
+      "program_tools": [
+        "backlog_get_record",
+        "backlog_get_ownership",
+        "backlog_get_discussion"
+      ],
+      "retained_artifact_id": "cand-00-99f1b041ed7c",
+      "sandbox": {
+        "state_digest": "09453eefae39e45a969ab0bee72ca0e188fe79dc50403b0f2a78c39894f5d1a3:7440",
+        "tool_calls": 2146,
+        "worlds_created": 928
+      },
+      "status": "completed",
+      "window_digest": "04a4a139c776fa94"
+    },
+    "issue_type": {
+      "applicability": {
+        "duplicate_record": {
+          "applicable": true,
+          "expect": "invariant",
+          "injected": false,
+          "per_tool": {
+            "issue_get_comments": {
+              "calls": 30,
+              "changed": 25
+            },
+            "issue_get_labels": {
+              "calls": 30,
+              "changed": 30
+            },
+            "issue_get_record": {
+              "calls": 30,
+              "changed": 0
+            }
+          }
+        },
+        "empty_lists": {
+          "applicable": true,
+          "expect": "abstain",
+          "injected": false,
+          "per_tool": {
+            "issue_get_comments": {
+              "calls": 30,
+              "changed": 25
+            },
+            "issue_get_labels": {
+              "calls": 30,
+              "changed": 30
+            },
+            "issue_get_record": {
+              "calls": 30,
+              "changed": 0
+            }
+          }
+        },
+        "formatting": {
+          "applicable": true,
+          "expect": "invariant",
+          "injected": false,
+          "per_tool": {
+            "issue_get_comments": {
+              "calls": 30,
+              "changed": 25
+            },
+            "issue_get_labels": {
+              "calls": 30,
+              "changed": 2
+            },
+            "issue_get_record": {
+              "calls": 30,
+              "changed": 30
+            }
+          }
+        },
+        "null_fields": {
+          "applicable": true,
+          "expect": "abstain",
+          "injected": false,
+          "per_tool": {
+            "issue_get_comments": {
+              "calls": 30,
+              "changed": 0
+            },
+            "issue_get_labels": {
+              "calls": 30,
+              "changed": 0
+            },
+            "issue_get_record": {
+              "calls": 30,
+              "changed": 30
+            }
+          }
+        },
+        "pad_lists": {
+          "applicable": true,
+          "expect": "either",
+          "injected": false,
+          "per_tool": {
+            "issue_get_comments": {
+              "calls": 30,
+              "changed": 25
+            },
+            "issue_get_labels": {
+              "calls": 30,
+              "changed": 30
+            },
+            "issue_get_record": {
+              "calls": 30,
+              "changed": 0
+            }
+          }
+        },
+        "reorder_lists": {
+          "applicable": true,
+          "expect": "invariant",
+          "injected": false,
+          "per_tool": {
+            "issue_get_comments": {
+              "calls": 30,
+              "changed": 17
+            },
+            "issue_get_labels": {
+              "calls": 30,
+              "changed": 4
+            },
+            "issue_get_record": {
+              "calls": 30,
+              "changed": 0
+            }
+          }
+        },
+        "schema_drift": {
+          "applicable": true,
+          "expect": "abstain",
+          "injected": false,
+          "per_tool": {
+            "issue_get_comments": {
+              "calls": 30,
+              "changed": 30
+            },
+            "issue_get_labels": {
+              "calls": 30,
+              "changed": 30
+            },
+            "issue_get_record": {
+              "calls": 30,
+              "changed": 30
+            }
+          }
+        },
+        "tool_4xx": {
+          "applicable": true,
+          "expect": "abstain",
+          "injected": true,
+          "per_tool": {
+            "issue_get_comments": {
+              "calls": 30,
+              "changed": 30
+            },
+            "issue_get_labels": {
+              "calls": 30,
+              "changed": 30
+            },
+            "issue_get_record": {
+              "calls": 30,
+              "changed": 30
+            }
+          }
+        },
+        "tool_timeout": {
+          "applicable": true,
+          "expect": "abstain",
+          "injected": true,
+          "per_tool": {
+            "issue_get_comments": {
+              "calls": 30,
+              "changed": 30
+            },
+            "issue_get_labels": {
+              "calls": 30,
+              "changed": 30
+            },
+            "issue_get_record": {
+              "calls": 30,
+              "changed": 30
+            }
+          }
+        }
+      },
+      "applicable_perturbations": [
+        "duplicate_record",
+        "empty_lists",
+        "formatting",
+        "null_fields",
+        "pad_lists",
+        "reorder_lists",
+        "schema_drift",
+        "tool_4xx",
+        "tool_timeout"
+      ],
+      "arms": {
+        "compiled_guarded": {
+          "group_outcomes": {
+            "github-issue:1514": false,
+            "github-issue:1906": false,
+            "github-issue:2108": false,
+            "github-issue:2187": false,
+            "github-issue:2196": false,
+            "github-issue:2256": false,
+            "github-issue:2402": false,
+            "github-issue:2481": false,
+            "github-issue:3013": false,
+            "github-issue:302": false,
+            "github-issue:3122": false,
+            "github-issue:3632": false,
+            "github-issue:3829": false,
+            "github-issue:3854": false,
+            "github-issue:3859": false,
+            "github-issue:3881": false,
+            "github-issue:4134": false,
+            "github-issue:4221": false,
+            "github-issue:4248": false,
+            "github-issue:4417": false,
+            "github-issue:4420": false,
+            "github-issue:4549": false,
+            "github-issue:5514": false,
+            "github-issue:6059": false,
+            "github-issue:6150": false,
+            "github-issue:6202": false,
+            "github-issue:6532": false,
+            "github-issue:6829": false,
+            "github-issue:7020": false,
+            "github-issue:7093": false
+          },
+          "hard_rejects": [],
+          "invariant_abstention_rate": 0.0444,
+          "invariant_n": 90,
+          "per_perturbation": {
+            "duplicate_record": {
+              "abstention_rate": 0.133,
+              "expect": "invariant",
+              "family": "duplicates",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 26,
+              "verifier_abstained": 4
+            },
+            "empty_lists": {
+              "abstention_rate": 0.0,
+              "expect": "abstain",
+              "family": "empty_collections",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "formatting": {
+              "abstention_rate": 0.0,
+              "expect": "invariant",
+              "family": "irrelevant_formatting",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "null_fields": {
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "nulls",
+              "mode": "sandbox",
+              "n": 30,
+              "verifier_abstained": 30
+            },
+            "pad_lists": {
+              "abstention_rate": 0.133,
+              "expect": "either",
+              "family": "large_collections",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 26,
+              "verifier_abstained": 4
+            },
+            "reorder_lists": {
+              "abstention_rate": 0.0,
+              "expect": "invariant",
+              "family": "reordering",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "schema_drift": {
+              "abstained": 30,
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "schema_drift",
+              "mode": "sandbox",
+              "n": 30
+            },
+            "tool_4xx": {
+              "abstained": 30,
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "tool_error",
+              "mode": "sandbox",
+              "n": 30
+            },
+            "tool_timeout": {
+              "abstained": 30,
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "timeout",
+              "mode": "sandbox",
+              "n": 30
+            }
+          },
+          "wrong_groups": [],
+          "wrong_total": 0,
+          "wrong_total_applicable": 0
+        },
+        "compiled_unverified": {
+          "group_outcomes": {
+            "github-issue:1514": false,
+            "github-issue:1906": false,
+            "github-issue:2108": false,
+            "github-issue:2187": false,
+            "github-issue:2196": false,
+            "github-issue:2256": false,
+            "github-issue:2402": false,
+            "github-issue:2481": false,
+            "github-issue:3013": false,
+            "github-issue:302": false,
+            "github-issue:3122": false,
+            "github-issue:3632": false,
+            "github-issue:3829": false,
+            "github-issue:3854": false,
+            "github-issue:3859": false,
+            "github-issue:3881": false,
+            "github-issue:4134": false,
+            "github-issue:4221": false,
+            "github-issue:4248": false,
+            "github-issue:4417": false,
+            "github-issue:4420": false,
+            "github-issue:4549": false,
+            "github-issue:5514": false,
+            "github-issue:6059": false,
+            "github-issue:6150": false,
+            "github-issue:6202": false,
+            "github-issue:6532": false,
+            "github-issue:6829": false,
+            "github-issue:7020": false,
+            "github-issue:7093": false
+          },
+          "hard_rejects": [],
+          "invariant_abstention_rate": 0.0,
+          "invariant_n": 90,
+          "per_perturbation": {
+            "duplicate_record": {
+              "abstention_rate": 0.0,
+              "expect": "invariant",
+              "family": "duplicates",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "empty_lists": {
+              "abstention_rate": 0.0,
+              "expect": "abstain",
+              "family": "empty_collections",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "formatting": {
+              "abstention_rate": 0.0,
+              "expect": "invariant",
+              "family": "irrelevant_formatting",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "null_fields": {
+              "abstention_rate": 0.0,
+              "expect": "abstain",
+              "family": "nulls",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "pad_lists": {
+              "abstention_rate": 0.0,
+              "expect": "either",
+              "family": "large_collections",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "reorder_lists": {
+              "abstention_rate": 0.0,
+              "expect": "invariant",
+              "family": "reordering",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "schema_drift": {
+              "abstained": 30,
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "schema_drift",
+              "mode": "sandbox",
+              "n": 30
+            },
+            "tool_4xx": {
+              "abstained": 30,
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "tool_error",
+              "mode": "sandbox",
+              "n": 30
+            },
+            "tool_timeout": {
+              "abstained": 30,
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "timeout",
+              "mode": "sandbox",
+              "n": 30
+            }
+          },
+          "wrong_groups": [],
+          "wrong_total": 0,
+          "wrong_total_applicable": 0
+        },
+        "manual_unverified": {
+          "group_outcomes": {
+            "github-issue:1514": false,
+            "github-issue:1906": false,
+            "github-issue:2108": false,
+            "github-issue:2187": false,
+            "github-issue:2196": false,
+            "github-issue:2256": false,
+            "github-issue:2402": false,
+            "github-issue:2481": false,
+            "github-issue:3013": false,
+            "github-issue:302": false,
+            "github-issue:3122": false,
+            "github-issue:3632": false,
+            "github-issue:3829": false,
+            "github-issue:3854": false,
+            "github-issue:3859": false,
+            "github-issue:3881": false,
+            "github-issue:4134": false,
+            "github-issue:4221": false,
+            "github-issue:4248": false,
+            "github-issue:4417": false,
+            "github-issue:4420": false,
+            "github-issue:4549": false,
+            "github-issue:5514": false,
+            "github-issue:6059": false,
+            "github-issue:6150": false,
+            "github-issue:6202": false,
+            "github-issue:6532": false,
+            "github-issue:6829": false,
+            "github-issue:7020": false,
+            "github-issue:7093": false
+          },
+          "hard_rejects": [],
+          "invariant_abstention_rate": 0.0,
+          "invariant_n": 90,
+          "per_perturbation": {
+            "duplicate_record": {
+              "abstention_rate": 0.0,
+              "expect": "invariant",
+              "family": "duplicates",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "empty_lists": {
+              "abstention_rate": 0.0,
+              "expect": "abstain",
+              "family": "empty_collections",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "formatting": {
+              "abstention_rate": 0.0,
+              "expect": "invariant",
+              "family": "irrelevant_formatting",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "null_fields": {
+              "abstention_rate": 0.0,
+              "expect": "abstain",
+              "family": "nulls",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "pad_lists": {
+              "abstention_rate": 0.0,
+              "expect": "either",
+              "family": "large_collections",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "reorder_lists": {
+              "abstention_rate": 0.0,
+              "expect": "invariant",
+              "family": "reordering",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "schema_drift": {
+              "abstention_rate": 0.0,
+              "expect": "abstain",
+              "family": "schema_drift",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "tool_4xx": {
+              "abstained": 30,
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "tool_error",
+              "mode": "sandbox",
+              "n": 30
+            },
+            "tool_timeout": {
+              "abstained": 30,
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "timeout",
+              "mode": "sandbox",
+              "n": 30
+            }
+          },
+          "wrong_groups": [],
+          "wrong_total": 0,
+          "wrong_total_applicable": 0
+        }
+      },
+      "artifact_id": "cand-01-1ebb8b2849c7",
+      "comparisons": {
+        "program:unverified_vs_manual": {
+          "both_wrong": 0,
+          "first_only_wrong": 0,
+          "first_wrong_upper95": 0.09503385285530411,
+          "mcnemar_exact_p": 1.0,
+          "n": 30,
+          "second_only_wrong": 0,
+          "second_wrong_upper95": 0.09503385285530411
+        },
+        "verifier:guarded_vs_unverified": {
+          "both_wrong": 0,
+          "first_only_wrong": 0,
+          "first_wrong_upper95": 0.09503385285530411,
+          "mcnemar_exact_p": 1.0,
+          "n": 30,
+          "second_only_wrong": 0,
+          "second_wrong_upper95": 0.09503385285530411
+        }
+      },
+      "elapsed_s": 2.36,
+      "excluded_records": 0,
+      "family": "issue_type",
+      "family_windows_available": 30,
+      "holm_adjusted_p": {
+        "program:unverified_vs_manual": 1.0,
+        "verifier:guarded_vs_unverified": 1.0
+      },
+      "manual_tools": [
+        "issue_get_record",
+        "issue_get_labels",
+        "issue_get_comments"
+      ],
+      "n_heldout_records": 30,
+      "n_windows": 30,
+      "names": [
+        "get",
+        "get2"
+      ],
+      "preconditions": {
+        "compiled": {
+          "permissive_verifier_inert": true,
+          "unperturbed_ok_windows": 30
+        },
+        "manual": {
+          "permissive_verifier_inert": true,
+          "unperturbed_ok_windows": 30
+        }
+      },
+      "program_tools": [
+        "issue_get_record",
+        "issue_get_labels"
+      ],
+      "retained_artifact_id": "cand-01-1ebb8b2849c7",
+      "sandbox": {
+        "state_digest": "09453eefae39e45a969ab0bee72ca0e188fe79dc50403b0f2a78c39894f5d1a3:3115",
+        "tool_calls": 1770,
+        "worlds_created": 960
+      },
+      "status": "completed",
+      "window_digest": "660b2cb7f8c3e385"
+    },
+    "pr_outcome": {
+      "applicability": {
+        "duplicate_record": {
+          "applicable": true,
+          "expect": "invariant",
+          "injected": false,
+          "per_tool": {
+            "pr_get_discussion": {
+              "calls": 30,
+              "changed": 20
+            },
+            "pr_get_merge_status": {
+              "calls": 30,
+              "changed": 0
+            },
+            "pr_get_record": {
+              "calls": 30,
+              "changed": 0
+            }
+          }
+        },
+        "empty_lists": {
+          "applicable": true,
+          "expect": "abstain",
+          "injected": false,
+          "per_tool": {
+            "pr_get_discussion": {
+              "calls": 30,
+              "changed": 20
+            },
+            "pr_get_merge_status": {
+              "calls": 30,
+              "changed": 0
+            },
+            "pr_get_record": {
+              "calls": 30,
+              "changed": 0
+            }
+          }
+        },
+        "formatting": {
+          "applicable": true,
+          "expect": "invariant",
+          "injected": false,
+          "per_tool": {
+            "pr_get_discussion": {
+              "calls": 30,
+              "changed": 20
+            },
+            "pr_get_merge_status": {
+              "calls": 30,
+              "changed": 0
+            },
+            "pr_get_record": {
+              "calls": 30,
+              "changed": 29
+            }
+          }
+        },
+        "null_fields": {
+          "applicable": true,
+          "expect": "abstain",
+          "injected": false,
+          "per_tool": {
+            "pr_get_discussion": {
+              "calls": 30,
+              "changed": 30
+            },
+            "pr_get_merge_status": {
+              "calls": 30,
+              "changed": 30
+            },
+            "pr_get_record": {
+              "calls": 30,
+              "changed": 30
+            }
+          }
+        },
+        "pad_lists": {
+          "applicable": true,
+          "expect": "either",
+          "injected": false,
+          "per_tool": {
+            "pr_get_discussion": {
+              "calls": 30,
+              "changed": 20
+            },
+            "pr_get_merge_status": {
+              "calls": 30,
+              "changed": 0
+            },
+            "pr_get_record": {
+              "calls": 30,
+              "changed": 0
+            }
+          }
+        },
+        "reorder_lists": {
+          "applicable": true,
+          "expect": "invariant",
+          "injected": false,
+          "per_tool": {
+            "pr_get_discussion": {
+              "calls": 30,
+              "changed": 12
+            },
+            "pr_get_merge_status": {
+              "calls": 30,
+              "changed": 0
+            },
+            "pr_get_record": {
+              "calls": 30,
+              "changed": 0
+            }
+          }
+        },
+        "schema_drift": {
+          "applicable": true,
+          "expect": "abstain",
+          "injected": false,
+          "per_tool": {
+            "pr_get_discussion": {
+              "calls": 30,
+              "changed": 30
+            },
+            "pr_get_merge_status": {
+              "calls": 30,
+              "changed": 30
+            },
+            "pr_get_record": {
+              "calls": 30,
+              "changed": 30
+            }
+          }
+        },
+        "tool_4xx": {
+          "applicable": true,
+          "expect": "abstain",
+          "injected": true,
+          "per_tool": {
+            "pr_get_discussion": {
+              "calls": 30,
+              "changed": 30
+            },
+            "pr_get_merge_status": {
+              "calls": 30,
+              "changed": 30
+            },
+            "pr_get_record": {
+              "calls": 30,
+              "changed": 30
+            }
+          }
+        },
+        "tool_timeout": {
+          "applicable": true,
+          "expect": "abstain",
+          "injected": true,
+          "per_tool": {
+            "pr_get_discussion": {
+              "calls": 30,
+              "changed": 30
+            },
+            "pr_get_merge_status": {
+              "calls": 30,
+              "changed": 30
+            },
+            "pr_get_record": {
+              "calls": 30,
+              "changed": 30
+            }
+          }
+        }
+      },
+      "applicable_perturbations": [
+        "duplicate_record",
+        "empty_lists",
+        "formatting",
+        "null_fields",
+        "pad_lists",
+        "reorder_lists",
+        "schema_drift",
+        "tool_4xx",
+        "tool_timeout"
+      ],
+      "arms": {
+        "compiled_guarded": {
+          "group_outcomes": {
+            "github-pr_outcome:1232": false,
+            "github-pr_outcome:1260": false,
+            "github-pr_outcome:144": false,
+            "github-pr_outcome:1527": false,
+            "github-pr_outcome:1661": false,
+            "github-pr_outcome:1884": false,
+            "github-pr_outcome:2228": false,
+            "github-pr_outcome:2574": false,
+            "github-pr_outcome:3682": false,
+            "github-pr_outcome:3827": false,
+            "github-pr_outcome:4280": false,
+            "github-pr_outcome:429": false,
+            "github-pr_outcome:4602": false,
+            "github-pr_outcome:4798": false,
+            "github-pr_outcome:5001": false,
+            "github-pr_outcome:5401": false,
+            "github-pr_outcome:5497": false,
+            "github-pr_outcome:6085": false,
+            "github-pr_outcome:6268": false,
+            "github-pr_outcome:662": false,
+            "github-pr_outcome:6694": false,
+            "github-pr_outcome:6859": false,
+            "github-pr_outcome:6983": false,
+            "github-pr_outcome:6988": false,
+            "github-pr_outcome:7279": false,
+            "github-pr_outcome:7307": false,
+            "github-pr_outcome:863": false,
+            "github-pr_outcome:913": false,
+            "github-pr_outcome:914": false,
+            "github-pr_outcome:931": false
+          },
+          "hard_rejects": [],
+          "invariant_abstention_rate": 0.1222,
+          "invariant_n": 90,
+          "per_perturbation": {
+            "duplicate_record": {
+              "abstention_rate": 0.367,
+              "expect": "invariant",
+              "family": "duplicates",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 19,
+              "verifier_abstained": 11
+            },
+            "empty_lists": {
+              "abstention_rate": 0.0,
+              "expect": "abstain",
+              "family": "empty_collections",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "formatting": {
+              "abstention_rate": 0.0,
+              "expect": "invariant",
+              "family": "irrelevant_formatting",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "null_fields": {
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "nulls",
+              "mode": "sandbox",
+              "n": 30,
+              "verifier_abstained": 30
+            },
+            "pad_lists": {
+              "abstention_rate": 0.367,
+              "expect": "either",
+              "family": "large_collections",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 19,
+              "verifier_abstained": 11
+            },
+            "reorder_lists": {
+              "abstention_rate": 0.0,
+              "expect": "invariant",
+              "family": "reordering",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "schema_drift": {
+              "abstained": 30,
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "schema_drift",
+              "mode": "sandbox",
+              "n": 30
+            },
+            "tool_4xx": {
+              "abstained": 30,
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "tool_error",
+              "mode": "sandbox",
+              "n": 30
+            },
+            "tool_timeout": {
+              "abstained": 30,
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "timeout",
+              "mode": "sandbox",
+              "n": 30
+            }
+          },
+          "wrong_groups": [],
+          "wrong_total": 0,
+          "wrong_total_applicable": 0
+        },
+        "compiled_unverified": {
+          "group_outcomes": {
+            "github-pr_outcome:1232": false,
+            "github-pr_outcome:1260": false,
+            "github-pr_outcome:144": false,
+            "github-pr_outcome:1527": false,
+            "github-pr_outcome:1661": false,
+            "github-pr_outcome:1884": false,
+            "github-pr_outcome:2228": false,
+            "github-pr_outcome:2574": false,
+            "github-pr_outcome:3682": false,
+            "github-pr_outcome:3827": false,
+            "github-pr_outcome:4280": false,
+            "github-pr_outcome:429": false,
+            "github-pr_outcome:4602": false,
+            "github-pr_outcome:4798": false,
+            "github-pr_outcome:5001": false,
+            "github-pr_outcome:5401": false,
+            "github-pr_outcome:5497": false,
+            "github-pr_outcome:6085": false,
+            "github-pr_outcome:6268": false,
+            "github-pr_outcome:662": false,
+            "github-pr_outcome:6694": false,
+            "github-pr_outcome:6859": false,
+            "github-pr_outcome:6983": false,
+            "github-pr_outcome:6988": false,
+            "github-pr_outcome:7279": false,
+            "github-pr_outcome:7307": false,
+            "github-pr_outcome:863": false,
+            "github-pr_outcome:913": false,
+            "github-pr_outcome:914": false,
+            "github-pr_outcome:931": false
+          },
+          "hard_rejects": [],
+          "invariant_abstention_rate": 0.0,
+          "invariant_n": 90,
+          "per_perturbation": {
+            "duplicate_record": {
+              "abstention_rate": 0.0,
+              "expect": "invariant",
+              "family": "duplicates",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "empty_lists": {
+              "abstention_rate": 0.0,
+              "expect": "abstain",
+              "family": "empty_collections",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "formatting": {
+              "abstention_rate": 0.0,
+              "expect": "invariant",
+              "family": "irrelevant_formatting",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "null_fields": {
+              "abstention_rate": 0.0,
+              "expect": "abstain",
+              "family": "nulls",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "pad_lists": {
+              "abstention_rate": 0.0,
+              "expect": "either",
+              "family": "large_collections",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "reorder_lists": {
+              "abstention_rate": 0.0,
+              "expect": "invariant",
+              "family": "reordering",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "schema_drift": {
+              "abstained": 30,
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "schema_drift",
+              "mode": "sandbox",
+              "n": 30
+            },
+            "tool_4xx": {
+              "abstained": 30,
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "tool_error",
+              "mode": "sandbox",
+              "n": 30
+            },
+            "tool_timeout": {
+              "abstained": 30,
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "timeout",
+              "mode": "sandbox",
+              "n": 30
+            }
+          },
+          "wrong_groups": [],
+          "wrong_total": 0,
+          "wrong_total_applicable": 0
+        },
+        "manual_unverified": {
+          "group_outcomes": {
+            "github-pr_outcome:1232": false,
+            "github-pr_outcome:1260": false,
+            "github-pr_outcome:144": false,
+            "github-pr_outcome:1527": false,
+            "github-pr_outcome:1661": false,
+            "github-pr_outcome:1884": false,
+            "github-pr_outcome:2228": false,
+            "github-pr_outcome:2574": false,
+            "github-pr_outcome:3682": false,
+            "github-pr_outcome:3827": false,
+            "github-pr_outcome:4280": false,
+            "github-pr_outcome:429": false,
+            "github-pr_outcome:4602": false,
+            "github-pr_outcome:4798": false,
+            "github-pr_outcome:5001": false,
+            "github-pr_outcome:5401": false,
+            "github-pr_outcome:5497": false,
+            "github-pr_outcome:6085": false,
+            "github-pr_outcome:6268": false,
+            "github-pr_outcome:662": false,
+            "github-pr_outcome:6694": false,
+            "github-pr_outcome:6859": false,
+            "github-pr_outcome:6983": false,
+            "github-pr_outcome:6988": false,
+            "github-pr_outcome:7279": false,
+            "github-pr_outcome:7307": false,
+            "github-pr_outcome:863": false,
+            "github-pr_outcome:913": false,
+            "github-pr_outcome:914": false,
+            "github-pr_outcome:931": false
+          },
+          "hard_rejects": [],
+          "invariant_abstention_rate": 0.0,
+          "invariant_n": 90,
+          "per_perturbation": {
+            "duplicate_record": {
+              "abstention_rate": 0.0,
+              "expect": "invariant",
+              "family": "duplicates",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "empty_lists": {
+              "abstention_rate": 0.0,
+              "expect": "abstain",
+              "family": "empty_collections",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "formatting": {
+              "abstention_rate": 0.0,
+              "expect": "invariant",
+              "family": "irrelevant_formatting",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "null_fields": {
+              "abstention_rate": 0.0,
+              "expect": "abstain",
+              "family": "nulls",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "pad_lists": {
+              "abstention_rate": 0.0,
+              "expect": "either",
+              "family": "large_collections",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "reorder_lists": {
+              "abstention_rate": 0.0,
+              "expect": "invariant",
+              "family": "reordering",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "schema_drift": {
+              "abstention_rate": 0.0,
+              "expect": "abstain",
+              "family": "schema_drift",
+              "mode": "sandbox",
+              "n": 30,
+              "passed": 30
+            },
+            "tool_4xx": {
+              "abstained": 30,
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "tool_error",
+              "mode": "sandbox",
+              "n": 30
+            },
+            "tool_timeout": {
+              "abstained": 30,
+              "abstention_rate": 1.0,
+              "expect": "abstain",
+              "family": "timeout",
+              "mode": "sandbox",
+              "n": 30
+            }
+          },
+          "wrong_groups": [],
+          "wrong_total": 0,
+          "wrong_total_applicable": 0
+        }
+      },
+      "artifact_id": "cand-00-a1de3856bb6c",
+      "comparisons": {
+        "program:unverified_vs_manual": {
+          "both_wrong": 0,
+          "first_only_wrong": 0,
+          "first_wrong_upper95": 0.09503385285530411,
+          "mcnemar_exact_p": 1.0,
+          "n": 30,
+          "second_only_wrong": 0,
+          "second_wrong_upper95": 0.09503385285530411
+        },
+        "verifier:guarded_vs_unverified": {
+          "both_wrong": 0,
+          "first_only_wrong": 0,
+          "first_wrong_upper95": 0.09503385285530411,
+          "mcnemar_exact_p": 1.0,
+          "n": 30,
+          "second_only_wrong": 0,
+          "second_wrong_upper95": 0.09503385285530411
+        }
+      },
+      "elapsed_s": 0.37,
+      "excluded_records": 0,
+      "family": "pr_outcome",
+      "family_windows_available": 30,
+      "holm_adjusted_p": {
+        "program:unverified_vs_manual": 1.0,
+        "verifier:guarded_vs_unverified": 1.0
+      },
+      "manual_tools": [
+        "pr_get_record",
+        "pr_get_merge_status",
+        "pr_get_discussion"
+      ],
+      "n_heldout_records": 30,
+      "n_windows": 30,
+      "names": [
+        "pr",
+        "pr2",
+        "pr3"
+      ],
+      "preconditions": {
+        "compiled": {
+          "permissive_verifier_inert": true,
+          "unperturbed_ok_windows": 30
+        },
+        "manual": {
+          "permissive_verifier_inert": true,
+          "unperturbed_ok_windows": 30
+        }
+      },
+      "program_tools": [
+        "pr_get_record",
+        "pr_get_merge_status",
+        "pr_get_discussion"
+      ],
+      "retained_artifact_id": "cand-00-a1de3856bb6c",
+      "sandbox": {
+        "state_digest": "09453eefae39e45a969ab0bee72ca0e188fe79dc50403b0f2a78c39894f5d1a3:7440",
+        "tool_calls": 2220,
+        "worlds_created": 960
+      },
+      "status": "completed",
+      "window_digest": "5497d16bb306195a"
+    }
+  },
+  "model_of_retained_artifacts": "gpt-5.6-luna",
+  "perturbations": [
+    {
+      "expect": "invariant",
+      "family": "reordering",
+      "name": "reorder_lists"
+    },
+    {
+      "expect": "invariant",
+      "family": "duplicates",
+      "name": "duplicate_record"
+    },
+    {
+      "expect": "either",
+      "family": "large_collections",
+      "name": "pad_lists"
+    },
+    {
+      "expect": "abstain",
+      "family": "empty_collections",
+      "name": "empty_lists"
+    },
+    {
+      "expect": "abstain",
+      "family": "nulls",
+      "name": "null_fields"
+    },
+    {
+      "expect": "abstain",
+      "family": "schema_drift",
+      "name": "schema_drift"
+    },
+    {
+      "expect": "invariant",
+      "family": "irrelevant_formatting",
+      "name": "formatting"
+    },
+    {
+      "expect": "abstain",
+      "family": "tool_error",
+      "name": "tool_4xx"
+    },
+    {
+      "expect": "abstain",
+      "family": "timeout",
+      "name": "tool_timeout"
+    }
+  ],
+  "pooled": {
+    "comparisons": {
+      "program:unverified_vs_manual": {
+        "both_wrong": 0,
+        "first_only_wrong": 0,
+        "first_wrong_upper95": 0.03309972123627414,
+        "mcnemar_exact_p": 1.0,
+        "n": 89,
+        "second_only_wrong": 0,
+        "second_wrong_upper95": 0.03309972123627414
+      },
+      "verifier:guarded_vs_unverified": {
+        "both_wrong": 0,
+        "first_only_wrong": 0,
+        "first_wrong_upper95": 0.03309972123627414,
+        "mcnemar_exact_p": 1.0,
+        "n": 89,
+        "second_only_wrong": 0,
+        "second_wrong_upper95": 0.03309972123627414
+      }
+    },
+    "families_completed": [
+      "issue_type",
+      "pr_outcome",
+      "backlog_attention"
+    ],
+    "holm_adjusted_p": {
+      "program:unverified_vs_manual": 1.0,
+      "verifier:guarded_vs_unverified": 1.0
+    },
+    "invariant_abstention_rate": {
+      "compiled_guarded": 0.1049,
+      "compiled_unverified": 0.0,
+      "manual_unverified": 0.0
+    },
+    "paired_records": 89,
+    "wrong_outcomes_applicable": {
+      "compiled_guarded": 0,
+      "compiled_unverified": 0,
+      "manual_unverified": 0
+    },
+    "wrong_records": {
+      "compiled_guarded": 0,
+      "compiled_unverified": 0,
+      "manual_unverified": 0
+    },
+    "wrong_upper95": {
+      "compiled_guarded": 0.03309972123627414,
+      "compiled_unverified": 0.03309972123627414,
+      "manual_unverified": 0.03309972123627414
+    }
+  },
+  "protocol": "paper/supplementary/drift-recorded-replay-protocol.md",
+  "provider_calls_executed": 0,
+  "schema": "agent-compaction-drift-recorded-replay/v1",
+  "substrate": "retained primary held-out records, episodes reconstructed on the revision-pinned snapshot; provider-free",
+  "timestamp_utc": "2026-10-07T05:11:26Z"
+}

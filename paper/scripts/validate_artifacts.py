@@ -3014,6 +3014,51 @@ def validate_drift_ablation() -> None:
        "drift ablation: appendix quotes the retained counts")
 
 
+def validate_drift_recorded_replay() -> None:
+    """Pin the provider-free recorded-replay drift ablation on the 90 primary records (2026-10-06)."""
+
+    path = PAPER / "results/drift_recorded_replay/results.json"
+    ok(path.exists(), "drift replay: results present")
+    if not path.exists():
+        return
+    res = load(path)
+    ok(res.get("schema") == "agent-compaction-drift-recorded-replay/v1", "drift replay: schema")
+    ok(res.get("provider_calls_executed") == 0, "drift replay: provider-free")
+    ok(res.get("arms") == ["compiled_guarded", "compiled_unverified", "manual_unverified"], "drift replay: three arms")
+    fams = res.get("families", {})
+    ok(set(fams) == {"issue_type", "pr_outcome", "backlog_attention"} and all(f.get("status") == "completed" for f in fams.values()),
+       "drift replay: all three families completed")
+    expected_ids = {"issue_type": "cand-01-1ebb8b2849c7", "pr_outcome": "cand-00-a1de3856bb6c", "backlog_attention": "cand-00-99f1b041ed7c"}
+    for name, f in fams.items():
+        ok(f.get("artifact_id") == expected_ids[name] == f.get("retained_artifact_id"), f"drift replay: {name} recompiled the retained artifact")
+        ok(f.get("n_heldout_records") == 30, f"drift replay: {name} uses the 30 held-out records")
+        ok(all(c["permissive_verifier_inert"] for c in f.get("preconditions", {}).values()), f"drift replay: {name} permissive verifier inert")
+        ok(all(v["applicable"] for v in f.get("applicability", {}).values()), f"drift replay: {name} every transform changes at least one call")
+        ok(all(a["wrong_total"] == 0 for a in f["arms"].values()), f"drift replay: {name} zero wrong in every arm")
+        ok(not any("state_delta" in h.get("kind", "") for a in f["arms"].values() for h in a.get("hard_rejects", [])),
+           f"drift replay: {name} no sandbox state delta")
+    ok(fams["issue_type"]["n_windows"] == 30 and fams["pr_outcome"]["n_windows"] == 30 and fams["backlog_attention"]["n_windows"] == 29,
+       "drift replay: 30/30/29 windows")
+    ok("github-backlog_attention:5189" not in fams["backlog_attention"]["arms"]["compiled_guarded"]["group_outcomes"],
+       "drift replay: record 5189 is the excluded backlog record")
+    pooled = res.get("pooled", {})
+    ok(pooled.get("paired_records") == 89 and all(v == 0 for v in pooled.get("wrong_records", {"x": 1}).values()),
+       "drift replay: 89 paired records, no wrong record in any arm")
+    ok(all(abs(v - 0.0331) < 5e-4 for v in pooled.get("wrong_upper95", {}).values()), "drift replay: upper bound 0.0331 on zero of 89")
+    ok(all(v == 1.0 for v in pooled.get("holm_adjusted_p", {}).values()), "drift replay: both Holm-adjusted p-values are 1")
+    inv = pooled.get("invariant_abstention_rate", {})
+    ok(abs(inv.get("compiled_guarded", 0) - 0.1049) < 5e-4 and inv.get("compiled_unverified") == 0.0 and inv.get("manual_unverified") == 0.0,
+       "drift replay: guarded invariant abstention 0.1049 pooled, 0 in the unverified arms")
+    per = {n: fams[n]["arms"]["compiled_guarded"]["invariant_abstention_rate"] for n in fams}
+    ok(abs(per["issue_type"] - 0.0444) < 5e-4 and abs(per["pr_outcome"] - 0.1222) < 5e-4 and abs(per["backlog_attention"] - 0.1494) < 5e-4,
+       "drift replay: per-family guarded invariant abstention 0.0444 / 0.1222 / 0.1494")
+    ok(res.get("decision") == "null:all_arms_zero_wrong", "drift replay: decision rule reads the null")
+    protocol = (PAPER / "supplementary/drift-recorded-replay-protocol.md").read_text(encoding="utf-8")
+    ok("EXECUTED the same day" in protocol and "## Observed results" in protocol, "drift replay: protocol carries observed results")
+    appendix = (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8")
+    ok("89 paired records" in appendix and "0.0331" in appendix and "0.1049" in appendix, "drift replay: appendix quotes the retained counts")
+
+
 FAMILIES: dict[str, Any] = {
     "sources": validate_sources,
     "live": validate_live,
@@ -3043,6 +3088,7 @@ FAMILIES: dict[str, Any] = {
     "slide_generation": validate_slide_generation,
     "slides": validate_slides,
     "drift_ablation": validate_drift_ablation,
+    "drift_recorded_replay": validate_drift_recorded_replay,
     "no_secrets": validate_no_secrets,
 }
 

@@ -256,3 +256,20 @@ uncited bibliography entries and eleven new ones whose identifiers were checked 
 on 2026-10-06. §2 opens with a terminology paragraph (episode, group, region, family,
 candidate, program, artifact, prefix; compilation versus compaction). Figure 1 is set at
 0.78 linewidth. No number, result or claim changed.
+
+## Recorded-replay drift ablation on the primary records (2026-10-06, branch `paper/c1b-recorded-replay-drift`)
+
+Workstream C1b of `proposal-90.md`. New protocol `drift-recorded-replay-protocol.md`
+(pre-registered before the run) and driver `paper/scripts/drift_recorded_replay_study.py`:
+the three retained artifacts are recompiled identically from their sealed checkpoints, the 90
+held-out records' episodes are reconstructed from their retained baseline tool sequences on the
+pinned snapshot, windows are mined under each artifact's own policy, and three arms (induced
+verifier; permissive verifier; the family's hand-written pre-model program with a permissive
+verifier) run over identical windows through the snapshot sandbox. Outcome: the null (89 paired
+records, zero wrong in every arm, Holm-adjusted McNemar p = 1 for both comparisons, guarded
+invariant-family abstention 0.1049 pooled). The write-up explains the null structurally: the
+suite's oracle is the sequence of derived call arguments and every admitted GitHub program
+derives its arguments from the entry record alone, so `wrong` is unreachable under this suite;
+the verifier's abstentions guard the continuation, which this endpoint does not grade.
+Appendix G paragraph, claims register part D row, validator family `drift_recorded_replay`,
+helper tests, number registry. Appendix only; main-text pagination unchanged.

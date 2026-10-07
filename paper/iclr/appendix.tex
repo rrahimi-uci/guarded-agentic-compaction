@@ -983,6 +983,33 @@ substrate. This is a null, not equivalence; it says nothing about the GitHub
 families or real workloads. Two further observations are reported as such:
 \code{incident\_triage} admits no artifact under the current compiler although
 the retained 2026-08 run admitted two, and \code{mcp\_ops} retires in both.
+
+\paragraph{Recorded-replay drift ablation on the primary records: the null,
+and what it reveals about the oracle.}
+The same question on real records
+(\path{paper/supplementary/drift-recorded-replay-protocol.md}; pre-registered
+and run 2026-10-06, provider-free): the three retained artifacts, recompiled
+identically from their sealed checkpoints, run with their induced verifier,
+with a permissive verifier, and beside the family's hand-written pre-model
+program with a permissive verifier, over the 90 primary held-out records
+reconstructed on the pinned snapshot (89 paired records; the baseline-only
+miss record 5189 yields no window of its family). All nine transforms change
+at least one recorded call per family. All three arms produce zero wrong
+outcomes (upper bound 0.0331 per arm; no discordant pair; Holm-adjusted
+exact McNemar $p=1$ for both comparisons). The reason is structural, not
+total tools: the suite's oracle is the sequence of derived call arguments,
+and every admitted GitHub program derives every argument from the entry
+record alone, so no tool-result perturbation can change a decision and
+\emph{wrong} is unreachable for these programs under this suite. What the
+suite does measure is the contract: the induced verifier abstains on nulled
+fields and on duplicated or padded discussion lists (0.1049 of invariant
+outcomes pooled; 0.0444, 0.1222, 0.1494 per family), the interpreter abstains
+on schema drift in both compiled arms, and the hand-written program answers
+through schema drift unchanged because it echoes what it is given. Those
+abstentions guard the continuation against malformed evidence, which this
+endpoint does not grade; a live continuation extension would. Not
+equivalence; and a program whose later arguments derive from earlier results
+is where a verifier benefit could appear under this suite.
 \begin{table}[t]
   \centering
   \caption{Recurrence-only replay on issue-type routing: per-record means over
