@@ -303,12 +303,25 @@ def run_perturbations(
     perturbations: Sequence[Perturbation],
     *,
     max_windows: int = 24,
+    trace: list[dict[str, Any]] | None = None,
 ) -> tuple[dict[str, dict[str, Any]], list[dict[str, Any]]]:
-    """Run the suite. Returns ``(per-family report, hard rejects)``."""
+    """Run the suite. Returns ``(per-family report, hard rejects)``.
+
+    ``trace``, when supplied, receives one record per (perturbation, window) with
+    the window's group, episode and the outcome bucket the counts below use
+    (``passed``, ``wrong``, ``abstained``, ``verifier_abstained``, ``no_reference``,
+    ``state_delta``). Counts are unchanged; the trace only exposes the pairing the
+    aggregate report discards.
+    """
 
     report: dict[str, dict[str, Any]] = {}
     hard: list[dict[str, Any]] = []
     sample = list(windows)[:max_windows]
+
+    def _note(pert_name: str, w: Window, outcome: str) -> None:
+        if trace is not None:
+            trace.append({"perturbation": pert_name, "group": w.group_id,
+                          "episode": w.episode.episode_id, "outcome": outcome})
 
     # baseline (unperturbed) outputs per window, used as the invariance oracle
     baseline: dict[str, Any] = {}
@@ -342,6 +355,7 @@ def run_perturbations(
             except _Injected:
                 if world is not None and world.state_digest() != before:
                     counts["state_delta"] += 1
+                    _note(pert.name, w, "state_delta")
                     hard.append(
                         {
                             "perturbation": pert.name,
@@ -352,9 +366,11 @@ def run_perturbations(
                     )
                     continue
                 counts["abstained"] += 1
+                _note(pert.name, w, "abstained")
                 continue
             if world is not None and world.state_digest() != before:
                 counts["state_delta"] += 1
+                _note(pert.name, w, "state_delta")
                 hard.append(
                     {
                         "perturbation": pert.name,
@@ -366,20 +382,25 @@ def run_perturbations(
                 continue
             if not res.ok:
                 counts["abstained"] += 1
+                _note(pert.name, w, "abstained")
                 continue
             bad = verifier.verify(res.outputs, res.env, res.provenance, res.effects, len(res.calls))
             if bad:
                 counts["verifier_abstained"] += 1
+                _note(pert.name, w, "verifier_abstained")
                 continue
             ref = baseline.get(w.episode.episode_id)
             got = _semantic_signature(res, program, catalog)
             if pert.expect == "invariant":
                 if ref is None:
                     counts["no_reference"] += 1
+                    _note(pert.name, w, "no_reference")
                 elif got == ref:
                     counts["passed"] += 1
+                    _note(pert.name, w, "passed")
                 else:
                     counts["wrong"] += 1
+                    _note(pert.name, w, "wrong")
                     hard.append(
                         {
                             "perturbation": pert.name,
@@ -393,6 +414,7 @@ def run_perturbations(
                 # from the unperturbed one; matching it is harmless
                 if ref is not None and got != ref:
                     counts["wrong"] += 1
+                    _note(pert.name, w, "wrong")
                     hard.append(
                         {
                             "perturbation": pert.name,
@@ -403,8 +425,10 @@ def run_perturbations(
                     )
                 else:
                     counts["passed"] += 1
+                    _note(pert.name, w, "passed")
             else:
                 counts["passed"] += 1
+                _note(pert.name, w, "passed")
         total = sum(counts.values())
         report[pert.name] = {
             "family": pert.family,

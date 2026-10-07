@@ -959,6 +959,30 @@ issue-6602 counterexample, not a held-out failure. The measurement concerns one
 family, one cohort, and in-distribution records; it says nothing about
 behavior under shift, which the drift protocol below is written to test.
 
+
+\paragraph{Provider-free drift ablation: the pre-declared null.}
+The drift-robustness protocol
+(\path{paper/supplementary/drift-robustness-ablation-protocol.md}; amended before
+execution and run on 2026-10-06, provider-free) asks whether the induced verifier
+converts wrong answers into abstentions under the nine declared perturbation
+families. On the deterministic demonstration substrate it runs two arms over an
+identical compiled program and identical sealed-test windows, differing only in
+the verifier (induced versus permissive), with the hard runtime boundary retained
+in both; the hand-written arm is not run because the demonstration comparators
+are policy-level macros rather than IR programs. Six admitted artifacts over
+three demonstrations give 144 paired groups (one window per group). Both arms
+produce zero wrong outcomes (one-sided 95\% upper bound 0.0206 per arm; no
+discordant pair), so the suite does not separate the arms on this substrate:
+the simulated tools remain total, and the unverified program's live-outs under
+nulled fields, duplicated records, padded lists and schema drift equal its
+unperturbed live-outs. What the verifier does here is abstain, including on
+invariant perturbations where the answer was unchanged (0.2477 pooled; 0.3333 on
+every \code{permissioned\_rag} artifact, above the protocol's 0.25 guardrail and
+below its 0.50 bar), which is a cost without a measured benefit on this
+substrate. This is a null, not equivalence; it says nothing about the GitHub
+families or real workloads. Two further observations are reported as such:
+\code{incident\_triage} admits no artifact under the current compiler although
+the retained 2026-08 run admitted two, and \code{mcp\_ops} retires in both.
 \begin{table}[t]
   \centering
   \caption{Recurrence-only replay on issue-type routing: per-record means over

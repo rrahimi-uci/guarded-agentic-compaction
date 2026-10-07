@@ -1,7 +1,8 @@
 # Drift-robustness ablation protocol
 
-**Status: pre-registered on 2026-08-18. Not run, and the driver it describes does not exist
-yet.** This document fixes the design, endpoints, decision rule, and claim boundary before any
+**Status: pre-registered on 2026-08-18; amended before execution and EXECUTED on 2026-10-06**
+(driver `paper/scripts/drift_ablation_study.py`; amendments and observed results at the end).
+Original status text: not run, and the driver it describes does not exist yet. This document fixes the design, endpoints, decision rule, and claim boundary before any
 implementation, so that whichever way the experiment comes out it can be reported as a result.
 It changes no compiler code, no admission gate, no artifact, and no reported number.
 
@@ -166,3 +167,65 @@ To be filled in with the exact command when the driver exists. The intended shap
 ```
 
 No provider key, no spend authorization, and no network access are required.
+
+## Amendments before execution (2026-10-06)
+
+Recorded before any outcome other than the `support` smoke run described in item 4 was seen.
+
+1. **Arms.** The `manual_unverified` arm is not run on this substrate. The protocol assumed
+   `ManualPreModelPlan` carries an IR `Program` the suite can execute; the demonstration
+   comparators are policy-level macros (`DemoSpec.macro_tool`, invoked by the policy with
+   arguments derived from earlier observations), not IR programs. Authoring one IR program per
+   demonstration is a separate deliverable and would introduce an author-bias risk the design
+   does not control. The principal contrast, `compiled_guarded` versus `compiled_unverified` on an
+   identical program, is unaffected and is the only comparison run, so there is one exact McNemar
+   test and no Holm correction.
+2. **Unit of analysis.** Repeated perturbations of one window are not independent observations.
+   The primary outcome is defined per group: `wrong` on any applicable perturbation of that
+   group's window (`no_reference` excluded). Arms are paired at group level. Per-transform counts
+   are reported descriptively.
+3. **Windows.** The sealed test split's windows for each admitted artifact's family are mined
+   under the artifact's partition's train-fitted groundability policy with the compiler's own
+   window parameters, exactly as the compiler attaches held-in windows. The compile is
+   reproduced from the retained seed and splits (digest checked against
+   `experiments/results/<demo>.json`) and the admitted families are compared with the retained
+   ones at family-hash and partition level; rank indices may differ between compiler versions
+   and are recorded, not treated as a mismatch.
+4. **Sampling.** The `support` smoke run with the first 24 windows in sorted order covered only
+   6 groups. The sample is therefore one window per group, groups in sorted order, capped at 24,
+   so each artifact contributes up to 24 paired groups. This was decided after that smoke run
+   (a null) and before any other demonstration was run.
+5. **Reproducibility finding, reported as such.** `incident_triage` admits no artifact under the
+   current compiler (the 2026-08-02 retained run admitted two: `cand-00-9452e5778bf6`,
+   `cand-01-c294df28f7a6`), and one of `permissioned_rag`'s five retained artifacts
+   (`cand-08-307b5bb36789-51a098b9`) is no longer admitted. `mcp_ops` retires in both runs. The
+   study runs on what the current compiler admits; the divergence is a finding about the
+   demonstration suite's reproducibility, not about this protocol.
+
+## Observed results (executed 2026-10-06, provider-free)
+
+Retained file: `paper/results/drift_ablation/results.json`
+(`decision: null:all_arms_zero_wrong`). Six artifacts over three demonstrations completed
+(`support` 1, `permissioned_rag` 4, `fulfillment` 1), 24 paired groups each, 144 paired
+groups in all; the permissive verifier was inert on every unperturbed window; no
+`sandbox_state_delta` in any arm.
+
+| Endpoint | `compiled_guarded` | `compiled_unverified` |
+|---|---|---|
+| `wrong` outcomes, all perturbations | 0 | 0 |
+| groups with any `wrong` (of 144) | 0 (one-sided 95% upper bound 0.0206) | 0 (upper bound 0.0206) |
+| discordant pairs (guarded-only / unverified-only) | 0 / 0 (exact McNemar p = 1.0) | |
+| abstention rate on the three `invariant` families | 0.2477 pooled; 0.3333 on each `permissioned_rag` artifact, 0.0694 `support`, 0.0833 `fulfillment` | 0.0000 |
+
+**Reading, per the decision rule: the null.** All arms produce zero `wrong` outcomes, so the
+perturbation suite as configured does not separate the arms on this substrate. The mechanism is
+the one the protocol anticipated: the simulated tools remain total under these transforms, and
+the unverified program's live-outs under `null_fields`, `duplicate_record`, `pad_lists` and
+`schema_drift` equal its unperturbed live-outs, so there is no wrong answer for a verifier to
+prevent. What the induced verifier does on this substrate is abstain, including on `invariant`
+families where the answer was unchanged; on `permissioned_rag` that rate (0.3333) exceeds the
+0.25 guardrail and is reported in the same sentence as the primary result, and it is below the
+0.50 bar at which the arm would be called too conservative. This is a null, not equivalence,
+and it licenses no statement about real workloads, the GitHub families, tokens, cost, or
+production safety. A recorded-replay extension on real records is the separate protocol
+`proposal-90.md` names as C1b.

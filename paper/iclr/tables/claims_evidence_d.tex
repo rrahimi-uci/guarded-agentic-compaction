@@ -33,5 +33,10 @@ Perturbation challenge and signed registries &
 Provider-free recompilation of the three primary artifacts with the perturbation suite enabled through a snapshot sandbox reproduces identical programs, splits, ids, and 92/0 gates; all nine families complete on the eight development windows with zero wrong answers and zero hard rejects (\code{perturbations\_claimed: true}); HMAC-SHA256 signing with verification on refuses wrong-key, tampered, and the original unsigned registries. &
 \path{paper/results/iclr_revision/recompile_with_challenge.json}; \path{paper/scripts/recompile_with_challenge.py}. &
 Closes two disclosed operational caveats of the reported runs; changes no reported number. \\
+\addlinespace[2pt]
+Drift ablation (provider-free, demonstration substrate) &
+Two arms (induced versus permissive verifier) on an identical program and identical sealed-test windows; six artifacts, three demonstrations, 144 paired groups; zero wrong outcomes in both arms (upper bound 0.0206 per arm, no discordant pair); guarded abstention on invariant perturbations 0.2477 pooled, 0.3333 on \code{permissioned\_rag}. &
+\path{paper/results/drift_ablation/results.json} (\code{pooled}, \code{decision}); \path{paper/scripts/drift_ablation_study.py}; \path{paper/supplementary/drift-robustness-ablation-protocol.md}. &
+The pre-declared null: the suite does not separate the arms on simulated total tools. Not equivalence; no claim about real records, the GitHub families, cost, or production safety. The manual arm was not run. \\
 \bottomrule
 \end{tabularx}
