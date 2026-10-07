@@ -5,6 +5,13 @@ calibration/compiler code, retained effective-unit and multidomain preflight art
 existing study protocols, runner interfaces, and official ICLR 2027 guidance. This revision
 assesses and corrects the plan; it does not implement the workstreams or run new studies.
 
+Re-reviewed 2026-10-06 against `054dbb8` (main after PR #50). Every code, artifact and
+arithmetic reference below was re-verified; the ICLR 2027 author guidelines were re-fetched;
+the pinned dataset's Hugging Face revision was checked. Changes in this pass: the ten-page
+discussion allowance (F13), the time-forward data source (F7), the Copilot rule (F12), the
+contents of the retained traces (F14), the absence of an external human read (F15), a
+rebased schedule, and an explicit ordering of what can land before reviews (§0.1).
+
 ## 0. Assessment
 
 **The direction is reasonable; the original five-week, part-time, under-$100 promise for
@@ -21,7 +28,7 @@ planning identifier; use the evidence milestones below to judge completion.
 |---|---|---|
 | Correct statistical scope, preserve registered results, improve writing | High; approximately 7–12 focused person-days | Consistent event definitions, evidence-linked claims, valid builds and checks |
 | Provider-free verifier ablation and recorded-trace extension | Moderate; approximately 4–7 additional person-days | Validated perturbation oracles, paired outcomes, null/adverse results retained |
-| Fresh time-forward cohort and end-to-end labels | Conditional; approximately 6–10 additional person-days after data GO | Compatible source, disjoint frozen splits, prospective labels and multiplicity accounting |
+| Fresh time-forward cohort and end-to-end labels | Conditional and post-decision; approximately 6–10 additional person-days after a GitHub API acquisition GO (the pinned dataset cannot supply it; F7) | Compatible source, disjoint frozen splits, prospective labels and multiplicity accounting |
 | HMDA live study | Conditional; approximately 6–10 additional person-days after protocol and approval GO | Existing frozen design honored, action locks, budget ledger, validated results |
 | Manual-authoring pilot | Optional; recruitment and participant time extra | Separate development/test records, timed logs, descriptive limitations |
 
@@ -29,6 +36,42 @@ These are planning ranges, not measured delivery estimates. The full scope is ro
 23–39 focused person-days before participant time and integration contingency. Five
 calendar weeks is plausible for a bounded core, not a reliable part-time commitment to
 all extensions. A $100 provider cap is a constraint that may force studies to stop or defer.
+
+### 0.1 Ordering for the review window (added 2026-10-06)
+
+Working days from 2026-10-06: 22 to the review release on November 5 and 31 to the end of
+discussion on November 18. ICLR applies a pdfdiff to every revision and reviewers are not
+required to read every upload, so plan one consolidated revision with a change list, not a
+stream of uploads.
+
+Only the P0 core (A1, B1, B2, C1a, E, F, G) and the provider-free part of C1b fit before
+November 5, at roughly 10–15 focused person-days. Availability below about 60% of a working
+week leaves no room for any conditional extension. In order of expected effect on a
+reviewer's score per person-day:
+
+1. **A1.** The certified-event mismatch is the one finding a reviewer can read as an unsound
+   claim. Correcting it is a clarification of the submitted paper, which is the kind of change
+   reviewers are asked to assess rather than ignore.
+2. **E, F and the tenth page.** ICLR allows ten main-text pages during discussion (F13). The
+   results figure (E4), the related-work expansion (WS-F) and the scope wording from A1 fit in
+   that page without the appendix diet; keep E5 to the reading guide and terminology.
+3. **C1a, then provider-free C1b.** The only new evidence that fits. The protocol's own most
+   likely outcome on the demo substrate is a null (all arms zero wrong); the recorded GitHub
+   records in C1b are the part reviewers will weigh, so write its protocol in the same week.
+4. **B1 and G.** Arithmetic and statistical wording; about a day each; no new evidence.
+5. **Everything conditional** (A2 confirmatory, B3, C2, D1, H) is post-decision work. None of
+   it completes before November 18 beside the core, and a method or cohort change of that
+   size is what area chairs may ignore. Write their protocols only if the core is finished by
+   October 30. The one cheap exception: an exploratory end-to-end label on the retained
+   issue-type calibration groups (one continuation per group, about a dollar) answers the
+   "what would k have been" question in a response; label it exploratory and claim nothing.
+
+No version of this plan yields a measured score. The 90 in the filename comes from the
+repository's own artifact-aware rubrics. The only reviewer-rubric score on file is 7/10
+(weak accept) from the 2026-08-21 scorecard, and the five files under `team-reviews/` are
+untouched templates (F15). One independent human read of the nine pages before November 5,
+scored on the official ICLR questions, is the cheapest calibration of that number and should
+be scheduled now.
 
 ## 1. Findings verified for this revision
 
@@ -45,12 +88,15 @@ parity, the distinction between admission and runtime dispatch, and negative res
 | F4 | Effective-unit calculations count distinct days/authors; they do not establish independent identically distributed groups. Mere exchangeability is insufficient for the binomial model used by Clopper–Pearson. | Retain the i.i.d. assumption; describe cluster calculations as sensitivity unless a prospective cluster sampling model is justified. |
 | F5 | The existing drift protocol is provider-free, uses simulated workloads and three arms, and explicitly says its driver is unwritten. Its oracle concerns program outputs, not downstream answer correctness. | Implement that bounded study first; version any real-record or live extension separately. |
 | F6 | Nine perturbations on the same record do not create nine independent records. Several generic transforms may alter a GitHub task's truth or do nothing. | Validate applicability and task semantics; aggregate the primary contrast at record/group level. |
-| F7 | `github_workflow_family_study.py` is tied to `fixed.HF_REVISION` and has no `--snapshot` or `--frozen-artifact` interface. A dataset revision hash is not an issue creation timestamp. | Budget loader, schema, provenance, compatibility and timestamp work before promising time-forward execution. |
+| F7 | `github_workflow_family_study.py` is tied to `fixed.HF_REVISION` and has no `--snapshot` or `--frozen-artifact` interface. Checked 2026-10-06: the pinned Hugging Face dataset `helmo/github-issues` has had no revision since 2025-06-13 (its current sha is the pinned one) and holds one repository's records through that day, so refreshing it cannot yield newer records. `github_multirepo_preflight.py` already accepts repeated `--snapshot` parquet paths and audits `created_at` day ranges. | Treat C2 as GitHub API acquisition with an explicit creation cutoff after 2025-06-13, loaded through the multirepo snapshot path with its own digest, licence note and gold reconstruction; not a dataset refresh. Budget it after decisions. |
 | F8 | HMDA preflight validates 420 groups and 416 variable paths, but reports `protocol: null` and zero provider calls. The manifest allocates five study roles, unlike the original plan's three-way split. | Honor the existing design or explicitly version and refreeze a replacement before outcomes are observed. |
 | F9 | A verifier-null result, a domain retirement, and a live quality improvement answer different questions. | Do not award predetermined score gains or describe a refusal as evidence of live quality/savings. |
 | F10 | The proposed uncommitted second-provider protocol anomaly is absent in this checkout. Initial status contains only untracked `.claude/`. | Remove that stale blocker and preserve unrelated local files. |
-| F11 | ICLR releases reviews on November 5; public discussion and paper revisions end November 18. Substantial changes may be ignored by reviewers. | Integrate the core before November 5; keep method redesign separate from corrections to submitted claims. |
-| F12 | The original governance rule prohibited Copilot review, contrary to the current user instructions. | Request the user and, when available and appropriate, Copilot; never merge. |
+| F11 | ICLR releases reviews on November 5; public discussion and paper revisions end November 18. Area chairs and reviewers "reserve the right to ignore changes that are significantly different from the original paper"; a pdfdiff is applied to revisions and reviewers are not required to look at every revision. | Integrate the core before November 5; upload one consolidated revision with a change list by about November 12; keep method redesign separate from corrections to submitted claims. |
+| F12 | The original governance rule prohibited Copilot review. The user's standing instructions confirm it: Copilot review is intentionally disabled on this repository and must not be requested unless the user asks for it on a specific PR. The 2026-10-02 revision inverted this. | Request only the user's review; never request Copilot; never merge. |
+| F13 | ICLR 2027 author guidelines, re-fetched 2026-10-06: "At the time of submission, the main text should be 9 pages or fewer. During the discussion/rebuttal phase and for the camera ready, the page limit will be increased to 10 pages to allow for new results/discussions." The submission ends on page 9 and the previous plan budgeted every change against nine pages. | Build the revision at ten pages. The results figure, related-work expansion and scope wording fit without the appendix diet. Verify any other venue's limit separately. |
+| F14 | The retained family checkpoints (for example `paper/results/github_workflow_families/pr_outcome/final/evaluation_checkpoint.json`) store tool sequences, arguments, quality labels and metrics, not tool outputs. The tools read the pinned parquet snapshot, so outputs are reconstructible offline. | C1b must rebuild the snapshot-backed tool facade and confirm the unperturbed replay reproduces the retained program outputs before perturbing. It stays provider-free, but it is not a replay of stored outputs. |
+| F15 | No external human read of the submission exists: the five `team-reviews/` files are blank templates and the only reviewer-rubric score is 7/10 from the 2026-08-21 scorecard. The 76-to-90 scale is internal. | Schedule one independent read on the official ICLR questions before November 5; treat the 90 as uncalibrated until then. |
 
 A zero observed replay-mismatch count is not proof that this event is impossible. The narrow
 label does, however, fail to measure continuation errors. Likewise, a cluster sensitivity
@@ -191,11 +237,20 @@ CLI options below are deliverables, not interfaces assumed to exist today.
   Zero discordances is a null, not equivalence. An adverse guarded result takes precedence.
 - Validate unperturbed oracles, inert permissive verifiers, identical arm cohorts, and
   fail-closed state-delta handling. Label this simulated mechanism evidence only.
+- `run_perturbations` in the evaluation package already takes a program, guard, verifier,
+  windows and a perturbation list, and the compiler's development labels already run programs
+  through perturbation facades with a semantic-signature oracle. The protocol's own estimate
+  of about a day for the driver is consistent with that; the 2–3 days here add the statistics
+  amendment, validator family and tests.
 
 **C1b. GitHub recorded-replay extension — P1, 2–4 days; provider-free first.**
 
 - Create a separate protocol before using the 90 previously evaluated primary records.
   Call this a new stress analysis of retained records, not a new untouched held-out cohort.
+- The checkpoints do not retain tool outputs (F14). Rebuild each record's tool facade from
+  the pinned parquet snapshot, confirm the unperturbed replay reproduces the retained program
+  outputs and quality labels, and only then apply perturbations. Count that reconstruction in
+  the 2–4 days.
 - Check each transform against each task contract. Reordering may change an ordered-excerpt
   requirement; duplication may change counts; some transforms are no-ops. Declare the
   oracle and applicability in advance. Report exclusions and no-ops, and preserve original
@@ -214,10 +269,13 @@ CLI options below are deliverables, not interfaces assumed to exist today.
 **C2. Time-forward cohort — P1, 6–10 days including acquisition/runner work;
 provider cap $25, conditional on provider-free GO.**
 
-- Identify a licensable, compatible newer source and an explicit record-creation cutoff.
-  Do not interpret the pinned dataset revision hash as a timestamp, or assume a refreshed
-  dataset necessarily contains new records. Reconstruct gold and deduplicate against all
-  discovery, development, calibration and evaluation records already used.
+- The pinned dataset cannot supply this cohort (F7): it has not changed since 2025-06-13 and
+  holds only huggingface/datasets records through that day. The route is a fresh GitHub API
+  pull per repository with an explicit record-creation cutoff after the snapshot's last day,
+  loaded through the multirepo preflight's snapshot path, with its own digest, licence note
+  and gold reconstruction. Do not interpret the dataset revision hash as a timestamp.
+  Reconstruct gold and deduplicate against all discovery, development, calibration and
+  evaluation records already used.
 - Freeze disjoint calibration and test sets, provenance, sampling/stratification policy and
   class availability. A balanced cohort targets that designed mixture, not automatically
   natural production prevalence. State the population of every claimed bound.
@@ -286,12 +344,15 @@ per-family resource reductions and refusal/dispatchability evidence. Add a drift
 after C1 is validated, labeled by substrate. Use generated figures with explicit denominators;
 do not count an unrun domain as a fifth completed benchmark.
 
-**E5–E7. Appendix, terminology and page budget — 1–2 days.** Add a short reading guide and
-consistent terminology. Move secondary audit tables only when a stable, anonymous,
-versioned supplement retains their evidence paths. Keep proof assumptions, multiplicity,
-absolute resources and failure analyses easily reachable. Use readability and evidence
-access as the criterion, not an arbitrary 14-table ceiling. Rebuild and inspect the PDF;
-no assumed number of saved lines substitutes for the actual nine-page check.
+**E5–E7. Appendix, terminology and page budget — 1–2 days.** Build the revision at the
+ten-page discussion limit (F13), not nine: the extra page covers E4, the related-work
+expansion and the A1 wording, so the appendix diet is no longer needed to make space. Add a
+short reading guide and consistent terminology. Move secondary audit tables only when a
+stable, anonymous, versioned supplement retains their evidence paths. Keep proof
+assumptions, multiplicity, absolute resources and failure analyses easily reachable. Use
+readability and evidence access as the criterion, not an arbitrary 14-table ceiling. Update
+the page check to the limit in force (ten during discussion and camera-ready). Rebuild and
+inspect the PDF; no assumed number of saved lines substitutes for the actual page check.
 
 ### WS-F — Position the contribution (P0, 1–2 days)
 
@@ -339,6 +400,7 @@ sample supports descriptive observations, not a general labor-cost or productivi
 | A2 confirmatory GO | Frozen endpoint/artifact and fresh eligible calibration groups | Exploratory labels only, or defer |
 | D1 execution GO | Frozen protocol/actions, valid human approval, pilot-supported budget | Provider-free preflight/refusal only, or defer |
 | Live budget GO | Enforced reservation, retries and aggregate caps | Stop/defer; do not silently double the allowance |
+| Revision upload GO | Core integrated; ten-page build valid and anonymous; change list written for reviewers; one upload planned | Hold the upload; respond in text only |
 | Publication GO | Generated evidence, valid manifests, readable anonymous PDF, human review | Keep PR open; no upload or merge by this plan |
 
 A1 precedes the final B2/E wording. C1 results precede a new drift figure. C2 may supply A2
@@ -426,11 +488,14 @@ current forum status. [ICLR author guidelines](https://iclr.cc/Conferences/2027/
 
 | Window | Core deliverable | Conditional work |
 |---|---|---|
-| Oct 2–9 | A1 audit/correction; B1 sensitivity; C1 protocol/statistics amendment | C2 source inventory; D1 frozen-design and approval readiness |
-| Oct 9–23 | B2, E and F/G writing; C1a provider-free study | B3 and C1b only after their gates pass |
-| Oct 23–Nov 4 | Integrate validated results; build/QA; prepare evidence-linked response material | Choose a feasible A2/C2 or D1 extension; defer work that jeopardizes core completion |
-| Nov 5–18 | Respond to actual reviews; human-approved revision if warranted | Clearly identified supplementary results completed in time |
-| After review | Follow decision and next venue's verified rules | Broader method redesign, remaining domains, authoring pilot |
+| Oct 6–16 | A1 audit/correction; B1 sensitivity; C1 protocol/statistics amendment and driver; schedule the external read (F15) | None. C2/D1 protocols only if the core is ahead of schedule |
+| Oct 16–30 | B2, E, F and G writing at ten pages; C1a run; C1b provider-free protocol and run | Exploratory end-to-end labels on retained issue-type groups, if wanted for the response |
+| Oct 30–Nov 4 | Integrate validated results; ten-page build/QA; anonymity check; change list; evidence-linked response material | Nothing new started |
+| Nov 5–18 | Respond to actual reviews; one consolidated human-approved revision by about Nov 12 | Only results already validated by Nov 4 |
+| After Dec 16 | Follow decision and next venue's verified rules | A2 confirmatory, B3, C2 (GitHub API acquisition), D1, H |
+
+The October 2–9 window of the previous revision has passed with nothing in it started; PRs
+#49 and #50 changed this document only. Rebased 2026-10-06.
 
 Do not assume a next-venue deadline or dual-submission eligibility; verify them when a
 resubmission decision is made. No response text should invent reviewer concerns before
@@ -484,17 +549,20 @@ outcomes; do not call an incomplete sample confirmatory.
 - Do not tune alpha, delta, grouping, cohorts, rules or stopping conditions after outcomes.
 - Do not spend time on an arbitrary reference/table count or promise all extensions within
   a part-time five-week schedule.
+- Do not upload a stream of revisions during discussion; one consolidated revision with a
+  change list, built at the ten-page limit.
 
 ## 9. Governance and validation
 
 - Every repository change uses a dedicated branch and PR, following the repository template
-  exactly. Split implementation into bounded dependent PRs where appropriate. Request the
-  user's review; request GitHub Copilot when code review is appropriate and available.
-  If GitHub prevents self-review or a reviewer is unavailable, report that limitation.
-  Address relevant review comments on the same PR; keep its description current.
+  exactly. Split implementation into bounded dependent PRs where appropriate. Request only
+  the user's review; GitHub drops a reviewer request from the PR author, so assign the user
+  instead and say so in the PR. Never request Copilot review on this repository unless the
+  user asks for it on a specific PR. Address relevant review comments on the same PR; keep
+  its description current.
 - Never merge or enable auto-merge. Leave completed PRs open for the user's final review.
-- The present PR changes this plan only. Subsequent code, manuscript and study work must
-  satisfy its own evidence, testing and review gates. Preserve `.claude/` and any unrelated
+- Plan-only PRs (#49, #50 and this revision) change this document only. Subsequent code,
+  manuscript and study work must satisfy its own evidence, testing and review gates. Preserve `.claude/` and any unrelated
   local work.
 - Commit each live protocol before execution, including immutable cohort IDs/digests,
   candidate budgets, sampling units, arms, endpoints, stopping rules and enforced caps.
