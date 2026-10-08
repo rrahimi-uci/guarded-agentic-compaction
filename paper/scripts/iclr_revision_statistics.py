@@ -247,17 +247,19 @@ def cmd_paired() -> dict[str, Any]:
         # discordance (compiled vs baseline)
         cand = {int(r[spec["id"]]): r for r in rows_for(fam, "compiled")}
         common = sorted(set(base) & set(cand))
-        b_only = sum(exact(fam, base[k]) and not exact(fam, cand[k]) for k in common)
-        c_only = sum(exact(fam, cand[k]) and not exact(fam, base[k]) for k in common)
+        # a compiled-only miss: the baseline passed and the compiled arm did not (and vice versa).
+        # Earlier revisions stored these two cells under swapped keys; the bound was always on c_only.
+        c_only = sum(exact(fam, base[k]) and not exact(fam, cand[k]) for k in common)
+        b_only = sum(exact(fam, cand[k]) and not exact(fam, base[k]) for k in common)
         both = sum(exact(fam, cand[k]) and exact(fam, base[k]) for k in common)
         neither = len(common) - b_only - c_only - both
         disc = b_only + c_only
         out["discordance"][fam] = {
             "n": len(common), "baseline_only": b_only, "compiled_only": c_only, "both": both, "neither": neither,
             "mcnemar_exact_p": float(binomtest(min(b_only, c_only), disc, 0.5).pvalue) if disc else 1.0,
-            "compiled_only_failure_upper95": one_sided_upper_95(b_only, len(common)),
-            "baseline_only_records": [k for k in common if exact(fam, base[k]) and not exact(fam, cand[k])],
-            "compiled_only_records": [k for k in common if exact(fam, cand[k]) and not exact(fam, base[k])],
+            "compiled_only_failure_upper95": one_sided_upper_95(c_only, len(common)),
+            "baseline_only_records": [k for k in common if exact(fam, cand[k]) and not exact(fam, base[k])],
+            "compiled_only_records": [k for k in common if exact(fam, base[k]) and not exact(fam, cand[k])],
         }
         for key in ("n", "baseline_only", "compiled_only", "both", "neither"):
             pooled_cells[key] += out["discordance"][fam][key]
@@ -265,8 +267,33 @@ def cmd_paired() -> dict[str, Any]:
     disc = pooled_cells["baseline_only"] + pooled_cells["compiled_only"]
     out["discordance"]["pooled"] = dict(pooled_cells) | {
         "mcnemar_exact_p": float(binomtest(min(pooled_cells["baseline_only"], pooled_cells["compiled_only"]), disc, 0.5).pvalue) if disc else 1.0,
-        "compiled_only_failure_upper95": one_sided_upper_95(pooled_cells["baseline_only"], pooled_cells["n"]),
+        "compiled_only_failure_upper95": one_sided_upper_95(pooled_cells["compiled_only"], pooled_cells["n"]),
     }
+
+    # reduction intervals: ratio of paired sums, record-level bootstrap
+    rng = np.random.default_rng(BOOTSTRAP_SEED + 2)
+    red_metrics = ("requests", "total_tokens", "wall_latency_ms", "estimated_cost_usd")
+    out["reduction_ci"] = {}
+    pooled_pairs: dict[str, list[tuple[float, float]]] = {m: [] for m in red_metrics}
+
+    def ratio_ci(pairs: list[tuple[float, float]]) -> dict[str, float]:
+        arr = np.asarray(pairs, dtype=float)
+        est = 1.0 - arr[:, 1].sum() / arr[:, 0].sum()
+        idx = rng.integers(0, len(arr), size=(BOOTSTRAP_N, len(arr)))
+        boots = 1.0 - arr[idx, 1].sum(axis=1) / arr[idx, 0].sum(axis=1)
+        lo, hi = np.percentile(boots, [2.5, 97.5])
+        return {"estimate": float(est), "ci95": [float(lo), float(hi)]}
+
+    for fam, spec in FAMILIES.items():
+        base = {int(r[spec["id"]]): r for r in rows_for(fam, "baseline")}
+        cand = {int(r[spec["id"]]): r for r in rows_for(fam, "compiled")}
+        common = sorted(set(base) & set(cand))
+        out["reduction_ci"][fam] = {}
+        for m in red_metrics:
+            pairs = [(float(base[k]["metrics"][m]), float(cand[k]["metrics"][m])) for k in common]
+            pooled_pairs[m].extend(pairs)
+            out["reduction_ci"][fam][m] = ratio_ci(pairs)
+    out["reduction_ci"]["pooled"] = {m: ratio_ci(pooled_pairs[m]) for m in red_metrics}
 
     # paired table: compiled minus baseline
     def cell_ms(e: dict[str, Any], key: str, ci: str) -> str:
@@ -295,6 +322,19 @@ def cmd_paired() -> dict[str, Any]:
     lines += [r"\midrule", f"Pooled & {x['n']} & {x['both']} & {x['baseline_only']} & {x['compiled_only']} & {x['mcnemar_exact_p']:.2f} & {100*x['compiled_only_failure_upper95']:.1f}\\% \\\\",
               r"\bottomrule", r"\end{tabular}"]
     write_table("discordance", "paired", "\n".join(lines))
+
+    def red_cell(e: dict[str, Any]) -> str:
+        return f"{100*e['estimate']:.1f} [{100*e['ci95'][0]:.1f}, {100*e['ci95'][1]:.1f}]"
+
+    lines = [r"\begin{tabular}{@{}lrrrr@{}}", r"\toprule",
+             r"Family & Requests & Tokens & Latency & Cost \\", r"\midrule"]
+    for fam, spec in FAMILIES.items():
+        x = out["reduction_ci"][fam]
+        lines.append(f"{spec['label']} & " + " & ".join(red_cell(x[m]) for m in red_metrics) + r" \\")
+    x = out["reduction_ci"]["pooled"]
+    lines += [r"\midrule", "Pooled ($n=90$) & " + " & ".join(red_cell(x[m]) for m in red_metrics) + r" \\",
+              r"\bottomrule", r"\end{tabular}"]
+    write_table("reduction_ci", "paired", "\n".join(lines))
     dump("paired_statistics", out)
     return out
 
@@ -786,7 +826,7 @@ def cmd_single_rule() -> dict[str, Any]:
 
 # --------------------------------------------------------------------------- T2.10 mechanisms
 MECHANISMS: list[dict[str, str]] = [
-    {"hazard": r"Ungrounded argument \code{issue\_get\_comments.limit=100}, recurring in 132/132 discovery traces", "observed": "issue-type, held-out \\#4420 family", "guard": "provenance + synthesis (stage 1/4): \\code{ungroundable\\_slot}", "replay": "replays the literal; emits the three-read program", "source": "github\\_natural\\_replication/results.json \\code{compiler.candidates[0]}"},
+    {"hazard": r"Ungrounded argument \code{issue\_get\_comments.limit=100}, in 130 of 132 discovery traces (1 in two)", "observed": "issue-type, held-out \\#4420 family", "guard": "provenance + synthesis (stage 1/4): literal not invariant, no expression in $\\mathcal{L}$, \\code{ungroundable\\_slot}", "replay": "replays the majority literal; emits the three-read program", "source": "github\\_natural\\_replication/results.json \\code{compiler.candidates[0]}"},
     {"hazard": "Clean tool replay, wrong downstream answer (Markdown URL dropped, issue 6602)", "observed": "natural-order study, 17/18 $\\to$ 18/18 after checked rendering", "guard": "continuation contract (post-model)", "replay": "accepts the answer", "source": "github\\_natural\\_live/continuation\\_replay.json"},
     {"hazard": "Getter-named method that mutates state on 36/36 calls", "observed": "BFCL executed gold plans", "guard": "signed effect declaration (stage 2)", "replay": "compiles a write into the region", "source": "external\\_benchmarks/bfcl\\_compiler\\_execution.json"},
     {"hazard": "API-documentation prologue before the hot prefix", "observed": "AppWorld released runs, 4,679/4,680 ReAct and plan-and-execute", "guard": "position invariant, Eq.~(2), at dispatch", "replay": "dispatches out of position", "source": "external\\_benchmarks/appworld\\_dispatch\\_preflight.json"},

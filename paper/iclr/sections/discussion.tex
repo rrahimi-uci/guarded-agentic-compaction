@@ -5,45 +5,45 @@ The supported claim is narrow: repeated read-only prefixes can become guarded
 programs that preserve held-out contracts on the tested GitHub families and
 retire when evidence is inadequate. Across 810 held-out episodes run under a compiled artifact on the
 calibrated model in six live studies, one produced a compiled-only contract
-failure, an excerpt-fidelity miss on identical evidence (\cref{app:stats});
+failure: 1 of 270 on the excerpt-bearing contracts (one-sided bound 1.7\%) and
+0 of 540 on the outcome-only cross-repository contract, over 354 distinct
+records (\cref{app:stats});
 \cref{app:limits} pairs limitations with protocols and \cref{app:claims} maps
 claims to evidence.
 
 \paragraph{Three constraints bound the claim.} First, admission control is
-compiler-wide only when one candidate reaches calibration or the confidence
-budget is divided across all that do. That holds for issue-type routing and for
-every cross-repository family; PR-outcome and backlog routing calibrated two
-candidates on 92 groups, where the corrected bound is 0.057
-(\cref{app:config}). Second, with $|\mathcal{K}|=92$ the registered exact bound
-certifies only full coverage, so no experiment here demonstrates graded
-selectivity of $q$: the prospective protocol (\cref{app:prospective}) found the
-learned gate and a support-only comparator indistinguishable across four
-of five repositories and 240 held-out triples, and $q$ is constant within each
-repository there (its entry state is one integer). Third, the binomial result is conditional on i.i.d.\ groups: the
+compiler-wide only when one candidate reaches calibration or the budget is
+divided across all that do: issue-type routing and every cross-repository
+family qualify; PR-outcome and backlog routing calibrated two candidates, where
+the corrected bound is 0.057 (\cref{app:config}). Second, with
+$|\mathcal{K}|=92$ the registered bound certifies only full coverage, so no
+experiment demonstrates graded selectivity of $q$: the prospective protocol
+(\cref{app:prospective}) found the learned gate and a support-only comparator
+indistinguishable across four of five repositories and 240 held-out triples,
+and $q$ is constant within each repository there. Third, the binomial result is conditional on i.i.d.\ groups: the
 92-record live calibration cohorts span 86--90 distinct creation days and 60--82 distinct authors per
 family, so under the registered grid a bound that treats a day or an author as one
 unit retires in every family (\cref{tab:effective-units} in \cref{app:limits};
-\cref{app:config} gives a single-rule sensitivity, not a certificate), and AppWorld's task
-groups share a scenario's supervisor and database (\cref{app:proof} prices the
-exposure).
+\cref{app:config} gives a single-rule sensitivity, not a certificate), and AppWorld's 92 task
+groups come from 46 scenarios and 79 supervisors, units at which its bound
+retires (\cref{app:proof} prices the exposure).
 
-\paragraph{External validity, dispatchability, and comparison.}
-The richer evidence comes from one pinned repository snapshot, extended by
-five frozen cross-repository snapshots and one post-cutoff cohort of a single
-family, and one calibrated model family; a second model family and a second
-provider each re-derive two of the three artifacts from their own traces and
-refuse the third, and every compiled-only miss observed is an excerpt-fidelity
-error of the model (\cref{app:limits}). Under drift we show no superiority:
-two provider-free perturbation studies are null and a live continuation-graded
-study is adverse (an emptied list lies inside the learned hull, so both arms
-answered wrongly on 39 of 60 records and the verifier prevented no silent wrong
-answer; \cref{app:limits}). We do not price the human effort of manual
-authoring and run no head-to-head against workflow-reuse systems;
-\cref{tab:mechanism-removal} in \cref{app:limits} prices the guards internally,
-and a recurrence-only replay on issue-type routing passed 30/30 at one request
-per record, buying no measured quality (\cref{app:limits}). The registered
-certificates cover the compiled region's replay, so the compiled-only misses
-above lie outside their event; the end-to-end certificate of \cref{app:limits}
-is per-candidate on one family. Writes, handoffs,
-hosted tools, undeclared effects, and removed-turn guardrails lie outside
-\cref{prop:admission}.
+\paragraph{External validity, guards, and comparison.}
+The richer evidence comes from one pinned snapshot, five frozen
+cross-repository snapshots, one post-cutoff cohort, and one calibrated model
+family; a second model and a second provider re-derive two of three programs
+and refuse the third, and every compiled-only miss is an excerpt departing from
+identical evidence, with no counterfactual attributing it to the model rather
+than the compiled context (\cref{app:limits}). Under drift we show no
+protection: two provider-free perturbation studies cannot fire for these
+programs (their oracle is the derived call argument, fixed by the entry id),
+the live continuation-graded study is adverse (an emptied list lies inside the
+learned hull; both arms answered wrongly on 39 of 60 records), and no held-out
+record here shows a guard preventing a wrong compiled answer. We do not price
+manual authoring or run workflow-reuse systems head-to-head; a recurrence-only
+replay on issue-type routing passed 30/30 at one request per record
+(\cref{tab:mechanism-removal}, \cref{app:limits}). The registered
+certificates cover an event without support here, so the compiled-only misses
+lie outside them; the end-to-end certificate is per-candidate, on one family,
+on open or merged records only. Writes, handoffs, hosted tools, undeclared
+effects, and removed-turn guardrails lie outside \cref{prop:admission}.

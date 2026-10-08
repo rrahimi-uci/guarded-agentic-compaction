@@ -117,11 +117,12 @@ def test_paired_reproduces_retained_intervals(paired) -> None:
 
 def test_discordance_cells(paired) -> None:
     d = paired["discordance"]
-    assert d["backlog_attention"]["compiled_only"] == 1
-    assert d["backlog_attention"]["compiled_only_records"] == [5189]
-    assert d["backlog_attention"]["baseline_only"] == 0
+    assert d["backlog_attention"]["baseline_only"] == 1
+    assert d["backlog_attention"]["baseline_only_records"] == [5189]
+    assert d["backlog_attention"]["compiled_only"] == 0
+    assert d["backlog_attention"]["compiled_only_records"] == []
     assert d["pooled"]["n"] == 90 and d["pooled"]["both"] == 89
-    assert d["pooled"]["baseline_only"] == 0 and d["pooled"]["compiled_only"] == 1
+    assert d["pooled"]["baseline_only"] == 1 and d["pooled"]["compiled_only"] == 0
     assert d["pooled"]["mcnemar_exact_p"] == 1.0
     assert d["pooled"]["compiled_only_failure_upper95"] == pytest.approx(0.0327, abs=5e-4)
 
