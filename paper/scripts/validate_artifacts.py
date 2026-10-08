@@ -3164,6 +3164,74 @@ def validate_bird_sql_agent() -> None:
     ok("label{app:bird}" in (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8"), "bird: appendix subsection present")
 
 
+def validate_bird_extensions() -> None:
+    """Pin the BIRD extensions (E1 rotated rerun, E2 gpt-6-luna, E3 claude-sonnet-5, E4 train split)."""
+
+    root = PAPER / "results/bird"
+    protocol = (PAPER / "supplementary/bird-sql-agent-extensions-protocol.md").read_text(encoding="utf-8")
+    ok("## Amendment during execution" in protocol and "## Amendment before E4 execution" in protocol
+       and "### E1. Rotated rerun" in protocol, "bird ext: protocol carries both amendments and observed results")
+    fams = ["card_games", "codebase_community", "formula_1", "student_club", "thrombosis_prediction"]
+    # E1
+    e1 = load(root / "rotated_rerun/summary.json")["designs"]["schema_first"]["pooled"]["compiled"]
+    ok(e1["n"] == 150 and e1["baseline_correct"] == 94 and e1["candidate_correct"] == 100
+       and e1["candidate_only_correct"] == 7 and e1["baseline_only_correct"] == 1,
+       "bird ext E1: rotated rerun 94 vs 100 of 150 (7 / 1 discordant)")
+    red = e1["reductions"]
+    ok(all(abs(100 * red[m]["reduction"] - v) < 0.05 for m, v in
+           (("requests", 46.0), ("total_tokens", 12.3), ("wall_latency_ms", 33.9), ("estimated_cost_usd", 16.2))),
+       "bird ext E1: -46.0 / -12.3 / -33.9 / -16.2 percent against the rotated first baseline")
+    ok(load(root / "rotated_rerun/ledger.json")["spent_usd"] < 5, "bird ext E1: spend under its $5 cap")
+    # E2
+    e2 = load(root / "replications/gpt-6-luna/summary.json")["designs"]
+    ok(all(e2["standard"]["families"][d]["status"] == "retired" for d in fams)
+       and all(e2["schema_first"]["families"][d]["status"] == "admitted" for d in fams),
+       "bird ext E2: gpt-6-luna retires standard 5/5 and admits schema-first 5/5")
+    c2 = e2["schema_first"]["pooled"]["compiled"]
+    ok(c2["n"] == 149 and c2["baseline_correct"] == 91 and c2["candidate_correct"] == 93
+       and abs(100 * c2["reductions"]["requests"]["reduction"] - 49.9) < 0.05,
+       "bird ext E2: 91 vs 93 of 149; -49.9 percent requests")
+    ok(load(root / "replications/gpt-6-luna/ledger.json")["spent_usd"] < 10, "bird ext E2: spend under its $10 cap")
+    # E3
+    e3 = load(root / "replications/claude-sonnet-5/summary.json")["designs"]
+    ok(all(e3[d]["families"][f]["status"] == "retired" for d in ("standard", "schema_first") for f in fams),
+       "bird ext E3: claude-sonnet-5 retires all ten (design, family) pairs")
+    ok(load(root / "replications/claude-sonnet-5/ledger.json")["spent_usd"] < 60, "bird ext E3: spend under its amended $60 cap")
+    # E4
+    pre = load(root / "train/preflight.json")
+    ok(pre["archive"]["sha256"] == "66e9e3115b59559554013aa3b124156249f30437a6b4e4f96de3d2dfb5ae8cbc"
+       and len(pre["families"]) == 27 and list(pre.get("excluded_families", {})) == ["retail_world"],
+       "bird ext E4: train archive pinned; 27 families, retail_world excluded for unusable gold")
+    e4 = load(root / "train/summary.json")["designs"]
+    train_fams = [f for f in pre["families"] if f != "retail_world"]
+    ok(all(e4["standard"]["families"][f]["status"] == "retired" for f in train_fams),
+       "bird ext E4: standard design retires on all 26 train families")
+    admitted = sorted(f for f in train_fams if e4["schema_first"]["families"][f]["status"] == "admitted")
+    ok(len(admitted) == 21 and sorted(set(train_fams) - set(admitted)) == ["hockey", "mondial_geo", "movies_4", "olympics", "works_cycles"],
+       "bird ext E4: schema-first admits 21 of 26; hockey, mondial_geo, movies_4, olympics, works_cycles retire")
+    ok(all(load(root / f"train/schema_first/{f}/compile.json")["candidates_reaching_calibration"] == 1
+           and not load(root / f"train/schema_first/{f}/compile.json")["strict_audit"]["disagreements"] for f in admitted),
+       "bird ext E4: every admitted train family has m = 1 and a clean strict audit")
+    c4 = e4["schema_first"]["pooled"]["compiled"]
+    ok(c4["n"] == 625 and c4["baseline_correct"] == 401 and c4["candidate_correct"] == 400
+       and c4["candidate_only_correct"] == 17 and c4["baseline_only_correct"] == 18,
+       "bird ext E4: 401 vs 400 of 625 (17 / 18 discordant)")
+    ok(all(abs(100 * c4["reductions"][m]["reduction"] - v) < 0.05 for m, v in
+           (("requests", 45.9), ("total_tokens", 12.6), ("wall_latency_ms", 29.3), ("estimated_cost_usd", 18.1))),
+       "bird ext E4: -45.9 / -12.6 / -29.3 / -18.1 percent")
+    ok(load(root / "train/ledger.json")["spent_usd"] < 30, "bird ext E4: spend under its $30 cap")
+    ext = load(root / "extensions_summary.json")["runs"]
+    neutral = {r["label"]: round(100 * r["cache_neutral_cost"]["reduction"], 1) for r in ext if r.get("cache_neutral_cost")}
+    ok(neutral == {"Primary (fixed order)": 11.2, "E1 rotated rerun": 13.9, "E2 second model": 17.5, "E4 train split": 14.0},
+       "bird ext: cache-neutral cost reductions 11.2 / 13.9 / 17.5 / 14.0")
+    table = (PAPER / "iclr/tables/bird_extensions.tex").read_text(encoding="utf-8")
+    ok("401 / \\textbf{400}" in table and "E3 second provider" in table, "bird ext: generated extensions table carries every run")
+    appendix = (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8")
+    ok("label{tab:bird-extensions}" in appendix and "\\$43.93" in appendix, "bird ext: appendix paragraph and table present")
+    results = (PAPER / "iclr/sections/results.tex").read_text(encoding="utf-8")
+    ok("21 of 26 training databases" in results and "400\nagainst 401 correct" in results, "bird ext: §5.3 quotes the train-split result")
+
+
 def validate_drift_continuation_graded() -> None:
     """Pin the continuation-graded drift ablation (live, 2026-10-07): the adverse result."""
 
@@ -3252,6 +3320,7 @@ FAMILIES: dict[str, Any] = {
     "drift_recorded_replay": validate_drift_recorded_replay,
     "time_forward_pr_outcome": validate_time_forward_pr_outcome,
     "bird_sql_agent": validate_bird_sql_agent,
+    "bird_extensions": validate_bird_extensions,
     "drift_continuation_graded": validate_drift_continuation_graded,
     "demo_suite_regeneration": validate_demo_suite_regeneration,
     "no_secrets": validate_no_secrets,

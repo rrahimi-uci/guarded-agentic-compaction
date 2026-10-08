@@ -1,0 +1,180 @@
+{
+  "failures": [],
+  "results": [
+    {
+      "answer": {
+        "sql": "SELECT School, Phone, Ext FROM schools WHERE Zip = '95203-3704'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:fdc95651039e1e684e81345c662b14fb",
+      "issue_number": 58,
+      "metrics": {
+        "cache_write_tokens": 3454,
+        "cached_input_tokens": 3364,
+        "estimated_cost_usd": 0.00061869,
+        "handoffs": 0,
+        "input_tokens": 7821,
+        "model": "gpt-6-luna",
+        "output_tokens": 106,
+        "provider_response_latency_ms": 4365.208,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 7927,
+        "wall_latency_ms": 4378.667
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {},
+        {
+          "table_names": [
+            "frpm",
+            "satscores",
+            "schools"
+          ]
+        },
+        {
+          "sql": "SELECT School, Phone, Ext FROM schools WHERE Zip = '95203-3704'"
+        }
+      ],
+      "tool_sequence": [
+        "list_tables",
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_d0886200934c291b273a602d130d59f4"
+    },
+    {
+      "answer": {
+        "sql": "WITH ranked AS (\n  SELECT\n    sc.School AS school_name,\n    sc.County AS county,\n    sc.Virtual AS virtual_status,\n    ROW_NUMBER() OVER (PARTITION BY sc.County ORDER BY ss.AvgScrRead DESC) AS county_rank\n  FROM schools AS sc\n  JOIN satscores AS ss ON ss.cds = sc.CDSCode\n  WHERE ss.rtype = 'S'\n    AND ss.AvgScrRead IS NOT NULL\n)\nSELECT school_name\nFROM ranked\nWHERE virtual_status = 'F'\n  AND county_rank <= 5\nORDER BY county, county_rank, school_name;"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:619205823da0911211ce409c86889dcd",
+      "issue_number": 41,
+      "metrics": {
+        "cache_write_tokens": 3907,
+        "cached_input_tokens": 7052,
+        "estimated_cost_usd": 0.00097569,
+        "handoffs": 0,
+        "input_tokens": 11987,
+        "model": "gpt-6-luna",
+        "output_tokens": 628,
+        "provider_response_latency_ms": 10010.737,
+        "requests": 5,
+        "tool_calls": 4,
+        "total_tokens": 12615,
+        "wall_latency_ms": 10026.618
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {},
+        {
+          "table_names": [
+            "frpm",
+            "satscores",
+            "schools"
+          ]
+        },
+        {
+          "sql": "WITH ranked AS (\n  SELECT\n    sc.School AS school_name,\n    sc.County AS county,\n    ROW_NUMBER() OVER (PARTITION BY sc.County ORDER BY ss.AvgScrRead DESC) AS county_rank\n  FROM schools AS sc\n  JOIN satscores AS ss ON ss.cds = sc.CDSCode\n  WHERE sc.Virtual = 'F'\n    AND ss.rtype = 'S'\n    AND ss.AvgScrRead IS NOT NULL\n)\nSELECT school_name\nFROM ranked\nWHERE county_rank <= 5\nORDER BY county, county_rank, school_name;"
+        },
+        {
+          "sql": "WITH ranked AS (\n  SELECT\n    sc.School AS school_name,\n    sc.County AS county,\n    sc.Virtual AS virtual_status,\n    ROW_NUMBER() OVER (PARTITION BY sc.County ORDER BY ss.AvgScrRead DESC) AS county_rank\n  FROM schools AS sc\n  JOIN satscores AS ss ON ss.cds = sc.CDSCode\n  WHERE ss.rtype = 'S'\n    AND ss.AvgScrRead IS NOT NULL\n)\nSELECT school_name\nFROM ranked\nWHERE virtual_status = 'F'\n  AND county_rank <= 5\nORDER BY county, county_rank, school_name;"
+        }
+      ],
+      "tool_sequence": [
+        "list_tables",
+        "get_schema",
+        "run_query",
+        "run_query"
+      ],
+      "trace_id": "trace_bb18f53558a5f27243f2223db538ea3d"
+    },
+    {
+      "answer": {
+        "sql": "SELECT s.AvgScrWrite, sch.City\nFROM satscores AS s\nJOIN schools AS sch ON substr(sch.CDSCode, 2) = s.cds\nWHERE s.rtype = 'S'\nORDER BY s.NumGE1500 DESC\nLIMIT 1;"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:ae03ae67adadef6e8b2117ada111588c",
+      "issue_number": 44,
+      "metrics": {
+        "cache_write_tokens": 3655,
+        "cached_input_tokens": 3379,
+        "estimated_cost_usd": 0.00078147,
+        "handoffs": 0,
+        "input_tokens": 8067,
+        "model": "gpt-6-luna",
+        "output_tokens": 375,
+        "provider_response_latency_ms": 8867.698,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 8442,
+        "wall_latency_ms": 8879.922
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {},
+        {
+          "table_names": [
+            "frpm",
+            "satscores",
+            "schools"
+          ]
+        },
+        {
+          "sql": "SELECT s.AvgScrWrite, sch.City\nFROM satscores AS s\nJOIN schools AS sch ON substr(sch.CDSCode, 2) = s.cds\nWHERE s.rtype = 'S'\nORDER BY s.NumGE1500 DESC\nLIMIT 1;"
+        }
+      ],
+      "tool_sequence": [
+        "list_tables",
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_ec810987e7748cd550c61e4954544f2f"
+    }
+  ],
+  "run": {
+    "benchmark": "bird-dev_20240627",
+    "model": "gpt-6-luna",
+    "preflight_sha256": "2486fe83b41c2cc9b3fee012f1270a7aae6167ea7f0f52be00a9b9a1b10fabb8",
+    "protocol": "paper/supplementary/bird-sql-agent-extensions-protocol.md",
+    "provider_backed": true,
+    "secrets_serialized": false,
+    "simulated": false,
+    "split": "dev",
+    "timestamp_utc": "2026-10-08T18:14:26+00:00"
+  },
+  "schema": "agent-compaction-bird-runs/v1"
+}

@@ -1,0 +1,508 @@
+{
+  "name": "paper-bird-schema_first-codebase_community",
+  "kill_switch": false,
+  "active_stages": [
+    "active"
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "cand-00-343fe1e8b6a7",
+      "name": "list_tables.get_schema.region@343fe1e8",
+      "kind": "grc",
+      "version": 1,
+      "program": {
+        "theta": [],
+        "steps": [
+          {
+            "kind": "call",
+            "var": "tabl",
+            "tool": "list_tables",
+            "args": {},
+            "when": null,
+            "schema_version": null
+          },
+          {
+            "kind": "call",
+            "var": "sche",
+            "tool": "get_schema",
+            "args": {
+              "table_names": {
+                "kind": "const",
+                "value": [
+                  "badges",
+                  "comments",
+                  "postHistory",
+                  "postLinks",
+                  "posts",
+                  "tags",
+                  "users",
+                  "votes"
+                ]
+              }
+            },
+            "when": null,
+            "schema_version": null
+          }
+        ],
+        "outputs": {
+          "tabl": {
+            "kind": "expr",
+            "source": "tabl",
+            "ops": []
+          },
+          "sche": {
+            "kind": "expr",
+            "source": "sche",
+            "ops": []
+          }
+        },
+        "library_version": "T-v1",
+        "removed_requests": 2.0,
+        "tools": [
+          "list_tables",
+          "get_schema"
+        ],
+        "composite": null
+      },
+      "route": null,
+      "guard": {
+        "manifest_pins": {
+          "model": "gpt-6-luna",
+          "prompt_hash": "#20a0b160",
+          "tools_hash": "#4b153eca",
+          "policy_hash": "#94fc7fa3",
+          "guardrail_hash": "#ca7525a8",
+          "effect_catalog_version": "bird-codebase_community-readonly-sqlite@1#f007dc9a3819e476",
+          "entry_contract_version": "bird-database-v1:codebase_community"
+        },
+        "isolation": {},
+        "clauses": [],
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "required_capabilities": [
+          "speculatable",
+          "replayable"
+        ]
+      },
+      "verifier": {
+        "clauses": [
+          {
+            "name": "tabl",
+            "type_name": "dict",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "list_tables"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "tabl.database",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "codebase_community"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "list_tables"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "tabl.tables",
+            "type_name": "list",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": 8,
+            "min_len": 8,
+            "provenance": [
+              "list_tables"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "sche",
+            "type_name": "dict",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "get_schema"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "sche.database",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "codebase_community"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "get_schema"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "sche.schemas",
+            "type_name": "list",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": 8,
+            "min_len": 8,
+            "provenance": [
+              "get_schema"
+            ],
+            "present_iff": null
+          }
+        ],
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "call_counts": [
+          2
+        ]
+      },
+      "gate": {
+        "model": {
+          "features": [
+            "unseen_category",
+            "knn_distance",
+            "missing_optional",
+            "hull_margin",
+            "drift_days",
+            "provenance_ambiguity",
+            "branch_entropy"
+          ],
+          "weights": [
+            0.0,
+            0.0,
+            0.0,
+            0.8877091183451264,
+            0.0,
+            0.8877091183451264,
+            0.0
+          ],
+          "bias": -0.7183709852150122,
+          "feature_means": [
+            0.0,
+            0.0,
+            0.0,
+            0.25,
+            0.0,
+            0.25,
+            0.0
+          ],
+          "feature_scales": [
+            1.0,
+            1.0,
+            1.0,
+            0.25,
+            1.0,
+            0.25,
+            1.0
+          ]
+        },
+        "features_spec": {
+          "paths": [],
+          "hull_kinds": {},
+          "categories": {},
+          "numeric_ranges": {},
+          "patterns": {},
+          "max_day": "2024-06-27",
+          "provenance_ambiguity": 0.0,
+          "branch_entropy": 0.0
+        },
+        "threshold": 0.5,
+        "grid": [
+          0.02,
+          0.05,
+          0.08,
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "alpha": 0.05,
+        "delta": 0.1,
+        "n_calibration_groups": 92,
+        "n_accepted": 92,
+        "observed_violations": 0,
+        "risk_upper_bound": 0.049808920112407784,
+        "coverage": 1.0,
+        "admissible": [
+          0.08,
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "retire": false,
+        "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.11, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.17, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.2, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.25, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.3, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.4, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.5, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}]"
+      },
+      "manifest": {
+        "manifest_id": "999d4984b5e3",
+        "commit": "workspace-without-git-metadata",
+        "model": "gpt-6-luna",
+        "prompt_hash": "#20a0b160",
+        "tools_hash": "#4b153eca",
+        "policy_hash": "#94fc7fa3",
+        "guardrail_hash": "#ca7525a8",
+        "effect_catalog_version": "bird-codebase_community-readonly-sqlite@1#f007dc9a3819e476",
+        "entry_contract_version": "bird-database-v1:codebase_community",
+        "sdk_version": "0.19.2",
+        "tracer_version": "agent-compaction/0.6.0"
+      },
+      "compatibility_key": "999d4984b5e37c96",
+      "partition": {},
+      "evidence": {
+        "support_groups": 16,
+        "total_groups": 16,
+        "support_principals": 1,
+        "support_days": 1,
+        "removed_requests": 2.0,
+        "split_ids": {
+          "train": [
+            "bird-codebase_community:534",
+            "bird-codebase_community:593",
+            "bird-codebase_community:596",
+            "bird-codebase_community:600",
+            "bird-codebase_community:602",
+            "bird-codebase_community:612",
+            "bird-codebase_community:614",
+            "bird-codebase_community:619",
+            "bird-codebase_community:641",
+            "bird-codebase_community:647",
+            "bird-codebase_community:650",
+            "bird-codebase_community:665",
+            "bird-codebase_community:676",
+            "bird-codebase_community:678",
+            "bird-codebase_community:687",
+            "bird-codebase_community:692"
+          ],
+          "dev": [
+            "bird-codebase_community:562",
+            "bird-codebase_community:577",
+            "bird-codebase_community:606",
+            "bird-codebase_community:620",
+            "bird-codebase_community:621",
+            "bird-codebase_community:625",
+            "bird-codebase_community:675",
+            "bird-codebase_community:709"
+          ],
+          "calibration": [
+            "bird-codebase_community:532",
+            "bird-codebase_community:533",
+            "bird-codebase_community:535",
+            "bird-codebase_community:536",
+            "bird-codebase_community:537",
+            "bird-codebase_community:541",
+            "bird-codebase_community:543",
+            "bird-codebase_community:544",
+            "bird-codebase_community:546",
+            "bird-codebase_community:547",
+            "bird-codebase_community:548",
+            "bird-codebase_community:549",
+            "bird-codebase_community:552",
+            "bird-codebase_community:555",
+            "bird-codebase_community:557",
+            "bird-codebase_community:560",
+            "bird-codebase_community:561",
+            "bird-codebase_community:563",
+            "bird-codebase_community:564",
+            "bird-codebase_community:565",
+            "bird-codebase_community:566",
+            "bird-codebase_community:568",
+            "bird-codebase_community:569",
+            "bird-codebase_community:571",
+            "bird-codebase_community:573",
+            "bird-codebase_community:574",
+            "bird-codebase_community:575",
+            "bird-codebase_community:576",
+            "bird-codebase_community:578",
+            "bird-codebase_community:582",
+            "bird-codebase_community:584",
+            "bird-codebase_community:585",
+            "bird-codebase_community:586",
+            "bird-codebase_community:587",
+            "bird-codebase_community:594",
+            "bird-codebase_community:599",
+            "bird-codebase_community:604",
+            "bird-codebase_community:605",
+            "bird-codebase_community:608",
+            "bird-codebase_community:609",
+            "bird-codebase_community:610",
+            "bird-codebase_community:613",
+            "bird-codebase_community:615",
+            "bird-codebase_community:617",
+            "bird-codebase_community:622",
+            "bird-codebase_community:628",
+            "bird-codebase_community:629",
+            "bird-codebase_community:630",
+            "bird-codebase_community:631",
+            "bird-codebase_community:632",
+            "bird-codebase_community:633",
+            "bird-codebase_community:634",
+            "bird-codebase_community:635",
+            "bird-codebase_community:636",
+            "bird-codebase_community:637",
+            "bird-codebase_community:638",
+            "bird-codebase_community:643",
+            "bird-codebase_community:644",
+            "bird-codebase_community:645",
+            "bird-codebase_community:646",
+            "bird-codebase_community:653",
+            "bird-codebase_community:654",
+            "bird-codebase_community:655",
+            "bird-codebase_community:656",
+            "bird-codebase_community:657",
+            "bird-codebase_community:658",
+            "bird-codebase_community:659",
+            "bird-codebase_community:661",
+            "bird-codebase_community:664",
+            "bird-codebase_community:666",
+            "bird-codebase_community:667",
+            "bird-codebase_community:668",
+            "bird-codebase_community:670",
+            "bird-codebase_community:679",
+            "bird-codebase_community:682",
+            "bird-codebase_community:683",
+            "bird-codebase_community:686",
+            "bird-codebase_community:688",
+            "bird-codebase_community:689",
+            "bird-codebase_community:690",
+            "bird-codebase_community:691",
+            "bird-codebase_community:693",
+            "bird-codebase_community:694",
+            "bird-codebase_community:695",
+            "bird-codebase_community:699",
+            "bird-codebase_community:700",
+            "bird-codebase_community:705",
+            "bird-codebase_community:706",
+            "bird-codebase_community:707",
+            "bird-codebase_community:710",
+            "bird-codebase_community:714",
+            "bird-codebase_community:716"
+          ]
+        },
+        "replay": {
+          "n": 8,
+          "passed": 8,
+          "abstained": 0,
+          "wrong": 0,
+          "effect_mismatch": 0,
+          "state_delta": 0,
+          "pass_rate": 1.0,
+          "reasons": {}
+        },
+        "perturbation": {},
+        "counterexamples": [],
+        "metrics": {
+          "sandbox": {
+            "n": 0,
+            "passed": 0,
+            "abstained": 0,
+            "wrong": 0,
+            "effect_mismatch": 0,
+            "state_delta": 0,
+            "pass_rate": 0.0,
+            "reasons": {}
+          },
+          "perturbations_claimed": false,
+          "branch": "none",
+          "branch_permutation_p": null,
+          "branch_alternatives": 0,
+          "n_alternative_bindings": 0,
+          "composite": "disabled",
+          "composite_name": "",
+          "gate_grid": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.11, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'covera",
+          "var_names": [
+            "tabl",
+            "sche"
+          ],
+          "dev_windows_evaluated": 8,
+          "calibration_windows_evaluated": 92
+        },
+        "rejection_reasons": [],
+        "fallback_reasons": {},
+        "dataset_digest": "e00ae62155c693e9",
+        "notes": "substrate and evidence are recorded in the run manifest"
+      },
+      "lifecycle": "active",
+      "owner": "paper-bird-schema_first-codebase_community",
+      "approved_by": "paper-bird-protocol-lab-only",
+      "expiry_day": null,
+      "rollback_target": null,
+      "monitoring": {
+        "min_verifier_pass_rate": 0.9,
+        "max_unsafe_dispatch": 0.05,
+        "expected_coverage": 1.0
+      },
+      "signature": ""
+    }
+  ]
+}

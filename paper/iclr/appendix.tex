@@ -915,6 +915,45 @@ and 7.9\%, so the discovered program matches the manual ceiling. Savings in
 tokens and cost are modest because the two removed calls carry the shortest
 contexts. Total spend was \$2.69.
 
+\paragraph{Extensions: order, models, providers, and scale.} Four extensions
+were registered before any of their provider calls
+(\path{paper/supplementary/bird-sql-agent-extensions-protocol.md};
+\cref{tab:bird-extensions}). A rerun with the condition order rotated as
+originally registered reproduces the result on the same 150 questions (100
+against 94 correct; McNemar $p=0.07$, no superiority claimed) with 46.0\% fewer
+requests and 16.2\% lower cost against the first baseline. On a second model
+family, \code{gpt-6-luna}, the standard design retires on all five databases and
+the schema-first opening is admitted on all five, with 49.9\% fewer requests and
+93 against 91 correct on 149 questions. On the BIRD training split (26 databases
+with at least 146 questions, after a pre-execution rule excluded one whose gold
+SQL references tables missing from the shipped database), the standard design
+retires on all 26 and the schema-first opening is admitted on 21; the five
+refusals are databases (11 to 65 tables) where the agent occasionally dropped or
+reordered a table, four on calibration support (90 or 91 of 92
+groups) and one at synthesis. On 625 held-out questions across the 21 admitted
+databases the compiled agent dispatched every time and answered 400 correctly
+against 401 ($p=1.0$), with 45.9\% fewer requests, 12.6\% fewer tokens, 29.3\%
+lower latency, and 18.1\% lower cost. Pricing every input token at the uncached
+rate, which removes provider-cache effects, gives cost reductions of 11--18\% in
+every run. On a second provider, Anthropic \code{claude-sonnet-5}, the agent
+followed neither opening as a fixed step: under the schema-first prompt it
+listed the tables first in 429 of 655 runs and passed every table in 26, and
+\method retired all ten (design, database) pairs. \method compiles what an agent
+does, not what its prompt asks for. Extension spend was \$43.93.
+
+\begin{table}[t]
+  \centering
+  \caption{BIRD runs. ``Std.'' and ``S.-first'' count databases admitted per
+  design (the rotated rerun reuses the primary artifacts). Correct is on the
+  held-out questions with all four conditions. Reductions compare the compiled
+  agent with the unchanged agent; $^\dagger$against the warm repeat run because
+  the primary run's order was not rotated. Cost$^\ast$ prices every input token
+  at the uncached rate.}
+  \label{tab:bird-extensions}
+  \footnotesize
+  \resizebox{\linewidth}{!}{\input{tables/bird_extensions.tex}}
+\end{table}
+
 \subsection{The registered gate is a support threshold}
 
 This audit strengthens the evidentiary record precisely by preserving the

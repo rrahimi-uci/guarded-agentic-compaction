@@ -1,0 +1,162 @@
+{
+  "failures": [],
+  "results": [
+    {
+      "answer": {
+        "sql": "SELECT CAST(SUM(CASE WHEN g.gender='Female' AND p.publisher_name='Marvel Comics' THEN 1 ELSE 0 END) AS FLOAT)/COUNT(CASE WHEN g.gender='Female' THEN 1 END)*100 AS percent_female_marvel\nFROM superhero s JOIN gender g ON s.gender_id=g.id JOIN publisher p ON s.publisher_id=p.id"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:c95f1edba6c7b0b69843fef9f5a66325",
+      "issue_number": 788,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.016922,
+        "handoffs": 0,
+        "input_tokens": 6356,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 421,
+        "provider_response_latency_ms": 7254.688,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 6777,
+        "wall_latency_ms": 7264.202
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "superhero",
+            "gender",
+            "publisher"
+          ]
+        },
+        {
+          "sql": "SELECT CAST(SUM(CASE WHEN g.gender='Female' AND p.publisher_name='Marvel Comics' THEN 1 ELSE 0 END) AS FLOAT)/COUNT(CASE WHEN g.gender='Female' THEN 1 END)*100\nFROM superhero s JOIN gender g ON s.gender_id=g.id JOIN publisher p ON s.publisher_id=p.id"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_4a63cba224bfc439e573418f753d5bbf"
+    },
+    {
+      "answer": {
+        "sql": "SELECT sp.power_name FROM superhero s JOIN hero_power hp ON s.id = hp.hero_id JOIN superpower sp ON sp.id = hp.power_id WHERE s.full_name = 'Helen Parr'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:c613cba134ed88a149fc8110178f925f",
+      "issue_number": 807,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.015292,
+        "handoffs": 0,
+        "input_tokens": 6126,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 304,
+        "provider_response_latency_ms": 6378.764,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 6430,
+        "wall_latency_ms": 6391.133
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "superhero",
+            "superpower",
+            "hero_power"
+          ]
+        },
+        {
+          "sql": "SELECT sp.power_name FROM superhero s JOIN hero_power hp ON s.id=hp.hero_id JOIN superpower sp ON sp.id=hp.power_id WHERE s.full_name='Helen Parr'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_9e8a749dbf76296f7cd1957906ba7aea"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM superhero WHERE full_name IS NULL"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:c5a89513b58646b77b698b8f3211bf0c",
+      "issue_number": 747,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00636,
+        "handoffs": 0,
+        "input_tokens": 2615,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 113,
+        "provider_response_latency_ms": 3489.601,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2728,
+        "wall_latency_ms": 3495.689
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT COUNT(*) FROM superhero WHERE full_name IS NULL"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_e719e1ef6fae6cfe4d7dbbc9e21d837d"
+    }
+  ],
+  "run": {
+    "benchmark": "bird-dev_20240627",
+    "model": "anthropic/claude-sonnet-5",
+    "preflight_sha256": "cd251ef227777f5a777a837eeb64b603e55c6bea44d852374676042d239e9ec1",
+    "protocol": "paper/supplementary/bird-sql-agent-extensions-protocol.md",
+    "provider_backed": true,
+    "secrets_serialized": false,
+    "simulated": false,
+    "split": "dev",
+    "timestamp_utc": "2026-10-08T18:14:26+00:00"
+  },
+  "schema": "agent-compaction-bird-runs/v1"
+}

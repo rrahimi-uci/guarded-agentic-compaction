@@ -1,0 +1,172 @@
+{
+  "failures": [],
+  "results": [
+    {
+      "answer": {
+        "sql": "SELECT School, Phone, Ext FROM schools WHERE Zip = '95203-3704'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:dab346f6e1c53ce46838699336211ec0",
+      "issue_number": 58,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.020774,
+        "handoffs": 0,
+        "input_tokens": 9397,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 198,
+        "provider_response_latency_ms": 5237.458,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 9595,
+        "wall_latency_ms": 5251.341
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {},
+        {
+          "table_names": [
+            "schools"
+          ]
+        },
+        {
+          "sql": "SELECT School, Phone, Ext FROM schools WHERE Zip = '95203-3704'"
+        }
+      ],
+      "tool_sequence": [
+        "list_tables",
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_d0886200934c291b273a602d130d59f4"
+    },
+    {
+      "answer": {
+        "sql": "WITH ranked AS (\n  SELECT s.School, s.County,\n  ROW_NUMBER() OVER (PARTITION BY s.County ORDER BY sat.AvgScrRead DESC) rn\n  FROM schools s JOIN satscores sat ON s.CDSCode = sat.cds\n  WHERE s.Virtual = 'F' AND sat.AvgScrRead IS NOT NULL\n)\nSELECT School FROM ranked WHERE rn <= 5"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:5faa5df03d66fcbdb5a4569e82a33fed",
+      "issue_number": 41,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.026238,
+        "handoffs": 0,
+        "input_tokens": 10724,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 479,
+        "provider_response_latency_ms": 7271.256,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 11203,
+        "wall_latency_ms": 7281.119
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {},
+        {
+          "table_names": [
+            "schools",
+            "satscores"
+          ]
+        },
+        {
+          "sql": "WITH ranked AS (\n  SELECT s.School, s.County,\n  ROW_NUMBER() OVER (PARTITION BY s.County ORDER BY sat.AvgScrRead DESC) rn\n  FROM schools s JOIN satscores sat ON s.CDSCode = sat.cds\n  WHERE s.Virtual = 'F' AND sat.AvgScrRead IS NOT NULL\n)\nSELECT School FROM ranked WHERE rn <= 5"
+        }
+      ],
+      "tool_sequence": [
+        "list_tables",
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_bb18f53558a5f27243f2223db538ea3d"
+    },
+    {
+      "answer": {
+        "sql": "SELECT s.AvgScrWrite, sc.City FROM satscores s JOIN schools sc ON s.cds=sc.CDSCode ORDER BY s.NumGE1500 DESC LIMIT 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:ccdcfad00bf4a7d746f09551a9bd7ed5",
+      "issue_number": 44,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.023892,
+        "handoffs": 0,
+        "input_tokens": 10526,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 284,
+        "provider_response_latency_ms": 7600.08,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 10810,
+        "wall_latency_ms": 7608.869
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {},
+        {
+          "table_names": [
+            "satscores",
+            "schools"
+          ]
+        },
+        {
+          "sql": "SELECT s.AvgScrWrite, sc.City FROM satscores s JOIN schools sc ON s.cds=sc.CDSCode ORDER BY s.NumGE1500 DESC LIMIT 1"
+        }
+      ],
+      "tool_sequence": [
+        "list_tables",
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_ec810987e7748cd550c61e4954544f2f"
+    }
+  ],
+  "run": {
+    "benchmark": "bird-dev_20240627",
+    "model": "anthropic/claude-sonnet-5",
+    "preflight_sha256": "cd251ef227777f5a777a837eeb64b603e55c6bea44d852374676042d239e9ec1",
+    "protocol": "paper/supplementary/bird-sql-agent-extensions-protocol.md",
+    "provider_backed": true,
+    "secrets_serialized": false,
+    "simulated": false,
+    "split": "dev",
+    "timestamp_utc": "2026-10-08T18:14:26+00:00"
+  },
+  "schema": "agent-compaction-bird-runs/v1"
+}

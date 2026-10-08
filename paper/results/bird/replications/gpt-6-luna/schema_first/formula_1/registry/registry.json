@@ -1,0 +1,513 @@
+{
+  "name": "paper-bird-schema_first-formula_1",
+  "kill_switch": false,
+  "active_stages": [
+    "active"
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "cand-00-110b08c95a78",
+      "name": "list_tables.get_schema.region@110b08c9",
+      "kind": "grc",
+      "version": 1,
+      "program": {
+        "theta": [],
+        "steps": [
+          {
+            "kind": "call",
+            "var": "tabl",
+            "tool": "list_tables",
+            "args": {},
+            "when": null,
+            "schema_version": null
+          },
+          {
+            "kind": "call",
+            "var": "sche",
+            "tool": "get_schema",
+            "args": {
+              "table_names": {
+                "kind": "const",
+                "value": [
+                  "circuits",
+                  "constructors",
+                  "drivers",
+                  "seasons",
+                  "races",
+                  "constructorResults",
+                  "constructorStandings",
+                  "driverStandings",
+                  "lapTimes",
+                  "pitStops",
+                  "qualifying",
+                  "status",
+                  "results"
+                ]
+              }
+            },
+            "when": null,
+            "schema_version": null
+          }
+        ],
+        "outputs": {
+          "tabl": {
+            "kind": "expr",
+            "source": "tabl",
+            "ops": []
+          },
+          "sche": {
+            "kind": "expr",
+            "source": "sche",
+            "ops": []
+          }
+        },
+        "library_version": "T-v1",
+        "removed_requests": 2.0,
+        "tools": [
+          "list_tables",
+          "get_schema"
+        ],
+        "composite": null
+      },
+      "route": null,
+      "guard": {
+        "manifest_pins": {
+          "model": "gpt-6-luna",
+          "prompt_hash": "#20a0b160",
+          "tools_hash": "#4b153eca",
+          "policy_hash": "#94fc7fa3",
+          "guardrail_hash": "#ca7525a8",
+          "effect_catalog_version": "bird-formula_1-readonly-sqlite@1#653516590e404766",
+          "entry_contract_version": "bird-database-v1:formula_1"
+        },
+        "isolation": {},
+        "clauses": [],
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "required_capabilities": [
+          "speculatable",
+          "replayable"
+        ]
+      },
+      "verifier": {
+        "clauses": [
+          {
+            "name": "tabl",
+            "type_name": "dict",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "list_tables"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "tabl.database",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "formula_1"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "list_tables"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "tabl.tables",
+            "type_name": "list",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": 13,
+            "min_len": 13,
+            "provenance": [
+              "list_tables"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "sche",
+            "type_name": "dict",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "get_schema"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "sche.database",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "formula_1"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "get_schema"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "sche.schemas",
+            "type_name": "list",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": 13,
+            "min_len": 13,
+            "provenance": [
+              "get_schema"
+            ],
+            "present_iff": null
+          }
+        ],
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "call_counts": [
+          2
+        ]
+      },
+      "gate": {
+        "model": {
+          "features": [
+            "unseen_category",
+            "knn_distance",
+            "missing_optional",
+            "hull_margin",
+            "drift_days",
+            "provenance_ambiguity",
+            "branch_entropy"
+          ],
+          "weights": [
+            0.0,
+            0.0,
+            0.0,
+            0.8877091183451264,
+            0.0,
+            0.8877091183451264,
+            0.0
+          ],
+          "bias": -0.7183709852150122,
+          "feature_means": [
+            0.0,
+            0.0,
+            0.0,
+            0.25,
+            0.0,
+            0.25,
+            0.0
+          ],
+          "feature_scales": [
+            1.0,
+            1.0,
+            1.0,
+            0.25,
+            1.0,
+            0.25,
+            1.0
+          ]
+        },
+        "features_spec": {
+          "paths": [],
+          "hull_kinds": {},
+          "categories": {},
+          "numeric_ranges": {},
+          "patterns": {},
+          "max_day": "2024-06-27",
+          "provenance_ambiguity": 0.0,
+          "branch_entropy": 0.0
+        },
+        "threshold": 0.5,
+        "grid": [
+          0.02,
+          0.05,
+          0.08,
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "alpha": 0.05,
+        "delta": 0.1,
+        "n_calibration_groups": 92,
+        "n_accepted": 92,
+        "observed_violations": 0,
+        "risk_upper_bound": 0.049808920112407784,
+        "coverage": 1.0,
+        "admissible": [
+          0.08,
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "retire": false,
+        "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.11, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.17, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.2, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.25, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.3, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.4, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.5, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}]"
+      },
+      "manifest": {
+        "manifest_id": "5f7735732577",
+        "commit": "workspace-without-git-metadata",
+        "model": "gpt-6-luna",
+        "prompt_hash": "#20a0b160",
+        "tools_hash": "#4b153eca",
+        "policy_hash": "#94fc7fa3",
+        "guardrail_hash": "#ca7525a8",
+        "effect_catalog_version": "bird-formula_1-readonly-sqlite@1#653516590e404766",
+        "entry_contract_version": "bird-database-v1:formula_1",
+        "sdk_version": "0.19.2",
+        "tracer_version": "agent-compaction/0.6.0"
+      },
+      "compatibility_key": "5f77357325771a8c",
+      "partition": {},
+      "evidence": {
+        "support_groups": 16,
+        "total_groups": 16,
+        "support_principals": 1,
+        "support_days": 1,
+        "removed_requests": 2.0,
+        "split_ids": {
+          "train": [
+            "bird-formula_1:1013",
+            "bird-formula_1:850",
+            "bird-formula_1:869",
+            "bird-formula_1:880",
+            "bird-formula_1:897",
+            "bird-formula_1:906",
+            "bird-formula_1:913",
+            "bird-formula_1:915",
+            "bird-formula_1:935",
+            "bird-formula_1:957",
+            "bird-formula_1:965",
+            "bird-formula_1:973",
+            "bird-formula_1:977",
+            "bird-formula_1:979",
+            "bird-formula_1:991",
+            "bird-formula_1:992"
+          ],
+          "dev": [
+            "bird-formula_1:1004",
+            "bird-formula_1:1007",
+            "bird-formula_1:874",
+            "bird-formula_1:886",
+            "bird-formula_1:950",
+            "bird-formula_1:954",
+            "bird-formula_1:976",
+            "bird-formula_1:984"
+          ],
+          "calibration": [
+            "bird-formula_1:1001",
+            "bird-formula_1:1002",
+            "bird-formula_1:1003",
+            "bird-formula_1:1005",
+            "bird-formula_1:1008",
+            "bird-formula_1:1009",
+            "bird-formula_1:1011",
+            "bird-formula_1:1014",
+            "bird-formula_1:1015",
+            "bird-formula_1:1016",
+            "bird-formula_1:846",
+            "bird-formula_1:848",
+            "bird-formula_1:849",
+            "bird-formula_1:851",
+            "bird-formula_1:852",
+            "bird-formula_1:856",
+            "bird-formula_1:858",
+            "bird-formula_1:859",
+            "bird-formula_1:860",
+            "bird-formula_1:863",
+            "bird-formula_1:864",
+            "bird-formula_1:865",
+            "bird-formula_1:868",
+            "bird-formula_1:870",
+            "bird-formula_1:871",
+            "bird-formula_1:872",
+            "bird-formula_1:875",
+            "bird-formula_1:876",
+            "bird-formula_1:879",
+            "bird-formula_1:883",
+            "bird-formula_1:890",
+            "bird-formula_1:891",
+            "bird-formula_1:892",
+            "bird-formula_1:894",
+            "bird-formula_1:896",
+            "bird-formula_1:898",
+            "bird-formula_1:899",
+            "bird-formula_1:901",
+            "bird-formula_1:902",
+            "bird-formula_1:904",
+            "bird-formula_1:905",
+            "bird-formula_1:907",
+            "bird-formula_1:908",
+            "bird-formula_1:909",
+            "bird-formula_1:911",
+            "bird-formula_1:912",
+            "bird-formula_1:914",
+            "bird-formula_1:916",
+            "bird-formula_1:918",
+            "bird-formula_1:919",
+            "bird-formula_1:921",
+            "bird-formula_1:922",
+            "bird-formula_1:923",
+            "bird-formula_1:924",
+            "bird-formula_1:925",
+            "bird-formula_1:926",
+            "bird-formula_1:928",
+            "bird-formula_1:929",
+            "bird-formula_1:930",
+            "bird-formula_1:931",
+            "bird-formula_1:932",
+            "bird-formula_1:936",
+            "bird-formula_1:937",
+            "bird-formula_1:940",
+            "bird-formula_1:941",
+            "bird-formula_1:943",
+            "bird-formula_1:944",
+            "bird-formula_1:948",
+            "bird-formula_1:949",
+            "bird-formula_1:952",
+            "bird-formula_1:955",
+            "bird-formula_1:956",
+            "bird-formula_1:958",
+            "bird-formula_1:959",
+            "bird-formula_1:960",
+            "bird-formula_1:961",
+            "bird-formula_1:962",
+            "bird-formula_1:966",
+            "bird-formula_1:967",
+            "bird-formula_1:970",
+            "bird-formula_1:974",
+            "bird-formula_1:975",
+            "bird-formula_1:978",
+            "bird-formula_1:980",
+            "bird-formula_1:983",
+            "bird-formula_1:985",
+            "bird-formula_1:986",
+            "bird-formula_1:989",
+            "bird-formula_1:994",
+            "bird-formula_1:995",
+            "bird-formula_1:997",
+            "bird-formula_1:999"
+          ]
+        },
+        "replay": {
+          "n": 8,
+          "passed": 8,
+          "abstained": 0,
+          "wrong": 0,
+          "effect_mismatch": 0,
+          "state_delta": 0,
+          "pass_rate": 1.0,
+          "reasons": {}
+        },
+        "perturbation": {},
+        "counterexamples": [],
+        "metrics": {
+          "sandbox": {
+            "n": 0,
+            "passed": 0,
+            "abstained": 0,
+            "wrong": 0,
+            "effect_mismatch": 0,
+            "state_delta": 0,
+            "pass_rate": 0.0,
+            "reasons": {}
+          },
+          "perturbations_claimed": false,
+          "branch": "none",
+          "branch_permutation_p": null,
+          "branch_alternatives": 0,
+          "n_alternative_bindings": 0,
+          "composite": "disabled",
+          "composite_name": "",
+          "gate_grid": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.11, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'covera",
+          "var_names": [
+            "tabl",
+            "sche"
+          ],
+          "dev_windows_evaluated": 8,
+          "calibration_windows_evaluated": 92
+        },
+        "rejection_reasons": [],
+        "fallback_reasons": {},
+        "dataset_digest": "3c90fa7f1f42035e",
+        "notes": "substrate and evidence are recorded in the run manifest"
+      },
+      "lifecycle": "active",
+      "owner": "paper-bird-schema_first-formula_1",
+      "approved_by": "paper-bird-protocol-lab-only",
+      "expiry_day": null,
+      "rollback_target": null,
+      "monitoring": {
+        "min_verifier_pass_rate": 0.9,
+        "max_unsafe_dispatch": 0.05,
+        "expected_coverage": 1.0
+      },
+      "signature": ""
+    }
+  ]
+}

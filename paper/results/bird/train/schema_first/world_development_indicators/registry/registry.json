@@ -1,0 +1,506 @@
+{
+  "name": "paper-bird-schema_first-world_development_indicators",
+  "kill_switch": false,
+  "active_stages": [
+    "active"
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "cand-00-c280ec6839dd",
+      "name": "list_tables.get_schema.region@c280ec68",
+      "kind": "grc",
+      "version": 1,
+      "program": {
+        "theta": [],
+        "steps": [
+          {
+            "kind": "call",
+            "var": "tabl",
+            "tool": "list_tables",
+            "args": {},
+            "when": null,
+            "schema_version": null
+          },
+          {
+            "kind": "call",
+            "var": "sche",
+            "tool": "get_schema",
+            "args": {
+              "table_names": {
+                "kind": "const",
+                "value": [
+                  "Country",
+                  "Series",
+                  "CountryNotes",
+                  "Footnotes",
+                  "Indicators",
+                  "SeriesNotes"
+                ]
+              }
+            },
+            "when": null,
+            "schema_version": null
+          }
+        ],
+        "outputs": {
+          "tabl": {
+            "kind": "expr",
+            "source": "tabl",
+            "ops": []
+          },
+          "sche": {
+            "kind": "expr",
+            "source": "sche",
+            "ops": []
+          }
+        },
+        "library_version": "T-v1",
+        "removed_requests": 2.0,
+        "tools": [
+          "list_tables",
+          "get_schema"
+        ],
+        "composite": null
+      },
+      "route": null,
+      "guard": {
+        "manifest_pins": {
+          "model": "gpt-5.6-luna",
+          "prompt_hash": "#20a0b160",
+          "tools_hash": "#4b153eca",
+          "policy_hash": "#94fc7fa3",
+          "guardrail_hash": "#ca7525a8",
+          "effect_catalog_version": "bird-world_development_indicators-readonly-sqlite@1#08cd86b42754be39",
+          "entry_contract_version": "bird-database-v1:world_development_indicators"
+        },
+        "isolation": {},
+        "clauses": [],
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "required_capabilities": [
+          "speculatable",
+          "replayable"
+        ]
+      },
+      "verifier": {
+        "clauses": [
+          {
+            "name": "tabl",
+            "type_name": "dict",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "list_tables"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "tabl.database",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "world_development_indicators"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "list_tables"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "tabl.tables",
+            "type_name": "list",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": 6,
+            "min_len": 6,
+            "provenance": [
+              "list_tables"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "sche",
+            "type_name": "dict",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "get_schema"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "sche.database",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "world_development_indicators"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "get_schema"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "sche.schemas",
+            "type_name": "list",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": 6,
+            "min_len": 6,
+            "provenance": [
+              "get_schema"
+            ],
+            "present_iff": null
+          }
+        ],
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "call_counts": [
+          2
+        ]
+      },
+      "gate": {
+        "model": {
+          "features": [
+            "unseen_category",
+            "knn_distance",
+            "missing_optional",
+            "hull_margin",
+            "drift_days",
+            "provenance_ambiguity",
+            "branch_entropy"
+          ],
+          "weights": [
+            0.0,
+            0.0,
+            0.0,
+            0.8877091183451264,
+            0.0,
+            0.8877091183451264,
+            0.0
+          ],
+          "bias": -0.7183709852150122,
+          "feature_means": [
+            0.0,
+            0.0,
+            0.0,
+            0.25,
+            0.0,
+            0.25,
+            0.0
+          ],
+          "feature_scales": [
+            1.0,
+            1.0,
+            1.0,
+            0.25,
+            1.0,
+            0.25,
+            1.0
+          ]
+        },
+        "features_spec": {
+          "paths": [],
+          "hull_kinds": {},
+          "categories": {},
+          "numeric_ranges": {},
+          "patterns": {},
+          "max_day": "2024-06-27",
+          "provenance_ambiguity": 0.0,
+          "branch_entropy": 0.0
+        },
+        "threshold": 0.5,
+        "grid": [
+          0.02,
+          0.05,
+          0.08,
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "alpha": 0.05,
+        "delta": 0.1,
+        "n_calibration_groups": 92,
+        "n_accepted": 92,
+        "observed_violations": 0,
+        "risk_upper_bound": 0.049808920112407784,
+        "coverage": 1.0,
+        "admissible": [
+          0.08,
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "retire": false,
+        "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.11, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.17, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.2, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.25, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.3, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.4, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.5, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}]"
+      },
+      "manifest": {
+        "manifest_id": "503a79dd593a",
+        "commit": "workspace-without-git-metadata",
+        "model": "gpt-5.6-luna",
+        "prompt_hash": "#20a0b160",
+        "tools_hash": "#4b153eca",
+        "policy_hash": "#94fc7fa3",
+        "guardrail_hash": "#ca7525a8",
+        "effect_catalog_version": "bird-world_development_indicators-readonly-sqlite@1#08cd86b42754be39",
+        "entry_contract_version": "bird-database-v1:world_development_indicators",
+        "sdk_version": "0.19.2",
+        "tracer_version": "agent-compaction/0.6.0"
+      },
+      "compatibility_key": "503a79dd593a26d4",
+      "partition": {},
+      "evidence": {
+        "support_groups": 16,
+        "total_groups": 16,
+        "support_principals": 1,
+        "support_days": 1,
+        "removed_requests": 2.0,
+        "split_ids": {
+          "train": [
+            "bird-world_development_indicators:2101",
+            "bird-world_development_indicators:2119",
+            "bird-world_development_indicators:2122",
+            "bird-world_development_indicators:2123",
+            "bird-world_development_indicators:2126",
+            "bird-world_development_indicators:2143",
+            "bird-world_development_indicators:2153",
+            "bird-world_development_indicators:2158",
+            "bird-world_development_indicators:2160",
+            "bird-world_development_indicators:2163",
+            "bird-world_development_indicators:2168",
+            "bird-world_development_indicators:2180",
+            "bird-world_development_indicators:2211",
+            "bird-world_development_indicators:2227",
+            "bird-world_development_indicators:2238",
+            "bird-world_development_indicators:2244"
+          ],
+          "dev": [
+            "bird-world_development_indicators:2096",
+            "bird-world_development_indicators:2108",
+            "bird-world_development_indicators:2128",
+            "bird-world_development_indicators:2144",
+            "bird-world_development_indicators:2165",
+            "bird-world_development_indicators:2170",
+            "bird-world_development_indicators:2179",
+            "bird-world_development_indicators:2207"
+          ],
+          "calibration": [
+            "bird-world_development_indicators:2090",
+            "bird-world_development_indicators:2091",
+            "bird-world_development_indicators:2092",
+            "bird-world_development_indicators:2095",
+            "bird-world_development_indicators:2100",
+            "bird-world_development_indicators:2102",
+            "bird-world_development_indicators:2106",
+            "bird-world_development_indicators:2107",
+            "bird-world_development_indicators:2109",
+            "bird-world_development_indicators:2110",
+            "bird-world_development_indicators:2111",
+            "bird-world_development_indicators:2112",
+            "bird-world_development_indicators:2113",
+            "bird-world_development_indicators:2114",
+            "bird-world_development_indicators:2115",
+            "bird-world_development_indicators:2116",
+            "bird-world_development_indicators:2124",
+            "bird-world_development_indicators:2129",
+            "bird-world_development_indicators:2130",
+            "bird-world_development_indicators:2131",
+            "bird-world_development_indicators:2132",
+            "bird-world_development_indicators:2133",
+            "bird-world_development_indicators:2134",
+            "bird-world_development_indicators:2135",
+            "bird-world_development_indicators:2136",
+            "bird-world_development_indicators:2137",
+            "bird-world_development_indicators:2138",
+            "bird-world_development_indicators:2140",
+            "bird-world_development_indicators:2141",
+            "bird-world_development_indicators:2142",
+            "bird-world_development_indicators:2145",
+            "bird-world_development_indicators:2146",
+            "bird-world_development_indicators:2149",
+            "bird-world_development_indicators:2150",
+            "bird-world_development_indicators:2151",
+            "bird-world_development_indicators:2152",
+            "bird-world_development_indicators:2154",
+            "bird-world_development_indicators:2155",
+            "bird-world_development_indicators:2156",
+            "bird-world_development_indicators:2161",
+            "bird-world_development_indicators:2162",
+            "bird-world_development_indicators:2164",
+            "bird-world_development_indicators:2166",
+            "bird-world_development_indicators:2167",
+            "bird-world_development_indicators:2169",
+            "bird-world_development_indicators:2172",
+            "bird-world_development_indicators:2173",
+            "bird-world_development_indicators:2175",
+            "bird-world_development_indicators:2177",
+            "bird-world_development_indicators:2178",
+            "bird-world_development_indicators:2181",
+            "bird-world_development_indicators:2182",
+            "bird-world_development_indicators:2183",
+            "bird-world_development_indicators:2185",
+            "bird-world_development_indicators:2186",
+            "bird-world_development_indicators:2187",
+            "bird-world_development_indicators:2190",
+            "bird-world_development_indicators:2192",
+            "bird-world_development_indicators:2193",
+            "bird-world_development_indicators:2194",
+            "bird-world_development_indicators:2195",
+            "bird-world_development_indicators:2197",
+            "bird-world_development_indicators:2200",
+            "bird-world_development_indicators:2203",
+            "bird-world_development_indicators:2204",
+            "bird-world_development_indicators:2205",
+            "bird-world_development_indicators:2208",
+            "bird-world_development_indicators:2209",
+            "bird-world_development_indicators:2210",
+            "bird-world_development_indicators:2212",
+            "bird-world_development_indicators:2213",
+            "bird-world_development_indicators:2214",
+            "bird-world_development_indicators:2215",
+            "bird-world_development_indicators:2216",
+            "bird-world_development_indicators:2217",
+            "bird-world_development_indicators:2218",
+            "bird-world_development_indicators:2220",
+            "bird-world_development_indicators:2222",
+            "bird-world_development_indicators:2223",
+            "bird-world_development_indicators:2224",
+            "bird-world_development_indicators:2225",
+            "bird-world_development_indicators:2226",
+            "bird-world_development_indicators:2228",
+            "bird-world_development_indicators:2230",
+            "bird-world_development_indicators:2233",
+            "bird-world_development_indicators:2235",
+            "bird-world_development_indicators:2236",
+            "bird-world_development_indicators:2237",
+            "bird-world_development_indicators:2239",
+            "bird-world_development_indicators:2240",
+            "bird-world_development_indicators:2245",
+            "bird-world_development_indicators:2246"
+          ]
+        },
+        "replay": {
+          "n": 8,
+          "passed": 8,
+          "abstained": 0,
+          "wrong": 0,
+          "effect_mismatch": 0,
+          "state_delta": 0,
+          "pass_rate": 1.0,
+          "reasons": {}
+        },
+        "perturbation": {},
+        "counterexamples": [],
+        "metrics": {
+          "sandbox": {
+            "n": 0,
+            "passed": 0,
+            "abstained": 0,
+            "wrong": 0,
+            "effect_mismatch": 0,
+            "state_delta": 0,
+            "pass_rate": 0.0,
+            "reasons": {}
+          },
+          "perturbations_claimed": false,
+          "branch": "none",
+          "branch_permutation_p": null,
+          "branch_alternatives": 0,
+          "n_alternative_bindings": 0,
+          "composite": "disabled",
+          "composite_name": "",
+          "gate_grid": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.11, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'covera",
+          "var_names": [
+            "tabl",
+            "sche"
+          ],
+          "dev_windows_evaluated": 8,
+          "calibration_windows_evaluated": 92
+        },
+        "rejection_reasons": [],
+        "fallback_reasons": {},
+        "dataset_digest": "9539df85a51e2e41",
+        "notes": "substrate and evidence are recorded in the run manifest"
+      },
+      "lifecycle": "active",
+      "owner": "paper-bird-schema_first-world_development_indicators",
+      "approved_by": "paper-bird-protocol-lab-only",
+      "expiry_day": null,
+      "rollback_target": null,
+      "monitoring": {
+        "min_verifier_pass_rate": 0.9,
+        "max_unsafe_dispatch": 0.05,
+        "expected_coverage": 1.0
+      },
+      "signature": ""
+    }
+  ]
+}

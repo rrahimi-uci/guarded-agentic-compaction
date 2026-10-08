@@ -1,0 +1,1889 @@
+{
+  "designs": {
+    "schema_first": {
+      "cached_input_share": {
+        "baseline": 0.5057382673068296,
+        "baseline_repeat": 0.5466419090803198,
+        "compiled": 0.5625984121952606,
+        "manual_schema_prefetch": 0.5618017714369192
+      },
+      "families": {
+        "address": {
+          "artifact_tools": [
+            "list_tables",
+            "get_schema"
+          ],
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 76,
+          "discovery_failures": 0,
+          "discovery_runs": 120,
+          "evaluation": {
+            "compiled_dispatched": 26,
+            "correct": {
+              "baseline": 19,
+              "baseline_repeat": 22,
+              "compiled": 21,
+              "manual_schema_prefetch": 20
+            },
+            "failures": 4,
+            "mean": {
+              "baseline": {
+                "estimated_cost_usd": 0.0014864838461538462,
+                "requests": 4.269230769230769,
+                "total_tokens": 8391.307692307691,
+                "wall_latency_ms": 8232.292230769232
+              },
+              "baseline_repeat": {
+                "estimated_cost_usd": 0.0014187957692307692,
+                "requests": 4.3076923076923075,
+                "total_tokens": 8521.0,
+                "wall_latency_ms": 7474.195615384615
+              },
+              "compiled": {
+                "estimated_cost_usd": 0.0012191619230769231,
+                "requests": 2.3461538461538463,
+                "total_tokens": 7514.076923076923,
+                "wall_latency_ms": 5714.87
+              },
+              "manual_schema_prefetch": {
+                "estimated_cost_usd": 0.00122178,
+                "requests": 2.3076923076923075,
+                "total_tokens": 7355.307692307692,
+                "wall_latency_ms": 6810.661615384615
+              }
+            },
+            "n": 26
+          },
+          "gate": {
+            "coverage": 1.0,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "opening_sequences": {
+            "list_tables -> get_schema": 120
+          },
+          "schema_all_tables_share": 1.0,
+          "stage": null,
+          "status": "admitted",
+          "strict_audit_disagreements": 0
+        },
+        "authors": {
+          "artifact_tools": [
+            "list_tables",
+            "get_schema"
+          ],
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 82,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "evaluation": {
+            "compiled_dispatched": 30,
+            "correct": {
+              "baseline": 17,
+              "baseline_repeat": 18,
+              "compiled": 17,
+              "manual_schema_prefetch": 16
+            },
+            "failures": 0,
+            "mean": {
+              "baseline": {
+                "estimated_cost_usd": 0.001139033,
+                "requests": 4.6,
+                "total_tokens": 5724.233333333334,
+                "wall_latency_ms": 8388.178833333333
+              },
+              "baseline_repeat": {
+                "estimated_cost_usd": 0.0010088893333333334,
+                "requests": 4.466666666666667,
+                "total_tokens": 5371.4,
+                "wall_latency_ms": 7465.5887999999995
+              },
+              "compiled": {
+                "estimated_cost_usd": 0.0008704776666666667,
+                "requests": 2.6,
+                "total_tokens": 4566.733333333334,
+                "wall_latency_ms": 6237.8659333333335
+              },
+              "manual_schema_prefetch": {
+                "estimated_cost_usd": 0.0008810823333333333,
+                "requests": 2.7333333333333334,
+                "total_tokens": 4823.933333333333,
+                "wall_latency_ms": 6309.750033333333
+              }
+            },
+            "n": 30
+          },
+          "gate": {
+            "coverage": 1.0,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 1.0,
+          "stage": null,
+          "status": "admitted",
+          "strict_audit_disagreements": 0
+        },
+        "books": {
+          "artifact_tools": [
+            "list_tables",
+            "get_schema"
+          ],
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 105,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "evaluation": {
+            "compiled_dispatched": 30,
+            "correct": {
+              "baseline": 24,
+              "baseline_repeat": 24,
+              "compiled": 24,
+              "manual_schema_prefetch": 25
+            },
+            "failures": 0,
+            "mean": {
+              "baseline": {
+                "estimated_cost_usd": 0.0012000463333333333,
+                "requests": 4.0,
+                "total_tokens": 6320.233333333334,
+                "wall_latency_ms": 5508.6996
+              },
+              "baseline_repeat": {
+                "estimated_cost_usd": 0.0011426633333333333,
+                "requests": 4.066666666666666,
+                "total_tokens": 6522.2,
+                "wall_latency_ms": 5757.944733333334
+              },
+              "compiled": {
+                "estimated_cost_usd": 0.0008934353333333333,
+                "requests": 2.0,
+                "total_tokens": 5178.833333333333,
+                "wall_latency_ms": 3485.137866666667
+              },
+              "manual_schema_prefetch": {
+                "estimated_cost_usd": 0.0009079943333333333,
+                "requests": 2.1,
+                "total_tokens": 5364.033333333334,
+                "wall_latency_ms": 3575.6620333333335
+              }
+            },
+            "n": 30
+          },
+          "gate": {
+            "coverage": 1.0,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 1.0,
+          "stage": null,
+          "status": "admitted",
+          "strict_audit_disagreements": 0
+        },
+        "chicago_crime": {
+          "artifact_tools": [
+            "list_tables",
+            "get_schema"
+          ],
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 86,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "evaluation": {
+            "compiled_dispatched": 30,
+            "correct": {
+              "baseline": 18,
+              "baseline_repeat": 19,
+              "compiled": 20,
+              "manual_schema_prefetch": 18
+            },
+            "failures": 0,
+            "mean": {
+              "baseline": {
+                "estimated_cost_usd": 0.0011781293333333334,
+                "requests": 4.2,
+                "total_tokens": 6830.7,
+                "wall_latency_ms": 5867.8939
+              },
+              "baseline_repeat": {
+                "estimated_cost_usd": 0.001090555,
+                "requests": 4.166666666666667,
+                "total_tokens": 6750.733333333334,
+                "wall_latency_ms": 6030.3314
+              },
+              "compiled": {
+                "estimated_cost_usd": 0.0009929103333333334,
+                "requests": 2.3,
+                "total_tokens": 6029.4,
+                "wall_latency_ms": 3775.2912333333334
+              },
+              "manual_schema_prefetch": {
+                "estimated_cost_usd": 0.000938521,
+                "requests": 2.2,
+                "total_tokens": 5619.766666666666,
+                "wall_latency_ms": 3502.3168
+              }
+            },
+            "n": 30
+          },
+          "gate": {
+            "coverage": 1.0,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 1.0,
+          "stage": null,
+          "status": "admitted",
+          "strict_audit_disagreements": 0
+        },
+        "donor": {
+          "artifact_tools": [
+            "list_tables",
+            "get_schema"
+          ],
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 72,
+          "discovery_failures": 1,
+          "discovery_runs": 129,
+          "evaluation": {
+            "compiled_dispatched": 30,
+            "correct": {
+              "baseline": 17,
+              "baseline_repeat": 16,
+              "compiled": 16,
+              "manual_schema_prefetch": 16
+            },
+            "failures": 0,
+            "mean": {
+              "baseline": {
+                "estimated_cost_usd": 0.00155462,
+                "requests": 4.566666666666666,
+                "total_tokens": 10391.433333333332,
+                "wall_latency_ms": 9834.415033333333
+              },
+              "baseline_repeat": {
+                "estimated_cost_usd": 0.0015579276666666667,
+                "requests": 4.633333333333334,
+                "total_tokens": 10621.9,
+                "wall_latency_ms": 10002.550566666667
+              },
+              "compiled": {
+                "estimated_cost_usd": 0.0013830663333333334,
+                "requests": 2.8,
+                "total_tokens": 10238.1,
+                "wall_latency_ms": 10339.306199999999
+              },
+              "manual_schema_prefetch": {
+                "estimated_cost_usd": 0.0013238759999999999,
+                "requests": 2.6,
+                "total_tokens": 9329.266666666666,
+                "wall_latency_ms": 7132.9757
+              }
+            },
+            "n": 30
+          },
+          "gate": {
+            "coverage": 1.0,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "opening_sequences": {
+            "list_tables -> get_schema": 129
+          },
+          "schema_all_tables_share": 1.0,
+          "stage": null,
+          "status": "admitted",
+          "strict_audit_disagreements": 0
+        },
+        "hockey": {
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 56,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "opening_sequences": {
+            "list_tables -> get_schema": 130,
+            "list_tables -> list_tables": 2
+          },
+          "schema_all_tables_share": 0.9848484848484849,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "legislator": {
+          "artifact_tools": [
+            "list_tables",
+            "get_schema"
+          ],
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 82,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "evaluation": {
+            "compiled_dispatched": 30,
+            "correct": {
+              "baseline": 19,
+              "baseline_repeat": 18,
+              "compiled": 17,
+              "manual_schema_prefetch": 19
+            },
+            "failures": 0,
+            "mean": {
+              "baseline": {
+                "estimated_cost_usd": 0.0016505523333333334,
+                "requests": 4.5,
+                "total_tokens": 10266.3,
+                "wall_latency_ms": 7203.3752
+              },
+              "baseline_repeat": {
+                "estimated_cost_usd": 0.0015440293333333333,
+                "requests": 4.666666666666667,
+                "total_tokens": 10913.933333333332,
+                "wall_latency_ms": 7064.024766666666
+              },
+              "compiled": {
+                "estimated_cost_usd": 0.0013955073333333334,
+                "requests": 2.533333333333333,
+                "total_tokens": 9224.033333333333,
+                "wall_latency_ms": 4854.798
+              },
+              "manual_schema_prefetch": {
+                "estimated_cost_usd": 0.0013625706666666668,
+                "requests": 2.566666666666667,
+                "total_tokens": 9281.933333333332,
+                "wall_latency_ms": 5462.3568000000005
+              }
+            },
+            "n": 30
+          },
+          "gate": {
+            "coverage": 1.0,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 1.0,
+          "stage": null,
+          "status": "admitted",
+          "strict_audit_disagreements": 0
+        },
+        "mondial_geo": {
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 77,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 0.9696969696969697,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "movie_3": {
+          "artifact_tools": [
+            "list_tables",
+            "get_schema"
+          ],
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 81,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "evaluation": {
+            "compiled_dispatched": 30,
+            "correct": {
+              "baseline": 17,
+              "baseline_repeat": 16,
+              "compiled": 17,
+              "manual_schema_prefetch": 18
+            },
+            "failures": 0,
+            "mean": {
+              "baseline": {
+                "estimated_cost_usd": 0.0017347943333333334,
+                "requests": 4.266666666666667,
+                "total_tokens": 11657.133333333333,
+                "wall_latency_ms": 5980.9446
+              },
+              "baseline_repeat": {
+                "estimated_cost_usd": 0.0017467256666666667,
+                "requests": 4.333333333333333,
+                "total_tokens": 11974.1,
+                "wall_latency_ms": 5718.160266666667
+              },
+              "compiled": {
+                "estimated_cost_usd": 0.0014770916666666666,
+                "requests": 2.2333333333333334,
+                "total_tokens": 10309.433333333332,
+                "wall_latency_ms": 3747.3317
+              },
+              "manual_schema_prefetch": {
+                "estimated_cost_usd": 0.0015022513333333334,
+                "requests": 2.3333333333333335,
+                "total_tokens": 10743.933333333332,
+                "wall_latency_ms": 4062.3011333333334
+              }
+            },
+            "n": 30
+          },
+          "gate": {
+            "coverage": 1.0,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 1.0,
+          "stage": null,
+          "status": "admitted",
+          "strict_audit_disagreements": 0
+        },
+        "movie_platform": {
+          "artifact_tools": [
+            "list_tables",
+            "get_schema"
+          ],
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 73,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "evaluation": {
+            "compiled_dispatched": 30,
+            "correct": {
+              "baseline": 22,
+              "baseline_repeat": 21,
+              "compiled": 21,
+              "manual_schema_prefetch": 21
+            },
+            "failures": 0,
+            "mean": {
+              "baseline": {
+                "estimated_cost_usd": 0.0012875136666666666,
+                "requests": 4.0,
+                "total_tokens": 7448.833333333333,
+                "wall_latency_ms": 6165.4578
+              },
+              "baseline_repeat": {
+                "estimated_cost_usd": 0.0012307753333333333,
+                "requests": 4.033333333333333,
+                "total_tokens": 7573.866666666667,
+                "wall_latency_ms": 5899.029066666667
+              },
+              "compiled": {
+                "estimated_cost_usd": 0.0010931176666666668,
+                "requests": 2.1,
+                "total_tokens": 6676.966666666666,
+                "wall_latency_ms": 4268.309066666667
+              },
+              "manual_schema_prefetch": {
+                "estimated_cost_usd": 0.001069686,
+                "requests": 2.033333333333333,
+                "total_tokens": 6374.733333333334,
+                "wall_latency_ms": 4229.7890333333335
+              }
+            },
+            "n": 30
+          },
+          "gate": {
+            "coverage": 1.0,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 1.0,
+          "stage": null,
+          "status": "admitted",
+          "strict_audit_disagreements": 0
+        },
+        "movies_4": {
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 106,
+          "discovery_failures": 0,
+          "discovery_runs": 128,
+          "opening_sequences": {
+            "list_tables -> get_schema": 128
+          },
+          "schema_all_tables_share": 0.9921875,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "olympics": {
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 118,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 0.9848484848484849,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "professional_basketball": {
+          "artifact_tools": [
+            "list_tables",
+            "get_schema"
+          ],
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 50,
+          "discovery_failures": 0,
+          "discovery_runs": 127,
+          "evaluation": {
+            "compiled_dispatched": 30,
+            "correct": {
+              "baseline": 10,
+              "baseline_repeat": 10,
+              "compiled": 10,
+              "manual_schema_prefetch": 9
+            },
+            "failures": 0,
+            "mean": {
+              "baseline": {
+                "estimated_cost_usd": 0.002106351,
+                "requests": 4.433333333333334,
+                "total_tokens": 14424.133333333333,
+                "wall_latency_ms": 7382.312033333334
+              },
+              "baseline_repeat": {
+                "estimated_cost_usd": 0.001917763,
+                "requests": 4.4,
+                "total_tokens": 14237.033333333333,
+                "wall_latency_ms": 6975.904033333333
+              },
+              "compiled": {
+                "estimated_cost_usd": 0.001896473,
+                "requests": 2.433333333333333,
+                "total_tokens": 13289.233333333334,
+                "wall_latency_ms": 4969.882166666666
+              },
+              "manual_schema_prefetch": {
+                "estimated_cost_usd": 0.001956799333333333,
+                "requests": 2.566666666666667,
+                "total_tokens": 13964.1,
+                "wall_latency_ms": 6004.093566666666
+              }
+            },
+            "n": 30
+          },
+          "gate": {
+            "coverage": 1.0,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "opening_sequences": {
+            "list_tables -> get_schema": 127
+          },
+          "schema_all_tables_share": 1.0,
+          "stage": null,
+          "status": "admitted",
+          "strict_audit_disagreements": 0
+        },
+        "public_review_platform": {
+          "artifact_tools": [
+            "list_tables",
+            "get_schema"
+          ],
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 79,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "evaluation": {
+            "compiled_dispatched": 30,
+            "correct": {
+              "baseline": 22,
+              "baseline_repeat": 22,
+              "compiled": 22,
+              "manual_schema_prefetch": 22
+            },
+            "failures": 0,
+            "mean": {
+              "baseline": {
+                "estimated_cost_usd": 0.0015152266666666667,
+                "requests": 4.266666666666667,
+                "total_tokens": 9005.0,
+                "wall_latency_ms": 6809.3262
+              },
+              "baseline_repeat": {
+                "estimated_cost_usd": 0.0014257123333333334,
+                "requests": 4.266666666666667,
+                "total_tokens": 8989.633333333333,
+                "wall_latency_ms": 6710.890766666666
+              },
+              "compiled": {
+                "estimated_cost_usd": 0.0012475176666666666,
+                "requests": 2.2333333333333334,
+                "total_tokens": 7672.966666666666,
+                "wall_latency_ms": 4523.0373666666665
+              },
+              "manual_schema_prefetch": {
+                "estimated_cost_usd": 0.00118704,
+                "requests": 2.2333333333333334,
+                "total_tokens": 7462.4,
+                "wall_latency_ms": 3847.7112666666667
+              }
+            },
+            "n": 30
+          },
+          "gate": {
+            "coverage": 1.0,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 1.0,
+          "stage": null,
+          "status": "admitted",
+          "strict_audit_disagreements": 0
+        },
+        "regional_sales": {
+          "artifact_tools": [
+            "list_tables",
+            "get_schema"
+          ],
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 91,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "evaluation": {
+            "compiled_dispatched": 30,
+            "correct": {
+              "baseline": 19,
+              "baseline_repeat": 19,
+              "compiled": 17,
+              "manual_schema_prefetch": 18
+            },
+            "failures": 0,
+            "mean": {
+              "baseline": {
+                "estimated_cost_usd": 0.0011431956666666666,
+                "requests": 4.2,
+                "total_tokens": 6000.6,
+                "wall_latency_ms": 6047.709533333334
+              },
+              "baseline_repeat": {
+                "estimated_cost_usd": 0.0011513426666666666,
+                "requests": 4.233333333333333,
+                "total_tokens": 6131.5,
+                "wall_latency_ms": 6106.0563
+              },
+              "compiled": {
+                "estimated_cost_usd": 0.0009264573333333334,
+                "requests": 2.2,
+                "total_tokens": 4941.033333333334,
+                "wall_latency_ms": 4216.321966666666
+              },
+              "manual_schema_prefetch": {
+                "estimated_cost_usd": 0.0008879416666666667,
+                "requests": 2.1333333333333333,
+                "total_tokens": 4637.133333333333,
+                "wall_latency_ms": 3946.49
+              }
+            },
+            "n": 30
+          },
+          "gate": {
+            "coverage": 1.0,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 1.0,
+          "stage": null,
+          "status": "admitted",
+          "strict_audit_disagreements": 0
+        },
+        "retail_complains": {
+          "artifact_tools": [
+            "list_tables",
+            "get_schema"
+          ],
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 76,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "evaluation": {
+            "compiled_dispatched": 30,
+            "correct": {
+              "baseline": 18,
+              "baseline_repeat": 18,
+              "compiled": 18,
+              "manual_schema_prefetch": 18
+            },
+            "failures": 0,
+            "mean": {
+              "baseline": {
+                "estimated_cost_usd": 0.0012358336666666667,
+                "requests": 4.233333333333333,
+                "total_tokens": 6984.366666666667,
+                "wall_latency_ms": 6322.256666666667
+              },
+              "baseline_repeat": {
+                "estimated_cost_usd": 0.001149325,
+                "requests": 4.133333333333334,
+                "total_tokens": 6685.633333333333,
+                "wall_latency_ms": 5443.7849
+              },
+              "compiled": {
+                "estimated_cost_usd": 0.0009711116666666667,
+                "requests": 2.2,
+                "total_tokens": 5738.2,
+                "wall_latency_ms": 3680.8436
+              },
+              "manual_schema_prefetch": {
+                "estimated_cost_usd": 0.0009318766666666666,
+                "requests": 2.066666666666667,
+                "total_tokens": 5270.133333333333,
+                "wall_latency_ms": 3330.9257333333335
+              }
+            },
+            "n": 30
+          },
+          "gate": {
+            "coverage": 1.0,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 1.0,
+          "stage": null,
+          "status": "admitted",
+          "strict_audit_disagreements": 0
+        },
+        "retails": {
+          "artifact_tools": [
+            "list_tables",
+            "get_schema"
+          ],
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 89,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "evaluation": {
+            "compiled_dispatched": 30,
+            "correct": {
+              "baseline": 18,
+              "baseline_repeat": 18,
+              "compiled": 18,
+              "manual_schema_prefetch": 18
+            },
+            "failures": 0,
+            "mean": {
+              "baseline": {
+                "estimated_cost_usd": 0.0014034633333333334,
+                "requests": 4.0,
+                "total_tokens": 7806.366666666667,
+                "wall_latency_ms": 5771.8641
+              },
+              "baseline_repeat": {
+                "estimated_cost_usd": 0.00127778,
+                "requests": 4.066666666666666,
+                "total_tokens": 8060.866666666667,
+                "wall_latency_ms": 5908.465566666667
+              },
+              "compiled": {
+                "estimated_cost_usd": 0.0011126506666666667,
+                "requests": 2.0,
+                "total_tokens": 6662.533333333334,
+                "wall_latency_ms": 4124.113066666667
+              },
+              "manual_schema_prefetch": {
+                "estimated_cost_usd": 0.001101588,
+                "requests": 2.0,
+                "total_tokens": 6586.766666666666,
+                "wall_latency_ms": 3940.8345
+              }
+            },
+            "n": 30
+          },
+          "gate": {
+            "coverage": 1.0,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 1.0,
+          "stage": null,
+          "status": "admitted",
+          "strict_audit_disagreements": 0
+        },
+        "simpson_episodes": {
+          "artifact_tools": [
+            "list_tables",
+            "get_schema"
+          ],
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 85,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "evaluation": {
+            "compiled_dispatched": 30,
+            "correct": {
+              "baseline": 15,
+              "baseline_repeat": 15,
+              "compiled": 15,
+              "manual_schema_prefetch": 16
+            },
+            "failures": 0,
+            "mean": {
+              "baseline": {
+                "estimated_cost_usd": 0.0013573553333333334,
+                "requests": 4.966666666666667,
+                "total_tokens": 8760.133333333333,
+                "wall_latency_ms": 8034.520866666667
+              },
+              "baseline_repeat": {
+                "estimated_cost_usd": 0.0013322853333333333,
+                "requests": 4.766666666666667,
+                "total_tokens": 8153.333333333333,
+                "wall_latency_ms": 7746.818333333334
+              },
+              "compiled": {
+                "estimated_cost_usd": 0.0011402866666666667,
+                "requests": 2.966666666666667,
+                "total_tokens": 7654.266666666666,
+                "wall_latency_ms": 6027.6053
+              },
+              "manual_schema_prefetch": {
+                "estimated_cost_usd": 0.0010569466666666668,
+                "requests": 2.8333333333333335,
+                "total_tokens": 6966.0,
+                "wall_latency_ms": 5453.529466666667
+              }
+            },
+            "n": 30
+          },
+          "gate": {
+            "coverage": 1.0,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 1.0,
+          "stage": null,
+          "status": "admitted",
+          "strict_audit_disagreements": 0
+        },
+        "soccer_2016": {
+          "artifact_tools": [
+            "list_tables",
+            "get_schema"
+          ],
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 96,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "evaluation": {
+            "compiled_dispatched": 30,
+            "correct": {
+              "baseline": 22,
+              "baseline_repeat": 24,
+              "compiled": 24,
+              "manual_schema_prefetch": 24
+            },
+            "failures": 0,
+            "mean": {
+              "baseline": {
+                "estimated_cost_usd": 0.001700203,
+                "requests": 4.133333333333334,
+                "total_tokens": 9737.066666666668,
+                "wall_latency_ms": 6478.332466666667
+              },
+              "baseline_repeat": {
+                "estimated_cost_usd": 0.0015094563333333333,
+                "requests": 4.1,
+                "total_tokens": 9536.6,
+                "wall_latency_ms": 5923.163533333333
+              },
+              "compiled": {
+                "estimated_cost_usd": 0.0012724286666666667,
+                "requests": 2.033333333333333,
+                "total_tokens": 7999.7,
+                "wall_latency_ms": 3674.8986
+              },
+              "manual_schema_prefetch": {
+                "estimated_cost_usd": 0.0012555679999999999,
+                "requests": 2.066666666666667,
+                "total_tokens": 7946.133333333333,
+                "wall_latency_ms": 3304.6534
+              }
+            },
+            "n": 30
+          },
+          "gate": {
+            "coverage": 1.0,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 1.0,
+          "stage": null,
+          "status": "admitted",
+          "strict_audit_disagreements": 0
+        },
+        "student_loan": {
+          "artifact_tools": [
+            "list_tables",
+            "get_schema"
+          ],
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 93,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "evaluation": {
+            "compiled_dispatched": 30,
+            "correct": {
+              "baseline": 24,
+              "baseline_repeat": 24,
+              "compiled": 24,
+              "manual_schema_prefetch": 24
+            },
+            "failures": 0,
+            "mean": {
+              "baseline": {
+                "estimated_cost_usd": 0.0009456526666666667,
+                "requests": 4.033333333333333,
+                "total_tokens": 4609.2,
+                "wall_latency_ms": 5161.858433333333
+              },
+              "baseline_repeat": {
+                "estimated_cost_usd": 0.0009305303333333333,
+                "requests": 4.033333333333333,
+                "total_tokens": 4618.366666666667,
+                "wall_latency_ms": 5244.3269
+              },
+              "compiled": {
+                "estimated_cost_usd": 0.0006456773333333334,
+                "requests": 2.033333333333333,
+                "total_tokens": 3444.9333333333334,
+                "wall_latency_ms": 3140.7087666666666
+              },
+              "manual_schema_prefetch": {
+                "estimated_cost_usd": 0.0006311663333333333,
+                "requests": 2.1,
+                "total_tokens": 3466.3333333333335,
+                "wall_latency_ms": 3221.9911
+              }
+            },
+            "n": 30
+          },
+          "gate": {
+            "coverage": 1.0,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 1.0,
+          "stage": null,
+          "status": "admitted",
+          "strict_audit_disagreements": 0
+        },
+        "synthea": {
+          "artifact_tools": [
+            "list_tables",
+            "get_schema"
+          ],
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 70,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "evaluation": {
+            "compiled_dispatched": 30,
+            "correct": {
+              "baseline": 16,
+              "baseline_repeat": 21,
+              "compiled": 17,
+              "manual_schema_prefetch": 18
+            },
+            "failures": 0,
+            "mean": {
+              "baseline": {
+                "estimated_cost_usd": 0.002079502333333333,
+                "requests": 4.633333333333334,
+                "total_tokens": 14558.433333333332,
+                "wall_latency_ms": 7358.425633333333
+              },
+              "baseline_repeat": {
+                "estimated_cost_usd": 0.0018074736666666667,
+                "requests": 4.433333333333334,
+                "total_tokens": 13467.9,
+                "wall_latency_ms": 7126.9457
+              },
+              "compiled": {
+                "estimated_cost_usd": 0.001853007,
+                "requests": 2.7333333333333334,
+                "total_tokens": 14225.766666666666,
+                "wall_latency_ms": 5737.596566666667
+              },
+              "manual_schema_prefetch": {
+                "estimated_cost_usd": 0.001814025,
+                "requests": 2.7333333333333334,
+                "total_tokens": 13738.433333333332,
+                "wall_latency_ms": 5583.9673
+              }
+            },
+            "n": 30
+          },
+          "gate": {
+            "coverage": 1.0,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 1.0,
+          "stage": null,
+          "status": "admitted",
+          "strict_audit_disagreements": 0
+        },
+        "talkingdata": {
+          "artifact_tools": [
+            "list_tables",
+            "get_schema"
+          ],
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 77,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "evaluation": {
+            "compiled_dispatched": 29,
+            "correct": {
+              "baseline": 20,
+              "baseline_repeat": 19,
+              "compiled": 17,
+              "manual_schema_prefetch": 19
+            },
+            "failures": 1,
+            "mean": {
+              "baseline": {
+                "estimated_cost_usd": 0.001544424827586207,
+                "requests": 4.758620689655173,
+                "total_tokens": 9934.448275862069,
+                "wall_latency_ms": 9922.685
+              },
+              "baseline_repeat": {
+                "estimated_cost_usd": 0.0015074565517241378,
+                "requests": 4.758620689655173,
+                "total_tokens": 9819.310344827587,
+                "wall_latency_ms": 10573.492724137932
+              },
+              "compiled": {
+                "estimated_cost_usd": 0.0012739210344827586,
+                "requests": 2.7586206896551726,
+                "total_tokens": 8697.551724137931,
+                "wall_latency_ms": 7874.333965517241
+              },
+              "manual_schema_prefetch": {
+                "estimated_cost_usd": 0.0012138858620689655,
+                "requests": 2.793103448275862,
+                "total_tokens": 8620.862068965518,
+                "wall_latency_ms": 8300.89924137931
+              }
+            },
+            "n": 29
+          },
+          "gate": {
+            "coverage": 1.0,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 1.0,
+          "stage": null,
+          "status": "admitted",
+          "strict_audit_disagreements": 0
+        },
+        "university": {
+          "artifact_tools": [
+            "list_tables",
+            "get_schema"
+          ],
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 101,
+          "discovery_failures": 0,
+          "discovery_runs": 120,
+          "evaluation": {
+            "compiled_dispatched": 30,
+            "correct": {
+              "baseline": 25,
+              "baseline_repeat": 25,
+              "compiled": 24,
+              "manual_schema_prefetch": 25
+            },
+            "failures": 0,
+            "mean": {
+              "baseline": {
+                "estimated_cost_usd": 0.0009015063333333333,
+                "requests": 4.066666666666666,
+                "total_tokens": 4334.9,
+                "wall_latency_ms": 5566.230433333333
+              },
+              "baseline_repeat": {
+                "estimated_cost_usd": 0.0009148133333333334,
+                "requests": 4.133333333333334,
+                "total_tokens": 4506.8,
+                "wall_latency_ms": 5725.163633333334
+              },
+              "compiled": {
+                "estimated_cost_usd": 0.000628455,
+                "requests": 2.066666666666667,
+                "total_tokens": 3155.9333333333334,
+                "wall_latency_ms": 3448.5709666666667
+              },
+              "manual_schema_prefetch": {
+                "estimated_cost_usd": 0.000647672,
+                "requests": 2.066666666666667,
+                "total_tokens": 3117.4666666666667,
+                "wall_latency_ms": 3638.9634
+              }
+            },
+            "n": 30
+          },
+          "gate": {
+            "coverage": 1.0,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "opening_sequences": {
+            "list_tables -> get_schema": 120
+          },
+          "schema_all_tables_share": 1.0,
+          "stage": null,
+          "status": "admitted",
+          "strict_audit_disagreements": 0
+        },
+        "video_games": {
+          "artifact_tools": [
+            "list_tables",
+            "get_schema"
+          ],
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 105,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "evaluation": {
+            "compiled_dispatched": 30,
+            "correct": {
+              "baseline": 20,
+              "baseline_repeat": 21,
+              "compiled": 22,
+              "manual_schema_prefetch": 21
+            },
+            "failures": 0,
+            "mean": {
+              "baseline": {
+                "estimated_cost_usd": 0.0009376776666666667,
+                "requests": 4.033333333333333,
+                "total_tokens": 4459.266666666666,
+                "wall_latency_ms": 5478.3632333333335
+              },
+              "baseline_repeat": {
+                "estimated_cost_usd": 0.0009363063333333333,
+                "requests": 4.1,
+                "total_tokens": 4629.5,
+                "wall_latency_ms": 5680.150633333334
+              },
+              "compiled": {
+                "estimated_cost_usd": 0.000719086,
+                "requests": 2.066666666666667,
+                "total_tokens": 3447.633333333333,
+                "wall_latency_ms": 3775.9573
+              },
+              "manual_schema_prefetch": {
+                "estimated_cost_usd": 0.0006916296666666667,
+                "requests": 2.1666666666666665,
+                "total_tokens": 3512.5666666666666,
+                "wall_latency_ms": 4195.715166666667
+              }
+            },
+            "n": 30
+          },
+          "gate": {
+            "coverage": 1.0,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 1.0,
+          "stage": null,
+          "status": "admitted",
+          "strict_audit_disagreements": 0
+        },
+        "works_cycles": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 71,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 0.9015151515151515,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "world_development_indicators": {
+          "artifact_tools": [
+            "list_tables",
+            "get_schema"
+          ],
+          "candidates_reaching_calibration": 1,
+          "discovery_execution_correct": 63,
+          "discovery_failures": 0,
+          "discovery_runs": 127,
+          "evaluation": {
+            "compiled_dispatched": 30,
+            "correct": {
+              "baseline": 19,
+              "baseline_repeat": 20,
+              "compiled": 19,
+              "manual_schema_prefetch": 19
+            },
+            "failures": 0,
+            "mean": {
+              "baseline": {
+                "estimated_cost_usd": 0.001551719,
+                "requests": 4.366666666666666,
+                "total_tokens": 9376.733333333334,
+                "wall_latency_ms": 7284.472433333333
+              },
+              "baseline_repeat": {
+                "estimated_cost_usd": 0.0015007143333333334,
+                "requests": 4.566666666666666,
+                "total_tokens": 10126.166666666666,
+                "wall_latency_ms": 7276.551666666666
+              },
+              "compiled": {
+                "estimated_cost_usd": 0.0012717576666666666,
+                "requests": 2.3666666666666667,
+                "total_tokens": 8160.633333333333,
+                "wall_latency_ms": 4842.363133333333
+              },
+              "manual_schema_prefetch": {
+                "estimated_cost_usd": 0.001236043,
+                "requests": 2.2666666666666666,
+                "total_tokens": 7697.133333333333,
+                "wall_latency_ms": 4666.889033333333
+              }
+            },
+            "n": 30
+          },
+          "gate": {
+            "coverage": 1.0,
+            "n_calibration_groups": 92,
+            "observed_violations": 0,
+            "retire": false,
+            "risk_upper_bound": 0.049808920112407784,
+            "threshold": 0.5
+          },
+          "opening_sequences": {
+            "list_tables -> get_schema": 127
+          },
+          "schema_all_tables_share": 1.0,
+          "stage": null,
+          "status": "admitted",
+          "strict_audit_disagreements": 0
+        }
+      },
+      "pooled": {
+        "baseline_repeat": {
+          "accuracy_difference": 0.0144,
+          "accuracy_difference_ci95": [
+            -0.0032,
+            0.032
+          ],
+          "baseline_correct": 401,
+          "baseline_only_correct": 11,
+          "candidate_correct": 410,
+          "candidate_only_correct": 20,
+          "mcnemar_exact_p": 0.14961278438568115,
+          "n": 625,
+          "reductions": {
+            "estimated_cost_usd": {
+              "ci95": [
+                0.03193857724576887,
+                0.07302171146747805
+              ],
+              "reduction": 0.05243256051012424
+            },
+            "requests": {
+              "ci95": [
+                -0.011645379413974366,
+                0.008553365563406468
+              ],
+              "reduction": -0.0014847809948033142
+            },
+            "total_tokens": {
+              "ci95": [
+                -0.021495811522564967,
+                0.01920877689096312
+              ],
+              "reduction": -0.001010987967819288
+            },
+            "wall_latency_ms": {
+              "ci95": [
+                -0.008677224543732986,
+                0.04793442621906374
+              ],
+              "reduction": 0.01999486636622072
+            }
+          },
+          "reductions_vs_warm_repeat": {}
+        },
+        "compiled": {
+          "accuracy_difference": -0.0016,
+          "accuracy_difference_ci95": [
+            -0.0192,
+            0.0176
+          ],
+          "baseline_correct": 401,
+          "baseline_only_correct": 18,
+          "candidate_correct": 400,
+          "candidate_only_correct": 17,
+          "mcnemar_exact_p": 1.0,
+          "n": 625,
+          "reductions": {
+            "estimated_cost_usd": {
+              "ci95": [
+                0.166528241375274,
+                0.19505722541040804
+              ],
+              "reduction": 0.18110114545249023
+            },
+            "requests": {
+              "ci95": [
+                0.447290274684484,
+                0.4697026721866767
+              ],
+              "reduction": 0.4587973273942093
+            },
+            "total_tokens": {
+              "ci95": [
+                0.102578504464784,
+                0.14736983635057288
+              ],
+              "reduction": 0.12550300211215792
+            },
+            "wall_latency_ms": {
+              "ci95": [
+                0.2562103233947065,
+                0.3251821137968418
+              ],
+              "reduction": 0.2925031750671637
+            }
+          },
+          "reductions_vs_warm_repeat": {
+            "estimated_cost_usd": {
+              "ci95": [
+                0.1173139213947737,
+                0.153586246199089
+              ],
+              "reduction": 0.1357883139290169
+            },
+            "requests": {
+              "ci95": [
+                0.44788213627992635,
+                0.4706973293768546
+              ],
+              "reduction": 0.4595997034840623
+            },
+            "total_tokens": {
+              "ci95": [
+                0.10302590754771246,
+                0.14881864513499665
+              ],
+              "reduction": 0.1263862151371753
+            },
+            "wall_latency_ms": {
+              "ci95": [
+                0.24207872955306087,
+                0.3112407512136116
+              ],
+              "reduction": 0.27806824612285896
+            }
+          }
+        },
+        "manual_schema_prefetch": {
+          "accuracy_difference": 0.0048,
+          "accuracy_difference_ci95": [
+            -0.008,
+            0.0192
+          ],
+          "baseline_correct": 401,
+          "baseline_only_correct": 8,
+          "candidate_correct": 404,
+          "candidate_only_correct": 11,
+          "mcnemar_exact_p": 0.6476058959960938,
+          "n": 625,
+          "reductions": {
+            "estimated_cost_usd": {
+              "ci95": [
+                0.18267892952153686,
+                0.21025319047309465
+              ],
+              "reduction": 0.19681357219489293
+            },
+            "requests": {
+              "ci95": [
+                0.4477172312223858,
+                0.4713160854893138
+              ],
+              "reduction": 0.45991091314031185
+            },
+            "total_tokens": {
+              "ci95": [
+                0.11846314770003852,
+                0.1641797710444467
+              ],
+              "reduction": 0.14216788095972666
+            },
+            "wall_latency_ms": {
+              "ci95": [
+                0.275759466607552,
+                0.33523511155130503
+              ],
+              "reduction": 0.3071294776577186
+            }
+          },
+          "reductions_vs_warm_repeat": {
+            "estimated_cost_usd": {
+              "ci95": [
+                0.13284735819323223,
+                0.17103197517205182
+              ],
+              "reduction": 0.15237016983455698
+            },
+            "requests": {
+              "ci95": [
+                0.44762954796030874,
+                0.47295266716754325
+              ],
+              "reduction": 0.46071163825055594
+            },
+            "total_tokens": {
+              "ci95": [
+                0.1173664581979893,
+                0.16739962581962886
+              ],
+              "reduction": 0.14303426300865818
+            },
+            "wall_latency_ms": {
+              "ci95": [
+                0.2628550845859635,
+                0.3208878480491715
+              ],
+              "reduction": 0.29299296650296736
+            }
+          }
+        }
+      }
+    },
+    "standard": {
+      "families": {
+        "address": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 58,
+          "discovery_failures": 0,
+          "discovery_runs": 120,
+          "opening_sequences": {
+            "list_tables -> get_schema": 120
+          },
+          "schema_all_tables_share": 0.0,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "authors": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 84,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 0.015151515151515152,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "books": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 107,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 0.0,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "chicago_crime": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 81,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 0.0,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "donor": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 67,
+          "discovery_failures": 0,
+          "discovery_runs": 130,
+          "opening_sequences": {
+            "list_tables -> get_schema": 130
+          },
+          "schema_all_tables_share": 0.015384615384615385,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "hockey": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 56,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 0.0,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "legislator": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 88,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 0.007575757575757576,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "mondial_geo": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 74,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 0.0,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "movie_3": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 79,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 0.0,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "movie_platform": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 76,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 0.030303030303030304,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "movies_4": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 108,
+          "discovery_failures": 0,
+          "discovery_runs": 128,
+          "opening_sequences": {
+            "list_tables -> get_schema": 128
+          },
+          "schema_all_tables_share": 0.0,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "olympics": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 118,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 0.0,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "professional_basketball": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 49,
+          "discovery_failures": 0,
+          "discovery_runs": 127,
+          "opening_sequences": {
+            "list_tables -> get_schema": 127
+          },
+          "schema_all_tables_share": 0.0,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "public_review_platform": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 76,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 0.0,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "regional_sales": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 92,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 0.0,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "retail_complains": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 69,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 0.007575757575757576,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "retails": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 88,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 0.0,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "simpson_episodes": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 81,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 0.0,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "soccer_2016": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 95,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 0.0,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "student_loan": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 94,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 0.0,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "synthea": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 73,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 0.0,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "talkingdata": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 75,
+          "discovery_failures": 1,
+          "discovery_runs": 131,
+          "opening_sequences": {
+            "list_tables -> get_schema": 131
+          },
+          "schema_all_tables_share": 0.0,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "university": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 104,
+          "discovery_failures": 0,
+          "discovery_runs": 120,
+          "opening_sequences": {
+            "list_tables -> get_schema": 120
+          },
+          "schema_all_tables_share": 0.0,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "video_games": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 105,
+          "discovery_failures": 0,
+          "discovery_runs": 132,
+          "opening_sequences": {
+            "list_tables -> get_schema": 132
+          },
+          "schema_all_tables_share": 0.0,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "works_cycles": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 72,
+          "discovery_failures": 1,
+          "discovery_runs": 131,
+          "opening_sequences": {
+            "list_tables -> get_schema": 131
+          },
+          "schema_all_tables_share": 0.0,
+          "stage": "compiler",
+          "status": "retired"
+        },
+        "world_development_indicators": {
+          "candidates_reaching_calibration": 0,
+          "discovery_execution_correct": 56,
+          "discovery_failures": 3,
+          "discovery_runs": 124,
+          "opening_sequences": {
+            "list_tables -> get_schema": 124
+          },
+          "schema_all_tables_share": 0.016129032258064516,
+          "stage": "compiler",
+          "status": "retired"
+        }
+      }
+    }
+  },
+  "model": "gpt-5.6-luna",
+  "schema": "agent-compaction-bird-summary/v1",
+  "spent_usd": 13.191258,
+  "split": "train"
+}
