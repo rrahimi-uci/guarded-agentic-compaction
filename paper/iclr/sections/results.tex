@@ -41,51 +41,63 @@
 Across the 90 held-out records, \method satisfies 90/90 exact contracts and the
 unchanged agent 89/90 (\cref{tab:primary}, \cref{fig:results} left), reducing provider requests by
 66.6\%, tokens by 63.1\%, latency by 64.2\%, and cost by 58.7\% (per-record
-values in \cref{tab:absolute-resources}, \cref{app:stats}); issue-type routing, a
-two-read prefix, is the low end of every range in \cref{fig:results}.
+values and bootstrap intervals in \cref{tab:absolute-resources,tab:reduction-ci}, \cref{app:stats}); issue-type routing, a
+two-read prefix, is the low end of every range in \cref{fig:results}. These are
+marginal per-episode savings within one snapshot: discovery cost alone breaks
+even after 411, 182, and 181 episodes per family (\cref{app:stats}).
 
 The discordant pair is one baseline-only miss (backlog record 5189, an
 ungrounded excerpt) against zero compiled-only misses (McNemar $p=1$; one-sided
-95\% upper bound on compiled-only discordance 3.3\%, or 2.2\% over 210 records
-once the 120-record extension of \cref{app:stats}, which holds one compiled-only
-miss, is pooled); a rerun of the same 30 records scored 30/30 in every arm
-(\cref{app:limits}), so the miss is stochastic and the result supports
-preservation, not superiority or equivalence. Each artifact was
+95\% bound on compiled-only discordance 3.3\%, or 2.2\% over 210 records with
+the 120-record extension of \cref{app:stats} and its one compiled-only miss
+pooled); a rerun of the 30 records scored 30/30 in every arm
+(\cref{app:limits}), so the result supports preservation, not superiority. Each artifact was
 admitted with 92 calibration groups and zero replay-contract violations
-($U_{\hat\eta}=0.0498\le0.05$), a bound on the compiled region conditional on
-i.i.d.\ groups. The
-certificate is compiler-wide for issue-type routing, where one candidate
-reached calibration, and per-candidate for PR-outcome and backlog routing,
-where two did; correcting for both gives $U=0.0569$, above $\alpha$, so those
-two are certified compiler-wide only at $\alpha\ge0.057$ (\cref{cor:frozen},
-\cref{tab:multiplicity-accounting} in \cref{app:config}). On \code{gpt-6-luna} and on
+($U_{\hat\eta}=0.0498\le0.05$), conditional on i.i.d.\ groups; because that
+event has no support on these cohorts (\cref{sec:method}), the decision reduces
+to the 92-group floor, which is why the second-provider backlog refusal below
+turns on 90 and 91 eligible groups. The certificate is compiler-wide for
+issue-type routing (one candidate at calibration) and per-candidate for
+PR-outcome and backlog routing (two; corrected $U=0.0569$, so compiler-wide
+only at $\alpha\ge0.057$; \cref{cor:frozen}, \cref{app:config}). On \code{gpt-6-luna} and on
 Anthropic \code{claude-sonnet-5}, same cohorts, re-discovery from each model's
-own traces re-derives two of the three artifacts and refuses the third; the
+own traces re-derives the identical programs on two of the three families and
+refuses the third, with four compiled-only excerpt misses on Sonnet; the
 transfer of the retained artifacts to \code{gpt-6-luna} keeps the structure
 with one compiled-only miss in 90 (\cref{app:limits}).
 
-Discovery reaches the manual ceiling: programs written with full workflow
-knowledge also reach 90/90 and, on the same axes (\cref{tab:manual-resources}),
-tie on requests, issue fewer interfaces, cost marginally less, and lose only on
-latency. We claim discovery and admission, not runtime dominance.
+The one certificate whose event includes the continuation comes from a
+post-cutoff PR-outcome cohort (\cref{app:limits}): the re-derived artifact
+dispatched on 132 fresh calibration groups and the graded task contract missed
+0, a one-sided bound of 0.0173 under the single rule pre-registered for that
+study and 0.035 under the primary grid. Those groups are 84 open and 48 merged
+pull requests and no closed-unmerged ones, so the certified population excludes
+that class; the 60 fresh test records (20 per class) pass under every
+condition, and the bound survives day- and author-level units (0.0228, 0.0267).
 
-\subsection{Time-forward transfer: compile or retire}
+Discovery reaches the manual ceiling: programs written with full workflow
+knowledge also reach 90/90, tie on requests, issue fewer interfaces, cost
+marginally less, and lose only on latency (\cref{tab:manual-resources}). We
+claim discovery and admission, not runtime dominance.
+
+\subsection{Newer records within a snapshot: compile or retire}
 \label{sec:res-multirepo}
 
 On the narrower two-read pull-request outcome task across frozen public
-repositories (\cref{sec:setup}), \method completes 120/120 exact
-contracts on paired held-out records across four of five repositories and retires \code{pytorch/pytorch} at
-admission, where no calibration group is accepted at any threshold
-(\cref{app:breadth}). The compiled program ran on 80/120
-held-out records: every open-class record abstained on the induced verifier's
-\code{pr.state} hull (discovery pools held 0--3 open records) and ran the
-unchanged agent, so requests fall 44.4\% (66.7\% on dispatched records) and
-tokens 52.4\%. A balanced three-repository rerun with all three classes in discovery,
-\code{pytorch/pytorch} included, dispatches on 180/180 and reaches 180/180 exact
-contracts at 66.7\% fewer requests and 78.4\% fewer tokens
-(\cref{tab:multirepo-disaggregated} in \cref{app:breadth}); the refusal was
-composition-driven. The hand-written program is more efficient in the core
-protocol and tied in the rerun.
+repositories (\cref{sec:setup}), \method completes 120/120 exact contracts on
+paired held-out records across four of five repositories and retires
+\code{pytorch/pytorch} at admission, where no calibration group is accepted at
+any threshold (\cref{app:breadth}). The compiled program ran on 80/120 records:
+every open-class record abstained on the induced \code{pr.state} hull
+(discovery pools held 0--3 open records) and ran the unchanged agent, so
+requests fall 44.4\% (66.7\% on dispatched records) and tokens 52.4\%. A
+balanced three-repository rerun with all three classes in discovery,
+\code{pytorch/pytorch} included, dispatches on 180/180 and reaches 180/180 at
+66.7\% fewer requests and 78.4\% fewer tokens (\cref{tab:multirepo-disaggregated},
+\cref{app:breadth}); the refusal was composition-driven. The hand-written
+program is more efficient in the core protocol and tied in the rerun. Every
+artifact pins its snapshot digest and abstains on any other, so savings hold
+within one snapshot; a new snapshot is recompiled, as the post-cutoff study does.
 
 \subsection{What binds: sample size, then deployability}
 \label{sec:res-refusal}
@@ -106,18 +118,21 @@ protocol and tied in the rerun.
 
 The external substrates isolate the binding constraint (\cref{tab:funnel}). All
 four pass provenance, synthesis, and replay with \emph{no} wrong execution
-(API-Bank's two replay windows abstain rather than pass), but NESTFUL, API-Bank,
-and executed BFCL gold plans retire at stage 6 on support alone, $n_{\max}=26$,
-$8$, $15<92$, an outcome fixed before the compiler ran. AppWorld's gold solutions reach $n_{\max}=136$, the first external corpus
-where \cref{eq:cp} is satisfiable; it admits one artifact at 92/92
-zero-violation groups ($U_{\hat\eta}=0.0498$) with 11/11 exact replay on its
-sealed split under both pre-registered effect arms, bounded by a step-like gate
-and an argument-free program (\cref{app:external}).
+(API-Bank's two replay windows abstain), but NESTFUL, API-Bank, and executed
+BFCL gold plans retire at stage 6 on support alone, $n_{\max}=26$, $8$,
+$15<92$, an outcome fixed before the compiler ran. AppWorld's gold solutions
+reach $n_{\max}=136$, the first external corpus where \cref{eq:cp} is
+satisfiable; it admits one argument-free two-call
+artifact at 92/92 zero-violation groups ($U_{\hat\eta}=0.0498$) with 11/11 exact
+replay on its sealed split under both pre-registered effect arms, compiler-wide
+under arm A ($m=1$) and per-candidate under arm B, where six candidates reached
+calibration (corrected bound 0.068); its 92 task groups come from 46 scenarios
+and 79 supervisors, units at which the bound retires (\cref{app:external}).
 
-Admissibility is not dispatchability: against AppWorld's 28 released baseline
-runs (8{,}190 trajectories) the admitted region is eligible at the entry boundary
-in $37.9\%$, almost always for full-code agents and almost never for ReAct and
-plan-and-execute (\cref{tab:appworld-dispatch} in \cref{app:external}). Those
-open by reading API documentation, yet admitting that read as a prologue
-recovers only 2 more of 4{,}680, because they rarely execute the region at all
-(\cref{app:limits}); the measurement bounds $\varphi$ from above.
+Admissibility is not dispatchability: across AppWorld's 28 released baseline
+runs (8{,}190 trajectories) the admitted region is entry-eligible in $37.9\%$,
+almost always for full-code agents and almost never for ReAct and
+plan-and-execute (\cref{tab:appworld-dispatch}, \cref{app:external}), which
+open by reading API documentation; admitting that read as a prologue recovers
+only 2 more of 4{,}680, since they rarely execute the region (\cref{app:limits}).
+The measurement bounds $\varphi$ from above.

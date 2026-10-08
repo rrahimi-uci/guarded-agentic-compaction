@@ -132,3 +132,14 @@ equivalence claim; one family; the two NO-GO families stand.
   decision (admit iff k ≤ 3) is unchanged and `certificate.json` carries the exact floors.
 - "The hand-written program ties the re-derived artifact on every axis" should read "on
   exactness, requests, tokens and cost; its latency reduction is 77.9% against 80.0%".
+- The calibration cohort's class composition was not stated: `selection.json` records
+  `calibration_class_counts = {open: 84, merged: 48}` and no `closed_unmerged` record, because the
+  balanced test draw and the round-robin discovery draw consumed 64 of the pool's 72
+  closed-unmerged pull requests before calibration was taken in rank order. The certificate
+  therefore covers fresh open or merged pull requests; the 20 closed-unmerged test records
+  (20/20 exact under every condition) are uncertified.
+- For comparison with the primary studies: under the registered 11-point grid the same count
+  (132 dispatched, 0 misses) gives U = 0.035 (0.040 at m = 2); treating the 100 distinct creation
+  days or 85 distinct authors in the calibration cohort as units gives U = 0.0228 and 0.0267
+  under the single rule. The re-derived program, guard and gate model are byte-identical to the
+  retained artifact's; only the `pr.source_revision` pin differs.

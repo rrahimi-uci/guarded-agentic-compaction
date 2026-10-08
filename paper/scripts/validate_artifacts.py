@@ -2955,7 +2955,7 @@ def validate_iclr_sources() -> None:
     ok(multiplicity["artifacts"]["issue_type"]["m"] == 1 and multiplicity["artifacts"]["pr_outcome"]["m"] == 2
        and multiplicity["artifacts"]["backlog_attention"]["m"] == 2, "iclr: realized candidate counts are 1, 2, 2")
     ok("0.0569" in body and "0.057" in body, "iclr: the corrected two-candidate bound appears in the manuscript")
-    ok("compiler-wide for issue-type routing" in results_tex, "iclr: §5.1 states the certificate level per family")
+    ok("issue-type routing (one candidate at calibration)" in results_tex, "iclr: §5.1 states the certificate level per family")
 
     # (d) editorial defects from the feedback ledger
     ok("behaviour" not in body and "behaviour" not in (iclr / "figures/alg-dispatch.tex").read_text(encoding="utf-8"),

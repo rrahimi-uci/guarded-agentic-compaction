@@ -6,21 +6,22 @@ novel, but mature agents often revisit the same read-only evidence path with the
 same data dependencies, where repeating the decision adds latency, tokens, and
 cost without adding adaptation.
 
-Removing that decision is not ordinary caching. A tool argument may depend on a
-specific earlier observation, a repeated sequence may cross an approval or
-write, an apparently read-only tool may hide an undeclared effect, and replaying
-the same outputs may still change the downstream answer. The question is when
-a recurrent model-mediated region may be replaced by a deterministic program,
-and when it must be refused.
+Removing that decision is not ordinary caching: a tool argument may depend on
+an earlier observation, a repeated sequence may cross an approval or write, a
+read-only tool may hide an effect, and replaying the same outputs may still
+change the answer. The question is when a recurrent model-mediated region may
+be replaced by a deterministic program, and when it must be refused.
 
 Consider held-out issue \#4420. Given only \code{issue\_number=4420}, the
 observed trace calls \code{record(4420)}, passes the \emph{returned}
 \code{record.issue\_number} to \code{labels} and \code{comments}, and invokes
-the latter with \code{limit=100}. All 132 discovery executions take that route,
-so a recurrence-only optimizer would emit all three reads. \method instead
-retires the \emph{region}: \code{comments.limit} is reachable neither from the
-entry state nor from either earlier result, so one unwitnessed slot blocks the
-three-read candidate as \code{ungroundable\_slot}. What survives is the maximal
+the latter with \code{limit=100}. All 132 discovery executions take that
+three-read route (130 with \code{limit=100}, two with \code{limit=1}), so a
+recurrence-only optimizer would emit all three reads. \method instead
+retires the \emph{region}: \code{comments.limit} is not an invariant literal
+and is reachable neither from the entry state nor from either earlier result,
+so one unwitnessed slot blocks the three-read candidate as
+\code{ungroundable\_slot}. What survives is the maximal
 justified prefix \code{record} $\rightarrow$ \code{labels}; the agent still
 chooses the limit and writes the answer. That two-read artifact passes 92/92
 calibration groups at $\alpha=0.05$ (upper bound 0.0498).
@@ -28,12 +29,12 @@ calibration groups at $\alpha=0.05$ (upper bound 0.0498).
 An earlier 18-record study supplies the counterexample: its
 three-read artifact replayed all 45 tool calls, yet issue \#6602 lost the URL
 from a Markdown link and only 17/18 downstream answers stayed exact; a
-provider-free continuation guard catches that miss. Together the two cohorts
+provider-free continuation check, run after the model's answer, detects that miss. Together the two cohorts
 (\cref{fig:aha-example}) show why recurrence only proposes a candidate.
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=0.78\linewidth]{figures/gac_aha_example.pdf}
+  \includegraphics[width=0.56\linewidth]{figures/gac_aha_example.pdf}
   \Description{A real GitHub issue trace repeats record, labels, and comments, but GAC
   rejects the full candidate because the comments limit is ungroundable and emits only
   the record and labels prefix.  A separate issue 6602 continuation miss shows why clean
@@ -47,15 +48,12 @@ need not preserve the downstream answer.}
 The closest precedent is the tracing just-in-time compiler:
 Dynamo~\citep{bala2000dynamo} detects a hot path, compiles it behind a
 \emph{guard}, and deoptimizes when the guard fails~\citep{holzle1992deopt}.
-Agent traces admit the same structure --- hot-trace detection becomes family
-mining, guard synthesis an entry contract, deoptimization fallback to the
-unchanged agent --- but add three obligations and compile only \emph{initial}
-read-only prefixes (\cref{eq:prefix}), since the runtime resolves artifacts at
-the entry boundary. The obligations: tool arguments must
-be shown \emph{grounded} in observable state; declared \emph{effects} must
-permit speculation, since an agent's ``interpreter'' calls the outside world;
-and the residual error rate, being statistical, needs a finite-sample bound,
-not a soundness proof.
+Agent traces admit the same structure (family mining, an entry contract,
+fallback to the unchanged agent) but compile only \emph{initial} read-only
+prefixes (\cref{eq:prefix}) and add three obligations: tool arguments must be
+shown \emph{grounded} in observable state; declared \emph{effects} must permit
+speculation, since the ``interpreter'' calls the outside world; and the
+residual error rate, being statistical, needs a finite-sample bound.
 
 We study these obligations through \emph{guarded agentic compaction} (\method),
 a compile-or-retire trace-to-program system for recurrent read-only prefixes
@@ -66,22 +64,26 @@ general, but an admissibility argument for trace-derived specialization:
   \item A guarded specialization pipeline (\cref{alg:compile}) combining typed
 provenance, effect and position barriers, bounded synthesis, runtime
 verification, and finite-sample compile-or-retire admission
-(\cref{alg:calibrate}, \cref{prop:admission}) with the certificate level stated
-per artifact. To our knowledge this is the first exact finite-sample admission
-certificate for trace-derived agent compilation; every stage can refuse, and
-the default output is the unchanged agent. \item A real-provider evaluation across
-three public-record workflow families; a narrower cross-repository, time-forward
-extension reporting admitted artifacts and principled retirements; a post-cutoff
-cohort with an end-to-end certificate; three pre-registered drift ablations (two
-null, one adverse); and same-cohort replications on a second model family and
-provider.
+(\cref{alg:calibrate}, \cref{prop:admission}) with the certificate level and
+its event stated per artifact. The bound is a standard exact binomial interval
+under a union bound over a fixed grid; the contribution is the admission rule
+and the composition that precedes it, to our knowledge the first such
+certificate applied to trace-derived agent compilation. Every stage can refuse,
+and the default output is the unchanged agent. \item A real-provider evaluation
+across three public-record workflow families; a cross-repository extension on
+newer records with admissions and principled retirements; a post-cutoff cohort
+with an end-to-end certificate; three pre-registered drift ablations (two
+uninformative by construction, one adverse); and replications on a second
+model family and provider.
   \item Calibrated refusal: recurrence and replayability do not license
   deployment. NESTFUL, API-Bank, and executed BFCL gold plans clear provenance,
   synthesis, and replay with no wrong execution and retire exactly where their
-  support falls below the exact sample floor; the discovered programs match
-  hand-written ones wherever the workflow is already known.
-  \item A pre-registered fourth substrate, AppWorld, which admits, plus a
-  measurement on 8{,}190 released trajectories where the admitted region is
-  eligible on 2{,}339/2{,}340 full-code but only 1/4{,}680 ReAct or
-  plan-and-execute runs, separating \emph{admissible} from \emph{dispatchable}.
+  support falls below the exact sample floor. That floor is a corpus-size fact,
+  so the result bounds what public trace benchmarks can certify, not what the
+  compiler can do.
+  \item A pre-registered fourth substrate, AppWorld, which admits (compiler-wide
+  under one effect arm, per-candidate under the other), and a measurement on
+  8{,}190 released trajectories where the admitted region is eligible on
+  2{,}339/2{,}340 full-code but 1/4{,}680 ReAct or plan-and-execute runs,
+  separating \emph{admissible} from \emph{dispatchable}.
 \end{enumerate}

@@ -1,14 +1,14 @@
 {
   "discordance": {
     "backlog_attention": {
-      "baseline_only": 0,
-      "baseline_only_records": [],
-      "both": 29,
-      "compiled_only": 1,
-      "compiled_only_failure_upper95": 0.09503385285530408,
-      "compiled_only_records": [
+      "baseline_only": 1,
+      "baseline_only_records": [
         5189
       ],
+      "both": 29,
+      "compiled_only": 0,
+      "compiled_only_failure_upper95": 0.09503385285530408,
+      "compiled_only_records": [],
       "mcnemar_exact_p": 1.0,
       "n": 30,
       "neither": 0
@@ -25,9 +25,9 @@
       "neither": 0
     },
     "pooled": {
-      "baseline_only": 0,
+      "baseline_only": 1,
       "both": 89,
-      "compiled_only": 1,
+      "compiled_only": 0,
       "compiled_only_failure_upper95": 0.032738033833534574,
       "mcnemar_exact_p": 1.0,
       "n": 90,
@@ -334,6 +334,128 @@
           "median_difference": -3442.1335,
           "wilcoxon_p": 9.313225746154785e-09
         }
+      }
+    }
+  },
+  "reduction_ci": {
+    "backlog_attention": {
+      "estimated_cost_usd": {
+        "ci95": [
+          0.729837902853443,
+          0.7689592675621584
+        ],
+        "estimate": 0.7507844303160591
+      },
+      "requests": {
+        "ci95": [
+          0.7435897435897436,
+          0.75
+        ],
+        "estimate": 0.7478991596638656
+      },
+      "total_tokens": {
+        "ci95": [
+          0.7948088828878115,
+          0.8290384172038521
+        ],
+        "estimate": 0.8137251455821528
+      },
+      "wall_latency_ms": {
+        "ci95": [
+          0.6140809395124074,
+          0.7533660817726169
+        ],
+        "estimate": 0.6889010346028281
+      }
+    },
+    "issue_type": {
+      "estimated_cost_usd": {
+        "ci95": [
+          0.28318267394331426,
+          0.35253129704592545
+        ],
+        "estimate": 0.32001348896623205
+      },
+      "requests": {
+        "ci95": [
+          0.5,
+          0.5
+        ],
+        "estimate": 0.5
+      },
+      "total_tokens": {
+        "ci95": [
+          0.3874919627680676,
+          0.40335405526521656
+        ],
+        "estimate": 0.39510733039606205
+      },
+      "wall_latency_ms": {
+        "ci95": [
+          0.46697613280186345,
+          0.5639858135947974
+        ],
+        "estimate": 0.5174195228225102
+      }
+    },
+    "pooled": {
+      "estimated_cost_usd": {
+        "ci95": [
+          0.5405630960716448,
+          0.6333348809463988
+        ],
+        "estimate": 0.5867086898399435
+      },
+      "requests": {
+        "ci95": [
+          0.6414368811591489,
+          0.6890756302521008
+        ],
+        "estimate": 0.6657381615598885
+      },
+      "total_tokens": {
+        "ci95": [
+          0.5867876174599798,
+          0.6779750719675225
+        ],
+        "estimate": 0.630649830153015
+      },
+      "wall_latency_ms": {
+        "ci95": [
+          0.6035576941190723,
+          0.6792413611678739
+        ],
+        "estimate": 0.6421234029412591
+      }
+    },
+    "pr_outcome": {
+      "estimated_cost_usd": {
+        "ci95": [
+          0.7329069773970956,
+          0.7720701392864174
+        ],
+        "estimate": 0.752987539445336
+      },
+      "requests": {
+        "ci95": [
+          0.75,
+          0.75
+        ],
+        "estimate": 0.75
+      },
+      "total_tokens": {
+        "ci95": [
+          0.7911768054840573,
+          0.8247221901733458
+        ],
+        "estimate": 0.8081351858437466
+      },
+      "wall_latency_ms": {
+        "ci95": [
+          0.6817475152613077,
+          0.7711623156140875
+        ],
+        "estimate": 0.7298578346394264
       }
     }
   }

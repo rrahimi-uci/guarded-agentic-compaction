@@ -104,6 +104,7 @@ guarantee's weakest link.
 \section{Additional Algorithms}
 \label{app:algorithms}
 
+\input{figures/alg-compile.tex}
 \input{figures/alg-patg.tex}
 \input{figures/alg-dispatch.tex}
 
@@ -257,7 +258,11 @@ inherit every caveat of \cref{tab:effective-units}: distinct counts do not
 establish independent clusters, and a cluster bound targets a different
 population from the record-level one. A single frozen rule is adopted only
 prospectively, for studies whose candidates, acceptance policy, grouping and
-endpoint are fixed before fresh calibration (\cref{sec:discussion}).
+endpoint are fixed before fresh calibration (\cref{sec:discussion}); the
+post-cutoff study of \cref{app:limits} did so after this analysis and reports
+its bound under both rules. The symmetric pessimistic alternatives are not in
+the table: $\delta=0.05$ raises the floor to 106 groups, and month-level units
+retire every cohort (\path{paper/results/iclr_revision/effective_units.json}).
 
 \begin{table}[t]
   \centering
@@ -445,6 +450,21 @@ non-sensitive evidence; no model or provider call is made.
   \label{tab:discordance}
   \footnotesize
   \input{tables/discordance.tex}
+\end{table}
+
+\begin{table}[t]
+  \centering
+  \caption{Percentage reductions of \cref{tab:primary} with 95\% bootstrap
+  intervals on the ratio of paired sums (10{,}000 record resamples, seed
+  20260804). Request reductions are structural and tie-free; the intervals on
+  tokens and cost are within three points of the estimate, latency within ten.
+  Discovery cost alone breaks even after 411, 182, and 181 compiled episodes per
+  family and per snapshot (\code{paper/results/cache\_accounting.json}); the
+  issue-type baseline's higher cached-input share is why its cost reduction
+  trails its token reduction.}
+  \label{tab:reduction-ci}
+  \footnotesize
+  \input{tables/reduction_ci.tex}
 \end{table}
 
 \paragraph{Latency validity.} \Cref{tab:paired-statistics} gives the paired
@@ -762,7 +782,11 @@ contestable declaration and why the run is pre-registered in two arms. Groups
 are tasks, not scenarios: AppWorld's three variants of a scenario share a
 supervisor and a database, so the bound is conditional on task-level
 independence, which this corpus does not establish --- the same conditional the
-live studies carry, neither weakened nor repaired here. The calibration share is
+live studies carry, neither weakened nor repaired here; at scenario or
+supervisor level (46 and 79 units) the zero-violation bound is 0.097 and
+0.058, both above $\alpha$. Arm A calibrated one candidate and is
+compiler-wide; arm B calibrated six (four retired, one dominated, one emitted),
+so its certificate is per-candidate, with a corrected bound of 0.068. The calibration share is
 fixed at exactly the 92 groups the bound needs, since a larger set would make
 the bound easier and a smaller one would make it unreachable. Two held-out
 replay figures appear for AppWorld and they count different partitions, which
@@ -844,11 +868,17 @@ remain diagnostic rather than evidence for the main claim.
 \section{Extended Limitations}
 \label{app:limits}
 
+Every protocol in this paper is in-repo and author-held; no external registry
+was used, and each is dated in its own file.
+
 \paragraph{The certified event is not end-to-end quality.}
 \Cref{prop:admission} bounds the replay-contract event of \cref{app:config}.
-Under deterministic reads of a pinned snapshot that event is rare by
-construction, which is one reason no retained pool records a violation and
-every gate is step-like. The misses that do occur on these families are
+On these cohorts that event has no empirical support: the argument pattern of
+the compiled steps is invariant across all 132 discovery traces per family,
+and the labels replay those calls over recorded results of a pinned snapshot,
+which is why no retained pool records a violation, every gate is step-like,
+and admission reduces to the 92-group floor (the second-provider backlog
+refusal turns on 90 and 91 eligible groups). The misses that do occur on these families are
 continuation misses (an excerpt that departs from its source), and they are
 outside the certificate: the one-sided 95\% upper bound on compiled-only
 discordance in \cref{app:stats} is an empirical quality statement at a
@@ -1030,18 +1060,31 @@ family whose fresh pool supports it: PR-outcome (issue-type and backlog
 routing are NO-GO on class availability, as before). From 811 fresh pull
 requests, three disjoint splits were frozen before any call: 60 test records
 (20 per class), 132 discovery records and 132 calibration groups. The
+calibration groups, taken next in rank order after the balanced test draw and
+the round-robin discovery draw had consumed 64 of the pool's 72
+closed-unmerged records, are 84 open and 48 merged pull requests and no
+closed-unmerged ones; the certified population is therefore fresh open or
+merged pull requests, and the 20 closed-unmerged test records below are
+uncertified. The
 retained artifact's verifier pins the old snapshot revision, so on fresh
 records it abstains everywhere and the unchanged agent runs; that is the
 designed behavior and is reported as such. The compiler, with one frozen
-candidate, re-derived the same three-read program from the fresh discovery
-traces (131/132 exact), its contract now pinning the new snapshot. The
+candidate, re-derived a byte-identical three-read program, guard, and gate
+model from the fresh discovery traces (131/132 exact), differing from the
+retained artifact only in its snapshot pin: a determinism result, not a
+transfer. The
 re-derived artifact was then dispatched on all 132 calibration groups and the
 unchanged continuation run once and graded on the exact task contract: 132
 dispatched, 0 misses. Under a single pre-registered rule ($\gamma=\delta=0.10$,
 $m=1$) the one-sided bound on the \emph{end-to-end} violation rate is
 0.0173, below $\alpha=0.05$: the first certificate here whose event includes
-the continuation. On the 60 fresh test records all four conditions reach
-60/60; the re-derived artifact dispatches on every record and cuts requests
+the continuation. The single rule was adopted prospectively after
+\cref{tab:single-rule} showed the grid buys only its Bonferroni factor; under
+the primary grid the same count gives 0.035 (0.040 at $m=2$), and treating the
+100 distinct creation days or 85 distinct authors as units gives 0.0228 and
+0.0267 under the single rule, so admission does not depend on the rule change.
+On the 60 fresh test records all four conditions reach
+60/60 (20/20 in each class); the re-derived artifact dispatches on every record and cuts requests
 75.0\%, tokens 82.7\%, latency 80.0\% and cost 76.6\% against the unchanged
 agent, with no compiled-only miss; the hand-written program ties it. The
 claim is per-candidate, for one family, conditional on i.i.d.\ groups from
@@ -1062,7 +1105,10 @@ guarded arm produced a silent wrong answer on 39 of 60 records as graded,
 all under emptied lists, and the permissive arm produced exactly the same 39
 (no discordant record); a 40th record (PR 6694) answered ``none'' against a
 real comment but passed the grader's substring test because that comment
-contains ``nonetheless'', a grader defect since fixed. An empty discussion or assignee list lies inside the hull
+contains ``nonetheless'', a grader defect since fixed in the family graders (an audit of every
+retained graded cohort found no other held-out row affected; the 18-record
+natural-order study keeps its registered grader, under which one discovery
+row, issue 1741, is the only row the two rules grade differently). An empty discussion or assignee list lies inside the hull
 the verifier learned, so it accepts, the artifact dispatches, and the model
 answers faithfully from the emptied evidence (``no comment evidence'';
 backlog route flipped), which is wrong against the real record. Where the
@@ -1088,8 +1134,8 @@ other reading because the protocol said it would be.
   \centering
   \caption{Recurrence-only replay on issue-type routing: per-record means over
   the 30 sealed held-out records. The first three rows are the retained arms;
-  the last replays the three reads the compiler refused (\code{limit=100} has
-  no witness) with every barrier disabled and one provider request. All four
+  the last replays the three reads the compiler refused (\code{limit} is 100 in
+  130 of 132 traces and 1 in two, and has no witness) with every barrier disabled and one provider request. All four
   arms are 30/30 exact (McNemar $p=1$ against each comparator); the replay is
   the cheapest arm, which is the price of the refusal on this cohort.}
   \label{tab:recurrence-only}
@@ -1139,8 +1185,13 @@ runs), which dispatched on 30/30 records and passed 30/30 in every arm, with
 reductions of 50.0/38.9/32.8 and 75.0/80.7/76.0 percent in requests, tokens,
 and cost; the transfer miss on record 6532 did not recur. Backlog-attention
 routing refused at compile time: 113 of its 132 discovery traces were exact,
-below the 116 the 16/8/92 split needs, because the model's own excerpts were
-ungrounded on 19 records; no held-out arm was run and no artifact is claimed.
+below the 116 the 16/8/92 split needs, because on 19 records the model skipped
+the discussion read, took a two-read route, and left its excerpt ungrounded; no
+held-out arm was run and no artifact is claimed. The exact-trace filter removed
+exactly those route-deviating groups; had they entered calibration, the
+three-read program would have recorded violations and retired for that reason,
+so the filter is a selection step the certificate inherits (inert on the
+primary cohorts, where 130, 131, and 132 of 132 traces are exact).
 The paper therefore claims one calibrated model family, reports a second on
 which the pipeline re-derived two of three artifacts and refused the third,
 and makes no cross-model certificate claim.
@@ -1151,7 +1202,8 @@ unchanged Agents-SDK harness behind a provider adapter
 (\path{paper/supplementary/second-provider-replication-protocol.md}): adaptive
 thinking at effort \code{low}, parallel tool calls disabled, and the same
 prompts, tools, structured answers, grader, and compiler settings. Discovery
-reached 126, 128, and 116 exact traces of 132. Issue-type and PR-outcome
+reached 126, 128, and 116 exact traces of 132 (12 of backlog's 16 non-exact
+traces skipped the discussion read, as on \code{gpt-6-luna}). Issue-type and PR-outcome
 admitted the identical artifacts (same ids and programs, 92/0 gates, one and
 two candidates at calibration) and dispatched on 30/30 records; backlog met
 the split exactly and both candidates retired at calibration because only 91
@@ -1163,7 +1215,10 @@ two on issue-type (records 4248 and 6829) and two on PR-outcome (5401 and
 Markdown link markup or normalizes whitespace, the issue-6602 mechanism, and
 the baseline itself missed one and three records. Exact contracts were
 29/28/28 of 30 on issue-type (one hand-written episode timed out twice and
-counts as a failure) and 27/27/29 on PR-outcome; requests fell 48.3\% and
+counts as a failure; the issue-type contract is factuality-only by
+registration, and two compiled episodes, records 6150 and 5514, also issued
+one redundant read after the compiled region, which the tool-order check
+flags and the contract does not count) and 27/27/29 on PR-outcome; requests fell 48.3\% and
 75.0\%, tokens 40.4\% and 84.9\%, and cost 39.8\% and 83.4\%
 (\cref{tab:second-provider}). The structure transfers across providers;
 excerpt fidelity is the model's, and the exact contract charges it to
@@ -1246,7 +1301,10 @@ dispatch-eligible member; post-selecting only recurrent successes would not
 satisfy \cref{prop:admission}. This is why the AppWorld substrate fixes its
 calibration share at exactly the 92 groups the bound requires and draws them by
 seeded shuffle over all clean tasks, rather than taking the tasks in which the
-mined family happens to have the deepest support.
+mined family happens to have the deepest support. The GitHub cohorts draw
+their 16/8/92 split by stable hash from exact discovery traces; the
+second-model backlog cohort above shows that filter removing route-deviating
+groups, a selection the primary certificates inherit even where it is inert.
 
 \Cref{fig:results} (left) plots the per-family spread behind
 \cref{tab:primary}: admissible prefix depth, not the optimizer, sets the

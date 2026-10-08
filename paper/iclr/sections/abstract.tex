@@ -10,25 +10,28 @@ We introduce \emph{guarded agentic compaction} (\method), an evidence-gated
 approach that compiles recurrent execution paths into deterministic programs
 only when substitution is justified. \method compiles initial read\nobreakdash-only prefixes
 only: it grounds tool arguments in observable state, treats writes, approvals,
-handoffs, and unknown effects as hard barriers, protects compiled execution with
-input, output, and environment guards, and admits specialization only when
+handoffs, and unknown effects as hard barriers, wraps compiled execution in
+input, output, and environment checks, and admits specialization only when
 finite-sample evidence satisfies configured risk and confidence requirements.
 Otherwise, it retains the largest justified prefix when possible or falls back
 to the unchanged agent. Admission certificates are exact finite-sample bounds under i.i.d.\
-calibration groups: on the compiled region's replay contract for the primary
-families (compiler-wide with one calibrated candidate, per-candidate with two,
-whose compiler-wide bound is 0.057) and, in one post-cutoff study, on the
-end-to-end task contract (0 misses in 132 fresh groups, single-rule bound 0.0173).
+calibration groups. For the primary families they bound the compiled region's
+replay contract, an event with no empirical support on these deterministic
+pinned-snapshot cohorts, so they certify support sufficiency (92 groups) rather
+than an observed risk; one post-cutoff study certifies the end-to-end task
+contract on fresh open or merged pull requests (0 misses in 132 groups; bound
+0.0173 under its single pre-registered rule, 0.035 under the primary grid).
 
-On 90 held-out records across three live GitHub workflow families, \method satisfies
-90/90 exact task contracts and the unchanged agent 89/90, a difference of one stochastic
-baseline miss, while reducing model requests by 66.6\%, tokens by 63.1\%, latency by 64.2\%, and estimated cost by 58.7\%. A time-forward evaluation across five frozen public repositories specializes
+On 90 held-out records across three live GitHub workflow families, both arms
+preserve the exact task contract (\method 90/90, the unchanged agent 89/90; zero
+compiled-only misses, one-sided bound 3.3\%), while \method reduces model requests by 66.6\%, tokens by 63.1\%, latency by 64.2\%, and estimated cost by 58.7\% per episode within one snapshot. On newer held-out records across five frozen public repositories it specializes
 four and refuses one whose discovery pool is class-skewed. On four public trace benchmarks, NESTFUL, API-Bank, and BFCL v4 contain recurrent,
 replayable traces but insufficient qualifying evidence to satisfy \method's default 0.05
 risk bound at the required confidence, whereas AppWorld provides sufficient evidence for
 admission. On a second model family and a second provider, the unchanged pipeline
-re-derives the same artifacts from each model's own traces on two of the three families
-and refuses the third.
+re-derives the identical programs from each model's own traces on two of the three families
+and refuses the third. Under tool-layer drift the guards showed no measured
+protective value.
 
 \method reframes agent optimization as evidence-gated specialization: compile
 only what is justified, dispatch only when runtime conditions remain valid, and

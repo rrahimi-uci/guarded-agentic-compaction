@@ -2,25 +2,21 @@
 \label{sec:related}
 
 \paragraph{Trace compilation and specialization.}
-\method adapts the tracing-JIT pattern --- record a hot path, compile it behind
-a guard, deoptimize on a miss~\citep{bala2000dynamo,gal2009tracejit,holzle1992deopt} --- and
-meta-tracing's observation that the trace, not the program, is the unit of
-specialization~\citep{bolz2009pypy}. Partial evaluation supplies the older
-frame: a program specialized to known inputs is correct only where the static
-assumptions hold~\citep{futamura1971partial,jones1993partial}. The analogues
-here are grounded arguments (the static input), declared effects
-\citep{lucassen1988effects}, and the manifest pins that play the role of the
-guard; the novelty is not the inequality but that each of these can veto.
+\method adapts the tracing-JIT pattern (record a hot path, compile it behind
+a guard, deoptimize on a miss~\citep{bala2000dynamo,gal2009tracejit,holzle1992deopt})
+and meta-tracing's unit of specialization, the trace~\citep{bolz2009pypy}.
+Partial evaluation is the older frame: a specialized program is correct only
+where its static assumptions hold~\citep{futamura1971partial,jones1993partial};
+here grounded arguments, declared effects~\citep{lucassen1988effects}, and
+manifest pins are the guard, and each can veto.
 
 \paragraph{Mining workflows from traces.}
-Family mining is a narrow form of process mining, which recovers models from
-event logs~\citep{vanderAalst2016process}, and synthesis is bounded
-programming by example and sketching
-\citep{gulwani2011flashfill,solarlezama2006sketching}, with provenance tracked
-explicitly~\citep{cheney2009provenance}. Likely invariants inferred from
-executions~\citep{ernst2001daikon} are the ancestor of the induced
-verifier, and \cref{app:limits} shows the same caveat applies: an inferred
-hull is evidence, not a proof.
+Family mining is a narrow form of process mining~\citep{vanderAalst2016process};
+synthesis is bounded programming by example and sketching
+\citep{gulwani2011flashfill,solarlezama2006sketching} with explicit
+provenance~\citep{cheney2009provenance}; and likely invariants inferred from
+executions~\citep{ernst2001daikon} are the ancestor of the induced verifier,
+with the same caveat (\cref{app:limits}): an inferred hull is evidence, not proof.
 
 \paragraph{Reuse, caching, and optimization of agents.}
 Agent systems mine workflows, cache plans, compile orchestration, validate
@@ -31,14 +27,12 @@ experience~\citep{wang2023voyager,zheng2025skillweaver}; semantic and prompt
 caches reuse responses~\citep{bang2023gptcache,lumer2026cache,song2026capc};
 DSPy, GEPA, TextGrad, and Trace optimize prompts and programs against task
 feedback~\citep{khattab2024dspy,agrawal2026gepa,yuksekgonul2024textgrad,cheng2024trace};
-RouteLLM changes models~\citep{ong2025routellm} and LLMCompiler parallelizes
-calls~\citep{kim2024llmcompiler}; \citet{yue2026workflowsurvey} survey the
-space. These systems decide \emph{what} to reuse; none states an admission
-rule with a finite-sample guarantee or a fallback whose semantics are
-exactly the unchanged agent. \method treats recurrence only as a proposal
-(\cref{tab:mechanism-removal} in \cref{app:limits}), and counterfactual trace
-auditing~\citep{zhou2026cta} is the instrument its continuation check
-approximates.
+RouteLLM changes models~\citep{ong2025routellm}, LLMCompiler parallelizes
+calls~\citep{kim2024llmcompiler}, and \citet{yue2026workflowsurvey} survey the
+space. These systems decide \emph{what} to reuse; to our knowledge none pairs
+admission with a finite-sample bound and a fallback that is exactly the
+unchanged agent. Counterfactual trace auditing~\citep{zhou2026cta} is what the continuation
+check of \method approximates.
 
 \paragraph{Selective prediction and finite-sample risk control.}
 Dispatch-or-fall-back is selective prediction with a reject
@@ -47,17 +41,13 @@ fixed-grid instance of learn-then-test~\citep{angelopoulos2022ltt} using the
 exact binomial interval~\citep{clopper1934binomial}; the risk-controlling
 prediction-set and conformal risk-control lineage
 \citep{vovk2005algorithmic,bates2021rcps,angelopoulos2024crc} gives the
-same kind of statement for other losses. The contribution here is not the
-inequality but the composition that precedes it and the refusal it defaults
-to.
+same kind of statement for other losses.
 
 \paragraph{Tool-use safety and evaluation.}
-Effect declarations descend from effect systems~\citep{lucassen1988effects};
 ToolEmu and AgentDojo evaluate agents against hazardous or injected tool
 environments~\citep{ruan2024toolemu,debenedetti2024agentdojo}, the regime
-our perturbation studies probe, provider-free and once live (\cref{app:limits}).
-BFCL, ToolLLM, NESTFUL, API-Bank, AppWorld, ToolSandbox, and $\tau^2$-bench
-score tool use or interactive agents broadly
+our perturbation studies probe (\cref{app:limits}). BFCL, ToolLLM, NESTFUL,
+API-Bank, AppWorld, ToolSandbox, and $\tau^2$-bench score tool use broadly
 \citep{patil2025bfcl,qin2023toolllm,basu2025nestful,li2023apibank,trivedi2024appworld,lu2025toolsandbox,barres2025tau2};
-\method uses four of them as compiler substrates and reports what each
-refuses (\cref{app:external}).
+\method uses four as compiler substrates and reports what each refuses
+(\cref{app:external}).

@@ -24,9 +24,9 @@ application-owned effect declaration $\epsilon(f)$ and capability flags such as
 \emph{speculatable}; an unknown effect is not a read.
 
 A candidate region $R=[a,b]$ begins at a model-request boundary and ends after
-a tool result. It is \emph{groundable} when every call argument is either an
-application-declared literal for that slot or an expression over entry state
-or prior results inside $R$,
+a tool result. It is \emph{groundable} when every call argument is either a
+literal invariant across the supporting traces or an expression over entry
+state or prior results inside $R$,
 \begin{equation}
   \forall c_j \in R,\ \forall u \in \operatorname{args}(c_j):\quad
   \operatorname{Lit}(c_j,u)\ \vee\
@@ -34,8 +34,10 @@ or prior results inside $R$,
   \ u = g_{j,u}(s),
   \label{eq:grounding}
 \end{equation}
-where $\operatorname{Lit}$ is a schema-level allowlist fixed independently of
-the traces, $\mathcal{L}$ is a closed, bounded transform library, and
+where $\operatorname{Lit}(c_j,u)$ holds when the slot carries one literal
+invariant across every supporting trace (the implemented rule; a slot the
+schema declares literal-only may be bound in no other way), $\mathcal{L}$ is a
+closed, bounded transform library, and
 $\operatorname{Src}(z,o_{<j})$ enumerates the flattened paths of $z$ and of
 each prior result $o_i$, $i<j$; and \emph{effect-admissible} when every tool in
 $R$ is declared read-only, speculatable, replayable, and inside one principal
