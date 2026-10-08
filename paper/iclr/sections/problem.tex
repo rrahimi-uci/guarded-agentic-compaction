@@ -54,7 +54,7 @@ the compiler also imposes a \emph{position invariant}:
 A suffix program dispatched at entry can reorder or duplicate calls the agent
 has already made; a pilot that violated \cref{eq:prefix} produced exactly that
 fault (\cref{app:pilot}). Everything that follows is therefore an \emph{initial
-read-only prefix} compiler; \cref{sec:res-refusal} prices what that costs.
+read-only prefix} compiler; the AppWorld result of \cref{sec:res-refusal} prices what that costs.
 
 \paragraph{Selective optimization objective.}
 The compiler emits an artifact $A=(P,H,V,q,\eta,M)$: a deterministic program,
@@ -94,9 +94,8 @@ artifact is feasible, so \retire{} is a legitimate output, and
 implementation calibrates a bounded ranked set and retains nondominated
 survivors, and we prove neither optimality nor any guarantee for that search
 beyond the per-candidate and fixed-$m$ cases of \cref{sec:method}. \emph{Third}, every
-certificate in \cref{sec:results} instantiates $L(A,x)=1$ as a \emph{replay-contract
-violation} of the compiled region (\cref{app:config}); a guard, interpreter, or
-verifier rejection is a clean abstention with $L=0$ inside the dispatched
-denominator; the continuation is measured there (\cref{sec:res-primary}), not
-certified, except for one end-to-end certificate on fresh post-cutoff groups
-of a single family (\cref{app:limits}).
+certificate in \cref{sec:results} except one end-to-end certificate
+(\cref{sec:res-primary}) instantiates $L(A,x)=1$ as a \emph{replay-contract
+violation} of the compiled region (\cref{app:config}), so the continuation is
+measured, not certified; a guard, interpreter, or verifier rejection is a
+clean abstention with $L=0$ inside the dispatched denominator.

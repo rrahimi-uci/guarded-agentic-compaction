@@ -26,28 +26,19 @@ justified prefix \code{record} $\rightarrow$ \code{labels}; the agent still
 chooses the limit and writes the answer. That two-read artifact passes 92/92
 calibration groups at $\alpha=0.05$ (upper bound 0.0498).
 
-An earlier 18-record study supplies the counterexample: its
-three-read artifact replayed all 45 tool calls, yet issue \#6602 lost the URL
-from a Markdown link and only 17/18 downstream answers stayed exact; a
-provider-free continuation check, run after the model's answer, detects that miss. Together the two cohorts
-(\cref{fig:aha-example}) show why recurrence only proposes a candidate.
+An earlier 18-record study supplies the counterexample: its three-read
+artifact, admitted at a looser $\alpha=0.10$ (a 45-group floor), passed all 45
+calibration replays and the tool contract on every
+held-out record, yet issue \#6602 lost the URL from a Markdown link and only
+17/18 downstream answers stayed exact; a provider-free continuation check, run
+after the model's answer, detects that miss. Together the two cohorts show why
+recurrence only proposes a candidate (\cref{fig:provenance} draws the first).
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=0.56\linewidth]{figures/gac_aha_example.pdf}
-  \Description{A real GitHub issue trace repeats record, labels, and comments, but GAC
-  rejects the full candidate because the comments limit is ungroundable and emits only
-  the record and labels prefix.  A separate issue 6602 continuation miss shows why clean
-  tool replay does not certify the final answer.}
-  \caption{Two retained cohorts expose different failure modes: issue \#4420
-forces a shorter grounded prefix, and issue \#6602 shows that clean tool replay
-need not preserve the downstream answer.}
-  \label{fig:aha-example}
-\end{figure}
 
-The closest precedent is the tracing just-in-time compiler:
-Dynamo~\citep{bala2000dynamo} detects a hot path, compiles it behind a
-\emph{guard}, and deoptimizes when the guard fails~\citep{holzle1992deopt}.
+The closest precedent is trace compilation: Dynamo~\citep{bala2000dynamo}
+and tracing JITs~\citep{gal2009tracejit} compile a hot path behind
+\emph{guards} and fall back when one fails, as
+deoptimization~\citep{holzle1992deopt} restores unoptimized execution.
 Agent traces admit the same structure (family mining, an entry contract,
 fallback to the unchanged agent) but compile only \emph{initial} read-only
 prefixes (\cref{eq:prefix}) and add three obligations: tool arguments must be
@@ -73,18 +64,15 @@ and the default output is the unchanged agent. \item A real-provider evaluation
 across three public-record workflow families; a cross-repository extension on
 newer records with admissions and principled retirements; a post-cutoff cohort
 with an end-to-end certificate; a live SQL agent on the public BIRD benchmark
-whose fixed schema-reading opening compiles on 26 of 31 databases; three
+whose fixed schema-reading opening compiles on 26 of 31 databases
+(\cref{sec:res-bird}); three
 pre-registered drift ablations (two uninformative by construction, one adverse);
 and replications on a second model family and provider.
-  \item Calibrated refusal: recurrence and replayability do not license
-  deployment. NESTFUL, the largest public trace corpus studied, clears
-  provenance, synthesis, and replay with no wrong execution and retires because
-  its support falls below the exact sample floor (API-Bank and BFCL v4 likewise,
-  \cref{app:external}). That floor is a corpus-size fact, so the result bounds
-  what public trace benchmarks can certify, not what the compiler can do.
-  \item A pre-registered fourth substrate, AppWorld, which admits (compiler-wide
-  under one effect arm, per-candidate under the other), and a measurement on
-  8{,}190 released trajectories where the admitted region is eligible on
-  2{,}339/2{,}340 full-code but 1/4{,}680 ReAct or plan-and-execute runs,
-  separating \emph{admissible} from \emph{dispatchable}.
+  \item Calibrated refusal on public trace benchmarks (\cref{sec:res-refusal}):
+  NESTFUL, the largest trace corpus the compiler ingests here, clears
+  provenance, synthesis, and replay with no wrong execution yet retires below
+  the exact sample floor (API-Bank and BFCL v4 likewise), a corpus-size fact
+  that bounds what such benchmarks can certify; AppWorld admits a region that is
+  eligible on 2{,}339/2{,}340 released full-code trajectories but 1/4{,}680 ReAct
+  or plan-and-execute ones, separating \emph{admissible} from \emph{dispatchable}.
 \end{enumerate}

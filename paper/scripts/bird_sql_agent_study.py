@@ -1095,13 +1095,14 @@ def extensions_table(out: Path = OUT_ROOT) -> dict[str, Any]:
             return "---" if v is None else str(v)
         if comp:
             r = row["reductions"]
-            dagger = r"$^\dagger$"  # marks the warm-repeat reference; kept outside f-string expressions (Python 3.11)
             tail = (f"{row['n']} & {row['baseline_correct']} / \\textbf{{{row['compiled_correct']}}} & "
-                    + " & ".join(f"{r[m]:.1f}\\%" + (dagger if reference == "warm" and m == "estimated_cost_usd" else "")
+                    + " & ".join(f"{r[m]:.1f}\\%"
                                  for m in ("requests", "total_tokens", "wall_latency_ms", "estimated_cost_usd", "cache_neutral_cost")))
         else:
             tail = "--- & --- & --- & --- & --- & --- & ---"
-        lines.append(f"{label} & \\code{{{model}}} & {len(fams)} & {cell(admit['standard'])} & {cell(admit['schema_first'])} & {tail} \\\\")
+        # Every reduction in the primary row is against the warm repeat run; the dagger marks the row.
+        mark = r"$^\dagger$" if reference == "warm" else ""
+        lines.append(f"{label}{mark} & \\code{{{model}}} & {len(fams)} & {cell(admit['standard'])} & {cell(admit['schema_first'])} & {tail} \\\\")
     lines += [r"\bottomrule", r"\end{tabular}"]
     EXTENSIONS_TABLE.write_text("\n".join(lines) + "\n", encoding="utf-8")
     (out / "extensions_summary.json").write_text(json.dumps({"schema": "agent-compaction-bird-extensions/v1", "runs": rows},

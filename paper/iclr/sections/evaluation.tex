@@ -1,14 +1,12 @@
 \section{Experimental Setup}
 \label{sec:setup}
 
-\subsection{Benchmark at a glance}
-\label{sec:benchmark}
-
-Every GitHub sample begins with one issue or pull-request number from a pinned
-public snapshot; the agent must make read-only calls and return exact,
+\paragraph{GitHub workflows.}
+Every sample begins with one issue or pull-request number from a pinned public
+snapshot~\citep{githubissuesdataset}; the agent must make read-only calls and return exact,
 source-grounded fields. The three primary families use
 132 discovery records each, from whose exact traces a stable hash draws 16
-train, 8 dev, and 92 calibration groups ($\mathcal{K}$; 16 stay unused), and 30
+train, 8 dev, and 92 calibration groups ($\mathcal{K}$; the rest stay unused), and 30
 balanced held-out records, with live provider calls, each pairing a read-only
 evidence path with an exact answer contract (a category, a title, and a
 verbatim excerpt; \cref{tab:benchmark-glance}, \cref{app:detail}). The
@@ -23,15 +21,16 @@ and repositories without an admitted artifact stay in the result. A balanced
 rerun on three repositories controls the class mix.
 
 \paragraph{Public benchmarks.}
-BIRD~\citep{li2023bird} runs a live SQL agent over pinned read-only databases
-(\cref{app:bird}). NESTFUL~\citep{basu2025nestful} and AppWorld's gold
+On BIRD~\citep{li2023bird} a live SQL agent runs over pinned read-only
+databases (\cref{app:bird}). NESTFUL~\citep{basu2025nestful} and AppWorld's gold
 solutions~\citep{trivedi2024appworld} supply executable traces, plus released
 AppWorld agent runs; no model runs on these two, so no efficiency claim. API-Bank and BFCL v4~\citep{li2023apibank,patil2025bfcl}
 behave like NESTFUL (\cref{app:external}).
 
 \paragraph{Provider configuration.}
 The primary studies use OpenAI \code{gpt-5.6-luna} via the \code{openai-agents}
-Responses interface at reasoning effort \code{low}, priced at list rates; the
+Responses interface~\citep{openai2026agents} at reasoning effort \code{low},
+priced at list rates~\citep{openai2026pricing}; the
 replications use \code{gpt-6-luna} and Anthropic \code{claude-sonnet-5} under
 the same settings (\cref{app:config}). Conditions within a family differ in
 structure alone.
@@ -41,6 +40,6 @@ Each GitHub family compares the unchanged baseline $B$, the compiled artifact,
 and a hand-written pre-model program on the same records, so comparisons are
 paired. Quality is exact task-contract satisfaction; resources are requests,
 interfaces, tokens, latency, and estimated cost; tests are paired exact
-McNemar, bootstrap intervals, and Wilcoxon signed-rank, with the Bonferroni
-term of \cref{eq:cp} the only guaranteed multiplicity control. All admission
-runs use $\alpha=0.05$, $\delta=0.1$, and $|\Lambda|=11$ (\cref{app:config}).
+McNemar~\citep{mcnemar1947}, bootstrap intervals~\citep{efron1993bootstrap},
+and Wilcoxon signed-rank~\citep{wilcoxon1945}, with the Bonferroni term of
+\cref{eq:cp} the only guaranteed multiplicity control.

@@ -832,8 +832,10 @@ def _table_rows(families: list[dict[str, Any]], overall: dict[str, Any] | None) 
             comp = f.get("compiler") or {}
             if comp.get("stage") == "calibration":
                 cands = comp.get("candidates") or []
-                best = max((c.get("max_n_accepted") or 0) for c in cands) if cands else "?"
-                why = f"at calibration ({best}/92 groups, $U>\\alpha$; {d.get('exact_traces', '?')}/{d.get('n', '?')} exact traces)"
+                # Report every calibrated candidate's accepted groups, not only the best one.
+                accepted = sorted(((c.get("max_n_accepted") or 0) for c in cands), reverse=True)
+                groups = " and ".join(str(n) for n in accepted) if accepted else "?"
+                why = f"at calibration ({groups} of 92 groups, $U>\\alpha$; {d.get('exact_traces', '?')}/{d.get('n', '?')} exact traces)"
             else:
                 why = f"at compile time ({d.get('exact_traces', '?')}/{d.get('n', '?')} exact discovery traces)"
             lines.append(f"\\quad {f['family']} & \\multicolumn{{7}}{{l}}{{\\textsc{{retire}} {why}}} \\\\")

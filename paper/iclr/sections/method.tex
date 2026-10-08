@@ -20,14 +20,11 @@ authorize one an earlier stage blocked.
 \begin{figure}[t]
   \centering
   \input{figures/provenance_witness.tex}
-  \caption{\Cref{eq:grounding} on the held-out issue-4420 record. Every argument
-  slot needs an expression in $\mathcal{L}$ over the entry state or a prior
-  result; the two \code{issue\_number} slots have one and the \code{limit} slot
-  has none: its literal varies across the supporting traces (100 in 130 of 132,
-  1 in two) and no expression reproduces it. The question is harder than
-  recurrence: not ``did this sequence repeat?'' but ``can every socket be wired
-  from an allowed prior value?'' One unwitnessed slot retires the whole region,
-  as does a slot with more than $\kappa$ witnesses.}
+  \caption{\Cref{eq:grounding} on the held-out issue-4420 record: both
+  \code{issue\_number} slots have an expression in $\mathcal{L}$ over the entry
+  state or a prior result; the \code{limit} literal varies across the
+  supporting traces (100 in 130 of 132, 1 in two) and has none, so the
+  three-read region retires and only the two-read prefix is emitted.}
   \Description{Two witness chips, the entry-state issue number and the issue
   number returned by the record call, sit above three tool-call cards. Green
   arrows labeled with the producing expression connect a witness to the issue
@@ -48,11 +45,10 @@ prior-result paths for typed values reachable by a bounded transform
 (database-style provenance~\citep{cheney2009provenance} for tool arguments).
 Two slot marks make the region miner block rather than guess:
 a slot with \emph{no} witness is a genuine model decision, and one with more
-than $\kappa=3$ witnesses is ambiguous (\cref{fig:provenance}). A repeated tool
-name and a successful replay are not witnesses; a literal counts only when it
-is invariant across every supporting trace (the \code{limit=3} slots of the
-PR-outcome and backlog artifacts), and otherwise only an expression in
-$\mathcal{L}$ does.
+than $\kappa=3$ witnesses is ambiguous (\cref{fig:provenance}); either retires
+the whole region. A repeated tool name or a successful replay is no witness; an
+invariant literal is (\cref{eq:grounding}; the \code{limit=3} slots of the
+PR-outcome and backlog artifacts).
 
 \paragraph{2. Region mining and ranking.}
 The miner enumerates model-boundary-to-result windows of at most $w_{\max}$ tool
@@ -132,23 +128,22 @@ Bonferroni-corrected level, with explicit empty and all-violation cases:
 \end{equation}
 It admits the largest-coverage threshold with $U_\eta\le\alpha$ and retires
 otherwise --- a fixed-grid instance of learn-then-test~\citep{angelopoulos2022ltt}. The closed form on the right is the operative
-constraint here: at $\alpha=0.05$, $\delta=0.1$, $|\Lambda|=11$, a zero-violation family still needs $n_\eta\ge 92$ admitted groups, and the default
+constraint: at the registered $\alpha=0.05$, $\delta=0.1$, $|\Lambda|=11$
+(\cref{app:config}), a zero-violation family still needs $n_\eta\ge 92$ admitted groups, and the default
 output is refusal.
 
 That floor also bounds what selectivity is \emph{certifiable}: coverage
 $c=n_\eta/|\mathcal{K}|$ needs $|\mathcal{K}|\ge\lceil 92/c\rceil$, so on the
-$|\mathcal{K}|=92$ cohorts used throughout --- the smallest satisfiable pool ---
+$|\mathcal{K}|=92$ primary cohorts --- the smallest satisfiable pool ---
 the only admissible coverages are $c\in\{0,1\}$ whatever $q$ ranks, since
-abstaining on one group leaves $U_\eta=0.0503>\alpha$. Intermediate coverage can be
-\emph{observed} but not certified (\cref{app:config}, \cref{fig:gate-floor}), so
-these studies test support sufficiency at full coverage and cannot tell whether
-$q$ ranks dispatch risk. On the retained cohorts the event itself has no
-empirical support: the compiled steps' argument pattern is invariant across
-all 132 discovery traces per family and labels replay those calls over a
-pinned snapshot, so the primary certificates are support-sufficiency
-statements ($n_\eta\ge92$), with $\delta=0.1$ the budget at which that floor is
-satisfiable ($\delta=0.05$ needs 106; \cref{app:config}). The only certificate
-on an observed failure mode is the end-to-end one of \cref{sec:res-primary}.
+abstaining on one group leaves $U_\eta=0.0503>\alpha$; intermediate coverage can be
+\emph{observed} but not certified (\cref{app:config}, \cref{fig:gate-floor}).
+Nor does the event itself have support on the GitHub cohorts: the compiled
+steps' argument pattern is invariant across all discovery traces per family and
+labels replay those calls over a pinned snapshot. Those certificates are
+therefore support-sufficiency statements at full coverage ($n_\eta\ge92$;
+$\delta=0.1$ is the budget at which that floor is satisfiable, $\delta=0.05$
+needs 106) that cannot tell whether $q$ ranks dispatch risk.
 
 \input{figures/alg-calibrate.tex}
 

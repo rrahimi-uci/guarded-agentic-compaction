@@ -161,10 +161,10 @@ def pool_panel(ax) -> None:
         dx, dy, ha = offsets[x]
         ax.annotate(f"$c={x:g}$: {y}", xy=(x, y), xytext=(x + dx, y + dy), fontsize=7,
                     color=COLORS["ink"], ha=ha, va="bottom")
-    # The paper's pools: |K| = 92 in every study, i.e. the point (1.0, 92).
+    # The paper's registered-grid pools: |K| = 92 (the post-cutoff certificate uses 132 under a single rule).
     ax.scatter([1.0], [POOL], s=60, facecolor="none", edgecolor=COLORS["series2"],
                linewidth=1.0, zorder=6)
-    ax.text(0.215, POOL + 7, r"every pool in this paper: $|\mathcal{K}|=92$",
+    ax.text(0.215, POOL + 7, r"every registered-grid pool here: $|\mathcal{K}|=92$",
             fontsize=7, color=COLORS["series2"], ha="left", va="bottom")
     ax.text(0.215, 12, r"at $|\mathcal{K}|=92$ the certifiable" "\n" r"coverage set is $\{0,1\}$",
             fontsize=7, color=COLORS["ink2"], ha="left", va="bottom")

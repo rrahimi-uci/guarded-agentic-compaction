@@ -2,9 +2,8 @@
 \label{sec:related}
 
 \paragraph{Trace compilation and specialization.}
-\method adapts the tracing-JIT pattern (record a hot path, compile it behind
-a guard, deoptimize on a miss~\citep{bala2000dynamo,gal2009tracejit,holzle1992deopt})
-and meta-tracing's unit of specialization, the trace~\citep{bolz2009pypy}.
+Beyond the trace-compilation precedent of the introduction, \method takes
+meta-tracing's unit of specialization, the trace~\citep{bolz2009pypy}.
 Partial evaluation is the older frame: a specialized program is correct only
 where its static assumptions hold~\citep{futamura1971partial,jones1993partial};
 here grounded arguments, declared effects~\citep{lucassen1988effects}, and
@@ -23,16 +22,18 @@ Agent systems mine workflows, cache plans, compile orchestration, validate
 plans, or prune topology
 \citep{wang2025awm,zhang2025plancache,abuzakuk2026awo,wei2026evoc2f,winston2026agentjit,li2026flowcompile,chen2026agentslimming,wang2026covenant,chundru2026agenticcompilation};
 skill libraries grow reusable procedures from
-experience~\citep{wang2023voyager,zheng2025skillweaver}; semantic and prompt
-caches reuse responses~\citep{bang2023gptcache,lumer2026cache,song2026capc};
+experience~\citep{wang2023voyager,zheng2025skillweaver}; semantic caches reuse
+responses~\citep{bang2023gptcache}, and prompt caching and cache-aware
+compression reuse shared prefixes~\citep{lumer2026cache,song2026capc};
 DSPy, GEPA, TextGrad, and Trace optimize prompts and programs against task
 feedback~\citep{khattab2024dspy,agrawal2026gepa,yuksekgonul2024textgrad,cheng2024trace};
 RouteLLM changes models~\citep{ong2025routellm}, LLMCompiler parallelizes
 calls~\citep{kim2024llmcompiler}, and \citet{yue2026workflowsurvey} survey the
 space. These systems decide \emph{what} to reuse; to our knowledge none pairs
 admission with a finite-sample bound and a fallback that is exactly the
-unchanged agent. Counterfactual trace auditing~\citep{zhou2026cta} is what the continuation
-check of \method approximates.
+unchanged agent. Counterfactual trace auditing~\citep{zhou2026cta}, which
+pairs each trace with a counterfactual run of the same task, is the closest
+analogue of \method's continuation check.
 
 \paragraph{Selective prediction and finite-sample risk control.}
 Dispatch-or-fall-back is selective prediction with a reject

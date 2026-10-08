@@ -258,7 +258,7 @@ inherit every caveat of \cref{tab:effective-units}: distinct counts do not
 establish independent clusters, and a cluster bound targets a different
 population from the record-level one. A single frozen rule is adopted only
 prospectively, for studies whose candidates, acceptance policy, grouping and
-endpoint are fixed before fresh calibration (\cref{sec:discussion}); the
+endpoint are fixed before fresh calibration; the
 post-cutoff study of \cref{app:limits} did so after this analysis and reports
 its bound under both rules. The symmetric pessimistic alternatives are not in
 the table: $\delta=0.05$ raises the floor to 106 groups, and month-level units
@@ -339,7 +339,8 @@ collapses observationally equivalent chains.
   zero-violation bound $U(n)=1-(\delta/|\Lambda|)^{1/n}$ at $\delta=0.1$,
   $|\Lambda|=11$ crosses $\alpha=0.05$ between $n=91$ (0.0503) and $n=92$
   (0.0498). (b): the smallest pool $\lceil 92/c\rceil$ that can certify
-  selective coverage $c$; every calibration pool in this paper is 92, so the
+  selective coverage $c$; every registered-grid calibration pool in this paper
+  is 92 (the post-cutoff certificate uses 132 groups under a single rule), so the
   certifiable coverages are 0 and 1 whatever $q$ ranks.}
   \label{fig:gate-floor}
 \end{figure}
@@ -366,12 +367,12 @@ discriminates weakly (\cref{sec:discussion}).
 The zero-violation floor $n_\eta\ge 92$ constrains coverage, not just admission.
 Certifying selective coverage $c=n_\eta/|\mathcal{K}|$ requires
 $|\mathcal{K}|\ge\lceil 92/c\rceil$: 92 groups for $c=1$, 115 for $c=0.8$, 132
-for $c=0.7$, 184 for $c=0.5$. Every cohort in this paper fixes
-$|\mathcal{K}|=92$, which is the smallest pool at which \cref{eq:cp} is
+for $c=0.7$, 184 for $c=0.5$. Every registered-grid cohort in this paper fixes
+$|\mathcal{K}|=92$ (the post-cutoff certificate's 132 groups use a single rule), which is the smallest pool at which \cref{eq:cp} is
 satisfiable at all. At that size the admissible coverage set is exactly
 $\{0,1\}$: abstaining on one group leaves $n_\eta=91$ and
 $U_\eta=1-(0.1/11)^{1/91}=0.0503>\alpha$. The step-like gate profiles reported
-in \cref{sec:res-refusal} and \cref{app:prospective} are therefore consistent
+in \cref{tab:gate-profile} and \cref{app:prospective} are therefore consistent
 with two different worlds --- a score that cannot rank, and a cohort too small
 to certify a ranking --- and these experiments do not separate them. Two
 intermediate coverages were \emph{observed} and neither is certifiable:
@@ -456,9 +457,10 @@ non-sensitive evidence; no model or provider call is made.
   \centering
   \caption{Percentage reductions of \cref{tab:primary} with 95\% bootstrap
   intervals on the ratio of paired sums (10{,}000 record resamples, seed
-  20260804). Request reductions are structural and tie-free; the intervals on
-  tokens and cost are within three points of the estimate, latency within ten.
-  Discovery cost alone breaks even after 411, 182, and 181 compiled episodes per
+  20260804). Per-family request reductions are structural (backlog's one
+  three-request baseline record aside); the intervals on tokens and cost are
+  within five points of the estimate, latency within ten.
+  Discovery cost alone breaks even after 411, 183, and 181 compiled episodes per
   family and per snapshot (\code{paper/results/cache\_accounting.json}); the
   issue-type baseline's higher cached-input share is why its cost reduction
   trails its token reduction.}
@@ -524,7 +526,15 @@ exclusion scan omitted that directory; none of the missed or abstained records
 is among them, and without them the counts are 113/113/112 of 115 with bounds
 of 4.1\% and 2.3\%.
 Requests fell 50.0\%, tokens 39.5\%, latency 42.5\%, and cost 32.8\% against
-the same-model baseline, matching the primary family within a point.
+the same-model baseline, matching the primary family within a point on
+requests, tokens, and cost (latency 42.5\% against 51.7\%). In all, 810
+held-out GitHub episodes ran under a compiled artifact on the calibrated model
+in six studies: 270 on the excerpt-bearing contracts (the 90 primary, these
+120, and the 60 post-cutoff records of \cref{app:limits}), with this cohort's
+record 2737 the one compiled-only miss (one-sided bound 1.7\%), and 540 on the
+outcome-only cross-repository contract (120 core, 180 balanced, and 240
+gate-frontier episodes over 354 distinct records; \cref{app:breadth,app:prospective}),
+with none.
 
 \begin{table}[t]
   \centering
@@ -580,7 +590,7 @@ The cross-repository study is narrower than the primary workflow families. Its
 task uses two read-only tools and a simpler exact outcome contract, which is
 precisely why a fixed template can remain tied or even more efficient than the
 learned artifact. We keep the result in the main text because it addresses a
-reviewer-critical scope question --- whether guarded specialization survives
+central scope question --- whether guarded specialization survives
 beyond one repository --- while being explicit about the reduced task complexity.
 
 \paragraph{The position invariant, empirically.}
@@ -617,12 +627,12 @@ exploratory.
 \section{Evidence Breadth and Boundary Audits}
 \label{app:breadth}
 
-The main text uses the nine-page budget for the registered live studies, the
-time-forward extension, and the four compiler-measured external substrates. This
+The main text covers the registered live GitHub studies, the cross-repository
+extension, the BIRD live study, and the NESTFUL and AppWorld substrates. This
 appendix makes the retained breadth visible without pooling incomparable cohorts
 or promoting screened and exploratory work to deployment evidence.
 
-\subsection{Repository-level time-forward outcomes} \paragraph{Why
+\subsection{Repository-level outcomes on newer records} \paragraph{Why
 \code{pytorch/pytorch} retires in the core protocol and admits in the balanced
 rerun.} The core retirement is attributable to one stage. Its compile report
 records 116 windows accepted, no windows blocked and none blocked by tool, one
@@ -689,7 +699,7 @@ with the core cohort
 
 \begin{table}[t]
   \centering
-  \caption{Disaggregated cross-repository time-forward outcomes behind
+  \caption{Disaggregated cross-repository outcomes behind
   \cref{sec:res-multirepo}.
   The core protocol uses four completed repositories and one compile-time
   retirement; the balanced rerun changes the selected repositories and class
@@ -806,7 +816,7 @@ replay figures appear for AppWorld and they count different partitions, which
 \cref{tab:funnel} flags but does not have room to explain. The 34/0/0 in that
 table is the test side of the \emph{family} partition used to challenge a mined
 candidate --- 102 train and 34 test groups, the same accounting every substrate
-row reports. The 11/11 quoted in \cref{sec:res-refusal} is the sealed test split
+row reports. The 11/11 in \cref{tab:claims-evidence-b} is the sealed test split
 of the 11/92/11 dev/calibration/test partition \cref{alg:calibrate} consumes for
 admission. Both are genuinely held out; they are held out from different fits,
 and neither is a subset of the other's training side.
@@ -847,7 +857,7 @@ undeclared in the signed catalog and unknown effects are not reads.
 \begin{table}[t]
   \centering
   \caption{Disposition of every retained external benchmark family. Only the
-  four compiler-measurement rows support compiler claims; the remaining rows
+  four compiler-measurement rows and the BIRD live study support compiler claims; the remaining rows
   document why broader benchmark names are not silently converted into GAC
   results. BFCL appears twice because its reference plans and its executed gold
   plans are different evidence.}
@@ -893,7 +903,7 @@ passing different opening arguments than the program derives.
 \end{table}
 
 \paragraph{Admission.} The standard agent passed 7 to 39 distinct table lists
-per database and every table in 0 of 132 runs on four of them, so
+per database and every table in no discovery run on four of them, so
 \code{get\_schema.table\_names} has no consistent expression and four families
 retire at synthesis (\cref{tab:bird}). On \code{card\_games} the candidate
 ``read only \code{cards}'' (the agent's most common choice, 61 of 132 runs)
@@ -959,8 +969,8 @@ does, not what its prompt asks for. Extension spend was \$43.93.
   \caption{BIRD runs. ``Std.'' and ``S.-first'' count databases admitted per
   design (the rotated rerun reuses the primary artifacts). Correct is on the
   held-out questions with all four conditions. Reductions compare the compiled
-  agent with the unchanged agent; $^\dagger$against the warm repeat run because
-  the primary run's order was not rotated. Cost$^\ast$ prices every input token
+  agent with the unchanged agent; $^\dagger$every primary-row reduction is against
+  the warm repeat run because that run's order was not rotated. Cost$^\ast$ prices every input token
   at the uncached rate.}
   \label{tab:bird-extensions}
   \footnotesize
@@ -980,7 +990,7 @@ remain diagnostic rather than evidence for the main claim.
   \centering
   \caption{Gate-behavior inventory from the retained threshold analysis. A
   partial frontier would show graded coverage as the threshold changes; none
-  appears among the seven current registered artifacts.}
+  appears among the seven artifacts in the retained threshold analysis.}
   \label{tab:gate-profile}
   \footnotesize
   \setlength{\tabcolsep}{4pt}
@@ -996,7 +1006,7 @@ was used, and each is dated in its own file.
 \paragraph{The certified event is not end-to-end quality.}
 \Cref{prop:admission} bounds the replay-contract event of \cref{app:config}.
 On these cohorts that event has no empirical support: the argument pattern of
-the compiled steps is invariant across all 132 discovery traces per family,
+the compiled steps is invariant across all discovery traces per GitHub family,
 and the labels replay those calls over recorded results of a pinned snapshot,
 which is why no retained pool records a violation, every gate is step-like,
 and admission reduces to the 92-group floor (the second-provider backlog
@@ -1007,14 +1017,14 @@ discordance in \cref{app:stats} is an empirical quality statement at a
 different confidence level, not an admission certificate. An end-to-end
 certificate needs a pre-registered endpoint that runs the continuation and
 grades the task contract on fresh calibration groups, with the sample floor of
-\cref{eq:cp} applied to that event; one was obtained after submission for a
+\cref{eq:cp} applied to that event; one was obtained after the main study for a
 re-derived PR-outcome artifact on 132 fresh groups (0 misses, bound 0.0173 at
 90\% confidence; below), while every certificate in the main text remains a
 replay-contract certificate.
 
 \paragraph{Repairs for non-exchangeable groups.}
-\Cref{sec:discussion} states that the cluster-aware repairs all cost effective
-sample size. Concretely, three are compatible with \cref{eq:cp} and none is
+\Cref{sec:discussion} notes that day- or author-level units retire every primary
+family; the cluster-aware repairs all cost effective sample size. Concretely, three are compatible with \cref{eq:cp} and none is
 exercised here: enforcing temporal separation at calibration
 (\code{min\_days}$>k$) so a burst of related records cannot populate one split;
 replacing the per-group binomial count with a cluster-level or block-bootstrap
@@ -1075,14 +1085,14 @@ prologue; the measurement assumes the declaration a reviewer would have to sign.
 \paragraph{Why the
 workflow-reuse line is not a drop-in comparator.}
 \Cref{sec:discussion} states that we run no head-to-head against automated
-workflow reuse, plan caching, or call scheduling. The obstruction is that each
+workflow reuse (and, by extension, plan caching or call scheduling). The obstruction is that each
 optimizes a different quantity than the one our metric and our gate are defined
 over. \Citet{wang2025awm} induces reusable workflows into the \emph{prompt}: the
 agent still reaches a model decision at every tool boundary, so the provider
 requests we count are not removed and there is no substituted region to guard.
-\Citet{kim2024llmcompiler} reschedules the calls of a single episode into a
-parallel DAG, which lowers latency without eliminating a model turn, and its
-planner remains in the loop. \Citet{zhang2025plancache} reuses plans across
+\Citet{kim2024llmcompiler} plans the calls of a single episode as a parallel
+DAG, cutting latency and per-step model calls relative to ReAct, but its
+planner still runs on every task and nothing is reused across episodes. \Citet{zhang2025plancache} reuses plans across
 episodes, which is the closest target, but without argument-level provenance or
 an effect declaration it makes no admissibility decision --- so there is nothing
 to compare our gate against, only a cache-hit rate. \Citet{wei2026evoc2f}
@@ -1172,8 +1182,8 @@ endpoint does not grade; a live continuation extension would. Not
 equivalence; and a program whose later arguments derive from earlier results
 is where a verifier benefit could appear under this suite.
 
-\paragraph{Time-forward cohort and an end-to-end certificate (PR-outcome).}
-After submission we acquired every \code{huggingface/datasets} issue and pull
+\paragraph{Post-cutoff cohort and an end-to-end certificate (PR-outcome).}
+After the main study we acquired every \code{huggingface/datasets} issue and pull
 request created after the pinned snapshot's last day (2025-06-13; 1{,}095
 records, 1{,}086 of them passing a preflight that drops any record number a
 retained result mentions) and pre-registered a study
@@ -1423,20 +1433,18 @@ dispatch-eligible member; post-selecting only recurrent successes would not
 satisfy \cref{prop:admission}. This is why the AppWorld substrate fixes its
 calibration share at exactly the 92 groups the bound requires and draws them by
 seeded shuffle over all clean tasks, rather than taking the tasks in which the
-mined family happens to have the deepest support. The GitHub cohorts draw
-their 16/8/92 split by stable hash from exact discovery traces; the
-second-model backlog cohort above shows that filter removing route-deviating
-groups, a selection the primary certificates inherit even where it is inert.
+mined family happens to have the deepest support. The GitHub cohorts'
+exact-trace filter is such a selection (\cref{sec:setup}); the BIRD study
+drops it (\cref{app:bird}).
 
+\paragraph{Where the savings and the gate stand.}
 \Cref{fig:results} (left) plots the per-family spread behind
 \cref{tab:primary}: admissible prefix depth, not the optimizer, sets the
 savings. The current empirical gate does not yet demonstrate a useful
-risk--coverage frontier at the registered 5\% level. The strongest current runs are mostly
-all-or-none support tests (\cref{fig:results}, right), and the candidate-search
-problem is compiler-wide only when one candidate reaches calibration
-(\cref{cor:frozen}) or the budget is divided across those that do; for the two
-families whose dominance search calibrated two candidates the corrected bound is
-0.0569 (\cref{tab:multiplicity-accounting}). Likewise, exact task
+risk--coverage frontier at the registered 5\% level. The strongest current runs are
+all-or-none support tests (\cref{tab:gate-profile}, \cref{fig:gate-floor}), and
+compiler-wide status depends on the number of calibrated candidates
+(\cref{tab:multiplicity-accounting}). Likewise, exact task
 contracts do not certify full semantic equivalence of the final answer,
 especially once a downstream model continuation is involved. Two operational
 caveats of the reported runs have since been closed provider-free: the three
@@ -1602,8 +1610,10 @@ with informative features; it is written and not run.
 
 \Cref{tab:claims-evidence,tab:claims-evidence-b,tab:claims-evidence-c,tab:claims-evidence-d,tab:claims-evidence-e} list every claim the paper
 makes, what was measured, the retained file that carries the number, and what
-the claim does not license. Rows are grouped as the paper is: the primary live families, the
-external substrates, and the studies added after the pre-submission review.
+the claim does not license. Rows are grouped by study: the primary families (A), the cross-repository
+studies and external substrates (B), replications and group independence (C),
+audits and the extended cohort (D), and the studies run after the main study,
+including BIRD (E).
 
 \begin{table}[p]
   \centering
@@ -1647,7 +1657,7 @@ external substrates, and the studies added after the pre-submission review.
 
 \begin{table}[p]
   \centering
-  \caption{Claims and evidence, part E: the studies run after submission (October 2026): the two provider-free drift ablations, the time-forward cohort with its end-to-end certificate, and the continuation-graded drift ablation.}
+  \caption{Claims and evidence, part E: the studies run after the main study (October 2026): the two provider-free drift ablations, the post-cutoff cohort with its end-to-end certificate, the continuation-graded drift ablation, and the BIRD live-agent study with its four extensions.}
   \label{tab:claims-evidence-e}
   \scriptsize
   \setlength{\tabcolsep}{3pt}

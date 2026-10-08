@@ -15,7 +15,7 @@
 \toprule
 Claim & Evidence (what was measured) & Retained source & Claim boundary (what it does not license) \\
 \midrule
-Time-forward cross-repository core protocol &
+Cross-repository core protocol (newer records) &
 4/5 repositories admit: 580/580 exact discovery traces, 120/120 exact held-out pairs; the compiled program dispatched on 80/120 records (fallback \code{range:pr.state}, 10 per repository; discovery pools held 2/0/3/0 open records); reductions 44.4/52.4/49.4/48.6 (66.7\% fewer requests on dispatched records). \code{pytorch/pytorch} retires at calibration: no group accepted at any threshold; discovery class mix 84 closed-unmerged / 30 open / 2 merged, 116 windows; the retirement is reproduced provider-free. &
 \path{paper/results/github_multirepo_pr_outcome_core/results.json}; \path{paper/results/iclr_revision/gate_frontier_reanalysis.json} (\code{core}); \path{paper/results/iclr_revision/pytorch_core_recompile.json}. &
 A two-read task; held-out records newer than discovery records. The retirement is the gate acting on a skewed discovery pool, not a model failure. A fixed two-read template is more efficient here. \\

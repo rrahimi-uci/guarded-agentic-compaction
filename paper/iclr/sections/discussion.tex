@@ -2,43 +2,42 @@
 \label{sec:discussion}
 
 The supported claim is narrow: repeated read-only prefixes can become guarded
-programs that preserve held-out contracts on the tested GitHub families and
-retire when evidence is inadequate. Across 810 held-out episodes run under a compiled artifact on the
-calibrated model in six live studies, one produced a compiled-only contract
+programs that preserve held-out contracts on the tested GitHub families, show
+no detected accuracy loss on BIRD, and retire when evidence is inadequate.
+Across 810 held-out GitHub episodes run under a compiled artifact on the
+calibrated model in six studies, one produced a compiled-only contract
 failure: 1 of 270 on the excerpt-bearing contracts (one-sided bound 1.7\%) and
 0 of 540 on the outcome-only cross-repository contract, over 354 distinct
 records (\cref{app:stats});
 \cref{app:limits} pairs limitations with protocols and \cref{app:claims} maps
 claims to evidence.
 
-\paragraph{Three constraints bound the claim.} First, admission is
-compiler-wide only when one candidate reaches calibration or the budget is
-divided across all that do; PR-outcome and backlog routing calibrated two, where
-the corrected bound is 0.057 (\cref{app:config}). Second, with
-$|\mathcal{K}|=92$ the bound certifies only full coverage, so no experiment
-demonstrates graded selectivity of $q$; prospectively, the learned gate and a
-support-only comparator were indistinguishable (\cref{app:prospective}). Third,
-the bound assumes i.i.d.\ groups: counting a creation day or an author as one
-unit retires every primary family under the registered grid
-(\cref{tab:effective-units}; single-rule sensitivity in \cref{app:config}), and
-AppWorld's bound retires at scenario or supervisor level (\cref{app:proof}).
+\paragraph{What the certificates cover.} The registered certificates are
+support-sufficiency statements about a replay-contract event without support
+here (\cref{sec:method}): they certify neither graded selectivity of $q$ ---
+prospectively, the learned gate and a support-only comparator were
+indistinguishable (\cref{app:prospective}) --- nor the continuation, so the
+compiled-only misses lie outside them; the end-to-end certificate is
+per-candidate and covers one family. Every bound assumes i.i.d.\ groups:
+counting a creation day or an author as one unit retires every primary family
+under the registered grid (\cref{tab:effective-units}; single-rule sensitivity
+in \cref{app:config}), and AppWorld's bound retires at scenario or supervisor
+level (\cref{app:external}).
 
 \paragraph{External validity, guards, and comparison.}
 The richer evidence comes from one pinned snapshot, five frozen
 cross-repository snapshots, one post-cutoff cohort, one public benchmark
-(BIRD), and one calibrated model family; a second model and a second provider re-derive two of three programs
-and refuse the third, and every compiled-only miss is an excerpt departing from
-identical evidence, with no counterfactual attributing it to the model rather
-than the compiled context (\cref{app:limits}). Under drift we show no
-protection: two provider-free perturbation studies cannot fire for these
-programs (their oracle is the derived call argument, fixed by the entry id),
+(BIRD), and one calibrated model family (replications in
+\cref{sec:res-primary,sec:res-bird}); every GitHub compiled-only miss is an excerpt departing
+from identical evidence, with no counterfactual attributing it to the model
+rather than the compiled context (\cref{app:limits}). Under drift we show no
+protection: two provider-free perturbation studies are null by construction
+(the simulated tools stay total; on the GitHub records the oracle is the
+derived call argument, fixed by the entry id),
 the live continuation-graded study is adverse (an emptied list lies inside the
 learned hull; both arms answered wrongly on 39 of 60 records), and no held-out
-record here shows a guard preventing a wrong compiled answer. We do not price
+record here shows a guard preventing a wrong compiled answer (\cref{app:limits}). We do not price
 manual authoring or run workflow-reuse systems head-to-head; a recurrence-only
 replay on issue-type routing passed 30/30 at one request per record
-(\cref{tab:mechanism-removal}, \cref{app:limits}). The registered
-certificates cover an event without support here, so the compiled-only misses
-lie outside them; the end-to-end certificate is per-candidate, on one family,
-on open or merged records only. Writes, handoffs, hosted tools, undeclared
+(\cref{tab:recurrence-only}). Writes, handoffs, hosted tools, undeclared
 effects, and removed-turn guardrails lie outside \cref{prop:admission}.
