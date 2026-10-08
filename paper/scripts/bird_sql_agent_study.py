@@ -61,7 +61,7 @@ SPLIT_CONFIG: dict[str, dict[str, Any]] = {
             "gold": CACHE / "gold_results.pkl", "release": "dev_20240627",
             "smoke": ("california_schools", "superhero")},
     "train": {"archive": CACHE / "train.zip", "url": "https://bird-bench.oss-cn-beijing.aliyuncs.com/train.zip",
-              "sha256": "TRAIN_SHA256_PENDING",
+              "sha256": "66e9e3115b59559554013aa3b124156249f30437a6b4e4f96de3d2dfb5ae8cbc",
               "dir": CACHE / "extract/train", "questions": "train.json", "databases": "train_databases",
               "gold": CACHE / "gold_results_train.pkl", "release": "train", "smoke": ()},
 }

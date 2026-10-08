@@ -69,6 +69,15 @@ Each extension has its own output directory and spend ledger under `paper/result
 (`rotated_rerun/`, `replications/gpt-6-luna/`, `replications/claude-sonnet-5/`, `train/`). Live
 phases refuse to start a batch whose reservation would exceed the extension's cap.
 
+## Amendment during execution (2026-10-08, before the E3 cap was reached)
+
+E3's cap is raised from $45 to $60. At $16.94 spent (standard-design discovery complete,
+schema-first discovery under way) the per-episode cost on `claude-sonnet-5` is about $0.03 for
+schema-first episodes, which read every table's schema, so the registered cap would stop the
+held-out test partway. No design, endpoint, or analysis changes. With E1 spent ($0.84), E2 at most
+$10, E3 at most $60, E4 at most $30, and $3.60 spent before registration, the worst case stays
+inside the author's $100 authorization.
+
 ## Observed results
 
 (Recorded after execution.)
