@@ -136,3 +136,12 @@ plan-and-execute (\cref{tab:appworld-dispatch}, \cref{app:external}), which
 open by reading API documentation; admitting that read as a prologue recovers
 only 2 more of 4{,}680, since they rarely execute the region (\cref{app:limits}).
 The measurement bounds $\varphi$ from above.
+
+A live SQL agent on BIRD~\citep{li2023bird} shows the other side
+(\cref{app:bird}): on the five dev databases with at least 146 questions,
+\method retires all five when the agent picks its tables per question, and
+admits the schema-reading opening on all five when its workflow reads every
+table first. On 150 sealed questions the
+compiled agent dispatched every time, answered 97 correctly against 94
+(McNemar $p=0.45$), and cut model requests 44.9\%, tokens 9.8\%, latency
+29.4\%, and cost 6.3\% against a warm rerun of the unchanged agent.

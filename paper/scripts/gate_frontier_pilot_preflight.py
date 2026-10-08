@@ -93,6 +93,8 @@ POST_SEALING_STUDIES = (
     "drift_ablation",
     "drift_recorded_replay",
     "drift_continuation_graded",
+    # BIRD SQL-agent study (2026-10-08): public-benchmark question ids, not GitHub records.
+    "/results/bird/",
 )
 
 
