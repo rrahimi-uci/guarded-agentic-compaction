@@ -3162,6 +3162,13 @@ def validate_bird_sql_agent() -> None:
     results = (PAPER / "iclr/sections/results.tex").read_text(encoding="utf-8")
     ok("answered 97 correctly against 94" in results and "44.9\\%" in results, "bird: §5.3 quotes the retained result")
     ok("label{app:bird}" in (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8"), "bird: appendix subsection present")
+    main_funnel = (PAPER / "iclr/tables/refusal_funnel.tex").read_text(encoding="utf-8")
+    all_funnel = (PAPER / "iclr/tables/refusal_funnel_all.tex").read_text(encoding="utf-8")
+    ok("NESTFUL" in main_funnel and "AppWorld" in main_funnel and "API-Bank" not in main_funnel and "BFCL" not in main_funnel
+       and all(name in all_funnel for name in ("NESTFUL", "API-Bank", "BFCL", "AppWorld")),
+       "paper structure: main text features NESTFUL and AppWorld; the appendix table keeps all four trace benchmarks")
+    ok("label{sec:res-bird}" in results and "Where \\method gives no benefit: NESTFUL and AppWorld" in results,
+       "paper structure: §5.3 is the BIRD benefit result and §5.4 the two no-benefit benchmarks")
 
 
 def validate_bird_extensions() -> None:

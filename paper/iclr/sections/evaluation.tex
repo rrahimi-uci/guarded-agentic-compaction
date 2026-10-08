@@ -22,15 +22,12 @@ snapshot, which every artifact pins; selection is sealed before provider calls,
 and repositories without an admitted artifact stay in the result. A balanced
 rerun on three repositories controls the class mix.
 
-\paragraph{External compiler substrates.}
-NESTFUL, API-Bank, and executed BFCL v4 gold plans supply executable traces with
-the argument-level producer structure the compiler
-needs~\citep{basu2025nestful,li2023apibank,patil2025bfcl}. AppWorld's gold
-solutions~\citep{trivedi2024appworld}, executed on its pinned backend, give 136
-byte-exactly reproducible traces over 68 typed APIs, enough groups for
-\cref{eq:cp}, and released baseline runs for the dispatch measurement. No model
-runs on any substrate, so none licenses an accuracy or efficiency claim or is
-pooled with the GitHub families (\cref{app:external}).
+\paragraph{Public benchmarks.}
+BIRD~\citep{li2023bird} runs a live SQL agent over pinned read-only databases
+(\cref{app:bird}). NESTFUL~\citep{basu2025nestful} and AppWorld's gold
+solutions~\citep{trivedi2024appworld} supply executable traces, plus released
+AppWorld agent runs; no model runs on these two, so no efficiency claim. API-Bank and BFCL v4~\citep{li2023apibank,patil2025bfcl}
+behave like NESTFUL (\cref{app:external}).
 
 \paragraph{Provider configuration.}
 The primary studies use OpenAI \code{gpt-5.6-luna} via the \code{openai-agents}

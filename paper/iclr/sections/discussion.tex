@@ -11,22 +11,17 @@ records (\cref{app:stats});
 \cref{app:limits} pairs limitations with protocols and \cref{app:claims} maps
 claims to evidence.
 
-\paragraph{Three constraints bound the claim.} First, admission control is
+\paragraph{Three constraints bound the claim.} First, admission is
 compiler-wide only when one candidate reaches calibration or the budget is
-divided across all that do: issue-type routing and every cross-repository
-family qualify; PR-outcome and backlog routing calibrated two candidates, where
+divided across all that do; PR-outcome and backlog routing calibrated two, where
 the corrected bound is 0.057 (\cref{app:config}). Second, with
-$|\mathcal{K}|=92$ the registered bound certifies only full coverage, so no
-experiment demonstrates graded selectivity of $q$: the prospective protocol
-(\cref{app:prospective}) found the learned gate and a support-only comparator
-indistinguishable across four of five repositories and 240 held-out triples,
-and $q$ is constant within each repository there. Third, the binomial result is conditional on i.i.d.\ groups: the
-92-record live calibration cohorts span 86--90 distinct creation days and 60--82 distinct authors per
-family, so under the registered grid a bound that treats a day or an author as one
-unit retires in every family (\cref{tab:effective-units} in \cref{app:limits};
-\cref{app:config} gives a single-rule sensitivity, not a certificate), and AppWorld's 92 task
-groups come from 46 scenarios and 79 supervisors, units at which its bound
-retires (\cref{app:proof} prices the exposure).
+$|\mathcal{K}|=92$ the bound certifies only full coverage, so no experiment
+demonstrates graded selectivity of $q$; prospectively, the learned gate and a
+support-only comparator were indistinguishable (\cref{app:prospective}). Third,
+the bound assumes i.i.d.\ groups: counting a creation day or an author as one
+unit retires every primary family under the registered grid
+(\cref{tab:effective-units}; single-rule sensitivity in \cref{app:config}), and
+AppWorld's bound retires at scenario or supervisor level (\cref{app:proof}).
 
 \paragraph{External validity, guards, and comparison.}
 The richer evidence comes from one pinned snapshot, five frozen

@@ -99,12 +99,27 @@ program is more efficient in the core protocol and tied in the rerun. Every
 artifact pins its snapshot digest and abstains on any other, so savings hold
 within one snapshot; a new snapshot is recompiled, as the post-cutoff study does.
 
-\subsection{What binds: sample size, then deployability}
+\subsection{A public benchmark where \method helps: BIRD}
+\label{sec:res-bird}
+
+A live SQL agent on BIRD~\citep{li2023bird}, a public text-to-SQL benchmark,
+shows where \method helps (\cref{app:bird}): on the five dev databases with at least 146 questions,
+\method retires all five when the agent picks its tables per question, and
+admits the schema-first opening on all five. On 150 sealed questions the
+compiled agent dispatched every time, answered 97 correctly against 94 (McNemar
+$p=0.45$), and cut requests 44.9\% and latency 29.4\%. This replicates on a
+second model family and on 21 of 26 training databases (625 questions: 400
+against 401 correct, 45.9\% fewer requests, 18.1\% lower cost); a second
+provider's agent never ran the opening as a fixed step and was refused
+(\cref{tab:bird-extensions}).
+
+\subsection{Where \method gives no benefit: NESTFUL and AppWorld}
 \label{sec:res-refusal}
 
 \begin{table}[t]
   \centering
-  \caption{Where refusal happens, and what happens where it does not. Stage
+  \caption{The two trace benchmarks where \method gives no benefit (API-Bank and
+  BFCL v4, which retire like NESTFUL, are in \cref{tab:funnel-all}). Stage
   numbers follow \cref{sec:method} and \cref{fig:pipeline}; ``slots'' is the share of dependency slots with
   a recovered producer, and $n_{\max}$ is the largest family support against the 92
   \cref{eq:cp} requires. ``p/a/w'' is pass/abstain/wrong on each substrate's
@@ -116,34 +131,17 @@ within one snapshot; a new snapshot is recompiled, as the post-cutoff study does
   \input{tables/refusal_funnel.tex}
 \end{table}
 
-The external substrates isolate the binding constraint (\cref{tab:funnel}). All
-four pass provenance, synthesis, and replay with \emph{no} wrong execution
-(API-Bank's two replay windows abstain), but NESTFUL, API-Bank, and executed
-BFCL gold plans retire at stage 6 on support alone, $n_{\max}=26$, $8$,
-$15<92$, an outcome fixed before the compiler ran. AppWorld's gold solutions
-reach $n_{\max}=136$, the first external corpus where \cref{eq:cp} is
-satisfiable; it admits one argument-free two-call
-artifact at 92/92 zero-violation groups ($U_{\hat\eta}=0.0498$) with 11/11 exact
-replay on its sealed split under both pre-registered effect arms, compiler-wide
-under arm A ($m=1$) and per-candidate under arm B, where six candidates reached
-calibration (corrected bound 0.068); its 92 task groups come from 46 scenarios
-and 79 supervisors, units at which the bound retires (\cref{app:external}).
+\emph{Thin evidence.} NESTFUL, the largest public trace corpus here (1{,}415
+traces), passes provenance, synthesis, and replay with \emph{no} wrong
+execution, yet its best family reaches $n_{\max}=26<92$, so every family retires
+at stage 6 (\cref{tab:funnel}, \cref{fig:results} right); API-Bank and BFCL v4
+retire the same way at 8 and 15 (\cref{app:external}).
 
-Admissibility is not dispatchability: across AppWorld's 28 released baseline
-runs (8{,}190 trajectories) the admitted region is entry-eligible in $37.9\%$,
-almost always for full-code agents and almost never for ReAct and
-plan-and-execute (\cref{tab:appworld-dispatch}, \cref{app:external}), which
-open by reading API documentation; admitting that read as a prologue recovers
-only 2 more of 4{,}680, since they rarely execute the region (\cref{app:limits}).
-The measurement bounds $\varphi$ from above.
-
-A live SQL agent on BIRD~\citep{li2023bird} shows the other side
-(\cref{app:bird}): on the five dev databases with at least 146 questions,
-\method retires all five when the agent picks its tables per question, and
-admits the schema-first opening on all five. On 150 sealed questions the
-compiled agent dispatched every time, answered 97 correctly against 94 (McNemar
-$p=0.45$), and cut requests 44.9\% and latency 29.4\%. This replicates on a
-second model family and on 21 of 26 training databases (625 questions: 400
-against 401 correct, 45.9\% fewer requests, 18.1\% lower cost); a second
-provider's agent never ran the opening as a fixed step and was refused
-(\cref{tab:bird-extensions}).
+\emph{Admissible but not useful.} AppWorld's gold solutions reach
+$n_{\max}=136$, and \method admits one argument-free two-call artifact at 92/92
+zero-violation groups ($U_{\hat\eta}=0.0498$, compiler-wide under one effect
+arm, per-candidate under the other; \cref{app:external}). Yet across 8{,}190
+released trajectories it is entry-eligible in $37.9\%$, almost always for
+full-code agents and almost never for ReAct and plan-and-execute, which open by
+reading API documentation (\cref{tab:appworld-dispatch}); admitting that read as
+a prologue recovers only 2 more of 4{,}680 (\cref{app:limits}).
