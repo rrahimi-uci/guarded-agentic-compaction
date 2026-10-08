@@ -69,8 +69,8 @@ Dispatch is \emph{selective},
   \label{eq:dispatch}
 \end{equation}
 and any failed precondition runs the unchanged baseline $B$. If execution fails
-before a commit and staging proves the attempt clean, $B$ runs; a dirty failure
-after a commit is an incident, not a fallback. Fix $L(A,x)=1$ for an externally
+before a commit and staging proves the attempt clean, $B$ runs; a failure whose effects
+cannot be proved clean is an incident, not a fallback. Fix $L(A,x)=1$ for an externally
 visible task/contract violation or incident after dispatch, $L=0$ for a clean
 abort followed by unchanged $B$, and let $C(A,x)$ be the complete realized cost
 of the attempt including a clean fallback. For a future group
@@ -86,7 +86,7 @@ d_A(x_i)L(A,x_i)$. We seek
   \label{eq:objective}
 \end{equation}
 Both halves take the same group measure. \emph{First}, the constraint
-conditions on dispatch: abstention does not enter its denominator, although it
+conditions on dispatch: pre-dispatch abstention does not enter its denominator, although it
 earns no savings in the objective; by convention its conditional risk is zero
 when population dispatch probability is zero. \emph{Second}, returning \emph{no}
 artifact is feasible, so \retire{} is a legitimate output, and
@@ -97,5 +97,6 @@ beyond the per-candidate and fixed-$m$ cases of \cref{sec:method}. \emph{Third},
 certificate in \cref{sec:results} except one end-to-end certificate
 (\cref{sec:res-primary}) instantiates $L(A,x)=1$ as a \emph{replay-contract
 violation} of the compiled region (\cref{app:config}), so the continuation is
-measured, not certified; a guard, interpreter, or verifier rejection is a
-clean abstention with $L=0$ inside the dispatched denominator.
+measured, not certified. The denominator counts groups with at least one
+attempt admitted by the hard guard and score. A clean interpreter or verifier
+failure after admission has $L=0$ and remains in that count.

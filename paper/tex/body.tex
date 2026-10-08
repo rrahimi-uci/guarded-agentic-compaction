@@ -324,11 +324,11 @@ $G=(x_1,\ldots,x_m)$, define $D_A(G)=\max_i d_A(x_i)$ and
 $W_A(G)=\max_i d_A(x_i)L(A,x_i)$.  We seek an artifact with high coverage and savings
 subject to bounded selective risk:
 \begin{align}
-  \max_A\quad & \mathbb{E}\left[d_A(X)\{C(B,X)-C(A,X)\}\right] \\
+  \max_A\quad & \mathbb{E}_{G\sim\mathcal{D}_{\mathrm{grp}}}\!\left[\sum_{x\in G}d_A(x)\{C(B,x)-C(A,x)\}\right] \\
   \text{s.t.}\quad & \Pr[W_A(G)=1\mid D_A(G)=1]\leq\alpha,
   \label{eq:objective}
 \end{align}
-where $B$ is the unchanged agent.  The constraint conditions on dispatch: abstention does
+where $B$ is the unchanged agent.  The constraint conditions on dispatch: pre-dispatch abstention does
 not enter its denominator, although it earns no savings in the objective; by convention
 its conditional risk is zero when population dispatch probability is zero.  The
 implementation may return no artifact (\retire); this is a valid optimizer output.
@@ -341,7 +341,8 @@ implementation may return no artifact (\retire); this is a valid optimizer outpu
   is measured \emph{inside} it: an episode that misses on the manifest, the guard, or the
   gate returns the baseline and never enters the denominator, so it is not a compacted
   failure.  A staged failure caught before the commit line also returns the baseline, but
-  it does stay in the denominator, and only a post-commit dirty failure is an incident.
+  it does stay in the denominator. A failure whose effects cannot be proved clean
+  raises an incident.
   The 40/30/30 split is illustrative and is drawn only to separate the two quantities; no
   coverage rate is claimed here.}
   \Description{A horizontal strip of one hundred future episodes divided into three
@@ -350,7 +351,7 @@ implementation may return no artifact (\retire); this is a valid optimizer outpu
   conditional selective-risk probability. The first two segments flow to an unchanged
   baseline agent box; the dispatched segment flows to a staged execution box, which
   splits into a compacted outcome when the verifier passes and a baseline outcome when it
-  fails cleanly, with a separate red box for a dirty post-commit incident.}
+  fails cleanly, with a separate red box for an unattested-failure incident.}
   \label{fig:dispatch-population}
 \end{figure*}
 
@@ -362,7 +363,8 @@ after dispatch, not the fraction of all 100 that were answered correctly.  A wor
 where the gate abstains on 70 of 100 episodes therefore has poor coverage and can still
 satisfy the constraint exactly, which is the trade \cref{fig:dispatch-population} is drawn
 to expose. The reported live studies use one episode per group; for multi-episode groups,
-the formal objective instead counts a group as admitted or violating when any member does.
+the risk constraint counts a group as admitted or violating when any member does,
+and the objective sums savings over members under the same group distribution.
 
 At the compiler layer the implemented action set is $\{B,A\}$: retain the baseline or
 admit one compiled artifact.  The separate portfolio layer in

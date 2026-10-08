@@ -77,6 +77,10 @@ included, so those estimates are not total billed cost or time-to-success.
   contradicted the later 132-group end-to-end study. Scope is now explicit.
 - Removing even two non-exact discovery traces is still selection. The
   certificate does not cover the unfiltered population.
+- The formal exposition now distinguishes pre-dispatch guard/score rejection
+  (not an admitted attempt) from clean interpreter/verifier failure after
+  admission (inside the count with zero violation). A group enters the
+  denominator when at least one of its attempts is admitted.
 - The claim that omitted route-deviating traces necessarily become violations
   was incorrect: replay may abstain instead, as BIRD demonstrates. The
   unexecuted counterfactual is no longer asserted.
@@ -91,6 +95,9 @@ These are conditional guarantees, not evidence that source groups are i.i.d.
 
 - An unwitnessed argument is unresolved within the bounded DSL, not proven to
   require a model decision under every possible program representation.
+- The long-form objective now uses the same group sampling measure for savings
+  and risk as the ICLR formulation; incident wording covers failures whose
+  effects cannot be proved clean, including before a staged commit.
 - The feasibility ceiling bounds requests removed by the prefix at fixed
   continuation workload. It is not a universal bound on changes in total calls.
 - Ranking proxies affect candidate choice even though they do not enter the

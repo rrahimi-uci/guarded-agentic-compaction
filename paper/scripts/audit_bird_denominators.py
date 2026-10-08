@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from math import fsum
 from pathlib import Path
 
 from scipy.stats import binomtest
@@ -52,7 +53,8 @@ def audit_cohort(root: Path, selection_root: Path | None = None) -> dict:
     paired = set(rows["baseline"]) & set(rows["compiled"])
     reductions = {}
     for metric in ("requests", "total_tokens", "wall_latency_ms", "estimated_cost_usd"):
-        sums = {c: sum(rows[c][k]["metrics"][metric] for k in sorted(paired))
+        # Built-in float sum changed in Python 3.12; keep retained audits stable.
+        sums = {c: fsum(rows[c][k]["metrics"][metric] for k in sorted(paired))
                 for c in ("baseline", "compiled")}
         reductions[metric] = 1 - sums["compiled"] / sums["baseline"]
     return {
