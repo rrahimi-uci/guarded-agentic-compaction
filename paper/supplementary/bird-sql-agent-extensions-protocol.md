@@ -78,6 +78,19 @@ held-out test partway. No design, endpoint, or analysis changes. With E1 spent (
 $10, E3 at most $60, E4 at most $30, and $3.60 spent before registration, the worst case stays
 inside the author's $100 authorization.
 
+## Amendment before E4 execution (2026-10-08, before any E4 provider call)
+
+The E4 preflight (`paper/results/bird/train/preflight.json`) pins the train archive
+(SHA-256 `66e9e3115b59559554013aa3b124156249f30437a6b4e4f96de3d2dfb5ae8cbc`) and every family
+database. The rule selects 27 families. Executing the gold SQL found a data defect: in
+`retail_world` the gold SQL fails on 137 of 162 selected questions because it references tables
+absent from the shipped database (for example `Order Details` and `EmployeeTerritories`). A
+data-quality rule is therefore added before any E4 provider call: a family is excluded when its
+gold SQL fails (error or timeout) on more than 10% of its selected questions. It excludes
+`retail_world` only, leaving 26 families. In the remaining families the few questions whose gold
+fails (`retails`: 3 timeouts; `works_cycles`: 2 errors) count as incorrect in every condition,
+so they cannot create a discordant pair. The primary (dev) preflight is unaffected.
+
 ## Observed results
 
 (Recorded after execution.)

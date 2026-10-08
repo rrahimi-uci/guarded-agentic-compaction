@@ -278,6 +278,15 @@ def families(questions: Sequence[dict[str, Any]]) -> list[str]:
     return sorted(db for db, n in counts.items() if n >= FAMILY_MIN_QUESTIONS)
 
 
+GOLD_FAILURE_LIMIT = 0.10   # extension protocol E4: exclude a family whose gold SQL fails this often
+
+
+def study_families(pre: dict[str, Any]) -> list[str]:
+    """Families the study runs: the preflight's families minus any excluded for unusable gold."""
+    excluded = pre.get("excluded_families") or {}
+    return [db for db in pre["families"] if db not in excluded]
+
+
 def select(questions: Sequence[dict[str, Any]], db: str) -> dict[str, Any]:
     pool = sorted((q["question_id"] for q in questions if q["db_id"] == db), key=lambda qid: _rank(db, qid))
     test = pool[:TEST_N]
@@ -677,6 +686,13 @@ def preflight(out: Path) -> dict[str, Any]:
     fam_gold = {db: dict(Counter("ok" if gold[qid][0] is not None else gold[qid][1]
                                   for qid in selections[db]["test"] + selections[db]["discovery"])) for db in fams}
     write_probe = BirdDatabase(fams[0]).run_query("CREATE TABLE gac_write_probe(x)")
+    excluded = {}
+    if SPLIT != "dev":  # the primary (dev) preflight is retained as registered
+        for db in fams:
+            ids = selections[db]["test"] + selections[db]["discovery"]
+            failed = sum(1 for qid in ids if gold[qid][0] is None)
+            if failed / len(ids) > GOLD_FAILURE_LIMIT:
+                excluded[db] = f"gold SQL fails on {failed} of {len(ids)} selected questions (> {GOLD_FAILURE_LIMIT:.0%})"
     report = {
         "schema": "agent-compaction-bird-preflight/v1",
         "generated_utc": datetime.now(UTC).isoformat(timespec="seconds"),
@@ -691,6 +707,7 @@ def preflight(out: Path) -> dict[str, Any]:
         "selections": selections,
         "gold_status": fam_gold,
         "read_only_probe": write_probe,
+        **({"excluded_families": excluded} if SPLIT != "dev" else {}),
         "prompts": {d: {"sha256": _sha(p), "text": p} for d, p in PROMPTS.items()},
         "conditions": list(CONDITIONS),
         "settings": {"query_timeout_s": QUERY_TIMEOUT_S, "grade_timeout_s": GRADE_TIMEOUT_S, "max_rows": MAX_ROWS,
@@ -731,7 +748,7 @@ async def live(args: argparse.Namespace) -> int:
             "benchmark": "bird-dev_20240627", "simulated": False, "secrets_serialized": False,
             "protocol": args.protocol, "preflight_sha256": _file_sha(source / "preflight.json"), "split": SPLIT}
     designs = [args.design] if args.design else list(DESIGNS)
-    dbs = [args.database] if args.database else list(pre["families"])
+    dbs = [args.database] if args.database else study_families(pre)
 
     def ctx(db: str, design: str) -> tuple[Any, Any, Any, str]:
         database = BirdDatabase(db)
@@ -883,7 +900,7 @@ def summarize(out: Path, source: Path | None = None, *, table: bool = True) -> d
     for design in DESIGNS:
         fam_out: dict[str, Any] = {}
         pooled: dict[str, list[Any]] = {c: [] for c in CONDITIONS}
-        for db in pre["families"]:
+        for db in study_families(pre):
             target = out / design / db
             src = source / design / db
             compile_record = json.loads((src / "compile.json").read_text()) if (src / "compile.json").exists() else None
@@ -1038,7 +1055,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
     if args.phase == "compile":
         pre = json.loads((args.out / "preflight.json").read_text())
-        compile_phase(args.out, [args.design] if args.design else list(DESIGNS), [args.database] if args.database else list(pre["families"]))
+        compile_phase(args.out, [args.design] if args.design else list(DESIGNS), [args.database] if args.database else study_families(pre))
         return 0
     if args.phase == "summarize":
         print(json.dumps(summarize(args.out, args.source, table=not args.no_table), indent=1, default=str)[:4000])
