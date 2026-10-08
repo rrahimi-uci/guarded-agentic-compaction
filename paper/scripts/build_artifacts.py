@@ -550,9 +550,9 @@ def aha_example_figure(
     card(2, 43, 46, 29, COLORS["series2"], "#FFF7F4")
     lines(5, 68, "Earlier artifact: #6602", size=9.0, color=COLORS["series2"],
           weight="bold", within=(2, 43, 46, 29))
-    lines(5, 61, "recur + replay → ship", size=8.5, color=COLORS["ink"],
+    lines(5, 62, "recur + replay → ship", size=8.5, color=COLORS["ink"],
           family="monospace", within=(2, 43, 46, 29))
-    lines(5, 58, "45/45 tool replays\n4 requests → 1\ntool contract passes", size=7.3,
+    lines(5, 58, "45/45 calibration replays\n4 requests → 1\ntool contract 18/18", size=7.0,
           within=(2, 43, 46, 29))
 
     card(52, 43, 46, 29, COLORS["series2"], "#FFF7F4")

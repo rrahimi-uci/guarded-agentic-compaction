@@ -135,7 +135,7 @@ registered $25 cap was never approached and was not amended.
 **Smoke test.** Twelve episodes on `california_schools` and `superhero`, no failures, $0.016;
 prompts and settings were not changed afterwards.
 
-**Discovery.** 1,316 episodes (two designs, five families), zero infrastructure failures. BIRD
+**Discovery.** 1,312 episodes (two designs, five families), zero infrastructure failures. BIRD
 execution accuracy of the unchanged agent on discovery: standard 387/656, schema-first 392/656.
 
 **Admission.**

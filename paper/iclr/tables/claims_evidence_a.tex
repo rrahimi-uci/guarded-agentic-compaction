@@ -31,13 +31,13 @@ Every primary artifact admitted at $n_\eta=92$, $k_\eta=0$, $U=0.0498\le0.05$. C
 Conditional on i.i.d.\ calibration groups. The certified event is the compiled region's replay contract (\cref{app:config}); continuation misses lie outside it. The seven cross-repository artifacts froze one candidate before calibration and are compiler-wide at 0.0498. \\
 \addlinespace[2pt]
 The step-like gate is a sample-size floor &
-$U(n)=1-(\delta/|\Lambda|)^{1/n}$ reaches $\alpha$ at $n=91.64$; $U(91)=0.0503$, $U(92)=0.0498$. Every calibration pool is $|\mathcal{K}|=92$, so the certifiable coverage set is $\{0,1\}$; selective coverage $c$ needs $\lceil 92/c\rceil$ groups (115, 132, 184, 368 at $c=0.8,0.7,0.5,0.25$). All 7 registered artifacts are step-like (0 partial frontiers). The two observed intermediate coverages are uncertifiable: 10/92 at $U=0.375$ (\code{huggingface/datasets}, gate frontier) and 90/92 at $U=0.0509$ (\code{pandas-dev/pandas}, balanced rerun). &
+$U(n)=1-(\delta/|\Lambda|)^{1/n}$ reaches $\alpha$ at $n=91.64$; $U(91)=0.0503$, $U(92)=0.0498$. Every registered-grid calibration pool is $|\mathcal{K}|=92$, so the certifiable coverage set is $\{0,1\}$; selective coverage $c$ needs $\lceil 92/c\rceil$ groups (115, 132, 184, 368 at $c=0.8,0.7,0.5,0.25$). All 7 artifacts in the retained threshold analysis (3 primary, 4 core cross-repository) are step-like (0 partial frontiers). The two observed intermediate coverages are uncertifiable: 10/92 at $U=0.375$ (\code{huggingface/datasets}, gate frontier) and 90/92 at $U=0.0509$ (\code{pandas-dev/pandas}, balanced rerun). &
 \path{src/guarded_agentic_compaction/grc/calibrate.py} (\code{clopper\_pearson\_upper}, $k=0$); \path{paper/results/gate_selectivity_analysis.json} (\code{summary}); \path{paper/results/iclr_revision/gate_frontier_reanalysis.json} (\code{grid\_rows}); \path{paper/iclr/figures/gate_floor.pdf}. &
 Does not test the ranking quality of $q$; two worlds (a score that cannot rank, a pool too small to certify a ranking) are not separated. The graded-frontier protocol is written and not run. \\
 \addlinespace[2pt]
-750 compiled episodes, one compiled-only failure &
-Compiled held-out episodes on the calibrated model: 90 (primary) $+$ 120 (core) $+$ 180 (balanced) $+$ 240 (gate-frontier learned gate) $+$ 120 (extended issue-type) $=750$; 1 record where the baseline passed and the compiled arm failed (extended cohort, record 2737, an excerpt quoted with backticks absent from the source). &
-Per-record \code{results[]} of the five studies' \code{results.json} files; counted by \code{validate\_live\_\allowbreak extensions} in \path{paper/scripts/validate_artifacts.py}. &
-\code{gpt-5.6-luna} only, in-distribution records, one snapshot per study. Excludes the \code{gpt-6-luna} transfer, which produced one further compiled-only miss and is reported separately. \\
+810 compiled episodes, one compiled-only failure &
+Compiled held-out GitHub episodes on the calibrated model: 90 (primary) $+$ 120 (extended issue-type) $+$ 60 (post-cutoff) on excerpt-bearing contracts, and 120 (core) $+$ 180 (balanced) $+$ 240 (gate-frontier learned gate) on the outcome-only contract $=810$; 1 record where the baseline passed and the compiled arm failed (extended cohort, record 2737, an excerpt quoted with backticks absent from the source). &
+Per-record \code{results[]} of the six studies' result files; counted by \code{validate\_live\_\allowbreak extensions} in \path{paper/scripts/validate_artifacts.py}. &
+\code{gpt-5.6-luna} only, in-distribution records, one snapshot per study. Excludes the \code{gpt-6-luna} transfer, which produced one further compiled-only miss, and BIRD, whose contract differs; both are reported separately. \\
 \bottomrule
 \end{tabularx}

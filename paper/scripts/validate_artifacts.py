@@ -1840,7 +1840,7 @@ def validate_live_extensions() -> None:
         compiled_only += sum(base.get(k, False) and not v for k, v in comp.items())
     ok(episodes == 810 and compiled_only == 1,
        "§7: 810 held-out episodes under a compiled artifact on the calibrated model with one compiled-only failure")
-    ok("Across 810 held-out episodes run under a compiled artifact" in (PAPER / "iclr/sections/discussion.tex").read_text(encoding="utf-8"),
+    ok("Across 810 held-out GitHub episodes run under a compiled artifact" in (PAPER / "iclr/sections/discussion.tex").read_text(encoding="utf-8"),
        "§7 states the 810-episode headline")
 
     # -- second-model replication ----------------------------------------------------
@@ -3167,7 +3167,7 @@ def validate_bird_sql_agent() -> None:
     ok("NESTFUL" in main_funnel and "AppWorld" in main_funnel and "API-Bank" not in main_funnel and "BFCL" not in main_funnel
        and all(name in all_funnel for name in ("NESTFUL", "API-Bank", "BFCL", "AppWorld")),
        "paper structure: main text features NESTFUL and AppWorld; the appendix table keeps all four trace benchmarks")
-    ok("label{sec:res-bird}" in results and "Where \\method gives no benefit: NESTFUL and AppWorld" in results,
+    ok("label{sec:res-bird}" in results and "Where \\method yields no measured benefit: NESTFUL and AppWorld" in results,
        "paper structure: §5.3 is the BIRD benefit result and §5.4 the two no-benefit benchmarks")
 
 

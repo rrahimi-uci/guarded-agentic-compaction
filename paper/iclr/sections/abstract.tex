@@ -14,18 +14,19 @@ examples pass a statistical test.
 
 On three real GitHub workflows, the compiled agent matched the original
 agent's accuracy (90 of 90 held-out tasks correct, versus 89 of 90) and never
-failed a task the original agent solved, while making about two-thirds fewer
+failed a task the original agent solved (one such failure in 810 held-out GitHub
+episodes overall), while making about two-thirds fewer
 model calls, finishing in about a third of the time, and costing less than
 half as much per task. On 132 fresh pull requests created after our data
 snapshot, it made no end-to-end errors, which bounds its error rate below 2\%
 with 90\% confidence for open and merged pull requests. On BIRD, a public
 text-to-SQL benchmark, a live schema-first agent's opening was compiled on 26 of
-31 databases and on a second model family, cutting model calls by about 46\%
+31 databases and on a second model family, cutting model calls by 45--50\%
 with no detected accuracy loss; agents choosing tables per question were
-refused. Two public benchmarks show where \method gives no benefit: NESTFUL
-holds at most 26 examples of any workflow, against the 92 required, and on
-AppWorld the one admitted program fits almost no released agent. With a second model family and a second provider,
-\method rediscovers the same programs on two of three workflows and declines
+refused. Two public benchmarks show no measured benefit: NESTFUL holds at most
+26 examples of any workflow, against the 92 required, and on AppWorld the one
+admitted program fits almost no ReAct or plan-and-execute run. With a second model family and a second provider,
+\method rediscovers the same programs on two of the three GitHub workflows and declines
 the third. We also report its limits: its main guarantee mostly confirms that
 enough examples were seen, the savings hold within one data snapshot, and
 when tool outputs were deliberately corrupted its run-time checks prevented

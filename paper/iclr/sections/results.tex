@@ -43,31 +43,28 @@ unchanged agent 89/90 (\cref{tab:primary}, \cref{fig:results} left), reducing pr
 66.6\%, tokens by 63.1\%, latency by 64.2\%, and cost by 58.7\% (per-record
 values and bootstrap intervals in \cref{tab:absolute-resources,tab:reduction-ci}, \cref{app:stats}); issue-type routing, a
 two-read prefix, is the low end of every range in \cref{fig:results}. These are
-marginal per-episode savings within one snapshot: discovery cost alone breaks
-even after 411, 182, and 181 episodes per family (\cref{app:stats}).
+marginal per-episode savings within one snapshot: every artifact pins its
+snapshot digest and abstains on any other (a new snapshot is recompiled), and
+discovery cost alone breaks even after 411, 183, and 181 episodes per family
+(\cref{app:stats}).
 
 The discordant pair is one baseline-only miss (backlog record 5189, an
 ungrounded excerpt) against zero compiled-only misses (McNemar $p=1$; one-sided
-95\% bound on compiled-only discordance 3.3\%, or 2.2\% over 210 records with
-the 120-record extension of \cref{app:stats} and its one compiled-only miss
-pooled); a rerun of the 30 records scored 30/30 in every arm
-(\cref{app:limits}), so the result supports preservation, not superiority. Each artifact was
-admitted with 92 calibration groups and zero replay-contract violations
-($U_{\hat\eta}=0.0498\le0.05$), conditional on i.i.d.\ groups; because that
-event has no support on these cohorts (\cref{sec:method}), the decision reduces
-to the 92-group floor, which is why the second-provider backlog refusal below
-turns on 90 and 91 eligible groups. The certificate is compiler-wide for
+95\% bound on compiled-only discordance 3.3\%); a rerun of the 30 records scored
+30/30 in every arm (\cref{app:limits}), so the result supports preservation, not
+superiority. Programs hand-written with full workflow knowledge also reach
+90/90, tie on requests, use fewer interfaces and tokens, cost marginally less,
+and lose only on latency (\cref{tab:manual-resources}): we claim discovery and
+admission, not runtime dominance.
+
+Each artifact was admitted at 92/92 zero-violation calibration groups
+($U_{\hat\eta}=0.0498\le0.05$, conditional on i.i.d.\ groups), a
+support-sufficiency certificate (\cref{sec:method}) that is compiler-wide for
 issue-type routing (one candidate at calibration) and per-candidate for
 PR-outcome and backlog routing (two; corrected $U=0.0569$, so compiler-wide
-only at $\alpha\ge0.057$; \cref{cor:frozen}, \cref{app:config}). On \code{gpt-6-luna} and on
-Anthropic \code{claude-sonnet-5}, same cohorts, re-discovery from each model's
-own traces re-derives the identical programs on two of the three families and
-refuses the third, with four compiled-only excerpt misses on Sonnet; the
-transfer of the retained artifacts to \code{gpt-6-luna} keeps the structure
-with one compiled-only miss in 90 (\cref{app:limits}).
-
-The one certificate whose event includes the continuation comes from a
-post-cutoff PR-outcome cohort (\cref{app:limits}): the re-derived artifact
+only at $\alpha\ge0.057$; \cref{cor:frozen}, \cref{app:config}). The one certificate whose event includes the continuation comes from a
+post-cutoff PR-outcome cohort (pull requests created after the snapshot's last
+day; \cref{app:limits}): the re-derived artifact
 dispatched on 132 fresh calibration groups and the graded task contract missed
 0, a one-sided bound of 0.0173 under the single rule pre-registered for that
 study and 0.035 under the primary grid. Those groups are 84 open and 48 merged
@@ -75,16 +72,17 @@ pull requests and no closed-unmerged ones, so the certified population excludes
 that class; the 60 fresh test records (20 per class) pass under every
 condition, and the bound survives day- and author-level units (0.0228, 0.0267).
 
-Discovery reaches the manual ceiling: programs written with full workflow
-knowledge also reach 90/90, tie on requests, issue fewer interfaces, cost
-marginally less, and lose only on latency (\cref{tab:manual-resources}). We
-claim discovery and admission, not runtime dominance.
+On \code{gpt-6-luna} and Anthropic \code{claude-sonnet-5}, re-discovery from
+each model's own traces on the same cohorts re-derives the identical programs
+on two of the three families and refuses backlog routing (on Sonnet at 91 and
+90 of 92 groups, the floor binding), with four compiled-only excerpt misses on
+Sonnet; transferring the retained artifacts to \code{gpt-6-luna} keeps the
+structure with one compiled-only miss in 90 (\cref{app:limits}).
 
 \subsection{Newer records within a snapshot: compile or retire}
 \label{sec:res-multirepo}
 
-On the narrower two-read pull-request outcome task across frozen public
-repositories (\cref{sec:setup}), \method completes 120/120 exact contracts on
+On the two-read cross-repository PR-outcome task (\cref{sec:setup}), \method completes 120/120 exact contracts on
 paired held-out records across four of five repositories and retires
 \code{pytorch/pytorch} at admission, where no calibration group is accepted at
 any threshold (\cref{app:breadth}). The compiled program ran on 80/120 records:
@@ -94,10 +92,9 @@ requests fall 44.4\% (66.7\% on dispatched records) and tokens 52.4\%. A
 balanced three-repository rerun with all three classes in discovery,
 \code{pytorch/pytorch} included, dispatches on 180/180 and reaches 180/180 at
 66.7\% fewer requests and 78.4\% fewer tokens (\cref{tab:multirepo-disaggregated},
-\cref{app:breadth}); the refusal was composition-driven. The hand-written
-program is more efficient in the core protocol and tied in the rerun. Every
-artifact pins its snapshot digest and abstains on any other, so savings hold
-within one snapshot; a new snapshot is recompiled, as the post-cutoff study does.
+\cref{app:breadth}), consistent with a composition-driven refusal. The
+hand-written program is more efficient in the core protocol and tied in the
+rerun.
 
 \subsection{A public benchmark where \method helps: BIRD}
 \label{sec:res-bird}
@@ -107,37 +104,39 @@ shows where \method helps (\cref{app:bird}): on the five dev databases with at l
 \method retires all five when the agent picks its tables per question, and
 admits the schema-first opening on all five. On 150 sealed questions the
 compiled agent dispatched every time, answered 97 correctly against 94 (McNemar
-$p=0.45$), and cut requests 44.9\% and latency 29.4\%. This replicates on a
-second model family and on 21 of 26 training databases (625 questions: 400
+$p=0.45$), and cut requests 44.9\% and latency 29.4\% against a warm rerun of the
+unchanged agent. This replicates on a
+second model family (49.9\% fewer requests; 93 against 91 correct) and on 21 of 26 training databases (625 questions: 400
 against 401 correct, 45.9\% fewer requests, 18.1\% lower cost); a second
 provider's agent never ran the opening as a fixed step and was refused
 (\cref{tab:bird-extensions}).
 
-\subsection{Where \method gives no benefit: NESTFUL and AppWorld}
+\subsection{Where \method yields no measured benefit: NESTFUL and AppWorld}
 \label{sec:res-refusal}
 
 \begin{table}[t]
   \centering
-  \caption{The two trace benchmarks where \method gives no benefit (API-Bank and
-  BFCL v4, which retire like NESTFUL, are in \cref{tab:funnel-all}). Stage
-  numbers follow \cref{sec:method} and \cref{fig:pipeline}; ``slots'' is the share of dependency slots with
-  a recovered producer, and $n_{\max}$ is the largest family support against the 92
-  \cref{eq:cp} requires. ``p/a/w'' is pass/abstain/wrong on each substrate's
-  \emph{family-level} replay split, which is held out from a different fit than
-  the admission split quoted in the text (\cref{app:external}).}
+  \caption{The two trace benchmarks with no measured \method benefit (all four in
+  \cref{tab:funnel-all}). Stage numbers follow \cref{fig:pipeline}; ``slots''
+  is the share of dependency slots with a recovered producer; ``at floor''
+  counts families meeting the stage-2 support minimum ($\ge5$ groups on
+  NESTFUL, $\ge3$ elsewhere); $n_{\max}$ is the largest family support
+  (\cref{eq:cp} requires 92); ``p/a/w'' is pass/abstain/wrong on the
+  \emph{family-level} replay split, not the 11/11 admission test split
+  (\cref{app:external}). AppWorld shows effect arm A.}
   \label{tab:funnel}
   \footnotesize
   \setlength{\tabcolsep}{4pt}
   \input{tables/refusal_funnel.tex}
 \end{table}
 
-\emph{Thin evidence.} NESTFUL, the largest public trace corpus here (1{,}415
-traces), passes provenance, synthesis, and replay with \emph{no} wrong
+\emph{Thin evidence.} NESTFUL, the largest trace corpus the compiler ingests here
+(1{,}415 traces), passes provenance, synthesis, and replay with \emph{no} wrong
 execution, yet its best family reaches $n_{\max}=26<92$, so every family retires
 at stage 6 (\cref{tab:funnel}, \cref{fig:results} right); API-Bank and BFCL v4
-retire the same way at 8 and 15 (\cref{app:external}).
+retire the same way at 8 and 15 (\cref{tab:funnel-all}).
 
-\emph{Admissible but not useful.} AppWorld's gold solutions reach
+\emph{Admissible, rarely dispatchable.} AppWorld's gold solutions reach
 $n_{\max}=136$, and \method admits one argument-free two-call artifact at 92/92
 zero-violation groups ($U_{\hat\eta}=0.0498$, compiler-wide under one effect
 arm, per-candidate under the other; \cref{app:external}). Yet across 8{,}190

@@ -45,7 +45,7 @@ EXCLUDE_PREFIXES = (
 EXCLUDE_SUFFIXES = (".pptx", ".pyc")
 
 # Identifying strings. Every file in the archive is scanned for these after scrubbing.
-IDENTIFYING = re.compile(rb"(?i)rahimi|rrahimi|jazzx|reza\.rahimi|rezarahimi")
+IDENTIFYING = re.compile(rb"(?i)rahimi|rrahimi|jazzx|reza\.rahimi|rezarahimi|leila|jalali")
 # Byte-pinned upstream dataset snapshots are third-party public data that cannot be edited
 # (their sha256 is pinned in source_manifest.json and checked by the validator). They are
 # scanned with the author-specific tokens only, so that an unrelated public GitHub handle
@@ -65,6 +65,11 @@ SCRUBS = (
     (re.compile(r"Reza Rahimi"), "ANONYMIZED AUTHOR"),
     (re.compile(r"JazzX AI|Jazzx AI|jazzx\.ai|JazzX|Jazzx|jazzx"), "ANONYMIZED AFFILIATION"),
     (re.compile(r"reza\.rahimi@[A-Za-z0-9.-]+"), "anonymized@example.org"),
+    # The withdrawn HMDA study's independent macro reviewer is a colleague of the author;
+    # naming them in a double-blind supplement could identify the authors.
+    (re.compile(r"Leila Jalali"), "ANONYMIZED REVIEWER"),
+    (re.compile(r"\bLeila\b"), "ANONYMIZED REVIEWER"),
+    (re.compile(r"\bJalali\b"), "ANONYMIZED REVIEWER"),
 )
 TEXT_SUFFIXES = {".py", ".md", ".tex", ".bib", ".sty", ".bst", ".json", ".toml", ".yaml", ".yml",
                  ".txt", ".cfg", ".ini", ".csv", ".tsv", ".html", ".js", ".mjs", ".css", ""}
@@ -211,8 +216,11 @@ def main() -> int:
             data = path.read_bytes()
             if rel.startswith(UPSTREAM_SNAPSHOT_PREFIX) and path.suffix == ".parquet":
                 manifest = json.loads((path.parent / "source_manifest.json").read_text())
-                if hashlib.sha256(data).hexdigest() != manifest["parquet"]["sha256"]:
-                    offenders.append(f"{rel} (upstream sha256 mismatch)")
+                # Two manifest formats exist: {"parquet": {"sha256": ...}} (pinned snapshot) and a
+                # flat "parquet_sha256" (cross-repository and post-cutoff snapshots).
+                expected = (manifest.get("parquet") or {}).get("sha256") or manifest.get("parquet_sha256")
+                if not expected or hashlib.sha256(data).hexdigest() != expected:
+                    offenders.append(f"{rel} (upstream sha256 missing or mismatched)")
                 elif AUTHOR_TOKENS.search(data):
                     offenders.append(rel)
             elif IDENTIFYING.search(data):
