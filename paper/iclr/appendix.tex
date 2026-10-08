@@ -845,6 +845,76 @@ undeclared in the signed catalog and unknown effects are not reads.
   \input{tables/external_evidence_map.tex}
 \end{table}
 
+\subsection{A live agent on a public benchmark: BIRD}
+\label{app:bird}
+
+\paragraph{Design.} The study was registered before any provider call
+(\path{paper/supplementary/bird-sql-agent-protocol.md}). A tool-using SQL agent
+on \code{gpt-5.6-luna}, with the paper's pinned settings, answers BIRD dev
+questions~\citep{li2023bird} (release \code{dev\_20240627}, question plus
+evidence) over read-only SQLite files with three tools: \code{list\_tables},
+\code{get\_schema(table\_names)} with three sample rows, and \code{run\_query}.
+The contract is BIRD execution accuracy: the final query's result set equals
+the gold query's. Every dev database with at least 146 questions (16 train, 8
+dev, 92 calibration, 30 held out) is a family, which selects five. Two agent
+designs were registered: \emph{standard}, adapted from LangChain's SQL-agent
+prompt (``query the schema of the most relevant tables''), and
+\emph{schema-first}, whose workflow step reads every table before writing a
+query, the analogue of the paper's prescribed design. QUALIFY does not filter
+on answer correctness, the compiler runs with the registered settings, and a
+strict audit vetoes any admission whose calibration groups show the agent
+passing different opening arguments than the program derives.
+
+\begin{table}[t]
+  \centering
+  \caption{BIRD: compile-or-retire per database and design, and the schema-first
+  held-out evaluation (30 sealed questions per database). ``Repeat'' is a
+  second independent run of the unchanged agent. Reductions compare the
+  compiled agent with that warm-cache repeat run (the condition order was not
+  rotated as registered; see text). Standard-design retirements are at
+  synthesis (\code{ungroundable\_slot}) or on calibration support.}
+  \label{tab:bird}
+  \footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \resizebox{\linewidth}{!}{\input{tables/bird_results.tex}}
+\end{table}
+
+\paragraph{Admission.} The standard agent passed 7 to 39 distinct table lists
+per database and every table in 0 of 132 runs on four of them, so
+\code{get\_schema.table\_names} has no consistent expression and four families
+retire at synthesis (\cref{tab:bird}). On \code{card\_games} the candidate
+``read only \code{cards}'' (the agent's most common choice, 61 of 132 runs)
+matched 34 calibration groups and retired on support. In 7 of those groups the
+agent had read a different table; the compiler labeled them unproductive, which
+stays in the count, rather than violations. That is the leniency the strict
+audit was registered to catch, and with more support the compiler alone could
+have admitted a wrong-shaped program. The schema-first agent passed the full
+listing in every discovery run, and every family admitted
+\code{list\_tables} $\to$ \code{get\_schema}(all tables) with one candidate at
+calibration (compiler-wide), 92 groups, zero violations, and a clean audit. The
+table list is bound as an invariant literal, not as an expression over the
+listing as the protocol predicted, because the implemented rule tries literals
+first.
+
+\paragraph{Held-out evaluation.} The compiled program dispatched on 150 of 150
+sealed questions. Execution accuracy was 97/150 compiled, 94/150 for the
+unchanged agent, 94/150 for its repeat, and 94/150 for a hand-written schema
+prefetch; compiled against the unchanged agent there are 5 compiled-only and 2
+baseline-only correct answers (McNemar $p=0.45$; difference $+2.0$ points,
+95\% interval $[-1.3,+5.3]$), which meets the registered criterion for no
+detected accuracy loss and is not a superiority claim. The registered rotation
+of condition order was not implemented: the four conditions ran in a fixed
+order, so the first baseline met a colder provider prompt cache (cached-input
+share 0.504 against 0.56--0.59) and its repeat was 11.9\% cheaper with the same
+tokens. Against the warm repeat, the compiled agent made 44.9\% fewer model
+requests $[42.1,47.4]$, used 9.8\% fewer tokens $[4.7,14.3]$, ran 29.4\% faster
+$[23.6,35.1]$, and cost 6.3\% less $[1.5,10.6]$; against the first run the cost
+reduction is 17.5\%, and pricing every input token at the uncached rate gives
+11--12\% either way. The hand-written prefetch reaches 46.3\%, 12.4\%, 31.5\%,
+and 7.9\%, so the discovered program matches the manual ceiling. Savings in
+tokens and cost are modest because the two removed calls carry the shortest
+contexts. Total spend was \$2.69.
+
 \subsection{The registered gate is a support threshold}
 
 This audit strengthens the evidentiary record precisely by preserving the

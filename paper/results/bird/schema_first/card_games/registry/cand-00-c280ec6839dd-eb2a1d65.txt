@@ -1,0 +1,17 @@
+artifact  list_tables.get_schema.region@c280ec68@1   support 16/16 groups   removes k=2.00   [active]
+──────────────────────────────────────────────────────────────────────────────
+guard   effect_catalog_version=bird-card_games-readonly-sqlite@1#7f9bb5749f7cf9dd  entry_contract_version=bird-database-v1:card_games  guardrail_hash=#ca7525a8  model=gpt-5.6-luna  policy_hash=#94fc7fa3  prompt_hash=#20a0b160  tools_hash=#4b153eca
+        effects ⊆ {READ_LOCAL}  all speculatable ∧ replayable
+
+program (θ = {}):
+   tabl = call list_tables()
+   sche = call get_schema(table_names = Const(['cards', 'foreign_data', 'legalities', 'sets', 'set_translations', 'rulings']))
+   return  { sche: sche, tabl: tabl }
+verify  tabl : dict, non-null, provenance ∈ {list_tables}
+        tabl.database : str, non-null, ∈ {card_games}, provenance ∈ {list_tables}
+        tabl.tables : list, non-null, len ≤ 6, len ≥ 6, provenance ∈ {list_tables}
+        sche : dict, non-null, provenance ∈ {get_schema}
+        sche.database : str, non-null, ∈ {card_games}, provenance ∈ {get_schema}
+        sche.schemas : list, non-null, len ≤ 6, len ≥ 6, provenance ∈ {get_schema}
+        effect_multiset ⊆ {READ_LOCAL},  |calls| ∈ {2},  no WRITE_*
+gate    q = logistic(entry features)   η = 0.50   (cal n=92 groups, α=0.05, δ=0.1, |Λ|=11, R⁺=0.050, φ̂=1.00)

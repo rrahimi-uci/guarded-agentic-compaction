@@ -761,7 +761,11 @@ async def live(args: argparse.Namespace) -> int:
                 completed = {(r.condition, r.issue_number) for r in done}
                 database, catalog, manifest, sha = ctx(db, design)
                 test_ids = pre["selections"][db]["test"]
-                # Rotate the condition order by record so no arm always runs first.
+                # As executed on 2026-10-08 the conditions ran in the fixed order of CONDITIONS for
+                # each family, NOT rotated by record as the protocol registered (the offset below
+                # changes nothing because every condition is queued for every record). The first
+                # baseline therefore ran with a colder provider prompt cache; the protocol records
+                # the deviation and the summary reports reductions against the warm repeat run.
                 plan: dict[str, list[dict[str, Any]]] = {c: [] for c in CONDITIONS}
                 for index, qid in enumerate(test_ids):
                     for offset in range(len(CONDITIONS)):
@@ -847,7 +851,7 @@ def summarize(out: Path) -> dict[str, Any]:
             if compile_record and compile_record.get("artifact"):
                 art = compile_record["artifact"]
                 entry["artifact_tools"] = [s.get("tool") for s in (art.get("program") or {}).get("steps", [])]
-                entry["gate"] = {k: (art.get("gate") or {}).get(k) for k in ("n_calibration_groups", "upper_bound", "threshold", "coverage", "retire")}
+                entry["gate"] = {k: (art.get("gate") or {}).get(k) for k in ("n_calibration_groups", "observed_violations", "risk_upper_bound", "threshold", "coverage", "retire")}
                 entry["strict_audit_disagreements"] = len((compile_record.get("strict_audit") or {}).get("disagreements", []))
             evaluation, eval_fail = load_runs(target / "evaluation.json")
             if evaluation:
@@ -865,6 +869,10 @@ def summarize(out: Path) -> dict[str, Any]:
         if pooled["baseline"]:
             base = {r.issue_number: r for r in pooled["baseline"]}
             comparisons: dict[str, Any] = {}
+            warm = {r.issue_number: r for r in pooled["baseline_repeat"]}
+            cache_share = {c: (sum(int(r.metrics.get("cached_input_tokens") or 0) for r in pooled[c])
+                               / max(1, sum(int(r.metrics.get("input_tokens") or 0) for r in pooled[c]))) for c in CONDITIONS}
+            design_out["cached_input_share"] = cache_share
             for cand_name in ("compiled", "manual_schema_prefetch", "baseline_repeat"):
                 cand = {r.issue_number: r for r in pooled[cand_name]}
                 keys = sorted(set(base) & set(cand))
@@ -880,7 +888,14 @@ def summarize(out: Path) -> dict[str, Any]:
                     bv = [float(base[k].metrics.get(m) or 0.0) for k in keys]
                     cv = [float(cand[k].metrics.get(m) or 0.0) for k in keys]
                     reductions[m] = {"reduction": 1.0 - sum(cv) / sum(bv) if sum(bv) else None, "ci95": _paired_bootstrap(bv, cv)}
+                warm_reductions = {}
+                if cand_name != "baseline_repeat":
+                    for m in ("requests", "total_tokens", "wall_latency_ms", "estimated_cost_usd"):
+                        wv = [float(warm[k].metrics.get(m) or 0.0) for k in keys]
+                        cv = [float(cand[k].metrics.get(m) or 0.0) for k in keys]
+                        warm_reductions[m] = {"reduction": 1.0 - sum(cv) / sum(wv) if sum(wv) else None, "ci95": _paired_bootstrap(wv, cv)}
                 comparisons[cand_name] = {
+                    "reductions_vs_warm_repeat": warm_reductions,
                     "n": len(keys), "baseline_correct": sum(b_ok), "candidate_correct": sum(c_ok),
                     "baseline_only_correct": base_only, "candidate_only_correct": cand_only,
                     "mcnemar_exact_p": float(binomtest(min(base_only, cand_only), base_only + cand_only, 0.5).pvalue) if base_only + cand_only else 1.0,
@@ -892,7 +907,59 @@ def summarize(out: Path) -> dict[str, Any]:
     ledger_path = out / "ledger.json"
     summary["spent_usd"] = json.loads(ledger_path.read_text())["spent_usd"] if ledger_path.exists() else 0.0
     (out / "summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True, default=str) + "\n")
+    write_table(summary, pre)
     return summary
+
+
+TABLE_PATH = ROOT / "paper/iclr/tables/bird_results.tex"
+
+
+def _standard_outcome(entry: dict[str, Any], out: Path, db: str) -> str:
+    if entry.get("status") == "admitted":
+        return "admit"
+    if entry.get("stage") == "compiler":
+        record = json.loads((out / "standard" / db / "compile.json").read_text())
+        if record.get("candidates_reaching_calibration"):
+            n = max((int((c.get("gate") or {}).get("n_calibration_groups") or 0)
+                     for c in record.get("candidates", []) if c.get("gate")), default=0)
+            return f"retire: support {n}/92" if n else "retire: calibration"
+        return "retire: synthesis"
+    return f"retire: {entry.get('stage')}"
+
+
+def write_table(summary: dict[str, Any], pre: dict[str, Any], out: Path = OUT_ROOT) -> None:
+    std = summary["designs"]["standard"]["families"]
+    sf = summary["designs"]["schema_first"]["families"]
+    lines = ["% generated by paper/scripts/bird_sql_agent_study.py --phase summarize; do not edit",
+             r"\begin{tabular}{@{}lrlccccrrr@{}}", r"\toprule",
+             r"& & Standard & \multicolumn{4}{c}{Schema-first: correct of 30} & \multicolumn{3}{c}{Compiled vs.\ warm repeat} \\",
+             r"\cmidrule(lr){3-3}\cmidrule(lr){4-7}\cmidrule(l){8-10}",
+             r"Database & Tables & GAC & Base & Repeat & Compiled & Manual & Requests & Tokens & Cost \\", r"\midrule"]
+    for db in pre["families"]:
+        e = sf.get(db, {})
+        ev = e.get("evaluation") or {}
+        c = ev.get("correct") or {}
+        mean = ev.get("mean") or {}
+        def red(metric: str) -> str:
+            b, k = (mean.get("baseline_repeat") or {}).get(metric), (mean.get("compiled") or {}).get(metric)
+            return f"{100 * (1 - k / b):.1f}\\%".replace("-", "$-$") if b and k is not None else "---"
+        lines.append(
+            f"\\code{{{db.replace('_', chr(92) + '_')}}} & {len(pre['databases'][db]['tables'])} & {_standard_outcome(std.get(db, {}), out, db)} & "
+            f"{c.get('baseline', '---')} & {c.get('baseline_repeat', '---')} & \\textbf{{{c.get('compiled', '---')}}} & "
+            f"{c.get('manual_schema_prefetch', '---')} & {red('requests')} & {red('total_tokens')} & {red('estimated_cost_usd')} \\\\")
+    pooled = summary["designs"]["schema_first"].get("pooled") or {}
+    comp = pooled.get("compiled")
+    if comp:
+        rep = pooled.get("baseline_repeat") or {}
+        man = pooled.get("manual_schema_prefetch") or {}
+        r = comp["reductions_vs_warm_repeat"]
+        lines += [r"\midrule",
+                  f"Pooled & & 5 retire & {comp['baseline_correct']} & {rep.get('candidate_correct', '---')} & "
+                  f"\\textbf{{{comp['candidate_correct']}}} & {man.get('candidate_correct', '---')} & "
+                  f"{100 * r['requests']['reduction']:.1f}\\% & {100 * r['total_tokens']['reduction']:.1f}\\% & "
+                  f"{100 * r['estimated_cost_usd']['reduction']:.1f}\\% \\\\"]
+    lines += [r"\bottomrule", r"\end{tabular}"]
+    TABLE_PATH.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def main(argv: Sequence[str] | None = None) -> int:

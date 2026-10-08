@@ -3104,6 +3104,66 @@ def validate_time_forward_pr_outcome() -> None:
     ok("0.0173" in appendix and "132" in appendix and "75.0" in appendix, "time-forward: appendix quotes the retained numbers")
 
 
+def validate_bird_sql_agent() -> None:
+    """Pin the BIRD SQL-agent study (live, 2026-10-08): admission per design and the held-out result."""
+
+    out = PAPER / "results/bird"
+    for name in ("preflight.json", "summary.json", "ledger.json"):
+        ok((out / name).exists(), f"bird: {name} present")
+    if not all((out / n).exists() for n in ("preflight.json", "summary.json", "ledger.json")):
+        return
+    pre, summary, ledger = load(out / "preflight.json"), load(out / "summary.json"), load(out / "ledger.json")
+    families = ["card_games", "codebase_community", "formula_1", "student_club", "thrombosis_prediction"]
+    ok(pre["archive"]["sha256"] == "cdd6d19faeb45a23970b98d3ef6c40a87987c95459c2cf12076897a60cf5a630",
+       "bird: BIRD dev archive digest pinned")
+    ok(pre["families"] == families and pre["provider_calls"] == 0, "bird: five families by the >= 146-question rule, provider-free preflight")
+    ok("error" in pre["read_only_probe"], "bird: the write probe is refused")
+    ok(all(not set(s["test"]) & set(s["discovery"]) and len(s["test"]) == 30 for s in pre["selections"].values()),
+       "bird: 30 sealed held-out questions per family, disjoint from discovery")
+    for design in ("standard", "schema_first"):
+        for db in families:
+            fam = summary["designs"][design]["families"][db]
+            expected = 128 if db == "student_club" else 132
+            ok(fam["discovery_runs"] == expected and fam["discovery_failures"] == 0,
+               f"bird: {design}/{db} discovery {expected} runs, no failures")
+    std = summary["designs"]["standard"]["families"]
+    ok(all(std[db]["status"] == "retired" for db in families), "bird: standard design retires on all five families")
+    card = load(out / "standard/card_games/compile.json")
+    ok(max(int((c.get("gate") or {}).get("n_calibration_groups") or 0) for c in card["candidates"]) == 34,
+       "bird: standard card_games retires on support (34 calibration groups)")
+    ok(all("ungroundable_slot" in json.dumps(load(out / f"standard/{db}/compile.json").get("rejection_by_stage", {}))
+           for db in families if db != "card_games"), "bird: four standard families retire at synthesis (ungroundable_slot)")
+    for db in families:
+        comp = load(out / f"schema_first/{db}/compile.json")
+        gate = comp["artifact"]["gate"]
+        ok(comp["status"] == "admitted" and comp["candidates_reaching_calibration"] == 1
+           and gate["n_calibration_groups"] == 92 and gate["observed_violations"] == 0
+           and not comp["strict_audit"]["disagreements"],
+           f"bird: schema_first/{db} admitted, m = 1, 92/0 gate, clean strict audit")
+        ev = summary["designs"]["schema_first"]["families"][db]["evaluation"]
+        ok(ev["n"] == 30 and ev["failures"] == 0 and ev["compiled_dispatched"] == 30, f"bird: schema_first/{db} held out 30/30, dispatched 30")
+    pooled = summary["designs"]["schema_first"]["pooled"]
+    comp = pooled["compiled"]
+    ok(comp["n"] == 150 and comp["baseline_correct"] == 94 and comp["candidate_correct"] == 97
+       and pooled["baseline_repeat"]["candidate_correct"] == 94 and pooled["manual_schema_prefetch"]["candidate_correct"] == 94,
+       "bird: correct 94 baseline, 94 repeat, 97 compiled, 94 hand-written of 150")
+    ok(comp["candidate_only_correct"] == 5 and comp["baseline_only_correct"] == 2 and abs(comp["mcnemar_exact_p"] - 0.453) < 1e-3,
+       "bird: 5 compiled-only and 2 baseline-only correct, McNemar p = 0.45")
+    warm = comp["reductions_vs_warm_repeat"]
+    ok(all(abs(100 * warm[m]["reduction"] - v) < 0.05 for m, v in
+           (("requests", 44.9), ("total_tokens", 9.8), ("wall_latency_ms", 29.4), ("estimated_cost_usd", 6.3))),
+       "bird: against the warm repeat run -44.9 / -9.8 / -29.4 / -6.3 percent")
+    ok(abs(ledger["spent_usd"] - 2.693164) < 1e-4 and ledger["spent_usd"] < 25, "bird: ledgered spend $2.69 under the $25 cap")
+    protocol = (PAPER / "supplementary/bird-sql-agent-protocol.md").read_text(encoding="utf-8")
+    ok("## Observed results" in protocol and "Deviation in execution: condition order" in protocol,
+       "bird: protocol records results and the condition-order deviation")
+    table = (PAPER / "iclr/tables/bird_results.tex").read_text(encoding="utf-8")
+    ok("44.9\\%" in table and "\\textbf{97}" in table, "bird: generated table carries the pooled result")
+    results = (PAPER / "iclr/sections/results.tex").read_text(encoding="utf-8")
+    ok("answered 97 correctly against 94" in results and "44.9\\%" in results, "bird: §5.3 quotes the retained result")
+    ok("label{app:bird}" in (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8"), "bird: appendix subsection present")
+
+
 def validate_drift_continuation_graded() -> None:
     """Pin the continuation-graded drift ablation (live, 2026-10-07): the adverse result."""
 
@@ -3191,6 +3251,7 @@ FAMILIES: dict[str, Any] = {
     "drift_ablation": validate_drift_ablation,
     "drift_recorded_replay": validate_drift_recorded_replay,
     "time_forward_pr_outcome": validate_time_forward_pr_outcome,
+    "bird_sql_agent": validate_bird_sql_agent,
     "drift_continuation_graded": validate_drift_continuation_graded,
     "demo_suite_regeneration": validate_demo_suite_regeneration,
     "no_secrets": validate_no_secrets,

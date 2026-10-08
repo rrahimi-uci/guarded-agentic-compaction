@@ -127,6 +127,79 @@ endpoints are paired. Not a leaderboard submission. The certificate is the paper
 contract certificate, which here has real support: an agent that passes a different table list
 produces an observable disagreement.
 
-## Observed results
+## Observed results (executed 2026-10-08; spend $2.69 of the $25 cap)
 
-(Recorded after execution.)
+The author raised the overall live-study authorization to $100 during execution; this study's
+registered $25 cap was never approached and was not amended.
+
+**Smoke test.** Twelve episodes on `california_schools` and `superhero`, no failures, $0.016;
+prompts and settings were not changed afterwards.
+
+**Discovery.** 1,316 episodes (two designs, five families), zero infrastructure failures. BIRD
+execution accuracy of the unchanged agent on discovery: standard 387/656, schema-first 392/656.
+
+**Admission.**
+
+| Family | Tables | `standard` | `schema_first` |
+|---|---|---|---|
+| card_games | 6 | retire at calibration (34 of 92 groups) | admit, m = 1, audit clean |
+| codebase_community | 8 | retire at synthesis (`ungroundable_slot`) | admit, m = 1, audit clean |
+| formula_1 | 13 | retire at synthesis (`ungroundable_slot`) | admit, m = 1, audit clean |
+| student_club | 8 | retire at synthesis (`ungroundable_slot`) | admit, m = 1, audit clean |
+| thrombosis_prediction | 3 | retire at synthesis (`ungroundable_slot`) | admit, m = 1, audit clean |
+
+- `standard`: the agent passed 7 to 39 distinct table lists per family; it passed every table in
+  0 of 132 runs on four families and 82 of 132 on `thrombosis_prediction`. On `card_games` the
+  candidate that reached calibration was "read only `cards`" (the agent's most common choice,
+  61 of 132 runs); 34 calibration groups matched its shape, and in 7 of them the agent had read
+  a different single table. The compiler labeled those 7 `RecordingMiss` (unproductive, kept in
+  the count) rather than violations, which is the leniency the strict audit was registered to
+  catch; the family retired on support (34 < 92) before the audit was needed.
+- `schema_first`: the agent passed the full listing, in listing order, in every discovery run.
+  Each family admitted the program `list_tables -> get_schema(<all tables>)` with one candidate
+  at calibration (compiler-wide), 92 calibration groups, zero violations, and no strict-audit
+  disagreement. **Deviation from the prediction:** `table_names` is bound as an invariant literal
+  (the database's table list), not as an expression over the listing; the implemented rule
+  checks invariant literals first.
+
+**Held-out evaluation (schema-first, 150 questions pooled).** The compiled program dispatched on
+150 of 150.
+
+| Condition | Correct |
+|---|---|
+| Unchanged agent | 94 |
+| Unchanged agent, repeat run | 94 |
+| Compiled (GAC) | 97 |
+| Hand-written schema prefetch | 94 |
+
+Compiled against the unchanged agent: 5 compiled-only and 2 baseline-only correct answers,
+McNemar p = 0.45, accuracy difference +2.0 points (95% bootstrap interval -1.3 to +5.3). The
+registered criterion for "no detected accuracy loss" (difference no worse than -3 points and
+p >= 0.05) is met; this is not a superiority or equivalence claim. The repeat run against the
+first run: 4 and 4 discordant, difference 0.0 (interval -3.3 to +3.3).
+
+**Deviation in execution: condition order.** The protocol registered rotating the condition
+order by record. The script ran the four conditions in a fixed order per family (unchanged agent,
+repeat, compiled, hand-written), because its rotation offset queued every condition for every
+record. The first run therefore met a colder provider prompt cache: its cached-input share was
+0.504 against 0.589, 0.570 and 0.562 for the later conditions, and the repeat run was 11.9%
+cheaper and 8.3% faster than the first run with the same tokens (1.5% difference, interval
+includes zero). Model-request and token counts are unaffected; cost and latency are. The analysis
+therefore reports reductions against the **warm repeat run** as the primary comparison (added
+after execution because of this deviation), and against the first run for completeness:
+
+| Compiled vs. | Requests | Tokens | Latency | Cost |
+|---|---|---|---|---|
+| repeat run (warm) | 44.9% [42.1, 47.4] | 9.8% [4.7, 14.3] | 29.4% [23.6, 35.1] | 6.3% [1.5, 10.6] |
+| first run (cold) | 45.3% [42.6, 47.7] | 11.1% [5.5, 16.0] | 35.3% [28.2, 41.6] | 17.5% [14.9, 19.7] |
+
+Pricing every input token at the uncached rate removes the cache effect and gives a cost
+reduction of 11.2% against the repeat run and 12.0% against the first. The hand-written schema
+prefetch reaches 46.3% fewer requests, 12.4% fewer tokens, 31.5% lower latency and 7.9% lower cost
+against the repeat run: GAC's discovered program matches the hand-written ceiling.
+
+**Reading.** On a public benchmark with a live agent, GAC refused every family where the
+agent's opening was a per-question choice and compiled the opening on every family where it was
+a fixed workflow step, removing about two of four and a half model calls per question with no
+detected accuracy loss. Token and cost savings are modest because the removed calls carry the
+shortest contexts and the provider caches the long schema prompt.
