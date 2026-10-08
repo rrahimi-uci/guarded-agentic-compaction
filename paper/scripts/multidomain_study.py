@@ -714,6 +714,27 @@ def _model_settings(service_tier: str, output_token_limit: int) -> Any:
     )
 
 
+def _output_schema(output_type: Any) -> tuple[Any, bool]:
+    """The agent output type, wrapped non-strict only when strict mode cannot express it.
+
+    The SDK's strict JSON-schema mode rejects free-form mappings such as
+    ``HmdaAnswer.special_states: dict[str, Literal[...]]``. Rewriting the answer model
+    would change the evaluator digest the macro approval is bound to, so the driver keeps
+    the model and, for such types only, uses the SDK's documented non-strict wrapper; the
+    answer is still validated by the model class after generation. Each execution record
+    carries ``output_schema_strict`` so the choice is visible in the retained ledger.
+    """
+
+    from agents import AgentOutputSchema, UserError
+    from agents.strict_schema import ensure_strict_json_schema
+
+    try:
+        ensure_strict_json_schema(output_type.model_json_schema())
+    except UserError:
+        return AgentOutputSchema(output_type, strict_json_schema=False), False
+    return output_type, True
+
+
 async def _execute_one(
     *,
     item: ScheduledExecution,
@@ -768,6 +789,7 @@ async def _execute_one(
             ),
         )
         model = compacting
+    output_schema, output_schema_strict = _output_schema(runtime.output_type)
     agent = Agent(
         name=f"real-public-record-{item.domain}",
         instructions=runtime.prompt,
@@ -777,7 +799,7 @@ async def _execute_one(
             int(pricing["output_token_limit_per_request"]),
         ),
         tools=tools,
-        output_type=runtime.output_type,
+        output_type=output_schema,
     )
     trace_id = _trace_id(protocol, item, attempt)
     user_input = "Reconcile this frozen public-record case:\n" + _canonical(
@@ -908,6 +930,7 @@ async def _execute_one(
         "attempt": attempt,
         "trace_id": trace_id,
         "manifest_id": manifest.manifest_id,
+        "output_schema_strict": output_schema_strict,
         "metrics": metrics.as_dict(),
         "oracle": oracle.as_dict(),
         "answer": output,
