@@ -2,9 +2,9 @@
 
 The standard agent loop pays for a model decision at every tool
 boundary~\citep{yao2023react}. That flexibility is valuable while a workflow is
-novel, but mature agents often revisit the same read-only evidence path with the
-same data dependencies, where repeating the decision adds latency, tokens, and
-cost without adding adaptation.
+novel. When an agent repeatedly takes the same read-only evidence path with
+invariant data dependencies, those decisions offer a candidate for
+specialization; their prevalence across deployed agents remains unmeasured.
 
 Removing that decision is not ordinary caching: a tool argument may depend on
 an earlier observation, a repeated sequence may cross an approval or write, a
@@ -58,8 +58,7 @@ verification, and finite-sample compile-or-retire admission
 (\cref{alg:calibrate}, \cref{prop:admission}) with the certificate level and
 its event stated per artifact. The bound is a standard exact binomial interval
 under a union bound over a fixed grid; the contribution is the admission rule
-and the composition that precedes it, to our knowledge the first such
-certificate applied to trace-derived agent compilation. Every stage can refuse,
+and its composition with trace-derived agent compilation. Every stage can refuse,
 and the default output is the unchanged agent. \item A real-provider evaluation
 across three public-record workflow families; a cross-repository extension on
 newer records with admissions and principled retirements; a post-cutoff cohort

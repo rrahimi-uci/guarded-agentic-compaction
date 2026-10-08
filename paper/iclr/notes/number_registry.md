@@ -1,7 +1,7 @@
-# Number registry for the ICLR 2027 submission (PR #41 head)
+# Number registry for the ICLR 2027 paper
 
-Every numeral quoted in `paper/iclr/sections/*.tex` and the parts of `appendix.tex` the
-2026-09 revision touched, with the retained file or script that produces it. Citation
+Selected numerical claims from the September revision, supplemented by the
+October 8 evidence audit, with retained files or producing scripts. Citation
 years, equation constants, and grid values are omitted. `stats:` means
 `paper/scripts/iclr_revision_statistics.py` writes it under `paper/results/iclr_revision/`;
 `validator` means `validate_iclr_sources` pins it.
@@ -52,7 +52,7 @@ years, equation constants, and grid values are omitted. `stats:` means
 
 Rows marked "not pinned" are candidates for the next validator extension.
 | 30/30, 1.00, 1,167, 2.67, 0.038 | recurrence-only replay on issue-type routing: exact, requests, tokens, latency (s), cost (¢) per record; retained arms 4.00/2.00/2.00 requests | `recurrence_only_ablation/results.json` `per_field_exact`, `aggregate`; `tables/recurrence_only.tex` | `validate_live_extensions` (table regenerates) |
-| 630, 0 | compiled held-out episodes on the calibrated model across the four live studies (90 primary + 120 core + 180 balanced + 240 gate-frontier learned gate) and compiled-only contract failures among them | per-record `results[]` of `github_natural_replication`, `github_workflow_families/*/final`, `github_multirepo_pr_outcome_{core,balanced}/repos/*`, `github_multirepo_gate_frontier/repos/*` | `validate_live_extensions` |
+| 630, 0 | historical four-study subset of compiled held-out episodes on the calibrated model across the four live studies (90 primary + 120 core + 180 balanced + 240 gate-frontier learned gate) and compiled-only contract failures among them | per-record `results[]` of `github_natural_replication`, `github_workflow_families/*/final`, `github_multirepo_pr_outcome_{core,balanced}/repos/*`, `github_multirepo_gate_frontier/repos/*` | `validate_live_extensions` |
 | 128/132, 132/132, 113/132; 116 | exact discovery traces per family on gpt-6-luna under design A and the 16/8/92 requirement | `second_model_replication/issue_type_rediscovery/results.json` `discovery`; `github_workflow_families/pr_outcome/gpt6_luna_rediscovery/discovery_checkpoint.json`; `.../backlog_attention/gpt6_luna_rediscovery/failure.json` | `validate_live_extensions` |
 | 50.0/38.9/32.8; 75.0/80.7/76.0 (%) | design-A reductions (requests/tokens/cost), issue-type and PR-outcome on gpt-6-luna | `second_model_replication/summary.json` `rediscovery` | summary regenerates |
 | 33, 8, 36, 357 | multiplicity-repair NO-GO: unused open PRs, unused owned issues, required per class, excluded records | `multiplicity_repair/preflight.json` | `validate_live_extensions` |
@@ -61,3 +61,15 @@ Rows marked "not pinned" are candidates for the next validator extension.
 | 750, 1 | compiled held-out episodes on the calibrated model across five live studies and compiled-only failures among them (630 + 120 extended; record 2737) | per-record `results[]` of the five studies | `validate_live_extensions` |
 | 9 families, 8 dev windows, 0 wrong, 0 hard rejects | perturbation challenge on the three primary artifacts, recompiled provider-free; signed registries verified | `iclr_revision/recompile_with_challenge.json` | `validate_recompile_with_challenge` |
 | 126/132, 128/132, 116/132; 29/28/28, 27/27/29; 4248, 6829, 5401, 6988; 91, 90, 0.050, 0.051; 48.3/40.4/39.8, 75.0/84.9/83.4 | second provider (Anthropic claude-sonnet-5, design A): exact discovery traces, exact contracts per arm, compiled-only miss records, backlog calibration refusal, reductions | `second_provider_replication/{issue_type/results.json,summary.json}`, `github_workflow_families/*/anthropic_sonnet5_rediscovery/{results,failure}.json`; `tables/second_provider.tex` | `validate_live_extensions` (summary/table regenerate) |
+
+## October 8 denominator and consistency audit
+
+| Numbers | Meaning | Retained source | Check |
+|---|---|---|---|
+| 150/150, 150/150, 150/149, 630/625 | Scheduled/four-arm-complete questions: BIRD primary, rotated, second model, training split | `paper/results/bird/denominator_audit.json` | `audit_bird_denominators.py`; validator and regression tests |
+| 94/97, 94/100, 91/93, 403/402 | Unchanged/compiled correct counts over all scheduled questions | Same audit; missing own-arm runs counted incorrect | Per-arm execution records |
+| 18/17, 1.0; 3/5, 0.7265625 | Baseline-only/compiled-only correct and exact paired p-values: training and second model | Same audit | SciPy exact binomial test |
+| 629, 45.8%, 18.0%; 150, 49.6%, 5.8% | Completed baseline/compiled resource pairs, request and cost reductions: training and second model | Same audit | Deterministic per-record metric sums |
+| 810, 1 | Six specified GitHub studies, compiled-only failures; includes 120 extended and 60 post-cutoff episodes beyond the older 630 subset | Per-record outputs of the six studies | `validate_live_extensions` |
+| 39, 40 | Drift wrong-answer records under original versus corrected grader | `drift_continuation_graded/results.json` and disclosed substring artifact | Original grading preserved; correction distinguished |
+| 411, 183, 181 | Primary discovery-cost break-even episodes | `paper/results/cache_accounting.json` (ceiling of break-even episodes) | Retained resource audit; README corrected |

@@ -10,8 +10,8 @@ train, 8 dev, and 92 calibration groups ($\mathcal{K}$; the rest stay unused), a
 balanced held-out records, with live provider calls, each pairing a read-only
 evidence path with an exact answer contract (a category, a title, and a
 verbatim excerpt; \cref{tab:benchmark-glance}, \cref{app:detail}). The
-exact-trace filter is inert here (130--132 of 132 exact) but is a selection
-step; \cref{app:limits} shows where it binds.
+exact-trace filter retains 130--132 of 132 records but still conditions the
+certificate on selection; \cref{app:limits} details this limitation.
 
 \paragraph{Cross-repository extension on newer records.}
 A narrower two-read PR-outcome task spans five frozen public repositories.

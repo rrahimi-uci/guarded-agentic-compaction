@@ -1,0 +1,73 @@
+% Evidence index: results are detailed in the preceding sections.
+\begingroup
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.1}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.25\linewidth}>{\raggedright\arraybackslash}p{0.71\linewidth}@{}}
+\caption{Retained evidence index. Paths beginning with a result directory are relative to \code{paper/results/}; other paths are repository-relative. Angle brackets and braces denote study-specific expansions.}\label{tab:claims-evidence}\\
+\toprule
+Claim or study & Retained evidence \\
+\midrule
+\endfirsthead
+\toprule
+Claim or study (continued) & Retained evidence \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+Preservation and reductions on the primary families & \path{github_workflow_families/summary.json} (\code{overall}, \code{families[].reductions}); per-record arms in \path{github_natural_replication/results.json} and \path{github_workflow_families/pr_outcome/final/results.json}, \path{github_workflow_families/backlog_attention/final/results.json}. \\
+\addlinespace[3pt]
+Discordance & \path{iclr_revision/paired_statistics.json} (\code{discordance}); \path{github_workflow_families/backlog_attention/headroom_ablation/results.json}. \\
+\addlinespace[3pt]
+Certificate level: per-candidate versus compiler-wide & \path{iclr_revision/multiplicity_accounting.json} (\code{u\_at\_92}, \code{n\_min}); \path{iclr_revision/recompiled_candidates_pr_outcome.json}, \path{iclr_revision/recompiled_candidates_backlog_attention.json}. \\
+\addlinespace[3pt]
+The step-like gate is a sample-size floor & \path{src/guarded_agentic_compaction/grc/calibrate.py} (\code{clopper\_pearson\_upper}, $k=0$); \path{gate_selectivity_analysis.json} (\code{summary}); \path{iclr_revision/gate_frontier_reanalysis.json} (\code{grid\_rows}); \path{paper/iclr/figures/gate_floor.pdf}. \\
+\addlinespace[3pt]
+810 compiled episodes, one compiled-only failure & Per-record \code{results[]} of the six studies' result files; counted by \code{validate\_live\_\allowbreak extensions} in \path{paper/scripts/validate_artifacts.py}. \\
+\addlinespace[3pt]
+Cross-repository core protocol (newer records) & \path{github_multirepo_pr_outcome_core/results.json}; \path{iclr_revision/gate_frontier_reanalysis.json} (\code{core}); \path{iclr_revision/pytorch_core_recompile.json}. \\
+\addlinespace[3pt]
+Balanced three-repository rerun & \path{github_multirepo_pr_outcome_balanced/results.json}; \path{github_multirepo_pr_outcome_balanced/repos/*/results.json}. \\
+\addlinespace[3pt]
+Prospective gate-frontier study & \path{github_multirepo_gate_frontier/results.json}; \path{iclr_revision/gate_frontier_reanalysis.json} (\code{gate\_frontier}). \\
+\addlinespace[3pt]
+External substrates retire at the exact floor & \path{nestful/results.json} (\code{compiler.exact\_gate}); \path{external_benchmarks/api_bank_execution.json}; \path{external_benchmarks/bfcl_compiler_execution.json}, \path{external_benchmarks/bfcl_gold_execution.json}. \\
+\addlinespace[3pt]
+AppWorld admits one artifact & \path{external_benchmarks/appworld_compiler_execution.json} (\code{admission}, \code{exact\_replay}, \code{effect\_audit}); \path{paper/supplementary/appworld-compiler-protocol.md}. \\
+\addlinespace[3pt]
+Admissible is not dispatchable & \path{external_benchmarks/appworld_dispatch_preflight.json} (\code{pooled}, \code{by\_agent\_family}, \code{first\_call\_in\_\allowbreak released\_\allowbreak trajectories}). \\
+\addlinespace[3pt]
+Recurrence-only replay & \path{recurrence_only_ablation/results.json} (\code{aggregate}, \code{per\_field\_exact}); \path{paper/supplementary/recurrence-only-ablation-protocol.md}. \\
+\addlinespace[3pt]
+\code{gpt-6-luna} transfer (design B) & \path{second_model_replication/summary.json}; \path{second_model_replication/issue_type/results.json}; \path{github_workflow_families/pr_outcome/gpt6_luna/results.json}, \path{github_workflow_families/backlog_attention/gpt6_luna/results.json}. \\
+\addlinespace[3pt]
+\code{gpt-6-luna} re-discovery (design A) & \path{second_model_replication/issue_type_rediscovery/results.json}; \path{github_workflow_families/pr_outcome/gpt6_luna_rediscovery/results.json}; \path{github_workflow_families/backlog_attention/gpt6_luna_rediscovery/failure.json}; \path{paper/supplementary/second-model-rediscovery-protocol.md}. \\
+\addlinespace[3pt]
+Second provider: Anthropic \code{claude-sonnet-5} (design A) & \path{second_provider_replication/issue_type/results.json}; \path{github_workflow_families/pr_outcome/anthropic_sonnet5_rediscovery/results.json}; \path{github_workflow_families/backlog_attention/anthropic_sonnet5_rediscovery/failure.json}; \path{paper/supplementary/second-provider-replication-protocol.md}. \\
+\addlinespace[3pt]
+Multiplicity repair: NO-GO & \path{multiplicity_repair/preflight.json}; \path{paper/supplementary/multiplicity-repair-protocol.md}. \\
+\addlinespace[3pt]
+Group independence & \path{iclr_revision/effective_units.json} (\code{primary\_ranges}). \\
+\addlinespace[3pt]
+Continuation check (introduction example) & \path{github_natural_live/continuation_replay.json} (\code{summary}). \\
+\addlinespace[3pt]
+Extended issue-type held-out & \path{issue_type_extended_heldout/results.json} (\code{compiled\_only\_bound}, \code{dispatch}); \path{paper/supplementary/issue-type-extended-heldout-protocol.md}. \\
+\addlinespace[3pt]
+Read-only prologue & \path{external_benchmarks/appworld_dispatch_prologue_preflight.json} (\code{by\_agent\_family}); \path{tests/unit/test_dispatch_prologue.py}; \path{paper/supplementary/read-only-prologue-protocol.md}. \\
+\addlinespace[3pt]
+Perturbation challenge and signed registries & \path{iclr_revision/recompile_with_challenge.json}; \path{paper/scripts/recompile_with_challenge.py}. \\
+\addlinespace[3pt]
+Drift ablation (provider-free, demonstration substrate) & \path{drift_ablation/results.json} (\code{pooled}, \code{decision}); \path{paper/scripts/drift_ablation_study.py}; \path{paper/supplementary/drift-robustness-ablation-protocol.md}. \\
+\addlinespace[3pt]
+Recorded-replay drift ablation (provider-free, 90 primary records) & \path{drift_recorded_replay/results.json} (\code{pooled}, \code{families.*.\allowbreak applicability}); \path{paper/scripts/drift_recorded_replay_study.py}; \path{paper/supplementary/drift-recorded-replay-protocol.md}. \\
+\addlinespace[3pt]
+Post-cutoff cohort; end-to-end certificate (PR-outcome) & \path{time_forward/pr_outcome/certificate.json}, \path{time_forward/pr_outcome/evaluation.json}, \path{time_forward/pr_outcome/selection.json}; \path{paper/scripts/time_forward_pr_outcome_study.py}; \path{paper/supplementary/time-forward-end-to-end-protocol.md}. \\
+\addlinespace[3pt]
+Continuation-graded drift ablation (live, 60 primary records) & \path{drift_continuation_graded/results.json} (\code{per\_cell}, \code{decision}); \path{paper/scripts/drift_continuation_graded_study.py}; \path{paper/supplementary/drift-continuation-graded-protocol.md}. \\
+\addlinespace[3pt]
+BIRD: a live SQL agent on a public benchmark (five databases, two designs) & \path{bird/summary.json}, \path{bird/<design>/<database>/compile.json}, \path{bird/<design>/<database>/evaluation.json}; \path{paper/scripts/bird_sql_agent_study.py}; \path{paper/supplementary/bird-sql-agent-protocol.md}. \\
+\addlinespace[3pt]
+BIRD extensions: rotated rerun, second model, second provider, train split & \path{bird/extensions_summary.json}, \path{bird/{rotated_rerun,replications,train}/}; \path{paper/scripts/bird_sql_agent_study.py}; \path{paper/supplementary/bird-sql-agent-extensions-protocol.md}. All-scheduled denominators: \path{bird/denominator_audit.json}; \path{paper/scripts/audit_bird_denominators.py}. \\
+\addlinespace[3pt]
+\end{longtable}
+\endgroup

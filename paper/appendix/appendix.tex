@@ -121,10 +121,11 @@ The script never prints either value.  Use \code{--smoke} before a paid full run
 \section{Implementation Audit}
 \label{app:audit}
 
-The package contains 19,964 measured Python statements across source, tests, demos,
-benchmarking, and experiment drivers; the full suite collects and passes 356
-tests at 73.09\% statement coverage.  \code{pip check} and the repository release verifier
-pass.  Coverage is concentrated where it matters: the compiler and runtime library reaches
+The archived August 5, 2026 audit (\path{paper/results/coverage.json})
+measured 19,964 Python statements across source, tests, demos, benchmarking,
+and experiment drivers, with 356 passing tests and 73.09\% statement coverage.
+Its \code{pip check} and release-verifier checks passed. These are historical
+coverage figures, not coverage of the current checkout.  Coverage is concentrated where it matters: the compiler and runtime library reaches
 82--91\% by subpackage (entry estimation 91.2\%, schemas 90.1\%, execution graph 89.1\%,
 portfolio 89.9\%, registry 88.3\%, capture 87.0\%, runtime 84.8\%, evaluation 84.9\%,
 GRC 82.5\%).  The uncovered mass is study and acquisition scaffolding rather than shipped

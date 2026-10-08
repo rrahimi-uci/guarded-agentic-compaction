@@ -1,3 +1,7 @@
+> **Historical assessment, superseded October 8, 2026.** The 94/100 score
+> below predates the current evidence audit and should not be used as the
+> current recommendation. See the [current critical review](../iclr/notes/review_scorecard.md).
+
 # Review: "From Traces to Guarded Programs: Evidence-Gated Compilation of Recurrent Agent Workflows"
 
 **Author:** Reza Rahimi (JazzX AI) · Single-author manuscript; reviewed against the current article build and conference build<br>

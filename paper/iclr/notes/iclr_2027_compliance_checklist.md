@@ -12,7 +12,8 @@ Source references used for this checklist:
 - [x] The repository defaults to the blind submission build (`\iclrfinalcopy` commented out).
 - [x] The stock review line-number ruler is enabled in the blind build.
 - [x] `times` replaced by `newtxtext`/`newtxmath` because this paper builds with Tectonic (XeTeX), where legacy `times` does not resolve: the body falls back to Latin Modern with no bold or italic, so `\textbf`, `\emph`, `\textsc`, theorem heads, and table headers all rendered as upright regular text. Under pdfTeX `times` works fine, so this is a toolchain interaction, not a broken package. Embedded body face is TeX Gyre Termes (Times), confirmed with `pdffonts`.
-- [x] Confirmed from the compiled PDF that the main text (sections 1--8) ends within the `<= 9` page limit.
+- [x] October 8 audit: main text ends on page 10, within the discussion/camera-ready limit.
+- [x] The author confirmed a ten-page target for this revision on October 8, 2026.
 - [x] References are separated from the main text and do not count toward the page limit.
 - [x] Appendix is placed after the references.
 - [x] The paper source stays in a dedicated `paper/iclr/` working directory.

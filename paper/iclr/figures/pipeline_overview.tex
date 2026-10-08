@@ -92,7 +92,7 @@
 
 % ============================================================ C -- runtime lane
 \node[box] (reg) at (0, -68)
-  {\textbf{Registry}\\signed $A=(P,H,V,q,\eta,M)$};
+  {\textbf{Registry}\\$A=(P,H,V,q,\eta,M)$\\signature checked when required};
 \node[gate] (disp) at (48, -68)
   {\textbf{Dispatch} (\cref{alg:dispatch})\\guard $\to$ gate $\to$ stage $\to$ verify};
 \node[good] (hit) at (99, -66.5)
@@ -104,10 +104,13 @@
 \draw[flow] (disp.east) -- ++(2,0) |- (hit.west)
             node[lbl, pos=0.7] {$V\!=\!1$};
 \draw[flow] (disp.east) -- ++(2,0) |- (miss.west)
-            node[lbl, pos=0.7] {any miss};
+            node[lbl, pos=0.7] {clean miss};
 
+\node[base, draw=gacred] (incident) at (48,-82)
+  {\textbf{incident}\\unattested failure / refused commit};
+\draw[flow] (disp.south) -- (incident.north);
 \begin{scope}[on background layer]
-  \node[frame, fit=(reg)(disp)(hit)(miss)] (fC) {};
+  \node[frame, fit=(reg)(disp)(hit)(miss)(incident)] (fC) {};
 \end{scope}
 \node[head] at ([yshift=0.5mm]fC.north west) {C\quad RUNTIME};
 

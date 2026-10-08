@@ -29,9 +29,9 @@ DSPy, GEPA, TextGrad, and Trace optimize prompts and programs against task
 feedback~\citep{khattab2024dspy,agrawal2026gepa,yuksekgonul2024textgrad,cheng2024trace};
 RouteLLM changes models~\citep{ong2025routellm}, LLMCompiler parallelizes
 calls~\citep{kim2024llmcompiler}, and \citet{yue2026workflowsurvey} survey the
-space. These systems decide \emph{what} to reuse; to our knowledge none pairs
-admission with a finite-sample bound and a fallback that is exactly the
-unchanged agent. Counterfactual trace auditing~\citep{zhou2026cta}, which
+space. Our contribution combines trace reuse with a finite-sample admission bound
+and exact fallback on clean rejection; the reviewed systems motivate its
+components rather than establishing a universal priority claim. Counterfactual trace auditing~\citep{zhou2026cta}, which
 pairs each trace with a counterfactual run of the same task, is the closest
 analogue of \method's continuation check.
 
@@ -40,9 +40,10 @@ Dispatch-or-fall-back is selective prediction with a reject
 option~\citep{chow1970reject,geifman2017selective}. The admission bound is a
 fixed-grid instance of learn-then-test~\citep{angelopoulos2022ltt} using the
 exact binomial interval~\citep{clopper1934binomial}; the risk-controlling
-prediction-set and conformal risk-control lineage
-\citep{vovk2005algorithmic,bates2021rcps,angelopoulos2024crc} gives the
-same kind of statement for other losses.
+prediction-set framework gives related high-probability risk guarantees
+\citep{bates2021rcps}. Conformal prediction controls marginal coverage
+\citep{vovk2005algorithmic}; conformal risk control bounds expected monotone
+loss \citep{angelopoulos2024crc}, a different guarantee.
 
 \paragraph{Tool-use safety and evaluation.}
 ToolEmu and AgentDojo evaluate agents against hazardous or injected tool

@@ -207,3 +207,40 @@ def test_generated_tables_exist_and_are_marked() -> None:
         assert "\\bottomrule" in text
     frontier_json = json.loads((COMMITTED_JSON / "gate_frontier_reanalysis.json").read_text())
     assert frontier_json["gate_frontier"]["pooled"]["support_only"]["completed"] == 239
+
+
+def test_cluster_projection_rejects_wrong_source_digest(monkeypatch):
+    original_load = stats.load
+
+    def load_with_wrong_digest(path):
+        value = original_load(path)
+        if path.name == "calibration_cluster_rows.json":
+            for projection in value["repositories"].values():
+                projection["source_sha256"] = "0" * 64
+        return value
+
+    monkeypatch.setattr(stats, "load", load_with_wrong_digest)
+    # Exercise the clean-checkout path even when the user has local mirrors.
+    original_exists = Path.exists
+    monkeypatch.setattr(Path, "exists", lambda p: False if p.name == "snapshot.parquet"
+                        and stats.MULTIREPO_DATA in p.parents else original_exists(p))
+    with pytest.raises(ValueError, match="cluster projection source mismatch"):
+        stats.cmd_clusters()
+
+
+def test_cluster_projection_rejects_missing_calibration_record(monkeypatch):
+    original_load = stats.load
+
+    def load_with_missing_rows(path):
+        value = original_load(path)
+        if path.name == "calibration_cluster_rows.json":
+            for projection in value["repositories"].values():
+                projection["rows"] = projection["rows"][:-1]
+        return value
+
+    monkeypatch.setattr(stats, "load", load_with_missing_rows)
+    original_exists = Path.exists
+    monkeypatch.setattr(Path, "exists", lambda p: False if p.name == "snapshot.parquet"
+                        and stats.MULTIREPO_DATA in p.parents else original_exists(p))
+    with pytest.raises(ValueError, match="missing calibration cluster rows"):
+        stats.cmd_clusters()

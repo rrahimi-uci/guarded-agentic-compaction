@@ -7,8 +7,8 @@ no detected accuracy loss on BIRD, and retire when evidence is inadequate.
 Across 810 held-out GitHub episodes run under a compiled artifact on the
 calibrated model in six studies, one produced a compiled-only contract
 failure: 1 of 270 on the excerpt-bearing contracts (one-sided bound 1.7\%) and
-0 of 540 on the outcome-only cross-repository contract, over 354 distinct
-records (\cref{app:stats});
+0 of 540 on the outcome-only cross-repository contract (that subset covers
+354 distinct records) (\cref{app:stats});
 \cref{app:limits} pairs limitations with protocols and \cref{app:claims} maps
 claims to evidence.
 
@@ -35,7 +35,8 @@ protection: two provider-free perturbation studies are null by construction
 (the simulated tools stay total; on the GitHub records the oracle is the
 derived call argument, fixed by the entry id),
 the live continuation-graded study is adverse (an emptied list lies inside the
-learned hull; both arms answered wrongly on 39 of 60 records), and no held-out
+learned hull; both arms answered wrongly on 39 of 60 records under the original grader,
+40 under its later correction), and no held-out
 record here shows a guard preventing a wrong compiled answer (\cref{app:limits}). We do not price
 manual authoring or run workflow-reuse systems head-to-head; a recurrence-only
 replay on issue-type routing passed 30/30 at one request per record

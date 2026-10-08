@@ -27,7 +27,7 @@ and the [editable technical deck](https://rrahimi-uci.github.io/guarded-agentic-
 ```text
 paper/
 ├── tex/
-│   ├── body.tex                    the manuscript body — single source of truth
+│   ├── body.tex                    shared body for the two long-form wrappers
 │   ├── abstract-body.tex           abstract text, shared by both builds
 │   ├── abstract.tex                abstract environment wrapper
 │   ├── article.tex                 single-column arXiv-preprint build  ← primary
@@ -134,6 +134,11 @@ build. The validator checks both.
 ## Two builds, one body
 
 `body.tex` and `abstract-body.tex` are the only places manuscript prose exists.
+The current ICLR submission is maintained separately in `iclr/`; its newer
+BIRD and replication studies are not all incorporated into these long-form
+wrappers. For the current critical assessment, see
+[`iclr/notes/review_scorecard.md`](iclr/notes/review_scorecard.md).
+
 `article.tex` and `main.tex` are presentation wrappers that `\input` them, so the two
 PDFs cannot drift apart:
 
@@ -466,7 +471,7 @@ provider-free. In the issue-type family the hand-written macro uses 30.9% fewer 
 the compiled condition but is only 8.0% cheaper, because it serves 0.0% of its input from
 cache against the compiled arm's 27.8% and the unchanged agent's 32.3%. Both newer families
 are cache-cold in every arm, so their 75% cost reductions are measured against a baseline
-that never amortizes its prefix. Provider-side break-even is 411, 182, and 181 future
+that never amortizes its prefix. Provider-side break-even is 411, 183, and 181 future
 episodes for issue-type, PR-outcome, and backlog-attention routing, excluding engineering,
 review, monitoring, and invalidation cost.
 
