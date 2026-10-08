@@ -1,0 +1,140 @@
+{
+  "runs": [
+    {
+      "admitted": {
+        "schema_first": 5,
+        "standard": 0
+      },
+      "baseline_correct": 94,
+      "cache_neutral_cost": {
+        "ci95": [
+          0.061388211723702235,
+          0.15698156474607117
+        ],
+        "n": 150,
+        "reduction": 0.11200962211905285,
+        "reference": "baseline_repeat"
+      },
+      "compiled_correct": 97,
+      "databases": 5,
+      "label": "Primary (fixed order)",
+      "mcnemar_p": 0.453125,
+      "model": "gpt-5.6-luna",
+      "n": 150,
+      "reductions": {
+        "cache_neutral_cost": 11.200962211905285,
+        "estimated_cost_usd": 6.27299933388149,
+        "requests": 44.92307692307692,
+        "total_tokens": 9.789137600745557,
+        "wall_latency_ms": 29.381478731971356
+      },
+      "reference": "warm",
+      "split": "dev"
+    },
+    {
+      "admitted": {
+        "schema_first": null,
+        "standard": null
+      },
+      "baseline_correct": 94,
+      "cache_neutral_cost": {
+        "ci95": [
+          0.10359445202977224,
+          0.17204856076976272
+        ],
+        "n": 150,
+        "reduction": 0.1385605548156661,
+        "reference": "baseline"
+      },
+      "compiled_correct": 100,
+      "databases": 5,
+      "label": "E1 rotated rerun",
+      "mcnemar_p": 0.0703125,
+      "model": "gpt-5.6-luna",
+      "n": 150,
+      "reductions": {
+        "cache_neutral_cost": 13.85605548156661,
+        "estimated_cost_usd": 16.183828885332975,
+        "requests": 46.036585365853654,
+        "total_tokens": 12.2795871144179,
+        "wall_latency_ms": 33.92694781770411
+      },
+      "reference": "first",
+      "split": "dev"
+    },
+    {
+      "admitted": {
+        "schema_first": 5,
+        "standard": 0
+      },
+      "baseline_correct": 91,
+      "cache_neutral_cost": {
+        "ci95": [
+          0.14221508892442203,
+          0.20963127402387882
+        ],
+        "n": 149,
+        "reduction": 0.1753115025448585,
+        "reference": "baseline"
+      },
+      "compiled_correct": 93,
+      "databases": 5,
+      "label": "E2 second model",
+      "mcnemar_p": 0.7265625,
+      "model": "gpt-6-luna",
+      "n": 149,
+      "reductions": {
+        "cache_neutral_cost": 17.53115025448585,
+        "estimated_cost_usd": 6.094961967789592,
+        "requests": 49.92050874403816,
+        "total_tokens": 16.772397934315542,
+        "wall_latency_ms": 38.44890086183227
+      },
+      "reference": "first",
+      "split": "dev"
+    },
+    {
+      "admitted": {
+        "schema_first": 0,
+        "standard": 0
+      },
+      "databases": 5,
+      "label": "E3 second provider",
+      "model": "claude-sonnet-5",
+      "reference": "first",
+      "split": "dev"
+    },
+    {
+      "admitted": {
+        "schema_first": 21,
+        "standard": 0
+      },
+      "baseline_correct": 401,
+      "cache_neutral_cost": {
+        "ci95": [
+          0.11800034150032379,
+          0.1612706475506187
+        ],
+        "n": 625,
+        "reduction": 0.14018030659472724,
+        "reference": "baseline"
+      },
+      "compiled_correct": 400,
+      "databases": 26,
+      "label": "E4 train split",
+      "mcnemar_p": 1.0,
+      "model": "gpt-5.6-luna",
+      "n": 625,
+      "reductions": {
+        "cache_neutral_cost": 14.018030659472725,
+        "estimated_cost_usd": 18.110114545249022,
+        "requests": 45.87973273942093,
+        "total_tokens": 12.550300211215792,
+        "wall_latency_ms": 29.25031750671637
+      },
+      "reference": "first",
+      "split": "train"
+    }
+  ],
+  "schema": "agent-compaction-bird-extensions/v1"
+}

@@ -1,0 +1,509 @@
+{
+  "name": "paper-bird-schema_first-address",
+  "kill_switch": false,
+  "active_stages": [
+    "active"
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "cand-00-5acc844f62f4",
+      "name": "list_tables.get_schema.region@5acc844f",
+      "kind": "grc",
+      "version": 1,
+      "program": {
+        "theta": [],
+        "steps": [
+          {
+            "kind": "call",
+            "var": "tabl",
+            "tool": "list_tables",
+            "args": {},
+            "when": null,
+            "schema_version": null
+          },
+          {
+            "kind": "call",
+            "var": "sche",
+            "tool": "get_schema",
+            "args": {
+              "table_names": {
+                "kind": "const",
+                "value": [
+                  "CBSA",
+                  "state",
+                  "congress",
+                  "zip_data",
+                  "alias",
+                  "area_code",
+                  "avoid",
+                  "country",
+                  "zip_congress"
+                ]
+              }
+            },
+            "when": null,
+            "schema_version": null
+          }
+        ],
+        "outputs": {
+          "tabl": {
+            "kind": "expr",
+            "source": "tabl",
+            "ops": []
+          },
+          "sche": {
+            "kind": "expr",
+            "source": "sche",
+            "ops": []
+          }
+        },
+        "library_version": "T-v1",
+        "removed_requests": 2.0,
+        "tools": [
+          "list_tables",
+          "get_schema"
+        ],
+        "composite": null
+      },
+      "route": null,
+      "guard": {
+        "manifest_pins": {
+          "model": "gpt-5.6-luna",
+          "prompt_hash": "#20a0b160",
+          "tools_hash": "#4b153eca",
+          "policy_hash": "#94fc7fa3",
+          "guardrail_hash": "#ca7525a8",
+          "effect_catalog_version": "bird-address-readonly-sqlite@1#1fa96f0353feaf0b",
+          "entry_contract_version": "bird-database-v1:address"
+        },
+        "isolation": {},
+        "clauses": [],
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "required_capabilities": [
+          "speculatable",
+          "replayable"
+        ]
+      },
+      "verifier": {
+        "clauses": [
+          {
+            "name": "tabl",
+            "type_name": "dict",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "list_tables"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "tabl.database",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "address"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "list_tables"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "tabl.tables",
+            "type_name": "list",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": 9,
+            "min_len": 9,
+            "provenance": [
+              "list_tables"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "sche",
+            "type_name": "dict",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "get_schema"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "sche.database",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "address"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "get_schema"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "sche.schemas",
+            "type_name": "list",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": 9,
+            "min_len": 9,
+            "provenance": [
+              "get_schema"
+            ],
+            "present_iff": null
+          }
+        ],
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "call_counts": [
+          2
+        ]
+      },
+      "gate": {
+        "model": {
+          "features": [
+            "unseen_category",
+            "knn_distance",
+            "missing_optional",
+            "hull_margin",
+            "drift_days",
+            "provenance_ambiguity",
+            "branch_entropy"
+          ],
+          "weights": [
+            0.0,
+            0.0,
+            0.0,
+            0.8877091183451264,
+            0.0,
+            0.8877091183451264,
+            0.0
+          ],
+          "bias": -0.7183709852150122,
+          "feature_means": [
+            0.0,
+            0.0,
+            0.0,
+            0.25,
+            0.0,
+            0.25,
+            0.0
+          ],
+          "feature_scales": [
+            1.0,
+            1.0,
+            1.0,
+            0.25,
+            1.0,
+            0.25,
+            1.0
+          ]
+        },
+        "features_spec": {
+          "paths": [],
+          "hull_kinds": {},
+          "categories": {},
+          "numeric_ranges": {},
+          "patterns": {},
+          "max_day": "2024-06-27",
+          "provenance_ambiguity": 0.0,
+          "branch_entropy": 0.0
+        },
+        "threshold": 0.5,
+        "grid": [
+          0.02,
+          0.05,
+          0.08,
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "alpha": 0.05,
+        "delta": 0.1,
+        "n_calibration_groups": 92,
+        "n_accepted": 92,
+        "observed_violations": 0,
+        "risk_upper_bound": 0.049808920112407784,
+        "coverage": 1.0,
+        "admissible": [
+          0.08,
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "retire": false,
+        "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.11, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.17, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.2, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.25, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.3, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.4, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.5, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}]"
+      },
+      "manifest": {
+        "manifest_id": "20e51c04e237",
+        "commit": "workspace-without-git-metadata",
+        "model": "gpt-5.6-luna",
+        "prompt_hash": "#20a0b160",
+        "tools_hash": "#4b153eca",
+        "policy_hash": "#94fc7fa3",
+        "guardrail_hash": "#ca7525a8",
+        "effect_catalog_version": "bird-address-readonly-sqlite@1#1fa96f0353feaf0b",
+        "entry_contract_version": "bird-database-v1:address",
+        "sdk_version": "0.19.2",
+        "tracer_version": "agent-compaction/0.6.0"
+      },
+      "compatibility_key": "20e51c04e23772ed",
+      "partition": {},
+      "evidence": {
+        "support_groups": 16,
+        "total_groups": 16,
+        "support_principals": 1,
+        "support_days": 1,
+        "removed_requests": 2.0,
+        "split_ids": {
+          "train": [
+            "bird-address:5082",
+            "bird-address:5086",
+            "bird-address:5093",
+            "bird-address:5116",
+            "bird-address:5121",
+            "bird-address:5142",
+            "bird-address:5170",
+            "bird-address:5171",
+            "bird-address:5176",
+            "bird-address:5178",
+            "bird-address:5183",
+            "bird-address:5190",
+            "bird-address:5200",
+            "bird-address:5216",
+            "bird-address:5220",
+            "bird-address:5227"
+          ],
+          "dev": [
+            "bird-address:5109",
+            "bird-address:5113",
+            "bird-address:5115",
+            "bird-address:5144",
+            "bird-address:5146",
+            "bird-address:5150",
+            "bird-address:5208",
+            "bird-address:5230"
+          ],
+          "calibration": [
+            "bird-address:5084",
+            "bird-address:5085",
+            "bird-address:5087",
+            "bird-address:5088",
+            "bird-address:5089",
+            "bird-address:5092",
+            "bird-address:5095",
+            "bird-address:5097",
+            "bird-address:5098",
+            "bird-address:5100",
+            "bird-address:5101",
+            "bird-address:5102",
+            "bird-address:5103",
+            "bird-address:5104",
+            "bird-address:5106",
+            "bird-address:5107",
+            "bird-address:5108",
+            "bird-address:5110",
+            "bird-address:5111",
+            "bird-address:5112",
+            "bird-address:5117",
+            "bird-address:5119",
+            "bird-address:5120",
+            "bird-address:5123",
+            "bird-address:5124",
+            "bird-address:5125",
+            "bird-address:5126",
+            "bird-address:5127",
+            "bird-address:5129",
+            "bird-address:5130",
+            "bird-address:5132",
+            "bird-address:5133",
+            "bird-address:5134",
+            "bird-address:5135",
+            "bird-address:5136",
+            "bird-address:5137",
+            "bird-address:5138",
+            "bird-address:5141",
+            "bird-address:5143",
+            "bird-address:5145",
+            "bird-address:5148",
+            "bird-address:5149",
+            "bird-address:5151",
+            "bird-address:5152",
+            "bird-address:5154",
+            "bird-address:5155",
+            "bird-address:5156",
+            "bird-address:5157",
+            "bird-address:5158",
+            "bird-address:5159",
+            "bird-address:5160",
+            "bird-address:5162",
+            "bird-address:5164",
+            "bird-address:5166",
+            "bird-address:5167",
+            "bird-address:5168",
+            "bird-address:5169",
+            "bird-address:5172",
+            "bird-address:5173",
+            "bird-address:5174",
+            "bird-address:5175",
+            "bird-address:5177",
+            "bird-address:5180",
+            "bird-address:5181",
+            "bird-address:5182",
+            "bird-address:5184",
+            "bird-address:5185",
+            "bird-address:5191",
+            "bird-address:5192",
+            "bird-address:5193",
+            "bird-address:5194",
+            "bird-address:5195",
+            "bird-address:5196",
+            "bird-address:5197",
+            "bird-address:5198",
+            "bird-address:5199",
+            "bird-address:5201",
+            "bird-address:5202",
+            "bird-address:5205",
+            "bird-address:5206",
+            "bird-address:5207",
+            "bird-address:5209",
+            "bird-address:5211",
+            "bird-address:5214",
+            "bird-address:5218",
+            "bird-address:5219",
+            "bird-address:5222",
+            "bird-address:5223",
+            "bird-address:5224",
+            "bird-address:5225",
+            "bird-address:5228",
+            "bird-address:5229"
+          ]
+        },
+        "replay": {
+          "n": 8,
+          "passed": 8,
+          "abstained": 0,
+          "wrong": 0,
+          "effect_mismatch": 0,
+          "state_delta": 0,
+          "pass_rate": 1.0,
+          "reasons": {}
+        },
+        "perturbation": {},
+        "counterexamples": [],
+        "metrics": {
+          "sandbox": {
+            "n": 0,
+            "passed": 0,
+            "abstained": 0,
+            "wrong": 0,
+            "effect_mismatch": 0,
+            "state_delta": 0,
+            "pass_rate": 0.0,
+            "reasons": {}
+          },
+          "perturbations_claimed": false,
+          "branch": "none",
+          "branch_permutation_p": null,
+          "branch_alternatives": 0,
+          "n_alternative_bindings": 0,
+          "composite": "disabled",
+          "composite_name": "",
+          "gate_grid": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.11, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'covera",
+          "var_names": [
+            "tabl",
+            "sche"
+          ],
+          "dev_windows_evaluated": 8,
+          "calibration_windows_evaluated": 92
+        },
+        "rejection_reasons": [],
+        "fallback_reasons": {},
+        "dataset_digest": "8870f7e1440245e8",
+        "notes": "substrate and evidence are recorded in the run manifest"
+      },
+      "lifecycle": "active",
+      "owner": "paper-bird-schema_first-address",
+      "approved_by": "paper-bird-protocol-lab-only",
+      "expiry_day": null,
+      "rollback_target": null,
+      "monitoring": {
+        "min_verifier_pass_rate": 0.9,
+        "max_unsafe_dispatch": 0.05,
+        "expected_coverage": 1.0
+      },
+      "signature": ""
+    }
+  ]
+}

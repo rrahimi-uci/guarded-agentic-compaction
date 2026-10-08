@@ -1,0 +1,508 @@
+{
+  "name": "paper-bird-schema_first-retails",
+  "kill_switch": false,
+  "active_stages": [
+    "active"
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "cand-00-343fe1e8b6a7",
+      "name": "list_tables.get_schema.region@343fe1e8",
+      "kind": "grc",
+      "version": 1,
+      "program": {
+        "theta": [],
+        "steps": [
+          {
+            "kind": "call",
+            "var": "tabl",
+            "tool": "list_tables",
+            "args": {},
+            "when": null,
+            "schema_version": null
+          },
+          {
+            "kind": "call",
+            "var": "sche",
+            "tool": "get_schema",
+            "args": {
+              "table_names": {
+                "kind": "const",
+                "value": [
+                  "customer",
+                  "lineitem",
+                  "nation",
+                  "orders",
+                  "part",
+                  "partsupp",
+                  "region",
+                  "supplier"
+                ]
+              }
+            },
+            "when": null,
+            "schema_version": null
+          }
+        ],
+        "outputs": {
+          "tabl": {
+            "kind": "expr",
+            "source": "tabl",
+            "ops": []
+          },
+          "sche": {
+            "kind": "expr",
+            "source": "sche",
+            "ops": []
+          }
+        },
+        "library_version": "T-v1",
+        "removed_requests": 2.0,
+        "tools": [
+          "list_tables",
+          "get_schema"
+        ],
+        "composite": null
+      },
+      "route": null,
+      "guard": {
+        "manifest_pins": {
+          "model": "gpt-5.6-luna",
+          "prompt_hash": "#20a0b160",
+          "tools_hash": "#4b153eca",
+          "policy_hash": "#94fc7fa3",
+          "guardrail_hash": "#ca7525a8",
+          "effect_catalog_version": "bird-retails-readonly-sqlite@1#d29543724e03c762",
+          "entry_contract_version": "bird-database-v1:retails"
+        },
+        "isolation": {},
+        "clauses": [],
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "required_capabilities": [
+          "speculatable",
+          "replayable"
+        ]
+      },
+      "verifier": {
+        "clauses": [
+          {
+            "name": "tabl",
+            "type_name": "dict",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "list_tables"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "tabl.database",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "retails"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "list_tables"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "tabl.tables",
+            "type_name": "list",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": 8,
+            "min_len": 8,
+            "provenance": [
+              "list_tables"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "sche",
+            "type_name": "dict",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "get_schema"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "sche.database",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "retails"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "get_schema"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "sche.schemas",
+            "type_name": "list",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": 8,
+            "min_len": 8,
+            "provenance": [
+              "get_schema"
+            ],
+            "present_iff": null
+          }
+        ],
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "call_counts": [
+          2
+        ]
+      },
+      "gate": {
+        "model": {
+          "features": [
+            "unseen_category",
+            "knn_distance",
+            "missing_optional",
+            "hull_margin",
+            "drift_days",
+            "provenance_ambiguity",
+            "branch_entropy"
+          ],
+          "weights": [
+            0.0,
+            0.0,
+            0.0,
+            0.8877091183451264,
+            0.0,
+            0.8877091183451264,
+            0.0
+          ],
+          "bias": -0.7183709852150122,
+          "feature_means": [
+            0.0,
+            0.0,
+            0.0,
+            0.25,
+            0.0,
+            0.25,
+            0.0
+          ],
+          "feature_scales": [
+            1.0,
+            1.0,
+            1.0,
+            0.25,
+            1.0,
+            0.25,
+            1.0
+          ]
+        },
+        "features_spec": {
+          "paths": [],
+          "hull_kinds": {},
+          "categories": {},
+          "numeric_ranges": {},
+          "patterns": {},
+          "max_day": "2024-06-27",
+          "provenance_ambiguity": 0.0,
+          "branch_entropy": 0.0
+        },
+        "threshold": 0.5,
+        "grid": [
+          0.02,
+          0.05,
+          0.08,
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "alpha": 0.05,
+        "delta": 0.1,
+        "n_calibration_groups": 92,
+        "n_accepted": 92,
+        "observed_violations": 0,
+        "risk_upper_bound": 0.049808920112407784,
+        "coverage": 1.0,
+        "admissible": [
+          0.08,
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "retire": false,
+        "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.11, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.17, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.2, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.25, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.3, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.4, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.5, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}]"
+      },
+      "manifest": {
+        "manifest_id": "46c62e9376eb",
+        "commit": "workspace-without-git-metadata",
+        "model": "gpt-5.6-luna",
+        "prompt_hash": "#20a0b160",
+        "tools_hash": "#4b153eca",
+        "policy_hash": "#94fc7fa3",
+        "guardrail_hash": "#ca7525a8",
+        "effect_catalog_version": "bird-retails-readonly-sqlite@1#d29543724e03c762",
+        "entry_contract_version": "bird-database-v1:retails",
+        "sdk_version": "0.19.2",
+        "tracer_version": "agent-compaction/0.6.0"
+      },
+      "compatibility_key": "46c62e9376ebad9e",
+      "partition": {},
+      "evidence": {
+        "support_groups": 16,
+        "total_groups": 16,
+        "support_principals": 1,
+        "support_days": 1,
+        "removed_requests": 2.0,
+        "split_ids": {
+          "train": [
+            "bird-retails:6672",
+            "bird-retails:6693",
+            "bird-retails:6731",
+            "bird-retails:6738",
+            "bird-retails:6761",
+            "bird-retails:6765",
+            "bird-retails:6776",
+            "bird-retails:6799",
+            "bird-retails:6810",
+            "bird-retails:6815",
+            "bird-retails:6863",
+            "bird-retails:6869",
+            "bird-retails:6879",
+            "bird-retails:6896",
+            "bird-retails:6900",
+            "bird-retails:6908"
+          ],
+          "dev": [
+            "bird-retails:6686",
+            "bird-retails:6705",
+            "bird-retails:6723",
+            "bird-retails:6783",
+            "bird-retails:6827",
+            "bird-retails:6857",
+            "bird-retails:6880",
+            "bird-retails:6906"
+          ],
+          "calibration": [
+            "bird-retails:6674",
+            "bird-retails:6679",
+            "bird-retails:6681",
+            "bird-retails:6684",
+            "bird-retails:6685",
+            "bird-retails:6687",
+            "bird-retails:6689",
+            "bird-retails:6692",
+            "bird-retails:6694",
+            "bird-retails:6697",
+            "bird-retails:6699",
+            "bird-retails:6701",
+            "bird-retails:6703",
+            "bird-retails:6704",
+            "bird-retails:6708",
+            "bird-retails:6709",
+            "bird-retails:6716",
+            "bird-retails:6718",
+            "bird-retails:6721",
+            "bird-retails:6722",
+            "bird-retails:6724",
+            "bird-retails:6725",
+            "bird-retails:6726",
+            "bird-retails:6729",
+            "bird-retails:6730",
+            "bird-retails:6732",
+            "bird-retails:6734",
+            "bird-retails:6735",
+            "bird-retails:6737",
+            "bird-retails:6740",
+            "bird-retails:6742",
+            "bird-retails:6743",
+            "bird-retails:6746",
+            "bird-retails:6748",
+            "bird-retails:6750",
+            "bird-retails:6758",
+            "bird-retails:6760",
+            "bird-retails:6763",
+            "bird-retails:6766",
+            "bird-retails:6767",
+            "bird-retails:6768",
+            "bird-retails:6774",
+            "bird-retails:6778",
+            "bird-retails:6780",
+            "bird-retails:6782",
+            "bird-retails:6787",
+            "bird-retails:6789",
+            "bird-retails:6790",
+            "bird-retails:6795",
+            "bird-retails:6796",
+            "bird-retails:6801",
+            "bird-retails:6803",
+            "bird-retails:6805",
+            "bird-retails:6806",
+            "bird-retails:6808",
+            "bird-retails:6811",
+            "bird-retails:6813",
+            "bird-retails:6814",
+            "bird-retails:6817",
+            "bird-retails:6820",
+            "bird-retails:6822",
+            "bird-retails:6826",
+            "bird-retails:6829",
+            "bird-retails:6833",
+            "bird-retails:6834",
+            "bird-retails:6839",
+            "bird-retails:6845",
+            "bird-retails:6846",
+            "bird-retails:6848",
+            "bird-retails:6849",
+            "bird-retails:6852",
+            "bird-retails:6853",
+            "bird-retails:6854",
+            "bird-retails:6855",
+            "bird-retails:6858",
+            "bird-retails:6860",
+            "bird-retails:6864",
+            "bird-retails:6865",
+            "bird-retails:6866",
+            "bird-retails:6867",
+            "bird-retails:6873",
+            "bird-retails:6874",
+            "bird-retails:6876",
+            "bird-retails:6878",
+            "bird-retails:6886",
+            "bird-retails:6889",
+            "bird-retails:6901",
+            "bird-retails:6904",
+            "bird-retails:6907",
+            "bird-retails:6909",
+            "bird-retails:6911",
+            "bird-retails:6912"
+          ]
+        },
+        "replay": {
+          "n": 8,
+          "passed": 8,
+          "abstained": 0,
+          "wrong": 0,
+          "effect_mismatch": 0,
+          "state_delta": 0,
+          "pass_rate": 1.0,
+          "reasons": {}
+        },
+        "perturbation": {},
+        "counterexamples": [],
+        "metrics": {
+          "sandbox": {
+            "n": 0,
+            "passed": 0,
+            "abstained": 0,
+            "wrong": 0,
+            "effect_mismatch": 0,
+            "state_delta": 0,
+            "pass_rate": 0.0,
+            "reasons": {}
+          },
+          "perturbations_claimed": false,
+          "branch": "none",
+          "branch_permutation_p": null,
+          "branch_alternatives": 0,
+          "n_alternative_bindings": 0,
+          "composite": "disabled",
+          "composite_name": "",
+          "gate_grid": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.11, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'covera",
+          "var_names": [
+            "tabl",
+            "sche"
+          ],
+          "dev_windows_evaluated": 8,
+          "calibration_windows_evaluated": 92
+        },
+        "rejection_reasons": [],
+        "fallback_reasons": {},
+        "dataset_digest": "49f50f2f5719e119",
+        "notes": "substrate and evidence are recorded in the run manifest"
+      },
+      "lifecycle": "active",
+      "owner": "paper-bird-schema_first-retails",
+      "approved_by": "paper-bird-protocol-lab-only",
+      "expiry_day": null,
+      "rollback_target": null,
+      "monitoring": {
+        "min_verifier_pass_rate": 0.9,
+        "max_unsafe_dispatch": 0.05,
+        "expected_coverage": 1.0
+      },
+      "signature": ""
+    }
+  ]
+}

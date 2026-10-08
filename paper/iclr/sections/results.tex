@@ -140,8 +140,10 @@ The measurement bounds $\varphi$ from above.
 A live SQL agent on BIRD~\citep{li2023bird} shows the other side
 (\cref{app:bird}): on the five dev databases with at least 146 questions,
 \method retires all five when the agent picks its tables per question, and
-admits the schema-reading opening on all five when its workflow reads every
-table first. On 150 sealed questions the
-compiled agent dispatched every time, answered 97 correctly against 94
-(McNemar $p=0.45$), and cut model requests 44.9\%, tokens 9.8\%, latency
-29.4\%, and cost 6.3\% against a warm rerun of the unchanged agent.
+admits the schema-first opening on all five. On 150 sealed questions the
+compiled agent dispatched every time, answered 97 correctly against 94 (McNemar
+$p=0.45$), and cut requests 44.9\% and latency 29.4\%. This replicates on a
+second model family and on 21 of 26 training databases (625 questions: 400
+against 401 correct, 45.9\% fewer requests, 18.1\% lower cost); a second
+provider's agent never ran the opening as a fixed step and was refused
+(\cref{tab:bird-extensions}).

@@ -1,0 +1,506 @@
+{
+  "name": "paper-bird-schema_first-university",
+  "kill_switch": false,
+  "active_stages": [
+    "active"
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "cand-00-c280ec6839dd",
+      "name": "list_tables.get_schema.region@c280ec68",
+      "kind": "grc",
+      "version": 1,
+      "program": {
+        "theta": [],
+        "steps": [
+          {
+            "kind": "call",
+            "var": "tabl",
+            "tool": "list_tables",
+            "args": {},
+            "when": null,
+            "schema_version": null
+          },
+          {
+            "kind": "call",
+            "var": "sche",
+            "tool": "get_schema",
+            "args": {
+              "table_names": {
+                "kind": "const",
+                "value": [
+                  "country",
+                  "ranking_system",
+                  "ranking_criteria",
+                  "university",
+                  "university_ranking_year",
+                  "university_year"
+                ]
+              }
+            },
+            "when": null,
+            "schema_version": null
+          }
+        ],
+        "outputs": {
+          "tabl": {
+            "kind": "expr",
+            "source": "tabl",
+            "ops": []
+          },
+          "sche": {
+            "kind": "expr",
+            "source": "sche",
+            "ops": []
+          }
+        },
+        "library_version": "T-v1",
+        "removed_requests": 2.0,
+        "tools": [
+          "list_tables",
+          "get_schema"
+        ],
+        "composite": null
+      },
+      "route": null,
+      "guard": {
+        "manifest_pins": {
+          "model": "gpt-5.6-luna",
+          "prompt_hash": "#20a0b160",
+          "tools_hash": "#4b153eca",
+          "policy_hash": "#94fc7fa3",
+          "guardrail_hash": "#ca7525a8",
+          "effect_catalog_version": "bird-university-readonly-sqlite@1#435911431b6f3014",
+          "entry_contract_version": "bird-database-v1:university"
+        },
+        "isolation": {},
+        "clauses": [],
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "required_capabilities": [
+          "speculatable",
+          "replayable"
+        ]
+      },
+      "verifier": {
+        "clauses": [
+          {
+            "name": "tabl",
+            "type_name": "dict",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "list_tables"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "tabl.database",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "university"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "list_tables"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "tabl.tables",
+            "type_name": "list",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": 6,
+            "min_len": 6,
+            "provenance": [
+              "list_tables"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "sche",
+            "type_name": "dict",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "get_schema"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "sche.database",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "university"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "get_schema"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "sche.schemas",
+            "type_name": "list",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": 6,
+            "min_len": 6,
+            "provenance": [
+              "get_schema"
+            ],
+            "present_iff": null
+          }
+        ],
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "call_counts": [
+          2
+        ]
+      },
+      "gate": {
+        "model": {
+          "features": [
+            "unseen_category",
+            "knn_distance",
+            "missing_optional",
+            "hull_margin",
+            "drift_days",
+            "provenance_ambiguity",
+            "branch_entropy"
+          ],
+          "weights": [
+            0.0,
+            0.0,
+            0.0,
+            0.8877091183451264,
+            0.0,
+            0.8877091183451264,
+            0.0
+          ],
+          "bias": -0.7183709852150122,
+          "feature_means": [
+            0.0,
+            0.0,
+            0.0,
+            0.25,
+            0.0,
+            0.25,
+            0.0
+          ],
+          "feature_scales": [
+            1.0,
+            1.0,
+            1.0,
+            0.25,
+            1.0,
+            0.25,
+            1.0
+          ]
+        },
+        "features_spec": {
+          "paths": [],
+          "hull_kinds": {},
+          "categories": {},
+          "numeric_ranges": {},
+          "patterns": {},
+          "max_day": "2024-06-27",
+          "provenance_ambiguity": 0.0,
+          "branch_entropy": 0.0
+        },
+        "threshold": 0.5,
+        "grid": [
+          0.02,
+          0.05,
+          0.08,
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "alpha": 0.05,
+        "delta": 0.1,
+        "n_calibration_groups": 92,
+        "n_accepted": 92,
+        "observed_violations": 0,
+        "risk_upper_bound": 0.049808920112407784,
+        "coverage": 1.0,
+        "admissible": [
+          0.08,
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "retire": false,
+        "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.11, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.17, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.2, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.25, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.3, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.4, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.5, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}]"
+      },
+      "manifest": {
+        "manifest_id": "b0a94e5f60fc",
+        "commit": "workspace-without-git-metadata",
+        "model": "gpt-5.6-luna",
+        "prompt_hash": "#20a0b160",
+        "tools_hash": "#4b153eca",
+        "policy_hash": "#94fc7fa3",
+        "guardrail_hash": "#ca7525a8",
+        "effect_catalog_version": "bird-university-readonly-sqlite@1#435911431b6f3014",
+        "entry_contract_version": "bird-database-v1:university",
+        "sdk_version": "0.19.2",
+        "tracer_version": "agent-compaction/0.6.0"
+      },
+      "compatibility_key": "b0a94e5f60fc6173",
+      "partition": {},
+      "evidence": {
+        "support_groups": 16,
+        "total_groups": 16,
+        "support_principals": 1,
+        "support_days": 1,
+        "removed_requests": 2.0,
+        "split_ids": {
+          "train": [
+            "bird-university:7987",
+            "bird-university:7999",
+            "bird-university:8000",
+            "bird-university:8008",
+            "bird-university:8011",
+            "bird-university:8018",
+            "bird-university:8064",
+            "bird-university:8068",
+            "bird-university:8071",
+            "bird-university:8072",
+            "bird-university:8088",
+            "bird-university:8100",
+            "bird-university:8110",
+            "bird-university:8122",
+            "bird-university:8123",
+            "bird-university:8129"
+          ],
+          "dev": [
+            "bird-university:8002",
+            "bird-university:8004",
+            "bird-university:8044",
+            "bird-university:8065",
+            "bird-university:8069",
+            "bird-university:8105",
+            "bird-university:8121",
+            "bird-university:8126"
+          ],
+          "calibration": [
+            "bird-university:7989",
+            "bird-university:7990",
+            "bird-university:7991",
+            "bird-university:7992",
+            "bird-university:7993",
+            "bird-university:7994",
+            "bird-university:7995",
+            "bird-university:7996",
+            "bird-university:7997",
+            "bird-university:8001",
+            "bird-university:8003",
+            "bird-university:8005",
+            "bird-university:8006",
+            "bird-university:8007",
+            "bird-university:8009",
+            "bird-university:8012",
+            "bird-university:8013",
+            "bird-university:8015",
+            "bird-university:8016",
+            "bird-university:8017",
+            "bird-university:8020",
+            "bird-university:8021",
+            "bird-university:8022",
+            "bird-university:8023",
+            "bird-university:8025",
+            "bird-university:8027",
+            "bird-university:8028",
+            "bird-university:8029",
+            "bird-university:8030",
+            "bird-university:8031",
+            "bird-university:8032",
+            "bird-university:8033",
+            "bird-university:8034",
+            "bird-university:8035",
+            "bird-university:8036",
+            "bird-university:8038",
+            "bird-university:8040",
+            "bird-university:8041",
+            "bird-university:8042",
+            "bird-university:8045",
+            "bird-university:8046",
+            "bird-university:8047",
+            "bird-university:8048",
+            "bird-university:8049",
+            "bird-university:8050",
+            "bird-university:8051",
+            "bird-university:8053",
+            "bird-university:8055",
+            "bird-university:8056",
+            "bird-university:8058",
+            "bird-university:8061",
+            "bird-university:8062",
+            "bird-university:8063",
+            "bird-university:8070",
+            "bird-university:8074",
+            "bird-university:8075",
+            "bird-university:8077",
+            "bird-university:8078",
+            "bird-university:8081",
+            "bird-university:8085",
+            "bird-university:8086",
+            "bird-university:8087",
+            "bird-university:8089",
+            "bird-university:8090",
+            "bird-university:8092",
+            "bird-university:8098",
+            "bird-university:8099",
+            "bird-university:8101",
+            "bird-university:8102",
+            "bird-university:8104",
+            "bird-university:8106",
+            "bird-university:8107",
+            "bird-university:8108",
+            "bird-university:8109",
+            "bird-university:8111",
+            "bird-university:8112",
+            "bird-university:8113",
+            "bird-university:8114",
+            "bird-university:8115",
+            "bird-university:8116",
+            "bird-university:8117",
+            "bird-university:8118",
+            "bird-university:8119",
+            "bird-university:8120",
+            "bird-university:8125",
+            "bird-university:8127",
+            "bird-university:8128",
+            "bird-university:8131",
+            "bird-university:8133",
+            "bird-university:8134",
+            "bird-university:8135",
+            "bird-university:8136"
+          ]
+        },
+        "replay": {
+          "n": 8,
+          "passed": 8,
+          "abstained": 0,
+          "wrong": 0,
+          "effect_mismatch": 0,
+          "state_delta": 0,
+          "pass_rate": 1.0,
+          "reasons": {}
+        },
+        "perturbation": {},
+        "counterexamples": [],
+        "metrics": {
+          "sandbox": {
+            "n": 0,
+            "passed": 0,
+            "abstained": 0,
+            "wrong": 0,
+            "effect_mismatch": 0,
+            "state_delta": 0,
+            "pass_rate": 0.0,
+            "reasons": {}
+          },
+          "perturbations_claimed": false,
+          "branch": "none",
+          "branch_permutation_p": null,
+          "branch_alternatives": 0,
+          "n_alternative_bindings": 0,
+          "composite": "disabled",
+          "composite_name": "",
+          "gate_grid": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.11, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'covera",
+          "var_names": [
+            "tabl",
+            "sche"
+          ],
+          "dev_windows_evaluated": 8,
+          "calibration_windows_evaluated": 92
+        },
+        "rejection_reasons": [],
+        "fallback_reasons": {},
+        "dataset_digest": "ded30d0fbea7dd2b",
+        "notes": "substrate and evidence are recorded in the run manifest"
+      },
+      "lifecycle": "active",
+      "owner": "paper-bird-schema_first-university",
+      "approved_by": "paper-bird-protocol-lab-only",
+      "expiry_day": null,
+      "rollback_target": null,
+      "monitoring": {
+        "min_verifier_pass_rate": 0.9,
+        "max_unsafe_dispatch": 0.05,
+        "expected_coverage": 1.0
+      },
+      "signature": ""
+    }
+  ]
+}

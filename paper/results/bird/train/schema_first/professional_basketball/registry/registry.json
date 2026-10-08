@@ -1,0 +1,509 @@
+{
+  "name": "paper-bird-schema_first-professional_basketball",
+  "kill_switch": false,
+  "active_stages": [
+    "active"
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "cand-00-5acc844f62f4",
+      "name": "list_tables.get_schema.region@5acc844f",
+      "kind": "grc",
+      "version": 1,
+      "program": {
+        "theta": [],
+        "steps": [
+          {
+            "kind": "call",
+            "var": "tabl",
+            "tool": "list_tables",
+            "args": {},
+            "when": null,
+            "schema_version": null
+          },
+          {
+            "kind": "call",
+            "var": "sche",
+            "tool": "get_schema",
+            "args": {
+              "table_names": {
+                "kind": "const",
+                "value": [
+                  "awards_players",
+                  "coaches",
+                  "draft",
+                  "player_allstar",
+                  "players",
+                  "teams",
+                  "awards_coaches",
+                  "players_teams",
+                  "series_post"
+                ]
+              }
+            },
+            "when": null,
+            "schema_version": null
+          }
+        ],
+        "outputs": {
+          "tabl": {
+            "kind": "expr",
+            "source": "tabl",
+            "ops": []
+          },
+          "sche": {
+            "kind": "expr",
+            "source": "sche",
+            "ops": []
+          }
+        },
+        "library_version": "T-v1",
+        "removed_requests": 2.0,
+        "tools": [
+          "list_tables",
+          "get_schema"
+        ],
+        "composite": null
+      },
+      "route": null,
+      "guard": {
+        "manifest_pins": {
+          "model": "gpt-5.6-luna",
+          "prompt_hash": "#20a0b160",
+          "tools_hash": "#4b153eca",
+          "policy_hash": "#94fc7fa3",
+          "guardrail_hash": "#ca7525a8",
+          "effect_catalog_version": "bird-professional_basketball-readonly-sqlite@1#6d55a18bc1488c8d",
+          "entry_contract_version": "bird-database-v1:professional_basketball"
+        },
+        "isolation": {},
+        "clauses": [],
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "required_capabilities": [
+          "speculatable",
+          "replayable"
+        ]
+      },
+      "verifier": {
+        "clauses": [
+          {
+            "name": "tabl",
+            "type_name": "dict",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "list_tables"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "tabl.database",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "professional_basketball"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "list_tables"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "tabl.tables",
+            "type_name": "list",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": 9,
+            "min_len": 9,
+            "provenance": [
+              "list_tables"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "sche",
+            "type_name": "dict",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "get_schema"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "sche.database",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "professional_basketball"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "get_schema"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "sche.schemas",
+            "type_name": "list",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": 9,
+            "min_len": 9,
+            "provenance": [
+              "get_schema"
+            ],
+            "present_iff": null
+          }
+        ],
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "call_counts": [
+          2
+        ]
+      },
+      "gate": {
+        "model": {
+          "features": [
+            "unseen_category",
+            "knn_distance",
+            "missing_optional",
+            "hull_margin",
+            "drift_days",
+            "provenance_ambiguity",
+            "branch_entropy"
+          ],
+          "weights": [
+            0.0,
+            0.0,
+            0.0,
+            0.8877091183451264,
+            0.0,
+            0.8877091183451264,
+            0.0
+          ],
+          "bias": -0.7183709852150122,
+          "feature_means": [
+            0.0,
+            0.0,
+            0.0,
+            0.25,
+            0.0,
+            0.25,
+            0.0
+          ],
+          "feature_scales": [
+            1.0,
+            1.0,
+            1.0,
+            0.25,
+            1.0,
+            0.25,
+            1.0
+          ]
+        },
+        "features_spec": {
+          "paths": [],
+          "hull_kinds": {},
+          "categories": {},
+          "numeric_ranges": {},
+          "patterns": {},
+          "max_day": "2024-06-27",
+          "provenance_ambiguity": 0.0,
+          "branch_entropy": 0.0
+        },
+        "threshold": 0.5,
+        "grid": [
+          0.02,
+          0.05,
+          0.08,
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "alpha": 0.05,
+        "delta": 0.1,
+        "n_calibration_groups": 92,
+        "n_accepted": 92,
+        "observed_violations": 0,
+        "risk_upper_bound": 0.049808920112407784,
+        "coverage": 1.0,
+        "admissible": [
+          0.08,
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "retire": false,
+        "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.11, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.17, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.2, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.25, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.3, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.4, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.5, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}]"
+      },
+      "manifest": {
+        "manifest_id": "6296ce817526",
+        "commit": "workspace-without-git-metadata",
+        "model": "gpt-5.6-luna",
+        "prompt_hash": "#20a0b160",
+        "tools_hash": "#4b153eca",
+        "policy_hash": "#94fc7fa3",
+        "guardrail_hash": "#ca7525a8",
+        "effect_catalog_version": "bird-professional_basketball-readonly-sqlite@1#6d55a18bc1488c8d",
+        "entry_contract_version": "bird-database-v1:professional_basketball",
+        "sdk_version": "0.19.2",
+        "tracer_version": "agent-compaction/0.6.0"
+      },
+      "compatibility_key": "6296ce8175267a4f",
+      "partition": {},
+      "evidence": {
+        "support_groups": 16,
+        "total_groups": 16,
+        "support_principals": 1,
+        "support_days": 1,
+        "removed_requests": 2.0,
+        "split_ids": {
+          "train": [
+            "bird-professional_basketball:2802",
+            "bird-professional_basketball:2804",
+            "bird-professional_basketball:2812",
+            "bird-professional_basketball:2817",
+            "bird-professional_basketball:2821",
+            "bird-professional_basketball:2831",
+            "bird-professional_basketball:2848",
+            "bird-professional_basketball:2880",
+            "bird-professional_basketball:2890",
+            "bird-professional_basketball:2895",
+            "bird-professional_basketball:2898",
+            "bird-professional_basketball:2905",
+            "bird-professional_basketball:2909",
+            "bird-professional_basketball:2920",
+            "bird-professional_basketball:2931",
+            "bird-professional_basketball:2945"
+          ],
+          "dev": [
+            "bird-professional_basketball:2809",
+            "bird-professional_basketball:2822",
+            "bird-professional_basketball:2875",
+            "bird-professional_basketball:2879",
+            "bird-professional_basketball:2903",
+            "bird-professional_basketball:2908",
+            "bird-professional_basketball:2917",
+            "bird-professional_basketball:2944"
+          ],
+          "calibration": [
+            "bird-professional_basketball:2796",
+            "bird-professional_basketball:2797",
+            "bird-professional_basketball:2798",
+            "bird-professional_basketball:2799",
+            "bird-professional_basketball:2801",
+            "bird-professional_basketball:2805",
+            "bird-professional_basketball:2806",
+            "bird-professional_basketball:2808",
+            "bird-professional_basketball:2815",
+            "bird-professional_basketball:2816",
+            "bird-professional_basketball:2818",
+            "bird-professional_basketball:2819",
+            "bird-professional_basketball:2820",
+            "bird-professional_basketball:2823",
+            "bird-professional_basketball:2824",
+            "bird-professional_basketball:2825",
+            "bird-professional_basketball:2826",
+            "bird-professional_basketball:2827",
+            "bird-professional_basketball:2829",
+            "bird-professional_basketball:2830",
+            "bird-professional_basketball:2832",
+            "bird-professional_basketball:2835",
+            "bird-professional_basketball:2838",
+            "bird-professional_basketball:2839",
+            "bird-professional_basketball:2842",
+            "bird-professional_basketball:2844",
+            "bird-professional_basketball:2845",
+            "bird-professional_basketball:2846",
+            "bird-professional_basketball:2847",
+            "bird-professional_basketball:2849",
+            "bird-professional_basketball:2851",
+            "bird-professional_basketball:2852",
+            "bird-professional_basketball:2853",
+            "bird-professional_basketball:2854",
+            "bird-professional_basketball:2855",
+            "bird-professional_basketball:2856",
+            "bird-professional_basketball:2857",
+            "bird-professional_basketball:2858",
+            "bird-professional_basketball:2859",
+            "bird-professional_basketball:2860",
+            "bird-professional_basketball:2862",
+            "bird-professional_basketball:2863",
+            "bird-professional_basketball:2864",
+            "bird-professional_basketball:2865",
+            "bird-professional_basketball:2867",
+            "bird-professional_basketball:2870",
+            "bird-professional_basketball:2871",
+            "bird-professional_basketball:2873",
+            "bird-professional_basketball:2874",
+            "bird-professional_basketball:2876",
+            "bird-professional_basketball:2877",
+            "bird-professional_basketball:2878",
+            "bird-professional_basketball:2881",
+            "bird-professional_basketball:2883",
+            "bird-professional_basketball:2884",
+            "bird-professional_basketball:2885",
+            "bird-professional_basketball:2886",
+            "bird-professional_basketball:2889",
+            "bird-professional_basketball:2893",
+            "bird-professional_basketball:2896",
+            "bird-professional_basketball:2897",
+            "bird-professional_basketball:2899",
+            "bird-professional_basketball:2904",
+            "bird-professional_basketball:2907",
+            "bird-professional_basketball:2910",
+            "bird-professional_basketball:2912",
+            "bird-professional_basketball:2914",
+            "bird-professional_basketball:2915",
+            "bird-professional_basketball:2918",
+            "bird-professional_basketball:2919",
+            "bird-professional_basketball:2921",
+            "bird-professional_basketball:2923",
+            "bird-professional_basketball:2924",
+            "bird-professional_basketball:2925",
+            "bird-professional_basketball:2926",
+            "bird-professional_basketball:2927",
+            "bird-professional_basketball:2928",
+            "bird-professional_basketball:2929",
+            "bird-professional_basketball:2930",
+            "bird-professional_basketball:2932",
+            "bird-professional_basketball:2934",
+            "bird-professional_basketball:2935",
+            "bird-professional_basketball:2938",
+            "bird-professional_basketball:2939",
+            "bird-professional_basketball:2940",
+            "bird-professional_basketball:2941",
+            "bird-professional_basketball:2942",
+            "bird-professional_basketball:2946",
+            "bird-professional_basketball:2948",
+            "bird-professional_basketball:2949",
+            "bird-professional_basketball:2951",
+            "bird-professional_basketball:2952"
+          ]
+        },
+        "replay": {
+          "n": 8,
+          "passed": 8,
+          "abstained": 0,
+          "wrong": 0,
+          "effect_mismatch": 0,
+          "state_delta": 0,
+          "pass_rate": 1.0,
+          "reasons": {}
+        },
+        "perturbation": {},
+        "counterexamples": [],
+        "metrics": {
+          "sandbox": {
+            "n": 0,
+            "passed": 0,
+            "abstained": 0,
+            "wrong": 0,
+            "effect_mismatch": 0,
+            "state_delta": 0,
+            "pass_rate": 0.0,
+            "reasons": {}
+          },
+          "perturbations_claimed": false,
+          "branch": "none",
+          "branch_permutation_p": null,
+          "branch_alternatives": 0,
+          "n_alternative_bindings": 0,
+          "composite": "disabled",
+          "composite_name": "",
+          "gate_grid": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.11, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'covera",
+          "var_names": [
+            "tabl",
+            "sche"
+          ],
+          "dev_windows_evaluated": 8,
+          "calibration_windows_evaluated": 92
+        },
+        "rejection_reasons": [],
+        "fallback_reasons": {},
+        "dataset_digest": "667ba717f31a3dc1",
+        "notes": "substrate and evidence are recorded in the run manifest"
+      },
+      "lifecycle": "active",
+      "owner": "paper-bird-schema_first-professional_basketball",
+      "approved_by": "paper-bird-protocol-lab-only",
+      "expiry_day": null,
+      "rollback_target": null,
+      "monitoring": {
+        "min_verifier_pass_rate": 0.9,
+        "max_unsafe_dispatch": 0.05,
+        "expected_coverage": 1.0
+      },
+      "signature": ""
+    }
+  ]
+}

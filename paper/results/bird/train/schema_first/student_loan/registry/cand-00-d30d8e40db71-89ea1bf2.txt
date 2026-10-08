@@ -1,0 +1,17 @@
+artifact  list_tables.get_schema.region@d30d8e40@1   support 16/16 groups   removes k=2.00   [active]
+──────────────────────────────────────────────────────────────────────────────
+guard   effect_catalog_version=bird-student_loan-readonly-sqlite@1#04335f768d1f23f6  entry_contract_version=bird-database-v1:student_loan  guardrail_hash=#ca7525a8  model=gpt-5.6-luna  policy_hash=#94fc7fa3  prompt_hash=#20a0b160  tools_hash=#4b153eca
+        effects ⊆ {READ_LOCAL}  all speculatable ∧ replayable
+
+program (θ = {}):
+   tabl = call list_tables()
+   sche = call get_schema(table_names = Const(['bool', 'person', 'disabled', 'enlist', 'filed_for_bankrupcy', 'longest_absense_from_school', 'male', 'no_payment_due', 'unemployed', 'enrolled']))
+   return  { sche: sche, tabl: tabl }
+verify  tabl : dict, non-null, provenance ∈ {list_tables}
+        tabl.database : str, non-null, ∈ {student_loan}, provenance ∈ {list_tables}
+        tabl.tables : list, non-null, len ≤ 10, len ≥ 10, provenance ∈ {list_tables}
+        sche : dict, non-null, provenance ∈ {get_schema}
+        sche.database : str, non-null, ∈ {student_loan}, provenance ∈ {get_schema}
+        sche.schemas : list, non-null, len ≤ 10, len ≥ 10, provenance ∈ {get_schema}
+        effect_multiset ⊆ {READ_LOCAL},  |calls| ∈ {2},  no WRITE_*
+gate    q = logistic(entry features)   η = 0.50   (cal n=92 groups, α=0.05, δ=0.1, |Λ|=11, R⁺=0.050, φ̂=1.00)

@@ -1,0 +1,6497 @@
+{
+  "failures": [],
+  "results": [
+    {
+      "answer": {
+        "sql": "SELECT p.Body FROM posts p JOIN tags t ON p.Id = t.ExcerptPostId ORDER BY t.Count DESC LIMIT 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:45e61e17ccf78399326b809c38738e45",
+      "issue_number": 550,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.023936,
+        "handoffs": 0,
+        "input_tokens": 10308,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 332,
+        "provider_response_latency_ms": 5272.347,
+        "requests": 5,
+        "tool_calls": 4,
+        "total_tokens": 10640,
+        "wall_latency_ms": 5284.825
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "Tags",
+            "Posts"
+          ]
+        },
+        {},
+        {
+          "table_names": [
+            "tags",
+            "posts"
+          ]
+        },
+        {
+          "sql": "SELECT p.Body FROM posts p JOIN tags t ON p.Id = t.ExcerptPostId ORDER BY t.Count DESC LIMIT 1"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "list_tables",
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_c8652c9ba0d6d97fe8bab1c220f1722d"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(DISTINCT u.Id) FROM users u JOIN badges b ON u.Id=b.UserId WHERE b.Name='Supporter' AND u.Age BETWEEN 19 AND 65"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:ba7533e63546dfcf1551903c8b8f316c",
+      "issue_number": 619,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.022238,
+        "handoffs": 0,
+        "input_tokens": 9399,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 344,
+        "provider_response_latency_ms": 5105.557,
+        "requests": 5,
+        "tool_calls": 4,
+        "total_tokens": 9743,
+        "wall_latency_ms": 5124.696
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "Badges",
+            "Users"
+          ]
+        },
+        {},
+        {
+          "table_names": [
+            "badges",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT COUNT(DISTINCT u.Id) FROM users u JOIN badges b ON u.Id=b.UserId WHERE b.Name='Supporter' AND u.Age BETWEEN 19 AND 65"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "list_tables",
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_7f7c305b48c4f51ce03137397c45a581"
+    },
+    {
+      "answer": {
+        "sql": "SELECT b.Name FROM badges b JOIN users u ON b.UserId = u.Id WHERE u.Reputation = (SELECT MIN(Reputation) FROM users)"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:2b40b5e8888bb246e8cdc5da07024266",
+      "issue_number": 621,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.022202,
+        "handoffs": 0,
+        "input_tokens": 9526,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 315,
+        "provider_response_latency_ms": 6698.918,
+        "requests": 5,
+        "tool_calls": 4,
+        "total_tokens": 9841,
+        "wall_latency_ms": 6714.222
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "Users",
+            "Badges"
+          ]
+        },
+        {},
+        {
+          "table_names": [
+            "badges",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT b.Name FROM badges b JOIN users u ON b.UserId=u.Id WHERE u.Reputation = (SELECT MIN(Reputation) FROM users)"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "list_tables",
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_9112fe30899cbf9770a33e9f42d7c7c4"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE u.DisplayName = 'csgillespie'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:72d61b1f1c0f552a0d172daa15e4d1ed",
+      "issue_number": 537,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.018158,
+        "handoffs": 0,
+        "input_tokens": 7944,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 227,
+        "provider_response_latency_ms": 4175.497,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 8171,
+        "wall_latency_ms": 4230.357
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT COUNT(*) FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE u.DisplayName = 'csgillespie'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_786f6fa55b1c9252f6387ac52162f700"
+    },
+    {
+      "answer": {
+        "sql": "SELECT u.DisplayName FROM users u JOIN badges b ON u.Id=b.UserId WHERE b.Name='Organizer'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:48617c63081c1c2d5ec4e1591717de47",
+      "issue_number": 638,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0148,
+        "handoffs": 0,
+        "input_tokens": 6365,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 207,
+        "provider_response_latency_ms": 13833.157,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 6572,
+        "wall_latency_ms": 13841.613
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "badges",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT u.DisplayName FROM users u JOIN badges b ON u.Id=b.UserId WHERE b.Name='Organizer'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_ed73c89a9a1ddbc2c46866dce5b2c055"
+    },
+    {
+      "answer": {
+        "sql": "SELECT p.Id FROM posts p JOIN users u ON p.OwnerUserId=u.Id WHERE u.DisplayName='slashnick' ORDER BY p.AnswerCount DESC LIMIT 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:418c838040891902dbed98f15219155e",
+      "issue_number": 633,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.01873,
+        "handoffs": 0,
+        "input_tokens": 8050,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 263,
+        "provider_response_latency_ms": 3489.332,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 8313,
+        "wall_latency_ms": 3575.435
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT p.Id FROM posts p JOIN users u ON p.OwnerUserId=u.Id WHERE u.DisplayName='slashnick' ORDER BY p.AnswerCount DESC LIMIT 1"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_0ad5b9a20ed8bd03533636714cbb9ea3"
+    },
+    {
+      "answer": {
+        "sql": "SELECT DISTINCT u.DisplayName FROM users u JOIN posts p ON u.Id = p.OwnerUserId WHERE p.ClosedDate IS NOT NULL"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:81df05e934214e38b664eb8769f72878",
+      "issue_number": 546,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.01873,
+        "handoffs": 0,
+        "input_tokens": 8170,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 239,
+        "provider_response_latency_ms": 4568.284,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 8409,
+        "wall_latency_ms": 4573.805
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT DISTINCT u.DisplayName FROM users u JOIN posts p ON u.Id = p.OwnerUserId WHERE p.ClosedDate IS NOT NULL"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_d05490dfcb35e5409004aca49d2e003a"
+    },
+    {
+      "answer": {
+        "sql": "SELECT u.DisplayName, u.Reputation FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE p.Id = 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:703657fb3a40af5fc1ee8c1123577919",
+      "issue_number": 594,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.01809,
+        "handoffs": 0,
+        "input_tokens": 7930,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 223,
+        "provider_response_latency_ms": 3230.893,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 8153,
+        "wall_latency_ms": 3235.634
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT u.DisplayName, u.Reputation FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE p.Id = 1"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_6bd4a101ab05b015ae3135e01afd5812"
+    },
+    {
+      "answer": {
+        "sql": "SELECT CAST(COUNT(DISTINCT CASE WHEN Name='Teacher' THEN UserId END) AS FLOAT) / COUNT(DISTINCT UserId) * 100 AS percentage FROM badges"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:c660bcc304bdafaa5d008d3f2045c42e",
+      "issue_number": 614,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.007738,
+        "handoffs": 0,
+        "input_tokens": 2819,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 210,
+        "provider_response_latency_ms": 2738.46,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 3029,
+        "wall_latency_ms": 2759.671
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT CAST(COUNT(DISTINCT CASE WHEN Name='Teacher' THEN UserId END) AS FLOAT) / COUNT(DISTINCT UserId) * 100 FROM badges"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_a940179b38c7d066230d467b03a3fbfe"
+    },
+    {
+      "answer": {
+        "sql": "SELECT 100.0*SUM(CASE WHEN u.UpVotes=0 THEN 1 ELSE 0 END)/COUNT(*) AS percentage FROM comments c JOIN users u ON c.UserId=u.Id WHERE c.Score BETWEEN 5 AND 10"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:b4872cfd8b43993dd07762ac58bae0d6",
+      "issue_number": 716,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.016738,
+        "handoffs": 0,
+        "input_tokens": 6819,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 310,
+        "provider_response_latency_ms": 4678.427,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 7129,
+        "wall_latency_ms": 4695.461
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "comments",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT 100.0*SUM(CASE WHEN u.UpVotes=0 THEN 1 ELSE 0 END)/COUNT(*) FROM comments c JOIN users u ON c.UserId=u.Id WHERE c.Score BETWEEN 5 AND 10"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_8f32821cb9727c21557cb139dd8406e2"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM users WHERE Age BETWEEN 19 AND 65"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:ee9f70da068ca8c340fde6cf786e02c1",
+      "issue_number": 627,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.006468,
+        "handoffs": 0,
+        "input_tokens": 2619,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 123,
+        "provider_response_latency_ms": 1948.59,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2742,
+        "wall_latency_ms": 1953.972
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT COUNT(*) FROM users WHERE Age BETWEEN 19 AND 65"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_da535ef46e786e38fd247a9d5b05b6dd"
+    },
+    {
+      "answer": {
+        "sql": "SELECT CAST(SUM(CASE WHEN u.Age BETWEEN 13 AND 18 THEN 1 ELSE 0 END) AS FLOAT)*100/COUNT(*) AS percentage FROM badges b JOIN users u ON b.UserId=u.Id WHERE b.Name='Organizer'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:494f5d5651e83f2584a596bff5bb3ba4",
+      "issue_number": 615,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.016248,
+        "handoffs": 0,
+        "input_tokens": 6474,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 330,
+        "provider_response_latency_ms": 3906.335,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 6804,
+        "wall_latency_ms": 3918.571
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "badges",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT CAST(SUM(CASE WHEN u.Age BETWEEN 13 AND 18 THEN 1 ELSE 0 END) AS FLOAT)*100/COUNT(*) FROM badges b JOIN users u ON b.UserId=u.Id WHERE b.Name='Organizer'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_43bb4a5b2b33be69271e05a59fc8b834"
+    },
+    {
+      "answer": {
+        "sql": "SELECT p.Tags FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE u.DisplayName = 'Mark Meckes' AND p.CommentCount = 0"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:4b7fdf4194a58eb30353b0e9bdd71e23",
+      "issue_number": 637,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.018696,
+        "handoffs": 0,
+        "input_tokens": 8093,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 251,
+        "provider_response_latency_ms": 5856.236,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 8344,
+        "wall_latency_ms": 5902.411
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT p.Tags FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE u.DisplayName = 'Mark Meckes' AND p.CommentCount = 0"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_4e522a7f4b7d5cc480dad0e605a6574d"
+    },
+    {
+      "answer": {
+        "sql": "SELECT Id FROM users ORDER BY Views ASC LIMIT 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:c5431aee354467868d2c46e34a7d1ad9",
+      "issue_number": 590,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.007748,
+        "handoffs": 0,
+        "input_tokens": 3364,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 102,
+        "provider_response_latency_ms": 2941.993,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 3466,
+        "wall_latency_ms": 2946.265
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "users"
+          ]
+        }
+      ],
+      "tool_sequence": [
+        "get_schema"
+      ],
+      "trace_id": "trace_07f4b02c27063837d7942eb223e702cf"
+    },
+    {
+      "answer": {
+        "sql": "SELECT u.DisplayName, u.WebsiteUrl FROM votes v JOIN users u ON v.UserId=u.Id WHERE v.VoteTypeId=8 ORDER BY v.BountyAmount DESC LIMIT 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:ef1e5df6127de1573bebfd73478d5ef8",
+      "issue_number": 657,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.023038,
+        "handoffs": 0,
+        "input_tokens": 9704,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 363,
+        "provider_response_latency_ms": 5333.123,
+        "requests": 5,
+        "tool_calls": 4,
+        "total_tokens": 10067,
+        "wall_latency_ms": 5344.015
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "Votes",
+            "Users"
+          ]
+        },
+        {},
+        {
+          "table_names": [
+            "votes",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT u.DisplayName, u.WebsiteUrl FROM votes v JOIN users u ON v.UserId=u.Id WHERE v.VoteTypeId=8 ORDER BY v.BountyAmount DESC LIMIT 1"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "list_tables",
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_54b1395e987f6c79b4fe31db75131dbe"
+    },
+    {
+      "answer": {
+        "sql": "SELECT MAX(p.AnswerCount) FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE u.DisplayName = 'csgillespie'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:fada48a31844abb0f9e50dc04f1f1dde",
+      "issue_number": 543,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.007682,
+        "handoffs": 0,
+        "input_tokens": 2756,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 217,
+        "provider_response_latency_ms": 2849.66,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2973,
+        "wall_latency_ms": 2902.363
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT MAX(p.AnswerCount) FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE u.DisplayName = 'csgillespie'"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_dbcb5ff6affad6e22db76bf8cdce93ae"
+    },
+    {
+      "answer": {
+        "sql": "SELECT b.Name FROM badges b JOIN users u ON b.UserId=u.Id WHERE u.DisplayName='csgillespie'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:98bc62cd7adcd567ccd9b5447da26197",
+      "issue_number": 552,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.014852,
+        "handoffs": 0,
+        "input_tokens": 6311,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 223,
+        "provider_response_latency_ms": 4182.464,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 6534,
+        "wall_latency_ms": 4188.173
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "users",
+            "badges"
+          ]
+        },
+        {
+          "sql": "SELECT b.Name FROM badges b JOIN users u ON b.UserId=u.Id WHERE u.DisplayName='csgillespie'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_f87bf95bb1f0f994ff07e638f7ed278b"
+    },
+    {
+      "answer": {
+        "sql": "SELECT LastEditDate, LastEditorUserId FROM posts WHERE Title = 'Detecting a given face in a database of facial images'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:e844cfc0cd22578000d9337c937c9567",
+      "issue_number": 644,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.006924,
+        "handoffs": 0,
+        "input_tokens": 2707,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 151,
+        "provider_response_latency_ms": 2332.518,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2858,
+        "wall_latency_ms": 2377.9
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT LastEditDate, LastEditorUserId FROM posts WHERE Title = 'Detecting a given face in a database of facial images'"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_1719f5acb05801f9edb54b71510e4e68"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE u.Age > 65 AND p.Score >= 20"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:1391d7468ad32c08484c93e6a5c98c08",
+      "issue_number": 547,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.018532,
+        "handoffs": 0,
+        "input_tokens": 8041,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 245,
+        "provider_response_latency_ms": 4390.121,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 8286,
+        "wall_latency_ms": 4417.09
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT COUNT(*) FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE u.Age > 65 AND p.Score >= 20"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_cd9204465a59fab84b9f75cdb6d76c70"
+    },
+    {
+      "answer": {
+        "sql": "SELECT (SELECT GROUP_CONCAT(DISTINCT PostHistoryTypeId) FROM postHistory WHERE PostId=3720) AS typeIds, (SELECT COUNT(DISTINCT UserId) FROM comments WHERE PostId=3720) AS uniqueUsers"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:f0caf7f9738aac539f9335247bb4d692",
+      "issue_number": 599,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.015902,
+        "handoffs": 0,
+        "input_tokens": 6216,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 347,
+        "provider_response_latency_ms": 4153.411,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 6563,
+        "wall_latency_ms": 4436.212
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "postHistory",
+            "comments"
+          ]
+        },
+        {
+          "sql": "SELECT (SELECT GROUP_CONCAT(DISTINCT PostHistoryTypeId) FROM postHistory WHERE PostId=3720) AS typeIds, (SELECT COUNT(DISTINCT UserId) FROM comments WHERE PostId=3720) AS uniqueUsers"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_8a9db9c08619a06d614163f77ca47765"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM badges WHERE Name='Supporter' AND strftime('%Y', Date)='2011'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:8dd9eba10bac6fdddbf2bd82383f6492",
+      "issue_number": 591,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.006798,
+        "handoffs": 0,
+        "input_tokens": 2674,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 145,
+        "provider_response_latency_ms": 3992.184,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2819,
+        "wall_latency_ms": 3999.875
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT COUNT(*) FROM badges WHERE Name='Supporter' AND strftime('%Y', Date)='2011'"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_6e1d32fb55ac9bdbf7e3914494b9d125"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM votes v JOIN users u ON v.UserId = u.Id WHERE u.DisplayName = 'Harlan'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:3172e987d3b12aee1804a5ea5b62bc9e",
+      "issue_number": 632,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.014642,
+        "handoffs": 0,
+        "input_tokens": 6236,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 217,
+        "provider_response_latency_ms": 3849.312,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 6453,
+        "wall_latency_ms": 3856.247
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "votes",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT COUNT(*) FROM votes v JOIN users u ON v.UserId = u.Id WHERE u.DisplayName = 'Harlan'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_d6ebff62ab742dbd5ee8956f2f4edc70"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM comments c JOIN posts p ON c.PostId=p.Id JOIN users u ON p.OwnerUserId=u.Id WHERE u.DisplayName='Neil McGuigan' AND c.Score<60"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:c820186e6da078b45e93d9bc46e98297",
+      "issue_number": 636,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.02401,
+        "handoffs": 0,
+        "input_tokens": 10450,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 311,
+        "provider_response_latency_ms": 7841.506,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 10761,
+        "wall_latency_ms": 7947.971
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {},
+        {
+          "table_names": [
+            "comments",
+            "posts",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT COUNT(*) FROM comments c JOIN posts p ON c.PostId=p.Id JOIN users u ON p.OwnerUserId=u.Id WHERE u.DisplayName='Neil McGuigan' AND c.Score<60"
+        }
+      ],
+      "tool_sequence": [
+        "list_tables",
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_5d479762f241c9d8b4e70c07cf196716"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM users WHERE LastAccessDate > '2014-09-01'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:3b3cd372ae2766d2b0e8dae63bba05c3",
+      "issue_number": 533,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.006574,
+        "handoffs": 0,
+        "input_tokens": 2662,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 125,
+        "provider_response_latency_ms": 2966.741,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2787,
+        "wall_latency_ms": 2973.796
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT COUNT(*) FROM users WHERE LastAccessDate > '2014-09-01'"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_969883cc1c4ee9d56cf13a9ffdff01bd"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM posts WHERE ViewCount > 35000 AND CommentCount = 0"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:8ee3cc62ef4a2cb53f917c29d11d19af",
+      "issue_number": 688,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.006762,
+        "handoffs": 0,
+        "input_tokens": 2706,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 135,
+        "provider_response_latency_ms": 2206.203,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2841,
+        "wall_latency_ms": 2233.367
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT COUNT(*) FROM posts WHERE ViewCount > 35000 AND CommentCount = 0"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_454b0ae4be518f895b4040aa20f22b9d"
+    },
+    {
+      "answer": {
+        "sql": "SELECT (SELECT AVG(ViewCount) FROM posts WHERE Tags LIKE '%<humor>%') AS avg_view_count, p.Title, c.Text FROM posts p JOIN comments c ON p.Id = c.PostId WHERE p.Tags LIKE '%<humor>%'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:d41d03fa545ce9588749cb38aea2984b",
+      "issue_number": 587,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.033548,
+        "handoffs": 0,
+        "input_tokens": 14059,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 543,
+        "provider_response_latency_ms": 7524.81,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 14602,
+        "wall_latency_ms": 7721.248
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "comments"
+          ]
+        },
+        {
+          "sql": "SELECT (SELECT AVG(ViewCount) FROM posts WHERE Tags LIKE '%<humor>%') AS avg_view_count, p.Title, c.Text FROM posts p JOIN comments c ON p.Id = c.PostId WHERE p.Tags LIKE '%<humor>%'"
+        },
+        {
+          "sql": "SELECT (SELECT AVG(ViewCount) FROM posts WHERE Tags LIKE '%<humor>%') AS avg_view_count, p.Title, c.Text FROM posts p JOIN comments c ON p.Id = c.PostId WHERE p.Tags LIKE '%<humor>%'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query",
+        "run_query"
+      ],
+      "trace_id": "trace_e674ef903e7dcf032ecd5e7f5a7c9c90"
+    },
+    {
+      "answer": {
+        "sql": "SELECT p2.Title, pl.LinkTypeId FROM postLinks pl JOIN posts p1 ON pl.PostId = p1.Id JOIN posts p2 ON pl.RelatedPostId = p2.Id WHERE p1.Title = 'What are principal component scores?'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:02a7d2d1c816ca5dd1fc375391f154cc",
+      "issue_number": 655,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.02073,
+        "handoffs": 0,
+        "input_tokens": 8680,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 337,
+        "provider_response_latency_ms": 6125.893,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 9017,
+        "wall_latency_ms": 6144.762
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {},
+        {
+          "table_names": [
+            "postLinks",
+            "posts"
+          ]
+        },
+        {
+          "sql": "SELECT p2.Title, pl.LinkTypeId FROM postLinks pl JOIN posts p1 ON pl.PostId = p1.Id JOIN posts p2 ON pl.RelatedPostId = p2.Id WHERE p1.Title = 'What are principal component scores?'"
+        }
+      ],
+      "tool_sequence": [
+        "list_tables",
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_7693753e7dd32cf6be19793fa4b0e811"
+    },
+    {
+      "answer": {
+        "sql": "SELECT Name FROM badges WHERE Date = '2010-07-19 19:39:08.0'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:2aa525ce8d58c3eebb6fe957445854ea",
+      "issue_number": 606,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00678,
+        "handoffs": 0,
+        "input_tokens": 2775,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 123,
+        "provider_response_latency_ms": 2588.428,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2898,
+        "wall_latency_ms": 2598.651
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT Name FROM badges WHERE Date = '2010-07-19 19:39:08.0'"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_468ec79fd3dd5d373d1eb1ca69d26743"
+    },
+    {
+      "answer": {
+        "sql": "SELECT b.Name FROM badges b JOIN users u ON b.UserId = u.Id WHERE u.DisplayName = 'Sharpie'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:c937658c9b7b6e43d441f7c5862104e7",
+      "issue_number": 622,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.01191,
+        "handoffs": 0,
+        "input_tokens": 4695,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 252,
+        "provider_response_latency_ms": 3511.509,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 4947,
+        "wall_latency_ms": 3524.034
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT b.Name FROM badges b JOIN users u ON b.UserId=u.Id WHERE u.DisplayName='Sharpie'"
+        },
+        {
+          "sql": "SELECT b.Name FROM badges b JOIN users u ON b.UserId=u.Id WHERE u.DisplayName='Sharpie'"
+        }
+      ],
+      "tool_sequence": [
+        "run_query",
+        "run_query"
+      ],
+      "trace_id": "trace_16fd24ad7f9d08828ae08f54a0eefe03"
+    },
+    {
+      "answer": {
+        "sql": "SELECT u.Location FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE p.Title = 'Eliciting priors from experts'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:3858d0d6184d9d9777a2a084ab664acb",
+      "issue_number": 548,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00712,
+        "handoffs": 0,
+        "input_tokens": 2705,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 171,
+        "provider_response_latency_ms": 2353.287,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2876,
+        "wall_latency_ms": 2382.196
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT u.Location FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE p.Title = 'Eliciting priors from experts'"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_057c3e709984624f7ca368fd9f4769c0"
+    },
+    {
+      "answer": {
+        "sql": "SELECT p.Id, u.DisplayName FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE strftime('%Y', p.CreaionDate) = '2010' ORDER BY p.FavoriteCount DESC LIMIT 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:827f7a987e8f8f0c9380e6ab6c6cc328",
+      "issue_number": 682,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.019204,
+        "handoffs": 0,
+        "input_tokens": 8107,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 299,
+        "provider_response_latency_ms": 3768.0,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 8406,
+        "wall_latency_ms": 3804.191
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT p.Id, u.DisplayName FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE strftime('%Y', p.CreaionDate) = '2010' ORDER BY p.FavoriteCount DESC LIMIT 1"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_856cbb44b944ec9fd61fa11cec4adee9"
+    },
+    {
+      "answer": {
+        "sql": "SELECT u.DisplayName FROM users u JOIN badges b ON u.Id = b.UserId WHERE b.Name = 'Necromancer' LIMIT 10"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:88e136ecb865d0e7abf2ad2dd9c085a6",
+      "issue_number": 580,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.007258,
+        "handoffs": 0,
+        "input_tokens": 2764,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 173,
+        "provider_response_latency_ms": 2750.908,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2937,
+        "wall_latency_ms": 2753.985
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT u.DisplayName FROM users u JOIN badges b ON u.Id = b.UserId WHERE b.Name = 'Necromancer' LIMIT 10"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_bc17e3a7718ac64c5a6956b9bf77ada9"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE u.DisplayName = 'csgillespie' AND p.ParentId IS NULL"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:5fb3e54dc413efd1a8b0f481621ce6be",
+      "issue_number": 545,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.007398,
+        "handoffs": 0,
+        "input_tokens": 2704,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 199,
+        "provider_response_latency_ms": 4186.985,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2903,
+        "wall_latency_ms": 4228.018
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT COUNT(*) FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE u.DisplayName = 'csgillespie' AND p.ParentId IS NULL"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_b0ae6550ba69687182d59b208c9ac6a6"
+    },
+    {
+      "answer": {
+        "sql": "SELECT Id, Title FROM posts ORDER BY Score DESC LIMIT 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:a89424d011255c049d46095f829c2277",
+      "issue_number": 679,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.014518,
+        "handoffs": 0,
+        "input_tokens": 6404,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 171,
+        "provider_response_latency_ms": 2979.297,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 6575,
+        "wall_latency_ms": 3006.224
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts"
+          ]
+        },
+        {
+          "sql": "SELECT Id, Title FROM posts ORDER BY Score DESC LIMIT 1"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_f78987f470f0425d7e5a61d6e2448584"
+    },
+    {
+      "answer": {
+        "sql": "SELECT DisplayName, Age FROM users WHERE Views = (SELECT MAX(Views) FROM users)"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:abafc976fcedf3847913d4401f9f732a",
+      "issue_number": 643,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0146,
+        "handoffs": 0,
+        "input_tokens": 6355,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 189,
+        "provider_response_latency_ms": 5017.793,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 6544,
+        "wall_latency_ms": 5024.058
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "Users"
+          ]
+        },
+        {},
+        {
+          "table_names": [
+            "users"
+          ]
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "list_tables",
+        "get_schema"
+      ],
+      "trace_id": "trace_f76e8ed48a1062804c42035aba9d3bb7"
+    },
+    {
+      "answer": {
+        "sql": "SELECT u.Views FROM users u JOIN badges b ON u.Id = b.UserId WHERE b.Date = '2010-07-19 19:39:08.0'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:958dabcabe350e17f6a247736c0b70ce",
+      "issue_number": 620,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.014754,
+        "handoffs": 0,
+        "input_tokens": 6267,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 222,
+        "provider_response_latency_ms": 3263.787,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 6489,
+        "wall_latency_ms": 3272.038
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "badges",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT u.Views FROM users u JOIN badges b ON u.Id=b.UserId WHERE b.Date='2010-07-19 19:39:08.0'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_ec02369e7e300b7d6c2e5b38c83be6b2"
+    },
+    {
+      "answer": {
+        "sql": "SELECT u.Reputation, u.UpVotes FROM users u JOIN comments c ON u.Id = c.UserId WHERE c.Text = 'fine, you win :)'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:381cc530e0f82c502a74a1508680a557",
+      "issue_number": 705,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.01538,
+        "handoffs": 0,
+        "input_tokens": 6545,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 229,
+        "provider_response_latency_ms": 3376.105,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 6774,
+        "wall_latency_ms": 3396.34
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "comments",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT u.Reputation, u.UpVotes FROM users u JOIN comments c ON u.Id=c.UserId WHERE c.Text='fine, you win :)'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_af870800b8a3f8c8cf247b4e33249924"
+    },
+    {
+      "answer": {
+        "sql": "SELECT CAST(SUM(CASE WHEN strftime('%Y',CreationDate)='2010' THEN 1 ELSE 0 END) AS REAL) / SUM(CASE WHEN strftime('%Y',CreationDate)='2011' THEN 1 ELSE 0 END) FROM votes"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:aba05779adb1ff853698270b6f772031",
+      "issue_number": 629,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.008506,
+        "handoffs": 0,
+        "input_tokens": 2898,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 271,
+        "provider_response_latency_ms": 3035.953,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 3169,
+        "wall_latency_ms": 3048.174
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT CAST(SUM(CASE WHEN strftime('%Y',CreationDate)='2010' THEN 1 ELSE 0 END) AS REAL) / SUM(CASE WHEN strftime('%Y',CreationDate)='2011' THEN 1 ELSE 0 END) FROM votes"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_6e6a1d2bf260680ec7b56b43e3051467"
+    },
+    {
+      "answer": {
+        "sql": "SELECT CASE WHEN p.ClosedDate IS NULL THEN 'No' ELSE 'Yes' END AS WellFinished FROM Comments c JOIN Posts p ON c.PostId = p.Id WHERE c.UserId = 23853 AND c.CreationDate = '2013-07-12 09:08:18.0'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:9bbf1b22dcb5f02bf843928a6802a36a",
+      "issue_number": 565,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.014222,
+        "handoffs": 0,
+        "input_tokens": 4716,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 479,
+        "provider_response_latency_ms": 6268.447,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 5195,
+        "wall_latency_ms": 6300.07
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT p.Id, p.ClosedDate FROM Comments c JOIN Posts p ON c.PostId = p.Id WHERE c.UserId = 23853 AND c.CreationDate = '2013-07-12 09:08:18.0'"
+        },
+        {
+          "sql": "SELECT CASE WHEN p.ClosedDate IS NULL THEN 'No' ELSE 'Yes' END AS WellFinished FROM Comments c JOIN Posts p ON c.PostId = p.Id WHERE c.UserId = 23853 AND c.CreationDate = '2013-07-12 09:08:18.0'"
+        }
+      ],
+      "tool_sequence": [
+        "run_query",
+        "run_query"
+      ],
+      "trace_id": "trace_56b10d6089162d9e6190328394bf7565"
+    },
+    {
+      "answer": {
+        "sql": "SELECT CAST(SUM(CASE WHEN strftime('%Y', p.CreaionDate)='2011' AND u.Reputation>1000 THEN 1 ELSE 0 END) AS FLOAT) * 100 / COUNT(p.Id) AS percentage FROM posts p JOIN users u ON p.OwnerUserId = u.Id"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:ae6522d90a87b195c1079665945b7023",
+      "issue_number": 683,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.020024,
+        "handoffs": 0,
+        "input_tokens": 8262,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 350,
+        "provider_response_latency_ms": 4974.851,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 8612,
+        "wall_latency_ms": 5039.705
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT CAST(SUM(CASE WHEN strftime('%Y', p.CreaionDate)='2011' AND u.Reputation>1000 THEN 1 ELSE 0 END) AS FLOAT) * 100 / COUNT(p.Id) FROM posts p JOIN users u ON p.OwnerUserId = u.Id"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_b0072cbb98bf5d1b9647ec70b2c01aff"
+    },
+    {
+      "answer": {
+        "sql": "SELECT u.DisplayName FROM votes v JOIN users u ON v.UserId=u.Id WHERE v.Id=6347"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:59c6d35aa5ead54fc4379c23484dc890",
+      "issue_number": 568,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.014544,
+        "handoffs": 0,
+        "input_tokens": 6267,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 201,
+        "provider_response_latency_ms": 4075.779,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 6468,
+        "wall_latency_ms": 4080.417
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "votes",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT u.DisplayName FROM votes v JOIN users u ON v.UserId=u.Id WHERE v.Id=6347"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_6905d236a14803bb4b671d1ffff08cd4"
+    },
+    {
+      "answer": {
+        "sql": "SELECT b.Name FROM badges b JOIN users u ON b.UserId = u.Id WHERE u.Location = 'North Pole' AND strftime('%Y', b.Date) = '2011'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:d1e410ab272c7593782fdf8017e8ae19",
+      "issue_number": 647,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.01484,
+        "handoffs": 0,
+        "input_tokens": 6210,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 242,
+        "provider_response_latency_ms": 4189.813,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 6452,
+        "wall_latency_ms": 4206.324
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "badges",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT b.Name FROM badges b JOIN users u ON b.UserId=u.Id WHERE u.Location='North Pole' AND strftime('%Y', b.Date)='2011'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_7f14911238dba905ce54b2116cc29593"
+    },
+    {
+      "answer": {
+        "sql": "SELECT Title FROM posts ORDER BY ViewCount DESC LIMIT 5"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:d8967b23bd7604eb21b8371f68b14e91",
+      "issue_number": 658,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.014772,
+        "handoffs": 0,
+        "input_tokens": 6531,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 171,
+        "provider_response_latency_ms": 4757.768,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 6702,
+        "wall_latency_ms": 4792.196
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts"
+          ]
+        },
+        {
+          "sql": "SELECT Title FROM posts ORDER BY ViewCount DESC LIMIT 5"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_97560e0723ed027fe133d8e8b4c8c650"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM votes WHERE UserId=58 AND CreationDate='2010-07-19'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:eeba25740cb73a6e7de8329a3f37c34e",
+      "issue_number": 558,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.011416,
+        "handoffs": 0,
+        "input_tokens": 4763,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 189,
+        "provider_response_latency_ms": 3954.884,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 4952,
+        "wall_latency_ms": 3962.039
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "votes"
+          ]
+        },
+        {
+          "sql": "SELECT COUNT(*) FROM votes WHERE UserId=58 AND CreationDate='2010-07-19'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_77ce6d4a5115e31b1b33639cf51fa1c9"
+    },
+    {
+      "answer": {
+        "sql": "SELECT CAST(SUM(CASE WHEN u.Age>65 THEN 1 ELSE 0 END) AS FLOAT)*100/COUNT(*) AS percentage FROM posts p JOIN users u ON p.OwnerUserId=u.Id WHERE p.Score>5"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:8c0b44428bd4a2017516d4578271999d",
+      "issue_number": 557,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.01949,
+        "handoffs": 0,
+        "input_tokens": 8205,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 308,
+        "provider_response_latency_ms": 4877.768,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 8513,
+        "wall_latency_ms": 4916.089
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT CAST(SUM(CASE WHEN u.Age>65 THEN 1 ELSE 0 END) AS FLOAT)*100/COUNT(*) FROM posts p JOIN users u ON p.OwnerUserId=u.Id WHERE p.Score>5"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_01c45b2eb22de54c41c61674980ec10b"
+    },
+    {
+      "answer": {
+        "sql": "SELECT p.Title FROM posts p JOIN postLinks pl ON p.Id = pl.PostId ORDER BY pl.CreationDate ASC LIMIT 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:224bd7d6c1e62c49dfc9f3e7c9933f8a",
+      "issue_number": 667,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.016712,
+        "handoffs": 0,
+        "input_tokens": 7106,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 250,
+        "provider_response_latency_ms": 4604.3,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 7356,
+        "wall_latency_ms": 4617.835
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "postLinks",
+            "posts"
+          ]
+        },
+        {
+          "sql": "SELECT p.Title FROM posts p JOIN postLinks pl ON p.Id = pl.PostId ORDER BY pl.CreationDate ASC LIMIT 1"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_37f32c893aa3f81faa3ff63705e38f54"
+    },
+    {
+      "answer": {
+        "sql": "SELECT CreationDate FROM users WHERE DisplayName='IrishStat'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:bfe8ff1b1ffece1b78b5d1f1d670c68c",
+      "issue_number": 699,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.006464,
+        "handoffs": 0,
+        "input_tokens": 2667,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 113,
+        "provider_response_latency_ms": 2639.83,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2780,
+        "wall_latency_ms": 2650.481
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT CreationDate FROM users WHERE DisplayName='IrishStat'"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_1decfe75a8dc36c17518c0d687434aa3"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE u.DisplayName = 'Daniel Vassallo'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:a196f6c913acfa4690306cdad1d8ffc6",
+      "issue_number": 631,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.018276,
+        "handoffs": 0,
+        "input_tokens": 7963,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 235,
+        "provider_response_latency_ms": 3489.318,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 8198,
+        "wall_latency_ms": 3545.232
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT COUNT(*) FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE u.DisplayName = 'Daniel Vassallo'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_b7699d7af9ddf43bb1128cfab45f6a50"
+    },
+    {
+      "answer": {
+        "sql": "SELECT MIN(p.CreaionDate) FROM posts p JOIN users u ON p.OwnerUserId=u.Id WHERE u.Age=(SELECT MIN(Age) FROM users WHERE Age IS NOT NULL)"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:30b765d9a7578df9b70fd27c038768a7",
+      "issue_number": 670,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.018878,
+        "handoffs": 0,
+        "input_tokens": 8044,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 279,
+        "provider_response_latency_ms": 3623.634,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 8323,
+        "wall_latency_ms": 3682.377
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "users",
+            "posts"
+          ]
+        },
+        {
+          "sql": "SELECT MIN(p.CreaionDate) FROM posts p JOIN users u ON p.OwnerUserId=u.Id WHERE u.Age=(SELECT MIN(Age) FROM users WHERE Age IS NOT NULL)"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_e8b317497bd3f0c45b66f06be356209e"
+    },
+    {
+      "answer": {
+        "sql": "SELECT p.Body FROM posts p JOIN tags t ON p.Id = t.ExcerptPostId WHERE t.TagName='bayesian'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:72d8d703380b574539962bad9ad85762",
+      "issue_number": 549,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.01615,
+        "handoffs": 0,
+        "input_tokens": 6995,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 216,
+        "provider_response_latency_ms": 3308.958,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 7211,
+        "wall_latency_ms": 3317.789
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "tags",
+            "posts"
+          ]
+        },
+        {
+          "sql": "SELECT p.Body FROM posts p JOIN tags t ON p.Id = t.ExcerptPostId WHERE t.TagName='bayesian'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_4a974cdda3ca634bba89eb00f6beae87"
+    },
+    {
+      "answer": {
+        "sql": "SELECT c.Text FROM comments c JOIN users u ON c.UserId = u.Id WHERE u.DisplayName = 'A Lion'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:4b1c140ea3d56a8ff4449a1e7b5a3bae",
+      "issue_number": 577,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.015428,
+        "handoffs": 0,
+        "input_tokens": 6669,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 209,
+        "provider_response_latency_ms": 4060.318,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 6878,
+        "wall_latency_ms": 4112.287
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "comments",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT c.Text FROM comments c JOIN users u ON c.UserId=u.Id WHERE u.DisplayName='A Lion'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_721e26ecaca97f1a383cf0e89f791aac"
+    },
+    {
+      "answer": {
+        "sql": "SELECT p.Id, p.Title FROM posts p JOIN users u ON p.OwnerUserId=u.Id WHERE u.DisplayName='Harvey Motulsky' ORDER BY p.ViewCount DESC LIMIT 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:9f26b2d0fc0436dfe886d01a612d9fbd",
+      "issue_number": 678,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.01919,
+        "handoffs": 0,
+        "input_tokens": 8120,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 295,
+        "provider_response_latency_ms": 3820.525,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 8415,
+        "wall_latency_ms": 3880.305
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT p.Id, p.Title FROM posts p JOIN users u ON p.OwnerUserId=u.Id WHERE u.DisplayName='Harvey Motulsky' ORDER BY p.ViewCount DESC LIMIT 1"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_f2f6f931c69d408acc781c2f7e485927"
+    },
+    {
+      "answer": {
+        "sql": "SELECT DisplayName FROM users WHERE WebsiteUrl = 'http://stackoverflow.com'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:5a5861d0bff9525436d75447400e48ad",
+      "issue_number": 574,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00693,
+        "handoffs": 0,
+        "input_tokens": 2800,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 133,
+        "provider_response_latency_ms": 2312.785,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2933,
+        "wall_latency_ms": 2325.504
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT DisplayName FROM users WHERE WebsiteUrl = 'http://stackoverflow.com'"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_fcab10ed8a6cd997678e54ef57c1beb2"
+    },
+    {
+      "answer": {
+        "sql": "SELECT b.Name FROM badges b JOIN users u ON b.UserId = u.Id WHERE u.DisplayName = 'SilentGhost'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:6db7d1539dba101068f5906d9b8f19a0",
+      "issue_number": 575,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.014588,
+        "handoffs": 0,
+        "input_tokens": 6229,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 213,
+        "provider_response_latency_ms": 4096.412,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 6442,
+        "wall_latency_ms": 4130.689
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "badges",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT b.Name FROM badges b JOIN users u ON b.UserId=u.Id WHERE u.DisplayName='SilentGhost'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_4e35e547be1f449de3fb6c896cffc758"
+    },
+    {
+      "answer": {
+        "sql": "SELECT DisplayName FROM users WHERE strftime('%Y', CreationDate) = '2011'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:5bb795b6e79f0cabff474458650c4130",
+      "issue_number": 532,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00693,
+        "handoffs": 0,
+        "input_tokens": 2830,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 127,
+        "provider_response_latency_ms": 2668.637,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2957,
+        "wall_latency_ms": 2672.228
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT DisplayName FROM users WHERE strftime('%Y', CreationDate) = '2011'"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_66e58cf5f3eb2c104a44b215cdc002f3"
+    },
+    {
+      "answer": {
+        "sql": "SELECT u.DisplayName FROM posts p JOIN users u ON p.OwnerUserId = u.Id ORDER BY p.FavoriteCount DESC LIMIT 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:33a0747f31f798fa8185afd034ddf8ed",
+      "issue_number": 541,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.018564,
+        "handoffs": 0,
+        "input_tokens": 8017,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 253,
+        "provider_response_latency_ms": 4327.238,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 8270,
+        "wall_latency_ms": 4404.307
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT u.DisplayName FROM posts p JOIN users u ON p.OwnerUserId=u.Id ORDER BY p.FavoriteCount DESC LIMIT 1"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_4d1a3d697463a9e1f82a7a04def4333b"
+    },
+    {
+      "answer": {
+        "sql": "SELECT CAST(SUM(u.UpVotes) AS FLOAT)/COUNT(*) AS avg_upvotes, CAST(SUM(u.Age) AS FLOAT)/COUNT(*) AS avg_age FROM users u WHERE u.Id IN (SELECT OwnerUserId FROM posts GROUP BY OwnerUserId HAVING COUNT(Id) > 10)"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:4cb46fc4e99f4a3546905546513ee292",
+      "issue_number": 604,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.020342,
+        "handoffs": 0,
+        "input_tokens": 8286,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 377,
+        "provider_response_latency_ms": 4478.368,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 8663,
+        "wall_latency_ms": 4528.553
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT CAST(SUM(u.UpVotes) AS FLOAT)/COUNT(*), CAST(SUM(u.Age) AS FLOAT)/COUNT(*) FROM users u WHERE u.Id IN (SELECT OwnerUserId FROM posts GROUP BY OwnerUserId HAVING COUNT(Id) > 10)"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_43874ae6373799907a78de3f7d9d67d8"
+    },
+    {
+      "answer": {
+        "sql": "SELECT c.Text FROM comments c WHERE c.UserId IN (SELECT LastEditorUserId FROM posts WHERE Title = 'Why square the difference instead of taking the absolute value in standard deviation?')"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:f2f88b85a2438a3a18e12fd10bbc9204",
+      "issue_number": 584,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.018646,
+        "handoffs": 0,
+        "input_tokens": 8013,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 262,
+        "provider_response_latency_ms": 5547.484,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 8275,
+        "wall_latency_ms": 5573.723
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "comments"
+          ]
+        },
+        {
+          "sql": "SELECT c.Text FROM comments c WHERE c.UserId IN (SELECT LastEditorUserId FROM posts WHERE Title = 'Why square the difference instead of taking the absolute value in standard deviation?')"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_bfbe17173610b86a5e30b9e2b3ef3b09"
+    },
+    {
+      "answer": {
+        "sql": "SELECT DisplayName FROM users ORDER BY Views DESC LIMIT 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:6e14b6f4d18cdc9b6363ffbc5fdb2f57",
+      "issue_number": 534,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.006418,
+        "handoffs": 0,
+        "input_tokens": 2624,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 117,
+        "provider_response_latency_ms": 2819.762,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2741,
+        "wall_latency_ms": 2830.036
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT DisplayName FROM users ORDER BY Views DESC LIMIT 1"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_988814be52774de05fbdfe560bcd0dec"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(DISTINCT u.Id) FROM users u JOIN comments c ON u.Id = c.UserId WHERE c.Score = 0 AND u.Age = 40"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:58f16ebb71e8c62290847d02d5542f68",
+      "issue_number": 711,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.015676,
+        "handoffs": 0,
+        "input_tokens": 6548,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 258,
+        "provider_response_latency_ms": 4615.681,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 6806,
+        "wall_latency_ms": 4660.575
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "comments",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT COUNT(DISTINCT u.Id) FROM users u JOIN comments c ON u.Id=c.UserId WHERE c.Score=0 AND u.Age=40"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_1b7146de13d06c2682fb6a8437b08846"
+    },
+    {
+      "answer": {
+        "sql": "SELECT CAST(SUM(CASE WHEN Age BETWEEN 13 AND 18 THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(Id) AS percentage FROM users"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:03e7d1081fb5f241e699545c49b01041",
+      "issue_number": 684,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.008222,
+        "handoffs": 0,
+        "input_tokens": 3416,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 139,
+        "provider_response_latency_ms": 2378.964,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 3555,
+        "wall_latency_ms": 2382.3
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "users"
+          ]
+        }
+      ],
+      "tool_sequence": [
+        "get_schema"
+      ],
+      "trace_id": "trace_69b85c9051b031041701d775cfd59984"
+    },
+    {
+      "answer": {
+        "sql": "SELECT SUM(v.BountyAmount) FROM votes v JOIN posts p ON v.PostId = p.Id WHERE p.Title LIKE '%data%'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:a7803581fc818c667e099ce753e07023",
+      "issue_number": 585,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.019758,
+        "handoffs": 0,
+        "input_tokens": 8614,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 253,
+        "provider_response_latency_ms": 3935.916,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 8867,
+        "wall_latency_ms": 3956.318
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {},
+        {
+          "table_names": [
+            "posts",
+            "votes"
+          ]
+        },
+        {
+          "sql": "SELECT SUM(v.BountyAmount) FROM votes v JOIN posts p ON v.PostId=p.Id WHERE p.Title LIKE '%data%'"
+        }
+      ],
+      "tool_sequence": [
+        "list_tables",
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_fb956dd413fe3cf162271049babcdfa6"
+    },
+    {
+      "answer": {
+        "sql": "SELECT u.DisplayName FROM badges b JOIN users u ON b.UserId=u.Id GROUP BY b.UserId ORDER BY COUNT(b.Id) DESC LIMIT 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:245e98959391e3f39bc5a8b6e84cfc2b",
+      "issue_number": 554,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.012068,
+        "handoffs": 0,
+        "input_tokens": 4324,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 342,
+        "provider_response_latency_ms": 5818.511,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 4666,
+        "wall_latency_ms": 5913.116
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT u.DisplayName FROM badges b JOIN users u ON b.UserId=u.Id GROUP BY b.UserId ORDER BY COUNT(b.Id) DESC LIMIT 1"
+        },
+        {
+          "sql": "SELECT u.DisplayName FROM badges b JOIN users u ON b.UserId=u.Id GROUP BY b.UserId ORDER BY COUNT(b.Id) DESC LIMIT 1"
+        }
+      ],
+      "tool_sequence": [
+        "run_query",
+        "run_query"
+      ],
+      "trace_id": "trace_73cb1df66d1d936c089ef6173f3abf36"
+    },
+    {
+      "answer": {
+        "sql": "SELECT u.LastAccessDate, u.Location FROM users u JOIN badges b ON u.Id = b.UserId WHERE b.Name = 'outliers'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:90e3f8490280c08c047fa214d65c7ae6",
+      "issue_number": 650,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.02086,
+        "handoffs": 0,
+        "input_tokens": 8780,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 330,
+        "provider_response_latency_ms": 6051.535,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 9110,
+        "wall_latency_ms": 6066.557
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "badges",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT u.LastAccessDate, u.Location FROM users u JOIN badges b ON u.Id=b.UserId WHERE b.Name='Outliers'"
+        },
+        {
+          "sql": "SELECT DISTINCT Name FROM badges WHERE Name LIKE '%utlier%'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query",
+        "run_query"
+      ],
+      "trace_id": "trace_5ceeeba1afd20709f05c595281df6cf0"
+    },
+    {
+      "answer": {
+        "sql": "SELECT b.Name FROM badges b WHERE b.UserId = (SELECT UserId FROM comments GROUP BY UserId ORDER BY COUNT(Id) DESC LIMIT 1)"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:c07528c0554f7cd71107e90eb0440040",
+      "issue_number": 596,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0188,
+        "handoffs": 0,
+        "input_tokens": 7900,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 300,
+        "provider_response_latency_ms": 5449.825,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 8200,
+        "wall_latency_ms": 5505.798
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "comments",
+            "badges"
+          ]
+        },
+        {
+          "sql": "SELECT UserId, COUNT(Id) as cnt FROM comments GROUP BY UserId ORDER BY cnt DESC LIMIT 1"
+        },
+        {
+          "sql": "SELECT Name FROM badges WHERE UserId = 919"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query",
+        "run_query"
+      ],
+      "trace_id": "trace_370ae867a720f2f3feca8419a2d69ef9"
+    },
+    {
+      "answer": {
+        "sql": "SELECT c.Text FROM comments c JOIN users u ON c.UserId=u.Id WHERE u.DisplayName='Harvey Motulsky'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:2125a603ddd7c98d7b492560a56ee5b9",
+      "issue_number": 714,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.016754,
+        "handoffs": 0,
+        "input_tokens": 7292,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 217,
+        "provider_response_latency_ms": 4164.337,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 7509,
+        "wall_latency_ms": 4173.973
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "comments",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT c.Text FROM comments c JOIN users u ON c.UserId=u.Id WHERE u.DisplayName='Harvey Motulsky'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_005c78f91eb03c7665a26800d957a2d9"
+    },
+    {
+      "answer": {
+        "sql": "SELECT u.UpVotes FROM comments c JOIN users u ON c.UserId=u.Id WHERE c.Text='R is also lazy evaluated.'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:1c2ccf082df1a0e5c84ce98628fa7f46",
+      "issue_number": 713,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.015522,
+        "handoffs": 0,
+        "input_tokens": 6586,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 235,
+        "provider_response_latency_ms": 4525.446,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 6821,
+        "wall_latency_ms": 4550.022
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "comments",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT u.UpVotes FROM comments c JOIN users u ON c.UserId=u.Id WHERE c.Text='R is also lazy evaluated.'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_8c380a428afad66471cc01d9a91f697d"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM posts WHERE Score = 10"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:a1cb31f04eeec6222c7c37a030258f1c",
+      "issue_number": 609,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.006292,
+        "handoffs": 0,
+        "input_tokens": 2621,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 105,
+        "provider_response_latency_ms": 1764.225,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2726,
+        "wall_latency_ms": 1803.93
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT COUNT(*) FROM posts WHERE Score = 10"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_d937f12baba310571c690fe072c8072c"
+    },
+    {
+      "answer": {
+        "sql": "SELECT DISTINCT u.CreationDate, u.Age FROM users u JOIN comments c ON u.Id = c.UserId WHERE u.WebsiteUrl LIKE '%http://%'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:13653814f02f8ce41d4c644c480e3103",
+      "issue_number": 708,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.016604,
+        "handoffs": 0,
+        "input_tokens": 6962,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 268,
+        "provider_response_latency_ms": 5572.554,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 7230,
+        "wall_latency_ms": 5577.221
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "comments",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT DISTINCT u.CreationDate, u.Age FROM users u JOIN comments c ON u.Id = c.UserId WHERE u.WebsiteUrl LIKE '%http://%'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_80eb9f37e96950f086da32a7335e2ecc"
+    },
+    {
+      "answer": {
+        "sql": "SELECT CAST((SELECT COUNT(*) FROM posts WHERE OwnerUserId=24) AS REAL) / (SELECT COUNT(*) FROM votes WHERE UserId=24) AS post_to_vote_ratio"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:afdaabd190aef2d9a3ab47eb4b432838",
+      "issue_number": 571,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.017586,
+        "handoffs": 0,
+        "input_tokens": 7308,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 297,
+        "provider_response_latency_ms": 5017.356,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 7605,
+        "wall_latency_ms": 5046.604
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "votes"
+          ]
+        },
+        {
+          "sql": "SELECT CAST((SELECT COUNT(*) FROM posts WHERE OwnerUserId=24) AS REAL) / (SELECT COUNT(*) FROM votes WHERE UserId=24)"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_c1feba1026976d6389524b77ac5a2b37"
+    },
+    {
+      "answer": {
+        "sql": "SELECT u.DisplayName FROM votes v JOIN posts p ON v.PostId=p.Id JOIN users u ON v.UserId=u.Id WHERE v.BountyAmount=50 AND p.Title LIKE '%variance%'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:38d60cb069a44f82d62b5f06a9fc6162",
+      "issue_number": 586,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.02368,
+        "handoffs": 0,
+        "input_tokens": 10305,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 307,
+        "provider_response_latency_ms": 6309.468,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 10612,
+        "wall_latency_ms": 6316.942
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {},
+        {
+          "table_names": [
+            "votes",
+            "posts",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT u.DisplayName FROM votes v JOIN posts p ON v.PostId=p.Id JOIN users u ON v.UserId=u.Id WHERE v.BountyAmount=50 AND p.Title LIKE '%variance%'"
+        }
+      ],
+      "tool_sequence": [
+        "list_tables",
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_a32536ea8abf8fe11dd149d4db9ba206"
+    },
+    {
+      "answer": {
+        "sql": "SELECT CommentCount FROM posts WHERE ViewCount = 1910"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:8148b3861faed7535df89da60f75e4c8",
+      "issue_number": 562,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.008336,
+        "handoffs": 0,
+        "input_tokens": 3723,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 89,
+        "provider_response_latency_ms": 2340.148,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 3812,
+        "wall_latency_ms": 2344.217
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts"
+          ]
+        }
+      ],
+      "tool_sequence": [
+        "get_schema"
+      ],
+      "trace_id": "trace_96a6d55e439dc6c1703fd6b8c61e71b8"
+    },
+    {
+      "answer": {
+        "sql": "SELECT pl.RelatedPostId, p.ViewCount FROM postLinks pl JOIN posts p ON pl.RelatedPostId = p.Id WHERE pl.PostId = 61217"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:e0e2f90e618a4e9f206a939375dbfa39",
+      "issue_number": 600,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.020194,
+        "handoffs": 0,
+        "input_tokens": 8722,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 275,
+        "provider_response_latency_ms": 5264.855,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 8997,
+        "wall_latency_ms": 5275.791
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {},
+        {
+          "table_names": [
+            "postLinks",
+            "posts"
+          ]
+        },
+        {
+          "sql": "SELECT pl.RelatedPostId, p.ViewCount FROM postLinks pl JOIN posts p ON pl.RelatedPostId = p.Id WHERE pl.PostId = 61217"
+        }
+      ],
+      "tool_sequence": [
+        "list_tables",
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_38d17310f612a4aba87997714ddf5bc4"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM (SELECT p.Id FROM posts p JOIN users u ON p.OwnerUserId=u.Id LEFT JOIN votes v ON v.PostId=p.Id WHERE u.DisplayName='Matt Parker' GROUP BY p.Id HAVING COUNT(v.Id)>4)"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:035252937db87c6e8b75db2dbfaff90c",
+      "issue_number": 635,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.014018,
+        "handoffs": 0,
+        "input_tokens": 4509,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 500,
+        "provider_response_latency_ms": 6846.601,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 5009,
+        "wall_latency_ms": 6999.885
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT COUNT(*) FROM (SELECT p.Id FROM posts p JOIN users u ON p.OwnerUserId=u.Id LEFT JOIN votes v ON v.PostId=p.Id WHERE u.DisplayName='Matt Parker' GROUP BY p.Id HAVING COUNT(v.Id)>4)"
+        },
+        {
+          "sql": "SELECT COUNT(*) FROM (SELECT p.Id FROM posts p JOIN users u ON p.OwnerUserId=u.Id LEFT JOIN votes v ON v.PostId=p.Id WHERE u.DisplayName='Matt Parker' GROUP BY p.Id HAVING COUNT(v.Id)>4)"
+        }
+      ],
+      "tool_sequence": [
+        "run_query",
+        "run_query"
+      ],
+      "trace_id": "trace_e56c0473d03c3adf8f32dbd275e4593d"
+    },
+    {
+      "answer": {
+        "sql": "SELECT CAST(COUNT(pl.Id) AS FLOAT)/12 FROM postLinks pl JOIN posts p ON pl.PostId=p.Id WHERE strftime('%Y',pl.CreationDate)='2010' AND p.AnswerCount<=2"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:8cbd827a7ca971ba78e96e32b1a14abb",
+      "issue_number": 665,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.017572,
+        "handoffs": 0,
+        "input_tokens": 7256,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 306,
+        "provider_response_latency_ms": 3897.721,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 7562,
+        "wall_latency_ms": 3909.671
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "postLinks",
+            "posts"
+          ]
+        },
+        {
+          "sql": "SELECT CAST(COUNT(pl.Id) AS FLOAT)/12 FROM postLinks pl JOIN posts p ON pl.PostId=p.Id WHERE strftime('%Y',pl.CreationDate)='2010' AND p.AnswerCount<=2"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_120defda9f44affcb2d5331d0d8791f5"
+    },
+    {
+      "answer": {
+        "sql": "SELECT p.Title FROM posts p JOIN users u ON p.LastEditorUserId = u.Id WHERE u.DisplayName = 'Vebjorn Ljosa'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:b9739a9799147221669cc3fb152da8d4",
+      "issue_number": 582,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.018496,
+        "handoffs": 0,
+        "input_tokens": 8083,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 233,
+        "provider_response_latency_ms": 4015.347,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 8316,
+        "wall_latency_ms": 4069.841
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT p.Title FROM posts p JOIN users u ON p.LastEditorUserId=u.Id WHERE u.DisplayName='Vebjorn Ljosa'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_10641edeca689b4e77e619b99ca65f7c"
+    },
+    {
+      "answer": {
+        "sql": "SELECT u.Reputation FROM users u JOIN posts p ON u.Id = p.OwnerUserId WHERE p.Id = 65041"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:03c1fabe34fe1bb9489d3c0b2d87fcdb",
+      "issue_number": 566,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.010924,
+        "handoffs": 0,
+        "input_tokens": 4212,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 250,
+        "provider_response_latency_ms": 3523.669,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 4462,
+        "wall_latency_ms": 3533.224
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT u.Reputation FROM users u JOIN posts p ON u.Id = p.OwnerUserId WHERE p.Id = 65041"
+        },
+        {
+          "sql": "SELECT u.Reputation FROM users u JOIN posts p ON u.Id = p.OwnerUserId WHERE p.Id = 65041"
+        }
+      ],
+      "tool_sequence": [
+        "run_query",
+        "run_query"
+      ],
+      "trace_id": "trace_0991f16de45bafc1f5e1489de911ca4e"
+    },
+    {
+      "answer": {
+        "sql": "SELECT DisplayName FROM users WHERE Age BETWEEN 19 AND 65"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:6e6ac19c7805c64c179e73004753b1de",
+      "issue_number": 676,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.013274,
+        "handoffs": 0,
+        "input_tokens": 5787,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 170,
+        "provider_response_latency_ms": 3705.099,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 5957,
+        "wall_latency_ms": 3715.086
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT DisplayName FROM users WHERE Age BETWEEN 19 AND 65"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_ebb5b836305b5f9b7a7f7a17b57fcde0"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM tags WHERE Count BETWEEN 5000 AND 7000"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:74a39aab26f019b9efe65cafe9ec5eaf",
+      "issue_number": 659,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.006756,
+        "handoffs": 0,
+        "input_tokens": 2883,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 99,
+        "provider_response_latency_ms": 1842.286,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2982,
+        "wall_latency_ms": 1845.339
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "tags"
+          ]
+        }
+      ],
+      "tool_sequence": [
+        "get_schema"
+      ],
+      "trace_id": "trace_7d626141058db6d0b2bed067c2a06192"
+    },
+    {
+      "answer": {
+        "sql": "SELECT c.Text FROM comments c JOIN posts p ON c.PostId = p.Id WHERE p.Title LIKE '%linear regression%'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:99435ada09084887297addce3d86e3d7",
+      "issue_number": 706,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.02833,
+        "handoffs": 0,
+        "input_tokens": 12515,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 330,
+        "provider_response_latency_ms": 5562.521,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 12845,
+        "wall_latency_ms": 5573.811
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "comments"
+          ]
+        },
+        {
+          "sql": "SELECT c.Text FROM comments c JOIN posts p ON c.PostId = p.Id WHERE p.Title LIKE '%linear regression%'"
+        },
+        {
+          "sql": "SELECT c.Text FROM comments c JOIN posts p ON c.PostId = p.Id WHERE p.Title LIKE '%linear regression%'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query",
+        "run_query"
+      ],
+      "trace_id": "trace_3846089af1709f1d3b65a5e38d77fa53"
+    },
+    {
+      "answer": {
+        "sql": "SELECT u.DisplayName FROM posts p JOIN users u ON p.LastEditorUserId=u.Id WHERE p.Title='Examples for teaching: Correlation does not mean causation'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:404bddc2326c1adc1e62c2b9f75e5a9b",
+      "issue_number": 544,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.01865,
+        "handoffs": 0,
+        "input_tokens": 8100,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 245,
+        "provider_response_latency_ms": 4700.6,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 8345,
+        "wall_latency_ms": 4755.518
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT u.DisplayName FROM posts p JOIN users u ON p.LastEditorUserId=u.Id WHERE p.Title='Examples for teaching: Correlation does not mean causation'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_7b0ae9d3054fa82f415482828ba1be96"
+    },
+    {
+      "answer": {
+        "sql": "SELECT CreationDate FROM votes GROUP BY CreationDate ORDER BY COUNT(Id) DESC LIMIT 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:2e9b601d8f875f44876ee926a44893b2",
+      "issue_number": 559,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.011876,
+        "handoffs": 0,
+        "input_tokens": 4783,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 231,
+        "provider_response_latency_ms": 3530.698,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 5014,
+        "wall_latency_ms": 3540.242
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "votes"
+          ]
+        },
+        {
+          "sql": "SELECT CreationDate FROM votes GROUP BY CreationDate ORDER BY COUNT(Id) DESC LIMIT 1"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_40dea287db3ee9dbb901dbf943ea0a04"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM badges WHERE Name='Commentator' AND strftime('%Y', Date)='2014'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:3450640ef37c2d4fa26d32f7b35d50db",
+      "issue_number": 641,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.011254,
+        "handoffs": 0,
+        "input_tokens": 4572,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 211,
+        "provider_response_latency_ms": 3155.444,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 4783,
+        "wall_latency_ms": 3164.036
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "badges"
+          ]
+        },
+        {
+          "sql": "SELECT COUNT(*) FROM badges WHERE Name='Commentator' AND strftime('%Y', Date)='2014'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_af180f950548d9bdc6938af152480599"
+    },
+    {
+      "answer": {
+        "sql": "SELECT u.DisplayName FROM users u JOIN badges b ON u.Id=b.UserId GROUP BY u.Id ORDER BY COUNT(b.Name) DESC LIMIT 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:62a974cdc65b603fb965cfd61888580e",
+      "issue_number": 668,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.007338,
+        "handoffs": 0,
+        "input_tokens": 2684,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 197,
+        "provider_response_latency_ms": 3107.696,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2881,
+        "wall_latency_ms": 3180.802
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT u.DisplayName FROM users u JOIN badges b ON u.Id=b.UserId GROUP BY u.Id ORDER BY COUNT(b.Name) DESC LIMIT 1"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_6ff050d983c10a1ffc114a44fda14802"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM badges WHERE Name = 'Citizen Patrol'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:777923a0830474c235d78c3fba46203e",
+      "issue_number": 695,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.006506,
+        "handoffs": 0,
+        "input_tokens": 2638,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 123,
+        "provider_response_latency_ms": 1954.636,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2761,
+        "wall_latency_ms": 1961.301
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT COUNT(*) FROM badges WHERE Name = 'Citizen Patrol'"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_579a5ce717154df01f5717cc52cd1458"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM votes v JOIN posts p ON v.PostId = p.Id WHERE p.Title LIKE '%data visualization%'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:8962eaf522ff5d46e1686002b8977bf1",
+      "issue_number": 569,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.016264,
+        "handoffs": 0,
+        "input_tokens": 7022,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 222,
+        "provider_response_latency_ms": 3961.513,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 7244,
+        "wall_latency_ms": 3977.804
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "votes"
+          ]
+        },
+        {
+          "sql": "SELECT COUNT(*) FROM votes v JOIN posts p ON v.PostId = p.Id WHERE p.Title LIKE '%data visualization%'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_c6ecc3578f5cc019e289fbbd9a844a18"
+    },
+    {
+      "answer": {
+        "sql": "WITH latest AS (SELECT Id FROM users ORDER BY CreationDate DESC LIMIT 1) SELECT (SELECT COUNT(*) FROM posts WHERE OwnerUserId = (SELECT Id FROM latest)) AS posts_count, (SELECT COUNT(*) FROM comments WHERE UserId = (SELECT Id FROM latest)) AS comments_count"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:92dadd7393d18b3278ad3a3103381078",
+      "issue_number": 693,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.031836,
+        "handoffs": 0,
+        "input_tokens": 13108,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 562,
+        "provider_response_latency_ms": 7386.906,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 13670,
+        "wall_latency_ms": 22436.543
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "users",
+            "posts",
+            "comments"
+          ]
+        },
+        {
+          "sql": "SELECT (SELECT COUNT(*) FROM posts WHERE OwnerUserId = u.Id) AS posts_count, (SELECT COUNT(*) FROM comments WHERE UserId = u.Id) AS comments_count FROM users u ORDER BY u.CreationDate DESC LIMIT 1"
+        },
+        {
+          "sql": "WITH latest AS (SELECT Id FROM users ORDER BY CreationDate DESC LIMIT 1) SELECT (SELECT COUNT(*) FROM posts WHERE OwnerUserId = (SELECT Id FROM latest)) AS posts_count, (SELECT COUNT(*) FROM comments WHERE UserId = (SELECT Id FROM latest)) AS comments_count"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query",
+        "run_query"
+      ],
+      "trace_id": "trace_1168c3591f1917248adf2f07006e711f"
+    },
+    {
+      "answer": {
+        "sql": "SELECT p.Id FROM posts p JOIN votes v ON p.Id = v.PostId WHERE v.UserId = 1465 ORDER BY p.FavoriteCount DESC LIMIT 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:38752b2c5036117cfc6458c53652ecf8",
+      "issue_number": 666,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.016768,
+        "handoffs": 0,
+        "input_tokens": 7119,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 253,
+        "provider_response_latency_ms": 5269.124,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 7372,
+        "wall_latency_ms": 5276.913
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "votes",
+            "posts"
+          ]
+        },
+        {
+          "sql": "SELECT p.Id FROM posts p JOIN votes v ON p.Id=v.PostId WHERE v.UserId=1465 ORDER BY p.FavoriteCount DESC LIMIT 1"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_12397f2484b587c94f9f89e2353058f5"
+    },
+    {
+      "answer": {
+        "sql": "SELECT DisplayName FROM users WHERE Views = (SELECT MAX(Views) FROM users)"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:29e39c6e8216d08878508b7c6d05e723",
+      "issue_number": 628,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.01302,
+        "handoffs": 0,
+        "input_tokens": 5610,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 180,
+        "provider_response_latency_ms": 2998.967,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 5790,
+        "wall_latency_ms": 3008.53
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT DisplayName FROM users WHERE Views = (SELECT MAX(Views) FROM users)"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_106cc2dc3c04242d99d1f6649fa60230"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM badges WHERE Name='Announcer'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:6d873cc262dc439cca4a3e4490e2b17b",
+      "issue_number": 605,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.006366,
+        "handoffs": 0,
+        "input_tokens": 2628,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 111,
+        "provider_response_latency_ms": 1883.609,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2739,
+        "wall_latency_ms": 1890.005
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT COUNT(*) FROM badges WHERE Name='Announcer'"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_3888771adbc1920e640977ca8488efb9"
+    },
+    {
+      "answer": {
+        "sql": "SELECT p.Title FROM posts p JOIN comments c ON p.Id = c.PostId ORDER BY c.Score DESC LIMIT 1;"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:c2ece9ee4c865914ad37d8a585f7f891",
+      "issue_number": 561,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.01671,
+        "handoffs": 0,
+        "input_tokens": 7270,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 217,
+        "provider_response_latency_ms": 3316.656,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 7487,
+        "wall_latency_ms": 3377.771
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "comments"
+          ]
+        },
+        {
+          "sql": "SELECT p.Title FROM posts p JOIN comments c ON p.Id=c.PostId ORDER BY c.Score DESC LIMIT 1"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_236a3282d5c2318f2b945d4e52b87471"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM comments WHERE PostId = (SELECT Id FROM posts ORDER BY Score DESC LIMIT 1)"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:86b171a6795aabd60364f895aadfd684",
+      "issue_number": 687,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.01695,
+        "handoffs": 0,
+        "input_tokens": 7285,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 238,
+        "provider_response_latency_ms": 3461.139,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 7523,
+        "wall_latency_ms": 3532.909
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "comments"
+          ]
+        },
+        {
+          "sql": "SELECT COUNT(*) FROM comments WHERE PostId = (SELECT Id FROM posts ORDER BY Score DESC LIMIT 1)"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_64988d74262f2fd4022330e7880aca88"
+    },
+    {
+      "answer": {
+        "sql": "SELECT u.DisplayName FROM badges b JOIN users u ON b.UserId = u.Id WHERE b.Name='Autobiographer' ORDER BY b.Date ASC LIMIT 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:a5d3f17109ff062c314a18c20e65f574",
+      "issue_number": 671,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.010676,
+        "handoffs": 0,
+        "input_tokens": 4228,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 222,
+        "provider_response_latency_ms": 3253.442,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 4450,
+        "wall_latency_ms": 3267.033
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT u.DisplayName FROM badges b JOIN users u ON b.UserId = u.Id WHERE b.Name='Autobiographer' ORDER BY b.Date ASC LIMIT 1"
+        },
+        {}
+      ],
+      "tool_sequence": [
+        "run_query",
+        "list_tables"
+      ],
+      "trace_id": "trace_31d3d0e4755304334da80763f411506e"
+    },
+    {
+      "answer": {
+        "sql": "SELECT c.Text, u.DisplayName FROM comments c JOIN posts p ON c.PostId=p.Id JOIN users u ON c.UserId=u.Id WHERE p.Title='Analysing wind data with R' ORDER BY c.CreationDate DESC LIMIT 10"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:88ab945580d9586e8998fcd0f950aa36",
+      "issue_number": 694,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.033452,
+        "handoffs": 0,
+        "input_tokens": 14341,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 477,
+        "provider_response_latency_ms": 5596.067,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 14818,
+        "wall_latency_ms": 5917.447
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "comments",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT c.Text, u.DisplayName FROM comments c JOIN posts p ON c.PostId=p.Id JOIN users u ON c.UserId=u.Id WHERE p.Title='Analysing wind data with R' ORDER BY c.CreationDate DESC LIMIT 10"
+        },
+        {
+          "sql": "SELECT c.Text, u.DisplayName FROM comments c JOIN posts p ON c.PostId=p.Id JOIN users u ON c.UserId=u.Id WHERE p.Title='Analysing wind data with R' ORDER BY c.CreationDate DESC LIMIT 10"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query",
+        "run_query"
+      ],
+      "trace_id": "trace_92ff51e50fbeecfe2614e0618de1b793"
+    },
+    {
+      "answer": {
+        "sql": "SELECT DISTINCT t.TagName FROM posts p JOIN users u ON p.OwnerUserId=u.Id JOIN tags t ON p.Tags LIKE '%<' || t.TagName || '>%' WHERE u.DisplayName='John Salvatier'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:5d9ccfd8aa6ba237f83d2ad66664fb3b",
+      "issue_number": 630,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.025044,
+        "handoffs": 0,
+        "input_tokens": 10332,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 438,
+        "provider_response_latency_ms": 6990.203,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 10770,
+        "wall_latency_ms": 7118.509
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {},
+        {
+          "table_names": [
+            "posts",
+            "tags",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT DISTINCT t.TagName FROM posts p JOIN users u ON p.OwnerUserId=u.Id JOIN tags t ON p.Tags LIKE '%<' || t.TagName || '>%' WHERE u.DisplayName='John Salvatier'"
+        }
+      ],
+      "tool_sequence": [
+        "list_tables",
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_2aa66ef7e13a8cd8fbc619c9f8c36894"
+    },
+    {
+      "answer": {
+        "sql": "SELECT c.Text FROM comments c WHERE c.CreationDate='2010-07-19 19:37:33.0'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:d50715675bc0777aab874c1254b22d94",
+      "issue_number": 617,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.024586,
+        "handoffs": 0,
+        "input_tokens": 10723,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 314,
+        "provider_response_latency_ms": 4505.228,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 11037,
+        "wall_latency_ms": 4725.078
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "comments"
+          ]
+        },
+        {
+          "sql": "SELECT c.Text FROM comments c JOIN posts p ON c.PostId=p.Id WHERE p.CreaionDate='2010-07-19 19:37:33.0'"
+        },
+        {
+          "sql": "SELECT c.Text FROM comments c WHERE c.CreationDate='2010-07-19 19:37:33.0'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query",
+        "run_query"
+      ],
+      "trace_id": "trace_f7756df7891c206009787a5d10fef0a9"
+    },
+    {
+      "answer": {
+        "sql": "SELECT u.DisplayName, u.Location FROM postHistory ph JOIN users u ON ph.UserId = u.Id WHERE ph.PostId = 183 ORDER BY ph.CreationDate DESC LIMIT 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:ae3ee6a9c6c283c2c591ed1d0dc10fd0",
+      "issue_number": 689,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.055898,
+        "handoffs": 0,
+        "input_tokens": 24594,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 671,
+        "provider_response_latency_ms": 12053.619,
+        "requests": 7,
+        "tool_calls": 6,
+        "total_tokens": 25265,
+        "wall_latency_ms": 12106.527
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT u.DisplayName, u.Location FROM posts p JOIN users u ON p.LastEditorUserId=u.Id WHERE p.Id=183"
+        },
+        {
+          "sql": "SELECT LastEditorUserId, LastEditDate FROM posts WHERE Id=183"
+        },
+        {},
+        {
+          "table_names": [
+            "postHistory"
+          ]
+        },
+        {
+          "sql": "SELECT u.DisplayName, u.Location FROM postHistory ph JOIN users u ON ph.UserId=u.Id WHERE ph.PostId=183 ORDER BY ph.CreationDate DESC LIMIT 1"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query",
+        "run_query",
+        "list_tables",
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_f62b9ddcc05e9a5dfc90457b3330ad85"
+    },
+    {
+      "answer": {
+        "sql": "SELECT u.DisplayName, u.Location FROM tags t JOIN posts p ON t.ExcerptPostId = p.Id JOIN users u ON p.OwnerUserId = u.Id WHERE t.TagName = 'hypothesis-testing'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:6c4f0472c24faa49cb6c1b7d344e1264",
+      "issue_number": 654,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.02925,
+        "handoffs": 0,
+        "input_tokens": 12315,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 462,
+        "provider_response_latency_ms": 6535.574,
+        "requests": 5,
+        "tool_calls": 4,
+        "total_tokens": 12777,
+        "wall_latency_ms": 6547.192
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "Tags",
+            "Posts",
+            "Users"
+          ]
+        },
+        {},
+        {
+          "table_names": [
+            "tags",
+            "posts",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT u.DisplayName, u.Location FROM tags t JOIN posts p ON t.ExcerptPostId = p.Id JOIN users u ON p.OwnerUserId = u.Id WHERE t.TagName = 'hypothesis-testing'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "list_tables",
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_2ef357815d8113a24622997a1baad0c4"
+    },
+    {
+      "answer": {
+        "sql": "SELECT AVG(p.Score) FROM posts p JOIN users u ON p.OwnerUserId=u.Id WHERE u.DisplayName='csgillespie'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:0aec80c18e9b5a0e0a0879939da78979",
+      "issue_number": 555,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.007104,
+        "handoffs": 0,
+        "input_tokens": 2687,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 173,
+        "provider_response_latency_ms": 2391.472,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2860,
+        "wall_latency_ms": 2453.538
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT AVG(p.Score) FROM posts p JOIN users u ON p.OwnerUserId=u.Id WHERE u.DisplayName='csgillespie'"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_73cd31d0fde001c4163b3290478f91ac"
+    },
+    {
+      "answer": {
+        "sql": "SELECT julianday(b.Date) - julianday(u.CreationDate) AS days FROM users u JOIN badges b ON u.Id = b.UserId WHERE u.DisplayName = 'Zolomon'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:38cc03cff4c90996363b9ed1adce8dbd",
+      "issue_number": 692,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.022696,
+        "handoffs": 0,
+        "input_tokens": 9598,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 350,
+        "provider_response_latency_ms": 7144.131,
+        "requests": 5,
+        "tool_calls": 4,
+        "total_tokens": 9948,
+        "wall_latency_ms": 7177.132
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "Users",
+            "Badges"
+          ]
+        },
+        {},
+        {
+          "table_names": [
+            "badges",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT julianday(b.Date) - julianday(u.CreationDate) AS days FROM users u JOIN badges b ON u.Id=b.UserId WHERE u.DisplayName='Zolomon'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "list_tables",
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_c4d5200be57356346c9e1d27ac21ff61"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(DISTINCT u.Id) FROM users u WHERE u.Location = 'New York' AND u.Id IN (SELECT UserId FROM badges WHERE Name='Teacher') AND u.Id IN (SELECT UserId FROM badges WHERE Name='Supporter')"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:6068cdfa210d35286df3bb43c47215cb",
+      "issue_number": 593,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.015724,
+        "handoffs": 0,
+        "input_tokens": 6252,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 322,
+        "provider_response_latency_ms": 9562.713,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 6574,
+        "wall_latency_ms": 9582.534
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "badges",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT COUNT(DISTINCT u.Id) FROM users u\nWHERE u.Location = 'New York'\nAND u.Id IN (SELECT UserId FROM badges WHERE Name='Teacher')\nAND u.Id IN (SELECT UserId FROM badges WHERE Name='Supporter')"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_a4585998e16a8a6cbb527a22477055a6"
+    },
+    {
+      "answer": {
+        "sql": "SELECT SUM(Score) FROM posts WHERE LasActivityDate LIKE '2010-07-19%'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:1f825197dd9447dcb62c3df160d536f1",
+      "issue_number": 664,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.015076,
+        "handoffs": 0,
+        "input_tokens": 6468,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 214,
+        "provider_response_latency_ms": 4342.209,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 6682,
+        "wall_latency_ms": 4375.05
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts"
+          ]
+        },
+        {
+          "sql": "SELECT SUM(Score) FROM posts WHERE LasActivityDate LIKE '2010-07-19%'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_249f90a5269e0dbfa4250a49de459f19"
+    },
+    {
+      "answer": {
+        "sql": "SELECT u.DisplayName, u.Reputation FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE p.Title = 'Understanding what Dassault iSight is doing?'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:44ba85a0145f3994f194acf9529a77cc",
+      "issue_number": 578,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.007724,
+        "handoffs": 0,
+        "input_tokens": 2772,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 218,
+        "provider_response_latency_ms": 2675.726,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2990,
+        "wall_latency_ms": 2701.386
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT u.DisplayName, u.Reputation FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE p.Title = 'Understanding what Dassault iSight is doing?'"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_0dcb89f2c92902f87f6bcaf8cde06c98"
+    },
+    {
+      "answer": {
+        "sql": "SELECT c.Text FROM comments c JOIN posts p ON c.PostId=p.Id WHERE p.ViewCount BETWEEN 100 AND 150 ORDER BY c.Score DESC LIMIT 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:a4851e0b1b1e07350ac695c5f64ce958",
+      "issue_number": 707,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.017578,
+        "handoffs": 0,
+        "input_tokens": 7459,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 266,
+        "provider_response_latency_ms": 4246.354,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 7725,
+        "wall_latency_ms": 4309.212
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "comments"
+          ]
+        },
+        {
+          "sql": "SELECT c.Text FROM comments c JOIN posts p ON c.PostId=p.Id WHERE p.ViewCount BETWEEN 100 AND 150 ORDER BY c.Score DESC LIMIT 1"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_820a1c090c019d0874b3f3277b564a03"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM users WHERE Views > 10 AND CAST(strftime('%Y', CreationDate) AS INTEGER) > 2013"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:ff8fe1bf2cab4b529137f93c9c24e5d0",
+      "issue_number": 536,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.013596,
+        "handoffs": 0,
+        "input_tokens": 5698,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 220,
+        "provider_response_latency_ms": 3254.434,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 5918,
+        "wall_latency_ms": 3262.075
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT COUNT(*) FROM users WHERE Views > 10 AND CAST(strftime('%Y', CreationDate) AS INTEGER) > 2013"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_a2dedb29a34cd2f75d9ea1e85f46cf4c"
+    },
+    {
+      "answer": {
+        "sql": "SELECT b.Name FROM badges b JOIN users u ON b.UserId=u.Id WHERE u.DisplayName='Pierre'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:876025618f791adf479d199ee18acf05",
+      "issue_number": 612,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.014512,
+        "handoffs": 0,
+        "input_tokens": 6156,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 220,
+        "provider_response_latency_ms": 3409.553,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 6376,
+        "wall_latency_ms": 3436.133
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "badges",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT b.Name FROM badges b JOIN users u ON b.UserId=u.Id WHERE u.DisplayName='Pierre'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_219a4d7634c84ad88613ea22d88c6f91"
+    },
+    {
+      "answer": {
+        "sql": "SELECT c.Text FROM comments c JOIN posts p ON c.PostId=p.Id WHERE p.ParentId=107829 AND p.CommentCount=1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:a5f26ac63eed2dd9797716fe17400fb9",
+      "issue_number": 564,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.017062,
+        "handoffs": 0,
+        "input_tokens": 7326,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 241,
+        "provider_response_latency_ms": 3684.277,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 7567,
+        "wall_latency_ms": 3749.61
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "comments"
+          ]
+        },
+        {
+          "sql": "SELECT c.Text FROM comments c JOIN posts p ON c.PostId=p.Id WHERE p.ParentId=107829 AND p.CommentCount=1"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_6ad4da4aa9bb799b03dceb8a1c1dfe85"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM posts WHERE ViewCount > (SELECT AVG(ViewCount) FROM posts)"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:3d0eed95629144a9690ab0954a04bfd8",
+      "issue_number": 686,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.006782,
+        "handoffs": 0,
+        "input_tokens": 2646,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 149,
+        "provider_response_latency_ms": 2166.765,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2795,
+        "wall_latency_ms": 2211.859
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT COUNT(*) FROM posts WHERE ViewCount > (SELECT AVG(ViewCount) FROM posts)"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_28a62acdacb3d60630f90a886542e43c"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM badges WHERE Name = 'Revival'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:d4bc090d54a4ee344efc67ed6e880713",
+      "issue_number": 560,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.010078,
+        "handoffs": 0,
+        "input_tokens": 4104,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 187,
+        "provider_response_latency_ms": 3181.885,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 4291,
+        "wall_latency_ms": 3194.599
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT COUNT(*) FROM badges WHERE Name = 'Revival'"
+        },
+        {
+          "sql": "SELECT COUNT(*) FROM badges WHERE Name = 'Revival'"
+        }
+      ],
+      "tool_sequence": [
+        "run_query",
+        "run_query"
+      ],
+      "trace_id": "trace_0223e8a8855542980e8339f020645a02"
+    },
+    {
+      "answer": {
+        "sql": "SELECT u.DisplayName FROM comments c JOIN users u ON c.UserId=u.Id WHERE c.Text='thank you user93!'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:20af2373110788e48530beced46c6078",
+      "issue_number": 576,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.015164,
+        "handoffs": 0,
+        "input_tokens": 6527,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 211,
+        "provider_response_latency_ms": 3925.337,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 6738,
+        "wall_latency_ms": 3944.49
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "comments",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT u.DisplayName FROM comments c JOIN users u ON c.UserId=u.Id WHERE c.Text='thank you user93!'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_2e5a1c47d9074df500f8db0f62378ad2"
+    },
+    {
+      "answer": {
+        "sql": "SELECT p2.Title FROM posts p1 JOIN postLinks pl ON p1.Id = pl.PostId JOIN posts p2 ON pl.RelatedPostId = p2.Id WHERE p1.Title = 'How to tell if something happened in a data set which monitors a value over time'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:0f8d76d4d94cbe90124d18f388396ee6",
+      "issue_number": 651,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.021056,
+        "handoffs": 0,
+        "input_tokens": 8688,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 368,
+        "provider_response_latency_ms": 4916.999,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 9056,
+        "wall_latency_ms": 4944.721
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {},
+        {
+          "table_names": [
+            "posts",
+            "postLinks"
+          ]
+        },
+        {
+          "sql": "SELECT p2.Title FROM posts p1 JOIN postLinks pl ON p1.Id = pl.PostId JOIN posts p2 ON pl.RelatedPostId = p2.Id WHERE p1.Title = 'How to tell if something happened in a data set which monitors a value over time'"
+        }
+      ],
+      "tool_sequence": [
+        "list_tables",
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_e9f2b5b358dadb8185c902f16922b42b"
+    },
+    {
+      "answer": {
+        "sql": "SELECT Id, OwnerUserId FROM posts WHERE Score > 60"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:a46ecc5071c98135efc5ab407dff576a",
+      "issue_number": 602,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.008418,
+        "handoffs": 0,
+        "input_tokens": 3759,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 90,
+        "provider_response_latency_ms": 1735.581,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 3849,
+        "wall_latency_ms": 1738.632
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts"
+          ]
+        }
+      ],
+      "tool_sequence": [
+        "get_schema"
+      ],
+      "trace_id": "trace_4b579e21e7e3206c25d358a334b6b4ba"
+    },
+    {
+      "answer": {
+        "sql": "SELECT Reputation, Views FROM users WHERE DisplayName='Jarrod Dixon'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:787bb7ce57c4e6b236ee83cc46de0a86",
+      "issue_number": 697,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.01033,
+        "handoffs": 0,
+        "input_tokens": 4140,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 205,
+        "provider_response_latency_ms": 3186.435,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 4345,
+        "wall_latency_ms": 3202.226
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT Reputation, Views FROM users WHERE DisplayName='Jarrod Dixon'"
+        },
+        {
+          "sql": "SELECT Reputation, Views FROM users WHERE DisplayName='Jarrod Dixon'"
+        }
+      ],
+      "tool_sequence": [
+        "run_query",
+        "run_query"
+      ],
+      "trace_id": "trace_cbf3c5fc1ca9d0439aa2e02856701fe2"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM users WHERE UpVotes > 100 AND DownVotes > 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:3c3ce56488b014eeef78a5e9fcbdc2b2",
+      "issue_number": 535,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.006726,
+        "handoffs": 0,
+        "input_tokens": 2708,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 131,
+        "provider_response_latency_ms": 2116.031,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2839,
+        "wall_latency_ms": 2127.752
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT COUNT(*) FROM users WHERE UpVotes > 100 AND DownVotes > 1"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_b0b1064041687cdaed6614ba2a7ba714"
+    },
+    {
+      "answer": {
+        "sql": "SELECT u.DisplayName FROM posts p JOIN users u ON p.OwnerUserId = u.Id ORDER BY p.ViewCount DESC LIMIT 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:398eb1ba05cd3a1e2ed5fbc8be069bf9",
+      "issue_number": 653,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.018338,
+        "handoffs": 0,
+        "input_tokens": 8004,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 233,
+        "provider_response_latency_ms": 3337.686,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 8237,
+        "wall_latency_ms": 3391.223
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT u.DisplayName FROM posts p JOIN users u ON p.OwnerUserId = u.Id ORDER BY p.ViewCount DESC LIMIT 1"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_3c4d547b4eff39ac02a30d0b693c0a75"
+    },
+    {
+      "answer": {
+        "sql": "SELECT p.FavoriteCount FROM comments c JOIN posts p ON c.PostId=p.Id WHERE c.UserId=3025 AND c.CreationDate='2014-04-23 20:29:39.0'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:2aa43ff76c804e15738fa26d3da8e06b",
+      "issue_number": 563,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.017632,
+        "handoffs": 0,
+        "input_tokens": 7506,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 262,
+        "provider_response_latency_ms": 4324.483,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 7768,
+        "wall_latency_ms": 4345.237
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "comments",
+            "posts"
+          ]
+        },
+        {
+          "sql": "SELECT p.FavoriteCount FROM comments c JOIN posts p ON c.PostId=p.Id WHERE c.UserId=3025 AND c.CreationDate='2014-04-23 20:29:39.0'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_e8e1c1ba8a4b2eb38d867924661cee42"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(DISTINCT p.Id) FROM posts p JOIN comments c ON c.PostId = p.Id WHERE c.Score = 0 AND p.ViewCount < 5"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:24fa71753eecb6653b371b492a7c0c98",
+      "issue_number": 709,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.02435,
+        "handoffs": 0,
+        "input_tokens": 10520,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 331,
+        "provider_response_latency_ms": 5169.982,
+        "requests": 5,
+        "tool_calls": 4,
+        "total_tokens": 10851,
+        "wall_latency_ms": 5241.788
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "Comments",
+            "Posts"
+          ]
+        },
+        {},
+        {
+          "table_names": [
+            "comments",
+            "posts"
+          ]
+        },
+        {
+          "sql": "SELECT COUNT(DISTINCT p.Id) FROM posts p JOIN comments c ON c.PostId = p.Id WHERE c.Score = 0 AND p.ViewCount < 5"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "list_tables",
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_edf04ffb5bb4a33d2629275ebf42898b"
+    },
+    {
+      "answer": {
+        "sql": "SELECT u.DisplayName FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE u.DisplayName IN ('Harvey Motulsky','Noah Snyder') GROUP BY u.DisplayName ORDER BY SUM(p.ViewCount) DESC LIMIT 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:e1a23da98ea99a1136b5b4e701b32554",
+      "issue_number": 634,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.020228,
+        "handoffs": 0,
+        "input_tokens": 8294,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 364,
+        "provider_response_latency_ms": 5774.337,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 8658,
+        "wall_latency_ms": 5866.104
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT u.DisplayName, SUM(p.ViewCount) AS total FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE u.DisplayName IN ('Harvey Motulsky','Noah Snyder') GROUP BY u.DisplayName ORDER BY total DESC"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_1742a79984d656d2636db6b32d090b6b"
+    },
+    {
+      "answer": {
+        "sql": "SELECT b.Name FROM badges b WHERE b.UserId = (SELECT Id FROM users ORDER BY Reputation DESC LIMIT 1)"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:35f46a6d91ebf7f243a1a52f3c558f89",
+      "issue_number": 610,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.012082,
+        "handoffs": 0,
+        "input_tokens": 4701,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 268,
+        "provider_response_latency_ms": 3703.806,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 4969,
+        "wall_latency_ms": 3714.137
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT b.Name FROM badges b WHERE b.UserId = (SELECT Id FROM users ORDER BY Reputation DESC LIMIT 1)"
+        },
+        {
+          "sql": "SELECT b.Name FROM badges b WHERE b.UserId = (SELECT Id FROM users ORDER BY Reputation DESC LIMIT 1)"
+        }
+      ],
+      "tool_sequence": [
+        "run_query",
+        "run_query"
+      ],
+      "trace_id": "trace_1bdb65adfaa4adef9b7ad253d5f06862"
+    },
+    {
+      "answer": {
+        "sql": "SELECT Text FROM comments WHERE CreationDate = '2010-07-19 19:25:47.0'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:d64882b690120d9606c4cb0193fc28f3",
+      "issue_number": 608,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.010786,
+        "handoffs": 0,
+        "input_tokens": 4338,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 211,
+        "provider_response_latency_ms": 3286.393,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 4549,
+        "wall_latency_ms": 3321.482
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT Text FROM comments WHERE CreationDate = '2010-07-19 19:25:47.0'"
+        },
+        {
+          "sql": "SELECT Text FROM comments WHERE CreationDate = '2010-07-19 19:25:47.0'"
+        }
+      ],
+      "tool_sequence": [
+        "run_query",
+        "run_query"
+      ],
+      "trace_id": "trace_d8fc4278af18a74daae4575cd9808edc"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM comments c JOIN posts p ON c.PostId = p.Id WHERE p.CommentCount = 1 AND c.Score = 0"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:31929332767d7ec6a183410b2392a7b9",
+      "issue_number": 710,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.016898,
+        "handoffs": 0,
+        "input_tokens": 7299,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 230,
+        "provider_response_latency_ms": 3204.893,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 7529,
+        "wall_latency_ms": 3270.29
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "comments"
+          ]
+        },
+        {
+          "sql": "SELECT COUNT(*) FROM comments c JOIN posts p ON c.PostId = p.Id WHERE p.CommentCount = 1 AND c.Score = 0"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_0407b586db91bbd770cec1e13f671e23"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM users WHERE Age BETWEEN 19 AND 65 AND UpVotes > 5000"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:de37e3f7443ae8632c66b2a9ad4ae48c",
+      "issue_number": 691,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.006878,
+        "handoffs": 0,
+        "input_tokens": 2704,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 147,
+        "provider_response_latency_ms": 2744.612,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2851,
+        "wall_latency_ms": 2753.758
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT COUNT(*) FROM users WHERE Age BETWEEN 19 AND 65 AND UpVotes > 5000"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_b21b46bd79087b69466ddd0403f29cab"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM users WHERE Reputation > 2000 AND Views > 1000"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:48d7c96537e99abfd95522fe454a6052",
+      "issue_number": 675,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.006686,
+        "handoffs": 0,
+        "input_tokens": 2708,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 127,
+        "provider_response_latency_ms": 2591.283,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2835,
+        "wall_latency_ms": 2599.734
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT COUNT(*) FROM users WHERE Reputation > 2000 AND Views > 1000"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_76e4401e4d3402a23b91daa1a03da8d4"
+    },
+    {
+      "answer": {
+        "sql": "SELECT b.Name FROM badges b JOIN users u ON b.UserId=u.Id WHERE u.DisplayName='Emmett' ORDER BY b.Date DESC LIMIT 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:795787a5672d38892063e7c13543fa81",
+      "issue_number": 690,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.014816,
+        "handoffs": 0,
+        "input_tokens": 6173,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 247,
+        "provider_response_latency_ms": 4269.135,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 6420,
+        "wall_latency_ms": 4302.955
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "badges",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT b.Name FROM badges b JOIN users u ON b.UserId=u.Id WHERE u.DisplayName='Emmett' ORDER BY b.Date DESC LIMIT 1"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_3dce6576bfe92b675351975cc2c864dc"
+    },
+    {
+      "answer": {
+        "sql": "SELECT u.DisplayName FROM posts p JOIN posts parent ON p.ParentId = parent.Id JOIN users u ON parent.OwnerUserId = u.Id WHERE p.ParentId IS NOT NULL ORDER BY p.Score DESC LIMIT 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:de43608c37a9ad99388ddf0a97b5f174",
+      "issue_number": 656,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.019394,
+        "handoffs": 0,
+        "input_tokens": 8082,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 323,
+        "provider_response_latency_ms": 4066.448,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 8405,
+        "wall_latency_ms": 4166.249
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT u.DisplayName FROM posts p JOIN posts parent ON p.ParentId = parent.Id JOIN users u ON parent.OwnerUserId = u.Id WHERE p.ParentId IS NOT NULL ORDER BY p.Score DESC LIMIT 1"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_1c0f30409a3b96442d484e88e26d4fdc"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(DISTINCT PostId) FROM votes WHERE BountyAmount >= 30"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:bad32caa792c356db32512a99d8fe08e",
+      "issue_number": 700,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.011252,
+        "handoffs": 0,
+        "input_tokens": 4711,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 183,
+        "provider_response_latency_ms": 2972.152,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 4894,
+        "wall_latency_ms": 2982.274
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "votes"
+          ]
+        },
+        {
+          "sql": "SELECT COUNT(DISTINCT PostId) FROM votes WHERE BountyAmount >= 30"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_3937d309fe97f197fe415dd476030c1d"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM users WHERE Location LIKE '%New York%'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:b89830f74230c75374d4e4a304055a33",
+      "issue_number": 625,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.012772,
+        "handoffs": 0,
+        "input_tokens": 5546,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 168,
+        "provider_response_latency_ms": 3745.905,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 5714,
+        "wall_latency_ms": 3755.424
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT COUNT(*) FROM users WHERE Location LIKE '%New York%'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_a6bd666b031e2fd9dca8a7a5deebfa7c"
+    },
+    {
+      "answer": {
+        "sql": "SELECT b.Date FROM badges b JOIN users u ON b.UserId = u.Id WHERE u.Location = 'Rochester, NY'"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:6e78641a47103173172f6a83e5406900",
+      "issue_number": 613,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.022348,
+        "handoffs": 0,
+        "input_tokens": 9714,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 292,
+        "provider_response_latency_ms": 5069.05,
+        "requests": 5,
+        "tool_calls": 4,
+        "total_tokens": 10006,
+        "wall_latency_ms": 5079.74
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "Users",
+            "Badges"
+          ]
+        },
+        {},
+        {
+          "table_names": [
+            "badges",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT b.Date FROM badges b JOIN users u ON b.UserId = u.Id WHERE u.Location = 'Rochester, NY'"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "list_tables",
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_8b40b7750369040cb98ff153c574bf7f"
+    },
+    {
+      "answer": {
+        "sql": "SELECT Text FROM comments WHERE Score = 17"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:ec30b692885ab6149da998af2aa419db",
+      "issue_number": 573,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.00653,
+        "handoffs": 0,
+        "input_tokens": 2790,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 95,
+        "provider_response_latency_ms": 2312.631,
+        "requests": 2,
+        "tool_calls": 1,
+        "total_tokens": 2885,
+        "wall_latency_ms": 2332.257
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT Text FROM comments WHERE Score = 17"
+        }
+      ],
+      "tool_sequence": [
+        "run_query"
+      ],
+      "trace_id": "trace_a2eddb2a81053b847bcc4396c61782bb"
+    },
+    {
+      "answer": {
+        "sql": "SELECT COUNT(*) FROM comments WHERE UserId=13 AND Score<60"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:08d46b1062e9de33861b1df5677e066e",
+      "issue_number": 645,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.011504,
+        "handoffs": 0,
+        "input_tokens": 4897,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 171,
+        "provider_response_latency_ms": 4069.447,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 5068,
+        "wall_latency_ms": 4091.813
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "comments"
+          ]
+        },
+        {
+          "sql": "SELECT COUNT(*) FROM comments WHERE UserId=13 AND Score<60"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_7c9700fcaa65ff3431f1dad148b9ff94"
+    },
+    {
+      "answer": {
+        "sql": "SELECT p.Title, u.DisplayName FROM comments c JOIN posts p ON c.PostId=p.Id JOIN users u ON c.UserId=u.Id WHERE c.Score>60"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:600cb5d81bfd7cd5a631c237bea5e8a9",
+      "issue_number": 646,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.02023,
+        "handoffs": 0,
+        "input_tokens": 8865,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 250,
+        "provider_response_latency_ms": 4497.015,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 9115,
+        "wall_latency_ms": 4516.282
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": false,
+        "gold_error": "",
+        "overall": false,
+        "prediction_error": "",
+        "score": 0.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "table_names": [
+            "posts",
+            "comments",
+            "users"
+          ]
+        },
+        {
+          "sql": "SELECT p.Title, u.DisplayName FROM comments c JOIN posts p ON c.PostId=p.Id JOIN users u ON c.UserId=u.Id WHERE c.Score>60"
+        }
+      ],
+      "tool_sequence": [
+        "get_schema",
+        "run_query"
+      ],
+      "trace_id": "trace_a5d992c2f8c885c1563b84a20a3be71f"
+    },
+    {
+      "answer": {
+        "sql": "SELECT Age FROM users ORDER BY Reputation DESC LIMIT 1"
+      },
+      "condition": "discovery",
+      "dispatch": {},
+      "episode_digest": "sha256:685fecfb7ea779b2c1f0b3eade5a9ff2",
+      "issue_number": 661,
+      "metrics": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.010312,
+        "handoffs": 0,
+        "input_tokens": 4121,
+        "model": "anthropic/claude-sonnet-5",
+        "output_tokens": 207,
+        "provider_response_latency_ms": 3303.568,
+        "requests": 3,
+        "tool_calls": 2,
+        "total_tokens": 4328,
+        "wall_latency_ms": 3314.19
+      },
+      "quality": {
+        "answered": true,
+        "execution_correct": true,
+        "gold_error": "",
+        "overall": true,
+        "prediction_error": "",
+        "score": 1.0,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "repeat": 0,
+      "tool_arguments": [
+        {
+          "sql": "SELECT Age FROM users ORDER BY Reputation DESC LIMIT 1"
+        },
+        {
+          "sql": "SELECT Age FROM users ORDER BY Reputation DESC LIMIT 1"
+        }
+      ],
+      "tool_sequence": [
+        "run_query",
+        "run_query"
+      ],
+      "trace_id": "trace_09972ef07312f760dce5b2127a11d6d0"
+    }
+  ],
+  "run": {
+    "benchmark": "bird-dev_20240627",
+    "model": "anthropic/claude-sonnet-5",
+    "preflight_sha256": "cd251ef227777f5a777a837eeb64b603e55c6bea44d852374676042d239e9ec1",
+    "protocol": "paper/supplementary/bird-sql-agent-extensions-protocol.md",
+    "provider_backed": true,
+    "secrets_serialized": false,
+    "simulated": false,
+    "split": "dev",
+    "timestamp_utc": "2026-10-08T18:15:28+00:00"
+  },
+  "schema": "agent-compaction-bird-runs/v1"
+}

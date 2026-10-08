@@ -1,0 +1,506 @@
+{
+  "name": "paper-bird-schema_first-retail_complains",
+  "kill_switch": false,
+  "active_stages": [
+    "active"
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "cand-00-c280ec6839dd",
+      "name": "list_tables.get_schema.region@c280ec68",
+      "kind": "grc",
+      "version": 1,
+      "program": {
+        "theta": [],
+        "steps": [
+          {
+            "kind": "call",
+            "var": "tabl",
+            "tool": "list_tables",
+            "args": {},
+            "when": null,
+            "schema_version": null
+          },
+          {
+            "kind": "call",
+            "var": "sche",
+            "tool": "get_schema",
+            "args": {
+              "table_names": {
+                "kind": "const",
+                "value": [
+                  "state",
+                  "callcenterlogs",
+                  "client",
+                  "district",
+                  "events",
+                  "reviews"
+                ]
+              }
+            },
+            "when": null,
+            "schema_version": null
+          }
+        ],
+        "outputs": {
+          "tabl": {
+            "kind": "expr",
+            "source": "tabl",
+            "ops": []
+          },
+          "sche": {
+            "kind": "expr",
+            "source": "sche",
+            "ops": []
+          }
+        },
+        "library_version": "T-v1",
+        "removed_requests": 2.0,
+        "tools": [
+          "list_tables",
+          "get_schema"
+        ],
+        "composite": null
+      },
+      "route": null,
+      "guard": {
+        "manifest_pins": {
+          "model": "gpt-5.6-luna",
+          "prompt_hash": "#20a0b160",
+          "tools_hash": "#4b153eca",
+          "policy_hash": "#94fc7fa3",
+          "guardrail_hash": "#ca7525a8",
+          "effect_catalog_version": "bird-retail_complains-readonly-sqlite@1#2ff9c8e0873743a5",
+          "entry_contract_version": "bird-database-v1:retail_complains"
+        },
+        "isolation": {},
+        "clauses": [],
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "required_capabilities": [
+          "speculatable",
+          "replayable"
+        ]
+      },
+      "verifier": {
+        "clauses": [
+          {
+            "name": "tabl",
+            "type_name": "dict",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "list_tables"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "tabl.database",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "retail_complains"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "list_tables"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "tabl.tables",
+            "type_name": "list",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": 6,
+            "min_len": 6,
+            "provenance": [
+              "list_tables"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "sche",
+            "type_name": "dict",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "get_schema"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "sche.database",
+            "type_name": "str",
+            "non_null": true,
+            "hull": {
+              "kind": "enum",
+              "low": null,
+              "high": null,
+              "values": [
+                "retail_complains"
+              ],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": null,
+            "min_len": null,
+            "provenance": [
+              "get_schema"
+            ],
+            "present_iff": null
+          },
+          {
+            "name": "sche.schemas",
+            "type_name": "list",
+            "non_null": true,
+            "hull": {
+              "kind": "any",
+              "low": null,
+              "high": null,
+              "values": [],
+              "pattern": null,
+              "min_len": null,
+              "max_len": null
+            },
+            "max_len": 6,
+            "min_len": 6,
+            "provenance": [
+              "get_schema"
+            ],
+            "present_iff": null
+          }
+        ],
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "call_counts": [
+          2
+        ]
+      },
+      "gate": {
+        "model": {
+          "features": [
+            "unseen_category",
+            "knn_distance",
+            "missing_optional",
+            "hull_margin",
+            "drift_days",
+            "provenance_ambiguity",
+            "branch_entropy"
+          ],
+          "weights": [
+            0.0,
+            0.0,
+            0.0,
+            0.8877091183451264,
+            0.0,
+            0.8877091183451264,
+            0.0
+          ],
+          "bias": -0.7183709852150122,
+          "feature_means": [
+            0.0,
+            0.0,
+            0.0,
+            0.25,
+            0.0,
+            0.25,
+            0.0
+          ],
+          "feature_scales": [
+            1.0,
+            1.0,
+            1.0,
+            0.25,
+            1.0,
+            0.25,
+            1.0
+          ]
+        },
+        "features_spec": {
+          "paths": [],
+          "hull_kinds": {},
+          "categories": {},
+          "numeric_ranges": {},
+          "patterns": {},
+          "max_day": "2024-06-27",
+          "provenance_ambiguity": 0.0,
+          "branch_entropy": 0.0
+        },
+        "threshold": 0.5,
+        "grid": [
+          0.02,
+          0.05,
+          0.08,
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "alpha": 0.05,
+        "delta": 0.1,
+        "n_calibration_groups": 92,
+        "n_accepted": 92,
+        "observed_violations": 0,
+        "risk_upper_bound": 0.049808920112407784,
+        "coverage": 1.0,
+        "admissible": [
+          0.08,
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "retire": false,
+        "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.11, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.17, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.2, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.25, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.3, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.4, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.5, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}]"
+      },
+      "manifest": {
+        "manifest_id": "c529d905c652",
+        "commit": "workspace-without-git-metadata",
+        "model": "gpt-5.6-luna",
+        "prompt_hash": "#20a0b160",
+        "tools_hash": "#4b153eca",
+        "policy_hash": "#94fc7fa3",
+        "guardrail_hash": "#ca7525a8",
+        "effect_catalog_version": "bird-retail_complains-readonly-sqlite@1#2ff9c8e0873743a5",
+        "entry_contract_version": "bird-database-v1:retail_complains",
+        "sdk_version": "0.19.2",
+        "tracer_version": "agent-compaction/0.6.0"
+      },
+      "compatibility_key": "c529d905c652ab3a",
+      "partition": {},
+      "evidence": {
+        "support_groups": 16,
+        "total_groups": 16,
+        "support_principals": 1,
+        "support_days": 1,
+        "removed_requests": 2.0,
+        "split_ids": {
+          "train": [
+            "bird-retail_complains:266",
+            "bird-retail_complains:293",
+            "bird-retail_complains:311",
+            "bird-retail_complains:318",
+            "bird-retail_complains:332",
+            "bird-retail_complains:335",
+            "bird-retail_complains:346",
+            "bird-retail_complains:350",
+            "bird-retail_complains:351",
+            "bird-retail_complains:357",
+            "bird-retail_complains:363",
+            "bird-retail_complains:377",
+            "bird-retail_complains:382",
+            "bird-retail_complains:392",
+            "bird-retail_complains:399",
+            "bird-retail_complains:406"
+          ],
+          "dev": [
+            "bird-retail_complains:243",
+            "bird-retail_complains:262",
+            "bird-retail_complains:297",
+            "bird-retail_complains:305",
+            "bird-retail_complains:314",
+            "bird-retail_complains:376",
+            "bird-retail_complains:378",
+            "bird-retail_complains:394"
+          ],
+          "calibration": [
+            "bird-retail_complains:242",
+            "bird-retail_complains:244",
+            "bird-retail_complains:245",
+            "bird-retail_complains:247",
+            "bird-retail_complains:248",
+            "bird-retail_complains:250",
+            "bird-retail_complains:252",
+            "bird-retail_complains:253",
+            "bird-retail_complains:254",
+            "bird-retail_complains:255",
+            "bird-retail_complains:256",
+            "bird-retail_complains:259",
+            "bird-retail_complains:260",
+            "bird-retail_complains:261",
+            "bird-retail_complains:263",
+            "bird-retail_complains:264",
+            "bird-retail_complains:265",
+            "bird-retail_complains:267",
+            "bird-retail_complains:268",
+            "bird-retail_complains:269",
+            "bird-retail_complains:270",
+            "bird-retail_complains:271",
+            "bird-retail_complains:272",
+            "bird-retail_complains:274",
+            "bird-retail_complains:275",
+            "bird-retail_complains:276",
+            "bird-retail_complains:278",
+            "bird-retail_complains:279",
+            "bird-retail_complains:280",
+            "bird-retail_complains:281",
+            "bird-retail_complains:282",
+            "bird-retail_complains:283",
+            "bird-retail_complains:285",
+            "bird-retail_complains:286",
+            "bird-retail_complains:289",
+            "bird-retail_complains:292",
+            "bird-retail_complains:294",
+            "bird-retail_complains:295",
+            "bird-retail_complains:298",
+            "bird-retail_complains:299",
+            "bird-retail_complains:304",
+            "bird-retail_complains:306",
+            "bird-retail_complains:310",
+            "bird-retail_complains:312",
+            "bird-retail_complains:316",
+            "bird-retail_complains:320",
+            "bird-retail_complains:321",
+            "bird-retail_complains:322",
+            "bird-retail_complains:324",
+            "bird-retail_complains:326",
+            "bird-retail_complains:328",
+            "bird-retail_complains:329",
+            "bird-retail_complains:333",
+            "bird-retail_complains:336",
+            "bird-retail_complains:337",
+            "bird-retail_complains:338",
+            "bird-retail_complains:340",
+            "bird-retail_complains:341",
+            "bird-retail_complains:342",
+            "bird-retail_complains:343",
+            "bird-retail_complains:349",
+            "bird-retail_complains:353",
+            "bird-retail_complains:356",
+            "bird-retail_complains:358",
+            "bird-retail_complains:359",
+            "bird-retail_complains:360",
+            "bird-retail_complains:361",
+            "bird-retail_complains:362",
+            "bird-retail_complains:364",
+            "bird-retail_complains:365",
+            "bird-retail_complains:367",
+            "bird-retail_complains:370",
+            "bird-retail_complains:371",
+            "bird-retail_complains:372",
+            "bird-retail_complains:373",
+            "bird-retail_complains:379",
+            "bird-retail_complains:380",
+            "bird-retail_complains:381",
+            "bird-retail_complains:384",
+            "bird-retail_complains:386",
+            "bird-retail_complains:387",
+            "bird-retail_complains:389",
+            "bird-retail_complains:390",
+            "bird-retail_complains:391",
+            "bird-retail_complains:393",
+            "bird-retail_complains:395",
+            "bird-retail_complains:397",
+            "bird-retail_complains:398",
+            "bird-retail_complains:401",
+            "bird-retail_complains:402",
+            "bird-retail_complains:404",
+            "bird-retail_complains:407"
+          ]
+        },
+        "replay": {
+          "n": 8,
+          "passed": 8,
+          "abstained": 0,
+          "wrong": 0,
+          "effect_mismatch": 0,
+          "state_delta": 0,
+          "pass_rate": 1.0,
+          "reasons": {}
+        },
+        "perturbation": {},
+        "counterexamples": [],
+        "metrics": {
+          "sandbox": {
+            "n": 0,
+            "passed": 0,
+            "abstained": 0,
+            "wrong": 0,
+            "effect_mismatch": 0,
+            "state_delta": 0,
+            "pass_rate": 0.0,
+            "reasons": {}
+          },
+          "perturbations_claimed": false,
+          "branch": "none",
+          "branch_permutation_p": null,
+          "branch_alternatives": 0,
+          "n_alternative_bindings": 0,
+          "composite": "disabled",
+          "composite_name": "",
+          "gate_grid": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.11, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'covera",
+          "var_names": [
+            "tabl",
+            "sche"
+          ],
+          "dev_windows_evaluated": 8,
+          "calibration_windows_evaluated": 92
+        },
+        "rejection_reasons": [],
+        "fallback_reasons": {},
+        "dataset_digest": "881727fad2547d0b",
+        "notes": "substrate and evidence are recorded in the run manifest"
+      },
+      "lifecycle": "active",
+      "owner": "paper-bird-schema_first-retail_complains",
+      "approved_by": "paper-bird-protocol-lab-only",
+      "expiry_day": null,
+      "rollback_target": null,
+      "monitoring": {
+        "min_verifier_pass_rate": 0.9,
+        "max_unsafe_dispatch": 0.05,
+        "expected_coverage": 1.0
+      },
+      "signature": ""
+    }
+  ]
+}

@@ -53,18 +53,31 @@ for _p in (ROOT, ROOT / "src", ROOT / "paper" / "scripts"):
 
 from pydantic import BaseModel, Field  # noqa: E402
 
-BIRD_ARCHIVE = ROOT / "benchmarks/.cache/bird/dev.zip"
-BIRD_ARCHIVE_URL = "https://bird-bench.oss-cn-beijing.aliyuncs.com/dev.zip"
-BIRD_ARCHIVE_SHA256 = "cdd6d19faeb45a23970b98d3ef6c40a87987c95459c2cf12076897a60cf5a630"
-BIRD_DIR = ROOT / "benchmarks/.cache/bird/extract/dev_20240627"
-GOLD_CACHE = ROOT / "benchmarks/.cache/bird/gold_results.pkl"
+CACHE = ROOT / "benchmarks/.cache/bird"
+SPLIT_CONFIG: dict[str, dict[str, Any]] = {
+    "dev": {"archive": CACHE / "dev.zip", "url": "https://bird-bench.oss-cn-beijing.aliyuncs.com/dev.zip",
+            "sha256": "cdd6d19faeb45a23970b98d3ef6c40a87987c95459c2cf12076897a60cf5a630",
+            "dir": CACHE / "extract/dev_20240627", "questions": "dev.json", "databases": "dev_databases",
+            "gold": CACHE / "gold_results.pkl", "release": "dev_20240627",
+            "smoke": ("california_schools", "superhero")},
+    "train": {"archive": CACHE / "train.zip", "url": "https://bird-bench.oss-cn-beijing.aliyuncs.com/train.zip",
+              "sha256": "66e9e3115b59559554013aa3b124156249f30437a6b4e4f96de3d2dfb5ae8cbc",
+              "dir": CACHE / "extract/train", "questions": "train.json", "databases": "train_databases",
+              "gold": CACHE / "gold_results_train.pkl", "release": "train", "smoke": ()},
+}
+SPLIT = "dev"
+BIRD_ARCHIVE = SPLIT_CONFIG["dev"]["archive"]
+BIRD_ARCHIVE_URL = SPLIT_CONFIG["dev"]["url"]
+BIRD_ARCHIVE_SHA256 = SPLIT_CONFIG["dev"]["sha256"]
+BIRD_DIR = SPLIT_CONFIG["dev"]["dir"]
+GOLD_CACHE = SPLIT_CONFIG["dev"]["gold"]
 OUT_ROOT = ROOT / "paper/results/bird"
 MODEL = "gpt-5.6-luna"
 DESIGNS = ("standard", "schema_first")
 FAMILY_MIN_QUESTIONS = 146          # 16 train + 8 dev + 92 calibration + 30 held out
 TEST_N = 30
 DISCOVERY_MAX = 132
-SMOKE_DATABASES = ("california_schools", "superhero")   # excluded from the families
+SMOKE_DATABASES: tuple[str, ...] = ("california_schools", "superhero")   # excluded from the families
 SMOKE_PER_DESIGN = 3
 CONDITIONS = ("baseline", "baseline_repeat", "compiled", "manual_schema_prefetch")
 TOOLS = ("list_tables", "get_schema", "run_query")
@@ -108,6 +121,15 @@ class BirdAnswer(BaseModel):
     sql: str = Field(min_length=1, max_length=4000)
 
 
+def configure(*, model: str, split: str) -> None:
+    """Bind the module to one model and one BIRD split (the primary run is gpt-5.6-luna on dev)."""
+    global MODEL, SPLIT, BIRD_ARCHIVE, BIRD_ARCHIVE_URL, BIRD_ARCHIVE_SHA256, BIRD_DIR, GOLD_CACHE, SMOKE_DATABASES
+    cfg = SPLIT_CONFIG[split]
+    MODEL, SPLIT = model, split
+    BIRD_ARCHIVE, BIRD_ARCHIVE_URL, BIRD_ARCHIVE_SHA256 = cfg["archive"], cfg["url"], cfg["sha256"]
+    BIRD_DIR, GOLD_CACHE, SMOKE_DATABASES = cfg["dir"], cfg["gold"], tuple(cfg["smoke"])
+
+
 def _sha(text: str) -> str:
     return hashlib.sha256(text.encode()).hexdigest()
 
@@ -126,7 +148,7 @@ def _digest(obj: Any) -> str:
 
 # --------------------------------------------------------------------------- database access
 def db_path(db: str) -> Path:
-    return BIRD_DIR / "dev_databases" / db / f"{db}.sqlite"
+    return BIRD_DIR / SPLIT_CONFIG[SPLIT]["databases"] / db / f"{db}.sqlite"
 
 
 def connect(db: str) -> sqlite3.Connection:
@@ -241,7 +263,10 @@ def execute_full(db: str, sql: str, timeout_s: float = GRADE_TIMEOUT_S) -> tuple
 
 # --------------------------------------------------------------------------- questions, families, splits
 def load_questions() -> list[dict[str, Any]]:
-    return json.loads((BIRD_DIR / "dev.json").read_text(encoding="utf-8"))
+    questions = json.loads((BIRD_DIR / SPLIT_CONFIG[SPLIT]["questions"]).read_text(encoding="utf-8"))
+    for index, q in enumerate(questions):
+        q.setdefault("question_id", index)  # BIRD train carries no question ids; use the file position
+    return questions
 
 
 def _rank(db: str, question_id: int) -> str:
@@ -251,6 +276,15 @@ def _rank(db: str, question_id: int) -> str:
 def families(questions: Sequence[dict[str, Any]]) -> list[str]:
     counts = Counter(q["db_id"] for q in questions)
     return sorted(db for db, n in counts.items() if n >= FAMILY_MIN_QUESTIONS)
+
+
+GOLD_FAILURE_LIMIT = 0.10   # extension protocol E4: exclude a family whose gold SQL fails this often
+
+
+def study_families(pre: dict[str, Any]) -> list[str]:
+    """Families the study runs: the preflight's families minus any excluded for unusable gold."""
+    excluded = pre.get("excluded_families") or {}
+    return [db for db in pre["families"] if db not in excluded]
 
 
 def select(questions: Sequence[dict[str, Any]], db: str) -> dict[str, Any]:
@@ -410,6 +444,7 @@ def materialize(q: dict[str, Any], *, design: str, condition: str, trace: Any, f
     episode.attributes.update({"benchmark": "bird-dev", "design": design, "condition": condition,
                                "difficulty": q.get("difficulty"), "provider_backed": True})
     metrics = trace_metrics(trace, model=MODEL, wall_ms=wall_ms)
+    metrics["model"] = MODEL
     if prefetch_calls:
         metrics["internal_tool_calls"] = prefetch_calls
         metrics["tool_calls"] = int(metrics.get("tool_calls", 0)) + prefetch_calls
@@ -449,7 +484,7 @@ async def run_batch(questions: Sequence[dict[str, Any]], *, design: str, conditi
             listing = database.list_tables()
             prefetch = {"list_tables": listing, "get_schema": database.get_schema(listing["tables"])}
         agent = Agent(name=f"bird-sql-{design}", instructions=PROMPTS[design], model=model,
-                      model_settings=fixed.model_settings(), tools=list(tools), output_type=BirdAnswer)
+                      model_settings=fixed.provider_model_settings(MODEL), tools=list(tools), output_type=BirdAnswer)
         async with semaphore:
             started = time.perf_counter()
             output = await asyncio.wait_for(Runner.run(
@@ -651,11 +686,18 @@ def preflight(out: Path) -> dict[str, Any]:
     fam_gold = {db: dict(Counter("ok" if gold[qid][0] is not None else gold[qid][1]
                                   for qid in selections[db]["test"] + selections[db]["discovery"])) for db in fams}
     write_probe = BirdDatabase(fams[0]).run_query("CREATE TABLE gac_write_probe(x)")
+    excluded = {}
+    if SPLIT != "dev":  # the primary (dev) preflight is retained as registered
+        for db in fams:
+            ids = selections[db]["test"] + selections[db]["discovery"]
+            failed = sum(1 for qid in ids if gold[qid][0] is None)
+            if failed / len(ids) > GOLD_FAILURE_LIMIT:
+                excluded[db] = f"gold SQL fails on {failed} of {len(ids)} selected questions (> {GOLD_FAILURE_LIMIT:.0%})"
     report = {
         "schema": "agent-compaction-bird-preflight/v1",
         "generated_utc": datetime.now(UTC).isoformat(timespec="seconds"),
         "provider_calls": 0,
-        "archive": {"url": BIRD_ARCHIVE_URL, "sha256": archive_sha, "license": "CC BY-SA 4.0 (BIRD)", "split": "dev_20240627"},
+        "archive": {"url": BIRD_ARCHIVE_URL, "sha256": archive_sha, "license": "CC BY-SA 4.0 (BIRD)", "split": SPLIT_CONFIG[SPLIT]["release"]},
         "model": MODEL,
         "family_rule": f"every BIRD dev database with at least {FAMILY_MIN_QUESTIONS} questions",
         "dev_question_counts": dict(counts.most_common()),
@@ -665,6 +707,7 @@ def preflight(out: Path) -> dict[str, Any]:
         "selections": selections,
         "gold_status": fam_gold,
         "read_only_probe": write_probe,
+        **({"excluded_families": excluded} if SPLIT != "dev" else {}),
         "prompts": {d: {"sha256": _sha(p), "text": p} for d, p in PROMPTS.items()},
         "conditions": list(CONDITIONS),
         "settings": {"query_timeout_s": QUERY_TIMEOUT_S, "grade_timeout_s": GRADE_TIMEOUT_S, "max_rows": MAX_ROWS,
@@ -688,7 +731,8 @@ async def live(args: argparse.Namespace) -> int:
     from guarded_agentic_compaction.registry.store import Registry
 
     out: Path = args.out
-    pre = json.loads((out / "preflight.json").read_text())
+    source: Path = args.source or out
+    pre = json.loads((source / "preflight.json").read_text())
     by_id = _questions_by_id()
     gold = gold_results(list(by_id.values()), list(pre["families"]) + list(SMOKE_DATABASES))
     ledger = Ledger(out / "ledger.json", args.approved_spend_usd)
@@ -702,9 +746,9 @@ async def live(args: argparse.Namespace) -> int:
     add_trace_processor(processor)
     meta = {"timestamp_utc": datetime.now(UTC).isoformat(timespec="seconds"), "model": MODEL, "provider_backed": True,
             "benchmark": "bird-dev_20240627", "simulated": False, "secrets_serialized": False,
-            "protocol": "paper/supplementary/bird-sql-agent-protocol.md", "preflight_sha256": _file_sha(out / "preflight.json")}
+            "protocol": args.protocol, "preflight_sha256": _file_sha(source / "preflight.json"), "split": SPLIT}
     designs = [args.design] if args.design else list(DESIGNS)
-    dbs = [args.database] if args.database else list(pre["families"])
+    dbs = [args.database] if args.database else study_families(pre)
 
     def ctx(db: str, design: str) -> tuple[Any, Any, Any, str]:
         database = BirdDatabase(db)
@@ -749,43 +793,64 @@ async def live(args: argparse.Namespace) -> int:
                           f"correct={sum(r.quality['overall'] for r in done)} failures={len(failures)} spent={ledger.state['spent_usd']:.4f}", flush=True)
         return 0
 
+    if args.phase == "plumbing":
+        # Extension protocol E3: compiled runs on two DISCOVERY questions per admitted family,
+        # checking that synthesized calls pass through the provider adapter. Never analyzed.
+        for design in designs:
+            for db in dbs:
+                compile_path = source / design / db / "compile.json"
+                if not compile_path.exists() or json.loads(compile_path.read_text()).get("status") != "admitted":
+                    continue
+                registry = Registry.load(source / design / db / "registry")
+                database, catalog, manifest, sha = ctx(db, design)
+                qs = [by_id[qid] for qid in pre["selections"][db]["discovery"][:2]]
+                ledger.reserve(len(qs))
+                results, fails = await run_batch(qs, design=design, condition="compiled", database=database, processor=processor,
+                                                 manifest=manifest, catalog=catalog, gold=gold, db_sha=sha, concurrency=2, registry=registry)
+                ledger.charge(f"plumbing:{design}:{db}", results)
+                save_runs(out / "plumbing" / design / f"{db}.json", results, fails, meta)
+                print(f"[bird] plumbing {design}/{db}: dispatched={[int((r.dispatch or {}).get('compacted', 0)) for r in results]} "
+                      f"requests={[r.metrics['requests'] for r in results]} failures={len(fails)}", flush=True)
+        return 0
+
     if args.phase == "test":
         for design in designs:
             for db in dbs:
-                compile_path = out / design / db / "compile.json"
+                compile_path = source / design / db / "compile.json"
                 if not compile_path.exists() or json.loads(compile_path.read_text()).get("status") != "admitted":
                     continue
-                registry = Registry.load(out / design / db / "registry")
+                registry = Registry.load(source / design / db / "registry")
                 path = out / design / db / "evaluation.json"
                 done, failures = load_runs(path)
                 completed = {(r.condition, r.issue_number) for r in done}
                 database, catalog, manifest, sha = ctx(db, design)
                 test_ids = pre["selections"][db]["test"]
-                # As executed on 2026-10-08 the conditions ran in the fixed order of CONDITIONS for
-                # each family, NOT rotated by record as the protocol registered (the offset below
-                # changes nothing because every condition is queued for every record). The first
-                # baseline therefore ran with a colder provider prompt cache; the protocol records
-                # the deviation and the summary reports reductions against the warm repeat run.
-                plan: dict[str, list[dict[str, Any]]] = {c: [] for c in CONDITIONS}
+                # Order. The primary run (2026-10-08, ``--order fixed``) executed the conditions in
+                # the fixed order of CONDITIONS per family, not rotated by record as registered; the
+                # protocol records that deviation. ``--order rotated`` (the default from the
+                # extension protocol on) runs round r with record i in condition (i + r) mod 4, so
+                # every condition takes every position equally often across records.
+                rounds: list[list[tuple[str, dict[str, Any]]]] = [[] for _ in CONDITIONS]
                 for index, qid in enumerate(test_ids):
-                    for offset in range(len(CONDITIONS)):
-                        condition = CONDITIONS[(index + offset) % len(CONDITIONS)]
+                    for r in range(len(CONDITIONS)):
+                        condition = CONDITIONS[r] if args.order == "fixed" else CONDITIONS[(index + r) % len(CONDITIONS)]
                         if (condition, qid) not in completed:
-                            plan[condition].append(by_id[qid])
-                for condition in CONDITIONS:
-                    todo = plan[condition]
-                    if not todo:
-                        continue
-                    ledger.reserve(len(todo))
-                    results, fails = await run_batch(todo, design=design, condition=condition, database=database, processor=processor,
-                                                     manifest=manifest, catalog=catalog, gold=gold, db_sha=sha, concurrency=args.concurrency,
-                                                     registry=registry if condition == "compiled" else None)
-                    ledger.charge(f"test:{design}:{db}:{condition}", results)
-                    done.extend(results)
-                    failures.extend(fails)
-                    save_runs(path, done, failures, meta)
-                    print(f"[bird] test {design}/{db}/{condition}: {sum(r.quality['overall'] for r in results)}/{len(results)} "
-                          f"failures={len(fails)} spent={ledger.state['spent_usd']:.4f}", flush=True)
+                            rounds[r].append((condition, by_id[qid]))
+                for r, items in enumerate(rounds):
+                    for condition in CONDITIONS:
+                        todo = [q for c, q in items if c == condition]
+                        if not todo:
+                            continue
+                        ledger.reserve(len(todo))
+                        results, fails = await run_batch(todo, design=design, condition=condition, database=database, processor=processor,
+                                                         manifest=manifest, catalog=catalog, gold=gold, db_sha=sha, concurrency=args.concurrency,
+                                                         registry=registry if condition == "compiled" else None)
+                        ledger.charge(f"test:{design}:{db}:round{r}:{condition}", results)
+                        done.extend(results)
+                        failures.extend(fails)
+                        save_runs(path, done, failures, meta)
+                        print(f"[bird] test {design}/{db}/round{r}/{condition}: {sum(r_.quality['overall'] for r_ in results)}/{len(results)} "
+                              f"failures={len(fails)} spent={ledger.state['spent_usd']:.4f}", flush=True)
         return 0
     raise ValueError(args.phase)
 
@@ -826,18 +891,20 @@ def _paired_bootstrap(base: Sequence[float], cand: Sequence[float], seed: int = 
     return [stats_[int(0.025 * n)], stats_[int(0.975 * n) - 1]]
 
 
-def summarize(out: Path) -> dict[str, Any]:
+def summarize(out: Path, source: Path | None = None, *, table: bool = True) -> dict[str, Any]:
     from scipy.stats import binomtest
 
-    pre = json.loads((out / "preflight.json").read_text())
-    summary: dict[str, Any] = {"schema": "agent-compaction-bird-summary/v1", "model": MODEL, "designs": {}}
+    source = source or out
+    pre = json.loads((source / "preflight.json").read_text())
+    summary: dict[str, Any] = {"schema": "agent-compaction-bird-summary/v1", "model": MODEL, "split": SPLIT, "designs": {}}
     for design in DESIGNS:
         fam_out: dict[str, Any] = {}
         pooled: dict[str, list[Any]] = {c: [] for c in CONDITIONS}
-        for db in pre["families"]:
+        for db in study_families(pre):
             target = out / design / db
-            compile_record = json.loads((target / "compile.json").read_text()) if (target / "compile.json").exists() else None
-            discovery, disc_fail = load_runs(target / "discovery.json")
+            src = source / design / db
+            compile_record = json.loads((src / "compile.json").read_text()) if (src / "compile.json").exists() else None
+            discovery, disc_fail = load_runs(src / "discovery.json")
             entry: dict[str, Any] = {
                 "discovery_runs": len(discovery), "discovery_failures": len(disc_fail),
                 "discovery_execution_correct": sum(bool(r.quality["overall"]) for r in discovery),
@@ -866,7 +933,7 @@ def summarize(out: Path) -> dict[str, Any]:
                     pooled[c].extend(by[c][q] for q in common)
             fam_out[db] = entry
         design_out: dict[str, Any] = {"families": fam_out}
-        if pooled["baseline"]:
+        if pooled["baseline"] and pooled["compiled"]:
             base = {r.issue_number: r for r in pooled["baseline"]}
             comparisons: dict[str, Any] = {}
             warm = {r.issue_number: r for r in pooled["baseline_repeat"]}
@@ -907,7 +974,8 @@ def summarize(out: Path) -> dict[str, Any]:
     ledger_path = out / "ledger.json"
     summary["spent_usd"] = json.loads(ledger_path.read_text())["spent_usd"] if ledger_path.exists() else 0.0
     (out / "summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True, default=str) + "\n")
-    write_table(summary, pre)
+    if table:
+        write_table(summary, pre)
     return summary
 
 
@@ -962,9 +1030,87 @@ def write_table(summary: dict[str, Any], pre: dict[str, Any], out: Path = OUT_RO
     TABLE_PATH.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+
+EXTENSIONS_TABLE = ROOT / "paper/iclr/tables/bird_extensions.tex"
+
+
+def cache_neutral_cost(run_root: Path, model: str, reference: str) -> dict[str, Any] | None:
+    """Cost reduction with every input token priced at the uncached list rate (removes cache effects)."""
+    from demos.live_runtime import MODEL_PRICES
+
+    price = MODEL_PRICES[model if model in MODEL_PRICES else f"anthropic/{model}"]
+    rows: dict[str, dict[tuple[str, int], dict[str, Any]]] = {}
+    for path in sorted(run_root.glob("schema_first/*/evaluation.json")):
+        for r in json.loads(path.read_text())["results"]:
+            rows.setdefault(r["condition"], {})[(path.parent.name, int(r["issue_number"]))] = r
+    if not rows or any(c not in rows for c in CONDITIONS):
+        return None
+    keys = sorted(set.intersection(*(set(v) for v in rows.values())))
+    ref = "baseline_repeat" if reference == "warm" else "baseline"
+
+    def cost(r: dict[str, Any]) -> float:
+        m = r["metrics"]
+        return (m["input_tokens"] * price.input + m["output_tokens"] * price.output) / 1_000_000
+
+    base = [cost(rows[ref][k]) for k in keys]
+    comp = [cost(rows["compiled"][k]) for k in keys]
+    return {"n": len(keys), "reference": ref, "reduction": 1.0 - sum(comp) / sum(base), "ci95": _paired_bootstrap(base, comp)}
+RUNS = (  # (label, model, split, summary path, preflight path, reference for reductions)
+    ("Primary (fixed order)", "gpt-5.6-luna", "dev", "summary.json", "preflight.json", "warm"),
+    ("E1 rotated rerun", "gpt-5.6-luna", "dev", "rotated_rerun/summary.json", "preflight.json", "first"),
+    ("E2 second model", "gpt-6-luna", "dev", "replications/gpt-6-luna/summary.json", "replications/gpt-6-luna/preflight.json", "first"),
+    ("E3 second provider", "claude-sonnet-5", "dev", "replications/claude-sonnet-5/summary.json", "replications/claude-sonnet-5/preflight.json", "first"),
+    ("E4 train split", "gpt-5.6-luna", "train", "train/summary.json", "train/preflight.json", "first"),
+)
+
+
+def extensions_table(out: Path = OUT_ROOT) -> dict[str, Any]:
+    """One row per BIRD run: admissions per design, held-out accuracy, and reductions."""
+    rows: list[dict[str, Any]] = []
+    lines = ["% generated by paper/scripts/bird_sql_agent_study.py --phase extensions-table; do not edit",
+             r"\begin{tabular}{@{}llcccccrrrrr@{}}", r"\toprule",
+             r"Run & Model & DBs & Std. & S.-first & $n$ & Correct (base / GAC) & Requests & Tokens & Latency & Cost & Cost$^\ast$ \\", r"\midrule"]
+    for label, model, split, summary_rel, pre_rel, reference in RUNS:
+        path = out / summary_rel
+        if not path.exists():
+            continue
+        summary = json.loads(path.read_text())
+        pre = json.loads((out / pre_rel).read_text())
+        fams = study_families(pre)
+        admit = {d: sum(1 for db in fams if (summary["designs"][d]["families"].get(db) or {}).get("status") == "admitted") for d in DESIGNS}
+        if label.startswith("E1"):
+            admit = {d: None for d in DESIGNS}
+        comp = (summary["designs"]["schema_first"].get("pooled") or {}).get("compiled")
+        row = {"label": label, "model": model, "split": split, "databases": len(fams), "admitted": admit, "reference": reference}
+        if comp:
+            red = comp["reductions_vs_warm_repeat"] if reference == "warm" else comp["reductions"]
+            row.update({"n": comp["n"], "baseline_correct": comp["baseline_correct"], "compiled_correct": comp["candidate_correct"],
+                        "mcnemar_p": comp["mcnemar_exact_p"],
+                        "reductions": {m: 100 * red[m]["reduction"] for m in ("requests", "total_tokens", "wall_latency_ms", "estimated_cost_usd")}})
+            neutral = cache_neutral_cost(path.parent, model, reference)
+            row["cache_neutral_cost"] = neutral
+            row["reductions"]["cache_neutral_cost"] = 100 * neutral["reduction"] if neutral else None
+        rows.append(row)
+        def cell(v: Any) -> str:
+            return "---" if v is None else str(v)
+        if comp:
+            r = row["reductions"]
+            dagger = r"$^\dagger$"  # marks the warm-repeat reference; kept outside f-string expressions (Python 3.11)
+            tail = (f"{row['n']} & {row['baseline_correct']} / \\textbf{{{row['compiled_correct']}}} & "
+                    + " & ".join(f"{r[m]:.1f}\\%" + (dagger if reference == "warm" and m == "estimated_cost_usd" else "")
+                                 for m in ("requests", "total_tokens", "wall_latency_ms", "estimated_cost_usd", "cache_neutral_cost")))
+        else:
+            tail = "--- & --- & --- & --- & --- & --- & ---"
+        lines.append(f"{label} & \\code{{{model}}} & {len(fams)} & {cell(admit['standard'])} & {cell(admit['schema_first'])} & {tail} \\\\")
+    lines += [r"\bottomrule", r"\end{tabular}"]
+    EXTENSIONS_TABLE.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (out / "extensions_summary.json").write_text(json.dumps({"schema": "agent-compaction-bird-extensions/v1", "runs": rows},
+                                                            indent=2, sort_keys=True) + "\n")
+    return {"runs": rows}
+
 def main(argv: Sequence[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--phase", choices=("preflight", "smoke", "discovery", "compile", "test", "summarize"), default="preflight")
+    ap.add_argument("--phase", choices=("preflight", "smoke", "discovery", "compile", "plumbing", "test", "summarize", "extensions-table"), default="preflight")
     ap.add_argument("--design", choices=DESIGNS, default=None)
     ap.add_argument("--database", default=None)
     ap.add_argument("--approved-spend-usd", type=float, default=None)
@@ -972,7 +1118,14 @@ def main(argv: Sequence[str] | None = None) -> int:
     ap.add_argument("--batch", type=int, default=24)
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--out", type=Path, default=OUT_ROOT)
+    ap.add_argument("--source", type=Path, default=None, help="directory holding preflight, discovery, compile and registry (default: --out)")
+    ap.add_argument("--model", default="gpt-5.6-luna")
+    ap.add_argument("--split", choices=tuple(SPLIT_CONFIG), default="dev")
+    ap.add_argument("--order", choices=("rotated", "fixed"), default="rotated")
+    ap.add_argument("--protocol", default="paper/supplementary/bird-sql-agent-protocol.md")
+    ap.add_argument("--no-table", action="store_true", help="summarize without rewriting the paper table (replications)")
     args = ap.parse_args(argv)
+    configure(model=args.model, split=args.split)
     if args.phase == "preflight":
         report = preflight(args.out)
         print(json.dumps({"families": report["families"], "tables": {d: len(v["tables"]) for d, v in report["databases"].items()},
@@ -980,10 +1133,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 0
     if args.phase == "compile":
         pre = json.loads((args.out / "preflight.json").read_text())
-        compile_phase(args.out, [args.design] if args.design else list(DESIGNS), [args.database] if args.database else list(pre["families"]))
+        compile_phase(args.out, [args.design] if args.design else list(DESIGNS), [args.database] if args.database else study_families(pre))
+        return 0
+    if args.phase == "extensions-table":
+        print(json.dumps(extensions_table(), indent=1, default=str)[:3000])
         return 0
     if args.phase == "summarize":
-        print(json.dumps(summarize(args.out), indent=1, default=str)[:4000])
+        print(json.dumps(summarize(args.out, args.source, table=not args.no_table), indent=1, default=str)[:4000])
         return 0
     return asyncio.run(live(args))
 
