@@ -1,38 +1,33 @@
-Tool-using agents often invoke a model at every step, even along recurrent
-read\nobreakdash-only paths. Replacing repeated reasoning with deterministic execution could
-reduce inference cost, but recurrence alone does not make substitution safe:
-tool arguments may depend on prior observations, apparently read\nobreakdash-only operations
-may hide effects, and replaying the same calls may still alter the final answer.
-Recurrence identifies an optimization opportunity, not permission to remove
-reasoning.
+Tool-using agents often call a language model at every step, even when they
+repeat the same read\nobreakdash-only lookups. Replacing that repeated reasoning with a
+fixed program could cut cost, but repetition alone does not make it safe: a
+tool argument may depend on an earlier result, a ``read-only'' tool may have
+side effects, and replaying the same calls may still change the final answer.
 
-We introduce \emph{guarded agentic compaction} (\method), an evidence-gated
-approach that compiles recurrent execution paths into deterministic programs
-only when substitution is justified. \method compiles initial read\nobreakdash-only prefixes
-only: it grounds tool arguments in observable state, treats writes, approvals,
-handoffs, and unknown effects as hard barriers, wraps compiled execution in
-input, output, and environment checks, and admits specialization only when
-finite-sample evidence satisfies configured risk and confidence requirements.
-Otherwise, it retains the largest justified prefix when possible or falls back
-to the unchanged agent. Admission certificates are exact finite-sample bounds under i.i.d.\
-calibration groups. For the primary families they bound the compiled region's
-replay contract, an event with no empirical support on these deterministic
-pinned-snapshot cohorts, so they certify support sufficiency (92 groups) rather
-than an observed risk; one post-cutoff study certifies the end-to-end task
-contract on fresh open or merged pull requests (0 misses in 132 groups; bound
-0.0173 under its single pre-registered rule, 0.035 under the primary grid).
+We introduce \emph{guarded agentic compaction} (\method), which compiles the
+recurring read\nobreakdash-only opening of an agent's workflow into a deterministic
+program only when the evidence justifies it, and otherwise leaves the agent
+unchanged. \method traces every tool argument to observed data, treats writes,
+approvals, handoffs, and unknown effects as hard stops, checks inputs and
+outputs at run time, and deploys a program only after enough independent
+examples pass a statistical test.
 
-On 90 held-out records across three live GitHub workflow families, both arms
-preserve the exact task contract (\method 90/90, the unchanged agent 89/90; zero
-compiled-only misses, one-sided bound 3.3\%), while \method reduces model requests by 66.6\%, tokens by 63.1\%, latency by 64.2\%, and estimated cost by 58.7\% per episode within one snapshot. On newer held-out records across five frozen public repositories it specializes
-four and refuses one whose discovery pool is class-skewed. On four public trace benchmarks, NESTFUL, API-Bank, and BFCL v4 contain recurrent,
-replayable traces but insufficient qualifying evidence to satisfy \method's default 0.05
-risk bound at the required confidence, whereas AppWorld provides sufficient evidence for
-admission. On a second model family and a second provider, the unchanged pipeline
-re-derives the identical programs from each model's own traces on two of the three families
-and refuses the third. Under tool-layer drift the guards showed no measured
-protective value.
+On three real GitHub workflows, the compiled agent matched the original
+agent's accuracy (90 of 90 held-out tasks correct, versus 89 of 90) and never
+failed a task the original agent solved, while making about two-thirds fewer
+model calls, finishing in about a third of the time, and costing less than
+half as much per task. On 132 fresh pull requests created after our data
+snapshot, it made no end-to-end errors, which bounds its error rate below 2\%
+with 90\% confidence for open and merged pull requests. \method also refuses
+when evidence is thin: three public tool-use benchmarks contain repeated
+workflows but at most 26 examples of any one, against the 92 \method
+requires, so it compiles nothing there, while a fourth, AppWorld, has enough
+for one small program. With a second model family and a second provider,
+\method rediscovers the same programs on two of three workflows and declines
+the third. We also report its limits: its main guarantee mostly confirms that
+enough examples were seen, the savings hold within one data snapshot, and
+when tool outputs were deliberately corrupted its run-time checks prevented
+no wrong answers.
 
 \method reframes agent optimization as evidence-gated specialization: compile
-only what is justified, dispatch only when runtime conditions remain valid, and
-preserve model reasoning everywhere else.
+only what is justified, and keep the model's reasoning everywhere else.
