@@ -967,6 +967,52 @@ on the newer cleaned development set.
   \input{tables/bird_denominators.tex}
 \end{table}
 
+\paragraph{How much quality loss remains compatible with the data?}
+The all-scheduled audit supports a retrospective uncertainty analysis
+(\cref{tab:bird-quality-sensitivity}), without selecting a noninferiority margin
+after seeing the results. Let $p_+$ denote the probability of a compiled-only
+correct answer and $p_-$ a baseline-only correct answer. The paired accuracy
+difference is $\Delta=p_+-p_-$. Construct a two-sided 97.5\% Clopper--Pearson
+interval for each probability \citep{clopper1934binomial}; if their endpoints are
+$[L_+,U_+]$ and $[L_-,U_-]$, then $[L_+-U_-,U_+-L_-]$ covers $\Delta$ with
+at least 95\% probability under i.i.d.\ question pairs, by a union bound.
+Dependence between the gain and loss indicators within a pair is allowed.
+These conservative, pointwise intervals are wider than the primary study's
+paired bootstrap interval; neither construction proves the sampling assumption.
+They are not simultaneous across the four rows, and overlapping primary,
+rotated, and second-model questions are not pooled as independent evidence.
+
+\begin{table}[t]
+  \centering
+  \caption{Retrospective BIRD quality sensitivity on all scheduled questions.
+  All differences are compiled minus unchanged, in percentage points.
+  Intervals assume i.i.d.\ question pairs. ``Delete-one'' omits each entire
+  database in turn; it is a descriptive range, not a confidence interval.
+  The last column counts databases with positive, zero, or negative differences.}
+  \label{tab:bird-quality-sensitivity}
+  \footnotesize
+  \resizebox{\linewidth}{!}{\input{tables/bird_quality_sensitivity.tex}}
+\end{table}
+
+The training interval allows a loss of 3.27 points or a gain of 2.96 points.
+Deleting one database keeps its observed difference between $-0.50$ and
+$+0.33$ points; 5 databases favor the compiled agent, 10 tie, and 6 favor the
+unchanged agent. The second-model difference changes sign under a database
+deletion. This tests concentration of the observed result, without treating
+the selected databases as a random sample or establishing generalization to
+new databases. The retained script \path{paper/scripts/bird_quality_sensitivity.py}
+regenerates the intervals, database deletions, and source hashes.
+
+\paragraph{Sensitivity to missing execution cost.}
+The same training records retain \$0.891759 of estimated cost for 630 completed
+baseline runs and \$0.728806 for 629 completed compiled runs. Let $u\ge0$ be
+the unrecorded cost of the single failed compiled execution, priced with the
+same frozen rate card. Net evaluation savings are then
+\$0.162952 minus $u$, so they are positive only if $u<\$0.162952$.
+This is a break-even condition, not evidence that the unknown cost satisfies
+it. It includes the failure's quality penalty above but cannot recover its
+missing usage; discovery, recompilation, and maintenance remain excluded.
+
 \subsection{The registered gate is a support threshold}
 
 This audit strengthens the evidentiary record precisely by preserving the

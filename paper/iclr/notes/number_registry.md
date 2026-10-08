@@ -73,3 +73,11 @@ Rows marked "not pinned" are candidates for the next validator extension.
 | 810, 1 | Six specified GitHub studies, compiled-only failures; includes 120 extended and 60 post-cutoff episodes beyond the older 630 subset | Per-record outputs of the six studies | `validate_live_extensions` |
 | 39, 40 | Drift wrong-answer records under original versus corrected grader | `drift_continuation_graded/results.json` and disclosed substring artifact | Original grading preserved; correction distinguished |
 | 411, 183, 181 | Primary discovery-cost break-even episodes | `paper/results/cache_accounting.json` (ceiling of break-even episodes) | Retained resource audit; README corrected |
+
+## Additional existing-data sensitivity analysis
+
+| Number(s) | Meaning | Source | Checked by |
+|---|---|---|---|
+| [-4.40, +8.18]; [-2.53, +10.11]; [-5.44, +7.97]; [-3.27, +2.96] pp | Pointwise conservative paired 95% intervals, primary / rotated / second model / training; conditional on iid question pairs | `bird/quality_sensitivity.json` | `bird_quality_sensitivity.py`, tests, validator |
+| [-0.50, +0.33] pp; 5/10/6 | Training whole-database deletion range; positive / zero / negative database differences | `bird/quality_sensitivity.json` | same |
+| $0.891759; $0.728806; $0.162952 | Training completed baseline / compiled evaluation cost; maximum unrecorded net compiled cost before savings reverse | `bird/quality_sensitivity.json` | same |

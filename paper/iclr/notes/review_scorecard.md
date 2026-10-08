@@ -2,7 +2,7 @@
 
 ## Assessment
 
-**76/100: borderline for ICLR; not a confident acceptance recommendation.**
+**79/100: borderline for ICLR; not a confident acceptance recommendation.**
 This is a diagnostic judgment, not an official ICLR score or an acceptance
 probability. It supersedes the August assessment and the historical 94/100
 review. The assessment follows the [ICLR reviewer criteria](https://iclr.cc/Conferences/2027/ReviewerGuidelines):
@@ -11,11 +11,47 @@ technical soundness, evidence, contribution, clarity, and reproducibility.
 | Dimension | Score | Reason |
 |---|---:|---|
 | Technical soundness | 21/25 | The fixed-candidate, fixed-grid binomial argument is valid under its stated i.i.d. assumptions. Runtime effects and clean fallback are carefully bounded. Most certificates cover replay rather than final task quality. |
-| Empirical evidence | 19/30 | Paired live results, public SQL tasks, refusals, and adverse outcomes are valuable. Selection, dependence, modest effective sample sizes, missing comparisons, and absence of a demonstrated risk–coverage frontier limit the inference. |
+| Empirical evidence | 21/30 | Paired live results, public SQL tasks, refusals, and adverse outcomes are valuable. The added all-scheduled uncertainty, database-deletion, and missing-cost analyses make robustness and unresolved losses explicit. Selection, dependence, missing comparisons, and absence of a demonstrated risk–coverage frontier still limit the inference. |
 | Originality and significance | 14/20 | The integration of provenance, effect barriers, and statistical admission is useful systems work. The statistical result is standard; the benefit of the learned gate and the prevalence of suitable workflows remain unestablished. |
-| Clarity and claim discipline | 13/15 | The revision corrects denominator handling and overclaims, separates empirical accuracy from certified risk, and removes repetitive appendix material. The appendix remains substantial because it contains many distinct studies. |
+| Clarity and claim discipline | 14/15 | The revision corrects denominator handling and overclaims, quantifies how much quality loss remains compatible with the data, separates empirical accuracy from certified risk, and removes repetitive appendix material. The appendix remains substantial because it contains many distinct studies. |
 | Reproducibility | 9/10 | Retained records, source digests, deterministic tables, and validators provide strong auditability. Historical provider execution cannot be recreated exactly; raw mirrors and an anonymous submission bundle require separate preparation. |
-| **Total** | **76/100** | **Editorial corrections improve reliability; they do not supply the missing experiments.** |
+| **Total** | **79/100** | **Existing-data analyses strengthen the case; they do not supply the missing experiments.** |
+
+The initial audit rated the revision 76/100. The author then asked whether
+existing evidence could support 85. The added analyses below justify a modest
+increase (two evidence points and one clarity point), not an 85/100 rating.
+These are subjective rubric judgments, not measured score improvements.
+
+### What the existing data can and cannot add
+
+`paper/scripts/bird_quality_sensitivity.py` now reconstructs four cohorts from
+the retained run records, preserving each arm's own failures. It adds:
+
+- Conservative paired accuracy intervals, formed from 97.5% Clopper–Pearson
+  intervals for compiled-only and baseline-only successes. A union bound gives
+  at least 95% pointwise coverage under i.i.d. question pairs. The primary
+  interval is **[-4.40, +8.18] percentage points**, second-model
+  **[-5.44, +7.97]**, and training **[-3.27, +2.96]**. These are intentionally
+  conservative and do not replace the separately labeled bootstrap result.
+- Whole-database deletion sensitivity. The training difference remains between
+  **-0.50 and +0.33 points**; five databases favor GAC, ten tie, and six favor
+  baseline. The second-model difference changes sign under deletion. This is
+  descriptive robustness, not a cluster confidence interval.
+- A missing-cost break-even calculation. Training evaluation savings equal
+  **$0.162952 minus the unrecorded cost of the failed compiled run**, at the
+  frozen prices. Its sign is conditional; full lifecycle cost remains unknown.
+- Source hashes, generated table/JSON, boundary and finite multinomial coverage
+  tests, and artifact regeneration checks. No overlapping cohorts are pooled,
+  no noninferiority margin is chosen after observing results, and no provider
+  calls are made.
+
+The learned-gate evidence was re-examined too. At 92 calibration groups the
+registered gate cannot certify intermediate coverage, and the prospective
+comparison reports the same completed-answer quality and nearly identical
+dispatch as support-only. Reanalysis cannot turn this into a demonstrated
+selective frontier. Nor can the retained manual or recurrence-only comparators
+be relabeled as an evaluated automated workflow-reuse system. Reaching 85 is
+therefore not supported by the present evidence under this rubric.
 
 ## Scope and method
 
@@ -198,15 +234,16 @@ review worktree, using its linked repository environment.
 
 | Command/check | Result |
 |---|---|
-| `PYTHONPATH=src .venv/bin/python -m pytest -o addopts='' -q` | 528 passed, 3 skipped in 155.90 seconds. The skipped tests required the untracked BIRD dev cache. |
+| `PYTHONPATH=src .venv/bin/python -m pytest -o addopts='' -q` | 534 passed in 168.19 seconds after connecting the pinned BIRD cache and adding the sensitivity tests. The earlier cache-free run had 528 passed and 3 skipped. |
 | Same pytest invocation on `paper/scripts/test_bird_sql_agent_study.py`, after connecting the pinned cache | 5 passed, including all three initially skipped tests. |
+| New paired-sensitivity and denominator tests | 5 passed; zero-discordance uncertainty, gain/loss symmetry, exact small-sample multinomial coverage, missing compiled outcomes, database deletion, and cost break-even checked. |
 | Focused denominator/projection tests | 14 passed; comparator timeouts, compiled failure, wrong source digest, missing calibration rows, and numerical regeneration covered. |
 | `PYTHONPATH=src .venv/bin/python paper/scripts/audit_bird_sql_spotchecks.py` | 10/10 retained labels reproduced: one correct and one incorrect compiled answer per primary database. Archive, nested archive, question file, and all five SQLite hashes verified. Records retained in `paper/results/bird/sql_spotcheck_audit.json`. This is sampled reexecution with the existing grader, not an independent implementation or exhaustive SQL regrade. |
-| `PYTHONPATH=src .venv/bin/python paper/scripts/validate_artifacts.py` | Passed after regenerating the publication manifest; initial missing-mirror failures repaired. |
+| `PYTHONPATH=src .venv/bin/python paper/scripts/validate_artifacts.py` | 5,173 passed, 0 failed after regenerating the publication manifest; initial missing-mirror failures repaired. |
 | `PYTHONPATH=src .venv/bin/python scripts/verify_release.py` | Passed; three documented checks of untracked generated `docs/` were skipped. |
 | `.venv/bin/python scripts/build_article_page.py` and `.venv/bin/python scripts/build_pages.py --output _site` | Article HTML refreshed; site valid, 9 HTML pages and 32 paths. |
 | `.venv/bin/python -m build --outdir /tmp/gac-audit-dist` | Wheel and source distribution built successfully. |
-| `tectonic --keep-logs --keep-intermediates --outdir build main.tex` in `paper/iclr/` | Anonymous ICLR PDF rebuilt; main text ends on page 10; 41 pages total versus 46 before review. No unresolved references, overflowing boxes, or duplicate PDF destinations in the final build. |
+| `tectonic --keep-logs --keep-intermediates --outdir build main.tex` in `paper/iclr/` | Anonymous ICLR PDF rebuilt; main text ends on page 10; 42 pages total versus 46 before review. No unresolved references, overflowing boxes, or duplicate PDF destinations in the final build. |
 | Corresponding Tectonic commands for `paper/tex/article.tex` and `main.tex`, output to `paper/open_research/` | Both wrappers rebuilt, 60 and 38 pages. No unresolved-reference markers. The ACM wrapper retains its existing Inconsolata font-shape substitution warnings. |
 | Visual inspection | Contact sheets of every ICLR page plus larger views of changed architecture, algorithms, results, and evidence index; no clipping observed. |
 | `.venv/bin/python paper/scripts/finalize_manifest.py`; `git diff --check` | Publication checksums refreshed; whitespace check passed. |

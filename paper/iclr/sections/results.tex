@@ -106,14 +106,13 @@ shows where \method helps (\cref{app:bird}): on the five dev databases with at l
 admits the schema-first opening on all five. On 150 sealed questions the
 compiled agent dispatched every time, answered 97 correctly against 94 (McNemar
 $p=0.45$), and cut requests 44.9\% and latency 29.4\% against a warm rerun of the
-unchanged agent. This replicates on a
-second model family (93 against 91 correct out of 150) and on 21 of 26 training databases
-(402 against 403 correct out of all 630 scheduled questions). The historical
-complete-case analysis reports 49.9\% fewer requests on the second model and
-45.9\% fewer requests and 18.1\% lower cost on the training split; exclusions
-and all-scheduled counts are in \cref{tab:bird-denominators}. A second
-provider's agent never ran the opening as a fixed step and was refused
-(\cref{tab:bird-extensions}).
+unchanged agent. Retrospective all-scheduled counts are 93 against 91 of 150
+on a second model, and 402 against 403 of 630 on 21 of 26 training databases.
+Requests fall 49.6\% and 45.8\% on 150 and 629 completed pairs, respectively.
+A conservative paired 95\% interval for the training difference is
+$[-3.27,+2.96]$ points under i.i.d.\ pairs; \cref{tab:bird-quality-sensitivity}
+reports database sensitivity. A second provider's agent never ran a fixed
+opening and was refused (\cref{tab:bird-extensions}).
 
 \subsection{Where \method yields no measured benefit: NESTFUL and AppWorld}
 \label{sec:res-refusal}

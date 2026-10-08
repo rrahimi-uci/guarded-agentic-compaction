@@ -1,0 +1,591 @@
+{
+  "analysis": "retrospective; no new executions or chosen noninferiority margin",
+  "cohorts": {
+    "primary": {
+      "completed_run_estimated_cost_usd": {
+        "baseline": 0.2394507,
+        "compiled": 0.19764999
+      },
+      "database_signs": {
+        "negative": 1,
+        "positive": 3,
+        "zero": 1
+      },
+      "databases": [
+        {
+          "database": "card_games",
+          "gains": 1,
+          "losses": 0,
+          "n": 30
+        },
+        {
+          "database": "codebase_community",
+          "gains": 0,
+          "losses": 0,
+          "n": 30
+        },
+        {
+          "database": "formula_1",
+          "gains": 2,
+          "losses": 0,
+          "n": 30
+        },
+        {
+          "database": "student_club",
+          "gains": 0,
+          "losses": 2,
+          "n": 30
+        },
+        {
+          "database": "thrombosis_prediction",
+          "gains": 2,
+          "losses": 0,
+          "n": 30
+        }
+      ],
+      "difference": 0.02,
+      "gains": 5,
+      "leave_one_database_out": [
+        {
+          "difference": 0.016666666666666666,
+          "omitted_database": "card_games"
+        },
+        {
+          "difference": 0.025,
+          "omitted_database": "codebase_community"
+        },
+        {
+          "difference": 0.008333333333333333,
+          "omitted_database": "formula_1"
+        },
+        {
+          "difference": 0.041666666666666664,
+          "omitted_database": "student_club"
+        },
+        {
+          "difference": 0.008333333333333333,
+          "omitted_database": "thrombosis_prediction"
+        }
+      ],
+      "leave_one_database_out_range": [
+        0.008333333333333333,
+        0.041666666666666664
+      ],
+      "losses": 2,
+      "missing_runs": {
+        "baseline": 0,
+        "compiled": 0
+      },
+      "n": 150,
+      "pointwise_iid_conservative_ci95": [
+        -0.04395022611341447,
+        0.08180249166001279
+      ],
+      "source_sha256": {
+        "evaluation/schema_first/card_games/evaluation.json": "7690504008a41bf462a8d5d632fac141f20fad3a8f641e11c91be73118251ded",
+        "evaluation/schema_first/codebase_community/evaluation.json": "89fad2ff4d5c69f3f543d2e0f83b7eba5b8be02252afd7683da9db2e854cbe22",
+        "evaluation/schema_first/formula_1/evaluation.json": "09959dc2e7ebf94ddcdc8cf99468d26df5baaa4226c82c20571218001fab0a21",
+        "evaluation/schema_first/student_club/evaluation.json": "de286aa3a7fef49933b9d487562e99b46a5669fd44377a0872e9de5d917ec54b",
+        "evaluation/schema_first/thrombosis_prediction/evaluation.json": "05007151cddbc2c0e0b05f3e3c0e799ef91b5c939b865d6654b2fc680ce60b31",
+        "selection/preflight.json": "df622a325a963ce18689c58ed59d3d46457f39002a66c9d324989e419723e076",
+        "selection/schema_first/card_games/compile.json": "63999ecadc1a219aab29c75b66ac14db978f725184bb283d627ed1186db937c9",
+        "selection/schema_first/codebase_community/compile.json": "abb9845b63ff928dfc229e321f61c6733cd3853de4bd72b8900056875004f864",
+        "selection/schema_first/formula_1/compile.json": "04fba96d7e44d2f9f13efeccb3e4ed6fcf63d17be776e6eb8c8ff83254d4e632",
+        "selection/schema_first/student_club/compile.json": "f893097ecb9b957463f1800cd56792061c8dd2cbf5da3f56a155b928e14dd377",
+        "selection/schema_first/thrombosis_prediction/compile.json": "c8f3e4af0a2ac787149f72e72922ceee730d7b770e8b856acbb4653d6fa5fce5"
+      },
+      "unrecorded_net_compiled_cost_break_even_usd": 0.04180070999999999
+    },
+    "rotated": {
+      "completed_run_estimated_cost_usd": {
+        "baseline": 0.23194505,
+        "compiled": 0.19440746
+      },
+      "database_signs": {
+        "negative": 1,
+        "positive": 3,
+        "zero": 1
+      },
+      "databases": [
+        {
+          "database": "card_games",
+          "gains": 4,
+          "losses": 0,
+          "n": 30
+        },
+        {
+          "database": "codebase_community",
+          "gains": 0,
+          "losses": 0,
+          "n": 30
+        },
+        {
+          "database": "formula_1",
+          "gains": 2,
+          "losses": 0,
+          "n": 30
+        },
+        {
+          "database": "student_club",
+          "gains": 1,
+          "losses": 0,
+          "n": 30
+        },
+        {
+          "database": "thrombosis_prediction",
+          "gains": 0,
+          "losses": 1,
+          "n": 30
+        }
+      ],
+      "difference": 0.04,
+      "gains": 7,
+      "leave_one_database_out": [
+        {
+          "difference": 0.016666666666666666,
+          "omitted_database": "card_games"
+        },
+        {
+          "difference": 0.05,
+          "omitted_database": "codebase_community"
+        },
+        {
+          "difference": 0.03333333333333333,
+          "omitted_database": "formula_1"
+        },
+        {
+          "difference": 0.041666666666666664,
+          "omitted_database": "student_club"
+        },
+        {
+          "difference": 0.058333333333333334,
+          "omitted_database": "thrombosis_prediction"
+        }
+      ],
+      "leave_one_database_out_range": [
+        0.016666666666666666,
+        0.058333333333333334
+      ],
+      "losses": 1,
+      "missing_runs": {
+        "baseline": 0,
+        "compiled": 0
+      },
+      "n": 150,
+      "pointwise_iid_conservative_ci95": [
+        -0.025343527682644827,
+        0.10111308979335254
+      ],
+      "source_sha256": {
+        "evaluation/schema_first/card_games/evaluation.json": "88507208bb6be5f1e69154920b1b14b5c7dc497d40859058596e00881601451e",
+        "evaluation/schema_first/codebase_community/evaluation.json": "d4e6af8db55128562537dc2c36d7a5fdd73beca41c7a8935931ae6a3a66c6fb4",
+        "evaluation/schema_first/formula_1/evaluation.json": "a99f3cbc4b29e80289813d2dd97cd64734eabb0d794e7d659336f69b34cbf8c7",
+        "evaluation/schema_first/student_club/evaluation.json": "5744ceefbc6ce2c3678a273aaa9dc14fb4bd8a12d54467be9f071a3cd869aef5",
+        "evaluation/schema_first/thrombosis_prediction/evaluation.json": "71d7daf0591236413cc0bdc28d24b1473a52a86530d9844d5166cc537e2c3f49",
+        "selection/preflight.json": "df622a325a963ce18689c58ed59d3d46457f39002a66c9d324989e419723e076",
+        "selection/schema_first/card_games/compile.json": "63999ecadc1a219aab29c75b66ac14db978f725184bb283d627ed1186db937c9",
+        "selection/schema_first/codebase_community/compile.json": "abb9845b63ff928dfc229e321f61c6733cd3853de4bd72b8900056875004f864",
+        "selection/schema_first/formula_1/compile.json": "04fba96d7e44d2f9f13efeccb3e4ed6fcf63d17be776e6eb8c8ff83254d4e632",
+        "selection/schema_first/student_club/compile.json": "f893097ecb9b957463f1800cd56792061c8dd2cbf5da3f56a155b928e14dd377",
+        "selection/schema_first/thrombosis_prediction/compile.json": "c8f3e4af0a2ac787149f72e72922ceee730d7b770e8b856acbb4653d6fa5fce5"
+      },
+      "unrecorded_net_compiled_cost_break_even_usd": 0.03753759000000001
+    },
+    "second_model": {
+      "completed_run_estimated_cost_usd": {
+        "baseline": 0.09167844,
+        "compiled": 0.0863157
+      },
+      "database_signs": {
+        "negative": 2,
+        "positive": 3,
+        "zero": 0
+      },
+      "databases": [
+        {
+          "database": "card_games",
+          "gains": 0,
+          "losses": 2,
+          "n": 30
+        },
+        {
+          "database": "codebase_community",
+          "gains": 1,
+          "losses": 0,
+          "n": 30
+        },
+        {
+          "database": "formula_1",
+          "gains": 1,
+          "losses": 0,
+          "n": 30
+        },
+        {
+          "database": "student_club",
+          "gains": 0,
+          "losses": 1,
+          "n": 30
+        },
+        {
+          "database": "thrombosis_prediction",
+          "gains": 3,
+          "losses": 0,
+          "n": 30
+        }
+      ],
+      "difference": 0.013333333333333334,
+      "gains": 5,
+      "leave_one_database_out": [
+        {
+          "difference": 0.03333333333333333,
+          "omitted_database": "card_games"
+        },
+        {
+          "difference": 0.008333333333333333,
+          "omitted_database": "codebase_community"
+        },
+        {
+          "difference": 0.008333333333333333,
+          "omitted_database": "formula_1"
+        },
+        {
+          "difference": 0.025,
+          "omitted_database": "student_club"
+        },
+        {
+          "difference": -0.008333333333333333,
+          "omitted_database": "thrombosis_prediction"
+        }
+      ],
+      "leave_one_database_out_range": [
+        -0.008333333333333333,
+        0.03333333333333333
+      ],
+      "losses": 3,
+      "missing_runs": {
+        "baseline": 0,
+        "compiled": 0
+      },
+      "n": 150,
+      "pointwise_iid_conservative_ci95": [
+        -0.054379990307315926,
+        0.07974277032970507
+      ],
+      "source_sha256": {
+        "evaluation/schema_first/card_games/evaluation.json": "9ba9fcb40ed3c2843fa99e300d17bfd0e45b3adb64e6a84a2cf99ecb52aa26b6",
+        "evaluation/schema_first/codebase_community/evaluation.json": "6b3028ed76015f2b88881de2b865b42c01ff8d999ad6d376013be662587d87ff",
+        "evaluation/schema_first/formula_1/evaluation.json": "e533ca27daf11834d1518fff147cebd863f509f2023e8d7abe567ae93c3d8937",
+        "evaluation/schema_first/student_club/evaluation.json": "f3ea15f12e585e9fc9d042de470088ce9b20872b00159ecb824b1c7aad870c1b",
+        "evaluation/schema_first/thrombosis_prediction/evaluation.json": "180bc3b0bbf8b04d3178047252fca3614a143670169816508adfe3ad8ebfb6e0",
+        "selection/preflight.json": "2486fe83b41c2cc9b3fee012f1270a7aae6167ea7f0f52be00a9b9a1b10fabb8",
+        "selection/schema_first/card_games/compile.json": "d06ff96ada82cefa3ada3f4fc7fc82b483bf823e8203ec955865411547b97f14",
+        "selection/schema_first/codebase_community/compile.json": "4dd84421374d70fde1e83c122f1ab526f2ce446a2d9a54f580cd72b37a6837c5",
+        "selection/schema_first/formula_1/compile.json": "ee5b552f05fdfc93ae995db9a559caa9dcb1df17362036d59126a9ab01e235ae",
+        "selection/schema_first/student_club/compile.json": "5c9959ebe6cbb32408cdbc35160ac8ef3a3a6d194faebb117576f5b57cb1b296",
+        "selection/schema_first/thrombosis_prediction/compile.json": "35a017a6aabf605979c64e998596cc2e24f1cab23aaac4a2af1acd428ee1e012"
+      },
+      "unrecorded_net_compiled_cost_break_even_usd": 0.005362740000000005
+    },
+    "train": {
+      "completed_run_estimated_cost_usd": {
+        "baseline": 0.89175875,
+        "compiled": 0.72880636
+      },
+      "database_signs": {
+        "negative": 6,
+        "positive": 5,
+        "zero": 10
+      },
+      "databases": [
+        {
+          "database": "address",
+          "gains": 3,
+          "losses": 1,
+          "n": 30
+        },
+        {
+          "database": "authors",
+          "gains": 1,
+          "losses": 1,
+          "n": 30
+        },
+        {
+          "database": "books",
+          "gains": 1,
+          "losses": 1,
+          "n": 30
+        },
+        {
+          "database": "chicago_crime",
+          "gains": 2,
+          "losses": 0,
+          "n": 30
+        },
+        {
+          "database": "donor",
+          "gains": 0,
+          "losses": 1,
+          "n": 30
+        },
+        {
+          "database": "legislator",
+          "gains": 0,
+          "losses": 2,
+          "n": 30
+        },
+        {
+          "database": "movie_3",
+          "gains": 1,
+          "losses": 1,
+          "n": 30
+        },
+        {
+          "database": "movie_platform",
+          "gains": 0,
+          "losses": 1,
+          "n": 30
+        },
+        {
+          "database": "professional_basketball",
+          "gains": 0,
+          "losses": 0,
+          "n": 30
+        },
+        {
+          "database": "public_review_platform",
+          "gains": 0,
+          "losses": 0,
+          "n": 30
+        },
+        {
+          "database": "regional_sales",
+          "gains": 1,
+          "losses": 3,
+          "n": 30
+        },
+        {
+          "database": "retail_complains",
+          "gains": 0,
+          "losses": 0,
+          "n": 30
+        },
+        {
+          "database": "retails",
+          "gains": 1,
+          "losses": 1,
+          "n": 30
+        },
+        {
+          "database": "simpson_episodes",
+          "gains": 0,
+          "losses": 0,
+          "n": 30
+        },
+        {
+          "database": "soccer_2016",
+          "gains": 2,
+          "losses": 0,
+          "n": 30
+        },
+        {
+          "database": "student_loan",
+          "gains": 1,
+          "losses": 1,
+          "n": 30
+        },
+        {
+          "database": "synthea",
+          "gains": 2,
+          "losses": 1,
+          "n": 30
+        },
+        {
+          "database": "talkingdata",
+          "gains": 0,
+          "losses": 3,
+          "n": 30
+        },
+        {
+          "database": "university",
+          "gains": 0,
+          "losses": 1,
+          "n": 30
+        },
+        {
+          "database": "video_games",
+          "gains": 2,
+          "losses": 0,
+          "n": 30
+        },
+        {
+          "database": "world_development_indicators",
+          "gains": 0,
+          "losses": 0,
+          "n": 30
+        }
+      ],
+      "difference": -0.0015873015873015873,
+      "gains": 17,
+      "leave_one_database_out": [
+        {
+          "difference": -0.005,
+          "omitted_database": "address"
+        },
+        {
+          "difference": -0.0016666666666666668,
+          "omitted_database": "authors"
+        },
+        {
+          "difference": -0.0016666666666666668,
+          "omitted_database": "books"
+        },
+        {
+          "difference": -0.005,
+          "omitted_database": "chicago_crime"
+        },
+        {
+          "difference": 0.0,
+          "omitted_database": "donor"
+        },
+        {
+          "difference": 0.0016666666666666668,
+          "omitted_database": "legislator"
+        },
+        {
+          "difference": -0.0016666666666666668,
+          "omitted_database": "movie_3"
+        },
+        {
+          "difference": 0.0,
+          "omitted_database": "movie_platform"
+        },
+        {
+          "difference": -0.0016666666666666668,
+          "omitted_database": "professional_basketball"
+        },
+        {
+          "difference": -0.0016666666666666668,
+          "omitted_database": "public_review_platform"
+        },
+        {
+          "difference": 0.0016666666666666668,
+          "omitted_database": "regional_sales"
+        },
+        {
+          "difference": -0.0016666666666666668,
+          "omitted_database": "retail_complains"
+        },
+        {
+          "difference": -0.0016666666666666668,
+          "omitted_database": "retails"
+        },
+        {
+          "difference": -0.0016666666666666668,
+          "omitted_database": "simpson_episodes"
+        },
+        {
+          "difference": -0.005,
+          "omitted_database": "soccer_2016"
+        },
+        {
+          "difference": -0.0016666666666666668,
+          "omitted_database": "student_loan"
+        },
+        {
+          "difference": -0.0033333333333333335,
+          "omitted_database": "synthea"
+        },
+        {
+          "difference": 0.0033333333333333335,
+          "omitted_database": "talkingdata"
+        },
+        {
+          "difference": 0.0,
+          "omitted_database": "university"
+        },
+        {
+          "difference": -0.005,
+          "omitted_database": "video_games"
+        },
+        {
+          "difference": -0.0016666666666666668,
+          "omitted_database": "world_development_indicators"
+        }
+      ],
+      "leave_one_database_out_range": [
+        -0.005,
+        0.0033333333333333335
+      ],
+      "losses": 18,
+      "missing_runs": {
+        "baseline": 0,
+        "compiled": 1
+      },
+      "n": 630,
+      "pointwise_iid_conservative_ci95": [
+        -0.032725692241599984,
+        0.029580632997976142
+      ],
+      "source_sha256": {
+        "evaluation/schema_first/address/evaluation.json": "53e34a71e103d6f7f079ab76cb89f3d0ad7235970ac30c94f5693369fc305f17",
+        "evaluation/schema_first/authors/evaluation.json": "d88201d8ca49886bc9e1a0a684ef9f113f8ea9bfcaf42693ecc2ab3e32781ba0",
+        "evaluation/schema_first/books/evaluation.json": "75c3bd4c5a90719151286809cfdc9326536711f7cca089ac66d136ea58d397cf",
+        "evaluation/schema_first/chicago_crime/evaluation.json": "2ceccdc63674a4f5b6676ac6b2f662cf75a6427a8c55fee3cf11bb09be96edef",
+        "evaluation/schema_first/donor/evaluation.json": "804649a21c215429f891afcb7a59a0c317ccebc8c62a4393808bb12ae8773b0e",
+        "evaluation/schema_first/legislator/evaluation.json": "00d2003fe7bb4ec7f7fc1b458034baa8343b5c239ef6b580c0d3614989d9b73a",
+        "evaluation/schema_first/movie_3/evaluation.json": "33f184d782540a9308004bf9e7e8690cf5cf0d388fc9bfdf0f23af0cd8c20b66",
+        "evaluation/schema_first/movie_platform/evaluation.json": "e14ac776b314cf325f5678caf0ed0fe78f1e1b198361be8d954ce79258959db2",
+        "evaluation/schema_first/professional_basketball/evaluation.json": "daf1441b3417b1bfc17b5ec01c266b71d263fb006a75781595b8c4e1972c42df",
+        "evaluation/schema_first/public_review_platform/evaluation.json": "d2f43dbc0c42e8e964199a4dd87219b1665cda4358394685aac0c19261e130e1",
+        "evaluation/schema_first/regional_sales/evaluation.json": "8708f11218ff5817d78029466f525840383c24751e04e9c922dbd1a09f3285e4",
+        "evaluation/schema_first/retail_complains/evaluation.json": "731bdf23a0d059c95d2bc16c5b078522f83ceee2dddbf8dc8dabb2e8be6149d3",
+        "evaluation/schema_first/retails/evaluation.json": "399253cc2a5eebbdf95581e24d37854ef573ab80ca67588de2a88a0a6a9903c4",
+        "evaluation/schema_first/simpson_episodes/evaluation.json": "b3822b4e2a4f9e05cdd89e18d2d2438d651d3dba836269b687dc4e89e3988146",
+        "evaluation/schema_first/soccer_2016/evaluation.json": "83ead18ee6d774bc36364ce4d0880143c49ec8252fa420c32858840a2fe98990",
+        "evaluation/schema_first/student_loan/evaluation.json": "db71bdcda345c389ca1a4aa91d156e1e021e79f6b9e194718d648e4adb4059fd",
+        "evaluation/schema_first/synthea/evaluation.json": "27330d60e066d2617ed0242fc867b4c034dfa2a382efda6024a90892d2648832",
+        "evaluation/schema_first/talkingdata/evaluation.json": "4fcc4862ed059aa6a5dd58a1130c3c46530271bf08ff43fce965e228bafc4f95",
+        "evaluation/schema_first/university/evaluation.json": "4e5117dae094eb0fe49c1bbcd170ff56767ecd667baacf62b588f39ef2ab5c29",
+        "evaluation/schema_first/video_games/evaluation.json": "ab33a81c1f43793498a10bbde2977a93580ee6c41ac19c2d6233f11a710372aa",
+        "evaluation/schema_first/world_development_indicators/evaluation.json": "2084214b8026e402679117f86abba0cf5899cfe5dad8028f621eb11eeec688ce",
+        "selection/preflight.json": "c43bedeba0ed62371f50d9b3694756bc48be711a6934dfceb693d32fda4d43e8",
+        "selection/schema_first/address/compile.json": "d12168fa02ce5016984dccd34d90668b7412df2580fa7dc8633dfff1ce875e96",
+        "selection/schema_first/authors/compile.json": "a212b9b41b9eed3692490048a8f85118a7f12485928a3f3a3d522f00b0e8f758",
+        "selection/schema_first/books/compile.json": "bb366b0d78d37cf4475b3ecb94ad9f9077c554d994abe0e44fb1d53732732f71",
+        "selection/schema_first/chicago_crime/compile.json": "7516d70a5246c0e59ee13fdcea1579c71ad619c09e83a1a54b294dec5f2ef442",
+        "selection/schema_first/donor/compile.json": "b4a18ed7c7c3a8d005999ab58ebb4b73dae7a6d46b3b63e021e12772eb77f70a",
+        "selection/schema_first/hockey/compile.json": "3bf6d279b4cf257ab478612c21a1f3b7afa415368e98bfe5b0c39d55ba3afc44",
+        "selection/schema_first/legislator/compile.json": "381f07f41e14ae0222759f1fb4da846fd44a1d192820bdd3652691c691c410f9",
+        "selection/schema_first/mondial_geo/compile.json": "c5613152de59569d24525ca885034dd6826c8512b552ab9e932d0c560fcd7456",
+        "selection/schema_first/movie_3/compile.json": "ffe9d2f41f884cf3fa285d49f0d7cf96d43b26257240db032e3cb62da4ab3558",
+        "selection/schema_first/movie_platform/compile.json": "176b892b462ee95f1d37f5e15f397c8169e7082e4953159d1d7b1aecc8dda1fe",
+        "selection/schema_first/movies_4/compile.json": "cef99c51d2fe1c207693d0ba12af60006dbc35f0e5666a0fc2bb071614d8b382",
+        "selection/schema_first/olympics/compile.json": "50df27b231a41f2239531c585396fe825a1709b6b9ec01c1415a9aa6a26c4372",
+        "selection/schema_first/professional_basketball/compile.json": "a3b98a78a1e1d19a33aa893eb68fdfc3267569b572c06fab35fff7d79cc583a3",
+        "selection/schema_first/public_review_platform/compile.json": "fe44aa2428897ef8f12dd940044e701e01dac87de72780e7d074b5ae1e0e2906",
+        "selection/schema_first/regional_sales/compile.json": "1c4e56ce5445ae945b53be7fb98646e7bc37b58db06056be5cf05bf2b900a859",
+        "selection/schema_first/retail_complains/compile.json": "73bd4741c0d770d9fa47ced88e30954aa697a14428752be24b8d15a14a591c99",
+        "selection/schema_first/retails/compile.json": "d9efbf7c2976b287814b652e94172236d73ac7dbcf5f5f1a48eaf57e904be49c",
+        "selection/schema_first/simpson_episodes/compile.json": "210ed8295ab3dba722fcc0b7c11022a74fdc9a5529a7bb970181c13d0f4a788d",
+        "selection/schema_first/soccer_2016/compile.json": "e1bcf20cf11be15b8062d62c6b6d5e2be3e92ffdf531474b96887dbdb9a007be",
+        "selection/schema_first/student_loan/compile.json": "e5db2e1f531c0c33f3000be26456479fc00097bacbd1b66acc26b8e555f27ac6",
+        "selection/schema_first/synthea/compile.json": "24989fcd351f39836c1b69f42e3f629f352540bbb88f76d48e771a0441687bad",
+        "selection/schema_first/talkingdata/compile.json": "62db3a2a11477eebc50002a671f3285cfc723a164c18b5f6fb9356a01ce6611c",
+        "selection/schema_first/university/compile.json": "26f7b537f2f100dd5edc71bf32f93a554de40bf6f5d44c1b5c8c8e69e5205c1a",
+        "selection/schema_first/video_games/compile.json": "963675d42aa73f799f1253bca117c42ef85c99ad60dcaa153f7c9d49b4a75b07",
+        "selection/schema_first/works_cycles/compile.json": "8bec61b999b47754331b0cb41740f51c63838965cc8e4639a62357686457bf3a",
+        "selection/schema_first/world_development_indicators/compile.json": "45fc8e81d7a7c8c94c4f5d48d71087c86c3828b6bfcee0a08845b0a6b8d45d7e"
+      },
+      "unrecorded_net_compiled_cost_break_even_usd": 0.16295239000000006
+    }
+  },
+  "interval_method": "97.5% two-sided Clopper-Pearson bounds for gain and loss; subtract endpoints; >=95% pointwise under iid question pairs",
+  "limitations": [
+    "selected databases, not random database sampling",
+    "no pooling of overlapping primary/rotated/model cohorts",
+    "database deletions are descriptive, not confidence intervals",
+    "costs are frozen-rate estimates, not invoices; discovery and maintenance excluded"
+  ],
+  "provider_calls_executed": 0,
+  "schema": "bird-quality-sensitivity/v1"
+}
