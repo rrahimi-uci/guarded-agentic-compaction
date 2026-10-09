@@ -1,4 +1,4 @@
-"""Provider-free preflight for the time-forward cohort (proposal-90.md A2 / C2).
+"""Provider-free preflight for the time-forward cohort (workstreams A2 / C2).
 
 Reads the time-forward snapshot acquired from the GitHub API, classes every record under the
 three primary families' own class rules, removes every record number that any retained study

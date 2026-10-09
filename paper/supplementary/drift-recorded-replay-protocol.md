@@ -1,7 +1,7 @@
 # Drift-robustness ablation on recorded GitHub traces (provider-free)
 
-**Status: pre-registered on 2026-10-06, before execution; EXECUTED the same day, provider-free (observed results at the end).** Workstream C1b of
-`proposal-90.md`. This extends `drift-robustness-ablation-protocol.md` (the simulated
+**Status: pre-registered on 2026-10-06, before execution; EXECUTED the same day, provider-free (observed results at the end).** Workstream C1b in the
+ICLR revision log. This extends `drift-robustness-ablation-protocol.md` (the simulated
 substrate, executed the same day with the pre-declared null) to the three primary live
 families' retained held-out records. It changes no compiler code, no artifact, and no
 reported number. It is written in full before the driver runs; the "Observed results" section
@@ -16,7 +16,7 @@ program output, not the model's continuation: a live continuation extension is a
 provider-backed protocol and is not part of this one.
 
 The retained evaluation files keep each record's tool sequence and arguments but not its tool
-outputs (`proposal-90.md` F14). The tools are deterministic reads of the revision-pinned public
+outputs. The tools are deterministic reads of the revision-pinned public
 snapshot, so each record's episode is reconstructed exactly as the compiler reconstructs its
 discovery episodes (`reconstruct_discovery`: one model boundary per recorded call, tool results
 re-executed on the snapshot), and the perturbation suite runs through the same
@@ -127,7 +127,7 @@ where its hull sees an unexpected cardinality, and on schema drift the interpret
 abstains in both compiled arms, while the hand-written program answers through schema drift
 unchanged because it echoes whatever it is given. Those abstentions guard the *continuation*
 against malformed evidence, which this endpoint does not grade; the live continuation
-extension (`proposal-90.md` C1b, capped at $15) is the instrument that would. This is a null,
+extension (`drift-continuation-graded-protocol.md`, workstream C1c, capped at $15) is the instrument that would. This is a null,
 not equivalence, and it is evidence that the perturbation suite, as an oracle on
 entry-grounded programs, cannot exhibit a verifier benefit; a program whose later arguments
 derive from earlier results (`last |> project(id)`) is where it could.

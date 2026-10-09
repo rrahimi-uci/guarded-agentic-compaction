@@ -52,7 +52,7 @@ unit-tested; a recalibration mode that loads the frozen artifacts from the regis
 
 1. Both candidates zero violations on 106 groups → compiler-wide certificate at α = 0.05 for the
    dominance-selected artifact; the manuscript switches to the Track A wording in
-   `improve-iclr.md` §5 (abstract, §3, §5.1, §7, Appendix A, Appendix C).
+   the abstract, §3, §5.1, §7, Appendix A, and Appendix C together.
 2. Any violation → report the corrected U; if U > α the compiler-wide claim is not made for that
    family, the Track B wording stays, and the violating record and mechanism are described in full.
 3. NO-GO at preflight → Track B wording stays; the NO-GO and pool counts are reported.

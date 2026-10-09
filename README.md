@@ -14,8 +14,9 @@ permission, runtime-position, replay, compatibility, and finite-sample evidence 
 Otherwise the original agent remains unchanged.
 
 [Documentation](https://rrahimi-uci.github.io/guarded-agentic-compaction/) ·
-[Paper](paper/open_research/article.pdf) ·
-[Latest review](paper/reviews/GAC_paper_review.md) ·
+[Technical report](paper/open_research/article.pdf) ·
+[ICLR discussion draft](paper/iclr/build/main.pdf) ·
+[Latest evidence review](paper/iclr/notes/review_scorecard.md) ·
 [Adversarial review](paper/paper-review.md) ·
 [Experiment verification](paper/supplementary/experiment-verification.md)
 
@@ -92,7 +93,7 @@ different tool vocabulary and exact decision contract.
 | GCS vs provider-visible macro | 12/12 each; GCS uses one versus two requests | pre-model projection removes an interface request |
 | GCS vs fair pre-model manual | 6/6 each; tied requests, interfaces, and input tokens | automatic runtime superiority is not established |
 | Cross-repository, time-forward extension | 580/580 exact discovery traces over five frozen repositories; four complete 120/120 held-out pairs, `pytorch/pytorch` retires at compile time; a balanced rerun adds 360/360 discovery and 180/180 held-out on three repositories | the guarded lifecycle survives a new repository and a later window on an exact two-read task |
-| Prospective gate-frontier study | 240/300 pooled held-out pairs on four of five repositories (`pytorch/pytorch` retires, reproducing the finding above independently at 4x scale); a support-only comparator (`alpha=1`, otherwise byte-for-byte identical) is statistically indistinguishable from the learned gate on every metric | the exact `alpha=.05` gate remains a support threshold against a comparator built to isolate the risk budget specifically — the pre-declared null, not a demonstrated frontier |
+| Prospective gate-frontier study | 240/300 pooled held-out pairs on four of five repositories (`pytorch/pytorch` retires); the cohort overlaps the earlier core study; a support-only comparator (`alpha=1`, otherwise byte-for-byte identical) is statistically indistinguishable from the learned gate on every metric | the exact `alpha=.05` gate remains a support threshold against a comparator built to isolate the risk budget specifically — the pre-declared null, not a demonstrated frontier |
 | NESTFUL and API-Bank | every recurrent family retires | recurrence does not imply admissibility |
 | Selective-risk levels | four artifacts at `alpha=.05`, three at `alpha=.10`, portfolio at 15% | GCS and comparator results are licensed only at 10%, not the registered 5% |
 | Calibration proof scope | exact Clopper--Pearson plus 11-threshold union bound for one fixed candidate; a frozen-selection corollary closes the compiler-wide multiplicity gap for searches that adopt it | the three primary GitHub families do not freeze and remain per-candidate; two candidates there require 106 rather than 92 zero-violation groups |
@@ -108,7 +109,7 @@ snapshot. The separate PR-outcome extension carries the cross-repository, time-f
 evidence, but only for an exact two-read task, so neither line establishes **full-workflow**
 cross-repository or time-forward generalization. Nothing here establishes semantic
 equivalence, production certification, or state-of-the-art quality. See the
-[latest score-grounded review](paper/reviews/GAC_paper_review.md), the
+[latest evidence review](paper/iclr/notes/review_scorecard.md), the
 [earlier adversarial review](paper/paper-review.md),
 [limitations](https://rrahimi-uci.github.io/guarded-agentic-compaction/limitations.html),
 and [claim audit](paper/supplementary/experiment-verification.md).
@@ -293,7 +294,7 @@ ArunKumar Patange, and Indranil Dutta (JazzX AI, Palo Alto, CA).
 | --- | --- |
 | Complete technical report, single column (appendix included) | `paper/open_research/article.pdf` |
 | Two-column conference build (appendix ships separately) | `paper/open_research/main.pdf` |
-| ICLR submission (9 pp. + appendix) | `paper/iclr/` (build with `tectonic --outdir build main.tex`) |
+| ICLR discussion draft (10 main-text pp. + appendix) | `paper/iclr/` (build with `tectonic --outdir build main.tex`) |
 
 A versioned citation will be added after archival release; until then, cite the
 repository commit and the paper PDF together.

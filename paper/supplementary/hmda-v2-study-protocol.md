@@ -2,7 +2,7 @@
 
 **Status: WITHDRAWN from the ICLR 2027 cycle on 2026-10-07 by the author's decision; NOT RUN (see the note at the end). Earlier status: protocol frozen on 2026-10-07; not run. No provider call has been made. Execution
 requires (1) a macro approval signed by a reviewer other than the author and (2) an explicit
-spend authorization with a cap.** Workstream D1 of `proposal-90.md`.
+spend authorization with a cap.** Workstream D1 in the ICLR revision history.
 
 ## Why a versioned study
 

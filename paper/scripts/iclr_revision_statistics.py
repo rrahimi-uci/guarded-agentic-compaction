@@ -1,4 +1,4 @@
-"""Provider-free reanalysis behind the ICLR 2027 revision (``improve-iclr.md`` Phase 2).
+"""Provider-free reanalysis behind the ICLR 2027 revision.
 
 Every sub-command reads retained result files only, writes one JSON file under
 ``paper/results/iclr_revision/`` and, where the manuscript needs one, a LaTeX

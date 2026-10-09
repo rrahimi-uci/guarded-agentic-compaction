@@ -2,7 +2,7 @@
 
 **Status: pre-registered on 2026-10-07 after a provider-free preflight; NOT RUN. Execution
 requires an explicit spend authorization (proposed cap $10).** Workstreams A2 and C2 of
-`proposal-90.md`, on the one family the fresh pool supports.
+the ICLR revision log, on the one family the fresh pool supports.
 
 ## Data
 

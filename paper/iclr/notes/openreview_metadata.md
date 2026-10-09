@@ -28,4 +28,4 @@ tool-using agents; agent workflow compilation; trace-derived specialization; pro
 
 ## Consistency rule
 
-The abstract, TL;DR, §8, and the certificate sentences of §3, §5.1, §7, Appendix A, and Appendix C must all use the same certificate level. At the PR #41 head this is Track B (per-candidate for PR-outcome and backlog routing). If the pre-registered multiplicity repair (`paper/supplementary/multiplicity-repair-protocol.md`) admits both families, switch every surface to Track A in one commit (`improve-iclr.md` §5) and repaste the abstract here.
+The abstract, TL;DR, §8, and the certificate sentences of §3, §5.1, §7, Appendix A, and Appendix C must all use the same certificate level. At the PR #41 head this is Track B (per-candidate for PR-outcome and backlog routing). If the pre-registered multiplicity repair (`paper/supplementary/multiplicity-repair-protocol.md`) admits both families, switch every surface to Track A in one commit and repaste the abstract here.
