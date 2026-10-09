@@ -2,7 +2,7 @@
 
 **One deck ships:**
 `compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx`, a
-26-slide technical review on the seminar design system.
+29-slide technical review on the seminar design system.
 
 The [publication shelf](https://rrahimi-uci.github.io/guarded-agentic-compaction/artifacts.html)
 publishes this deck alongside the complete paper, HTML article, and benchmark explorer.
@@ -82,6 +82,34 @@ and then fail on every later validation run. The replacement text was length-che
 the shape's extent (2954426x1371600 EMU, a 10.5pt run) rather than by opening the deck, the
 same discipline slide 12 and 13's coordinates were checked under; **open the deck once before
 presenting it.**
+
+## Bringing the deck to the latest results (October 2026)
+
+`refresh_latest_results_slides.py` is the post-generation transform that brings the deck to
+the paper's current results (the ICLR revision with BIRD, the post-cutoff end-to-end
+certificate, the refusal benchmarks, and the adverse drift result):
+
+```bash
+python paper/scripts/refresh_latest_results_slides.py --check   # report
+python paper/scripts/refresh_latest_results_slides.py           # apply
+```
+
+It inserts three results slides after slide 20, on slide 20's two-card frame: **A public
+benchmark where GAC helps** (BIRD), **What the certificates certify** (end-to-end certificate
+versus the support-sufficiency caveat, replications, drift), and **Where GAC yields no measured
+benefit** (NESTFUL and AppWorld). They are new parts `slide27-29.xml` ordered after
+`slide20.xml`, so existing part names, and every script that targets them, are unchanged; the
+visible page footers are renumbered to presentation order (26 -> 29 slides). It also updates
+the title, short-version, evidence-tier, slide-17, and limitations slides; corrects "45/45 tool
+replays" to the 45 *calibration* replays the paper reports; and shortens the gate-frontier body
+that overflowed its card. Every edited paragraph must hold its recorded old text or its new
+text, so the script is idempotent and refuses an unexpected deck.
+
+Unlike the earlier refreshes, this one was checked visually: the deck was exported to PDF
+through Microsoft PowerPoint (AppleScript `save ... as save as PDF`) and all 29 slides were
+inspected for overflow. `paper/results/slide_generation.json` records the change list under
+`latest_results`, and `gac-template-map.json` maps the three new slides to the source frame of
+slide 20.
 
 ## Resynchronizing coordinates after a manuscript change
 
@@ -226,7 +254,8 @@ node paper/scripts/generate_slides.mjs \
 Outputs:
 
 - `compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx`: 23-slide
-  technical-review deck, subsequently restyled to 26 slides (see above);
+  technical-review deck, subsequently restyled to 26 slides and brought to 29 by
+  `refresh_latest_results_slides.py` (see above);
 - `paper/results/slide_generation.json`: source, evidence, mapping, output hash, and slide
   count manifest.
 
