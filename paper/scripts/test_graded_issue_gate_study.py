@@ -10,6 +10,7 @@ sys.path.insert(0, str(ROOT / "paper/scripts"))
 
 import graded_issue_gate_preflight as cohort  # noqa: E402
 import graded_issue_gate_study as study  # noqa: E402
+import graded_issue_recompile_candidate as candidate  # noqa: E402
 
 
 def test_own_checkpoint_cannot_change_sealed_cohort(monkeypatch, tmp_path: Path) -> None:
@@ -73,3 +74,18 @@ def test_old_pilot_compiled_manifest_cannot_resolve_base_artifact() -> None:
     registry = Registry.load(ROOT / "paper/results/github_natural_live/registry")
     assert base.compatibility_key() != mismatched.compatibility_key()
     assert registry.resolve(mismatched.compatibility_key(), {}, kind="grc") == []
+
+
+def test_discovery_redaction_preserves_observations() -> None:
+    original = {"events": [
+        {"kind": "MODEL_REQ", "input": [{"encrypted_content": "opaque"}], "output": None},
+        {"kind": "MODEL_RESP", "input": None,
+         "output": ["ResponseReasoningItem(encrypted_content='opaque')", {"answer": "correct"}]},
+        {"kind": "TOOL_RESULT", "input": None, "output": {"source_fact": "public"}},
+    ]}
+    redacted, reasoning, fields = candidate.redact_episode(original)
+    assert (reasoning, fields) == (1, 1)
+    assert redacted["events"][0]["input"][0]["encrypted_content"] is None
+    assert redacted["events"][1]["output"][0] == "REDACTED_REASONING_ITEM"
+    assert redacted["events"][2]["output"] == {"source_fact": "public"}
+    assert original["events"][0]["input"][0]["encrypted_content"] == "opaque"

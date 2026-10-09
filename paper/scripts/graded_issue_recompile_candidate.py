@@ -25,6 +25,7 @@ import graded_issue_gate_preflight as cohort  # noqa: E402
 import github_live_study as fixed  # noqa: E402
 import github_natural_workflow_study as natural  # noqa: E402
 from guarded_agentic_compaction.capture.agents_sdk import AgentsTraceProcessor  # noqa: E402
+from guarded_agentic_compaction.schema.traces import Episode, content_digest  # noqa: E402
 
 OUT = ROOT / "paper/results/graded_issue_gate/candidate_v2"
 PRIOR = ROOT / "paper/results/github_natural_live/results.json"
@@ -32,14 +33,49 @@ ABORT = ROOT / "paper/results/graded_issue_gate/abort_v1.json"
 MODEL = "gpt-5.6-luna"
 
 
-async def run(cap: float) -> dict:
+def redact_episode(episode: dict) -> tuple[dict, int, int]:
+    """Remove opaque provider reasoning while keeping compiler evidence intact."""
+    import copy
+
+    episode = copy.deepcopy(episode)
+    reasoning_items = 0
+    encrypted_fields = 0
+
+    def visit(value: object) -> None:
+        nonlocal encrypted_fields
+        if isinstance(value, dict):
+            for key, item in value.items():
+                if key == "encrypted_content" and item is not None:
+                    value[key] = None
+                    encrypted_fields += 1
+                else:
+                    visit(item)
+        elif isinstance(value, list):
+            for item in value:
+                visit(item)
+
+    visit(episode)
+    for event in episode["events"]:
+        if event["kind"] == "MODEL_RESP" and isinstance(event["output"], list):
+            for i, item in enumerate(event["output"]):
+                if isinstance(item, str) and "encrypted_content=" in item:
+                    event["output"][i] = "REDACTED_REASONING_ITEM"
+                    reasoning_items += 1
+    return episode, reasoning_items, encrypted_fields
+
+
+async def run(cap: float, *, from_saved: bool = False) -> dict:
     if not 0 < cap <= 200:
         raise ValueError("authorized ceiling is $200")
-    load_dotenv(ROOT / ".env")
-    if not os.getenv("OPENAI_API_KEY"):
-        raise RuntimeError("OPENAI_API_KEY unavailable")
-    if OUT.exists():
-        raise RuntimeError("candidate_v2 already exists; no automatic rerun")
+    if from_saved:
+        if not (OUT / "discovery.json").exists() or (OUT / "summary.json").exists():
+            raise RuntimeError("saved discovery missing or candidate already compiled")
+    elif OUT.exists():
+        raise RuntimeError("candidate_v2 already exists; no automatic provider rerun")
+    else:
+        load_dotenv(ROOT / ".env")
+        if not os.getenv("OPENAI_API_KEY"):
+            raise RuntimeError("OPENAI_API_KEY unavailable")
     if not ABORT.exists():
         raise RuntimeError("aborted attempt must be recorded first")
     aborted = json.loads(ABORT.read_text())
@@ -64,22 +100,49 @@ async def run(cap: float) -> dict:
         labels=tuple(store[n]["labels"]), html_url=store[n]["html_url"],
         day=store[n]["day"], state=store[n]["state"],
     ) for n in numbers]
-    OUT.mkdir(parents=True)
-    (OUT / "started.json").write_text(json.dumps({
-        "schema": "gac-graded-issue-candidate-start/v2", "source_study": str(PRIOR.relative_to(ROOT)),
-        "discovery_issue_numbers": numbers, "manifest_id": manifest.manifest_id,
-        "new_cohort_overlap": 0, "approved_cap_usd": cap,
-    }, indent=2) + "\n")
-    discovery, failures = await natural.run_batch(
-        scenarios, condition="v2_discovery", repeat=0, model_name=MODEL,
-        tools=tools, processor=processor, manifest=manifest, catalog=catalog,
-        store=store, registry=None, concurrency=4,
-    )
-    raw = {"schema": "gac-graded-issue-candidate-discovery/v2",
-           "source_manifest_sha256": cohort.sha256(cohort.prior.SOURCE_MANIFEST),
-           "manifest_id": manifest.manifest_id, "failures": failures,
-           "results": [{**r.public_dict(), "episode": r.episode.to_dict()} for r in discovery]}
-    (OUT / "discovery.json").write_text(json.dumps(raw, indent=2, sort_keys=True, default=str) + "\n")
+    if from_saved:
+        raw = json.loads((OUT / "discovery.json").read_text())
+        if (raw["manifest_id"] != manifest.manifest_id or raw["source_manifest_sha256"] !=
+                cohort.sha256(cohort.prior.SOURCE_MANIFEST)):
+            raise RuntimeError("saved discovery provenance differs from current source or manifest")
+        failures = raw["failures"]
+        discovery = [fixed.RunResult(
+            condition="discovery", repeat=int(row["repeat"]), issue_number=int(row["issue_number"]),
+            trace_id=row["trace_id"], metrics=row["metrics"], answer=row["answer"],
+            quality=row["quality"], tool_sequence=row["tool_sequence"],
+            tool_arguments=row["tool_arguments"], dispatch=row["dispatch"],
+            episode=Episode.from_dict(row["episode"]),
+        ) for row in raw["results"]]
+        if {r.issue_number for r in discovery} != set(numbers):
+            raise RuntimeError("saved discovery does not match original split")
+    else:
+        OUT.mkdir(parents=True)
+        (OUT / "started.json").write_text(json.dumps({
+            "schema": "gac-graded-issue-candidate-start/v2", "source_study": str(PRIOR.relative_to(ROOT)),
+            "discovery_issue_numbers": numbers, "manifest_id": manifest.manifest_id,
+            "new_cohort_overlap": 0, "approved_cap_usd": cap,
+        }, indent=2) + "\n")
+        discovery, failures = await natural.run_batch(
+            scenarios, condition="discovery", repeat=0, model_name=MODEL,
+            tools=tools, processor=processor, manifest=manifest, catalog=catalog,
+            store=store, registry=None, concurrency=4,
+        )
+        retained = []
+        reasoning_count = encrypted_count = 0
+        for result in discovery:
+            episode, n_reasoning, n_encrypted = redact_episode(result.episode.to_dict())
+            reasoning_count += n_reasoning
+            encrypted_count += n_encrypted
+            retained.append({**result.public_dict(), "episode": episode,
+                             "redacted_episode_digest": content_digest(episode)})
+        raw = {"schema": "gac-graded-issue-candidate-discovery/v2",
+               "source_manifest_sha256": cohort.sha256(cohort.prior.SOURCE_MANIFEST),
+               "manifest_id": manifest.manifest_id, "failures": failures,
+               "reasoning_items_redacted": reasoning_count,
+               "encrypted_content_fields_redacted": encrypted_count,
+               "redaction": "Opaque provider reasoning items and encrypted_content fields were removed.",
+               "results": retained}
+        (OUT / "discovery.json").write_text(json.dumps(raw, indent=2, sort_keys=True, default=str) + "\n")
     if failures or len(discovery) != 80:
         raise RuntimeError("incomplete discovery; no automatic retry")
     registry, compilation = natural.compile_artifact(
@@ -102,8 +165,9 @@ async def run(cap: float) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--approved-spend-usd", type=float, required=True)
+    parser.add_argument("--from-saved", action="store_true", help="compile retained discovery without a provider call")
     args = parser.parse_args()
-    result = asyncio.run(run(args.approved_spend_usd))
+    result = asyncio.run(run(args.approved_spend_usd, from_saved=args.from_saved))
     print(json.dumps({key: result[key] for key in ("status", "artifact_id", "quality_passes", "estimated_cost_usd")}, indent=2))
 
 

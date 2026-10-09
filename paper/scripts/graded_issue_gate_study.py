@@ -38,6 +38,7 @@ OUT = ROOT / "paper/results/graded_issue_gate"
 CHECKPOINT = OUT / "checkpoint_v2.json"
 RESULT = OUT / "results_v2.json"
 REGISTRY = OUT / "candidate_v2/registry/registry.json"
+RECOMPILE_SUMMARY = OUT / "candidate_v2/summary.json"
 ABORT = OUT / "abort_v1.json"
 MODEL = "gpt-5.6-luna"
 FEATURE_NAMES = ("markdown_link", "bare_url", "log_comments", "label_count", "title_length", "age_years")
@@ -133,8 +134,10 @@ async def run_phase(
         prereads = {number: risk_read(store, number)[1] for number in batch}
         reserve = len(batch) * MAX_RESERVED_USD_PER_EPISODE
         aborted = json.loads(ABORT.read_text())
+        candidate = json.loads(RECOMPILE_SUMMARY.read_text())
         counted = (checkpoint["estimated_spend_usd"] + checkpoint["failed_run_reserve_usd"]
-                   + aborted["estimated_cost_usd"] + aborted["interrupted_batch_reserve_usd"])
+                   + aborted["estimated_cost_usd"] + aborted["interrupted_batch_reserve_usd"]
+                   + candidate["estimated_cost_usd"])
         if counted + reserve > args.approved_spend_usd:
             raise RuntimeError(f"budget gate stopped before {phase}; counted={counted:.4f}, reserve={reserve:.2f}")
         checkpoint["pending_batch"] = {"phase": phase, "issue_numbers": batch}
@@ -182,7 +185,7 @@ async def run(args: argparse.Namespace) -> dict:
         raise ValueError("cohort/source drift; no provider call")
     if RESULT.exists():
         raise ValueError("retained result exists; refusing to overwrite")
-    if not REGISTRY.exists() or not ABORT.exists():
+    if not REGISTRY.exists() or not RECOMPILE_SUMMARY.exists() or not ABORT.exists():
         raise ValueError("v2 candidate and v1 abort record are required before provider calls")
     candidate_sha = cohort.sha256(REGISTRY)
     store, _ = fixed.build_store(pd.read_parquet(prior.SNAPSHOT))
@@ -191,6 +194,8 @@ async def run(args: argparse.Namespace) -> dict:
     catalog = natural.make_catalog()
     base_manifest = natural.make_manifest(MODEL, tools, catalog, "base")
     compiled_manifest = base_manifest
+    if json.loads(RECOMPILE_SUMMARY.read_text())["compatibility_key"] != compiled_manifest.compatibility_key():
+        raise ValueError("v2 candidate summary does not match live manifest")
     if not registry.resolve(compiled_manifest.compatibility_key(), {}, kind="grc"):
         raise ValueError("v2 candidate does not resolve under the live manifest; no provider call")
     from agents import add_trace_processor
@@ -255,6 +260,9 @@ async def run(args: argparse.Namespace) -> dict:
         "checkpoint": checkpoint, "provider_episodes_attempted": checkpoint["provider_episodes_attempted"],
         "spend": {"approved_cap_usd": args.approved_spend_usd,
                   "estimated_usd": checkpoint["estimated_spend_usd"],
+                  "candidate_estimated_usd": json.loads(RECOMPILE_SUMMARY.read_text())["estimated_cost_usd"],
+                  "aborted_v1_estimated_usd": json.loads(ABORT.read_text())["estimated_cost_usd"],
+                  "aborted_v1_interrupted_reserve_usd": json.loads(ABORT.read_text())["interrupted_batch_reserve_usd"],
                   "failed_run_reserve_usd": checkpoint["failed_run_reserve_usd"],
                   "invoice_verified": False},
         "limitations": ["one selected public issue snapshot", "stratified target mixture",
