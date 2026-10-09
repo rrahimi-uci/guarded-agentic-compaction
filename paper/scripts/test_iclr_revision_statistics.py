@@ -177,7 +177,7 @@ def test_effective_units(clusters) -> None:
 
 
 def test_single_rule_sensitivity(single_rule) -> None:
-    # Sample floors and n=92 bounds under one frozen rule (proposal-90.md §5); the
+    # Sample floors and n=92 bounds under one frozen rule; the
     # registered grid values stay as the multiplicity test pins them.
     assert single_rule["n_min_single"]["1"] == {"0": 45, "1": 77, "2": 105, "3": 132, "4": 158}
     assert single_rule["n_min_single"]["2"] == {"0": 59, "1": 93, "2": 124, "3": 153, "4": 181}

@@ -1,6 +1,6 @@
 # ICLR 2027 revision log
 
-Execution log for `improve-iclr.md` (Track S). One entry per task: id, files touched, numbers changed with their source key paths, verification summary.
+Execution log for the ICLR revision (Track S and later workstreams). One entry per task: id, files touched, numbers changed with their source key paths, verification summary. Superseded planning documents remain available in Git history; the executed protocols and results remain in this repository.
 
 ## Baseline (2026-09-21)
 
@@ -14,7 +14,7 @@ Pages:           25
 
 ## Track S execution (2026-09-22)
 
-Tasks from `improve-iclr.md` completed on this branch; numbers cite the JSON under
+Track S tasks completed on this branch; numbers cite the JSON under
 `paper/results/iclr_revision/` produced by `paper/scripts/iclr_revision_statistics.py all`.
 
 | Task | Files | What changed / numbers | Verification |
@@ -199,7 +199,7 @@ the publication manifest was refreshed.
 
 ## Certified-event scope correction (2026-10-06, branch `paper/a1-certified-event-scope`)
 
-Workstream A1 of `proposal-90.md`. §2 previously said a sound prefix whose continuation errs
+Workstream A1 of the revision plan. §2 previously said a sound prefix whose continuation errs
 "still contributes $L=1$, so the gate certifies end-to-end compliance". The implementation
 (`grc/compile.py`, `_calibration_samples`) labels a violation only when the program completes,
 the verifier accepts, and a live-out is missing or not equivalent to the recorded result;
@@ -218,7 +218,7 @@ references, anonymous; `main-final.pdf` refreshed.
 
 ## Single-rule sensitivity (2026-10-06, branch `paper/b1-single-rule-sensitivity`)
 
-Workstream B1 of `proposal-90.md`. `iclr_revision_statistics.py single-rule` recomputes every
+Workstream B1 of the revision plan. `iclr_revision_statistics.py single-rule` recomputes every
 retained bound under one pre-registered acceptance rule ($\gamma=\delta/m$, no grid factor),
 reading $n/k$ from the widest retained grid row rather than from rounded table values, and
 applies the same rule to the distinct-day and distinct-author counts of all seven cohorts.
@@ -230,7 +230,7 @@ statistics tests pin the floors (45/59, 77/93), the $n=92$ bounds (0.0247/0.0320
 cluster values. Appendix only; main-text pagination unchanged.
 ## Drift-robustness ablation executed (2026-10-06, branch `paper/c1a-drift-ablation`)
 
-Workstream C1a of `proposal-90.md`. `run_perturbations` gained an optional per-(perturbation,
+Workstream C1a of the revision plan. `run_perturbations` gained an optional per-(perturbation,
 window) `trace` (counts unchanged). New driver `paper/scripts/drift_ablation_study.py`
 reproduces each demonstration's sealed compile, mines the sealed test split's windows for every
 admitted family, checks the permissive verifier is inert, runs the two compiled arms over
@@ -245,7 +245,7 @@ Appendix only; main-text pagination unchanged.
 
 ## Tenth page: results figure, related work, terminology (2026-10-06, branch `paper/ef-tenth-page-figure-related-work`)
 
-Workstreams E and F of `proposal-90.md`, using the ten-page discussion allowance (author
+Workstreams E and F of the revision plan, using the ten-page discussion allowance (author
 guidelines, re-fetched 2026-10-06; `validate_iclr_page_budget` and the ICLR README now hold
 revisions to ten pages). A two-panel results figure enters §5.1 from existing generated
 assets (per-family reductions; NESTFUL support against the 92-group floor). §6 grows from two
@@ -259,7 +259,7 @@ candidate, program, artifact, prefix; compilation versus compaction). Figure 1 i
 
 ## Recorded-replay drift ablation on the primary records (2026-10-06, branch `paper/c1b-recorded-replay-drift`)
 
-Workstream C1b of `proposal-90.md`. New protocol `drift-recorded-replay-protocol.md`
+Workstream C1b of the revision plan. New protocol `drift-recorded-replay-protocol.md`
 (pre-registered before the run) and driver `paper/scripts/drift_recorded_replay_study.py`:
 the three retained artifacts are recompiled identically from their sealed checkpoints, the 90
 held-out records' episodes are reconstructed from their retained baseline tool sequences on the
@@ -276,7 +276,7 @@ helper tests, number registry. Appendix only; main-text pagination unchanged.
 
 ## Time-forward PR-outcome study executed (2026-10-07, branch `paper/a2-time-forward-live`)
 
-Workstreams A2/C2 of `proposal-90.md`, live, $0.22 of a $50 authorization. Fresh GitHub API
+Workstreams A2/C2 of the revision plan, live, $0.22 of a $50 authorization. Fresh GitHub API
 snapshot (post-2025-06-13), 811 fresh PRs, splits 60/132/132 frozen before any call. The retained
 artifact's verifier pins the old snapshot revision and abstains on every fresh record (kept as the
 C2 arm). One frozen candidate re-derived the same three-read program from 132 fresh discovery
@@ -288,7 +288,7 @@ claims-register row; validator family `time_forward_pr_outcome`. Appendix only.
 
 ## Continuation-graded drift ablation executed: adverse (2026-10-07, branch `paper/c1c-continuation-graded-drift`)
 
-Workstream C1c of `proposal-90.md`, live, $0.55 of a $15 cap. `run_batch` gained an optional
+Workstream C1c of the revision plan, live, $0.55 of a $15 cap. `run_batch` gained an optional
 pre-model `executor` (default unchanged). The driver perturbs the tool layer for both the
 pre-model path and the fallback agent (same key-sorted serialization), runs the retained artifact
 with its induced verifier and with a permissive verifier on identical corrupted tools, and grades

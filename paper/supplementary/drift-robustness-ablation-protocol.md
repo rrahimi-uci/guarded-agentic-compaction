@@ -228,4 +228,4 @@ families where the answer was unchanged; on `permissioned_rag` that rate (0.3333
 0.50 bar at which the arm would be called too conservative. This is a null, not equivalence,
 and it licenses no statement about real workloads, the GitHub families, tokens, cost, or
 production safety. A recorded-replay extension on real records is the separate protocol
-`proposal-90.md` names as C1b.
+recorded as workstream C1b in the ICLR revision log.
