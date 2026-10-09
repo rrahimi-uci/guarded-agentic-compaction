@@ -2636,7 +2636,7 @@ def validate_slides() -> None:
     # seminar design system by paper/scripts/restyle_detailed_deck.py; the 27-slide
     # seminar deck was removed, and gac-template-map.json declares that retirement.
     decks = (
-        ("compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx", 26, "technical"),
+        ("compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx", 29, "technical"),
     )
     for filename, expected_slides, label in decks:
         path = PAPER / "slides" / filename
@@ -2680,6 +2680,14 @@ def validate_slides() -> None:
                    f"{label} publication slide deck contains the Headroom negative result")
                 ok(b"90 / 90" in payload,
                    f"{label} publication slide deck contains the three-family exact result")
+                # October 2026 results, inserted by refresh_latest_results_slides.py.
+                for marker, what in ((b"A public benchmark where GAC helps", "the BIRD benefit result"),
+                                     (b"What the certificates certify", "the certificate and replication result"),
+                                     (b"Where GAC yields no measured benefit", "the NESTFUL and AppWorld result"),
+                                     (b"45/45 calibration replays", "the corrected calibration-replay count")):
+                    ok(marker in payload, f"{label} publication slide deck contains {what}")
+                ok(b"45/45 tool replays" not in payload,
+                   f"{label} publication slide deck no longer calls the 45 calibration replays tool replays")
                 media = [name for name in names if name.startswith("ppt/media/")]
                 ok(all(package.getinfo(name).file_size > 0 for name in media),
                    f"{label} publication slide deck contains no empty media parts")
@@ -2783,7 +2791,7 @@ def validate_slide_generation() -> None:
         ok(name not in manifest.get("outputs", {}),
            f"{name} retired deck is no longer claimed as a live output")
 
-    expected_outputs = {"technical": 26}
+    expected_outputs = {"technical": 29}
     for name, expected_count in expected_outputs.items():
         spec = mapping.get("templates", {}).get(name, {})
         retained_template = manifest.get("templates", {}).get(name, {})
