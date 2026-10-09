@@ -88,7 +88,10 @@ STYLE_SOURCE = SLIDES / "GAC-seminar.pptx"
 
 # Pinned so a restyle can never silently read a different design system. Refresh
 # together with paper/slides/gac-template-map.json if the template is revised.
-STYLE_SOURCE_SHA256 = "a5204149a5fdc2dc4e2e2f79a6926a17336a3e5c5740b5ebb7d95ec7c59df8a0"
+# Refreshed when paper/scripts/refresh_seminar_deck.py brought the seminar's content
+# to the current paper: slide 5, the only part read here, is byte-identical, so the
+# restyled output does not change. The pre-refresh bytes were a5204149a5fdc2dc4e2e2f79a6926a17336a3e5c5740b5ebb7d95ec7c59df8a0.
+STYLE_SOURCE_SHA256 = "53eb547e01bd5a9a8725ff7d3bbeef0cd39485da199a20c4211515cc1dd402fd"
 
 # The seminar divider frame lives on source slide 5 (act I).
 DIVIDER_TEMPLATE_PART = "ppt/slides/slide5.xml"

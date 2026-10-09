@@ -45,8 +45,10 @@ paper/
 ├── generated_figures/              script-generated PDF and PNG figures
 ├── tables/                         script-generated LaTeX tables
 ├── slides/
-│   ├── GAC-seminar.pptx             25-slide design-system source, hash-pinned;
-│   │                                read by scripts/restyle_detailed_deck.py
+│   ├── GAC-seminar.pptx             26-slide seminar deck on the current paper and
+│   │                                design-system source, hash-pinned; read by
+│   │                                scripts/restyle_detailed_deck.py
+│   ├── seminar-equations/           equation renders used by the seminar deck
 │   ├── gac-template-map.json        slide mapping and retirement declarations
 │   ├── README.md                    generation and evidence-boundary notes
 │   └── compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx

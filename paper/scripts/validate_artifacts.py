@@ -2713,6 +2713,51 @@ def validate_slides() -> None:
            "slide record names every live deck as stale")
 
 
+def validate_seminar_deck() -> None:
+    """The seminar deck stays on the current paper and keeps the frame the restyle reads."""
+
+    path = PAPER / "slides/GAC-seminar.pptx"
+    ok(path.exists(), "seminar deck exists")
+    if not path.exists():
+        return
+    with zipfile.ZipFile(path) as package:
+        names = package.namelist()
+        slide_parts = [n for n in names if re.fullmatch(r"ppt/slides/slide\d+\.xml", n)]
+        ok(len(slide_parts) == 26, "seminar deck contains 26 slides")
+        order = re.findall(rb'<p:sldId id="\d+" r:id="([^"]+)"', package.read("ppt/presentation.xml"))
+        ok(len(order) == 26, "seminar deck presents 26 slides")
+        # restyle_detailed_deck.py builds the technical deck's dividers from this part.
+        ok(hashlib.sha256(package.read("ppt/slides/slide5.xml")).hexdigest()
+           == "785951a9ee1aafa01790584f126b337bb254c2b3878a7c36d1d8e6ffe17f40c8",
+           "seminar divider frame (slide 5) is unchanged for restyle_detailed_deck.py")
+        payload = b"\n".join(package.read(n) for n in slide_parts)
+        for marker, what in (
+            (b"From Traces to Guarded Programs: Evidence-Gated Compilation of Recurrent Agent Workflows", "the current paper title"),
+            (b"BIRD: a public benchmark where GAC helps", "the BIRD result"),
+            (b"What the certificates certify", "the certificate result"),
+            (b"Where GAC yields no measured benefit: NESTFUL and AppWorld", "the no-benefit result"),
+            (b"Three GitHub workflows: 90/90 kept, two-thirds fewer calls", "the primary three-family result"),
+            (b"Newer records: compile or retire, and one end-to-end certificate", "the newer-records result"),
+            (b"45 / 45", "the 45 calibration replays"),
+        ):
+            ok(marker in payload, f"seminar deck contains {what}")
+        for stale, what in (
+            (b"Compiling Recurrent Agent Workflows into Guarded Programs", "the superseded title"),
+            (b"August 2026", "the August 2026 date"),
+            (b"Demo suite", "the demonstration-suite headline"),
+            (b"Risk-bounded selection over measured actions only", "the portfolio-pilot slide"),
+            (b"OFFLINE STRESS STUDY", "the offline stress table"),
+        ):
+            ok(stale not in payload, f"seminar deck no longer contains {what}")
+        media = [n for n in names if n.startswith("ppt/media/")]
+        ok(all(package.getinfo(n).file_size > 0 for n in media), "seminar deck has no empty media parts")
+        for chart in ("ppt/charts/chart2.xml", "ppt/charts/chart3.xml"):
+            ok(chart in names, f"seminar deck keeps {chart}")
+        chart3 = package.read("ppt/charts/chart3.xml")
+        ok(b"per repository" in chart3 and b"78.6" in chart3,
+           "seminar newer-records chart draws the cross-repository reductions")
+
+
 def validate_slide_generation() -> None:
     """Bind generated decks to the exact templates, evidence, and source-slide map."""
 
@@ -3357,6 +3402,7 @@ FAMILIES: dict[str, Any] = {
     "bfcl_compiler": validate_bfcl_compiler,
     "slide_generation": validate_slide_generation,
     "slides": validate_slides,
+    "seminar_deck": validate_seminar_deck,
     "drift_ablation": validate_drift_ablation,
     "drift_recorded_replay": validate_drift_recorded_replay,
     "time_forward_pr_outcome": validate_time_forward_pr_outcome,

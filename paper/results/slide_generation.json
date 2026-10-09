@@ -152,9 +152,9 @@
   "templates": {
     "seminar": {
       "path": "paper/slides/GAC-seminar.pptx",
-      "role": "Design-system source read by paper/scripts/restyle_detailed_deck.py against the hash above. It no longer renders a deck of its own.",
-      "sha256": "a5204149a5fdc2dc4e2e2f79a6926a17336a3e5c5740b5ebb7d95ec7c59df8a0",
-      "source_slides": 25
+      "role": "Design-system source read by paper/scripts/restyle_detailed_deck.py against the hash above, and the current seminar deck, refreshed by paper/scripts/refresh_seminar_deck.py.",
+      "sha256": "53eb547e01bd5a9a8725ff7d3bbeef0cd39485da199a20c4211515cc1dd402fd",
+      "source_slides": 26
     },
     "technical": {
       "path": "paper/slides/GAC-technical-review.pptx",
@@ -186,5 +186,28 @@
       "page footers renumbered to presentation order"
     ],
     "verified": "rendered through Microsoft PowerPoint to PDF; all 29 slides inspected; no text overflows its box"
+  },
+  "seminar_refresh": {
+    "script": "paper/scripts/refresh_seminar_deck.py",
+    "previous_sha256": "a5204149a5fdc2dc4e2e2f79a6926a17336a3e5c5740b5ebb7d95ec7c59df8a0",
+    "previous_slides": 25,
+    "recover_previous": "git show 1979965:paper/slides/GAC-seminar.pptx",
+    "divider_frame_unchanged": "ppt/slides/slide5.xml is byte-identical before and after, so restyle_detailed_deck.py reads the same design-system frame",
+    "generator_note": "generate_slides.mjs maps the 25-slide pre-refresh template; run it against the bytes recovered with recover_previous",
+    "equations": "paper/slides/seminar-equations/ (rendered from the paper's equations; refresh_seminar_deck.py --render-equations regenerates them)",
+    "verified": "exported to PDF through Microsoft PowerPoint and all 26 slides inspected for overflow",
+    "source": "paper/iclr as merged through PR #73 and paper/results/{bird,time_forward,drift_continuation_graded,github_multirepo_pr_outcome_core,github_multirepo_pr_outcome_balanced}",
+    "changes": [
+      "title slide: current paper title (36pt -> 30pt to fit), lede, and three stats (3 GitHub families with 90/90; 26 of 31 BIRD databases with 45-50% fewer model calls; NESTFUL and AppWorld with no measured benefit); date October 2026",
+      "scope slide: research questions replaced by five questions this talk answers; contributions and non-claims follow the paper's three contributions",
+      "formulation and method slides: eyebrows carry current section, stage, algorithm, equation, and table numbers; grounding admits invariant literals; objective is group-based; certificates distinguish the replay-contract and end-to-end events; guards reported as giving no measured protection under drift",
+      "five equation images (grounding, dispatch, objective, ranking score, feasibility ceiling) re-rendered from the paper's current equations",
+      "provenance slide: NESTFUL slot statistics replaced by the held-out issue #4420 worked example (Figure 2)",
+      "setup slide: three evidence sources (GitHub families, newer records and post-cutoff cohort, public benchmarks) and the paired conditions",
+      "results: primary three-family result with the hand-written comparator (Tables 1 and 11); issue-type routing; the #4420/#6602 continuation audit; newer records and the end-to-end certificate with a per-repository chart (Tables 14-15); BIRD; NESTFUL and AppWorld; what the certificates certify",
+      "removed from the main narrative, as in the paper: demonstration suite, offline stress study, and the portfolio pilot slide (deleted with its chart, workbook, and images)",
+      "limitations, claims register (13 current claims, five not supported), and conclusion rewritten to the current paper",
+      "chart workbooks re-pointed so Edit Data matches the drawn numbers; page footers renumbered; 20 speaker notes rewritten"
+    ]
   }
 }
