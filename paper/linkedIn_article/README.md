@@ -1,5 +1,12 @@
 # LinkedIn Article Package
 
+> **Status.** The headline numbers in the article and posts are the original three-family
+> results, which the current paper (the ICLR 2027 draft in [`../iclr/`](../iclr/)) still
+> reports. The article adds a short "Since then" section for BIRD, the post-cutoff
+> certificate, and the gate and guard results that did not hold; the posts carry a claim-hygiene
+> note. Re-check every number against
+> [`../iclr/notes/number_registry.md`](../iclr/notes/number_registry.md) before publishing.
+
 | File | What it is |
 | --- | --- |
 | `linkedIn_article_polished.md` | the article — canonical source |

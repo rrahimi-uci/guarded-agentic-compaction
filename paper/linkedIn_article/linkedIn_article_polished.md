@@ -63,6 +63,14 @@ A system that shipped on synthesis-plus-replay alone would have deployed twelve 
 
 ![Stage-by-stage table showing NESTFUL and API-Bank clearing every compiler stage with zero wrong executions, beside a bar chart where both families' support falls far below the 92-group requirement](images/04_refusal.png)
 
+## Since then: one public win, and two things that did not hold
+
+We kept going after the first results, and the later ones cut both ways.
+
+**A public benchmark where it helps.** On BIRD, a text-to-SQL benchmark, an agent that reads the schema first has its opening compiled on 26 of 31 databases, with about 45–50% fewer model calls and no detected accuracy loss. An agent that picks its tables per question is refused, because there is no consistent opening to compile. On 132 fresh pull requests created after our data snapshot, the compiled agent made no end-to-end errors, which bounds its error rate below 2% with 90% confidence (i.i.d. assumed).
+
+**What did not hold.** The learned risk gate was indistinguishable from a plain "enough examples" threshold, and a larger end-to-end issue study retired its gate before its held-out test. And when we deliberately corrupted tool outputs, the compiled program's run-time checks prevented no wrong answers. We reported those too.
+
 ## "Isn't this just context compression?"
 
 Fair question, and no.
