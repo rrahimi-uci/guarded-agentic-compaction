@@ -1,7 +1,8 @@
 # Prospective end-to-end gate study on public issues
 
-**Status: v1 aborted before any new-cohort compiled dispatch; v2 amendment
-registered before candidate recompilation or held-out execution (2026-10-08).** This is a
+**Status: v1 aborted; amended v2 executed and learned gate retired before
+held-out test (2026-10-08).** The v2 amendment below was registered before
+candidate recompilation and before any v2 new-cohort call. This is a
 single-candidate, single-snapshot study. It tests whether a score learned from
 entry-observable source facts can produce admissible intermediate coverage when
 the violation is a final factual-task error after actual compiled dispatch. It
@@ -132,3 +133,57 @@ and retained factual grades but no dispatch telemetry. We no longer use that
 pilot as evidence of a compiled-context error rate. The one independently
 recorded primary-study Markdown-link excerpt error still motivates a
 diagnostic stratum, but it is not proof of predictive selectivity.
+
+**Provider-free compilation repair.** The v2 discovery call completed 80/80
+episodes with no execution failure; 79 passed the factual task contract. The
+first compile invocation stopped because its run label was `v2_discovery`,
+while the existing compiler filters for literal `discovery`. The complete
+native episodes were saved before that filter. `--from-saved` reconstructs
+those same episodes and maps only the wrapper condition label to `discovery`
+for the existing compiler; no tool observation, answer, quality label, split,
+or manifest is changed, and no provider call is repeated. The saved raw label
+and the normalization remain visible in the audit record. This implementation
+repair was made before any v2 new-cohort or held-out call.
+The committed discovery copy replaces 84 opaque serialized provider reasoning
+items and clears 183 encrypted-content fields. A provider-free recompile from
+that redacted copy produced an identical artifact record, including the
+candidate id, 45 accepted original calibration groups, and gate bound.
+Original and redacted episode digests are both retained per row.
+
+## Observed amended result
+
+The re-derived candidate retained program id `cand-00-9704d2d4a908` under a
+new compatible manifest. V2 completed 200/200 development and 184/184
+calibration episodes with actual compiled dispatch on every issue and no
+incomplete episode. Final factual-task errors were 4/200 on development and
+2/184 on calibration. The provider-free audit in
+`paper/results/graded_issue_gate/audit_v2.json` rechecks each answer against
+the source, every dispatch, cohort disjointness, the full grid, exact bounds,
+and cost arithmetic. It reports zero provider calls for that audit.
+
+| Frozen threshold | Accepted / 184 | Task errors | One-sided upper bound |
+|---:|---:|---:|---:|
+| 0.02 | 64 | 0 | 0.0708 |
+| 0.05 | 84 | 1 | 0.0776 |
+| 0.08 | 96 | 1 | 0.0682 |
+| 0.11 | 105 | 2 | 0.0787 |
+| 0.14 | 108 | 2 | 0.0766 |
+| 0.17 | 114 | 2 | 0.0727 |
+| 0.20 | 119 | 2 | 0.0697 |
+| 0.25 | 129 | 2 | 0.0644 |
+| 0.30 | 134 | 2 | 0.0621 |
+| 0.40 | 144 | 2 | 0.0579 |
+| 0.50 | 153 | 2 | 0.0546 |
+
+No row meets the registered 0.05 limit; the learned gate retires. The
+support-only ablation's appended accept-all threshold admits 184/184 with
+two errors and an upper bound of 0.0461 under its twelve-point confidence
+split, but `alpha=1` disables the risk decision by design. This descriptive
+bound does not turn the learned eleven-point grid into a certified frontier.
+The 90 test issues were never run, so there is no held-out noninferiority,
+quality, latency, or cost comparison from this study. The v2 provider calls
+had $0.16273115 in recorded estimated cost; original discovery re-derivation
+had $0.06257765; completed v1 fallback calls had $0.23622721. The sum of
+retained estimates is $0.46153601, with possible unrecorded charges from the
+eight interrupted v1 attempts. No invoice was verified. This negative result
+does not justify a higher ICLR quality rating.
