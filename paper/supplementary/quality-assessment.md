@@ -1,5 +1,12 @@
 # Publication quality assessment
 
+**Historical assessment, superseded.** This older 91/100 readiness score is
+not the current ICLR assessment. The [October critical review](../iclr/notes/review_scorecard.md)
+rates the paper 79/100 on checked evidence, including the October 8 addendum:
+the link pilot's compiled comparison is invalid and the amended end-to-end
+issue gate retires before held-out testing. The table and verdict below are
+preserved as a dated prior assessment, not a publication claim.
+
 This rubric separates artifact quality from scientific acceptance readiness. Scores use
 only checked-in, reproducible evidence; proposed and preflight-only experiments receive no
 empirical credit.
@@ -29,9 +36,9 @@ empirical credit.
   What remains open is a richer cross-repository workflow task, manual maintenance cost,
   and compiler-wide multiplicity control.
 
-The 90/100 target is met for artifact quality and manuscript presentation, not scientific
-acceptance readiness alone. The current 91/100 is justified by actual checked-in evidence,
-not by a softened rubric. A materially stronger score still requires a richer
+This historical assessment put artifact quality above 90 and estimated 91/100
+for scientific readiness at the time. The later critical review supersedes
+that estimate. A materially stronger score still requires a richer
 cross-repository workflow study, a non-degenerate post-selection risk--coverage frontier,
 prospective continuation admission, manual maintenance cost, multiple workflow families
 with different optimal actions, and at least one executable same-task workflow-compiler

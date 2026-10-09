@@ -1,6 +1,18 @@
 # Gate-frontier pilot protocol
 
-**Status: EXECUTED on 2026-08-22, exactly as pre-registered below.** The predeclared
+**Correction (2026-10-08): comparator invalid for compiled-effect claims.**
+The pilot harness constructed the `compiled` condition with
+`natural.make_manifest(..., "compiled")`, while the retained artifact was
+compiled and registered under the `base` policy manifest. Registry resolution
+requires an exact compatibility key, so the pilot's named compiled arm had no
+eligible artifact and fell back to ordinary model/tool behavior. The retained
+pilot results save factual grades but no dispatch telemetry. The reported
+4/60 vs 0/60 Markdown-link contrast and its p-value describe two stochastic
+model runs, **not** a compiled-versus-unchanged effect; the original go
+decision is withdrawn. The historical preregistration and observed table
+below are retained for audit, not as positive compiler evidence.
+
+**Historical status: EXECUTED on 2026-08-22, exactly as pre-registered below.** The predeclared
 expectation, decision rule, and preconditions were committed before the live run; the
 observed results are appended in their own section at the end, unedited relative to what
 was predeclared. Execution used the pinned existing artifact and cost well under the
@@ -131,6 +143,11 @@ model quality, efficiency, or the registered admission gate.
 
 ## Observed results
 
+**Audit note:** the `compiled` condition below is an arm label, not evidence
+that the program dispatched. The corrected interpretation at the top of this
+file supersedes the original reading and go decision in this historical
+section. The reported spend is a retained estimate, not a verified invoice.
+
 Both arms completed all 90 records with **zero execution failures** in
 109.0 seconds at concurrency 8, using model `gpt-5.6-luna` (the same model pinned in the
 existing artifact's manifest) at an actual spend well under the approved $10 ceiling,
@@ -154,7 +171,7 @@ one-sided Fisher tests against `plain_text`, uncorrected for the two strata comp
 | `bare_url` | 1/60 | 0.500 |
 | `markdown_link` | 4/60 | **0.0594** |
 
-**Reading: a borderline Go, with the hypothesis refined rather than confirmed as stated.**
+**Historical reading, withdrawn: a borderline Go, with the hypothesis refined rather than confirmed as stated.**
 `plain_text` produced exactly zero violations in 60 observations, as predicted.
 `markdown_link` produced the most violations of any stratum and sits just short of the
 conventional 0.05 threshold at $p=0.0594$ — suggestive, not decisive, and this is a single

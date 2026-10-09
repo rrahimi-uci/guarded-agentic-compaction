@@ -1,0 +1,1080 @@
+{
+  "artifact_id": "cand-00-9704d2d4a908",
+  "compatibility_key": "0ee8574ba2db398e",
+  "compiler": {
+    "artifact": {
+      "approved_by": "paper-natural-protocol-lab-only",
+      "artifact_id": "cand-00-9704d2d4a908",
+      "compatibility_key": "0ee8574ba2db398e",
+      "evidence": {
+        "counterexamples": [],
+        "dataset_digest": "6c5823a5a5c0558d",
+        "fallback_reasons": {},
+        "metrics": {
+          "branch": "none",
+          "branch_alternatives": 0,
+          "branch_permutation_p": null,
+          "calibration_windows_evaluated": 45,
+          "composite": "synthesized",
+          "composite_name": "compiled_issue_get_record_02bc9e0c13",
+          "dev_windows_evaluated": 10,
+          "gate_grid": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 45, 'violations': 0, 'upper': 0.0992, 'coverage': 1.0",
+          "n_alternative_bindings": 82,
+          "perturbations_claimed": false,
+          "sandbox": {
+            "abstained": 0,
+            "effect_mismatch": 0,
+            "n": 0,
+            "pass_rate": 0.0,
+            "passed": 0,
+            "reasons": {},
+            "state_delta": 0,
+            "wrong": 0
+          },
+          "var_names": [
+            "get",
+            "get2",
+            "get3"
+          ]
+        },
+        "notes": "substrate and evidence are recorded in the run manifest",
+        "perturbation": {},
+        "rejection_reasons": [],
+        "removed_requests": 3.0,
+        "replay": {
+          "abstained": 0,
+          "effect_mismatch": 0,
+          "n": 10,
+          "pass_rate": 1.0,
+          "passed": 10,
+          "reasons": {},
+          "state_delta": 0,
+          "wrong": 0
+        },
+        "split_ids": {
+          "calibration": [
+            "github-natural-issue:138",
+            "github-natural-issue:1452",
+            "github-natural-issue:1836",
+            "github-natural-issue:2462",
+            "github-natural-issue:2489",
+            "github-natural-issue:2643",
+            "github-natural-issue:2681",
+            "github-natural-issue:2941",
+            "github-natural-issue:2945",
+            "github-natural-issue:2970",
+            "github-natural-issue:3320",
+            "github-natural-issue:3511",
+            "github-natural-issue:3550",
+            "github-natural-issue:3744",
+            "github-natural-issue:4005",
+            "github-natural-issue:4241",
+            "github-natural-issue:4351",
+            "github-natural-issue:4520",
+            "github-natural-issue:4639",
+            "github-natural-issue:4658",
+            "github-natural-issue:5093",
+            "github-natural-issue:5284",
+            "github-natural-issue:5482",
+            "github-natural-issue:5511",
+            "github-natural-issue:5633",
+            "github-natural-issue:5666",
+            "github-natural-issue:5757",
+            "github-natural-issue:5767",
+            "github-natural-issue:5789",
+            "github-natural-issue:6025",
+            "github-natural-issue:6034",
+            "github-natural-issue:6079",
+            "github-natural-issue:6109",
+            "github-natural-issue:6406",
+            "github-natural-issue:6566",
+            "github-natural-issue:6605",
+            "github-natural-issue:6651",
+            "github-natural-issue:6688",
+            "github-natural-issue:6721",
+            "github-natural-issue:6748",
+            "github-natural-issue:6788",
+            "github-natural-issue:7150",
+            "github-natural-issue:7186",
+            "github-natural-issue:7269",
+            "github-natural-issue:843"
+          ],
+          "dev": [
+            "github-natural-issue:1891",
+            "github-natural-issue:2195",
+            "github-natural-issue:228",
+            "github-natural-issue:2591",
+            "github-natural-issue:3282",
+            "github-natural-issue:3393",
+            "github-natural-issue:4386",
+            "github-natural-issue:4596",
+            "github-natural-issue:6913",
+            "github-natural-issue:7238"
+          ],
+          "train": [
+            "github-natural-issue:1741",
+            "github-natural-issue:189",
+            "github-natural-issue:1934",
+            "github-natural-issue:2012",
+            "github-natural-issue:2185",
+            "github-natural-issue:2446",
+            "github-natural-issue:2526",
+            "github-natural-issue:2624",
+            "github-natural-issue:2765",
+            "github-natural-issue:3052",
+            "github-natural-issue:3831",
+            "github-natural-issue:4094",
+            "github-natural-issue:4401",
+            "github-natural-issue:4721",
+            "github-natural-issue:4933",
+            "github-natural-issue:5288",
+            "github-natural-issue:595",
+            "github-natural-issue:7089",
+            "github-natural-issue:7477",
+            "github-natural-issue:768"
+          ]
+        },
+        "support_days": 20,
+        "support_groups": 20,
+        "support_principals": 1,
+        "total_groups": 20
+      },
+      "expiry_day": null,
+      "gate": {
+        "admissible": [
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "alpha": 0.1,
+        "coverage": 1.0,
+        "delta": 0.1,
+        "features_spec": {
+          "branch_entropy": 0.0,
+          "categories": {},
+          "hull_kinds": {
+            "z.issue_number": "any"
+          },
+          "max_day": "2025-03-25",
+          "numeric_ranges": {},
+          "paths": [
+            "z.issue_number"
+          ],
+          "patterns": {},
+          "provenance_ambiguity": 1.0
+        },
+        "grid": [
+          0.02,
+          0.05,
+          0.08,
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "model": {
+          "bias": -0.665460951827376,
+          "feature_means": [
+            0.0,
+            0.0,
+            0.0,
+            0.25,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "feature_scales": [
+            1.0,
+            1.0,
+            1.0,
+            0.25,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "features": [
+            "unseen_category",
+            "knn_distance",
+            "missing_optional",
+            "hull_margin",
+            "drift_days",
+            "provenance_ambiguity",
+            "branch_entropy"
+          ],
+          "weights": [
+            0.0,
+            0.0,
+            0.0,
+            1.4022683014612085,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "n_accepted": 45,
+        "n_calibration_groups": 45,
+        "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 45, 'violations': 0, 'upper': 0.0992, 'coverage': 1.0}, {'eta': 0.17, 'n': 45, 'violations': 0, 'upper': 0.0992, 'coverage': 1.0}, {'eta': 0.2, 'n': 45, 'violations': 0, 'upper': 0.0992, 'coverage': 1.0}, {'eta': 0.25, 'n': 45, 'violations': 0, 'upper': 0.0992, 'coverage': 1.0}, {'eta': 0.3, 'n': 45, 'violations': 0, 'upper': 0.0992, 'coverage': 1.0}, {'eta': 0.4, 'n': 45, 'violations': 0, 'upper': 0.0992, 'coverage': 1.0}, {'eta': 0.5, 'n': 45, 'violations': 0, 'upper': 0.0992, 'coverage': 1.0}]",
+        "observed_violations": 0,
+        "retire": false,
+        "risk_upper_bound": 0.09918477422824756,
+        "threshold": 0.5
+      },
+      "guard": {
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "clauses": [
+          {
+            "hull": {
+              "high": null,
+              "kind": "any",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "path": "z.issue_number",
+            "required": true,
+            "role": "hull",
+            "type_name": "int"
+          }
+        ],
+        "isolation": {},
+        "manifest_pins": {
+          "effect_catalog_version": "github-natural-workflow-pinned-reads@1#739f744b8513b613",
+          "entry_contract_version": "github-natural-issue-number-v1",
+          "guardrail_hash": "#89af17ab",
+          "model": "gpt-5.6-luna",
+          "policy_hash": "#00ccbe9a",
+          "prompt_hash": "#6e1a896c",
+          "tools_hash": "#a6fe0682"
+        },
+        "required_capabilities": [
+          "speculatable",
+          "replayable"
+        ]
+      },
+      "kind": "grc",
+      "lifecycle": "active",
+      "manifest": {
+        "commit": "workspace-without-git-metadata",
+        "effect_catalog_version": "github-natural-workflow-pinned-reads@1#739f744b8513b613",
+        "entry_contract_version": "github-natural-issue-number-v1",
+        "guardrail_hash": "#89af17ab",
+        "manifest_id": "0ee8574ba2db",
+        "model": "gpt-5.6-luna",
+        "policy_hash": "#00ccbe9a",
+        "prompt_hash": "#6e1a896c",
+        "sdk_version": "0.19.2",
+        "tools_hash": "#a6fe0682",
+        "tracer_version": "agent-compaction/0.6.0"
+      },
+      "monitoring": {
+        "expected_coverage": 1.0,
+        "max_unsafe_dispatch": 0.1,
+        "min_verifier_pass_rate": 0.9
+      },
+      "name": "issue_get_record.issue_get_labels.region@9704d2d4",
+      "owner": "paper-natural-workflow-study",
+      "partition": {},
+      "program": {
+        "composite": {
+          "continuation_compatibility_key": "",
+          "description": "Guarded composite synthesized from a verified recurrent read program.",
+          "inputs": [
+            "issue_number"
+          ],
+          "internal_tools": [
+            "issue_get_record",
+            "issue_get_labels",
+            "issue_get_comments"
+          ],
+          "name": "compiled_issue_get_record_02bc9e0c13",
+          "pre_model": true,
+          "projection": {
+            "body_excerpt": {
+              "kind": "expr",
+              "ops": [],
+              "source": "get.content.body_excerpt"
+            },
+            "comments": {
+              "kind": "expr",
+              "ops": [],
+              "source": "get3.thread.items"
+            },
+            "issue_number": {
+              "kind": "expr",
+              "ops": [],
+              "source": "get.issue_number"
+            },
+            "labels": {
+              "kind": "expr",
+              "ops": [],
+              "source": "get2.names"
+            },
+            "source_revision": {
+              "kind": "expr",
+              "ops": [],
+              "source": "get.source_revision"
+            },
+            "state": {
+              "kind": "expr",
+              "ops": [],
+              "source": "get.state"
+            },
+            "title": {
+              "kind": "expr",
+              "ops": [],
+              "source": "get.content.title"
+            }
+          },
+          "schema_version": 1
+        },
+        "library_version": "T-v1",
+        "outputs": {
+          "get": {
+            "kind": "expr",
+            "ops": [],
+            "source": "get"
+          },
+          "get2": {
+            "kind": "expr",
+            "ops": [],
+            "source": "get2"
+          },
+          "get3": {
+            "kind": "expr",
+            "ops": [],
+            "source": "get3"
+          }
+        },
+        "removed_requests": 3.0,
+        "steps": [
+          {
+            "args": {
+              "issue_number": {
+                "kind": "expr",
+                "ops": [],
+                "source": "z.issue_number"
+              }
+            },
+            "kind": "call",
+            "schema_version": null,
+            "tool": "issue_get_record",
+            "var": "get",
+            "when": null
+          },
+          {
+            "args": {
+              "issue_number": {
+                "kind": "expr",
+                "ops": [],
+                "source": "get.issue_number"
+              }
+            },
+            "kind": "call",
+            "schema_version": null,
+            "tool": "issue_get_labels",
+            "var": "get2",
+            "when": null
+          },
+          {
+            "args": {
+              "issue_number": {
+                "kind": "expr",
+                "ops": [],
+                "source": "get.issue_number"
+              },
+              "limit": {
+                "kind": "const",
+                "value": 3
+              }
+            },
+            "kind": "call",
+            "schema_version": null,
+            "tool": "issue_get_comments",
+            "var": "get3",
+            "when": null
+          }
+        ],
+        "theta": [
+          "issue_number"
+        ],
+        "tools": [
+          "issue_get_record",
+          "issue_get_labels",
+          "issue_get_comments"
+        ]
+      },
+      "rollback_target": null,
+      "route": null,
+      "signature": "",
+      "verifier": {
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "call_counts": [
+          3
+        ],
+        "clauses": [
+          {
+            "hull": {
+              "high": null,
+              "kind": "any",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "get",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "issue_get_record"
+            ],
+            "type_name": "dict"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "any",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "get.issue_number",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "issue_get_record"
+            ],
+            "type_name": "int"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "enum",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": [
+                "e344be7b84d199661a9956036991e1fc25715a47"
+              ]
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "get.source_revision",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "issue_get_record"
+            ],
+            "type_name": "str"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "enum",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": [
+                "closed",
+                "open"
+              ]
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "get.state",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "issue_get_record"
+            ],
+            "type_name": "str"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "any",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "get2",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "issue_get_labels"
+            ],
+            "type_name": "dict"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "any",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "max_len": 2,
+            "min_len": 0,
+            "name": "get2.names",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "issue_get_labels"
+            ],
+            "type_name": "list"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "enum",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": [
+                "e344be7b84d199661a9956036991e1fc25715a47"
+              ]
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "get2.source_revision",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "issue_get_labels"
+            ],
+            "type_name": "str"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "any",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "get3",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "issue_get_comments"
+            ],
+            "type_name": "dict"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "enum",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": [
+                "e344be7b84d199661a9956036991e1fc25715a47"
+              ]
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "get3.source_revision",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "issue_get_comments"
+            ],
+            "type_name": "str"
+          }
+        ]
+      },
+      "version": 1
+    },
+    "artifact_explanation": "artifact  issue_get_record.issue_get_labels.region@9704d2d4@1   support 20/20 groups   removes k=3.00   [active]\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nguard   effect_catalog_version=github-natural-workflow-pinned-reads@1#739f744b8513b613  entry_contract_version=github-natural-issue-number-v1  guardrail_hash=#89af17ab  model=gpt-5.6-luna  policy_hash=#00ccbe9a  prompt_hash=#6e1a896c  tools_hash=#a6fe0682\n        z.issue_number : int\n        effects \u2286 {READ_LOCAL}  all speculatable \u2227 replayable\n\nprogram (\u03b8 = {issue_number}):\n   get  = call issue_get_record(issue_number = z.issue_number)\n   get2 = call issue_get_labels(issue_number = get.issue_number)\n   get3 = call issue_get_comments(issue_number = get.issue_number, limit = Const(3))\n   return  { get: get, get2: get2, get3: get3 }\nexpose   compiled_issue_get_record_02bc9e0c13(issue_number) -> { body_excerpt, comments, issue_number, labels, source_revision, state, title } [internal=3]\nverify  get : dict, non-null, provenance \u2208 {issue_get_record}\n        get.issue_number : int, non-null, provenance \u2208 {issue_get_record}\n        get.source_revision : str, non-null, \u2208 {e344be7b84d199661a9956036991e1fc25715a47}, provenance \u2208 {issue_get_record}\n        get.state : str, non-null, \u2208 {closed, open}, provenance \u2208 {issue_get_record}\n        get2 : dict, non-null, provenance \u2208 {issue_get_labels}\n        get2.names : list, non-null, len \u2264 2, len \u2265 0, provenance \u2208 {issue_get_labels}\n        get2.source_revision : str, non-null, \u2208 {e344be7b84d199661a9956036991e1fc25715a47}, provenance \u2208 {issue_get_labels}\n        get3 : dict, non-null, provenance \u2208 {issue_get_comments}\n        get3.source_revision : str, non-null, \u2208 {e344be7b84d199661a9956036991e1fc25715a47}, provenance \u2208 {issue_get_comments}\n        effect_multiset \u2286 {READ_LOCAL},  |calls| \u2208 {3},  no WRITE_*\ngate    q = logistic(entry features)   \u03b7 = 0.50   (cal n=45 groups, \u03b1=0.1, \u03b4=0.1, |\u039b|=11, R\u207a=0.099, \u03c6\u0302=1.00)",
+    "candidates": [
+      {
+        "artifact": "issue_get_record.issue_get_labels.region@9704d2d4",
+        "candidate_id": "cand-00-9704d2d4a908",
+        "challenge": {
+          "hard_rejects": [],
+          "perturbation": {},
+          "perturbations_claimed": false,
+          "recorded": {
+            "abstained": 0,
+            "effect_mismatch": 0,
+            "n": 10,
+            "pass_rate": 1.0,
+            "passed": 10,
+            "reasons": {},
+            "state_delta": 0,
+            "wrong": 0
+          },
+          "sandbox": {
+            "abstained": 0,
+            "effect_mismatch": 0,
+            "n": 0,
+            "pass_rate": 0.0,
+            "passed": 0,
+            "reasons": {},
+            "state_delta": 0,
+            "wrong": 0
+          }
+        },
+        "gate": {
+          "admissible": [
+            0.14,
+            0.17,
+            0.2,
+            0.25,
+            0.3,
+            0.4,
+            0.5
+          ],
+          "alpha": 0.1,
+          "coverage": 1.0,
+          "delta": 0.1,
+          "features_spec": {
+            "branch_entropy": 0.0,
+            "categories": {},
+            "hull_kinds": {
+              "z.issue_number": "any"
+            },
+            "max_day": "2025-03-25",
+            "numeric_ranges": {},
+            "paths": [
+              "z.issue_number"
+            ],
+            "patterns": {},
+            "provenance_ambiguity": 1.0
+          },
+          "grid": [
+            0.02,
+            0.05,
+            0.08,
+            0.11,
+            0.14,
+            0.17,
+            0.2,
+            0.25,
+            0.3,
+            0.4,
+            0.5
+          ],
+          "model": {
+            "bias": -0.665460951827376,
+            "feature_means": [
+              0.0,
+              0.0,
+              0.0,
+              0.25,
+              0.0,
+              1.0,
+              0.0
+            ],
+            "feature_scales": [
+              1.0,
+              1.0,
+              1.0,
+              0.25,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "features": [
+              "unseen_category",
+              "knn_distance",
+              "missing_optional",
+              "hull_margin",
+              "drift_days",
+              "provenance_ambiguity",
+              "branch_entropy"
+            ],
+            "weights": [
+              0.0,
+              0.0,
+              0.0,
+              1.4022683014612085,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "n_accepted": 45,
+          "n_calibration_groups": 45,
+          "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 45, 'violations': 0, 'upper': 0.0992, 'coverage': 1.0}, {'eta': 0.17, 'n': 45, 'violations': 0, 'upper': 0.0992, 'coverage': 1.0}, {'eta': 0.2, 'n': 45, 'violations': 0, 'upper': 0.0992, 'coverage': 1.0}, {'eta': 0.25, 'n': 45, 'violations': 0, 'upper': 0.0992, 'coverage': 1.0}, {'eta': 0.3, 'n': 45, 'violations': 0, 'upper': 0.0992, 'coverage': 1.0}, {'eta': 0.4, 'n': 45, 'violations': 0, 'upper': 0.0992, 'coverage': 1.0}, {'eta': 0.5, 'n': 45, 'violations': 0, 'upper': 0.0992, 'coverage': 1.0}]",
+          "observed_violations": 0,
+          "retire": false,
+          "risk_upper_bound": 0.09918477422824756,
+          "threshold": 0.5
+        },
+        "notes": {
+          "branch": "none",
+          "branch_alternatives": 0,
+          "branch_atoms": 0,
+          "branch_p": null,
+          "composite": "synthesized",
+          "composite_name": "compiled_issue_get_record_02bc9e0c13",
+          "gate_calibration_reasons": {
+            "verifier:cardinality:get2.names": 1
+          },
+          "gate_calibration_samples": 45,
+          "gate_calibration_unproductive": 1,
+          "gate_calibration_violations": 0,
+          "gate_dev_reasons": {
+            "perturbation_unproductive": 4
+          },
+          "gate_dev_samples": 20,
+          "gate_dev_unproductive": 4,
+          "gate_dev_violations": 0,
+          "n_alternative_bindings": 82,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 3
+        },
+        "rejected": null,
+        "removed_requests": 3.0,
+        "stage": "emitted",
+        "support_days": 20,
+        "support_groups": 20,
+        "tools": [
+          "issue_get_record",
+          "issue_get_labels",
+          "issue_get_comments"
+        ]
+      },
+      {
+        "artifact": null,
+        "candidate_id": "cand-01-1ebb8b2849c7",
+        "challenge": {
+          "hard_rejects": [],
+          "perturbation": {},
+          "perturbations_claimed": false,
+          "recorded": {
+            "abstained": 0,
+            "effect_mismatch": 0,
+            "n": 10,
+            "pass_rate": 1.0,
+            "passed": 10,
+            "reasons": {},
+            "state_delta": 0,
+            "wrong": 0
+          },
+          "sandbox": {
+            "abstained": 0,
+            "effect_mismatch": 0,
+            "n": 0,
+            "pass_rate": 0.0,
+            "passed": 0,
+            "reasons": {},
+            "state_delta": 0,
+            "wrong": 0
+          }
+        },
+        "gate": {
+          "admissible": [
+            0.08,
+            0.11,
+            0.14,
+            0.17,
+            0.2,
+            0.25,
+            0.3,
+            0.4,
+            0.5
+          ],
+          "alpha": 0.1,
+          "coverage": 1.0,
+          "delta": 0.1,
+          "features_spec": {
+            "branch_entropy": 0.0,
+            "categories": {},
+            "hull_kinds": {
+              "z.issue_number": "any"
+            },
+            "max_day": "2025-03-25",
+            "numeric_ranges": {},
+            "paths": [
+              "z.issue_number"
+            ],
+            "patterns": {},
+            "provenance_ambiguity": 0.98
+          },
+          "grid": [
+            0.02,
+            0.05,
+            0.08,
+            0.11,
+            0.14,
+            0.17,
+            0.2,
+            0.25,
+            0.3,
+            0.4,
+            0.5
+          ],
+          "model": {
+            "bias": -0.8880141834292201,
+            "feature_means": [
+              0.0,
+              0.0,
+              0.0,
+              0.25,
+              0.0,
+              0.99,
+              0.0
+            ],
+            "feature_scales": [
+              1.0,
+              1.0,
+              1.0,
+              0.25,
+              1.0,
+              0.01000000000000001,
+              1.0
+            ],
+            "features": [
+              "unseen_category",
+              "knn_distance",
+              "missing_optional",
+              "hull_margin",
+              "drift_days",
+              "provenance_ambiguity",
+              "branch_entropy"
+            ],
+            "weights": [
+              0.0,
+              0.0,
+              0.0,
+              0.8583841112990311,
+              0.0,
+              0.8583841112990309,
+              0.0
+            ]
+          },
+          "n_accepted": 45,
+          "n_calibration_groups": 45,
+          "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 45, 'violations': 0, 'upper': 0.0992, 'coverage': 1.0}, {'eta': 0.11, 'n': 45, 'violations': 0, 'upper': 0.0992, 'coverage': 1.0}, {'eta': 0.14, 'n': 45, 'violations': 0, 'upper': 0.0992, 'coverage': 1.0}, {'eta': 0.17, 'n': 45, 'violations': 0, 'upper': 0.0992, 'coverage': 1.0}, {'eta': 0.2, 'n': 45, 'violations': 0, 'upper': 0.0992, 'coverage': 1.0}, {'eta': 0.25, 'n': 45, 'violations': 0, 'upper': 0.0992, 'coverage': 1.0}, {'eta': 0.3, 'n': 45, 'violations': 0, 'upper': 0.0992, 'coverage': 1.0}, {'eta': 0.4, 'n': 45, 'violations': 0, 'upper': 0.0992, 'coverage': 1.0}, {'eta': 0.5, 'n': 45, 'violations': 0, 'upper': 0.0992, 'coverage': 1.0}]",
+          "observed_violations": 0,
+          "retire": false,
+          "risk_upper_bound": 0.09918477422824756,
+          "threshold": 0.5
+        },
+        "notes": {
+          "branch": "none",
+          "branch_alternatives": 0,
+          "branch_atoms": 0,
+          "branch_p": null,
+          "composite": "ineligible:tool projection source 'issue_get_comments' must resolve to exactly one program step",
+          "gate_calibration_reasons": {
+            "verifier:cardinality:get2.names": 1
+          },
+          "gate_calibration_samples": 45,
+          "gate_calibration_unproductive": 1,
+          "gate_calibration_violations": 0,
+          "gate_dev_reasons": {
+            "perturbation_unproductive": 4
+          },
+          "gate_dev_samples": 20,
+          "gate_dev_unproductive": 4,
+          "gate_dev_violations": 0,
+          "n_alternative_bindings": 49,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 2
+        },
+        "rejected": "dominated_by_longer_region",
+        "removed_requests": 2.0,
+        "stage": "dominated",
+        "support_days": 20,
+        "support_groups": 20,
+        "tools": [
+          "issue_get_record",
+          "issue_get_labels"
+        ]
+      }
+    ],
+    "config": {
+      "allow_legacy_catalog_version": false,
+      "alpha": 0.1,
+      "b_min": 2,
+      "composite_continuation_key": "",
+      "composite_pre_model": true,
+      "composite_projection": {
+        "body_excerpt": "tool:issue_get_record::content.body_excerpt",
+        "comments": "tool:issue_get_comments::thread.items",
+        "issue_number": "tool:issue_get_record::issue_number",
+        "labels": "tool:issue_get_labels::names",
+        "source_revision": "tool:issue_get_record::source_revision",
+        "state": "tool:issue_get_record::state",
+        "title": "tool:issue_get_record::content.title"
+      },
+      "delta": 0.1,
+      "entry_schema": [
+        "issue_number"
+      ],
+      "freeze_one_candidate_before_calibration": false,
+      "kappa": 3,
+      "max_artifacts": 4,
+      "max_calibration_windows": 45,
+      "max_candidates": 16,
+      "max_dev_windows": 400,
+      "max_transform_depth": 2,
+      "min_days": 1,
+      "min_principals": 1,
+      "mode": "replay",
+      "n_permutations": 400,
+      "owner": "paper-natural-workflow-study",
+      "partition_by": [],
+      "phi_min": 0.02,
+      "prefix_only": true,
+      "s_branch": 20,
+      "s_min": 5,
+      "seed": 20260803,
+      "synthesize_composites": true,
+      "w_max": 3,
+      "w_min": 2
+    },
+    "lab_promotion": {
+      "not_production_approval": true,
+      "scope": "isolated paper experiment only"
+    },
+    "observed_train_sequences": {
+      "issue_get_record -> issue_get_labels -> issue_get_comments": 20
+    },
+    "rejection_by_stage": {
+      "select:dominated": 1
+    },
+    "report": "GRC compile report\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\ncandidates mined        2\nartifacts emitted       1\nrejections by stage     {'select:dominated': 1}\nwindows accepted        40\nwindows blocked         {'non_prefix_runtime': 20}\nblocked by tool         {}\n  [emitted     ] issue_get_record/issue_get_labels/issue_get_comments supp=20 k=3.0\n  [dominated   ] issue_get_record/issue_get_labels                 supp=20 k=2.0  REJECTED: dominated_by_longer_region",
+    "selection_rule": "factually correct traces; stable hash split; no tool-order filter",
+    "splits": {
+      "chronological": false,
+      "digest": "6c5823a5a5c0558d",
+      "groups": {
+        "calibration": [
+          "github-natural-issue:138",
+          "github-natural-issue:1452",
+          "github-natural-issue:1836",
+          "github-natural-issue:2462",
+          "github-natural-issue:2489",
+          "github-natural-issue:2643",
+          "github-natural-issue:2681",
+          "github-natural-issue:2941",
+          "github-natural-issue:2945",
+          "github-natural-issue:2970",
+          "github-natural-issue:3320",
+          "github-natural-issue:3511",
+          "github-natural-issue:3550",
+          "github-natural-issue:3744",
+          "github-natural-issue:4005",
+          "github-natural-issue:4241",
+          "github-natural-issue:4351",
+          "github-natural-issue:4520",
+          "github-natural-issue:4639",
+          "github-natural-issue:4658",
+          "github-natural-issue:5093",
+          "github-natural-issue:5284",
+          "github-natural-issue:5482",
+          "github-natural-issue:5511",
+          "github-natural-issue:5633",
+          "github-natural-issue:5666",
+          "github-natural-issue:5757",
+          "github-natural-issue:5767",
+          "github-natural-issue:5789",
+          "github-natural-issue:6025",
+          "github-natural-issue:6034",
+          "github-natural-issue:6079",
+          "github-natural-issue:6109",
+          "github-natural-issue:6406",
+          "github-natural-issue:6566",
+          "github-natural-issue:6605",
+          "github-natural-issue:6651",
+          "github-natural-issue:6688",
+          "github-natural-issue:6721",
+          "github-natural-issue:6748",
+          "github-natural-issue:6788",
+          "github-natural-issue:7150",
+          "github-natural-issue:7186",
+          "github-natural-issue:7269",
+          "github-natural-issue:843"
+        ],
+        "dev": [
+          "github-natural-issue:1891",
+          "github-natural-issue:2195",
+          "github-natural-issue:228",
+          "github-natural-issue:2591",
+          "github-natural-issue:3282",
+          "github-natural-issue:3393",
+          "github-natural-issue:4386",
+          "github-natural-issue:4596",
+          "github-natural-issue:6913",
+          "github-natural-issue:7238"
+        ],
+        "shadow": [],
+        "test": [],
+        "train": [
+          "github-natural-issue:1741",
+          "github-natural-issue:189",
+          "github-natural-issue:1934",
+          "github-natural-issue:2012",
+          "github-natural-issue:2185",
+          "github-natural-issue:2446",
+          "github-natural-issue:2526",
+          "github-natural-issue:2624",
+          "github-natural-issue:2765",
+          "github-natural-issue:3052",
+          "github-natural-issue:3831",
+          "github-natural-issue:4094",
+          "github-natural-issue:4401",
+          "github-natural-issue:4721",
+          "github-natural-issue:4933",
+          "github-natural-issue:5288",
+          "github-natural-issue:595",
+          "github-natural-issue:7089",
+          "github-natural-issue:7477",
+          "github-natural-issue:768"
+        ]
+      },
+      "seed": 20260803,
+      "sizes": {
+        "calibration": 45,
+        "dev": 10,
+        "shadow": 0,
+        "test": 0,
+        "train": 20
+      }
+    }
+  },
+  "discovery_groups": 80,
+  "estimated_cost_usd": 0.06257765,
+  "manifest_id": "0ee8574ba2db",
+  "quality_passes": 79,
+  "schema": "gac-graded-issue-candidate/v2",
+  "status": "admitted"
+}

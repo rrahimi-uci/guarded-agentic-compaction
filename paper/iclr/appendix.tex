@@ -1477,16 +1477,32 @@ Neither gate showing graded coverage is a predeclared negative outcome.
 Execution reached four of five repositories, as detailed below; the original
 protocol remains the source for the complete design.
 
-\textbf{A pilot for this protocol has since run}
-(\code{gate-frontier-pilot-protocol.md}, in the same directory): 90 records
-stratified by whether an issue's evidence comments contain a Markdown-style
-link, the one mechanism this codebase has recorded for a compiled artifact's
-excerpt to diverge from its source. Violations concentrated there ($4/60$
-against $0/60$ at a matched baseline, one-sided $p=0.059$) while a bare nearby
-URL predicted nothing ($1/60$, $p=0.50$); one issue failed under both the
-unchanged agent and the compiled artifact independently. A weak go signal, not a
-frontier: it refines the calibration feature for the protocol above rather than
-substituting for it.
+\textbf{The 90-record pilot comparator is invalid for a compiled-effect claim}
+(\code{gate-frontier-pilot-protocol.md}, correction dated 2026-10-08). Its
+named compiled arm used a \code{compiled} policy manifest, while the retained
+artifact was registered under \code{base}; exact registry resolution therefore
+found no artifact. The pilot retained factual grades but no dispatch telemetry.
+Its reported Markdown-link contrast is a difference between stochastic
+model/tool runs and is withdrawn as a compiled-versus-unchanged result. The
+independently recorded primary-study excerpt error on issue 6602 still
+motivates the link stratum; its predictive value is unestablished.
+
+\textbf{An amended end-to-end issue gate study also retires}
+(\path{paper/supplementary/graded-issue-end-to-end-gate-protocol.md}).
+A pinned 474-issue cohort reserved 200 development, 184 calibration, and 90
+untouched test issues, enriched for link-bearing comments. The first attempt
+stopped after 288 ordinary fallbacks because the historical artifact's
+manifest did not match the current runtime; its checkpoint and estimated cost
+are retained. A compatible candidate was then re-derived from 80 disjoint
+historical discovery issues before any new-cohort compiled result. In the
+amended run, the candidate dispatched on all 200 development and 184
+calibration issues, with 4 and 2 final factual-task errors respectively. The
+frozen eleven-point grid admitted no threshold at $\alpha=0.05$ and
+$\delta=0.10$: at $\eta=0.02$, 64/184 groups had no errors but
+$U=0.0708$; at $\eta=0.50$, 153/184 had two errors and $U=0.0546$.
+The learned gate therefore retired before the 90-issue test. The support-only
+ablation accepts 184/184 with two observed errors, but it disables the risk
+budget; no held-out quality or savings comparison follows from this study.
 
 \textbf{The comparator feasibility bar has also been checked} (spike memo in the
 same directory): the retained feasibility memo did not identify a confirmed public AWO

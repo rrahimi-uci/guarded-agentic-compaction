@@ -1,0 +1,32 @@
+{
+  "actual_provider_invoice_verified": false,
+  "analysis_decision": "No v1 task-quality result is used to fit or calibrate a new gate; no automatic retry of the interrupted batch. The v2 amendment re-derives a compatible candidate from disjoint original discovery records and starts a separate checkpoint.",
+  "completed_by_phase": {
+    "calibration_compiled": 88,
+    "development_compiled": 200
+  },
+  "completed_compiled_dispatches": 0,
+  "completed_fallback_episodes": 288,
+  "diagnosis": "The historical registry artifact was bound to a base-condition manifest with older effect-catalog and tracer versions. The v1 runner used a compiled-condition manifest under the current runtime, so registry resolution returned no artifact on every completed episode.",
+  "estimated_cost_usd": 0.23622721,
+  "interrupted_batch": {
+    "issue_numbers": [
+      5442,
+      5458,
+      5475,
+      5532,
+      5536,
+      5566,
+      5570,
+      5601
+    ],
+    "phase": "calibration_compiled"
+  },
+  "interrupted_batch_reserve_usd": 8.0,
+  "no_artifact_fallback_episodes": 288,
+  "protocol_commit": "dd50899",
+  "raw_checkpoint": "paper/results/graded_issue_gate/checkpoint.json",
+  "schema": "gac-graded-issue-gate-abort/v1",
+  "status": "aborted_manifest_mismatch",
+  "test_issues_touched": 0
+}

@@ -8,6 +8,21 @@ probability. It supersedes the August assessment and the historical 94/100
 review. The assessment follows the [ICLR reviewer criteria](https://iclr.cc/Conferences/2027/ReviewerGuidelines):
 technical soundness, evidence, contribution, clarity, and reproducibility.
 
+**October 8 live-study addendum: 79/100 remains the ceiling on current
+evidence.** The 90-record link pilot's claimed compiled arm did not resolve
+the retained artifact because its manifest differed; that effect
+interpretation is withdrawn. A corrected, preregistered issue study executed
+200 development and 184 calibration compiled dispatches with 4 and 2 final
+task errors. Its learned gate retired under the unchanged eleven-point grid
+(best upper bound 0.0546 versus the 0.05 limit), before any held-out test.
+This improves error accounting and falsifies the planned positive gate
+result; it does not add a successful frontier or prospective quality claim.
+The original 79 is retained as a judgment because the pilot was diagnostic,
+not part of the primary evidence, and the corrected study adds a substantive
+negative result. The subsequent validation record below describes the
+provider-free *initial review* only; the live addendum and its raw artifacts
+are in `paper/results/graded_issue_gate/`.
+
 | Dimension | Score | Reason |
 |---|---:|---|
 | Technical soundness | 21/25 | The fixed-candidate, fixed-grid binomial argument is valid under its stated i.i.d. assumptions. Runtime effects and clean fallback are carefully bounded. Most certificates cover replay rather than final task quality. |

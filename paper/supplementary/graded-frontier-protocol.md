@@ -29,8 +29,11 @@ PR-outcome task the entry state is a single record number, so every entry-observ
 1. Calibration pool of at least **184 groups per repository** (certifies c = 0.5), sampled before
    filtering on recurrence, with violation labels defined for every dispatch-eligible member.
 2. An entry state with informative features: at minimum record age, discussion length, and label
-   ambiguity at the entry boundary, plus the Markdown-link stratification the pilot identified
-   (`gate-frontier-pilot-protocol.md`), so that `q` is not constant by construction.
+   ambiguity at the entry boundary, plus a Markdown-link diagnostic stratum
+   motivated by the primary issue-6602 excerpt error. The pilot comparison
+   cannot validate that stratum because its compiled arm lacked a compatible
+   artifact (`gate-frontier-pilot-protocol.md`, correction), so that `q` is not
+   constant by construction but its predictive value remains unproven.
 3. At least three target coverage levels chosen from the table above and declared before any
    label is read; the frozen grid Λ and budgets α, δ unchanged from the registered setting.
 4. Frozen candidate selection (Corollary 2) so the admitted gate carries a compiler-wide

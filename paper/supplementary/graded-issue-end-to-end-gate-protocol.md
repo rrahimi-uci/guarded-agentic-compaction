@@ -1,0 +1,189 @@
+# Prospective end-to-end gate study on public issues
+
+**Status: v1 aborted; amended v2 executed and learned gate retired before
+held-out test (2026-10-08).** The v2 amendment below was registered before
+candidate recompilation and before any v2 new-cohort call. This is a
+single-candidate, single-snapshot study. It tests whether a score learned from
+entry-observable source facts can produce admissible intermediate coverage when
+the violation is a final factual-task error after actual compiled dispatch. It
+does not establish cross-repository generalization or replace the executed
+multi-repository result in the main paper.
+
+## Frozen source, candidate, and sampling
+
+The source is the pinned public issue parquet and source manifest already used
+by the natural-workflow study. `paper/scripts/graded_issue_gate_preflight.py`
+checks its SHA-256 against the source manifest, applies the existing canonical
+duplicate-row rule, excludes all earlier study issue numbers plus the prior
+90-case pilot, and uses SHA-256 ranking with seed `20261008`. The resulting
+`paper/results/graded_issue_gate/preflight.json` seals 474 distinct issues with
+at least one comment: development 200, calibration 184, and test 90. The fixed
+plain-text / bare-URL / Markdown-link quotas are 80/60/60, 76/55/53, and
+37/30/23 respectively. This deliberately enriched mixture is the target
+population; results must not be presented as natural issue prevalence. No
+provider call was used to choose these cases.
+
+The original v1 design named the pre-existing `github_natural_live` registry
+artifact. V2 re-derives a compatible candidate as specified in the amendment
+below. The unchanged arm uses the same `gpt-5.6-luna` model, factual prompt,
+schema, snapshot-backed read tools, and independent factual grader as the
+prior natural-workflow study. Each v2 run retains its re-derived candidate's
+guard and original calibrated gate; this study adds a second, stricter
+routing decision outside it.
+
+## Entry read and score
+
+Before each episode, every arm makes one counted local source read. This read
+derives six descriptors: Markdown-link indicator in the first three comments,
+bare-URL indicator, log(1 + comment count), label count, title length / 100,
+and issue age in years as of the pinned snapshot's final day (2025-06-13).
+The score sees these numeric descriptors, not comment text, the model answer,
+the factual grade, or a test label. The read's count and elapsed time are
+recorded separately and included in total tool calls and wall latency for each
+arm. Its cost is local and has no provider charge. Computing the test routing
+decision from the same source is analysis work; it does not change the agent's
+prompt or expose a different tool response to one arm.
+
+The six-feature logistic `q` is fitted on 200 development groups with fixed
+seed. A group is a unique issue number. A wrong final factual answer following
+actual compiled dispatch is both an unproductive event for fitting and a
+violation for calibration; a refused dispatch is ineligible and cannot be a
+wrong-dispatch violation. The development label is never used to select the
+threshold. If development labels are degenerate, the existing fitting routine
+returns a constant score and that outcome must be reported.
+
+Calibration uses the existing eleven-point grid
+`(0.02, 0.05, 0.08, 0.11, 0.14, 0.17, 0.20, 0.25, 0.30, 0.40, 0.50)`,
+`alpha=0.05`, `delta=0.10`, minimum coverage `0.02`, and a Bonferroni-adjusted
+one-sided Clopper-Pearson bound. No test result affects fit, grid, or threshold.
+With zero violations a grid point needs at least 92 accepted calibration
+groups, so the 184-group pool can in principle certify 50% coverage. The
+support-only ablation uses the same score, candidate, and calibration groups
+with `alpha=1.0`, which appends accept-all threshold 1.0. It is an ablation of
+the risk budget, not an independent heuristic. If the learned gate retires,
+do not run the held-out test; report the retirement as the primary outcome.
+
+## Frozen test comparison and interpretation
+
+After calibration is recorded in `frozen_gate.json`, run all 90 test issues
+under the unchanged agent, learned routing, and support-only routing. A routed
+issue uses the original compiled runtime, which may itself refuse and fall back;
+an unrouted issue runs the unchanged agent. Count actual compiled dispatches
+separately from routing decisions. Record per-issue paired correctness, final
+task-contract errors, provider requests, total tool calls (including the
+entry read), wall latency (including the entry read), and estimated provider
+cost. Every incomplete or failed attempt stays in the denominator as an
+incomplete episode, not a pass. The study reports the full eleven-point
+calibration sweep, including each accepted count and violation count.
+
+Primary selectivity evidence requires at least three **distinct, admissible,
+nonzero** calibration coverage levels on the frozen grid; repeated coverage
+counts at several thresholds count once. Any observed held-out wrong dispatch
+in either gate is an adverse event that must be foregrounded. A
+learned gate that retires, has fewer than three levels, or gives no meaningful
+held-out benefit is a null or negative result, even if overall agent quality
+remains high. Because this is one selected repository, these outcomes cannot
+alone support a broad 85/100 ICLR-quality score or a cross-domain safety claim.
+
+## Execution and spending
+
+`graded_issue_gate_study.py` checks the source and cohort before calls, runs
+development, then calibration, then held-out test, and checkpoints after each
+batch of at most eight. It fails closed on an incomplete batch; a retry needs
+a documented protocol amendment. The authorized cap is $200. Before each
+batch it reserves $1 per attempted episode against that cap, in addition to
+measured prior estimated spend and failed-run reserves. This is an internal
+budget guard based on public model pricing, not an invoice or a hard provider
+billing limit; actual provider charges must be checked separately. Keys are
+read from `.env` and never serialized. Results and any deviations will be
+added to the same review PR after execution. Test-arm order is fixed rather
+than counterbalanced, and latency comparisons may include time trends.
+
+## Registered v2 amendment after the v1 manifest failure
+
+The v1 runner completed 200 development and 88 calibration episodes, all
+falling back with `no_artifact`, then was interrupted during an eight-issue
+batch. Its recorded estimated cost is $0.23622721 plus any unrecorded charge
+from that interrupted batch. The held-out 90 issues were untouched. The raw
+checkpoint and independent abort summary are retained under
+`paper/results/graded_issue_gate/`. These fallback outcomes are discarded for
+gate fitting and calibration, and no task-quality aggregate from them was used
+to alter the six features, quotas, threshold grid, or decision criteria.
+
+The cause is manifest incompatibility: the historical registry is bound to a
+`base` policy manifest and older effect-catalog/tracer versions; the v1 runner
+constructed a `compiled` manifest under the current runtime. No artifact
+resolved. The v2 candidate is therefore **re-derived**, not silently relabeled.
+`graded_issue_recompile_candidate.py` runs the original natural-workflow
+study's 80 discovery issue numbers, which are disjoint from all 474 new cohort
+issues, through the current factual prompt and read tools. It compiles with
+the original fixed `20/10/45` train/development/calibration split, current
+catalog, and `base` manifest. It saves the discovery traces, compiler report,
+and registry under `candidate_v2/`. An incomplete discovery or retired
+candidate stops the study. The v2 runner checks the registry's compatibility
+key against the exact live manifest before any new cohort provider call and
+stops after the first compiled batch if no actual dispatch occurs. The gate
+cohort, score features, budget parameters, statistical grid, and adverse
+decision rules above remain fixed. The v2 attempt uses `checkpoint_v2.json`
+and `results_v2.json`, and the v1 checkpoint is never resumed.
+
+The original pilot's claimed Markdown-link excess also needs re-evaluation:
+its harness constructed a `compiled` manifest for a registry bound to `base`
+and retained factual grades but no dispatch telemetry. We no longer use that
+pilot as evidence of a compiled-context error rate. The one independently
+recorded primary-study Markdown-link excerpt error still motivates a
+diagnostic stratum, but it is not proof of predictive selectivity.
+
+**Provider-free compilation repair.** The v2 discovery call completed 80/80
+episodes with no execution failure; 79 passed the factual task contract. The
+first compile invocation stopped because its run label was `v2_discovery`,
+while the existing compiler filters for literal `discovery`. The complete
+native episodes were saved before that filter. `--from-saved` reconstructs
+those same episodes and maps only the wrapper condition label to `discovery`
+for the existing compiler; no tool observation, answer, quality label, split,
+or manifest is changed, and no provider call is repeated. The saved raw label
+and the normalization remain visible in the audit record. This implementation
+repair was made before any v2 new-cohort or held-out call.
+The committed discovery copy replaces 84 opaque serialized provider reasoning
+items and clears 183 encrypted-content fields. A provider-free recompile from
+that redacted copy produced an identical artifact record, including the
+candidate id, 45 accepted original calibration groups, and gate bound.
+Original and redacted episode digests are both retained per row.
+
+## Observed amended result
+
+The re-derived candidate retained program id `cand-00-9704d2d4a908` under a
+new compatible manifest. V2 completed 200/200 development and 184/184
+calibration episodes with actual compiled dispatch on every issue and no
+incomplete episode. Final factual-task errors were 4/200 on development and
+2/184 on calibration. The provider-free audit in
+`paper/results/graded_issue_gate/audit_v2.json` rechecks each answer against
+the source, every dispatch, cohort disjointness, the full grid, exact bounds,
+and cost arithmetic. It reports zero provider calls for that audit.
+
+| Frozen threshold | Accepted / 184 | Task errors | One-sided upper bound |
+|---:|---:|---:|---:|
+| 0.02 | 64 | 0 | 0.0708 |
+| 0.05 | 84 | 1 | 0.0776 |
+| 0.08 | 96 | 1 | 0.0682 |
+| 0.11 | 105 | 2 | 0.0787 |
+| 0.14 | 108 | 2 | 0.0766 |
+| 0.17 | 114 | 2 | 0.0727 |
+| 0.20 | 119 | 2 | 0.0697 |
+| 0.25 | 129 | 2 | 0.0644 |
+| 0.30 | 134 | 2 | 0.0621 |
+| 0.40 | 144 | 2 | 0.0579 |
+| 0.50 | 153 | 2 | 0.0546 |
+
+No row meets the registered 0.05 limit; the learned gate retires. The
+support-only ablation's appended accept-all threshold admits 184/184 with
+two errors and an upper bound of 0.0461 under its twelve-point confidence
+split, but `alpha=1` disables the risk decision by design. This descriptive
+bound does not turn the learned eleven-point grid into a certified frontier.
+The 90 test issues were never run, so there is no held-out noninferiority,
+quality, latency, or cost comparison from this study. The v2 provider calls
+had $0.16273115 in recorded estimated cost; original discovery re-derivation
+had $0.06257765; completed v1 fallback calls had $0.23622721. The sum of
+retained estimates is $0.46153601, with possible unrecorded charges from the
+eight interrupted v1 attempts. No invoice was verified. This negative result
+does not justify a higher ICLR quality rating.
