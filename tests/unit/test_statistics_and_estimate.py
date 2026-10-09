@@ -22,10 +22,22 @@ from guarded_agentic_compaction.grc.calibrate import (
     CalibrationSample,
     calibrate_gate,
     clopper_pearson_upper,
+    fit_gate_model,
 )
 from guarded_agentic_compaction.schema.artifacts import GateModel
-
 from scripts.generate_synthetic import ENTRY_ALLOWLIST, SYNTHETIC_CATALOG, generate
+
+
+def test_gate_model_supports_explicit_entry_only_features():
+    samples = [
+        CalibrationSample(f"group-{i}", {"comment_risk": float(i % 2)},
+                          unproductive=bool(i % 2), violation=bool(i % 2))
+        for i in range(20)
+    ]
+    model, out_of_fold = fit_gate_model(samples, feature_names=("comment_risk",), seed=7)
+    assert model.features == ("comment_risk",)
+    assert len(out_of_fold) == len(samples)
+    assert model.score({"comment_risk": 1.0}) > model.score({"comment_risk": 0.0})
 
 
 def test_clopper_pearson_zero_events_closed_form():

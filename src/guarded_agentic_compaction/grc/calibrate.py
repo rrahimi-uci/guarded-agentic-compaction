@@ -264,7 +264,10 @@ class CalibrationSample:
     reason: str = ""
 
 
-def fit_gate_model(samples: Sequence[CalibrationSample], *, seed: int = 0) -> tuple[GateModel, list[float]]:
+def fit_gate_model(
+    samples: Sequence[CalibrationSample], *, seed: int = 0,
+    feature_names: tuple[str, ...] = FEATURE_NAMES,
+) -> tuple[GateModel, list[float]]:
     """Fit ``q`` with scenario-grouped out-of-fold predictions.
 
     Returns the model fitted on all samples plus the out-of-fold scores used for
@@ -275,20 +278,22 @@ def fit_gate_model(samples: Sequence[CalibrationSample], *, seed: int = 0) -> tu
 
     import numpy as np
 
-    X = np.array([[s.features.get(f, 0.0) for f in FEATURE_NAMES] for s in samples], dtype=float)
+    if not feature_names or len(set(feature_names)) != len(feature_names):
+        raise ValueError("feature_names must be nonempty and unique")
+    X = np.array([[s.features.get(f, 0.0) for f in feature_names] for s in samples], dtype=float)
     y = np.array([1 if s.unproductive else 0 for s in samples], dtype=int)
     groups = np.array([s.group for s in samples])
 
-    means = X.mean(axis=0) if len(X) else np.zeros(len(FEATURE_NAMES))
-    scales = X.std(axis=0) if len(X) else np.ones(len(FEATURE_NAMES))
+    means = X.mean(axis=0) if len(X) else np.zeros(len(feature_names))
+    scales = X.std(axis=0) if len(X) else np.ones(len(feature_names))
     # Near-zero variance must be treated as zero variance: dividing by 1e-15 turns a
     # constant feature into an infinite standardized value and saturates the score.
     scales[scales < 1e-9] = 1.0
 
     if len(set(y.tolist())) < 2:
         model = GateModel(
-            features=FEATURE_NAMES,
-            weights=tuple(0.0 for _ in FEATURE_NAMES),
+            features=feature_names,
+            weights=tuple(0.0 for _ in feature_names),
             bias=-6.0 if y.sum() == 0 else 6.0,
             feature_means=tuple(means.tolist()),
             feature_scales=tuple(scales.tolist()),
@@ -307,8 +312,8 @@ def fit_gate_model(samples: Sequence[CalibrationSample], *, seed: int = 0) -> tu
         prevalence = min(1 - 1e-6, max(1e-6, float(y.mean())))
         bias = math.log(prevalence / (1.0 - prevalence))
         model = GateModel(
-            features=FEATURE_NAMES,
-            weights=tuple(0.0 for _ in FEATURE_NAMES),
+            features=feature_names,
+            weights=tuple(0.0 for _ in feature_names),
             bias=bias,
             feature_means=tuple(means.tolist()),
             feature_scales=tuple(scales.tolist()),
@@ -332,7 +337,7 @@ def fit_gate_model(samples: Sequence[CalibrationSample], *, seed: int = 0) -> tu
     final = LogisticRegression(max_iter=500, class_weight="balanced", random_state=seed)
     final.fit(Xs, y)
     model = GateModel(
-        features=FEATURE_NAMES,
+        features=feature_names,
         weights=tuple(float(w) for w in final.coef_[0]),
         bias=float(final.intercept_[0]),
         feature_means=tuple(means.tolist()),
