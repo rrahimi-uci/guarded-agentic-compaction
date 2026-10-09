@@ -1,6 +1,7 @@
 # Prospective end-to-end gate study on public issues
 
-**Status: preflight sealed, provider execution pending (2026-10-08).** This is a
+**Status: v1 aborted before any new-cohort compiled dispatch; v2 amendment
+registered before candidate recompilation or held-out execution (2026-10-08).** This is a
 single-candidate, single-snapshot study. It tests whether a score learned from
 entry-observable source facts can produce admissible intermediate coverage when
 the violation is a final factual-task error after actual compiled dispatch. It
@@ -21,13 +22,13 @@ plain-text / bare-URL / Markdown-link quotas are 80/60/60, 76/55/53, and
 population; results must not be presented as natural issue prevalence. No
 provider call was used to choose these cases.
 
-The compiled candidate is the pre-existing `github_natural_live` registry
-artifact, whose program, hard guard, and original calibrated gate are frozen.
-It was compiled before this cohort was selected. The unchanged arm uses the
-same `gpt-5.6-luna` model, factual prompt, schema, snapshot-backed read tools,
-and independent factual grader as the prior natural-workflow study. All runs
-retain the original artifact's guard and gate; this study adds a second,
-stricter routing decision outside it.
+The original v1 design named the pre-existing `github_natural_live` registry
+artifact. V2 re-derives a compatible candidate as specified in the amendment
+below. The unchanged arm uses the same `gpt-5.6-luna` model, factual prompt,
+schema, snapshot-backed read tools, and independent factual grader as the
+prior natural-workflow study. Each v2 run retains its re-derived candidate's
+guard and original calibrated gate; this study adds a second, stricter
+routing decision outside it.
 
 ## Entry read and score
 
@@ -96,3 +97,38 @@ billing limit; actual provider charges must be checked separately. Keys are
 read from `.env` and never serialized. Results and any deviations will be
 added to the same review PR after execution. Test-arm order is fixed rather
 than counterbalanced, and latency comparisons may include time trends.
+
+## Registered v2 amendment after the v1 manifest failure
+
+The v1 runner completed 200 development and 88 calibration episodes, all
+falling back with `no_artifact`, then was interrupted during an eight-issue
+batch. Its recorded estimated cost is $0.23622721 plus any unrecorded charge
+from that interrupted batch. The held-out 90 issues were untouched. The raw
+checkpoint and independent abort summary are retained under
+`paper/results/graded_issue_gate/`. These fallback outcomes are discarded for
+gate fitting and calibration, and no task-quality aggregate from them was used
+to alter the six features, quotas, threshold grid, or decision criteria.
+
+The cause is manifest incompatibility: the historical registry is bound to a
+`base` policy manifest and older effect-catalog/tracer versions; the v1 runner
+constructed a `compiled` manifest under the current runtime. No artifact
+resolved. The v2 candidate is therefore **re-derived**, not silently relabeled.
+`graded_issue_recompile_candidate.py` runs the original natural-workflow
+study's 80 discovery issue numbers, which are disjoint from all 474 new cohort
+issues, through the current factual prompt and read tools. It compiles with
+the original fixed `20/10/45` train/development/calibration split, current
+catalog, and `base` manifest. It saves the discovery traces, compiler report,
+and registry under `candidate_v2/`. An incomplete discovery or retired
+candidate stops the study. The v2 runner checks the registry's compatibility
+key against the exact live manifest before any new cohort provider call and
+stops after the first compiled batch if no actual dispatch occurs. The gate
+cohort, score features, budget parameters, statistical grid, and adverse
+decision rules above remain fixed. The v2 attempt uses `checkpoint_v2.json`
+and `results_v2.json`, and the v1 checkpoint is never resumed.
+
+The original pilot's claimed Markdown-link excess also needs re-evaluation:
+its harness constructed a `compiled` manifest for a registry bound to `base`
+and retained factual grades but no dispatch telemetry. We no longer use that
+pilot as evidence of a compiled-context error rate. The one independently
+recorded primary-study Markdown-link excerpt error still motivates a
+diagnostic stratum, but it is not proof of predictive selectivity.

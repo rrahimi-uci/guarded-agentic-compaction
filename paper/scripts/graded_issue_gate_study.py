@@ -35,9 +35,10 @@ from guarded_agentic_compaction.grc.calibrate import CalibrationSample, calibrat
 from guarded_agentic_compaction.registry.store import Registry  # noqa: E402
 
 OUT = ROOT / "paper/results/graded_issue_gate"
-CHECKPOINT = OUT / "checkpoint.json"
-RESULT = OUT / "results.json"
-REGISTRY = ROOT / "paper/results/github_natural_live/registry/registry.json"
+CHECKPOINT = OUT / "checkpoint_v2.json"
+RESULT = OUT / "results_v2.json"
+REGISTRY = OUT / "candidate_v2/registry/registry.json"
+ABORT = OUT / "abort_v1.json"
 MODEL = "gpt-5.6-luna"
 FEATURE_NAMES = ("markdown_link", "bare_url", "log_comments", "label_count", "title_length", "age_years")
 MAX_RESERVED_USD_PER_EPISODE = 1.0
@@ -100,15 +101,17 @@ def _cost(rows: list[dict]) -> float:
     return sum(float(row.get("metrics", {}).get("estimated_cost_usd") or 0.0) for row in rows)
 
 
-def _checkpoint(preflight_sha: str, cap: float) -> dict:
+def _checkpoint(preflight_sha: str, candidate_sha: str, cap: float) -> dict:
     if CHECKPOINT.exists():
         data = json.loads(CHECKPOINT.read_text())
-        if data.get("preflight_sha256") != preflight_sha or data.get("model") != MODEL or data.get("approved_spend_usd") != cap:
-            raise ValueError("checkpoint does not match frozen preflight, model, or spend cap")
+        if (data.get("preflight_sha256") != preflight_sha or data.get("candidate_sha256") != candidate_sha
+                or data.get("model") != MODEL or data.get("approved_spend_usd") != cap):
+            raise ValueError("checkpoint does not match frozen preflight, candidate, model, or spend cap")
         if data.get("failures") or data.get("pending_batch"):
             raise ValueError("prior failed or interrupted provider batch requires a protocol amendment before retry")
         return data
-    return {"schema": "gac-graded-issue-gate-checkpoint/v1", "preflight_sha256": preflight_sha,
+    return {"schema": "gac-graded-issue-gate-checkpoint/v2", "preflight_sha256": preflight_sha,
+            "candidate_sha256": candidate_sha,
             "model": MODEL, "approved_spend_usd": cap, "runs": {}, "failures": [],
             "estimated_spend_usd": 0.0, "failed_run_reserve_usd": 0.0,
             "provider_episodes_attempted": 0, "pending_batch": None}
@@ -129,7 +132,9 @@ async def run_phase(
         batch = remaining[index:index + args.batch_size]
         prereads = {number: risk_read(store, number)[1] for number in batch}
         reserve = len(batch) * MAX_RESERVED_USD_PER_EPISODE
-        counted = checkpoint["estimated_spend_usd"] + checkpoint["failed_run_reserve_usd"]
+        aborted = json.loads(ABORT.read_text())
+        counted = (checkpoint["estimated_spend_usd"] + checkpoint["failed_run_reserve_usd"]
+                   + aborted["estimated_cost_usd"] + aborted["interrupted_batch_reserve_usd"])
         if counted + reserve > args.approved_spend_usd:
             raise RuntimeError(f"budget gate stopped before {phase}; counted={counted:.4f}, reserve={reserve:.2f}")
         checkpoint["pending_batch"] = {"phase": phase, "issue_numbers": batch}
@@ -154,6 +159,8 @@ async def run_phase(
         checkpoint["failed_run_reserve_usd"] = len(checkpoint["failures"]) * MAX_RESERVED_USD_PER_EPISODE
         checkpoint["provider_episodes_attempted"] += len(batch)
         checkpoint["pending_batch"] = None
+        if compiled and not any(int(row.get("dispatch", {}).get("compacted", 0)) > 0 for row in saved):
+            checkpoint["failures"].append({"phase": phase, "error": "no actual compiled dispatch; stop before further batches"})
         CHECKPOINT.write_text(json.dumps(checkpoint, indent=2, sort_keys=True, default=str) + "\n")
         print(f"{phase}: {len(saved)}/{len(numbers)}; estimated spend ${checkpoint['estimated_spend_usd']:.4f}", flush=True)
         if failures or len(results) != len(batch):
@@ -175,17 +182,22 @@ async def run(args: argparse.Namespace) -> dict:
         raise ValueError("cohort/source drift; no provider call")
     if RESULT.exists():
         raise ValueError("retained result exists; refusing to overwrite")
+    if not REGISTRY.exists() or not ABORT.exists():
+        raise ValueError("v2 candidate and v1 abort record are required before provider calls")
+    candidate_sha = cohort.sha256(REGISTRY)
     store, _ = fixed.build_store(pd.read_parquet(prior.SNAPSHOT))
     registry = Registry.load(REGISTRY)
     tools = fixed.make_tools(store)
     catalog = natural.make_catalog()
-    base_manifest = natural.make_manifest(MODEL, tools, catalog, "unchanged")
-    compiled_manifest = natural.make_manifest(MODEL, tools, catalog, "compiled")
+    base_manifest = natural.make_manifest(MODEL, tools, catalog, "base")
+    compiled_manifest = base_manifest
+    if not registry.resolve(compiled_manifest.compatibility_key(), {}, kind="grc"):
+        raise ValueError("v2 candidate does not resolve under the live manifest; no provider call")
     from agents import add_trace_processor
     processor = AgentsTraceProcessor(include_sensitive_data=True, max_completed=4000)
     add_trace_processor(processor)
     OUT.mkdir(parents=True, exist_ok=True)
-    checkpoint = _checkpoint(preflight_sha, args.approved_spend_usd)
+    checkpoint = _checkpoint(preflight_sha, candidate_sha, args.approved_spend_usd)
     async def phase(name: str, numbers: list[int], compiled: bool) -> list[dict]:
         return await run_phase(name, numbers, compiled=compiled, store=store,
                                checkpoint=checkpoint, args=args, processor=processor,
@@ -208,7 +220,7 @@ async def run(args: argparse.Namespace) -> dict:
                                    "task_errors": sum(s.violation for s in dev_samples)},
                    "calibration": {"groups": len(samples), "admitted": sum(s.eligible for s in samples),
                                      "task_errors": sum(s.violation for s in samples)}}
-    (OUT / "frozen_gate.json").write_text(json.dumps(gate_record, indent=2, sort_keys=True) + "\n")
+    (OUT / "frozen_gate_v2.json").write_text(json.dumps(gate_record, indent=2, sort_keys=True) + "\n")
     if learned.retire:
         payload = {"schema": "gac-graded-issue-gate-result/v1", "status": "retired_before_test",
                    "preflight_sha256": preflight_sha, "gate": gate_record,

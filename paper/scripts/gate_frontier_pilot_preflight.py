@@ -54,6 +54,7 @@ RESULTS_ROOT = ROOT / "paper" / "results"
 # "already used by a PRIOR, independent study" is supposed to mean.
 EXCLUDED_SUBSTRINGS = (
     "external_benchmarks", "multidomain", "nestful", "frozen_candidate", "gate_frontier_pilot",
+    "graded_issue_gate",  # sealed after this pilot; never part of its historical exclusion count
 )
 
 RECORD_NUMBER_PATTERN = re.compile(r'"(?:issue_number|record_number)"\s*:\s*(\d+)')

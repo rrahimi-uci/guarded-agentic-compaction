@@ -50,10 +50,26 @@ def test_sealed_cohort_matches_current_source_and_prior_exclusions() -> None:
 def test_interrupted_paid_batch_cannot_be_silently_retried(monkeypatch, tmp_path: Path) -> None:
     checkpoint_path = tmp_path / "checkpoint.json"
     monkeypatch.setattr(study, "CHECKPOINT", checkpoint_path)
-    state = study._checkpoint("sealed-sha", 200.0)
+    state = study._checkpoint("sealed-sha", "candidate-sha", 200.0)
     state["pending_batch"] = {"phase": "development_compiled", "issue_numbers": [4242]}
     checkpoint_path.write_text(json.dumps(state))
     import pytest
 
     with pytest.raises(ValueError, match="interrupted provider batch"):
-        study._checkpoint("sealed-sha", 200.0)
+        study._checkpoint("sealed-sha", "candidate-sha", 200.0)
+
+
+def test_old_pilot_compiled_manifest_cannot_resolve_base_artifact() -> None:
+    import pandas as pd
+    import github_live_study as fixed
+    import github_natural_workflow_study as natural
+    from guarded_agentic_compaction.registry.store import Registry
+
+    store, _ = fixed.build_store(pd.read_parquet(fixed.DATA_PATH))
+    tools = fixed.make_tools(store)
+    catalog = natural.make_catalog()
+    base = natural.make_manifest(study.MODEL, tools, catalog, "base")
+    mismatched = natural.make_manifest(study.MODEL, tools, catalog, "compiled")
+    registry = Registry.load(ROOT / "paper/results/github_natural_live/registry")
+    assert base.compatibility_key() != mismatched.compatibility_key()
+    assert registry.resolve(mismatched.compatibility_key(), {}, kind="grc") == []
