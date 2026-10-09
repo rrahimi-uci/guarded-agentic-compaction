@@ -9,9 +9,9 @@ this repository. When the paper was retitled, the deck therefore could not be
 regenerated. This script performs the narrow edit the regeneration would have
 made, so the shipped deck stops contradicting the manuscript.
 
-It touches only the *generated* deck. `GAC-seminar.pptx` is a user-supplied
-source template whose hash both the generator and
-`restyle_detailed_deck.py` verify; editing it would break both.
+It touches only the *generated* deck. `GAC-seminar.pptx` is a source template
+whose hash `restyle_detailed_deck.py` verifies; its content is kept current by
+`refresh_seminar_deck.py` instead, which leaves the frame the restyle reads intact.
 
 What it changes
 ---------------

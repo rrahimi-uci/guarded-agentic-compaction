@@ -1,18 +1,28 @@
 {
   "schema": "agent-compaction-slide-template-map/v1",
-  "note": "One deck ships: the technical-review deck. GAC-seminar.pptx is retained because the restyle script reads its design system, not because it renders a deck of its own.",
+  "note": "One deck ships as the publication deck: the technical review. GAC-seminar.pptx is retained because the restyle script reads its design system, and it is kept current as the seminar version of the talk (see content_refresh).",
   "templates": {
     "seminar": {
       "path": "paper/slides/GAC-seminar.pptx",
-      "sha256": "a5204149a5fdc2dc4e2e2f79a6926a17336a3e5c5740b5ebb7d95ec7c59df8a0",
-      "source_slides": 25,
-      "role": "Design-system source. paper/scripts/restyle_detailed_deck.py reads its palette, letter-spacing, footer and title geometry, and section-divider frame against the hash above.",
+      "sha256": "53eb547e01bd5a9a8725ff7d3bbeef0cd39485da199a20c4211515cc1dd402fd",
+      "source_slides": 26,
+      "role": "Design-system source and current seminar deck. paper/scripts/restyle_detailed_deck.py reads its section-divider frame (slide 5) against the hash above; paper/scripts/refresh_seminar_deck.py keeps its content on the current paper.",
       "retired_output": {
         "path": "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs.pptx",
         "sha256": "4867b288df8a7c02ca1efbfefa12ef0b55833649be59552aeb3bb58e503dad9d",
         "slides": 27,
         "reason": "The 27-slide seminar deck was removed; the technical deck now carries the same design system and is the only shipped deck.",
         "recover": "git show <commit>:paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs.pptx"
+      },
+      "content_refresh": {
+        "script": "paper/scripts/refresh_seminar_deck.py",
+        "previous_sha256": "a5204149a5fdc2dc4e2e2f79a6926a17336a3e5c5740b5ebb7d95ec7c59df8a0",
+        "previous_slides": 25,
+        "recover_previous": "git show 1979965:paper/slides/GAC-seminar.pptx",
+        "divider_frame_unchanged": "ppt/slides/slide5.xml is byte-identical before and after, so restyle_detailed_deck.py reads the same design-system frame",
+        "generator_note": "generate_slides.mjs maps the 25-slide pre-refresh template; run it against the bytes recovered with recover_previous",
+        "equations": "paper/slides/seminar-equations/ (rendered from the paper's equations; refresh_seminar_deck.py --render-equations regenerates them)",
+        "verified": "exported to PDF through Microsoft PowerPoint and all 26 slides inspected for overflow"
       }
     },
     "technical": {
