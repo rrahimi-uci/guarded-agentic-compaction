@@ -47,7 +47,7 @@
   "outputs": {
     "technical": {
       "path": "paper/slides/compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx",
-      "sha256": "8d8ab625592c15e3414a4551d4f1ec37c4a5ce03c9fba781c54dfdd8e9508b75",
+      "sha256": "747ee66935e7215af0af05d8e2f2e40f8835c1c7a3c36f4d073408240ed6e196",
       "slides": 29
     }
   },
@@ -174,14 +174,15 @@
       "refresh_gate_frontier_slide.py",
       "resync_slide_coordinates.py"
     ],
-    "source": "paper/iclr (October 2026: PRs #67-#71) and paper/results/{bird,time_forward,drift_continuation_graded}",
+    "source": "paper/iclr as merged through PR #73 (all-scheduled BIRD accounting of #72; the retired 184-group issue gate of #73) and paper/results/{bird,time_forward,drift_continuation_graded}",
     "changes": [
       "three results slides inserted after slide 20 on its two-card frame (26 -> 29 slides): BIRD where GAC helps; what the certificates certify plus replications and drift; NESTFUL and AppWorld with no measured benefit",
+      "BIRD slide follows the paper's all-scheduled accounting: 402 vs 403 correct of 630, -45.8% requests on 629 completed pairs, 95% interval -3.3 to +3.0 points, -49.6% on gpt-6-luna; equivalence not established",
       "title-slide stats: 3 GitHub families with 90/90 contracts; 26 of 31 BIRD databases compiled; 0 end-to-end misses on 132 fresh pull requests; date October 2026",
-      "short-version stats and takeaways: -66.6% GitHub requests, -45.9% BIRD model calls, 0/132 end-to-end misses; refusals; limits (certificates confirm sample size, snapshot-local savings, no guard protection under drift)",
+      "short-version stats and takeaways: -66.6% GitHub requests, -45.8% BIRD model calls, 0/132 end-to-end misses; refusals; limits (certificates confirm sample size, snapshot-local savings, no guard protection under drift)",
       "evidence-tier slide: the live-provider tier now includes the BIRD SQL agent",
       "slide 17: '45/45 tool replays' corrected to '45/45 calibration replays'; missing space between two runs restored",
-      "limitations slide: the closed latency-ordering caveat replaced by the adverse drift result; the overflowing gate-frontier body shortened; 'Also worth knowing' bullets brought to the current paper",
+      "limitations slide: the closed latency-ordering caveat replaced by the adverse drift result; the overflowing gate-frontier body shortened and the retired 184-group end-to-end issue gate added; 'Also worth knowing' bullets brought to the current paper",
       "page footers renumbered to presentation order"
     ],
     "verified": "rendered through Microsoft PowerPoint to PDF; all 29 slides inspected; no text overflows its box"
