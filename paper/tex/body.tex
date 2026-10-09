@@ -76,7 +76,7 @@ walks through the decision with an executed held-out record.
 \end{figure}
 
 Successful replay is still narrower than safe substitution. In a separate, earlier
-18-record study, an aggressive three-read artifact replayed all 45 tool calls but passed
+18-record study, an aggressive three-read artifact replayed all 45 calibration groups but passed
 only 17 exact answer contracts. On issue 6602 it returned Markdown anchor text where the
 contract required the full URL. A provider-free \code{ContinuationGuard} detects the miss
 and checked-renders all 18 cases; this is a mechanism check, not live safety evidence.
@@ -324,11 +324,11 @@ $G=(x_1,\ldots,x_m)$, define $D_A(G)=\max_i d_A(x_i)$ and
 $W_A(G)=\max_i d_A(x_i)L(A,x_i)$.  We seek an artifact with high coverage and savings
 subject to bounded selective risk:
 \begin{align}
-  \max_A\quad & \mathbb{E}\left[d_A(X)\{C(B,X)-C(A,X)\}\right] \\
+  \max_A\quad & \mathbb{E}_{G\sim\mathcal{D}_{\mathrm{grp}}}\!\left[\sum_{x\in G}d_A(x)\{C(B,x)-C(A,x)\}\right] \\
   \text{s.t.}\quad & \Pr[W_A(G)=1\mid D_A(G)=1]\leq\alpha,
   \label{eq:objective}
 \end{align}
-where $B$ is the unchanged agent.  The constraint conditions on dispatch: abstention does
+where $B$ is the unchanged agent.  The constraint conditions on dispatch: pre-dispatch abstention does
 not enter its denominator, although it earns no savings in the objective; by convention
 its conditional risk is zero when population dispatch probability is zero.  The
 implementation may return no artifact (\retire); this is a valid optimizer output.
@@ -341,7 +341,8 @@ implementation may return no artifact (\retire); this is a valid optimizer outpu
   is measured \emph{inside} it: an episode that misses on the manifest, the guard, or the
   gate returns the baseline and never enters the denominator, so it is not a compacted
   failure.  A staged failure caught before the commit line also returns the baseline, but
-  it does stay in the denominator, and only a post-commit dirty failure is an incident.
+  it does stay in the denominator. A failure whose effects cannot be proved clean
+  raises an incident.
   The 40/30/30 split is illustrative and is drawn only to separate the two quantities; no
   coverage rate is claimed here.}
   \Description{A horizontal strip of one hundred future episodes divided into three
@@ -350,7 +351,7 @@ implementation may return no artifact (\retire); this is a valid optimizer outpu
   conditional selective-risk probability. The first two segments flow to an unchanged
   baseline agent box; the dispatched segment flows to a staged execution box, which
   splits into a compacted outcome when the verifier passes and a baseline outcome when it
-  fails cleanly, with a separate red box for a dirty post-commit incident.}
+  fails cleanly, with a separate red box for an unattested-failure incident.}
   \label{fig:dispatch-population}
 \end{figure*}
 
@@ -362,7 +363,8 @@ after dispatch, not the fraction of all 100 that were answered correctly.  A wor
 where the gate abstains on 70 of 100 episodes therefore has poor coverage and can still
 satisfy the constraint exactly, which is the trade \cref{fig:dispatch-population} is drawn
 to expose. The reported live studies use one episode per group; for multi-episode groups,
-the formal objective instead counts a group as admitted or violating when any member does.
+the risk constraint counts a group as admitted or violating when any member does,
+and the objective sums savings over members under the same group distribution.
 
 At the compiler layer the implemented action set is $\{B,A\}$: retain the baseline or
 admit one compiled artifact.  The separate portfolio layer in
@@ -514,9 +516,8 @@ region, but the shipped ranking approximates it by the fraction of tool names co
 namespace separator --- a naming convention, not a reading of the effect catalog.  $|F|$ is
 intended as the size of the program the family would produce, but ranking precedes
 synthesis, so the implementation substitutes the argument-slot count of the first observed
-window.  Both appear only in a \emph{ranking} heuristic: no admission decision depends on
-either, and the effect catalog is consulted where it is load-bearing --- in qualification
-and in the runtime facade.  Making them faithful would reorder candidates and therefore
+window. Both affect ranking and hence the candidate tested, but neither enters
+the risk bound. The effect catalog is checked in qualification and in the runtime facade.  Making them faithful would reorder candidates and therefore
 require re-running the offline study; we list it as future work rather than describe
 semantics the code does not enforce.
 
@@ -529,12 +530,11 @@ achieve even with a perfect verifier and a gate that never abstains:
 \end{equation}
 with $n_B$ baseline model requests per episode, $\varphi$ the fraction of episodes holding
 at least one eligible region, $k$ the requests removed per successful dispatch, and $\rho$
-the verifier pass rate.  Because \eqref{eq:ceiling} assumes $\rho=1$, no measured reduction can
-\emph{exceed} it, and it is met with equality exactly when nothing abstains and nothing
-fails.  That is what happens in \cref{sec:rq2}: with $\varphi=1$, $k=3$ and $n_B=4$ the
-ceiling is $0.750$ and the measured reduction is $75.0\%$.  A saturated ceiling carries no
-information about the compiler --- it confirms only that the task fully determined the
-region, which for that workload it does.  Reporting the ceiling first makes a decisive negative
+the verifier pass rate.  Equation~\eqref{eq:ceiling} bounds requests removed by the prefix at fixed
+continuation workload. Changes to downstream reasoning or fallback can change
+total requests beyond that calculation.  For the fixed-workload example in \cref{sec:rq2}: with $\varphi=1$, $k=3$ and $n_B=4$ the
+ceiling is $0.750$ and the measured reduction is $75.0\%$.  Reaching this ceiling measures boundary removal on this workload; it does not
+establish usefulness on workflows with less recurrent structure.  Reporting the ceiling first makes a decisive negative
 answer cheap: a workload whose ceiling is under the target can be declined without
 building a compiler for it.
 
@@ -543,7 +543,7 @@ building a compiler for it.
   \input{../figures/fig-rank-ceiling.tex}
   \caption{Two pre-synthesis questions, neither of which is admission.  \textbf{(A)}
   Equation~\eqref{eq:score} orders candidates so that synthesis effort goes somewhere useful.
-  It affects which fixed candidates are tried, but no admission decision reads it and the
+  It affects which fixed candidates are tried, but the risk bound does not use the ranking score and the
   compiler retains nondominated calibrated survivors rather than claiming a first-family
   optimum.  \textbf{(B)} Equation~\eqref{eq:ceiling} bounds what a perfect verifier and a
   never-abstaining gate could remove.  It is necessary, not sufficient: a saturated
@@ -551,7 +551,7 @@ building a compiler for it.
   succeeded.  The gauge is drawn at the values \cref{sec:rq2} reports.}
   \Description{Two panels. The left panel is a sorting table of four candidate families
   with score bars in descending order, the score expression beneath it, and a dashed rule
-  labelled ranking only, warning that no admission decision depends on it and that two
+  labelled ranking only, warning that it affects candidate choice but not the bound and that two
   terms are coarse in the implementation. The right panel is a gauge from zero to one
   with the feasibility ceiling marked at 0.750 for the reported values, annotated that
   the ceiling assumes a perfect verifier and is therefore necessary rather than
@@ -2581,7 +2581,7 @@ tool pre/post-state invariants~\cite{winston2026agentjit}.  Both are closer comp
 comparators than prompt-only optimizers.  \method differs by mining recurrent
 cross-execution regions from value-level traces and attaching a conditional group-level
 contract bound; the present experiments do not establish superiority to either system.
-Agentic plan caching adapts reusable plan templates and reports 46.62\% mean cost
+Agentic plan caching adapts reusable plan templates and reports 50.31\% mean cost
 reduction~\cite{zhang2025plancache}.  \method adds explicit typed provenance, effect and
 position barriers, hard compatibility contracts, verifier/staging semantics, and an exact
 selective admission rule.  Our result should not be read as a head-to-head improvement:
@@ -2652,8 +2652,8 @@ tasks, and 73\% on a GitHub triage workload, with a \code{CacheAligner} whose st
 to flag content that would bust a provider {KV}-cache prefix~\cite{headroom2026}.  The
 comparison is worth stating precisely because the token numbers are superficially similar
 to ours on a superficially similar workload.  Such systems shrink the payload of calls
-that still happen; they never remove a model boundary, so they cannot reduce provider
-requests at all.  \method removes the boundary and leaves the payload alone.  The two
+that still happen; they do not directly remove a model boundary; downstream model behavior can
+still change the total number of requests.  \method removes the boundary and leaves the payload alone.  The two
 therefore compose rather than compete --- one could compress the reads that a compiled
 prefix still performs.  We ran that comparator rather than only naming it, adding a live
 Headroom v0.5.18 ablation to both live GitHub families (\cref{sec:family-results}):

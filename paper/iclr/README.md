@@ -69,7 +69,7 @@ pdftotext -f 1 -l 1 build/main.pdf - | head -3   # must say "Anonymous authors"
 pdfinfo build/main.pdf | grep Author             # must print nothing
 ```
 
-The checked blind build ends Section~8 on page~9. Rebuild and re-check before
+The October 8 audit build ends Section~8 on page~10. Rebuild and re-check before
 uploading: even small content changes can alter pagination.
 
 ## Page budget
@@ -78,7 +78,8 @@ ICLR 2027 allows **9 pages** of main text at submission and **10 pages**
 during the discussion phase and for the camera-ready (author guidelines,
 re-fetched 2026-10-06); references, the AI use statement, the ethics
 statement, the reproducibility statement, and the appendix do not count. The
-submitted build ended Sections 1--8 on page~9. Discussion-phase revisions are
+earlier nine-page draft ended Sections 1--8 on page~9; the current source
+uses ten pages, the target the author confirmed for this revision on October 8. Discussion-phase revisions are
 built to the ten-page limit and `validate_iclr_page_budget` enforces it.
 Re-check after any edit: the last line of the conclusion must be on page~10
 or earlier:

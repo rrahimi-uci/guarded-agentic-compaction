@@ -25,7 +25,8 @@
 \input{math_commands.tex}
 
 \usepackage{microtype}
-\usepackage[hidelinks]{hyperref}
+\usepackage{longtable}
+\usepackage[hidelinks,hypertexnames=false]{hyperref}
 \usepackage{url}
 % Let \path break at any character inside the claims-and-evidence table.
 \makeatletter\g@addto@macro{\UrlBreaks}{\UrlOrds}\makeatother
@@ -88,7 +89,7 @@
 \crefname{algorithm}{Alg.}{Algs.}
 
 % Let floats fill more of a page.  With five algorithm/figure floats the LaTeX
-% defaults strand a third of several pages, which the 9-page limit cannot spare.
+% defaults strand a third of several pages, which the main-text budget cannot spare.
 \renewcommand{\topfraction}{0.92}
 \renewcommand{\bottomfraction}{0.75}
 \renewcommand{\textfraction}{0.08}
@@ -141,14 +142,9 @@ The authors used generative AI tools to restructure and copy-edit the
 manuscript, suggest section organization, draft and revise paper text, critique
 methodological exposition and internal consistency, convert repository-grounded
 results into LaTeX tables, and assist in designing and implementing the
-experiment and analysis scripts used to produce the reported results. AI tools
-were not used to fabricate, hallucinate, or substitute for results: every study
-was executed against real systems (live GitHub repositories, recorded agent
-traces, and public benchmark datasets), and every reported number, citation,
-equation, and comparison was independently checked against the retained
-execution artifacts in the repository. The authors take full responsibility
-for the final content, the experimental design, and the validity of all
-reported results.
+experiment and analysis scripts used to produce the reported results. The reported results distinguish live-provider execution, replay, provider-free
+audits, and simulation, and are linked to retained artifacts. The authors are
+responsible for the final content, experimental design, and reported results.
 
 \section*{Ethics Statement}
 The main risk in removing model-mediated decisions is over-trusting a compiled
@@ -156,9 +152,9 @@ prefix, and thereby accelerating unsafe automation or deleting a guardrail
 evaluation that happened to run at the removed boundary. The method mitigates
 this by compiling only read-only prefixes, treating unknown effects, approvals,
 handoffs, and writes as hard barriers, and defaulting to retirement or fallback
-when evidence is insufficient. All study data are public records (GitHub
-repository metadata) or public benchmarks; no personal or private data were
-collected. The artifact is not a license to bypass human review, legal or
+when evidence is insufficient. Empirical inputs are public GitHub records and public benchmarks; separate
+simulation studies are labeled. Public records can include usernames and
+user-authored text; no private repository or private loan records were acquired. The artifact is not a license to bypass human review, legal or
 compliance controls, or safety guardrails; unsupported regimes are part of the
 result, not exceptions to hide.
 

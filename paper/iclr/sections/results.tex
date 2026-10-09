@@ -51,8 +51,8 @@ discovery cost alone breaks even after 411, 183, and 181 episodes per family
 The discordant pair is one baseline-only miss (backlog record 5189, an
 ungrounded excerpt) against zero compiled-only misses (McNemar $p=1$; one-sided
 95\% bound on compiled-only discordance 3.3\%); a rerun of the 30 records scored
-30/30 in every arm (\cref{app:limits}), so the result supports preservation, not
-superiority. Programs hand-written with full workflow knowledge also reach
+30/30 in every arm (\cref{app:limits}), so no accuracy difference is detected; equivalence and noninferiority were
+not established. Programs hand-written with full workflow knowledge also reach
 90/90, tie on requests, use fewer interfaces and tokens, cost marginally less,
 and lose only on latency (\cref{tab:manual-resources}): we claim discovery and
 admission, not runtime dominance.
@@ -70,7 +70,8 @@ dispatched on 132 fresh calibration groups and the graded task contract missed
 study and 0.035 under the primary grid. Those groups are 84 open and 48 merged
 pull requests and no closed-unmerged ones, so the certified population excludes
 that class; the 60 fresh test records (20 per class) pass under every
-condition, and the bound survives day- and author-level units (0.0228, 0.0267).
+condition, and hypothetical bounds using days and authors as independent units are
+0.0228 and 0.0267; independence of those clusters is unverified.
 
 On \code{gpt-6-luna} and Anthropic \code{claude-sonnet-5}, re-discovery from
 each model's own traces on the same cohorts re-derives the identical programs
@@ -105,11 +106,13 @@ shows where \method helps (\cref{app:bird}): on the five dev databases with at l
 admits the schema-first opening on all five. On 150 sealed questions the
 compiled agent dispatched every time, answered 97 correctly against 94 (McNemar
 $p=0.45$), and cut requests 44.9\% and latency 29.4\% against a warm rerun of the
-unchanged agent. This replicates on a
-second model family (49.9\% fewer requests; 93 against 91 correct) and on 21 of 26 training databases (625 questions: 400
-against 401 correct, 45.9\% fewer requests, 18.1\% lower cost); a second
-provider's agent never ran the opening as a fixed step and was refused
-(\cref{tab:bird-extensions}).
+unchanged agent. Retrospective all-scheduled counts are 93 against 91 of 150
+on a second model, and 402 against 403 of 630 on 21 of 26 training databases.
+Requests fall 49.6\% and 45.8\% on 150 and 629 completed pairs, respectively.
+A conservative paired 95\% interval for the training difference is
+$[-3.27,+2.96]$ points under i.i.d.\ pairs; \cref{tab:bird-quality-sensitivity}
+reports database sensitivity. A second provider's agent never ran a fixed
+opening and was refused (\cref{tab:bird-extensions}).
 
 \subsection{Where \method yields no measured benefit: NESTFUL and AppWorld}
 \label{sec:res-refusal}

@@ -1,90 +1,253 @@
-# ICLR 2027 Deep Review and Revision Scorecard
+# Critical evidence review — October 8, 2026
 
-Review date: August 21, 2026. This scorecard evaluates the 55-page open-research
-article and the 20-page blind ICLR PDF at branch commit 155a442. Scores use a
-0--10 scale. The assessment follows the official ICLR 2027 reviewer questions:
-whether the problem and approach are well motivated, the claims are technically
-and empirically supported, the work is significant, and the paper is clear and
-reproducible. It also checks the official nine-page main-text, double-blind, and
-AI-use requirements.
+## Assessment
 
-## Initial assessment
+**79/100: borderline for ICLR; not a confident acceptance recommendation.**
+This is a diagnostic judgment, not an official ICLR score or an acceptance
+probability. It supersedes the August assessment and the historical 94/100
+review. The assessment follows the [ICLR reviewer criteria](https://iclr.cc/Conferences/2027/ReviewerGuidelines):
+technical soundness, evidence, contribution, clarity, and reproducibility.
 
-| Dimension | Initial | Short justification |
+| Dimension | Score | Reason |
 |---|---:|---|
-| Originality | 8.0 | The compile-or-retire admissibility argument is a distinctive composition of tracing-JIT ideas, typed provenance, effect barriers, bounded synthesis, and exact selective admission; the ingredients and adjacent workflow optimizers are established. |
-| Technical soundness | 8.0 | The per-candidate proposition and exact-grid calculation are stated correctly and narrowly, but the guarantee assumes i.i.d. groups, does not cover adaptive candidate search, and the new 8,190-trajectory result was presented without stating that tasks repeat across runs. |
-| Clarity and presentation | 7.5 | The ICLR narrative is coherent, but the long article's abstract and results opener still described only two refusal substrates after BFCL and AppWorld were added; the ICLR abstract also rounded 2,339/2,340 full-code trajectories up to “all.” |
-| Significance and impact | 7.5 | Removing recurrent provider boundaries under explicit refusal rules is practically relevant, but prevalence in deployed agents is unmeasured and a correctly placed manual program ties the compiler at runtime. |
-| Related-work coverage | 8.0 | The paper covers tracing JITs, effect systems, synthesis, risk control, prompt/workflow optimizers, caching, and tool-use benchmarks, but the condensed ICLR text still implied only NESTFUL and API-Bank were suitable post-trace substrates. |
-| Empirical rigor | 7.5 | Paired live studies, negative results, time-forward repositories, exact contracts, and AppWorld's reachable admission are valuable. The richest task remains one provider/model and snapshot; the registered gate is step-like; AppWorld runs no model and cannot support savings or quality claims. |
-| Reproducibility | 8.0 | Raw results, manifests, deterministic generators, pinned sources, and validators are unusually strong, but the ICLR reproduction statement and appendix omitted the executable BFCL and AppWorld entry points. |
-| Responsible claims and limitations | 9.5 | Manual parity, the continuation failure, effect/catalog trust, cache confounding, missing signature verification, conditional independence, and unrun work are disclosed rather than hidden. |
-| ICLR compliance and anonymity | 9.0 | The blind source is anonymous and the main text uses nine pages with the required AI-use statement. An anonymous artifact bundle and author-side OpenReview obligations remain pre-upload actions. |
+| Technical soundness | 21/25 | The fixed-candidate, fixed-grid binomial argument is valid under its stated i.i.d. assumptions. Runtime effects and clean fallback are carefully bounded. Most certificates cover replay rather than final task quality. |
+| Empirical evidence | 21/30 | Paired live results, public SQL tasks, refusals, and adverse outcomes are valuable. The added all-scheduled uncertainty, database-deletion, and missing-cost analyses make robustness and unresolved losses explicit. Selection, dependence, missing comparisons, and absence of a demonstrated risk–coverage frontier still limit the inference. |
+| Originality and significance | 14/20 | The integration of provenance, effect barriers, and statistical admission is useful systems work. The statistical result is standard; the benefit of the learned gate and the prevalence of suitable workflows remain unestablished. |
+| Clarity and claim discipline | 14/15 | The revision corrects denominator handling and overclaims, quantifies how much quality loss remains compatible with the data, separates empirical accuracy from certified risk, and removes repetitive appendix material. The appendix remains substantial because it contains many distinct studies. |
+| Reproducibility | 9/10 | Retained records, source digests, deterministic tables, and validators provide strong auditability. Historical provider execution cannot be recreated exactly; raw mirrors and an anonymous submission bundle require separate preparation. |
+| **Total** | **79/100** | **Existing-data analyses strengthen the case; they do not supply the missing experiments.** |
 
-**Initial unweighted diagnostic mean: 8.1/10. Initial reviewer-style overall:
-6/10 (borderline / weak reject).** The binding issue was not an invalid theorem
-or failed experiment. It was confidence in the paper's evidence accounting:
-the two manuscript versions drifted after a material new experiment, one
-headline phrase overstated a count, and the new deployment diagnostic looked
-more inferential than its repeated-run design permits.
+The initial audit rated the revision 76/100. The author then asked whether
+existing evidence could support 85. The added analyses below justify a modest
+increase (two evidence points and one clarity point), not an 85/100 rating.
+These are subjective rubric judgments, not measured score improvements.
 
-## Revision made
+### What the existing data can and cannot add
 
-No new experiment was run and no retained numerical result changed.
+`paper/scripts/bird_quality_sensitivity.py` now reconstructs four cohorts from
+the retained run records, preserving each arm's own failures. It adds:
 
-1. Synchronized the open-research abstract, contribution list, results opener,
-   related-work discussion, limitations, and appendix with the four-substrate
-   evidence now present in the paper.
-2. Replaced “all full-code agents” with the exact
-   2,339/2,340 trajectory count and replaced “third-party” with the more
-   precise “released official-baseline” description in the ICLR abstract and
-   introduction.
-3. Stated in both manuscripts that the 8,190 AppWorld trajectories repeat tasks
-   across 28 runs, models, and architectures. The 37.9% structural-eligibility
-   rate is now explicitly descriptive, with no independent-sample interval or
-   population-dispatch interpretation.
-4. Defined the compact table notation p/a/w as pass/abstain/wrong.
-5. Updated the ICLR related-work paragraph to distinguish corpora that retain
-   intermediate results directly from BFCL and AppWorld, whose official gold
-   artifacts must be executed on pinned backends.
-6. Added exact provider-free BFCL, AppWorld compiler, and AppWorld dispatch
-   entry points to both reproducibility appendices and included all four
-   substrates in the ICLR reproducibility statement.
+- Conservative paired accuracy intervals, formed from 97.5% Clopper–Pearson
+  intervals for compiled-only and baseline-only successes. A union bound gives
+  at least 95% pointwise coverage under i.i.d. question pairs. The primary
+  interval is **[-4.40, +8.18] percentage points**, second-model
+  **[-5.44, +7.97]**, and training **[-3.27, +2.96]**. These are intentionally
+  conservative and do not replace the separately labeled bootstrap result.
+- Whole-database deletion sensitivity. The training difference remains between
+  **-0.50 and +0.33 points**; five databases favor GAC, ten tie, and six favor
+  baseline. The second-model difference changes sign under deletion. This is
+  descriptive robustness, not a cluster confidence interval.
+- A missing-cost break-even calculation. Training evaluation savings equal
+  **$0.162952 minus the unrecorded cost of the failed compiled run**, at the
+  frozen prices. Its sign is conditional; full lifecycle cost remains unknown.
+- Source hashes, generated table/JSON, boundary and finite multinomial coverage
+  tests, and artifact regeneration checks. No overlapping cohorts are pooled,
+  no noninferiority margin is chosen after observing results, and no provider
+  calls are made.
 
-## Final assessment
+The learned-gate evidence was re-examined too. At 92 calibration groups the
+registered gate cannot certify intermediate coverage, and the prospective
+comparison reports the same completed-answer quality and nearly identical
+dispatch as support-only. Reanalysis cannot turn this into a demonstrated
+selective frontier. Nor can the retained manual or recurrence-only comparators
+be relabeled as an evaluated automated workflow-reuse system. Reaching 85 is
+therefore not supported by the present evidence under this rubric.
 
-| Dimension | Initial | Final | Why it moved, or why it did not |
-|---|---:|---:|---|
-| Originality | 8.0 | 8.0 | The revision clarifies the contribution but adds no new method. |
-| Technical soundness | 8.0 | 8.5 | Exact counts replace an overstatement, and the repeated-run structure of the AppWorld diagnostic is now part of the claim boundary. The per-candidate and i.i.d. limitations remain. |
-| Clarity and presentation | 7.5 | 8.5 | The article and ICLR submission now tell the same four-substrate story; compact notation and the admissible-versus-dispatchable distinction are explicit. |
-| Significance and impact | 7.5 | 7.5 | Clearer framing cannot establish deployment prevalence, manual engineering savings, or runtime superiority. |
-| Related-work coverage | 8.0 | 8.5 | The condensed submission now explains how all four external substrates relate to the post-trace question instead of naming only the two that retain results upstream. |
-| Empirical rigor | 7.5 | 7.5 | Interpretation is more rigorous, but no new provider, powered comparison, risk--coverage frontier, or compiler-wide correction was added. |
-| Reproducibility | 8.0 | 9.0 | The ICLR statement and both appendices now expose the exact entry points and environment boundary for BFCL and AppWorld. The anonymous bundle is still pending. |
-| Responsible claims and limitations | 9.5 | 9.5 | Already a major strength; the revision makes one more dependency caveat explicit. |
-| ICLR compliance and anonymity | 9.0 | 9.0 | The revision preserves the blind source and page-budget contract; operational upload checks remain human actions. |
+## Scope and method
 
-**Final unweighted diagnostic mean: 8.4/10. Final reviewer-style overall:
-7/10 (weak accept).** The recommendation moves because the paper is now
-internally consistent and the newest result is stated at the strength its
-sampling structure supports. The score does not move higher because the
-remaining caps are empirical, not editorial.
+The starting point was `origin/main` at `a97c1e1`. The primary target is
+`paper/iclr/main.tex`, every included section, the complete appendix, all its
+figures, tables, algorithms, and bibliography. Shared assertions and references
+were also checked in the two long-form wrappers (`paper/tex/article.tex` and
+`main.tex`) and their appendix. The ICLR source is the current experimental
+account; the long-form article does not yet include every newer BIRD and
+replication study. The README now makes that distinction explicit.
 
-## Residual acceptance risks
+The review read the mathematical definitions and proof, inspected implementation
+and grader paths, traced empirical claims to retained artifacts, recomputed
+statistics, checked source metadata and primary literature, and rebuilt the
+publication outputs. It did not execute new paid experiments. A passing
+artifact validator establishes the checks it implements, not the truth of every
+interpretation or the integrity of an external provider's historical behavior.
 
-1. The registered 5% gate still behaves as a support threshold rather than a
-   demonstrated risk--coverage frontier.
-2. Proposition 1 is per fixed candidate; the compiler's adaptive family search
-   has no candidate-level multiplicity allocation.
-3. The strongest live evidence uses one provider/model family and one rich
-   repository snapshot; the cross-repository task is deliberately simpler.
-4. Correctly placed hand-written programs tie or beat the compiler on runtime
-   resources, and manual construction, review, maintenance, and drift cost are
-   unmeasured.
-5. AppWorld establishes provider-free post-trace admissibility and structural
-   eligibility only. It does not measure agent quality, provider requests,
-   tokens, latency, cost, or a population dispatch rate.
-6. The anonymous supplementary artifact must still be built and checked before
-   submission.
+## Material findings and corrections
+
+### 1. BIRD denominators excluded failures in unrelated arms — high importance
+
+The historical summarizer intersects the completed question sets of all four
+arms. Consequently, a failure in the manual comparator also deletes otherwise
+valid baseline and compiled-agent outcomes from their comparison.
+
+| Cohort | Scheduled | Historical four-arm complete | Correct unchanged | Correct compiled | Excluded executions |
+|---|---:|---:|---:|---:|---|
+| Primary | 150 | 150 | 94 | 97 | None |
+| Rotated | 150 | 150 | 94 | 100 | None; repeats primary questions |
+| Second model | 150 | 149 | 91 | 93 | Repeat-baseline timeout on codebase_community question 595 |
+| Training split | 630 | 625 | 403 | 402 | Four manual timeouts in address; compiled turn-limit failure in talkingdata |
+
+Correct counts above use every scheduled question and count a missing execution
+as incorrect only in its own arm. The training discordance remains 18
+baseline-only versus 17 compiled-only correct, exact McNemar p=1. The
+second-model discordance is 3 versus 5, p=0.7265625. These results do not
+establish equivalence or noninferiority.
+
+`paper/scripts/audit_bird_denominators.py` reconstructs these counts from sealed
+per-arm records, validates missing-run failure records, and records input
+checksums. Its JSON and table are retained. Historical complete-case summaries
+remain intact and are explicitly labeled. All-pair resource estimates use 629
+training pairs and 150 second-model pairs; failed-run resource use is not
+included, so those estimates are not total billed cost or time-to-success.
+
+### 2. Statistical claims were stronger than the evidence — high importance
+
+- “Matched/preserved accuracy” became observed counts and no detected loss.
+  A nonsignificant paired test cannot prove equal accuracy.
+- The 132-group fresh certificate now states its i.i.d. condition in the
+  abstract. It covers open and merged pull requests, not closed-unmerged ones.
+- Days and authors are distinct grouping units, not demonstrated independent
+  units. Their bounds are hypothetical sensitivity calculations.
+- Temporal spacing and block bootstrap do not automatically preserve the exact
+  binomial guarantee. A cluster formulation needs independent clusters and a
+  cluster-level event, and targets a different population.
+- “All certificates are replay certificates” and “no study reaches 106 groups”
+  contradicted the later 132-group end-to-end study. Scope is now explicit.
+- Removing even two non-exact discovery traces is still selection. The
+  certificate does not cover the unfiltered population.
+- The formal exposition now distinguishes pre-dispatch guard/score rejection
+  (not an admitted attempt) from clean interpreter/verifier failure after
+  admission (inside the count with zero violation). A group enters the
+  denominator when at least one of its attempts is admitted.
+- The claim that omitted route-deviating traces necessarily become violations
+  was incorrect: replay may abstain instead, as BIRD demonstrates. The
+  unexecuted counterfactual is no longer asserted.
+
+The zero-violation calculation is correct: with alpha=.05, delta=.1, and 11
+thresholds, the floor is 92 groups and U(92)=.0498. With two calibrated
+candidates the corrected bound is .0569, exceeding .05; 106 groups would be
+needed at zero violations. The fresh single-rule 132-group bound is .0173.
+These are conditional guarantees, not evidence that source groups are i.i.d.
+
+### 3. Method and diagram semantics needed qualification — medium importance
+
+- An unwitnessed argument is unresolved within the bounded DSL, not proven to
+  require a model decision under every possible program representation.
+- The long-form objective now uses the same group sampling measure for savings
+  and risk as the ICLR formulation; incident wording covers failures whose
+  effects cannot be proved clean, including before a staged commit.
+- The feasibility ceiling bounds requests removed by the prefix at fixed
+  continuation workload. It is not a universal bound on changes in total calls.
+- Ranking proxies affect candidate choice even though they do not enter the
+  binomial bound.
+- The architecture now shows the incident path for unattested failures or
+  refused commits. It no longer depicts every runtime failure as clean fallback.
+- The signature check is conditional on enforcement, matching the historical
+  unsigned runs and later provider-free signing audit.
+- The abstract includes observed invariant literals among argument witnesses.
+
+### 4. Unsupported explanations and aggregate scope — medium importance
+
+The PyTorch retirement is an observed empty calibration count, with cohort
+composition a plausible explanation rather than an established cause. Ordering
+consistency does not exclude provider service variance. Similar AppWorld rates
+on two difficulty splits do not establish that workload has no effect. Rare
+ReAct occurrences are described as rare rather than nonexistent.
+
+The 354 distinct records belong to the 540-episode cross-repository subset,
+not all 810 reported GitHub episodes. The drift result distinguishes 39 errors
+under the registered grader from 40 under the later corrected grader. The
+primary break-even value is 183, correcting a stale README value of 182.
+The earlier 45 calibration groups were mislabeled as 45 tool calls in the
+long article. Historical code-coverage figures are now dated August 5 rather
+than presented as current coverage.
+
+### 5. Citation and literature corrections — medium importance
+
+Every original bibliography key was screened; the initial automated retrieval
+obtained machine-readable title metadata for 50 of 66 unique entries. The
+remaining entries were followed through primary publisher pages, original
+papers, author-hosted sources, and official software/data pages. Retrieval of
+metadata is not a full independent replication of a cited paper. Selected
+source resolutions and version decisions are retained in
+`paper/results/iclr_revision/citation_audit.json`.
+
+- Plan caching now cites the [published NeurIPS version](https://proceedings.neurips.cc/paper_files/paper/2025/hash/9549f7d06700f0966d5f938f1d11022a-Abstract-Conference.html), with its title and three-author list. The quoted mean cost reduction changes from the old draft's 46.62% to the published 50.31%; the later arXiv version has a different author list.
+- MIPRO now uses [EMNLP metadata](https://aclanthology.org/2024.emnlp-main.525/), including David Broman and Christopher Potts, who were omitted.
+- TextGrad now uses the [published Nature version](https://www.nature.com/articles/s41586-025-08661-4), including Pan Lu and the 2025 publication details.
+- RouteLLM's title uses “from Preference Data.” EvoC2F and Agent JIT point to their published PMLR records. BIRD points to its published version rather than combining that author list with a later arXiv revision.
+- DSPy's conference landing page and PDF use different titles; the bibliography keeps the title printed in the [conference PDF](https://proceedings.iclr.cc/paper_files/paper/2024/file/f1cf02ce09757f57c3b93c0db83181e0-Paper-Conference.pdf) and links that version.
+- The Jones/Gomard/Sestoft book URL was dead and is replaced with the working author-hosted location. Missing primary links were added for older references.
+- The schema-first/standard prompt comparison now cites the official LangChain SQL-agent documentation.
+- Related work distinguishes high-probability risk control, marginal conformal coverage, and expected monotone-loss control. Universal priority language was removed.
+
+The provider costs remain frozen list-rate estimates, not invoices or claims
+about today's prices. The BIRD release is explicitly the pinned historical
+release; this selected-family experiment is not a current leaderboard score.
+
+### 6. Appendix organization and reproducibility — medium importance
+
+Removed the duplicate drift-protocol recap, compressed the prospective-protocol
+restatement, and shortened repeated result and causal narratives. Retained the
+proof, implementation details, protocols, disaggregated results, negative
+findings, and source provenance. Five repetitive claim/result tables are
+replaced by one compact claim-to-artifact index. The new denominator table adds evidence
+that the old appendix lacked.
+
+The initial clean-checkout artifact check had 5,133 passes and four failures:
+two cluster-count tables and their JSON files could not regenerate because
+raw multi-repository mirrors are excluded from Git. The statistics script
+silently skipped those repositories. A retained calibration-row projection now
+preserves dates and author equality keys, with source snapshot hashes checked
+against the source manifests. It reproduces the original counts without
+shipping the full raw mirrors. Missing records or a mismatched source digest
+now fail explicitly. The projection was derived from local mirrors only after
+verifying their checksums against the retained source manifests.
+
+## What still prevents a stronger ICLR recommendation
+
+1. **Useful selective risk control is unproven.** The principal gate acts as a
+   support floor. The learned gate and support-only comparator have not shown
+   a meaningful difference on the registered prospective study.
+2. **Accuracy preservation needs an appropriate design.** Predeclare a
+   noninferiority margin and adequate sample size, retain all scheduled runs,
+   and account for repeated records and dependent groups. The current results
+   permit losses as well as gains.
+3. **Comparator coverage is incomplete.** Manual macros and recurrence-only
+   replay are valuable, but they do not replace an automated workflow-reuse
+   system evaluated on matched quality and resource endpoints. Different
+   safety contracts do not make such a comparison impossible.
+4. **Operational benefit under shift is unestablished.** No tested held-out
+   case demonstrates that the learned guard prevents a wrong answer under the
+   studied drift. Maintenance, recompilation, human review, and failed-run costs
+   are not fully priced.
+5. **Certification scope remains narrow.** Most bounds concern replay, two
+   primary artifacts lack a .05 compiler-wide guarantee, and independence is
+   assumed. The one fresh end-to-end certificate covers a restricted population.
+6. **Submission preparation remains.** The current build meets the user-confirmed ten-page main-text limit.
+   An anonymous artifact bundle and human author approval remain necessary. See the [official author guidelines](https://iclr.cc/Conferences/2027/AuthorGuidelines).
+
+These gaps require evidence or submission decisions, not stronger wording.
+
+## Validation record
+
+All review computations were provider-free. Commands were run from the dedicated
+review worktree, using its linked repository environment.
+
+| Command/check | Result |
+|---|---|
+| `PYTHONPATH=src .venv/bin/python -m pytest -o addopts='' -q` | 534 passed in 168.19 seconds after connecting the pinned BIRD cache and adding the sensitivity tests. The earlier cache-free run had 528 passed and 3 skipped. |
+| Same pytest invocation on `paper/scripts/test_bird_sql_agent_study.py`, after connecting the pinned cache | 5 passed, including all three initially skipped tests. |
+| New paired-sensitivity and denominator tests | 5 passed; zero-discordance uncertainty, gain/loss symmetry, exact small-sample multinomial coverage, missing compiled outcomes, database deletion, and cost break-even checked. |
+| Focused denominator/projection tests | 14 passed; comparator timeouts, compiled failure, wrong source digest, missing calibration rows, and numerical regeneration covered. |
+| `PYTHONPATH=src .venv/bin/python paper/scripts/audit_bird_sql_spotchecks.py` | 10/10 retained labels reproduced: one correct and one incorrect compiled answer per primary database. Archive, nested archive, question file, and all five SQLite hashes verified. Records retained in `paper/results/bird/sql_spotcheck_audit.json`. This is sampled reexecution with the existing grader, not an independent implementation or exhaustive SQL regrade. |
+| `PYTHONPATH=src .venv/bin/python paper/scripts/validate_artifacts.py` | 5,173 passed, 0 failed after regenerating the publication manifest; initial missing-mirror failures repaired. |
+| `PYTHONPATH=src .venv/bin/python scripts/verify_release.py` | Passed; three documented checks of untracked generated `docs/` were skipped. |
+| `.venv/bin/python scripts/build_article_page.py` and `.venv/bin/python scripts/build_pages.py --output _site` | Article HTML refreshed; site valid, 9 HTML pages and 32 paths. |
+| `.venv/bin/python -m build --outdir /tmp/gac-audit-dist` | Wheel and source distribution built successfully. |
+| `tectonic --keep-logs --keep-intermediates --outdir build main.tex` in `paper/iclr/` | Anonymous ICLR PDF rebuilt; main text ends on page 10; 42 pages total versus 46 before review. No unresolved references, overflowing boxes, or duplicate PDF destinations in the final build. |
+| Corresponding Tectonic commands for `paper/tex/article.tex` and `main.tex`, output to `paper/open_research/` | Both wrappers rebuilt, 60 and 38 pages. No unresolved-reference markers. The ACM wrapper retains its existing Inconsolata font-shape substitution warnings. |
+| Visual inspection | Contact sheets of every ICLR page plus larger views of changed architecture, algorithms, results, and evidence index; no clipping observed. |
+| `.venv/bin/python paper/scripts/finalize_manifest.py`; `git diff --check` | Publication checksums refreshed; whitespace check passed. |
+
+The package, source projections, historical result files, and empirical scope
+are distinguished throughout. No paid/provider experiment was executed, no
+reviewer attestation was changed, and this review is not external human approval.

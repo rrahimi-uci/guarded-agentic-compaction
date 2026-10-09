@@ -16,7 +16,7 @@ unattested failure or a refused commit raises an incident.}
 \EndIf
 \State $A\gets\mathcal{R}.\textsc{Resolve}(X.M'.\text{compatibility},X.M'.\text{partition})$
 \If{$A=\bot \ \vee\ A.\text{lifecycle}\neq\textsc{Active}
-     \ \vee\ \neg\textsc{VerifySignature}(A)$}
+     \ \vee\ (\textsc{SignatureRequired}\wedge\neg\textsc{VerifySignature}(A))$}
   \State \Return \fallback
 \EndIf
 \If{$X.\mathcal{O}\neq\emptyset$} \State \Return \fallback

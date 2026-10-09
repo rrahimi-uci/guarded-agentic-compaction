@@ -723,15 +723,24 @@ def cmd_clusters() -> dict[str, Any]:
         else:
             p = MULTIREPO_DATA / slug / "snapshot.parquet"
             if not p.exists():
-                out["cohorts"][f"core:{repo}"] = {"status": "parquet not available locally"}
-                continue
-            frame = pd.read_parquet(p, columns=["number", "created_at", "user"])
-            frame = frame.drop_duplicates("number", keep="last")
-            frame["day"] = pd.to_datetime(frame["created_at"], utc=True).dt.strftime("%Y-%m-%d")
-            frame["month"] = frame["day"].str[:7]
-            frame["author"] = frame["user"].apply(lambda u: (u or {}).get("login") if isinstance(u, dict) else str(u))
-            frame = frame.set_index("number")
+                # Raw mirrors are intentionally excluded from Git. Retain the
+                # exact calibration projection so clean checkouts can reproduce
+                # the published counts instead of silently omitting cohorts.
+                projection = load(RESULTS / "iclr_revision/calibration_cluster_rows.json")["repositories"][repo]
+                manifest = load(p.parent / "source_manifest.json")
+                if projection["source_sha256"] != manifest["parquet_sha256"]:
+                    raise ValueError(f"cluster projection source mismatch: {repo}")
+                frame = pd.DataFrame(projection["rows"]).set_index("number")
+            else:
+                frame = pd.read_parquet(p, columns=["number", "created_at", "user"])
+                frame = frame.drop_duplicates("number", keep="last")
+                frame["day"] = pd.to_datetime(frame["created_at"], utc=True).dt.strftime("%Y-%m-%d")
+                frame["month"] = frame["day"].str[:7]
+                frame["author"] = frame["user"].apply(lambda u: (u or {}).get("login") if isinstance(u, dict) else str(u))
+                frame = frame.set_index("number")
         cal = [int(g.rsplit(":", 1)[1]) for g in block["compiler"]["splits"]["groups"]["calibration"]]
+        if not set(cal) <= set(frame.index):
+            raise ValueError(f"missing calibration cluster rows: {repo}")
         out["cohorts"][f"core:{repo}"] = {"label": repo, "source": repo} | _cluster_stats(frame, cal)
     prim = [out["cohorts"][f] for f in FAMILIES]
     out["primary_ranges"] = {"distinct_days": [min(c["distinct_days"] for c in prim), max(c["distinct_days"] for c in prim)],

@@ -8,7 +8,8 @@
 one typed Episode IR against a declared effect catalog. \textbf{(B)} Compilation
 is a cascade of independent rejection points; the shaded band lists barriers no
 statistical evidence can override. \textbf{(C)} At runtime one terminal edge
-compacts; the rest return the unchanged agent.}
+compacts; clean rejections return the unchanged agent, and unattested failures
+raise an incident.}
   \label{fig:pipeline}
 \end{figure}
 
@@ -44,7 +45,7 @@ program-argument trace graph (\patg, \cref{alg:patg}) searches entry-state and
 prior-result paths for typed values reachable by a bounded transform
 (database-style provenance~\citep{cheney2009provenance} for tool arguments).
 Two slot marks make the region miner block rather than guess:
-a slot with \emph{no} witness is a genuine model decision, and one with more
+a slot with \emph{no} witness is unresolved in the bounded library, and one with more
 than $\kappa=3$ witnesses is ambiguous (\cref{fig:provenance}); either retires
 the whole region. A repeated tool name or a successful replay is no witness; an
 invariant literal is (\cref{eq:grounding}; the \code{limit=3} slots of the
@@ -83,9 +84,9 @@ with a perfect verifier and a gate that never abstains:
 with $n_B$ baseline model requests per episode, $\varphi$ the fraction of
 episodes holding an eligible region, $k$ the requests removed per successful
 dispatch, and $\rho$ the verifier pass rate. Stage~3 evaluates only the left
-form ($\rho=1$); since $\rho\le 1$ no measured reduction exceeds
-$\Delta_{\max}$, so a workload under target is declined before a compiler is
-built for it.
+form ($\rho=1$). This ceiling concerns requests removed by the prefix at
+fixed continuation workload; changes in downstream reasoning or fallback can
+change total requests. A workload below this structural target is declined.
 
 \paragraph{4--5. Bounded synthesis and contracts.}
 Synthesis searches the 23-operator library of \cref{tab:dsl} at depth at most

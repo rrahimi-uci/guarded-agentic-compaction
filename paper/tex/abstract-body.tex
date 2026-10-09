@@ -7,7 +7,7 @@ Recurrence identifies an opportunity for optimization, not permission to remove 
 
 We introduce \emph{guarded agentic compaction} (\method), a compile-or-retire approach
 that converts recurrent execution paths into deterministic programs only when the evidence
-supports it. \method grounds every tool argument in the task input or a prior tool result,
+supports it. \method grounds tool arguments in task inputs, prior results, or observed invariant literals,
 treats writes, approvals, handoffs, and unknown effects as hard barriers, protects
 compiled execution with input, output, and environment guards, and requires a
 finite-sample risk test before deployment. Admission depends jointly on a configured risk

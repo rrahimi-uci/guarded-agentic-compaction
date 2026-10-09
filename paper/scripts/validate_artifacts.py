@@ -3179,6 +3179,27 @@ def validate_bird_extensions() -> None:
     ok("## Amendment during execution" in protocol and "## Amendment before E4 execution" in protocol
        and "### E1. Rotated rerun" in protocol, "bird ext: protocol carries both amendments and observed results")
     fams = ["card_games", "codebase_community", "formula_1", "student_club", "thrombosis_prediction"]
+    # Independently reconstruct attrition from per-arm run records, not the
+    # historical four-arm-intersection summaries.
+    from audit_bird_denominators import build as build_denominator_audit
+
+    audit = build_denominator_audit()
+    ok(audit == load(root / "denominator_audit.json"),
+       "bird ext: all-scheduled audit reproduces per-arm records and source hashes")
+    from bird_quality_sensitivity import build as build_quality_sensitivity, table as quality_table
+
+    sensitivity = build_quality_sensitivity()
+    ok(evidence_equal(sensitivity, load(root / "quality_sensitivity.json")),
+       "bird ext: paired uncertainty, database deletions, and missing-cost sensitivity regenerate")
+    ok(quality_table(sensitivity) == (PAPER / "iclr/tables/bird_quality_sensitivity.tex").read_text(),
+       "bird ext: quality sensitivity table matches retained records")
+    cohorts = audit["cohorts"]
+    ok(cohorts["second_model"]["scheduled_questions"] == 150
+       and cohorts["second_model"]["four_arm_complete_questions"] == 149
+       and cohorts["train"]["scheduled_questions"] == 630
+       and cohorts["train"]["arms"]["baseline"]["correct"] == 403
+       and cohorts["train"]["arms"]["compiled"]["correct"] == 402,
+       "bird ext: scheduled denominators preserve comparator timeouts and compiled failure")
     # E1
     e1 = load(root / "rotated_rerun/summary.json")["designs"]["schema_first"]["pooled"]["compiled"]
     ok(e1["n"] == 150 and e1["baseline_correct"] == 94 and e1["candidate_correct"] == 100
@@ -3236,7 +3257,12 @@ def validate_bird_extensions() -> None:
     appendix = (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8")
     ok("label{tab:bird-extensions}" in appendix and "\\$43.93" in appendix, "bird ext: appendix paragraph and table present")
     results = (PAPER / "iclr/sections/results.tex").read_text(encoding="utf-8")
-    ok("21 of 26 training databases" in results and "400\nagainst 401 correct" in results, "bird ext: §5.3 quotes the train-split result")
+    train_audit = cohorts["train"]
+    counts = f"{train_audit['arms']['compiled']['correct']} against {train_audit['arms']['baseline']['correct']} of {train_audit['scheduled_questions']}"
+    interval = sensitivity["cohorts"]["train"]["pointwise_iid_conservative_ci95"]
+    endpoints = f"[{100 * interval[0]:+.2f},{100 * interval[1]:+.2f}]"
+    ok("21 of 26 training databases" in results and counts in results and endpoints in results,
+       "bird ext: §5.3 quotes all-scheduled train counts and paired uncertainty")
 
 
 def validate_drift_continuation_graded() -> None:
