@@ -74,6 +74,26 @@ This register prevents claims from drifting beyond the artifacts that support th
 | Multidomain protocol is frozen and approved | preflight and review artifacts | Not established | missing SEC pool, real pricing, compliant source contact, and independent human macro approvals |
 | Multidomain optimization improves quality or efficiency | no provider ledger or analysis | Not evaluated | zero provider calls; no token, latency, cost, determinism, or workflow-reduction claim |
 
+## October 2026 additions (ICLR paper)
+
+These rows record the claims added after the August register, as the ICLR paper
+(`paper/iclr/`) states them. The paper's own claim index is
+`paper/iclr/tables/claims_evidence_index.tex`; the denominators are in
+`paper/iclr/notes/number_registry.md`.
+
+| Claim | Evidence | Status | Boundary |
+|---|---|---|---|
+| A live schema-first SQL agent's opening compiles on a public benchmark | `results/bird/` (BIRD dev, 150 sealed questions; train split) | Verified on sample | all five qualifying dev databases admit; 150/150 dispatched; correct 97 vs 94 (McNemar p = 0.45); requests -44.9%, latency -29.4% against a warm rerun; on the train split 21 of 26 databases compile; no accuracy difference detected, equivalence not established |
+| BIRD accuracy is preserved | `results/bird/quality_sensitivity.json` | Not established | pointwise conservative paired 95% interval on the train split is [-3.27, +2.96] points under i.i.d. pairs; database deletion range [-0.50, +0.33] pp; the interval does not bound a database-level or failure-cost effect |
+| An agent that chooses tables per question can be compiled | BIRD per-question table-selection arm | Contradicted | all five databases retire when the agent picks tables per question; a second provider's (`claude-sonnet-5`) agent never ran a fixed opening and was refused |
+| The end-to-end contract is certified on fresh pull requests | post-cutoff PR-outcome cohort | Verified on one family | 132 fresh calibration groups, 0 misses, one-sided bound 0.0173 under the single pre-registered rule (0.035 under the primary grid); 84 open and 48 merged, no closed-unmerged, so that class is not certified; independence of day or author clusters is unverified |
+| The result is specific to the model it was discovered on | second-model and second-provider replications | Partly replicated | re-discovery on `gpt-6-luna` and `claude-sonnet-5` re-derives the same programs on two of three GitHub families and refuses backlog routing; four compiled-only excerpt misses on Sonnet |
+| NESTFUL, API-Bank and BFCL are admissible compiler substrates | refusal funnel | Contradicted | best family support is 26, 8 and 15 against the 92 required; every family retires at stage 6 |
+| AppWorld admission implies deployable savings | AppWorld admission and dispatch tables | Not supported | one two-call program admitted at 92/92 (U = 0.0498) but entry-eligible in 37.9% of 8,190 trajectories, almost never for ReAct or plan-and-execute |
+| The learned gate adds measured risk-coverage value on live data | cross-repository learned vs support-only arms; amended end-to-end issue gate | Contradicted | arms are indistinguishable; the amended 474-issue study (200 development, 184 calibration, 90 untouched test) admitted no threshold at alpha = 0.05 (best bound 0.0546 at eta = 0.50; 0.0708 at eta = 0.02), so the gate retired before the test and no held-out quality or savings claim follows |
+| A 90-record link pilot compared compiled and unchanged agents | link pilot | Invalid | the compiled arm did not resolve the retained artifact because its manifest differed; the interpretation is withdrawn and the cost retained |
+| Guards catch corrupted tool outputs | drift robustness ablation | Contradicted | under deliberately corrupted outputs the run-time checks prevented no wrong answers |
+
 ## Secret handling and provenance
 
 `.env` variable names were inspected, but values were never printed or copied. The GCS

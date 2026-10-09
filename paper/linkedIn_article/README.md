@@ -1,5 +1,10 @@
 # LinkedIn Article Package
 
+> **Status.** The article and posts summarise the earlier three-family study. The current
+> paper is the ICLR 2027 draft in [`../iclr/`](../iclr/); it adds BIRD, a post-cutoff
+> certificate, replications, and a retired end-to-end gate. Re-check every number against
+> [`../iclr/notes/number_registry.md`](../iclr/notes/number_registry.md) before publishing.
+
 | File | What it is |
 | --- | --- |
 | `linkedIn_article_polished.md` | the article — canonical source |

@@ -81,3 +81,15 @@ Rows marked "not pinned" are candidates for the next validator extension.
 | [-4.40, +8.18]; [-2.53, +10.11]; [-5.44, +7.97]; [-3.27, +2.96] pp | Pointwise conservative paired 95% intervals, primary / rotated / second model / training; conditional on iid question pairs | `bird/quality_sensitivity.json` | `bird_quality_sensitivity.py`, tests, validator |
 | [-0.50, +0.33] pp; 5/10/6 | Training whole-database deletion range; positive / zero / negative database differences | `bird/quality_sensitivity.json` | same |
 | $0.891759; $0.728806; $0.162952 | Training completed baseline / compiled evaluation cost; maximum unrecorded net compiled cost before savings reverse | `bird/quality_sensitivity.json` | same |
+
+## October 8 amended end-to-end issue gate
+
+| Number(s) | Meaning | Source | Checked by |
+|---|---|---|---|
+| 474, 200, 184, 90 | Pinned issue cohort and its disjoint development, calibration and untouched test split; the 90 test issues were never run | `graded_issue_gate/preflight.json` `quota_by_stratum_and_role`; `audit_v2.json` `test_issues_untouched` | `audit_graded_issue_gate.py` |
+| 288 | Ordinary fallbacks before the first attempt stopped on a manifest mismatch (retained as an abort, not as a result) | `graded_issue_gate/abort_v1.json` `completed_fallback_episodes` | `audit_graded_issue_gate.py` |
+| 80 | Disjoint historical discovery issues used to re-derive the compatible candidate before any new-cohort compiled result | `graded_issue_gate/candidate_v2/summary.json`; appendix `app:prospective` | `graded_issue_recompile_candidate.py` |
+| 4, 2 | Final factual-task errors on 200 development and 184 calibration dispatches (all dispatched) | `audit_v2.json` `groups` | `audit_graded_issue_gate.py` |
+| 64/184, 0.0708; 153/184, 0.0546 | Frozen eleven-point grid at $\eta=0.02$ (0 violations) and $\eta=0.50$ (2 violations): upper bounds above the 0.05 limit, so no threshold is admitted and the gate retires before the test | `audit_v2.json` `calibration_grid` | `audit_graded_issue_gate.py` (exact counts and bounds) |
+| 184/184, 2 | Support-only ablation accepts every calibration group with the same two errors; it disables the risk budget, so no held-out comparison follows | `audit_v2.json` | same |
+| $0.1627 | Estimated spend of the amended run | `audit_v2.json` `v2_estimated_cost_usd` | spend arithmetic check in the audit |

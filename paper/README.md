@@ -22,10 +22,16 @@ the [distribution PDF](https://rrahimi-uci.github.io/guarded-agentic-compaction/
 the [benchmark explorer](https://rrahimi-uci.github.io/guarded-agentic-compaction/benchmarks/explorer/index.html),
 and the [editable technical deck](https://rrahimi-uci.github.io/guarded-agentic-compaction/downloads/gac-technical-review.pptx).
 
+> **Status.** The current paper is the ICLR 2027 draft in [`iclr/`](iclr/)
+> ([PDF](iclr/build/main.pdf), [evidence review](iclr/notes/review_scorecard.md)). The
+> description above, the long-form article and the HTML edition reflect an earlier
+> three-family study; see [Two builds, one body](#two-builds-one-body) for what they omit.
+
 ## Directory map
 
 ```text
 paper/
+├── iclr/                           CURRENT paper: ICLR 2027 submission source, notes, build/main.pdf
 ├── tex/
 │   ├── body.tex                    shared body for the two long-form wrappers
 │   ├── abstract-body.tex           abstract text, shared by both builds
@@ -52,7 +58,7 @@ paper/
 │   ├── gac-template-map.json        slide mapping and retirement declarations
 │   ├── README.md                    generation and evidence-boundary notes
 │   └── compiling-recurrent-agent-workflows-into-guarded-programs-detailed.pptx
-│                                    the shipped deck: editable 26-slide
+│                                    the shipped deck: editable 29-slide
 │                                    technical review on the seminar system
 ├── results/
 │   ├── datasets/                   pinned upstream snapshots and manifests
@@ -136,9 +142,13 @@ build. The validator checks both.
 ## Two builds, one body
 
 `body.tex` and `abstract-body.tex` are the only places manuscript prose exists.
-The current ICLR submission is maintained separately in `iclr/`; its newer
-BIRD and replication studies are not all incorporated into these long-form
-wrappers. For the current critical assessment, see
+The ICLR submission in `iclr/` is the **current paper**; these long-form wrappers
+(and the `open_research/` PDFs and `site/article.html` built from them) are an earlier
+edition. They do not include the BIRD study, the 132-pull-request post-cutoff
+certificate, the second-model and second-provider replications, the paired-quality and
+failure-cost sensitivity analyses, or the amended end-to-end issue gate that retired
+before its held-out test. Where the two disagree, `iclr/` governs; both slide decks
+follow it. For the current critical assessment, see
 [`iclr/notes/review_scorecard.md`](iclr/notes/review_scorecard.md).
 
 `article.tex` and `main.tex` are presentation wrappers that `\input` them, so the two

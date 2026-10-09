@@ -730,6 +730,15 @@ def render(article_html: str, abstract_html: str, outline: list[tuple[str, str]]
       </div></header>
 
       <section class="section-compact"><div class="container">
+        <div class="callout callout-warn"><p><strong>Earlier edition.</strong> This long-form article predates the current paper, the
+        <a href="https://github.com/rrahimi-uci/guarded-agentic-compaction/blob/main/paper/iclr/build/main.pdf">ICLR 2027 draft</a>, which adds the BIRD
+        text-to-SQL study, a 132-pull-request post-cutoff certificate, second-model and second-provider replications,
+        paired-quality sensitivity analyses, and an amended end-to-end issue gate that retired before its held-out test.
+        Where the two differ, the ICLR draft and its
+        <a href="https://github.com/rrahimi-uci/guarded-agentic-compaction/blob/main/paper/iclr/notes/review_scorecard.md">evidence review</a> govern.</p></div>
+      </div></section>
+
+      <section class="section-compact"><div class="container">
         <div class="paper-abstract">
           <h2 id="abstract">Abstract</h2>
 {abstract_html}
