@@ -16,7 +16,7 @@ Otherwise the original agent remains unchanged.
 [Documentation](https://rrahimi-uci.github.io/guarded-agentic-compaction/) ·
 [Current paper (ICLR 2027 draft)](paper/iclr/build/main.pdf) ·
 [Latest evidence review](paper/iclr/notes/review_scorecard.md) ·
-[Earlier long-form article](paper/open_research/article.pdf) ·
+[Long-form article](paper/open_research/article.pdf) ·
 [Adversarial review](paper/paper-review.md) ·
 [Experiment verification](paper/supplementary/experiment-verification.md)
 
@@ -26,8 +26,8 @@ The public Pages site keeps the release easy to read without requiring a checkou
 
 | Read | Link |
 |:---|:---|
-| Long-form article in HTML (earlier edition) | [Browser edition](https://rrahimi-uci.github.io/guarded-agentic-compaction/article.html) |
-| Long-form article as PDF (earlier edition) | [Download the article](https://rrahimi-uci.github.io/guarded-agentic-compaction/downloads/compiling-recurrent-agent-workflows.pdf) |
+| Long-form article in HTML | [Browser edition](https://rrahimi-uci.github.io/guarded-agentic-compaction/article.html) |
+| Long-form article as PDF | [Download the article](https://rrahimi-uci.github.io/guarded-agentic-compaction/downloads/compiling-recurrent-agent-workflows.pdf) |
 | Evidence and benchmark audit | [Open the benchmark explorer](https://rrahimi-uci.github.io/guarded-agentic-compaction/benchmarks/explorer/index.html) |
 | Editable presentation | [Download the technical deck](https://rrahimi-uci.github.io/guarded-agentic-compaction/downloads/gac-technical-review.pptx) |
 
@@ -35,11 +35,12 @@ The [artifact shelf](https://rrahimi-uci.github.io/guarded-agentic-compaction/ar
 also explains which source, evidence class, and claim boundary belongs to each item.
 
 > **Which document is current.** The ICLR 2027 draft in [`paper/iclr/`](paper/iclr/) is the
-> current paper. The long-form article (HTML and PDF above) is an earlier edition: it does
-> not include the BIRD study, the post-cutoff pull-request certificate, the second-model and
-> second-provider replications, or the amended end-to-end issue gate that retired. Where the
-> two differ, the ICLR paper and its [evidence review](paper/iclr/notes/review_scorecard.md)
-> govern. Both slide decks follow the ICLR paper.
+> current paper. The long-form article (HTML and PDF above) reports the later studies (BIRD,
+> the post-cutoff pull-request certificate, the second-model and second-provider replications,
+> the retired end-to-end issue gate, and the failed guards) in its "Later Evidence" section,
+> but without the ICLR paper's tables and protocol detail. Where the two differ, the ICLR
+> paper and its [evidence review](paper/iclr/notes/review_scorecard.md) govern. Both slide
+> decks follow the ICLR paper.
 
 ## Why this exists
 
@@ -104,7 +105,7 @@ SDK capture and runtime integration are maintained adapters, not compiler depend
 The checked-evidence assessment is **79/100, borderline** (a diagnostic judgment, not a
 reviewer score); see the [evidence review](paper/iclr/notes/review_scorecard.md).
 
-### Earlier long-form results (retained, not all in the ICLR paper)
+### Earlier long-form results (retained; the GCS, portfolio and comparator rows are not in the ICLR paper)
 
 The primary evaluation spans three distinct workflows over real public GitHub records,
 deterministic tools on a pinned snapshot, and live provider calls. Each family has a

@@ -1,8 +1,10 @@
 # LinkedIn Article Package
 
-> **Status.** The article and posts summarise the earlier three-family study. The current
-> paper is the ICLR 2027 draft in [`../iclr/`](../iclr/); it adds BIRD, a post-cutoff
-> certificate, replications, and a retired end-to-end gate. Re-check every number against
+> **Status.** The headline numbers in the article and posts are the original three-family
+> results, which the current paper (the ICLR 2027 draft in [`../iclr/`](../iclr/)) still
+> reports. The article adds a short "Since then" section for BIRD, the post-cutoff
+> certificate, and the gate and guard results that did not hold; the posts carry a claim-hygiene
+> note. Re-check every number against
 > [`../iclr/notes/number_registry.md`](../iclr/notes/number_registry.md) before publishing.
 
 | File | What it is |
