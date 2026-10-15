@@ -30,7 +30,22 @@ No existing paper result or production runtime changed. CI and reviewer state
 are tracked on the PR separately from these local checks. No independent human
 gold attestation or Copilot review is claimed here.
 
-Live execution has not started. The new pilot requires a separately authorized
-estimated-spend ceiling recorded in its checkpoint. The previous experiment's
-budget is not silently reused. Execution status and the complete retained live
-outcomes will be added after that limit is supplied.
+On October 15, 2026 the user separately authorized a **$200 estimated-spend cap**
+for this sealed 576-episode pilot. The runner recorded that cap in its checkpoint
+before the first provider call. The frozen rate card and $1 episode reserve are
+an estimated-spend guard, not a hard provider billing cap or invoice verification.
+Execution stopped at attempt 153 with a retained `ValueError`: 152 completed,
+one failed, 423 unattempted. Of the completed answers, 151 are correct. Completed
+estimated spend is $0.0490666 and the unknown-cost reserve is $1. No retry was
+made. See [OBSERVED.md](OBSERVED.md) for the incomplete coverage, adverse outcome
+and unresolved failure cause. This is not a completed effectiveness comparison.
+
+Post-run `live_safeguard_recovery.py analyze` passed source regrading, prefetch
+and successful continuation-tool replay, response-cost recomputation and request/
+tool/token accounting. The separate post-run `verify` command also passed with
+the original seal, code and configuration unchanged. Both commands are
+provider-free; neither adds live episodes.
+
+Initial implementation commit `e23ed2721af740246e9068a9597348550c2b6dba` passed
+GitHub CI on Python 3.11 and 3.14 (run `38803149304`). This status does not
+substitute for CI on the later commit retaining the live results.
