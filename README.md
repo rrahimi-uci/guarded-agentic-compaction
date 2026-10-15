@@ -14,9 +14,9 @@ permission, runtime-position, replay, compatibility, and finite-sample evidence 
 Otherwise the original agent remains unchanged.
 
 [Documentation](https://rrahimi-uci.github.io/guarded-agentic-compaction/) ·
-[Technical report](paper/open_research/article.pdf) ·
-[ICLR discussion draft](paper/iclr/build/main.pdf) ·
+[Current paper (ICLR 2027 draft)](paper/iclr/build/main.pdf) ·
 [Latest evidence review](paper/iclr/notes/review_scorecard.md) ·
+[Long-form article](paper/open_research/article.pdf) ·
 [Adversarial review](paper/paper-review.md) ·
 [Experiment verification](paper/supplementary/experiment-verification.md)
 
@@ -26,13 +26,21 @@ The public Pages site keeps the release easy to read without requiring a checkou
 
 | Read | Link |
 |:---|:---|
-| Complete paper in HTML | [Browser edition](https://rrahimi-uci.github.io/guarded-agentic-compaction/article.html) |
-| Complete paper as PDF | [Download the paper](https://rrahimi-uci.github.io/guarded-agentic-compaction/downloads/compiling-recurrent-agent-workflows.pdf) |
+| Long-form article in HTML | [Browser edition](https://rrahimi-uci.github.io/guarded-agentic-compaction/article.html) |
+| Long-form article as PDF | [Download the article](https://rrahimi-uci.github.io/guarded-agentic-compaction/downloads/compiling-recurrent-agent-workflows.pdf) |
 | Evidence and benchmark audit | [Open the benchmark explorer](https://rrahimi-uci.github.io/guarded-agentic-compaction/benchmarks/explorer/index.html) |
 | Editable presentation | [Download the technical deck](https://rrahimi-uci.github.io/guarded-agentic-compaction/downloads/gac-technical-review.pptx) |
 
 The [artifact shelf](https://rrahimi-uci.github.io/guarded-agentic-compaction/artifacts.html)
 also explains which source, evidence class, and claim boundary belongs to each item.
+
+> **Which document is current.** The ICLR 2027 draft in [`paper/iclr/`](paper/iclr/) is the
+> current paper. The long-form article (HTML and PDF above) reports the later studies (BIRD,
+> the post-cutoff pull-request certificate, the second-model and second-provider replications,
+> the retired end-to-end issue gate, and the failed guards) in its "Later Evidence" section,
+> but without the ICLR paper's tables and protocol detail. Where the two differ, the ICLR
+> paper and its [evidence review](paper/iclr/notes/review_scorecard.md) govern. Both slide
+> decks follow the ICLR paper.
 
 ## Why this exists
 
@@ -79,6 +87,25 @@ The framework-neutral typed Episode IR separates capture from optimization. Open
 SDK capture and runtime integration are maintained adapters, not compiler dependencies.
 
 ## What the evidence shows
+
+### Current paper (ICLR 2027 draft)
+
+| Result | Evidence | Interpretation |
+|:---|:---|:---|
+| Three GitHub families, 90 held-out records | compiled 90/90 versus unchanged 89/90 (McNemar *p*=1; one-sided bound on compiled-only discordance 3.3%); requests −66.6%, tokens −63.1%, latency −64.2%, cost −58.7% | a grounded read-only opening preserves the exact contract at roughly a third of the work, within one pinned snapshot; equivalence is not established |
+| Post-cutoff pull requests | 0 end-to-end misses on 132 fresh calibration groups; one-sided bound 0.0173 (0.035 under the primary grid); 84 open, 48 merged, no closed-unmerged | the first certificate whose event includes the model's answer; one family, and the closed-unmerged class is not covered |
+| Six held-out GitHub studies | one compiled-only contract failure in 810 episodes | an observed count, not a certified rate |
+| Cross-repository PR outcome | 120/120 on four of five repositories; `pytorch/pytorch` retires at admission; open-class records abstain on the induced hull | compile-or-retire holds on newer records for an exact two-read task |
+| BIRD text-to-SQL | a schema-first opening compiles on all five qualifying dev databases (150 sealed questions: 97 versus 94 correct, McNemar *p*=0.45; requests −44.9%, latency −29.4%); 21 of 26 training databases compile; per-question table choice is refused | the one public benchmark where GAC helps; no accuracy loss detected, paired 95% interval on the training split [−3.27, +2.96] points under i.i.d. pairs |
+| NESTFUL, API-Bank, BFCL, AppWorld | best family support 26, 8, 15 versus 92 required; AppWorld admits one program but it is entry-eligible in 37.9% of 8,190 trajectories | no measured benefit: thin evidence or admissible but rarely dispatchable |
+| Second model and provider | `gpt-6-luna` and `claude-sonnet-5` re-derive the same programs on two of three families and refuse backlog routing | the compile-or-retire decision transfers on two of three families |
+| Learned gate versus support-only | indistinguishable across five repositories; an amended 474-issue end-to-end study (200 development, 184 calibration, 90 untouched test) admitted no threshold (best bound 0.0546 against 0.05) and retired before the test | no demonstrated risk–coverage frontier: the certificate mostly confirms that enough examples were seen |
+| Corrupted tool outputs | run-time checks prevented no wrong answers | the guards are not shown to protect against drift |
+
+The checked-evidence assessment is **79/100, borderline** (a diagnostic judgment, not a
+reviewer score); see the [evidence review](paper/iclr/notes/review_scorecard.md).
+
+### Earlier long-form results (retained; the GCS, portfolio and comparator rows are not in the ICLR paper)
 
 The primary evaluation spans three distinct workflows over real public GitHub records,
 deterministic tools on a pinned snapshot, and live provider calls. Each family has a

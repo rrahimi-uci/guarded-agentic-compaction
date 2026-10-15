@@ -421,6 +421,9 @@ def preprocess(body: str, registry: dict[str, dict[str, str]], *, floats: bool =
     for macro, expansion in MACROS.items():
         tex = re.sub(re.escape(macro) + r"(\{\})?", expansion, tex)
     tex = tex.replace(r"\code{", r"\texttt{")
+    # \path is hyperref/url markup pandoc has no reader for; left alone it silently drops
+    # the file path it wraps, leaving "()" where the reference stood.
+    tex = tex.replace(r"\path{", r"\texttt{")
     tex = tex.replace(r"\hyp{}", "-")
 
     # Equations: pandoc's math reader rejects \label inside the environment.  Lift it out
@@ -728,6 +731,15 @@ def render(article_html: str, abstract_html: str, outline: list[tuple[str, str]]
           <a class="button button-secondary" href="https://github.com/rrahimi-uci/guarded-agentic-compaction">Code and artifacts</a>
         </div>
       </div></header>
+
+      <section class="section-compact"><div class="container">
+        <div class="callout callout-warn"><p><strong>Long-form edition.</strong> The current, complete statement of the paper is the
+        <a href="https://github.com/rrahimi-uci/guarded-agentic-compaction/blob/main/paper/iclr/build/main.pdf">ICLR 2027 draft</a>
+        and its <a href="https://github.com/rrahimi-uci/guarded-agentic-compaction/blob/main/paper/iclr/notes/review_scorecard.md">evidence review</a>.
+        This article reports the later studies (BIRD, the 132-pull-request post-cutoff certificate, the second-model and
+        second-provider replications, and the retired issue gate and failed guards) in its &ldquo;Later Evidence&rdquo; section, but not
+        with the ICLR paper&rsquo;s tables and protocol detail. Where the two differ, the ICLR paper governs.</p></div>
+      </div></section>
 
       <section class="section-compact"><div class="container">
         <div class="paper-abstract">

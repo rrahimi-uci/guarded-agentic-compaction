@@ -85,5 +85,10 @@ survives being trimmed for length:
   and calibrated admission — not universal superiority.
 - The reported reductions compare against an *uncompressed* baseline.
 
+- Later results qualify the numbers above: the learned gate acted as a support
+  threshold rather than a risk ranker, and the run-time checks prevented no wrong
+  answers when tool outputs were corrupted. The article now says so; do not drop that
+  when shortening a post.
+
 Post C omits the hand-written comparison for length. That is acceptable only because
 it makes no superiority claim to qualify; if you add one, add the caveat with it.

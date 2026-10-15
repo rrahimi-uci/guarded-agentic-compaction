@@ -166,7 +166,8 @@ rejection points (\cref{fig:pipeline}) and states the calibration guarantee.
 \Cref{sec:methodology} defines the evidence tiers and the hypotheses they test, and
 \cref{sec:results} answers RQ1--RQ6, opening with the hypothesis-by-hypothesis
 verdict in \cref{tab:hypotheses} and closing with the five negative results and what each
-one rules out (\cref{sec:negative}).  \Cref{sec:related} positions \method against adjacent
+one rules out (\cref{sec:negative}).  \Cref{sec:later} reports the later studies (a public SQL
+benchmark, fresh post-cutoff records, replications, and retired gates).  \Cref{sec:related} positions \method against adjacent
 optimizers, and \cref{sec:limits} groups the threats to validity by the kind of inference
 each endangers.  Every rejected candidate, the archived failed pilot, and the unsupported
 claims are retained rather than pruned, so the denominator of each result stays visible.\appendixonly{
@@ -952,8 +953,11 @@ candidates on the same 92 groups and kept the higher-removal survivor by dominan
 certificates are per-candidate at $\alpha=0.05$, and under $\gamma=\delta/(m|\Lambda|)$
 the retained zero-violation tables give $U=0.0569>\alpha$, a compiler-wide certificate
 only at $\alpha\ge0.057$ or after 106 groups.  A fresh 106-group calibration under the
-pre-registered protocol \path{multiplicity-repair-protocol.md} is the repair; it is
-pre-registered and not yet run.
+pre-registered protocol \path{multiplicity-repair-protocol.md} is the repair; it failed its
+own go/no-go check (after excluding every record used in a retained cohort, the pinned
+snapshot holds 33 unused \code{open} pull requests and 8 unused \code{owned} backlog
+issues against the 36 per class the design requires), so it was not run and the
+per-candidate wording stays.
 
 A provider-free simulation
 (\path{frozen_candidate_coverage_simulation.py}) quantifies exactly what
@@ -2507,16 +2511,224 @@ optimization alone on this task.
 families, and an independently authored pre-model program ties GCS at 6/6 with identical
 request and interface counts (\cref{sec:comparator}).  This rules out runtime dominance as
 the contribution and leaves automatic discovery under a stated admission rule as the part
-of the claim the evidence still supports.  A pre-registered, not-yet-run protocol targets
-this specific parity directly rather than only naming it: a three-arm design isolates the
-\emph{induced verifier} from the \emph{program} by pairing the compiled artifact with a
-permissive no-op verifier and pairing the hand-written program with the same nine-family
-metamorphic perturbation suite already implemented in \code{evaluation/perturb.py}
-(reordering, duplication, formatting, empty/null fields, schema drift, tool errors and
-timeouts), asking whether the compiled artifact abstains where an unverified program
-would answer silently
-(\code{paper/supplementary/drift-robustness-ablation-protocol.md}).  Status:
-pre-registered, not executed; no result from it is reported here.
+of the claim the evidence still supports.  The drift-robustness protocol
+targeted this parity directly: a three-arm design isolates the \emph{induced verifier}
+from the \emph{program} by pairing the compiled artifact with a permissive no-op
+verifier and pairing the hand-written program with the same nine-family metamorphic
+perturbation suite implemented in \code{evaluation/perturb.py}
+(\code{paper/supplementary/drift-robustness-ablation-protocol.md}).  It has since run in
+three studies (\cref{sec:later-gate}): the verifier and a permissive verifier produced
+the same wrong outcomes in every arm, and under emptied evidence the guarded arm gave a
+silent wrong answer on 39 of 60 records, exactly as the permissive arm did.
+
+\section{Later Evidence: A Public SQL Benchmark, Fresh Records, Replications, and Retired Gates}
+\label{sec:later}
+
+The studies above were extended after this article's core experiments were sealed. The
+ICLR~2027 submission (\path{paper/iclr/}) is the current statement of the paper and reports
+them in full; this section records, in this article's terms, what they add and which
+earlier statements they change. Where this article and the ICLR paper differ, the ICLR
+paper governs. Every study below was registered in a protocol under
+\path{paper/supplementary/} before its provider calls, and none changes a headline number
+of the three-family study.
+
+\subsection{A public benchmark where \method helps: BIRD}
+\label{sec:later-bird}
+
+A tool-using SQL agent on \code{gpt-5.6-luna} answers questions from the BIRD
+text-to-SQL benchmark~\cite{li2023bird} (release \code{dev\_20240627}) over read-only
+SQLite files through three tools: \code{list\_tables}, \code{get\_schema(table\_names)},
+and \code{run\_query}. The contract is BIRD execution accuracy. Each of the five dev
+databases with at least 146 questions is a family (16 train, 8 dev, 92 calibration, 30
+held out). Two agent designs were registered: a \emph{standard} agent that queries the
+schema of the tables it judges relevant~\cite{langchain2026sql}, and a \emph{schema-first}
+agent whose workflow reads every table before writing a query.
+
+The two designs separate cleanly. The standard agent passed 7 to 39 distinct table lists
+per database, so \code{get\_schema.table\_names} has no consistent expression and four
+families retire at synthesis; the fifth retires on calibration support. The schema-first
+agent's opening, \code{list\_tables} followed by \code{get\_schema} on all tables, is
+admitted on all five databases at 92/92 zero-violation groups with one candidate at
+calibration and a clean strict audit. On 150 sealed questions the compiled program
+dispatched every time and answered 97 correctly against 94 for the unchanged agent
+(McNemar $p=0.45$; $+2.0$ points, 95\% interval $[-1.3,+5.3]$), cutting requests 44.9\%,
+tokens 9.8\%, latency 29.4\%, and cost 6.3\% against a warm repeat run of the unchanged
+agent. The registered rotation of condition order was not implemented in this run, so the
+first baseline met a colder prompt cache; a rerun with the order rotated reproduces the
+result (100 against 94 correct, $p=0.07$, no superiority claimed, 46.0\% fewer requests).
+The interval permits a loss, so neither equivalence nor noninferiority is established.
+
+\begin{table}[t]
+  \centering
+  \caption{BIRD runs. ``Std.'' and ``S.-first'' count databases admitted per design (the
+  rotated rerun reuses the primary artifacts). Correct counts are on questions completed
+  by all four conditions; bold marks the compiled arm, not a significant improvement.
+  Reductions compare the compiled agent with the unchanged agent; $^\dagger$every
+  primary-row reduction is against the warm repeat run. Cost$^\ast$ prices every input
+  token at the uncached rate.}
+  \label{tab:later-bird}
+  \footnotesize
+  \resizebox{\columnwidth}{!}{\input{../tables/later_bird_runs.tex}}
+\end{table}
+
+Three extensions (\cref{tab:later-bird}) bound the result. On a second model family
+(\code{gpt-6-luna}) the standard design retires on all five databases and the
+schema-first opening is admitted on all five, with 49.9\% fewer requests and 93 against
+91 correct on 149 complete-case questions. On the BIRD training split (26 databases) the
+standard design retires on all 26 and the schema-first opening is admitted on 21; the
+five refusals are databases of 11 to 65 tables where the agent occasionally dropped or
+reordered a table. On the 625 four-arm-complete questions of the 21 admitted databases the
+compiled agent dispatched every time and answered 400 against 401 ($p=1.0$), with 45.9\%
+fewer requests and 18.1\% lower cost. On a second provider, Anthropic
+\code{claude-sonnet-5}, the agent followed neither opening as a fixed step (under the
+schema-first prompt it listed the tables first in 429 of 655 runs and passed every table
+in 26), and \method retired all ten (design, database) pairs: it compiles what an agent
+does, not what its prompt asks for.
+
+Counting every scheduled question, with each missing run scored incorrect in its own arm,
+gives 402/630 compiled against 403/630 unchanged on the training split ($p=1$) and 93/150
+against 91/150 on the second model ($p=0.73$). A conservative paired 95\% interval,
+built from two Clopper--Pearson intervals~\cite{clopper1934binomial} under i.i.d.\
+question pairs, allows a loss of 3.27 points or a gain of 2.96 on the training split
+(\cref{tab:later-bird-sensitivity}); deleting any one database moves the training
+difference only between $-0.50$ and $+0.33$ points. Net evaluation savings on that split
+are positive only if the unrecorded cost of its one failed compiled run is below
+\$0.162952. These are descriptive sensitivities over selected databases, not evidence of
+generalization to new ones.
+
+\begin{table}[t]
+  \centering
+  \caption{Retrospective BIRD quality sensitivity on all scheduled questions. Differences
+  are compiled minus unchanged, in percentage points; intervals assume i.i.d.\ question
+  pairs. ``Delete-one'' omits each database in turn and is a descriptive range, not a
+  confidence interval. The last column counts databases with positive, zero, or negative
+  differences.}
+  \label{tab:later-bird-sensitivity}
+  \footnotesize
+  \resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{\input{../tables/later_bird_sensitivity.tex}}
+\end{table}
+
+\subsection{An end-to-end certificate on post-cutoff pull requests}
+\label{sec:later-fresh}
+
+After the main study we acquired every \code{huggingface/datasets} issue and pull request
+created after the pinned snapshot's last day (1{,}095 records) and pre-registered a study
+on the one family whose fresh pool supports it, PR-outcome. Three disjoint splits were
+frozen before any call: 60 test records (20 per class), 132 discovery records, and 132
+calibration groups. The calibration groups are 84 open and 48 merged pull requests and no
+closed-unmerged ones, so the certified population excludes that class. The compiler
+re-derived a byte-identical three-read program, guard, and gate from the fresh discovery
+traces (131/132 exact), differing from the retained artifact only in its snapshot pin.
+Dispatched on all 132 calibration groups with the unchanged continuation graded on the
+exact task contract, it produced 0 misses. Under the single pre-registered rule
+($\gamma=\delta=0.10$, one candidate) the one-sided bound on the \emph{end-to-end}
+violation rate is 0.0173, below $\alpha=0.05$; the primary grid gives 0.035 for the same
+count, and treating the 100 distinct creation days or 85 distinct authors as units gives
+0.0228 and 0.0267 (independence of those clusters is unverified). On the 60 fresh test
+records all four conditions reach 60/60, with requests down 75.0\%, tokens 82.7\%,
+latency 80.0\%, and cost 76.6\%. This is the first certificate in this work whose event
+includes the model's answer; it is per-candidate, for one family, conditional on i.i.d.\
+groups from one repository's post-cutoff records. Across the 810 held-out GitHub episodes
+of six specified studies run under a compiled artifact, one produced a compiled-only
+contract failure.
+
+\subsection{A second model family and a second provider}
+\label{sec:later-replication}
+
+Every headline number above comes from one calibrated model, so the three primary families
+were rerun on \code{gpt-6-luna} with the sealed records, splits, and discovery traces, and
+on a second provider, Anthropic's \code{claude-sonnet-5}, through a provider adapter around
+the unchanged harness (\cref{tab:later-second-model,tab:later-second-provider}). Transferring the retained
+\code{gpt-6-luna} artifacts keeps the structure (requests unchanged, 30/30 dispatch, pooled
+reductions 66.6\% requests, 63.0\% tokens, 60.1\% cost) with one compiled-only miss in 90
+(issue 6532, an excerpt that pluralized one source word); the certificate is conditional on
+the pinned model, so that is what an uncertified transfer looks like. Re-discovery from each
+model's own traces re-derives the identical issue-type and PR-outcome programs and
+\emph{refuses} backlog routing: on \code{gpt-6-luna} only 113 of 132 discovery traces were
+exact, below the 116 the split needs, and on \code{claude-sonnet-5} the two candidates
+retire at calibration with 91 and 90 of 92 groups, the 92-group floor binding on a second
+provider. On Sonnet there are four compiled-only misses, every one an excerpt that drops
+Markdown link markup or normalizes whitespace, the issue-6602 mechanism. We claim one
+calibrated model family, a second on which the pipeline re-derived two of three artifacts
+and refused the third, and no cross-model certificate.
+
+\begin{table}[t]
+  \centering
+  \caption{Same-cohort transfer to \code{gpt-6-luna}: retained artifacts recompiled under
+  the new model pin (design B) and the pipeline rerun on the second model's own traces
+  (design A). Reductions are against the same-model baseline.}
+  \label{tab:later-second-model}
+  \footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{\input{../tables/later_second_model.tex}}
+\end{table}
+
+\begin{table}[t]
+  \centering
+  \caption{Second provider, design A: Anthropic \code{claude-sonnet-5} on the sealed
+  cohorts through the unchanged pipeline. Reductions are against the same-provider
+  baseline; the backlog refusal is the 92-group floor binding.}
+  \label{tab:later-second-provider}
+  \footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \resizebox{\ifdim\width>\columnwidth\columnwidth\else\width\fi}{!}{\input{../tables/later_second_provider.tex}}
+\end{table}
+
+\subsection{Where the gate and the guards earned nothing}
+\label{sec:later-gate}
+
+\paragraph{The learned gate is a support threshold, and an amended issue gate retired.}
+Beyond the cross-repository gate-frontier null of \cref{sec:prospective-frontier}, an
+amended end-to-end issue gate study
+(\path{paper/supplementary/graded-issue-end-to-end-gate-protocol.md}) also retired. A
+pinned 474-issue cohort reserved 200 development, 184 calibration, and 90 untouched test
+issues, enriched for link-bearing comments. The first attempt stopped after 288 ordinary
+fallbacks because the historical artifact's manifest did not match the current runtime;
+its checkpoint and estimated cost are retained. A compatible candidate was then re-derived
+from 80 disjoint historical discovery issues before any new-cohort compiled result. In the
+amended run the candidate dispatched on all 200 development and 184 calibration issues,
+with 4 and 2 final factual-task errors. The frozen eleven-point grid admitted no threshold
+at $\alpha=0.05$ and $\delta=0.10$: at $\eta=0.02$, 64/184 groups had no errors but
+$U=0.0708$; at $\eta=0.50$, 153/184 had two errors and $U=0.0546$. The gate retired before
+the 90-issue test, so no held-out quality or savings comparison follows. The support-only
+ablation accepts 184/184 with the same two errors, but it disables the risk budget. This is
+a negative result: the certificate mostly confirms that enough examples were seen.
+
+\paragraph{The 90-record link pilot is withdrawn as a compiled-effect result.}
+The pilot discussed in \cref{sec:prospective-frontier} named a \code{compiled} policy
+manifest while the retained artifact was registered under \code{base}, so exact registry
+resolution found no artifact and the pilot retained factual grades but no dispatch
+telemetry. Its Markdown-link contrast is a difference between stochastic model and tool
+runs, not between a compiled and an unchanged agent, and is withdrawn.
+
+\paragraph{The run-time guards prevented no wrong answers under corruption.}
+The drift-robustness protocol, listed as not executed in an earlier draft of this article,
+ran as three pre-registered studies. On the deterministic demonstration substrate (144
+paired groups) and on the 89 paired primary GitHub records, the induced verifier and a
+permissive verifier both produced zero wrong outcomes, so the suite does not separate
+them; the verifier's measurable effect was abstention, including on perturbations that
+left the answer unchanged. The third, continuation-graded study (1{,}080 live cells) took
+the pre-declared adverse branch: when the tool layer returned emptied lists, an
+emptied discussion or assignee list lies inside the hull the verifier had learned, so the
+guarded arm dispatched and the model answered faithfully from the corrupted evidence,
+producing a silent wrong answer on 39 of 60 records as graded, and the permissive arm
+produced exactly the same 39. Where corruption left the hull, dispatch fell back in both
+arms and the fallback agent, fed the same corrupted tools, answered wrong on 30 of 30. On
+these records the verifier prevented no silent wrong answer. This is a statement about this
+contract on these corruptions with the calibrated model, not about production safety.
+
+\subsection{What the later evidence changes}
+
+Taken together, the later studies sharpen rather than overturn the conclusions. The
+central claim, that repeated read-only prefixes can become guarded programs that preserve
+held-out contracts, is supported on three GitHub families, a fresh post-cutoff cohort,
+and BIRD, each within the limits stated. The claims that the learned gate adds measured
+risk--coverage value, that the run-time checks protect against corrupted tool outputs, and
+that a certificate on one model transfers to another are \emph{not} supported. NESTFUL and
+AppWorld remain the two public benchmarks with no measured benefit. The ICLR paper's
+checked-evidence assessment of the full body of evidence is 79/100, borderline, a
+diagnostic judgment rather than a reviewer score
+(\path{paper/iclr/notes/review_scorecard.md}).
 
 \section{Related Work}
 \label{sec:related}
@@ -2845,20 +3057,19 @@ compare against.  Building one anyway is exactly the ``forced or mismatched comp
 this protocol already declines in advance; the gate is exercised, not skipped, and the
 workstream closes on that finding rather than on a fabricated baseline.
 
-A cheap, live pilot for that study now exists
-(\path{gate-frontier-pilot-protocol.md}), run before committing the
-full budget rather than after, on 90 records stratified by whether an issue's evidence
-comments contain a Markdown-style link --- the one mechanism this codebase has on record
-for a compiled artifact's returned excerpt to diverge from its source, having already
-caused one recorded violation.  The pilot's own held-out records reproduce that mechanism
-twice more: violations concentrate in the Markdown-link stratum ($4/60$ against $0/60$ in
-the matched baseline stratum, one-sided $p=.059$, short of significance at this sample
-size) while a plain nearby URL predicts nothing ($1/60$, $p=.50$), refining rather than
-confirming the original two-feature hypothesis.  One issue failed under both the
-unchanged agent and the compiled artifact independently, which is stronger evidence that
-the record itself is hard than that either arm is.  This is a weak go signal for the full
-protocol above, using Markdown-link syntax specifically as the calibration feature, not a
-claim that a frontier now exists.
+A cheap, live pilot for that study was run before committing the full budget
+(\path{gate-frontier-pilot-protocol.md}), on 90 records stratified by whether an issue's
+evidence comments contain a Markdown-style link --- the one mechanism this codebase has on
+record for a compiled artifact's returned excerpt to diverge from its source, having
+already caused one recorded violation.  Its reported contrast ($4/60$ violations in the
+Markdown-link stratum against $0/60$, one-sided $p=.059$) is \emph{withdrawn} as a
+compiled-versus-unchanged result: the pilot's named compiled arm used a \code{compiled}
+policy manifest while the retained artifact was registered under \code{base}, so exact
+registry resolution found no artifact and the pilot retained factual grades but no dispatch
+telemetry.  The contrast is a difference between stochastic model and tool runs.  The
+independently recorded excerpt error on issue 6602 still motivates the link stratum, but
+its predictive value is unestablished.  A corrected, amended end-to-end issue gate study
+followed and retired before its held-out test (\cref{sec:later-gate}).
 
 \paragraph{Observed results.}
 Executed against all five repositories: four admit a candidate and complete 240 of the
@@ -3097,8 +3308,9 @@ not establish discovery in open-ended plans where tools may be skipped, substitu
 branched, or revisited for reasons not fixed by an output schema.
 
 \paragraph{Empirical scope.}
-The richer workflow-family studies remain one repository/domain and one model
-configuration: the confirmatory compiler study contains 30 primary issues, the
+The richer workflow-family studies remain one repository/domain and one calibrated model
+configuration (the later replications of \cref{sec:later-replication} add a second model
+family and a second provider, without a cross-model certificate): the confirmatory compiler study contains 30 primary issues, the
 prospective portfolio pilot contains 12, the exploratory GCS comparison contains 12
 further pairs, and the learned/manual comparator contains six five-condition blocks.  A
 separate PR-outcome-core extension adds five repositories, 580 exact discovery traces,
@@ -3180,6 +3392,12 @@ still never fire. NESTFUL, API-Bank, and executed BFCL gold plans provide the co
 result: recurrent, executable traces still retire when the configured evidence requirement
 is unmet. Thus the contribution is automatic, evidence-gated discovery of a safe partial
 program, not a claim that generated code universally outruns a well-placed manual macro.
+
+The later studies (\cref{sec:later}) add one public benchmark where the pattern pays
+off --- BIRD's schema-first SQL agent compiles on 26 of 31 databases --- and an end-to-end
+certificate on 132 fresh pull requests, and they take two claims away: the learned gate
+adds no measured risk--coverage value over a support-only comparator, and the run-time
+checks prevented no wrong answers under corrupted tool outputs.
 
 That separation suggests an evaluation criterion for this class of system: measure a
 workflow optimizer by the evidence it requires, the effects and positions it refuses, and
