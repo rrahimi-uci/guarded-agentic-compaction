@@ -1,0 +1,824 @@
+{
+  "artifact": {
+    "approved_by": null,
+    "artifact_id": "fresh-comment-window",
+    "compatibility_key": "a17b680524b5b705",
+    "evidence": {
+      "counterexamples": [],
+      "dataset_digest": "",
+      "fallback_reasons": {},
+      "metrics": {},
+      "notes": "",
+      "perturbation": {},
+      "rejection_reasons": [],
+      "removed_requests": 0.0,
+      "replay": {},
+      "split_ids": {},
+      "support_days": 0,
+      "support_groups": 0,
+      "support_principals": 0,
+      "total_groups": 0
+    },
+    "expiry_day": null,
+    "gate": {
+      "admissible": [],
+      "alpha": 1.0,
+      "coverage": 0.0,
+      "delta": 0.1,
+      "features_spec": {},
+      "grid": [],
+      "model": {
+        "bias": 0.0,
+        "feature_means": [],
+        "feature_scales": [],
+        "features": [],
+        "weights": []
+      },
+      "n_accepted": 0,
+      "n_calibration_groups": 0,
+      "notes": "UNCERTIFIED diagnostic bypass; no retained calibration certificate",
+      "observed_violations": 0,
+      "retire": false,
+      "risk_upper_bound": 1.0,
+      "threshold": 1.0
+    },
+    "guard": {
+      "allowed_effects": [
+        "READ_LOCAL"
+      ],
+      "clauses": [
+        {
+          "hull": {
+            "high": null,
+            "kind": "any",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "path": "z.issue_number",
+          "required": true,
+          "role": "hull",
+          "type_name": "int"
+        },
+        {
+          "hull": {
+            "high": 3.0,
+            "kind": "interval",
+            "low": 3.0,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "path": "z.requested_limit",
+          "required": true,
+          "role": "hull",
+          "type_name": "int"
+        }
+      ],
+      "isolation": {},
+      "manifest_pins": {
+        "model": "deterministic-comment-counter-v1",
+        "prompt_hash": "comment-window-v1"
+      },
+      "required_capabilities": [
+        "speculatable",
+        "replayable"
+      ]
+    },
+    "kind": "grc",
+    "lifecycle": "active",
+    "manifest": {
+      "commit": "unknown",
+      "effect_catalog_version": "comment-window-diagnostic@1#98856e17513772a6",
+      "entry_contract_version": "unknown",
+      "guardrail_hash": "unknown",
+      "manifest_id": "comment-window-diagnostic-v1",
+      "model": "deterministic-comment-counter-v1",
+      "policy_hash": "unknown",
+      "prompt_hash": "comment-window-v1",
+      "sdk_version": "unknown",
+      "tools_hash": "unknown",
+      "tracer_version": "unknown"
+    },
+    "monitoring": {},
+    "name": "diagnostic-template-binding-synthesis",
+    "owner": "unassigned",
+    "partition": {},
+    "program": {
+      "composite": null,
+      "library_version": "T-v1",
+      "outputs": {
+        "page": {
+          "kind": "expr",
+          "ops": [],
+          "source": "page"
+        },
+        "record": {
+          "kind": "expr",
+          "ops": [],
+          "source": "record"
+        }
+      },
+      "removed_requests": 0.0,
+      "steps": [
+        {
+          "args": {
+            "issue_number": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.issue_number"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "issue.read",
+          "var": "record",
+          "when": null
+        },
+        {
+          "args": {
+            "issue_number": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.issue_number"
+            },
+            "limit": {
+              "kind": "const",
+              "value": 3
+            },
+            "offset": {
+              "kind": "const",
+              "value": 0
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "comments.page",
+          "var": "page",
+          "when": null
+        }
+      ],
+      "theta": [
+        "issue_number",
+        "requested_limit"
+      ],
+      "tools": [
+        "issue.read",
+        "comments.page"
+      ]
+    },
+    "rollback_target": null,
+    "route": null,
+    "signature": "",
+    "verifier": {
+      "allowed_effects": [
+        "READ_LOCAL"
+      ],
+      "call_counts": [
+        2
+      ],
+      "clauses": [
+        {
+          "hull": {
+            "high": null,
+            "kind": "any",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "max_len": null,
+          "min_len": null,
+          "name": "record",
+          "non_null": true,
+          "present_iff": null,
+          "provenance": [
+            "issue.read"
+          ],
+          "type_name": "dict"
+        },
+        {
+          "hull": {
+            "high": null,
+            "kind": "any",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "max_len": null,
+          "min_len": null,
+          "name": "page",
+          "non_null": true,
+          "present_iff": null,
+          "provenance": [
+            "comments.page"
+          ],
+          "type_name": "dict"
+        },
+        {
+          "hull": {
+            "high": null,
+            "kind": "any",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "max_len": null,
+          "min_len": null,
+          "name": "page.items",
+          "non_null": true,
+          "present_iff": null,
+          "provenance": [
+            "comments.page"
+          ],
+          "type_name": "list"
+        },
+        {
+          "hull": {
+            "high": null,
+            "kind": "enum",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": [
+              true
+            ]
+          },
+          "max_len": null,
+          "min_len": null,
+          "name": "page.complete",
+          "non_null": true,
+          "present_iff": null,
+          "provenance": [
+            "comments.page"
+          ],
+          "type_name": "bool"
+        }
+      ]
+    },
+    "version": 1
+  },
+  "observations": [
+    {
+      "calls": [
+        {
+          "arguments": {
+            "issue_number": 577
+          },
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 577,
+            "limit": 3,
+            "offset": 0
+          },
+          "tool": "comments.page"
+        }
+      ],
+      "entry": {
+        "issue_number": 577,
+        "requested_limit": 3
+      },
+      "output_digest": "baa59858281a62644e8e1f54bae141e99c72ec58aad8af1d570b267e1a25390a"
+    },
+    {
+      "calls": [
+        {
+          "arguments": {
+            "issue_number": 3261
+          },
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 3261,
+            "limit": 3,
+            "offset": 0
+          },
+          "tool": "comments.page"
+        }
+      ],
+      "entry": {
+        "issue_number": 3261,
+        "requested_limit": 3
+      },
+      "output_digest": "adc47c82d4d2c9e577bec793768e81459d8d0a4fe6cde12ac720814874929c46"
+    },
+    {
+      "calls": [
+        {
+          "arguments": {
+            "issue_number": 7156
+          },
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 7156,
+            "limit": 3,
+            "offset": 0
+          },
+          "tool": "comments.page"
+        }
+      ],
+      "entry": {
+        "issue_number": 7156,
+        "requested_limit": 3
+      },
+      "output_digest": "f7cd94d164fe3dee1bec91b2227a04a7311b1dee79f0758d9c68b9a710177ad3"
+    },
+    {
+      "calls": [
+        {
+          "arguments": {
+            "issue_number": 4725
+          },
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 4725,
+            "limit": 3,
+            "offset": 0
+          },
+          "tool": "comments.page"
+        }
+      ],
+      "entry": {
+        "issue_number": 4725,
+        "requested_limit": 3
+      },
+      "output_digest": "cd00adb07eb09a2767388fb57d8a42b662105aa99eed040d92b7368311ec7bae"
+    },
+    {
+      "calls": [
+        {
+          "arguments": {
+            "issue_number": 6108
+          },
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 6108,
+            "limit": 3,
+            "offset": 0
+          },
+          "tool": "comments.page"
+        }
+      ],
+      "entry": {
+        "issue_number": 6108,
+        "requested_limit": 3
+      },
+      "output_digest": "cea60e423977fc2e2edd4472f88486525fe28e8fb935f0e02aff77d28db6b099"
+    },
+    {
+      "calls": [
+        {
+          "arguments": {
+            "issue_number": 7008
+          },
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 7008,
+            "limit": 3,
+            "offset": 0
+          },
+          "tool": "comments.page"
+        }
+      ],
+      "entry": {
+        "issue_number": 7008,
+        "requested_limit": 3
+      },
+      "output_digest": "6d275519c7a04ea51c32db8e2c131ea81b46d2cee527d7aa22248955d182cc95"
+    },
+    {
+      "calls": [
+        {
+          "arguments": {
+            "issue_number": 2200
+          },
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 2200,
+            "limit": 3,
+            "offset": 0
+          },
+          "tool": "comments.page"
+        }
+      ],
+      "entry": {
+        "issue_number": 2200,
+        "requested_limit": 3
+      },
+      "output_digest": "25c60e2dccbf7810cb9223d52659dafc9fe5b2b5497139e5d3bc034425ae5b37"
+    },
+    {
+      "calls": [
+        {
+          "arguments": {
+            "issue_number": 1636
+          },
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 1636,
+            "limit": 3,
+            "offset": 0
+          },
+          "tool": "comments.page"
+        }
+      ],
+      "entry": {
+        "issue_number": 1636,
+        "requested_limit": 3
+      },
+      "output_digest": "2bfae739d7303f74e0bc32fe4933bcc9bb5f577dc87878192bd5ae6bbd15b144"
+    },
+    {
+      "calls": [
+        {
+          "arguments": {
+            "issue_number": 321
+          },
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 321,
+            "limit": 3,
+            "offset": 0
+          },
+          "tool": "comments.page"
+        }
+      ],
+      "entry": {
+        "issue_number": 321,
+        "requested_limit": 3
+      },
+      "output_digest": "8f9689de3b6efbad899277c39092c068f0538aa1a93913b9accb8e810fb5c8ba"
+    },
+    {
+      "calls": [
+        {
+          "arguments": {
+            "issue_number": 5111
+          },
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 5111,
+            "limit": 3,
+            "offset": 0
+          },
+          "tool": "comments.page"
+        }
+      ],
+      "entry": {
+        "issue_number": 5111,
+        "requested_limit": 3
+      },
+      "output_digest": "b873d5444b6657e97983263635d81a35371387d7fa6f1d67fc9f1736c529f3ea"
+    },
+    {
+      "calls": [
+        {
+          "arguments": {
+            "issue_number": 831
+          },
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 831,
+            "limit": 3,
+            "offset": 0
+          },
+          "tool": "comments.page"
+        }
+      ],
+      "entry": {
+        "issue_number": 831,
+        "requested_limit": 3
+      },
+      "output_digest": "d3eb7dde301d296b521f281082371d29627a724ceda3ebbaa708d81d3e15bd21"
+    },
+    {
+      "calls": [
+        {
+          "arguments": {
+            "issue_number": 4247
+          },
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 4247,
+            "limit": 3,
+            "offset": 0
+          },
+          "tool": "comments.page"
+        }
+      ],
+      "entry": {
+        "issue_number": 4247,
+        "requested_limit": 3
+      },
+      "output_digest": "12882fae5d5bf2e471a1d2f3ef89628294de016e332bfc379ccb1bde423624a7"
+    },
+    {
+      "calls": [
+        {
+          "arguments": {
+            "issue_number": 3675
+          },
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 3675,
+            "limit": 3,
+            "offset": 0
+          },
+          "tool": "comments.page"
+        }
+      ],
+      "entry": {
+        "issue_number": 3675,
+        "requested_limit": 3
+      },
+      "output_digest": "b08ff9b8b3c55e17e5bfb00b3ad39380ade473d60373ab486614393a495c84c3"
+    },
+    {
+      "calls": [
+        {
+          "arguments": {
+            "issue_number": 3164
+          },
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 3164,
+            "limit": 3,
+            "offset": 0
+          },
+          "tool": "comments.page"
+        }
+      ],
+      "entry": {
+        "issue_number": 3164,
+        "requested_limit": 3
+      },
+      "output_digest": "db2ec4092ae60a4a43f394b55454d7870bbc531fdadf763766024da39c88a831"
+    },
+    {
+      "calls": [
+        {
+          "arguments": {
+            "issue_number": 1919
+          },
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 1919,
+            "limit": 3,
+            "offset": 0
+          },
+          "tool": "comments.page"
+        }
+      ],
+      "entry": {
+        "issue_number": 1919,
+        "requested_limit": 3
+      },
+      "output_digest": "79870bdd9937d31c074df69ef881481d8b28e7f442e525325e490bc10b766a9f"
+    },
+    {
+      "calls": [
+        {
+          "arguments": {
+            "issue_number": 7425
+          },
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 7425,
+            "limit": 3,
+            "offset": 0
+          },
+          "tool": "comments.page"
+        }
+      ],
+      "entry": {
+        "issue_number": 7425,
+        "requested_limit": 3
+      },
+      "output_digest": "bb99bd513986e5960a34bfaebe6271993e9cfc714e94c1b608682618dfd42b7e"
+    },
+    {
+      "calls": [
+        {
+          "arguments": {
+            "issue_number": 3381
+          },
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 3381,
+            "limit": 3,
+            "offset": 0
+          },
+          "tool": "comments.page"
+        }
+      ],
+      "entry": {
+        "issue_number": 3381,
+        "requested_limit": 3
+      },
+      "output_digest": "d10b680fe19372e400441241a5680d095b54c4b5803dac036fe1e25ef17315ca"
+    },
+    {
+      "calls": [
+        {
+          "arguments": {
+            "issue_number": 6240
+          },
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 6240,
+            "limit": 3,
+            "offset": 0
+          },
+          "tool": "comments.page"
+        }
+      ],
+      "entry": {
+        "issue_number": 6240,
+        "requested_limit": 3
+      },
+      "output_digest": "e3660a0928d30ee23faad27b487510982f013795307ca3b86220731fd5ebe188"
+    },
+    {
+      "calls": [
+        {
+          "arguments": {
+            "issue_number": 6939
+          },
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 6939,
+            "limit": 3,
+            "offset": 0
+          },
+          "tool": "comments.page"
+        }
+      ],
+      "entry": {
+        "issue_number": 6939,
+        "requested_limit": 3
+      },
+      "output_digest": "78426b1cd3cd7c363d1f72070f8bdb6530f76ff91955b43721c0ef5f10a3c886"
+    },
+    {
+      "calls": [
+        {
+          "arguments": {
+            "issue_number": 4900
+          },
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 4900,
+            "limit": 3,
+            "offset": 0
+          },
+          "tool": "comments.page"
+        }
+      ],
+      "entry": {
+        "issue_number": 4900,
+        "requested_limit": 3
+      },
+      "output_digest": "9929b7fe14c63a356c2971d08ebb24c918cbf4f16d2d812abeb1e81603e12f84"
+    },
+    {
+      "calls": [
+        {
+          "arguments": {
+            "issue_number": 6006
+          },
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 6006,
+            "limit": 3,
+            "offset": 0
+          },
+          "tool": "comments.page"
+        }
+      ],
+      "entry": {
+        "issue_number": 6006,
+        "requested_limit": 3
+      },
+      "output_digest": "9485a3adf8368765ce9e01232ae2fc47c5141be80bd9054de7784224bb098ddd"
+    },
+    {
+      "calls": [
+        {
+          "arguments": {
+            "issue_number": 1840
+          },
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 1840,
+            "limit": 3,
+            "offset": 0
+          },
+          "tool": "comments.page"
+        }
+      ],
+      "entry": {
+        "issue_number": 1840,
+        "requested_limit": 3
+      },
+      "output_digest": "c22bc09e539705bcba45ed30f45a326326b6397ec66281b20327ac62e2083ea3"
+    },
+    {
+      "calls": [
+        {
+          "arguments": {
+            "issue_number": 6086
+          },
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 6086,
+            "limit": 3,
+            "offset": 0
+          },
+          "tool": "comments.page"
+        }
+      ],
+      "entry": {
+        "issue_number": 6086,
+        "requested_limit": 3
+      },
+      "output_digest": "9b0e1307c867ea3bcb206c5ac73b3c1a1edbcfa47590f29b97e410eab3f9ac3a"
+    },
+    {
+      "calls": [
+        {
+          "arguments": {
+            "issue_number": 2573
+          },
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 2573,
+            "limit": 3,
+            "offset": 0
+          },
+          "tool": "comments.page"
+        }
+      ],
+      "entry": {
+        "issue_number": 2573,
+        "requested_limit": 3
+      },
+      "output_digest": "715db20593edd30970c84e0b53382ebdb2cf8c5ec21cd6db9b1a610523df1d89"
+    }
+  ]
+}

@@ -1,0 +1,177 @@
+{
+  "end_to_end_risk_certified": false,
+  "input_hashes": {
+    "arms.json": "d4f2318ed5f4ffbb0db74e38d50d5a408f9663f87a5252b50a7cb2b86ccccd7b",
+    "calibration.json": "6dc54c945bacdd2ca4a11aa9ec7320debee759033bbb7d9754a3cda5098d5701",
+    "candidate.json": "060a4fb48b16be68ef8253252760d0df6aac2c9dc9795fe915c518f174f08b91",
+    "outcomes.jsonl": "27d2debcc0bc7464b1c062399f702a9b2d1539e45ad5d7f435311a43d52717bc"
+  },
+  "live_llm_accuracy_measured": false,
+  "provider_calls_executed": 0,
+  "seal_sha256": "e3084ae3d5b690b55211c966c741b0a38059e7a488a50e749786bd0eec242172",
+  "status": "completed",
+  "suites": {
+    "capped_response_stress": {
+      "arms": {
+        "baseline": {
+          "completed": 288,
+          "correct": 288,
+          "dispatched": 0,
+          "failed": 0,
+          "fallbacks": 0,
+          "scheduled": 288,
+          "tool_calls": 670,
+          "wrong_after_dispatch": 0
+        },
+        "full": {
+          "completed": 288,
+          "correct": 288,
+          "dispatched": 60,
+          "failed": 0,
+          "fallbacks": 228,
+          "scheduled": 288,
+          "tool_calls": 742,
+          "wrong_after_dispatch": 0
+        },
+        "no_completeness_check": {
+          "completed": 288,
+          "correct": 252,
+          "dispatched": 96,
+          "failed": 0,
+          "fallbacks": 192,
+          "scheduled": 288,
+          "tool_calls": 634,
+          "wrong_after_dispatch": 36
+        },
+        "no_entry_hull": {
+          "completed": 288,
+          "correct": 288,
+          "dispatched": 180,
+          "failed": 0,
+          "fallbacks": 108,
+          "scheduled": 288,
+          "tool_calls": 886,
+          "wrong_after_dispatch": 0
+        },
+        "no_statistical_gate": {
+          "completed": 288,
+          "correct": 288,
+          "dispatched": 60,
+          "failed": 0,
+          "fallbacks": 228,
+          "scheduled": 288,
+          "tool_calls": 742,
+          "wrong_after_dispatch": 0
+        }
+      },
+      "issue_groups": 96,
+      "paired_vs_full": {
+        "no_completeness_check": {
+          "ablation_only_correct": 0,
+          "ablation_only_correct_groups": 0,
+          "dispatch_disagreements": 36,
+          "failed_pairs": 0,
+          "full_only_correct": 36,
+          "full_only_correct_groups": 36
+        },
+        "no_entry_hull": {
+          "ablation_only_correct": 0,
+          "ablation_only_correct_groups": 0,
+          "dispatch_disagreements": 120,
+          "failed_pairs": 0,
+          "full_only_correct": 0,
+          "full_only_correct_groups": 0
+        },
+        "no_statistical_gate": {
+          "ablation_only_correct": 0,
+          "ablation_only_correct_groups": 0,
+          "dispatch_disagreements": 0,
+          "failed_pairs": 0,
+          "full_only_correct": 0,
+          "full_only_correct_groups": 0
+        }
+      }
+    },
+    "ordinary": {
+      "arms": {
+        "baseline": {
+          "completed": 288,
+          "correct": 288,
+          "dispatched": 0,
+          "failed": 0,
+          "fallbacks": 0,
+          "scheduled": 288,
+          "tool_calls": 576,
+          "wrong_after_dispatch": 0
+        },
+        "full": {
+          "completed": 288,
+          "correct": 288,
+          "dispatched": 96,
+          "failed": 0,
+          "fallbacks": 192,
+          "scheduled": 288,
+          "tool_calls": 576,
+          "wrong_after_dispatch": 0
+        },
+        "no_completeness_check": {
+          "completed": 288,
+          "correct": 288,
+          "dispatched": 96,
+          "failed": 0,
+          "fallbacks": 192,
+          "scheduled": 288,
+          "tool_calls": 576,
+          "wrong_after_dispatch": 0
+        },
+        "no_entry_hull": {
+          "completed": 288,
+          "correct": 260,
+          "dispatched": 288,
+          "failed": 0,
+          "fallbacks": 0,
+          "scheduled": 288,
+          "tool_calls": 576,
+          "wrong_after_dispatch": 28
+        },
+        "no_statistical_gate": {
+          "completed": 288,
+          "correct": 288,
+          "dispatched": 96,
+          "failed": 0,
+          "fallbacks": 192,
+          "scheduled": 288,
+          "tool_calls": 576,
+          "wrong_after_dispatch": 0
+        }
+      },
+      "issue_groups": 96,
+      "paired_vs_full": {
+        "no_completeness_check": {
+          "ablation_only_correct": 0,
+          "ablation_only_correct_groups": 0,
+          "dispatch_disagreements": 0,
+          "failed_pairs": 0,
+          "full_only_correct": 0,
+          "full_only_correct_groups": 0
+        },
+        "no_entry_hull": {
+          "ablation_only_correct": 0,
+          "ablation_only_correct_groups": 0,
+          "dispatch_disagreements": 192,
+          "failed_pairs": 0,
+          "full_only_correct": 28,
+          "full_only_correct_groups": 28
+        },
+        "no_statistical_gate": {
+          "ablation_only_correct": 0,
+          "ablation_only_correct_groups": 0,
+          "dispatch_disagreements": 0,
+          "failed_pairs": 0,
+          "full_only_correct": 0,
+          "full_only_correct_groups": 0
+        }
+      }
+    }
+  }
+}

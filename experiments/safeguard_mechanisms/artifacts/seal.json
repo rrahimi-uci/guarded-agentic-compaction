@@ -1,0 +1,4701 @@
+{
+  "code_hashes": {
+    "experiments/safeguard_mechanisms/README.md": "557725f84aeb140003486f58cf477d55ebce115fc6d7c5e0d798ea72664cde01",
+    "paper/scripts/fresh_safeguard_comparison.py": "31297860973ec474672ba42bf29b9ee87ff20cac4b9463d89c18c8a2f958173f",
+    "paper/scripts/github_live_study.py": "009726b0d8562cd17beb72c5fa5d484322d43ab7a07609b98a7d0575426482c7",
+    "paper/scripts/recurrence_only_ablation.py": "25f7cfaa1f6611f9435e8dc607124b294abc96ade0fbd10fba743f218ce5cb2a",
+    "paper/scripts/safeguard_mechanism_study.py": "a7de20c427a6a8c57ecc59e1951c9346a0e8713c2256b6f3ae4f5dd9fad5894e",
+    "src/guarded_agentic_compaction/__init__.py": "c7815ff0784da59eccce1d770345dff69e31c9fb81f2cf55ab3d7921e66d3842",
+    "src/guarded_agentic_compaction/api.py": "e9710fefe7a8414de21e1188759da8b98b7eb5712c6ed4eae4e52074f10a7616",
+    "src/guarded_agentic_compaction/benchmarking/__init__.py": "1487ae204db3d1d63640da709d7a5fabe489480f2643788e807a501ef0c971ee",
+    "src/guarded_agentic_compaction/benchmarking/actions.py": "43360e8034d2a3831918965d3bf15a6d1b4c371c979fc7b29b19184828aaebaf",
+    "src/guarded_agentic_compaction/benchmarking/budget.py": "eefbca9e834d9d202f14a3d8976e82d87c7185433501425eef9bb602b245c978",
+    "src/guarded_agentic_compaction/benchmarking/commands.py": "6d6d2e4ce48961099df04e544a34fc447dec2339160a6a12675cd86ff01c8b9c",
+    "src/guarded_agentic_compaction/benchmarking/external.py": "89454cfae7eb84edfec3348ae4bf40ea8e7d7543754203d53f3c5737da17d76b",
+    "src/guarded_agentic_compaction/benchmarking/headroom.py": "821050fc2905296a7b660ec4f63681aaada364bf4f9b25c2d64fb594a58c0708",
+    "src/guarded_agentic_compaction/benchmarking/preflight.py": "e4299893be4eee8a2569f307143f326dd439831a037a2713eb813b2cab5ba933",
+    "src/guarded_agentic_compaction/benchmarking/protocol.py": "1b04e47136a0d8d9e7bdfbb1bdb0313a34d134f060d71e57dc0f14e221f20a3a",
+    "src/guarded_agentic_compaction/benchmarking/schedule.py": "47e764ad2a6be80fb5992cf7f6b345db578a00208d8c201b913e6336a3717d25",
+    "src/guarded_agentic_compaction/capture/__init__.py": "097efc9435d246cce1af538d47e3cfc6579fd44daa7fea843706f862d4ba58ca",
+    "src/guarded_agentic_compaction/capture/agents_sdk.py": "6ae74f9d3b981723442c735b6ddc99f5c0dd22f9f714c3a7f2b9242de2c00ff5",
+    "src/guarded_agentic_compaction/capture/anthropic_model.py": "ea9cb13d15e649b6f698a8535ebd27c831e23405118916a243bace43e347e5e9",
+    "src/guarded_agentic_compaction/capture/attributes.py": "275f94149a92889cbef7034198bc9e743e57e78d7813aabc0682ee3aa2f5b820",
+    "src/guarded_agentic_compaction/capture/jsonl.py": "e9e68b7d9a737407af616508856bb65e8a082548b10ae46e43c1a216bcaa745c",
+    "src/guarded_agentic_compaction/capture/manifests.py": "55d1968496ea592aa68fc4a14ef61e1a9859951d9624489cb024565cf52778ae",
+    "src/guarded_agentic_compaction/cli.py": "191aa3b09c24b263c50c2ad21199b5a4ee0be79a75c71b632c7c8a6abca75dc7",
+    "src/guarded_agentic_compaction/estimate/__init__.py": "889ac56e456ff66d941bf5f3842660fb8dfeb84484b0f63676c5f9d058826789",
+    "src/guarded_agentic_compaction/estimate/headroom.py": "2763413ee480403b20d7c4d356fd1a354cfe5d5ed55a0282a3f1c54fbd83a55b",
+    "src/guarded_agentic_compaction/estimate/reports.py": "9a1b9c730094d4a828c6975a0dad950e77f381339b5fb9553cf01e728601e4ff",
+    "src/guarded_agentic_compaction/evaluation/__init__.py": "699471118f47e5ae99adc64b6421b6e6053304b1657831a2b54ab3a2492d3ac5",
+    "src/guarded_agentic_compaction/evaluation/benchmark.py": "82253ae20eb870a096d5f6252f3ad4baf8daeb9d5aec47b6ac520cc9d0e4b3cf",
+    "src/guarded_agentic_compaction/evaluation/domains.py": "548fe6d069e90a551edb178aee8e8e47d52e1671cb3d2371022fc8049b6efe73",
+    "src/guarded_agentic_compaction/evaluation/evidence.py": "89fc862fa57eed639cba55b5fa2dc2e1223db5cca861fb84b1fc46003f80f4c0",
+    "src/guarded_agentic_compaction/evaluation/ledger.py": "393737c907d71670640dee1647695b6b6bf43faa72de00d305e9d4374f03a1ca",
+    "src/guarded_agentic_compaction/evaluation/metrics.py": "c1a6963cf18416135ca45296be541e7b86676338163c04d250a0a578fc183da6",
+    "src/guarded_agentic_compaction/evaluation/paired_exact.py": "12527df1c068c4659446b750dccdeb6199b1ba9415881398f68f6d5734c32fe4",
+    "src/guarded_agentic_compaction/evaluation/perturb.py": "3a2cded644bcdef47bb61a26f40d1a2db33eec4b66d0bc8d7eec367582f2d4d1",
+    "src/guarded_agentic_compaction/evaluation/replay.py": "2be4cceb60178317e49c75810df75393b97e1805a8ee384fbfb9a228b07eda94",
+    "src/guarded_agentic_compaction/evaluation/splits.py": "f80ec17234c6f1e06bbec9e5d42b843553bd69a509bd25caa007085bb1dd8bba",
+    "src/guarded_agentic_compaction/evaluation/statistics.py": "1bbf0a13298b94d692507a416508e051632fac68d5970de669b2f9950e488808",
+    "src/guarded_agentic_compaction/graph/__init__.py": "0c009d1383478fdf57845b9decd6488303a47ca5ac9f1bb6526cc66d81d9ae90",
+    "src/guarded_agentic_compaction/graph/normalize.py": "e2044b4bda89fb5ce9bda333750bf8b521f14b34c9b27fd8d9b45ca6e7737683",
+    "src/guarded_agentic_compaction/graph/provenance.py": "8b383b604cab104501e8f7682222c1bf043b8dc73f52487700bc844db5819e86",
+    "src/guarded_agentic_compaction/graph/windows.py": "12ead7d6d17c5822f85be7e007b0ecc6e943f53c3fd76771a6104b4abd9abdff",
+    "src/guarded_agentic_compaction/grc/__init__.py": "ebc347f9ec94110c16ccbfa82e25b3066a605ced7060ba042566a831cb5c21c2",
+    "src/guarded_agentic_compaction/grc/calibrate.py": "b48f67219487ebf5d5408c4af8d6beb6ee61b6904aec82fabbf7479be0566b02",
+    "src/guarded_agentic_compaction/grc/compile.py": "10252d40b79ac667897177eed1bc13d11311a17c259a271e01a95c9c5a76a2cf",
+    "src/guarded_agentic_compaction/grc/composite.py": "bac3340027c89e70432334a81d69faf6aa140aa36993e035f34bef00cafc2110",
+    "src/guarded_agentic_compaction/grc/contracts.py": "43335dce28540c0d28aa0db34c839dc9ce24bffc2594162cc820b3906e5a0e69",
+    "src/guarded_agentic_compaction/grc/dsl.py": "15c7af17e476232f881cf8194f2eeaa9469f9844e49969d792469dc9fc438b07",
+    "src/guarded_agentic_compaction/grc/program.py": "dceb83fc5f2decf0bcedab33299ba6e8bbb96def6d3bfda0716f941b401bdeaf",
+    "src/guarded_agentic_compaction/grc/synthesize.py": "2ec01adfa6ce29bafdbf87253cb673d3e2598218c9f08e9968f9eb29add8201f",
+    "src/guarded_agentic_compaction/optimization/__init__.py": "90db9e58f217d856c56a7153caa701c6c6e9b2a31b75241b02d4252b08496cb6",
+    "src/guarded_agentic_compaction/optimization/gepa.py": "6bd2b4c969d740e963daae619b2ca325320923bcfd820ac7a1f394bc0de10bf5",
+    "src/guarded_agentic_compaction/paths.py": "edd79b7ca18b762bbc203ff4c344c81bbe8128770764d1fd9b4367fd59c6cc63",
+    "src/guarded_agentic_compaction/pipeline.py": "197241a85f9cf71f4a882e5d965f3433de98a54847293ab48c3a686816eeabb5",
+    "src/guarded_agentic_compaction/portfolio/__init__.py": "72cd4677dacb9540243e032e347f861b1a071fad75a1f7f5eb8fc80ef82369ad",
+    "src/guarded_agentic_compaction/portfolio/model.py": "4e930bc57e6f45ad5aefb749eefcf17a86c8a466d41fe5ee9ac81a7f0c21ad8a",
+    "src/guarded_agentic_compaction/portfolio/policy.py": "1658ba947f0e29d5c908867fe867108aad6a296dd2cdb7d00b569e28bbc37230",
+    "src/guarded_agentic_compaction/portfolio/risk.py": "0e21e1a15c5587bd944019f53f3dbeae11704854076148cade89b2db14d593b4",
+    "src/guarded_agentic_compaction/portfolio/select.py": "2d3ff8edebd3e0bb745f7c12a99de5f27fa9ff94e2017745f9622a1d17f0068b",
+    "src/guarded_agentic_compaction/registry/__init__.py": "eb89df7a2f4970d10fe0b2f7be71bf676eb95c506b9ea0c065a90d383034dda5",
+    "src/guarded_agentic_compaction/registry/lifecycle.py": "85ab71c56eb872b006660a6d4eb64f5149fffcee3042b97cac9900fc756411f5",
+    "src/guarded_agentic_compaction/registry/store.py": "22d1400a4ee8e010f1f1861d03b4f41e5b7c05bc0bc8f1e5d7e160e44f1560d3",
+    "src/guarded_agentic_compaction/runtime/__init__.py": "4535ef9166be36fed14f382740c27362f52038846491193ceafd76a2c28fc9c6",
+    "src/guarded_agentic_compaction/runtime/continuation.py": "bdc6e81f3ce8031c4efdd5983e13c44c8d5fd025529178288db15aa6fbfdd869",
+    "src/guarded_agentic_compaction/runtime/dispatch.py": "fba34d1938a3717a38bfe1c3585a9903643109fc49c2a84a7cd52d7200c00d92",
+    "src/guarded_agentic_compaction/runtime/facade.py": "ce2ad9b079c4afebcfecd760e046bd87ceecfd883b8bee1f177358ca9d44749a",
+    "src/guarded_agentic_compaction/runtime/interp.py": "06d781497bbccd2a0d50b4df121a9e4c481fa9a23042f0179b1e17db0bc6b3a6",
+    "src/guarded_agentic_compaction/runtime/manual.py": "640494dc16fca305e8565cd7d710edeaecd43ee10b2bbc418679446ef1f6cd09",
+    "src/guarded_agentic_compaction/runtime/model_provider.py": "599050921f501dd856207a90fe69a02e8ad73820ae5f4be4155480c44de5f603",
+    "src/guarded_agentic_compaction/runtime/prologue.py": "672f84542a914f4f4505e8bb83d7ee2cd1869ee3b1c605a4a3cc883a7998f9f3",
+    "src/guarded_agentic_compaction/runtime/runner.py": "1873c25d1d09b428a9097c091d553415e8255957647c3e0bef5a2216504ceac6",
+    "src/guarded_agentic_compaction/runtime/staging.py": "6599e0a8e353617ebc56f77947967bff22151f97e7e0330e59e1e4409b763c7e",
+    "src/guarded_agentic_compaction/schema/__init__.py": "7eb7b5f450e51fb5e28f031cbc940a7c305f90cd6d3f63659edf12e968d8e4fe",
+    "src/guarded_agentic_compaction/schema/artifacts.py": "7a6d638fdd1c08a6c28e3f6344837c0a66f1c8ba117b1fcb4e7458ccf4cc8664",
+    "src/guarded_agentic_compaction/schema/effects.py": "5a13b6c2cb4ccff3eca76e05cf313bbcd0df4351f812c59557c5cc502d214a2a",
+    "src/guarded_agentic_compaction/schema/traces.py": "92e6a51519516a1197f140728ad49e0c80e8b9fff19cc319e26e7ecc9d801915",
+    "src/guarded_agentic_compaction/tgws/__init__.py": "44fb6b32fa9fed7c1fb5bc2dc568a2a5fd165f15a49755c62273ca4c1bdd9adc",
+    "src/guarded_agentic_compaction/tgws/package.py": "b44424c8df9b3ba9227d91d8f3fc6aa2abafdba5af604e713ba4915184c3ac8b",
+    "src/guarded_agentic_compaction/tgws/prune.py": "466e8548b61c9192624a896179d5fe6e4a16c85f17335c66c0e543222d845d01",
+    "src/guarded_agentic_compaction/tgws/routes.py": "674625c1098b8134e3b091101e08240d6b1f6892af42c0c204d1ba3ef76708dd"
+  },
+  "dependencies": {
+    "numpy": "2.5.1",
+    "pandas": "2.3.3",
+    "pyarrow": "25.0.0",
+    "scikit-learn": "1.9.0",
+    "scipy": "1.18.0"
+  },
+  "evidence_tier": "public text with constructed requests; deterministic continuation",
+  "excluded_count": 3615,
+  "prior_study_hashes": {
+    "experiments/fresh_safeguards/analysis/analysis.json": "fa150b31d92fffd0c8f976ba15920e33a5c366f74fe7544555c2d47bfa33f527",
+    "experiments/fresh_safeguards/artifacts/checkpoint.json": "5cc908629498b828bc3b60127ab0f89df7e6ea34ab1fafc0d0afe73b695794ea",
+    "experiments/fresh_safeguards/artifacts/preflight.json": "aff4ffc78e3d660a473272d455610645f7d5285b424e84a638213d1fb8013c9f",
+    "experiments/fresh_safeguards/artifacts/summary.json": "d2618aa3ab9101f8b603f234be51884489d238b7ddd8bae8a2dd08c970cd4573",
+    "paper/results/coverage.json": "418dea6b06f7edd1ece1ea4c446c628d9ae471993510099b0b906819bef94bac",
+    "paper/results/drift_continuation_graded/cells_checkpoint.json": "bcf131345aaa5340f1a039e5c0e2d00069290934ad94d9afae03d01f0c52ea03",
+    "paper/results/gate_frontier_pilot/diagnostic.json": "2c1250787a1e2613e0d657caae87292e621149125f9fab93b16d282e5cacb8f4",
+    "paper/results/gate_frontier_pilot/preflight.json": "fe23a5786195558e331541822736967f1a3751079fa403b3c937a0fde3b35e1f",
+    "paper/results/gate_frontier_pilot/results.json": "33cab78957b43be1e41c7900aac890962d223ec0e4358d47aee71ec188ae6120",
+    "paper/results/gcs_live/results.json": "c5c4907db6c0b451793fd4be61d12576ebbfc4a07a2215f0db27a24d3f5e9a43",
+    "paper/results/gcs_live/smoke.json": "9055f0d06906d85c9b4a643e2017079bb3dba44d010733b1f6cd8dbd9945bf65",
+    "paper/results/github_live/pilot_2026-08-03/results.json": "4906f005a2bb0e1f6d668024887ff12f05268fba47c455ba5db406a5c3f07a7f",
+    "paper/results/github_live/results.json": "90a1452616f042eb802fd61a645fa477b5566fcf8ceb52515439632ec28e7d4d",
+    "paper/results/github_live/smoke.json": "673c990f7880c8ec932328c7a68988bf31211c81b5e0a56f63b0965eabb7c747",
+    "paper/results/github_multirepo/preflight.json": "99555ee5249d9244b3858ce593abbcfb6a7ae49164c6cb7bc22a23c08cb887db",
+    "paper/results/github_multirepo_gate_frontier/preflight.json": "9ce097597d3692e28595c5054491950f681233a7786c288f4090f0447bc41264",
+    "paper/results/github_multirepo_gate_frontier/repos/huggingface__datasets/discovery_checkpoint.json": "8ff327347d7c64de5747dccaa8ea5cd0fb6c34cec0e187d35571bb778792ac90",
+    "paper/results/github_multirepo_gate_frontier/repos/huggingface__datasets/evaluation_checkpoint.json": "a829b7b5ae44337737979e6cd931d588b4181b861404fb85ac8aa5e2975e017c",
+    "paper/results/github_multirepo_gate_frontier/repos/huggingface__datasets/results.json": "7e16eaf6f6bd3470155a40e9b8682c8e309f4853acf7b2cc9bcbd56a583a8011",
+    "paper/results/github_multirepo_gate_frontier/repos/pandas-dev__pandas/discovery_checkpoint.json": "17644d4c989ac30ad403de23021cf9cabcc3556fe62655d715d52d97113d4987",
+    "paper/results/github_multirepo_gate_frontier/repos/pandas-dev__pandas/evaluation_checkpoint.json": "7010cd9e5d05321d973bb0dc3ec3cd3dd3d5151ce0d74a80927ebbf861e03955",
+    "paper/results/github_multirepo_gate_frontier/repos/pandas-dev__pandas/results.json": "e7462662bd249e0cd14c7699567394cf58ba288e9bd25d75a12a1262f1519d9d",
+    "paper/results/github_multirepo_gate_frontier/repos/psf__requests/discovery_checkpoint.json": "e5f36baeadf5c65c45e52be86f09bdbc58fa73c34be1018dfa081700e218e8e9",
+    "paper/results/github_multirepo_gate_frontier/repos/psf__requests/evaluation_checkpoint.json": "da1528e9f5007801c780352dac570fddc3645ae0257ff65408908625f21366e1",
+    "paper/results/github_multirepo_gate_frontier/repos/psf__requests/results.json": "77983cf76ae834d840e1cd7fa9cee16dea2040cc0f3f3bce8ad0a4bb9c894dcd",
+    "paper/results/github_multirepo_gate_frontier/repos/pytorch__pytorch/discovery_checkpoint.json": "07af3532977a43cc315f8797d2b5128338d31ff0792888ec5f977012428c29c0",
+    "paper/results/github_multirepo_gate_frontier/repos/streamlit__streamlit/discovery_checkpoint.json": "7db9ea792abf663eff5607770d2d2d6f5ff892aa4df9975e297c9b15e2f8556a",
+    "paper/results/github_multirepo_gate_frontier/repos/streamlit__streamlit/evaluation_checkpoint.json": "331f9f311f4f925bc15a65cf593110a225523d7cd72b0deb3c33506305da26b7",
+    "paper/results/github_multirepo_gate_frontier/repos/streamlit__streamlit/results.json": "b675d9d12acec418c5e3d901a3b3bbedae3f8170989ab8efeb0cc876033ab4c8",
+    "paper/results/github_multirepo_gate_frontier/results.json": "be7f41469e7c438255ec2f3c4e0910310c135190fd6a4bd71a1001daafc963e1",
+    "paper/results/github_multirepo_pr_outcome_balanced/preflight.json": "f2e4b61181ce080a01427e66686025b8518dcd57a305516f1e0503b92c38e956",
+    "paper/results/github_multirepo_pr_outcome_balanced/repos/pandas-dev__pandas/discovery_checkpoint.json": "9b6ade900899a342f138c22b2013a896294a0acd8121f6d98942f5b0d525762b",
+    "paper/results/github_multirepo_pr_outcome_balanced/repos/pandas-dev__pandas/evaluation_checkpoint.json": "997fc852f01fd3d56a46bd32059510d4fbd987d199a2c32a1f0ec9ccb03023ff",
+    "paper/results/github_multirepo_pr_outcome_balanced/repos/pandas-dev__pandas/results.json": "733bcab23fdb8c601578e8e677009b776b86aa58b1d1136888afb403e99cca8a",
+    "paper/results/github_multirepo_pr_outcome_balanced/repos/pandas-dev__pandas/smoke.json": "15cb507d9051d4889faa1ca5d061268e5d02f02452af305883f28c5b841d4892",
+    "paper/results/github_multirepo_pr_outcome_balanced/repos/psf__requests/discovery_checkpoint.json": "f58f36dafbed624781b39fd110d2dd24d45dda195153dd02033476546f938964",
+    "paper/results/github_multirepo_pr_outcome_balanced/repos/psf__requests/evaluation_checkpoint.json": "b656e6e0ecb4c48f60ffa3cb706d2db64fcabef107947f09059d31eee68e9bbb",
+    "paper/results/github_multirepo_pr_outcome_balanced/repos/psf__requests/results.json": "facd0f229f77444e297766171330773cc2a389d4e85cc09e8c4e1d23dfcf4f72",
+    "paper/results/github_multirepo_pr_outcome_balanced/repos/pytorch__pytorch/discovery_checkpoint.json": "5fe4e457a4123ddb968055cd20345fea97bf2c79e66c80fb5e71af06b97ac17c",
+    "paper/results/github_multirepo_pr_outcome_balanced/repos/pytorch__pytorch/evaluation_checkpoint.json": "5506aa5df36b82402307e488c0c9962faad2c934e4850cd6a4427ecd62829f68",
+    "paper/results/github_multirepo_pr_outcome_balanced/repos/pytorch__pytorch/results.json": "7355881ce6817d4f325797d8b84bf1823c12891723e0505a3429d9ab2c502648",
+    "paper/results/github_multirepo_pr_outcome_balanced/results.json": "616d8a8bde5c1c8873ebf68bf25211a636b4200dff05cf577e9a01ab285eb00a",
+    "paper/results/github_multirepo_pr_outcome_balanced/smoke.json": "828e0bf24fa56749558d36178e31413c67a1314b8c7811c30bc511424f329f63",
+    "paper/results/github_multirepo_pr_outcome_core/preflight.json": "6284192b6d4972c7073fa598df89f33ad7691fe0415ed2d4b092d0a8ae7685ee",
+    "paper/results/github_multirepo_pr_outcome_core/repos/huggingface__datasets/discovery_checkpoint.json": "193eb00841a69af7f4d4288d1b7db425f00321dbda58bff3db7924520a9ba1d9",
+    "paper/results/github_multirepo_pr_outcome_core/repos/huggingface__datasets/evaluation_checkpoint.json": "b16346288093ab19ffb98bb4db8ac7db23da2daa78aa1010d92ed3909e350cee",
+    "paper/results/github_multirepo_pr_outcome_core/repos/huggingface__datasets/results.json": "6b721904127945cfdeafcef1c3c4fd19363a27bd61c7c6636e7149e89a9ad82f",
+    "paper/results/github_multirepo_pr_outcome_core/repos/huggingface__datasets/smoke.json": "5cc1adca53ca90a6a40274769602a347cadf5db2aa0f32bdda4ee3f37a68c584",
+    "paper/results/github_multirepo_pr_outcome_core/repos/pandas-dev__pandas/discovery_checkpoint.json": "714fc9fcea5f0bd494bb5ff500c4b1785b3164ced13cfb9303bbcc188133c283",
+    "paper/results/github_multirepo_pr_outcome_core/repos/pandas-dev__pandas/evaluation_checkpoint.json": "5dcf2176c73464519ad35c8a6933af53f51bb8948b3f654cc60e79df000b7f98",
+    "paper/results/github_multirepo_pr_outcome_core/repos/pandas-dev__pandas/results.json": "0fb42b2a8c65e859b546caa7b44639198eb9a4a48858278071543183bccb76f9",
+    "paper/results/github_multirepo_pr_outcome_core/repos/pandas-dev__pandas/smoke.json": "1be941ffa3b566574632ca7819e70dd9ee7dc306dcc8ad1c0794fe4ae708fe86",
+    "paper/results/github_multirepo_pr_outcome_core/repos/psf__requests/discovery_checkpoint.json": "35a8c353a383508f914f914b1d7d6825254b60c4e19cadab7bc7a08c1ef14015",
+    "paper/results/github_multirepo_pr_outcome_core/repos/psf__requests/evaluation_checkpoint.json": "5130616323d639b3e1c136f038b96382bb1325a93771604f6dc393f689757486",
+    "paper/results/github_multirepo_pr_outcome_core/repos/psf__requests/results.json": "5942af8787431ac828af0b50060446d24849a2c69cf33f85a4416e69a97533ae",
+    "paper/results/github_multirepo_pr_outcome_core/repos/psf__requests/smoke.json": "af3e9e275e3f4555b263bd0ba37c0af607d41598145ca06776301d0e339b360a",
+    "paper/results/github_multirepo_pr_outcome_core/repos/pytorch__pytorch/discovery_checkpoint.json": "34d226551197db5c6f7f2b915328e15994e954662480bde1820116728d11367c",
+    "paper/results/github_multirepo_pr_outcome_core/repos/pytorch__pytorch/smoke.json": "ffa2bbc8b18249450c982e6ec49df299a67366026cb97f124528a9e13747df8d",
+    "paper/results/github_multirepo_pr_outcome_core/repos/streamlit__streamlit/discovery_checkpoint.json": "8df0c972f6fc3aef9fdacb64f0151dd6974ca7ecaaa874eef8e70b6c8623e112",
+    "paper/results/github_multirepo_pr_outcome_core/repos/streamlit__streamlit/evaluation_checkpoint.json": "6af96a2c58fc771668f0e2f3ed7fcd1c5e27aafe14ceb1f80d7e8b247cd67fb7",
+    "paper/results/github_multirepo_pr_outcome_core/repos/streamlit__streamlit/results.json": "52f4acce715ef9392064dc82301b90ca22322860f0e771f519789927b29c6f39",
+    "paper/results/github_multirepo_pr_outcome_core/repos/streamlit__streamlit/smoke.json": "ef4e238f01faba16687c8a72a7b69a142e705c63cec32934f754c754a99e2cc5",
+    "paper/results/github_multirepo_pr_outcome_core/results.json": "c090f2af842cbd937a07084a4ef82e60062efad8266ef428a5ab18a2219d95a6",
+    "paper/results/github_multirepo_pr_outcome_core/smoke.json": "7a738898a70f7f1cc9f92e7dace144e6eaecfd8195defbfc4cd76c6ea2a1aeb0",
+    "paper/results/github_natural_live/continuation_replay.json": "6c764c60414a38d427cdc2d21f21acea3a2714243ef79e9d81a84b4f32f7c4fb",
+    "paper/results/github_natural_live/results.json": "2ac4ac66d0b8cf71e4713d7a979dfe4bfb1888c7426dd33201827b93ef41b99b",
+    "paper/results/github_natural_live/smoke.json": "fe501d59aec11f82859e515c4a2a2b55e1e8862d98e909aeac99b69e2fab5e42",
+    "paper/results/github_natural_replication/discovery_checkpoint.json": "9be6ab211fa99498edac5be5c5f098dc0f52fdb9cb19f1dae159e4fcc23cd1c8",
+    "paper/results/github_natural_replication/preflight.json": "8362be7f9cb076c76e3deba66dbb48d178f0d1eedbdd908c0fb91695a2f99459",
+    "paper/results/github_natural_replication/results.json": "415f057f0d5e036a765eb97da78df8de7b252c76a39c509c3a5d111538040722",
+    "paper/results/github_natural_replication/smoke_postfix/smoke.json": "b79e143565f4a9e593ca6e3de3ffa8343a17b02c71262cd0c9c6ea6eab868759",
+    "paper/results/github_workflow_families/backlog_attention/anthropic_sonnet5_rediscovery/discovery_checkpoint.json": "c1510850d3dd51a0d893e7051f6e97e055d6b854c7b12f703d629e3f162052c5",
+    "paper/results/github_workflow_families/backlog_attention/anthropic_sonnet5_rediscovery/preflight.json": "14df697c0b944be2ce73b57fa5750173cbaf7aeb12b2f578b4c1bed928193799",
+    "paper/results/github_workflow_families/backlog_attention/final/discovery_checkpoint.json": "8363f4fd3b47a05dcd3d16dc2684aa95f945421c6b0caffe82fb12d977ea39c1",
+    "paper/results/github_workflow_families/backlog_attention/final/evaluation_checkpoint.json": "847b137f4cf1f793058414e8fd73321239c5583d211c306039abe920e8e3417e",
+    "paper/results/github_workflow_families/backlog_attention/final/preflight.json": "b33d4374d976914f8bb22fbc1bb11cd1821b39ecb17ab47b7224a3cfd1239687",
+    "paper/results/github_workflow_families/backlog_attention/final/results.json": "2e19afd504a637a62213292b47b92d082d679e5ce7aa0ff2fb8c46f7c0fa54ef",
+    "paper/results/github_workflow_families/backlog_attention/gpt6_luna/evaluation_checkpoint.json": "66fb11a846fab36756df1a84bfd7fe85d9a296644976e4bad392a83fe476ba26",
+    "paper/results/github_workflow_families/backlog_attention/gpt6_luna/preflight.json": "4b94e05da217d1cd2628cb5b16d968f2dcd4b32435c0990ddb6adeb960e9a479",
+    "paper/results/github_workflow_families/backlog_attention/gpt6_luna/results.json": "fbb456d8ff040d895380e994a087bf0ee4ef2f9641b47ff0e049dcda7bdf5ae7",
+    "paper/results/github_workflow_families/backlog_attention/gpt6_luna_rediscovery/discovery_checkpoint.json": "5c93196752e260758a1eae20883c8d964e7a8a058d04b2c321a2e88d55ec0621",
+    "paper/results/github_workflow_families/backlog_attention/gpt6_luna_rediscovery/preflight.json": "8f146536c3408ffde3699d2b560343bff9f2885ede5f7cb7fc9f6e6a6a0833e2",
+    "paper/results/github_workflow_families/backlog_attention/headroom_ablation/evaluation_checkpoint.json": "1bca215f46fe72c438fedc790014be7839637e59e615ad28ec6311f6f65b52c6",
+    "paper/results/github_workflow_families/backlog_attention/headroom_ablation/preflight.json": "f4888a1923180a38b90ccbd9b02b437d36bed76f62e0e2af0ac5132831cdb8ba",
+    "paper/results/github_workflow_families/backlog_attention/headroom_ablation/results.json": "5b90452bc62275f9e6e9e139dc8307443c7db69419e44a6b7ffbb278f2b4eb48",
+    "paper/results/github_workflow_families/backlog_attention/smoke_v1/preflight.json": "b53dff240dcc735d8bef69690dc844cb5a60af5df5d463bc34036a993fbe7206",
+    "paper/results/github_workflow_families/backlog_attention/smoke_v1/smoke.json": "aaaab297a655880f591c9a87449eee4697c5ae285722c50cb984208cdba8f94c",
+    "paper/results/github_workflow_families/pr_outcome/anthropic_sonnet5_rediscovery/discovery_checkpoint.json": "b62dcd5dc056ddae55ebe2912211859fb2527a456bec379246dda9f6b0acb1d5",
+    "paper/results/github_workflow_families/pr_outcome/anthropic_sonnet5_rediscovery/evaluation_checkpoint.json": "b1886ec76e56afa1dee2c9d4328a0480a1f20bc016cac18c235cf4192b3339bf",
+    "paper/results/github_workflow_families/pr_outcome/anthropic_sonnet5_rediscovery/preflight.json": "1d1f4ef44d00cc05ad920b170bbcd11f2278eaa87bba337a0108d6ad6071ab24",
+    "paper/results/github_workflow_families/pr_outcome/anthropic_sonnet5_rediscovery/results.json": "9d39d06c4026294b6f9ec3985e3f8126d8fed8a9d119f4c48d2d2e7d77c1e33e",
+    "paper/results/github_workflow_families/pr_outcome/final/evaluation_checkpoint.json": "fda4d46ebdf85a3fae20dc8208ee9a7cb8149cde351283e652bd370e3f4d04de",
+    "paper/results/github_workflow_families/pr_outcome/final/preflight.json": "c9b6a476d2276e9f33e0f22294a140ee3ffcbcdfd343509f86e60bb82a81a5a4",
+    "paper/results/github_workflow_families/pr_outcome/final/results.json": "4722a35c5eda017bdb22b6f2d75c062b9a085ef65168e3dc41ace82d885ee36f",
+    "paper/results/github_workflow_families/pr_outcome/gpt6_luna/evaluation_checkpoint.json": "41868b009f9552e099f3a1a746b5c37e6da5119db895b555fb318e0996d3e13b",
+    "paper/results/github_workflow_families/pr_outcome/gpt6_luna/preflight.json": "bf65cb949dd5cd3be7429606004200036010dd4bc084766519d0d61d4f68769f",
+    "paper/results/github_workflow_families/pr_outcome/gpt6_luna/results.json": "0313b57399eb2404b548f029b170876e250f18aeed65a03178ceb7ec76454a5c",
+    "paper/results/github_workflow_families/pr_outcome/gpt6_luna_rediscovery/discovery_checkpoint.json": "d3e41b33d1f5a39e83f4c7c69c2dc81f6597aa06311a78f6371b3ac3a6936261",
+    "paper/results/github_workflow_families/pr_outcome/gpt6_luna_rediscovery/evaluation_checkpoint.json": "be28a3c22e2b1eefd4f7eb2c82e8271acefc5a19377e22d0eb50f8b75fccb279",
+    "paper/results/github_workflow_families/pr_outcome/gpt6_luna_rediscovery/preflight.json": "f2e6b8e58e58fc7ae8a1b3ebe4d9ebad30139b437cca03a0a25c2104149dfae7",
+    "paper/results/github_workflow_families/pr_outcome/gpt6_luna_rediscovery/results.json": "2ec20604707a178c6b2ff8262660951c80b63b406378768e21e249c55fc2ba49",
+    "paper/results/github_workflow_families/pr_outcome/headroom_ablation/evaluation_checkpoint.json": "e56b678b4e9d8f615de7745083cfb97bfa27e21eaec21be6094866eb32c1cae0",
+    "paper/results/github_workflow_families/pr_outcome/headroom_ablation/preflight.json": "7ea08b294e326aa39189c78e8a53a7f55ab4f43d7534e183d2b86c4d24b8a880",
+    "paper/results/github_workflow_families/pr_outcome/headroom_ablation/results.json": "1df818b3ebcceecb7e1183624ae087defd3716348dd3d88fa3474671ab1c3290",
+    "paper/results/github_workflow_families/pr_outcome/pilot_v1/discovery_checkpoint.json": "5b103fa9f4c04630e42581546a3ce4d86c894584e790a08c60598ccbf4a1a102",
+    "paper/results/github_workflow_families/pr_outcome/pilot_v1/evaluation_checkpoint.json": "79a70ee996ef8471b75c115670abfec141f0d3689e0bb301d8fd8925061da1b5",
+    "paper/results/github_workflow_families/pr_outcome/pilot_v1/failed_attempt_projection_2026-08-05.json": "7a4fac7233f8a1c295197d48d35ef7be43ebd8bd6de8acf16ea07fc64d4959ff",
+    "paper/results/github_workflow_families/pr_outcome/pilot_v1/preflight.json": "346f708724719ad62854ed88a1bda6753f942079951dcedf5ca46e2485edfe20",
+    "paper/results/github_workflow_families/pr_outcome/pilot_v1/results.json": "14896e13e098b16fba58ef1172e6b3bfe1e913066258f1923edfbad33e979062",
+    "paper/results/github_workflow_families/pr_outcome/pilot_v1/smoke.json": "bdb5382e305968e239b2ab734dcff8c6f4c7971da24487d7cf62fe2890b38c1d",
+    "paper/results/graded_issue_gate/abort_v1.json": "428f30fa538c44d414f16deb87254d214d66064aa3e6a52f2cc50cd23c01c22d",
+    "paper/results/graded_issue_gate/audit_v2.json": "de20d7c3e1e1bf9da3be1e257459cb462ad79793d2a87e64195c9ea4988c624d",
+    "paper/results/graded_issue_gate/candidate_v2/discovery.json": "436765b8fb6d5290ee7af46c3595e98fc93500f676bed999a8487d197e2e2fb8",
+    "paper/results/graded_issue_gate/candidate_v2/started.json": "a8702c1b752bdce69d96acd81817163c108338136bf265d2aae141baba919350",
+    "paper/results/graded_issue_gate/checkpoint.json": "9e3f3cf4c5e58a067b54aa4f00578572fd5a07343209dea7fcf56086656ea7f4",
+    "paper/results/graded_issue_gate/checkpoint_v2.json": "adbd7ff9a5f9f88bf3d1602fb085d2c846f2b0ff773edb59ee98d9585fe85bd2",
+    "paper/results/graded_issue_gate/preflight.json": "c54dd355741bd4c2e2be2c9784c44956f0dec9375cb6b74feb77a397095d8a9b",
+    "paper/results/graded_issue_gate/results_v2.json": "a179236a1fd86770b472849d24d4d57c7d978f043e3968d2c46d50addd567010",
+    "paper/results/iclr_revision/gate_frontier_reanalysis.json": "2c50db9dad810d21be0a47a50dfd032e6ed798e660a268ae5e9f3dd110b7ac54",
+    "paper/results/issue_type_extended_heldout/evaluation_checkpoint.json": "45c46f5395b417aea48621ac9a72ac87ef66fb37f3d7483d3babb9ba66fa4bc7",
+    "paper/results/issue_type_extended_heldout/preflight.json": "1dda24ec8969dc1307909c9628a7b4697cf7b5d25d0b4d433db989549494ec10",
+    "paper/results/issue_type_extended_heldout/results.json": "f0fc094f37085df163b8fba9e37b8619985c9f7a08b96ea298b83a3736f41ae1",
+    "paper/results/multirepo_pr_outcome_balance_analysis.json": "556a64f5cbeb67d0fd26c5489647804d2f06930ee37215657f29db92af254caf",
+    "paper/results/optimizer_head_to_head/gepa_run/run_log.json": "a9e6510baf32faac05f4ddc63dc1e50c9905a908c96a395052fbb86bfa70bf62",
+    "paper/results/optimizer_head_to_head/gepa_smoke/run_log.json": "d5d95958e973f264af07d0a59eba3cb388e7e4e6fc3f55c3e10528e693df5344",
+    "paper/results/optimizer_head_to_head/preflight.json": "82018e02e360e0466e6110ba98f2d1cd46f66999799334b566c9c84e9cce0e6a",
+    "paper/results/optimizer_head_to_head/results.json": "94319b5ba5056363359378fb383612c14fe91c381db50ef5e1749bda9ade8584",
+    "paper/results/optimizer_head_to_head/smoke.json": "eb7244265f183d4c642267df7116310ebbdf13d1c2c4f6f23d23446ec9547cbd",
+    "paper/results/portfolio_live/preflight.json": "cc08f190fea21bd25d78a7c5adf2b106a67f07ad775fc4d364300d4b5b6d85db",
+    "paper/results/portfolio_live/results.json": "08990b93dcaf0d29106f4b2289a47d3c92efb072c696f0eb54d6e9d0d8bfa3cb",
+    "paper/results/recurrence_only_ablation/evaluation_checkpoint.json": "700685f8279b840a0f9fada126269e725776e9c86a8d0e22466b905bce625710",
+    "paper/results/recurrence_only_ablation/preflight.json": "70559d451c6c3309e097300acd965d1096eebcb31e2e1b34ceed7d452ee23ab9",
+    "paper/results/recurrence_only_ablation/results.json": "d265ac677547d015fc7de101c2f6e4dfabad0b757b93994bfe4b0b845a059cd5",
+    "paper/results/second_model_replication/issue_type/evaluation_checkpoint.json": "44617a2ecf35ebd2c6d3960a7a622e049e874e98966212aef48fe6ae17b0328a",
+    "paper/results/second_model_replication/issue_type/preflight.json": "74df0bf69eed667680032abb3fcb9095a8dccc87cdc3002c45d8adb89945e2fe",
+    "paper/results/second_model_replication/issue_type/results.json": "423f717ed4dde45ac5023c81ca587541d4f0f7d148d60ee7bba2acc48aad03cd",
+    "paper/results/second_model_replication/issue_type_rediscovery/discovery_checkpoint.json": "d02cc87f51abff705cbc95c31e29a93ae226dd1b1dd9bd2b27b77e2c2ab9a51f",
+    "paper/results/second_model_replication/issue_type_rediscovery/evaluation_checkpoint.json": "ad26c7898d421a6a358ec12b48bcdec3becd3503f589c5ae68cb3e9e37d73078",
+    "paper/results/second_model_replication/issue_type_rediscovery/preflight.json": "a5b3e7273c60b567d88acd705990dabb4d01ee1ffd6f9c7508a1625e6da14b29",
+    "paper/results/second_model_replication/issue_type_rediscovery/results.json": "11437cdbcadbd2548905d2f64f665b112faffcb064c638597c0a797112a99b15",
+    "paper/results/second_provider_replication/issue_type/discovery_checkpoint.json": "0ac0bd688ca768d805a05ed5bde15ca784c5b9a62b56cc8e60cbc7f8da6aff17",
+    "paper/results/second_provider_replication/issue_type/evaluation_checkpoint.json": "5ca2249062a93141164b2c59917e20c3ba5a70c8956f741e0de70e82127cbf9e",
+    "paper/results/second_provider_replication/issue_type/preflight.json": "3e794bda9b224b31c8e3f860613f59a795f40a927ecc17a9efdce86853f8c8db",
+    "paper/results/second_provider_replication/issue_type/results.json": "945dd164213928f8d2ecb08e3c251c0c4382abce2982e6625f5da196f3f6ff3d",
+    "paper/results/time_forward/pr_outcome/calibration_checkpoint.json": "51818f721994cd6b5f2733f0b2be8a81ef62dac92ef59b3107885dae0b5c5bc2",
+    "paper/results/time_forward/pr_outcome/discovery_checkpoint.json": "9a27cb920dfd8aaa6b86416667391de67c59514ec84088f6aba3aafdb6c3a2a2",
+    "paper/results/time_forward/pr_outcome/evaluation_checkpoint.json": "8d1a0858dae941f061ed47749e74db1b095d7fac1ff12cc6c7cda22c85515e80"
+  },
+  "provider_calls_executed": 0,
+  "schema_version": 1,
+  "source": {
+    "dataset": "helmo/github-issues",
+    "deduplicated_non_pr_issues": 3115,
+    "parquet_sha256": "09453eefae39e45a969ab0bee72ca0e188fe79dc50403b0f2a78c39894f5d1a3",
+    "revision": "e344be7b84d199661a9956036991e1fc25715a47"
+  },
+  "splits": {
+    "calibration": [
+      4861,
+      2415,
+      4784,
+      6533,
+      7472,
+      3861,
+      2214,
+      2170,
+      7222,
+      7100,
+      3127,
+      6689,
+      2655,
+      6901,
+      4888,
+      3505,
+      6810,
+      1758,
+      546,
+      6941,
+      7389,
+      5722,
+      5468,
+      6906,
+      3578,
+      6562,
+      5361,
+      5013,
+      3485,
+      3581,
+      2031,
+      7276,
+      4858,
+      5768,
+      5681,
+      2166,
+      7022,
+      5090,
+      5083,
+      7071,
+      3503,
+      5797,
+      5576,
+      3089,
+      4086,
+      6977,
+      4439,
+      6719,
+      6830,
+      743,
+      2542,
+      5448,
+      3621,
+      395,
+      611,
+      3969,
+      5597,
+      2932,
+      3662,
+      6935,
+      1643,
+      2927,
+      2115,
+      730,
+      4761,
+      3755,
+      3848,
+      7223,
+      5989,
+      4527,
+      7108,
+      7163,
+      3333,
+      3510,
+      5647,
+      2366,
+      3447,
+      6745,
+      5743,
+      5293,
+      2120,
+      6580,
+      6039,
+      7493,
+      1733,
+      6277,
+      887,
+      3143,
+      829,
+      2165,
+      6246,
+      4772,
+      3117,
+      3353,
+      2440,
+      412,
+      4811,
+      7420,
+      3055,
+      6472,
+      672,
+      5262,
+      4803,
+      5009,
+      3984,
+      7443,
+      5730,
+      445,
+      3769,
+      2424,
+      406,
+      3299,
+      2055,
+      3808,
+      5050,
+      3423,
+      3369,
+      5000,
+      5156,
+      1633,
+      5200,
+      6099,
+      6374,
+      809,
+      4118,
+      4996,
+      6436,
+      4123,
+      3242,
+      3431,
+      5182,
+      4494,
+      485,
+      2175,
+      7090,
+      2606,
+      5734,
+      2669,
+      2496,
+      2691,
+      2096,
+      3764,
+      2146,
+      5854,
+      7498,
+      961,
+      3522,
+      296,
+      6441,
+      3168,
+      4031,
+      6702,
+      4181,
+      3193,
+      7079,
+      2239,
+      5585,
+      7433,
+      3992,
+      240,
+      6377,
+      729,
+      5414,
+      5798,
+      368,
+      2818,
+      246,
+      6066,
+      3507,
+      2117,
+      2131,
+      7122,
+      5709,
+      2226,
+      4185,
+      519,
+      5419,
+      1639,
+      6104,
+      7161,
+      2098,
+      3839,
+      2679,
+      3253,
+      4623,
+      7041,
+      3906,
+      879,
+      6758,
+      2132,
+      1747,
+      633
+    ],
+    "development": [
+      5412,
+      3568,
+      5298,
+      3920,
+      4876,
+      6144,
+      5183,
+      6008,
+      3150,
+      7139,
+      345,
+      7336,
+      6690,
+      687,
+      5929,
+      769,
+      216,
+      5251,
+      6679,
+      3610,
+      2130,
+      4734,
+      3324,
+      812,
+      4918,
+      5038,
+      1635,
+      4983,
+      256,
+      6980,
+      7470,
+      1632,
+      5849,
+      382,
+      7508,
+      4071,
+      7077,
+      3835,
+      6716,
+      622,
+      537,
+      6947,
+      5945,
+      2159,
+      7187,
+      5276,
+      2641,
+      4210,
+      4180,
+      4013,
+      7175,
+      1821,
+      6703,
+      3339,
+      301,
+      6924,
+      6111,
+      6069,
+      4555,
+      6194,
+      5176,
+      3396,
+      5500,
+      6615,
+      1604,
+      4441,
+      6877,
+      3390,
+      2569,
+      7129,
+      2722,
+      3640,
+      5832,
+      414,
+      6590,
+      3896,
+      6383,
+      6329,
+      3937,
+      3459,
+      202,
+      610,
+      3606,
+      3724,
+      2398,
+      3119,
+      3739,
+      3102,
+      4531,
+      4759,
+      5498,
+      927,
+      7399,
+      5218,
+      524,
+      5135
+    ],
+    "discovery": [
+      577,
+      3261,
+      7156,
+      4725,
+      6108,
+      7008,
+      2200,
+      1636,
+      321,
+      5111,
+      831,
+      4247,
+      3675,
+      3164,
+      1919,
+      7425,
+      3381,
+      6240,
+      6939,
+      4900,
+      6006,
+      1840,
+      6086,
+      2573
+    ],
+    "test": [
+      2899,
+      5780,
+      5002,
+      1444,
+      5390,
+      4192,
+      2262,
+      630,
+      5724,
+      2837,
+      3132,
+      261,
+      3676,
+      2243,
+      2917,
+      3671,
+      560,
+      5618,
+      2035,
+      1841,
+      3310,
+      2969,
+      6808,
+      3422,
+      4902,
+      7386,
+      7449,
+      6507,
+      3265,
+      4126,
+      6948,
+      5541,
+      2892,
+      4343,
+      3400,
+      6756,
+      3491,
+      848,
+      3329,
+      3488,
+      2278,
+      6609,
+      5157,
+      2842,
+      5586,
+      4636,
+      7423,
+      5868,
+      315,
+      5517,
+      5346,
+      4524,
+      7427,
+      2123,
+      4112,
+      5170,
+      7185,
+      1825,
+      7189,
+      3847,
+      4632,
+      795,
+      5394,
+      5548,
+      4113,
+      5750,
+      5695,
+      7378,
+      3317,
+      2886,
+      4634,
+      159,
+      1422,
+      6270,
+      3807,
+      2841,
+      5134,
+      4942,
+      6729,
+      6618,
+      4815,
+      874,
+      7320,
+      4737,
+      4776,
+      6949,
+      3883,
+      678,
+      7458,
+      149,
+      3889,
+      4575,
+      6273,
+      259,
+      5794,
+      2761
+    ]
+  },
+  "test_cases": [
+    {
+      "case_id": "2899:ordinary:1",
+      "issue_number": 2899,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2899:ordinary:3",
+      "issue_number": 2899,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2899:ordinary:5",
+      "issue_number": 2899,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2899:capped_response_stress:1",
+      "issue_number": 2899,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2899:capped_response_stress:3",
+      "issue_number": 2899,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2899:capped_response_stress:5",
+      "issue_number": 2899,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5780:ordinary:1",
+      "issue_number": 5780,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5780:ordinary:3",
+      "issue_number": 5780,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5780:ordinary:5",
+      "issue_number": 5780,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5780:capped_response_stress:1",
+      "issue_number": 5780,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5780:capped_response_stress:3",
+      "issue_number": 5780,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5780:capped_response_stress:5",
+      "issue_number": 5780,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5002:ordinary:1",
+      "issue_number": 5002,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5002:ordinary:3",
+      "issue_number": 5002,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5002:ordinary:5",
+      "issue_number": 5002,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5002:capped_response_stress:1",
+      "issue_number": 5002,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5002:capped_response_stress:3",
+      "issue_number": 5002,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5002:capped_response_stress:5",
+      "issue_number": 5002,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "1444:ordinary:1",
+      "issue_number": 1444,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "1444:ordinary:3",
+      "issue_number": 1444,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "1444:ordinary:5",
+      "issue_number": 1444,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "1444:capped_response_stress:1",
+      "issue_number": 1444,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "1444:capped_response_stress:3",
+      "issue_number": 1444,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "1444:capped_response_stress:5",
+      "issue_number": 1444,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5390:ordinary:1",
+      "issue_number": 5390,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5390:ordinary:3",
+      "issue_number": 5390,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5390:ordinary:5",
+      "issue_number": 5390,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5390:capped_response_stress:1",
+      "issue_number": 5390,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5390:capped_response_stress:3",
+      "issue_number": 5390,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5390:capped_response_stress:5",
+      "issue_number": 5390,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4192:ordinary:1",
+      "issue_number": 4192,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4192:ordinary:3",
+      "issue_number": 4192,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4192:ordinary:5",
+      "issue_number": 4192,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4192:capped_response_stress:1",
+      "issue_number": 4192,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4192:capped_response_stress:3",
+      "issue_number": 4192,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4192:capped_response_stress:5",
+      "issue_number": 4192,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2262:ordinary:1",
+      "issue_number": 2262,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2262:ordinary:3",
+      "issue_number": 2262,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2262:ordinary:5",
+      "issue_number": 2262,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2262:capped_response_stress:1",
+      "issue_number": 2262,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2262:capped_response_stress:3",
+      "issue_number": 2262,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2262:capped_response_stress:5",
+      "issue_number": 2262,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "630:ordinary:1",
+      "issue_number": 630,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "630:ordinary:3",
+      "issue_number": 630,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "630:ordinary:5",
+      "issue_number": 630,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "630:capped_response_stress:1",
+      "issue_number": 630,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "630:capped_response_stress:3",
+      "issue_number": 630,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "630:capped_response_stress:5",
+      "issue_number": 630,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5724:ordinary:1",
+      "issue_number": 5724,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5724:ordinary:3",
+      "issue_number": 5724,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5724:ordinary:5",
+      "issue_number": 5724,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5724:capped_response_stress:1",
+      "issue_number": 5724,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5724:capped_response_stress:3",
+      "issue_number": 5724,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5724:capped_response_stress:5",
+      "issue_number": 5724,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2837:ordinary:1",
+      "issue_number": 2837,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2837:ordinary:3",
+      "issue_number": 2837,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2837:ordinary:5",
+      "issue_number": 2837,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2837:capped_response_stress:1",
+      "issue_number": 2837,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2837:capped_response_stress:3",
+      "issue_number": 2837,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2837:capped_response_stress:5",
+      "issue_number": 2837,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3132:ordinary:1",
+      "issue_number": 3132,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3132:ordinary:3",
+      "issue_number": 3132,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3132:ordinary:5",
+      "issue_number": 3132,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3132:capped_response_stress:1",
+      "issue_number": 3132,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3132:capped_response_stress:3",
+      "issue_number": 3132,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3132:capped_response_stress:5",
+      "issue_number": 3132,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "261:ordinary:1",
+      "issue_number": 261,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "261:ordinary:3",
+      "issue_number": 261,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "261:ordinary:5",
+      "issue_number": 261,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "261:capped_response_stress:1",
+      "issue_number": 261,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "261:capped_response_stress:3",
+      "issue_number": 261,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "261:capped_response_stress:5",
+      "issue_number": 261,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3676:ordinary:1",
+      "issue_number": 3676,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3676:ordinary:3",
+      "issue_number": 3676,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3676:ordinary:5",
+      "issue_number": 3676,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3676:capped_response_stress:1",
+      "issue_number": 3676,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3676:capped_response_stress:3",
+      "issue_number": 3676,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3676:capped_response_stress:5",
+      "issue_number": 3676,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2243:ordinary:1",
+      "issue_number": 2243,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2243:ordinary:3",
+      "issue_number": 2243,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2243:ordinary:5",
+      "issue_number": 2243,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2243:capped_response_stress:1",
+      "issue_number": 2243,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2243:capped_response_stress:3",
+      "issue_number": 2243,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2243:capped_response_stress:5",
+      "issue_number": 2243,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2917:ordinary:1",
+      "issue_number": 2917,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2917:ordinary:3",
+      "issue_number": 2917,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2917:ordinary:5",
+      "issue_number": 2917,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2917:capped_response_stress:1",
+      "issue_number": 2917,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2917:capped_response_stress:3",
+      "issue_number": 2917,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2917:capped_response_stress:5",
+      "issue_number": 2917,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3671:ordinary:1",
+      "issue_number": 3671,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3671:ordinary:3",
+      "issue_number": 3671,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3671:ordinary:5",
+      "issue_number": 3671,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3671:capped_response_stress:1",
+      "issue_number": 3671,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3671:capped_response_stress:3",
+      "issue_number": 3671,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3671:capped_response_stress:5",
+      "issue_number": 3671,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "560:ordinary:1",
+      "issue_number": 560,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "560:ordinary:3",
+      "issue_number": 560,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "560:ordinary:5",
+      "issue_number": 560,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "560:capped_response_stress:1",
+      "issue_number": 560,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "560:capped_response_stress:3",
+      "issue_number": 560,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "560:capped_response_stress:5",
+      "issue_number": 560,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5618:ordinary:1",
+      "issue_number": 5618,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5618:ordinary:3",
+      "issue_number": 5618,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5618:ordinary:5",
+      "issue_number": 5618,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5618:capped_response_stress:1",
+      "issue_number": 5618,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5618:capped_response_stress:3",
+      "issue_number": 5618,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5618:capped_response_stress:5",
+      "issue_number": 5618,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2035:ordinary:1",
+      "issue_number": 2035,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2035:ordinary:3",
+      "issue_number": 2035,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2035:ordinary:5",
+      "issue_number": 2035,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2035:capped_response_stress:1",
+      "issue_number": 2035,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2035:capped_response_stress:3",
+      "issue_number": 2035,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2035:capped_response_stress:5",
+      "issue_number": 2035,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "1841:ordinary:1",
+      "issue_number": 1841,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "1841:ordinary:3",
+      "issue_number": 1841,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "1841:ordinary:5",
+      "issue_number": 1841,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "1841:capped_response_stress:1",
+      "issue_number": 1841,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "1841:capped_response_stress:3",
+      "issue_number": 1841,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "1841:capped_response_stress:5",
+      "issue_number": 1841,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3310:ordinary:1",
+      "issue_number": 3310,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3310:ordinary:3",
+      "issue_number": 3310,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3310:ordinary:5",
+      "issue_number": 3310,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3310:capped_response_stress:1",
+      "issue_number": 3310,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3310:capped_response_stress:3",
+      "issue_number": 3310,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3310:capped_response_stress:5",
+      "issue_number": 3310,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2969:ordinary:1",
+      "issue_number": 2969,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2969:ordinary:3",
+      "issue_number": 2969,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2969:ordinary:5",
+      "issue_number": 2969,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2969:capped_response_stress:1",
+      "issue_number": 2969,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2969:capped_response_stress:3",
+      "issue_number": 2969,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2969:capped_response_stress:5",
+      "issue_number": 2969,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6808:ordinary:1",
+      "issue_number": 6808,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6808:ordinary:3",
+      "issue_number": 6808,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6808:ordinary:5",
+      "issue_number": 6808,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6808:capped_response_stress:1",
+      "issue_number": 6808,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6808:capped_response_stress:3",
+      "issue_number": 6808,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6808:capped_response_stress:5",
+      "issue_number": 6808,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3422:ordinary:1",
+      "issue_number": 3422,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3422:ordinary:3",
+      "issue_number": 3422,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3422:ordinary:5",
+      "issue_number": 3422,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3422:capped_response_stress:1",
+      "issue_number": 3422,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3422:capped_response_stress:3",
+      "issue_number": 3422,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3422:capped_response_stress:5",
+      "issue_number": 3422,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4902:ordinary:1",
+      "issue_number": 4902,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4902:ordinary:3",
+      "issue_number": 4902,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4902:ordinary:5",
+      "issue_number": 4902,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4902:capped_response_stress:1",
+      "issue_number": 4902,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4902:capped_response_stress:3",
+      "issue_number": 4902,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4902:capped_response_stress:5",
+      "issue_number": 4902,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7386:ordinary:1",
+      "issue_number": 7386,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7386:ordinary:3",
+      "issue_number": 7386,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7386:ordinary:5",
+      "issue_number": 7386,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7386:capped_response_stress:1",
+      "issue_number": 7386,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7386:capped_response_stress:3",
+      "issue_number": 7386,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7386:capped_response_stress:5",
+      "issue_number": 7386,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7449:ordinary:1",
+      "issue_number": 7449,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7449:ordinary:3",
+      "issue_number": 7449,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7449:ordinary:5",
+      "issue_number": 7449,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7449:capped_response_stress:1",
+      "issue_number": 7449,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7449:capped_response_stress:3",
+      "issue_number": 7449,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7449:capped_response_stress:5",
+      "issue_number": 7449,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6507:ordinary:1",
+      "issue_number": 6507,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6507:ordinary:3",
+      "issue_number": 6507,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6507:ordinary:5",
+      "issue_number": 6507,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6507:capped_response_stress:1",
+      "issue_number": 6507,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6507:capped_response_stress:3",
+      "issue_number": 6507,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6507:capped_response_stress:5",
+      "issue_number": 6507,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3265:ordinary:1",
+      "issue_number": 3265,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3265:ordinary:3",
+      "issue_number": 3265,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3265:ordinary:5",
+      "issue_number": 3265,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3265:capped_response_stress:1",
+      "issue_number": 3265,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3265:capped_response_stress:3",
+      "issue_number": 3265,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3265:capped_response_stress:5",
+      "issue_number": 3265,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4126:ordinary:1",
+      "issue_number": 4126,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4126:ordinary:3",
+      "issue_number": 4126,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4126:ordinary:5",
+      "issue_number": 4126,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4126:capped_response_stress:1",
+      "issue_number": 4126,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4126:capped_response_stress:3",
+      "issue_number": 4126,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4126:capped_response_stress:5",
+      "issue_number": 4126,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6948:ordinary:1",
+      "issue_number": 6948,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6948:ordinary:3",
+      "issue_number": 6948,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6948:ordinary:5",
+      "issue_number": 6948,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6948:capped_response_stress:1",
+      "issue_number": 6948,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6948:capped_response_stress:3",
+      "issue_number": 6948,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6948:capped_response_stress:5",
+      "issue_number": 6948,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5541:ordinary:1",
+      "issue_number": 5541,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5541:ordinary:3",
+      "issue_number": 5541,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5541:ordinary:5",
+      "issue_number": 5541,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5541:capped_response_stress:1",
+      "issue_number": 5541,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5541:capped_response_stress:3",
+      "issue_number": 5541,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5541:capped_response_stress:5",
+      "issue_number": 5541,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2892:ordinary:1",
+      "issue_number": 2892,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2892:ordinary:3",
+      "issue_number": 2892,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2892:ordinary:5",
+      "issue_number": 2892,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2892:capped_response_stress:1",
+      "issue_number": 2892,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2892:capped_response_stress:3",
+      "issue_number": 2892,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2892:capped_response_stress:5",
+      "issue_number": 2892,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4343:ordinary:1",
+      "issue_number": 4343,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4343:ordinary:3",
+      "issue_number": 4343,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4343:ordinary:5",
+      "issue_number": 4343,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4343:capped_response_stress:1",
+      "issue_number": 4343,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4343:capped_response_stress:3",
+      "issue_number": 4343,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4343:capped_response_stress:5",
+      "issue_number": 4343,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3400:ordinary:1",
+      "issue_number": 3400,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3400:ordinary:3",
+      "issue_number": 3400,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3400:ordinary:5",
+      "issue_number": 3400,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3400:capped_response_stress:1",
+      "issue_number": 3400,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3400:capped_response_stress:3",
+      "issue_number": 3400,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3400:capped_response_stress:5",
+      "issue_number": 3400,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6756:ordinary:1",
+      "issue_number": 6756,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6756:ordinary:3",
+      "issue_number": 6756,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6756:ordinary:5",
+      "issue_number": 6756,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6756:capped_response_stress:1",
+      "issue_number": 6756,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6756:capped_response_stress:3",
+      "issue_number": 6756,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6756:capped_response_stress:5",
+      "issue_number": 6756,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3491:ordinary:1",
+      "issue_number": 3491,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3491:ordinary:3",
+      "issue_number": 3491,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3491:ordinary:5",
+      "issue_number": 3491,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3491:capped_response_stress:1",
+      "issue_number": 3491,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3491:capped_response_stress:3",
+      "issue_number": 3491,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3491:capped_response_stress:5",
+      "issue_number": 3491,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "848:ordinary:1",
+      "issue_number": 848,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "848:ordinary:3",
+      "issue_number": 848,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "848:ordinary:5",
+      "issue_number": 848,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "848:capped_response_stress:1",
+      "issue_number": 848,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "848:capped_response_stress:3",
+      "issue_number": 848,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "848:capped_response_stress:5",
+      "issue_number": 848,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3329:ordinary:1",
+      "issue_number": 3329,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3329:ordinary:3",
+      "issue_number": 3329,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3329:ordinary:5",
+      "issue_number": 3329,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3329:capped_response_stress:1",
+      "issue_number": 3329,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3329:capped_response_stress:3",
+      "issue_number": 3329,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3329:capped_response_stress:5",
+      "issue_number": 3329,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3488:ordinary:1",
+      "issue_number": 3488,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3488:ordinary:3",
+      "issue_number": 3488,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3488:ordinary:5",
+      "issue_number": 3488,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3488:capped_response_stress:1",
+      "issue_number": 3488,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3488:capped_response_stress:3",
+      "issue_number": 3488,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3488:capped_response_stress:5",
+      "issue_number": 3488,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2278:ordinary:1",
+      "issue_number": 2278,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2278:ordinary:3",
+      "issue_number": 2278,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2278:ordinary:5",
+      "issue_number": 2278,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2278:capped_response_stress:1",
+      "issue_number": 2278,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2278:capped_response_stress:3",
+      "issue_number": 2278,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2278:capped_response_stress:5",
+      "issue_number": 2278,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6609:ordinary:1",
+      "issue_number": 6609,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6609:ordinary:3",
+      "issue_number": 6609,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6609:ordinary:5",
+      "issue_number": 6609,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6609:capped_response_stress:1",
+      "issue_number": 6609,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6609:capped_response_stress:3",
+      "issue_number": 6609,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6609:capped_response_stress:5",
+      "issue_number": 6609,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5157:ordinary:1",
+      "issue_number": 5157,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5157:ordinary:3",
+      "issue_number": 5157,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5157:ordinary:5",
+      "issue_number": 5157,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5157:capped_response_stress:1",
+      "issue_number": 5157,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5157:capped_response_stress:3",
+      "issue_number": 5157,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5157:capped_response_stress:5",
+      "issue_number": 5157,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2842:ordinary:1",
+      "issue_number": 2842,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2842:ordinary:3",
+      "issue_number": 2842,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2842:ordinary:5",
+      "issue_number": 2842,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2842:capped_response_stress:1",
+      "issue_number": 2842,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2842:capped_response_stress:3",
+      "issue_number": 2842,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2842:capped_response_stress:5",
+      "issue_number": 2842,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5586:ordinary:1",
+      "issue_number": 5586,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5586:ordinary:3",
+      "issue_number": 5586,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5586:ordinary:5",
+      "issue_number": 5586,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5586:capped_response_stress:1",
+      "issue_number": 5586,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5586:capped_response_stress:3",
+      "issue_number": 5586,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5586:capped_response_stress:5",
+      "issue_number": 5586,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4636:ordinary:1",
+      "issue_number": 4636,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4636:ordinary:3",
+      "issue_number": 4636,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4636:ordinary:5",
+      "issue_number": 4636,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4636:capped_response_stress:1",
+      "issue_number": 4636,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4636:capped_response_stress:3",
+      "issue_number": 4636,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4636:capped_response_stress:5",
+      "issue_number": 4636,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7423:ordinary:1",
+      "issue_number": 7423,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7423:ordinary:3",
+      "issue_number": 7423,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7423:ordinary:5",
+      "issue_number": 7423,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7423:capped_response_stress:1",
+      "issue_number": 7423,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7423:capped_response_stress:3",
+      "issue_number": 7423,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7423:capped_response_stress:5",
+      "issue_number": 7423,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5868:ordinary:1",
+      "issue_number": 5868,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5868:ordinary:3",
+      "issue_number": 5868,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5868:ordinary:5",
+      "issue_number": 5868,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5868:capped_response_stress:1",
+      "issue_number": 5868,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5868:capped_response_stress:3",
+      "issue_number": 5868,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5868:capped_response_stress:5",
+      "issue_number": 5868,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "315:ordinary:1",
+      "issue_number": 315,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "315:ordinary:3",
+      "issue_number": 315,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "315:ordinary:5",
+      "issue_number": 315,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "315:capped_response_stress:1",
+      "issue_number": 315,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "315:capped_response_stress:3",
+      "issue_number": 315,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "315:capped_response_stress:5",
+      "issue_number": 315,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5517:ordinary:1",
+      "issue_number": 5517,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5517:ordinary:3",
+      "issue_number": 5517,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5517:ordinary:5",
+      "issue_number": 5517,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5517:capped_response_stress:1",
+      "issue_number": 5517,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5517:capped_response_stress:3",
+      "issue_number": 5517,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5517:capped_response_stress:5",
+      "issue_number": 5517,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5346:ordinary:1",
+      "issue_number": 5346,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5346:ordinary:3",
+      "issue_number": 5346,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5346:ordinary:5",
+      "issue_number": 5346,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5346:capped_response_stress:1",
+      "issue_number": 5346,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5346:capped_response_stress:3",
+      "issue_number": 5346,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5346:capped_response_stress:5",
+      "issue_number": 5346,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4524:ordinary:1",
+      "issue_number": 4524,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4524:ordinary:3",
+      "issue_number": 4524,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4524:ordinary:5",
+      "issue_number": 4524,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4524:capped_response_stress:1",
+      "issue_number": 4524,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4524:capped_response_stress:3",
+      "issue_number": 4524,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4524:capped_response_stress:5",
+      "issue_number": 4524,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7427:ordinary:1",
+      "issue_number": 7427,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7427:ordinary:3",
+      "issue_number": 7427,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7427:ordinary:5",
+      "issue_number": 7427,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7427:capped_response_stress:1",
+      "issue_number": 7427,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7427:capped_response_stress:3",
+      "issue_number": 7427,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7427:capped_response_stress:5",
+      "issue_number": 7427,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2123:ordinary:1",
+      "issue_number": 2123,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2123:ordinary:3",
+      "issue_number": 2123,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2123:ordinary:5",
+      "issue_number": 2123,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2123:capped_response_stress:1",
+      "issue_number": 2123,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2123:capped_response_stress:3",
+      "issue_number": 2123,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2123:capped_response_stress:5",
+      "issue_number": 2123,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4112:ordinary:1",
+      "issue_number": 4112,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4112:ordinary:3",
+      "issue_number": 4112,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4112:ordinary:5",
+      "issue_number": 4112,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4112:capped_response_stress:1",
+      "issue_number": 4112,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4112:capped_response_stress:3",
+      "issue_number": 4112,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4112:capped_response_stress:5",
+      "issue_number": 4112,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5170:ordinary:1",
+      "issue_number": 5170,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5170:ordinary:3",
+      "issue_number": 5170,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5170:ordinary:5",
+      "issue_number": 5170,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5170:capped_response_stress:1",
+      "issue_number": 5170,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5170:capped_response_stress:3",
+      "issue_number": 5170,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5170:capped_response_stress:5",
+      "issue_number": 5170,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7185:ordinary:1",
+      "issue_number": 7185,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7185:ordinary:3",
+      "issue_number": 7185,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7185:ordinary:5",
+      "issue_number": 7185,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7185:capped_response_stress:1",
+      "issue_number": 7185,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7185:capped_response_stress:3",
+      "issue_number": 7185,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7185:capped_response_stress:5",
+      "issue_number": 7185,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "1825:ordinary:1",
+      "issue_number": 1825,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "1825:ordinary:3",
+      "issue_number": 1825,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "1825:ordinary:5",
+      "issue_number": 1825,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "1825:capped_response_stress:1",
+      "issue_number": 1825,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "1825:capped_response_stress:3",
+      "issue_number": 1825,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "1825:capped_response_stress:5",
+      "issue_number": 1825,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7189:ordinary:1",
+      "issue_number": 7189,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7189:ordinary:3",
+      "issue_number": 7189,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7189:ordinary:5",
+      "issue_number": 7189,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7189:capped_response_stress:1",
+      "issue_number": 7189,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7189:capped_response_stress:3",
+      "issue_number": 7189,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7189:capped_response_stress:5",
+      "issue_number": 7189,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3847:ordinary:1",
+      "issue_number": 3847,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3847:ordinary:3",
+      "issue_number": 3847,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3847:ordinary:5",
+      "issue_number": 3847,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3847:capped_response_stress:1",
+      "issue_number": 3847,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3847:capped_response_stress:3",
+      "issue_number": 3847,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3847:capped_response_stress:5",
+      "issue_number": 3847,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4632:ordinary:1",
+      "issue_number": 4632,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4632:ordinary:3",
+      "issue_number": 4632,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4632:ordinary:5",
+      "issue_number": 4632,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4632:capped_response_stress:1",
+      "issue_number": 4632,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4632:capped_response_stress:3",
+      "issue_number": 4632,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4632:capped_response_stress:5",
+      "issue_number": 4632,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "795:ordinary:1",
+      "issue_number": 795,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "795:ordinary:3",
+      "issue_number": 795,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "795:ordinary:5",
+      "issue_number": 795,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "795:capped_response_stress:1",
+      "issue_number": 795,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "795:capped_response_stress:3",
+      "issue_number": 795,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "795:capped_response_stress:5",
+      "issue_number": 795,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5394:ordinary:1",
+      "issue_number": 5394,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5394:ordinary:3",
+      "issue_number": 5394,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5394:ordinary:5",
+      "issue_number": 5394,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5394:capped_response_stress:1",
+      "issue_number": 5394,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5394:capped_response_stress:3",
+      "issue_number": 5394,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5394:capped_response_stress:5",
+      "issue_number": 5394,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5548:ordinary:1",
+      "issue_number": 5548,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5548:ordinary:3",
+      "issue_number": 5548,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5548:ordinary:5",
+      "issue_number": 5548,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5548:capped_response_stress:1",
+      "issue_number": 5548,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5548:capped_response_stress:3",
+      "issue_number": 5548,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5548:capped_response_stress:5",
+      "issue_number": 5548,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4113:ordinary:1",
+      "issue_number": 4113,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4113:ordinary:3",
+      "issue_number": 4113,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4113:ordinary:5",
+      "issue_number": 4113,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4113:capped_response_stress:1",
+      "issue_number": 4113,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4113:capped_response_stress:3",
+      "issue_number": 4113,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4113:capped_response_stress:5",
+      "issue_number": 4113,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5750:ordinary:1",
+      "issue_number": 5750,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5750:ordinary:3",
+      "issue_number": 5750,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5750:ordinary:5",
+      "issue_number": 5750,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5750:capped_response_stress:1",
+      "issue_number": 5750,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5750:capped_response_stress:3",
+      "issue_number": 5750,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5750:capped_response_stress:5",
+      "issue_number": 5750,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5695:ordinary:1",
+      "issue_number": 5695,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5695:ordinary:3",
+      "issue_number": 5695,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5695:ordinary:5",
+      "issue_number": 5695,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5695:capped_response_stress:1",
+      "issue_number": 5695,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5695:capped_response_stress:3",
+      "issue_number": 5695,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5695:capped_response_stress:5",
+      "issue_number": 5695,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7378:ordinary:1",
+      "issue_number": 7378,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7378:ordinary:3",
+      "issue_number": 7378,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7378:ordinary:5",
+      "issue_number": 7378,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7378:capped_response_stress:1",
+      "issue_number": 7378,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7378:capped_response_stress:3",
+      "issue_number": 7378,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7378:capped_response_stress:5",
+      "issue_number": 7378,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3317:ordinary:1",
+      "issue_number": 3317,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3317:ordinary:3",
+      "issue_number": 3317,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3317:ordinary:5",
+      "issue_number": 3317,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3317:capped_response_stress:1",
+      "issue_number": 3317,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3317:capped_response_stress:3",
+      "issue_number": 3317,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3317:capped_response_stress:5",
+      "issue_number": 3317,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2886:ordinary:1",
+      "issue_number": 2886,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2886:ordinary:3",
+      "issue_number": 2886,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2886:ordinary:5",
+      "issue_number": 2886,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2886:capped_response_stress:1",
+      "issue_number": 2886,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2886:capped_response_stress:3",
+      "issue_number": 2886,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2886:capped_response_stress:5",
+      "issue_number": 2886,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4634:ordinary:1",
+      "issue_number": 4634,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4634:ordinary:3",
+      "issue_number": 4634,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4634:ordinary:5",
+      "issue_number": 4634,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4634:capped_response_stress:1",
+      "issue_number": 4634,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4634:capped_response_stress:3",
+      "issue_number": 4634,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4634:capped_response_stress:5",
+      "issue_number": 4634,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "159:ordinary:1",
+      "issue_number": 159,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "159:ordinary:3",
+      "issue_number": 159,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "159:ordinary:5",
+      "issue_number": 159,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "159:capped_response_stress:1",
+      "issue_number": 159,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "159:capped_response_stress:3",
+      "issue_number": 159,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "159:capped_response_stress:5",
+      "issue_number": 159,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "1422:ordinary:1",
+      "issue_number": 1422,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "1422:ordinary:3",
+      "issue_number": 1422,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "1422:ordinary:5",
+      "issue_number": 1422,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "1422:capped_response_stress:1",
+      "issue_number": 1422,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "1422:capped_response_stress:3",
+      "issue_number": 1422,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "1422:capped_response_stress:5",
+      "issue_number": 1422,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6270:ordinary:1",
+      "issue_number": 6270,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6270:ordinary:3",
+      "issue_number": 6270,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6270:ordinary:5",
+      "issue_number": 6270,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6270:capped_response_stress:1",
+      "issue_number": 6270,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6270:capped_response_stress:3",
+      "issue_number": 6270,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6270:capped_response_stress:5",
+      "issue_number": 6270,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3807:ordinary:1",
+      "issue_number": 3807,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3807:ordinary:3",
+      "issue_number": 3807,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3807:ordinary:5",
+      "issue_number": 3807,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3807:capped_response_stress:1",
+      "issue_number": 3807,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3807:capped_response_stress:3",
+      "issue_number": 3807,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3807:capped_response_stress:5",
+      "issue_number": 3807,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2841:ordinary:1",
+      "issue_number": 2841,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2841:ordinary:3",
+      "issue_number": 2841,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2841:ordinary:5",
+      "issue_number": 2841,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2841:capped_response_stress:1",
+      "issue_number": 2841,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2841:capped_response_stress:3",
+      "issue_number": 2841,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2841:capped_response_stress:5",
+      "issue_number": 2841,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5134:ordinary:1",
+      "issue_number": 5134,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5134:ordinary:3",
+      "issue_number": 5134,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5134:ordinary:5",
+      "issue_number": 5134,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5134:capped_response_stress:1",
+      "issue_number": 5134,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5134:capped_response_stress:3",
+      "issue_number": 5134,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5134:capped_response_stress:5",
+      "issue_number": 5134,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4942:ordinary:1",
+      "issue_number": 4942,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4942:ordinary:3",
+      "issue_number": 4942,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4942:ordinary:5",
+      "issue_number": 4942,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4942:capped_response_stress:1",
+      "issue_number": 4942,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4942:capped_response_stress:3",
+      "issue_number": 4942,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4942:capped_response_stress:5",
+      "issue_number": 4942,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6729:ordinary:1",
+      "issue_number": 6729,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6729:ordinary:3",
+      "issue_number": 6729,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6729:ordinary:5",
+      "issue_number": 6729,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6729:capped_response_stress:1",
+      "issue_number": 6729,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6729:capped_response_stress:3",
+      "issue_number": 6729,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6729:capped_response_stress:5",
+      "issue_number": 6729,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6618:ordinary:1",
+      "issue_number": 6618,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6618:ordinary:3",
+      "issue_number": 6618,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6618:ordinary:5",
+      "issue_number": 6618,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6618:capped_response_stress:1",
+      "issue_number": 6618,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6618:capped_response_stress:3",
+      "issue_number": 6618,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6618:capped_response_stress:5",
+      "issue_number": 6618,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4815:ordinary:1",
+      "issue_number": 4815,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4815:ordinary:3",
+      "issue_number": 4815,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4815:ordinary:5",
+      "issue_number": 4815,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4815:capped_response_stress:1",
+      "issue_number": 4815,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4815:capped_response_stress:3",
+      "issue_number": 4815,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4815:capped_response_stress:5",
+      "issue_number": 4815,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "874:ordinary:1",
+      "issue_number": 874,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "874:ordinary:3",
+      "issue_number": 874,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "874:ordinary:5",
+      "issue_number": 874,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "874:capped_response_stress:1",
+      "issue_number": 874,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "874:capped_response_stress:3",
+      "issue_number": 874,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "874:capped_response_stress:5",
+      "issue_number": 874,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7320:ordinary:1",
+      "issue_number": 7320,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7320:ordinary:3",
+      "issue_number": 7320,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7320:ordinary:5",
+      "issue_number": 7320,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7320:capped_response_stress:1",
+      "issue_number": 7320,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7320:capped_response_stress:3",
+      "issue_number": 7320,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7320:capped_response_stress:5",
+      "issue_number": 7320,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4737:ordinary:1",
+      "issue_number": 4737,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4737:ordinary:3",
+      "issue_number": 4737,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4737:ordinary:5",
+      "issue_number": 4737,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4737:capped_response_stress:1",
+      "issue_number": 4737,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4737:capped_response_stress:3",
+      "issue_number": 4737,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4737:capped_response_stress:5",
+      "issue_number": 4737,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4776:ordinary:1",
+      "issue_number": 4776,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4776:ordinary:3",
+      "issue_number": 4776,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4776:ordinary:5",
+      "issue_number": 4776,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4776:capped_response_stress:1",
+      "issue_number": 4776,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4776:capped_response_stress:3",
+      "issue_number": 4776,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4776:capped_response_stress:5",
+      "issue_number": 4776,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6949:ordinary:1",
+      "issue_number": 6949,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6949:ordinary:3",
+      "issue_number": 6949,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6949:ordinary:5",
+      "issue_number": 6949,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6949:capped_response_stress:1",
+      "issue_number": 6949,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6949:capped_response_stress:3",
+      "issue_number": 6949,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6949:capped_response_stress:5",
+      "issue_number": 6949,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3883:ordinary:1",
+      "issue_number": 3883,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3883:ordinary:3",
+      "issue_number": 3883,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3883:ordinary:5",
+      "issue_number": 3883,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3883:capped_response_stress:1",
+      "issue_number": 3883,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3883:capped_response_stress:3",
+      "issue_number": 3883,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3883:capped_response_stress:5",
+      "issue_number": 3883,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "678:ordinary:1",
+      "issue_number": 678,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "678:ordinary:3",
+      "issue_number": 678,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "678:ordinary:5",
+      "issue_number": 678,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "678:capped_response_stress:1",
+      "issue_number": 678,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "678:capped_response_stress:3",
+      "issue_number": 678,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "678:capped_response_stress:5",
+      "issue_number": 678,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7458:ordinary:1",
+      "issue_number": 7458,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7458:ordinary:3",
+      "issue_number": 7458,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7458:ordinary:5",
+      "issue_number": 7458,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "7458:capped_response_stress:1",
+      "issue_number": 7458,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7458:capped_response_stress:3",
+      "issue_number": 7458,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "7458:capped_response_stress:5",
+      "issue_number": 7458,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "149:ordinary:1",
+      "issue_number": 149,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "149:ordinary:3",
+      "issue_number": 149,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "149:ordinary:5",
+      "issue_number": 149,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "149:capped_response_stress:1",
+      "issue_number": 149,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "149:capped_response_stress:3",
+      "issue_number": 149,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "149:capped_response_stress:5",
+      "issue_number": 149,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3889:ordinary:1",
+      "issue_number": 3889,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3889:ordinary:3",
+      "issue_number": 3889,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3889:ordinary:5",
+      "issue_number": 3889,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "3889:capped_response_stress:1",
+      "issue_number": 3889,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3889:capped_response_stress:3",
+      "issue_number": 3889,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "3889:capped_response_stress:5",
+      "issue_number": 3889,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4575:ordinary:1",
+      "issue_number": 4575,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4575:ordinary:3",
+      "issue_number": 4575,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4575:ordinary:5",
+      "issue_number": 4575,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "4575:capped_response_stress:1",
+      "issue_number": 4575,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4575:capped_response_stress:3",
+      "issue_number": 4575,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "4575:capped_response_stress:5",
+      "issue_number": 4575,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6273:ordinary:1",
+      "issue_number": 6273,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6273:ordinary:3",
+      "issue_number": 6273,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6273:ordinary:5",
+      "issue_number": 6273,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "6273:capped_response_stress:1",
+      "issue_number": 6273,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6273:capped_response_stress:3",
+      "issue_number": 6273,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "6273:capped_response_stress:5",
+      "issue_number": 6273,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "259:ordinary:1",
+      "issue_number": 259,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "259:ordinary:3",
+      "issue_number": 259,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "259:ordinary:5",
+      "issue_number": 259,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "259:capped_response_stress:1",
+      "issue_number": 259,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "259:capped_response_stress:3",
+      "issue_number": 259,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "259:capped_response_stress:5",
+      "issue_number": 259,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5794:ordinary:1",
+      "issue_number": 5794,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5794:ordinary:3",
+      "issue_number": 5794,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5794:ordinary:5",
+      "issue_number": 5794,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "5794:capped_response_stress:1",
+      "issue_number": 5794,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5794:capped_response_stress:3",
+      "issue_number": 5794,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "5794:capped_response_stress:5",
+      "issue_number": 5794,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2761:ordinary:1",
+      "issue_number": 2761,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2761:ordinary:3",
+      "issue_number": 2761,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2761:ordinary:5",
+      "issue_number": 2761,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "ordinary"
+    },
+    {
+      "case_id": "2761:capped_response_stress:1",
+      "issue_number": 2761,
+      "keyword": "error",
+      "requested_limit": 1,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2761:capped_response_stress:3",
+      "issue_number": 2761,
+      "keyword": "error",
+      "requested_limit": 3,
+      "suite": "capped_response_stress"
+    },
+    {
+      "case_id": "2761:capped_response_stress:5",
+      "issue_number": 2761,
+      "keyword": "error",
+      "requested_limit": 5,
+      "suite": "capped_response_stress"
+    }
+  ]
+}
