@@ -1,0 +1,419 @@
+{
+  "analysis_code_sha256": {
+    "paper/scripts/analyze_fresh_safeguards.py": "60afd35698e8e71ffb247e250d0d77c89b4333b940a78cd94e4af2f09aaa5ae2",
+    "paper/scripts/bird_quality_sensitivity.py": "8204161909267e16254080a8a4c874a2779f1b8d072d6305f2a8cb884a749b18"
+  },
+  "analysis_status": "supplementary descriptive analysis of a prospectively sealed run",
+  "approved_spend_usd": 200.0,
+  "candidate_reconstruction": {
+    "changed_contract_components": [
+      "guard",
+      "verifier",
+      "gate"
+    ],
+    "historical_compatibility_key": "2523f14eb0dac97e",
+    "method": "provider-free reconstruction of historical discovery",
+    "program_admission_counts_splits_identical": true,
+    "runtime_compatibility_key": "de14337bdf934835"
+  },
+  "completed_estimated_cost_usd": 0.26863865,
+  "errors": [
+    {
+      "arm": "baseline",
+      "dispatched": false,
+      "failed_answer_fields": [
+        "category_correct",
+        "evidence_label_correct"
+      ],
+      "issue_number": 3238,
+      "status": "completed"
+    },
+    {
+      "arm": "support_only",
+      "dispatched": true,
+      "failed_answer_fields": [
+        "category_correct",
+        "evidence_label_correct"
+      ],
+      "issue_number": 3238,
+      "status": "completed"
+    },
+    {
+      "arm": "recurrence_only",
+      "dispatched": true,
+      "failed_answer_fields": [
+        "evidence_excerpt_exact"
+      ],
+      "issue_number": 4027,
+      "status": "completed"
+    },
+    {
+      "arm": "recurrence_only",
+      "dispatched": true,
+      "failed_answer_fields": [
+        "evidence_excerpt_exact"
+      ],
+      "issue_number": 5786,
+      "status": "completed"
+    }
+  ],
+  "interval_scope": "95% pointwise under iid record pairs; not simultaneous across contrasts; independence unverified",
+  "limitations": [
+    "fresh records from the same historical snapshot, not time-forward",
+    "fixed previously admitted artifact; no new discovery or calibration",
+    "one workflow; 120-record default is exploratory, not powered noninferiority",
+    "support-only is conditional on prior candidate admission",
+    "recurrence comparison changes context and prefix length as well as safeguards",
+    "supplementary endpoints and intervals are not a preregistered confirmatory test",
+    "no noninferiority margin, no causal protection claim, no new risk certificate",
+    "shared source grader reexecution is consistency checking, not an independent gold implementation",
+    "current-compiler reconstruction changes identifier guards, verifier clauses, and gate feature specification relative to the historical artifact",
+    "frozen rate estimates exclude lifecycle and human costs; not invoice verified"
+  ],
+  "n": 120,
+  "preflight_dispatch_outcomes": {
+    "gac": {
+      "BASELINE": 1,
+      "COMPACTED": 119
+    },
+    "recurrence_only": {
+      "REPLAYED": 120
+    },
+    "support_only": {
+      "BASELINE": 1,
+      "COMPACTED": 119
+    }
+  },
+  "provider_calls_executed_by_analysis": 0,
+  "quality": {
+    "registered_factuality_exact": {
+      "contrasts": {
+        "gac_vs_baseline": {
+          "difference": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "mcnemar_exact_p": 1.0,
+          "n": 120,
+          "pointwise_iid_conservative_ci95": [
+            -0.03585818926804378,
+            0.03585818926804378
+          ]
+        },
+        "gac_vs_recurrence_only": {
+          "difference": 0.016666666666666666,
+          "gains": 2,
+          "losses": 0,
+          "mcnemar_exact_p": 0.5,
+          "n": 120,
+          "pointwise_iid_conservative_ci95": [
+            -0.03446077925166305,
+            0.06598161299420105
+          ]
+        },
+        "gac_vs_support_only": {
+          "difference": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "mcnemar_exact_p": 1.0,
+          "n": 120,
+          "pointwise_iid_conservative_ci95": [
+            -0.03585818926804378,
+            0.03585818926804378
+          ]
+        },
+        "recurrence_only_vs_baseline": {
+          "difference": -0.016666666666666666,
+          "gains": 0,
+          "losses": 2,
+          "mcnemar_exact_p": 0.5,
+          "n": 120,
+          "pointwise_iid_conservative_ci95": [
+            -0.06598161299420105,
+            0.03446077925166305
+          ]
+        },
+        "support_only_vs_baseline": {
+          "difference": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "mcnemar_exact_p": 1.0,
+          "n": 120,
+          "pointwise_iid_conservative_ci95": [
+            -0.03585818926804378,
+            0.03585818926804378
+          ]
+        }
+      },
+      "correct": {
+        "baseline": 120,
+        "gac": 120,
+        "recurrence_only": 118,
+        "support_only": 120
+      }
+    },
+    "supplementary_all_answer_fields": {
+      "contrasts": {
+        "gac_vs_baseline": {
+          "difference": 0.008333333333333333,
+          "gains": 1,
+          "losses": 0,
+          "mcnemar_exact_p": 1.0,
+          "n": 120,
+          "pointwise_iid_conservative_ci95": [
+            -0.035753371576744714,
+            0.05199767988202982
+          ]
+        },
+        "gac_vs_recurrence_only": {
+          "difference": 0.016666666666666666,
+          "gains": 2,
+          "losses": 0,
+          "mcnemar_exact_p": 0.5,
+          "n": 120,
+          "pointwise_iid_conservative_ci95": [
+            -0.03446077925166305,
+            0.06598161299420105
+          ]
+        },
+        "gac_vs_support_only": {
+          "difference": 0.008333333333333333,
+          "gains": 1,
+          "losses": 0,
+          "mcnemar_exact_p": 1.0,
+          "n": 120,
+          "pointwise_iid_conservative_ci95": [
+            -0.035753371576744714,
+            0.05199767988202982
+          ]
+        },
+        "recurrence_only_vs_baseline": {
+          "difference": -0.008333333333333333,
+          "gains": 1,
+          "losses": 2,
+          "mcnemar_exact_p": 1.0,
+          "n": 120,
+          "pointwise_iid_conservative_ci95": [
+            -0.06587679530290198,
+            0.05060026986564909
+          ]
+        },
+        "support_only_vs_baseline": {
+          "difference": 0.0,
+          "gains": 0,
+          "losses": 0,
+          "mcnemar_exact_p": 1.0,
+          "n": 120,
+          "pointwise_iid_conservative_ci95": [
+            -0.03585818926804378,
+            0.03585818926804378
+          ]
+        }
+      },
+      "correct": {
+        "baseline": 119,
+        "gac": 120,
+        "recurrence_only": 118,
+        "support_only": 119
+      }
+    }
+  },
+  "reductions": {
+    "gac_vs_baseline": {
+      "estimated_cost_usd": 0.458473543557398,
+      "requests": 0.5,
+      "tool_calls": 0.0,
+      "total_tokens": 0.4006487843603471,
+      "wall_latency_ms": 0.4976912217354206
+    },
+    "gac_vs_recurrence_only": {
+      "estimated_cost_usd": -0.25987919627835043,
+      "requests": -1.0,
+      "tool_calls": 0.0,
+      "total_tokens": -1.2234400615125707,
+      "wall_latency_ms": -0.6877163869310337
+    },
+    "gac_vs_support_only": {
+      "estimated_cost_usd": -0.008445902182079745,
+      "requests": 0.0,
+      "tool_calls": 0.0,
+      "total_tokens": 0.0032647964542490415,
+      "wall_latency_ms": -0.02492676095703472
+    },
+    "recurrence_only_vs_baseline": {
+      "estimated_cost_usd": 0.570175888257972,
+      "requests": 0.75,
+      "tool_calls": 0.0,
+      "total_tokens": 0.7304396794794082,
+      "wall_latency_ms": 0.7023737032156306
+    },
+    "support_only_vs_baseline": {
+      "estimated_cost_usd": 0.46300891771105945,
+      "requests": 0.5,
+      "tool_calls": 0.0,
+      "total_tokens": 0.3986856152892546,
+      "wall_latency_ms": 0.5099076369168623
+    }
+  },
+  "registered_endpoint": "factuality_exact: title, state, comment count, and source excerpt",
+  "regrade_audit": {
+    "completed_answers_regraded": 480,
+    "label_mismatches": 0,
+    "provider_calls_executed": 0
+  },
+  "resources": {
+    "baseline": {
+      "all_costs_observed": true,
+      "completed_n": 120,
+      "mean_on_completed": {
+        "estimated_cost_usd": 0.00089248425,
+        "requests": 4,
+        "tool_calls": 3,
+        "total_tokens": 4261.816666666667,
+        "wall_latency_ms": 6790.738016666667
+      },
+      "scheduled_n": 120
+    },
+    "gac": {
+      "all_costs_observed": true,
+      "completed_n": 120,
+      "mean_on_completed": {
+        "estimated_cost_usd": 0.00048330383333333336,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 2554.325,
+        "wall_latency_ms": 3411.0473166666666
+      },
+      "scheduled_n": 120
+    },
+    "recurrence_only": {
+      "all_costs_observed": true,
+      "completed_n": 120,
+      "mean_on_completed": {
+        "estimated_cost_usd": 0.00038361125,
+        "requests": 1,
+        "tool_calls": 3,
+        "total_tokens": 1148.8166666666666,
+        "wall_latency_ms": 2021.1022083333332
+      },
+      "scheduled_n": 120
+    },
+    "support_only": {
+      "all_costs_observed": true,
+      "completed_n": 120,
+      "mean_on_completed": {
+        "estimated_cost_usd": 0.00047925608333333335,
+        "requests": 2,
+        "tool_calls": 3,
+        "total_tokens": 2562.6916666666666,
+        "wall_latency_ms": 3328.0888416666667
+      },
+      "scheduled_n": 120
+    }
+  },
+  "runtime_gate_dispatch_disagreements": [],
+  "schema": "gac-fresh-safeguards-analysis/v1",
+  "source_sha256": {
+    "checkpoint.json": "5cc908629498b828bc3b60127ab0f89df7e6ea34ab1fafc0d0afe73b695794ea",
+    "preflight.json": "aff4ffc78e3d660a473272d455610645f7d5285b424e84a638213d1fb8013c9f"
+  },
+  "summary": {
+    "arms": {
+      "baseline": {
+        "attempted": 120,
+        "completed": 120,
+        "correct": 120,
+        "dispatched": 0,
+        "failed": 0,
+        "not_attempted": 0,
+        "recorded_resource_totals": {
+          "estimated_cost_usd": 0.10709811,
+          "requests": 480.0,
+          "tool_calls": 360.0,
+          "total_tokens": 511418.0,
+          "wall_latency_ms": 814888.562
+        },
+        "resource_accounting_complete": true,
+        "scheduled": 120,
+        "wrong_after_dispatch": 0
+      },
+      "gac": {
+        "attempted": 120,
+        "completed": 120,
+        "correct": 120,
+        "dispatched": 119,
+        "failed": 0,
+        "not_attempted": 0,
+        "recorded_resource_totals": {
+          "estimated_cost_usd": 0.05799646,
+          "requests": 240.0,
+          "tool_calls": 360.0,
+          "total_tokens": 306519.0,
+          "wall_latency_ms": 409325.678
+        },
+        "resource_accounting_complete": true,
+        "scheduled": 120,
+        "wrong_after_dispatch": 0
+      },
+      "recurrence_only": {
+        "attempted": 120,
+        "completed": 120,
+        "correct": 118,
+        "dispatched": 120,
+        "failed": 0,
+        "not_attempted": 0,
+        "recorded_resource_totals": {
+          "estimated_cost_usd": 0.04603335,
+          "requests": 120.0,
+          "tool_calls": 360.0,
+          "total_tokens": 137858.0,
+          "wall_latency_ms": 242532.26499999998
+        },
+        "resource_accounting_complete": true,
+        "scheduled": 120,
+        "wrong_after_dispatch": 2
+      },
+      "support_only": {
+        "attempted": 120,
+        "completed": 120,
+        "correct": 120,
+        "dispatched": 119,
+        "failed": 0,
+        "not_attempted": 0,
+        "recorded_resource_totals": {
+          "estimated_cost_usd": 0.05751073,
+          "requests": 240.0,
+          "tool_calls": 360.0,
+          "total_tokens": 307523.0,
+          "wall_latency_ms": 399370.661
+        },
+        "resource_accounting_complete": true,
+        "scheduled": 120,
+        "wrong_after_dispatch": 0
+      }
+    },
+    "comparative_claim_allowed": true,
+    "end_to_end_risk_certified": false,
+    "interpretation": "Descriptive fixed-artifact comparison; no causal attribution or noninferiority claim.",
+    "paired_vs_baseline": {
+      "gac": {
+        "attempted_pairs": 120,
+        "baseline_only_correct": 0,
+        "candidate_only_correct": 0
+      },
+      "recurrence_only": {
+        "attempted_pairs": 120,
+        "baseline_only_correct": 2,
+        "candidate_only_correct": 0
+      },
+      "support_only": {
+        "attempted_pairs": 120,
+        "baseline_only_correct": 0,
+        "candidate_only_correct": 0
+      }
+    },
+    "schema": "gac-fresh-safeguards-summary/v1",
+    "status": "completed"
+  },
+  "supplementary_endpoint": "all seven answer fields, including category, issue number, and evidence label",
+  "unknown_cost_reserve_usd": 0.0
+}

@@ -85,6 +85,10 @@ def analyze(frozen: dict, checkpoint: dict) -> dict:
         "registered_endpoint": "factuality_exact: title, state, comment count, and source excerpt",
         "supplementary_endpoint": "all seven answer fields, including category, issue number, and evidence label",
         "n": len(frozen["test_ids"]), "summary": summary, "quality": quality,
+        "preflight_dispatch_outcomes": frozen.get("probe", {}).get("outcomes", {}),
+        "candidate_reconstruction": frozen.get("source", {}).get("candidate_reproduction", {}),
+        "runtime_gate_dispatch_disagreements": [n for n in frozen["test_ids"]
+            if rows[(n, "gac")].get("dispatched") != rows[(n, "support_only")].get("dispatched")],
         "resources": resources, "reductions": reductions, "errors": errors,
         "completed_estimated_cost_usd": sum(r.get("metrics", {}).get("estimated_cost_usd", 0)
                                              for r in checkpoint["rows"]),
@@ -95,6 +99,7 @@ def analyze(frozen: dict, checkpoint: dict) -> dict:
             "supplementary endpoints and intervals are not a preregistered confirmatory test",
             "no noninferiority margin, no causal protection claim, no new risk certificate",
             "shared source grader reexecution is consistency checking, not an independent gold implementation",
+            "current-compiler reconstruction changes identifier guards, verifier clauses, and gate feature specification relative to the historical artifact",
             "frozen rate estimates exclude lifecycle and human costs; not invoice verified"],
     }
 
@@ -126,7 +131,7 @@ def markdown(result: dict) -> str:
              f"This run evaluated {result['n']} unused historical-snapshot issues under four arms.",
              "The registered four-field factuality endpoint and supplementary seven-field answer endpoint are shown separately.",
              "Resource means use completed episodes; consult each arm's completed/failed counts before comparing incomplete runs.", "",
-             "| Arm | Factuality correct | All answer fields correct | Dispatched | Requests/episode | Tokens/episode | Latency (s) | Estimated cost/episode |",
+             "| Arm | Factuality correct | All answer fields correct | Dispatched | Requests/episode | Tokens/episode | Latency (s) | Estimated cost/episode (USD) |",
              "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |"]
     for arm in study.ARMS:
         m = result["resources"][arm]["mean_on_completed"]
@@ -147,9 +152,10 @@ def markdown(result: dict) -> str:
         lines.append(f"| {name} | {c['gains']} | {c['losses']} | {100*c['difference']:+.2f} | [{100*low:+.2f}, {100*high:+.2f}] |")
     lines += ["", "Intervals are supplementary, pointwise, and assume independent identically distributed record pairs. "
               "They do not establish equivalence or noninferiority. Errors are retained in `analysis.json` and raw answers in `checkpoint.json`.",
-              "", "The provider-free preflight found identical GAC/support-only dispatch decisions (119 compact, one cardinality fallback). "
-              "Final answer differences between these arms can reflect separate stochastic provider executions; "
-              "they must not be attributed to gate protection without a dispatch difference.",
+              "", "Provider-free dispatch outcomes: `" + json.dumps(result["preflight_dispatch_outcomes"], sort_keys=True) + "`.",
+              "", f"Observed GAC/support-only dispatch disagreements: {len(result['runtime_gate_dispatch_disagreements'])} records. "
+              "When dispatch behavior is identical, final answer differences alone cannot demonstrate gate protection: "
+              "each arm makes separate stochastic provider executions.",
               "", "No paper score or acceptance claim follows automatically from completing this run.", "", "Limitations:", ""]
     lines += [f"- {item}" for item in result["limitations"]]
     return "\n".join(lines) + "\n"

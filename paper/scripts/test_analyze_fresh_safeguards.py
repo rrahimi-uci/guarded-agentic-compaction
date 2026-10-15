@@ -72,3 +72,15 @@ def test_entirely_failed_arm_has_no_fabricated_resource_mean():
     result = analysis.analyze(seal, cp)
     assert result["resources"]["gac"]["mean_on_completed"]["requests"] is None
     assert "unobserved" in analysis.markdown(result)
+
+
+def test_dispatch_claims_come_from_actual_cohort_not_default_size():
+    seal, cp = fixture()
+    seal["probe"] = {"outcomes": {"gac": {"COMPACTED": 1, "BASELINE": 1}}}
+    cp["preflight_sha256"] = study.object_digest(seal)
+    next(r for r in cp["rows"] if r["arm"] == "gac")["dispatched"] = False
+    result = analysis.analyze(seal, cp)
+    assert result["runtime_gate_dispatch_disagreements"] == [1]
+    text = analysis.markdown(result)
+    assert "dispatch disagreements: 1 records" in text
+    assert "119" not in text
