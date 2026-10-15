@@ -62,7 +62,7 @@ summary was restored. Final retained counts, checkpoint digest, terminal state,
 output exclusions and failure reserves also passed a direct consistency check.
 
 The frozen analyzer emits a trailing blank line in `results.md`. After generation,
-normalize only that Markdown file to one terminal newline (`text.rstrip() +
-"\\n"`, with the actual newline character) before `git diff --check`; numbers and
+normalize only that Markdown file to one terminal newline using
+`text.rstrip() + chr(10)` before `git diff --check`; numbers and
 JSON evidence are unchanged. This postprocessing preserves the executed driver
 and its seal rather than editing study code after outcomes.
