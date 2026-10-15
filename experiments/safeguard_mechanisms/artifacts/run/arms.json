@@ -1,0 +1,1280 @@
+{
+  "full": {
+    "approved_by": null,
+    "artifact_id": "fresh-comment-window",
+    "compatibility_key": "a17b680524b5b705",
+    "evidence": {
+      "counterexamples": [],
+      "dataset_digest": "",
+      "fallback_reasons": {},
+      "metrics": {},
+      "notes": "",
+      "perturbation": {},
+      "rejection_reasons": [],
+      "removed_requests": 0.0,
+      "replay": {},
+      "split_ids": {},
+      "support_days": 0,
+      "support_groups": 0,
+      "support_principals": 0,
+      "total_groups": 0
+    },
+    "expiry_day": null,
+    "gate": {
+      "admissible": [
+        0.02,
+        0.05,
+        0.08,
+        0.11,
+        0.14,
+        0.17,
+        0.2,
+        0.25,
+        0.3,
+        0.4,
+        0.5
+      ],
+      "alpha": 0.05,
+      "coverage": 1.0,
+      "delta": 0.1,
+      "features_spec": {
+        "branch_entropy": 0.0,
+        "categories": {},
+        "hull_kinds": {
+          "z.issue_number": "any",
+          "z.requested_limit": "interval"
+        },
+        "max_day": "",
+        "numeric_ranges": {
+          "z.requested_limit": [
+            3.0,
+            3.0
+          ]
+        },
+        "paths": [
+          "z.issue_number",
+          "z.requested_limit"
+        ],
+        "patterns": {},
+        "provenance_ambiguity": 0.0
+      },
+      "grid": [
+        0.02,
+        0.05,
+        0.08,
+        0.11,
+        0.14,
+        0.17,
+        0.2,
+        0.25,
+        0.3,
+        0.4,
+        0.5
+      ],
+      "model": {
+        "bias": -6.0,
+        "feature_means": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "feature_scales": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "features": [
+          "unseen_category",
+          "knn_distance",
+          "missing_optional",
+          "hull_margin",
+          "drift_days",
+          "provenance_ambiguity",
+          "branch_entropy"
+        ],
+        "weights": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "n_accepted": 192,
+      "n_calibration_groups": 192,
+      "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.05, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.08, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.11, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.14, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.17, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.2, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.25, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.3, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.4, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.5, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}]",
+      "observed_violations": 0,
+      "retire": false,
+      "risk_upper_bound": 0.024184423152400103,
+      "threshold": 0.5
+    },
+    "guard": {
+      "allowed_effects": [
+        "READ_LOCAL"
+      ],
+      "clauses": [
+        {
+          "hull": {
+            "high": null,
+            "kind": "any",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "path": "z.issue_number",
+          "required": true,
+          "role": "hull",
+          "type_name": "int"
+        },
+        {
+          "hull": {
+            "high": 3.0,
+            "kind": "interval",
+            "low": 3.0,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "path": "z.requested_limit",
+          "required": true,
+          "role": "hull",
+          "type_name": "int"
+        }
+      ],
+      "isolation": {},
+      "manifest_pins": {
+        "model": "deterministic-comment-counter-v1",
+        "prompt_hash": "comment-window-v1"
+      },
+      "required_capabilities": [
+        "speculatable",
+        "replayable"
+      ]
+    },
+    "kind": "grc",
+    "lifecycle": "active",
+    "manifest": {
+      "commit": "unknown",
+      "effect_catalog_version": "comment-window-diagnostic@1#98856e17513772a6",
+      "entry_contract_version": "unknown",
+      "guardrail_hash": "unknown",
+      "manifest_id": "comment-window-diagnostic-v1",
+      "model": "deterministic-comment-counter-v1",
+      "policy_hash": "unknown",
+      "prompt_hash": "comment-window-v1",
+      "sdk_version": "unknown",
+      "tools_hash": "unknown",
+      "tracer_version": "unknown"
+    },
+    "monitoring": {},
+    "name": "diagnostic-template-binding-synthesis",
+    "owner": "unassigned",
+    "partition": {},
+    "program": {
+      "composite": null,
+      "library_version": "T-v1",
+      "outputs": {
+        "page": {
+          "kind": "expr",
+          "ops": [],
+          "source": "page"
+        },
+        "record": {
+          "kind": "expr",
+          "ops": [],
+          "source": "record"
+        }
+      },
+      "removed_requests": 0.0,
+      "steps": [
+        {
+          "args": {
+            "issue_number": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.issue_number"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "issue.read",
+          "var": "record",
+          "when": null
+        },
+        {
+          "args": {
+            "issue_number": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.issue_number"
+            },
+            "limit": {
+              "kind": "const",
+              "value": 3
+            },
+            "offset": {
+              "kind": "const",
+              "value": 0
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "comments.page",
+          "var": "page",
+          "when": null
+        }
+      ],
+      "theta": [
+        "issue_number",
+        "requested_limit"
+      ],
+      "tools": [
+        "issue.read",
+        "comments.page"
+      ]
+    },
+    "rollback_target": null,
+    "route": null,
+    "signature": "",
+    "verifier": {
+      "allowed_effects": [
+        "READ_LOCAL"
+      ],
+      "call_counts": [
+        2
+      ],
+      "clauses": [
+        {
+          "hull": {
+            "high": null,
+            "kind": "any",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "max_len": null,
+          "min_len": null,
+          "name": "record",
+          "non_null": true,
+          "present_iff": null,
+          "provenance": [
+            "issue.read"
+          ],
+          "type_name": "dict"
+        },
+        {
+          "hull": {
+            "high": null,
+            "kind": "any",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "max_len": null,
+          "min_len": null,
+          "name": "page",
+          "non_null": true,
+          "present_iff": null,
+          "provenance": [
+            "comments.page"
+          ],
+          "type_name": "dict"
+        },
+        {
+          "hull": {
+            "high": null,
+            "kind": "any",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "max_len": null,
+          "min_len": null,
+          "name": "page.items",
+          "non_null": true,
+          "present_iff": null,
+          "provenance": [
+            "comments.page"
+          ],
+          "type_name": "list"
+        },
+        {
+          "hull": {
+            "high": null,
+            "kind": "enum",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": [
+              true
+            ]
+          },
+          "max_len": null,
+          "min_len": null,
+          "name": "page.complete",
+          "non_null": true,
+          "present_iff": null,
+          "provenance": [
+            "comments.page"
+          ],
+          "type_name": "bool"
+        }
+      ]
+    },
+    "version": 1
+  },
+  "no_completeness_check": {
+    "approved_by": null,
+    "artifact_id": "fresh-comment-window",
+    "compatibility_key": "a17b680524b5b705",
+    "evidence": {
+      "counterexamples": [],
+      "dataset_digest": "",
+      "fallback_reasons": {},
+      "metrics": {},
+      "notes": "",
+      "perturbation": {},
+      "rejection_reasons": [],
+      "removed_requests": 0.0,
+      "replay": {},
+      "split_ids": {},
+      "support_days": 0,
+      "support_groups": 0,
+      "support_principals": 0,
+      "total_groups": 0
+    },
+    "expiry_day": null,
+    "gate": {
+      "admissible": [
+        0.02,
+        0.05,
+        0.08,
+        0.11,
+        0.14,
+        0.17,
+        0.2,
+        0.25,
+        0.3,
+        0.4,
+        0.5
+      ],
+      "alpha": 0.05,
+      "coverage": 1.0,
+      "delta": 0.1,
+      "features_spec": {
+        "branch_entropy": 0.0,
+        "categories": {},
+        "hull_kinds": {
+          "z.issue_number": "any",
+          "z.requested_limit": "interval"
+        },
+        "max_day": "",
+        "numeric_ranges": {
+          "z.requested_limit": [
+            3.0,
+            3.0
+          ]
+        },
+        "paths": [
+          "z.issue_number",
+          "z.requested_limit"
+        ],
+        "patterns": {},
+        "provenance_ambiguity": 0.0
+      },
+      "grid": [
+        0.02,
+        0.05,
+        0.08,
+        0.11,
+        0.14,
+        0.17,
+        0.2,
+        0.25,
+        0.3,
+        0.4,
+        0.5
+      ],
+      "model": {
+        "bias": -6.0,
+        "feature_means": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "feature_scales": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "features": [
+          "unseen_category",
+          "knn_distance",
+          "missing_optional",
+          "hull_margin",
+          "drift_days",
+          "provenance_ambiguity",
+          "branch_entropy"
+        ],
+        "weights": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "n_accepted": 192,
+      "n_calibration_groups": 192,
+      "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.05, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.08, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.11, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.14, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.17, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.2, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.25, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.3, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.4, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.5, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}]",
+      "observed_violations": 0,
+      "retire": false,
+      "risk_upper_bound": 0.024184423152400103,
+      "threshold": 0.5
+    },
+    "guard": {
+      "allowed_effects": [
+        "READ_LOCAL"
+      ],
+      "clauses": [
+        {
+          "hull": {
+            "high": null,
+            "kind": "any",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "path": "z.issue_number",
+          "required": true,
+          "role": "hull",
+          "type_name": "int"
+        },
+        {
+          "hull": {
+            "high": 3.0,
+            "kind": "interval",
+            "low": 3.0,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "path": "z.requested_limit",
+          "required": true,
+          "role": "hull",
+          "type_name": "int"
+        }
+      ],
+      "isolation": {},
+      "manifest_pins": {
+        "model": "deterministic-comment-counter-v1",
+        "prompt_hash": "comment-window-v1"
+      },
+      "required_capabilities": [
+        "speculatable",
+        "replayable"
+      ]
+    },
+    "kind": "grc",
+    "lifecycle": "active",
+    "manifest": {
+      "commit": "unknown",
+      "effect_catalog_version": "comment-window-diagnostic@1#98856e17513772a6",
+      "entry_contract_version": "unknown",
+      "guardrail_hash": "unknown",
+      "manifest_id": "comment-window-diagnostic-v1",
+      "model": "deterministic-comment-counter-v1",
+      "policy_hash": "unknown",
+      "prompt_hash": "comment-window-v1",
+      "sdk_version": "unknown",
+      "tools_hash": "unknown",
+      "tracer_version": "unknown"
+    },
+    "monitoring": {},
+    "name": "diagnostic-template-binding-synthesis",
+    "owner": "unassigned",
+    "partition": {},
+    "program": {
+      "composite": null,
+      "library_version": "T-v1",
+      "outputs": {
+        "page": {
+          "kind": "expr",
+          "ops": [],
+          "source": "page"
+        },
+        "record": {
+          "kind": "expr",
+          "ops": [],
+          "source": "record"
+        }
+      },
+      "removed_requests": 0.0,
+      "steps": [
+        {
+          "args": {
+            "issue_number": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.issue_number"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "issue.read",
+          "var": "record",
+          "when": null
+        },
+        {
+          "args": {
+            "issue_number": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.issue_number"
+            },
+            "limit": {
+              "kind": "const",
+              "value": 3
+            },
+            "offset": {
+              "kind": "const",
+              "value": 0
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "comments.page",
+          "var": "page",
+          "when": null
+        }
+      ],
+      "theta": [
+        "issue_number",
+        "requested_limit"
+      ],
+      "tools": [
+        "issue.read",
+        "comments.page"
+      ]
+    },
+    "rollback_target": null,
+    "route": null,
+    "signature": "",
+    "verifier": {
+      "allowed_effects": [
+        "READ_LOCAL"
+      ],
+      "call_counts": [
+        2
+      ],
+      "clauses": [
+        {
+          "hull": {
+            "high": null,
+            "kind": "any",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "max_len": null,
+          "min_len": null,
+          "name": "record",
+          "non_null": true,
+          "present_iff": null,
+          "provenance": [
+            "issue.read"
+          ],
+          "type_name": "dict"
+        },
+        {
+          "hull": {
+            "high": null,
+            "kind": "any",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "max_len": null,
+          "min_len": null,
+          "name": "page",
+          "non_null": true,
+          "present_iff": null,
+          "provenance": [
+            "comments.page"
+          ],
+          "type_name": "dict"
+        },
+        {
+          "hull": {
+            "high": null,
+            "kind": "any",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "max_len": null,
+          "min_len": null,
+          "name": "page.items",
+          "non_null": true,
+          "present_iff": null,
+          "provenance": [
+            "comments.page"
+          ],
+          "type_name": "list"
+        }
+      ]
+    },
+    "version": 1
+  },
+  "no_entry_hull": {
+    "approved_by": null,
+    "artifact_id": "fresh-comment-window",
+    "compatibility_key": "a17b680524b5b705",
+    "evidence": {
+      "counterexamples": [],
+      "dataset_digest": "",
+      "fallback_reasons": {},
+      "metrics": {},
+      "notes": "",
+      "perturbation": {},
+      "rejection_reasons": [],
+      "removed_requests": 0.0,
+      "replay": {},
+      "split_ids": {},
+      "support_days": 0,
+      "support_groups": 0,
+      "support_principals": 0,
+      "total_groups": 0
+    },
+    "expiry_day": null,
+    "gate": {
+      "admissible": [
+        0.02,
+        0.05,
+        0.08,
+        0.11,
+        0.14,
+        0.17,
+        0.2,
+        0.25,
+        0.3,
+        0.4,
+        0.5
+      ],
+      "alpha": 0.05,
+      "coverage": 1.0,
+      "delta": 0.1,
+      "features_spec": {
+        "branch_entropy": 0.0,
+        "categories": {},
+        "hull_kinds": {
+          "z.issue_number": "any",
+          "z.requested_limit": "interval"
+        },
+        "max_day": "",
+        "numeric_ranges": {
+          "z.requested_limit": [
+            3.0,
+            3.0
+          ]
+        },
+        "paths": [
+          "z.issue_number",
+          "z.requested_limit"
+        ],
+        "patterns": {},
+        "provenance_ambiguity": 0.0
+      },
+      "grid": [
+        0.02,
+        0.05,
+        0.08,
+        0.11,
+        0.14,
+        0.17,
+        0.2,
+        0.25,
+        0.3,
+        0.4,
+        0.5
+      ],
+      "model": {
+        "bias": -6.0,
+        "feature_means": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "feature_scales": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "features": [
+          "unseen_category",
+          "knn_distance",
+          "missing_optional",
+          "hull_margin",
+          "drift_days",
+          "provenance_ambiguity",
+          "branch_entropy"
+        ],
+        "weights": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "n_accepted": 192,
+      "n_calibration_groups": 192,
+      "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.05, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.08, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.11, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.14, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.17, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.2, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.25, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.3, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.4, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}, {'eta': 0.5, 'n': 192, 'violations': 0, 'upper': 0.0242, 'coverage': 1.0}]",
+      "observed_violations": 0,
+      "retire": false,
+      "risk_upper_bound": 0.024184423152400103,
+      "threshold": 0.5
+    },
+    "guard": {
+      "allowed_effects": [
+        "READ_LOCAL"
+      ],
+      "clauses": [
+        {
+          "hull": {
+            "high": null,
+            "kind": "any",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "path": "z.issue_number",
+          "required": true,
+          "role": "hull",
+          "type_name": "int"
+        },
+        {
+          "hull": {
+            "high": null,
+            "kind": "any",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "path": "z.requested_limit",
+          "required": true,
+          "role": "hull",
+          "type_name": "int"
+        }
+      ],
+      "isolation": {},
+      "manifest_pins": {
+        "model": "deterministic-comment-counter-v1",
+        "prompt_hash": "comment-window-v1"
+      },
+      "required_capabilities": [
+        "speculatable",
+        "replayable"
+      ]
+    },
+    "kind": "grc",
+    "lifecycle": "active",
+    "manifest": {
+      "commit": "unknown",
+      "effect_catalog_version": "comment-window-diagnostic@1#98856e17513772a6",
+      "entry_contract_version": "unknown",
+      "guardrail_hash": "unknown",
+      "manifest_id": "comment-window-diagnostic-v1",
+      "model": "deterministic-comment-counter-v1",
+      "policy_hash": "unknown",
+      "prompt_hash": "comment-window-v1",
+      "sdk_version": "unknown",
+      "tools_hash": "unknown",
+      "tracer_version": "unknown"
+    },
+    "monitoring": {},
+    "name": "diagnostic-template-binding-synthesis",
+    "owner": "unassigned",
+    "partition": {},
+    "program": {
+      "composite": null,
+      "library_version": "T-v1",
+      "outputs": {
+        "page": {
+          "kind": "expr",
+          "ops": [],
+          "source": "page"
+        },
+        "record": {
+          "kind": "expr",
+          "ops": [],
+          "source": "record"
+        }
+      },
+      "removed_requests": 0.0,
+      "steps": [
+        {
+          "args": {
+            "issue_number": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.issue_number"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "issue.read",
+          "var": "record",
+          "when": null
+        },
+        {
+          "args": {
+            "issue_number": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.issue_number"
+            },
+            "limit": {
+              "kind": "const",
+              "value": 3
+            },
+            "offset": {
+              "kind": "const",
+              "value": 0
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "comments.page",
+          "var": "page",
+          "when": null
+        }
+      ],
+      "theta": [
+        "issue_number",
+        "requested_limit"
+      ],
+      "tools": [
+        "issue.read",
+        "comments.page"
+      ]
+    },
+    "rollback_target": null,
+    "route": null,
+    "signature": "",
+    "verifier": {
+      "allowed_effects": [
+        "READ_LOCAL"
+      ],
+      "call_counts": [
+        2
+      ],
+      "clauses": [
+        {
+          "hull": {
+            "high": null,
+            "kind": "any",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "max_len": null,
+          "min_len": null,
+          "name": "record",
+          "non_null": true,
+          "present_iff": null,
+          "provenance": [
+            "issue.read"
+          ],
+          "type_name": "dict"
+        },
+        {
+          "hull": {
+            "high": null,
+            "kind": "any",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "max_len": null,
+          "min_len": null,
+          "name": "page",
+          "non_null": true,
+          "present_iff": null,
+          "provenance": [
+            "comments.page"
+          ],
+          "type_name": "dict"
+        },
+        {
+          "hull": {
+            "high": null,
+            "kind": "any",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "max_len": null,
+          "min_len": null,
+          "name": "page.items",
+          "non_null": true,
+          "present_iff": null,
+          "provenance": [
+            "comments.page"
+          ],
+          "type_name": "list"
+        },
+        {
+          "hull": {
+            "high": null,
+            "kind": "enum",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": [
+              true
+            ]
+          },
+          "max_len": null,
+          "min_len": null,
+          "name": "page.complete",
+          "non_null": true,
+          "present_iff": null,
+          "provenance": [
+            "comments.page"
+          ],
+          "type_name": "bool"
+        }
+      ]
+    },
+    "version": 1
+  },
+  "no_statistical_gate": {
+    "approved_by": null,
+    "artifact_id": "fresh-comment-window",
+    "compatibility_key": "a17b680524b5b705",
+    "evidence": {
+      "counterexamples": [],
+      "dataset_digest": "",
+      "fallback_reasons": {},
+      "metrics": {},
+      "notes": "",
+      "perturbation": {},
+      "rejection_reasons": [],
+      "removed_requests": 0.0,
+      "replay": {},
+      "split_ids": {},
+      "support_days": 0,
+      "support_groups": 0,
+      "support_principals": 0,
+      "total_groups": 0
+    },
+    "expiry_day": null,
+    "gate": {
+      "admissible": [],
+      "alpha": 1.0,
+      "coverage": 0.0,
+      "delta": 0.1,
+      "features_spec": {},
+      "grid": [],
+      "model": {
+        "bias": 0.0,
+        "feature_means": [],
+        "feature_scales": [],
+        "features": [],
+        "weights": []
+      },
+      "n_accepted": 0,
+      "n_calibration_groups": 0,
+      "notes": "UNCERTIFIED diagnostic bypass; no retained calibration certificate",
+      "observed_violations": 0,
+      "retire": false,
+      "risk_upper_bound": 1.0,
+      "threshold": 1.0
+    },
+    "guard": {
+      "allowed_effects": [
+        "READ_LOCAL"
+      ],
+      "clauses": [
+        {
+          "hull": {
+            "high": null,
+            "kind": "any",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "path": "z.issue_number",
+          "required": true,
+          "role": "hull",
+          "type_name": "int"
+        },
+        {
+          "hull": {
+            "high": 3.0,
+            "kind": "interval",
+            "low": 3.0,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "path": "z.requested_limit",
+          "required": true,
+          "role": "hull",
+          "type_name": "int"
+        }
+      ],
+      "isolation": {},
+      "manifest_pins": {
+        "model": "deterministic-comment-counter-v1",
+        "prompt_hash": "comment-window-v1"
+      },
+      "required_capabilities": [
+        "speculatable",
+        "replayable"
+      ]
+    },
+    "kind": "grc",
+    "lifecycle": "active",
+    "manifest": {
+      "commit": "unknown",
+      "effect_catalog_version": "comment-window-diagnostic@1#98856e17513772a6",
+      "entry_contract_version": "unknown",
+      "guardrail_hash": "unknown",
+      "manifest_id": "comment-window-diagnostic-v1",
+      "model": "deterministic-comment-counter-v1",
+      "policy_hash": "unknown",
+      "prompt_hash": "comment-window-v1",
+      "sdk_version": "unknown",
+      "tools_hash": "unknown",
+      "tracer_version": "unknown"
+    },
+    "monitoring": {},
+    "name": "diagnostic-template-binding-synthesis",
+    "owner": "unassigned",
+    "partition": {},
+    "program": {
+      "composite": null,
+      "library_version": "T-v1",
+      "outputs": {
+        "page": {
+          "kind": "expr",
+          "ops": [],
+          "source": "page"
+        },
+        "record": {
+          "kind": "expr",
+          "ops": [],
+          "source": "record"
+        }
+      },
+      "removed_requests": 0.0,
+      "steps": [
+        {
+          "args": {
+            "issue_number": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.issue_number"
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "issue.read",
+          "var": "record",
+          "when": null
+        },
+        {
+          "args": {
+            "issue_number": {
+              "kind": "expr",
+              "ops": [],
+              "source": "z.issue_number"
+            },
+            "limit": {
+              "kind": "const",
+              "value": 3
+            },
+            "offset": {
+              "kind": "const",
+              "value": 0
+            }
+          },
+          "kind": "call",
+          "schema_version": null,
+          "tool": "comments.page",
+          "var": "page",
+          "when": null
+        }
+      ],
+      "theta": [
+        "issue_number",
+        "requested_limit"
+      ],
+      "tools": [
+        "issue.read",
+        "comments.page"
+      ]
+    },
+    "rollback_target": null,
+    "route": null,
+    "signature": "",
+    "verifier": {
+      "allowed_effects": [
+        "READ_LOCAL"
+      ],
+      "call_counts": [
+        2
+      ],
+      "clauses": [
+        {
+          "hull": {
+            "high": null,
+            "kind": "any",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "max_len": null,
+          "min_len": null,
+          "name": "record",
+          "non_null": true,
+          "present_iff": null,
+          "provenance": [
+            "issue.read"
+          ],
+          "type_name": "dict"
+        },
+        {
+          "hull": {
+            "high": null,
+            "kind": "any",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "max_len": null,
+          "min_len": null,
+          "name": "page",
+          "non_null": true,
+          "present_iff": null,
+          "provenance": [
+            "comments.page"
+          ],
+          "type_name": "dict"
+        },
+        {
+          "hull": {
+            "high": null,
+            "kind": "any",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "max_len": null,
+          "min_len": null,
+          "name": "page.items",
+          "non_null": true,
+          "present_iff": null,
+          "provenance": [
+            "comments.page"
+          ],
+          "type_name": "list"
+        },
+        {
+          "hull": {
+            "high": null,
+            "kind": "enum",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": [
+              true
+            ]
+          },
+          "max_len": null,
+          "min_len": null,
+          "name": "page.complete",
+          "non_null": true,
+          "present_iff": null,
+          "provenance": [
+            "comments.page"
+          ],
+          "type_name": "bool"
+        }
+      ]
+    },
+    "version": 1
+  }
+}
