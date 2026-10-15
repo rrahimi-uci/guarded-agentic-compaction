@@ -113,7 +113,7 @@ def included_files() -> list[Path]:
     # Include the source evidence as well as its paper-side drivers and tables.
     for name in (
         "fresh_safeguards", "safeguard_mechanisms",
-        "live_safeguard_recovery", "live_recovery_completion",
+        "live_safeguard_recovery", "live_recovery_completion", "matched_reuse_baseline",
     ):
         base = ROOT / "experiments" / name
         if base.is_dir():
