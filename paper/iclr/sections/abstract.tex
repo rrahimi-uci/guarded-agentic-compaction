@@ -29,9 +29,13 @@ refused. Two public benchmarks show no measured benefit: NESTFUL holds at most
 admitted program fits almost no ReAct or plan-and-execute run. With a second model family and a second provider,
 \method rediscovers the same programs on two of the three GitHub workflows and declines
 the third. We also report its limits: its main guarantee mostly confirms that
-enough examples were seen, the savings hold within one data snapshot, and
-when tool outputs were deliberately corrupted its run-time checks prevented
-no wrong answers.
+enough examples were seen, the savings hold within one data snapshot, and its
+earlier corruption tests showed no protection. A separate live study on
+72 issue groups with constructed requests finds that request-scope checks improve
+ordinary-response task success by 8.8 percentage points over their removal
+(descriptive 95\% interval
+3.7--13.9), while completeness checks show no clear benefit when the agent can
+recover missing evidence.
 
 \method reframes agent optimization as evidence-gated specialization: compile
 only what is justified, and keep the model's reasoning everywhere else.

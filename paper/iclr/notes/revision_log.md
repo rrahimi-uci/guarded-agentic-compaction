@@ -334,3 +334,19 @@ changing a result:
   `@article`; edition and stray note fixed. Build now kept with its log (`--keep-logs`).
 - Protocols carry dated correction notes (mechanism attribution, grader artifact, one fallback
   miss, latency not tied, the two wrong intermediate U values in the time-forward design).
+
+## Live safeguard results integrated (2026-10-15)
+
+- Added the completed live comparison to the abstract, contribution list, main
+  results, discussion, conclusion, and reproducibility statement. Earlier drift
+  null/adverse results remain explicitly scoped to their original studies.
+- Added a safeguard appendix with the fresh-record comparison, deterministic
+  diagnostic, stopped pilot, prospective completion design, all accuracy cells,
+  six confirmation contrasts, repair outcomes, and complete replication resource
+  accounting. Four timeouts remain in denominators. No new risk certificate,
+  quality equivalence, learned-gate benefit, or universal guard necessity is claimed.
+- Extended the evidence index and number registry; included the four experiment
+  directories in the publication checksum manifest. Study files remain unchanged.
+- Rebuilt the anonymous ICLR PDF under the existing ten-page revision target.
+  Validation and companion-publication boundaries are recorded in
+  `live_recovery_integration.md`. The dated review score remains historical.

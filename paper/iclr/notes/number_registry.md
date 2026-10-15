@@ -1,7 +1,7 @@
 # Number registry for the ICLR 2027 paper
 
 Selected numerical claims from the September revision, supplemented by the
-October 8 evidence audit, with retained files or producing scripts. Citation
+October 8 evidence audit and October 15 live-recovery integration, with retained files or producing scripts. Citation
 years, equation constants, and grid values are omitted. `stats:` means
 `paper/scripts/iclr_revision_statistics.py` writes it under `paper/results/iclr_revision/`;
 `validator` means `validate_iclr_sources` pins it.
@@ -93,3 +93,21 @@ Rows marked "not pinned" are candidates for the next validator extension.
 | 64/184, 0.0708; 153/184, 0.0546 | Frozen eleven-point grid at $\eta=0.02$ (0 violations) and $\eta=0.50$ (2 violations): upper bounds above the 0.05 limit, so no threshold is admitted and the gate retires before the test | `audit_v2.json` `calibration_grid` | `audit_graded_issue_gate.py` (exact counts and bounds) |
 | 184/184, 2 | Support-only ablation accepts every calibration group with the same two errors; it disables the risk budget, so no held-out comparison follows | `audit_v2.json` | same |
 | $0.1627 | Estimated spend of the amended run | `audit_v2.json` `v2_estimated_cost_usd` | spend arithmetic check in the audit |
+
+## October 15 safeguard and recovery additions
+
+Paths below are repository-relative. The live completion analyzer audits the
+sealed checkpoint before computing the retained analysis; paired intervals are
+descriptive and unadjusted. Variants are grouped by issue, not treated as
+independent episodes.
+
+| Number(s) | Meaning | Source | Checked by |
+|---|---|---|---|
+| 120; 480; 120/120 vs 118/120; 50.0%, 45.8% | Fresh records, four-arm episodes, registered factuality, request/cost reductions | `experiments/fresh_safeguards/analysis/analysis.json` | `analyze_fresh_safeguards.py`; endpoint and error audit |
+| 2,880; 288/288 vs 260/288 or 252/288 | Provider-free evaluations; ordinary scope and capped completeness contrasts | `experiments/safeguard_mechanisms/artifacts/run/summary.json` | `safeguard_mechanism_study.py`; deterministic replay |
+| 2,304; 2,300; 4; 2,186; 114 | Scheduled/attempted, completed, timed out, correct, completed incorrect | `experiments/live_recovery_completion/analysis.json` | `complete_live_recovery.py` audit and analysis |
+| 72 / 24; 216 / 72 | Confirmation/replication issue groups; scheduled cases per arm and condition | Same analysis, `groups`; prospective `seal.json` | Sealed schedule and direct checkpoint counts |
+| 205/216 vs 186/216; +8.80 [3.70,13.89] pp | Ordinary confirmation scope contrast, issue-bootstrap interval | Same analysis, `groups.confirmation.ordinary` | Analyzer; manuscript table checked against retained JSON |
+| 205/216 vs 204/216; 22/27 | Capped confirmation completeness contrast and successful repairs | Same analysis, `groups.confirmation.capped_response_stress` | Analyzer; incomplete-prefetch subset |
+| -18.2%, -9.1%; 71→70, 70→68 of 72 | Replication model-cost changes and correct answers, ordinary/capped | Same analysis, `groups.replication` | Completed mean ratios; all replication episodes complete |
+| $0.952696; $7.001762 | New-run known cost; aggregate estimates plus failure/diagnostic reserves | Same analysis, top-level spend fields | Analyzer; frozen rate estimates, not invoices |

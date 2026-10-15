@@ -147,3 +147,21 @@ released trajectories it is entry-eligible in $37.9\%$, almost always for
 full-code agents and almost never for ReAct and plan-and-execute, which open by
 reading API documentation (\cref{tab:appworld-dispatch}); admitting that read as
 a prologue recovers only 2 more of 4{,}680 (\cref{app:limits}).
+
+\subsection{Live recovery: request scope helps, completeness benefit is unresolved}
+\label{sec:res-recovery}
+
+A separate four-arm study tests a three-comment prefetch with equal recovery
+tools, removing request-scope admission or completeness checking one at a time;
+baseline receives no prefetch (\cref{app:live-recovery}). All 2{,}304 scheduled episodes were
+attempted; four timed out. On 72 confirmation issue groups with constructed
+requests, full succeeds on 205/216 ordinary-response cases versus 186/216 without
+the scope guard: $+8.80$ points, descriptive issue-bootstrap 95\% interval
+$[3.70,13.89]$. Under capped responses, removing completeness checking yields
+204/216 versus full's 205/216; the agent repairs 22/27 incomplete accepted
+prefetches. Full does not demonstrate an accuracy gain over baseline. In the
+separate 24-group replication, model cost falls 18.2\% (ordinary) and 9.1\%
+(capped), but tool calls rise and correct answers fall from 71 to 70 and 70 to
+68 of 72. Hand-specified contracts, prior offline exposure, one model, and
+unadjusted intervals limit inference: this is mechanism evidence, not a new
+live-answer certificate or learned-gate benefit.

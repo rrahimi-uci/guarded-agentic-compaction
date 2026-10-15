@@ -109,6 +109,19 @@ def included_files() -> list[Path]:
             path for path in tier3.rglob("*")
             if path.is_file() and "__pycache__" not in path.parts
         )
+    # These sealed studies are cited by the ICLR safeguard/recovery appendix.
+    # Include the source evidence as well as its paper-side drivers and tables.
+    for name in (
+        "fresh_safeguards", "safeguard_mechanisms",
+        "live_safeguard_recovery", "live_recovery_completion",
+    ):
+        base = ROOT / "experiments" / name
+        if base.is_dir():
+            files.update(
+                path for path in base.rglob("*")
+                if path.is_file() and "__pycache__" not in path.parts
+                and path.name != ".DS_Store"
+            )
     for name in (
         "pyproject.toml",
         "README.md",
