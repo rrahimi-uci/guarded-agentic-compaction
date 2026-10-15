@@ -1,0 +1,94 @@
+{
+  "aggregate_approved_cap_usd": 200,
+  "aggregate_estimate_and_reserve_usd": 2.0490665999999997,
+  "pending": null,
+  "planned_repetitions": 3,
+  "prior_checkpoint_sha256": "26ae94a772a20ef21152b30d3c24ec8b13105ec137dad37cda762a8d57954578",
+  "prior_estimate_and_reserve_usd": 1.0490666,
+  "purpose": "failure diagnosis only; excluded from primary results",
+  "rows": [
+    {
+      "answer": {
+        "comment_count": 5,
+        "issue_number": 6273,
+        "matching_positions": []
+      },
+      "arm": "full",
+      "case_id": "6273:ordinary:5",
+      "continuation_calls": [
+        {
+          "arguments": {
+            "issue_number": 6273
+          },
+          "output_digest": "91e31b383f2e8940182f00d7a83b149cc7c5551292fae5e72c8ab96a7333ce3c",
+          "status": "ok",
+          "tool": "issue.read"
+        },
+        {
+          "arguments": {
+            "issue_number": 6273,
+            "limit": 5,
+            "offset": 0
+          },
+          "output_digest": "19c2fc1bf91495dbf4db16a208b660f7e606c9432c277fa521bed42acedfd75e",
+          "status": "ok",
+          "tool": "comments.page"
+        }
+      ],
+      "correct": true,
+      "dispatched": false,
+      "elapsed_ms": 7944.874499982689,
+      "error": {
+        "cause_type": null,
+        "error_type": "ValueError",
+        "frames": [
+          {
+            "file": "diagnose_live_recovery.py",
+            "function": "episode",
+            "line": 66
+          },
+          {
+            "file": "live_safeguard_recovery.py",
+            "function": "usage_metrics",
+            "line": 257
+          }
+        ],
+        "stage": "usage_validation"
+      },
+      "fallback": true,
+      "model_input_digest": "3fa673af7e56243ddf398d5c9a1e1e84d249fe64987b77e10ff6cd4e1349b01a",
+      "observations_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "prefetch_calls": [],
+      "reasons": [
+        "hull:z.requested_limit=5"
+      ],
+      "requests_started": 3,
+      "stage": "usage_validation",
+      "status": "failed",
+      "usage_observations": [
+        {
+          "cache_write_tokens": 0,
+          "cached_input_tokens": 0,
+          "input_tokens": 517,
+          "output_tokens": 37,
+          "total_tokens": 554
+        },
+        {
+          "cache_write_tokens": 0,
+          "cached_input_tokens": 0,
+          "input_tokens": 587,
+          "output_tokens": 29,
+          "total_tokens": 616
+        },
+        {
+          "cache_write_tokens": 1040,
+          "cached_input_tokens": 0,
+          "input_tokens": 1043,
+          "output_tokens": 79,
+          "total_tokens": 1122
+        }
+      ]
+    }
+  ],
+  "script_sha256": "6d14e5d9d18483b94e2373bb84a64d8c8e0ee3bd401492cc8ec8ea32a7e6b637"
+}
