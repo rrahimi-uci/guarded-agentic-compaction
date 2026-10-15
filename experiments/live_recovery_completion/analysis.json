@@ -1,0 +1,3043 @@
+{
+  "aggregate_estimate_and_reserve_usd": 7.00176224,
+  "all_scheduled_attempted": true,
+  "attempted": 2304,
+  "audit_passed": true,
+  "checkpoint_sha256": "fc207e0292ed1c967fd01d1a72ca329dcbf88e628937e6f89e7a83077a317600",
+  "completed": 2300,
+  "correct": 2186,
+  "estimated_spend_usd": 0.9526956400000001,
+  "groups": {
+    "confirmation": {
+      "capped_response_stress": {
+        "arms": {
+          "baseline": {
+            "attempted": 216,
+            "cache_write_tokens": 56893,
+            "completed": 216,
+            "completed_means": {
+              "continuation_tool_calls": 1.7407407407407407,
+              "estimated_cost_usd": 0.0005305539351851852,
+              "prefetch_tool_calls": 0.0,
+              "requests": 2.740740740740741,
+              "total_tokens": 2052.5694444444443,
+              "total_tool_calls": 1.7407407407407407,
+              "wall_latency_ms": 3440.2788061297206
+            },
+            "correct": 211,
+            "dispatched": 0,
+            "episodes_with_calls_after_dispatch": 0,
+            "failed": 0,
+            "incomplete_accepted_prefetch": {
+              "attempted": 0,
+              "correct": 0,
+              "issue_groups": 0,
+              "scheduled": 0,
+              "with_continuation_reads": 0
+            },
+            "not_attempted": 0,
+            "resource_accounting_complete": true,
+            "scheduled": 216,
+            "wrong_after_dispatch": 0
+          },
+          "full": {
+            "attempted": 216,
+            "cache_write_tokens": 58927,
+            "completed": 215,
+            "completed_means": {
+              "continuation_tool_calls": 1.3767441860465117,
+              "estimated_cost_usd": 0.00047690051162790697,
+              "prefetch_tool_calls": 0.6697674418604651,
+              "requests": 2.3767441860465115,
+              "total_tokens": 1832.2232558139535,
+              "total_tool_calls": 2.046511627906977,
+              "wall_latency_ms": 4002.696932905603
+            },
+            "correct": 205,
+            "dispatched": 45,
+            "episodes_with_calls_after_dispatch": 0,
+            "failed": 1,
+            "incomplete_accepted_prefetch": {
+              "attempted": 0,
+              "correct": 0,
+              "issue_groups": 0,
+              "scheduled": 0,
+              "with_continuation_reads": 0
+            },
+            "not_attempted": 0,
+            "resource_accounting_complete": false,
+            "scheduled": 216,
+            "wrong_after_dispatch": 2
+          },
+          "no_completeness_check": {
+            "attempted": 216,
+            "cache_write_tokens": 57703,
+            "completed": 216,
+            "completed_means": {
+              "continuation_tool_calls": 1.3009259259259258,
+              "estimated_cost_usd": 0.0004606511574074074,
+              "prefetch_tool_calls": 0.6666666666666666,
+              "requests": 2.300925925925926,
+              "total_tokens": 1803.2222222222222,
+              "total_tool_calls": 1.9675925925925926,
+              "wall_latency_ms": 2886.021203938947
+            },
+            "correct": 204,
+            "dispatched": 72,
+            "episodes_with_calls_after_dispatch": 27,
+            "failed": 0,
+            "incomplete_accepted_prefetch": {
+              "attempted": 27,
+              "correct": 22,
+              "issue_groups": 27,
+              "scheduled": 27,
+              "with_continuation_reads": 27
+            },
+            "not_attempted": 0,
+            "resource_accounting_complete": true,
+            "scheduled": 216,
+            "wrong_after_dispatch": 6
+          },
+          "no_entry_hull": {
+            "attempted": 216,
+            "cache_write_tokens": 59990,
+            "completed": 216,
+            "completed_means": {
+              "continuation_tool_calls": 0.8425925925925926,
+              "estimated_cost_usd": 0.0004012325,
+              "prefetch_tool_calls": 2.0,
+              "requests": 1.8425925925925926,
+              "total_tokens": 1544.0601851851852,
+              "total_tool_calls": 2.8425925925925926,
+              "wall_latency_ms": 2959.351985865969
+            },
+            "correct": 207,
+            "dispatched": 135,
+            "episodes_with_calls_after_dispatch": 0,
+            "failed": 0,
+            "incomplete_accepted_prefetch": {
+              "attempted": 0,
+              "correct": 0,
+              "issue_groups": 0,
+              "scheduled": 0,
+              "with_continuation_reads": 0
+            },
+            "not_attempted": 0,
+            "resource_accounting_complete": true,
+            "scheduled": 216,
+            "wrong_after_dispatch": 1
+          }
+        },
+        "cases_with_more_than_two_source_comments": 54,
+        "issue_groups": 72,
+        "paired_vs_full": {
+          "baseline": {
+            "attempted_pairs": 216,
+            "full_only_correct": 4,
+            "full_only_correct_groups": 4,
+            "other_only_correct": 10,
+            "other_only_correct_groups": 8,
+            "paired_intervals": {
+              "accuracy_full_minus_other": {
+                "ci95": [
+                  -0.06481481481481481,
+                  0.004629629629629629
+                ],
+                "issue_groups": 72,
+                "mean": -0.027777777777777776
+              }
+            }
+          },
+          "no_completeness_check": {
+            "attempted_pairs": 216,
+            "full_only_correct": 8,
+            "full_only_correct_groups": 6,
+            "other_only_correct": 7,
+            "other_only_correct_groups": 5,
+            "paired_intervals": {
+              "accuracy_full_minus_other": {
+                "ci95": [
+                  -0.03703703703703704,
+                  0.0462962962962963
+                ],
+                "issue_groups": 72,
+                "mean": 0.004629629629629629
+              }
+            }
+          },
+          "no_entry_hull": {
+            "attempted_pairs": 216,
+            "full_only_correct": 6,
+            "full_only_correct_groups": 6,
+            "other_only_correct": 8,
+            "other_only_correct_groups": 7,
+            "paired_intervals": {
+              "accuracy_full_minus_other": {
+                "ci95": [
+                  -0.041666666666666664,
+                  0.023148148148148147
+                ],
+                "issue_groups": 72,
+                "mean": -0.009259259259259259
+              }
+            }
+          }
+        }
+      },
+      "ordinary": {
+        "arms": {
+          "baseline": {
+            "attempted": 216,
+            "cache_write_tokens": 44708,
+            "completed": 215,
+            "completed_means": {
+              "continuation_tool_calls": 1.3674418604651162,
+              "estimated_cost_usd": 0.0004583328372093023,
+              "prefetch_tool_calls": 0.0,
+              "requests": 2.3674418604651164,
+              "total_tokens": 1664.9767441860465,
+              "total_tool_calls": 1.3674418604651162,
+              "wall_latency_ms": 3243.554495977303
+            },
+            "correct": 204,
+            "dispatched": 0,
+            "episodes_with_calls_after_dispatch": 0,
+            "failed": 1,
+            "incomplete_accepted_prefetch": {
+              "attempted": 0,
+              "correct": 0,
+              "issue_groups": 0,
+              "scheduled": 0,
+              "with_continuation_reads": 0
+            },
+            "not_attempted": 0,
+            "resource_accounting_complete": false,
+            "scheduled": 216,
+            "wrong_after_dispatch": 0
+          },
+          "full": {
+            "attempted": 216,
+            "cache_write_tokens": 30553,
+            "completed": 215,
+            "completed_means": {
+              "continuation_tool_calls": 0.9255813953488372,
+              "estimated_cost_usd": 0.00037328348837209306,
+              "prefetch_tool_calls": 0.6697674418604651,
+              "requests": 1.9255813953488372,
+              "total_tokens": 1401.9674418604652,
+              "total_tool_calls": 1.5953488372093023,
+              "wall_latency_ms": 2589.0817224895472
+            },
+            "correct": 205,
+            "dispatched": 72,
+            "episodes_with_calls_after_dispatch": 1,
+            "failed": 1,
+            "incomplete_accepted_prefetch": {
+              "attempted": 0,
+              "correct": 0,
+              "issue_groups": 0,
+              "scheduled": 0,
+              "with_continuation_reads": 0
+            },
+            "not_attempted": 0,
+            "resource_accounting_complete": false,
+            "scheduled": 216,
+            "wrong_after_dispatch": 4
+          },
+          "no_completeness_check": {
+            "attempted": 216,
+            "cache_write_tokens": 35827,
+            "completed": 216,
+            "completed_means": {
+              "continuation_tool_calls": 0.9166666666666666,
+              "estimated_cost_usd": 0.000380850787037037,
+              "prefetch_tool_calls": 0.6666666666666666,
+              "requests": 1.9166666666666667,
+              "total_tokens": 1401.9583333333333,
+              "total_tool_calls": 1.5833333333333333,
+              "wall_latency_ms": 3077.58393156298
+            },
+            "correct": 210,
+            "dispatched": 72,
+            "episodes_with_calls_after_dispatch": 0,
+            "failed": 0,
+            "incomplete_accepted_prefetch": {
+              "attempted": 0,
+              "correct": 0,
+              "issue_groups": 0,
+              "scheduled": 0,
+              "with_continuation_reads": 0
+            },
+            "not_attempted": 0,
+            "resource_accounting_complete": true,
+            "scheduled": 216,
+            "wrong_after_dispatch": 3
+          },
+          "no_entry_hull": {
+            "attempted": 216,
+            "cache_write_tokens": 42777,
+            "completed": 215,
+            "completed_means": {
+              "continuation_tool_calls": 0.03255813953488372,
+              "estimated_cost_usd": 0.00025933641860465114,
+              "prefetch_tool_calls": 2.0,
+              "requests": 1.0325581395348837,
+              "total_tokens": 934.0186046511628,
+              "total_tool_calls": 2.0325581395348835,
+              "wall_latency_ms": 1640.1002659348685
+            },
+            "correct": 186,
+            "dispatched": 216,
+            "episodes_with_calls_after_dispatch": 7,
+            "failed": 1,
+            "incomplete_accepted_prefetch": {
+              "attempted": 20,
+              "correct": 4,
+              "issue_groups": 20,
+              "scheduled": 20,
+              "with_continuation_reads": 5
+            },
+            "not_attempted": 0,
+            "resource_accounting_complete": false,
+            "scheduled": 216,
+            "wrong_after_dispatch": 30
+          }
+        },
+        "cases_with_more_than_two_source_comments": 54,
+        "issue_groups": 72,
+        "paired_vs_full": {
+          "baseline": {
+            "attempted_pairs": 216,
+            "full_only_correct": 11,
+            "full_only_correct_groups": 10,
+            "other_only_correct": 10,
+            "other_only_correct_groups": 9,
+            "paired_intervals": {
+              "accuracy_full_minus_other": {
+                "ci95": [
+                  -0.037037037037037035,
+                  0.046296296296296294
+                ],
+                "issue_groups": 72,
+                "mean": 0.004629629629629629
+              }
+            }
+          },
+          "no_completeness_check": {
+            "attempted_pairs": 216,
+            "full_only_correct": 4,
+            "full_only_correct_groups": 4,
+            "other_only_correct": 9,
+            "other_only_correct_groups": 9,
+            "paired_intervals": {
+              "accuracy_full_minus_other": {
+                "ci95": [
+                  -0.05555555555555555,
+                  0.009259259259259259
+                ],
+                "issue_groups": 72,
+                "mean": -0.023148148148148147
+              }
+            }
+          },
+          "no_entry_hull": {
+            "attempted_pairs": 216,
+            "full_only_correct": 24,
+            "full_only_correct_groups": 20,
+            "other_only_correct": 5,
+            "other_only_correct_groups": 5,
+            "paired_intervals": {
+              "accuracy_full_minus_other": {
+                "ci95": [
+                  0.03703703703703704,
+                  0.1388888888888889
+                ],
+                "issue_groups": 72,
+                "mean": 0.08796296296296295
+              }
+            }
+          }
+        }
+      }
+    },
+    "replication": {
+      "capped_response_stress": {
+        "arms": {
+          "baseline": {
+            "attempted": 72,
+            "cache_write_tokens": 10593,
+            "completed": 72,
+            "completed_means": {
+              "continuation_tool_calls": 1.7222222222222223,
+              "estimated_cost_usd": 0.0005178001388888889,
+              "prefetch_tool_calls": 0.0,
+              "requests": 2.7222222222222223,
+              "total_tokens": 1926.4166666666667,
+              "total_tool_calls": 1.7222222222222223,
+              "wall_latency_ms": 3401.488826358723
+            },
+            "correct": 70,
+            "dispatched": 0,
+            "episodes_with_calls_after_dispatch": 0,
+            "failed": 0,
+            "incomplete_accepted_prefetch": {
+              "attempted": 0,
+              "correct": 0,
+              "issue_groups": 0,
+              "scheduled": 0,
+              "with_continuation_reads": 0
+            },
+            "not_attempted": 0,
+            "resource_accounting_complete": true,
+            "scheduled": 72,
+            "wrong_after_dispatch": 0
+          },
+          "full": {
+            "attempted": 72,
+            "cache_write_tokens": 11661,
+            "completed": 72,
+            "completed_means": {
+              "continuation_tool_calls": 1.4583333333333333,
+              "estimated_cost_usd": 0.00047065486111111106,
+              "prefetch_tool_calls": 0.6666666666666666,
+              "requests": 2.4583333333333335,
+              "total_tokens": 1772.111111111111,
+              "total_tool_calls": 2.125,
+              "wall_latency_ms": 3905.1375729476504
+            },
+            "correct": 68,
+            "dispatched": 15,
+            "episodes_with_calls_after_dispatch": 0,
+            "failed": 0,
+            "incomplete_accepted_prefetch": {
+              "attempted": 0,
+              "correct": 0,
+              "issue_groups": 0,
+              "scheduled": 0,
+              "with_continuation_reads": 0
+            },
+            "not_attempted": 0,
+            "resource_accounting_complete": true,
+            "scheduled": 72,
+            "wrong_after_dispatch": 1
+          },
+          "no_completeness_check": {
+            "attempted": 72,
+            "cache_write_tokens": 9443,
+            "completed": 72,
+            "completed_means": {
+              "continuation_tool_calls": 1.2361111111111112,
+              "estimated_cost_usd": 0.00043615763888888896,
+              "prefetch_tool_calls": 0.6666666666666666,
+              "requests": 2.236111111111111,
+              "total_tokens": 1635.5,
+              "total_tool_calls": 1.9027777777777777,
+              "wall_latency_ms": 2889.64646983287
+            },
+            "correct": 69,
+            "dispatched": 24,
+            "episodes_with_calls_after_dispatch": 9,
+            "failed": 0,
+            "incomplete_accepted_prefetch": {
+              "attempted": 9,
+              "correct": 8,
+              "issue_groups": 9,
+              "scheduled": 9,
+              "with_continuation_reads": 9
+            },
+            "not_attempted": 0,
+            "resource_accounting_complete": true,
+            "scheduled": 72,
+            "wrong_after_dispatch": 1
+          },
+          "no_entry_hull": {
+            "attempted": 72,
+            "cache_write_tokens": 9483,
+            "completed": 72,
+            "completed_means": {
+              "continuation_tool_calls": 0.7777777777777778,
+              "estimated_cost_usd": 0.0003724665277777778,
+              "prefetch_tool_calls": 2.0,
+              "requests": 1.7777777777777777,
+              "total_tokens": 1369.8333333333333,
+              "total_tool_calls": 2.7777777777777777,
+              "wall_latency_ms": 3286.0085642621725
+            },
+            "correct": 69,
+            "dispatched": 45,
+            "episodes_with_calls_after_dispatch": 0,
+            "failed": 0,
+            "incomplete_accepted_prefetch": {
+              "attempted": 0,
+              "correct": 0,
+              "issue_groups": 0,
+              "scheduled": 0,
+              "with_continuation_reads": 0
+            },
+            "not_attempted": 0,
+            "resource_accounting_complete": true,
+            "scheduled": 72,
+            "wrong_after_dispatch": 1
+          }
+        },
+        "cases_with_more_than_two_source_comments": 18,
+        "issue_groups": 24,
+        "paired_vs_full": {
+          "baseline": {
+            "attempted_pairs": 72,
+            "full_only_correct": 1,
+            "full_only_correct_groups": 1,
+            "other_only_correct": 3,
+            "other_only_correct_groups": 3,
+            "paired_intervals": {
+              "accuracy_full_minus_other": {
+                "ci95": [
+                  -0.06944444444444443,
+                  0.0
+                ],
+                "issue_groups": 24,
+                "mean": -0.027777777777777776
+              },
+              "estimated_cost_usd_full_minus_other": {
+                "ci95": [
+                  -7.654367708333335e-05,
+                  -1.8200600694444437e-05
+                ],
+                "issue_groups": 24,
+                "mean": -4.7145277777777766e-05
+              },
+              "requests_full_minus_other": {
+                "ci95": [
+                  -0.47222222222222215,
+                  -0.06909722222222725
+                ],
+                "issue_groups": 24,
+                "mean": -0.26388888888888884
+              },
+              "total_tool_calls_full_minus_other": {
+                "ci95": [
+                  0.19444444444444442,
+                  0.5975694444444394
+                ],
+                "issue_groups": 24,
+                "mean": 0.40277777777777773
+              },
+              "wall_latency_ms_full_minus_other": {
+                "ci95": [
+                  -578.1214153682312,
+                  2405.1531857476825
+                ],
+                "issue_groups": 24,
+                "mean": 503.64874658892705
+              }
+            }
+          },
+          "no_completeness_check": {
+            "attempted_pairs": 72,
+            "full_only_correct": 3,
+            "full_only_correct_groups": 3,
+            "other_only_correct": 4,
+            "other_only_correct_groups": 4,
+            "paired_intervals": {
+              "accuracy_full_minus_other": {
+                "ci95": [
+                  -0.05555555555555556,
+                  0.027777777777777776
+                ],
+                "issue_groups": 24,
+                "mean": -0.013888888888888888
+              },
+              "estimated_cost_usd_full_minus_other": {
+                "ci95": [
+                  5.520555555555553e-06,
+                  6.440118055555556e-05
+                ],
+                "issue_groups": 24,
+                "mean": 3.4497222222222223e-05
+              },
+              "requests_full_minus_other": {
+                "ci95": [
+                  0.02777777777777778,
+                  0.4166666666666667
+                ],
+                "issue_groups": 24,
+                "mean": 0.22222222222222224
+              },
+              "total_tool_calls_full_minus_other": {
+                "ci95": [
+                  0.02777777777777778,
+                  0.4166666666666667
+                ],
+                "issue_groups": 24,
+                "mean": 0.22222222222222224
+              },
+              "wall_latency_ms_full_minus_other": {
+                "ci95": [
+                  -23.4801916388177,
+                  2892.57745250169
+                ],
+                "issue_groups": 24,
+                "mean": 1015.4911031147802
+              }
+            }
+          },
+          "no_entry_hull": {
+            "attempted_pairs": 72,
+            "full_only_correct": 1,
+            "full_only_correct_groups": 1,
+            "other_only_correct": 2,
+            "other_only_correct_groups": 2,
+            "paired_intervals": {
+              "accuracy_full_minus_other": {
+                "ci95": [
+                  -0.05555555555555555,
+                  0.027777777777777776
+                ],
+                "issue_groups": 24,
+                "mean": -0.013888888888888888
+              },
+              "estimated_cost_usd_full_minus_other": {
+                "ci95": [
+                  7.421696527777778e-05,
+                  0.00012005021527777779
+                ],
+                "issue_groups": 24,
+                "mean": 9.818833333333334e-05
+              },
+              "requests_full_minus_other": {
+                "ci95": [
+                  0.5277777777777778,
+                  0.8194444444444443
+                ],
+                "issue_groups": 24,
+                "mean": 0.6805555555555555
+              },
+              "total_tool_calls_full_minus_other": {
+                "ci95": [
+                  -0.8055555555555555,
+                  -0.5138888888888888
+                ],
+                "issue_groups": 24,
+                "mean": -0.6527777777777778
+              },
+              "wall_latency_ms_full_minus_other": {
+                "ci95": [
+                  -2148.3564794284466,
+                  3184.4585356234043
+                ],
+                "issue_groups": 24,
+                "mean": 619.1290086854779
+              }
+            }
+          }
+        }
+      },
+      "ordinary": {
+        "arms": {
+          "baseline": {
+            "attempted": 72,
+            "cache_write_tokens": 5661,
+            "completed": 72,
+            "completed_means": {
+              "continuation_tool_calls": 1.4166666666666667,
+              "estimated_cost_usd": 0.0004461340277777778,
+              "prefetch_tool_calls": 0.0,
+              "requests": 2.4166666666666665,
+              "total_tokens": 1629.8333333333333,
+              "total_tool_calls": 1.4166666666666667,
+              "wall_latency_ms": 4032.0081169168893
+            },
+            "correct": 71,
+            "dispatched": 0,
+            "episodes_with_calls_after_dispatch": 0,
+            "failed": 0,
+            "incomplete_accepted_prefetch": {
+              "attempted": 0,
+              "correct": 0,
+              "issue_groups": 0,
+              "scheduled": 0,
+              "with_continuation_reads": 0
+            },
+            "not_attempted": 0,
+            "resource_accounting_complete": true,
+            "scheduled": 72,
+            "wrong_after_dispatch": 0
+          },
+          "full": {
+            "attempted": 72,
+            "cache_write_tokens": 4554,
+            "completed": 72,
+            "completed_means": {
+              "continuation_tool_calls": 0.9305555555555556,
+              "estimated_cost_usd": 0.0003650305555555555,
+              "prefetch_tool_calls": 0.6666666666666666,
+              "requests": 1.9305555555555556,
+              "total_tokens": 1338.125,
+              "total_tool_calls": 1.5972222222222223,
+              "wall_latency_ms": 2505.744771332603
+            },
+            "correct": 70,
+            "dispatched": 24,
+            "episodes_with_calls_after_dispatch": 0,
+            "failed": 0,
+            "incomplete_accepted_prefetch": {
+              "attempted": 0,
+              "correct": 0,
+              "issue_groups": 0,
+              "scheduled": 0,
+              "with_continuation_reads": 0
+            },
+            "not_attempted": 0,
+            "resource_accounting_complete": true,
+            "scheduled": 72,
+            "wrong_after_dispatch": 0
+          },
+          "no_completeness_check": {
+            "attempted": 72,
+            "cache_write_tokens": 3450,
+            "completed": 72,
+            "completed_means": {
+              "continuation_tool_calls": 0.9027777777777778,
+              "estimated_cost_usd": 0.0003602,
+              "prefetch_tool_calls": 0.6666666666666666,
+              "requests": 1.9027777777777777,
+              "total_tokens": 1320.375,
+              "total_tool_calls": 1.5694444444444444,
+              "wall_latency_ms": 2599.1623737952777
+            },
+            "correct": 70,
+            "dispatched": 24,
+            "episodes_with_calls_after_dispatch": 0,
+            "failed": 0,
+            "incomplete_accepted_prefetch": {
+              "attempted": 0,
+              "correct": 0,
+              "issue_groups": 0,
+              "scheduled": 0,
+              "with_continuation_reads": 0
+            },
+            "not_attempted": 0,
+            "resource_accounting_complete": true,
+            "scheduled": 72,
+            "wrong_after_dispatch": 0
+          },
+          "no_entry_hull": {
+            "attempted": 72,
+            "cache_write_tokens": 5989,
+            "completed": 72,
+            "completed_means": {
+              "continuation_tool_calls": 0.05555555555555555,
+              "estimated_cost_usd": 0.00025364375,
+              "prefetch_tool_calls": 2.0,
+              "requests": 1.0555555555555556,
+              "total_tokens": 881.625,
+              "total_tool_calls": 2.0555555555555554,
+              "wall_latency_ms": 2448.42307411131
+            },
+            "correct": 67,
+            "dispatched": 72,
+            "episodes_with_calls_after_dispatch": 4,
+            "failed": 0,
+            "incomplete_accepted_prefetch": {
+              "attempted": 8,
+              "correct": 4,
+              "issue_groups": 8,
+              "scheduled": 8,
+              "with_continuation_reads": 4
+            },
+            "not_attempted": 0,
+            "resource_accounting_complete": true,
+            "scheduled": 72,
+            "wrong_after_dispatch": 5
+          }
+        },
+        "cases_with_more_than_two_source_comments": 18,
+        "issue_groups": 24,
+        "paired_vs_full": {
+          "baseline": {
+            "attempted_pairs": 72,
+            "full_only_correct": 1,
+            "full_only_correct_groups": 1,
+            "other_only_correct": 2,
+            "other_only_correct_groups": 2,
+            "paired_intervals": {
+              "accuracy_full_minus_other": {
+                "ci95": [
+                  -0.05555555555555555,
+                  0.027777777777777776
+                ],
+                "issue_groups": 24,
+                "mean": -0.013888888888888888
+              },
+              "estimated_cost_usd_full_minus_other": {
+                "ci95": [
+                  -0.00010541333333333332,
+                  -5.827416666666668e-05
+                ],
+                "issue_groups": 24,
+                "mean": -8.110347222222223e-05
+              },
+              "requests_full_minus_other": {
+                "ci95": [
+                  -0.6666666666666666,
+                  -0.3194444444444444
+                ],
+                "issue_groups": 24,
+                "mean": -0.4861111111111111
+              },
+              "total_tool_calls_full_minus_other": {
+                "ci95": [
+                  0.0,
+                  0.34722222222222215
+                ],
+                "issue_groups": 24,
+                "mean": 0.18055555555555555
+              },
+              "wall_latency_ms_full_minus_other": {
+                "ci95": [
+                  -3190.575692547322,
+                  -616.9093124034085
+                ],
+                "issue_groups": 24,
+                "mean": -1526.263345584286
+              }
+            }
+          },
+          "no_completeness_check": {
+            "attempted_pairs": 72,
+            "full_only_correct": 1,
+            "full_only_correct_groups": 1,
+            "other_only_correct": 1,
+            "other_only_correct_groups": 1,
+            "paired_intervals": {
+              "accuracy_full_minus_other": {
+                "ci95": [
+                  -0.041666666666666664,
+                  0.041666666666666664
+                ],
+                "issue_groups": 24,
+                "mean": 0.0
+              },
+              "estimated_cost_usd_full_minus_other": {
+                "ci95": [
+                  -1.559258680555556e-05,
+                  2.372116319444444e-05
+                ],
+                "issue_groups": 24,
+                "mean": 4.830555555555554e-06
+              },
+              "requests_full_minus_other": {
+                "ci95": [
+                  -0.1111111111111111,
+                  0.15277777777777776
+                ],
+                "issue_groups": 24,
+                "mean": 0.027777777777777776
+              },
+              "total_tool_calls_full_minus_other": {
+                "ci95": [
+                  -0.1111111111111111,
+                  0.15277777777777776
+                ],
+                "issue_groups": 24,
+                "mean": 0.027777777777777776
+              },
+              "wall_latency_ms_full_minus_other": {
+                "ci95": [
+                  -372.84488171717385,
+                  149.43402392434794
+                ],
+                "issue_groups": 24,
+                "mean": -93.41760246267465
+              }
+            }
+          },
+          "no_entry_hull": {
+            "attempted_pairs": 72,
+            "full_only_correct": 5,
+            "full_only_correct_groups": 5,
+            "other_only_correct": 2,
+            "other_only_correct_groups": 2,
+            "paired_intervals": {
+              "accuracy_full_minus_other": {
+                "ci95": [
+                  -0.013888888888888888,
+                  0.09722222222222221
+                ],
+                "issue_groups": 24,
+                "mean": 0.041666666666666664
+              },
+              "estimated_cost_usd_full_minus_other": {
+                "ci95": [
+                  8.449529513888887e-05,
+                  0.00013420013888888887
+                ],
+                "issue_groups": 24,
+                "mean": 0.00011138680555555556
+              },
+              "requests_full_minus_other": {
+                "ci95": [
+                  0.7638888888888888,
+                  0.986111111111111
+                ],
+                "issue_groups": 24,
+                "mean": 0.875
+              },
+              "total_tool_calls_full_minus_other": {
+                "ci95": [
+                  -0.5694444444444444,
+                  -0.34722222222222215
+                ],
+                "issue_groups": 24,
+                "mean": -0.4583333333333333
+              },
+              "wall_latency_ms_full_minus_other": {
+                "ci95": [
+                  -1728.7241470029078,
+                  1039.5363733248207
+                ],
+                "issue_groups": 24,
+                "mean": 57.32169722129273
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "halt_reason": null,
+  "incorrect_answers": [
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 2842,
+        "matching_positions": []
+      },
+      "arm": "baseline",
+      "case_id": "2842:ordinary:3",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 2842,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 2842,
+        "matching_positions": []
+      },
+      "arm": "no_entry_hull",
+      "case_id": "2842:ordinary:5",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 2842,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 2842,
+        "matching_positions": []
+      },
+      "arm": "full",
+      "case_id": "2842:capped_response_stress:3",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 2842,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 1,
+        "issue_number": 2842,
+        "matching_positions": [
+          2
+        ]
+      },
+      "arm": "no_entry_hull",
+      "case_id": "2842:capped_response_stress:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 2842,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 4632,
+        "matching_positions": []
+      },
+      "arm": "no_entry_hull",
+      "case_id": "4632:ordinary:1",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 1,
+        "issue_number": 4632,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 2243,
+        "matching_positions": [
+          3
+        ]
+      },
+      "arm": "no_entry_hull",
+      "case_id": "2243:capped_response_stress:3",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 2243,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 2243,
+        "matching_positions": [
+          3
+        ]
+      },
+      "arm": "baseline",
+      "case_id": "2243:capped_response_stress:3",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 2243,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 5,
+        "issue_number": 2243,
+        "matching_positions": [
+          3
+        ]
+      },
+      "arm": "full",
+      "case_id": "2243:capped_response_stress:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 2243,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 2243,
+        "matching_positions": []
+      },
+      "arm": "no_completeness_check",
+      "case_id": "2243:capped_response_stress:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 2243,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 5517,
+        "matching_positions": []
+      },
+      "arm": "no_entry_hull",
+      "case_id": "5517:ordinary:1",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 1,
+        "issue_number": 5517,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 5517,
+        "matching_positions": []
+      },
+      "arm": "full",
+      "case_id": "5517:capped_response_stress:3",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 5517,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 5517,
+        "matching_positions": []
+      },
+      "arm": "baseline",
+      "case_id": "5517:capped_response_stress:3",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 5517,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 6270,
+        "matching_positions": [
+          1,
+          3
+        ]
+      },
+      "arm": "no_entry_hull",
+      "case_id": "6270:ordinary:5",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 6270,
+        "matching_positions": [
+          1
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 6270,
+        "matching_positions": [
+          1,
+          2
+        ]
+      },
+      "arm": "no_completeness_check",
+      "case_id": "6270:capped_response_stress:3",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 6270,
+        "matching_positions": [
+          1
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 630,
+        "matching_positions": []
+      },
+      "arm": "no_completeness_check",
+      "case_id": "630:ordinary:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 630,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 630,
+        "matching_positions": []
+      },
+      "arm": "no_entry_hull",
+      "case_id": "630:ordinary:5",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 630,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 2917,
+        "matching_positions": []
+      },
+      "arm": "baseline",
+      "case_id": "2917:ordinary:3",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 2917,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 2917,
+        "matching_positions": []
+      },
+      "arm": "no_entry_hull",
+      "case_id": "2917:capped_response_stress:3",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 2917,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 2,
+        "issue_number": 4524,
+        "matching_positions": [
+          1,
+          2
+        ]
+      },
+      "arm": "full",
+      "case_id": "4524:capped_response_stress:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 2,
+        "issue_number": 4524,
+        "matching_positions": [
+          2
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 848,
+        "matching_positions": [
+          1,
+          2,
+          3
+        ]
+      },
+      "arm": "no_entry_hull",
+      "case_id": "848:ordinary:5",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 4,
+        "issue_number": 848,
+        "matching_positions": [
+          1,
+          2,
+          3
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 4,
+        "issue_number": 848,
+        "matching_positions": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "arm": "full",
+      "case_id": "848:ordinary:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 4,
+        "issue_number": 848,
+        "matching_positions": [
+          1,
+          2,
+          3
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 848,
+        "matching_positions": [
+          1,
+          2
+        ]
+      },
+      "arm": "no_completeness_check",
+      "case_id": "848:capped_response_stress:3",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 848,
+        "matching_positions": [
+          1,
+          2,
+          3
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 2761,
+        "matching_positions": [
+          1,
+          2
+        ]
+      },
+      "arm": "full",
+      "case_id": "2761:ordinary:3",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 2761,
+        "matching_positions": [
+          2
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 2761,
+        "matching_positions": [
+          2
+        ]
+      },
+      "arm": "no_entry_hull",
+      "case_id": "2761:ordinary:5",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 4,
+        "issue_number": 2761,
+        "matching_positions": [
+          2
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 1,
+        "issue_number": 2761,
+        "matching_positions": [
+          1
+        ]
+      },
+      "arm": "baseline",
+      "case_id": "2761:capped_response_stress:1",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 1,
+        "issue_number": 2761,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 1,
+        "issue_number": 2761,
+        "matching_positions": [
+          2
+        ]
+      },
+      "arm": "no_entry_hull",
+      "case_id": "2761:capped_response_stress:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 4,
+        "issue_number": 2761,
+        "matching_positions": [
+          2
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 4112,
+        "matching_positions": [
+          1,
+          3
+        ]
+      },
+      "arm": "baseline",
+      "case_id": "4112:ordinary:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 4112,
+        "matching_positions": [
+          1
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 5868,
+        "matching_positions": []
+      },
+      "arm": "full",
+      "case_id": "5868:ordinary:3",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 2,
+        "issue_number": 5868,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 3847,
+        "matching_positions": []
+      },
+      "arm": "no_entry_hull",
+      "case_id": "3847:ordinary:1",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 1,
+        "issue_number": 3847,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 3847,
+        "matching_positions": []
+      },
+      "arm": "baseline",
+      "case_id": "3847:ordinary:3",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 3847,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 3847,
+        "matching_positions": []
+      },
+      "arm": "no_entry_hull",
+      "case_id": "3847:ordinary:5",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 3847,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 3847,
+        "matching_positions": []
+      },
+      "arm": "no_entry_hull",
+      "case_id": "3847:capped_response_stress:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 3847,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 3310,
+        "matching_positions": [
+          1,
+          2,
+          3
+        ]
+      },
+      "arm": "no_completeness_check",
+      "case_id": "3310:ordinary:3",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 3310,
+        "matching_positions": [
+          2,
+          3
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 3310,
+        "matching_positions": [
+          1,
+          2,
+          3
+        ]
+      },
+      "arm": "full",
+      "case_id": "3310:ordinary:3",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 3310,
+        "matching_positions": [
+          2,
+          3
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 3310,
+        "matching_positions": [
+          2,
+          3
+        ]
+      },
+      "arm": "no_entry_hull",
+      "case_id": "3310:ordinary:5",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 3310,
+        "matching_positions": [
+          2,
+          3,
+          5
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 5,
+        "issue_number": 3310,
+        "matching_positions": [
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "arm": "full",
+      "case_id": "3310:ordinary:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 3310,
+        "matching_positions": [
+          2,
+          3,
+          5
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 3310,
+        "matching_positions": [
+          1,
+          2,
+          3
+        ]
+      },
+      "arm": "no_completeness_check",
+      "case_id": "3310:capped_response_stress:3",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 3310,
+        "matching_positions": [
+          2,
+          3
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 3310,
+        "matching_positions": [
+          2,
+          3,
+          5
+        ]
+      },
+      "arm": "full",
+      "case_id": "3310:capped_response_stress:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 3310,
+        "matching_positions": [
+          2,
+          3,
+          5
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 5,
+        "issue_number": 3310,
+        "matching_positions": [
+          2,
+          3
+        ]
+      },
+      "arm": "no_entry_hull",
+      "case_id": "3310:capped_response_stress:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 3310,
+        "matching_positions": [
+          2,
+          3,
+          5
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 3310,
+        "matching_positions": [
+          2,
+          3,
+          5
+        ]
+      },
+      "arm": "no_completeness_check",
+      "case_id": "3310:capped_response_stress:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 3310,
+        "matching_positions": [
+          2,
+          3,
+          5
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 2,
+        "issue_number": 3265,
+        "matching_positions": [
+          1
+        ]
+      },
+      "arm": "no_completeness_check",
+      "case_id": "3265:ordinary:3",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 2,
+        "issue_number": 3265,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 2,
+        "issue_number": 3265,
+        "matching_positions": [
+          1
+        ]
+      },
+      "arm": "no_entry_hull",
+      "case_id": "3265:ordinary:5",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 2,
+        "issue_number": 3265,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 2,
+        "issue_number": 3265,
+        "matching_positions": [
+          1,
+          2
+        ]
+      },
+      "arm": "full",
+      "case_id": "3265:capped_response_stress:3",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 2,
+        "issue_number": 3265,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 2,
+        "issue_number": 3265,
+        "matching_positions": [
+          1
+        ]
+      },
+      "arm": "no_entry_hull",
+      "case_id": "3265:capped_response_stress:5",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 2,
+        "issue_number": 3265,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 1,
+        "issue_number": 2969,
+        "matching_positions": [
+          1
+        ]
+      },
+      "arm": "full",
+      "case_id": "2969:ordinary:1",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 1,
+        "issue_number": 2969,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 1,
+        "issue_number": 2969,
+        "matching_positions": [
+          1
+        ]
+      },
+      "arm": "no_entry_hull",
+      "case_id": "2969:ordinary:1",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 1,
+        "issue_number": 2969,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 2969,
+        "matching_positions": [
+          1,
+          2
+        ]
+      },
+      "arm": "baseline",
+      "case_id": "2969:ordinary:3",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 2969,
+        "matching_positions": [
+          2
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 2969,
+        "matching_positions": [
+          1,
+          2
+        ]
+      },
+      "arm": "no_entry_hull",
+      "case_id": "2969:ordinary:3",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 2969,
+        "matching_positions": [
+          2
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 2969,
+        "matching_positions": [
+          1,
+          2
+        ]
+      },
+      "arm": "baseline",
+      "case_id": "2969:ordinary:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 2969,
+        "matching_positions": [
+          2
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 1,
+        "issue_number": 2969,
+        "matching_positions": [
+          1
+        ]
+      },
+      "arm": "no_completeness_check",
+      "case_id": "2969:capped_response_stress:1",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 1,
+        "issue_number": 2969,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 2969,
+        "matching_positions": [
+          1,
+          2
+        ]
+      },
+      "arm": "baseline",
+      "case_id": "2969:capped_response_stress:3",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 2969,
+        "matching_positions": [
+          2
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 2,
+        "issue_number": 2969,
+        "matching_positions": [
+          1,
+          2
+        ]
+      },
+      "arm": "no_completeness_check",
+      "case_id": "2969:capped_response_stress:3",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 2969,
+        "matching_positions": [
+          2
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 3329,
+        "matching_positions": [
+          1,
+          3
+        ]
+      },
+      "arm": "no_entry_hull",
+      "case_id": "3329:ordinary:3",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 3329,
+        "matching_positions": [
+          1
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 1,
+        "issue_number": 5134,
+        "matching_positions": [
+          2
+        ]
+      },
+      "arm": "no_entry_hull",
+      "case_id": "5134:ordinary:1",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 1,
+        "issue_number": 5134,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 5134,
+        "matching_positions": []
+      },
+      "arm": "no_entry_hull",
+      "case_id": "5134:ordinary:5",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 2,
+        "issue_number": 5134,
+        "matching_positions": [
+          2
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 315,
+        "matching_positions": []
+      },
+      "arm": "no_entry_hull",
+      "case_id": "315:ordinary:5",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 315,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 2,
+        "issue_number": 6949,
+        "matching_positions": [
+          1
+        ]
+      },
+      "arm": "full",
+      "case_id": "6949:ordinary:3",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 2,
+        "issue_number": 6949,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 6949,
+        "matching_positions": []
+      },
+      "arm": "no_completeness_check",
+      "case_id": "6949:capped_response_stress:3",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 2,
+        "issue_number": 6949,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 5,
+        "issue_number": 5695,
+        "matching_positions": [
+          3,
+          4,
+          5
+        ]
+      },
+      "arm": "no_completeness_check",
+      "case_id": "5695:ordinary:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 5695,
+        "matching_positions": [
+          3,
+          5
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 2,
+        "issue_number": 5695,
+        "matching_positions": [
+          3,
+          5
+        ]
+      },
+      "arm": "full",
+      "case_id": "5695:ordinary:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 5695,
+        "matching_positions": [
+          3,
+          5
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 5695,
+        "matching_positions": [
+          3
+        ]
+      },
+      "arm": "no_entry_hull",
+      "case_id": "5695:ordinary:5",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 5695,
+        "matching_positions": [
+          3,
+          5
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 1,
+        "issue_number": 5695,
+        "matching_positions": [
+          1
+        ]
+      },
+      "arm": "no_completeness_check",
+      "case_id": "5695:capped_response_stress:1",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 1,
+        "issue_number": 5695,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 1,
+        "issue_number": 5695,
+        "matching_positions": [
+          3
+        ]
+      },
+      "arm": "baseline",
+      "case_id": "5695:capped_response_stress:3",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 5695,
+        "matching_positions": [
+          3
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 5,
+        "issue_number": 5695,
+        "matching_positions": [
+          3,
+          4,
+          5
+        ]
+      },
+      "arm": "no_completeness_check",
+      "case_id": "5695:capped_response_stress:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 5695,
+        "matching_positions": [
+          3,
+          5
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 3488,
+        "matching_positions": []
+      },
+      "arm": "baseline",
+      "case_id": "3488:ordinary:3",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 1,
+        "issue_number": 3488,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 1,
+        "issue_number": 2892,
+        "matching_positions": [
+          1
+        ]
+      },
+      "arm": "no_completeness_check",
+      "case_id": "2892:ordinary:3",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 1,
+        "issue_number": 2892,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 1,
+        "issue_number": 2892,
+        "matching_positions": [
+          1
+        ]
+      },
+      "arm": "no_entry_hull",
+      "case_id": "2892:ordinary:3",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 1,
+        "issue_number": 2892,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 5390,
+        "matching_positions": []
+      },
+      "arm": "baseline",
+      "case_id": "5390:ordinary:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 5390,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 5390,
+        "matching_positions": []
+      },
+      "arm": "full",
+      "case_id": "5390:ordinary:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 5390,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 5390,
+        "matching_positions": []
+      },
+      "arm": "no_entry_hull",
+      "case_id": "5390:ordinary:5",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 5390,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 5390,
+        "matching_positions": []
+      },
+      "arm": "no_entry_hull",
+      "case_id": "5390:capped_response_stress:3",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 5390,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 5390,
+        "matching_positions": []
+      },
+      "arm": "no_completeness_check",
+      "case_id": "5390:capped_response_stress:3",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 5390,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 5390,
+        "matching_positions": []
+      },
+      "arm": "full",
+      "case_id": "5390:capped_response_stress:3",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 5390,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 1,
+        "issue_number": 261,
+        "matching_positions": [
+          1
+        ]
+      },
+      "arm": "full",
+      "case_id": "261:ordinary:1",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 1,
+        "issue_number": 261,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 2,
+        "issue_number": 261,
+        "matching_positions": []
+      },
+      "arm": "no_entry_hull",
+      "case_id": "261:ordinary:1",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 1,
+        "issue_number": 261,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 5750,
+        "matching_positions": [
+          2,
+          3
+        ]
+      },
+      "arm": "no_entry_hull",
+      "case_id": "5750:ordinary:5",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 4,
+        "issue_number": 5750,
+        "matching_positions": [
+          2,
+          3,
+          4
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 3676,
+        "matching_positions": []
+      },
+      "arm": "baseline",
+      "case_id": "3676:ordinary:3",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 3676,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 3676,
+        "matching_positions": []
+      },
+      "arm": "no_entry_hull",
+      "case_id": "3676:ordinary:5",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 3676,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 259,
+        "matching_positions": []
+      },
+      "arm": "baseline",
+      "case_id": "259:ordinary:3",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 259,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 259,
+        "matching_positions": []
+      },
+      "arm": "no_entry_hull",
+      "case_id": "259:ordinary:5",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 259,
+        "matching_positions": [
+          4
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 7423,
+        "matching_positions": []
+      },
+      "arm": "no_completeness_check",
+      "case_id": "7423:ordinary:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 1,
+        "issue_number": 7423,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 6729,
+        "matching_positions": []
+      },
+      "arm": "no_entry_hull",
+      "case_id": "6729:ordinary:5",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 6729,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 6729,
+        "matching_positions": []
+      },
+      "arm": "no_entry_hull",
+      "case_id": "6729:capped_response_stress:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 6729,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 5794,
+        "matching_positions": []
+      },
+      "arm": "full",
+      "case_id": "5794:capped_response_stress:1",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 1,
+        "issue_number": 5794,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 5794,
+        "matching_positions": []
+      },
+      "arm": "full",
+      "case_id": "5794:capped_response_stress:3",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 2,
+        "issue_number": 5794,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 7185,
+        "matching_positions": []
+      },
+      "arm": "baseline",
+      "case_id": "7185:ordinary:3",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 1,
+        "issue_number": 7185,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 2035,
+        "matching_positions": [
+          1,
+          2
+        ]
+      },
+      "arm": "no_entry_hull",
+      "case_id": "2035:ordinary:1",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 1,
+        "issue_number": 2035,
+        "matching_positions": [
+          1
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 2035,
+        "matching_positions": [
+          1,
+          2
+        ]
+      },
+      "arm": "no_entry_hull",
+      "case_id": "2035:ordinary:5",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 2035,
+        "matching_positions": [
+          1,
+          2,
+          4,
+          5
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 3807,
+        "matching_positions": [
+          3
+        ]
+      },
+      "arm": "no_entry_hull",
+      "case_id": "3807:ordinary:3",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 3807,
+        "matching_positions": []
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 3807,
+        "matching_positions": []
+      },
+      "arm": "no_entry_hull",
+      "case_id": "3807:ordinary:5",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 3807,
+        "matching_positions": [
+          5
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 1,
+        "issue_number": 3807,
+        "matching_positions": [
+          5
+        ]
+      },
+      "arm": "full",
+      "case_id": "3807:capped_response_stress:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 3807,
+        "matching_positions": [
+          5
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 1,
+        "issue_number": 3807,
+        "matching_positions": [
+          5
+        ]
+      },
+      "arm": "no_completeness_check",
+      "case_id": "3807:capped_response_stress:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 3807,
+        "matching_positions": [
+          5
+        ]
+      },
+      "group": "confirmation"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 7449,
+        "matching_positions": []
+      },
+      "arm": "no_entry_hull",
+      "case_id": "7449:capped_response_stress:5",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 2,
+        "issue_number": 7449,
+        "matching_positions": []
+      },
+      "group": "replication"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 6273,
+        "matching_positions": []
+      },
+      "arm": "no_entry_hull",
+      "case_id": "6273:ordinary:5",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 6273,
+        "matching_positions": []
+      },
+      "group": "replication"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 6273,
+        "matching_positions": []
+      },
+      "arm": "full",
+      "case_id": "6273:capped_response_stress:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 6273,
+        "matching_positions": []
+      },
+      "group": "replication"
+    },
+    {
+      "answer": {
+        "comment_count": 5,
+        "issue_number": 6618,
+        "matching_positions": [
+          1,
+          2
+        ]
+      },
+      "arm": "full",
+      "case_id": "6618:ordinary:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 6618,
+        "matching_positions": [
+          1
+        ]
+      },
+      "group": "replication"
+    },
+    {
+      "answer": {
+        "comment_count": 2,
+        "issue_number": 6618,
+        "matching_positions": [
+          1,
+          2
+        ]
+      },
+      "arm": "baseline",
+      "case_id": "6618:capped_response_stress:3",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 6618,
+        "matching_positions": [
+          1
+        ]
+      },
+      "group": "replication"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 6618,
+        "matching_positions": [
+          1,
+          2,
+          3
+        ]
+      },
+      "arm": "no_completeness_check",
+      "case_id": "6618:capped_response_stress:3",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 6618,
+        "matching_positions": [
+          1
+        ]
+      },
+      "group": "replication"
+    },
+    {
+      "answer": {
+        "comment_count": 5,
+        "issue_number": 6618,
+        "matching_positions": [
+          1,
+          2
+        ]
+      },
+      "arm": "no_entry_hull",
+      "case_id": "6618:capped_response_stress:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 6618,
+        "matching_positions": [
+          1
+        ]
+      },
+      "group": "replication"
+    },
+    {
+      "answer": {
+        "comment_count": 5,
+        "issue_number": 6618,
+        "matching_positions": [
+          1,
+          2
+        ]
+      },
+      "arm": "full",
+      "case_id": "6618:capped_response_stress:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 6618,
+        "matching_positions": [
+          1
+        ]
+      },
+      "group": "replication"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 3317,
+        "matching_positions": [
+          3
+        ]
+      },
+      "arm": "no_entry_hull",
+      "case_id": "3317:ordinary:5",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 4,
+        "issue_number": 3317,
+        "matching_positions": [
+          3
+        ]
+      },
+      "group": "replication"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 6609,
+        "matching_positions": [
+          2
+        ]
+      },
+      "arm": "no_entry_hull",
+      "case_id": "6609:ordinary:5",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 6609,
+        "matching_positions": [
+          2
+        ]
+      },
+      "group": "replication"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 2278,
+        "matching_positions": []
+      },
+      "arm": "no_completeness_check",
+      "case_id": "2278:capped_response_stress:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 1,
+        "issue_number": 2278,
+        "matching_positions": []
+      },
+      "group": "replication"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 560,
+        "matching_positions": [
+          3
+        ]
+      },
+      "arm": "no_entry_hull",
+      "case_id": "560:ordinary:3",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 3,
+        "issue_number": 560,
+        "matching_positions": []
+      },
+      "group": "replication"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 560,
+        "matching_positions": []
+      },
+      "arm": "no_completeness_check",
+      "case_id": "560:ordinary:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 560,
+        "matching_positions": []
+      },
+      "group": "replication"
+    },
+    {
+      "answer": {
+        "comment_count": 5,
+        "issue_number": 560,
+        "matching_positions": [
+          3
+        ]
+      },
+      "arm": "full",
+      "case_id": "560:ordinary:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 560,
+        "matching_positions": []
+      },
+      "group": "replication"
+    },
+    {
+      "answer": {
+        "comment_count": 5,
+        "issue_number": 560,
+        "matching_positions": [
+          3
+        ]
+      },
+      "arm": "full",
+      "case_id": "560:capped_response_stress:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 560,
+        "matching_positions": []
+      },
+      "group": "replication"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 560,
+        "matching_positions": []
+      },
+      "arm": "no_entry_hull",
+      "case_id": "560:capped_response_stress:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 560,
+        "matching_positions": []
+      },
+      "group": "replication"
+    },
+    {
+      "answer": {
+        "comment_count": 0,
+        "issue_number": 560,
+        "matching_positions": []
+      },
+      "arm": "baseline",
+      "case_id": "560:capped_response_stress:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 5,
+        "issue_number": 560,
+        "matching_positions": []
+      },
+      "group": "replication"
+    },
+    {
+      "answer": {
+        "comment_count": 2,
+        "issue_number": 5394,
+        "matching_positions": [
+          1,
+          2
+        ]
+      },
+      "arm": "baseline",
+      "case_id": "5394:ordinary:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 2,
+        "issue_number": 5394,
+        "matching_positions": [
+          1
+        ]
+      },
+      "group": "replication"
+    },
+    {
+      "answer": {
+        "comment_count": 2,
+        "issue_number": 5394,
+        "matching_positions": [
+          1,
+          2
+        ]
+      },
+      "arm": "full",
+      "case_id": "5394:capped_response_stress:3",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 2,
+        "issue_number": 5394,
+        "matching_positions": [
+          1
+        ]
+      },
+      "group": "replication"
+    },
+    {
+      "answer": {
+        "comment_count": 2,
+        "issue_number": 5394,
+        "matching_positions": [
+          1,
+          2
+        ]
+      },
+      "arm": "no_completeness_check",
+      "case_id": "5394:capped_response_stress:5",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 2,
+        "issue_number": 5394,
+        "matching_positions": [
+          1
+        ]
+      },
+      "group": "replication"
+    },
+    {
+      "answer": {
+        "comment_count": 3,
+        "issue_number": 4192,
+        "matching_positions": []
+      },
+      "arm": "no_entry_hull",
+      "case_id": "4192:ordinary:5",
+      "dispatched": true,
+      "expected": {
+        "comment_count": 4,
+        "issue_number": 4192,
+        "matching_positions": []
+      },
+      "group": "replication"
+    },
+    {
+      "answer": {
+        "comment_count": 1,
+        "issue_number": 5002,
+        "matching_positions": [
+          1
+        ]
+      },
+      "arm": "no_completeness_check",
+      "case_id": "5002:ordinary:1",
+      "dispatched": false,
+      "expected": {
+        "comment_count": 1,
+        "issue_number": 5002,
+        "matching_positions": []
+      },
+      "group": "replication"
+    }
+  ],
+  "pending": 0,
+  "scheduled": 2304
+}
