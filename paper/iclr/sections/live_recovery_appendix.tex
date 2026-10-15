@@ -1,0 +1,203 @@
+\section{Safeguard Ablations with Live Recovery}
+\label{app:live-recovery}
+
+These follow-ups ask whether compiled prefixes save model work on unused
+records, whether individual safeguards change deterministic outcomes, and
+whether those differences survive a live agent's recovery. Cohorts and endpoints
+remain separate from the six studies' 810 compiled episodes in
+\cref{sec:discussion}; none changes that historical denominator or supplies a
+new end-to-end risk certificate.
+
+\paragraph{Fresh-record comparison.}
+On 120 previously unused issues from the same historical snapshot, four live
+arms complete all 480 episodes. Baseline, GAC, and support-only each pass the
+registered four-field factuality endpoint on 120/120 records; recurrence-only
+passes 118/120. On the supplementary seven-field endpoint the respective counts
+are 119, 120, 119, and 118. GAC halves model requests (4 to 2 per episode) and
+reduces estimated model cost by 45.8\% against baseline. Its dispatch decisions
+are identical to support-only: 119 dispatches and one fallback, so separate
+stochastic continuations cannot establish a gate effect. The two recurrence-only
+misses are strict formatting/case differences, not demonstrated semantic false
+assertions. Prefix length and context also differ, preventing an isolated
+safeguard attribution. The supplementary conservative 95\% interval for GAC
+minus baseline is $[-3.59,3.59]$ points on the registered endpoint; equivalence
+and noninferiority are not established. The previously admitted artifact is
+fixed, without new discovery or calibration; these are not time-forward
+records (\path{experiments/fresh_safeguards/analysis/}).
+
+\paragraph{Deterministic mechanism diagnostic.}
+A disjoint cohort supplies 24 discovery, 96 development, 192 calibration, and
+96 held-out issue groups. The study specifies a three-comment prefetch, a
+requested-limit entry hull, and a response-completeness check; production
+helpers fit argument bindings and the gate, but end-to-end mining of these
+contracts is not tested. Each held-out issue receives requested limits 1, 3,
+and 5 under ordinary responses and responses capped at two comments. Five arms
+(full, baseline, and removal of scope, completeness, or gate) yield 2{,}880
+provider-free evaluations. Under ordinary responses, full is correct on 288/288
+cases versus 260/288 without scope admission; under the cap, full is 288/288
+versus 252/288 without completeness checking. The baseline reference policy is
+correct throughout. The verifier compensates for scope removal under the
+cap, where that ablation remains 288/288. The fitted gate score is constant
+(0.00247); all eleven thresholds admit the same 192 calibration groups, and
+removing it changes no held-out decision. These are deterministic outcomes,
+not live accuracy or evidence that recovery is impossible
+(\path{experiments/safeguard_mechanisms/}).
+
+\paragraph{Stopped pilot and separately sealed completion.}
+The initial 24-issue live pilot attempted 153 of 576 scheduled episodes:
+152 completed, 151 were correct, one raised an execution error, and 423 remained
+unattempted. A separate diagnostic returned the correct answer but reproduced
+an accounting failure: the old validator rejected reported cache-write tokens.
+The original failure retained no usage, so this does not identify its exact
+cause. The completion study prices cache writes at the existing frozen rate and
+preserves partial usage and unknown-cost reserves. It retains the pilot's
+prompt, model, tools, answer contract, prefetch, guards, source, timeout, and
+retry policy; its new protocol and schedule were sealed before execution.
+Pilot and diagnostic outcomes are excluded from the completion comparison.
+
+\paragraph{Live design and statistical unit.}
+The completion uses all 96 offline held-out issues: 72 \emph{confirmation}
+groups untouched by the live pilot or diagnostic, and 24 \emph{replication}
+groups selected for the pilot, including issues it never reached. Every issue
+has prior offline exposure; replication is not independent of the pilot.
+Three limits $\times$ two response conditions $\times$ four arms produce 24
+episodes per issue, or 2{,}304 overall. Full, no-scope-guard, and
+no-completeness-check differ by one intervention; baseline receives no prefetch.
+Every arm has the same live continuation and recovery tools, including original
+call arguments and completeness information. Tool reads use the pinned local
+snapshot, not a remote GitHub service. The constant gate is retained without a
+redundant fifth live arm.
+
+The model is \code{gpt-5.6-luna}, with low reasoning and verbosity,
+\code{store=false}, no parallel tool calls, at most 2{,}048 output tokens per
+request and eight turns, a 120\,s request timeout, and no SDK or transport
+retries. Four workers execute issue blocks; all 24 arm permutations occur three
+times in confirmation and once in replication within each condition/limit.
+All scheduled episodes were attempted, with no replacements: 2{,}300 completed,
+2{,}186 were correct, 114 completed with incorrect answers, and four timed out.
+Failures count as unsuccessful scheduled attempts (\cref{tab:recovery-success}).
+
+The prespecified paired analysis averages the three limit variants within each
+issue, then bootstraps issues 10{,}000 times (seed 20261018), separately for each
+cohort and response condition. The 95\% percentile intervals in
+\cref{tab:recovery-contrasts} are descriptive and unadjusted for multiple
+contrasts. They assume suitable independence between issue groups; author or
+repository dependence remains possible. The 2{,}304 episodes are not independent
+samples. No noninferiority margin or new live risk certificate is asserted.
+
+\begin{table}[t]
+\centering
+\caption{Live completion: correct answers / scheduled episodes, including
+failures. No scope removes the requested-limit hull; no completeness removes
+only that check. All four timeouts occur in confirmation: one each in ordinary
+baseline, full, and no scope, plus one in capped full.}
+\label{tab:recovery-success}
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}llrrrr@{}}
+\toprule
+Cohort & Responses & Baseline & Full & No scope & No completeness \\
+\midrule
+Confirmation & Ordinary & 204/216 & 205/216 & 186/216 & 210/216 \\
+Confirmation & Capped & 211/216 & 205/216 & 207/216 & 204/216 \\
+Replication & Ordinary & 71/72 & 70/72 & 67/72 & 70/72 \\
+Replication & Capped & 70/72 & 68/72 & 69/72 & 69/72 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Confirmation contrasts: full minus comparator, in percentage points.
+Discordances count full-only / comparator-only correct cases. Intervals resample
+72 issue groups, not 216 independent requests, and are descriptive/unadjusted.}
+\label{tab:recovery-contrasts}
+\small
+\begin{tabular}{@{}llrrl@{}}
+\toprule
+Responses & Comparator & Discordances & Difference & 95\% interval \\
+\midrule
+Ordinary & No scope & 24 / 5 & $+8.80$ & $[3.70,13.89]$ \\
+Ordinary & No completeness & 4 / 9 & $-2.31$ & $[-5.56,0.93]$ \\
+Ordinary & Baseline & 11 / 10 & $+0.46$ & $[-3.70,4.63]$ \\
+Capped & No scope & 6 / 8 & $-0.93$ & $[-4.17,2.31]$ \\
+Capped & No completeness & 8 / 7 & $+0.46$ & $[-3.70,4.63]$ \\
+Capped & Baseline & 4 / 10 & $-2.78$ & $[-6.48,0.46]$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Scope protection and recoverability.}
+Under ordinary responses, scope admission improves confirmation success by
+8.80 points. Full-only correct cases occur in 20 issue groups and ablation-only
+correct cases in five. Replication gives $+4.17$ points with interval
+$[-1.39,9.72]$: directionally consistent but not decisive. A post-hoc sensitivity
+on the 214 ordinary pairs where both arms complete gives 23 full-only versus
+four no-scope-only correct cases; timeout imbalance does not create the net
+19-case advantage, but this does not replace the primary analysis.
+
+Incomplete accepted prefetches are defined by source positions and requested
+scope before inspecting live answers. Without scope admission, only 5/20 such
+ordinary confirmation cases trigger more reads and only four finish correctly;
+in replication, 4/8 read further and finish correctly. Without completeness
+checking under the cap, all 27 confirmation cases read further and 22 finish
+correctly; all nine replication cases read further and eight finish correctly.
+The agent often repairs capped evidence, but frequently treats a page complete
+for a three-comment call as sufficient for a larger request. Requests requiring
+more than the two-comment cap number 54 in confirmation and 18 in replication.
+
+Full versus no completeness under ordinary responses has identical initial
+model inputs: differing accuracy reflects separate stochastic continuations,
+not a verifier effect. Under capped responses, completeness can compensate for
+the removed scope guard. Neither the unresolved completeness contrast nor the
+earlier deterministic gap establishes that every safeguard is necessary.
+Correct prefetches also leave semantic errors after full dispatch; accepted
+dispatch is not an end-to-end answer certificate.
+
+\paragraph{Resource trade-offs and accounting.}
+Every confirmation contrast involving full has an execution failure; therefore
+its completed-only resource means are descriptive, and overall saving intervals
+are withheld. Replication has complete accounting (\cref{tab:recovery-resources}).
+Model requests and estimated model cost fall, while total tools increase and
+slightly fewer answers are correct. There is no demonstrated quality equivalence
+or overall system-cost win. All discarded prefetch and continuation reads count.
+Local snapshot reads, concurrency, caching, frozen rates, and omitted
+engineering/human costs limit transfer to deployment.
+
+\begin{table}[t]
+\centering
+\caption{Complete 24-group replication accounting, baseline $\to$ full.
+Model-cost reductions exclude tool-service and lifecycle costs.}
+\label{tab:recovery-resources}
+\small
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Responses & Model requests & Model cost & Total tools & Correct / 72 \\
+\midrule
+Ordinary & $2.417\to1.931$ & $-18.2\%$ & $1.417\to1.597$ & $71\to70$ \\
+Capped & $2.722\to2.458$ & $-9.1\%$ & $1.722\to2.125$ & $70\to68$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The paired model-cost difference intervals are
+$[-0.00010541,-0.00005827]$ dollars per episode for ordinary responses and
+$[-0.00007654,-0.00001820]$ for capped responses. New-run recorded cost,
+including known partial usage, is \$0.952696; four failed-attempt reserves and
+the carried pilot/diagnostic accounting give \$7.001762 in estimates plus
+reserves. These are neither invoices nor bounds on actual billing. All 448{,}212
+cache-write tokens were priced; the prior cache-write rejection did not recur.
+
+\paragraph{Interpretation and provenance.}
+The live evidence supports request-scope admission on this constructed workload;
+it does not establish a completeness-check accuracy benefit, learned-gate value,
+or superiority to baseline. It does not test end-to-end contract mining or
+transfer of this guard benefit across models, natural requests, or time. The
+broader paper's cross-model and post-cutoff studies concern other questions.
+Source regrading is consistency checking, not independent human gold attestation.
+All incorrect answers, failure stages, source expectations, metric totals, and
+paired intervals are retained in
+\path{experiments/live_recovery_completion/analysis.json}; the checkpoint,
+prospective seal, diagnostic, and protocol remain unchanged. The post-run audit
+regrades answers, checks tool-output digests, and recomputes costs and outcomes.
+\Cref{tab:claims-evidence} indexes the drivers and preceding studies.

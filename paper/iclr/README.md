@@ -69,7 +69,7 @@ pdftotext -f 1 -l 1 build/main.pdf - | head -3   # must say "Anonymous authors"
 pdfinfo build/main.pdf | grep Author             # must print nothing
 ```
 
-The October 8 audit build ends Section~8 on page~10. Rebuild and re-check before
+The October 15 live-recovery integration build ends Section~8 on page~10. Rebuild and re-check before
 uploading: even small content changes can alter pagination.
 
 ## Page budget
@@ -87,3 +87,16 @@ or earlier:
 ```bash
 pdftotext -f 9 -l 9 build/main.pdf - | tail -20
 ```
+
+## October 15 safeguard evidence integration
+
+The current manuscript includes the fresh-record comparison and the completed
+live-recovery study (main results and the safeguard appendix). It reports the
+scope-guard improvement alongside unresolved completeness/gate benefits, failed
+attempts, and the model-cost/tool-count tradeoff. The earlier six-study 810-episode
+summary remains scoped to those studies; new cohorts are not pooled into it.
+
+Protocols, sealed inputs, checkpoints, and analysis remain under
+`experiments/{fresh_safeguards,safeguard_mechanisms,live_safeguard_recovery,live_recovery_completion}/`.
+The publication manifest now covers these evidence directories. See
+`notes/live_recovery_integration.md` for validation and publication boundaries.

@@ -1,6 +1,18 @@
 # Critical evidence review — October 8, 2026
 
-## Assessment
+## October 15 manuscript integration
+
+The October 8 assessment below is retained as a dated review, not a new score
+for this revision. The manuscript now includes the fresh-record comparison and
+completed live recovery study: scope admission improves ordinary confirmation
+success by 8.80 percentage points (descriptive 95% interval 3.70–13.89), while
+completeness checking and learned-gate benefit remain unresolved. Lower model
+cost in replication comes with more tools and slightly fewer correct answers.
+These results strengthen a bounded mechanism claim; they do not establish
+universal quality preservation, end-to-end contract discovery, or acceptance
+odds. See [integration validation](live_recovery_integration.md).
+
+## Historical assessment
 
 **79/100: borderline for ICLR; not a confident acceptance recommendation.**
 This is a diagnostic judgment, not an official ICLR score or an acceptance
