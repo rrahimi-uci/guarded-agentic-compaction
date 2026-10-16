@@ -84,7 +84,8 @@ def fetch_filing_index(
     )
     payload = json.loads(Path(record.path).read_text(encoding="utf-8"))
     directory = payload.get("directory", {})
-    if str(directory.get("name", "")) != compact:
+    expected_directory = f"/Archives/edgar/data/{int(padded)}/{compact}"
+    if str(directory.get("name", "")) != expected_directory:
         raise SourceFetchError("SEC filing index directory does not match accession")
     return record
 
