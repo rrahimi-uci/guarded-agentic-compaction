@@ -1,0 +1,628 @@
+{
+  "aggregate_estimate_and_reserve_usd": 8.57705193,
+  "attempted": 378,
+  "audit_passed": true,
+  "checkpoint_sha256": "790570c9acfa30401ebb0c51f202e13db6f6cee4ff234b130ccaa86d7e77c7f2",
+  "completed": 377,
+  "groups": {
+    "pilot": {
+      "arms": {
+        "awm_offline_adapted": {
+          "accuracy_ci95_exact": [
+            0.5407418735600995,
+            1.0
+          ],
+          "attempted": 6,
+          "completed": 6,
+          "correct": 6,
+          "factuality_exact": 6,
+          "failed": 0,
+          "field_errors_completed": {
+            "category_correct": 0,
+            "comment_count_exact": 0,
+            "evidence_excerpt_exact": 0,
+            "evidence_label_correct": 0,
+            "issue_number_correct": 0,
+            "state_exact": 0,
+            "title_exact": 0
+          },
+          "observed_resource_totals": {
+            "cache_write_tokens": 7389,
+            "cached_input_tokens": 9620,
+            "estimated_cost_usd": 0.00524325,
+            "input_tokens": 26517,
+            "output_tokens": 1085,
+            "requests": 24,
+            "total_tokens": 27602,
+            "total_tool_calls": 18,
+            "wall_latency_ms": 33071.28812605515
+          },
+          "resource_accounting_complete": true,
+          "scheduled": 6,
+          "tool_contract": 6,
+          "unattempted": 0,
+          "unknown_cost_reserve_usd": 0.0
+        },
+        "baseline": {
+          "accuracy_ci95_exact": [
+            0.5407418735600995,
+            1.0
+          ],
+          "attempted": 6,
+          "completed": 6,
+          "correct": 6,
+          "factuality_exact": 6,
+          "failed": 0,
+          "field_errors_completed": {
+            "category_correct": 0,
+            "comment_count_exact": 0,
+            "evidence_excerpt_exact": 0,
+            "evidence_label_correct": 0,
+            "issue_number_correct": 0,
+            "state_exact": 0,
+            "title_exact": 0
+          },
+          "observed_resource_totals": {
+            "cache_write_tokens": 7050,
+            "cached_input_tokens": 8148,
+            "estimated_cost_usd": 0.00520446,
+            "input_tokens": 24843,
+            "output_tokens": 1125,
+            "requests": 24,
+            "total_tokens": 25968,
+            "total_tool_calls": 18,
+            "wall_latency_ms": 33649.26187408855
+          },
+          "resource_accounting_complete": true,
+          "scheduled": 6,
+          "tool_contract": 6,
+          "unattempted": 0,
+          "unknown_cost_reserve_usd": 0.0
+        },
+        "gac": {
+          "accuracy_ci95_exact": [
+            0.5407418735600995,
+            1.0
+          ],
+          "attempted": 6,
+          "completed": 6,
+          "correct": 6,
+          "factuality_exact": 6,
+          "failed": 0,
+          "field_errors_completed": {
+            "category_correct": 0,
+            "comment_count_exact": 0,
+            "evidence_excerpt_exact": 0,
+            "evidence_label_correct": 0,
+            "issue_number_correct": 0,
+            "state_exact": 0,
+            "title_exact": 0
+          },
+          "observed_resource_totals": {
+            "cache_write_tokens": 5960,
+            "cached_input_tokens": 4127,
+            "estimated_cost_usd": 0.0034681399999999998,
+            "input_tokens": 14765,
+            "output_tokens": 800,
+            "requests": 12,
+            "total_tokens": 15565,
+            "total_tool_calls": 18,
+            "wall_latency_ms": 21191.363502002787
+          },
+          "resource_accounting_complete": true,
+          "scheduled": 6,
+          "tool_contract": 6,
+          "unattempted": 0,
+          "unknown_cost_reserve_usd": 0.0
+        }
+      },
+      "contrasts": {
+        "awm_offline_adapted-minus-baseline": {
+          "a_only_correct": 0,
+          "accuracy_difference": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "issue_groups": 6,
+            "mean": 0.0
+          },
+          "b_only_correct": 0,
+          "completed_pair_resource_differences": {
+            "estimated_cost_usd": {
+              "ci95": [
+                -4.0721666666666626e-05,
+                3.657500000000001e-05
+              ],
+              "issue_groups": 6,
+              "mean": 6.465000000000004e-06
+            },
+            "requests": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "issue_groups": 6,
+              "mean": 0.0
+            },
+            "total_tokens": {
+              "ci95": [
+                248.5,
+                297.8333333333333
+              ],
+              "issue_groups": 6,
+              "mean": 272.3333333333333
+            },
+            "total_tool_calls": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "issue_groups": 6,
+              "mean": 0.0
+            },
+            "wall_latency_ms": {
+              "ci95": [
+                -684.4078193438085,
+                436.67384766740724
+              ],
+              "issue_groups": 6,
+              "mean": -96.32895800556678
+            }
+          },
+          "completed_pairs": 6,
+          "mcnemar_exact_p": 1.0,
+          "mcnemar_holm_p": 1.0
+        },
+        "gac-minus-awm_offline_adapted": {
+          "a_only_correct": 0,
+          "accuracy_difference": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "issue_groups": 6,
+            "mean": 0.0
+          },
+          "b_only_correct": 0,
+          "completed_pair_resource_differences": {
+            "estimated_cost_usd": {
+              "ci95": [
+                -0.00036970333333333346,
+                -0.000231085
+              ],
+              "issue_groups": 6,
+              "mean": -0.0002958516666666667
+            },
+            "requests": {
+              "ci95": [
+                -2.0,
+                -2.0
+              ],
+              "issue_groups": 6,
+              "mean": -2.0
+            },
+            "total_tokens": {
+              "ci95": [
+                -2217.8333333333335,
+                -1807.6666666666667
+              ],
+              "issue_groups": 6,
+              "mean": -2006.1666666666667
+            },
+            "total_tool_calls": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "issue_groups": 6,
+              "mean": 0.0
+            },
+            "wall_latency_ms": {
+              "ci95": [
+                -2789.712784520816,
+                -1332.0398888317868
+              ],
+              "issue_groups": 6,
+              "mean": -1979.9874373420607
+            }
+          },
+          "completed_pairs": 6,
+          "mcnemar_exact_p": 1.0,
+          "mcnemar_holm_p": 1.0
+        },
+        "gac-minus-baseline": {
+          "a_only_correct": 0,
+          "accuracy_difference": {
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "issue_groups": 6,
+            "mean": 0.0
+          },
+          "b_only_correct": 0,
+          "completed_pair_resource_differences": {
+            "estimated_cost_usd": {
+              "ci95": [
+                -0.0003654016666666667,
+                -0.000221045
+              ],
+              "issue_groups": 6,
+              "mean": -0.0002893866666666667
+            },
+            "requests": {
+              "ci95": [
+                -2.0,
+                -2.0
+              ],
+              "issue_groups": 6,
+              "mean": -2.0
+            },
+            "total_tokens": {
+              "ci95": [
+                -1947.5833333333333,
+                -1535.8333333333333
+              ],
+              "issue_groups": 6,
+              "mean": -1733.8333333333333
+            },
+            "total_tool_calls": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "issue_groups": 6,
+              "mean": 0.0
+            },
+            "wall_latency_ms": {
+              "ci95": [
+                -2897.777471836889,
+                -1348.722423184275
+              ],
+              "issue_groups": 6,
+              "mean": -2076.3163953476273
+            }
+          },
+          "completed_pairs": 6,
+          "mcnemar_exact_p": 1.0,
+          "mcnemar_holm_p": 1.0
+        }
+      }
+    },
+    "primary": {
+      "arms": {
+        "awm_offline_adapted": {
+          "accuracy_ci95_exact": [
+            0.8943461454812878,
+            0.9814324132173309
+          ],
+          "attempted": 120,
+          "completed": 120,
+          "correct": 114,
+          "factuality_exact": 117,
+          "failed": 0,
+          "field_errors_completed": {
+            "category_correct": 3,
+            "comment_count_exact": 0,
+            "evidence_excerpt_exact": 3,
+            "evidence_label_correct": 3,
+            "issue_number_correct": 0,
+            "state_exact": 0,
+            "title_exact": 0
+          },
+          "observed_resource_totals": {
+            "cache_write_tokens": 155948,
+            "cached_input_tokens": 199197,
+            "estimated_cost_usd": 0.10822154,
+            "input_tokens": 538994,
+            "output_tokens": 23734,
+            "requests": 480,
+            "total_tokens": 562728,
+            "total_tool_calls": 360,
+            "wall_latency_ms": 632352.064214705
+          },
+          "resource_accounting_complete": true,
+          "scheduled": 120,
+          "tool_contract": 120,
+          "unattempted": 0,
+          "unknown_cost_reserve_usd": 0.0
+        },
+        "baseline": {
+          "accuracy_ci95_exact": [
+            0.8943461454812878,
+            0.9814324132173309
+          ],
+          "attempted": 120,
+          "completed": 120,
+          "correct": 114,
+          "factuality_exact": 117,
+          "failed": 0,
+          "field_errors_completed": {
+            "category_correct": 3,
+            "comment_count_exact": 0,
+            "evidence_excerpt_exact": 2,
+            "evidence_label_correct": 3,
+            "issue_number_correct": 0,
+            "state_exact": 0,
+            "title_exact": 1
+          },
+          "observed_resource_totals": {
+            "cache_write_tokens": 140674,
+            "cached_input_tokens": 166591,
+            "estimated_cost_usd": 0.10707412000000001,
+            "input_tokens": 504454,
+            "output_tokens": 24280,
+            "requests": 480,
+            "total_tokens": 528734,
+            "total_tool_calls": 360,
+            "wall_latency_ms": 661336.7305020802
+          },
+          "resource_accounting_complete": true,
+          "scheduled": 120,
+          "tool_contract": 120,
+          "unattempted": 0,
+          "unknown_cost_reserve_usd": 0.0
+        },
+        "gac": {
+          "accuracy_ci95_exact": [
+            0.9168512785714898,
+            0.9908444944431632
+          ],
+          "attempted": 120,
+          "completed": 119,
+          "correct": 116,
+          "factuality_exact": 119,
+          "failed": 1,
+          "field_errors_completed": {
+            "category_correct": 3,
+            "comment_count_exact": 0,
+            "evidence_excerpt_exact": 0,
+            "evidence_label_correct": 3,
+            "issue_number_correct": 0,
+            "state_exact": 0,
+            "title_exact": 0
+          },
+          "observed_resource_totals": {
+            "cache_write_tokens": 136451,
+            "cached_input_tokens": 86309,
+            "estimated_cost_usd": 0.07487213,
+            "input_tokens": 300938,
+            "output_tokens": 19498,
+            "requests": 240,
+            "total_tokens": 320436,
+            "total_tool_calls": 360,
+            "wall_latency_ms": 391572.39074091194
+          },
+          "resource_accounting_complete": true,
+          "scheduled": 120,
+          "tool_contract": 119,
+          "unattempted": 0,
+          "unknown_cost_reserve_usd": 1.0
+        }
+      },
+      "contrasts": {
+        "awm_offline_adapted-minus-baseline": {
+          "a_only_correct": 2,
+          "accuracy_difference": {
+            "ci95": [
+              -0.03333333333333333,
+              0.03333333333333333
+            ],
+            "issue_groups": 120,
+            "mean": 0.0
+          },
+          "b_only_correct": 2,
+          "completed_pair_resource_differences": {
+            "estimated_cost_usd": {
+              "ci95": [
+                -4.618658333333342e-06,
+                2.325924583333332e-05
+              ],
+              "issue_groups": 120,
+              "mean": 9.561833333333325e-06
+            },
+            "requests": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "issue_groups": 120,
+              "mean": 0.0
+            },
+            "total_tokens": {
+              "ci95": [
+                275.89937499999996,
+                290.450625
+              ],
+              "issue_groups": 120,
+              "mean": 283.28333333333336
+            },
+            "total_tool_calls": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "issue_groups": 120,
+              "mean": 0.0
+            },
+            "wall_latency_ms": {
+              "ci95": [
+                -745.8526708741678,
+                87.96085097622067
+              ],
+              "issue_groups": 120,
+              "mean": -241.53888572812625
+            }
+          },
+          "completed_pairs": 120,
+          "mcnemar_exact_p": 1.0,
+          "mcnemar_holm_p": 1.0
+        },
+        "gac-minus-awm_offline_adapted": {
+          "a_only_correct": 2,
+          "accuracy_difference": {
+            "ci95": [
+              0.0,
+              0.041666666666666664
+            ],
+            "issue_groups": 120,
+            "mean": 0.016666666666666666
+          },
+          "b_only_correct": 0,
+          "completed_pair_resource_differences": {
+            "estimated_cost_usd": {
+              "ci95": [
+                -0.00031258461134453785,
+                -0.00028000220588235295
+              ],
+              "issue_groups": 119,
+              "mean": -0.00029629924369747895
+            },
+            "requests": {
+              "ci95": [
+                -2.0,
+                -2.0
+              ],
+              "issue_groups": 119,
+              "mean": -2.0
+            },
+            "total_tokens": {
+              "ci95": [
+                -2138.4474789915967,
+                -1962.1163865546218
+              ],
+              "issue_groups": 119,
+              "mean": -2038.5546218487395
+            },
+            "total_tool_calls": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "issue_groups": 119,
+              "mean": 0.0
+            },
+            "wall_latency_ms": {
+              "ci95": [
+                -2267.772233587171,
+                -1954.2613163374965
+              ],
+              "issue_groups": 119,
+              "mean": -2108.792505376217
+            }
+          },
+          "completed_pairs": 119,
+          "mcnemar_exact_p": 0.5,
+          "mcnemar_holm_p": 1.0
+        },
+        "gac-minus-baseline": {
+          "a_only_correct": 2,
+          "accuracy_difference": {
+            "ci95": [
+              0.0,
+              0.041666666666666664
+            ],
+            "issue_groups": 120,
+            "mean": 0.016666666666666666
+          },
+          "b_only_correct": 0,
+          "completed_pair_resource_differences": {
+            "estimated_cost_usd": {
+              "ci95": [
+                -0.0003013357731092438,
+                -0.00027283723319327735
+              ],
+              "issue_groups": 119,
+              "mean": -0.00028707050420168073
+            },
+            "requests": {
+              "ci95": [
+                -2.0,
+                -2.0
+              ],
+              "issue_groups": 119,
+              "mean": -2.0
+            },
+            "total_tokens": {
+              "ci95": [
+                -1856.8149159663867,
+                -1677.520168067227
+              ],
+              "issue_groups": 119,
+              "mean": -1755.2100840336134
+            },
+            "total_tool_calls": {
+              "ci95": [
+                0.0,
+                0.0
+              ],
+              "issue_groups": 119,
+              "mean": 0.0
+            },
+            "wall_latency_ms": {
+              "ci95": [
+                -2873.0396808456594,
+                -2034.6816731415577
+              ],
+              "issue_groups": 119,
+              "mean": -2360.1989720854126
+            }
+          },
+          "completed_pairs": 119,
+          "mcnemar_exact_p": 0.5,
+          "mcnemar_holm_p": 1.0
+        }
+      }
+    }
+  },
+  "halt_reason": null,
+  "induction": {
+    "continuation_calls": [],
+    "invalid_usage_indices": [],
+    "memory": "## triage_issue_snapshot\nGiven an issue number, retrieve the issue\u2019s record, official labels, and public comments for triage.\n\n```text\nissue_get_record({\"issue_number\": {issue-number}})\nissue_get_labels({\"issue_number\": {issue-number}})\nissue_get_comments({\"issue_number\": {issue-number}, \"limit\": {comment-limit}})\n```",
+    "metrics": {
+      "cache_write_tokens": 9600,
+      "cached_input_tokens": 0,
+      "continuation_tool_calls": 0,
+      "estimated_cost_usd": 0.0025674,
+      "input_tokens": 9603,
+      "output_tokens": 139,
+      "prefetch_tool_calls": 0,
+      "requests": 1,
+      "responses": 1,
+      "total_tokens": 9742,
+      "total_tool_calls": 0,
+      "wall_latency_ms": 4745.328499993775
+    },
+    "requests_started": 1,
+    "response_status": "completed",
+    "stage": "induction_validation",
+    "status": "completed",
+    "text": "## triage_issue_snapshot\nGiven an issue number, retrieve the issue\u2019s record, official labels, and public comments for triage.\n\n```text\nissue_get_record({\"issue_number\": {issue-number}})\nissue_get_labels({\"issue_number\": {issue-number}})\nissue_get_comments({\"issue_number\": {issue-number}, \"limit\": {comment-limit}})\n```",
+    "unknown_cost_reserve_usd": 0.0,
+    "usage": [
+      {
+        "cache_write_tokens": 9600,
+        "cached_input_tokens": 0,
+        "estimated_cost_usd": 0.0025674,
+        "input_tokens": 9603,
+        "output_tokens": 139,
+        "total_tokens": 9742
+      }
+    ],
+    "usage_observations": [
+      {
+        "cache_write_tokens": 9600,
+        "cached_input_tokens": 0,
+        "input_tokens": 9603,
+        "output_tokens": 139,
+        "total_tokens": 9742
+      }
+    ]
+  },
+  "induction_cost_amortized_per_primary_task_usd": 2.1395e-05,
+  "pending": 0,
+  "reconstruction_wall_latency_ms": 646.360167011153,
+  "scheduled": 378
+}

@@ -1,0 +1,127 @@
+\section{Matched Comparison with Adapted Workflow Memory}
+\label{app:matched-reuse}
+
+This prospective study compares an ordinary agent, the real GAC SDK adapter,
+and an offline AWM workflow-memory adaptation \citep{wang2025awm} on fresh
+issues from the same historical snapshot. It addresses a narrower gap than a
+native browser-benchmark reproduction or a comparison between equally placed
+compilers. AWM adds induced workflow text to the model's context; GAC replaces
+selected model decisions with compiled SDK tool calls. The comparison measures
+these whole systems, without isolating a safeguard's causal effect.
+
+\paragraph{Pinned adaptation and shared evidence.}
+The official AWM source is pinned to commit
+\code{8c0ff8cd11d648c8fceb99e4e42f37e3b75381b1}. Its offline induction,
+example formatting, workflow filtering, and workflow-only retrieval function
+bodies are executed unchanged; the Apache-2.0 files and checksums are retained.
+We adapt the navigation-domain phrase to read-only API tasks, append the actual
+tool schemas, and serialize recorded discovery tasks and tool arguments into
+the upstream action representation. The original one-shot example is retained.
+Both methods receive access to the same 130 compiler-eligible traces from the
+historical 132-trace discovery pool. GAC retains its original split and admitted
+candidate; AWM induces from all 130 eligible traces. No held-out answer, source
+oracle, or evaluation outcome enters induction. Workflow-only retrieval uses
+upstream top-$k=0$ for concrete examples, without online updates.
+
+One induction request uses the shared model through the Responses transport
+with low reasoning/verbosity and a 1,024-token output limit, rather than the
+upstream Chat Completions transport with temperature zero. The resulting memory
+is frozen before evaluation, without manual rewriting or output selection.
+The AWM browser evaluation loop is not run. GAC's existing reconstruction checks
+program, admission counts, and split identity; changed runtime contract
+components remain disclosed in the seal, without a new risk certificate.
+
+\paragraph{Prospective evaluation.}
+A conservative exclusion audit removes issue IDs appearing in earlier retained
+studies, and hash ranking selects six execution-pilot issues and 120 disjoint
+primary issues from 937 available records. All six arm orders occur once in the
+pilot and 20 times in the primary cohort. The pilot's continuation gate checks
+execution, accounting, output schema, and actual GAC compaction, not favorable
+accuracy. All arms share the natural extractive task, output schema, snapshot
+tools, model, low-reasoning settings, 2,048-token per-request output limit,
+eight-turn limit, 120-second timeout, and no-retry policy. Each starts a fresh
+conversation; four issue groups run concurrently, with arms sequential within
+an issue. Provider caching is measured but not controlled.
+
+The primary endpoint requires all seven answer fields to pass the existing
+source grader. The historical four-field factuality endpoint is secondary;
+tool-call contract agreement is reported separately. Failed and unattempted
+scheduled episodes remain in accuracy denominators. Paired issue bootstrap
+intervals use 10,000 draws and are descriptive; exact McNemar tests receive Holm
+correction across three accuracy contrasts. Exact marginal binomial intervals
+are also retained. GAC minus adapted AWM is the primary contrast; baseline contrasts are secondary.
+The sample is not powered for equivalence or noninferiority.
+
+\begin{table}[t]
+  \centering
+  \caption{Primary comparison on 120 fresh issue groups. Correct is the
+  seven-field endpoint; factual is the historical four-field endpoint.
+  Requests and tools are observed calls per attempted episode; USD/1k is
+  estimated deployment-model cost per 1,000 attempted episodes, excluding
+  one-time induction. This is an adapted AWM API-task comparison.}
+  \label{tab:matched-reuse}
+  \small
+  \input{tables/matched_reuse}
+\end{table}
+
+\paragraph{Results and uncertainty.}
+All 18 pilot episodes completed correctly. All 360 primary episodes were
+attempted: 359 completed, with one GAC output-schema rejection retained as a
+failure and never retried. Primary seven-field success is 116/120 for GAC and
+114/120 for each other arm; four-field factuality is 119/120 versus 117/120.
+GAC has two correct-only pairs and no incorrect-only pair against either
+comparator. The accuracy difference is $+1.67$ percentage points, with a
+descriptive paired-bootstrap interval $[0,4.17]$, but exact McNemar $p=0.50$
+and Holm-adjusted $p=1.00$: an accuracy improvement is not established.
+A post-run source audit finds that issue 377 cannot supply the required
+20-character excerpt: its title has six characters, its body is empty and it
+has no comments. All arms fail that issue (GAC at schema validation, the other
+two at source matching); it remains in every original denominator. This was
+the only issue failing this narrow feasibility screen among the 126 selected
+records. The failed GAC output is not retained, so its exact invalid field is
+unknown. Each arm also has three strict category/evidence-label errors involving
+\code{dataset bug}, where the exact-label contract expects
+\code{other}/\code{none}. These are not established semantic falsehoods;
+independent human adjudication remains missing.
+
+The exact marginal 95\% intervals are $[91.69,99.08]\%$ for GAC and
+$[89.43,98.14]\%$ for each comparator. The positive point estimate and the
+boundary bootstrap do not establish equality, noninferiority or superiority.
+
+GAC makes two real provider requests per attempted primary episode versus four
+for both comparators; all use three snapshot tool calls. Observed deployment
+model cost is 30.8\% lower than adapted AWM and 30.1\% lower than baseline,
+including the failed episode's observed usage. All 1,260 evaluation provider
+requests have usage records, including cache writes; no usage is silently
+zero-filled. For the 119 completed GAC--AWM pairs, mean cost difference is
+$-\$0.0002963$ per task, descriptive 95\% interval
+$[-\$0.0003126,-\$0.0002800]$; the latency difference is $-2.109$ seconds
+$[-2.268,-1.954]$. Those paired resource intervals exclude the failed pair,
+whereas the table reports all attempted episodes. Cache state and concurrent
+scheduling limit latency interpretation.
+
+The single AWM induction costs an estimated \$0.0025674 (\$0.00002140 per
+primary task when amortized over 120 tasks) and takes 4.745 seconds. GAC's
+reconstruction preflight takes 0.646 seconds, including source loading and
+compatibility checking; these timings do not isolate comparable optimization
+stages. New known study spend, including pilot and induction, is \$0.30665104.
+The failed episode retains a \$1 unknown-cost reserve despite having recorded
+response usage. Aggregate prior and new estimates/reserves total \$8.57705193
+within the authorized \$400 cap; these estimates are not provider invoices.
+
+\paragraph{Scope and artifacts.}
+These cohorts remain separate from the six-study 810-episode historical
+summary. The study has one workflow, one model, one historical snapshot, one
+induction output and one stochastic evaluation per arm/issue. It establishes
+neither cross-domain superiority, a learned-gate benefit, independent human
+answer validity, nor a new answer-risk certificate. Historical shared discovery
+acquisition is a sunk cost; induction is priced separately, while reconstruction
+preflight time includes source loading and compatibility checks. Total lifetime
+authoring and optimization effort is not priced.
+
+The protocol, code and dependency hashes, upstream pins, discovery prompt,
+cohorts, order, memory seal, checkpoint, usage and failure reserves, source
+regrading, tool-output replay, and complete contrasts are retained under
+\path{experiments/matched_reuse_baseline/}. The compatibility audit also records
+why AWO, EvoC2F, AgentJIT and plan caching were not treated as verified drop-in
+comparators; it does not claim their implementations are permanently unavailable.

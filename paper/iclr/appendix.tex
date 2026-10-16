@@ -1115,15 +1115,17 @@ prologue; the measurement assumes the declaration a reviewer would have to sign.
   \input{tables/appworld_dispatch_prologue.tex}
 \end{table}
 
-\paragraph{Missing automated workflow-reuse comparison.}
+\paragraph{Scope of automated workflow-reuse comparison.}
 AWM, plan caching, EvoC2F, and Agent JIT differ in execution placement,
 verification, and reuse unit
 \citep{wang2025awm,zhang2025plancache,wei2026evoc2f,winston2026agentjit};
 LLMCompiler emphasizes within-task scheduling \citep{kim2024llmcompiler}.
-Those differences complicate matched implementation but do not preclude a
-quality--cost comparison. An executable automated-reuse baseline remains
-missing. Internal ablations measure the cost of the method's own barriers;
-they do not substitute for that comparison.
+We execute a pinned offline AWM adaptation on shared API tasks in
+\cref{app:matched-reuse}. This adds a whole-system quality--cost comparison,
+but does not reproduce AWM's native browser evaluation or provide an
+equivalent-placement comparison against another workflow compiler. That
+stronger comparator remains missing; internal barrier ablations do not
+substitute for it.
 
 \Cref{tab:mechanism-removal} prices the barriers: for each
 retained hazard it names the guard that caught it and what deterministic replay
@@ -1592,6 +1594,8 @@ $|\mathcal{K}|\ge\lceil 92/c\rceil$ groups per repository and an entry state
 with informative features; it is written and not run.
 
 \input{sections/live_recovery_appendix}
+
+\input{sections/matched_reuse_appendix}
 
 \section{Claims and Evidence}
 \label{app:claims}
