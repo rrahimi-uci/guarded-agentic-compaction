@@ -86,7 +86,8 @@ and has no author metadata. Initial-submission page limits remain a separate
 formatting task. The abstract and its OpenReview copy did not change.
 
 Both CI jobs passed on the pre-run commit (run `38825564064`, Python 3.11 and
-3.14). Final evidence/manuscript commit CI is tracked on PR #83. No merge,
+3.14). PR #83 was merged with the sealed pre-run implementation while results were being
+prepared. Final evidence/manuscript CI is tracked on the separate follow-up PR. No merge,
 deployment, old long-form PDF refresh or hosted-site publication is performed.
 
 Post-run publication validation passed **5,496 checks, zero failed**. The source
