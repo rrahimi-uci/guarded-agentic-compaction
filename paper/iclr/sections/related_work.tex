@@ -7,15 +7,13 @@ meta-tracing's unit of specialization, the trace~\citep{bolz2009pypy}.
 Partial evaluation is the older frame: a specialized program is correct only
 where its static assumptions hold~\citep{futamura1971partial,jones1993partial};
 here grounded arguments, declared effects~\citep{lucassen1988effects}, and
-manifest pins are the guard, and each can veto.
-
-\paragraph{Mining workflows from traces.}
-Family mining is a narrow form of process mining~\citep{vanderAalst2016process};
-synthesis is bounded programming by example and sketching
+manifest pins are the guard, and each can veto. Family mining is a narrow form
+of process mining~\citep{vanderAalst2016process}; synthesis is bounded
+programming by example and sketching
 \citep{gulwani2011flashfill,solarlezama2006sketching} with explicit
 provenance~\citep{cheney2009provenance}; and likely invariants inferred from
 executions~\citep{ernst2001daikon} are the ancestor of the induced verifier,
-with the same caveat (\cref{app:limits}): an inferred hull is evidence, not proof.
+with the same caveat: an inferred hull is evidence, not proof.
 
 \paragraph{Reuse, caching, and optimization of agents.}
 Agent systems mine workflows, cache plans, compile orchestration, validate
@@ -27,9 +25,8 @@ responses~\citep{bang2023gptcache}, and prompt caching and cache-aware
 compression reuse shared prefixes~\citep{lumer2026cache,song2026capc};
 DSPy, GEPA, TextGrad, and Trace optimize prompts and programs against task
 feedback~\citep{khattab2024dspy,opsahlong2024mipro,agrawal2026gepa,yuksekgonul2024textgrad,cheng2024trace};
-RouteLLM changes models~\citep{ong2025routellm}, LLMCompiler parallelizes
-calls~\citep{kim2024llmcompiler}, and \citet{yue2026workflowsurvey} survey the
-space. Our contribution combines trace reuse with a finite-sample admission bound
+RouteLLM changes models~\citep{ong2025routellm}, and LLMCompiler parallelizes
+calls~\citep{kim2024llmcompiler} (survey: \citealp{yue2026workflowsurvey}). Our contribution combines trace reuse with a finite-sample admission bound
 and exact fallback on clean rejection; the reviewed systems motivate its
 components rather than establishing a universal priority claim. Counterfactual trace auditing~\citep{zhou2026cta}, which
 pairs each trace with a counterfactual run of the same task, is the closest
@@ -41,14 +38,13 @@ option~\citep{chow1970reject,geifman2017selective}. The admission bound is a
 fixed-grid instance of learn-then-test~\citep{angelopoulos2022ltt} using the
 exact binomial interval~\citep{clopper1934binomial}; the risk-controlling
 prediction-set framework gives related high-probability risk guarantees
-\citep{bates2021rcps}. Conformal prediction controls marginal coverage
-\citep{vovk2005algorithmic}; conformal risk control bounds expected monotone
-loss \citep{angelopoulos2024crc}, a different guarantee.
+\citep{bates2021rcps}; conformal prediction and conformal risk control give
+marginal-coverage and expected-loss guarantees, which
+differ~\citep{vovk2005algorithmic,angelopoulos2024crc}.
 
 \paragraph{Tool-use safety and evaluation.}
 ToolEmu and AgentDojo evaluate agents against hazardous or injected tool
-environments~\citep{ruan2024toolemu,debenedetti2024agentdojo}, the regime
-our perturbation studies probe (\cref{app:limits}). BFCL, ToolLLM, NESTFUL,
+environments~\citep{ruan2024toolemu,debenedetti2024agentdojo}. BFCL, ToolLLM, NESTFUL,
 API-Bank, AppWorld, ToolSandbox, and $\tau^2$-bench score tool use broadly
 \citep{patil2025bfcl,qin2023toolllm,basu2025nestful,li2023apibank,trivedi2024appworld,lu2025toolsandbox,barres2025tau2};
 \method runs a live agent on BIRD~\citep{li2023bird} and uses four of these as

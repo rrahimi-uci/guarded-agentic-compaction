@@ -149,3 +149,40 @@ Ordered by how much each could affect acceptance.
 7. **Cosmetic.** Figure 1 at 0.78 linewidth has small type; appendix pages with `[t]` floats
    produce underfull vertical boxes (present before this pass); the bibliography no-split
    penalty leaves slightly more white space at the foot of reference pages.
+
+## Presentation restructure (same day, same branch)
+
+After the disposition above, the author asked for the largest presentation gain obtainable from
+existing data. Changes, with no number, result, or claim altered:
+
+- **§5 reordered to lead with the strongest evidence.** §5.1 now carries both the primary
+  three-family result (Table 1) and the 8,172-episode adapted-AWM comparison as Table 2 (a
+  hand-maintained merge of the Appendix K accuracy and resource tables), with the matched-reuse
+  paragraph moved up from the old §5.5.
+- **New §5.2 "What is certified, and what the statistical stage adds"** with Table 3, one row
+  per admitted artifact (event, $m$, $n_\eta/k_\eta$, bound, certificate level), replacing the
+  number-dense certificate sentences; it states that the deterministic barriers do the admission
+  work and the gate contributes its sample floor, with the 2,724-case gate null and the
+  second-model/provider re-discovery results beside it.
+- **§5.3 BIRD and §5.4 NESTFUL/AppWorld unchanged in substance.** The two-panel results figure
+  was dropped (its left panel duplicated Table 1; its right panel duplicated $n_{\max}=26$ in
+  Table 4).
+- **New §5.5 "Further studies, reported in the appendix"**: the cross-repository extension and the
+  live recovery study each reduced to one paragraph with their headline numbers; the main-text
+  cross-repository paragraph was moved verbatim into Appendix F.1 so the appendix is
+  self-contained. Labels `sec:res-multirepo` and `sec:res-recovery` are replaced by `sec:res-more`
+  and every reference re-pointed.
+- **§1 contribution list sharpened**: item 2 names the three comparators (unchanged agent,
+  hand-written program, adapted AWM); item 3 states calibrated refusal together with the
+  runtime-gate null as a reported finding.
+- **§4** gains one sentence introducing the adapted AWM arm. **§7** no longer repeats the drift,
+  completeness, and comparator sentences that §5 now carries. **§6** merges the process-mining
+  paragraph into the trace-compilation one and compresses the conformal sentence.
+- **Page budget**: paid for by the figure, the §5.5 compressions, and word-level cuts in §1, §2,
+  §3, §4, §6, and §7 (listed in the revision log). Sections 1--8 end on page 10 and the AI Use
+  Statement opens page 11; 51 pages; 0 overfull boxes; 0 unresolved references; anonymous;
+  validator 5,633 checks, 0 failed.
+
+Revised estimate after the restructure: presentation roughly 50 to the mid-60s; contribution
+framing a few points higher; soundness, reproducibility, and significance unchanged. Overall
+roughly 62 to 68 on the 0--100 scale used in the assessment above, still borderline.

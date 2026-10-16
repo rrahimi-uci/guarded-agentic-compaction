@@ -1,0 +1,14 @@
+% hand-maintained; rows recomputed from tables/multiplicity_accounting.tex,
+% appendix F.3 (AppWorld), appendix F.4 (BIRD), and appendix G (post-cutoff cohort)
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X l c c l >{\raggedright\arraybackslash}p{0.21\linewidth}@{}}
+\toprule
+Artifact (where) & Event & $m$ & $n_\eta/k_\eta$ & $U_{\hat\eta}$ & Level at $\alpha=0.05$ \\
+\midrule
+Issue-type routing (\cref{tab:primary}) & replay & 1 & 92/0 & 0.0498 & compiler-wide \\
+PR-outcome audit; backlog-attention routing & replay & 2 & 92/0 & 0.0498 (0.0569) & per-candidate; compiler-wide at $\alpha\ge0.057$ \\
+Cross-repository PR-outcome, 7 admitted (\cref{app:breadth}) & replay & 1 & 92/0 & 0.0498 & compiler-wide, frozen search \\
+AppWorld two-call prefix, arm A / B (\cref{app:external}) & replay & 1 / 6 & 92/0 & 0.0498 (0.068) & compiler-wide / per-candidate \\
+BIRD schema-first opening, 26 databases (\cref{app:bird}) & replay & 1 & 92/0 & 0.0498 & compiler-wide \\
+Post-cutoff PR-outcome, fresh groups (\cref{app:limits}) & end-to-end task contract & 1 & 132/0 & 0.0173 (0.035) & single pre-registered rule \\
+\bottomrule
+\end{tabularx}

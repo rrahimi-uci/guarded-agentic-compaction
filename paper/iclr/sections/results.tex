@@ -1,7 +1,7 @@
 \section{Results}
 \label{sec:results}
 
-\subsection{Primary workflows: preserved contracts, less work}
+\subsection{Primary workflows against the unchanged agent, a hand-written program, and workflow memory}
 \label{sec:res-primary}
 
 \begin{table}[t]
@@ -16,86 +16,91 @@
   \input{tables/primary_results.tex}
 \end{table}
 
-\begin{figure}[t]
+\begin{table}[t]
   \centering
-  \begin{minipage}[t]{0.50\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{figures/family_reductions_panel.pdf}
-  \end{minipage}\hfill
-  \begin{minipage}[t]{0.48\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{figures/gate_support_panel.pdf}
-  \end{minipage}
-  \Description{Left: bar chart of per-family reductions in requests, interfaces,
-  tokens, latency, and cost against the unchanged agent. Right: NESTFUL recurring
-  families ranked by group-record support, all far below the 92-group exact-gate
-  floor.}
-  \caption{Left: reduction against the unchanged agent per family (30 held-out
-  records each; the values of \cref{tab:primary}). Right: NESTFUL's 32 recurring
-  families ranked by group-record support against the 92-group floor of
-  \cref{eq:cp}; the best reaches 26, so every family retires
-  (\cref{sec:res-refusal}).}
-  \label{fig:results}
-\end{figure}
+  \caption{Adapted offline Agent Workflow Memory (AWM) comparison on 1{,}344
+  fresh primary records and two models. $100U$ is the simultaneous one-sided
+  bound on \method's accuracy loss against AWM in points (six comparisons,
+  Bonferroni); $^{\dagger}$ exceeds the registered five-point margin. USD/1k
+  is estimated deployment cost per 1{,}000 attempted episodes, excluding
+  induction (\cref{app:generalization-gate}).}
+  \label{tab:awm}
+  \footnotesize
+  \setlength{\tabcolsep}{3.5pt}
+  \input{tables/awm_comparison.tex}
+\end{table}
 
 Across the 90 held-out records, \method satisfies 90/90 exact contracts and the
-unchanged agent 89/90 (\cref{tab:primary}, \cref{fig:results} left), reducing provider requests by
+unchanged agent 89/90 (\cref{tab:primary}), reducing provider requests by
 66.6\%, tokens by 63.1\%, latency by 64.2\%, and cost by 58.7\% (per-record
-values and bootstrap intervals in \cref{tab:absolute-resources,tab:reduction-ci}, \cref{app:stats}); issue-type routing, a
-two-read prefix, is the low end of every range in \cref{fig:results}. These are
+values and bootstrap intervals in \cref{app:stats}); issue-type routing, a
+two-read prefix, is the low end of every range. These are
 marginal per-episode savings within one snapshot: every artifact pins its
-snapshot digest and abstains on any other (a new snapshot is recompiled), and
-discovery cost alone breaks even after 411, 183, and 181 episodes per family
-(\cref{app:stats}).
-
-The discordant pair is one baseline-only miss (backlog record 5189, an
+snapshot digest and abstains on any other, and discovery cost alone breaks
+even after 411, 183, and 181 episodes per family. The discordant pair is one baseline-only miss (backlog record 5189, an
 ungrounded excerpt) against zero compiled-only misses (McNemar $p=1$; one-sided
 95\% bound on compiled-only discordance 3.3\%); a rerun of the 30 records scored
-30/30 in every arm (\cref{app:limits}), so no accuracy difference is detected; equivalence and noninferiority were
-not established. Programs hand-written with full workflow knowledge also reach
+30/30 in every arm (\cref{app:limits}), so no accuracy difference is detected, and neither equivalence nor noninferiority is established. Programs hand-written with full workflow knowledge also reach
 90/90, tie on requests, use fewer interfaces and tokens, cost marginally less,
 and lose only on pooled latency (\cref{tab:manual-resources}): we claim discovery and
 admission, not runtime dominance.
 
-Each artifact was admitted at 92/92 zero-violation calibration groups
-($U_{\hat\eta}=0.0498\le0.05$, conditional on i.i.d.\ groups), a
-support-sufficiency certificate (\cref{sec:method}) that is compiler-wide for
+Against an automated reuse baseline, a separately frozen three-workflow,
+two-model comparison with an adapted offline Agent Workflow
+Memory~\citep{wang2025awm} attempts all 8{,}172 episodes on 1{,}362 fresh
+records (\cref{tab:awm};
+\cref{app:matched-reuse,app:generalization-gate}). \method uses 50--75\% fewer
+requests and 36.9--79.1\% less estimated deployment cost than adapted AWM,
+whose induced workflow text leaves every step a model decision. Five of six
+cells pass the registered five-point accuracy noninferiority margin with
+six-comparison correction; second-model backlog is inconclusive (142/144 versus
+143/144; loss bound 5.86\%). Only the two PR cells pass a two-point margin;
+none passes one point. AWM's native browser evaluation is not reproduced, and
+no compiler-placed comparator was run (\cref{app:limits}).
+
+\subsection{What is certified, and what the statistical stage adds}
+\label{sec:res-certificates}
+
+\begin{table}[t]
+  \centering
+  \caption{Every admitted artifact's certificate. $m$ counts candidates that
+  reached calibration; a parenthesized bound uses the candidate-wide budget
+  $\gamma=\delta/(m|\Lambda|)$ or, in the last row, the primary grid. All
+  bounds assume i.i.d.\ groups; the replay event cannot occur on the GitHub
+  cohorts as labeled (\cref{sec:method}).}
+  \label{tab:certificates}
+  \footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \input{tables/certificate_summary.tex}
+\end{table}
+
+Each primary artifact was admitted at 92/92 zero-violation calibration groups,
+a support-sufficiency certificate (\cref{sec:method}) that is compiler-wide for
 issue-type routing (one candidate at calibration) and per-candidate for
-PR-outcome and backlog routing (two; corrected $U=0.0569$, so compiler-wide
-only at $\alpha\ge0.057$; \cref{cor:frozen}, \cref{app:config}). The one certificate whose event includes the continuation comes from a
+PR-outcome and backlog routing (two; \cref{cor:frozen}, \cref{app:config});
+\cref{tab:certificates} lists every admitted artifact. The one certificate whose event includes the continuation comes from a
 post-cutoff PR-outcome cohort (pull requests created after the snapshot's last
 day; \cref{app:limits}): the re-derived artifact
 dispatched on 132 fresh calibration groups and the graded task contract missed
 0, a one-sided bound of 0.0173 under the single rule pre-registered for that
-study and 0.035 under the primary grid. Those groups are 84 open and 48 merged
-pull requests and no closed-unmerged ones, so the certified population excludes
-that class; the 60 fresh test records (20 per class) pass under every
-condition, and hypothetical bounds using days and authors as independent units are
-0.0228 and 0.0267; independence of those clusters is unverified.
+study and 0.035 under the primary grid. The certified population is open and
+merged pull requests (84 and 48 groups; no closed-unmerged ones); the 60 fresh
+test records (20 per class) pass under every condition, and day- and
+author-level units give 0.0228 and 0.0267, with their independence unverified.
 
-On \code{gpt-6-luna} and Anthropic \code{claude-sonnet-5}, re-discovery from
+What the statistical stage adds at runtime is measurable, and null on these
+candidates: full statistical admission, support-only admission, and
+deterministic guards alone give identical routing and evidence on all 2{,}724
+record--model cases of the AWM comparison, and the score $q$ is constant within
+each family because the entry state is a single record number
+(\cref{app:generalization-gate}). The deterministic barriers do the admission
+work; the gate contributes its sample floor, which is what refuses the thin
+benchmarks of \cref{sec:res-refusal} and, on a second provider, backlog
+routing. On \code{gpt-6-luna} and Anthropic \code{claude-sonnet-5}, re-discovery from
 each model's own traces on the same cohorts re-derives the identical programs
 on two of the three families and refuses backlog routing (on Sonnet at 91 and
 90 of 92 groups, the floor binding), with four compiled-only excerpt misses on
-Sonnet; transferring the retained artifacts to \code{gpt-6-luna} keeps the
-structure with one compiled-only miss in 90 (\cref{app:limits}).
-
-\subsection{Newer records within a snapshot: compile or retire}
-\label{sec:res-multirepo}
-
-On the two-read cross-repository PR-outcome task (\cref{sec:setup}), \method completes 120/120 exact contracts on
-paired held-out records across four of five repositories and retires
-\code{pytorch/pytorch} at admission, where no calibration group is accepted at
-any threshold (\cref{app:breadth}). The compiled program ran on 80/120 records:
-every open-class record abstained on the induced \code{pr.state} hull
-(discovery pools held 0--3 open records) and ran the unchanged agent, so
-requests fall 44.4\% (66.7\% on dispatched records) and tokens 52.4\%. A
-balanced three-repository rerun with all three classes in discovery,
-\code{pytorch/pytorch} included, dispatches on 180/180 and reaches 180/180 at
-66.7\% fewer requests and 78.4\% fewer tokens (\cref{tab:multirepo-disaggregated},
-\cref{app:breadth}), consistent with a composition-driven refusal. The
-hand-written program is more efficient in the core protocol and tied in the
-rerun.
+Sonnet (\cref{app:limits}).
 
 \subsection{A public benchmark where \method helps: BIRD}
 \label{sec:res-bird}
@@ -107,9 +112,8 @@ admits the schema-first opening on all five. On 150 sealed questions the
 compiled agent dispatched every time, answered 97 correctly against 94 (McNemar
 $p=0.45$), and cut requests 44.9\% and latency 29.4\% against a warm rerun of the
 unchanged agent. Retrospective all-scheduled counts are 93 against 91 of 150
-on a second model, and 402 against 403 of 630 on 21 of 26 training databases.
-Requests fall 49.6\% and 45.8\% on 150 and 629 completed pairs, respectively.
-A conservative paired 95\% interval for the training difference is
+on a second model, and 402 against 403 of 630 on 21 of 26 training databases,
+with 49.6\% and 45.8\% fewer requests on completed pairs. A conservative paired 95\% interval for the training difference is
 $[-3.27,+2.96]$ points under i.i.d.\ pairs; \cref{tab:bird-quality-sensitivity}
 reports database sensitivity. A second provider's agent never ran a fixed
 opening and was refused (\cref{tab:bird-extensions}).
@@ -136,45 +140,36 @@ opening and was refused (\cref{tab:bird-extensions}).
 \emph{Thin evidence.} NESTFUL, the largest trace corpus the compiler ingests here
 (1{,}415 traces), passes provenance, synthesis, and replay with \emph{no} wrong
 execution, yet its best family reaches $n_{\max}=26<92$, so every family retires
-at stage 6 (\cref{tab:funnel}, \cref{fig:results} right); API-Bank and BFCL v4
+at stage 6 (\cref{tab:funnel}); API-Bank and BFCL v4
 retire the same way at 8 and 15 (\cref{tab:funnel-all}).
 
 \emph{Admissible, rarely dispatchable.} AppWorld's gold solutions reach
 $n_{\max}=136$, and \method admits one argument-free two-call artifact at 92/92
-zero-violation groups ($U_{\hat\eta}=0.0498$, compiler-wide under one effect
-arm, per-candidate under the other; \cref{app:external}). Yet across 8{,}190
+zero-violation groups (\cref{tab:certificates}). Yet across 8{,}190
 released trajectories it is entry-eligible in $37.9\%$, almost always for
 full-code agents and almost never for ReAct and plan-and-execute, which open by
 reading API documentation (\cref{tab:appworld-dispatch}); admitting that read as
 a prologue recovers only 2 more of 4{,}680 (\cref{app:limits}).
 
-\subsection{Live recovery: request scope helps, completeness benefit is unresolved}
-\label{sec:res-recovery}
+\subsection{Further studies, reported in the appendix}
+\label{sec:res-more}
 
-A separate four-arm study tests a three-comment prefetch with equal recovery
-tools, removing request-scope admission (the entry hull on the requested comment
-limit) or completeness checking (the verifier clause that the prefetched page
-covers that request) one at a time; baseline receives no prefetch (\cref{app:live-recovery}). All 2{,}304 scheduled episodes were
-attempted; four timed out. On 72 confirmation issue groups with constructed
-requests, full succeeds on 205/216 ordinary-response cases versus 186/216 without
-the scope guard: $+8.80$ points, descriptive issue-bootstrap 95\% interval
-$[3.70,13.89]$. Under capped responses, removing completeness checking yields
-204/216 versus full's 205/216; the agent repairs 22/27 incomplete accepted
-prefetches. Full does not demonstrate an accuracy gain over baseline. In the
-separate 24-group replication, model cost falls 18.2\% (ordinary) and 9.1\%
-(capped), but tool calls rise and correct answers fall from 71 to 70 and 70 to
-68 of 72. Hand-specified contracts, prior offline exposure, one model, and
-unadjusted intervals limit inference: this is mechanism evidence, not a new
-live-answer certificate or learned-gate benefit.
+\emph{Newer records within a snapshot} (\cref{app:breadth}). On a two-read
+PR-outcome task over five frozen repositories, \method completes 120/120 exact
+contracts across four and retires \code{pytorch/pytorch} at admission (no
+calibration group accepted at any threshold); open-class records abstain on
+the induced \code{pr.state} hull, so requests fall 44.4\% (66.7\% where
+dispatched), and a class-balanced rerun with \code{pytorch/pytorch} reaches
+180/180 at 66.7\% fewer requests.
 
-\paragraph{Matched workflow memory and fresh generalization.}
-A separately frozen three-workflow, two-model follow-up to the initial
-AWM comparison attempts all 8{,}172 episodes on 1{,}362 fresh records, retaining
-one baseline provider failure (\cref{app:matched-reuse,app:generalization-gate}). GAC uses 50--75\% fewer requests and
-36.9--79.1\% less estimated deployment cost than adapted AWM. Five of six
-cells pass the registered five-point accuracy noninferiority margin with
-six-comparison correction; second-model backlog is inconclusive
-(142/144 versus 143/144; loss bound 5.86\%). Only the two PR cells pass a
-two-point margin; none passes one point. Full, support-only and deterministic
-gates give identical routing and evidence on all 2{,}724 cases: no incremental
-runtime gate benefit is observed on these admitted candidates.
+\emph{Live recovery} (\cref{app:live-recovery}). A four-arm study of a
+three-comment prefetch with equal recovery tools removes request-scope
+admission (the entry hull on the requested comment limit) or completeness
+checking (the verifier clause that the prefetched page covers that request)
+one at a time over 2{,}304 scheduled episodes. On 72 confirmation issue groups
+with constructed requests the scope guard raises success from 186/216 to
+205/216 ($+8.80$ points, descriptive 95\% interval $[3.70,13.89]$); the
+completeness check adds nothing measurable (204/216 versus 205/216 under capped
+responses; the agent repairs 22/27 incomplete prefetches); and full does not
+beat baseline: mechanism evidence under hand-specified contracts, not a
+live-answer certificate.

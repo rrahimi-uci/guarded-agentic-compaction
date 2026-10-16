@@ -1,42 +1,33 @@
 \section{Discussion and Limitations}
 \label{sec:discussion}
 
-The evidence supports guarded compilation on tested workflows and refusal
-when evidence is inadequate.
 Across 810 held-out GitHub episodes run under a compiled artifact on the
 calibrated model in six studies, one produced a compiled-only contract
 failure: 1 of 270 on the excerpt-bearing contracts (one-sided bound 1.7\%) and
-0 of 540 on the outcome-only cross-repository contract (that subset covers
-354 distinct records) (\cref{app:stats});
+0 of 540 on the outcome-only cross-repository contract (\cref{app:stats});
 \cref{app:limits} pairs limitations with protocols and \cref{app:claims} maps
 claims to evidence.
 
-\paragraph{What the certificates cover.} The primary registered certificates are
-support-sufficiency statements about a replay-contract event without support
-here (\cref{sec:method}): they certify neither graded selectivity of $q$ ---
-the cross-repository learned and support-only arms were indistinguishable,
-and an amended 184-group issue study retired (\cref{app:prospective}) --- nor the continuation, so the
-compiled-only misses lie outside them; the end-to-end certificate is
-per-candidate and covers one family. Every bound assumes i.i.d.\ groups:
+\paragraph{What the certificates cover.} The primary certificates
+(\cref{tab:certificates}) are support-sufficiency statements: they certify
+neither graded selectivity of $q$ (an amended 184-group issue study retired;
+\cref{app:prospective}) nor the continuation, so the compiled-only misses lie
+outside them; the end-to-end certificate covers one family. Every bound
+assumes i.i.d.\ groups:
 counting a creation day or an author as one unit retires every primary family
 under the registered grid (\cref{tab:effective-units}; single-rule sensitivity
 in \cref{app:config}), and AppWorld's bound retires at scenario or supervisor
 level (\cref{app:external}).
 
 \paragraph{External validity, guards, and comparison.}
-Evidence spans pinned GitHub snapshots, a post-cutoff cohort and BIRD;
-model/provider replications are in \cref{sec:res-primary,sec:res-bird}.
-The six-study compiled-only misses are excerpts departing from identical
-evidence, without a counterfactual separating model and context effects.
-Earlier drift studies show no protection: provider-free perturbations are null
-by construction, and live continuation grading is adverse (39/60 records wrong
-in both arms under the original grader, 40 under its correction;
-\cref{app:limits}). Constructed requests support scope admission, not
-completeness checking or contract discovery (\cref{sec:res-recovery}).
-Fresh adapted AWM comparisons span three workflows and two models, but one
-cell does not establish five-point noninferiority; no owned backlog records
-and only one open PR limit branch coverage (\cref{app:generalization-gate}).
-Native browser and compiler-only causal comparisons remain missing. Manual
-authoring is unpriced; the statistical gate adds no observed runtime value on
-these candidates. Writes, handoffs, hosted tools, undeclared effects and
-removed-turn guardrails lie outside \cref{prop:admission}.
+Evidence spans pinned GitHub snapshots, a post-cutoff cohort, and BIRD. The
+six-study compiled-only misses are excerpts departing from identical evidence,
+without a counterfactual separating model and context effects. Two
+provider-free drift studies are null by construction and the live one is
+adverse, with both verifier arms wrong on 39 of 60 records
+(\cref{app:limits}); the live safeguard study supports scope admission only
+(\cref{sec:res-more}). The adapted AWM comparison leaves one
+cell inconclusive and, with no owned backlog records and one open PR, thin
+branch coverage (\cref{app:generalization-gate}). Manual authoring is
+unpriced. Writes, handoffs, hosted tools, undeclared
+effects and removed-turn guardrails lie outside \cref{prop:admission}.

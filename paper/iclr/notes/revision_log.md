@@ -377,3 +377,26 @@ No number, result, or claim changed. Build: 51 pages; Sections 1--8 end on page 
 Use Statement opens page 11; 0 overfull boxes; 0 unresolved references; PDF anonymous.
 `main-final.pdf` refreshed to this build; publication manifest regenerated; validator 5,624
 checks, 0 failed; `git diff --check` clean.
+
+## Presentation restructure (2026-10-16, same branch)
+
+Main text reordered to lead with the strongest evidence, using only retained data. §5.1 carries
+the primary families (Table 1) and the adapted-AWM comparison (new Table 2,
+`tables/awm_comparison.tex`, a hand-maintained merge of Appendix K's accuracy and resource
+tables); new §5.2 "What is certified, and what the statistical stage adds" with Table 3
+(`tables/certificate_summary.tex`: event, $m$, $n_\eta/k_\eta$, bound, level per admitted
+artifact; rows recomputed from Appendix A, C, F.3, F.4, G, and the BIRD `compile.json` files,
+all admitted BIRD runs having one candidate at calibration); §5.3 and §5.4 unchanged in
+substance; the two-panel results figure dropped (both panels duplicate Tables 1 and 4); new
+§5.5 "Further studies, reported in the appendix" summarizing the cross-repository extension and
+live recovery in one paragraph each; the old §5.2 text moved into Appendix F.1; labels
+`sec:res-multirepo`/`sec:res-recovery` replaced by `sec:res-more`. §1 contributions sharpened;
+§4 introduces the AWM arm; §6 merges the process-mining paragraph; §7 drops sentences §5 now
+carries. Word-level cuts: §1 (#4420 example, counterexample), §2 (terminology, objective note),
+§3 (grid listed by pointer, ceiling sentence, synthesis citations by pointer to §6), §4
+(cross-repository paragraph), §5.1 (pointer to App. D), §5.3 (request-reduction clause folded),
+§6 (survey citation, perturbation clause, conformal sentence), §7 (opening sentence, 354-record
+parenthetical, drift/comparator duplicates), §8 (one sentence). No number, result, or claim
+changed. Build: 51 pages; Sections 1--8 end on page 10, AI Use Statement opens page 11; 0
+overfull; 0 unresolved; anonymous. `main-final.pdf` refreshed; manifest regenerated; validator
+5,633 checks, 0 failed; `git diff --check` clean.

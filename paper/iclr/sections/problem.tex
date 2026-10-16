@@ -3,7 +3,7 @@
 
 \paragraph{Terminology.}
 An \emph{episode} is one recorded run of the agent; a \emph{group} is the set
-of episodes that share an independence unit (one record, one scenario); a
+of episodes that share an independence unit; a
 \emph{region} is a contiguous span of one episode's tool calls; a
 \emph{family} is the set of regions across episodes that share a canonical
 shape; a \emph{candidate} is a family the compiler attempts and, once
@@ -11,8 +11,8 @@ synthesized, its thresholdless tuple $(P,H,V,q,M)$; a
 \emph{program} is the deterministic code synthesized for it; an
 \emph{artifact} is a program together with its guard, verifier, score,
 threshold, and manifest pins; and a \emph{prefix} is a region that starts at
-the first model boundary. Compilation is the offline act; compaction is the
-runtime substitution it licenses.
+the first model boundary; compilation is offline, compaction is the runtime
+substitution it licenses.
 
 \paragraph{Episodes and candidate regions.}
 An episode $E=(z,M,e_{1:T},y)$ contains an entry-state snapshot $z$, a
@@ -90,10 +90,10 @@ conditions on dispatch: pre-dispatch abstention does not enter its denominator, 
 earns no savings in the objective; by convention its conditional risk is zero
 when population dispatch probability is zero. \emph{Second}, returning \emph{no}
 artifact is feasible, so \retire{} is a legitimate output, and
-\cref{eq:objective} is a design target rather than a solved program --- the
+\cref{eq:objective} is a design target rather than a solved program: the
 implementation calibrates a bounded ranked set and retains nondominated
-survivors, and we prove neither optimality nor any guarantee for that search
-beyond the per-candidate and fixed-$m$ cases of \cref{sec:method}. \emph{Third}, every
+survivors, with guarantees only in the per-candidate and fixed-$m$ cases of
+\cref{sec:method}. \emph{Third}, every
 certificate in \cref{sec:results} except one end-to-end certificate
 (\cref{sec:res-primary}) instantiates $L(A,x)=1$ as a \emph{replay-contract
 violation} of the compiled region (\cref{app:config}), so the continuation is

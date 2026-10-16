@@ -14,11 +14,10 @@ exact-trace filter retains 130--132 of 132 records but still conditions the
 certificate on selection; \cref{app:limits} details this limitation.
 
 \paragraph{Cross-repository extension on newer records.}
-A narrower two-read PR-outcome task spans five frozen public repositories.
-Held-out records are newer than discovery records but inside the same frozen
-snapshot, which every artifact pins; selection is sealed before provider calls,
-and repositories without an admitted artifact stay in the result. A balanced
-rerun on three repositories controls the class mix.
+A narrower two-read PR-outcome task spans five frozen public repositories;
+held-out records are newer than discovery records but inside the same pinned
+snapshot, selection is sealed before provider calls, retired repositories stay
+in the result, and a balanced rerun on three repositories controls the class mix.
 
 \paragraph{Public benchmarks.}
 On BIRD~\citep{li2023bird} a live SQL agent runs over pinned read-only
@@ -32,8 +31,7 @@ The primary studies use OpenAI \code{gpt-5.6-luna} via the \code{openai-agents}
 Responses interface~\citep{openai2026agents} at reasoning effort \code{low},
 priced at list rates~\citep{openai2026pricing}; the
 replications use \code{gpt-6-luna} and Anthropic \code{claude-sonnet-5} under
-the same settings (\cref{app:config}). Conditions within a family differ in
-structure alone.
+the same settings (\cref{app:config}).
 
 \paragraph{Conditions, metrics, and statistics.}
 Each primary GitHub family compares the unchanged baseline $B$, the compiled artifact,
@@ -42,4 +40,6 @@ paired. Quality is exact task-contract satisfaction; resources are requests,
 interfaces, tokens, latency, and estimated cost; tests are paired exact
 McNemar~\citep{mcnemar1947}, bootstrap intervals~\citep{efron1993bootstrap},
 and Wilcoxon signed-rank~\citep{wilcoxon1945}, with gate multiplicity
-controlled by the Bonferroni term of \cref{eq:cp}.
+controlled by the Bonferroni term of \cref{eq:cp}. A separately frozen
+comparison adds an adapted offline Agent Workflow Memory arm on fresh records
+of the same snapshot (\cref{app:generalization-gate}).
