@@ -128,3 +128,22 @@ these values. This cohort is not pooled into the historical 810 episodes.
 | 2 vs 4; 3; 30.8%, 30.1% | Provider requests; tools in every arm; all-attempted deployment cost reductions versus adapted AWM and baseline | Same analysis, primary observed resource totals | Ratios of observed totals; all response usage present |
 | -0.0002963 [-0.0003126,-0.0002800] USD; -2.109 [-2.268,-1.954] s | Paired cost and latency differences, 119 completed GAC-AWM pairs | Same analysis, primary contrast | Descriptive paired issue bootstrap; excludes failed pair |
 | $0.0025674; $0.30665104; $8.57705193 | Induction; all new known study cost; aggregate estimates and reserves | Same analysis plus checkpoint metrics | Frozen rate card, all observed usage, retained failure reserve |
+
+## October 15 fresh generalization and gate attribution
+
+The immutable prospective analyzer regrades source answers, replays tools,
+checks memories and recomputes usage. The 1,362 distinct records are not pooled
+into the historical 810 episodes; the two models reuse the same records.
+
+| Number(s) | Meaning | Source | Check |
+|---|---|---|---|
+| 1,362; 8,172 / 8,171 / 1; 108 / 107 | Unique records; attempted/completed/failed; pilot attempted/correct | `experiments/generalization_gate/{seal,checkpoint,analysis}.json` | Frozen `generalization_gate_study.py analyze` |
+| 143/142/144; 142/143/144 (n=144) | Backlog GAC/AWM/baseline successes, first/second model | Same analysis, backlog cells | Source regrade; generated accuracy table |
+| 584/583/590; 583/583/582 (n=600) | Issue GAC/AWM/baseline successes | Same analysis, issue cells | Same |
+| 597/598/597; 598/600/599 (n=600) | PR GAC/AWM/baseline successes; failed baseline counted incorrect | Same analysis, PR cells | Same |
+| 3.27, 5.86, 3.61, 4.04, 1.43, 1.43 pp; 5/6, 2/6, 0/6 | Conservative loss bounds, six-comparison correction; cells passing 5pp/2pp/1pp margins | Same analysis, per-cell bound/sensitivity flags | Exact binomial upper bound at 0.05/6 |
+| 50–75%; 36.9–79.1% | Request and estimated deployment cost reductions vs adapted AWM | Same analysis, primary observed totals | `render_manuscript.py`; both compared arms complete |
+| 2,724; 0; 600/606 | Three gate probe cases; live dispatch mismatches; issue dispatches per model including pilots | `seal.json`, `error_audit.json` | Real dispatcher and post-run dispatch audit |
+| 113; 50/45/46/12/5 | Incorrect/failed episodes including pilot; overlapping excerpt/category/label/comment/title failures | `error_audit.json` | `audit_results.py`; unchanged grading |
+| 0; 1; 27 | Owned backlog, open primary PR, nonliteral bug-label records | `source_audit.json` | `audit_sources.py`; no selection changes |
+| $3.864269; $0.011211; $13.441321; 1 | New observed cost including induction; induction subtotal; aggregate estimate/reserves; missing baseline usage response | `manuscript_numbers.json`, checkpoint and analysis | Usage audit; unknown charge not treated as zero |

@@ -1,41 +1,34 @@
 Tool-using agents often call a language model at every step, even when they
 repeat the same read\nobreakdash-only lookups. Replacing that repeated reasoning with a
-fixed program could cut cost, but repetition alone does not make it safe: a
-tool argument may depend on an earlier result, a ``read-only'' tool may have
-side effects, and replaying the same calls may still change the final answer.
+fixed program could cut cost, but repetition alone does not make it safe:
+arguments may depend on earlier results, tools may have side effects, and
+replaying the same calls may still change the final answer.
 
-We introduce \emph{guarded agentic compaction} (\method), which compiles the
-recurring read\nobreakdash-only opening of an agent's workflow into a deterministic
-program only when the evidence justifies it, and otherwise leaves the agent
-unchanged. \method grounds tool arguments in inputs, prior results, or observed invariant literals, treats writes,
-approvals, handoffs, and unknown effects as hard stops, checks inputs and
-outputs at run time, and deploys a program only after enough independent
-examples pass a statistical test.
+We introduce \emph{guarded agentic compaction} (\method), which compiles
+recurring read\nobreakdash-only workflow openings into deterministic programs and otherwise
+leaves the agent unchanged. \method grounds arguments in inputs, prior results,
+or observed invariant literals; treats writes, approvals, handoffs and unknown
+effects as hard stops; checks inputs and outputs; and admits programs through
+an exact finite-sample test under independent-group assumptions.
 
-On three real GitHub workflows, the compiled agent had similar observed
-accuracy to the original agent (90 of 90 held-out tasks correct, versus 89 of 90) and never
-failed a task the original agent solved (one such failure in 810 held-out GitHub
-episodes in six specified studies), while making about two-thirds fewer
-model calls, finishing in about a third of the time, and costing less than
-half as much per task. On 132 fresh pull requests created after our data
-snapshot, it made no end-to-end errors, which bounds its error rate below 2\%
-with 90\% confidence for open and merged pull requests, assuming independent,
-identically distributed records. On BIRD, a public
-text-to-SQL benchmark, a live schema-first agent's opening was compiled on 26 of
-31 databases and on a second model family, cutting model calls by 45--50\%
-with no detected accuracy loss; agents choosing tables per question were
-refused. Two public benchmarks show no measured benefit: NESTFUL holds at most
-26 examples of any workflow, against the 92 required, and on AppWorld the one
-admitted program fits almost no ReAct or plan-and-execute run. With a second model family and a second provider,
-\method rediscovers the same programs on two of the three GitHub workflows and declines
-the third. We also report its limits: its main guarantee mostly confirms that
-enough examples were seen, the savings hold within one data snapshot, and its
-earlier corruption tests showed no protection. A separate live study on
-72 issue groups with constructed requests finds that request-scope checks improve
-ordinary-response task success by 8.8 percentage points over their removal
-(descriptive 95\% interval
-3.7--13.9), while completeness checks show no clear benefit when the agent can
-recover missing evidence.
+On three GitHub workflows, the compiled agent solves 90 of 90 held-out tasks
+versus 89 for the original agent, with about two-thirds fewer model calls.
+A separately frozen comparison with adapted offline Agent Workflow Memory
+spans three workflows, two models and 1,362 fresh records (8,172 attempted
+episodes). Estimated deployment cost falls 36.9--79.1\% and model requests
+50--75\%. Five of six comparisons meet a preregistered five-percentage-point
+accuracy noninferiority margin with multiplicity correction; the smaller
+second-model backlog cohort is inconclusive. Only two comparisons meet a
+two-point margin. Statistical, support-only and deterministic gates produce
+identical routing and evidence on all selected cases, providing no incremental
+runtime gate benefit on these already admitted candidates.
 
-\method reframes agent optimization as evidence-gated specialization: compile
-only what is justified, and keep the model's reasoning everywhere else.
+On BIRD, a schema-first SQL agent's opening compiles on 26 of 31 databases,
+with 45--50\% fewer model calls and no detected accuracy loss; question-specific
+table selection is refused. NESTFUL and AppWorld show no measured deployment
+benefit. Request-scope checks help on constructed tasks, while completeness
+checks can duplicate recovery and earlier drift tests show no protection.
+The evidence supports bounded compilation of recurring workflows, not
+learned-gate superiority, universal accuracy preservation, or cross-domain
+savings. Most certificates concern replay rather than final answers;
+task, author and time independence remain assumptions.

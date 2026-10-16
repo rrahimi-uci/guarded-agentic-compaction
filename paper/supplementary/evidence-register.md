@@ -110,3 +110,13 @@ commit ancestry and CI history cannot be reconstructed.
 | Lower model work than adapted AWM | Same analysis, primary resource totals | GAC 2 versus 4 requests and 30.8% lower observed deployment cost; three tools in both | Same 120 issues and model; all usage present; induction cost separate; not broad superiority |
 | GAC has higher population accuracy than adapted AWM | Same analysis, primary paired contrast | Not established | 116/120 versus 114/120; exact McNemar p=0.50, Holm p=1.00; one GAC schema failure retained; no equivalence claim |
 | AWM matches baseline accuracy on every issue | Same analysis, AWM-minus-baseline contrast | Contradicted despite equal aggregate scores | Both 114/120, with two correct-only issues in each direction |
+
+## October 15: fresh workflow generalization and gate attribution
+
+| Claim | Source | Status | Boundary |
+|---|---|---|---|
+| Matched comparison extends to three workflows and two models | `experiments/generalization_gate/{seal,checkpoint,analysis}.json` | 8,172 attempted, 8,171 completed | Same repository/snapshot; 1,362 distinct records; one baseline provider failure retained |
+| GAC is noninferior to adapted AWM within five points | Same analysis, exact per-cell tests | Established in five of six cells under record-sampling assumptions | Six-comparison correction; second-model backlog inconclusive at 5.86-point bound; only two cells pass two points, none one point |
+| GAC uses less model work than adapted AWM | Same analysis, resource totals | 50–75% fewer requests; 36.9–79.1% lower estimated deployment cost | Both compared arms have complete usage; excludes lifetime engineering/discovery costs; native AWM and compiler-only causal comparisons missing |
+| Statistical gate improves runtime routing over deterministic guards | `seal.json`, `error_audit.json` | No observed incremental benefit | All 2,724 frozen probe signatures identical; all live GAC dispatches match probes; conditional on admitted candidates, not a compilation-time ablation |
+| Fresh cohort covers all workflow branches | `source_audit.json` | Not established | Zero owned backlog and only one open primary PR; author/day independence unproven; audit is not independent human adjudication |

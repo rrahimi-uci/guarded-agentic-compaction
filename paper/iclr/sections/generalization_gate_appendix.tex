@@ -1,0 +1,165 @@
+\section{Fresh Workflow Generalization and Gate Attribution}
+\label{app:generalization-gate}
+
+This separately frozen follow-up extends the adapted AWM comparison in
+\cref{app:matched-reuse} to three workflow families and two model strings:
+\code{gpt-5.6-luna} and \code{gpt-6-luna}. All records come from the same pinned
+repository snapshot. Thus the study tests workflow and model transfer, not
+cross-domain or cross-provider generalization.
+
+\paragraph{Prospective selection and execution.}
+All record identifiers in prior retained studies are excluded. Backlog tasks
+are allocated first, followed by issue triage and pull-request outcome tasks,
+with fixed hash ranking within source-only eligibility. Titles must be
+representable by the answer schema, and issue tasks must expose a source
+excerpt meeting the minimum length. No successful dispatch or provider answer
+is an eligibility criterion. Six pilot records per family precede 144 backlog,
+600 issue, and 600 pull-request primary records. Families are disjoint; models
+share records. The design schedules 8,172 episodes, including 108 pilot
+episodes, with all six three-arm permutations balanced within each cell.
+Models alternate order by record. Eight record groups may execute concurrently;
+all arms and models within a record execute sequentially.
+
+The primary class mix is 169 bug, 59 enhancement and 372 other issues;
+517 merged, 82 closed-unmerged and one open pull request; and 109 discussed
+unowned plus 35 awaiting-response backlog records. There are no owned backlog
+records in the fresh cohort. The hash-selected residual population therefore
+does not supply balanced branch coverage, and the open/owned branches cannot
+support generalization claims from this follow-up. The source audit finds no
+structural title/excerpt/owner representability defect, but flags 27 issue
+records with nonliteral bug labels; exact-label errors can differ from semantic
+classification errors. This is an author audit, not independent adjudication.
+
+The baseline, GAC, and offline adapted AWM arms share each family's prompt,
+source tools, output schema and factual grader. GAC uses the existing SDK model
+wrapper for issue triage and the outer pre-model composite runner for backlog
+and pull-request tasks; refusals use the unchanged agent. These placements are
+part of the treatment. Historical discovery is reconstructed under each model's
+manifest, without model-specific rediscovery. AWM induces one memory per cell
+from that family's eligible historical action traces, using the pinned adapter
+in \cref{app:matched-reuse}; the memory is frozen before pilots, without manual
+rewriting or online updates. The reused adapter retains its generic
+``Software,Issue triage,github'' induction header for every family; the
+action examples and tool schemas are family-specific, and every retained
+memory names that family's three tools. This transport/domain adaptation is
+not native AWM evaluation. GAC retains its historical split. Induction and
+reconstruction costs are reported separately from deployment.
+
+Settings are low reasoning/verbosity, no parallel tools, 2,048 output tokens,
+eight SDK turns, a 120-second timeout and zero SDK/HTTP retries. Pilot continuation
+requires execution, schema and usage completeness and actual compaction in
+every cell; favorable accuracy is not a continuation criterion. Failed and
+unattempted scheduled tasks remain incorrect in accuracy denominators. There
+are no replacement tasks or repeat attempts.
+
+\paragraph{Accuracy margin and precision.}
+The primary contrast is GAC minus adapted AWM on exact source-grounded answer
+fields; tool-order compliance is reported separately. The registered
+noninferiority margin is five percentage points, a research tolerance rather
+than an operational safety threshold. For each cell, let $L$ count
+AWM-correct/GAC-incorrect pairs among $n$ scheduled records. A one-sided
+Clopper--Pearson upper bound $U$ on $L/n$ at error probability $0.05/6$ yields
+a conservative lower bound $-U$ on the accuracy difference, since it ignores
+GAC-only successes. Noninferiority requires all scheduled pairs attempted and
+$U<0.05$. Bonferroni controls the six comparisons under the record-sampling
+assumptions without requiring model independence. Models are never counted as
+additional independent records in a pooled interval.
+
+At $n=600$, at most 17 losses pass; power is 93.9\% under a 2\% loss
+probability, but 46.7\% under a 3\% probability. At $n=144$, only zero or one
+loss passes, and corresponding power is 21.5\% or 6.8\%. The backlog cell is
+therefore a low-precision replication, not an adequately powered test under
+those alternatives. Tighter one- and two-point margins are sensitivity analyses.
+Resource intervals use 10,000 paired bootstrap draws on completed pairs;
+all-attempted resource totals also retain observed failure usage. Concurrent
+wall-clock measurements include shared runner/checkpoint overhead. Missing usage
+is never interpreted as zero cost. Task/author/time independence is unproven.
+
+\paragraph{Gate attribution.}
+Before paid execution, the real dispatcher runs each selected record under
+full statistical admission, support-only admission, and deterministic guards.
+Support-only requires the retained 92-group calibration floor but disables the
+score and risk admission; deterministic guards also remove the support-count
+check. Both ablations preserve the exact candidate program, hard guards,
+verifier, effect checks and continuation contract. They are uncertified research
+ablations on already admitted candidates, not alternative certified compilers.
+
+All three paths produce identical decisions, calls and continuation evidence on
+all 2,724 record/model cases, including pilots. Recorded gate scores are constant
+within each family on both models: 0.1237 for backlog, 0.0815 for issue triage,
+and 0.1308 for pull requests. The selected entry features therefore provide no
+observed risk ranking within these cohorts. Backlog and pull-request
+candidates dispatch throughout; issue candidates dispatch on 600 of 606 records
+per model and refuse the same six records under every variant. Consequently,
+only one live GAC path is run: duplicate stochastic answers would not constitute
+independent evidence that identical routing policies differ. This is a null
+result for incremental runtime gate value on these candidates. It neither
+establishes universal gate equivalence nor measures whether statistical admission
+excluded bad candidates during compilation. The earlier learned end-to-end gate
+retirement remains unchanged.
+
+\paragraph{Completed results.}
+All 8,172 scheduled episodes were attempted: 8,171 completed and one baseline
+PR episode on \code{gpt-5.6-luna} failed with a provider server error. It remains
+incorrect, with no retry. All 2,724 live GAC decisions match their frozen
+provider-free probes, with zero dispatch mismatches. The pilot has
+107/108 correct answers; primary results are separate in
+\cref{tab:generalization-accuracy,tab:generalization-resources}.
+
+\begin{table}[htbp]
+\centering\small
+\input{tables/generalization_accuracy}
+\caption{Primary exact-answer successes over scheduled records. AWM denotes
+the offline API-task adaptation. $100U$ is the simultaneous conservative
+accuracy-loss bound in percentage points, not an observed accuracy difference.
+NI uses the registered five-point margin.}
+\label{tab:generalization-accuracy}
+\end{table}
+
+Five cells pass the five-point margin. Second-model backlog has two AWM-only
+successes and one GAC-only success; its 5.86-point bound does not establish
+noninferiority or inferiority. Only the two PR cells pass a two-point margin,
+and none passes one point. Thus this study does not establish exact accuracy
+equality or a uniformly small quality loss across all cells.
+
+\begin{table}[htbp]
+\centering\small
+\setlength{\tabcolsep}{3pt}
+\input{tables/generalization_resources}
+\caption{Observed deployment resources per attempted primary episode;
+USD/1k scales estimated cost to 1,000 episodes, excluding induction. Savings
+are relative to adapted AWM. Both compared arms have complete usage in every
+cell. Frozen API prices are estimates, not provider invoices.}
+\label{tab:generalization-resources}
+\end{table}
+
+Paired cost and latency differences favor GAC in every cell; the descriptive
+95\% intervals exclude zero, with 144 or 600 complete pairs. Tool-call means
+are equal between the compared arms. The full resource intervals are retained
+in \path{analysis.json}; latency includes shared runner overhead. New observed
+cost, including six inductions, is \$3.864269; induction alone is \$0.011211.
+One baseline request has no returned usage; its unknown charge is not treated
+as zero. The aggregate estimate plus prior and new failure reserves is
+\$13.441321 against the authorized \$400 cap. No baseline-cost superiority
+claim depends on the missing charge.
+
+The post-registration author audit retains all 113 incorrect or failed
+episodes, including one pilot error. Overlapping failed checks include 50
+issue-excerpt, 45 category, 46 evidence-label, 12 comment-grounding and five
+title checks; 45 error episodes involve nonliteral bug labels. No labels or
+outcomes are changed. Author/day cluster bootstraps are descriptive sensitivity,
+not replacement primary tests: the issue cohort has 386 authors (largest
+cluster 70 records), and the PR cohort 190 (largest 120). Their intervals do
+not establish independent sampling or repair the inconclusive backlog cell.
+Per-class outcomes and every failed answer are retained in
+\path{error_audit.json}. No independent human adjudication is claimed.
+
+\paragraph{Artifacts and boundaries.}
+The prospective protocol, code/environment/source hashes, frozen candidates,
+cohorts, schedule, per-record gate decisions, induction memories, checkpoints
+and analysis are retained under \path{experiments/generalization_gate/}.
+Model aliases may drift; resolved immutable provider versions are not retained.
+This evidence remains separate from the historical 810-episode six-study
+summary. The study does not establish native AWM benchmark reproduction,
+independent human adjudication, total lifetime optimization cost, a new risk
+certificate, or cross-domain superiority.

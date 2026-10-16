@@ -18,10 +18,11 @@ Sources and reproducible audit commands are in
 Neither changes the frozen study driver or its selection after execution.
 The source audit is not independent human adjudication.
 
-The manuscript and tracked PDF are updated; older long-form wrappers, slides,
-and hosted publications are not regenerated or deployed. The abstract is
-unchanged, so its local OpenReview metadata copy remains aligned. Anonymous
+At that integration, the manuscript and tracked PDF were updated; older long-form wrappers, slides,
+and hosted publications are not regenerated or deployed. The abstract was
+unchanged at that integration, with its local OpenReview metadata copy aligned. Anonymous
 supplementary packaging remains a separate pre-upload task. The PDF preserves
 the existing ten-page main-text revision configuration, not a claim of initial
-submission readiness. Main text ends on page 10; references and appendices
-bring the PDF to 48 pages.
+submission readiness. At that integration, main text ended on page 10; references and appendices
+brought the PDF to 48 pages. Later study integration is recorded separately in
+`generalization_gate_integration.md`.
