@@ -2,13 +2,14 @@
 \caption{\textsc{Compile} --- the compile-or-retire cascade. Every candidate is either
 registered or assigned an attributed \retire, so refusal accounting remains explicit.
 Stages marked \textsc{(caller)} are separate library entry points run in this order
-rather than steps inside one function.}
+rather than steps inside one function. Freezing applies per compatible partition;
+certifying several partitions requires an additional allocation of confidence.}
 \label{alg:compile}
 \scriptsize
 \begin{algorithmic}[1]
 \Require episodes $\mathcal{E}$; effect catalog $\mathcal{C}$; entry schema $\Theta$;
          transform library $\mathcal{L}$; ambiguity cap $\kappa$; mining window
-         $w_{\max}$; budgets $\alpha,\delta$; grid $\Lambda$; feasibility target $\Delta$
+         $w_{\max}$; budgets $\alpha,\delta$; grid $\Lambda$; feasibility target $\Delta$; freeze flag $f$
 \Ensure artifact set $\mathcal{A}$, or \retire{} with attributed reasons
 \State $\mathcal{A}\gets\emptyset$
 \State $\mathcal{E}\gets\textsc{Qualify}(\mathcal{E},\mathcal{C})$;\quad
@@ -36,11 +37,15 @@ rather than steps inside one function.}
            \textbf{then record} \retire{} \textbf{(counterexample); continue}
     \State $q\gets\textsc{FitScore}(\mathcal{D})$; \textbf{freeze} $q$
            \Comment{dev groups only; never calibration}
-    \State $\eta\gets\textsc{Calibrate}(P,H,V,q,M,\mathcal{K},\Lambda,\alpha,\delta)$;\quad
-           \textbf{if} $\eta=\bot$ \textbf{then record} \retire{} \textbf{(risk); continue}
-           \Comment{\cref{alg:calibrate}}
-    \State $\mathcal{A}\gets\mathcal{A}\cup
-           \{\textsc{Package}(P,H,V,q,\eta,M)\}$ with evidence and lifecycle
+    \State $\eta\gets\textsc{Calibrate}((P,H,V,q,M),\mathcal{K},\Lambda,\alpha,\delta)$
+           \Comment{\cref{alg:calibrate}; no candidate switch after calibration if $f$}
+    \If{$\eta=\bot$}
+      \State \textbf{record} \retire{} \textbf{(risk)}
+    \Else
+      \State $\mathcal{A}\gets\mathcal{A}\cup\{\textsc{Package}(P,H,V,q,\eta,M)\}$
+    \EndIf
+    \If{$f$} \State \textbf{break} \Comment{stop this partition whether admitted or retired}
+    \EndIf
   \EndFor
 \EndFor
 \State \Return $\textsc{SelectUndominated}(\mathcal{A})$ if nonempty, else \retire

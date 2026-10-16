@@ -25,7 +25,7 @@ explanation.}
       \State $\mathcal{H}\gets\textsc{BestPerSource}\{(\sigma,g)\in\Sigma\times\mathcal{L}:
              g(\operatorname{value}(\sigma))=v_{j,s},\ \operatorname{depth}(g)\le 2\}$
       \If{$\mathcal{H}=\emptyset$}
-        \State $S[j,s]\gets\textsc{ungrounded}$ \Comment{no witness: a model decision}
+        \State $S[j,s]\gets\textsc{ungrounded}$ \Comment{unresolved in bounded search}
       \ElsIf{$|\mathcal{H}|>\kappa$}
         \State $S[j,s]\gets\textsc{ambiguous}$
       \Else

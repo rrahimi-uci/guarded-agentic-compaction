@@ -10,8 +10,8 @@ zero-violation Clopper--Pearson upper bound
 first falls to ``alpha`` at ``n = 91.64`` admitted groups, so ``n >= 92`` is the smallest
 pool that can certify anything (``U(92) = 0.0498``, ``U(91) = 0.0503``).  Certifying a
 selective coverage ``c`` on a pool of ``|K|`` groups needs ``c * |K| >= 92``, i.e.
-``|K| >= ceil(92 / c)``; every calibration pool in the paper is exactly 92 groups, so the
-only certifiable coverages there are 0 and 1.  The corrected budget for ``m = 2``
+``|K| >= ceil(92 / c)``. The primary calibration pools have 92 groups, permitting
+retirement or full empirical calibration coverage; later studies use larger pools.  The corrected budget for ``m = 2``
 candidates (``gamma = delta / (m |Lambda|)``) is drawn for comparison: at ``n = 92`` it
 gives 0.0569 and needs 106 groups.
 
@@ -52,7 +52,7 @@ DELTA = 0.10
 GRID = 11
 #: Coverages annotated on the right panel with their minimum pools (Appendix G).
 COVERAGES = (1.0, 0.8, 0.7, 0.5, 0.25)
-#: Every calibration pool in the paper.
+#: Primary registered-grid calibration pool.
 POOL = 92
 
 
@@ -119,14 +119,13 @@ def floor_panel(ax) -> None:
                linewidth=1.0, zorder=5)
     ax.scatter([92], [u92], s=22, color=COLORS["series1"], zorder=5)
     ax.scatter([92], [u92_2], s=18, marker="s", color=COLORS["ink2"], zorder=5)
-    arrow = dict(arrowstyle="-", color=COLORS["muted"], lw=0.5, shrinkA=0, shrinkB=2)
     ax.annotate(f"$m=2$ at $n=92$: $U={u92_2:.4f}$, needs $n\\geq{math.ceil(n_star_2)}$",
                 xy=(92, u92_2), xytext=(104, 0.0762), fontsize=7, color=COLORS["ink2"],
-                ha="left", va="center", arrowprops=arrow)
+                ha="left", va="center")
     ax.annotate(f"$n=91$: $U={u91:.4f}>\\alpha$", xy=(91, u91), xytext=(104, 0.0693),
-                fontsize=7, color=COLORS["series2"], ha="left", va="center", arrowprops=arrow)
+                fontsize=7, color=COLORS["series2"], ha="left", va="center")
     ax.annotate(f"$n=92$: $U={u92:.4f}\\leq\\alpha$", xy=(92, u92), xytext=(104, 0.0628),
-                fontsize=7, color=COLORS["series1"], ha="left", va="center", arrowprops=arrow)
+                fontsize=7, color=COLORS["series1"], ha="left", va="center")
     ax.text(62, 0.0475, "no zero-violation\npool certifies", fontsize=7,
             color=COLORS["ink2"], ha="left", va="top")
     ax.text(199, ALPHA + 0.0008, r"$\alpha=0.05$", fontsize=7, color=COLORS["series2"],
@@ -161,19 +160,19 @@ def pool_panel(ax) -> None:
         dx, dy, ha = offsets[x]
         ax.annotate(f"$c={x:g}$: {y}", xy=(x, y), xytext=(x + dx, y + dy), fontsize=7,
                     color=COLORS["ink"], ha=ha, va="bottom")
-    # The paper's registered-grid pools: |K| = 92 (the post-cutoff certificate uses 132 under a single rule).
+    # The primary pools have 92 groups; later cohorts are not represented by this line.
     ax.scatter([1.0], [POOL], s=60, facecolor="none", edgecolor=COLORS["series2"],
                linewidth=1.0, zorder=6)
-    ax.text(0.215, POOL + 7, r"every registered-grid pool here: $|\mathcal{K}|=92$",
+    ax.text(0.215, POOL + 35, r"primary pools: $|\mathcal{K}|=92$",
             fontsize=7, color=COLORS["series2"], ha="left", va="bottom")
-    ax.text(0.215, 12, r"at $|\mathcal{K}|=92$ the certifiable" "\n" r"coverage set is $\{0,1\}$",
+    ax.text(0.215, 12, r"at $|\mathcal{K}|=92$: retire or full" "\n" "empirical calibration coverage",
             fontsize=7, color=COLORS["ink2"], ha="left", va="bottom")
 
     ax.set_xlim(0.2, 1.02)
     ax.set_ylim(0, 420)
     ax.set_xticks([0.25, 0.5, 0.7, 0.8, 1.0])
     ax.set_yticks([0, 92, 200, 300, 400])
-    ax.set_xlabel(r"Selective coverage $c=n_\eta/|\mathcal{K}|$ to certify")
+    ax.set_xlabel(r"Empirical coverage $c=n_\eta/|\mathcal{K}|$")
     ax.set_ylabel(r"Minimum pool $\lceil 92/c\rceil$")
     ax.yaxis.grid(True, zorder=0)
     ax.set_axisbelow(True)

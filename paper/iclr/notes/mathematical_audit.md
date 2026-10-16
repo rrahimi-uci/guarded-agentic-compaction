@@ -1,3 +1,6 @@
+> Historical audit. The [2026-10-16 feedback disposition](pat_feedback_disposition.md)
+> supersedes the loss, stopping, and score-training descriptions where they differ.
+
 # Mathematical correctness audit
 
 Date: August 17, 2026

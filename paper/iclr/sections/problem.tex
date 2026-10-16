@@ -28,18 +28,19 @@ a tool result. It is \emph{groundable} when every call argument is either a
 literal invariant across the supporting traces or an expression over entry
 state or prior results inside $R$,
 \begin{equation}
-  \forall c_j \in R,\ \forall u \in \operatorname{args}(c_j):\quad
+  \forall c_j \in R,\ \forall u \in \operatorname{keys}(\operatorname{args}(c_j)):\quad
   \operatorname{Lit}(c_j,u)\ \vee\
   \exists\, s\in\operatorname{Src}(z,o_{<j}),\ \exists\, g_{j,u}\in\mathcal{L}:
-  \ u = g_{j,u}(s),
+  \ v_{j,u} = g_{j,u}(s),
   \label{eq:grounding}
 \end{equation}
-where $\operatorname{Lit}(c_j,u)$ holds when the slot carries one literal
-invariant across every supporting trace (the implemented rule; a slot the
-schema declares literal-only may be bound in no other way), $\mathcal{L}$ is a
+where $v_{j,u}$ is the value of slot $u$. A witness uses the same source path
+and operator chain across supporting training traces; $\operatorname{Lit}(c_j,u)$
+requires the same literal on those traces. A slot the
+schema declares literal-only may be bound in no other way. $\mathcal{L}$ is a
 closed, bounded transform library, and
-$\operatorname{Src}(z,o_{<j})$ enumerates the flattened paths of $z$ and of
-each prior result $o_i$, $i<j$; and \emph{effect-admissible} when every tool in
+$\operatorname{Src}(z,o_{<j})$ enumerates values at flattened paths of $z$ and
+each prior result $o_i$, $i<j$. A region is \emph{effect-admissible} when every tool in
 $R$ is declared read-only, speculatable, replayable, and inside one principal
 and isolation partition. The witness is deliberately \emph{single-source} ---
 one chain over one observation, not a join over the history --- which is the
@@ -70,9 +71,11 @@ Dispatch is \emph{selective},
 \end{equation}
 and any failed precondition runs the unchanged baseline $B$. If execution fails
 before a commit and staging proves the attempt clean, $B$ runs; a failure whose effects
-cannot be proved clean is an incident, not a fallback. Fix $L(A,x)=1$ for an externally
-visible task/contract violation or incident after dispatch, $L=0$ for a clean
-abort followed by unchanged $B$, and let $C(A,x)$ be the complete realized cost
+cannot be proved clean is an incident, not a fallback. Fix a binary loss
+$L(A,x)$ before calibration: replay-contract failure or incident for the primary
+certificate; final task-contract failure for the end-to-end study. A clean abort
+has replay loss zero but its baseline continuation can still fail the final task.
+Let $C(A,x)$ be the complete realized cost
 of the attempt including a clean fallback. For a future group
 $G=(x_1,\ldots,x_m)$, set $D_A(G)=\max_i d_A(x_i)$ and $W_A(G)=\max_i
 d_A(x_i)L(A,x_i)$. We seek
@@ -99,4 +102,6 @@ certificate in \cref{sec:results} except one end-to-end certificate
 violation} of the compiled region (\cref{app:config}), so the continuation is
 measured, not certified. The denominator counts groups with at least one
 attempt admitted by the hard guard and score. A clean interpreter or verifier
-failure after admission has $L=0$ and remains in that count.
+failure after admission has replay loss zero and remains in that count.
+The end-to-end certificate bounds absolute error, not excess error over $B$
+or noninferiority; it does not attribute errors causally to compilation.

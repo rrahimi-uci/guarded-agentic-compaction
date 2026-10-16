@@ -1,3 +1,7 @@
+> Historical response record. Counts, planned studies, and some methodological
+> descriptions below are superseded by [the 2026-10-16 comprehensive audit](pat_feedback_disposition.md).
+> Use that ledger and the current manuscript for any new reviewer response.
+
 # Reviewer response — ICLR 2027 PAT/OpenReview feedback (draft, 2026-09-22)
 
 Draft author response to the feedback archived in

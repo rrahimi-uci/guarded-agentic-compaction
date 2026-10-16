@@ -2,8 +2,10 @@
 
 The nonconformity score ``q(z)`` is a logistic model over *entry-only* observable
 risk features (proposal Eq. 17). An LLM's verbal confidence is never a feature and
-nothing unavailable at the boundary is either. Predictions used for calibration are
-scenario-grouped out-of-fold.
+runtime features use boundary information. Development perturbations additionally
+augment two features (see compile._calibration_samples). The production compiler
+uses a frozen development fit on clean calibration groups; the low-level helper
+also supports self-fitted grouped out-of-fold scores without that guarantee.
 
 Two quantities are reported, and conflating them would be the easy mistake:
 
@@ -270,10 +272,10 @@ def fit_gate_model(
 ) -> tuple[GateModel, list[float]]:
     """Fit ``q`` with scenario-grouped out-of-fold predictions.
 
-    Returns the model fitted on all samples plus the out-of-fold scores used for
-    threshold selection. If the labels are degenerate (no observed unproductive
-    dispatch) the model is constant zero and the gate relies entirely on the exact
-    binomial bound — reported rather than papered over.
+    Returns the model fitted on all supplied samples plus grouped out-of-fold
+    scores. The production compiler fits development samples and discards the
+    latter. Degenerate labels yield a constant sigmoid(-6) or sigmoid(+6), not
+    exactly zero or one; admission still depends on the exact binomial bound.
     """
 
     import numpy as np

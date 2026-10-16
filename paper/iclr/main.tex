@@ -171,7 +171,9 @@ study with its extensions, the fresh-record and live-recovery safeguard studies
 executed BFCL, and executed AppWorld.
 \Cref{app:external} states how the latter two obtain observed results, and
 \cref{app:config} gives their exact provider-free entry points. Before upload, these
-materials will be supplied as an anonymous archive with hashes and manifests preserved.
+materials are packaged by an anonymizing builder with a separate checksum
+manifest for shipped bytes; original repository hashes remain provenance records.
+The archive and upload stage require author review.
 The artifact pins the provider model string, the \code{openai-agents} and
 \code{openai} SDK versions, the effective generation settings, cache policy,
 the 120\,s timeout and no-retry policy, the per-record condition order,

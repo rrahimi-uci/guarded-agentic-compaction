@@ -1,74 +1,43 @@
-# ICLR 2027 Compliance Checklist
+# ICLR 2027 manuscript readiness — 2026-10-16
 
-Source references used for this checklist:
+The current deliverable uses the previously agreed **ten-page revision target**.
+It is not a nine-page initial-submission build and this file does not establish
+that OpenReview permits an upload today. The supplied PAT feedback is automated
+pre-submission feedback, not proof that the conference discussion phase is open.
 
-- official ICLR 2027 author guidelines
-- official ICLR 2027 call for papers
-- official ICLR 2027 AI policy for authors
+Official sources checked on 2026-10-16:
+[author guidelines](https://iclr.cc/Conferences/2027/AuthorGuidelines) and
+[reviewer guidelines](https://iclr.cc/Conferences/2027/ReviewerGuidelines).
+The formatting section specifies nine main-text pages initially and ten during
+discussion/camera-ready; statements, references, and appendices are exempt.
 
-## Template and formatting
+## Current checks
 
-- [x] Uses the official ICLR 2027 style files downloaded from the official style zip.
-- [x] The repository defaults to the blind submission build (`\iclrfinalcopy` commented out).
-- [x] The stock review line-number ruler is enabled in the blind build.
-- [x] `times` replaced by `newtxtext`/`newtxmath` because this paper builds with Tectonic (XeTeX), where legacy `times` does not resolve: the body falls back to Latin Modern with no bold or italic, so `\textbf`, `\emph`, `\textsc`, theorem heads, and table headers all rendered as upright regular text. Under pdfTeX `times` works fine, so this is a toolchain interaction, not a broken package. Embedded body face is TeX Gyre Termes (Times), confirmed with `pdffonts`.
-- [x] October 8 audit: main text ends on page 10, within the discussion/camera-ready limit.
-- [x] The author confirmed a ten-page target for this revision on October 8, 2026.
-- [x] References are separated from the main text and do not count toward the page limit.
-- [x] Appendix is placed after the references.
-- [x] The paper source stays in a dedicated `paper/iclr/` working directory.
+- [x] Anonymous review template, line numbers, no author metadata or acknowledgements.
+- [x] Problem, research questions, novelty scope, methods, and limitations reviewed.
+- [x] Slot/value notation, group-level loss, candidate multiplicity, calibration
+  coverage, and per-partition freezing scope reconciled with implementation.
+- [x] Score features/training and bounded DSL types/composition documented.
+- [x] Manual resources, failure denominators, repeated BIRD questions, and null
+  safeguards/gate findings retained without equivalence claims.
+- [x] AI use, ethics, and reproducibility statements present.
+- [x] Related-work claim/citation audit and recent primary-source checks recorded.
+- [x] Current PAT ledger covers every numbered and minor feedback item, with
+  justified alternatives and remaining empirical gaps identified.
+- [ ] Initial submission: prepare a separate nine-page version if that is the
+  intended upload stage; the ten-page revision must not be used as that version.
+- [ ] Author: confirm submission stage, permitted upload window, and final content.
+- [ ] Author: upload the reviewed PDF/supplement and update metadata; nothing has
+  been posted to OpenReview by this revision.
 
-## Anonymity
+Exact build, validation, visual-review and supplementary-package results are
+recorded in [final_reviewer_assessment.md](final_reviewer_assessment.md).
+Acceptance risks remain there even when mechanical checks pass.
 
-- [x] **The submission source and PDF are anonymous.** `main.tex` contains no
-  identifying author block; `\iclrfinalcopy` is commented out; the style file
-  prints "Anonymous authors" and uses the "Under review" running head; and the
-  PDF author metadata is explicitly empty. Recheck this after every build
-  intended for upload.
-- [x] No acknowledgements are included in the blind-ready submission source.
-- [x] The main paper avoids linking directly to the identified public repository.
-- [ ] Prepare an anonymous supplementary artifact bundle or anonymous repository before submission. The paper states this as a pre-upload action and does not claim that the current identified repository is anonymous.
+## Historical revision log (not current readiness assertions)
 
-## Required and recommended sections
-
-- [x] Required AI use statement included before references.
-- [x] Ethics statement included before references.
-- [x] Reproducibility statement included before references.
-- [x] Limitations are discussed explicitly in the main paper (section 7) and extended in appendix E.
-
-## Technical presentation
-
-- [x] Formal problem statement with numbered equations (grounding, prefix invariant, selective dispatch, selective objective).
-- [x] System architecture diagram (figure 2) instead of a bulleted box stack, plus a provenance figure (figure 3) that makes eq. 1 concrete on the motivating record.
-- [x] Deployed compiler and admission rule given as algorithms 1--2 in the main text; provenance construction and runtime dispatch as algorithms 3--4 in the appendix.
-- [x] Proposition 1 stated in a theorem environment with a proof in appendix A; `alpha`, `delta`, and the threshold grid are defined in the main text before use.
-- [x] Every float is referenced from the body text. **This was false until the 2026-08-16 pass**: figure 1 and the per-family reduction figure were both included but never cross-referenced. Both now are.
-- [x] Paired statistics reported: exact McNemar, Clopper--Pearson bounds, bootstrap intervals, Wilcoxon signed-rank. Headline CIs in the main text, full per-endpoint table in appendix E.
-- [x] Absolute counts reported alongside every percentage (359 -> 120 requests, 294,677 -> 108,839 tokens, etc.) so reductions are auditable.
-- [x] Admission certificates reported for the artifacts that were admitted (n=92 groups, k=0 violations, U=0.0498 <= alpha=0.05, coverage 1.0), not just pass/fail.
-- [x] Refusal funnel table (table 4) shows stage-by-stage attrition on NESTFUL and API-Bank, isolating calibration as the binding stage.
-- [x] Corrected the confidence budget: the configured value is `delta = 0.1`, not 0.05. It is what yields the 92-group requirement and the 0.0498 bound recorded in `paper/results/admission_register.json`; `delta = 0.05` would require 106 groups.
-- [x] Hyperparameters collected in appendix C.
-
-## Claim hygiene
-
-- [x] Main claim is narrowed to guarded compile-or-retire specialization.
-- [x] Manual baseline parity is stated explicitly rather than hidden, including the one family where the manual program is cheaper.
-- [x] Refusal/retirement evidence is retained and described as part of the result, with the binding stage identified (calibration, not provenance or replay).
-- [x] Cross-repository evidence is described as narrower than the primary workflow-family result.
-- [x] Saturated feasibility ceiling flagged as a property of the workload, not evidence about the compiler.
-
-## Submission operations
-
-- [x] Recompiled the final PDF and verified page count for the current draft.
-- [x] Related work cites the trace-JIT, partial-evaluation, effect-system,
-  program-synthesis, and risk-control lineage rather than only
-  agent-optimization papers. All 24 cited keys resolve, with no unused entries.
-- [x] Sanity-checked that the current figures, captions, and appendix do not reveal author identity.
-- [x] Official ICLR 2027 pages rechecked on August 14, 2026. The current guide
-  lists the abstract deadline as `September 18, 2026` AOE and the full-paper
-  deadline as `September 25, 2026` AOE. Recheck once more immediately before
-  upload because conference instructions can change.
+The dated entries below are retained as history. Their counts, figure numbers,
+page references and “done” states must not be read as current verification.
 
 ## Revision pass, 2026-08-16
 

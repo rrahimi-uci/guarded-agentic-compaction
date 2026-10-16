@@ -48,32 +48,27 @@ residual error rate, being statistical, needs a finite-sample bound.
 
 We study these obligations through \emph{guarded agentic compaction} (\method),
 a compile-or-retire trace-to-program system for recurrent read-only prefixes
-(\cref{fig:pipeline}). The core contribution is not ``agent compilation'' in
-general, but an admissibility argument for trace-derived specialization:
+(\cref{fig:pipeline}). We ask: \textbf{RQ1}, which recurrent regions admit
+a grounded program? \textbf{RQ2}, how much work does compilation remove at
+a stated quality tolerance? \textbf{RQ3}, which admission safeguards add
+measurable protection? The contributions are:
 
 \begin{enumerate}[leftmargin=1.2em,itemsep=1pt,topsep=2pt]
-  \item A guarded specialization pipeline (\cref{alg:compile}) combining typed
-provenance, effect and position barriers, bounded synthesis, runtime
-verification, and finite-sample compile-or-retire admission
-(\cref{alg:calibrate}, \cref{prop:admission}) with the certificate level and
-its event stated per artifact. The bound is a standard exact binomial interval
-under a union bound over a fixed grid; the contribution is the admission rule
-and its composition with trace-derived agent compilation. Every stage can refuse,
-and the default output is the unchanged agent. \item A real-provider evaluation
-across three public-record workflow families; a cross-repository extension on
-newer records with admissions and principled retirements; a post-cutoff cohort
-with an end-to-end certificate; a live SQL agent on the public BIRD benchmark
-whose fixed schema-reading opening compiles on 26 of 31 databases
-(\cref{sec:res-bird}); three
-pre-registered drift ablations (two uninformative by construction, one adverse);
-replications on a second model family and provider; and a live safeguard
-ablation separating request-scope protection from recoverable missing evidence
-(\cref{sec:res-recovery}).
-  \item Calibrated refusal on public trace benchmarks (\cref{sec:res-refusal}):
-  NESTFUL, the largest trace corpus the compiler ingests here, clears
-  provenance, synthesis, and replay with no wrong execution yet retires below
-  the exact sample floor (API-Bank and BFCL v4 likewise), a corpus-size fact
-  that bounds what such benchmarks can certify; AppWorld admits a region that is
-  eligible on 2{,}339/2{,}340 released full-code trajectories but 1/4{,}680 ReAct
-  or plan-and-execute ones, separating \emph{admissible} from \emph{dispatchable}.
+  \item A specialization pipeline combining typed provenance, effect and
+position barriers, bounded synthesis, verification, and compile-or-retire
+admission (\cref{alg:compile,alg:calibrate}). The statistical component is a
+standard exact binomial bound over a fixed grid, not a new inequality; our
+contribution is its composition with trace-derived specialization and explicit
+certificate scope (\cref{prop:admission}).
+  \item Live-provider evidence on public-record workflows and BIRD, with
+model/provider replications and safeguard ablations. Against adapted offline
+AWM, five of six workflow/model cells establish five-point accuracy
+noninferiority, but none establishes one-point noninferiority
+(\cref{app:generalization-gate}). The ablations separate useful request-scope
+checks from unresolved completeness benefit and null learned-gate benefit.
+  \item Refusal measurements on public trace benchmarks
+(\cref{sec:res-refusal}): NESTFUL, API-Bank, and BFCL v4 lack calibration
+support; AppWorld admits a program eligible on 2{,}339/2{,}340 full-code
+trajectories but 1/4{,}680 ReAct or plan-and-execute ones. Admission therefore
+does not establish deployment benefit.
 \end{enumerate}
