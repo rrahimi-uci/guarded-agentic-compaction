@@ -20,7 +20,13 @@ Before paid execution:
   through the real SDK with a local fake model, partial failures, exact loss
   bounds, prospective power, balanced schedule, budget reserves and gate copies.
 - New plus existing matched-study regression tests: 40 passed.
-- Full suite, release/artifact/Pages/package validation: pending at preparation.
+- Full suite: 662 passed, three existing optional-data skips, 177.31 seconds.
+- Release validation passed (three existing untracked-docs skips); artifact validation
+  passed 5,511 checks, zero failures; Pages nine pages/32 paths; wheel/sdist built.
+- The post-commit verification found only JSON list versus Python tuple differences
+  in compiler configuration, not candidate/program/gate changes. Canonical JSON
+  digest comparison fixes this and a regression rejects actual threshold mutation.
+  The unused seal is regenerated before any provider call; initial commit retained.
 - Estimated budget carried forward: $8.57705193 including retained reserves.
 - Standard prices verified from official OpenAI API pricing documentation on
   2026-10-15. No credentials or provider reasoning is stored.

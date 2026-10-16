@@ -117,3 +117,12 @@ def test_gate_ablation_preserves_candidate_and_continuation(runtimes):
             assert {k:v for k,v in original.items() if k!='gate'}=={k:v for k,v in ablated.items() if k!='gate'}
         n=json.loads(s.source_paths()[rt['name']].read_text())['results'][0]['issue_number']
         assert s.probe(rt,[n])['all_equivalent']
+
+
+def test_reconstruction_matches_persisted_json_without_ignoring_real_changes(runtimes):
+    for rt in runtimes.values():
+        record=s.runtime_record(rt)
+        persisted=json.loads(json.dumps(record))
+        assert s.shared.object_digest(record)==s.shared.object_digest(persisted)
+        persisted['artifact']['gate']['threshold']+=.01
+        assert s.shared.object_digest(record)!=s.shared.object_digest(persisted)

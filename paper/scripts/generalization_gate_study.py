@@ -255,7 +255,8 @@ def verify():
         raise ValueError('selection drift')
     for key,rt in runtimes.items():
         record=runtime_record(rt)
-        if any(frozen['cells'][key][k]!=v for k,v in record.items()): raise ValueError('candidate drift')
+        if any(shared.object_digest(frozen['cells'][key][k])!=shared.object_digest(v) for k,v in record.items()):
+            raise ValueError('candidate drift')
     return frozen,runtimes
 
 
