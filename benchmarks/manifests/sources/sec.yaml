@@ -1,12 +1,18 @@
 schema: agent-compaction-source-manifest/v1
 domain: sec
-status: acquisition_implemented_configuration_gated
-verified_at: "2026-08-04"
+status: normalized_real_pool_available_provider_free
+verified_at: "2026-10-15"
 required_configuration: [SEC_USER_AGENT]
 normalized_pool:
-  groups: 0
+  groups: 420
+  exact_oracle_passes: 420
+  independent_gold_passes: 420
+  variable_path_groups: 57
+  snapshot_digest: 25bb6c8b845045d3ba1b29d4a9247ef0ab7e8c78304dced36b0e76955da02989
   provider_calls_executed: 0
-  block: SEC_USER_AGENT is absent; no SEC request was made
+  report: ../../../paper/results/multidomain/preflight/sec/report.json
+  parser_audit: ../../../paper/results/multidomain/preflight/sec/edgartools_audit.json
+  selection_amendment: ../../../paper/results/multidomain/preflight/sec/acquisition_amendment.json
 sources:
   - name: EDGAR submissions API
     url: https://data.sec.gov/submissions/

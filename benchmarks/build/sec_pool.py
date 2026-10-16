@@ -324,6 +324,29 @@ def acquire_issuer(
     return {}, "no_resolvable_standard_instance_fact"
 
 
+def select_issuers(
+    complete: Sequence[dict[str, Any]], minimum_groups: int
+) -> list[dict[str, Any]]:
+    """Retain the hard-state floor, filling ordinary shortfalls from hard cases."""
+
+    hard = [item for item in complete if item["hard_state"]]
+    ordinary = [item for item in complete if not item["hard_state"]]
+    required_hard = (minimum_groups + 9) // 10
+    if len(hard) < required_hard:
+        raise RuntimeError(f"only {len(hard)} variable-path SEC issuers; {required_hard} required")
+    # The 10% hard-state quota is a floor. If fewer ordinary issuers are
+    # resolvable, fill the remaining slots from already qualified hard-state
+    # issuers in their original candidate order.
+    selected_hard = max(required_hard, minimum_groups - len(ordinary))
+    selected = [*hard[:selected_hard], *ordinary[: minimum_groups - selected_hard]]
+    if len(selected) != minimum_groups:
+        raise RuntimeError(
+            f"only {len(selected)} groups remain after SEC hard-state stratification; "
+            f"{minimum_groups} required"
+        )
+    return selected
+
+
 def build_pool(
     *,
     ciks: Sequence[str],
@@ -352,20 +375,7 @@ def build_pool(
         raise RuntimeError(f"only {len(accepted)} complete issuer groups; {minimum_groups} required")
     complete_candidate_groups = len(accepted)
 
-    def variable(item: dict[str, Any]) -> bool:
-        return bool(item["hard_state"])
-
-    hard = [item for item in accepted if variable(item)]
-    ordinary = [item for item in accepted if not variable(item)]
-    required_hard = (minimum_groups + 9) // 10
-    if len(hard) < required_hard:
-        raise RuntimeError(f"only {len(hard)} variable-path SEC issuers; {required_hard} required")
-    accepted = [*hard[:required_hard], *ordinary[: minimum_groups - required_hard]]
-    if len(accepted) != minimum_groups:
-        raise RuntimeError(
-            f"only {len(accepted)} groups remain after SEC hard-state stratification; "
-            f"{minimum_groups} required"
-        )
+    accepted = select_issuers(accepted, minimum_groups)
     records: dict[str, Any] = {
         "submissions": {}, "companyfacts": {}, "filings": {},
         "filing_facts": {}, "filing_metadata": {},

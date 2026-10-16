@@ -27,5 +27,8 @@ This was an exploratory implementation probe, not a sealed sample or a
 three-domain study. It checks an independent parser over the **same SEC Company
 Facts response**, not an independent filing-derived gold answer. The planned
 420-group SEC pool, independent gold review, macro comparison, and live agent
-study remain outstanding. No paper score or acceptance claim follows from
-this one case.
+study were outstanding at the time of this pilot. The later
+[420-group provider-free preflight](../../preflight/sec/README.md) completed
+acquisition and code-level checks; independent human review and the live study
+remain outstanding. No paper score or acceptance claim follows from this one
+pilot case.

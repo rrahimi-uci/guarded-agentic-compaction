@@ -39,6 +39,15 @@ protocol correctly remains ineligible for freezing. No OpenAI call has been made
 The normalized records are under `paper/results/multidomain/preflight/`; raw downloads remain in
 the gitignored `benchmarks/.cache/`.
 
+On 2026-10-15, the [SEC provider-free preflight](../paper/results/multidomain/preflight/sec/README.md)
+reached 420 real groups, 420/420 EdgarTools parser checks, and 420/420 exact
+oracle and gold-construction checks. All three domains now pass provider-free
+preflight. The SEC selector required a disclosed post hoc correction after its
+first run failed at 405/420 groups. This cohort is exploratory; independent
+human macro/gold review, protocol approval, and live model executions remain
+outstanding. This update does not change the historical 2026-08-04 checkpoint
+above or establish a new paper efficacy result.
+
 ## Acquisition
 
 All acquisition commands are real-source commands; there is no synthetic fallback.
@@ -181,8 +190,11 @@ approval files:
   --out paper/results/multidomain/review/macro-review-materials.json
 ```
 
-Add the SEC pool argument after that real pool exists; the retained checkpoint explicitly lists
-SEC as unavailable rather than fabricating a review result.
+The SEC pool is now available. The
+[`three-domain-macro-review-materials.json`](../paper/results/multidomain/review/three-domain-macro-review-materials.json)
+bundle includes all three domains with `approval_generated: false`; a distinct
+reviewer must inspect the SEC macro, gold implementation, source records,
+schema, effect contract, and outputs before signing.
 
 Every live command supports `--dry-run`, which writes the exact counterbalanced schedule and the
 maximum model-request and reservation bounds without loading `.env` or invoking a provider:
