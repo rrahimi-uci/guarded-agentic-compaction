@@ -1,0 +1,22 @@
+{
+  "amendment": {
+    "candidate_ciks_sha256": "7666db88a617386dd7f91dba50e9f9bc4c11b8400007bc565edae985b5df3997",
+    "candidate_list_changed": false,
+    "complete_candidate_groups": 520,
+    "gold_or_macro_changed": false,
+    "offline_replay_no_sec_requests": true,
+    "rule": "retain a minimum of 42 hard-state groups; fill ordinary shortfall from additional already-qualified hard-state groups in frozen candidate order",
+    "selected_groups": 420,
+    "selected_hard_state_groups": 57,
+    "source_code_sha256": "02835dbeb1c611b74a89e51faf78ab7f0d49603ac9c63759de30fd0b878e0460"
+  },
+  "claim_boundary": "This rule was amended after inspecting a terminal acquisition failure. The resulting SEC cohort is exploratory and must not be described as a pre-registered confirmatory selection.",
+  "original_live_run": {
+    "normalized_pool_emitted": false,
+    "rule": "select exactly 42 hard-state groups, then ordinary groups for the remaining 378 slots",
+    "source_code_sha256": "98edb7eca6b9e032109216f758793dec458bd9f9d8c5897722b10267ed778100",
+    "terminal_error": "only 405 groups remain after SEC hard-state stratification; 420 required"
+  },
+  "schema": "agent-compaction-sec-acquisition-amendment/v1",
+  "status": "posthoc_selection_rule_correction_before_pool_freeze"
+}

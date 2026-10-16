@@ -1,0 +1,135 @@
+{
+  "approval_generated": false,
+  "created_at": "2026-10-16T04:55:40.186700Z",
+  "domains": {
+    "hmda": {
+      "approval_template": {
+        "approved": false,
+        "author": "",
+        "domain": "hmda",
+        "effect_catalog_digest": "f30ebb869f2b71b1446ef8179e34e8124283b6b761240c9936ef0ec9d3326edd",
+        "evaluator_digest": "151a0d8c7e01dfd8ce242a9de512183a9697d8916023b153c003175c29551121",
+        "implementation_digest": "c885b7ed0ec88a4d6ebb829e2930115e3f33067bf8126833682cc9577e09c33b",
+        "macro_version": "v1",
+        "notes": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "schema_digest": "9aa8507c01ba77cbb284826fa298b528f28fa77ab3b2633476cf4d39d2b08c3c"
+      },
+      "cases": 420,
+      "code_paths": [
+        "benchmarks/runtime.py",
+        "benchmarks/adapters/hmda_public_lar.py",
+        "benchmarks/gold.py",
+        "benchmarks/contracts/hmda_record.schema.json",
+        "benchmarks/oracles.py"
+      ],
+      "effect_catalog_digest": "f30ebb869f2b71b1446ef8179e34e8124283b6b761240c9936ef0ec9d3326edd",
+      "exact_independent_gold_passes": 420,
+      "gold_construction": {
+        "cases": 420,
+        "implementation": "benchmarks/gold.py:hmda_gold_from_records",
+        "implementation_sha256": "268c9485b1003eb39e14f48d858144a9b8e0c45d99dc2a066d49426616b71fdf",
+        "independent_from_macro": true
+      },
+      "implementation_digest": "c885b7ed0ec88a4d6ebb829e2930115e3f33067bf8126833682cc9577e09c33b",
+      "independent_groups": 420,
+      "prompt_digest": "7aea440b91ca8d508eeb1019415823b50f03d05bcb718ba8d1c117d49569a0d0",
+      "retained_artifact_sha256": {
+        "cases.jsonl": "433e9cb7b03444a85b5989b64e0b7b1032ea9b1c28a9b2fe69de1ef871394f3d",
+        "gold.jsonl": "a07f2bc7db8e7db6a5421030c9ebcbe4969b01b4940e38177a034ff2a2af3122",
+        "report.json": "9e0d1cce87aa4faeceeddd27333660a821a39f0184e47c6c018aa702a811b98e",
+        "snapshot.json": "be80d05d83f5fc722d5710564b7124dd415de77d216f6e0921013f3ae8cf595c"
+      },
+      "review_warning": "Provider-free exact agreement uses a separately implemented, checksum-bound gold constructor, but it is not independent human review. The named reviewer must inspect the macro, gold implementation, schema, effect contract, and retained real-record outputs before signing.",
+      "schema_digest": "9aa8507c01ba77cbb284826fa298b528f28fa77ab3b2633476cf4d39d2b08c3c"
+    },
+    "sec": {
+      "approval_template": {
+        "approved": false,
+        "author": "",
+        "domain": "sec",
+        "effect_catalog_digest": "d46b1a0635d0472232f163844d3329e0cf41c49373c086ec0d2f1a4644cacc57",
+        "evaluator_digest": "5beae1f7500c0029fe8bb538d4f870189044b083faea9f5fe135058fc1518121",
+        "implementation_digest": "8e6cc86be1a4f8249986392505836f82b3f90707c53b5c56e7ff6e70050149ae",
+        "macro_version": "v1",
+        "notes": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "schema_digest": "bfe668c7790456402d4a1e79cd5b01ab34599f995b0fbaf77dc4720329f1608f"
+      },
+      "cases": 420,
+      "code_paths": [
+        "benchmarks/runtime.py",
+        "benchmarks/adapters/sec_filing_facts.py",
+        "benchmarks/gold.py",
+        "benchmarks/contracts/sec_fact.schema.json",
+        "benchmarks/oracles.py"
+      ],
+      "effect_catalog_digest": "d46b1a0635d0472232f163844d3329e0cf41c49373c086ec0d2f1a4644cacc57",
+      "exact_independent_gold_passes": 420,
+      "gold_construction": {
+        "cases": 420,
+        "implementation": "benchmarks/gold.py:sec_gold_from_records",
+        "implementation_sha256": "268c9485b1003eb39e14f48d858144a9b8e0c45d99dc2a066d49426616b71fdf",
+        "independent_from_macro": true
+      },
+      "implementation_digest": "8e6cc86be1a4f8249986392505836f82b3f90707c53b5c56e7ff6e70050149ae",
+      "independent_groups": 420,
+      "prompt_digest": "695e936a54505c78b86a6a6330d4595345c7cb7725c1457c94ffc579e274ff5a",
+      "retained_artifact_sha256": {
+        "cases.jsonl": "2443da82093fe46e39421a7a18945b7a4c1e4352cb34fd9845db519002b6171a",
+        "gold.jsonl": "89929ba9e356db68b8913c74e2e3d28aa3e5fb459a1fc2dc3f38f50942da4d60",
+        "report.json": "3f0716a8167fbd38a68e098f3fc3e674b32db973dcd5340ed58e04eb10ff01fa",
+        "snapshot.json": "bb520dbbb07d0cd14c5081414b56d09ea7be63f6b3ba8157e3ddf5da0c5e3419"
+      },
+      "review_warning": "Provider-free exact agreement uses a separately implemented, checksum-bound gold constructor, but it is not independent human review. The named reviewer must inspect the macro, gold implementation, schema, effect contract, and retained real-record outputs before signing.",
+      "schema_digest": "bfe668c7790456402d4a1e79cd5b01ab34599f995b0fbaf77dc4720329f1608f"
+    },
+    "vulnerability": {
+      "approval_template": {
+        "approved": false,
+        "author": "",
+        "domain": "vulnerability",
+        "effect_catalog_digest": "c3434e70f22400ab9fdf103d13eb580bc75224d9b460585975990ed4cbcdeb74",
+        "evaluator_digest": "76826fe8f3b9a9fb17d820240483a3964665ad01e5bca721dc0d9bc5611ac283",
+        "implementation_digest": "31550babbfd2d99fde6e40a8f428adeef222e0a08425a24f3dceed190ca0ed61",
+        "macro_version": "v1",
+        "notes": "",
+        "reviewed_at": "",
+        "reviewer": "",
+        "schema_digest": "01224c46f0fc7926c21d3b49c4c1a3f6d33f68b1fca1afa14923731febac345e"
+      },
+      "cases": 420,
+      "code_paths": [
+        "benchmarks/runtime.py",
+        "benchmarks/adapters/vulnerability_evidence.py",
+        "benchmarks/gold.py",
+        "benchmarks/contracts/vulnerability.schema.json",
+        "benchmarks/oracles.py"
+      ],
+      "effect_catalog_digest": "c3434e70f22400ab9fdf103d13eb580bc75224d9b460585975990ed4cbcdeb74",
+      "exact_independent_gold_passes": 420,
+      "gold_construction": {
+        "cases": 420,
+        "implementation": "benchmarks/gold.py:vulnerability_gold_from_records",
+        "implementation_sha256": "268c9485b1003eb39e14f48d858144a9b8e0c45d99dc2a066d49426616b71fdf",
+        "independent_from_macro": true
+      },
+      "implementation_digest": "31550babbfd2d99fde6e40a8f428adeef222e0a08425a24f3dceed190ca0ed61",
+      "independent_groups": 420,
+      "prompt_digest": "70f2004c3721744359ef7a3deb3a8fda16eb3c01cf285380c2a47f724e24dd29",
+      "retained_artifact_sha256": {
+        "cases.jsonl": "6cea93095de2a8eb0352081ed248eb04d94f3de3da2381caeb4144e93ce85e7e",
+        "gold.jsonl": "27f488d750f2dc8d5e45e40a3b4898b762d7e2f3714f979d37ee825c7d2897d6",
+        "report.json": "7598f8224e28bc30ea796f14443a2c1308ecd80e21e676c19e57a5f80604b86d",
+        "snapshot.json": "dccc1f617ec41568f1a2c235b3aabd9829745f996a5f0058fe7177a7e5fddc9a"
+      },
+      "review_warning": "Provider-free exact agreement uses a separately implemented, checksum-bound gold constructor, but it is not independent human review. The named reviewer must inspect the macro, gold implementation, schema, effect contract, and retained real-record outputs before signing.",
+      "schema_digest": "01224c46f0fc7926c21d3b49c4c1a3f6d33f68b1fca1afa14923731febac345e"
+    }
+  },
+  "provider_calls_executed": 0,
+  "schema": "agent-compaction-macro-review-bundle/v1",
+  "unavailable_domains": []
+}

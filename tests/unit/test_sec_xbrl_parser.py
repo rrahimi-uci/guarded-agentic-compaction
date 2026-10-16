@@ -5,7 +5,7 @@ import pytest
 from guarded_agentic_compaction.evaluation import BenchmarkCase
 from benchmarks.adapters.sec_filing_facts import SecSnapshot, sec_macro
 from benchmarks.adapters.store import FrozenRecordStore
-from benchmarks.build.sec_pool import parse_xbrl_instance, select_instance_filename
+from benchmarks.build.sec_pool import parse_xbrl_instance, select_instance_filename, select_issuers
 from benchmarks.fetch.common import SourceFetchError
 from benchmarks.gold import sec_gold_from_records
 
@@ -41,6 +41,20 @@ def test_instance_selection_prefers_explicit_ex101() -> None:
         {"name": "a.xml", "type": "EX-101.INS"},
         {"name": "a_cal.xml", "type": "EX-101.CAL"},
     ]}}) == "a.xml"
+
+
+def test_sec_stratification_uses_extra_qualified_hard_issuers_when_ordinary_short() -> None:
+    # A 520-candidate cohort with 363 ordinary issuers reproduces the observed
+    # 405/420 shortfall under the former exact-10%-hard selection rule.
+    issuers = [
+        {"cik": str(index), "hard_state": index < 157}
+        for index in range(520)
+    ]
+    selected = select_issuers(issuers, 420)
+    assert len(selected) == 420
+    assert sum(item["hard_state"] for item in selected) == 57
+    assert selected[:57] == issuers[:57]
+    assert selected[57:] == issuers[157:520]
 
 
 def test_malformed_xbrl_and_numeric_lexical_variants_are_handled_exactly() -> None:

@@ -8,12 +8,15 @@ acquisition, we selected the first 700 distinct CIKs in source order and
 froze them in `sec-ciks.json`. No failed issuer is replaced outside that list.
 
 This is a convenience frame of ticker-listed issuers, not a random or
-representative sample of SEC filers. The pool builder may inspect candidates
-in this fixed order until it has 520 complete groups, then retains 420 with
-its predefined hard-state stratification. Its rejection list and all selected
-case/source digests belong in the resulting `preflight/sec/report.json`.
-The cohort freeze precedes the full acquisition, so any shortfall or parser
-disagreement must be reported rather than silently changing the frame.
+representative sample of SEC filers. The builder inspects candidates in this
+fixed order until it has 520 complete groups, then retains 420. The initial
+live acquisition reached 520 complete groups but failed to select 420 because
+the implementation treated the 10% hard-state minimum as exactly 10% and
+found only 363 ordinary groups. The selection rule was amended after this
+failure to fill those 15 slots from already qualified hard-state groups. The
+candidate list was unchanged; the [amendment record](../preflight/sec/acquisition_amendment.json)
+is part of the result. This cohort must not be described as confirmatory
+pre-registered selection.
 
 The SEC requests use the contact identity supplied for this project. That
 identity is held in the process environment and is not retained in these

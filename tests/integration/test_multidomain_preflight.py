@@ -24,7 +24,7 @@ def _cases(domain: str, count: int) -> tuple[BenchmarkCase, ...]:
     snapshots = {
         "vulnerability": "2e9912ecb96d5fb15d088977616c8065bb7bea860dd2f0ed25111bfcccc06a32",
         "hmda": "945c176f483bfc736d9faff7f7db226091234c8f5d50f7768481e2dbf3e2dde9",
-        "sec": "a" * 64,
+        "sec": "25bb6c8b845045d3ba1b29d4a9247ef0ab7e8c78304dced36b0e76955da02989",
     }
     return tuple(
         BenchmarkCase(
@@ -145,7 +145,7 @@ def test_preflight_binds_available_real_case_files_to_attested_checksums(
 ) -> None:
     pools = {
         domain: ROOT / f"paper/results/multidomain/preflight/{domain}/cases.jsonl"
-        for domain in ("vulnerability", "hmda")
+        for domain in ("vulnerability", "sec", "hmda")
     }
     loaded = {
         domain: tuple(
@@ -170,7 +170,7 @@ def test_preflight_binds_available_real_case_files_to_attested_checksums(
     assert report.errors == ()
     assert report.domain_group_counts == {
         "vulnerability": 420,
-        "sec": 0,
+        "sec": 420,
         "hmda": 420,
     }
 
