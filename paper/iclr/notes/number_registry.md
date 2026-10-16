@@ -111,3 +111,20 @@ independent episodes.
 | 205/216 vs 204/216; 22/27 | Capped confirmation completeness contrast and successful repairs | Same analysis, `groups.confirmation.capped_response_stress` | Analyzer; incomplete-prefetch subset |
 | -18.2%, -9.1%; 71→70, 70→68 of 72 | Replication model-cost changes and correct answers, ordinary/capped | Same analysis, `groups.replication` | Completed mean ratios; all replication episodes complete |
 | $0.952696; $7.001762 | New-run known cost; aggregate estimates plus failure/diagnostic reserves | Same analysis, top-level spend fields | Analyzer; frozen rate estimates, not invoices |
+
+## October 15 matched workflow-memory comparison
+
+All paths below are repository-relative. The frozen analyzer regrades source
+answers, replays successful tool outputs and recomputes usage before producing
+these values. This cohort is not pooled into the historical 810 episodes.
+
+| Number(s) | Meaning | Source | Checked by |
+|---|---|---|---|
+| 130; 6 / 120; 18 / 360 | Shared eligible discovery traces; pilot / primary issue groups and episode counts | `experiments/matched_reuse_baseline/seal.json` | Provider-free preflight and seal verification |
+| 378; 377; 1 | Attempted; completed; GAC schema failure, with no retry | `experiments/matched_reuse_baseline/analysis.json` | Frozen runner audit |
+| 116/120 vs 114/120 vs 114/120 | Primary seven-field correct, GAC / adapted AWM / baseline | Same analysis, `groups.primary.arms` | Existing source grader; failed episode retained |
+| 119/120 vs 117/120 vs 117/120 | Historical four-field factuality endpoint | Same analysis, `groups.primary.arms` | Same audit; separate endpoint |
+| +1.67 [0,4.17] pp; 0.50; 1.00 | GAC minus adapted AWM, descriptive paired bootstrap; exact McNemar p; Holm p | Same analysis, primary contrasts | 120 paired issue groups; no superiority/equivalence claim |
+| 2 vs 4; 3; 30.8%, 30.1% | Provider requests; tools in every arm; all-attempted deployment cost reductions versus adapted AWM and baseline | Same analysis, primary observed resource totals | Ratios of observed totals; all response usage present |
+| -0.0002963 [-0.0003126,-0.0002800] USD; -2.109 [-2.268,-1.954] s | Paired cost and latency differences, 119 completed GAC-AWM pairs | Same analysis, primary contrast | Descriptive paired issue bootstrap; excludes failed pair |
+| $0.0025674; $0.30665104; $8.57705193 | Induction; all new known study cost; aggregate estimates and reserves | Same analysis plus checkpoint metrics | Frozen rate card, all observed usage, retained failure reserve |

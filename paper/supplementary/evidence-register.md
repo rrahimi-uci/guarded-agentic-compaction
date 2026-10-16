@@ -63,7 +63,7 @@ This register prevents claims from drifting beyond the artifacts that support th
 | Fulfillment compaction preserves the mandatory-write boundary | `experiments/live_results/all_results.json`, `docs/live-results.md` | Verified on fixture | Demo E: 7.0 to 2.0 requests, total tokens -66.4%, quality 1.00/1.00; estimated cost +8.3%; write remains in the ordinary agent |
 | Prefix position is safety critical | archived pilot and regression | Verified | unsafe suffix dispatch passed only 16.7% of contracts; prefix-only fix is tested |
 | Production readiness | no canary/operations evidence | Not established | lab-only artifact promotion; no production service or multi-domain test |
-| State-of-the-art superiority | bounded same-task GEPA run; no executable workflow-compiler head-to-head | Not established | GEPA is now measured and negative under a small budget; EvoC2F, Agent JIT, AWO, AWM, caches, and schedulers remain literature comparators only |
+| State-of-the-art superiority | bounded same-task GEPA run; no executable workflow-compiler head-to-head | Not established | GEPA is now measured and negative under a small budget; EvoC2F, Agent JIT, AWO, caches, and schedulers remain literature comparators; the separately reported offline AWM API-task adaptation is a whole-system comparison, not native browser reproduction |
 | Every reported artifact meets the registered 5% selective-risk target | `results/admission_register.json` | Contradicted | four artifacts at `alpha=.05` (92/92, bound 0.0498); three at `alpha=.10` — the earlier three-read artifact (45/45, 0.0992) and the guarded-composite artifact behind all GCS and comparator numbers (88/92, 0.0520), both of which would retire at 5% |
 | Per-candidate exact gates provide compiler-wide control after candidate-family search | `src/guarded_agentic_compaction/grc/compile.py`, `src/guarded_agentic_compaction/grc/calibrate.py`, `results/admission_register.json` | Not established | delta is split over 11 thresholds for one fixed candidate, while the compiler may calibrate several families; two-candidate Bonferroni control would require 106 zero-violation groups rather than 92 |
 | The calibrated gate never discriminates | `results/*/results.json` gate records | Partly contradicted | five of six live gates admit all or none; the guarded-composite gate refuses four of 92 groups (coverage 0.957), and that refusal is why its bound exceeds 5% |
@@ -101,3 +101,12 @@ and optimizer studies used `OPENAI_API_KEY` for real provider calls. Live result
 publication text/JSON for key-shaped values. The public repository begins from an initial
 snapshot created after the experiments; current versioning is available, but pre-snapshot
 commit ancestry and CI history cannot be reconstructed.
+
+## October 15: matched offline AWM adaptation
+
+| Claim | Source | Status | Boundary |
+|---|---|---|---|
+| Executed external automated workflow-memory comparison | `experiments/matched_reuse_baseline/{seal,memory_seal,checkpoint,analysis}.json` | 378 episodes attempted, 377 completed | Pinned official AWM induction/filter/memory functions adapted to API tasks; not native browser reproduction or equivalent-placement compiler comparison |
+| Lower model work than adapted AWM | Same analysis, primary resource totals | GAC 2 versus 4 requests and 30.8% lower observed deployment cost; three tools in both | Same 120 issues and model; all usage present; induction cost separate; not broad superiority |
+| GAC has higher population accuracy than adapted AWM | Same analysis, primary paired contrast | Not established | 116/120 versus 114/120; exact McNemar p=0.50, Holm p=1.00; one GAC schema failure retained; no equivalence claim |
+| AWM matches baseline accuracy on every issue | Same analysis, AWM-minus-baseline contrast | Contradicted despite equal aggregate scores | Both 114/120, with two correct-only issues in each direction |
