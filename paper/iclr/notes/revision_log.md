@@ -350,3 +350,30 @@ changing a result:
 - Rebuilt the anonymous ICLR PDF under the existing ten-page revision target.
   Validation and companion-publication boundaries are recorded in
   `live_recovery_integration.md`. The dated review score remains historical.
+
+## PAT feedback disposition and final review (2026-10-16, branch `paper/iclr-pat-feedback-review`)
+
+Every item of the 12 September 2026 PAT feedback (OpenReview `DF0JaS58gr`) re-checked against
+the manuscript at `main` 5ec65b0; the item-by-item table and the reviewer-style assessment of
+what remains are in `pat_feedback_disposition.md`. All items were already closed by the
+September and October passes except the ones below, which this branch closes:
+
+- Appendix G: the "scope of automated workflow-reuse comparison" paragraph now states, per
+  system (AWM, plan caching, LLMCompiler, EvoC2F, Agent JIT), what is reused, where it executes,
+  what admits it, and why none yields an admit-or-retire decision comparable to GAC's (PAT
+  weakness 1 and §6 item 4).
+- `main.tex`: `\interlinepenalty` inside the bibliography so no reference entry splits across a
+  page (PAT bibliography-pagination item).
+- Own findings: abstract and conclusion wording on the completeness check made intelligible
+  without Appendix I; the post-cutoff end-to-end certificate restored to the abstract; §3 states
+  that the certified event cannot occur on the GitHub cohorts as labelled; §5.5 glosses
+  request-scope admission and completeness checking; §5.1 "pooled latency"; MIPRO and LLMLingua
+  cited; the external evidence map cites the seven benchmarks it names. The §5.5 sentence that §7
+  repeats was dropped to pay for the additions.
+- `openreview_metadata.md`: abstract regenerated from the source (it carried the pre-October
+  text). Re-pasting it into OpenReview remains a user action.
+
+No number, result, or claim changed. Build: 51 pages; Sections 1--8 end on page 10 and the AI
+Use Statement opens page 11; 0 overfull boxes; 0 unresolved references; PDF anonymous.
+`main-final.pdf` refreshed to this build; publication manifest regenerated; validator 5,624
+checks, 0 failed; `git diff --check` clean.

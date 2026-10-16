@@ -8,12 +8,12 @@ BFCL v4 (plans) & Gold-plan checker & 200/200 valid plans; plan format only. \\
 BFCL v4 (executed) & Compiler measurement & 200 traces, 1{,}142/1{,}142 exact re-execution; 3 / 3 / 0 replay; all families retire. \\
 AppWorld (executed) & Compiler measurement & 136/147 traces, 7{,}070/7{,}070 exact re-execution; $n_{\max}=136\ge92$; one artifact admitted at $U=0.0498$; under arm B two candidates retire at the margin ($U=0.051$) and two far from it ($U=1$). \\
 BIRD (dev and train) & Live-provider compiler study & 31 databases, two agent designs, three models: the standard design retires everywhere; the schema-first opening is admitted on 26 of 31 databases (\code{gpt-5.6-luna}) and 5 of 5 (\code{gpt-6-luna}); no detected accuracy loss on 924 held-out questions (\cref{app:bird}). \\
-ToolSandbox & Live-provider subset & One simulated scenario; compiler not run. \\
-$\tau^2/\tau^3$ & Live-provider subset & 0/4 pass; compiler not run. \\
-ToolBench & Adapter smoke & Ten fixtures; full data/backend unavailable. \\
-AgentBench & Adapter/preflight & Services and Freebase data gated. \\
-GAIA & Access preflight & Authorization denied; no metric. \\
-SWE-bench Verified & Task adapter & Official run host-gated. \\
-BrowseComp & Live-web subset & 1/3 correct, 28 searches; bypassed by the compiler. \\
+ToolSandbox~\citep{lu2025toolsandbox} & Live-provider subset & One simulated scenario; compiler not run. \\
+$\tau^2/\tau^3$~\citep{barres2025tau2} & Live-provider subset & 0/4 pass; compiler not run. \\
+ToolBench~\citep{qin2023toolllm} & Adapter smoke & Ten fixtures; full data/backend unavailable. \\
+AgentBench~\citep{liu2023agentbench} & Adapter/preflight & Services and Freebase data gated. \\
+GAIA~\citep{mialon2023gaia} & Access preflight & Authorization denied; no metric. \\
+SWE-bench Verified~\citep{jimenez2024swebench} & Task adapter & Official run host-gated. \\
+BrowseComp~\citep{wei2025browsecomp} & Live-web subset & 1/3 correct, 28 searches; bypassed by the compiler. \\
 \bottomrule
 \end{tabularx}

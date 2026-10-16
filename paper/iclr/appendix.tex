@@ -1116,16 +1116,36 @@ prologue; the measurement assumes the declaration a reviewer would have to sign.
 \end{table}
 
 \paragraph{Scope of automated workflow-reuse comparison.}
-AWM, plan caching, EvoC2F, and Agent JIT differ in execution placement,
-verification, and reuse unit
-\citep{wang2025awm,zhang2025plancache,wei2026evoc2f,winston2026agentjit};
-LLMCompiler emphasizes within-task scheduling \citep{kim2024llmcompiler}.
-We execute a pinned offline AWM adaptation on shared API tasks in
-\cref{app:matched-reuse}. This adds a whole-system quality--cost comparison,
-but does not reproduce AWM's native browser evaluation or provide an
-equivalent-placement comparison against another workflow compiler. That
-stronger comparator remains missing; internal barrier ablations do not
-substitute for it.
+The cited reuse systems differ from \method in what they reuse, where the
+reused unit executes, and what admits it, which is why none could be dropped in
+as a matched comparator without re-implementation. Agent Workflow Memory
+induces workflow text from past trajectories and places it in the agent's
+context, so every step remains a model decision; on the API tasks of
+\cref{app:matched-reuse} it issued the baseline's four requests per
+episode~\citep{wang2025awm}. Agentic plan caching stores plan templates from
+completed runs and, at test time, retrieves and adapts one with a lightweight
+model, so a model stays in the loop and admission is by retrieval match rather
+than by grounded arguments~\citep{zhang2025plancache}. LLMCompiler lets a
+planner call emit a DAG of tool calls that execute in parallel within one task
+and carries nothing across tasks~\citep{kim2024llmcompiler}. EvoC2F compiles a
+typed plan representation carrying dependency, effect, resource, idempotency,
+and retry annotations and admits trajectory-derived macro-skills through tests,
+contracts, and regression checks; Agent JIT Compilation generates and validates
+code plans for the current web task, selects low-cost candidates, and schedules
+execution under tool pre- and post-state
+invariants~\citep{wei2026evoc2f,winston2026agentjit}. Those two are the closest
+compiler comparators, since both carry effect or state annotations and both
+verify before reuse, but their admission is by test and contract passage rather
+than by a finite-sample bound over held-out groups, and neither is evaluated on
+an admit-or-retire decision per candidate region. We therefore execute the
+comparator whose official implementation we pinned and adapted to shared API
+tasks, an offline AWM adaptation, in \cref{app:matched-reuse}. This adds a
+whole-system quality--cost comparison, but does not reproduce AWM's native
+browser evaluation or provide an equivalent-placement comparison against
+another workflow compiler; the compatibility audit retained with that study
+records why AWO, EvoC2F, Agent JIT, and plan caching were not treated as
+verified drop-in comparators. That stronger comparator remains missing;
+internal barrier ablations do not substitute for it.
 
 \Cref{tab:mechanism-removal} prices the barriers: for each
 retained hazard it names the guard that caught it and what deterministic replay
@@ -1407,9 +1427,9 @@ whichever arm produced it.
 
 \paragraph{A compression comparator ran, and did not engage.}
 Every headline resource number compares a compiled prefix against an
-\emph{uncompressed} baseline, because deployed compression middleware reports
-token reductions of the same order on a comparable workload by an entirely
-different mechanism~\citep{headroom2026}. A live Headroom v0.5.18 ablation adds
+\emph{uncompressed} baseline, because prompt compression~\citep{jiang2023llmlingua} and, on a comparable
+workload, deployed compression middleware~\citep{headroom2026} report token
+reductions of the same order by an entirely different mechanism. A live Headroom v0.5.18 ablation adds
 \code{headroom\_only}/\code{compiled\_headroom} arms to the PR-outcome and
 backlog-attention families on the existing 30-record held-out cohort
 (\path{paper/supplementary/headroom-ablation-protocol.md}). Headroom attempted

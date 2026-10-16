@@ -69,7 +69,7 @@ pdftotext -f 1 -l 1 build/main.pdf - | head -3   # must say "Anonymous authors"
 pdfinfo build/main.pdf | grep Author             # must print nothing
 ```
 
-The October 15 live-recovery integration build ends Section~8 on page~10. Rebuild and re-check before
+The October 16 review build ends Section~8 on page~10 and the AI Use Statement opens page~11. Rebuild and re-check before
 uploading: even small content changes can alter pagination.
 
 ## Page budget
