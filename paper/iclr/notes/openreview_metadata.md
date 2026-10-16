@@ -1,7 +1,7 @@
 # OpenReview metadata for the ICLR 2027 submission (forum `DF0JaS58gr`)
 
 Paste these fields verbatim. The abstract below is the rendered text of
-`paper/iclr/sections/abstract.tex` after the October 15 fresh-generalization integration;
+`paper/iclr/sections/abstract.tex` at the PAT-disposition head (branch `paper/iclr-pat-feedback-review`, 2026-10-16);
 if the source changes, regenerate
 with `pdftotext -f 1 -l 1 paper/iclr/build/main.pdf -` and re-check word for word.
 
@@ -21,7 +21,7 @@ We introduce guarded agentic compaction (GAC), which compiles recurring read-onl
 
 On three GitHub workflows, the compiled agent solves 90 of 90 held-out tasks versus 89 for the original agent, with about two-thirds fewer model calls. A separately frozen comparison with adapted offline Agent Workflow Memory spans three workflows, two models and 1,362 fresh records (8,172 attempted episodes). Estimated deployment cost falls 36.9–79.1% and model requests 50–75%. Five of six comparisons meet a preregistered five-percentage-point accuracy noninferiority margin with multiplicity correction; the smaller second-model backlog cohort is inconclusive. Only two comparisons meet a two-point margin. Statistical, support-only and deterministic gates produce identical routing and evidence on all selected cases, providing no incremental runtime gate benefit on these already admitted candidates.
 
-On BIRD, a schema-first SQL agent's opening compiles on 26 of 31 databases, with 45–50% fewer model calls and no detected accuracy loss; question-specific table selection is refused. NESTFUL and AppWorld show no measured deployment benefit. Request-scope checks help on constructed tasks, while completeness checks can duplicate recovery and earlier drift tests show no protection. The evidence supports bounded compilation of recurring workflows, not learned-gate superiority, universal accuracy preservation, or cross-domain savings. Most certificates concern replay rather than final answers; task, author and time independence remain assumptions.
+On BIRD, a schema-first SQL agent's opening compiles on 26 of 31 databases, with 45–50% fewer model calls and no detected accuracy loss; question-specific table selection is refused. NESTFUL and AppWorld show no measured deployment benefit. On 132 pull requests created after the data snapshot, a re-derived program made no end-to-end error (rate below 2% at 90% confidence). A live safeguard ablation shows that request-scope checks help on constructed tasks, while the agent often recovers from incomplete evidence without a completeness check, and earlier drift tests show no protection. The evidence supports bounded compilation of recurring workflows, not learned-gate superiority, universal accuracy preservation, or cross-domain savings. Most certificates concern replay rather than final answers; task, author and time independence remain assumptions.
 
 ## Keywords
 

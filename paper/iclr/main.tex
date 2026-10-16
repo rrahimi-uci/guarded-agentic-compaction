@@ -182,6 +182,12 @@ pin their model strings, the Anthropic adapter's request mapping, and their
 protocols the same way. The added safeguard studies retain their configurations
 and execution schedules in separate prospective seals (\cref{app:live-recovery}).
 
+% Keep each reference entry on one page: the ICLR 2027 feedback flagged an author
+% list split across a page boundary.
+\makeatletter
+\let\gac@thebibliography\thebibliography
+\renewcommand{\thebibliography}[1]{\gac@thebibliography{#1}\interlinepenalty\@M}
+\makeatother
 \bibliographystyle{iclr2027_conference}
 \bibliography{references}
 
