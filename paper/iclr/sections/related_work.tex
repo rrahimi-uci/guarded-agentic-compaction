@@ -18,9 +18,15 @@ executions~\citep{ernst2001daikon} are the ancestor of the induced verifier,
 with the same caveat (\cref{app:limits}): an inferred hull is evidence, not proof.
 
 \paragraph{Reuse, caching, and optimization of agents.}
-Agent systems mine workflows, cache plans, compile orchestration, validate
+AWM induces reusable workflows that guide subsequent model generations
+\citep{wang2025awm}; GAC executes grounded prefixes without those decisions.
+Plan caching reuses plans \citep{zhang2025plancache}; EvoC2F compiles an
+annotated orchestration IR and tests skills before admission \citep{wei2026evoc2f};
+Agent JIT generates and schedules executable plans with tool pre/postconditions
+\citep{winston2026agentjit}. These are distinct optimization units, not
+interchangeable implementations. Other systems optimize workflows, compile
 plans, or prune topology
-\citep{wang2025awm,zhang2025plancache,abuzakuk2026awo,wei2026evoc2f,winston2026agentjit,li2026flowcompile,chen2026agentslimming,wang2026covenant,chundru2026agenticcompilation};
+\citep{abuzakuk2026awo,li2026flowcompile,chen2026agentslimming,wang2026covenant,chundru2026agenticcompilation};
 skill libraries grow reusable procedures from
 experience~\citep{wang2023voyager,zheng2025skillweaver}; semantic caches reuse
 responses~\citep{bang2023gptcache}, and prompt caching and cache-aware

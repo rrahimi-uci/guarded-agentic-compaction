@@ -104,16 +104,13 @@ rather than replaces them --- and under tool-layer corruption their measured
 protective value was null or adverse (\cref{sec:discussion}).
 
 \paragraph{6. Exact risk-gated admission.}
-\Cref{alg:calibrate} decides deployment. The score $q$ is a logistic model over
-entry-observable features --- missing fields, hull margin, temporal drift, and
-provenance ambiguity --- fitted by regularized maximum likelihood on \emph{dev}
-groups only, never on calibration groups, then frozen together with the finite
-threshold grid
-$\Lambda=\{0.02,0.05,0.08,0.11,0.14,0.17,0.20,0.25,0.30,0.40,0.50\}$. $q$ is \emph{fitted} to predict an
-\emph{unproductive} dev group --- guard rejection, abstention, or manifest
-mismatch --- never a wrong execution, since \textsc{ReplayAndChallenge} already
-retired those; the bound below is \emph{counted} only on dispatched groups that
-turned out wrong (\cref{app:config}). For each
+\Cref{alg:calibrate} decides deployment. The score $q$ is a regularized logistic model fitted on development
+windows, including synthetic perturbations, then frozen with the grid
+$\Lambda=\{0.02,0.05,0.08,0.11,0.14,0.17,0.20,0.25,0.30,0.40,0.50\}$.
+It predicts an unproductive replay (execution failure, verifier abstention,
+or verified mismatch), not a calibrated probability of task error. Training
+features and labels, including synthetic feature augmentation, are specified
+in \cref{app:config}; calibration uses clean windows only. For each
 $\eta\in\Lambda$ the compiler counts admitted calibration groups ($n_\eta$) and
 those containing at least one post-dispatch violation ($k_\eta$), and inverts
 the one-sided exact binomial test~\citep{clopper1934binomial} at a
@@ -136,13 +133,13 @@ output is refusal.
 That floor also bounds what selectivity is \emph{certifiable}: coverage
 $c=n_\eta/|\mathcal{K}|$ needs $|\mathcal{K}|\ge\lceil 92/c\rceil$, so on the
 $|\mathcal{K}|=92$ primary cohorts --- the smallest satisfiable pool ---
-the only admissible coverages are $c\in\{0,1\}$ whatever $q$ ranks, since
+the only outcomes are retirement or full empirical calibration coverage, since
 abstaining on one group leaves $U_\eta=0.0503>\alpha$; intermediate coverage can be
 \emph{observed} but not certified (\cref{app:config}, \cref{fig:gate-floor}).
-Nor can that event occur on the GitHub cohorts as labeled: the compiled steps'
-argument pattern is invariant across all discovery traces per family, and the
-labels replay those calls over a pinned snapshot, so a zero count is expected by
-construction. Those certificates are therefore support-sufficiency statements at full coverage ($n_\eta\ge92$;
+The GitHub calibration labels replay stable call patterns over a pinned
+snapshot and contain no observed violation. They offer little test of risk
+discrimination; zero observed failures does not prove that failure is impossible.
+These certificates function here as support-sufficiency statements at full coverage ($n_\eta\ge92$;
 $\delta=0.1$ is the budget at which that floor is satisfiable, $\delta=0.05$
 needs 106) that cannot tell whether $q$ ranks dispatch risk.
 
@@ -162,7 +159,8 @@ $r_{\hat\eta}\le\alpha$ whenever $U_{\hat\eta}\le\alpha$.
 
 \Cref{app:proof} gives the proof. The guarantee is per fixed candidate and
 conditional on i.i.d.\ groups, which the cohorts assume rather than establish
-(\cref{sec:discussion}). Conditional on train and development data the number
-$m$ of candidates reaching calibration is fixed, so a run is compiler-wide when
-$m=1$ (\cref{cor:frozen}) or when the per-threshold budget $\gamma=\delta/|\Lambda|$ of \cref{eq:cp} is divided by $m$; \cref{app:config}
-reports $m$ and both bounds for every artifact.
+(\cref{sec:discussion}). A compiler-wide guarantee requires one candidate frozen before calibration
+(\cref{cor:frozen}), or a set of $m$ candidates fixed before calibration and
+per-threshold budget $\gamma=\delta/(m|\Lambda|)$. A post hoc count after
+calibration-dependent stopping is insufficient; \cref{app:config} audits the
+retained runs and reports both bounds.

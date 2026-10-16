@@ -94,7 +94,7 @@
     {
       "key": "Sampling",
       "source": "run.temperature (issue-type file)",
-      "value": "temperature, top-p, and seed are not exposed for this model; the SDK sends none"
+      "value": "temperature, top-p, and seed are omitted in the retained requests"
     },
     {
       "key": "Turn and time limits",
@@ -119,7 +119,7 @@
     {
       "key": "Pricing",
       "source": "demos/live_runtime.py:58-65",
-      "value": "USD per 1M tokens: input 0.20, cached 0.02, cache write 0.25, output 1.20 (list rates, 2026-08-02); cost $=$ (input $-$ cached $-$ write)$\\cdot$0.20 $+$ cached$\\cdot$0.02 $+$ write$\\cdot$0.25 $+$ output$\\cdot$1.20"
+      "value": "USD per 1M tokens: input 0.20, cached 0.02, cache write 0.25, output 1.20 (list rates, 2026-08-02); cost in USD $=10^{-6}\\big[(\\mathrm{input}-\\mathrm{cached}-\\mathrm{write})\\cdot0.20 + \\mathrm{cached}\\cdot0.02 + \\mathrm{write}\\cdot0.25 + \\mathrm{output}\\cdot1.20\\big]$"
     },
     {
       "key": "Data pins",

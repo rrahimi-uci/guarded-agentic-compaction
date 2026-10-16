@@ -1,3 +1,7 @@
+> Historical response record. Counts, planned studies, and some methodological
+> descriptions below are superseded by [the 2026-10-16 comprehensive audit](pat_feedback_disposition.md).
+> Use that ledger and the current manuscript for any new reviewer response.
+
 # Reviewer Response — external review, 2026-09-12
 
 Mapping from each point in the external review to the change made, the file it

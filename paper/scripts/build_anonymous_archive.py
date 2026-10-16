@@ -76,13 +76,13 @@ TEXT_SUFFIXES = {".py", ".md", ".tex", ".bib", ".sty", ".bst", ".json", ".toml",
 
 README = """# Supplementary material: From Traces to Guarded Programs (ICLR 2027 submission)
 
-This archive is the anonymized artifact behind the numbers in the paper. It was assembled from
-the repository's tracked files only, so it contains no credentials, provider keys, or caches.
-Author-identifying strings were replaced by `ANONYMIZED` placeholders in five files (repository
-URLs in `pyproject.toml`, `CHANGELOG.md`, `benchmarks/README.md`; two literals in
-`paper/scripts/validate_artifacts.py` that check a named preprint; absolute paths recorded by
-one early run in `paper/results/gcs_validation/provider_free.json`). Nothing else was edited.
-`MANIFEST.sha256` lists every file with its digest.
+This archive contains tracked sources and retained evidence for the paper. Ignored
+files, credentials files named `.env`, and local caches are excluded. Text files
+containing configured author-identifying strings are scrubbed; the builder reports
+the actual file count and scans the resulting bytes. This is not a general proof
+of anonymity. `MANIFEST.sha256` records the shipped bytes. Original repository
+publication manifests may describe pre-scrub bytes and are not archive checksums.
+Byte-pinned upstream parquet data are preserved and checked separately.
 
 ## Layout
 
@@ -123,20 +123,20 @@ python paper/scripts/recurrence_only_ablation.py preflight
 python paper/scripts/issue_type_extended_heldout.py preflight
 ```
 
-The listed validator families (21 of 28) pass inside this archive as shipped. The other seven
-are not evidence for this paper or need material this archive omits on purpose:
-`iclr_sources` regenerates every ICLR table and passes except for the three cross-repository
-rows of `effective_units`, which need the four third-party issue snapshots (56 MB, licence not
-declared upstream, so not redistributed here); `manifest` and `publication` verify checksums of
-the full public repository, including the five scrubbed files and the earlier preprint's sources;
-`offline_comparator`, `claim_boundaries`, `slides`, and `slide_generation` check the earlier
-preprint's tables, slides, and README. To fetch the cross-repository snapshots (sha256 pinned in
-each `paper/results/datasets/github_multirepo/*/source_manifest.json`) and then pass
-`iclr_sources` in full:
+The command above is a useful provider-free subset, not the complete repository
+validator. For checks specifically audited for this revision, use the validation
+record in `paper/iclr/notes/final_reviewer_assessment.md`. List available families
+with `python paper/scripts/validate_artifacts.py --list-families`.
+
+Full-repository checks for publication hashes, the named preprint, public site,
+and slide assets require material intentionally absent or scrubbed here.
+`iclr_sources` also regenerates cluster statistics from four cross-repository
+parquet snapshots (56 MB, no upstream redistribution licence declared), which are
+not included. Their source manifests pin refetchable bytes. To acquire these
+public data and run the complete ICLR table-regeneration check:
 
 ```
 python paper/scripts/github_multirepo_pr_outcome_core.py --preflight-only --force-download
-python paper/scripts/iclr_revision_statistics.py all
 python paper/scripts/validate_artifacts.py --families iclr_sources
 ```
 
@@ -152,9 +152,8 @@ python paper/scripts/appworld_dispatch_prologue_preflight.py --source-root "$BEN
 ## Live studies (need a provider key; costs at list prices)
 
 The retained results are the evidence; reruns are not required to check any claim. If rerun:
-the three primary families (`github_live_study.py`, `github_workflow_family_study.py`) cost
-about $0.10 in total on `gpt-5.6-luna`; the second-model and recurrence-only studies about
-$0.50 on OpenAI; the second-provider replication about $8 on Anthropic `claude-sonnet-5`.
+historical spend estimates are recorded in each retained result and protocol. They
+are not current price quotes or rerun budgets, and provider aliases may have changed.
 Each driver refuses to run without an explicit `--approved-spend-usd` where the protocol
 requires one, and every protocol in `paper/supplementary/` states its decision rule in advance.
 """

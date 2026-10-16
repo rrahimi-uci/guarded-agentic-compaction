@@ -1,7 +1,7 @@
 \section{Results}
 \label{sec:results}
 
-\subsection{Primary workflows: preserved contracts, less work}
+\subsection{Primary workflows: observed contracts and resource savings}
 \label{sec:res-primary}
 
 \begin{table}[t]
@@ -53,8 +53,8 @@ ungrounded excerpt) against zero compiled-only misses (McNemar $p=1$; one-sided
 95\% bound on compiled-only discordance 3.3\%); a rerun of the 30 records scored
 30/30 in every arm (\cref{app:limits}), so no accuracy difference is detected; equivalence and noninferiority were
 not established. Programs hand-written with full workflow knowledge also reach
-90/90, tie on requests, use fewer interfaces and tokens, cost marginally less,
-and lose only on pooled latency (\cref{tab:manual-resources}): we claim discovery and
+90/90 and tie on requests. Pooled across families, they use fewer interfaces
+and tokens and cost marginally less, while compilation has lower latency (\cref{tab:manual-resources}): we claim discovery and
 admission, not runtime dominance.
 
 Each artifact was admitted at 92/92 zero-violation calibration groups
@@ -144,9 +144,9 @@ $n_{\max}=136$, and \method admits one argument-free two-call artifact at 92/92
 zero-violation groups ($U_{\hat\eta}=0.0498$, compiler-wide under one effect
 arm, per-candidate under the other; \cref{app:external}). Yet across 8{,}190
 released trajectories it is entry-eligible in $37.9\%$, almost always for
-full-code agents and almost never for ReAct and plan-and-execute, which open by
-reading API documentation (\cref{tab:appworld-dispatch}); admitting that read as
-a prologue recovers only 2 more of 4{,}680 (\cref{app:limits}).
+full-code agents and almost never for ReAct and plan-and-execute
+(\cref{tab:appworld-dispatch}). Allowing documentation reads as a prologue
+recovers only 2 more of 4{,}680 (\cref{app:limits}).
 
 \subsection{Live recovery: request scope helps, completeness benefit is unresolved}
 \label{sec:res-recovery}

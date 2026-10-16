@@ -36,7 +36,7 @@ but does not establish independence across groups or under temporal drift.
 If \cref{alg:compile} runs with candidate freezing enabled --- ranking on train
 data, synthesizing and challenging on train and development windows only, and
 halting the search the instant any candidate reaches calibration, whatever its
-outcome --- \cref{prop:admission}'s guarantee holds for the run's actual
+outcome --- \cref{prop:admission}'s guarantee holds for that partition's actual
 reported output with no adjustment to $\gamma=\delta/|\Lambda|$: no candidate
 multiplicity remains to correct for.
 \end{corollary}
@@ -54,8 +54,11 @@ $\qquad\blacksquare$
 \end{proof}
 This is a corollary, not a new inequality: it is a restatement of
 \cref{prop:admission} for a search that never lets a second candidate see
-calibration data. Conditional on train and development data, the number $m$ of candidates that
-reach calibration is fixed before any calibration label is read. The
+calibration data. Without freezing, stopping after a target number of admissions
+can make the number actually tested calibration-dependent. A union bound must
+then budget for the candidate set fixed before calibration, not just the
+number eventually tested. In the retained primary runs, the train/development
+audit accounts for every candidate reaching calibration. The
 cross-repository extension runs with freezing enabled and every sealed
 repository report shows one candidate reaching calibration, so \cref{cor:frozen}
 applies to those admissions directly. Issue-type routing did not freeze, but its
@@ -110,8 +113,8 @@ guarantee's weakest link.
 
 \Cref{alg:patg} constructs the typed provenance graph that decides
 \cref{eq:grounding}. \patg annotates; \textsc{MineRegions} blocks. The two
-blocking marks are asymmetric on purpose: a slot with no witness is a genuine
-model decision and a slot with more than $\kappa$ witnesses is ambiguous, so the
+blocking marks are conservative: a slot with no witness is unresolved in the
+bounded search and a slot with more than $\kappa$ witnesses is ambiguous, so the
 analysis never resolves an argument by picking the cheapest available
 explanation. \patg keeps up to $\kappa$ single-source witnesses per grounded slot
 and \textsc{Synthesize} commits to the one source stable across every supporting
@@ -171,14 +174,22 @@ alone.
 
 \begin{table}[t]
   \centering
-  \caption{Effective live-provider request manifest. Every row names its source:
-  a retained \code{run} block, or a code constant with its file and line. Cache
-  and cost fields are the ones the price formula consumes.}
+  \caption{Effective live-provider request manifest. The companion JSON traces
+  each row to a retained \code{run} block or source constant. Cache and cost
+  fields are the ones the price formula consumes.}
   \label{tab:live-manifest}
   \footnotesize
   \setlength{\tabcolsep}{4pt}
   \input{tables/live_provider_manifest.tex}
 \end{table}
+
+The manifests retain requested model aliases and SDK/request settings, not
+provider-attested immutable weight checkpoints. Consequently these records
+support auditing the requests and results, but cannot guarantee that a later
+request to the same alias reproduces the same model. Omitted decoding fields
+mean provider defaults were used; they do not establish which settings the
+provider exposes. Historical list prices estimate cost, not billed spend.
+
 
 \paragraph{Admission budgets.}
 The primary registered-grid admission runs use risk budget $\alpha=0.05$, confidence budget
@@ -199,6 +210,12 @@ is $\kappa=3$. Synthesis uses the 23-operator closed library of \cref{tab:dsl}
 at depth $\le 2$; region mining uses $w_{\max}$ tool calls per window and
 requires support across independent scenario groups. Every bound in this paper
 is conditional on i.i.d.\ calibration groups.
+
+\paragraph{Admission versus completed compaction.}
+The indicator $d_A$ counts an admitted attempt. Historical runtime tables use
+``dispatched'' for successful compiled execution after verification; clean
+post-admission failures are reported as fallbacks. These completion counts
+must not replace $n_\eta$, which also includes clean aborted attempts.
 
 \paragraph{Calibration labels as computed.}
 For the replay-calibrated artifacts, \cref{alg:calibrate} receives labels produced
@@ -296,42 +313,46 @@ reported runs, and \cref{alg:dispatch}'s commit line is that contract.
 
 \begin{table}[ht]
   \centering
-  \caption{The closed transform library $\mathcal{L}$ (version \code{T-v1}). These
-  23 operators are the \emph{entire} expressive power of the binder: a slot with
-  no chain of length $\le 2$ over a single source is \code{ungroundable} and
-  retires its region, so this table fixes what \cref{eq:grounding} can witness.
-  Parameters shown in parentheses are drawn from the observed trace, not
-  free-searched. Every chain is typed, and a runtime type mismatch prunes it
-  during the value-directed search rather than at apply time.}
+  \caption{Closed transform library $\mathcal{L}$, version \code{T-v1}.
+  These 23 operator implementations bound expressiveness; the value-directed
+  search proposes a subset. Invalid types, missing paths, or invalid parameters
+  reject a chain. $S$ denotes scalar, $N$ numeric (excluding Boolean), $T$ string,
+  $L$ list/tuple, and $A$ any supported value.}
   \label{tab:dsl}
   \footnotesize
-  \begin{tabularx}{\linewidth}{@{}l r >{\raggedright\arraybackslash}X@{}}
+  \begin{tabularx}{\linewidth}{@{}l >{\raggedright\arraybackslash}X@{}}
     \toprule
-    Class & $n$ & Operators \\
+    Operators & Input $\to$ output and restrictions \\
     \midrule
-    Identity / coercion & 5 & \code{id}, \code{str}, \code{int}, \code{float},
-      \code{bool} \\
-    String & 6 & \code{lower}, \code{upper}, \code{strip}, \code{split(sep)[i]},
-      \code{join(sep)}, \code{fmt(template)} \\
-    Numeric & 5 & \code{add(c)}, \code{mul(c)}, \code{round(k)}, \code{sum},
-      \code{len} \\
-    Collection & 6 & \code{project(path)}, \code{filter(path\,op\,const)},
-      \code{first}, \code{last}, \code{sort(path)}, \code{topk(path,n)} \\
-    Temporal & 1 & \code{date\_fmt(pattern)} \\
-    \midrule
-    Total & 23 & \\
+    \code{id}; \code{str}; \code{bool} & $A\to A$; $S\to T$; $S\to\mathrm{Bool}$. Containers cannot be coerced to string or Boolean. \\
+    \code{int}; \code{float} & Convertible $T$ or $N\to N$; Boolean input rejected. \\
+    \code{lower}, \code{upper}, \code{strip} & $T\to T$. \\
+    \code{split(sep)[i]}; \code{join(sep)} & $T\to T$ at a valid index; $L[T]\to T$. \\
+    \code{fmt(template)} & $S\to T$; exactly one placeholder. \\
+    \code{add(c)}, \code{mul(c)}, \code{round(k)} & $N\to N$; bounded numeric parameters. \\
+    \code{sum}; \code{len} & $L[N]\to N$ (empty sum is zero); $T,L,\mathrm{Dict}\to\mathrm{Int}$. \\
+    \code{project(path)} & Dict or $L\to A$; select path from each element; a singleton list projection returns its value. \\
+    \code{filter(path,op,c)} & $L\to L$; retain elements satisfying the comparison. \\
+    \code{first}, \code{last} & Nonempty $L\to A$. \\
+    \code{sort(path)}; \code{topk(path,n)} & $L\to L$; comparable keys, ascending sort or descending top-$n$. \\
+    \code{date\_fmt(pattern)} & Parseable date string $T\to T$. \\
     \bottomrule
   \end{tabularx}
 \end{table}
 
-The library is closed and versioned deliberately. Every operator added widens
-\cref{alg:patg}'s coverage and its spurious-match surface together, so growth is
-a two-sided trade rather than a free improvement; artifacts pin the library
-version and a runtime version mismatch is a dispatch barrier. The search is
-value-directed rather than an enumeration of $|\mathcal{L}|^{2}$ expressions: it
-runs breadth-first from the concrete source value and keeps chains whose
-denotation equals the target, which prunes by runtime type for free and
-collapses observationally equivalent chains.
+Bindings have grammar $b ::= \operatorname{Const}(v)\mid s\mid
+f_1(s)\mid f_2(f_1(s))$, with one source path $s$ and type-compatible
+composition. An invariant constant must agree across supporting training
+windows; expressions are checked across windows and by group-wise refitting.
+Parameters come from bounded defaults, observed literals/paths, and templates
+inferred from the target; they are not unrestricted constants. Identity is
+represented by an empty chain; \code{bool} is executable but is not proposed
+by the default candidate generator. The default search caps depth at two,
+visited nodes at 20{,}000, and the frontier at 96. Consequently, an absent
+witness means unresolved in this search, not impossibility in the full library.
+The library version is pinned: adding operators changes both coverage and the
+chance of coincidental matches. Implementation: \path{grc/dsl.py} under the
+package source tree.
 
 \begin{figure}[t]
   \centering
@@ -340,38 +361,72 @@ collapses observationally equivalent chains.
   zero-violation bound $U(n)=1-(\delta/|\Lambda|)^{1/n}$ at $\delta=0.1$,
   $|\Lambda|=11$ crosses $\alpha=0.05$ between $n=91$ (0.0503) and $n=92$
   (0.0498). (b): the smallest pool $\lceil 92/c\rceil$ that can certify
-  selective coverage $c$; every registered-grid calibration pool in this paper
-  is 92 (the post-cutoff certificate uses 132 groups under a single rule), so the
-  certifiable coverages are 0 and 1 whatever $q$ ranks.}
+  selective empirical coverage $c$. The primary pools contain 92 groups, so
+  only retirement or full calibration coverage is possible. Later studies use
+  184 or 192 groups; the post-cutoff certificate uses 132 under a single rule.}
   \label{fig:gate-floor}
 \end{figure}
 
-\paragraph{The nonconformity score $q$.}
-$q$ is an $\ell_2$-regularized logistic model over entry-observable features
-only --- missing-field indicators, empirical-hull margin, temporal drift, and
-provenance ambiguity --- standardized on the development split's own moments so
-no calibration statistic enters the fit. Its positive class is an
-\emph{unproductive} development group: one the artifact does not carry cleanly
-to a verified result, which on $\mathcal{D}$ means a guard rejection, a verifier
-abstention, or a manifest mismatch. Wrong executions are not available as
-training signal at this point in \cref{alg:compile}, because
-\textsc{ReplayAndChallenge} at line~12 retires any candidate that produces one
-on $\mathcal{D}$; every candidate reaching \textsc{FitScore} at line~13
-therefore has zero contract violations on the development split by construction.
-This is a design consequence rather than an oversight --- the cascade is ordered
-so that deterministic checks reject before the statistical stage runs --- but it
-does mean $q$ is fitted on abstention-shaped supervision and asked at
-calibration to rank a different event, which is one plausible reason it
-discriminates weakly (\cref{sec:discussion}).
+\paragraph{The nonconformity score $q$: implemented training procedure.}
+The compiler fits feature hulls on training windows and a logistic model on
+\emph{development rows}, not group-aggregated labels. With standardized feature
+vector $\tilde f_i$, label $y_i$, and $p_i=\sigma(w^\top\tilde f_i+b)$, it minimizes
+\[
+ \tfrac12\|w\|_2^2 + C\sum_i a_i
+ [-y_i\log p_i-(1-y_i)\log(1-p_i)],\qquad C=1,
+\]
+where $a_i=N/(2N_{y_i})$ balances the two classes. It uses scikit-learn
+\code{LogisticRegression}, default L2 penalty and \code{lbfgs} solver,
+\code{max\_iter=500}, and the registered seed. Development means and standard
+deviations standardize features; scales below $10^{-9}$ become one. The helper
+also computes up to five group-separated out-of-fold predictions, but the
+compiler discards them: the final development fit scores clean calibration rows.
+For one observed class, weights are zero and the intercept is $-6$ or $+6$;
+for mixed labels in only one group, the score is clipped empirical prevalence.
+
+\begin{table}[ht]
+\centering\footnotesize
+\caption{The seven implemented score features. Names are retained to make the
+source auditable; \code{knn\_distance} does not compute nearest neighbors.}
+\label{tab:score-features}
+\begin{tabularx}{\linewidth}{@{}l >{\raggedright\arraybackslash}X@{}}
+\toprule Feature & Definition \\ \midrule
+\code{unseen\_category} & Fraction of enum-hull paths with an unseen nonmissing value. \\
+\code{knn\_distance} & Duplicate of \code{unseen\_category}. \\
+\code{missing\_optional} & Fraction of guard paths resolving to missing/null, despite the historical name. \\
+\code{hull\_margin} & Maximum range-normalized numeric excess or regex/length violation, clipped to one. \\
+\code{drift\_days} & Indicator that the supplied day exceeds the maximum training day; zero if unavailable. \\
+\code{provenance\_ambiguity} & Candidate constant $\min(1,n_{\mathrm{alternative\ bindings}}/50)$. \\
+\code{branch\_entropy} & Candidate constant: training-family branch entropy. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+A clean development row is positive when execution fails, the verifier rejects,
+or verified output is missing/different from the recorded result. Guard
+eligibility is stored separately and does not set this label. Each window also
+attempts one hostile development variant; a returned variant is labeled by
+execution/verifier failure or an invariant perturbation's verified semantic
+mismatch. Its \code{hull\_margin} and \code{provenance\_ambiguity} are each
+increased by 0.5 and clipped to one. These synthetic increments are unavailable
+at dispatch, so the augmented training distribution need not represent runtime
+risk. Earlier challenge rejection does not imply that every later training
+label is zero. Calibration excludes these perturbations and counts only
+verified replay mismatches among admitted groups. Thus score training and the
+certified endpoint differ; the exact bound requires a frozen score, not a
+well-calibrated logistic probability. This implementation, including the
+redundant feature, is retained for reproducibility rather than repaired after
+seeing results (\path{grc/compile.py}, \path{grc/calibrate.py}).
 
 \paragraph{What cohort size permits the gate to certify.}
 The zero-violation floor $n_\eta\ge 92$ constrains coverage, not just admission.
 Certifying selective coverage $c=n_\eta/|\mathcal{K}|$ requires
 $|\mathcal{K}|\ge\lceil 92/c\rceil$: 92 groups for $c=1$, 115 for $c=0.8$, 132
-for $c=0.7$, 184 for $c=0.5$. Every registered-grid cohort in this paper fixes
-$|\mathcal{K}|=92$ (the post-cutoff certificate's 132 groups use a single rule), which is the smallest pool at which \cref{eq:cp} is
-satisfiable at all. At that size the admissible coverage set is exactly
-$\{0,1\}$: abstaining on one group leaves $n_\eta=91$ and
+for $c=0.7$, 184 for $c=0.5$. The primary and earlier cross-repository
+cohorts fix $|\mathcal{K}|=92$, the smallest satisfiable pool. Later studies
+use 184 (issue recovery) or 192 (mechanism ablation) groups, without
+demonstrating a useful graded gate. At 92, retirement or full empirical
+calibration coverage are the only outcomes: abstaining on one group leaves $n_\eta=91$ and
 $U_\eta=1-(0.1/11)^{1/91}=0.0503>\alpha$. The step-like gate profiles reported
 in \cref{tab:gate-profile} and \cref{app:prospective} are therefore consistent
 with two different worlds --- a score that cannot rank, and a cohort too small
@@ -490,9 +545,9 @@ provider-response latency reproduces the wall-latency reductions to within
   \caption{The hand-written comparator priced on the same resource axes as
   \cref{tab:primary}, as percentage reduction against the same baseline and the
   same held-out records. \emph{Manual} is written with full knowledge of the
-  workflow, so this is the pessimistic comparison for the compiler: it ties on
-  provider requests, issues fewer tool interfaces, and is marginally cheaper in
-  tokens and dollars, while compilation leads only on wall latency (bold). The
+  workflow. Pooled over the three families, it ties on provider requests,
+  uses fewer interfaces and tokens, and costs slightly less; compilation has
+  lower pooled wall latency (bold). Per-family token and cost comparisons vary. The
   interface gap is concentrated in issue-type routing, where the compiled prefix
   covers two reads but the agent still issues the third. We therefore claim
   automated discovery and guarded admission, not runtime dominance over code
@@ -798,11 +853,11 @@ and neither is a subset of the other's training side.
 \paragraph{Admissible is not dispatchable.}
 \Cref{tab:appworld-dispatch} separates the two. The admitted region is eligible
 on essentially every full-code trajectory and essentially no ReAct or
-plan-and-execute trajectory, because those architectures open by reading API
-documentation---3{,}752 of the 8{,}190 released trajectories begin with an
-API-description call --- so the compiled prefix is no longer at position~0 and
-\eqref{eq:prefix} refuses. A further 61 trajectories contain the program
-somewhere other than position~0, which the same invariant refuses. Full-code
+plan-and-execute trajectory. Documentation lookups explain some position
+failures: 3{,}752 of 8{,}190 trajectories start with an API-description call,
+and 61 contain the program away from position~0. They do not explain all
+missing dispatches: the prologue relaxation recovers only two ReAct runs
+(\cref{tab:appworld-prologue}); the admitted call sequence often never occurs. Full-code
 agents are eligible on $2{,}339/2{,}340$ trajectories and iterative parallel
 function-calling agents on $762/1{,}170$. Two secondary observations: the rate
 is flat across task difficulty ($0.377$ on \code{test\_normal} against $0.380$

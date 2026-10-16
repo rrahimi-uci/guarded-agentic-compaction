@@ -3015,7 +3015,13 @@ def validate_iclr_sources() -> None:
        "iclr: American spelling of behavior throughout")
     ok("distribution-free" not in body.lower(), "iclr: no distribution-free claim")
     ok(not _re.search(r"(\\ge|\\le|\\geq|\\leq|=|<|>)\s*\.\d", body), "iclr: no bare decimals without a leading zero")
-    ok("provider defaults" not in appendix, "iclr: the sampling sentence names the request manifest, not provider defaults")
+    # A qualified caveat about omitted fields and provider defaults is legitimate.
+    # Check that sampling is sourced to the retained request manifest instead of
+    # globally banning a phrase anywhere in the appendix.
+    manifest_rows = json.loads((revision / "live_provider_manifest.json").read_text())["rows"]
+    sampling = next((row for row in manifest_rows if row["key"] == "Sampling"), {})
+    ok(bool(sampling.get("source")) and "tab:live-manifest" in appendix,
+       "iclr: sampling settings cite the retained request manifest")
     ok("both GitHub families" not in appendix, "iclr: the Headroom ablation names its two families")
     ok("\\crefname{proposition}{Proposition}" in (iclr / "main.tex").read_text(encoding="utf-8"),
        "iclr: Proposition and Corollary cross-references are capitalized")
