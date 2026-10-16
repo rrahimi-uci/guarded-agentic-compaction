@@ -1,0 +1,3123 @@
+{
+  "aggregate_estimate_and_reserve_usd": 13.441320805,
+  "attempted": 8172,
+  "cells": {
+    "backlog_attention|gpt-5.6-luna": {
+      "arms": {
+        "awm_offline_adapted": {
+          "accounting_complete": true,
+          "attempted": 144,
+          "completed": 144,
+          "correct": 142,
+          "metrics_total": {
+            "estimated_cost_usd": 0.1160072,
+            "requests": 576,
+            "total_tokens": 461526,
+            "total_tool_calls": 432,
+            "wall_latency_ms": 668926.7076667747
+          },
+          "scheduled": 144
+        },
+        "baseline": {
+          "accounting_complete": true,
+          "attempted": 144,
+          "completed": 144,
+          "correct": 144,
+          "metrics_total": {
+            "estimated_cost_usd": 0.10882835,
+            "requests": 576,
+            "total_tokens": 421713,
+            "total_tool_calls": 432,
+            "wall_latency_ms": 763967.267784581
+          },
+          "scheduled": 144
+        },
+        "gac": {
+          "accounting_complete": true,
+          "attempted": 144,
+          "completed": 144,
+          "correct": 143,
+          "metrics_total": {
+            "estimated_cost_usd": 0.0293647,
+            "requests": 144,
+            "total_tokens": 84896,
+            "total_tool_calls": 432,
+            "wall_latency_ms": 209106.6860811552
+          },
+          "scheduled": 144
+        }
+      },
+      "awm_only_correct": 0,
+      "complete_pairs": 144,
+      "gac_only_correct": 1,
+      "gate_equivalent": true,
+      "induction_cost": 0.00254035,
+      "loss_upper_bound": 0.03269988067613849,
+      "mcnemar_p_descriptive": 1.0,
+      "noninferior_1pp_sensitivity": false,
+      "noninferior_2pp_sensitivity": false,
+      "noninferior_5pp": true,
+      "resource_differences": {
+        "estimated_cost_usd": {
+          "ci95": [
+            -0.0006078920572916667,
+            -0.0005957901996527778
+          ],
+          "issue_groups": 144,
+          "mean": -0.0006016840277777778
+        },
+        "requests": {
+          "ci95": [
+            -3.0,
+            -3.0
+          ],
+          "issue_groups": 144,
+          "mean": -3.0
+        },
+        "total_tokens": {
+          "ci95": [
+            -2621.4723958333334,
+            -2609.6388888888887
+          ],
+          "issue_groups": 144,
+          "mean": -2615.4861111111113
+        },
+        "total_tool_calls": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "issue_groups": 144,
+          "mean": 0.0
+        },
+        "wall_latency_ms": {
+          "ci95": [
+            -3301.9921158214556,
+            -3089.6730264663547
+          ],
+          "issue_groups": 144,
+          "mean": -3193.1945943445803
+        }
+      }
+    },
+    "backlog_attention|gpt-6-luna": {
+      "arms": {
+        "awm_offline_adapted": {
+          "accounting_complete": true,
+          "attempted": 144,
+          "completed": 144,
+          "correct": 143,
+          "metrics_total": {
+            "estimated_cost_usd": 0.054753800000000005,
+            "requests": 576,
+            "total_tokens": 458275,
+            "total_tool_calls": 432,
+            "wall_latency_ms": 684913.8974637026
+          },
+          "scheduled": 144
+        },
+        "baseline": {
+          "accounting_complete": true,
+          "attempted": 144,
+          "completed": 144,
+          "correct": 144,
+          "metrics_total": {
+            "estimated_cost_usd": 0.049473050000000005,
+            "requests": 576,
+            "total_tokens": 410446,
+            "total_tool_calls": 432,
+            "wall_latency_ms": 672587.0034159161
+          },
+          "scheduled": 144
+        },
+        "gac": {
+          "accounting_complete": true,
+          "attempted": 144,
+          "completed": 144,
+          "correct": 142,
+          "metrics_total": {
+            "estimated_cost_usd": 0.012729550000000001,
+            "requests": 144,
+            "total_tokens": 83452,
+            "total_tool_calls": 432,
+            "wall_latency_ms": 207028.49720651284
+          },
+          "scheduled": 144
+        }
+      },
+      "awm_only_correct": 2,
+      "complete_pairs": 144,
+      "gac_only_correct": 1,
+      "gate_equivalent": true,
+      "induction_cost": 0.001236675,
+      "loss_upper_bound": 0.058607695829694745,
+      "mcnemar_p_descriptive": 1.0,
+      "noninferior_1pp_sensitivity": false,
+      "noninferior_2pp_sensitivity": false,
+      "noninferior_5pp": false,
+      "resource_differences": {
+        "estimated_cost_usd": {
+          "ci95": [
+            -0.0002949525434027778,
+            -0.00028878868055555554
+          ],
+          "issue_groups": 144,
+          "mean": -0.00029183506944444444
+        },
+        "requests": {
+          "ci95": [
+            -3.0,
+            -3.0
+          ],
+          "issue_groups": 144,
+          "mean": -3.0
+        },
+        "total_tokens": {
+          "ci95": [
+            -2606.7638888888887,
+            -2599.2569444444443
+          ],
+          "issue_groups": 144,
+          "mean": -2602.9375
+        },
+        "total_tool_calls": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "issue_groups": 144,
+          "mean": 0.0
+        },
+        "wall_latency_ms": {
+          "ci95": [
+            -3445.1965895787202,
+            -3201.776620597149
+          ],
+          "issue_groups": 144,
+          "mean": -3318.648612897151
+        }
+      }
+    },
+    "issue_type|gpt-5.6-luna": {
+      "arms": {
+        "awm_offline_adapted": {
+          "accounting_complete": true,
+          "attempted": 600,
+          "completed": 600,
+          "correct": 583,
+          "metrics_total": {
+            "estimated_cost_usd": 0.55865813,
+            "requests": 2400,
+            "total_tokens": 2789766,
+            "total_tool_calls": 1800,
+            "wall_latency_ms": 3378972.706038505
+          },
+          "scheduled": 600
+        },
+        "baseline": {
+          "accounting_complete": true,
+          "attempted": 600,
+          "completed": 600,
+          "correct": 590,
+          "metrics_total": {
+            "estimated_cost_usd": 0.5276766,
+            "requests": 2400,
+            "total_tokens": 2564419,
+            "total_tool_calls": 1800,
+            "wall_latency_ms": 3311749.108670454
+          },
+          "scheduled": 600
+        },
+        "gac": {
+          "accounting_complete": true,
+          "attempted": 600,
+          "completed": 600,
+          "correct": 584,
+          "metrics_total": {
+            "estimated_cost_usd": 0.35268340000000004,
+            "requests": 1200,
+            "total_tokens": 1537390,
+            "total_tool_calls": 1800,
+            "wall_latency_ms": 1892054.6898241737
+          },
+          "scheduled": 600
+        }
+      },
+      "awm_only_correct": 11,
+      "complete_pairs": 600,
+      "gac_only_correct": 12,
+      "gate_equivalent": true,
+      "induction_cost": 0.0025914,
+      "loss_upper_bound": 0.03606321959548407,
+      "mcnemar_p_descriptive": 1.0,
+      "noninferior_1pp_sensitivity": false,
+      "noninferior_2pp_sensitivity": false,
+      "noninferior_5pp": true,
+      "resource_differences": {
+        "estimated_cost_usd": {
+          "ci95": [
+            -0.00035205632624999995,
+            -0.00033443748833333333
+          ],
+          "issue_groups": 600,
+          "mean": -0.00034329121666666667
+        },
+        "requests": {
+          "ci95": [
+            -2.0,
+            -2.0
+          ],
+          "issue_groups": 600,
+          "mean": -2.0
+        },
+        "total_tokens": {
+          "ci95": [
+            -2115.0889583333333,
+            -2060.931666666667
+          ],
+          "issue_groups": 600,
+          "mean": -2087.2933333333335
+        },
+        "total_tool_calls": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "issue_groups": 600,
+          "mean": 0.0
+        },
+        "wall_latency_ms": {
+          "ci95": [
+            -2548.8901521583757,
+            -2405.034531744253
+          ],
+          "issue_groups": 600,
+          "mean": -2478.196693690552
+        }
+      }
+    },
+    "issue_type|gpt-6-luna": {
+      "arms": {
+        "awm_offline_adapted": {
+          "accounting_complete": true,
+          "attempted": 600,
+          "completed": 600,
+          "correct": 583,
+          "metrics_total": {
+            "estimated_cost_usd": 0.246631185,
+            "requests": 2401,
+            "total_tokens": 2697362,
+            "total_tool_calls": 1801,
+            "wall_latency_ms": 3199958.338859782
+          },
+          "scheduled": 600
+        },
+        "baseline": {
+          "accounting_complete": true,
+          "attempted": 600,
+          "completed": 600,
+          "correct": 582,
+          "metrics_total": {
+            "estimated_cost_usd": 0.22384195,
+            "requests": 2404,
+            "total_tokens": 2505567,
+            "total_tool_calls": 1804,
+            "wall_latency_ms": 3161847.418747493
+          },
+          "scheduled": 600
+        },
+        "gac": {
+          "accounting_complete": true,
+          "attempted": 600,
+          "completed": 600,
+          "correct": 583,
+          "metrics_total": {
+            "estimated_cost_usd": 0.12614866,
+            "requests": 1201,
+            "total_tokens": 1513674,
+            "total_tool_calls": 1801,
+            "wall_latency_ms": 1811274.0565248532
+          },
+          "scheduled": 600
+        }
+      },
+      "awm_only_correct": 13,
+      "complete_pairs": 600,
+      "gac_only_correct": 13,
+      "gate_equivalent": true,
+      "induction_cost": 0.0012628,
+      "loss_upper_bound": 0.040446520212013795,
+      "mcnemar_p_descriptive": 1.0,
+      "noninferior_1pp_sensitivity": false,
+      "noninferior_2pp_sensitivity": false,
+      "noninferior_5pp": true,
+      "resource_differences": {
+        "estimated_cost_usd": {
+          "ci95": [
+            -0.00020681643729166666,
+            -0.00019488721979166667
+          ],
+          "issue_groups": 600,
+          "mean": -0.00020080420833333334
+        },
+        "requests": {
+          "ci95": [
+            -2.005,
+            -1.995
+          ],
+          "issue_groups": 600,
+          "mean": -2.0
+        },
+        "total_tokens": {
+          "ci95": [
+            -2001.1516666666666,
+            -1944.934
+          ],
+          "issue_groups": 600,
+          "mean": -1972.8133333333333
+        },
+        "total_tool_calls": {
+          "ci95": [
+            -0.005,
+            0.005
+          ],
+          "issue_groups": 600,
+          "mean": 0.0
+        },
+        "wall_latency_ms": {
+          "ci95": [
+            -2387.0273086103066,
+            -2241.9241376554373
+          ],
+          "issue_groups": 600,
+          "mean": -2314.473803891548
+        }
+      }
+    },
+    "pr_outcome|gpt-5.6-luna": {
+      "arms": {
+        "awm_offline_adapted": {
+          "accounting_complete": true,
+          "attempted": 600,
+          "completed": 600,
+          "correct": 598,
+          "metrics_total": {
+            "estimated_cost_usd": 0.4436064,
+            "requests": 2400,
+            "total_tokens": 1809363,
+            "total_tool_calls": 1800,
+            "wall_latency_ms": 3072061.8768624263
+          },
+          "scheduled": 600
+        },
+        "baseline": {
+          "accounting_complete": false,
+          "attempted": 600,
+          "completed": 599,
+          "correct": 597,
+          "metrics_total": {
+            "estimated_cost_usd": 0.4084579,
+            "requests": 2399,
+            "total_tokens": 1634597,
+            "total_tool_calls": 1799,
+            "wall_latency_ms": 3155800.6667842856
+          },
+          "scheduled": 600
+        },
+        "gac": {
+          "accounting_complete": true,
+          "attempted": 600,
+          "completed": 600,
+          "correct": 597,
+          "metrics_total": {
+            "estimated_cost_usd": 0.0986696,
+            "requests": 600,
+            "total_tokens": 297813,
+            "total_tool_calls": 1800,
+            "wall_latency_ms": 858618.9295353834
+          },
+          "scheduled": 600
+        }
+      },
+      "awm_only_correct": 2,
+      "complete_pairs": 600,
+      "gac_only_correct": 1,
+      "gate_equivalent": true,
+      "induction_cost": 0.00240655,
+      "loss_upper_bound": 0.014314114199707174,
+      "mcnemar_p_descriptive": 1.0,
+      "noninferior_1pp_sensitivity": false,
+      "noninferior_2pp_sensitivity": true,
+      "noninferior_5pp": true,
+      "resource_differences": {
+        "estimated_cost_usd": {
+          "ci95": [
+            -0.0005771731666666666,
+            -0.0005726364770833334
+          ],
+          "issue_groups": 600,
+          "mean": -0.0005748946666666667
+        },
+        "requests": {
+          "ci95": [
+            -3.0,
+            -3.0
+          ],
+          "issue_groups": 600,
+          "mean": -3.0
+        },
+        "total_tokens": {
+          "ci95": [
+            -2521.7984166666665,
+            -2516.699958333333
+          ],
+          "issue_groups": 600,
+          "mean": -2519.25
+        },
+        "total_tool_calls": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "issue_groups": 600,
+          "mean": 0.0
+        },
+        "wall_latency_ms": {
+          "ci95": [
+            -3766.304451398122,
+            -3612.2740894236413
+          ],
+          "issue_groups": 600,
+          "mean": -3689.071578878405
+        }
+      }
+    },
+    "pr_outcome|gpt-6-luna": {
+      "arms": {
+        "awm_offline_adapted": {
+          "accounting_complete": true,
+          "attempted": 600,
+          "completed": 600,
+          "correct": 600,
+          "metrics_total": {
+            "estimated_cost_usd": 0.21195095,
+            "requests": 2400,
+            "total_tokens": 1801537,
+            "total_tool_calls": 1800,
+            "wall_latency_ms": 3710131.878927001
+          },
+          "scheduled": 600
+        },
+        "baseline": {
+          "accounting_complete": true,
+          "attempted": 600,
+          "completed": 600,
+          "correct": 599,
+          "metrics_total": {
+            "estimated_cost_usd": 0.19084705000000002,
+            "requests": 2400,
+            "total_tokens": 1611812,
+            "total_tool_calls": 1800,
+            "wall_latency_ms": 3800074.7656954336
+          },
+          "scheduled": 600
+        },
+        "gac": {
+          "accounting_complete": true,
+          "attempted": 600,
+          "completed": 600,
+          "correct": 598,
+          "metrics_total": {
+            "estimated_cost_usd": 0.0443916,
+            "requests": 600,
+            "total_tokens": 295748,
+            "total_tool_calls": 1800,
+            "wall_latency_ms": 1008574.7349972371
+          },
+          "scheduled": 600
+        }
+      },
+      "awm_only_correct": 2,
+      "complete_pairs": 600,
+      "gac_only_correct": 0,
+      "gate_equivalent": true,
+      "induction_cost": 0.001173175,
+      "loss_upper_bound": 0.014314114199707174,
+      "mcnemar_p_descriptive": 0.5,
+      "noninferior_1pp_sensitivity": false,
+      "noninferior_2pp_sensitivity": true,
+      "noninferior_5pp": true,
+      "resource_differences": {
+        "estimated_cost_usd": {
+          "ci95": [
+            -0.000280461715625,
+            -0.0002781007895833333
+          ],
+          "issue_groups": 600,
+          "mean": -0.0002792655833333333
+        },
+        "requests": {
+          "ci95": [
+            -3.0,
+            -3.0
+          ],
+          "issue_groups": 600,
+          "mean": -3.0
+        },
+        "total_tokens": {
+          "ci95": [
+            -2511.2833333333333,
+            -2507.978291666667
+          ],
+          "issue_groups": 600,
+          "mean": -2509.6483333333335
+        },
+        "total_tool_calls": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "issue_groups": 600,
+          "mean": 0.0
+        },
+        "wall_latency_ms": {
+          "ci95": [
+            -4664.1110281766905,
+            -4349.417367367263
+          ],
+          "issue_groups": 600,
+          "mean": -4502.5952398829395
+        }
+      }
+    }
+  },
+  "checkpoint_sha256": "5266c44c42281153a485c924354e96fa583d6ddd0f3b4ca474e220d41406d92d",
+  "errors": [
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 63,
+      "issue_number": 3300,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "backlog_attention",
+      "index": 276,
+      "issue_number": 1830,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "comment_grounded": false,
+        "overall": false,
+        "owner_correct": true,
+        "quality_independent_of_tool_order": true,
+        "record_number_correct": true,
+        "route_correct": true,
+        "score": 0.8,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "backlog_attention",
+      "index": 279,
+      "issue_number": 1830,
+      "model": "gpt-6-luna",
+      "quality": {
+        "comment_grounded": false,
+        "overall": false,
+        "owner_correct": true,
+        "quality_independent_of_tool_order": true,
+        "record_number_correct": true,
+        "route_correct": true,
+        "score": 0.8,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "backlog_attention",
+      "index": 306,
+      "issue_number": 7387,
+      "model": "gpt-6-luna",
+      "quality": {
+        "comment_grounded": false,
+        "overall": false,
+        "owner_correct": true,
+        "quality_independent_of_tool_order": true,
+        "record_number_correct": true,
+        "route_correct": true,
+        "score": 0.8,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "backlog_attention",
+      "index": 357,
+      "issue_number": 153,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "comment_grounded": false,
+        "overall": false,
+        "owner_correct": true,
+        "quality_independent_of_tool_order": true,
+        "record_number_correct": true,
+        "route_correct": true,
+        "score": 0.8,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "backlog_attention",
+      "index": 358,
+      "issue_number": 153,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "comment_grounded": false,
+        "overall": false,
+        "owner_correct": true,
+        "quality_independent_of_tool_order": true,
+        "record_number_correct": true,
+        "route_correct": true,
+        "score": 0.8,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "backlog_attention",
+      "index": 785,
+      "issue_number": 6422,
+      "model": "gpt-6-luna",
+      "quality": {
+        "comment_grounded": false,
+        "overall": false,
+        "owner_correct": true,
+        "quality_independent_of_tool_order": true,
+        "record_number_correct": true,
+        "route_correct": true,
+        "score": 0.8,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 1092,
+      "issue_number": 4080,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 1055,
+      "issue_number": 2821,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 1094,
+      "issue_number": 4080,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 1095,
+      "issue_number": 4080,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 1096,
+      "issue_number": 4080,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 1097,
+      "issue_number": 4080,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 1173,
+      "issue_number": 4374,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 1163,
+      "issue_number": 269,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 1180,
+      "issue_number": 657,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 1181,
+      "issue_number": 657,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 1291,
+      "issue_number": 4736,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 1334,
+      "issue_number": 4538,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 1419,
+      "issue_number": 4140,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 1446,
+      "issue_number": 4074,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 1451,
+      "issue_number": 4074,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 1479,
+      "issue_number": 4238,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 1551,
+      "issue_number": 4641,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 1553,
+      "issue_number": 4641,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 1625,
+      "issue_number": 5144,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 1681,
+      "issue_number": 3572,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 1655,
+      "issue_number": 1963,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 1682,
+      "issue_number": 3572,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 1697,
+      "issue_number": 3191,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 1702,
+      "issue_number": 2133,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 1703,
+      "issue_number": 2133,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 1941,
+      "issue_number": 4320,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 2037,
+      "issue_number": 3337,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 2102,
+      "issue_number": 1838,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 2103,
+      "issue_number": 1838,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 2140,
+      "issue_number": 3240,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 2141,
+      "issue_number": 3240,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 2226,
+      "issue_number": 3316,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 2211,
+      "issue_number": 4912,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 2263,
+      "issue_number": 1987,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 2313,
+      "issue_number": 2871,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 2352,
+      "issue_number": 274,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 2419,
+      "issue_number": 1811,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 2424,
+      "issue_number": 1591,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 2409,
+      "issue_number": 1285,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 2571,
+      "issue_number": 826,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 2572,
+      "issue_number": 826,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 2584,
+      "issue_number": 3659,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 2689,
+      "issue_number": 1026,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 2691,
+      "issue_number": 1026,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 2820,
+      "issue_number": 2128,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 2821,
+      "issue_number": 2128,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 2822,
+      "issue_number": 2128,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 2823,
+      "issue_number": 2128,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 2824,
+      "issue_number": 2128,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 2859,
+      "issue_number": 7481,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 2943,
+      "issue_number": 444,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 2944,
+      "issue_number": 444,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 3068,
+      "issue_number": 5145,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 3062,
+      "issue_number": 3181,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 3082,
+      "issue_number": 304,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 3088,
+      "issue_number": 7006,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 3110,
+      "issue_number": 4936,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 3083,
+      "issue_number": 304,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 3113,
+      "issue_number": 4936,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 3269,
+      "issue_number": 3677,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 3410,
+      "issue_number": 2882,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": false,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 3444,
+      "issue_number": 3580,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 3458,
+      "issue_number": 4327,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 3447,
+      "issue_number": 3580,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 3448,
+      "issue_number": 3580,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 3449,
+      "issue_number": 3580,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 3754,
+      "issue_number": 1893,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 3755,
+      "issue_number": 1893,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 3823,
+      "issue_number": 822,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 3825,
+      "issue_number": 822,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 3872,
+      "issue_number": 3185,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 3930,
+      "issue_number": 7501,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 3931,
+      "issue_number": 7501,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 3978,
+      "issue_number": 4198,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 3979,
+      "issue_number": 4198,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 3982,
+      "issue_number": 4198,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 3983,
+      "issue_number": 4198,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 4033,
+      "issue_number": 5829,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 4035,
+      "issue_number": 5829,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 4036,
+      "issue_number": 5829,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 4224,
+      "issue_number": 6097,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 4266,
+      "issue_number": 4062,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 4284,
+      "issue_number": 5017,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 4285,
+      "issue_number": 5017,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 4286,
+      "issue_number": 5017,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": false,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.625,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 4287,
+      "issue_number": 5017,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 4383,
+      "issue_number": 2988,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": true,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": false,
+        "evidence_label_correct": true,
+        "factuality_exact": false,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.875,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 4494,
+      "issue_number": 5039,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 4496,
+      "issue_number": 5039,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 4502,
+      "issue_number": 347,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 4497,
+      "issue_number": 5039,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 4503,
+      "issue_number": 347,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "issue_type",
+      "index": 4504,
+      "issue_number": 347,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "issue_type",
+      "index": 4499,
+      "issue_number": 5039,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "issue_type",
+      "index": 4505,
+      "issue_number": 347,
+      "model": "gpt-6-luna",
+      "quality": {
+        "category_correct": false,
+        "comment_count_exact": true,
+        "evidence_excerpt_exact": true,
+        "evidence_label_correct": false,
+        "factuality_exact": true,
+        "issue_number_correct": true,
+        "overall": false,
+        "score": 0.75,
+        "state_exact": true,
+        "title_exact": true,
+        "tool_contract": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "pr_outcome",
+      "index": 4761,
+      "issue_number": 1466,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "comment_grounded": true,
+        "outcome_correct": true,
+        "overall": false,
+        "quality_independent_of_tool_order": true,
+        "record_number_correct": true,
+        "score": 0.75,
+        "title_correct": false,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "pr_outcome",
+      "index": 5541,
+      "issue_number": 5076,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "comment_grounded": true,
+        "outcome_correct": true,
+        "overall": false,
+        "quality_independent_of_tool_order": true,
+        "record_number_correct": true,
+        "score": 0.75,
+        "title_correct": false,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "pr_outcome",
+      "index": 5925,
+      "issue_number": 1720,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "comment_grounded": false,
+        "outcome_correct": true,
+        "overall": false,
+        "quality_independent_of_tool_order": true,
+        "record_number_correct": true,
+        "score": 0.75,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "awm_offline_adapted",
+      "error": null,
+      "family": "pr_outcome",
+      "index": 5926,
+      "issue_number": 1720,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "comment_grounded": false,
+        "outcome_correct": true,
+        "overall": false,
+        "quality_independent_of_tool_order": true,
+        "record_number_correct": true,
+        "score": 0.75,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "pr_outcome",
+      "index": 6516,
+      "issue_number": 271,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "comment_grounded": true,
+        "outcome_correct": true,
+        "overall": false,
+        "quality_independent_of_tool_order": true,
+        "record_number_correct": true,
+        "score": 0.75,
+        "title_correct": false,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "pr_outcome",
+      "index": 6524,
+      "issue_number": 2258,
+      "model": "gpt-6-luna",
+      "quality": {
+        "comment_grounded": false,
+        "outcome_correct": true,
+        "overall": false,
+        "quality_independent_of_tool_order": true,
+        "record_number_correct": true,
+        "score": 0.75,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "pr_outcome",
+      "index": 6527,
+      "issue_number": 2258,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "comment_grounded": false,
+        "outcome_correct": true,
+        "overall": false,
+        "quality_independent_of_tool_order": true,
+        "record_number_correct": true,
+        "score": 0.75,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "pr_outcome",
+      "index": 6869,
+      "issue_number": 2861,
+      "model": "gpt-6-luna",
+      "quality": {
+        "comment_grounded": false,
+        "outcome_correct": true,
+        "overall": false,
+        "quality_independent_of_tool_order": true,
+        "record_number_correct": true,
+        "score": 0.75,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": null,
+      "family": "pr_outcome",
+      "index": 6954,
+      "issue_number": 4108,
+      "model": "gpt-6-luna",
+      "quality": {
+        "comment_grounded": false,
+        "outcome_correct": true,
+        "overall": false,
+        "quality_independent_of_tool_order": true,
+        "record_number_correct": true,
+        "score": 0.75,
+        "title_correct": true,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "status": "completed"
+    },
+    {
+      "arm": "baseline",
+      "error": {
+        "cause_type": null,
+        "error_type": "InternalServerError",
+        "frames": [
+          {
+            "file": "generalization_gate_study.py",
+            "function": "execute",
+            "line": 299
+          },
+          {
+            "file": "tasks.py",
+            "function": "wait_for",
+            "line": 488
+          },
+          {
+            "file": "run.py",
+            "function": "run",
+            "line": 273
+          },
+          {
+            "file": "run.py",
+            "function": "run",
+            "line": 1315
+          },
+          {
+            "file": "run_loop.py",
+            "function": "run_single_turn",
+            "line": 1859
+          },
+          {
+            "file": "run_loop.py",
+            "function": "get_new_response",
+            "line": 1980
+          },
+          {
+            "file": "model_retry.py",
+            "function": "get_response_with_retry",
+            "line": 446
+          },
+          {
+            "file": "recovery_observation.py",
+            "function": "get_response",
+            "line": 30
+          },
+          {
+            "file": "openai_responses.py",
+            "function": "get_response",
+            "line": 476
+          },
+          {
+            "file": "openai_responses.py",
+            "function": "_fetch_response",
+            "line": 697
+          },
+          {
+            "file": "responses.py",
+            "function": "create",
+            "line": 2865
+          },
+          {
+            "file": "_base_client.py",
+            "function": "post",
+            "line": 1992
+          },
+          {
+            "file": "_base_client.py",
+            "function": "request",
+            "line": 1777
+          }
+        ],
+        "stage": "model_request"
+      },
+      "family": "pr_outcome",
+      "index": 6973,
+      "issue_number": 1621,
+      "model": "gpt-5.6-luna",
+      "quality": null,
+      "status": "failed"
+    },
+    {
+      "arm": "gac",
+      "error": null,
+      "family": "pr_outcome",
+      "index": 7788,
+      "issue_number": 5529,
+      "model": "gpt-5.6-luna",
+      "quality": {
+        "comment_grounded": true,
+        "outcome_correct": true,
+        "overall": false,
+        "quality_independent_of_tool_order": true,
+        "record_number_correct": true,
+        "score": 0.75,
+        "title_correct": false,
+        "tool_contract": true,
+        "trace_valid": true
+      },
+      "status": "completed"
+    }
+  ],
+  "halt_reason": null,
+  "pilot": {
+    "attempted": 108,
+    "completed": 108,
+    "correct": 107
+  },
+  "scheduled": 8172
+}

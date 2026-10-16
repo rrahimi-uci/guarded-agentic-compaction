@@ -12,6 +12,20 @@ These results strengthen a bounded mechanism claim; they do not establish
 universal quality preservation, end-to-end contract discovery, or acceptance
 odds. See [integration validation](live_recovery_integration.md).
 
+## October 15 fresh-generalization follow-up
+
+The completed 8,172-episode comparison strengthens evidence across three
+workflow families and two models. Five of six cells meet the preregistered
+five-point noninferiority margin against adapted AWM; the second-model backlog
+cell is inconclusive. Cost falls 36.9–79.1%, while the statistical gate has no
+observed incremental runtime benefit on admitted candidates. My current
+subjective diagnostic estimate is **about 85/100**, compared with the earlier
+conversational estimate of 84. This is not an official score or acceptance
+probability. It does not support 90/100: branch coverage, independence, native
+comparators and selective gate value remain material gaps. The dated 79/100
+review below is historical, not the current estimate. See
+[the completed integration and limitations](generalization_gate_integration.md).
+
 ## Historical assessment
 
 **79/100: borderline for ICLR; not a confident acceptance recommendation.**
