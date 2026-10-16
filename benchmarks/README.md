@@ -61,6 +61,31 @@ export SEC_USER_AGENT='Project Name contact@example.org'
   --out paper/results/multidomain/preflight/sec
 ```
 
+For SEC acquisition, the optional pinned EdgarTools parser can check every
+selected Company Facts observation against the checksum-pinned raw SEC response:
+
+```bash
+.venv/bin/python -m pip install -e '.[sec]'
+.venv/bin/python -m benchmarks.acquire sec \
+  --ciks /path/to/pinned-ciks.json \
+  --out paper/results/multidomain/preflight/sec \
+  --edgartools-audit
+```
+
+This writes `edgartools_audit.json` and binds its hash to `report.json`. Any
+parser disagreement fails the command without replacing a case. To repeat the
+check later from the retained pool and original cache, run
+`python -m benchmarks.audit_sec_edgartools --pool
+paper/results/multidomain/preflight/sec --cache benchmarks/.cache`; this replay
+is offline and requires no contact identity. The parser checks accession,
+period, filing date, unit and value from the same Company Facts response. It
+does not independently establish that the filed XBRL fact or gold answer is
+correct. The existing filed-instance and independent-gold checks remain
+necessary. A one-case exploratory [live SEC pilot](../paper/results/multidomain/pilots/sec_edgartools/README.md)
+exercises the corrected filing-index check and passes this audit on a real
+Company Facts response. The planned 420-group SEC preflight and model run are
+still unrun.
+
 Pass `--offline` to replay a complete cache. Every fetch is HTTPS, content-addressed,
 checksum-verified, atomic, capped at 40 GiB in aggregate, and stops on HTTP 403/429. SEC clients
 are shared within the process so submissions, Company Facts, index, and filing-document requests

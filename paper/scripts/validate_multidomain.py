@@ -30,6 +30,34 @@ from benchmarks.gold import (  # noqa: E402
 from benchmarks.runtime import load_domain_runtime  # noqa: E402
 
 
+def validate_sec_edgartools_attestation(
+    pool: Path, report: dict[str, Any], snapshot: dict[str, Any], cases: list[Any]
+) -> list[str]:
+    """Bind an optional offline parser audit to the exact retained SEC pool."""
+
+    audit_path = pool / "edgartools_audit.json"
+    if not audit_path.exists():
+        return ["SEC EdgarTools audit attestation has no artifact"] if report.get("edgartools_audit") else []
+    audit = json.loads(audit_path.read_text(encoding="utf-8"))
+    attestation = report.get("edgartools_audit") or {}
+    if (audit.get("schema") != "agent-compaction-sec-edgartools-audit/v1"
+        or audit.get("edgartools_version") != "5.62.0"
+        or audit.get("valid") is not True
+        or audit.get("provider_calls_executed") != 0
+        or audit.get("cases") != len(cases)
+        or audit.get("passed_cases") != len(cases)
+        or audit.get("failed_cases") != 0
+        or len(audit.get("results", [])) != len(cases)
+        or any(row.get("status") != "pass" for row in audit.get("results", []))
+        or audit.get("snapshot_digest") != snapshot.get("snapshot_digest")
+        or audit.get("cases_sha256") != hashlib.sha256((pool / "cases.jsonl").read_bytes()).hexdigest()
+        or attestation.get("artifact_sha256") != hashlib.sha256(audit_path.read_bytes()).hexdigest()
+        or attestation.get("snapshot_digest") != audit.get("snapshot_digest")
+        or attestation.get("cases_sha256") != audit.get("cases_sha256")):
+        return ["SEC EdgarTools audit is incomplete or not bound to the retained pool"]
+    return []
+
+
 def validate_pool(domain: str, pool: Path) -> dict[str, Any]:
     cases = load_case_jsonl(pool / "cases.jsonl")
     snapshot = json.loads((pool / "snapshot.json").read_text(encoding="utf-8"))
@@ -115,6 +143,8 @@ def validate_pool(domain: str, pool: Path) -> dict[str, Any]:
         errors.append("pool is not attested as real public records")
     if report.get("variable_path_fraction", 0.0) < 0.10:
         errors.append("variable path fraction is below 10%")
+    if domain == "sec":
+        errors.extend(validate_sec_edgartools_attestation(pool, report, snapshot, cases))
     if domain == "hmda":
         allowed_schema = list(SAFE_ROW_FIELDS)
         schemas = records.get("schemas", {})

@@ -7,6 +7,7 @@ import json
 import urllib.error
 from email.message import Message
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -16,7 +17,7 @@ from benchmarks.fetch.common import (
     SourcePolicyError,
     validate_sec_user_agent,
 )
-from benchmarks.fetch.sec import sec_client
+from benchmarks.fetch.sec import fetch_filing_index, sec_client
 
 
 class _Response(io.BytesIO):
@@ -161,3 +162,24 @@ def test_sec_client_is_shared_for_online_throttling_and_offline_needs_no_contact
     assert "offline" in offline.user_agent
     monkeypatch.setenv("SEC_USER_AGENT", "Guarded Agentic Compaction contact@example.org")
     assert sec_client(tmp_path) is sec_client(tmp_path)
+
+
+def test_sec_filing_index_validates_full_official_directory_path(tmp_path, monkeypatch) -> None:
+    index_path = tmp_path / "index.json"
+    index_path.write_text(json.dumps({
+        "directory": {"name": "/Archives/edgar/data/320193/000032019325000001"}
+    }))
+
+    class CachedClient:
+        def fetch(self, url, *, namespace, offline):
+            assert url.endswith("/320193/000032019325000001/index.json")
+            assert namespace == "sec/filing-index" and offline
+            return SimpleNamespace(path=str(index_path))
+
+    monkeypatch.setattr("benchmarks.fetch.sec.sec_client", lambda *a, **k: CachedClient())
+    assert fetch_filing_index("0000320193", "0000320193-25-000001", tmp_path, offline=True)
+    index_path.write_text(json.dumps({
+        "directory": {"name": "/Archives/edgar/data/999999/000032019325000001"}
+    }))
+    with pytest.raises(SourceFetchError, match="directory"):
+        fetch_filing_index("0000320193", "0000320193-25-000001", tmp_path, offline=True)

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import tempfile
 from pathlib import Path
@@ -87,13 +88,35 @@ def _hmda(args: argparse.Namespace) -> dict[str, object]:
 
 
 def _sec(args: argparse.Namespace) -> dict[str, object]:
-    return build_sec_pool(
+    report = build_sec_pool(
         ciks=_load_ciks(args.ciks),
         cache_dir=args.cache,
         output_dir=args.out,
         minimum_groups=args.minimum_groups,
         offline=args.offline,
     )
+    if args.edgartools_audit:
+        from .audit_sec_edgartools import audit_pool
+
+        audit = audit_pool(args.out, args.cache)
+        if not audit["valid"]:
+            raise RuntimeError(
+                f"EdgarTools disagreed with {audit['failed_cases']} selected SEC cases; "
+                "see edgartools_audit.json"
+            )
+        report["edgartools_audit"] = {
+            "passed_cases": audit["passed_cases"],
+            "failed_cases": audit["failed_cases"],
+            "snapshot_digest": audit["snapshot_digest"],
+            "cases_sha256": audit["cases_sha256"],
+            "artifact_sha256": hashlib.sha256(
+                (args.out / "edgartools_audit.json").read_bytes()
+            ).hexdigest(),
+        }
+        (args.out / "report.json").write_text(
+            json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+    return report
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -118,6 +141,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     sec = common("sec")
     sec.add_argument("--ciks", type=Path, required=True)
+    sec.add_argument("--edgartools-audit", action="store_true",
+                     help="Cross-check each selected Company Facts observation with pinned EdgarTools")
     sec.set_defaults(handler=_sec)
     return parser
 
