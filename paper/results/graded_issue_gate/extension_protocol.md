@@ -1,7 +1,9 @@
 # Sequential calibration extension of the graded issue gate
 
-**Status: registered 2026-10-28 before any provider call; results are appended
-below after execution.** This is a *sequential extension* of the amended v2
+**Status: registered 2026-10-28 before any provider call; the first execution
+attempt the same day was rejected by the provider (401 `invalid_api_key`) before
+any episode completed, so the design is sealed but not yet executed (see the
+execution record at the end).** This is a *sequential extension* of the amended v2
 study in `paper/supplementary/graded-issue-end-to-end-gate-protocol.md`. It was
 designed after the first calibration result (184 groups, 2 task errors, no
 admissible threshold; `results_v2.json`, `audit_v2.json`) had been observed.
@@ -132,3 +134,23 @@ on this pooled set at the registered level. It would not establish graded
 selectivity (that needs the frontier evidence the main paper lacks),
 cross-repository generalization, or a quality or savings benefit beyond what
 the 90-issue test shows.
+
+## Execution record
+
+**2026-10-28, attempt 1: aborted on provider authentication; nothing observed.**
+`graded_issue_gate_study.py --extension --approved-spend-usd 25` passed every
+pre-call check (sealed cohort rebuilt byte-identically, hash pins intact, v2
+candidate resolved under the live manifest) and dispatched the first
+eight-issue batch (issues 202, 216, 730, 743, 769, 801, 809, 812). Every call
+returned HTTP 401 `invalid_api_key`; no episode produced a provider response,
+so no task grade, dispatch, score, or test-set exposure exists from this
+attempt and the recorded estimated cost is $0 (a zero-cost `models.list` call
+with the same key reproduced the 401). The runner stopped fail-closed after
+the batch. The raw checkpoint is retained as
+`checkpoint_extension_aborted_2026-10-28.json` with the provider's error
+messages reduced to status and code (they echoed a masked key fragment), and
+`extension_abort.json` summarizes the attempt. Because nothing was observed,
+re-running the same sealed design with a valid key is a retry of this
+protocol, not an amendment: no cohort, feature, grid, budget, or analysis
+order changes, and the retry starts a fresh `checkpoint_extension.json`.
+The 90 test issues remain untouched.
