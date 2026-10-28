@@ -84,9 +84,9 @@ with a perfect verifier and a gate that never abstains:
 with $n_B$ baseline model requests per episode, $\varphi$ the fraction of
 episodes holding an eligible region, $k$ the requests removed per successful
 dispatch, and $\rho$ the verifier pass rate. Stage~3 evaluates only the left
-form ($\rho=1$). This ceiling concerns requests removed by the prefix at
-fixed continuation workload; changes in downstream reasoning or fallback can
-change total requests. A workload below this structural target is declined.
+form ($\rho=1$), at fixed continuation workload; downstream reasoning or
+fallback can change total requests. A workload below this structural target is
+declined.
 
 \paragraph{4--5. Bounded synthesis and contracts.}
 Synthesis searches the 23-operator library of \cref{tab:dsl} at depth at most
@@ -130,18 +130,12 @@ constraint: at the registered $\alpha=0.05$, $\delta=0.1$, $|\Lambda|=11$
 (\cref{app:config}), a zero-violation family still needs $n_\eta\ge 92$ admitted groups, and the default
 output is refusal.
 
-That floor also bounds what selectivity is \emph{certifiable}: coverage
-$c=n_\eta/|\mathcal{K}|$ needs $|\mathcal{K}|\ge\lceil 92/c\rceil$, so on the
-$|\mathcal{K}|=92$ primary cohorts --- the smallest satisfiable pool ---
-the only outcomes are retirement or full empirical calibration coverage, since
-abstaining on one group leaves $U_\eta=0.0503>\alpha$; intermediate coverage can be
-\emph{observed} but not certified (\cref{app:config}, \cref{fig:gate-floor}).
-The GitHub calibration labels replay stable call patterns over a pinned
-snapshot and contain no observed violation. They offer little test of risk
-discrimination; zero observed failures does not prove that failure is impossible.
-These certificates function here as support-sufficiency statements at full coverage ($n_\eta\ge92$;
-$\delta=0.1$ is the budget at which that floor is satisfiable, $\delta=0.05$
-needs 106) that cannot tell whether $q$ ranks dispatch risk.
+That floor also fixes what the $|\mathcal{K}|=92$ primary cohorts can certify:
+full empirical coverage or retirement, never an intermediate coverage, since
+abstaining on one group leaves $U_\eta=0.0503>\alpha$. Because the GitHub
+calibration labels contain no observed violation, these certificates are
+support-sufficiency statements that cannot tell whether $q$ ranks dispatch
+risk (\cref{app:certificates}; $\delta=0.05$ would need 106 groups).
 
 \input{figures/alg-calibrate.tex}
 

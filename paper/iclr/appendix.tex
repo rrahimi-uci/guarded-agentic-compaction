@@ -688,6 +688,20 @@ appendix makes the retained breadth visible without pooling incomparable cohorts
 or promoting screened and exploratory work to deployment evidence.
 
 \subsection{Repository-level outcomes on newer records}
+On the two-read cross-repository PR-outcome task (\cref{sec:setup}), \method
+completes 120/120 exact contracts on paired held-out records across four of
+five repositories and retires \code{pytorch/pytorch} at admission, where no
+calibration group is accepted at any threshold. The compiled program ran on
+80/120 records: every open-class record abstained on the induced
+\code{pr.state} hull (discovery pools held 0--3 open records) and ran the
+unchanged agent, so requests fall 44.4\% (66.7\% on dispatched records) and
+tokens 52.4\%. A balanced three-repository rerun with all three classes in
+discovery, \code{pytorch/pytorch} included, dispatches on 180/180 and reaches
+180/180 at 66.7\% fewer requests and 78.4\% fewer tokens
+(\cref{tab:multirepo-disaggregated}), consistent with a composition-driven
+refusal. The hand-written program is more efficient in the core protocol and
+tied in the rerun.
+
 The core \code{pytorch/pytorch} run mines one candidate from 116 accepted
 windows and retires at calibration. A provider-free recompilation
 (\path{paper/results/iclr_revision/pytorch_core_recompile.json}) recovers
@@ -714,7 +728,7 @@ the cause of the original refusal.
 \begin{table}[t]
   \centering
   \caption{Disaggregated cross-repository outcomes behind
-  \cref{sec:res-multirepo}.
+  \cref{sec:res-more}.
   The core protocol uses four completed repositories and one compile-time
   retirement; the balanced rerun changes the selected repositories and class
   mix, so it is reported separately rather than pooled with the core protocol.
@@ -1067,6 +1081,76 @@ same frozen rate card. Net evaluation savings are then
 This is a break-even condition, not evidence that the unknown cost satisfies
 it. It includes the failure's quality penalty above but cannot recover its
 missing usage; discovery, recompilation, and maintenance remain excluded.
+
+\subsection{What is certified, and what the statistical stage adds}
+\label{app:certificates}
+
+\begin{table}[t]
+  \centering
+  \caption{Every admitted artifact's certificate. $m$ counts candidates that
+  reached calibration; a parenthesized bound uses the candidate-wide budget
+  $\gamma=\delta/(m|\Lambda|)$ or, in the last row, the primary grid. All
+  bounds assume i.i.d.\ groups; the replay event has no observed occurrence on
+  the GitHub cohorts as labeled (\cref{sec:method}).}
+  \label{tab:certificates}
+  \footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \input{tables/certificate_summary.tex}
+\end{table}
+
+Each primary artifact was admitted at 92/92 zero-violation calibration groups
+($U_{\hat\eta}=0.0498\le0.05$, conditional on i.i.d.\ groups), a
+support-sufficiency certificate (\cref{sec:method}) that is compiler-wide for
+issue-type routing (one candidate at calibration) and per-candidate for
+PR-outcome and backlog routing (two; corrected $U=0.0569$, so compiler-wide
+only at $\alpha\ge0.057$; \cref{cor:frozen}, \cref{tab:multiplicity-accounting});
+\cref{tab:certificates} lists every admitted artifact. The one certificate
+whose event includes the continuation comes from a post-cutoff PR-outcome
+cohort (pull requests created after the snapshot's last day;
+\cref{app:limits}): the re-derived artifact dispatched on 132 fresh
+calibration groups and the graded task contract missed 0, a one-sided bound of
+0.0173 under the single rule pre-registered for that study and 0.035 under the
+primary grid. Those groups are 84 open and 48 merged pull requests and no
+closed-unmerged ones, so the certified population excludes that class; the 60
+fresh test records (20 per class) pass under every condition, and hypothetical
+bounds using days and authors as independent units are 0.0228 and 0.0267;
+independence of those clusters is unverified.
+
+\paragraph{Denominator and loss conventions.}
+In \cref{eq:objective} the denominator counts groups with at least one attempt
+admitted by the hard guard and score; a clean interpreter or verifier failure
+after admission has replay loss zero and remains in that count, and
+pre-dispatch abstention enters neither the denominator nor the savings. Every
+certificate except the post-cutoff one instantiates $L(A,x)=1$ as a
+replay-contract violation of the compiled region (\cref{app:config}), so the
+continuation is measured, not certified. The end-to-end certificate bounds
+absolute error, not excess error over $B$ or noninferiority, and does not
+attribute errors causally to compilation.
+
+\paragraph{Certifiable selectivity at the floor.}
+The 92-group floor of \cref{eq:cp} also bounds what selectivity is
+\emph{certifiable}: coverage $c=n_\eta/|\mathcal{K}|$ needs
+$|\mathcal{K}|\ge\lceil 92/c\rceil$, so on the $|\mathcal{K}|=92$ primary
+cohorts, the smallest satisfiable pool, the only outcomes are retirement or
+full empirical calibration coverage, since abstaining on one group leaves
+$U_\eta=0.0503>\alpha$; intermediate coverage can be \emph{observed} but not
+certified (\cref{app:config}, \cref{fig:gate-floor}). The GitHub calibration
+labels replay stable call patterns over a pinned snapshot and contain no
+observed violation. They offer little test of risk discrimination; zero
+observed failures does not prove that failure is impossible. These certificates
+function as support-sufficiency statements at full coverage ($n_\eta\ge92$;
+$\delta=0.1$ is the budget at which that floor is satisfiable, $\delta=0.05$
+needs 106) that cannot tell whether $q$ ranks dispatch risk.
+
+\paragraph{What the statistical stage adds at runtime.}
+The addition is measurable, and null on these candidates: full statistical
+admission, support-only admission, and deterministic guards alone give
+identical routing and evidence on all 2{,}724 record--model cases of the AWM
+comparison, and the score $q$ is constant within each family because the entry
+state is a single record number (\cref{app:generalization-gate}). The
+deterministic barriers do the admission work; the gate contributes its sample
+floor, which is what refuses the thin benchmarks of \cref{sec:res-refusal} and,
+on a second provider, backlog routing (\cref{app:limits}).
 
 \subsection{The registered gate is a support threshold}
 
@@ -1589,7 +1673,7 @@ does not establish present unavailability or eliminate the comparison gap.
 \subsection{Observed results}
 
 The sealed cohort targets 300 pooled held-out pairs across the five repositories
-\cref{sec:res-multirepo} already uses, 116 discovery and 60 held-out cases each
+\cref{sec:res-more} already uses, 116 discovery and 60 held-out cases each
 under frozen-candidate selection. Discovery reaches 580/580 exact traces. Four
 repositories admit an artifact; \code{pytorch/pytorch} again retires at compile
 time. This cohort is drawn from the same frozen snapshots with the same
