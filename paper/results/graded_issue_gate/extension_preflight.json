@@ -1,0 +1,918 @@
+{
+  "alpha": 0.05,
+  "analysis_plan": [
+    "primary: Algorithm 1 on the pooled calibration set (184 original + fresh), alpha=0.05, delta=0.10, the same 11-point grid",
+    "secondary: Algorithm 1 on the fresh calibration set alone, same settings",
+    "conditional: if the pooled analysis admits a threshold, run the 90 sealed test issues under that threshold (compiled arm where q <= eta, unchanged agent otherwise) plus the unchanged agent on all 90 and the support-only routing; report task errors with a one-sided 95% Clopper-Pearson bound and the paired discordance",
+    "descriptive: violation counts per grid row on the pooled set and a one-sided Fisher exact test that the violation rate among groups with q above the lowest admissible threshold exceeds the rate at or below it (low power; not a certificate)"
+  ],
+  "binomial_floors_n_min_by_violations": {
+    "0": 92,
+    "1": 133,
+    "2": 168,
+    "3": 200,
+    "4": 231,
+    "5": 261,
+    "6": 291
+  },
+  "candidate_registry_sha256": "bbe554b95285259dbf3e401ba8f48121d283daad7eb57429a8d5120fd4d73dd9",
+  "checkpoint_v2_sha256": "adbd7ff9a5f9f88bf3d1602fb085d2c846f2b0ff773edb59ee98d9585fe85bd2",
+  "delta": 0.1,
+  "duplicate_source_rows_collapsed": 49,
+  "evidence_policy": "frozen v2 score and grid; pooled calibration chooses the threshold; test untouched until fixed",
+  "exclusion": {
+    "experiments_record_numbers_not_in_results_tree": 748,
+    "experiments_tree_record_numbers": 1728,
+    "original_cohort_overlap_with_experiments": 0,
+    "original_cohort_record_numbers": 474,
+    "pilot_cohort_record_numbers": 90,
+    "pilot_records_still_unused_but_excluded": 55,
+    "results_tree_record_numbers": 6374,
+    "union": 7651
+  },
+  "extension_size_forced_by_pool_exhaustion": true,
+  "fresh_calibration": [
+    {
+      "category": "other",
+      "issue_number": 202,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 216,
+      "n_comments": 3,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "bug",
+      "issue_number": 730,
+      "n_comments": 7,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 743,
+      "n_comments": 23,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 769,
+      "n_comments": 5,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 801,
+      "n_comments": 3,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 809,
+      "n_comments": 2,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 812,
+      "n_comments": 7,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "enhancement",
+      "issue_number": 824,
+      "n_comments": 11,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 900,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "enhancement",
+      "issue_number": 1604,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 1633,
+      "n_comments": 2,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 1639,
+      "n_comments": 3,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 1643,
+      "n_comments": 1,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 1733,
+      "n_comments": 1,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 1747,
+      "n_comments": 2,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 1758,
+      "n_comments": 2,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 2031,
+      "n_comments": 2,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 2036,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 2046,
+      "n_comments": 11,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 2055,
+      "n_comments": 4,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "bug",
+      "issue_number": 2386,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "bug",
+      "issue_number": 2398,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "bug",
+      "issue_number": 2415,
+      "n_comments": 5,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 2424,
+      "n_comments": 6,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "bug",
+      "issue_number": 2440,
+      "n_comments": 4,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "bug",
+      "issue_number": 2512,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "bug",
+      "issue_number": 2542,
+      "n_comments": 4,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "bug",
+      "issue_number": 2569,
+      "n_comments": 2,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "bug",
+      "issue_number": 3089,
+      "n_comments": 2,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 3119,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 3127,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "enhancement",
+      "issue_number": 3143,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 3333,
+      "n_comments": 12,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "bug",
+      "issue_number": 3505,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "bug",
+      "issue_number": 3640,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 3687,
+      "n_comments": 6,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "bug",
+      "issue_number": 3739,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 3755,
+      "n_comments": 3,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "bug",
+      "issue_number": 3769,
+      "n_comments": 3,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "bug",
+      "issue_number": 3808,
+      "n_comments": 3,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "bug",
+      "issue_number": 3848,
+      "n_comments": 7,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 3904,
+      "n_comments": 4,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "bug",
+      "issue_number": 3906,
+      "n_comments": 1,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 3920,
+      "n_comments": 2,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 3969,
+      "n_comments": 10,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "bug",
+      "issue_number": 4031,
+      "n_comments": 1,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 4071,
+      "n_comments": 1,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "bug",
+      "issue_number": 4123,
+      "n_comments": 1,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "enhancement",
+      "issue_number": 4180,
+      "n_comments": 5,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 4181,
+      "n_comments": 9,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "bug",
+      "issue_number": 4623,
+      "n_comments": 4,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "bug",
+      "issue_number": 4734,
+      "n_comments": 1,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 5251,
+      "n_comments": 8,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 5262,
+      "n_comments": 2,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 5276,
+      "n_comments": 17,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 5361,
+      "n_comments": 3,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 5412,
+      "n_comments": 4,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 5414,
+      "n_comments": 4,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 5419,
+      "n_comments": 2,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "enhancement",
+      "issue_number": 5468,
+      "n_comments": 9,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 5498,
+      "n_comments": 3,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 5500,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 5576,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 5585,
+      "n_comments": 2,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 5597,
+      "n_comments": 3,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 5615,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "enhancement",
+      "issue_number": 5647,
+      "n_comments": 2,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 5681,
+      "n_comments": 2,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 5709,
+      "n_comments": 2,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 5722,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 5743,
+      "n_comments": 1,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 5749,
+      "n_comments": 8,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 5768,
+      "n_comments": 8,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 5797,
+      "n_comments": 2,
+      "stratum": "markdown_link"
+    },
+    {
+      "category": "enhancement",
+      "issue_number": 5798,
+      "n_comments": 17,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 5832,
+      "n_comments": 1,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 5854,
+      "n_comments": 3,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 6111,
+      "n_comments": 3,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 6134,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 6144,
+      "n_comments": 6,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 6190,
+      "n_comments": 2,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "enhancement",
+      "issue_number": 6194,
+      "n_comments": 7,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 6246,
+      "n_comments": 4,
+      "stratum": "markdown_link"
+    },
+    {
+      "category": "other",
+      "issue_number": 6277,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 6302,
+      "n_comments": 2,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 6349,
+      "n_comments": 4,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 6383,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 6412,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 6436,
+      "n_comments": 3,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 6441,
+      "n_comments": 3,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 6533,
+      "n_comments": 2,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 6565,
+      "n_comments": 2,
+      "stratum": "markdown_link"
+    },
+    {
+      "category": "other",
+      "issue_number": 6591,
+      "n_comments": 1,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 6615,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 6620,
+      "n_comments": 1,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "enhancement",
+      "issue_number": 6702,
+      "n_comments": 2,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 6935,
+      "n_comments": 2,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 6947,
+      "n_comments": 15,
+      "stratum": "markdown_link"
+    },
+    {
+      "category": "other",
+      "issue_number": 6977,
+      "n_comments": 2,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 7041,
+      "n_comments": 2,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 7079,
+      "n_comments": 17,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 7163,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 7180,
+      "n_comments": 1,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 7276,
+      "n_comments": 3,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 7433,
+      "n_comments": 2,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 7472,
+      "n_comments": 6,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 7493,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 7508,
+      "n_comments": 2,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 7512,
+      "n_comments": 1,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 7513,
+      "n_comments": 4,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 7517,
+      "n_comments": 4,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 7518,
+      "n_comments": 2,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 7531,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 7537,
+      "n_comments": 1,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "bug",
+      "issue_number": 7538,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 7548,
+      "n_comments": 7,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 7549,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 7551,
+      "n_comments": 4,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 7554,
+      "n_comments": 2,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 7567,
+      "n_comments": 6,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 7573,
+      "n_comments": 2,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 7574,
+      "n_comments": 2,
+      "stratum": "bare_url"
+    },
+    {
+      "category": "other",
+      "issue_number": 7577,
+      "n_comments": 3,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "enhancement",
+      "issue_number": 7584,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "enhancement",
+      "issue_number": 7586,
+      "n_comments": 1,
+      "stratum": "plain_text"
+    },
+    {
+      "category": "other",
+      "issue_number": 7599,
+      "n_comments": 2,
+      "stratum": "plain_text"
+    }
+  ],
+  "frozen_gate_v2_sha256": "c66af83acac0bc883f970140e874560ef35ff9f80144d0115e13e763d918c35a",
+  "frozen_model": {
+    "bias": -2.7880888260425847,
+    "feature_means": [
+      0.3,
+      0.3,
+      1.3606829395372388,
+      0.52,
+      0.5285000000000001,
+      2.5520328542094455
+    ],
+    "feature_scales": [
+      0.4582575694955845,
+      0.4582575694955844,
+      0.5610343194490892,
+      0.6161168720299746,
+      0.24673416869173173,
+      1.2093138159856778
+    ],
+    "features": [
+      "markdown_link",
+      "bare_url",
+      "log_comments",
+      "label_count",
+      "title_length",
+      "age_years"
+    ],
+    "weights": [
+      0.4382157753345524,
+      -1.540071990492529,
+      0.27760488998381266,
+      -0.5228491806418034,
+      -2.6091328527058195,
+      0.3447205014260692
+    ]
+  },
+  "grid": [
+    0.02,
+    0.05,
+    0.08,
+    0.11,
+    0.14,
+    0.17,
+    0.2,
+    0.25,
+    0.3,
+    0.4,
+    0.5
+  ],
+  "original_calibration_groups": 184,
+  "original_preflight_sha256": "c54dd355741bd4c2e2be2c9784c44956f0dec9375cb6b74feb77a397095d8a9b",
+  "pool_enlargement_check": {
+    "any_shares_pinned_manifest": false,
+    "candidates": [
+      {
+        "manifest": "paper/results/datasets/github_multirepo/pandas-dev__pandas/source_manifest.json",
+        "parquet_sha256": "2b08f6e8c3e3024509d99f86033b0bdd35b0b99be72abd4cbc6808524888fc99",
+        "repository": "pandas-dev/pandas",
+        "same_github_repository": false,
+        "same_parquet_as_pinned_snapshot": false
+      },
+      {
+        "manifest": "paper/results/datasets/github_multirepo/psf__requests/source_manifest.json",
+        "parquet_sha256": "bf5e293099a9eafab44d240ce0e2d6291359823f732a987eebea663ea483690f",
+        "repository": "psf/requests",
+        "same_github_repository": false,
+        "same_parquet_as_pinned_snapshot": false
+      },
+      {
+        "manifest": "paper/results/datasets/github_multirepo/pytorch__pytorch/source_manifest.json",
+        "parquet_sha256": "3d8b3f73277a8e436a3196f6da9bd7733f309ef8d7b90bc7f81844a69a30b05f",
+        "repository": "pytorch/pytorch",
+        "same_github_repository": false,
+        "same_parquet_as_pinned_snapshot": false
+      },
+      {
+        "manifest": "paper/results/datasets/github_multirepo/streamlit__streamlit/source_manifest.json",
+        "parquet_sha256": "7f24ca99d846948b18b6af990565a85b6f796178c50fb718e3a18dc81e174cbe",
+        "repository": "streamlit/streamlit",
+        "same_github_repository": false,
+        "same_parquet_as_pinned_snapshot": false
+      },
+      {
+        "manifest": "paper/results/datasets/github_time_forward/huggingface__datasets/source_manifest.json",
+        "parquet_sha256": "9b94520fd0902961a07d0f0323c1b8d86ab0db38d863ac9b0cce984296f029b7",
+        "repository": "huggingface/datasets",
+        "same_github_repository": true,
+        "same_parquet_as_pinned_snapshot": false
+      }
+    ],
+    "pinned_dataset": "helmo/github-issues",
+    "pinned_parquet_sha256": "09453eefae39e45a969ab0bee72ca0e188fe79dc50403b0f2a78c39894f5d1a3",
+    "verdict": "no other retained snapshot shares the pinned manifest; the time-forward snapshot is the same GitHub repository but a different fetch (post-cutoff records under its own manifest and age cutoff), and the multi-repository snapshots are other repositories, so the pool cannot be enlarged"
+  },
+  "pooled_calibration_groups": 311,
+  "provider_calls_executed": 0,
+  "registered_after_first_calibration_observed": true,
+  "remaining_pool": {
+    "by_category": {
+      "bug": 21,
+      "enhancement": 11,
+      "other": 95
+    },
+    "by_stratum": {
+      "bare_url": 43,
+      "markdown_link": 4,
+      "plain_text": 80
+    },
+    "eligible_with_comments": 127,
+    "ineligible_without_comments": 52
+  },
+  "results_v2_sha256": "a179236a1fd86770b472849d24d4d57c7d978f043e3968d2c46d50addd567010",
+  "sampling_frame": "every unused public snapshot issue with at least one comment; no quota, no sampling",
+  "schema": "gac-graded-issue-gate-extension-preflight/v1",
+  "seed": 20261008,
+  "sequential_extension": true,
+  "source_manifest_sha256": "45e26e838a3ae6665758cd27544aaf5fd564ead24fa0b374067a6568afa9844b",
+  "source_sha256": "09453eefae39e45a969ab0bee72ca0e188fe79dc50403b0f2a78c39894f5d1a3",
+  "status": "sealed_not_run",
+  "test_issues_sealed_until_threshold_fixed": 90
+}
