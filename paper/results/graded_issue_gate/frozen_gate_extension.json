@@ -1,0 +1,259 @@
+{
+  "fresh_calibration": {
+    "admitted": 127,
+    "groups": 127,
+    "task_errors": 2
+  },
+  "frozen_model": {
+    "bias": -2.7880888260425847,
+    "feature_means": [
+      0.3,
+      0.3,
+      1.3606829395372388,
+      0.52,
+      0.5285000000000001,
+      2.5520328542094455
+    ],
+    "feature_scales": [
+      0.4582575694955845,
+      0.4582575694955844,
+      0.5610343194490892,
+      0.6161168720299746,
+      0.24673416869173173,
+      1.2093138159856778
+    ],
+    "features": [
+      "markdown_link",
+      "bare_url",
+      "log_comments",
+      "label_count",
+      "title_length",
+      "age_years"
+    ],
+    "weights": [
+      0.4382157753345524,
+      -1.540071990492529,
+      0.27760488998381266,
+      -0.5228491806418034,
+      -2.6091328527058195,
+      0.3447205014260692
+    ]
+  },
+  "learned_fresh": {
+    "admissible": [],
+    "alpha": 0.05,
+    "coverage": 0.0,
+    "delta": 0.1,
+    "features_spec": {},
+    "grid": [
+      0.02,
+      0.05,
+      0.08,
+      0.11,
+      0.14,
+      0.17,
+      0.2,
+      0.25,
+      0.3,
+      0.4,
+      0.5
+    ],
+    "model": {
+      "bias": -2.7880888260425847,
+      "feature_means": [
+        0.3,
+        0.3,
+        1.3606829395372388,
+        0.52,
+        0.5285000000000001,
+        2.5520328542094455
+      ],
+      "feature_scales": [
+        0.4582575694955845,
+        0.4582575694955844,
+        0.5610343194490892,
+        0.6161168720299746,
+        0.24673416869173173,
+        1.2093138159856778
+      ],
+      "features": [
+        "markdown_link",
+        "bare_url",
+        "log_comments",
+        "label_count",
+        "title_length",
+        "age_years"
+      ],
+      "weights": [
+        0.4382157753345524,
+        -1.540071990492529,
+        0.27760488998381266,
+        -0.5228491806418034,
+        -2.6091328527058195,
+        0.3447205014260692
+      ]
+    },
+    "n_accepted": 0,
+    "n_calibration_groups": 127,
+    "notes": "protocol=frozen_external_model; no admissible threshold: tightest attainable Clopper-Pearson upper bound is 0.068 > alpha=0.05; more calibration groups (or zero observed violations) are required; grid rows: [{'eta': 0.02, 'n': 53, 'violations': 0, 'upper': 0.0849, 'coverage': 0.4173}, {'eta': 0.05, 'n': 61, 'violations': 1, 'upper': 0.1056, 'coverage': 0.4803}, {'eta': 0.08, 'n': 66, 'violations': 1, 'upper': 0.0979, 'coverage': 0.5197}, {'eta': 0.11, 'n': 72, 'violations': 1, 'upper': 0.0901, 'coverage': 0.5669}, {'eta': 0.14, 'n': 79, 'violations': 1, 'upper': 0.0824, 'coverage': 0.622}, {'eta': 0.17, 'n': 81, 'violations': 1, 'upper': 0.0804, 'coverage': 0.6378}, {'eta': 0.2, 'n': 88, 'violations': 1, 'upper': 0.0742, 'coverage': 0.6929}, {'eta': 0.25, 'n': 91, 'violations': 1, 'upper': 0.0719, 'coverage': 0.7165}, {'eta': 0.3, 'n': 96, 'violations': 1, 'upper': 0.0682, 'coverage': 0.7559}, {'eta': 0.4, 'n': 103, 'violations': 2, 'upper': 0.0802, 'coverage': 0.811}, {'eta': 0.5, 'n': 108, 'violations': 2, 'upper': 0.0766, 'coverage': 0.8504}]",
+    "observed_violations": 0,
+    "retire": true,
+    "risk_upper_bound": 1.0,
+    "threshold": 0.0
+  },
+  "learned_pooled": {
+    "admissible": [
+      0.02,
+      0.2,
+      0.25,
+      0.3,
+      0.4,
+      0.5
+    ],
+    "alpha": 0.05,
+    "coverage": 0.8392282958199357,
+    "delta": 0.1,
+    "features_spec": {},
+    "grid": [
+      0.02,
+      0.05,
+      0.08,
+      0.11,
+      0.14,
+      0.17,
+      0.2,
+      0.25,
+      0.3,
+      0.4,
+      0.5
+    ],
+    "model": {
+      "bias": -2.7880888260425847,
+      "feature_means": [
+        0.3,
+        0.3,
+        1.3606829395372388,
+        0.52,
+        0.5285000000000001,
+        2.5520328542094455
+      ],
+      "feature_scales": [
+        0.4582575694955845,
+        0.4582575694955844,
+        0.5610343194490892,
+        0.6161168720299746,
+        0.24673416869173173,
+        1.2093138159856778
+      ],
+      "features": [
+        "markdown_link",
+        "bare_url",
+        "log_comments",
+        "label_count",
+        "title_length",
+        "age_years"
+      ],
+      "weights": [
+        0.4382157753345524,
+        -1.540071990492529,
+        0.27760488998381266,
+        -0.5228491806418034,
+        -2.6091328527058195,
+        0.3447205014260692
+      ]
+    },
+    "n_accepted": 261,
+    "n_calibration_groups": 311,
+    "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 117, 'violations': 0, 'upper': 0.0394, 'coverage': 0.3762}, {'eta': 0.05, 'n': 145, 'violations': 2, 'upper': 0.0575, 'coverage': 0.4662}, {'eta': 0.08, 'n': 162, 'violations': 2, 'upper': 0.0516, 'coverage': 0.5209}, {'eta': 0.11, 'n': 177, 'violations': 3, 'upper': 0.0563, 'coverage': 0.5691}, {'eta': 0.14, 'n': 187, 'violations': 3, 'upper': 0.0534, 'coverage': 0.6013}, {'eta': 0.17, 'n': 195, 'violations': 3, 'upper': 0.0512, 'coverage': 0.627}, {'eta': 0.2, 'n': 207, 'violations': 3, 'upper': 0.0483, 'coverage': 0.6656}, {'eta': 0.25, 'n': 220, 'violations': 3, 'upper': 0.0455, 'coverage': 0.7074}, {'eta': 0.3, 'n': 230, 'violations': 3, 'upper': 0.0436, 'coverage': 0.7395}, {'eta': 0.4, 'n': 247, 'violations': 4, 'upper': 0.0468, 'coverage': 0.7942}, {'eta': 0.5, 'n': 261, 'violations': 4, 'upper': 0.0443, 'coverage': 0.8392}]",
+    "observed_violations": 4,
+    "retire": false,
+    "risk_upper_bound": 0.04432752559421167,
+    "threshold": 0.5
+  },
+  "original_calibration": {
+    "admitted": 184,
+    "groups": 184,
+    "task_errors": 2
+  },
+  "pooled_calibration": {
+    "admitted": 311,
+    "groups": 311,
+    "task_errors": 4
+  },
+  "support_only_pooled": {
+    "admissible": [
+      0.02,
+      0.05,
+      0.08,
+      0.11,
+      0.14,
+      0.17,
+      0.2,
+      0.25,
+      0.3,
+      0.4,
+      0.5,
+      1.0
+    ],
+    "alpha": 1.0,
+    "coverage": 1.0,
+    "delta": 0.1,
+    "features_spec": {},
+    "grid": [
+      0.02,
+      0.05,
+      0.08,
+      0.11,
+      0.14,
+      0.17,
+      0.2,
+      0.25,
+      0.3,
+      0.4,
+      0.5,
+      1.0
+    ],
+    "model": {
+      "bias": -2.7880888260425847,
+      "feature_means": [
+        0.3,
+        0.3,
+        1.3606829395372388,
+        0.52,
+        0.5285000000000001,
+        2.5520328542094455
+      ],
+      "feature_scales": [
+        0.4582575694955845,
+        0.4582575694955844,
+        0.5610343194490892,
+        0.6161168720299746,
+        0.24673416869173173,
+        1.2093138159856778
+      ],
+      "features": [
+        "markdown_link",
+        "bare_url",
+        "log_comments",
+        "label_count",
+        "title_length",
+        "age_years"
+      ],
+      "weights": [
+        0.4382157753345524,
+        -1.540071990492529,
+        0.27760488998381266,
+        -0.5228491806418034,
+        -2.6091328527058195,
+        0.3447205014260692
+      ]
+    },
+    "n_accepted": 311,
+    "n_calibration_groups": 311,
+    "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 117, 'violations': 0, 'upper': 0.0401, 'coverage': 0.3762}, {'eta': 0.05, 'n': 145, 'violations': 2, 'upper': 0.0582, 'coverage': 0.4662}, {'eta': 0.08, 'n': 162, 'violations': 2, 'upper': 0.0522, 'coverage': 0.5209}, {'eta': 0.11, 'n': 177, 'violations': 3, 'upper': 0.057, 'coverage': 0.5691}, {'eta': 0.14, 'n': 187, 'violations': 3, 'upper': 0.054, 'coverage': 0.6013}, {'eta': 0.17, 'n': 195, 'violations': 3, 'upper': 0.0518, 'coverage': 0.627}, {'eta': 0.2, 'n': 207, 'violations': 3, 'upper': 0.0489, 'coverage': 0.6656}, {'eta': 0.25, 'n': 220, 'violations': 3, 'upper': 0.046, 'coverage': 0.7074}, {'eta': 0.3, 'n': 230, 'violations': 3, 'upper': 0.044, 'coverage': 0.7395}, {'eta': 0.4, 'n': 247, 'violations': 4, 'upper': 0.0473, 'coverage': 0.7942}, {'eta': 0.5, 'n': 261, 'violations': 4, 'upper': 0.0448, 'coverage': 0.8392}, {'eta': 1.0, 'n': 311, 'violations': 4, 'upper': 0.0377, 'coverage': 1.0}]",
+    "observed_violations": 4,
+    "retire": false,
+    "risk_upper_bound": 0.03768041974781573,
+    "threshold": 1.0
+  }
+}

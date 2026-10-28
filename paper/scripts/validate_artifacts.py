@@ -3439,6 +3439,111 @@ def validate_demo_suite_regeneration() -> None:
     ok(_summary(ret / "incident_triage.json")[0] == 2, "demo regeneration: the retained 2026-08 run still records two incident_triage artifacts")
 
 
+def validate_graded_issue_gate_extension() -> None:
+    """Pin the registered sequential calibration extension of the graded issue gate (2026-10-28).
+
+    The sealed fresh cohort must rebuild byte-identically (including the ``experiments/``
+    scan), and the retained state must be one of: sealed and aborted before any provider
+    response, or executed with an audit whose table regenerates byte-identically.
+    """
+    import importlib.util
+    import tempfile
+
+    out = PAPER / "results/graded_issue_gate"
+    sealed_path = out / "extension_preflight.json"
+    ok(sealed_path.exists() and (out / "extension_protocol.md").exists(),
+       "gate extension: sealed preflight and registered protocol are retained")
+    if not sealed_path.exists():
+        return
+    sealed = load(sealed_path)
+
+    def _module(name: str):
+        spec = importlib.util.spec_from_file_location(name, PAPER / f"scripts/{name}.py")
+        module = importlib.util.module_from_spec(spec)
+        assert spec.loader is not None
+        spec.loader.exec_module(module)
+        return module
+
+    try:
+        rebuilt = _module("graded_issue_gate_extension_preflight").build()
+    except Exception as exc:  # pragma: no cover - surfaced as a failed check
+        rebuilt = {"error": str(exc)}
+    ok(rebuilt == sealed, "gate extension: sealed fresh cohort rebuilds byte-identically from source and exclusions")
+    ok(sealed.get("status") == "sealed_not_run" and sealed.get("provider_calls_executed") == 0
+       and sealed.get("sequential_extension") is True and sealed.get("extension_size_forced_by_pool_exhaustion") is True,
+       "gate extension: preflight is provider-free and discloses the sequential, forced-size design")
+    fresh = sealed.get("fresh_calibration", [])
+    ok(len(fresh) == sealed.get("remaining_pool", {}).get("eligible_with_comments")
+       and sum(sealed["remaining_pool"]["by_stratum"].values()) == len(fresh),
+       "gate extension: the fresh cohort is the whole remaining pool with disclosed strata")
+    ok(sealed.get("exclusion", {}).get("original_cohort_overlap_with_experiments") == 0
+       and sealed["exclusion"].get("experiments_tree_record_numbers", 0) > 0,
+       "gate extension: experiments/ records are excluded and the original cohort is disjoint from them")
+    ok(sealed.get("pool_enlargement_check", {}).get("any_shares_pinned_manifest") is False,
+       "gate extension: no other retained snapshot shares the pinned manifest")
+    for key, name in (("frozen_gate_v2_sha256", "frozen_gate_v2.json"), ("results_v2_sha256", "results_v2.json"),
+                      ("original_preflight_sha256", "preflight.json"), ("checkpoint_v2_sha256", "checkpoint_v2.json")):
+        ok(sealed.get(key) == sha256(out / name), f"gate extension: {name} unchanged since sealing")
+    protocol = (out / "extension_protocol.md").read_text(encoding="utf-8")
+    ok(sealed_path.name in protocol and sha256(sealed_path)[:16] in protocol,
+       "gate extension: protocol pins the sealed preflight by hash")
+    result_path = out / "results_extension.json"
+    abort_path = out / "extension_abort.json"
+    table_path = PAPER / "iclr/tables/gate_extension.tex"
+    if result_path.exists():
+        result = load(result_path)
+        audit_path = out / "audit_extension.json"
+        ok(audit_path.exists(), "gate extension: provider-free audit retained beside the result")
+        if audit_path.exists():
+            audit = load(audit_path)
+            expected = "retired_before_test" if result.get("status") == "retired_before_test" else "admitted_and_tested"
+            ok(audit.get("decision") == expected and audit.get("provider_calls_executed") == 0,
+               "gate extension: audit decision matches the retained result")
+            ok(table_path.exists(), "gate extension: ICLR table exists")
+            if table_path.exists():
+                module = _module("audit_graded_issue_gate_extension")
+                with tempfile.TemporaryDirectory() as scratch:
+                    module.TABLE_PATH = Path(scratch) / "gate_extension.tex"
+                    fresh_table = module.table(audit)
+                ok(fresh_table == table_path.read_text(encoding="utf-8"),
+                   "gate extension: ICLR table regenerates byte-identically from the audit")
+            section = PAPER / "iclr/sections/gate_extension_appendix.tex"
+            appendix = (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8")
+            ok(section.exists() and r"\input{sections/gate_extension_appendix}" in appendix,
+               "gate extension: appendix subsection exists and is input from appendix.tex")
+            if section.exists():
+                text = section.read_text(encoding="utf-8")
+                pooled = audit.get("grids", {}).get("pooled", {})
+                last = (pooled.get("rows") or [{}])[-1]
+                groups = audit.get("groups", {})
+                expected = [str(groups.get("fresh_calibration", {}).get("groups")),
+                            str(groups.get("pooled_calibration", {}).get("groups")),
+                            f"{last.get('upper', 0):.4f}", f"\\eta={pooled.get('threshold', 0):.2f}",
+                            f"{last.get('n')}/{groups.get('pooled_calibration', {}).get('groups')}"]
+                test = audit.get("test") or {}
+                if test:
+                    expected += [f"{test['routed_to_compiled']}/{test['issues']}",
+                                 f"{test['arms']['learned']['task_errors']}/{test['issues']}",
+                                 f"{test['arms']['baseline']['task_errors']}/{test['issues']}"]
+                ok(all(item in text for item in expected),
+                   "gate extension: appendix subsection quotes the audited cohort sizes, bound, threshold, and test counts")
+                ok(r"\input{tables/gate_extension.tex}" in text, "gate extension: appendix subsection inputs the generated table")
+            discussion = (PAPER / "iclr/sections/discussion.tex").read_text(encoding="utf-8")
+            ok(r"\cref{app:gate-extension}" in discussion,
+               "gate extension: discussion points at the extension instead of calling the issue study simply retired")
+    else:
+        ok(abort_path.exists(), "gate extension: not executed; an abort record explains why")
+        if abort_path.exists():
+            abort = load(abort_path)
+            ok(abort.get("completed_episodes") == 0 and abort.get("fresh_calibration_observed") == 0
+               and abort.get("test_issues_touched") == 0 and abort.get("estimated_cost_usd") == 0,
+               "gate extension: the aborted attempt observed nothing and spent nothing")
+            raw = out / Path(str(abort.get("raw_checkpoint", ""))).name
+            ok(raw.exists() and "sk-" not in raw.read_text(encoding="utf-8"),
+               "gate extension: the aborted checkpoint is retained without key material")
+        ok(not table_path.exists(), "gate extension: no result table is claimed before execution")
+
+
 FAMILIES: dict[str, Any] = {
     "sources": validate_sources,
     "live": validate_live,
@@ -3476,6 +3581,7 @@ FAMILIES: dict[str, Any] = {
     "bird_extensions": validate_bird_extensions,
     "drift_continuation_graded": validate_drift_continuation_graded,
     "demo_suite_regeneration": validate_demo_suite_regeneration,
+    "graded_issue_gate_extension": validate_graded_issue_gate_extension,
     "no_secrets": validate_no_secrets,
 }
 
