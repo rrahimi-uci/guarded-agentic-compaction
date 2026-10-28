@@ -1,0 +1,128 @@
+# Signed effect declarations for the legacy SWE-agent command set as recorded in
+# nebius/SWE-agent-trajectories (Hugging Face revision
+# 68195a1450865274106246d0d0296a1d6807b88e), used only by the provider-free prefix census
+# (paper/scripts/prefix_census.py).
+#
+# Keyed by the identity the capture adapter (benchmarks/external/trajectories.py) records:
+# the scaffold's documented commands keep their names; any other command in the executed
+# code block is a raw shell command that resolves to `shell.<utility>` only when it is one
+# simple invocation of a closed read-only utility set with no shell metacharacters, and to
+# the opaque `shell.exec` otherwise.
+#
+# No mutation audit exists for this corpus (the containers are not re-executed), so the
+# declarations rest on the scaffold's documented command semantics and are conservative.
+# One declaration deserves a flag: `open`, `goto`, `scroll_up` and `scroll_down` read the
+# repository but also move the scaffold's editor window (the "current open file" and its
+# offset), and `search_file` without a file argument reads *that* implicit state.  The
+# window is scaffold-local state a compiled program carries itself, so these are declared
+# reads; the implicit dependency is not an argument slot and is therefore invisible to
+# Eq. (1), which the census's appendix states as a limitation.  Unlisted identities resolve
+# to UNKNOWN and are never reads.
+version: 1
+name: sweagent-legacy-released-trajectories
+tools:
+
+  # --- scaffold reads --------------------------------------------------------
+  open: &scaffold_read
+    effect: READ_LOCAL
+    capabilities: [speculatable, replayable, cacheable]
+    resource: workspace_files
+    notes: >-
+      Opens a file in the 100-line editor window at an optional line.  Reads the
+      repository; moves only the scaffold-local window.
+  goto:
+    <<: *scaffold_read
+    notes: Moves the editor window within the open file; reads the repository only.
+  scroll_down:
+    <<: *scaffold_read
+    notes: As goto.
+  scroll_up:
+    <<: *scaffold_read
+    notes: As goto.
+  search_dir:
+    <<: *scaffold_read
+    notes: Searches files under a directory for a term (grep wrapper); read-only.
+  search_file:
+    <<: *scaffold_read
+    notes: >-
+      Searches one file (or the open file when no file is given) for a term; read-only.
+      The no-argument form depends on the implicit editor state, see the header.
+  find_file:
+    <<: *scaffold_read
+    notes: Finds files by name under a directory (find wrapper); read-only.
+
+  # --- scaffold writes -------------------------------------------------------
+  edit: &scaffold_write
+    effect: WRITE_REVERSIBLE
+    capabilities: []
+    resource: workspace_files
+    notes: Replaces a line range of the open file; mutates the workspace.
+  create:
+    <<: *scaffold_write
+    notes: Creates and opens a new file; mutates the workspace.
+  submit:
+    effect: WRITE_IRREVERSIBLE
+    capabilities: []
+    resource: task_submission
+    approval_required: true
+    notes: Submits the patch and terminates the session; the commit boundary.
+
+  # --- shell: declared UNKNOWN, see the file header --------------------------------
+  shell.exec: &shell_unknown
+    effect: UNKNOWN
+    capabilities: []
+    resource: container_session
+    notes: >-
+      Any command that is not an allowlisted single read-only utility invocation
+      (interpreters, test runners, package managers, `cd`, `rm`, `curl`, pipes,
+      redirections).  Unknown effect; never a read.
+  shell.ls: &shell_read_candidate
+    effect: UNKNOWN
+    capabilities: []
+    resource: container_session
+    notes: >-
+      One simple invocation of a utility whose documented purpose is read-only, with no
+      shell metacharacters.  Declared UNKNOWN because the invocation is an unaudited process
+      in a stateful session; the census's `shell_reads_admitted` sensitivity arm flips
+      exactly these entries to READ_LOCAL with full capabilities.
+  shell.cat:
+    <<: *shell_read_candidate
+  shell.pwd:
+    <<: *shell_read_candidate
+  shell.find:
+    <<: *shell_read_candidate
+    notes: >-
+      As shell.ls; the adapter refuses `find` invocations carrying -delete, -exec, -execdir,
+      -ok, -okdir or any -fprint* flag, which resolve to shell.exec instead.
+  shell.grep:
+    <<: *shell_read_candidate
+  shell.head:
+    <<: *shell_read_candidate
+  shell.tail:
+    <<: *shell_read_candidate
+  shell.wc:
+    <<: *shell_read_candidate
+  shell.tree:
+    <<: *shell_read_candidate
+  shell.stat:
+    <<: *shell_read_candidate
+  shell.file:
+    <<: *shell_read_candidate
+  shell.which:
+    <<: *shell_read_candidate
+  shell.git_status:
+    <<: *shell_read_candidate
+  shell.git_log:
+    <<: *shell_read_candidate
+  shell.git_diff:
+    <<: *shell_read_candidate
+  shell.git_show:
+    <<: *shell_read_candidate
+  shell.git_ls_files:
+    <<: *shell_read_candidate
+  shell.git_blame:
+    <<: *shell_read_candidate
+  shell.git_grep:
+    <<: *shell_read_candidate
+  shell.git_rev_parse:
+    <<: *shell_read_candidate

@@ -1,0 +1,134 @@
+\subsection{Prefix census over released agent trajectories}
+\label{app:prefix-census}
+
+The introduction asks how often deployed agents open with a compilable
+read-only evidence path. No deployment traces are public, so this appendix
+measures the nearest proxy: released corpora of \emph{executed} multi-step
+tool-using trajectories from three scaffolds the paper does not otherwise
+touch, re-measured beside the two substrates it already ingests, all under one
+set of definitions and with no model in the loop
+(\code{paper/scripts/prefix\_census.py}; sources, catalogs and aggregates
+under \code{paper/results/prefix\_census/}). It is descriptive: nothing here
+is synthesized, calibrated or dispatched, and prefix eligibility is not
+admission.
+
+\paragraph{Corpora.}
+(i)~\emph{OpenHands / SWE-rebench}: 67{,}074 OpenHands~v0.54.0
+\citep{wang2024openhands} CodeAct trajectories with native function calling
+(Qwen3-Coder-480B) over 6{,}306 real issues in 1{,}823
+repositories~\citep{trofimova2025openhands}. (ii)~\emph{SWE-agent}: 80{,}036
+legacy SWE-agent~\citep{yang2024sweagent} text-action ReAct trajectories
+(fine-tuned Llama-3 action generators, three sizes) over 3{,}591 real
+issues~\citep{nebius2024sweagent}. (iii)~$\tau$-bench: the
+1{,}980 released historical runs of gpt-4o and claude-3.5-sonnet over the 165
+airline and retail tasks, a function-calling conversational agent in a
+non-coding domain~\citep{yao2024taubench}. (iv)~NESTFUL gold sequences and (v)~AppWorld's 28
+released baseline runs (8{,}190 trajectories, four architectures), the
+substrates of \cref{sec:res-refusal} and \cref{tab:appworld-dispatch}. Each
+corpus is pinned by revision and SHA-256 in
+\code{paper/results/datasets/*/source\_manifest.json}; raw corpora are parsed
+in isolation, never executed, and not committed. Candidates rejected and why
+(SWE-smith, the OpenHands SWE-Gym releases, $\tau^2$-bench, AgentBench and
+WebArena logs, ToolBench's archive) are recorded in the directory's README.
+
+\paragraph{Definitions, identical for every corpus.}
+The first model boundary is the first agent turn after the task prompt;
+normalized position~0 is the first tool call. The entry state is the structured
+task record the scaffold's prompt is filled from (instance, repository,
+problem statement, workspace path; for $\tau$-bench the user's opening
+utterance), seeded as pseudo-producer~0 as in \cref{alg:patg}. A
+\emph{read-only opening} is the run of consecutive calls from position~0 whose
+signed catalog entry is compilable; a new user utterance, an unknown effect, a
+write, an approval-gated tool or a missing capability ends it. A
+\emph{groundable opening} is the longest canonical window of the window-mining
+stage of \cref{alg:compile} that starts at the first boundary, at the
+registered parameters (depth~2, $\kappa=3$,
+$w\in[2,12]$, $b_{\min}=2$, entry schema \code{inputs}): every slot a literal
+invariant across traces, or grounded to the entry state or a prior result by a
+bounded transform, exactly \cref{eq:prefix}. Families are canonical hashes of
+opening windows with support counted in distinct tasks; $n_{\max}$ is compared
+with the 92-group floor of \cref{eq:cp}. Only the first thirteen calls are
+ingested ($w_{\max}+1$), which cannot change a window that starts at the first
+boundary. One signed catalog per corpus under
+\code{benchmarks/contracts/effects/} carries one justification per tool; editor sub-commands are distinct entries
+(\code{str\_replace\_editor.view} is a read, \code{create} a write), the model-side
+\code{think} tool is a barrier, and every shell invocation is \code{UNKNOWN}. Each
+released corpus has exactly one labelled sensitivity arm, never pooled with the
+primary row: admitting single-utility shell invocations (\code{ls}, \code{cat},
+\code{grep}, \code{find} without executing flags, read \code{git} subcommands)
+as reads for the two coding corpora, and, for $\tau$-bench, measuring from the
+first tool-issuing turn with the user utterances before it folded into the
+entry state, the analogue of the AppWorld prologue relaxation of
+\cref{tab:appworld-prologue}.
+
+\begin{table}[t]
+  \centering
+  \caption{Prefix census. RO$\ge$2: share of trajectories whose read-only
+  opening has at least two calls; Ground.\ $\ge$2: share whose longest
+  groundable opening window has at least two calls; Med.\ len: median length of
+  those windows; Fam.\ / floor: opening families and those with $\ge3$ supporting
+  tasks (the stage-2 minimum of \cref{tab:funnel}); $n_{\max}$: largest family
+  support, $\dagger$ at or above the 92-group floor. Indented rows are the
+  labelled sensitivity arms. AppWorld's released logs retain no responses, so
+  only its read-only column is measurable (its gold-solution substrate reaches
+  $n_{\max}=136$, \cref{tab:funnel}). Trajectories repeat tasks and are
+  descriptive counts, not independent samples.}
+  \label{tab:prefix-census}
+  \footnotesize
+  \setlength{\tabcolsep}{3.5pt}
+  \resizebox{\linewidth}{!}{\input{tables/prefix_census.tex}}
+\end{table}
+
+\paragraph{Findings.}
+\Cref{tab:prefix-census} gives the census. Read-only openings of two or more
+calls are a minority everywhere but one architecture: 16.3\% of OpenHands
+trajectories, 32.5\% of SWE-agent trajectories (47.3\% with shell reads
+admitted), 3.9\% of $\tau$-bench runs under the strict first-boundary rule
+(51.7\% once the identity-collecting user turns are folded into entry state),
+and 41.0\% of AppWorld's released trajectories, where the split is by
+architecture (full-code 99.96\%, iterative function calling 71.4\%, ReAct
+5.7\%, plan-and-execute 2.1\%), consistent with \cref{tab:appworld-dispatch}.
+The first barrier explains most of the remainder and is a scaffold habit rather
+than a workload property: 87.5\% of OpenHands trajectories open with the
+model-side \code{think} tool, 47.0\% of SWE-agent trajectories open by creating
+a reproduction script (a write), 99.7\% of $\tau$-bench openings are cut by
+the next user turn, and 45.9\% of AppWorld trajectories open with the
+undeclared API-documentation call.
+
+Groundability under \cref{eq:prefix} separates the scaffolds further.
+On OpenHands, 79\% of read-only openings are groundable (12.8\% of all
+trajectories, median three calls): the opening is a run of directory and file
+views whose paths derive from the workspace path in the entry state, and the
+largest family spans 752 tasks, above the 92-group floor, with eleven families
+at or above it. On SWE-agent only 6\% of read-only openings are groundable
+(1.9\% of trajectories): the scaffold's first \code{open}, \code{search\_dir}
+and \code{find\_file} arguments are model-chosen paths and search terms that
+no depth-2 transform of the issue text reproduces (24{,}399 openings blocked
+on an ungrounded slot, led by \code{open.path} and \code{search\_dir.search\_term});
+the two families at the floor (187 tasks each) are two-call search openings.
+On $\tau$-bench the strict measure grounds 3.0\% of runs, all from the
+claude-3.5-sonnet runs that query a reservation named in the opening
+utterance; the folded arm grounds 16.6\%, and its largest family (17 tasks)
+cannot reach the floor because the benchmark has 165 tasks. NESTFUL's openings
+are read-only by construction and 86.6\% groundable (the rest have ambiguous
+slots); its largest opening family spans 76 of 1{,}415 sequences, against 26
+for whole sequences in \cref{tab:funnel}. In short, the one-in-six to
+one-in-three prevalence of read-only openings, the lower prevalence of
+groundable ones, and the architecture dependence all match what
+\cref{sec:res-refusal} found on AppWorld alone.
+
+\paragraph{Limitations.}
+These are benchmark runs, not deployments; prevalence in production agents
+remains unmeasured in the literal sense, and these corpora over-represent
+software engineering. The catalogs are ours, are not backed by a mutation
+audit as the BFCL and AppWorld catalogs are, and are conservative by design:
+every shell command is unknown, so the primary rows are lower bounds on
+read-only openings and the shell arm is an upper bound under a plausible
+declaration. The SWE-agent scaffold's editor window is implicit state that
+\code{goto}, \code{scroll} and the no-argument \code{search\_file} read without
+an argument slot, which \cref{eq:prefix} cannot see. Observations longer than
+32{,}000 characters are cut, which can only lose producers. Support is counted
+in tasks, and trajectories of one task across models or trials are not
+independent. Finally, an opening family above the floor is a candidate for
+\cref{alg:compile}, nothing more: synthesis, the replay contract and the
+calibrated gate were not run on any of these corpora.
