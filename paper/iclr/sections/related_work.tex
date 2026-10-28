@@ -7,11 +7,9 @@ meta-tracing's unit of specialization, the trace~\citep{bolz2009pypy}.
 Partial evaluation is the older frame: a specialized program is correct only
 where its static assumptions hold~\citep{futamura1971partial,jones1993partial};
 here grounded arguments, declared effects~\citep{lucassen1988effects}, and
-manifest pins are the guard, and each can veto.
-
-\paragraph{Mining workflows from traces.}
-Family mining is a narrow form of process mining~\citep{vanderAalst2016process};
-synthesis is bounded programming by example and sketching
+manifest pins are the guard, and each can veto. Family mining is a narrow form
+of process mining~\citep{vanderAalst2016process}; synthesis is bounded
+programming by example and sketching
 \citep{gulwani2011flashfill,solarlezama2006sketching} with explicit
 provenance~\citep{cheney2009provenance}; and likely invariants inferred from
 executions~\citep{ernst2001daikon} are the ancestor of the induced verifier,
@@ -47,9 +45,9 @@ option~\citep{chow1970reject,geifman2017selective}. The admission bound is a
 fixed-grid instance of learn-then-test~\citep{angelopoulos2022ltt} using the
 exact binomial interval~\citep{clopper1934binomial}; the risk-controlling
 prediction-set framework gives related high-probability risk guarantees
-\citep{bates2021rcps}. Conformal prediction controls marginal coverage
-\citep{vovk2005algorithmic}; conformal risk control bounds expected monotone
-loss \citep{angelopoulos2024crc}, a different guarantee.
+\citep{bates2021rcps}; conformal prediction and conformal risk control give
+marginal-coverage and expected-loss guarantees, which
+differ~\citep{vovk2005algorithmic,angelopoulos2024crc}.
 
 \paragraph{Tool-use safety and evaluation.}
 ToolEmu and AgentDojo evaluate agents against hazardous or injected tool

@@ -377,3 +377,38 @@ No number, result, or claim changed. Build: 51 pages; Sections 1--8 end on page 
 Use Statement opens page 11; 0 overfull boxes; 0 unresolved references; PDF anonymous.
 `main-final.pdf` refreshed to this build; publication manifest regenerated; validator 5,624
 checks, 0 failed; `git diff --check` clean.
+
+## Lead with the evidence (2026-10-28, branch `paper/narrative-lead-with-evidence`)
+
+Narrative pass on top of `main` 3eb7b50 (the #91 reconciliation). It re-applies, by hand, the
+substance of the unmerged results restructure (commit 662eb4a on
+`paper/iclr-pat-feedback-review`, which no longer applied cleanly) and then reorders the
+exposition so the paper states its results before its caveats. No number, result, or claim
+changed; every caveat the previous abstract carried is retained in §5, §7, or the appendix.
+
+- Abstract: results first (primary families, the 8,172-episode adapted-AWM comparison, BIRD,
+  the post-cutoff end-to-end certificate), then the admission conditions in two sentences, then
+  one scope sentence.
+- §5 opens with a plain-language paragraph naming the three results a reader should take away.
+  §5.1 carries the primary families and the AWM comparison (new `tab:awm`,
+  `tables/awm_comparison.tex`); §5.2 BIRD and §5.3 NESTFUL/AppWorld keep their text; §5.4
+  (`sec:res-more`) summarizes certificates, the cross-repository extension, and live recovery in
+  one paragraph each. The two-panel results figure is dropped (both panels duplicate Tables 1
+  and 4).
+- The certificate summary table (`tab:certificates`, `tables/certificate_summary.tex`), the
+  post-cutoff population detail, the denominator and loss conventions of Eq. (4), the
+  certifiable-selectivity derivation at the 92-group floor, and the 2,724-case runtime-null
+  paragraph move to a new appendix subsection `app:certificates` (Appendix F); §2, §3, and §5.4
+  keep one-paragraph statements with pointers. The cross-repository paragraph of the former
+  §5.2 moves verbatim to Appendix F.1.
+- §4 introduces the AWM arm; §6 and §7 drop sentences §5 now carries; cross-references to the
+  removed `sec:res-multirepo`, `sec:res-recovery`, and `fig:results` labels are retargeted.
+- Pending hooks left for other branches: the §1 sentence that prevalence of compilable
+  prefixes "remains unmeasured" (a prefix-census PR will supply the number) and the §7 clause
+  on the retired 184-group issue-gate study (a gate-extension PR will extend that study).
+- `openreview_metadata.md`: abstract regenerated from the rendered page 1.
+
+Build: 53 pages; Sections 1--8 end on page 10 with the AI Use and Ethics Statements also on
+page 10 (within the ten-page discussion-phase limit); 0 overfull boxes; 0 unresolved
+references; PDF anonymous. `main-final.pdf` refreshed; publication manifest regenerated;
+validator and test results are recorded in the PR.

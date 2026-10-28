@@ -88,20 +88,15 @@ d_A(x_i)L(A,x_i)$. We seek
   \le \alpha .
   \label{eq:objective}
 \end{equation}
-Both halves take the same group measure. \emph{First}, the constraint
-conditions on dispatch: pre-dispatch abstention does not enter its denominator, although it
-earns no savings in the objective; by convention its conditional risk is zero
-when population dispatch probability is zero. \emph{Second}, returning \emph{no}
-artifact is feasible, so \retire{} is a legitimate output, and
-\cref{eq:objective} is a design target rather than a solved program --- the
-implementation calibrates a bounded ranked set and retains nondominated
-survivors, and we prove neither optimality nor any guarantee for that search
-beyond the per-candidate and fixed-$m$ cases of \cref{sec:method}. \emph{Third}, every
+Both halves take the same group measure, and the constraint conditions on
+dispatch: pre-dispatch abstention earns no savings and enters no denominator
+(its conditional risk is zero by convention when population dispatch
+probability is zero). Returning \emph{no} artifact is feasible, so \retire{} is
+a legitimate output; \cref{eq:objective} is a design target rather than a
+solved program, and the guarantees of \cref{sec:method} cover only the
+per-candidate and fixed-$m$ cases of the implemented ranked search. Every
 certificate in \cref{sec:results} except one end-to-end certificate
-(\cref{sec:res-primary}) instantiates $L(A,x)=1$ as a \emph{replay-contract
-violation} of the compiled region (\cref{app:config}), so the continuation is
-measured, not certified. The denominator counts groups with at least one
-attempt admitted by the hard guard and score. A clean interpreter or verifier
-failure after admission has replay loss zero and remains in that count.
-The end-to-end certificate bounds absolute error, not excess error over $B$
-or noninferiority; it does not attribute errors causally to compilation.
+instantiates $L(A,x)=1$ as a \emph{replay-contract violation} of the compiled
+region, so the continuation is measured, not certified;
+\cref{app:certificates} states each certificate's event and the denominator
+and loss conventions.
