@@ -65,6 +65,42 @@ def test_failure_report_masks_credential_like_tokens_and_bounds_length() -> None
     assert line.endswith("...") and len(line) < 800
 
 
+def test_resumed_runs_number_attempts_after_retained_failures(tmp_path: Path) -> None:
+    """A re-attempt must not reuse a failed attempt's ledger id with different content."""
+
+    from guarded_agentic_compaction.evaluation import RunLedger
+
+    ledger = RunLedger(tmp_path / "ledger.jsonl")
+    event = "hmda:case:baseline:r0"
+    for attempt in range(2):
+        ledger.append(
+            run_id="run",
+            event_id=f"{event}:attempt:{attempt}",
+            event_type="execution_failed",
+            payload={"attempt": attempt, "error_type": "AuthenticationError"},
+        )
+    ledger.append(
+        run_id="run", event_id="other:baseline:r0", event_type="execution_complete", payload={}
+    )
+    counts = ms._prior_failed_attempts(ledger.records())
+    assert counts == {event: 2}
+    # The historical numbering would collide on attempt 0 with a different error type.
+    with pytest.raises(Exception, match="reused with different content"):
+        ledger.append(
+            run_id="run",
+            event_id=f"{event}:attempt:0",
+            event_type="execution_failed",
+            payload={"attempt": 0, "error_type": "MaxTurnsExceeded"},
+        )
+    ledger.append(
+        run_id="run",
+        event_id=f"{event}:attempt:{counts[event]}",
+        event_type="execution_failed",
+        payload={"attempt": counts[event], "error_type": "MaxTurnsExceeded"},
+    )
+    assert ms._prior_failed_attempts(ledger.records()) == {event: 3}
+
+
 def test_consecutive_failure_stop_is_opt_in_and_forwarded_by_the_cli() -> None:
     parser = ms.build_parser()
     base = [

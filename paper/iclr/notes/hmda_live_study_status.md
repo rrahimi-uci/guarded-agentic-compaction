@@ -20,12 +20,21 @@ anything other than what it is: frozen, approved on the macro side, and unrun.
   HMDA answer model (`special_states: dict[str, Literal[...]]`) before any
   provider request. Commit `3ce76b8` fixed that six minutes after the run and
   the fix is pinned by a unit test; the ledger was never re-run.
-- The 2026-10-28 re-run (`paper/results/multidomain/hmda-v2/discovery/`) was
-  halted after four attempts because the provider rejected the configured API
-  key (HTTP 401 `invalid_api_key`). No billable request was made. Development,
-  GRC compilation, the pilot, artifact calibration, the independent
-  `calibrate-grc` approval, portfolio calibration, test, and analysis have not
-  run. Exact resumption commands and per-phase worst-case spend are in
+- The 2026-10-28 re-runs under `paper/results/multidomain/hmda-v2/` first met
+  a rejected API key (HTTP 401; no billable request), then, with a rotated key,
+  a request bound too low for the five-read oracle (raised from 8 to 20; a
+  runner argument, not a frozen value), and finally a systematic answer-schema
+  failure: in 8 of 8 attempts across three groups the model's final JSON fills
+  `special_states` with code/label objects where the frozen `HmdaAnswer`
+  requires bare `NA`/`EXEMPT`/`UNAVAILABLE`/`NOT_APPLICABLE` strings, which the
+  SDK's non-strict output mode cannot enforce. The remedy (a prompt or
+  answer-type change in `benchmarks/runtime.py`) alters the `evaluator_digest`
+  that the signed macro approval binds, so the run stopped there. 0 of 40
+  discovery executions completed; development, GRC compilation, the pilot,
+  artifact calibration, the independent `calibrate-grc` approval, portfolio
+  calibration, test, and analysis have not run. Unmeasured spend on failed
+  attempts is bounded above by 0.84 USD. The sequence, the protocol decision
+  now required, and the exact re-run commands are in
   `paper/results/multidomain/review/hmda-v2-live-study-handoff.md`.
 
 ## What completing it would add to the paper

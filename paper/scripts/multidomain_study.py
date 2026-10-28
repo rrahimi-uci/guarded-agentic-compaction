@@ -110,6 +110,24 @@ def _report_failure(
     return line
 
 
+def _prior_failed_attempts(records: Sequence[Any]) -> dict[str, int]:
+    """Failed attempts already retained per scheduled execution.
+
+    A resumed run numbers its attempts after these, so a re-attempt never reuses the
+    ``<event>:attempt:<n>`` ledger id of an earlier failure. The ledger treats a reused id
+    with different content as a conflict, which on 2026-10-28 aborted a resumed run and
+    lost the failed attempt's record after the provider had already been called.
+    """
+
+    counts: dict[str, int] = {}
+    for record in records:
+        if record.event_type != "execution_failed":
+            continue
+        event_id = str(record.event_id).rsplit(":attempt:", 1)[0]
+        counts[event_id] = counts.get(event_id, 0) + 1
+    return counts
+
+
 def _pairs(values: Sequence[str], *, label: str) -> dict[str, Path]:
     result: dict[str, Path] = {}
     for value in values:
@@ -1066,6 +1084,7 @@ async def _run(args: argparse.Namespace) -> int:
         for record in ledger.records()
         if record.event_type in {"execution_complete", "execution_unavailable"}
     }
+    prior_failed_attempts = _prior_failed_attempts(previous_records)
     consecutive_failures = 0
     halted: dict[str, Any] | None = None
     for item in schedule:
@@ -1087,7 +1106,8 @@ async def _run(args: argparse.Namespace) -> int:
             )
             continue
         success = False
-        for attempt in range(args.retries + 1):
+        first_attempt = prior_failed_attempts.get(item.event_id, 0)
+        for attempt in range(first_attempt, first_attempt + args.retries + 1):
             budget_event_id = f"{item.event_id}:a{attempt}"
             budget.reserve(budget_event_id, args.reservation_usd_per_execution)
             ledger.append(
