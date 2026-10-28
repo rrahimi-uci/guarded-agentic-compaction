@@ -1,0 +1,139 @@
+# Signed effect declarations for the released OpenHands (v0.54.0) tool set as recorded in
+# nebius/SWE-rebench-openhands-trajectories (Hugging Face revision
+# 35455389ab51bf5e2306bfd436ef72d0f98bf882), used only by the provider-free prefix census
+# (paper/scripts/prefix_census.py).
+#
+# Every entry is a human declaration about what the tool does to the container the agent
+# works in, keyed by the qualified identity the capture adapter
+# (benchmarks/external/trajectories.py) records: editor sub-commands are qualified
+# (`str_replace_editor.view` is a different entry from `str_replace_editor.create`), and a
+# raw `execute_bash` command resolves to `shell.<utility>` only when it is one simple
+# invocation of a closed read-only utility set with no shell metacharacters; everything else
+# is the opaque `shell.exec`.
+#
+# No mechanical mutation audit exists for this corpus: the containers are not re-executed
+# here, so the declarations rest on the documented tool semantics alone and are therefore
+# conservative.  The whole `shell.*` namespace is declared UNKNOWN: a shell invocation's
+# effect is not attested by its first word (`cat` on a FIFO consumes it, `find` can execute,
+# `grep` is harmless but the invocation is still an arbitrary process in a stateful session).
+# The census reports a clearly labelled sensitivity arm that flips exactly the allowlisted
+# `shell.<utility>` entries to READ_LOCAL and nothing else; that arm is a diagnostic, not a
+# declaration.  Unlisted identities resolve to UNKNOWN and are never reads.
+version: 1
+name: openhands-v0-54-0-released-trajectories
+tools:
+
+  # --- editor reads ----------------------------------------------------------
+  str_replace_editor.view:
+    effect: READ_LOCAL
+    capabilities: [speculatable, replayable, cacheable]
+    resource: workspace_files
+    notes: >-
+      Prints a file (with optional line range) or a directory listing two levels deep.
+      Documented as read-only; the only state it touches is the container file system it
+      reads.  Replayable against the same workspace snapshot.
+
+  # --- editor writes ---------------------------------------------------------
+  str_replace_editor.create: &editor_write
+    effect: WRITE_REVERSIBLE
+    capabilities: []
+    resource: workspace_files
+    notes: Mutates the workspace file system; reversible in principle (undo_edit, git), a barrier regardless.
+  str_replace_editor.str_replace:
+    <<: *editor_write
+  str_replace_editor.insert:
+    <<: *editor_write
+  str_replace_editor.undo_edit:
+    <<: *editor_write
+
+  # --- model-side tools --------------------------------------------------------
+  think:
+    effect: PURE
+    capabilities: []
+    resource: model_context
+    notes: >-
+      Logs free text and returns a constant acknowledgement.  Its only effect is on the
+      model's own context, which a compiled program does not have, and its argument is
+      model-originated prose; declared without capabilities so it is a barrier rather than
+      a replayable step.
+  task_tracker.view: &tracker
+    effect: READ_LOCAL
+    capabilities: []
+    resource: scaffold_task_list
+    notes: >-
+      Reads or rewrites the scaffold's own task list, which exists only inside the
+      session.  Not replayable from entry state; declared without capabilities.
+  task_tracker.plan:
+    <<: *tracker
+    effect: WRITE_REVERSIBLE
+
+  # --- termination ---------------------------------------------------------------
+  finish:
+    effect: WRITE_IRREVERSIBLE
+    capabilities: []
+    resource: task_submission
+    approval_required: true
+    notes: The task-submission commit boundary; nothing after it may enter a compiled region.
+
+  # --- shell: declared UNKNOWN, see the file header --------------------------------
+  shell.exec: &shell_unknown
+    effect: UNKNOWN
+    capabilities: []
+    resource: container_session
+    notes: >-
+      An arbitrary command in a persistent shell session (pipes, redirections, interpreters,
+      package managers, test runners, `cd`, `echo`, everything not allowlisted).  Unknown
+      effect; never a read.
+  shell.stdin:
+    <<: *shell_unknown
+    notes: Input sent to a still-running process (`is_input=true`); unknown effect.
+  shell.ls: &shell_read_candidate
+    effect: UNKNOWN
+    capabilities: []
+    resource: container_session
+    notes: >-
+      One simple invocation of a utility whose documented purpose is read-only, with no
+      shell metacharacters.  Declared UNKNOWN here because the invocation is still an
+      unaudited process in a stateful session; the census's `shell_reads_admitted`
+      sensitivity arm flips exactly these entries to READ_LOCAL with full capabilities.
+  shell.cat:
+    <<: *shell_read_candidate
+  shell.pwd:
+    <<: *shell_read_candidate
+  shell.find:
+    <<: *shell_read_candidate
+    notes: >-
+      As shell.ls; the adapter already refuses `find` invocations carrying -delete, -exec,
+      -execdir, -ok, -okdir or any -fprint* flag, which resolve to shell.exec instead.
+  shell.grep:
+    <<: *shell_read_candidate
+  shell.head:
+    <<: *shell_read_candidate
+  shell.tail:
+    <<: *shell_read_candidate
+  shell.wc:
+    <<: *shell_read_candidate
+  shell.tree:
+    <<: *shell_read_candidate
+  shell.stat:
+    <<: *shell_read_candidate
+  shell.file:
+    <<: *shell_read_candidate
+  shell.which:
+    <<: *shell_read_candidate
+  shell.git_status:
+    <<: *shell_read_candidate
+  shell.git_log:
+    <<: *shell_read_candidate
+  shell.git_diff:
+    <<: *shell_read_candidate
+  shell.git_show:
+    <<: *shell_read_candidate
+  shell.git_ls_files:
+    <<: *shell_read_candidate
+  shell.git_blame:
+    <<: *shell_read_candidate
+  shell.git_grep:
+    <<: *shell_read_candidate
+  shell.git_rev_parse:
+    <<: *shell_read_candidate

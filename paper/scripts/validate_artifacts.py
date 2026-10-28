@@ -1073,6 +1073,65 @@ def validate_nestful() -> None:
        gate["default_gate_outcome"] == "RETIRE", "NESTFUL correctly retires every family")
 
 
+def validate_prefix_census() -> None:
+    """The provider-free prefix census: pinned sources, signed catalogs, regenerated table."""
+
+    import importlib.util
+
+    path = PAPER / "results/prefix_census/results.json"
+    ok(path.exists(), "prefix census: results.json exists")
+    data = load(path)
+    if not data:
+        return
+    rows = {(row["corpus"], row["arm"]): row for row in data.get("corpora", [])}
+    ok(data.get("exact_gate_floor") == 92, "prefix census: the exact-gate floor is the registered 92 groups")
+    ok(data.get("mining_parameters") == {"max_depth": 2, "kappa": 3, "w_min": 2, "w_max": 12, "b_min": 2,
+                                          "entry_schema": ["inputs"]},
+       "prefix census: mining parameters are the registered ones")
+    for corpus in ("openhands", "sweagent", "taubench"):
+        ok((corpus, "primary") in rows, f"prefix census: {corpus} primary row present")
+        manifest = PAPER / f"results/datasets/{corpus}/source_manifest.json"
+        ok(manifest.exists(), f"prefix census: {corpus} source manifest pinned")
+        row = rows.get((corpus, "primary"))
+        if row and manifest.exists():
+            pinned = load(manifest)
+            ok(pinned.get("revision") == row.get("revision") and bool(pinned.get("files")),
+               f"prefix census: {corpus} result revision matches the pinned manifest")
+            ok(pinned.get("raw_corpus_committed") is False, f"prefix census: {corpus} raw corpus not committed")
+            catalog = ROOT / row["catalog"]["path"]
+            ok(catalog.exists() and sha256(catalog) == row["catalog"]["sha256"],
+               f"prefix census: {corpus} signed catalog digest matches the result")
+            ok(row.get("limit") is None, f"prefix census: {corpus} measured the whole corpus, not a smoke slice")
+    ok(("nestful", "primary") in rows, "prefix census: NESTFUL re-measured with the same definitions")
+    for key, row in rows.items():
+        ro = row["read_only_opening"]
+        ok(ro["ge2"] <= row["traces"] and ro["share_ge2"] is not None
+           and abs(ro["share_ge2"] - ro["ge2"] / row["traces"]) < 1e-12,
+           f"prefix census: {key[0]}/{key[1]} read-only share is ge2/traces")
+        gr = row.get("groundable_opening")
+        if gr is not None:
+            ok(gr["ge2"] <= ro["ge2"], f"prefix census: {key[0]}/{key[1]} groundable openings are read-only openings")
+            gate = row["exact_gate"]
+            ok(gate["minimum_zero_violation_groups"] == 92
+               and gate["max_observed_family_support"] == row["families"]["n_max"]
+               and gate["outcome"] == ("RETIRE" if row["families"]["n_max"] < 92 else "candidate_present"),
+               f"prefix census: {key[0]}/{key[1]} gate outcome follows n_max against the floor")
+    table_path = PAPER / "iclr/tables/prefix_census.tex"
+    ok(table_path.exists(), "prefix census: ICLR table exists")
+    if table_path.exists():
+        spec = importlib.util.spec_from_file_location("prefix_census", PAPER / "scripts/prefix_census.py")
+        module = importlib.util.module_from_spec(spec)
+        assert spec.loader is not None
+        spec.loader.exec_module(module)
+        ok(module.table(data) == table_path.read_text(encoding="utf-8"),
+           "prefix census: ICLR table regenerates byte-identically from results.json")
+    appendix = PAPER / "iclr/sections/prefix_census_appendix.tex"
+    ok(appendix.exists() and r"\input{tables/prefix_census.tex}" in appendix.read_text(encoding="utf-8"),
+       "prefix census: appendix subsection includes the generated table")
+    ok(r"\input{sections/prefix_census_appendix}" in (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8"),
+       "prefix census: appendix.tex inputs the subsection")
+
+
 def validate_demo_suite() -> None:
     """Recompute the Tier-3 table from raw results rather than trusting the .tex.
 
@@ -3391,6 +3450,7 @@ FAMILIES: dict[str, Any] = {
     "optimizer_head_to_head": validate_optimizer_head_to_head,
     "continuation_replay": validate_continuation_replay,
     "nestful": validate_nestful,
+    "prefix_census": validate_prefix_census,
     "demo_suite": validate_demo_suite,
     "multidomain_preflight": validate_multidomain_preflight,
     "offline_comparator": validate_offline_comparator,

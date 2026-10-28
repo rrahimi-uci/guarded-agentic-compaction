@@ -1,0 +1,103 @@
+# Signed effect declarations for the tau-bench airline and retail tool sets as recorded in
+# sierra-research/tau-bench `historical_trajectories/` (commit
+# 59a200c6d575d595120f1cb70fea53cef0632f6b), used only by the provider-free prefix census
+# (paper/scripts/prefix_census.py).
+#
+# Every entry is a human declaration about the benchmark's simulated backend, keyed by the
+# function-calling tool name the released logs record.  The upstream implementation is a
+# per-task in-memory JSON database: every `get_*`, `find_*`, `list_*` and `search_*` tool
+# returns a view of it and writes nothing, every `cancel_*`, `modify_*`, `update_*`,
+# `exchange_*`, `return_*`, `book_*` and `send_*` tool mutates it, and
+# `transfer_to_human_agents` ends the agent's turn.  No mutation audit was run here; the
+# declarations follow the documented tool contracts and err toward barriers.  Modeled
+# outward actions (booking, refunds, certificates, exchanges) are WRITE_IRREVERSIBLE even
+# where the simulator implements them in memory, because the barrier is a claim about the
+# modeled action and not about the fixture.  Unlisted names resolve to UNKNOWN.
+version: 1
+name: taubench-historical-trajectories
+tools:
+
+  # --- reads over the per-task fixture -------------------------------------
+  get_user_details: &fixture_read
+    effect: READ_LOCAL
+    capabilities: [speculatable, replayable, cacheable]
+    resource: taubench_task_fixture
+    notes: Returns a record from the per-task in-memory database; documented read-only.
+  get_order_details:
+    <<: *fixture_read
+  get_product_details:
+    <<: *fixture_read
+  get_reservation_details:
+    <<: *fixture_read
+  list_all_product_types:
+    <<: *fixture_read
+  list_all_airports:
+    <<: *fixture_read
+  find_user_id_by_email:
+    <<: *fixture_read
+  find_user_id_by_name_zip:
+    <<: *fixture_read
+  search_direct_flight:
+    <<: *fixture_read
+  search_onestop_flight:
+    <<: *fixture_read
+
+  # --- pure -------------------------------------------------------------------------
+  calculate:
+    effect: PURE
+    capabilities: [speculatable, replayable, cacheable]
+    resource: taubench_calculator
+    notes: Evaluates an arithmetic expression; a function of its argument alone.
+
+  # --- model-side --------------------------------------------------------------
+  think:
+    effect: PURE
+    capabilities: []
+    resource: model_context
+    notes: >-
+      Logs free text and returns nothing new.  Its only effect is on the model's own
+      context and its argument is model-originated prose; declared without capabilities so
+      it is a barrier rather than a replayable step.
+
+  # --- reversible in-fixture writes -----------------------------------------------
+  modify_user_address: &reversible
+    effect: WRITE_REVERSIBLE
+    capabilities: []
+    resource: taubench_task_fixture
+    notes: Mutates the per-task database; a barrier.
+  modify_pending_order_address:
+    <<: *reversible
+  modify_pending_order_payment:
+    <<: *reversible
+  update_reservation_passengers:
+    <<: *reversible
+  update_reservation_baggages:
+    <<: *reversible
+
+  # --- modeled outward actions -----------------------------------------------------
+  book_reservation: &irreversible
+    effect: WRITE_IRREVERSIBLE
+    capabilities: []
+    resource: taubench_outward_action
+    approval_required: true
+    notes: >-
+      A modeled outward action (money moves, an order or reservation changes hands).
+      Declared irreversible on the modeled action, not on the in-memory fixture.
+  cancel_reservation:
+    <<: *irreversible
+  update_reservation_flights:
+    <<: *irreversible
+  cancel_pending_order:
+    <<: *irreversible
+  modify_pending_order_items:
+    <<: *irreversible
+  exchange_delivered_order_items:
+    <<: *irreversible
+  return_delivered_order_items:
+    <<: *irreversible
+  send_certificate:
+    <<: *irreversible
+  transfer_to_human_agents:
+    <<: *irreversible
+    resource: taubench_handoff
+    notes: Hands the conversation to a human; a handoff barrier by construction.

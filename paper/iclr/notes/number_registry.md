@@ -147,3 +147,22 @@ into the historical 810 episodes; the two models reuse the same records.
 | 113; 50/45/46/12/5 | Incorrect/failed episodes including pilot; overlapping excerpt/category/label/comment/title failures | `error_audit.json` | `audit_results.py`; unchanged grading |
 | 0; 1; 27 | Owned backlog, open primary PR, nonliteral bug-label records | `source_audit.json` | `audit_sources.py`; no selection changes |
 | $3.864269; $0.011211; $13.441321; 1 | New observed cost including induction; induction subtotal; aggregate estimate/reserves; missing baseline usage response | `manuscript_numbers.json`, checkpoint and analysis | Usage audit; unknown charge not treated as zero |
+
+## October 28 prefix census (appendix, `tab:prefix-census`)
+
+Produced by `paper/scripts/prefix_census.py run`; `validate_prefix_census` pins the
+manifests, catalog digests, gate floor and byte-identical table regeneration. Shares are
+`read_only_opening.share_ge2` / `groundable_opening.share_ge2` per row of
+`paper/results/prefix_census/results.json`.
+
+| Numbers | Meaning | Retained source | Check |
+|---|---|---|---|
+| 67,074; 6,306; 16.3 %; 12.8 %; 3; 27 / 22; 752; 11; 87.5 % | OpenHands primary: traces, tasks, RO≥2, groundable≥2, median length, families / at floor, n_max, families at or above 92, first barrier = `think` (58,682) | `corpora[openhands/primary]` | `validate_prefix_census` (table regenerates) |
+| 16.3 %, 12.9 %, 752 | OpenHands shell-reads arm | `corpora[openhands/shell_reads_admitted]` | table regenerates |
+| 80,036; 3,591; 32.5 %; 1.9 %; 2; 154 / 36; 187; 2; 47.0 %; 24,399 | SWE-agent primary: traces, tasks, RO≥2, groundable≥2, median length, families / at floor, n_max, families at floor 92, first call = `create` (37,622), openings blocked on an ungrounded slot | `corpora[sweagent/primary]` | table regenerates |
+| 47.3 %, 2.0 %, 187 | SWE-agent shell-reads arm | `corpora[sweagent/shell_reads_admitted]` | table regenerates |
+| 1,980; 165; 3.9 %; 3.0 %; 7; 99.7 % | tau-bench strict: traces, tasks, RO≥2, groundable≥2, n_max, openings cut by a user turn (1,974) | `corpora[taubench/primary]` | table regenerates |
+| 51.7 %, 16.6 %, 17 | tau-bench folded arm | `corpora[taubench/pre_tool_user_turns_folded]` | table regenerates |
+| 1,415; 100 %; 86.6 %; 76 | NESTFUL openings (w_max = 12): traces, RO≥2, groundable≥2, n_max | `corpora[nestful/primary]` | table regenerates |
+| 8,190; 41.0 %; 99.96 / 71.4 / 5.7 / 2.1 %; 45.9 % | AppWorld released: traces, RO≥2, by architecture (full-code, ipfuncall, ReAct, plan-exec), first barrier = API-documentation call (3,758) | `corpora[appworld_released/primary]` `by_architecture`, `first_barrier` | table regenerates |
+| 13; 32,000 | calls ingested per trajectory (w_max + 1); observation cut length | `max_calls_ingested`; `benchmarks/external/trajectories.py` `MAX_OBSERVATION_CHARS` | test_prefix_census |

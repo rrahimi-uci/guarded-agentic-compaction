@@ -1,0 +1,2125 @@
+{
+  "corpora": [
+    {
+      "architectures": {
+        "codeact_function_calling": 67074
+      },
+      "arm": "primary",
+      "blocked_by_tool": {
+        "shell.exec": 32265,
+        "shell.find": 565,
+        "shell.grep": 1199,
+        "shell.head": 5,
+        "shell.ls": 29,
+        "shell.tail": 14,
+        "shell.wc": 197,
+        "think": 10971
+      },
+      "blocked_window_candidates": {
+        "barrier_event": 40,
+        "effect_capability": 10971,
+        "effect_unknown": 34274,
+        "partial_run": 54722,
+        "ungrounded_slot": 7823
+      },
+      "by_model": {
+        "qwen3-coder-480b-a35b-instruct": {
+          "groundable_ge2": 8615,
+          "read_only_ge2": 10907,
+          "share_groundable_ge2": 0.1284402301935176,
+          "share_read_only_ge2": 0.16261144407669142,
+          "traces": 67074
+        }
+      },
+      "calls_per_trace": {
+        "max": 100,
+        "mean": 64.358,
+        "median": 61.0,
+        "min": 11,
+        "n": 67074
+      },
+      "catalog": {
+        "path": "benchmarks/contracts/effects/openhands_swe_rebench.yaml",
+        "sha256": "a0696f45fdc822dabe65eb119a7cad4a48ef6b7c50c1087a8854bc7d6d4de236"
+      },
+      "catalog_version": "openhands-v0-54-0-released-trajectories@1#2ea419b3bbc0ea57",
+      "corpus": "openhands",
+      "dataset": "nebius/SWE-rebench-openhands-trajectories",
+      "exact_gate": {
+        "alpha": 0.05,
+        "delta": 0.1,
+        "families_at_or_above_floor": 11,
+        "max_observed_family_support": 752,
+        "minimum_zero_violation_groups": 92,
+        "outcome": "candidate_present"
+      },
+      "families": {
+        "at_floor_ge3": 22,
+        "n": 27,
+        "n_max": 752,
+        "top": [
+          {
+            "episodes": 1711,
+            "family_hash": "7b660447f1f3",
+            "length": 3,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              3
+            ],
+            "support": 752,
+            "tools": [
+              "str_replace_editor.view"
+            ]
+          },
+          {
+            "episodes": 1253,
+            "family_hash": "8c18f776efb6",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              2
+            ],
+            "support": 573,
+            "tools": [
+              "str_replace_editor.view"
+            ]
+          },
+          {
+            "episodes": 1153,
+            "family_hash": "eadb1cc0fafe",
+            "length": 4,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              4
+            ],
+            "support": 567,
+            "tools": [
+              "str_replace_editor.view"
+            ]
+          },
+          {
+            "episodes": 1017,
+            "family_hash": "42f401e0049a",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              2
+            ],
+            "support": 564,
+            "tools": [
+              "str_replace_editor.view"
+            ]
+          },
+          {
+            "episodes": 703,
+            "family_hash": "4b91f7746e09",
+            "length": 3,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              3
+            ],
+            "support": 413,
+            "tools": [
+              "str_replace_editor.view"
+            ]
+          },
+          {
+            "episodes": 801,
+            "family_hash": "f689e55013fc",
+            "length": 5,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              5
+            ],
+            "support": 395,
+            "tools": [
+              "str_replace_editor.view"
+            ]
+          },
+          {
+            "episodes": 433,
+            "family_hash": "bc27d8145640",
+            "length": 4,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              4
+            ],
+            "support": 262,
+            "tools": [
+              "str_replace_editor.view"
+            ]
+          },
+          {
+            "episodes": 382,
+            "family_hash": "83986ef746f0",
+            "length": 6,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              6
+            ],
+            "support": 231,
+            "tools": [
+              "str_replace_editor.view"
+            ]
+          }
+        ]
+      },
+      "first_barrier": {
+        "<none within ingested opening>": 47,
+        "shell.exec": 7829,
+        "shell.find": 147,
+        "shell.grep": 309,
+        "shell.ls": 5,
+        "shell.tail": 2,
+        "shell.wc": 42,
+        "task_tracker.plan": 6,
+        "think": 58682,
+        "user_turn": 4
+      },
+      "first_call": {
+        "str_replace_editor.view": 13023,
+        "task_tracker.plan": 6,
+        "think": 54045
+      },
+      "groundable_opening": {
+        "ge2": 8615,
+        "histogram": {
+          "0": 58459,
+          "10": 95,
+          "11": 47,
+          "12": 17,
+          "2": 2274,
+          "3": 2415,
+          "4": 1586,
+          "5": 1085,
+          "6": 506,
+          "7": 318,
+          "8": 182,
+          "9": 90
+        },
+        "length_among_ge2": {
+          "max": 12,
+          "mean": 3.803,
+          "median": 3,
+          "min": 2,
+          "n": 8615
+        },
+        "share_ge2": 0.1284402301935176,
+        "share_of_read_only_ge2": 0.7898597231135968
+      },
+      "groups": 6306,
+      "ingestion": {
+        "max_calls": 13,
+        "pass1_episodes": 67074,
+        "stopped_by": {
+          "barrier": 67027,
+          "max_calls": 47
+        },
+        "user_turn_barriers": 4
+      },
+      "label": "OpenHands / SWE-rebench",
+      "license": "CC-BY-4.0",
+      "limit": null,
+      "models": {
+        "qwen3-coder-480b-a35b-instruct": 67074
+      },
+      "opening_block_reasons": {
+        "partial_run_into_ungroundable_call": 1189,
+        "ungrounded_slot": 1103
+      },
+      "read_only_opening": {
+        "ge1": 13023,
+        "ge2": 10907,
+        "histogram": {
+          "0": 54051,
+          "1": 2116,
+          "10": 124,
+          "11": 59,
+          "12": 29,
+          "13": 47,
+          "2": 2580,
+          "3": 2853,
+          "4": 2076,
+          "5": 1433,
+          "6": 790,
+          "7": 491,
+          "8": 283,
+          "9": 142
+        },
+        "share_ge1": 0.19415869040164593,
+        "share_ge2": 0.16261144407669142
+      },
+      "revision": "35455389ab51bf5e2306bfd436ef72d0f98bf882",
+      "runtime_seconds": 306.0,
+      "scaffold": "OpenHands v0.54.0, CodeAct, native function calling",
+      "slot_marks": {
+        "ambiguous": 0,
+        "grounded": 54553,
+        "grounded_share": 0.4514818217179366,
+        "literal_only": 0,
+        "model_originated": 66278,
+        "not_groundable": 1467,
+        "ungrounded": 66278
+      },
+      "traces": 67074,
+      "ungrounded_opening_slots": {
+        "str_replace_editor.view#path": 2,
+        "str_replace_editor.view#view_range[0]": 891,
+        "str_replace_editor.view#view_range[1]": 1100
+      }
+    },
+    {
+      "architectures": {
+        "codeact_function_calling": 67074
+      },
+      "arm": "shell_reads_admitted",
+      "blocked_by_tool": {
+        "shell.exec": 35195,
+        "think": 11636
+      },
+      "blocked_window_candidates": {
+        "barrier_event": 40,
+        "effect_capability": 11636,
+        "effect_unknown": 35195,
+        "partial_run": 59676,
+        "ungrounded_slot": 12773
+      },
+      "by_model": {
+        "qwen3-coder-480b-a35b-instruct": {
+          "groundable_ge2": 8626,
+          "read_only_ge2": 10919,
+          "share_groundable_ge2": 0.1286042281659063,
+          "share_read_only_ge2": 0.1627903509556609,
+          "traces": 67074
+        }
+      },
+      "calls_per_trace": {
+        "max": 100,
+        "mean": 64.358,
+        "median": 61.0,
+        "min": 11,
+        "n": 67074
+      },
+      "catalog": {
+        "path": "benchmarks/contracts/effects/openhands_swe_rebench.yaml",
+        "sha256": "a0696f45fdc822dabe65eb119a7cad4a48ef6b7c50c1087a8854bc7d6d4de236"
+      },
+      "catalog_version": "openhands-v0-54-0-released-trajectories-arm-shell-reads@1#3cb1105565118024",
+      "corpus": "openhands",
+      "dataset": "nebius/SWE-rebench-openhands-trajectories",
+      "exact_gate": {
+        "alpha": 0.05,
+        "delta": 0.1,
+        "families_at_or_above_floor": 11,
+        "max_observed_family_support": 752,
+        "minimum_zero_violation_groups": 92,
+        "outcome": "candidate_present"
+      },
+      "families": {
+        "at_floor_ge3": 43,
+        "n": 153,
+        "n_max": 752,
+        "top": [
+          {
+            "episodes": 1711,
+            "family_hash": "7b660447f1f3",
+            "length": 3,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              3
+            ],
+            "support": 752,
+            "tools": [
+              "str_replace_editor.view"
+            ]
+          },
+          {
+            "episodes": 1253,
+            "family_hash": "8c18f776efb6",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              2
+            ],
+            "support": 573,
+            "tools": [
+              "str_replace_editor.view"
+            ]
+          },
+          {
+            "episodes": 1153,
+            "family_hash": "eadb1cc0fafe",
+            "length": 4,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              4
+            ],
+            "support": 567,
+            "tools": [
+              "str_replace_editor.view"
+            ]
+          },
+          {
+            "episodes": 1017,
+            "family_hash": "42f401e0049a",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              2
+            ],
+            "support": 564,
+            "tools": [
+              "str_replace_editor.view"
+            ]
+          },
+          {
+            "episodes": 703,
+            "family_hash": "4b91f7746e09",
+            "length": 3,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              3
+            ],
+            "support": 413,
+            "tools": [
+              "str_replace_editor.view"
+            ]
+          },
+          {
+            "episodes": 801,
+            "family_hash": "f689e55013fc",
+            "length": 5,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              5
+            ],
+            "support": 395,
+            "tools": [
+              "str_replace_editor.view"
+            ]
+          },
+          {
+            "episodes": 433,
+            "family_hash": "bc27d8145640",
+            "length": 4,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              4
+            ],
+            "support": 262,
+            "tools": [
+              "str_replace_editor.view"
+            ]
+          },
+          {
+            "episodes": 382,
+            "family_hash": "83986ef746f0",
+            "length": 6,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              6
+            ],
+            "support": 231,
+            "tools": [
+              "str_replace_editor.view"
+            ]
+          }
+        ]
+      },
+      "first_barrier": {
+        "<none within ingested opening>": 81,
+        "shell.exec": 8218,
+        "task_tracker.plan": 6,
+        "think": 58765,
+        "user_turn": 4
+      },
+      "first_call": {
+        "str_replace_editor.view": 13023,
+        "task_tracker.plan": 6,
+        "think": 54045
+      },
+      "groundable_opening": {
+        "ge2": 8626,
+        "histogram": {
+          "0": 58448,
+          "10": 102,
+          "11": 60,
+          "12": 23,
+          "2": 2176,
+          "3": 2441,
+          "4": 1593,
+          "5": 1092,
+          "6": 522,
+          "7": 327,
+          "8": 192,
+          "9": 98
+        },
+        "length_among_ge2": {
+          "max": 12,
+          "mean": 3.861,
+          "median": 3.0,
+          "min": 2,
+          "n": 8626
+        },
+        "share_ge2": 0.1286042281659063,
+        "share_of_read_only_ge2": 0.7899990841652166
+      },
+      "groups": 6306,
+      "ingestion": {
+        "max_calls": 13,
+        "pass1_episodes": 67074,
+        "stopped_by": {
+          "barrier": 66993,
+          "max_calls": 81
+        },
+        "user_turn_barriers": 4
+      },
+      "label": "OpenHands / SWE-rebench",
+      "license": "CC-BY-4.0",
+      "limit": null,
+      "models": {
+        "qwen3-coder-480b-a35b-instruct": 67074
+      },
+      "opening_block_reasons": {
+        "partial_run_into_ungroundable_call": 1189,
+        "ungrounded_slot": 1104
+      },
+      "read_only_opening": {
+        "ge1": 13023,
+        "ge2": 10919,
+        "histogram": {
+          "0": 54051,
+          "1": 2104,
+          "10": 170,
+          "11": 109,
+          "12": 49,
+          "13": 81,
+          "2": 2436,
+          "3": 2775,
+          "4": 2019,
+          "5": 1420,
+          "6": 808,
+          "7": 543,
+          "8": 328,
+          "9": 181
+        },
+        "share_ge1": 0.19415869040164593,
+        "share_ge2": 0.1627903509556609
+      },
+      "revision": "35455389ab51bf5e2306bfd436ef72d0f98bf882",
+      "runtime_seconds": 306.1,
+      "scaffold": "OpenHands v0.54.0, CodeAct, native function calling",
+      "slot_marks": {
+        "ambiguous": 0,
+        "grounded": 56446,
+        "grounded_share": 0.4541877549706708,
+        "literal_only": 0,
+        "model_originated": 67833,
+        "not_groundable": 1637,
+        "ungrounded": 67833
+      },
+      "traces": 67074,
+      "ungrounded_opening_slots": {
+        "shell.ls#command": 1,
+        "str_replace_editor.view#path": 3,
+        "str_replace_editor.view#view_range[0]": 891,
+        "str_replace_editor.view#view_range[1]": 1100
+      }
+    },
+    {
+      "architectures": {
+        "react_text_actions": 80036
+      },
+      "arm": "primary",
+      "blocked_by_tool": {
+        "create": 2759,
+        "edit": 85939,
+        "shell.cat": 26,
+        "shell.exec": 2181,
+        "shell.file": 2,
+        "shell.find": 375,
+        "shell.grep": 396,
+        "shell.head": 14,
+        "shell.ls": 9766,
+        "shell.pwd": 1,
+        "submit": 622
+      },
+      "blocked_window_candidates": {
+        "effect_unknown": 12761,
+        "effect_write": 89320,
+        "live_in_not_in_entry_schema": 5,
+        "partial_run": 64157,
+        "ungrounded_slot": 232705
+      },
+      "by_model": {
+        "swe-agent-llama-405b": {
+          "groundable_ge2": 1,
+          "read_only_ge2": 204,
+          "share_groundable_ge2": 0.0008396305625524769,
+          "share_read_only_ge2": 0.1712846347607053,
+          "traces": 1191
+        },
+        "swe-agent-llama-70b": {
+          "groundable_ge2": 1495,
+          "read_only_ge2": 24512,
+          "share_groundable_ge2": 0.019988768852283668,
+          "share_read_only_ge2": 0.327735586693764,
+          "traces": 74792
+        },
+        "swe-agent-llama-8b": {
+          "groundable_ge2": 62,
+          "read_only_ge2": 1291,
+          "share_groundable_ge2": 0.015297310634098199,
+          "share_read_only_ge2": 0.31852948433259315,
+          "traces": 4053
+        }
+      },
+      "calls_per_trace": {
+        "max": 408,
+        "mean": 26.432,
+        "median": 17.0,
+        "min": 0,
+        "n": 80036
+      },
+      "catalog": {
+        "path": "benchmarks/contracts/effects/sweagent_nebius.yaml",
+        "sha256": "470954cf2b623c8596ad10876b10d005498159867fe2a42307513f497c1f1aa0"
+      },
+      "catalog_version": "sweagent-legacy-released-trajectories@1#8da29ceadf31f586",
+      "corpus": "sweagent",
+      "dataset": "nebius/SWE-agent-trajectories",
+      "exact_gate": {
+        "alpha": 0.05,
+        "delta": 0.1,
+        "families_at_or_above_floor": 2,
+        "max_observed_family_support": 187,
+        "minimum_zero_violation_groups": 92,
+        "outcome": "candidate_present"
+      },
+      "families": {
+        "at_floor_ge3": 36,
+        "n": 154,
+        "n_max": 187,
+        "top": [
+          {
+            "episodes": 566,
+            "family_hash": "0039eaac3ce5",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              2
+            ],
+            "support": 187,
+            "tools": [
+              "search_dir"
+            ]
+          },
+          {
+            "episodes": 324,
+            "family_hash": "cba254371a4c",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              1,
+              1
+            ],
+            "support": 187,
+            "tools": [
+              "find_file",
+              "search_dir"
+            ]
+          },
+          {
+            "episodes": 136,
+            "family_hash": "5b0c4b1a4c16",
+            "length": 3,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              3
+            ],
+            "support": 76,
+            "tools": [
+              "search_dir"
+            ]
+          },
+          {
+            "episodes": 62,
+            "family_hash": "c2ec359e8b0d",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              2
+            ],
+            "support": 55,
+            "tools": [
+              "find_file"
+            ]
+          },
+          {
+            "episodes": 142,
+            "family_hash": "72199c03acc1",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              1,
+              1
+            ],
+            "support": 34,
+            "tools": [
+              "find_file",
+              "open"
+            ]
+          },
+          {
+            "episodes": 30,
+            "family_hash": "eb046d51edf7",
+            "length": 4,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              4
+            ],
+            "support": 17,
+            "tools": [
+              "search_dir"
+            ]
+          },
+          {
+            "episodes": 31,
+            "family_hash": "3073c9cd2306",
+            "length": 2,
+            "live_in": [],
+            "run_lengths": [
+              2
+            ],
+            "support": 12,
+            "tools": [
+              "search_dir"
+            ]
+          },
+          {
+            "episodes": 15,
+            "family_hash": "7e8121fd9702",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              2
+            ],
+            "support": 12,
+            "tools": [
+              "open"
+            ]
+          }
+        ]
+      },
+      "first_barrier": {
+        "<none within ingested opening>": 1386,
+        "create": 38312,
+        "edit": 22465,
+        "shell.cat": 20,
+        "shell.exec": 3394,
+        "shell.find": 309,
+        "shell.grep": 918,
+        "shell.ls": 13055,
+        "shell.which": 6,
+        "submit": 163
+      },
+      "first_call": {
+        "create": 37622,
+        "find_file": 12081,
+        "open": 1836,
+        "search_dir": 16871,
+        "search_file": 108,
+        "shell.exec": 2747,
+        "shell.find": 96,
+        "shell.grep": 700,
+        "shell.ls": 7832,
+        "submit": 64
+      },
+      "groundable_opening": {
+        "ge2": 1558,
+        "histogram": {
+          "0": 78478,
+          "10": 1,
+          "11": 1,
+          "2": 1183,
+          "3": 250,
+          "4": 75,
+          "5": 25,
+          "6": 11,
+          "7": 2,
+          "8": 7,
+          "9": 3
+        },
+        "length_among_ge2": {
+          "max": 11,
+          "mean": 2.391,
+          "median": 2.0,
+          "min": 2,
+          "n": 1558
+        },
+        "share_ge2": 0.01946624019191364,
+        "share_of_read_only_ge2": 0.05990694812934979
+      },
+      "groups": 3591,
+      "ingestion": {
+        "max_calls": 13,
+        "pass1_episodes": 80036,
+        "stopped_by": {
+          "None": 50,
+          "barrier": 78650,
+          "max_calls": 1336
+        },
+        "user_turn_barriers": 0
+      },
+      "label": "SWE-agent (nebius)",
+      "license": "CC-BY-4.0",
+      "limit": null,
+      "models": {
+        "swe-agent-llama-405b": 1191,
+        "swe-agent-llama-70b": 74792,
+        "swe-agent-llama-8b": 4053
+      },
+      "opening_block_reasons": {
+        "partial_run_into_ungroundable_call": 50,
+        "ungrounded_slot": 24399
+      },
+      "read_only_opening": {
+        "ge1": 30904,
+        "ge2": 26007,
+        "histogram": {
+          "0": 49132,
+          "1": 4897,
+          "10": 369,
+          "11": 278,
+          "12": 183,
+          "13": 1336,
+          "2": 8439,
+          "3": 3742,
+          "4": 5490,
+          "5": 2394,
+          "6": 1559,
+          "7": 972,
+          "8": 737,
+          "9": 508
+        },
+        "share_ge1": 0.38612624319056427,
+        "share_ge2": 0.3249412764256085
+      },
+      "revision": "68195a1450865274106246d0d0296a1d6807b88e",
+      "runtime_seconds": 275.0,
+      "scaffold": "SWE-agent legacy text-action ReAct",
+      "slot_marks": {
+        "ambiguous": 0,
+        "grounded": 29629,
+        "grounded_share": 0.12887216736984036,
+        "literal_only": 0,
+        "model_originated": 200281,
+        "not_groundable": 2606,
+        "ungrounded": 200281
+      },
+      "traces": 80036,
+      "ungrounded_opening_slots": {
+        "find_file#dir": 1625,
+        "find_file#file_name": 8304,
+        "goto#line_number": 64,
+        "open#line_number": 4949,
+        "open#path": 17834,
+        "search_dir#dir": 671,
+        "search_dir#search_term": 14579,
+        "search_file#file": 225,
+        "search_file#search_term": 288
+      }
+    },
+    {
+      "architectures": {
+        "react_text_actions": 80036
+      },
+      "arm": "shell_reads_admitted",
+      "blocked_by_tool": {
+        "create": 5566,
+        "edit": 144273,
+        "shell.exec": 7510,
+        "submit": 1234
+      },
+      "blocked_window_candidates": {
+        "effect_unknown": 7510,
+        "effect_write": 151073,
+        "live_in_not_in_entry_schema": 5,
+        "partial_run": 142485,
+        "ungrounded_slot": 484533
+      },
+      "by_model": {
+        "swe-agent-llama-405b": {
+          "groundable_ge2": 1,
+          "read_only_ge2": 259,
+          "share_groundable_ge2": 0.0008396305625524769,
+          "share_read_only_ge2": 0.2174643157010915,
+          "traces": 1191
+        },
+        "swe-agent-llama-70b": {
+          "groundable_ge2": 1531,
+          "read_only_ge2": 35657,
+          "share_groundable_ge2": 0.020470103754412237,
+          "share_read_only_ge2": 0.4767488501444005,
+          "traces": 74792
+        },
+        "swe-agent-llama-8b": {
+          "groundable_ge2": 68,
+          "read_only_ge2": 1964,
+          "share_groundable_ge2": 0.01677769553417222,
+          "share_read_only_ge2": 0.4845793239575623,
+          "traces": 4053
+        }
+      },
+      "calls_per_trace": {
+        "max": 408,
+        "mean": 26.432,
+        "median": 17.0,
+        "min": 0,
+        "n": 80036
+      },
+      "catalog": {
+        "path": "benchmarks/contracts/effects/sweagent_nebius.yaml",
+        "sha256": "470954cf2b623c8596ad10876b10d005498159867fe2a42307513f497c1f1aa0"
+      },
+      "catalog_version": "sweagent-legacy-released-trajectories-arm-shell-reads@1#be3e8b5c12e46c85",
+      "corpus": "sweagent",
+      "dataset": "nebius/SWE-agent-trajectories",
+      "exact_gate": {
+        "alpha": 0.05,
+        "delta": 0.1,
+        "families_at_or_above_floor": 2,
+        "max_observed_family_support": 187,
+        "minimum_zero_violation_groups": 92,
+        "outcome": "candidate_present"
+      },
+      "families": {
+        "at_floor_ge3": 40,
+        "n": 184,
+        "n_max": 187,
+        "top": [
+          {
+            "episodes": 566,
+            "family_hash": "0039eaac3ce5",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              2
+            ],
+            "support": 187,
+            "tools": [
+              "search_dir"
+            ]
+          },
+          {
+            "episodes": 324,
+            "family_hash": "cba254371a4c",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              1,
+              1
+            ],
+            "support": 187,
+            "tools": [
+              "find_file",
+              "search_dir"
+            ]
+          },
+          {
+            "episodes": 136,
+            "family_hash": "5b0c4b1a4c16",
+            "length": 3,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              3
+            ],
+            "support": 76,
+            "tools": [
+              "search_dir"
+            ]
+          },
+          {
+            "episodes": 62,
+            "family_hash": "c2ec359e8b0d",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              2
+            ],
+            "support": 55,
+            "tools": [
+              "find_file"
+            ]
+          },
+          {
+            "episodes": 142,
+            "family_hash": "72199c03acc1",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              1,
+              1
+            ],
+            "support": 34,
+            "tools": [
+              "find_file",
+              "open"
+            ]
+          },
+          {
+            "episodes": 30,
+            "family_hash": "eb046d51edf7",
+            "length": 4,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              4
+            ],
+            "support": 17,
+            "tools": [
+              "search_dir"
+            ]
+          },
+          {
+            "episodes": 14,
+            "family_hash": "7328c51c20e5",
+            "length": 2,
+            "live_in": [],
+            "run_lengths": [
+              2
+            ],
+            "support": 14,
+            "tools": [
+              "shell.ls"
+            ]
+          },
+          {
+            "episodes": 31,
+            "family_hash": "3073c9cd2306",
+            "length": 2,
+            "live_in": [],
+            "run_lengths": [
+              2
+            ],
+            "support": 12,
+            "tools": [
+              "search_dir"
+            ]
+          }
+        ]
+      },
+      "first_barrier": {
+        "<none within ingested opening>": 3435,
+        "create": 38827,
+        "edit": 32654,
+        "shell.exec": 4878,
+        "submit": 242
+      },
+      "first_call": {
+        "create": 37622,
+        "find_file": 12081,
+        "open": 1836,
+        "search_dir": 16871,
+        "search_file": 108,
+        "shell.exec": 2747,
+        "shell.find": 96,
+        "shell.grep": 700,
+        "shell.ls": 7832,
+        "submit": 64
+      },
+      "groundable_opening": {
+        "ge2": 1600,
+        "histogram": {
+          "0": 78436,
+          "10": 1,
+          "11": 2,
+          "2": 1197,
+          "3": 267,
+          "4": 80,
+          "5": 27,
+          "6": 11,
+          "7": 4,
+          "8": 7,
+          "9": 4
+        },
+        "length_among_ge2": {
+          "max": 11,
+          "mean": 2.417,
+          "median": 2.0,
+          "min": 2,
+          "n": 1600
+        },
+        "share_ge2": 0.01999100404817832,
+        "share_of_read_only_ge2": 0.042238648363252376
+      },
+      "groups": 3591,
+      "ingestion": {
+        "max_calls": 13,
+        "pass1_episodes": 80036,
+        "stopped_by": {
+          "None": 114,
+          "barrier": 76601,
+          "max_calls": 3321
+        },
+        "user_turn_barriers": 0
+      },
+      "label": "SWE-agent (nebius)",
+      "license": "CC-BY-4.0",
+      "limit": null,
+      "models": {
+        "swe-agent-llama-405b": 1191,
+        "swe-agent-llama-70b": 74792,
+        "swe-agent-llama-8b": 4053
+      },
+      "opening_block_reasons": {
+        "partial_run_into_ungroundable_call": 50,
+        "ungrounded_slot": 36230
+      },
+      "read_only_opening": {
+        "ge1": 39552,
+        "ge2": 37880,
+        "histogram": {
+          "0": 40484,
+          "1": 1672,
+          "10": 819,
+          "11": 630,
+          "12": 463,
+          "13": 3321,
+          "2": 8367,
+          "3": 5040,
+          "4": 7294,
+          "5": 4080,
+          "6": 3116,
+          "7": 2036,
+          "8": 1574,
+          "9": 1140
+        },
+        "share_ge1": 0.49417762007096805,
+        "share_ge2": 0.47328702084062174
+      },
+      "revision": "68195a1450865274106246d0d0296a1d6807b88e",
+      "runtime_seconds": 367.7,
+      "scaffold": "SWE-agent legacy text-action ReAct",
+      "slot_marks": {
+        "ambiguous": 0,
+        "grounded": 44022,
+        "grounded_share": 0.13330103408075822,
+        "literal_only": 0,
+        "model_originated": 286223,
+        "not_groundable": 3781,
+        "ungrounded": 286223
+      },
+      "traces": 80036,
+      "ungrounded_opening_slots": {
+        "find_file#dir": 3800,
+        "find_file#file_name": 11790,
+        "open#line_number": 5349,
+        "open#path": 19042,
+        "search_dir#dir": 1308,
+        "search_dir#search_term": 15390,
+        "search_file#search_term": 323,
+        "shell.find#command": 392,
+        "shell.grep#command": 1251,
+        "shell.ls#command": 15067
+      }
+    },
+    {
+      "architectures": {
+        "react_function_calling_conversational": 1980
+      },
+      "arm": "primary",
+      "blocked_by_tool": {
+        "book_reservation": 4,
+        "cancel_pending_order": 4,
+        "cancel_reservation": 16,
+        "exchange_delivered_order_items": 8,
+        "modify_pending_order_address": 20,
+        "modify_pending_order_items": 7,
+        "modify_user_address": 3,
+        "return_delivered_order_items": 5,
+        "send_certificate": 5,
+        "think": 156,
+        "transfer_to_human_agents": 41,
+        "update_reservation_flights": 9
+      },
+      "blocked_window_candidates": {
+        "ambiguous_slot": 153,
+        "barrier_event": 37535,
+        "effect_capability": 156,
+        "effect_write": 122,
+        "live_in_not_in_entry_schema": 3266,
+        "partial_run": 5729,
+        "ungrounded_slot": 3410
+      },
+      "by_model": {
+        "gpt-4o": {
+          "groundable_ge2": 0,
+          "read_only_ge2": 0,
+          "share_groundable_ge2": 0.0,
+          "share_read_only_ge2": 0.0,
+          "traces": 660
+        },
+        "sonnet-35-new": {
+          "groundable_ge2": 60,
+          "read_only_ge2": 78,
+          "share_groundable_ge2": 0.045454545454545456,
+          "share_read_only_ge2": 0.05909090909090909,
+          "traces": 1320
+        }
+      },
+      "calls_per_trace": {
+        "max": 27,
+        "mean": 7.215,
+        "median": 7.0,
+        "min": 0,
+        "n": 1980
+      },
+      "catalog": {
+        "path": "benchmarks/contracts/effects/taubench.yaml",
+        "sha256": "c9409dd87dcd18130f6ba70672dcc98333bff88ff66a00c8d52f515c9366eb73"
+      },
+      "catalog_version": "taubench-historical-trajectories@1#e393a2d542d376cd",
+      "corpus": "taubench",
+      "dataset": "sierra-research/tau-bench historical_trajectories",
+      "exact_gate": {
+        "alpha": 0.05,
+        "delta": 0.1,
+        "families_at_or_above_floor": 0,
+        "max_observed_family_support": 7,
+        "minimum_zero_violation_groups": 92,
+        "outcome": "RETIRE"
+      },
+      "families": {
+        "at_floor_ge3": 2,
+        "n": 2,
+        "n_max": 7,
+        "top": [
+          {
+            "episodes": 36,
+            "family_hash": "de82c6d1ed90",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              1,
+              1
+            ],
+            "support": 7,
+            "tools": [
+              "get_reservation_details",
+              "get_user_details"
+            ]
+          },
+          {
+            "episodes": 24,
+            "family_hash": "c222fcc35f89",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              1,
+              1
+            ],
+            "support": 3,
+            "tools": [
+              "list_all_product_types",
+              "get_product_details"
+            ]
+          }
+        ]
+      },
+      "first_barrier": {
+        "transfer_to_human_agents": 6,
+        "user_turn": 1974
+      },
+      "first_call": {
+        "<no tool call>": 20,
+        "find_user_id_by_email": 574,
+        "find_user_id_by_name_zip": 772,
+        "get_order_details": 2,
+        "get_reservation_details": 241,
+        "get_user_details": 312,
+        "list_all_airports": 6,
+        "list_all_product_types": 27,
+        "search_direct_flight": 10,
+        "transfer_to_human_agents": 14
+      },
+      "groundable_opening": {
+        "ge2": 60,
+        "histogram": {
+          "0": 1920,
+          "2": 60
+        },
+        "length_among_ge2": {
+          "max": 2,
+          "mean": 2.0,
+          "median": 2.0,
+          "min": 2,
+          "n": 60
+        },
+        "share_ge2": 0.030303030303030304,
+        "share_of_read_only_ge2": 0.7692307692307693
+      },
+      "groups": 165,
+      "ingestion": {
+        "max_calls": 13,
+        "pass1_episodes": 1980,
+        "stopped_by": {
+          "None": 188,
+          "barrier": 1785,
+          "max_calls": 7
+        },
+        "user_turn_barriers": 7996
+      },
+      "label": "tau-bench historical runs",
+      "license": "MIT",
+      "limit": null,
+      "models": {
+        "gpt-4o": 660,
+        "sonnet-35-new": 1320
+      },
+      "opening_block_reasons": {
+        "ungrounded_slot": 18
+      },
+      "read_only_opening": {
+        "ge1": 169,
+        "ge2": 78,
+        "histogram": {
+          "0": 1811,
+          "1": 91,
+          "2": 61,
+          "3": 8,
+          "4": 4,
+          "5": 5
+        },
+        "share_ge1": 0.08535353535353535,
+        "share_ge2": 0.03939393939393939
+      },
+      "revision": "59a200c6d575d595120f1cb70fea53cef0632f6b",
+      "runtime_seconds": 11.0,
+      "scaffold": "tau-bench function-calling ReAct, conversational",
+      "slot_marks": {
+        "ambiguous": 1200,
+        "grounded": 10985,
+        "grounded_share": 0.590654909130014,
+        "literal_only": 0,
+        "model_originated": 6413,
+        "not_groundable": 1133,
+        "ungrounded": 6413
+      },
+      "traces": 1980,
+      "ungrounded_opening_slots": {
+        "get_product_details#product_id": 1,
+        "get_reservation_details#reservation_id": 8,
+        "search_direct_flight#date": 8,
+        "search_direct_flight#destination": 1,
+        "search_direct_flight#origin": 1,
+        "search_onestop_flight#date": 1
+      }
+    },
+    {
+      "architectures": {
+        "react_function_calling_conversational": 1980
+      },
+      "arm": "pre_tool_user_turns_folded",
+      "blocked_by_tool": {
+        "book_reservation": 4,
+        "cancel_pending_order": 4,
+        "cancel_reservation": 16,
+        "exchange_delivered_order_items": 8,
+        "modify_pending_order_address": 20,
+        "modify_pending_order_items": 7,
+        "modify_user_address": 3,
+        "return_delivered_order_items": 5,
+        "send_certificate": 5,
+        "think": 156,
+        "transfer_to_human_agents": 41,
+        "update_reservation_flights": 9
+      },
+      "blocked_window_candidates": {
+        "ambiguous_slot": 162,
+        "barrier_event": 27507,
+        "effect_capability": 156,
+        "effect_write": 122,
+        "live_in_not_in_entry_schema": 3266,
+        "partial_run": 5729,
+        "ungrounded_slot": 3047
+      },
+      "by_model": {
+        "gpt-4o": {
+          "groundable_ge2": 66,
+          "read_only_ge2": 140,
+          "share_groundable_ge2": 0.1,
+          "share_read_only_ge2": 0.21212121212121213,
+          "traces": 660
+        },
+        "sonnet-35-new": {
+          "groundable_ge2": 263,
+          "read_only_ge2": 883,
+          "share_groundable_ge2": 0.19924242424242425,
+          "share_read_only_ge2": 0.668939393939394,
+          "traces": 1320
+        }
+      },
+      "calls_per_trace": {
+        "max": 27,
+        "mean": 7.215,
+        "median": 7.0,
+        "min": 0,
+        "n": 1980
+      },
+      "catalog": {
+        "path": "benchmarks/contracts/effects/taubench.yaml",
+        "sha256": "c9409dd87dcd18130f6ba70672dcc98333bff88ff66a00c8d52f515c9366eb73"
+      },
+      "catalog_version": "taubench-historical-trajectories@1#e393a2d542d376cd",
+      "corpus": "taubench",
+      "dataset": "sierra-research/tau-bench historical_trajectories",
+      "exact_gate": {
+        "alpha": 0.05,
+        "delta": 0.1,
+        "families_at_or_above_floor": 0,
+        "max_observed_family_support": 17,
+        "minimum_zero_violation_groups": 92,
+        "outcome": "RETIRE"
+      },
+      "families": {
+        "at_floor_ge3": 9,
+        "n": 27,
+        "n_max": 17,
+        "top": [
+          {
+            "episodes": 71,
+            "family_hash": "cbc3531d9fa5",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              1,
+              1
+            ],
+            "support": 17,
+            "tools": [
+              "get_user_details",
+              "get_reservation_details"
+            ]
+          },
+          {
+            "episodes": 24,
+            "family_hash": "d35e05430f14",
+            "length": 4,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              1,
+              3
+            ],
+            "support": 11,
+            "tools": [
+              "get_user_details",
+              "get_reservation_details"
+            ]
+          },
+          {
+            "episodes": 40,
+            "family_hash": "de82c6d1ed90",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              1,
+              1
+            ],
+            "support": 8,
+            "tools": [
+              "get_reservation_details",
+              "get_user_details"
+            ]
+          },
+          {
+            "episodes": 30,
+            "family_hash": "95f38a8cdabc",
+            "length": 3,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              1,
+              2
+            ],
+            "support": 7,
+            "tools": [
+              "get_user_details",
+              "get_reservation_details"
+            ]
+          },
+          {
+            "episodes": 28,
+            "family_hash": "7bc3a70e1df6",
+            "length": 5,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              1,
+              4
+            ],
+            "support": 6,
+            "tools": [
+              "get_user_details",
+              "get_reservation_details"
+            ]
+          },
+          {
+            "episodes": 36,
+            "family_hash": "aa1435fdac49",
+            "length": 6,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              1,
+              5
+            ],
+            "support": 6,
+            "tools": [
+              "get_user_details",
+              "get_reservation_details"
+            ]
+          },
+          {
+            "episodes": 27,
+            "family_hash": "55b9f0626ddb",
+            "length": 8,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              1,
+              7
+            ],
+            "support": 4,
+            "tools": [
+              "get_user_details",
+              "get_reservation_details"
+            ]
+          },
+          {
+            "episodes": 10,
+            "family_hash": "57aa5e4acf65",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              2
+            ],
+            "support": 3,
+            "tools": [
+              "find_user_id_by_email"
+            ]
+          }
+        ]
+      },
+      "first_barrier": {
+        "<none within ingested opening>": 2,
+        "cancel_reservation": 1,
+        "send_certificate": 1,
+        "think": 25,
+        "transfer_to_human_agents": 24,
+        "user_turn": 1927
+      },
+      "first_call": {
+        "<no tool call>": 20,
+        "find_user_id_by_email": 574,
+        "find_user_id_by_name_zip": 772,
+        "get_order_details": 2,
+        "get_reservation_details": 241,
+        "get_user_details": 312,
+        "list_all_airports": 6,
+        "list_all_product_types": 27,
+        "search_direct_flight": 10,
+        "transfer_to_human_agents": 14
+      },
+      "groundable_opening": {
+        "ge2": 329,
+        "histogram": {
+          "0": 1651,
+          "10": 7,
+          "2": 155,
+          "3": 34,
+          "4": 25,
+          "5": 28,
+          "6": 36,
+          "7": 14,
+          "8": 28,
+          "9": 2
+        },
+        "length_among_ge2": {
+          "max": 10,
+          "mean": 3.884,
+          "median": 3,
+          "min": 2,
+          "n": 329
+        },
+        "share_ge2": 0.16616161616161615,
+        "share_of_read_only_ge2": 0.32160312805474095
+      },
+      "groups": 165,
+      "ingestion": {
+        "max_calls": 13,
+        "pass1_episodes": 1980,
+        "stopped_by": {
+          "None": 188,
+          "barrier": 1785,
+          "max_calls": 7
+        },
+        "user_turn_barriers": 5833
+      },
+      "label": "tau-bench historical runs",
+      "license": "MIT",
+      "limit": null,
+      "models": {
+        "gpt-4o": 660,
+        "sonnet-35-new": 1320
+      },
+      "opening_block_reasons": {
+        "ungrounded_slot": 694
+      },
+      "read_only_opening": {
+        "ge1": 1945,
+        "ge2": 1023,
+        "histogram": {
+          "0": 35,
+          "1": 922,
+          "10": 7,
+          "2": 398,
+          "3": 149,
+          "4": 157,
+          "5": 132,
+          "6": 111,
+          "7": 27,
+          "8": 37,
+          "9": 5
+        },
+        "share_ge1": 0.9823232323232324,
+        "share_ge2": 0.5166666666666667
+      },
+      "revision": "59a200c6d575d595120f1cb70fea53cef0632f6b",
+      "runtime_seconds": 16.0,
+      "scaffold": "tau-bench function-calling ReAct, conversational",
+      "slot_marks": {
+        "ambiguous": 1203,
+        "grounded": 13158,
+        "grounded_share": 0.7074954296160878,
+        "literal_only": 0,
+        "model_originated": 4237,
+        "not_groundable": 1133,
+        "ungrounded": 4237
+      },
+      "traces": 1980,
+      "ungrounded_opening_slots": {
+        "find_user_id_by_email#email": 11,
+        "find_user_id_by_name_zip#first_name": 390,
+        "find_user_id_by_name_zip#last_name": 272,
+        "find_user_id_by_name_zip#zip": 72,
+        "get_order_details#order_id": 41,
+        "get_reservation_details#reservation_id": 29,
+        "get_user_details#user_id": 521,
+        "search_direct_flight#date": 20,
+        "search_direct_flight#destination": 13,
+        "search_direct_flight#origin": 13
+      }
+    },
+    {
+      "architectures": {
+        "gold_sequence_no_agent": 1415
+      },
+      "arm": "primary",
+      "blocked_by_tool": {},
+      "blocked_window_candidates": {
+        "ambiguous_slot": 8527,
+        "live_in_not_in_entry_schema": 5320,
+        "partial_run": 3700,
+        "ungrounded_slot": 1
+      },
+      "by_model": {
+        "gold-sequence": {
+          "groundable_ge2": 1226,
+          "read_only_ge2": 1415,
+          "share_groundable_ge2": 0.8664310954063604,
+          "share_read_only_ge2": 1.0,
+          "traces": 1415
+        }
+      },
+      "calls_per_trace": {
+        "max": 53,
+        "mean": 5.061,
+        "median": 4,
+        "min": 2,
+        "n": 1415
+      },
+      "catalog": {
+        "path": "constructed in paper/scripts/nestful_benchmark.py",
+        "sha256": null
+      },
+      "catalog_version": "nestful-basic-pure-audit@1#b6a4cdd72ed74b4a",
+      "corpus": "nestful",
+      "dataset": "IBM/NESTFUL",
+      "exact_gate": {
+        "alpha": 0.05,
+        "delta": 0.1,
+        "families_at_or_above_floor": 0,
+        "max_observed_family_support": 76,
+        "minimum_zero_violation_groups": 92,
+        "outcome": "RETIRE"
+      },
+      "families": {
+        "at_floor_ge3": 241,
+        "n": 1560,
+        "n_max": 76,
+        "top": [
+          {
+            "episodes": 76,
+            "family_hash": "b07c396980f2",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              2
+            ],
+            "support": 76,
+            "tools": [
+              "multiply"
+            ]
+          },
+          {
+            "episodes": 68,
+            "family_hash": "d1bdc37ad118",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              1,
+              1
+            ],
+            "support": 68,
+            "tools": [
+              "multiply",
+              "divide"
+            ]
+          },
+          {
+            "episodes": 59,
+            "family_hash": "6bc6f3d5e877",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              2
+            ],
+            "support": 59,
+            "tools": [
+              "divide"
+            ]
+          },
+          {
+            "episodes": 53,
+            "family_hash": "7050983be107",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              1,
+              1
+            ],
+            "support": 53,
+            "tools": [
+              "divide",
+              "multiply"
+            ]
+          },
+          {
+            "episodes": 49,
+            "family_hash": "59d3236eeb7b",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              1,
+              1
+            ],
+            "support": 49,
+            "tools": [
+              "subtract",
+              "divide"
+            ]
+          },
+          {
+            "episodes": 41,
+            "family_hash": "97f5c67ea7f5",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              2
+            ],
+            "support": 41,
+            "tools": [
+              "add"
+            ]
+          },
+          {
+            "episodes": 37,
+            "family_hash": "61ec28663b8f",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              1,
+              1
+            ],
+            "support": 37,
+            "tools": [
+              "divide",
+              "subtract"
+            ]
+          },
+          {
+            "episodes": 30,
+            "family_hash": "42efd63cb08b",
+            "length": 2,
+            "live_in": [
+              "z.inputs"
+            ],
+            "run_lengths": [
+              1,
+              1
+            ],
+            "support": 30,
+            "tools": [
+              "add",
+              "divide"
+            ]
+          }
+        ]
+      },
+      "first_barrier": {
+        "<none within ingested opening>": 1415
+      },
+      "first_call": {
+        "add": 275,
+        "divide": 402,
+        "factorial": 8,
+        "inverse": 10,
+        "multiply": 423,
+        "negate": 8,
+        "power": 31,
+        "reminder": 7,
+        "sqrt": 7,
+        "subtract": 221
+      },
+      "groundable_opening": {
+        "ge2": 1226,
+        "histogram": {
+          "0": 189,
+          "10": 5,
+          "11": 8,
+          "12": 6,
+          "2": 214,
+          "3": 364,
+          "4": 249,
+          "5": 160,
+          "6": 113,
+          "7": 50,
+          "8": 40,
+          "9": 17
+        },
+        "length_among_ge2": {
+          "max": 12,
+          "mean": 4.1,
+          "median": 4.0,
+          "min": 2,
+          "n": 1226
+        },
+        "share_ge2": 0.8664310954063604,
+        "share_of_read_only_ge2": 0.8664310954063604
+      },
+      "groups": 1415,
+      "ingestion": {
+        "max_calls": 13,
+        "pass1_episodes": 1415,
+        "stopped_by": {
+          "None": 1415
+        },
+        "user_turn_barriers": 0
+      },
+      "label": "NESTFUL (gold sequences)",
+      "license": "Apache-2.0",
+      "limit": null,
+      "models": {
+        "gold-sequence": 1415
+      },
+      "note": "Every NESTFUL function is PURE and compilable, so the read-only opening is the whole sequence; the census uses w_max=12 where the retained substrate run used 53.",
+      "opening_block_reasons": {
+        "ambiguous_slot": 189
+      },
+      "read_only_opening": {
+        "ge1": 1415,
+        "ge2": 1415,
+        "histogram": {
+          "10": 20,
+          "11": 16,
+          "12": 16,
+          "13": 14,
+          "14": 6,
+          "15": 7,
+          "16": 2,
+          "17": 3,
+          "18": 7,
+          "19": 1,
+          "2": 213,
+          "20": 3,
+          "21": 1,
+          "22": 1,
+          "23": 1,
+          "24": 1,
+          "25": 2,
+          "26": 2,
+          "27": 1,
+          "3": 359,
+          "36": 1,
+          "4": 248,
+          "43": 1,
+          "5": 173,
+          "53": 1,
+          "6": 134,
+          "7": 75,
+          "8": 60,
+          "9": 46
+        },
+        "share_ge1": 1.0,
+        "share_ge2": 1.0
+      },
+      "revision": "fc2c4123e73500a56185a5fb354f05d1c8b4890c",
+      "runtime_seconds": 0.9,
+      "scaffold": "gold tool sequences, no agent",
+      "slot_marks": {
+        "ambiguous": 1558,
+        "grounded": 11763,
+        "grounded_share": 0.8829755291998198,
+        "literal_only": 0,
+        "model_originated": 1,
+        "not_groundable": 819,
+        "ungrounded": 1
+      },
+      "traces": 1415,
+      "ungrounded_opening_slots": {}
+    },
+    {
+      "architectures": {
+        "full_code_refl": 2340,
+        "ipfuncall": 1170,
+        "plan_exec": 2340,
+        "react": 2340
+      },
+      "arm": "primary",
+      "by_architecture": {
+        "full_code_refl": {
+          "read_only_ge2": 2339,
+          "share_read_only_ge2": 0.9995726495726496,
+          "traces": 2340
+        },
+        "ipfuncall": {
+          "read_only_ge2": 835,
+          "share_read_only_ge2": 0.7136752136752137,
+          "traces": 1170
+        },
+        "plan_exec": {
+          "read_only_ge2": 48,
+          "share_read_only_ge2": 0.020512820512820513,
+          "traces": 2340
+        },
+        "react": {
+          "read_only_ge2": 134,
+          "share_read_only_ge2": 0.05726495726495726,
+          "traces": 2340
+        }
+      },
+      "calls_per_trace": {
+        "max": 76541,
+        "mean": 201.891,
+        "median": 25.0,
+        "min": 0,
+        "n": 8190
+      },
+      "catalog": {
+        "path": "benchmarks/contracts/effects/appworld.yaml",
+        "sha256": "487a6a4cfb2d31d0d395c594b60b021e3d3f13bb2f2edba3b3270529d95512e8"
+      },
+      "catalog_version": "appworld-0-1-3-post1-pinned-backend@1#b12e0c34395ec82e",
+      "corpus": "appworld_released",
+      "dataset": "StonyBrookNLP/appworld experiment-outputs-0.1.0 (28 released test runs)",
+      "exact_gate": null,
+      "families": null,
+      "first_barrier": {
+        "<none>": 170,
+        "amazon.login": 940,
+        "api_docs.show_api_descriptions": 3758,
+        "api_docs.show_app_descriptions": 229,
+        "gmail.login": 827,
+        "phone.login": 396,
+        "simple_note.login": 280,
+        "spotify.login": 534,
+        "supervisor.show_active_task": 200,
+        "venmo.login": 341
+      },
+      "first_call": {
+        "<no call>": 163,
+        "get /amazon/products": 7,
+        "get /api_docs/api_descriptions": 3752,
+        "get /api_docs/api_doc": 87,
+        "get /api_docs/app_descriptions": 229,
+        "get /supervisor/account_passwords": 599,
+        "get /supervisor/active_task": 158,
+        "get /supervisor/profile": 3126,
+        "post /amazon/auth/token": 18,
+        "post /gmail/auth/token": 12
+      },
+      "groundable_opening": null,
+      "groups": 585,
+      "label": "AppWorld released baselines",
+      "license": "Apache-2.0",
+      "limit": null,
+      "models": {},
+      "not_measurable": [
+        "groundable opening: the released logs retain no tool responses and no entry snapshot",
+        "families and n_max: no argument slots can be grounded, so no canonical window exists"
+      ],
+      "read_only_opening": {
+        "ge1": 3727,
+        "ge2": 3356,
+        "histogram": {
+          "0": 4463,
+          "1": 371,
+          "12": 1,
+          "13": 5,
+          "2": 3336,
+          "3": 8,
+          "4": 2,
+          "5": 3,
+          "6": 1
+        },
+        "share_ge1": 0.45506715506715506,
+        "share_ge2": 0.40976800976800976
+      },
+      "retained_reference": {
+        "admitted_program_eligible_at_position_0": "3,102/8,190 (paper/results/external_benchmarks/appworld_dispatch_preflight.json)",
+        "gold_solution_substrate_n_max": 136
+      },
+      "revision": "appworld 0.1.3.post1; experiment-outputs-0.1.0.bundle",
+      "scaffold": "four official baseline architectures (ReAct, plan-and-execute, iterative parallel function calling, full code + reflection)",
+      "traces": 8190
+    }
+  ],
+  "definitions": {
+    "arms": "each released corpus carries one labelled sensitivity arm: shell reads admitted (allowlisted single-utility invocations flipped to READ_LOCAL) for the coding corpora; pre-tool user turns folded into entry state for tau-bench",
+    "families": "canonical hashes of opening windows (one per episode and hash, the largest); support is the number of distinct groups (tasks); at floor = >=3 groups as in Table 4",
+    "first_model_boundary": "the first agent turn after the task prompt; normalized position 0 is the first tool call",
+    "groundable_opening": "the longest Algorithm 2 window starting at the first boundary with every slot LITERAL, NOT_GROUNDABLE or GROUNDED (entry state or prior result, depth<=2, kappa=3) and live-ins within the entry schema; share counts episodes whose longest such window has >=2 calls",
+    "n_max_vs_floor": "largest family support against the 92 zero-violation groups Eq. (cp) requires",
+    "read_only_opening": "consecutive calls from position 0 whose catalog entry is compilable (read-like with speculatable+replayable capabilities); a new user utterance, an unknown effect, a write, an approval-gated tool or a missing capability ends it"
+  },
+  "evidence_class": "provider-free trace analysis of released benchmark trajectories; descriptive, not admission",
+  "exact_gate_floor": 92,
+  "max_calls_ingested": 13,
+  "mining_parameters": {
+    "b_min": 2,
+    "entry_schema": [
+      "inputs"
+    ],
+    "kappa": 3,
+    "max_depth": 2,
+    "w_max": 12,
+    "w_min": 2
+  },
+  "not_evidence_for": [
+    "prevalence in deployed (non-benchmark) agents",
+    "admission, calibration, or dispatch of any artifact",
+    "quality of any compiled program (nothing is synthesized or replayed here)"
+  ],
+  "runtime_seconds": 1301.8,
+  "schema": "gac-prefix-census/v1",
+  "script": "paper/scripts/prefix_census.py",
+  "snapshot_date": "2026-10-28"
+}

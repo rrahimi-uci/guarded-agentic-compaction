@@ -4,7 +4,11 @@ The standard agent loop pays for a model decision at every tool
 boundary~\citep{yao2023react}. That flexibility is valuable while a workflow is
 novel. When an agent repeatedly takes the same read-only evidence path with
 invariant data dependencies, those decisions offer a candidate for
-specialization; their prevalence across deployed agents remains unmeasured.
+specialization. Across 157,280 released trajectories from four agent
+scaffolds, between 4\% and 41\% of episodes open with a read-only prefix of
+two or more calls, and 2--13\% with one whose arguments are groundable from
+the entry state (\cref{app:prefix-census}); which end of that range an agent
+sits on is set by its architecture, not its workload.
 
 Removing that decision is not ordinary caching: a tool argument may depend on
 an earlier observation, a repeated sequence may cross an approval or write, a
