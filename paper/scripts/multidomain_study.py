@@ -16,6 +16,7 @@ import json
 import math
 import os
 import platform
+import re
 import sys
 import time
 from dataclasses import asdict
@@ -75,6 +76,56 @@ def _sha(path: Path) -> str:
         for block in iter(lambda: handle.read(1 << 20), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+_SECRET_TOKEN = re.compile(r"(sk|key|token|bearer)[-_ ]?[A-Za-z0-9_\-*]{12,}", re.IGNORECASE)
+
+
+def _report_failure(
+    exc: BaseException,
+    item: ScheduledExecution,
+    attempt: int,
+    *,
+    stream: Any = None,
+    limit: int = 600,
+) -> str:
+    """Print a bounded, secret-masked diagnostic for a failed attempt to stderr.
+
+    The retained ledger deliberately records only the exception class name
+    (``error_message_redacted``). The 2026-10-07 discovery run showed the cost of that
+    alone: eighty attempts failed on an SDK ``UserError`` raised before any provider
+    request, and nothing told the operator why. This line is operator-facing only; it
+    is never written to the ledger. Anything that looks like a credential is masked.
+    """
+
+    message = _SECRET_TOKEN.sub(lambda match: match.group(1) + "-[masked]", str(exc))
+    message = " ".join(message.split())
+    if len(message) > limit:
+        message = message[:limit] + "..."
+    line = (
+        f"execution failed: {item.domain}:{item.case_id}:{item.action} attempt {attempt}: "
+        f"{type(exc).__module__}.{type(exc).__name__}: {message}"
+    )
+    print(line, file=stream if stream is not None else sys.stderr, flush=True)
+    return line
+
+
+def _prior_failed_attempts(records: Sequence[Any]) -> dict[str, int]:
+    """Failed attempts already retained per scheduled execution.
+
+    A resumed run numbers its attempts after these, so a re-attempt never reuses the
+    ``<event>:attempt:<n>`` ledger id of an earlier failure. The ledger treats a reused id
+    with different content as a conflict, which on 2026-10-28 aborted a resumed run and
+    lost the failed attempt's record after the provider had already been called.
+    """
+
+    counts: dict[str, int] = {}
+    for record in records:
+        if record.event_type != "execution_failed":
+            continue
+        event_id = str(record.event_id).rsplit(":attempt:", 1)[0]
+        counts[event_id] = counts.get(event_id, 0) + 1
+    return counts
 
 
 def _pairs(values: Sequence[str], *, label: str) -> dict[str, Path]:
@@ -1033,6 +1084,9 @@ async def _run(args: argparse.Namespace) -> int:
         for record in ledger.records()
         if record.event_type in {"execution_complete", "execution_unavailable"}
     }
+    prior_failed_attempts = _prior_failed_attempts(previous_records)
+    consecutive_failures = 0
+    halted: dict[str, Any] | None = None
     for item in schedule:
         if item.event_id in resolved:
             continue
@@ -1052,7 +1106,8 @@ async def _run(args: argparse.Namespace) -> int:
             )
             continue
         success = False
-        for attempt in range(args.retries + 1):
+        first_attempt = prior_failed_attempts.get(item.event_id, 0)
+        for attempt in range(first_attempt, first_attempt + args.retries + 1):
             budget_event_id = f"{item.event_id}:a{attempt}"
             budget.reserve(budget_event_id, args.reservation_usd_per_execution)
             ledger.append(
@@ -1121,8 +1176,28 @@ async def _run(args: argparse.Namespace) -> int:
                         "provider_request_may_have_occurred": True,
                     },
                 )
-        if not success:
-            continue
+                _report_failure(exc, item, attempt)
+                consecutive_failures += 1
+                if (
+                    args.stop_after_consecutive_failures
+                    and consecutive_failures >= args.stop_after_consecutive_failures
+                ):
+                    halted = {
+                        "reason": "consecutive_failed_attempts",
+                        "limit": args.stop_after_consecutive_failures,
+                        "last_error_type": type(exc).__name__,
+                    }
+                    print(
+                        f"stopping after {consecutive_failures} consecutive failed attempts; "
+                        "every attempt is retained in the ledger",
+                        file=sys.stderr,
+                        flush=True,
+                    )
+                    break
+        if halted is not None:
+            break
+        if success:
+            consecutive_failures = 0
     result = {
         "schema": "agent-compaction-multidomain-run-summary/v1",
         "protocol_digest": protocol.digest,
@@ -1155,6 +1230,8 @@ async def _run(args: argparse.Namespace) -> int:
         if result["failed_attempts_with_unknown_provider_requests"] == 0
         else None
     )
+    if halted is not None:
+        result["halted"] = halted
     if args.phase == "pilot":
         result["full_study_cost_projection"] = _pilot_projection(
             ledger.records(), unavailable_actions, tuple(protocol.group_roles)
@@ -1193,6 +1270,15 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--out", required=True, type=Path)
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument(
+        "--stop-after-consecutive-failures",
+        type=int,
+        default=0,
+        help=(
+            "stop the phase (every attempt stays in the ledger) once this many attempts "
+            "fail back to back; 0 disables the stop and preserves the historical behavior"
+        ),
+    )
     return parser
 
 
@@ -1202,6 +1288,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         raise SystemExit("provider cap and per-execution reservation must be positive")
     if args.retries < 0 or args.max_model_requests < 1 or args.timeout <= 0:
         raise SystemExit("invalid retry/request/timeout bounds")
+    if args.stop_after_consecutive_failures < 0:
+        raise SystemExit("--stop-after-consecutive-failures must be non-negative")
     return asyncio.run(_run(args))
 
 

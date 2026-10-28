@@ -289,6 +289,12 @@ def build_parser() -> argparse.ArgumentParser:
         command.add_argument("--action-lock")
         command.add_argument("--out", required=True)
         command.add_argument("--dry-run", action="store_true")
+        command.add_argument(
+            "--stop-after-consecutive-failures",
+            type=int,
+            default=0,
+            help="stop the phase after this many back-to-back failed attempts (0 disables)",
+        )
 
         def run_live(args: argparse.Namespace, frozen_phase: str = phase) -> int:
             forwarded = [
@@ -301,6 +307,7 @@ def build_parser() -> argparse.ArgumentParser:
                 "--max-model-requests", str(args.max_model_requests),
                 "--retries", str(args.retries),
                 "--timeout", str(args.timeout),
+                "--stop-after-consecutive-failures", str(args.stop_after_consecutive_failures),
                 "--out", args.out,
             ]
             for value in args.cases:
