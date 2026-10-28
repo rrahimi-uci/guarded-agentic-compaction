@@ -48,6 +48,29 @@ human macro/gold review, protocol approval, and live model executions remain
 outstanding. This update does not change the historical 2026-08-04 checkpoint
 above or establish a new paper efficacy result.
 
+On 2026-10-28, the frozen single-domain HMDA v2 study (`manifests/hmda-study-v2.yaml`,
+protocol `paper/results/multidomain/protocol/hmda-v2-frozen.json`) was taken back to
+the discovery phase. The 2026-10-07 discovery attempt retained under
+`paper/results/multidomain/discovery/` (80 attempts, 0 completed, `UserError`) was
+reproduced provider-free against the runner version then in effect (commit `0ea8c41`):
+the Agents SDK rejected the strict JSON schema of `HmdaAnswer`
+(`special_states: dict[str, Literal[...]]` emits `additionalProperties`) inside
+`Runner.run` before any provider request. Commit `3ce76b8`, six minutes after the
+failed run, already routes that answer model through the SDK's non-strict output
+wrapper; the current runner reaches the provider on the same schedule. The runner now
+also prints a bounded, secret-masked diagnostic per failed attempt and accepts
+`--stop-after-consecutive-failures`. The 2026-10-28 live discovery run
+(`paper/results/multidomain/hmda-v2/discovery/`) was halted after four consecutive
+`AuthenticationError` responses: the provider rejected the configured
+`OPENAI_API_KEY` with HTTP 401 `invalid_api_key`, confirmed by two provider-free
+`models.retrieve` calls. 0 of 40 discovery executions completed, no billable request
+was made, and development, compile-grc, freeze-actions, pilot, and
+artifact-calibration did not run. The macro approval digests were re-derived and
+still match the implementation. A valid credential is the only blocker; the exact
+resumption commands are in
+[`hmda-v2-live-study-handoff.md`](../paper/results/multidomain/review/hmda-v2-live-study-handoff.md).
+This update establishes no efficacy result.
+
 ## Acquisition
 
 All acquisition commands are real-source commands; there is no synthetic fallback.
@@ -277,6 +300,13 @@ COMMON='--cases vulnerability=... --cases sec=... --cases hmda=... \
   --ledger paper/results/multidomain/test/ledger.jsonl \
   --out paper/results/multidomain/analysis
 ```
+
+Every live phase also accepts `--stop-after-consecutive-failures N` (default 0, which keeps
+the historical run-everything behavior). The runner prints one bounded, secret-masked
+diagnostic line to stderr per failed attempt; the retained ledger still records only the
+exception class. Use the stop so a systematic failure (an SDK misconfiguration, a rejected
+credential) costs a handful of attempts rather than the whole schedule; every attempt
+stays in the ledger and a later run with the same reservation resumes the open groups.
 
 Replace shell placeholders explicitly; do not store secrets in arguments. The runner refuses mixed
 protocol ledgers, duplicate pairs, digest-mismatched retained episodes, ambiguous interrupted
