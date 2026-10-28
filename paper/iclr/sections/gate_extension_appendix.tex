@@ -20,12 +20,12 @@ completed (\path{extension_abort.json}; no cost). The executed run attempted
 
 \Cref{tab:gate-extension} gives the full sweep. The candidate dispatched on all
 127 fresh issues with 2 final factual-task errors. On the fresh set alone no
-threshold is admissible (best $U=0.0682$ at $\eta=0.30$). On the pooled 311
-groups (4 errors) six grid points are admissible---$\eta=0.02$ (117 groups, no
+threshold passes the nominal admission rule (best $U=0.0682$ at $\eta=0.30$).
+On the pooled 311 groups (4 errors) six grid points pass that rule---$\eta=0.02$ (117 groups, no
 error, $U=0.0394$) and $\eta\in\{0.20,0.25,0.30,0.40,0.50\}$---while
 $\eta=0.05$--$0.17$ are not, so the admissible set is not an interval; the
 registered rule takes the largest, $\eta=0.50$: 261/311 groups (83.9\%
-coverage), 4 errors, $U=0.0443$. The descriptive split at $\eta=0.02$ places
+coverage), 4 errors, nominal $U=0.0443$. The descriptive split at $\eta=0.02$ places
 all four errors above the threshold (4/194 vs.\ 0/117), but a one-sided Fisher
 test gives $p=0.150$: no evidence of graded selectivity.
 
@@ -39,21 +39,29 @@ the unchanged agent, 85 issues were correct under both, 3 only under the
 unchanged agent, 2 only under learned routing, and none wrong under both.
 Learned routing used 132 provider requests against 360 for the unchanged
 agent on the same 90 issues, with the pre-dispatch read counted for every arm.
-This extension shows that the frozen score can certify intermediate coverage
-on this pooled set at the registered level. It is a single-repository,
-sequential result on a mixture of two sampling frames (quota-enriched 184 plus
-the natural 127 remainder); it does not establish graded selectivity,
-cross-repository generalization, or a quality benefit, and the 90-issue test
-cannot confirm the 5\% risk level on its own.
+The frozen rule therefore selects intermediate coverage on this pooled set;
+this is an exploratory admission calculation, not a certificate at the nominal
+confidence level for the adaptive procedure. The decision to extend followed
+an observed retirement, the budget covers thresholds rather than repeated
+looks, and the pooled groups mix quota-enriched sampling with a natural
+remainder. \Cref{prop:admission} does not establish coverage for that design.
+Time-uniform inference can address adaptive monitoring~\citep{howard2021confidence},
+but would not by itself establish a common future-group distribution for the
+two sampling frames. The untouched test supplies a separate evaluation;
+its 2/76 wrong compiled dispatches cannot confirm the 5\% risk level.
+Neither graded selectivity nor a quality or cross-repository benefit is
+established. All counts, selected thresholds, and retained protocol decisions
+are unchanged by this interpretation correction.
 
 \begin{table}[t]
   \centering
   \caption{Sequential calibration extension of the issue gate: the frozen
   eleven-point sweep on the pooled (184 + 127) and fresh (127) calibration
   groups with accepted groups $n$, task errors $k$, the one-sided
-  Clopper--Pearson bound $U$ at level $\delta/|\Lambda|$, and coverage;
-  $\dagger$ marks admissible rows ($U\le 0.05$). The registered rule selects the
-  largest admissible threshold.}
+  nominal Clopper--Pearson bound $U$ computed at level $\delta/|\Lambda|$, and
+  coverage; $\dagger$ marks rows passing the numerical rule ($U\le 0.05$).
+  The registered rule selects the largest passing threshold; nominal coverage
+  for the adaptive, mixed-frame procedure is not established.}
   \label{tab:gate-extension}
   \scriptsize
   \setlength{\tabcolsep}{3pt}

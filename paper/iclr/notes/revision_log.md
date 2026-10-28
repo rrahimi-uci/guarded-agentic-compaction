@@ -412,3 +412,51 @@ Build: 53 pages; Sections 1--8 end on page 10 with the AI Use and Ethics Stateme
 page 10 (within the ten-page discussion-phase limit); 0 overfull boxes; 0 unresolved
 references; PDF anonymous. `main-final.pdf` refreshed; publication manifest regenerated;
 validator and test results are recorded in the PR.
+
+
+## Evidence scope and compiler comparison (2026-10-28)
+
+Branch: `paper/iclr-evidence-scope-and-comparators`, based on `main` 92f1560.
+This applies the six manuscript recommendations from the current paper review.
+
+- Center the abstract, introduction and conclusion on discovering and executing
+  grounded read-only prefixes with explicit admission assumptions and refusals.
+- Surface the 30/30 recurrence-only result (one request versus GAC's two) in the
+  main results and distinguish the matched AWM system comparison from causal
+  attribution to compilation safeguards.
+- Add an evidence-scope table separating replay certificates, AWM noninferiority,
+  prefix prevalence and the constructed scope-guard experiment.
+- Relabel the sequential gate extension as nominal arithmetic: its adaptive
+  continuation and mixed sampling frames do not establish the stated confidence
+  coverage. Preserve the historical protocol and every raw numerical artifact;
+  add a separately dated interpretation correction and update table labels.
+- Correct OpenHands first-call `think` prevalence to 54,045/67,074 (80.6%),
+  retaining 58,682/67,074 (87.5%) as the first-barrier count. Qualify the census's
+  architecture attribution and state which corpora have groundability evidence.
+- Add the close TraceCompiler comparison and the time-uniform-inference reference;
+  neither is reported as an executed comparator or a retrospective guarantee repair.
+- Explain lifecycle economics, rounding discovery break-even up to whole episodes
+  (411, 183, 181) and accounting explicitly for compatible snapshot lifetime,
+  fallback and additional unmeasured lifecycle cost.
+- Prepare `paper/supplementary/matched-compiler-candidate-protocol.md`, an unrun,
+  unsealed design across a common population including rejected candidates. No
+  paid experiment, new results, model run, deployment or OpenReview update occurs.
+
+Validation adds census-denominator and extension-interpretation checks. The PDF
+has 58 pages, with the conclusion on page 10 and AI Use Statement on page 11;
+this is a discussion-phase revision, not a nine-page initial submission. The
+rendered abstract matches local OpenReview metadata after typography normalization,
+PDF author metadata is empty, and the build has no unresolved references or
+Overfull boxes. Selected revised pages were visually checked. Both ICLR PDF
+copies and the publication manifest are refreshed. Exact test, release, artifact,
+site, package and supplementary validation results are recorded in the PR.
+
+Local verification: full suite 711 passed; focused extension/census suite 37
+passed; release validation, nine-page/32-path site build and wheel/sdist build
+passed. The full artifact audit initially detected two pre-existing stale local
+logs for the older report wrappers and an exact-string check for the former
+810-episode sentence. Both wrappers were rebuilt from unchanged sources; extracted
+text is identical before and after for each PDF. Their refreshed PDFs/logs and the
+updated wording check are included in the final artifact validation. Standard
+Tectonic font substitutions, underfull boxes and the bibliography rerun-limit
+warning remain; no undefined references or overflowing ICLR boxes were found.

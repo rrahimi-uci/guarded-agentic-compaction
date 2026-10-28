@@ -525,6 +525,25 @@ non-sensitive evidence; no model or provider call is made.
   \input{tables/reduction_ci.tex}
 \end{table}
 
+\paragraph{Snapshot lifetime and amortization.}
+\label{app:lifecycle}
+The 411, 183, and 181 episode thresholds repay only the measured discovery
+cost at the observed per-episode saving, rounded up to whole episodes.
+Let $N_s$ be future episodes before compatibility changes in snapshot $s$,
+$\bar c_{B,s}$ and $\bar c_{A,s}$ their mean baseline and compiled-policy
+costs (including attempted compaction and fallback), $D_s$ discovery cost,
+and $K_s$ additional compilation, review, monitoring, and invalidation cost.
+Lifecycle savings require
+\[
+  \sum_s N_s(\bar c_{B,s}-\bar c_{A,s}) > \sum_s(D_s+K_s).
+\]
+The retained GitHub artifacts pin the snapshot digest and abstain after it
+changes; a new snapshot requires a new compatible artifact. Thus per-episode
+savings cannot simply be extrapolated across invalidations. The reported
+thresholds set $K_s=0$ and reuse observed costs; they are not measurements of
+artifact lifetime or total ownership cost. Human authoring is also unpriced.
+No evolving-snapshot deployment study estimates these missing terms.
+
 \paragraph{Latency validity.} \Cref{tab:paired-statistics} gives the paired
 differences behind \cref{tab:primary}. Latency is wall-clock provider evidence
 and is secondary to requests and tokens. In the PR-outcome and backlog families each
@@ -1274,11 +1293,13 @@ and retry annotations and admits trajectory-derived macro-skills through tests,
 contracts, and regression checks; Agent JIT Compilation generates and validates
 code plans for the current web task, selects low-cost candidates, and schedules
 execution under tool pre- and post-state
-invariants~\citep{wei2026evoc2f,winston2026agentjit}. Those two are the closest
-compiler comparators, since both carry effect or state annotations and both
-verify before reuse, but their admission is by test and contract passage rather
-than by a finite-sample bound over held-out groups, and neither is evaluated on
-an admit-or-retire decision per candidate region. We therefore execute the
+invariants~\citep{wei2026evoc2f,winston2026agentjit}. These are close compiler
+comparators with effect or state annotations and verification before reuse.
+TraceCompiler additionally shares trace mining, producer evidence and refusal
+of underdetermined behavior~\citep{elyadouni2026tracecompiler}. Our distinctive
+scope is the bounded initial read-only prefix and fixed-candidate statistical
+admission; no head-to-head result against these compilers is established.
+We execute the
 comparator whose official implementation we pinned and adapted to shared API
 tasks, an offline AWM adaptation, in \cref{app:matched-reuse}. This adds a
 whole-system quality--cost comparison, but does not reproduce AWM's native
@@ -1667,7 +1688,9 @@ The learned gate therefore retired before the 90-issue test. The support-only
 ablation accepts 184/184 with two observed errors, but it disables the risk
 budget; no held-out quality or savings comparison follows from this study.
 A registered sequential extension on 127 further issues (\cref{app:gate-extension})
-later admitted $\eta=0.50$ on the pooled 311 groups and ran the sealed test.
+later selected $\eta=0.50$ on the pooled 311 groups and ran the sealed test;
+its nominal confidence level is not established for the adaptive, mixed-frame
+procedure.
 
 \textbf{The comparator feasibility bar has also been checked} (spike memo in the
 same directory): the retained feasibility memo did not identify a confirmed public AWO

@@ -1,5 +1,21 @@
 # Number registry for the ICLR 2027 paper
 
+## October 28 interpretation corrections
+
+| Number(s) | Meaning | Source | Checked by |
+|---|---|---|---|
+| 54,045/67,074; 80.6% | OpenHands first call is think | `paper/results/prefix_census/results.json`, `first_call` | `validate_prefix_census` |
+| 58,682/67,074; 87.5% | OpenHands first blocking tool is think, possibly after reads | Same corpus, `first_barrier` | `validate_prefix_census` |
+| 261/311; 4; 0.0443 | Extension selected coverage, errors and nominal upper bound | `paper/results/graded_issue_gate/audit_extension.json` | Existing numerical audit; coverage for the adaptive mixed-frame procedure is not established |
+| 411; 183; 181 | Whole-episode discovery break-even per family and compatible snapshot | `paper/results/cache_accounting.json`, ceiling of each `break_even_episodes` | Arithmetic; excludes lifecycle costs |
+
+The extension interpretation is corrected separately in
+`paper/results/graded_issue_gate/interpretation_correction.md`; the historical
+protocol and raw numerical artifacts are unchanged. The new matched-compiler
+protocol is unrun and contributes no observed numbers to this registry.
+
+## Retained numerical claims
+
 Selected numerical claims from the September revision, supplemented by the
 October 8 evidence audit and October 15 live-recovery integration, with retained files or producing scripts. Citation
 years, equation constants, and grid values are omitted. `stats:` means

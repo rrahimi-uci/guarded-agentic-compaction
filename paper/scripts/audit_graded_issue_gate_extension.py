@@ -255,8 +255,8 @@ def table(data: dict | None = None) -> str:
 
     def verdict(name: str, grid: dict) -> str:
         if grid["retire"]:
-            return f"{name}: no admissible threshold (retire)"
-        return f"{name}: admitted $\\eta={grid['threshold']:.2f}$"
+            return f"{name}: no threshold passes (retire)"
+        return f"{name}: nominal rule selects $\\eta={grid['threshold']:.2f}$"
 
     fisher = data["fisher_split"]
     lines += [r"\midrule",

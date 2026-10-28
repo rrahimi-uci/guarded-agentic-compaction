@@ -2,20 +2,22 @@
 \label{sec:related}
 
 \paragraph{Trace compilation and specialization.}
-Beyond the trace-compilation precedent of the introduction, \method takes
-meta-tracing's unit of specialization, the trace~\citep{bolz2009pypy}.
-Partial evaluation is the older frame: a specialized program is correct only
-where its static assumptions hold~\citep{futamura1971partial,jones1993partial};
-here grounded arguments, declared effects~\citep{lucassen1988effects}, and
-manifest pins are the guard, and each can veto. Family mining is a narrow form
-of process mining~\citep{vanderAalst2016process}; synthesis is bounded
-programming by example and sketching
-\citep{gulwani2011flashfill,solarlezama2006sketching} with explicit
-provenance~\citep{cheney2009provenance}; and likely invariants inferred from
-executions~\citep{ernst2001daikon} are the ancestor of the induced verifier,
-with the same caveat (\cref{app:limits}): an inferred hull is evidence, not proof.
+\method combines trace specialization~\citep{bolz2009pypy}, partial
+evaluation~\citep{futamura1971partial,jones1993partial}, effect
+declarations~\citep{lucassen1988effects}, process mining~\citep{vanderAalst2016process},
+and bounded synthesis~\citep{gulwani2011flashfill,solarlezama2006sketching}.
+Its induced verifiers inherit the limitation of likely
+invariants~\citep{ernst2001daikon}: an observed hull is evidence, not proof.
 
 \paragraph{Reuse, caching, and optimization of agents.}
+TraceCompiler~\citep{elyadouni2026tracecompiler} also mines agent traces into
+mostly deterministic workflows, uses argument-level producer evidence, and
+refuses underdetermined behavior. \method studies a narrower execution unit:
+initial read-only prefixes synthesized in a bounded DSL, with effect and
+position barriers and a fixed-candidate finite-sample admission rule.
+This composition and its measured limits distinguish the work; trace-to-program
+reuse and provenance are not unique to \method. No matched execution comparison
+with TraceCompiler is reported.
 AWM induces reusable workflows that guide subsequent model generations
 \citep{wang2025awm}; GAC executes grounded prefixes without those decisions.
 Plan caching reuses plans \citep{zhang2025plancache}; EvoC2F compiles an
@@ -50,10 +52,8 @@ marginal-coverage and expected-loss guarantees, which
 differ~\citep{vovk2005algorithmic,angelopoulos2024crc}.
 
 \paragraph{Tool-use safety and evaluation.}
-ToolEmu and AgentDojo evaluate agents against hazardous or injected tool
-environments~\citep{ruan2024toolemu,debenedetti2024agentdojo}, the regime
-our perturbation studies probe (\cref{app:limits}). BFCL, ToolLLM, NESTFUL,
-API-Bank, AppWorld, ToolSandbox, and $\tau^2$-bench score tool use broadly
-\citep{patil2025bfcl,qin2023toolllm,basu2025nestful,li2023apibank,trivedi2024appworld,lu2025toolsandbox,barres2025tau2};
-\method runs a live agent on BIRD~\citep{li2023bird} and uses four of these as
-compiler substrates, reporting what each refuses (\cref{app:external}).
+ToolEmu and AgentDojo motivate adversarial tool evaluation
+\citep{ruan2024toolemu,debenedetti2024agentdojo}. Tool-use benchmarks
+\citep{patil2025bfcl,qin2023toolllm,basu2025nestful,li2023apibank,trivedi2024appworld,lu2025toolsandbox,barres2025tau2}
+measure broader capabilities; \method measures live BIRD efficiency and four
+compiler substrates (\cref{app:external}).

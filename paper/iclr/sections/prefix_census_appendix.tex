@@ -81,19 +81,20 @@ entry state, the analogue of the AppWorld prologue relaxation of
 
 \paragraph{Findings.}
 \Cref{tab:prefix-census} gives the census. Read-only openings of two or more
-calls are a minority everywhere but one architecture: 16.3\% of OpenHands
+calls are a minority in the three newly analyzed corpora: 16.3\% of OpenHands
 trajectories, 32.5\% of SWE-agent trajectories (47.3\% with shell reads
 admitted), 3.9\% of $\tau$-bench runs under the strict first-boundary rule
 (51.7\% once the identity-collecting user turns are folded into entry state),
 and 41.0\% of AppWorld's released trajectories, where the split is by
 architecture (full-code 99.96\%, iterative function calling 71.4\%, ReAct
 5.7\%, plan-and-execute 2.1\%), consistent with \cref{tab:appworld-dispatch}.
-The first barrier explains most of the remainder and is a scaffold habit rather
-than a workload property: 87.5\% of OpenHands trajectories open with the
-model-side \code{think} tool, 47.0\% of SWE-agent trajectories open by creating
-a reproduction script (a write), 99.7\% of $\tau$-bench openings are cut by
-the next user turn, and 45.9\% of AppWorld trajectories open with the
-undeclared API-documentation call.
+First calls and first barriers are different counts: 54{,}045/67{,}074
+OpenHands trajectories (80.6\%) open with \code{think}, while it is the first
+blocking tool in 58{,}682/67{,}074 (87.5\%), sometimes after earlier reads.
+On SWE-agent, 47.0\% open with \code{create} (a write); 99.7\% of
+$\tau$-bench openings end at a user turn, and AppWorld's first barrier is the
+undeclared API-description call in 45.9\%. These are observational differences:
+architecture, model, workload, and catalog effects are not isolated.
 
 Groundability under \cref{eq:prefix} separates the scaffolds further.
 On OpenHands, 79\% of read-only openings are groundable (12.8\% of all
