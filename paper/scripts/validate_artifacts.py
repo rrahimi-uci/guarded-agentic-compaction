@@ -1130,6 +1130,15 @@ def validate_prefix_census() -> None:
        "prefix census: appendix subsection includes the generated table")
     ok(r"\input{sections/prefix_census_appendix}" in (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8"),
        "prefix census: appendix.tex inputs the subsection")
+    if appendix.exists() and ("openhands", "primary") in rows:
+        text = appendix.read_text(encoding="utf-8")
+        row = rows[("openhands", "primary")]
+        for field in ("first_call", "first_barrier"):
+            count = row[field]["think"]
+            fraction = f"{count:,}/{row['traces']:,}".replace(",", "{,}")
+            percentage = f"{100 * count / row['traces']:.1f}\\%"
+            ok(fraction in text and percentage in text,
+               f"prefix census: OpenHands {field} think count and share match the retained denominator")
 
 
 def validate_demo_suite() -> None:
@@ -1899,7 +1908,9 @@ def validate_live_extensions() -> None:
         compiled_only += sum(base.get(k, False) and not v for k, v in comp.items())
     ok(episodes == 810 and compiled_only == 1,
        "§7: 810 held-out episodes under a compiled artifact on the calibrated model with one compiled-only failure")
-    ok("Across 810 held-out GitHub episodes run under a compiled artifact" in (PAPER / "iclr/sections/discussion.tex").read_text(encoding="utf-8"),
+    discussion = (PAPER / "iclr/sections/discussion.tex").read_text(encoding="utf-8")
+    ok(f"Across {episodes} compiled held-out GitHub episodes" in discussion
+       and "calibrated" in discussion and "354 distinct" in discussion,
        "§7 states the 810-episode headline")
 
     # -- second-model replication ----------------------------------------------------
@@ -3528,6 +3539,10 @@ def validate_graded_issue_gate_extension() -> None:
                 ok(all(item in text for item in expected),
                    "gate extension: appendix subsection quotes the audited cohort sizes, bound, threshold, and test counts")
                 ok(r"\input{tables/gate_extension.tex}" in text, "gate extension: appendix subsection inputs the generated table")
+                ok("exploratory admission calculation" in text
+                   and "not a certificate at the nominal" in text
+                   and "mixed-frame procedure is not established" in text,
+                   "gate extension: nominal arithmetic is distinguished from adaptive-procedure coverage")
             discussion = (PAPER / "iclr/sections/discussion.tex").read_text(encoding="utf-8")
             ok(r"\cref{app:gate-extension}" in discussion,
                "gate extension: discussion points at the extension instead of calling the issue study simply retired")

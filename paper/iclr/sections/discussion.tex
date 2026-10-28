@@ -1,23 +1,17 @@
 \section{Discussion and Limitations}
 \label{sec:discussion}
 
-Across 810 held-out GitHub episodes run under a compiled artifact on the
-calibrated model in six studies, one produced a compiled-only contract
-failure: 1 of 270 on the excerpt-bearing contracts (one-sided bound 1.7\%) and
-0 of 540 on the outcome-only cross-repository contract (that subset covers
-354 distinct records) (\cref{app:stats});
-\cref{app:limits} pairs limitations with protocols and \cref{app:claims} maps
-claims to evidence.
+Across 810 compiled held-out GitHub episodes in six studies on the calibrated
+model, compiled-only failures are 1/270 on excerpt-bearing contracts
+(one-sided bound 1.7\%) and 0/540 on outcome-only contracts (354 distinct
+records; \cref{app:stats}). \Cref{app:claims} maps claims to evidence.
 
-\paragraph{What the certificates cover.} The primary registered certificates
-(\cref{tab:certificates}, \cref{app:certificates}) are support-sufficiency
-statements about a replay-contract event with no observed failures here: they
-certify neither graded selectivity of $q$ ---
-the cross-repository learned and support-only arms were indistinguishable,
-and an amended 184-group issue study retired before a registered sequential extension admitted
-$\eta=0.50$ on 311 pooled groups without evidence of selectivity (\cref{app:gate-extension}) --- nor the continuation, so the
-compiled-only misses lie outside them; the end-to-end certificate is
-per-candidate and covers one family. Every bound assumes i.i.d.\ groups:
+\paragraph{Certificate assumptions.} \Cref{tab:evidence-scope,tab:certificates}
+separate replay from final-answer risk. The amended 184-group issue study
+retired; a sequential extension selects $\eta=0.50$ on 311 pooled groups,
+but its adaptive extension and mixed sampling frames leave nominal coverage
+unestablished (\cref{app:gate-extension}). Every registered certificate assumes
+i.i.d.\ groups:
 counting a creation day or an author as one unit retires every primary family
 under the registered grid (\cref{tab:effective-units}; single-rule sensitivity
 in \cref{app:config}), and AppWorld's bound retires at scenario or supervisor
@@ -34,7 +28,16 @@ completeness checking or contract discovery (\cref{sec:res-more}).
 Fresh adapted AWM comparisons span three workflows and two models, but one
 cell does not establish five-point noninferiority; no owned backlog records
 and only one open PR limit branch coverage (\cref{app:generalization-gate}).
-Native browser and compiler-only causal comparisons remain missing. Manual
-authoring is unpriced; the statistical gate adds no observed runtime value on
-these candidates. Writes, handoffs, hosted tools, undeclared effects and
-removed-turn guardrails lie outside \cref{prop:admission}.
+Writes, handoffs, hosted tools, undeclared effects and removed-turn guardrails
+lie outside \cref{prop:admission}.
+
+\paragraph{Remaining comparison and lifecycle cost.}
+Native browser and matched compiler comparisons remain missing. A prospective
+comparison must freeze candidate families before calibration, retain rejected
+families, and compare full admission with simpler compilation using matched
+continuations, task errors, wrong dispatches, fallback, and total cost. It is
+unrun; identical routing on admitted artifacts cannot answer that question.
+The reported deployment savings exclude engineering, review, monitoring, and
+recompilation. Snapshot invalidation resets amortization: even a profitable
+per-episode prefix may never repay discovery before it expires
+(\cref{app:lifecycle}).

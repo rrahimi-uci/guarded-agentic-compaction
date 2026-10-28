@@ -4,11 +4,12 @@ The standard agent loop pays for a model decision at every tool
 boundary~\citep{yao2023react}. That flexibility is valuable while a workflow is
 novel. When an agent repeatedly takes the same read-only evidence path with
 invariant data dependencies, those decisions offer a candidate for
-specialization. Across 157,280 released trajectories from four agent
-scaffolds, between 4\% and 41\% of episodes open with a read-only prefix of
-two or more calls, and 2--13\% with one whose arguments are groundable from
-the entry state (\cref{app:prefix-census}); which end of that range an agent
-sits on is set by its architecture, not its workload.
+specialization. Across 157,280 released trajectories, read-only openings of
+two or more calls account for 4--41\% per corpus; in the three corpora with
+tool results, 2--13\% have groundable openings (\cref{app:prefix-census}).
+Prevalence differs across
+scaffolds; these observational comparisons do not isolate architecture from
+model, workload, or tool-catalog effects.
 
 Removing that decision is not ordinary caching: a tool argument may depend on
 an earlier observation, a repeated sequence may cross an approval or write, a
@@ -30,16 +31,15 @@ justified prefix \code{record} $\rightarrow$ \code{labels}; the agent still
 chooses the limit and writes the answer. That two-read artifact passes 92/92
 calibration groups at $\alpha=0.05$ (upper bound 0.0498).
 
-An earlier 18-record study supplies the counterexample: its three-read
-artifact, admitted at a looser $\alpha=0.10$ (a 45-group floor), passed all 45
-calibration replays and the tool contract on every
-held-out record, yet issue \#6602 lost the URL from a Markdown link and only
-17/18 downstream answers stayed exact; a provider-free continuation check, run
-after the model's answer, detects that miss. Together the two cohorts show why
-recurrence only proposes a candidate (\cref{fig:provenance} draws the first).
+This refusal is a grounding decision, not evidence of improved task quality:
+recurrence-only replay later matches GAC's 30/30 held-out answers with one
+fewer request (\cref{sec:res-primary}). Conversely, an earlier admitted
+three-read artifact passes replay but loses a URL in issue \#6602's final
+answer (17/18 exact; \cref{app:limits}). Grounding, replay fidelity, and
+answer quality are distinct obligations.
 
 
-The closest precedent is trace compilation: Dynamo~\citep{bala2000dynamo}
+The classical precedent is trace compilation: Dynamo~\citep{bala2000dynamo}
 and tracing JITs~\citep{gal2009tracejit} compile a hot path behind
 \emph{guards} and fall back when one fails, as
 deoptimization~\citep{holzle1992deopt} restores unoptimized execution.
@@ -51,8 +51,9 @@ speculation, since the ``interpreter'' calls the outside world; and the
 residual error rate, being statistical, needs a finite-sample bound.
 
 We study these obligations through \emph{guarded agentic compaction} (\method),
-a compile-or-retire trace-to-program system for recurrent read-only prefixes
-(\cref{fig:pipeline}). We ask: \textbf{RQ1}, which recurrent regions admit
+a system that discovers and executes grounded read-only prefixes with
+explicit admission assumptions and refusal conditions (\cref{fig:pipeline}).
+We ask: \textbf{RQ1}, which recurrent regions admit
 a grounded program? \textbf{RQ2}, how much work does compilation remove at
 a stated quality tolerance? \textbf{RQ3}, which admission safeguards add
 measurable protection? The contributions are:

@@ -69,7 +69,7 @@ pdftotext -f 1 -l 1 build/main.pdf - | head -3   # must say "Anonymous authors"
 pdfinfo build/main.pdf | grep Author             # must print nothing
 ```
 
-The October 16 review build ends Section~8 on page~10 and the AI Use Statement opens page~11. Rebuild and re-check before
+The October 28 evidence-scope build ends Section~8 on page~10 and the AI Use Statement opens page~11. Rebuild and re-check before
 uploading: even small content changes can alter pagination.
 
 ## Page budget
@@ -100,3 +100,24 @@ Protocols, sealed inputs, checkpoints, and analysis remain under
 `experiments/{fresh_safeguards,safeguard_mechanisms,live_safeguard_recovery,live_recovery_completion}/`.
 The publication manifest now covers these evidence directories. See
 `notes/live_recovery_integration.md` for validation and publication boundaries.
+
+## October 28 evidence-scope revision
+
+The main text now states the simpler recurrence-only result alongside GAC,
+summarizes evidence and certificate scope in one table, compares TraceCompiler,
+and explains discovery amortization within each compatible snapshot's lifetime.
+The prefix census distinguishes first calls from first blocking tools and does
+not attribute cross-corpus differences solely to architecture.
+
+The sequential issue-gate extension retains its numerical results but is labeled
+an exploratory nominal admission calculation: coverage for its adaptive,
+mixed-frame procedure is not established. The historical protocol is preserved;
+its interpretation is corrected in
+[`interpretation_correction.md`](../results/graded_issue_gate/interpretation_correction.md).
+
+The missing comparison across admitted and rejected candidates has a
+[`prospective protocol`](../supplementary/matched-compiler-candidate-protocol.md).
+It is **unrun and unsealed** and supplies no new evidence or spending approval.
+The source, both ICLR PDF copies, local OpenReview metadata and publication
+manifest are maintained together; updating OpenReview or merging the PR remains
+a separate author action.

@@ -1,19 +1,9 @@
 \section{Results}
 \label{sec:results}
 
-Three results carry the paper. First, on recurrent GitHub workflows the
-compiled agent matches the unchanged agent on held-out contracts while
-removing about two-thirds of model requests, and against an automated reuse
-baseline, adapted Agent Workflow Memory, it lowers estimated deployment cost
-by 36.9--79.1\% within a preregistered accuracy tolerance in five of six
-workflow/model cells (\cref{sec:res-primary}). Second, on the public BIRD
-benchmark a live SQL agent's schema-first opening compiles on 26 of 31
-databases with 45--50\% fewer requests and no detected accuracy loss
-(\cref{sec:res-bird}). Third, the compiler refuses what it cannot certify:
-NESTFUL, API-Bank, and BFCL v4 fall below the calibration floor, and
-AppWorld's admitted program is rarely dispatchable (\cref{sec:res-refusal}).
-Certificate levels, replications, and the safeguard studies are summarized in
-\cref{sec:res-more} and detailed in the appendix.
+Compilation reduces model work on recurrent GitHub workflows and schema-first
+BIRD openings; the trace benchmarks expose support and dispatch limits.
+\Cref{tab:evidence-scope} separates these measurements from the certificates.
 
 \subsection{Primary workflows against the unchanged agent, a hand-written program, and workflow memory}
 \label{sec:res-primary}
@@ -52,7 +42,8 @@ values and bootstrap intervals in \cref{tab:absolute-resources,tab:reduction-ci}
 every range. These are marginal per-episode savings within one snapshot: every
 artifact pins its snapshot digest and abstains on any other (a new snapshot is
 recompiled), and discovery cost alone breaks even after 411, 183, and 181
-episodes per family (\cref{app:stats}). The discordant pair is one
+episodes per family (\cref{app:stats}); savings must repay that cost within
+each compatible snapshot's lifetime. The discordant pair is one
 baseline-only miss (backlog record 5189, an ungrounded excerpt) against zero
 compiled-only misses (McNemar $p=1$; one-sided 95\% bound on compiled-only
 discordance 3.3\%); a rerun of the 30 records scored 30/30 in every arm
@@ -62,6 +53,15 @@ knowledge also reach 90/90 and tie on requests. Pooled across families, they
 use fewer interfaces and tokens and cost marginally less, while compilation has
 lower latency (\cref{tab:manual-resources}): we claim discovery and admission,
 not runtime dominance.
+
+\paragraph{What simpler compilation achieves.}
+On the sealed 30-record issue cohort, recurrence-only three-read replay and
+\method both satisfy 30/30 contracts, but replay uses one model request
+against \method's two (\cref{tab:recurrence-only}). Grounding refuses the
+varying \code{comments.limit} argument; that conservatism buys no measured
+quality improvement here. This is a whole-system comparison with different
+evidence packaging, not an isolated guard intervention. A matched compiler
+comparison including rejected candidates remains unrun (\cref{sec:discussion}).
 
 Against an automated reuse baseline, a separately frozen three-workflow,
 two-model comparison with an adapted offline Agent Workflow
@@ -73,7 +73,8 @@ whose induced workflow text leaves every step a model decision. Five of six
 cells pass the registered five-point accuracy noninferiority margin with
 six-comparison correction; second-model backlog is inconclusive (142/144 versus
 143/144; loss bound 5.86\%). Only the two PR cells pass a two-point margin;
-none passes one point. AWM's native browser evaluation is not reproduced, and
+none passes one point. Five points is a research tolerance, not a safety
+threshold. AWM's native browser evaluation is not reproduced, and
 no compiler-placed comparator was run (\cref{app:limits}).
 
 On \code{gpt-6-luna} and Anthropic \code{claude-sonnet-5}, re-discovery from
@@ -138,6 +139,15 @@ a prologue recovers only 2 more of 4{,}680 (\cref{app:limits}).
 \subsection{Certificates, replications, and further studies}
 \label{sec:res-more}
 
+\begin{table}[t]
+  \centering
+  \caption{Evidence scope. Statistical statements retain their sampling and
+  selection assumptions; measured savings do not certify answer quality.}
+  \label{tab:evidence-scope}
+  \footnotesize
+  \input{tables/evidence_scope.tex}
+\end{table}
+
 \emph{What is certified} (\cref{app:certificates}). Each primary artifact was
 admitted at 92/92 zero-violation calibration groups ($U_{\hat\eta}=0.0498$,
 conditional on i.i.d.\ groups), a support-sufficiency certificate that is
@@ -151,9 +161,9 @@ single pre-registered rule, 0.035 under the primary grid). What the statistical
 stage adds at runtime is measurable, and null on these candidates: full
 statistical admission, support-only admission, and deterministic guards give
 identical routing and evidence on all 2{,}724 record--model cases of the AWM
-comparison, and the gate's contribution is its sample floor, which is what
-refuses the thin benchmarks of \cref{sec:res-refusal} and, on a second
-provider, backlog routing.
+comparison. This conditional-on-admission ablation does not test whether
+compilation excluded bad candidates. The sample floor refuses the thin
+benchmarks of \cref{sec:res-refusal} and second-provider backlog routing.
 
 \emph{Newer records within a snapshot} (\cref{app:breadth}). On a two-read
 PR-outcome task over five frozen repositories, \method completes 120/120 exact
