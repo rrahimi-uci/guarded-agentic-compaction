@@ -1,0 +1,60 @@
+\subsection{Sequential calibration extension of the issue gate}
+\label{app:gate-extension}
+
+The retired 184-group study above was extended once, under a protocol
+registered after that retirement had been observed
+(\path{paper/results/graded_issue_gate/extension_protocol.md}; sealed cohort
+\path{extension_preflight.json}; provider-free audit
+\path{audit_extension.json}). The fresh calibration cohort is every remaining
+eligible issue of the pinned snapshot after excluding all record numbers
+retained under \path{paper/results/} and \path{experiments/} (the original rule
+scanned only the former; the 474 original and 90 pilot issues are disjoint from
+the 1,728 \path{experiments/} numbers), the pilot cohort, and the original 474:
+127 issues (plain text 80, bare URL 43, Markdown link 4), a size forced by
+pool exhaustion rather than chosen. The score, eleven-point grid,
+$\alpha=0.05$, and $\delta=0.10$ are the frozen v2 ones, hash-pinned; the 90
+test issues stayed sealed until the pooled threshold was fixed. An earlier
+attempt the same day failed on provider authentication before any episode
+completed (\path{extension_abort.json}; no cost). The executed run attempted
+397 episodes at an estimated \$0.19.
+
+\Cref{tab:gate-extension} gives the full sweep. The candidate dispatched on all
+127 fresh issues with 2 final factual-task errors. On the fresh set alone no
+threshold is admissible (best $U=0.0682$ at $\eta=0.30$). On the pooled 311
+groups (4 errors) six grid points are admissible---$\eta=0.02$ (117 groups, no
+error, $U=0.0394$) and $\eta\in\{0.20,0.25,0.30,0.40,0.50\}$---while
+$\eta=0.05$--$0.17$ are not, so the admissible set is not an interval; the
+registered rule takes the largest, $\eta=0.50$: 261/311 groups (83.9\%
+coverage), 4 errors, $U=0.0443$. The descriptive split at $\eta=0.02$ places
+all four errors above the threshold (4/194 vs.\ 0/117), but a one-sided Fisher
+test gives $p=0.150$: no evidence of graded selectivity.
+
+Under $\eta=0.50$ the learned routing sent 76/90 test issues to the compiled
+runtime (all 76 actually dispatched) and 14 to the unchanged agent. Final-task
+errors were 2/90 for the unchanged agent, 3/90 for learned routing (one-sided
+95\% bound 8.4\%), and 5/90 for the support-only accept-all routing. Two of
+the three learned-arm errors followed compiled dispatch (issues 4149 and 7291;
+2/76, bound 8.1\%), the adverse events this protocol foregrounds. Paired with
+the unchanged agent, 85 issues were correct under both, 3 only under the
+unchanged agent, 2 only under learned routing, and none wrong under both.
+Learned routing used 132 provider requests against 360 for the unchanged
+agent on the same 90 issues, with the pre-dispatch read counted for every arm.
+This extension shows that the frozen score can certify intermediate coverage
+on this pooled set at the registered level. It is a single-repository,
+sequential result on a mixture of two sampling frames (quota-enriched 184 plus
+the natural 127 remainder); it does not establish graded selectivity,
+cross-repository generalization, or a quality benefit, and the 90-issue test
+cannot confirm the 5\% risk level on its own.
+
+\begin{table}[t]
+  \centering
+  \caption{Sequential calibration extension of the issue gate: the frozen
+  eleven-point sweep on the pooled (184 + 127) and fresh (127) calibration
+  groups with accepted groups $n$, task errors $k$, the one-sided
+  Clopper--Pearson bound $U$ at level $\delta/|\Lambda|$, and coverage;
+  $\dagger$ marks admissible rows ($U\le 0.05$). The registered rule selects the
+  largest admissible threshold.}
+  \label{tab:gate-extension}
+  \footnotesize
+  \input{tables/gate_extension.tex}
+\end{table}

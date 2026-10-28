@@ -92,6 +92,11 @@ Rows marked "not pinned" are candidates for the next validator extension.
 | 4, 2 | Final factual-task errors on 200 development and 184 calibration dispatches (all dispatched) | `audit_v2.json` `groups` | `audit_graded_issue_gate.py` |
 | 64/184, 0.0708; 153/184, 0.0546 | Frozen eleven-point grid at $\eta=0.02$ (0 violations) and $\eta=0.50$ (2 violations): upper bounds above the 0.05 limit, so no threshold is admitted and the gate retires before the test | `audit_v2.json` `calibration_grid` | `audit_graded_issue_gate.py` (exact counts and bounds) |
 | 184/184, 2 | Support-only ablation accepts every calibration group with the same two errors; it disables the risk budget, so no held-out comparison follows | `audit_v2.json` | same |
+| 127, 80/43/4, 311, 1,728, 55 | Sequential extension: forced-size fresh calibration cohort and strata, pooled groups, `experiments/` record numbers now excluded, pilot-only records kept excluded | `graded_issue_gate/extension_preflight.json` `remaining_pool`, `exclusion` | `validate_graded_issue_gate_extension` (sealed cohort rebuilds byte-identically) |
+| 2, 4; 117/311, 0.0394; 261/311, 0.0443; 0.50; 0.0682 | Fresh and pooled task errors; pooled grid at $\eta=0.02$ and $\eta=0.50$; admitted threshold (largest of six admissible points, not an interval); best fresh-only bound (retire) | `graded_issue_gate/audit_extension.json` `grids` | `audit_graded_issue_gate_extension.py` (exact counts and bounds); validator regenerates `gate_extension.tex` |
+| 4/194, 0/117, 0.150 | Descriptive split at $\eta=0.02$ and one-sided Fisher $p$ (no selectivity evidence) | `audit_extension.json` `fisher_split` | same |
+| 76/90, 3/90, 2/90, 5/90, 2/76, 8.4%, 8.1%, 85/3/2/0, 132/360 | Test routing, learned / unchanged / support-only errors, errors after compiled dispatch (4149, 7291), one-sided 95% bounds, paired cells, provider requests | `audit_extension.json` `test`; `results_extension.json` `outcomes` | validator |
+| $0.19, 397, $0 | Extension estimated spend and attempted episodes; aborted first attempt (401) spent nothing | `results_extension.json` `spend`; `extension_abort.json` | validator |
 | $0.1627 | Estimated spend of the amended run | `audit_v2.json` `v2_estimated_cost_usd` | spend arithmetic check in the audit |
 
 ## October 15 safeguard and recovery additions

@@ -129,3 +129,14 @@ def test_extension_table_regenerates_from_audit(tmp_path: Path, monkeypatch) -> 
     assert audit.table() == committed
     data = json.loads(audit.AUDIT_PATH.read_text())
     assert len(data["grids"]["pooled"]["rows"]) == len(GRID) == 11
+
+
+def test_secret_shaped_strings_are_redacted_from_retained_episodes() -> None:
+    token = "hf_" + "A" * 30
+    key = "sk-" + "b" * 40
+    value = {"events": [{"output": [f"use {token} here", {"nested": ["export " + "OPENAI_API" + "_KEY=x; " + key]}]}]}
+    redacted, count = study.redact_secret_shaped(value)
+    text = json.dumps(redacted)
+    assert count == 3 and token not in text and key not in text and "_KEY=x" not in text
+    assert text.count("<redacted-secret-shaped>") == 3
+    assert study.redact_secret_shaped({"ok": "sk-short"})[1] == 0

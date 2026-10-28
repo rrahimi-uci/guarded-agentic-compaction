@@ -3507,6 +3507,30 @@ def validate_graded_issue_gate_extension() -> None:
                     fresh_table = module.table(audit)
                 ok(fresh_table == table_path.read_text(encoding="utf-8"),
                    "gate extension: ICLR table regenerates byte-identically from the audit")
+            section = PAPER / "iclr/sections/gate_extension_appendix.tex"
+            appendix = (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8")
+            ok(section.exists() and r"\input{sections/gate_extension_appendix}" in appendix,
+               "gate extension: appendix subsection exists and is input from appendix.tex")
+            if section.exists():
+                text = section.read_text(encoding="utf-8")
+                pooled = audit.get("grids", {}).get("pooled", {})
+                last = (pooled.get("rows") or [{}])[-1]
+                groups = audit.get("groups", {})
+                expected = [str(groups.get("fresh_calibration", {}).get("groups")),
+                            str(groups.get("pooled_calibration", {}).get("groups")),
+                            f"{last.get('upper', 0):.4f}", f"\\eta={pooled.get('threshold', 0):.2f}",
+                            f"{last.get('n')}/{groups.get('pooled_calibration', {}).get('groups')}"]
+                test = audit.get("test") or {}
+                if test:
+                    expected += [f"{test['routed_to_compiled']}/{test['issues']}",
+                                 f"{test['arms']['learned']['task_errors']}/{test['issues']}",
+                                 f"{test['arms']['baseline']['task_errors']}/{test['issues']}"]
+                ok(all(item in text for item in expected),
+                   "gate extension: appendix subsection quotes the audited cohort sizes, bound, threshold, and test counts")
+                ok(r"\input{tables/gate_extension.tex}" in text, "gate extension: appendix subsection inputs the generated table")
+            discussion = (PAPER / "iclr/sections/discussion.tex").read_text(encoding="utf-8")
+            ok(r"\cref{app:gate-extension}" in discussion,
+               "gate extension: discussion points at the extension instead of calling the issue study simply retired")
     else:
         ok(abort_path.exists(), "gate extension: not executed; an abort record explains why")
         if abort_path.exists():

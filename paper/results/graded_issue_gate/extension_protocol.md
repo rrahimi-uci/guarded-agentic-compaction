@@ -1,9 +1,10 @@
 # Sequential calibration extension of the graded issue gate
 
-**Status: registered 2026-10-28 before any provider call; the first execution
-attempt the same day was rejected by the provider (401 `invalid_api_key`) before
-any episode completed, so the design is sealed but not yet executed (see the
-execution record at the end).** This is a *sequential extension* of the amended v2
+**Status: registered 2026-10-28 before any provider call; first attempt the same
+day rejected by the provider (401) before any episode completed; executed
+2026-10-28 after a valid key was supplied. Pooled analysis admitted
+`eta = 0.50`; the sealed 90-issue test was then run once. See the execution
+record and observed result at the end.** This is a *sequential extension* of the amended v2
 study in `paper/supplementary/graded-issue-end-to-end-gate-protocol.md`. It was
 designed after the first calibration result (184 groups, 2 task errors, no
 admissible threshold; `results_v2.json`, `audit_v2.json`) had been observed.
@@ -154,3 +155,59 @@ re-running the same sealed design with a valid key is a retry of this
 protocol, not an amendment: no cohort, feature, grid, budget, or analysis
 order changes, and the retry starts a fresh `checkpoint_extension.json`.
 The 90 test issues remain untouched.
+
+**2026-10-28, attempt 2: executed as sealed.** With a valid key the same
+command rebuilt the sealed cohort byte-identically, verified every hash pin,
+and completed 127/127 fresh calibration episodes, then 90 unchanged-agent,
+76 + 14 learned-routing, and 90 support-only test episodes (397 attempted, 0
+failures, 0 incomplete; every episode retained under `extension_episodes/`).
+Recorded estimated cost $0.18775096 (public pricing; no invoice verified).
+Four test-phase episode files quoted credential-shaped strings that appear in
+public issue text (a Hugging Face token and two `sk-` strings pasted by issue
+authors); they were replaced by `<redacted-secret-shaped>` in the retained
+copies, with counts per episode and redacted digests recomputed. The
+checkpoint rows and every grade are unaffected.
+
+## Observed extension result
+
+The candidate dispatched on all 127 fresh issues with 2 final factual-task
+errors (issues 4181, 5854). Pooled with the retained 184 (errors 2058, 7360):
+311 groups, 4 errors.
+
+| Frozen threshold | Pooled accepted / 311 | Errors | Upper bound | Fresh accepted / 127 | Errors | Upper bound |
+|---:|---:|---:|---:|---:|---:|---:|
+| 0.02 | 117 | 0 | 0.0394 (admissible) | 53 | 0 | 0.0849 |
+| 0.05 | 145 | 2 | 0.0575 | 61 | 1 | 0.1056 |
+| 0.08 | 162 | 2 | 0.0516 | 66 | 1 | 0.0979 |
+| 0.11 | 177 | 3 | 0.0563 | 72 | 1 | 0.0901 |
+| 0.14 | 187 | 3 | 0.0534 | 79 | 1 | 0.0824 |
+| 0.17 | 195 | 3 | 0.0512 | 81 | 1 | 0.0804 |
+| 0.20 | 207 | 3 | 0.0483 (admissible) | 88 | 1 | 0.0742 |
+| 0.25 | 220 | 3 | 0.0455 (admissible) | 91 | 1 | 0.0719 |
+| 0.30 | 230 | 3 | 0.0436 (admissible) | 96 | 1 | 0.0682 |
+| 0.40 | 247 | 4 | 0.0468 (admissible) | 103 | 2 | 0.0802 |
+| 0.50 | 261 | 4 | 0.0443 (admissible) | 108 | 2 | 0.0766 |
+
+(a) Primary: six pooled grid points are admissible (0.02 and 0.20-0.50; the
+set is not an interval); the registered rule selects the largest,
+`eta = 0.50`, with 261/311 accepted (83.9% coverage), 4 errors, `U = 0.0443`.
+(b) Secondary: the fresh set alone retires (best `U = 0.0682` at 0.30).
+(d) Descriptive: all four pooled errors sit above `eta = 0.02` (4/194 vs
+0/117); one-sided Fisher `p = 0.150`, no evidence of graded selectivity.
+The support-only ablation accepts 311/311 with `U = 0.0377` under its
+twelve-point split; `alpha = 1` disables the risk decision by design.
+
+(c) Test under `eta = 0.50`: 76/90 issues routed to the compiled runtime (all
+76 actually dispatched), 14 to the unchanged agent. Final-task errors:
+unchanged agent 2/90 (one-sided 95% bound 6.8%); learned routing 3/90 (bound
+8.4%), of which 2 followed compiled dispatch (issues 4149, 7291; 2/76, bound
+8.1%) and 1 occurred in the unchanged fallback; support-only routing 5/90
+(bound 11.3%). Paired unchanged vs learned: 85 both correct, 3 unchanged-only,
+2 learned-only, 0 both wrong. Learned routing used 132 provider requests
+against 360 for the unchanged agent. The two wrong compiled dispatches are the
+adverse events this protocol foregrounds. The result shows certifiable
+intermediate coverage on this pooled set at the registered level; it does not
+show graded selectivity, generalization beyond this repository, or a quality
+benefit, and the 90-issue test is too small to confirm the 5% level by itself.
+`audit_extension.json` recomputes every number above from retained records
+with zero provider calls.

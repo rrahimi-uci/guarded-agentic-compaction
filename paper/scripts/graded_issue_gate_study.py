@@ -12,6 +12,7 @@ import asyncio
 import json
 import math
 import os
+import re
 import sys
 import time
 from datetime import UTC, date, datetime
@@ -127,8 +128,39 @@ def _checkpoint(preflight_sha: str, candidate_sha: str, cap: float, *, path: Pat
             "provider_episodes_attempted": 0, "pending_batch": None}
 
 
+SECRET_SHAPED = tuple(re.compile(pattern) for pattern in (
+    r"sk-[A-Za-z0-9_-]{20,}", r"hf_[A-Za-z0-9]{20,}", r"OPENAI_API_KEY\s*=\s*[^\s$<{]"))
+EPISODE_REDACTION = ("Opaque provider reasoning items and encrypted_content fields were removed; "
+                     "credential-shaped strings quoted from public issue text were replaced by "
+                     "<redacted-secret-shaped>.")
+
+
+def redact_secret_shaped(value: Any) -> tuple[Any, int]:
+    """Replace credential-shaped substrings anywhere in a JSON value; returns (value, count).
+
+    Public issue comments occasionally quote pasted tokens. They are source content,
+    not study secrets, but the publication tree must not carry secret-shaped bytes.
+    """
+    count = 0
+
+    def visit(item: Any) -> Any:
+        nonlocal count
+        if isinstance(item, str):
+            for pattern in SECRET_SHAPED:
+                item, n = pattern.subn("<redacted-secret-shaped>", item)
+                count += n
+            return item
+        if isinstance(item, dict):
+            return {key: visit(val) for key, val in item.items()}
+        if isinstance(item, list):
+            return [visit(val) for val in item]
+        return item
+
+    return visit(value), count
+
+
 def retain_episodes(phase: str, results: list[Any], *, root: Path = EXT_EPISODES) -> Path:
-    """Keep every raw episode of a phase, redacted exactly as the v2 candidate discovery was."""
+    """Keep every raw episode of a phase, redacted as the v2 candidate discovery was plus secret shapes."""
     import graded_issue_recompile_candidate as candidate
     from guarded_agentic_compaction.schema.traces import content_digest
 
@@ -136,15 +168,16 @@ def retain_episodes(phase: str, results: list[Any], *, root: Path = EXT_EPISODES
     path = root / f"{phase}.json"
     data = json.loads(path.read_text()) if path.exists() else {
         "schema": "gac-graded-issue-gate-extension-episodes/v1", "phase": phase,
-        "redaction": "Opaque provider reasoning items and encrypted_content fields were removed.",
-        "episodes": []}
+        "redaction": EPISODE_REDACTION, "episodes": []}
     for result in results:
         raw = result.episode.to_dict()
         episode, n_reasoning, n_encrypted = candidate.redact_episode(raw)
+        episode, n_secret = redact_secret_shaped(episode)
         data["episodes"].append({
             "issue_number": int(result.issue_number), "trace_id": result.trace_id,
             "episode_digest": content_digest(raw), "redacted_episode_digest": content_digest(episode),
             "reasoning_items_redacted": n_reasoning, "encrypted_content_fields_redacted": n_encrypted,
+            "secret_shaped_strings_redacted": n_secret,
             "episode": episode})
     path.write_text(json.dumps(data, indent=2, sort_keys=True, default=str) + "\n")
     return path

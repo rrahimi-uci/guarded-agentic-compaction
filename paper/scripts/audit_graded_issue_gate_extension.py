@@ -167,12 +167,16 @@ def audit() -> dict:
         eta = grids["pooled"]["threshold"]
         for number in test_ids:
             assert decisions[number] == (model.score(study.risk_read(store, number)[0]) <= eta)
-        runs = checkpoint["runs"]
+        # A routing phase with no issues never writes a checkpoint entry; it is an empty arm.
+        runs = {phase: list(checkpoint["runs"].get(phase, [])) for phase in (
+            "extension_calibration_compiled", "test_baseline", "test_learned_compiled",
+            "test_learned_fallback", "test_support_compiled", "test_support_fallback")}
+        assert set(checkpoint["runs"]) <= set(runs)
         check_rows(runs["test_baseline"], test_ids)
         check_rows(runs["test_learned_compiled"], {n for n in test_ids if decisions[n]})
         check_rows(runs["test_learned_fallback"], {n for n in test_ids if not decisions[n]})
         check_rows(runs["test_support_compiled"], test_ids)
-        assert runs.get("test_support_fallback", []) == []
+        assert runs["test_support_fallback"] == []
         outcomes = study._test_outcomes(runs)
         assert outcomes == result["outcomes"]
 
@@ -180,7 +184,7 @@ def audit() -> dict:
             n = len(rows)
             k = sum(not bool(r["quality"]["overall"]) for r in rows)
             return {"attempted": n, "task_errors": k, "correct": n - k,
-                    "compacted": sum(int(r["dispatch"]["compacted"]) > 0 for r in rows),
+                    "compacted": sum(int(r.get("dispatch", {}).get("compacted", 0)) > 0 for r in rows),
                     "one_sided_95_upper_error_rate": round(clopper_pearson_upper(k, n, 0.95), 4) if n else 1.0}
 
         learned_rows = runs["test_learned_compiled"] + runs["test_learned_fallback"]
@@ -199,7 +203,7 @@ def audit() -> dict:
                     "both_wrong": sum(not base_ok[n] and not learned_ok[n] for n in test_ids)},
                 "wrong_after_compiled_dispatch": sorted(
                     r["issue_number"] for r in runs["test_learned_compiled"]
-                    if int(r["dispatch"]["compacted"]) > 0 and not bool(r["quality"]["overall"]))}
+                    if int(r.get("dispatch", {}).get("compacted", 0)) > 0 and not bool(r["quality"]["overall"]))}
 
     # Every raw episode retained, redacted, and tied to its checkpoint row digest.
     episodes = {}
