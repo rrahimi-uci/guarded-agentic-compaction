@@ -5,6 +5,72 @@ specifies the missing comparison identified in the ICLR review. It supplies no
 new experimental result, spend authorization, or statistical certificate. No
 cohort has been acquired and no implementation of this full design is claimed.
 
+The first-phase [feasibility report](../results/matched_compiler_feasibility/REPORT.md)
+now inventories retained sources, records count-only live availability probes,
+and computes prospective power. It concludes **no-go for confirmatory execution**;
+it does not seal this protocol or authorize provider spending. The 300-test-group
+design below is a reference design, not the selected execution sample size.
+
+## Research questions and decision criteria (first-phase specification)
+
+These questions are specified before any new provider experiment. The local
+version is a reviewable prospective design, not an externally registered or
+immutable execution preregistration.
+
+1. **Whole compiler policy:** does full GAC improve final-task quality relative
+   to recurrence-only compilation over a common, train-selected candidate
+   population, including candidates that GAC rejects?
+2. **Statistical admission:** does full GAC improve final-task quality relative
+   to support-only compilation when grounding, synthesis, structural contracts,
+   candidate order and continuation packaging are held fixed?
+3. **Economics:** what quality and total measured cost does each policy achieve
+   relative to the unchanged agent, including discovery, calibration, attempted
+   prefixes and fallback?
+
+The primary statistical family is the two paired quality contrasts per selected
+candidate family: 24 contrasts if 12 families are feasible. Use two-sided exact
+McNemar tests with Holm familywise error control at 0.05. Favorable evidence
+requires the estimated difference to favor GAC; an adverse significant result
+is reported as adverse. Three percentage points is the primary **planning effect**
+for power, with two- and five-point sensitivity scenarios and comparator-only
+success rates explicitly stated. It is not a promised effect or a confidence
+lower bound. Target at least 80% per-contrast planning power under the registered
+scenario, while publishing the full curve and its independence assumptions.
+Conservative Bonferroni thresholds are used for planning; joint study power is
+not inferred from per-contrast power. Freeze the final effect assumptions, number
+of contrasts and sample sizes before the test; do not choose them using final
+outcomes. A smaller family set needs a new prospective design and a narrower
+breadth claim, not silent deletion of unfavorable families.
+
+A practically persuasive positive pattern would combine a corrected quality
+gain and a point estimate of at least three points in at least two structurally
+distinct families across two repositories, with at least 10% measured deployment
+cost reduction versus the unchanged agent on those families. The three-point
+and 10% values are study-planning criteria, not universal safety or deployment
+thresholds; confidence intervals and complete setup-cost accounting accompany
+them. A significant nonzero gain whose point estimate exceeds three points does
+not establish a population gain of at least three points. Cost intervals remain
+descriptive unless a separate multiplicity plan is registered. A quality gain
+at greater cost than a simpler compiler is a tradeoff, not Pareto dominance.
+This pattern is an editorial decision criterion, not a new aggregate hypothesis
+test or a promise of acceptance.
+
+Support-only equivalence and recurrence-only superiority are legitimate findings.
+No selected family is replaced because an arm refuses, fails, or performs poorly.
+If statistical admission adds nothing, reduce that component's empirical claim.
+If simpler compilation matches quality at lower cost, revise the method or the
+paper's contribution rather than searching the held-out outcomes for a favorable
+subset. Fewer errors with inconclusive uncertainty do not establish improvement;
+nonsignificance does not establish equivalence.
+
+The proposed binary endpoint for this comparison is **final-task failure over
+all scheduled records**, including fallback and failed attempts. Wrong answers
+after compiled dispatch are separate conditional and per-scheduled-task
+diagnostics. Replay loss remains the compiler's existing calibration target.
+Measuring final answers does not upgrade a replay certificate. Any new end-to-end
+certificate needs a separate prospective procedure with untouched calibration
+evidence for the frozen policy, budgeted apart from this comparison.
+
 ## Question and relation to retained studies
 
 Does full GAC improve the final-task quality--cost tradeoff over simpler
@@ -37,8 +103,10 @@ benefit across a common candidate set. Those studies remain separate evidence.
    must be frozen before calibration; no second candidate may be substituted after
    a calibration rejection. Assign a record to only one primary family; repeated
    models or requests do not create new independent groups.
-5. Plan 300 calibration and 300 final-test groups per family. Freeze the exact
-   counts before execution. A group shortage is a preflight no-go, not permission
+5. Use 300 calibration and 300 final-test groups per family as the original
+   reference design; the feasibility audit shows that the test count is often
+   underpowered. Select final counts from prospective power and source availability,
+   and freeze the exact counts before execution. A group shortage is a preflight no-go, not permission
    to reuse records or adaptively extend a failed calibration. Archive class,
    author and time composition; family/repository generalization remains a separate
    question from within-family record inference.
@@ -72,9 +140,10 @@ Primary quality is exact source-grounded final-task success over **all scheduled
 records**, including baseline fallback. Failed or unattempted scheduled episodes
 remain incorrect and are separately counted; missing usage is never zero cost.
 
-For each family compare full GAC with each simpler compiler on the same 300 test
-records. Report both discordant counts, paired accuracy difference, and exact
-McNemar tests with Holm correction across all 24 contrasts. Report a conservative
+For each family compare full GAC with each simpler compiler on the same frozen
+test records (the original reference count is 300). Report both discordant counts,
+paired accuracy difference, and exact McNemar tests with Holm correction across
+all 24 contrasts. Report a conservative
 simultaneous accuracy-loss bound using the comparator-correct/GAC-incorrect count
 and one-sided Clopper--Pearson error budget 0.05/24. Five-point noninferiority is
 a research tolerance, not a safety target; two- and one-point margins are declared
@@ -106,8 +175,9 @@ not themselves establish independence or cross-domain generalization.
 
 ## Execution and prospective seal
 
-Within each family, balance all 24 arm orders (300 records permit 12 complete
-cycles plus 12 orders allocated by the frozen seed; report the exact imbalance).
+Within each family, balance all 24 arm orders (the reference 300 records permit
+12 complete cycles plus 12 orders allocated by the frozen seed; report the exact
+imbalance; 600 and 1,200 permit exact balance).
 Freeze provider settings, timeout, no-retry behavior, concurrency, missing-usage
 accounting, and interrupted-call handling. Use a fresh output directory, immutable
 seal and resumable ledger; a changed design requires a new study, not replacements.

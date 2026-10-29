@@ -1,0 +1,962 @@
+{
+  "availability_sha256": "da21bf8cb6fec219d6ca607ab6facfdfc418a2f32b8be9810b4043cdde3bc998",
+  "blockers": [
+    "Fresh complete source snapshots and a sealed overlap audit have not been acquired.",
+    "Twelve candidate families have not been discovered; repository replications are not distinct workflow structures.",
+    "Compiler-level comparator policies and matched continuation packaging are not implemented.",
+    "Final endpoints, sample sizes and independence assumptions require an executable prospective seal.",
+    "Current provider pricing, execution pilot, failure reserve and study-specific spending cap remain unset."
+  ],
+  "cohort_sealed": false,
+  "cost_reference": {
+    "authorized_spend_usd": 0,
+    "completed_baseline_cell_means": {
+      "backlog_attention|gpt-5.6-luna": {
+        "estimated_cost_usd": 0.0007557524305555556,
+        "input_tokens": 2772.1111111111113,
+        "output_tokens": 156.45138888888889,
+        "requests": 4.0
+      },
+      "backlog_attention|gpt-6-luna": {
+        "estimated_cost_usd": 0.00034356284722222223,
+        "input_tokens": 2718.5069444444443,
+        "output_tokens": 131.8125,
+        "requests": 4.0
+      },
+      "issue_type|gpt-5.6-luna": {
+        "estimated_cost_usd": 0.0008794610000000001,
+        "input_tokens": 4075.1633333333334,
+        "output_tokens": 198.86833333333334,
+        "requests": 4.0
+      },
+      "issue_type|gpt-6-luna": {
+        "estimated_cost_usd": 0.0003730699166666667,
+        "input_tokens": 4021.5533333333333,
+        "output_tokens": 154.39166666666668,
+        "requests": 4.006666666666667
+      },
+      "pr_outcome|gpt-5.6-luna": {
+        "estimated_cost_usd": 0.0006814559265442404,
+        "input_tokens": 2596.0901502504175,
+        "output_tokens": 130.92654424040066,
+        "requests": 4.0
+      },
+      "pr_outcome|gpt-6-luna": {
+        "estimated_cost_usd": 0.0003180784166666667,
+        "input_tokens": 2568.451666666667,
+        "output_tokens": 117.90166666666667,
+        "requests": 4.0
+      }
+    },
+    "designs": [
+      {
+        "fivefold_high_reference_usd": 85.4836092,
+        "historical_cost_reference_usd": [
+          6.18344442,
+          17.09672184
+        ],
+        "illustrative_setup_episodes": 5040,
+        "test_episodes": 14400,
+        "test_groups_per_family": 300,
+        "total_reference_episodes": 19440
+      },
+      {
+        "fivefold_high_reference_usd": 148.8048012,
+        "historical_cost_reference_usd": [
+          10.76377362,
+          29.760960240000003
+        ],
+        "illustrative_setup_episodes": 5040,
+        "test_episodes": 28800,
+        "test_groups_per_family": 600,
+        "total_reference_episodes": 33840
+      },
+      {
+        "fivefold_high_reference_usd": 212.12599320000004,
+        "historical_cost_reference_usd": [
+          15.34410282,
+          42.425198640000005
+        ],
+        "illustrative_setup_episodes": 5040,
+        "test_episodes": 43200,
+        "test_groups_per_family": 900,
+        "total_reference_episodes": 48240
+      },
+      {
+        "fivefold_high_reference_usd": 275.44718520000004,
+        "historical_cost_reference_usd": [
+          19.92443202,
+          55.08943704000001
+        ],
+        "illustrative_setup_episodes": 5040,
+        "test_episodes": 57600,
+        "test_groups_per_family": 1200,
+        "total_reference_episodes": 62640
+      },
+      {
+        "fivefold_high_reference_usd": 402.0895692,
+        "historical_cost_reference_usd": [
+          29.08509042,
+          80.41791384000001
+        ],
+        "illustrative_setup_episodes": 5040,
+        "test_episodes": 86400,
+        "test_groups_per_family": 1800,
+        "total_reference_episodes": 91440
+      },
+      {
+        "fivefold_high_reference_usd": 528.7319532000001,
+        "historical_cost_reference_usd": [
+          38.24574882,
+          105.74639064000002
+        ],
+        "illustrative_setup_episodes": 5040,
+        "test_episodes": 115200,
+        "test_groups_per_family": 2400,
+        "total_reference_episodes": 120240
+      }
+    ],
+    "qualification": "Historical frozen-price references, not current quotes, forecasts, spend caps or upper bounds. Excludes failed-call unknown charges, human work, acquisition, additional discovery and any separate final-answer calibration. New pilot and current pricing required.",
+    "source": "experiments/generalization_gate/checkpoint.json",
+    "source_sha256": "5266c44c42281153a485c924354e96fa583d6ddd0f3b4ca474e220d41406d92d"
+  },
+  "exclusions": {
+    "ambiguous_ids_excluded_from_every_repository": 7828,
+    "input_hashes": {
+      "experiments/fresh_safeguards/analysis/analysis.json": "fa150b31d92fffd0c8f976ba15920e33a5c366f74fe7544555c2d47bfa33f527",
+      "experiments/fresh_safeguards/artifacts/checkpoint.json": "5cc908629498b828bc3b60127ab0f89df7e6ea34ab1fafc0d0afe73b695794ea",
+      "experiments/fresh_safeguards/artifacts/preflight.json": "aff4ffc78e3d660a473272d455610645f7d5285b424e84a638213d1fb8013c9f",
+      "experiments/generalization_gate/analysis.json": "35a71518f5a0f0c56e117e9f2adbf209cec4e996247614bfbb76dc224cc768fa",
+      "experiments/generalization_gate/checkpoint.json": "5266c44c42281153a485c924354e96fa583d6ddd0f3b4ca474e220d41406d92d",
+      "experiments/generalization_gate/error_audit.json": "89000b8de22875b792dd5781ef3b34449bb41c6fd0591134daa218f8c97f0637",
+      "experiments/generalization_gate/seal.json": "ab6910a6a41175f864a45387c1403ced20ed431bc394d8c1dedacb924a728d5a",
+      "experiments/live_recovery_completion/analysis.json": "eca1b7ab8bbdaae9806acc997607409d648d75c8ed8949a3226907157e3117a8",
+      "experiments/live_recovery_completion/checkpoint.json": "fc207e0292ed1c967fd01d1a72ca329dcbf88e628937e6f89e7a83077a317600",
+      "experiments/live_recovery_completion/diagnostic.json": "4f0a22405a94552462203c38bca4114f00b4863f18ddc42c331d1ef225637ce3",
+      "experiments/live_recovery_completion/seal.json": "8d5b174409c59aacdf8035175b556386ddb3f6b6008e76350bc03baca2cc134a",
+      "experiments/live_safeguard_recovery/artifacts/checkpoint.json": "26ae94a772a20ef21152b30d3c24ec8b13105ec137dad37cda762a8d57954578",
+      "experiments/live_safeguard_recovery/artifacts/seal.json": "9661f9cf3d5e3561f0deb5b42206a3fef5121faa91a5b6fa860c9838f411ba47",
+      "experiments/matched_reuse_baseline/checkpoint.json": "790570c9acfa30401ebb0c51f202e13db6f6cee4ff234b130ccaa86d7e77c7f2",
+      "experiments/matched_reuse_baseline/error_audit.json": "97a8703ed20272010d113db5a699acc804ba35edb533f700e5202114acc415c3",
+      "experiments/matched_reuse_baseline/seal.json": "c5c7bbe5e7851ffae2ddb6c9b62e6794b6c9ebe31107210aafeea6b7e65e7475",
+      "experiments/safeguard_mechanisms/artifacts/run/candidate.json": "060a4fb48b16be68ef8253252760d0df6aac2c9dc9795fe915c518f174f08b91",
+      "experiments/safeguard_mechanisms/artifacts/seal.json": "e3084ae3d5b690b55211c966c741b0a38059e7a488a50e749786bd0eec242172",
+      "paper/results/bird/denominator_audit.json": "6b2032d85f9569c2abf57cd1c480db7acf6bff6752de065967013093fc51f537",
+      "paper/results/bird/replications/claude-sonnet-5/schema_first/card_games/discovery.json": "6c050b66a2f99812f86894a552957e309bc11f2f6c3324a27f93b51575982e21",
+      "paper/results/bird/replications/claude-sonnet-5/schema_first/codebase_community/discovery.json": "8ad41e05702f73bbfa3a859167d7e39cce9a6d0a2a9162d290a45ae8b778beb9",
+      "paper/results/bird/replications/claude-sonnet-5/schema_first/formula_1/discovery.json": "f0215c8265fbdb7ea9be1a6e413bb781241a807af7269cf34d67ba131e675852",
+      "paper/results/bird/replications/claude-sonnet-5/schema_first/student_club/discovery.json": "4eea56d178767851d625db25b26148821ef63da9f2a8e94f72f5379ac7cebeea",
+      "paper/results/bird/replications/claude-sonnet-5/schema_first/thrombosis_prediction/discovery.json": "585285dc7db49fc288030b901d11b2c71ba55949858944dd2a4a81d1a63e7649",
+      "paper/results/bird/replications/claude-sonnet-5/smoke/schema_first/california_schools.json": "72923c8bf5c3a7c8c21b0cfc368de67ec4aaa0a00860b527b76b2381f5ef170d",
+      "paper/results/bird/replications/claude-sonnet-5/smoke/schema_first/superhero.json": "abf688594ab7a20d2cde7f5f238a2915183074b59481512f6e0f54931d6c6238",
+      "paper/results/bird/replications/claude-sonnet-5/smoke/standard/california_schools.json": "40928c5d9f8a4edb9e31644a0b2cf05b9ba66fc6d2165940da400cc9cb9da5c3",
+      "paper/results/bird/replications/claude-sonnet-5/smoke/standard/superhero.json": "45deac10ffd61f7f839d923fcae107cbc2940e44a266265f30f3e86c42e5799e",
+      "paper/results/bird/replications/claude-sonnet-5/standard/card_games/discovery.json": "ce0ad070dec680b171aaa0a8702cd812d1ac76194543745dc80c520cf9794738",
+      "paper/results/bird/replications/claude-sonnet-5/standard/codebase_community/discovery.json": "a8e4850742e4e6a0b035e0ac1ea5121a83b63fb5644f7d8a34b875684ebd0fff",
+      "paper/results/bird/replications/claude-sonnet-5/standard/formula_1/discovery.json": "e32583da058cbaf4c3f536043ed5b1f025a7457c7dd7ec014d34791918914b69",
+      "paper/results/bird/replications/claude-sonnet-5/standard/student_club/discovery.json": "102dda5be7d129afd9ef9128db86977a71f51afa03897a5a438f42a1884f299e",
+      "paper/results/bird/replications/claude-sonnet-5/standard/thrombosis_prediction/discovery.json": "0cc79914fc300f954803945fa74c48cef0b70b51b366e53bbb5bc740d7058007",
+      "paper/results/bird/replications/gpt-6-luna/schema_first/card_games/discovery.json": "47007a69e807977f1a9971d90a4b0bcfe277e1d38aa1c8b4e2a5e252a83f9867",
+      "paper/results/bird/replications/gpt-6-luna/schema_first/card_games/evaluation.json": "9ba9fcb40ed3c2843fa99e300d17bfd0e45b3adb64e6a84a2cf99ecb52aa26b6",
+      "paper/results/bird/replications/gpt-6-luna/schema_first/codebase_community/discovery.json": "4c76e4de31e833ba2d0e0d22c17877aaf788f94d944484436195d17eba109f70",
+      "paper/results/bird/replications/gpt-6-luna/schema_first/codebase_community/evaluation.json": "6b3028ed76015f2b88881de2b865b42c01ff8d999ad6d376013be662587d87ff",
+      "paper/results/bird/replications/gpt-6-luna/schema_first/formula_1/discovery.json": "e24ce04e324972c28fe61000c13b58077e970ce948c709322a7bee7df8f5d354",
+      "paper/results/bird/replications/gpt-6-luna/schema_first/formula_1/evaluation.json": "e533ca27daf11834d1518fff147cebd863f509f2023e8d7abe567ae93c3d8937",
+      "paper/results/bird/replications/gpt-6-luna/schema_first/student_club/discovery.json": "f290ac48605bc58eb02f3d32fe10d45fbb547ae925537f7be9c9896b71ab22e8",
+      "paper/results/bird/replications/gpt-6-luna/schema_first/student_club/evaluation.json": "f3ea15f12e585e9fc9d042de470088ce9b20872b00159ecb824b1c7aad870c1b",
+      "paper/results/bird/replications/gpt-6-luna/schema_first/thrombosis_prediction/discovery.json": "bbd626b24fb0ba0b3033f7d8426f04c3604e7d0d68d06913515749465304a31e",
+      "paper/results/bird/replications/gpt-6-luna/schema_first/thrombosis_prediction/evaluation.json": "180bc3b0bbf8b04d3178047252fca3614a143670169816508adfe3ad8ebfb6e0",
+      "paper/results/bird/replications/gpt-6-luna/smoke/schema_first/california_schools.json": "fbb76f8748baf31218da0afbd824a307e858a78ba630c4619fe675509efe2424",
+      "paper/results/bird/replications/gpt-6-luna/smoke/schema_first/superhero.json": "28c9f590c6fe91bb2986daaffaa7235aef487201bd5b7d349117b14953beff4f",
+      "paper/results/bird/replications/gpt-6-luna/smoke/standard/california_schools.json": "c4f0b492348a0bb7780982e8247a1969bcff2b0d2971769fcb29adb730dac15c",
+      "paper/results/bird/replications/gpt-6-luna/smoke/standard/superhero.json": "dcd967c0cbcbb32402a2d00384859e982794ab0502549dae4d27e6aec5ad0fff",
+      "paper/results/bird/replications/gpt-6-luna/standard/card_games/discovery.json": "f92aff6c98702c599e55f45a5f71ddc9f85bd5fe5837418f43f74905d0b0a29d",
+      "paper/results/bird/replications/gpt-6-luna/standard/codebase_community/discovery.json": "d4cf55de0d946ebeaaa5ffcc95ba74c976fe02aed5725684487863701f4636a7",
+      "paper/results/bird/replications/gpt-6-luna/standard/formula_1/discovery.json": "18de6dd399e5af261c5e2e379f14d9c43a783d3a8b55d5cb37cd9dc01af75673",
+      "paper/results/bird/replications/gpt-6-luna/standard/student_club/discovery.json": "1efcb5065926319989e5d68b265680976dcbec9c4873b1562f3bce9e1ef9e409",
+      "paper/results/bird/replications/gpt-6-luna/standard/thrombosis_prediction/discovery.json": "1bef4a4085ce7be9900b3b18073eb4d0dcc7ffd83f0ac4f161d50f409f857f5b",
+      "paper/results/bird/rotated_rerun/schema_first/card_games/evaluation.json": "88507208bb6be5f1e69154920b1b14b5c7dc497d40859058596e00881601451e",
+      "paper/results/bird/rotated_rerun/schema_first/codebase_community/evaluation.json": "d4e6af8db55128562537dc2c36d7a5fdd73beca41c7a8935931ae6a3a66c6fb4",
+      "paper/results/bird/rotated_rerun/schema_first/formula_1/evaluation.json": "a99f3cbc4b29e80289813d2dd97cd64734eabb0d794e7d659336f69b34cbf8c7",
+      "paper/results/bird/rotated_rerun/schema_first/student_club/evaluation.json": "5744ceefbc6ce2c3678a273aaa9dc14fb4bd8a12d54467be9f071a3cd869aef5",
+      "paper/results/bird/rotated_rerun/schema_first/thrombosis_prediction/evaluation.json": "71d7daf0591236413cc0bdc28d24b1473a52a86530d9844d5166cc537e2c3f49",
+      "paper/results/bird/schema_first/card_games/discovery.json": "2f5b1313b28c3a3cd4030148d62558befe577e77f839f3eee665e2ba986826a4",
+      "paper/results/bird/schema_first/card_games/evaluation.json": "7690504008a41bf462a8d5d632fac141f20fad3a8f641e11c91be73118251ded",
+      "paper/results/bird/schema_first/codebase_community/discovery.json": "487302c69e30f2fe0f3bbf16a4e8e3b6674c32cb1f34139620a5df37191f1d79",
+      "paper/results/bird/schema_first/codebase_community/evaluation.json": "89fad2ff4d5c69f3f543d2e0f83b7eba5b8be02252afd7683da9db2e854cbe22",
+      "paper/results/bird/schema_first/formula_1/discovery.json": "33f14200478b92f2daa70e78eb87f12e68470ec1a53d8dc217b58fb7cf8f52e9",
+      "paper/results/bird/schema_first/formula_1/evaluation.json": "09959dc2e7ebf94ddcdc8cf99468d26df5baaa4226c82c20571218001fab0a21",
+      "paper/results/bird/schema_first/student_club/discovery.json": "e2c67a8270acb1ab6418c93d65d9efb53ef52a61a12b3fe6c5e3d0b0ed5a3120",
+      "paper/results/bird/schema_first/student_club/evaluation.json": "de286aa3a7fef49933b9d487562e99b46a5669fd44377a0872e9de5d917ec54b",
+      "paper/results/bird/schema_first/thrombosis_prediction/discovery.json": "be005a9a44d3ebf858af044f4130414d3ce089dc21a7ef4d4e6e20d78f4c0f64",
+      "paper/results/bird/schema_first/thrombosis_prediction/evaluation.json": "05007151cddbc2c0e0b05f3e3c0e799ef91b5c939b865d6654b2fc680ce60b31",
+      "paper/results/bird/smoke/schema_first/california_schools.json": "5baf51b6372ac163010b56fcb290041151562370100e61271c313d4e5559e821",
+      "paper/results/bird/smoke/schema_first/superhero.json": "86826b0bbf14e174ebbbffedf422a9baf2d7db16b6f7c8e86608b6d6c2f8619b",
+      "paper/results/bird/smoke/standard/california_schools.json": "7cb24e088c6d596a00bc2363929ab6ad8fb949d518be506ad552fe1ddccd7ef0",
+      "paper/results/bird/smoke/standard/superhero.json": "1f4c3b6f181b88030dd23f000ad7f3fb13f2a7be5e5ddfde7ec46495be7d3413",
+      "paper/results/bird/standard/card_games/discovery.json": "1a42e0a3428dd1fd191bbee36daa714002dc2811d3e90dce8bcc410e4c8f4cdf",
+      "paper/results/bird/standard/codebase_community/discovery.json": "fdc52b5213ba442a0ec3ce4d25448173cc896fd6b575e0b07db4f344f0671125",
+      "paper/results/bird/standard/formula_1/discovery.json": "0da1552f7d6b652674d3c5855c258bd583abd0ac2fe6b76529e2c111207b176e",
+      "paper/results/bird/standard/student_club/discovery.json": "34b6ad8a3d70f4d11db947824e413b344e0801e5e217b0729f64a76ee8b15c8a",
+      "paper/results/bird/standard/thrombosis_prediction/discovery.json": "45db422831e0c951f54523941561c7a8ea1f8b02988d6133f5b5fd65f59b1c60",
+      "paper/results/bird/train/schema_first/address/discovery.json": "600d73bbdd404d9d526bf844a6704141fc9d957c85877e952a6d5fd50662b21e",
+      "paper/results/bird/train/schema_first/address/evaluation.json": "53e34a71e103d6f7f079ab76cb89f3d0ad7235970ac30c94f5693369fc305f17",
+      "paper/results/bird/train/schema_first/authors/discovery.json": "c9d302704b4af69775ec9b1f33efc614b1f2c3b99799134106250a35e96aee4c",
+      "paper/results/bird/train/schema_first/authors/evaluation.json": "d88201d8ca49886bc9e1a0a684ef9f113f8ea9bfcaf42693ecc2ab3e32781ba0",
+      "paper/results/bird/train/schema_first/books/discovery.json": "e9c2e0e4288af8fd762ad52c9a8001d0d725527c907f28478b5d0bd9b0910c8f",
+      "paper/results/bird/train/schema_first/books/evaluation.json": "75c3bd4c5a90719151286809cfdc9326536711f7cca089ac66d136ea58d397cf",
+      "paper/results/bird/train/schema_first/chicago_crime/discovery.json": "991a6bcbd7477264897d90915ce01c9fa949d0cfc2b8f75030003bd9e733f6f1",
+      "paper/results/bird/train/schema_first/chicago_crime/evaluation.json": "2ceccdc63674a4f5b6676ac6b2f662cf75a6427a8c55fee3cf11bb09be96edef",
+      "paper/results/bird/train/schema_first/donor/discovery.json": "5a2bb1dbe1f943bc8c093468250be525e42e495e7d4bd64cd3a232d2b54603d2",
+      "paper/results/bird/train/schema_first/donor/evaluation.json": "804649a21c215429f891afcb7a59a0c317ccebc8c62a4393808bb12ae8773b0e",
+      "paper/results/bird/train/schema_first/hockey/discovery.json": "3335ee568d818955a01950c6884bffea2f580133019529c48f1bb841f70eec46",
+      "paper/results/bird/train/schema_first/legislator/discovery.json": "da33e33edbbe1c0dd8d76fb2b2b19c55171138cc2c5894df94fa3db62e1c475e",
+      "paper/results/bird/train/schema_first/legislator/evaluation.json": "00d2003fe7bb4ec7f7fc1b458034baa8343b5c239ef6b580c0d3614989d9b73a",
+      "paper/results/bird/train/schema_first/mondial_geo/discovery.json": "1102f575bdcad0cd439fcead0816fb69fc4f8814edbbeb7ace435be7ebc160f0",
+      "paper/results/bird/train/schema_first/movie_3/discovery.json": "df2bfd48a8f320a0f6a1ee815add7ae613fc6647bdf30c3a5888a40d67cc2fe9",
+      "paper/results/bird/train/schema_first/movie_3/evaluation.json": "33f184d782540a9308004bf9e7e8690cf5cf0d388fc9bfdf0f23af0cd8c20b66",
+      "paper/results/bird/train/schema_first/movie_platform/discovery.json": "b65b1a1fc692c99a73b0275ce607e2499350aea940d0eaaa8b1a34cc3c800904",
+      "paper/results/bird/train/schema_first/movie_platform/evaluation.json": "e14ac776b314cf325f5678caf0ed0fe78f1e1b198361be8d954ce79258959db2",
+      "paper/results/bird/train/schema_first/movies_4/discovery.json": "e93b5038dbf4013e7f7dcc00a8d6a290bf9b59ff838ba71b343ea0edb7ee0a4f",
+      "paper/results/bird/train/schema_first/olympics/discovery.json": "7eef04cd99ce3e86c31b337d7fe35c38de207f29f0c6815203ee7d35f3178679",
+      "paper/results/bird/train/schema_first/professional_basketball/discovery.json": "b10190d2242b3474f5e66a247b4fcea259c935a7ab881a5efb3ff092b3b640b7",
+      "paper/results/bird/train/schema_first/professional_basketball/evaluation.json": "daf1441b3417b1bfc17b5ec01c266b71d263fb006a75781595b8c4e1972c42df",
+      "paper/results/bird/train/schema_first/public_review_platform/discovery.json": "9437842000a0eafa3fdb1c808a96326ec5a5be18d2c63a64579e104aa881e9a7",
+      "paper/results/bird/train/schema_first/public_review_platform/evaluation.json": "d2f43dbc0c42e8e964199a4dd87219b1665cda4358394685aac0c19261e130e1",
+      "paper/results/bird/train/schema_first/regional_sales/discovery.json": "7d4c4707f40641d3758c66f5d9fdbad756396b5f5afb2032c44b4a12fd382d17",
+      "paper/results/bird/train/schema_first/regional_sales/evaluation.json": "8708f11218ff5817d78029466f525840383c24751e04e9c922dbd1a09f3285e4",
+      "paper/results/bird/train/schema_first/retail_complains/discovery.json": "be40f264503800decc2898baf5ab4d8d1d3ff7f3902f8e814049b5d29026bf31",
+      "paper/results/bird/train/schema_first/retail_complains/evaluation.json": "731bdf23a0d059c95d2bc16c5b078522f83ceee2dddbf8dc8dabb2e8be6149d3",
+      "paper/results/bird/train/schema_first/retails/discovery.json": "4922fe76d92c2c0caca45e8d519520349bae5115331cc5cfc2a9f9e4800381c2",
+      "paper/results/bird/train/schema_first/retails/evaluation.json": "399253cc2a5eebbdf95581e24d37854ef573ab80ca67588de2a88a0a6a9903c4",
+      "paper/results/bird/train/schema_first/simpson_episodes/discovery.json": "686bd3d11fe382e45d4ca639395f917db6928fdea2abb5ff9b54472853902a83",
+      "paper/results/bird/train/schema_first/simpson_episodes/evaluation.json": "b3822b4e2a4f9e05cdd89e18d2d2438d651d3dba836269b687dc4e89e3988146",
+      "paper/results/bird/train/schema_first/soccer_2016/discovery.json": "618b0a7d59ac9ed38740afef06975b6ae1a354135e4b20b4ff84794c577639e9",
+      "paper/results/bird/train/schema_first/soccer_2016/evaluation.json": "83ead18ee6d774bc36364ce4d0880143c49ec8252fa420c32858840a2fe98990",
+      "paper/results/bird/train/schema_first/student_loan/discovery.json": "778c294f56f45661952b9a0017e3f7842535d9f900ff05db7e9cb5ffbac7f15d",
+      "paper/results/bird/train/schema_first/student_loan/evaluation.json": "db71bdcda345c389ca1a4aa91d156e1e021e79f6b9e194718d648e4adb4059fd",
+      "paper/results/bird/train/schema_first/synthea/discovery.json": "ce22df99ab3992cdcd7d710de41c52e2d6b9e3483877e98674a5cfb4934f263d",
+      "paper/results/bird/train/schema_first/synthea/evaluation.json": "27330d60e066d2617ed0242fc867b4c034dfa2a382efda6024a90892d2648832",
+      "paper/results/bird/train/schema_first/talkingdata/discovery.json": "03eea01ccd6858ee9a3a6bcb9fa42a9ea139ab150e58e5576b0048c1de12c7c6",
+      "paper/results/bird/train/schema_first/talkingdata/evaluation.json": "4fcc4862ed059aa6a5dd58a1130c3c46530271bf08ff43fce965e228bafc4f95",
+      "paper/results/bird/train/schema_first/university/discovery.json": "9063b73c4fa3342af1129a5af80e0d173ddc89d3aa370119ec7079d5c5fa3694",
+      "paper/results/bird/train/schema_first/university/evaluation.json": "4e5117dae094eb0fe49c1bbcd170ff56767ecd667baacf62b588f39ef2ab5c29",
+      "paper/results/bird/train/schema_first/video_games/discovery.json": "fbc59d079300504481457ae0a40c7ca7aa4a2a02a375f4360c409d19b4a5b2ce",
+      "paper/results/bird/train/schema_first/video_games/evaluation.json": "ab33a81c1f43793498a10bbde2977a93580ee6c41ac19c2d6233f11a710372aa",
+      "paper/results/bird/train/schema_first/works_cycles/discovery.json": "d83b0b7b409bfc471268fa79592fbef55514e68896455c2fc3b2061bd6bf58d6",
+      "paper/results/bird/train/schema_first/world_development_indicators/discovery.json": "b5064cd95bbc8d66daa73957ddb3128bebefe053bed7ae79e52c8d8e99a0bd37",
+      "paper/results/bird/train/schema_first/world_development_indicators/evaluation.json": "2084214b8026e402679117f86abba0cf5899cfe5dad8028f621eb11eeec688ce",
+      "paper/results/bird/train/standard/address/discovery.json": "4ebdfd0a1e62536b1e73201aa07246ce1e799c1ecc705098fdaa45b34b44a7d1",
+      "paper/results/bird/train/standard/authors/discovery.json": "a7358936a68fc1166c5a4012d5a026d39c0674229b6e766bcdf7ba1280f0f526",
+      "paper/results/bird/train/standard/books/discovery.json": "9e01fd1dd7f7fbc91afb9f6bd7e86785556190319f89bd5d24f7b02233560641",
+      "paper/results/bird/train/standard/chicago_crime/discovery.json": "f9bd3d41eaf5c78d93d5fb49aac051fca91874055e8628a5a28985ed757663c9",
+      "paper/results/bird/train/standard/donor/discovery.json": "98ed8431a49855c07e193c8bc8fb42cb453c1542f7a516cff1af6303e5de3c48",
+      "paper/results/bird/train/standard/hockey/discovery.json": "94774c6070abfd8767411b07a85d0bf82a6af1e8d98778f61b321f01313daa6d",
+      "paper/results/bird/train/standard/legislator/discovery.json": "c7496763c8d9a95b11f6f55830a71a6c85b270c8a6466ceb213aa8e3242ded9c",
+      "paper/results/bird/train/standard/mondial_geo/discovery.json": "b29f99c90ca8b827b37db61d280b7efef36b88b1a820a2a08da221b37bd199f0",
+      "paper/results/bird/train/standard/movie_3/discovery.json": "af357b1e744e5a5313af1d549b5a2b7cf742d1932aeded395bf093f774a7e402",
+      "paper/results/bird/train/standard/movie_platform/discovery.json": "b7b5ad55248bb39b680467f4f471d8f8a2e4dfb5e2af6daec24621c815bd7cbb",
+      "paper/results/bird/train/standard/movies_4/discovery.json": "4d0d5667cb1acd0451cf4d5914e0441150ffcb915f853252be5df33c04233aef",
+      "paper/results/bird/train/standard/olympics/discovery.json": "39e434b96ebf9a98fbf01d79dfb30dddff6ad75add73addf1d9c92e6c6b7448b",
+      "paper/results/bird/train/standard/professional_basketball/discovery.json": "b8a685a9fa6d38465e3f2076aa8a0a853ecfae3189d846e54784213e46db9d3d",
+      "paper/results/bird/train/standard/public_review_platform/discovery.json": "ecd380ea643b2c3ffbae497f4fc85ede8ecdf765fc8a9ca5f2eba9832dbb39e0",
+      "paper/results/bird/train/standard/regional_sales/discovery.json": "d48e4ae19575b191b378cf8cccb48717c8fa9fb88a4291e03ffb86fb21cee940",
+      "paper/results/bird/train/standard/retail_complains/discovery.json": "95068e21a4847128e8fb34712d0a1d8819fdbc831501945d1c892f49d73d7594",
+      "paper/results/bird/train/standard/retails/discovery.json": "50cfcfdecbf523086bcd13efbad722de088dabb9f655de5108ac90136d70fe1f",
+      "paper/results/bird/train/standard/simpson_episodes/discovery.json": "1c0929da5a7d94263cde1236592623e12b2adfa0994845dc85dcaa0461889226",
+      "paper/results/bird/train/standard/soccer_2016/discovery.json": "0e2df8cb965954a8960cdc39d6ce9c670eadd5bd5aa0c981cc4f9fcef5006f98",
+      "paper/results/bird/train/standard/student_loan/discovery.json": "e2a890048b06ec674f88de97c276529d70d2a12ae4dda316657ce449f29a1f7b",
+      "paper/results/bird/train/standard/synthea/discovery.json": "75fcc88aaadb52c3577b49c0f8b82c6af685e41d4ab093196f49909cdefe48da",
+      "paper/results/bird/train/standard/talkingdata/discovery.json": "d02d28ba1d4a4382f974c5a3c31fc8a872fc874800fde36ce6a257a64c857792",
+      "paper/results/bird/train/standard/university/discovery.json": "5551761343d719fcf50e04ae9d7f4cae65d22377d56057f4d26512231e580372",
+      "paper/results/bird/train/standard/video_games/discovery.json": "15c40c05aae782e7a2e287525be9e5c25c7b689c38b0ddd3131312d6182fc841",
+      "paper/results/bird/train/standard/works_cycles/discovery.json": "ef435ab6c6412459633d75909de80bf98d00b0e9a1affb7e4bdcd38d71716daf",
+      "paper/results/bird/train/standard/world_development_indicators/discovery.json": "3676e53951634f7d4c4985df51003089bebd547e05cb855732bf121ebb487e5f",
+      "paper/results/coverage.json": "418dea6b06f7edd1ece1ea4c446c628d9ae471993510099b0b906819bef94bac",
+      "paper/results/drift_continuation_graded/cells_checkpoint.json": "bcf131345aaa5340f1a039e5c0e2d00069290934ad94d9afae03d01f0c52ea03",
+      "paper/results/gate_frontier_pilot/diagnostic.json": "2c1250787a1e2613e0d657caae87292e621149125f9fab93b16d282e5cacb8f4",
+      "paper/results/gate_frontier_pilot/preflight.json": "fe23a5786195558e331541822736967f1a3751079fa403b3c937a0fde3b35e1f",
+      "paper/results/gate_frontier_pilot/results.json": "33cab78957b43be1e41c7900aac890962d223ec0e4358d47aee71ec188ae6120",
+      "paper/results/gcs_live/registry/registry.json": "12cdbcd8d87a34b7aa3f1f754c8a855e817b414a40314cc127f0cd53d695c902",
+      "paper/results/gcs_live/results.json": "c5c4907db6c0b451793fd4be61d12576ebbfc4a07a2215f0db27a24d3f5e9a43",
+      "paper/results/gcs_live/smoke.json": "9055f0d06906d85c9b4a643e2017079bb3dba44d010733b1f6cd8dbd9945bf65",
+      "paper/results/github_live/pilot_2026-08-03/registry/registry.json": "26bae24ee79e2361b7dd78dea7779eefd619cc73d98f3dfb988950b130b8a86b",
+      "paper/results/github_live/pilot_2026-08-03/results.json": "4906f005a2bb0e1f6d668024887ff12f05268fba47c455ba5db406a5c3f07a7f",
+      "paper/results/github_live/registry/registry.json": "76de9842cd5e628e8394d58789619e08f3d72fca732c01c7c7b8e85ba0babbe8",
+      "paper/results/github_live/results.json": "90a1452616f042eb802fd61a645fa477b5566fcf8ceb52515439632ec28e7d4d",
+      "paper/results/github_live/smoke.json": "673c990f7880c8ec932328c7a68988bf31211c81b5e0a56f63b0965eabb7c747",
+      "paper/results/github_multirepo/preflight.json": "99555ee5249d9244b3858ce593abbcfb6a7ae49164c6cb7bc22a23c08cb887db",
+      "paper/results/github_multirepo_gate_frontier/preflight.json": "9ce097597d3692e28595c5054491950f681233a7786c288f4090f0447bc41264",
+      "paper/results/github_multirepo_gate_frontier/repos/huggingface__datasets/discovery_checkpoint.json": "8ff327347d7c64de5747dccaa8ea5cd0fb6c34cec0e187d35571bb778792ac90",
+      "paper/results/github_multirepo_gate_frontier/repos/huggingface__datasets/evaluation_checkpoint.json": "a829b7b5ae44337737979e6cd931d588b4181b861404fb85ac8aa5e2975e017c",
+      "paper/results/github_multirepo_gate_frontier/repos/huggingface__datasets/results.json": "7e16eaf6f6bd3470155a40e9b8682c8e309f4853acf7b2cc9bcbd56a583a8011",
+      "paper/results/github_multirepo_gate_frontier/repos/pandas-dev__pandas/discovery_checkpoint.json": "17644d4c989ac30ad403de23021cf9cabcc3556fe62655d715d52d97113d4987",
+      "paper/results/github_multirepo_gate_frontier/repos/pandas-dev__pandas/evaluation_checkpoint.json": "7010cd9e5d05321d973bb0dc3ec3cd3dd3d5151ce0d74a80927ebbf861e03955",
+      "paper/results/github_multirepo_gate_frontier/repos/pandas-dev__pandas/results.json": "e7462662bd249e0cd14c7699567394cf58ba288e9bd25d75a12a1262f1519d9d",
+      "paper/results/github_multirepo_gate_frontier/repos/psf__requests/discovery_checkpoint.json": "e5f36baeadf5c65c45e52be86f09bdbc58fa73c34be1018dfa081700e218e8e9",
+      "paper/results/github_multirepo_gate_frontier/repos/psf__requests/evaluation_checkpoint.json": "da1528e9f5007801c780352dac570fddc3645ae0257ff65408908625f21366e1",
+      "paper/results/github_multirepo_gate_frontier/repos/psf__requests/results.json": "77983cf76ae834d840e1cd7fa9cee16dea2040cc0f3f3bce8ad0a4bb9c894dcd",
+      "paper/results/github_multirepo_gate_frontier/repos/pytorch__pytorch/discovery_checkpoint.json": "07af3532977a43cc315f8797d2b5128338d31ff0792888ec5f977012428c29c0",
+      "paper/results/github_multirepo_gate_frontier/repos/streamlit__streamlit/discovery_checkpoint.json": "7db9ea792abf663eff5607770d2d2d6f5ff892aa4df9975e297c9b15e2f8556a",
+      "paper/results/github_multirepo_gate_frontier/repos/streamlit__streamlit/evaluation_checkpoint.json": "331f9f311f4f925bc15a65cf593110a225523d7cd72b0deb3c33506305da26b7",
+      "paper/results/github_multirepo_gate_frontier/repos/streamlit__streamlit/results.json": "b675d9d12acec418c5e3d901a3b3bbedae3f8170989ab8efeb0cc876033ab4c8",
+      "paper/results/github_multirepo_gate_frontier/results.json": "be7f41469e7c438255ec2f3c4e0910310c135190fd6a4bd71a1001daafc963e1",
+      "paper/results/github_multirepo_pr_outcome_balanced/preflight.json": "f2e4b61181ce080a01427e66686025b8518dcd57a305516f1e0503b92c38e956",
+      "paper/results/github_multirepo_pr_outcome_balanced/repos/pandas-dev__pandas/discovery_checkpoint.json": "9b6ade900899a342f138c22b2013a896294a0acd8121f6d98942f5b0d525762b",
+      "paper/results/github_multirepo_pr_outcome_balanced/repos/pandas-dev__pandas/evaluation_checkpoint.json": "997fc852f01fd3d56a46bd32059510d4fbd987d199a2c32a1f0ec9ccb03023ff",
+      "paper/results/github_multirepo_pr_outcome_balanced/repos/pandas-dev__pandas/results.json": "733bcab23fdb8c601578e8e677009b776b86aa58b1d1136888afb403e99cca8a",
+      "paper/results/github_multirepo_pr_outcome_balanced/repos/pandas-dev__pandas/smoke.json": "15cb507d9051d4889faa1ca5d061268e5d02f02452af305883f28c5b841d4892",
+      "paper/results/github_multirepo_pr_outcome_balanced/repos/psf__requests/discovery_checkpoint.json": "f58f36dafbed624781b39fd110d2dd24d45dda195153dd02033476546f938964",
+      "paper/results/github_multirepo_pr_outcome_balanced/repos/psf__requests/evaluation_checkpoint.json": "b656e6e0ecb4c48f60ffa3cb706d2db64fcabef107947f09059d31eee68e9bbb",
+      "paper/results/github_multirepo_pr_outcome_balanced/repos/psf__requests/results.json": "facd0f229f77444e297766171330773cc2a389d4e85cc09e8c4e1d23dfcf4f72",
+      "paper/results/github_multirepo_pr_outcome_balanced/repos/pytorch__pytorch/discovery_checkpoint.json": "5fe4e457a4123ddb968055cd20345fea97bf2c79e66c80fb5e71af06b97ac17c",
+      "paper/results/github_multirepo_pr_outcome_balanced/repos/pytorch__pytorch/evaluation_checkpoint.json": "5506aa5df36b82402307e488c0c9962faad2c934e4850cd6a4427ecd62829f68",
+      "paper/results/github_multirepo_pr_outcome_balanced/repos/pytorch__pytorch/results.json": "7355881ce6817d4f325797d8b84bf1823c12891723e0505a3429d9ab2c502648",
+      "paper/results/github_multirepo_pr_outcome_balanced/results.json": "616d8a8bde5c1c8873ebf68bf25211a636b4200dff05cf577e9a01ab285eb00a",
+      "paper/results/github_multirepo_pr_outcome_balanced/smoke.json": "828e0bf24fa56749558d36178e31413c67a1314b8c7811c30bc511424f329f63",
+      "paper/results/github_multirepo_pr_outcome_core/preflight.json": "6284192b6d4972c7073fa598df89f33ad7691fe0415ed2d4b092d0a8ae7685ee",
+      "paper/results/github_multirepo_pr_outcome_core/repos/huggingface__datasets/discovery_checkpoint.json": "193eb00841a69af7f4d4288d1b7db425f00321dbda58bff3db7924520a9ba1d9",
+      "paper/results/github_multirepo_pr_outcome_core/repos/huggingface__datasets/evaluation_checkpoint.json": "b16346288093ab19ffb98bb4db8ac7db23da2daa78aa1010d92ed3909e350cee",
+      "paper/results/github_multirepo_pr_outcome_core/repos/huggingface__datasets/results.json": "6b721904127945cfdeafcef1c3c4fd19363a27bd61c7c6636e7149e89a9ad82f",
+      "paper/results/github_multirepo_pr_outcome_core/repos/huggingface__datasets/smoke.json": "5cc1adca53ca90a6a40274769602a347cadf5db2aa0f32bdda4ee3f37a68c584",
+      "paper/results/github_multirepo_pr_outcome_core/repos/pandas-dev__pandas/discovery_checkpoint.json": "714fc9fcea5f0bd494bb5ff500c4b1785b3164ced13cfb9303bbcc188133c283",
+      "paper/results/github_multirepo_pr_outcome_core/repos/pandas-dev__pandas/evaluation_checkpoint.json": "5dcf2176c73464519ad35c8a6933af53f51bb8948b3f654cc60e79df000b7f98",
+      "paper/results/github_multirepo_pr_outcome_core/repos/pandas-dev__pandas/results.json": "0fb42b2a8c65e859b546caa7b44639198eb9a4a48858278071543183bccb76f9",
+      "paper/results/github_multirepo_pr_outcome_core/repos/pandas-dev__pandas/smoke.json": "1be941ffa3b566574632ca7819e70dd9ee7dc306dcc8ad1c0794fe4ae708fe86",
+      "paper/results/github_multirepo_pr_outcome_core/repos/psf__requests/discovery_checkpoint.json": "35a8c353a383508f914f914b1d7d6825254b60c4e19cadab7bc7a08c1ef14015",
+      "paper/results/github_multirepo_pr_outcome_core/repos/psf__requests/evaluation_checkpoint.json": "5130616323d639b3e1c136f038b96382bb1325a93771604f6dc393f689757486",
+      "paper/results/github_multirepo_pr_outcome_core/repos/psf__requests/results.json": "5942af8787431ac828af0b50060446d24849a2c69cf33f85a4416e69a97533ae",
+      "paper/results/github_multirepo_pr_outcome_core/repos/psf__requests/smoke.json": "af3e9e275e3f4555b263bd0ba37c0af607d41598145ca06776301d0e339b360a",
+      "paper/results/github_multirepo_pr_outcome_core/repos/pytorch__pytorch/discovery_checkpoint.json": "34d226551197db5c6f7f2b915328e15994e954662480bde1820116728d11367c",
+      "paper/results/github_multirepo_pr_outcome_core/repos/pytorch__pytorch/smoke.json": "ffa2bbc8b18249450c982e6ec49df299a67366026cb97f124528a9e13747df8d",
+      "paper/results/github_multirepo_pr_outcome_core/repos/streamlit__streamlit/discovery_checkpoint.json": "8df0c972f6fc3aef9fdacb64f0151dd6974ca7ecaaa874eef8e70b6c8623e112",
+      "paper/results/github_multirepo_pr_outcome_core/repos/streamlit__streamlit/evaluation_checkpoint.json": "6af96a2c58fc771668f0e2f3ed7fcd1c5e27aafe14ceb1f80d7e8b247cd67fb7",
+      "paper/results/github_multirepo_pr_outcome_core/repos/streamlit__streamlit/results.json": "52f4acce715ef9392064dc82301b90ca22322860f0e771f519789927b29c6f39",
+      "paper/results/github_multirepo_pr_outcome_core/repos/streamlit__streamlit/smoke.json": "ef4e238f01faba16687c8a72a7b69a142e705c63cec32934f754c754a99e2cc5",
+      "paper/results/github_multirepo_pr_outcome_core/results.json": "c090f2af842cbd937a07084a4ef82e60062efad8266ef428a5ab18a2219d95a6",
+      "paper/results/github_multirepo_pr_outcome_core/smoke.json": "7a738898a70f7f1cc9f92e7dace144e6eaecfd8195defbfc4cd76c6ea2a1aeb0",
+      "paper/results/github_natural_live/continuation_replay.json": "6c764c60414a38d427cdc2d21f21acea3a2714243ef79e9d81a84b4f32f7c4fb",
+      "paper/results/github_natural_live/registry/registry.json": "be4a1cbf000fdbea493343ec6be0f28815797c0c09a88dad01f52d551142f1f1",
+      "paper/results/github_natural_live/results.json": "2ac4ac66d0b8cf71e4713d7a979dfe4bfb1888c7426dd33201827b93ef41b99b",
+      "paper/results/github_natural_live/smoke.json": "fe501d59aec11f82859e515c4a2a2b55e1e8862d98e909aeac99b69e2fab5e42",
+      "paper/results/github_natural_replication/discovery_checkpoint.json": "9be6ab211fa99498edac5be5c5f098dc0f52fdb9cb19f1dae159e4fcc23cd1c8",
+      "paper/results/github_natural_replication/preflight.json": "8362be7f9cb076c76e3deba66dbb48d178f0d1eedbdd908c0fb91695a2f99459",
+      "paper/results/github_natural_replication/registry/registry.json": "16f45d91cec22657d19489d5bb49d8e8ccdafd8b6a1c81cb175b342a03277c5e",
+      "paper/results/github_natural_replication/results.json": "415f057f0d5e036a765eb97da78df8de7b252c76a39c509c3a5d111538040722",
+      "paper/results/github_natural_replication/smoke_postfix/smoke.json": "b79e143565f4a9e593ca6e3de3ffa8343a17b02c71262cd0c9c6ea6eab868759",
+      "paper/results/github_workflow_families/backlog_attention/anthropic_sonnet5_rediscovery/discovery_checkpoint.json": "c1510850d3dd51a0d893e7051f6e97e055d6b854c7b12f703d629e3f162052c5",
+      "paper/results/github_workflow_families/backlog_attention/anthropic_sonnet5_rediscovery/preflight.json": "14df697c0b944be2ce73b57fa5750173cbaf7aeb12b2f578b4c1bed928193799",
+      "paper/results/github_workflow_families/backlog_attention/final/discovery_checkpoint.json": "8363f4fd3b47a05dcd3d16dc2684aa95f945421c6b0caffe82fb12d977ea39c1",
+      "paper/results/github_workflow_families/backlog_attention/final/evaluation_checkpoint.json": "847b137f4cf1f793058414e8fd73321239c5583d211c306039abe920e8e3417e",
+      "paper/results/github_workflow_families/backlog_attention/final/preflight.json": "b33d4374d976914f8bb22fbc1bb11cd1821b39ecb17ab47b7224a3cfd1239687",
+      "paper/results/github_workflow_families/backlog_attention/final/results.json": "2e19afd504a637a62213292b47b92d082d679e5ce7aa0ff2fb8c46f7c0fa54ef",
+      "paper/results/github_workflow_families/backlog_attention/gpt6_luna/evaluation_checkpoint.json": "66fb11a846fab36756df1a84bfd7fe85d9a296644976e4bad392a83fe476ba26",
+      "paper/results/github_workflow_families/backlog_attention/gpt6_luna/preflight.json": "4b94e05da217d1cd2628cb5b16d968f2dcd4b32435c0990ddb6adeb960e9a479",
+      "paper/results/github_workflow_families/backlog_attention/gpt6_luna/results.json": "fbb456d8ff040d895380e994a087bf0ee4ef2f9641b47ff0e049dcda7bdf5ae7",
+      "paper/results/github_workflow_families/backlog_attention/gpt6_luna_rediscovery/discovery_checkpoint.json": "5c93196752e260758a1eae20883c8d964e7a8a058d04b2c321a2e88d55ec0621",
+      "paper/results/github_workflow_families/backlog_attention/gpt6_luna_rediscovery/preflight.json": "8f146536c3408ffde3699d2b560343bff9f2885ede5f7cb7fc9f6e6a6a0833e2",
+      "paper/results/github_workflow_families/backlog_attention/headroom_ablation/evaluation_checkpoint.json": "1bca215f46fe72c438fedc790014be7839637e59e615ad28ec6311f6f65b52c6",
+      "paper/results/github_workflow_families/backlog_attention/headroom_ablation/preflight.json": "f4888a1923180a38b90ccbd9b02b437d36bed76f62e0e2af0ac5132831cdb8ba",
+      "paper/results/github_workflow_families/backlog_attention/headroom_ablation/results.json": "5b90452bc62275f9e6e9e139dc8307443c7db69419e44a6b7ffbb278f2b4eb48",
+      "paper/results/github_workflow_families/backlog_attention/smoke_v1/preflight.json": "b53dff240dcc735d8bef69690dc844cb5a60af5df5d463bc34036a993fbe7206",
+      "paper/results/github_workflow_families/backlog_attention/smoke_v1/smoke.json": "aaaab297a655880f591c9a87449eee4697c5ae285722c50cb984208cdba8f94c",
+      "paper/results/github_workflow_families/pr_outcome/anthropic_sonnet5_rediscovery/discovery_checkpoint.json": "b62dcd5dc056ddae55ebe2912211859fb2527a456bec379246dda9f6b0acb1d5",
+      "paper/results/github_workflow_families/pr_outcome/anthropic_sonnet5_rediscovery/evaluation_checkpoint.json": "b1886ec76e56afa1dee2c9d4328a0480a1f20bc016cac18c235cf4192b3339bf",
+      "paper/results/github_workflow_families/pr_outcome/anthropic_sonnet5_rediscovery/preflight.json": "1d1f4ef44d00cc05ad920b170bbcd11f2278eaa87bba337a0108d6ad6071ab24",
+      "paper/results/github_workflow_families/pr_outcome/anthropic_sonnet5_rediscovery/results.json": "9d39d06c4026294b6f9ec3985e3f8126d8fed8a9d119f4c48d2d2e7d77c1e33e",
+      "paper/results/github_workflow_families/pr_outcome/final/evaluation_checkpoint.json": "fda4d46ebdf85a3fae20dc8208ee9a7cb8149cde351283e652bd370e3f4d04de",
+      "paper/results/github_workflow_families/pr_outcome/final/preflight.json": "c9b6a476d2276e9f33e0f22294a140ee3ffcbcdfd343509f86e60bb82a81a5a4",
+      "paper/results/github_workflow_families/pr_outcome/final/results.json": "4722a35c5eda017bdb22b6f2d75c062b9a085ef65168e3dc41ace82d885ee36f",
+      "paper/results/github_workflow_families/pr_outcome/gpt6_luna/evaluation_checkpoint.json": "41868b009f9552e099f3a1a746b5c37e6da5119db895b555fb318e0996d3e13b",
+      "paper/results/github_workflow_families/pr_outcome/gpt6_luna/preflight.json": "bf65cb949dd5cd3be7429606004200036010dd4bc084766519d0d61d4f68769f",
+      "paper/results/github_workflow_families/pr_outcome/gpt6_luna/results.json": "0313b57399eb2404b548f029b170876e250f18aeed65a03178ceb7ec76454a5c",
+      "paper/results/github_workflow_families/pr_outcome/gpt6_luna_rediscovery/discovery_checkpoint.json": "d3e41b33d1f5a39e83f4c7c69c2dc81f6597aa06311a78f6371b3ac3a6936261",
+      "paper/results/github_workflow_families/pr_outcome/gpt6_luna_rediscovery/evaluation_checkpoint.json": "be28a3c22e2b1eefd4f7eb2c82e8271acefc5a19377e22d0eb50f8b75fccb279",
+      "paper/results/github_workflow_families/pr_outcome/gpt6_luna_rediscovery/preflight.json": "f2e6b8e58e58fc7ae8a1b3ebe4d9ebad30139b437cca03a0a25c2104149dfae7",
+      "paper/results/github_workflow_families/pr_outcome/gpt6_luna_rediscovery/results.json": "2ec20604707a178c6b2ff8262660951c80b63b406378768e21e249c55fc2ba49",
+      "paper/results/github_workflow_families/pr_outcome/headroom_ablation/evaluation_checkpoint.json": "e56b678b4e9d8f615de7745083cfb97bfa27e21eaec21be6094866eb32c1cae0",
+      "paper/results/github_workflow_families/pr_outcome/headroom_ablation/preflight.json": "7ea08b294e326aa39189c78e8a53a7f55ab4f43d7534e183d2b86c4d24b8a880",
+      "paper/results/github_workflow_families/pr_outcome/headroom_ablation/results.json": "1df818b3ebcceecb7e1183624ae087defd3716348dd3d88fa3474671ab1c3290",
+      "paper/results/github_workflow_families/pr_outcome/pilot_v1/discovery_checkpoint.json": "5b103fa9f4c04630e42581546a3ce4d86c894584e790a08c60598ccbf4a1a102",
+      "paper/results/github_workflow_families/pr_outcome/pilot_v1/evaluation_checkpoint.json": "79a70ee996ef8471b75c115670abfec141f0d3689e0bb301d8fd8925061da1b5",
+      "paper/results/github_workflow_families/pr_outcome/pilot_v1/failed_attempt_projection_2026-08-05.json": "7a4fac7233f8a1c295197d48d35ef7be43ebd8bd6de8acf16ea07fc64d4959ff",
+      "paper/results/github_workflow_families/pr_outcome/pilot_v1/preflight.json": "346f708724719ad62854ed88a1bda6753f942079951dcedf5ca46e2485edfe20",
+      "paper/results/github_workflow_families/pr_outcome/pilot_v1/results.json": "14896e13e098b16fba58ef1172e6b3bfe1e913066258f1923edfbad33e979062",
+      "paper/results/github_workflow_families/pr_outcome/pilot_v1/smoke.json": "bdb5382e305968e239b2ab734dcff8c6f4c7971da24487d7cf62fe2890b38c1d",
+      "paper/results/graded_issue_gate/abort_v1.json": "428f30fa538c44d414f16deb87254d214d66064aa3e6a52f2cc50cd23c01c22d",
+      "paper/results/graded_issue_gate/audit_extension.json": "9cf6bffee9c930e708ea2fcc10c58174b6621a851c21a7681e8f935e56cd2a08",
+      "paper/results/graded_issue_gate/audit_v2.json": "de20d7c3e1e1bf9da3be1e257459cb462ad79793d2a87e64195c9ea4988c624d",
+      "paper/results/graded_issue_gate/candidate_v2/discovery.json": "436765b8fb6d5290ee7af46c3595e98fc93500f676bed999a8487d197e2e2fb8",
+      "paper/results/graded_issue_gate/candidate_v2/registry/registry.json": "bbe554b95285259dbf3e401ba8f48121d283daad7eb57429a8d5120fd4d73dd9",
+      "paper/results/graded_issue_gate/candidate_v2/started.json": "a8702c1b752bdce69d96acd81817163c108338136bf265d2aae141baba919350",
+      "paper/results/graded_issue_gate/candidate_v2/summary.json": "bfdbce7de1815b1d168ef853f9fbf6ec414e15fd22f0748e8aa94d79c198e403",
+      "paper/results/graded_issue_gate/checkpoint.json": "9e3f3cf4c5e58a067b54aa4f00578572fd5a07343209dea7fcf56086656ea7f4",
+      "paper/results/graded_issue_gate/checkpoint_extension.json": "181cb6b2cd3ea0c67da6032279425fa35dce333eef1ef49647f70db8a65a10e1",
+      "paper/results/graded_issue_gate/checkpoint_extension_aborted_2026-10-28.json": "a75a716ca4408a1d879bd8c1bd89ca1e70f88198862402bdd541f05f5a8e339b",
+      "paper/results/graded_issue_gate/checkpoint_v2.json": "adbd7ff9a5f9f88bf3d1602fb085d2c846f2b0ff773edb59ee98d9585fe85bd2",
+      "paper/results/graded_issue_gate/extension_abort.json": "61fef16e925c88b884a9789a59dfe7755aa0438924f69b173b6884e4cb394710",
+      "paper/results/graded_issue_gate/extension_episodes/extension_calibration_compiled.json": "727378539649df1edbe926af847eb13f63b86f212e0f856dfc77b872f2af5ecc",
+      "paper/results/graded_issue_gate/extension_episodes/test_baseline.json": "54354687aa638572380c2d19e55c5ba2dd8caff5fb76ab080e1ec08ef4004a2e",
+      "paper/results/graded_issue_gate/extension_episodes/test_learned_compiled.json": "267bbf7f4ad692ce63f48629efa634c9bcb6924a46dfa8d77eaa9c3a29390c55",
+      "paper/results/graded_issue_gate/extension_episodes/test_learned_fallback.json": "6ecb364a288f40be7768fac43d3ba227262b396da29d76a59956adee08e66e3a",
+      "paper/results/graded_issue_gate/extension_episodes/test_support_compiled.json": "b4db87fba1d87e77cfa52caa9f38ed63b5c6263a738eb006987e3e91ebf6c238",
+      "paper/results/graded_issue_gate/extension_preflight.json": "eea46635c807d6af18b8c1069393bcf5e5d34c2d44e26685191906ba6e974fb9",
+      "paper/results/graded_issue_gate/preflight.json": "c54dd355741bd4c2e2be2c9784c44956f0dec9375cb6b74feb77a397095d8a9b",
+      "paper/results/graded_issue_gate/results_extension.json": "d916e88455ad7eef983f84a87c977aa27703474fe77422c4a5c29cd648ade4ff",
+      "paper/results/graded_issue_gate/results_v2.json": "a179236a1fd86770b472849d24d4d57c7d978f043e3968d2c46d50addd567010",
+      "paper/results/iclr_revision/gate_frontier_reanalysis.json": "2c50db9dad810d21be0a47a50dfd032e6ed798e660a268ae5e9f3dd110b7ac54",
+      "paper/results/issue_type_extended_heldout/evaluation_checkpoint.json": "45c46f5395b417aea48621ac9a72ac87ef66fb37f3d7483d3babb9ba66fa4bc7",
+      "paper/results/issue_type_extended_heldout/preflight.json": "1dda24ec8969dc1307909c9628a7b4697cf7b5d25d0b4d433db989549494ec10",
+      "paper/results/issue_type_extended_heldout/registry/registry.json": "6e3bb8b1be35dec5344e5ef97cb5e05ed96c1571aba2e6e0e90942b571f7e94a",
+      "paper/results/issue_type_extended_heldout/results.json": "f0fc094f37085df163b8fba9e37b8619985c9f7a08b96ea298b83a3736f41ae1",
+      "paper/results/multirepo_pr_outcome_balance_analysis.json": "556a64f5cbeb67d0fd26c5489647804d2f06930ee37215657f29db92af254caf",
+      "paper/results/optimizer_head_to_head/gcs_gepa_registry/registry.json": "3c70708f12c0cbcbde414588eeef6a8681e4910f1751783bb42a58dec96d5ae0",
+      "paper/results/optimizer_head_to_head/gcs_registry/registry.json": "1e152c9d788e411e070a5799537b1e491d060c4c6746aaf76f4f08e60da8dabe",
+      "paper/results/optimizer_head_to_head/gepa_run/run_log.json": "a9e6510baf32faac05f4ddc63dc1e50c9905a908c96a395052fbb86bfa70bf62",
+      "paper/results/optimizer_head_to_head/gepa_smoke/run_log.json": "d5d95958e973f264af07d0a59eba3cb388e7e4e6fc3f55c3e10528e693df5344",
+      "paper/results/optimizer_head_to_head/preflight.json": "82018e02e360e0466e6110ba98f2d1cd46f66999799334b566c9c84e9cce0e6a",
+      "paper/results/optimizer_head_to_head/results.json": "94319b5ba5056363359378fb383612c14fe91c381db50ef5e1749bda9ade8584",
+      "paper/results/optimizer_head_to_head/smoke.json": "eb7244265f183d4c642267df7116310ebbdf13d1c2c4f6f23d23446ec9547cbd",
+      "paper/results/portfolio_live/preflight.json": "cc08f190fea21bd25d78a7c5adf2b106a67f07ad775fc4d364300d4b5b6d85db",
+      "paper/results/portfolio_live/results.json": "08990b93dcaf0d29106f4b2289a47d3c92efb072c696f0eb54d6e9d0d8bfa3cb",
+      "paper/results/recurrence_only_ablation/evaluation_checkpoint.json": "700685f8279b840a0f9fada126269e725776e9c86a8d0e22466b905bce625710",
+      "paper/results/recurrence_only_ablation/preflight.json": "70559d451c6c3309e097300acd965d1096eebcb31e2e1b34ceed7d452ee23ab9",
+      "paper/results/recurrence_only_ablation/results.json": "d265ac677547d015fc7de101c2f6e4dfabad0b757b93994bfe4b0b845a059cd5",
+      "paper/results/second_model_replication/issue_type/evaluation_checkpoint.json": "44617a2ecf35ebd2c6d3960a7a622e049e874e98966212aef48fe6ae17b0328a",
+      "paper/results/second_model_replication/issue_type/preflight.json": "74df0bf69eed667680032abb3fcb9095a8dccc87cdc3002c45d8adb89945e2fe",
+      "paper/results/second_model_replication/issue_type/registry/registry.json": "12ed83671d4d8699db63822770b5c646a740a9ff5143df9a1b9fc419ed3b10e0",
+      "paper/results/second_model_replication/issue_type/results.json": "423f717ed4dde45ac5023c81ca587541d4f0f7d148d60ee7bba2acc48aad03cd",
+      "paper/results/second_model_replication/issue_type_rediscovery/discovery_checkpoint.json": "d02cc87f51abff705cbc95c31e29a93ae226dd1b1dd9bd2b27b77e2c2ab9a51f",
+      "paper/results/second_model_replication/issue_type_rediscovery/evaluation_checkpoint.json": "ad26c7898d421a6a358ec12b48bcdec3becd3503f589c5ae68cb3e9e37d73078",
+      "paper/results/second_model_replication/issue_type_rediscovery/preflight.json": "a5b3e7273c60b567d88acd705990dabb4d01ee1ffd6f9c7508a1625e6da14b29",
+      "paper/results/second_model_replication/issue_type_rediscovery/registry/registry.json": "701182ce07d8e6f704b2cf3d1da88a2e64cb8277978a5d94260921084fe3b144",
+      "paper/results/second_model_replication/issue_type_rediscovery/results.json": "11437cdbcadbd2548905d2f64f665b112faffcb064c638597c0a797112a99b15",
+      "paper/results/second_provider_replication/issue_type/discovery_checkpoint.json": "0ac0bd688ca768d805a05ed5bde15ca784c5b9a62b56cc8e60cbc7f8da6aff17",
+      "paper/results/second_provider_replication/issue_type/evaluation_checkpoint.json": "5ca2249062a93141164b2c59917e20c3ba5a70c8956f741e0de70e82127cbf9e",
+      "paper/results/second_provider_replication/issue_type/preflight.json": "3e794bda9b224b31c8e3f860613f59a795f40a927ecc17a9efdce86853f8c8db",
+      "paper/results/second_provider_replication/issue_type/registry/registry.json": "fc2c150fdffee697360037c3a0e7c6096c0e62f9a586d30f72e6d9dae5f95267",
+      "paper/results/second_provider_replication/issue_type/results.json": "945dd164213928f8d2ecb08e3c251c0c4382abce2982e6625f5da196f3f6ff3d",
+      "paper/results/time_forward/pr_outcome/calibration_checkpoint.json": "51818f721994cd6b5f2733f0b2be8a81ef62dac92ef59b3107885dae0b5c5bc2",
+      "paper/results/time_forward/pr_outcome/discovery_checkpoint.json": "9a27cb920dfd8aaa6b86416667391de67c59514ec84088f6aba3aafdb6c3a2a2",
+      "paper/results/time_forward/pr_outcome/evaluation_checkpoint.json": "8d1a0858dae941f061ed47749e74db1b095d7fac1ff12cc6c7cda22c85515e80"
+    },
+    "limitations": [
+      "Unqualified IDs can over-exclude other repositories.",
+      "Raw datasets are not prior experiment outcomes and are excluded from scanning.",
+      "Unrecognized ID encodings and untracked evidence need a separate pre-seal lineage audit."
+    ],
+    "qualified_id_counts": {
+      "aio-libs/aiohttp": 1,
+      "apache/arrow": 1,
+      "apache/beam": 1,
+      "bastibe/python-soundfile": 1,
+      "dair-ai/emotion_dataset": 1,
+      "embeddings-benchmark/mteb": 2,
+      "fsspec/filesystem_spec": 1,
+      "google-research/google-research": 1,
+      "google/BIG-bench": 1,
+      "huggingface/dataset-viewer": 1,
+      "huggingface/datasets": 1179,
+      "huggingface/diffusers": 1,
+      "huggingface/huggingface_hub": 4,
+      "huggingface/moon-landing": 2,
+      "huggingface/nlp": 1,
+      "huggingface/transformers": 9,
+      "iterative/cml": 2,
+      "kohya-ss/sd-webui-additional-networks": 1,
+      "meta-llama/llama-cookbook": 1,
+      "microsoft/table-transformer": 1,
+      "numpy/numpy": 1,
+      "pandas-dev/pandas": 460,
+      "psf/requests": 298,
+      "pydantic/pydantic": 1,
+      "pytest-dev/pytest": 1,
+      "pytorch/pytorch": 342,
+      "streamlit/streamlit": 178,
+      "tensorflow/datasets": 1,
+      "uqfoundation/dill": 1
+    },
+    "scanned_tracked_json_files": 598,
+    "status": "conservative_screen_not_sealed"
+  },
+  "generator_sha256": "6798ace42ab250c02c7a5484cc15245a44698b9007c6c7b454b729a661d064cc",
+  "next_action": "Acquire and audit fresh source evidence, then discover candidates on training data under a separately costed plan; no confirmatory provider run yet.",
+  "paid_provider_calls": 0,
+  "power": {
+    "assumptions": "iid paired groups; assumed discordance rates; favorable two-sided exact rejection",
+    "candidate_calibration": {
+      "alpha": 0.05,
+      "delta": 0.1,
+      "fixed_candidate_zero_error_minimum": 92,
+      "qualification": "Floors apply only to frozen candidates, registered losses and iid calibration groups; not final-answer evidence.",
+      "simultaneous_12_candidate_zero_error_minimum": 141,
+      "thresholds": 11
+    },
+    "familywise_error": 0.05,
+    "per_contrast_planning_error": 0.0020833333333333333,
+    "primary_contrasts": 24,
+    "qualification": "Holm may be less conservative; these are per-contrast powers, not joint study power",
+    "rows": [
+      {
+        "five_point_ni_max_losses": 4,
+        "five_point_ni_power": [
+          {
+            "comparator_only_correct_probability": 0.01,
+            "power": 0.8161111674696366
+          },
+          {
+            "comparator_only_correct_probability": 0.02,
+            "power": 0.2823523459773007
+          },
+          {
+            "comparator_only_correct_probability": 0.03,
+            "power": 0.05243413195892177
+          }
+        ],
+        "superiority_power": [
+          {
+            "comparator_only_correct_probability": 0.01,
+            "gac_only_correct_probability": 0.03,
+            "power": 0.045326853582128276
+          },
+          {
+            "comparator_only_correct_probability": 0.01,
+            "gac_only_correct_probability": 0.04,
+            "power": 0.15384987252764862
+          },
+          {
+            "comparator_only_correct_probability": 0.01,
+            "gac_only_correct_probability": 0.06,
+            "power": 0.5497896479871959
+          }
+        ],
+        "test_episodes_12_families_4_arms": 14400,
+        "test_groups_per_family": 300,
+        "zero_loss_upper_bound": 0.020368978622288147
+      },
+      {
+        "five_point_ni_max_losses": 15,
+        "five_point_ni_power": [
+          {
+            "comparator_only_correct_probability": 0.01,
+            "power": 0.9995300283140874
+          },
+          {
+            "comparator_only_correct_probability": 0.02,
+            "power": 0.8466161056626187
+          },
+          {
+            "comparator_only_correct_probability": 0.03,
+            "power": 0.2830558510421928
+          }
+        ],
+        "superiority_power": [
+          {
+            "comparator_only_correct_probability": 0.01,
+            "gac_only_correct_probability": 0.03,
+            "power": 0.2001814434167237
+          },
+          {
+            "comparator_only_correct_probability": 0.01,
+            "gac_only_correct_probability": 0.04,
+            "power": 0.5462208338161836
+          },
+          {
+            "comparator_only_correct_probability": 0.01,
+            "gac_only_correct_probability": 0.06,
+            "power": 0.9594824712099748
+          }
+        ],
+        "test_episodes_12_families_4_arms": 28800,
+        "test_groups_per_family": 600,
+        "zero_loss_upper_bound": 0.010236886230997277
+      },
+      {
+        "five_point_ni_max_losses": 26,
+        "five_point_ni_power": [
+          {
+            "comparator_only_correct_probability": 0.01,
+            "power": 0.9999991922781982
+          },
+          {
+            "comparator_only_correct_probability": 0.02,
+            "power": 0.9730739623613925
+          },
+          {
+            "comparator_only_correct_probability": 0.03,
+            "power": 0.4732345591100411
+          }
+        ],
+        "superiority_power": [
+          {
+            "comparator_only_correct_probability": 0.01,
+            "gac_only_correct_probability": 0.03,
+            "power": 0.4213121332799382
+          },
+          {
+            "comparator_only_correct_probability": 0.01,
+            "gac_only_correct_probability": 0.04,
+            "power": 0.8338114190517456
+          },
+          {
+            "comparator_only_correct_probability": 0.01,
+            "gac_only_correct_probability": 0.06,
+            "power": 0.9983238536369932
+          }
+        ],
+        "test_episodes_12_families_4_arms": 43200,
+        "test_groups_per_family": 900,
+        "zero_loss_upper_bound": 0.0068362878750855005
+      },
+      {
+        "five_point_ni_max_losses": 39,
+        "five_point_ni_power": [
+          {
+            "comparator_only_correct_probability": 0.01,
+            "power": 0.9999999998874043
+          },
+          {
+            "comparator_only_correct_probability": 0.02,
+            "power": 0.9984469372253408
+          },
+          {
+            "comparator_only_correct_probability": 0.03,
+            "power": 0.7289024340151218
+          }
+        ],
+        "superiority_power": [
+          {
+            "comparator_only_correct_probability": 0.01,
+            "gac_only_correct_probability": 0.03,
+            "power": 0.6248171955676197
+          },
+          {
+            "comparator_only_correct_probability": 0.01,
+            "gac_only_correct_probability": 0.04,
+            "power": 0.9515146149356506
+          },
+          {
+            "comparator_only_correct_probability": 0.01,
+            "gac_only_correct_probability": 0.06,
+            "power": 0.9999572395964977
+          }
+        ],
+        "test_episodes_12_families_4_arms": 57600,
+        "test_groups_per_family": 1200,
+        "zero_loss_upper_bound": 0.005131609825197669
+      },
+      {
+        "five_point_ni_max_losses": 64,
+        "five_point_ni_power": [
+          {
+            "comparator_only_correct_probability": 0.01,
+            "power": 1.0
+          },
+          {
+            "comparator_only_correct_probability": 0.02,
+            "power": 0.9999931063793155
+          },
+          {
+            "comparator_only_correct_probability": 0.03,
+            "power": 0.9235828252697997
+          }
+        ],
+        "superiority_power": [
+          {
+            "comparator_only_correct_probability": 0.01,
+            "gac_only_correct_probability": 0.03,
+            "power": 0.8792435498325022
+          },
+          {
+            "comparator_only_correct_probability": 0.01,
+            "gac_only_correct_probability": 0.04,
+            "power": 0.9975684485387777
+          },
+          {
+            "comparator_only_correct_probability": 0.01,
+            "gac_only_correct_probability": 0.06,
+            "power": 0.9999999880388264
+          }
+        ],
+        "test_episodes_12_families_4_arms": 86400,
+        "test_groups_per_family": 1800,
+        "zero_loss_upper_bound": 0.0034240058455580202
+      },
+      {
+        "five_point_ni_max_losses": 90,
+        "five_point_ni_power": [
+          {
+            "comparator_only_correct_probability": 0.01,
+            "power": 1.0
+          },
+          {
+            "comparator_only_correct_probability": 0.02,
+            "power": 0.9999999855708467
+          },
+          {
+            "comparator_only_correct_probability": 0.03,
+            "power": 0.9841641280724212
+          }
+        ],
+        "superiority_power": [
+          {
+            "comparator_only_correct_probability": 0.01,
+            "gac_only_correct_probability": 0.03,
+            "power": 0.9703064497597765
+          },
+          {
+            "comparator_only_correct_probability": 0.01,
+            "gac_only_correct_probability": 0.04,
+            "power": 0.9999193985343078
+          },
+          {
+            "comparator_only_correct_probability": 0.01,
+            "gac_only_correct_probability": 0.06,
+            "power": 0.9999999999982132
+          }
+        ],
+        "test_episodes_12_families_4_arms": 115200,
+        "test_groups_per_family": 2400,
+        "zero_loss_upper_bound": 0.0025691050630112233
+      }
+    ],
+    "zero_loss_minimum_groups_for_strict_ni": {
+      "0.01": 615,
+      "0.02": 306,
+      "0.05": 121
+    }
+  },
+  "prospective_questions_specified": true,
+  "protocol_sha256": "cbad3fa0a7403865ca41ed79699661e61d09a869c0b34928a7f8bc8b2d5aa3d4",
+  "retained_source_inventory": [
+    {
+      "counts": {
+        "comment_text_available": 1325,
+        "excluded_by_prior_screen": 6115,
+        "is_open_issue": 0,
+        "issue_excerpt_available": 6,
+        "issue_type_source_screen": 6,
+        "issues": 8,
+        "pr_closed_unmerged": 118,
+        "pr_core_source_eligible": 1317,
+        "pr_excerpt_source_eligible": 1317,
+        "pr_merged": 1196,
+        "pr_open": 3,
+        "pull_requests": 1317,
+        "remaining_records": 1325,
+        "title_representable": 1325
+      },
+      "fetched_at": null,
+      "largest_author_cluster": 304,
+      "manifest_path": "paper/results/datasets/github_issues/source_manifest.json",
+      "manifest_sha256": "45e26e838a3ae6665758cd27544aaf5fd564ead24fa0b374067a6568afa9844b",
+      "parquet_path": "paper/results/datasets/github_issues/train-00000-of-00001.parquet",
+      "parquet_sha256": "09453eefae39e45a969ab0bee72ca0e188fe79dc50403b0f2a78c39894f5d1a3",
+      "qualification": "Source screens overlap and are not disjoint cohorts, discovered candidates, independent units, or verified grader contracts.",
+      "raw_rows": 7540,
+      "remaining_created_range": [
+        "2020-05-11",
+        "2025-06-09"
+      ],
+      "remaining_distinct_days": 647,
+      "remaining_distinct_known_authors": 319,
+      "remaining_ids_sha256": "b74c62dfbe220db7bbe580a1be8bab94e3cb77ebeaa2bf38d92d36154d097a32",
+      "remaining_unknown_author_records": 0,
+      "repository": "huggingface/datasets",
+      "source_revision": "e344be7b84d199661a9956036991e1fc25715a47",
+      "source_schema": null,
+      "status": "checksum_verified_local_inventory",
+      "unique_records": 7440
+    },
+    {
+      "counts": {
+        "comment_text_available": 0,
+        "excluded_by_prior_screen": 7486,
+        "is_open_issue": 3278,
+        "issue_excerpt_available": 16995,
+        "issues": 17009,
+        "pr_closed_unmerged": 4401,
+        "pr_core_source_eligible": 20041,
+        "pr_merged": 15605,
+        "pr_open": 35,
+        "pull_requests": 20041,
+        "remaining_records": 37050,
+        "title_representable": 37049
+      },
+      "fetched_at": null,
+      "largest_author_cluster": 4349,
+      "manifest_path": "paper/results/datasets/github_multirepo/pandas-dev__pandas/source_manifest.json",
+      "manifest_sha256": "3319cad5647841fabac3efe3cb7f49764d46a3c654319b62a578a9830f51a5ad",
+      "parquet_path": "paper/results/datasets/github_multirepo/pandas-dev__pandas/snapshot.parquet",
+      "parquet_sha256": "2b08f6e8c3e3024509d99f86033b0bdd35b0b99be72abd4cbc6808524888fc99",
+      "qualification": "Source screens overlap and are not disjoint cohorts, discovered candidates, independent units, or verified grader contracts.",
+      "raw_rows": 44536,
+      "remaining_created_range": [
+        "2011-07-18",
+        "2021-11-21"
+      ],
+      "remaining_distinct_days": 3203,
+      "remaining_distinct_known_authors": 8941,
+      "remaining_ids_sha256": "745146e120446b927058b5aa9271988fc93f2d52a90721935ef64afd6702e20a",
+      "remaining_unknown_author_records": 0,
+      "repository": "pandas-dev/pandas",
+      "source_revision": "main",
+      "source_schema": "raw_count",
+      "status": "checksum_verified_local_inventory",
+      "unique_records": 44536
+    },
+    {
+      "counts": {
+        "comment_text_available": 0,
+        "excluded_by_prior_screen": 5315,
+        "is_open_issue": 34,
+        "issue_excerpt_available": 794,
+        "issues": 799,
+        "pr_closed_unmerged": 152,
+        "pr_core_source_eligible": 414,
+        "pr_merged": 259,
+        "pr_open": 3,
+        "pull_requests": 414,
+        "remaining_records": 1213,
+        "title_representable": 1213
+      },
+      "fetched_at": null,
+      "largest_author_cluster": 35,
+      "manifest_path": "paper/results/datasets/github_multirepo/psf__requests/source_manifest.json",
+      "manifest_sha256": "eaddb6e407dc53b2c7239ec3c29301a4d9268005202a7111b5a26fc7b6483732",
+      "parquet_path": "paper/results/datasets/github_multirepo/psf__requests/snapshot.parquet",
+      "parquet_sha256": "bf5e293099a9eafab44d240ce0e2d6291359823f732a987eebea663ea483690f",
+      "qualification": "Source screens overlap and are not disjoint cohorts, discovered candidates, independent units, or verified grader contracts.",
+      "raw_rows": 6528,
+      "remaining_created_range": [
+        "2011-06-23",
+        "2024-10-16"
+      ],
+      "remaining_distinct_days": 892,
+      "remaining_distinct_known_authors": 946,
+      "remaining_ids_sha256": "7c2ca9e59c59aaa4aaa0742fef32b7b14e036121d2ca83af87272e87eaf9e878",
+      "remaining_unknown_author_records": 0,
+      "repository": "psf/requests",
+      "source_revision": "main",
+      "source_schema": "raw_count",
+      "status": "checksum_verified_local_inventory",
+      "unique_records": 6528
+    },
+    {
+      "counts": {
+        "comment_text_available": 0,
+        "excluded_by_prior_screen": 3964,
+        "is_open_issue": 105,
+        "issue_excerpt_available": 439,
+        "issues": 442,
+        "pr_closed_unmerged": 69,
+        "pr_core_source_eligible": 494,
+        "pr_merged": 424,
+        "pr_open": 1,
+        "pull_requests": 494,
+        "remaining_records": 936,
+        "title_representable": 936
+      },
+      "fetched_at": null,
+      "largest_author_cluster": 75,
+      "manifest_path": "paper/results/datasets/github_multirepo/streamlit__streamlit/source_manifest.json",
+      "manifest_sha256": "2bdade0b7862c6985bf6d9721d635d8414af31312b9578fbeafefe5a00b04cc5",
+      "parquet_path": "paper/results/datasets/github_multirepo/streamlit__streamlit/snapshot.parquet",
+      "parquet_sha256": "7f24ca99d846948b18b6af990565a85b6f796178c50fb718e3a18dc81e174cbe",
+      "qualification": "Source screens overlap and are not disjoint cohorts, discovered candidates, independent units, or verified grader contracts.",
+      "raw_rows": 5000,
+      "remaining_created_range": [
+        "2020-05-18",
+        "2023-02-15"
+      ],
+      "remaining_distinct_days": 456,
+      "remaining_distinct_known_authors": 370,
+      "remaining_ids_sha256": "b59c3bd14f57e81a357e44459667129b42dbf28ab36ace927167101b18448c0c",
+      "remaining_unknown_author_records": 0,
+      "repository": "streamlit/streamlit",
+      "source_revision": "main",
+      "source_schema": "raw_count",
+      "status": "checksum_verified_local_inventory",
+      "unique_records": 4900
+    },
+    {
+      "counts": {
+        "comment_text_available": 0,
+        "excluded_by_prior_screen": 341,
+        "is_open_issue": 1243,
+        "issue_excerpt_available": 2441,
+        "issues": 2441,
+        "pr_closed_unmerged": 5156,
+        "pr_core_source_eligible": 6827,
+        "pr_merged": 40,
+        "pr_open": 1631,
+        "pull_requests": 6827,
+        "remaining_records": 9268,
+        "title_representable": 9268
+      },
+      "fetched_at": null,
+      "largest_author_cluster": 517,
+      "manifest_path": "paper/results/datasets/github_multirepo/pytorch__pytorch/source_manifest.json",
+      "manifest_sha256": "3d9ad2f6d3d7ffbf82018ea461adc484d4995c7ae21812dcddd3ab35bc99ede2",
+      "parquet_path": "paper/results/datasets/github_multirepo/pytorch__pytorch/snapshot.parquet",
+      "parquet_sha256": "3d8b3f73277a8e436a3196f6da9bd7733f309ef8d7b90bc7f81844a69a30b05f",
+      "qualification": "Source screens overlap and are not disjoint cohorts, discovered candidates, independent units, or verified grader contracts.",
+      "raw_rows": 9609,
+      "remaining_created_range": [
+        "2025-11-05",
+        "2026-03-10"
+      ],
+      "remaining_distinct_days": 126,
+      "remaining_distinct_known_authors": 1463,
+      "remaining_ids_sha256": "0a63d38e071033272536aad8f1b67cd1c520a7067aba727c0eaeb86b4cc3ad1c",
+      "remaining_unknown_author_records": 0,
+      "repository": "pytorch/pytorch",
+      "source_revision": "main",
+      "source_schema": "raw_count",
+      "status": "checksum_verified_local_inventory",
+      "unique_records": 9609
+    },
+    {
+      "counts": {
+        "backlog_source_screen": 89,
+        "comment_text_available": 406,
+        "excluded_by_prior_screen": 689,
+        "is_open_issue": 89,
+        "issue_excerpt_available": 146,
+        "issue_type_source_screen": 146,
+        "issues": 147,
+        "pr_closed_unmerged": 5,
+        "pr_core_source_eligible": 259,
+        "pr_excerpt_source_eligible": 259,
+        "pr_merged": 101,
+        "pr_open": 153,
+        "pull_requests": 259,
+        "remaining_records": 406,
+        "title_representable": 406
+      },
+      "fetched_at": "2026-10-07T13:43:30Z",
+      "largest_author_cluster": 50,
+      "manifest_path": "paper/results/datasets/github_time_forward/huggingface__datasets/source_manifest.json",
+      "manifest_sha256": "54535a6c1df2fc7c684177ed9541a499b7259b8b1b1a438bb07a23946e798183",
+      "parquet_path": "paper/results/datasets/github_time_forward/huggingface__datasets/snapshot.parquet",
+      "parquet_sha256": "9b94520fd0902961a07d0f0323c1b8d86ab0db38d863ac9b0cce984296f029b7",
+      "qualification": "Source screens overlap and are not disjoint cohorts, discovered candidates, independent units, or verified grader contracts.",
+      "raw_rows": 1095,
+      "remaining_created_range": [
+        "2025-06-17",
+        "2026-10-06"
+      ],
+      "remaining_distinct_days": 220,
+      "remaining_distinct_known_authors": 228,
+      "remaining_ids_sha256": "33b11bf0efc71c113a4ebc90d5010a712eb0304d6fe6f8273311abc0ef5d4447",
+      "remaining_unknown_author_records": 0,
+      "repository": "huggingface/datasets",
+      "source_revision": null,
+      "source_schema": "agent-compaction-time-forward-snapshot/v1",
+      "status": "checksum_verified_local_inventory",
+      "unique_records": 1095
+    }
+  ],
+  "schema": "gac-matched-compiler-feasibility/v1",
+  "status": "NO_GO_FOR_CONFIRMATORY_EXECUTION"
+}
