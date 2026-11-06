@@ -121,3 +121,25 @@ It is **unrun and unsealed** and supplies no new evidence or spending approval.
 The source, both ICLR PDF copies, local OpenReview metadata and publication
 manifest are maintained together; updating OpenReview or merging the PR remains
 a separate author action.
+
+## November 6 review response and population audit
+
+The author confirmed that the submitted paper is older than the October 28 local
+revision. The new [revision ledger](notes/review_revision_status_2026-11-06.md) and
+[reviewer-response draft](notes/review_response_2026-11-06.md) distinguish prior progress,
+new retrospective evidence, and experiments still required. Nothing has been posted
+to OpenReview by these changes.
+
+The [population audit](../results/calibration_population_audit/REPORT.md) accounts for
+all 396 primary discovery records and five candidates reaching calibration. Every
+assigned calibration group has a family-window label, but three outcome-filtered
+records pass the saved selected artifacts' entry guard and gate. The manuscript now
+explicitly disclaims certification of the unfiltered primary deployment population.
+The audit does not run continuations or produce a new certificate. It preserves the
+historical registry when current code induces a different issue-number hull.
+
+The [adaptive comparison plan](../supplementary/reviewer-adaptive-comparison-plan.md)
+includes an initial BIRD source screen and remains unrun/unsealed. It requires fresh
+unfiltered calibration, source/task validation, a competing-compiler adapter, and a
+prospective design before provider execution. The main text retains the ten-page
+discussion limit; broader optimizer context is moved to the appendix.

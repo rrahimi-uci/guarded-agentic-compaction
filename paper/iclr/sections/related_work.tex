@@ -24,18 +24,8 @@ Plan caching reuses plans \citep{zhang2025plancache}; EvoC2F compiles an
 annotated orchestration IR and tests skills before admission \citep{wei2026evoc2f};
 Agent JIT generates and schedules executable plans with tool pre/postconditions
 \citep{winston2026agentjit}. These are distinct optimization units, not
-interchangeable implementations. Other systems optimize workflows, compile
-plans, or prune topology
-\citep{abuzakuk2026awo,li2026flowcompile,chen2026agentslimming,wang2026covenant,chundru2026agenticcompilation};
-skill libraries grow reusable procedures from
-experience~\citep{wang2023voyager,zheng2025skillweaver}; semantic caches reuse
-responses~\citep{bang2023gptcache}, and prompt caching and cache-aware
-compression reuse shared prefixes~\citep{lumer2026cache,song2026capc};
-DSPy, GEPA, TextGrad, and Trace optimize prompts and programs against task
-feedback~\citep{khattab2024dspy,opsahlong2024mipro,agrawal2026gepa,yuksekgonul2024textgrad,cheng2024trace};
-RouteLLM changes models~\citep{ong2025routellm}, LLMCompiler parallelizes
-calls~\citep{kim2024llmcompiler}, and \citet{yue2026workflowsurvey} survey the
-space. Our contribution combines trace reuse with a finite-sample admission bound
+interchangeable implementations. Broader prompt, cache, and workflow optimizers are discussed in
+\cref{app:additional-related}. Our contribution combines trace reuse with a finite-sample admission bound
 and exact fallback on clean rejection; the reviewed systems motivate its
 components rather than establishing a universal priority claim. Counterfactual trace auditing~\citep{zhou2026cta}, which
 pairs each trace with a counterfactual run of the same task, is the closest

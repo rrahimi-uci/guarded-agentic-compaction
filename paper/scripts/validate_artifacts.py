@@ -3559,7 +3559,27 @@ def validate_graded_issue_gate_extension() -> None:
         ok(not table_path.exists(), "gate extension: no result table is claimed before execution")
 
 
+def validate_primary_population_audit() -> None:
+    """Audit accounting and saved-artifact preconditions without provider calls."""
+    import importlib.util
+
+    path = PAPER / "scripts/audit_calibration_population.py"
+    spec = importlib.util.spec_from_file_location("audit_calibration_population", path)
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(module)
+    report = load(module.OUT / "report.json")
+    try:
+        module.verify(report)
+        ok(True, "primary population: source hashes, accounting, and retained eligibility reproduce")
+    except (ValueError, KeyError, OSError) as error:
+        ok(False, f"primary population: {error}")
+    ok((module.OUT / "REPORT.md").read_text() == module.render(report),
+       "primary population: report renders from retained JSON")
+
+
 FAMILIES: dict[str, Any] = {
+    "primary_population_audit": validate_primary_population_audit,
     "sources": validate_sources,
     "live": validate_live,
     "natural_preflight": validate_natural_preflight,

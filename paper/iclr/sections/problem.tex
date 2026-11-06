@@ -19,7 +19,10 @@ An episode $E=(z,M,e_{1:T},y)$ contains an entry-state snapshot $z$, a
 content-addressed execution manifest $M$, ordered events $e_t$ (model requests
 and responses, tool calls and results, handoffs, guardrails, approvals, errors,
 commit boundaries), and an observable outcome $y$; $c_j$ denotes the $j$-th tool
-call and $o_j$ its result. Each tool $f$ carries an
+call and $o_j$ its result. The manifest identifies the prompt, model, tools,
+policies, and effect catalog by version or content digest; its compatibility
+pins define which execution environment an artifact may replace.
+Each tool $f$ carries an
 application-owned effect declaration $\epsilon(f)$ and capability flags such as
 \emph{speculatable}; an unknown effect is not a read.
 
@@ -72,8 +75,8 @@ Dispatch is \emph{selective},
 and any failed precondition runs the unchanged baseline $B$. If execution fails
 before a commit and staging proves the attempt clean, $B$ runs; a failure whose effects
 cannot be proved clean is an incident, not a fallback. Fix a binary loss
-$L(A,x)$ before calibration: replay-contract failure or incident for the primary
-certificate; final task-contract failure for the end-to-end study. A clean abort
+$L(A,x)$ before calibration: verifier-passing replay-output mismatch for the primary
+bound; final task-contract failure for the end-to-end study. A clean abort
 has replay loss zero but its baseline continuation can still fail the final task.
 Let $C(A,x)$ be the complete realized cost
 of the attempt including a clean fallback. For a future group
