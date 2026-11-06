@@ -115,3 +115,28 @@ The updated source inventory leaves 666 questions, with power and dependence
 limitations documented explicitly. Confirmatory execution remains a no-go pending
 the protocol and evidence conditions in that report. No additional API spending
 or manuscript numerical-claim changes were made by this follow-up.
+
+
+### Interrupted AppWorld adaptive pilot and evaluator repair
+
+The [AppWorld development report](../../results/appworld_adaptive_viability/REPORT.md)
+retains a fixed 12-scenario, two-arm attempt. The compatible dependency image passed
+36 reference/negative controls before execution. A later exact-path audit found that
+reference execution persisted state automatically while direct model API calls did
+not. The original agent grades are invalid. Execution stopped with nine completed,
+one interrupted and fourteen unstarted dispositions; every provider charge remains
+accounted for. The original sealed code and evidence are retained.
+
+The corrected persistence boundary passes three direct-agent-path controls. A
+known-correct sequence changes from 0/6 to 6/6 grading assertions with identical API
+responses. Provider-free regrades of all nine completed histories preserve exact
+context/API-result parity and produce no successes. They are diagnostic repairs,
+not fresh adaptive trials, population estimates or a completed matched comparison.
+
+The initial-prefix catalog's structural limitation was recorded before paid calls:
+only documentation/profile/password reads are audited, while authentication remains
+a write barrier. No nontrivial family or admitted artifact is established. This
+study therefore remains a **NO_GO**, does not change manuscript numerical claims,
+and closes none of the matched-compiler, fresh-calibration or learned-gate objections.
+The next funded experiment requires meaningful candidate viability, competent
+baseline behavior and positive controls through the exact adapter/grader path first.

@@ -1,0 +1,314 @@
+{
+  "amendment": "Before any paid calls: v1 reference control fails with SQLite missing-table exceptions on one of 12 tasks. The same unmodified task/reference/grader passes in the compatible dependency image. Rerun all 36 controls; task list, seed, model, limits, arms and grading requirements unchanged. Old results retained.",
+  "arm_order": {
+    "229360a_1": [
+      "manual_prefix",
+      "baseline"
+    ],
+    "22cc237_3": [
+      "manual_prefix",
+      "baseline"
+    ],
+    "27e1026_3": [
+      "baseline",
+      "manual_prefix"
+    ],
+    "29caf6f_3": [
+      "manual_prefix",
+      "baseline"
+    ],
+    "3c13f5a_2": [
+      "baseline",
+      "manual_prefix"
+    ],
+    "60d0b5b_1": [
+      "manual_prefix",
+      "baseline"
+    ],
+    "692c77d_1": [
+      "manual_prefix",
+      "baseline"
+    ],
+    "afc0fce_3": [
+      "manual_prefix",
+      "baseline"
+    ],
+    "b0a8eae_1": [
+      "baseline",
+      "manual_prefix"
+    ],
+    "c901732_2": [
+      "baseline",
+      "manual_prefix"
+    ],
+    "ce359b5_1": [
+      "baseline",
+      "manual_prefix"
+    ],
+    "e7a10f8_1": [
+      "baseline",
+      "manual_prefix"
+    ]
+  },
+  "arms": [
+    "baseline",
+    "manual_prefix"
+  ],
+  "base_image": "sha256:bb24405c0bd685433d8d3110a9f99f019af14696a2437e15d718b28dabdb68c7",
+  "calibration_groups": [],
+  "campaign_cap_usd": 300,
+  "candidate_gate": {
+    "admission": "No calibration groups: no GAC artifact may be emitted. Research candidate execution is not admitted GAC.",
+    "minimum_saved_requests": 2,
+    "minimum_train_support": 3,
+    "prefix_lengths": [
+      2,
+      3,
+      4
+    ],
+    "required_distinct_nontrivial_families": 2,
+    "trivial": "Documentation-only or supervisor profile/password-only programs cannot establish distinctive compiler value."
+  },
+  "challenge_groups": [
+    "b0a8eae_1",
+    "afc0fce_3",
+    "3c13f5a_2",
+    "60d0b5b_1"
+  ],
+  "context_policy": "All task/action history; last four tool results, each capped at 16000 characters. Full raw results retained.",
+  "dependency_pins": {
+    "sqlalchemy": "2.0.44",
+    "sqlmodel": "0.0.44"
+  },
+  "discovery_groups": [
+    "27e1026_3",
+    "22cc237_3",
+    "e7a10f8_1",
+    "229360a_1",
+    "c901732_2",
+    "692c77d_1",
+    "ce359b5_1",
+    "29caf6f_3"
+  ],
+  "effect_catalog": {
+    "name": "appworld-0.2.0-development-reads",
+    "tools": {
+      "api_docs.search_api_docs": {
+        "approval_required": false,
+        "argument_semantics": {},
+        "capabilities": [
+          "speculatable",
+          "replayable"
+        ],
+        "effect": "READ_LOCAL",
+        "freshness_s": null,
+        "key": [],
+        "literal_only": [],
+        "max_transform_depth": null,
+        "notes": "Audited pinned public documentation/supervisor read; SQL effects monitored. No credential-minting API included.",
+        "quota_attested": false,
+        "resource": "pinned-isolated-appworld",
+        "tool": "api_docs.search_api_docs"
+      },
+      "api_docs.show_api_descriptions": {
+        "approval_required": false,
+        "argument_semantics": {},
+        "capabilities": [
+          "speculatable",
+          "replayable"
+        ],
+        "effect": "READ_LOCAL",
+        "freshness_s": null,
+        "key": [],
+        "literal_only": [],
+        "max_transform_depth": null,
+        "notes": "Audited pinned public documentation/supervisor read; SQL effects monitored. No credential-minting API included.",
+        "quota_attested": false,
+        "resource": "pinned-isolated-appworld",
+        "tool": "api_docs.show_api_descriptions"
+      },
+      "api_docs.show_api_doc": {
+        "approval_required": false,
+        "argument_semantics": {},
+        "capabilities": [
+          "speculatable",
+          "replayable"
+        ],
+        "effect": "READ_LOCAL",
+        "freshness_s": null,
+        "key": [],
+        "literal_only": [],
+        "max_transform_depth": null,
+        "notes": "Audited pinned public documentation/supervisor read; SQL effects monitored. No credential-minting API included.",
+        "quota_attested": false,
+        "resource": "pinned-isolated-appworld",
+        "tool": "api_docs.show_api_doc"
+      },
+      "api_docs.show_app_descriptions": {
+        "approval_required": false,
+        "argument_semantics": {},
+        "capabilities": [
+          "speculatable",
+          "replayable"
+        ],
+        "effect": "READ_LOCAL",
+        "freshness_s": null,
+        "key": [],
+        "literal_only": [],
+        "max_transform_depth": null,
+        "notes": "Audited pinned public documentation/supervisor read; SQL effects monitored. No credential-minting API included.",
+        "quota_attested": false,
+        "resource": "pinned-isolated-appworld",
+        "tool": "api_docs.show_app_descriptions"
+      },
+      "supervisor.complete_task": {
+        "approval_required": false,
+        "argument_semantics": {},
+        "capabilities": [],
+        "effect": "WRITE_IRREVERSIBLE",
+        "freshness_s": null,
+        "key": [],
+        "literal_only": [],
+        "max_transform_depth": null,
+        "notes": "",
+        "quota_attested": false,
+        "resource": null,
+        "tool": "supervisor.complete_task"
+      },
+      "supervisor.show_account_passwords": {
+        "approval_required": false,
+        "argument_semantics": {},
+        "capabilities": [
+          "speculatable",
+          "replayable"
+        ],
+        "effect": "READ_LOCAL",
+        "freshness_s": null,
+        "key": [],
+        "literal_only": [],
+        "max_transform_depth": null,
+        "notes": "Audited pinned public documentation/supervisor read; SQL effects monitored. No credential-minting API included.",
+        "quota_attested": false,
+        "resource": "pinned-isolated-appworld",
+        "tool": "supervisor.show_account_passwords"
+      },
+      "supervisor.show_profile": {
+        "approval_required": false,
+        "argument_semantics": {},
+        "capabilities": [
+          "speculatable",
+          "replayable"
+        ],
+        "effect": "READ_LOCAL",
+        "freshness_s": null,
+        "key": [],
+        "literal_only": [],
+        "max_transform_depth": null,
+        "notes": "Audited pinned public documentation/supervisor read; SQL effects monitored. No credential-minting API included.",
+        "quota_attested": false,
+        "resource": "pinned-isolated-appworld",
+        "tool": "supervisor.show_profile"
+      }
+    },
+    "version": 1
+  },
+  "exposure": "Historical train/dev references and test trajectories already inspected. All selected scenarios and variants remain development-only.",
+  "failure_rule": "Retain every scheduled arm. Task failures count as unsuccessful. Stop paid execution on provider/budget or read-effect violations; do not replace tasks.",
+  "image": "sha256:d9e0e53e548439321832c2f3a2b424e2f6ce77436bfae4e5ec22e1f2da8a4718",
+  "instructions": "Solve the user's task in the simulated AppWorld environment.\nUse the public APIs and their documentation. API calls execute in the simulator;\ndo not claim an action succeeded unless its result supports that claim. You can\nlook up API documentation using the supplied documentation APIs. Read the relevant\nAPI documentation before calling an unfamiliar API. Authentication information,\nwhen required, is available through the supervisor APIs. Do not invent credentials\nor object identifiers. Use supervisor.complete_task when the task is finished.\nReturn a short final response after completing the task. All API actions are in\nan isolated simulation, and task success is judged by independent executable tests.",
+  "interpretation": "Development-only matched baseline/manual comparison and compiler viability screen, not confirmation, certification or a competing-compiler ranking.",
+  "inventory_sha256": "61afe391e4d1552c27c1ad57119c248f430a7f6068666e71068aeff14457abf7",
+  "max_api_calls": 48,
+  "max_payload_bytes": 100000,
+  "max_requests": 24,
+  "model": "gpt-5.6-luna",
+  "oracle_controls": [
+    "reference",
+    "empty",
+    "false_completion"
+  ],
+  "pilot_cap_usd": 8.0,
+  "prefix": [
+    {
+      "api": "show_profile",
+      "app": "supervisor",
+      "arguments": {}
+    },
+    {
+      "api": "show_account_passwords",
+      "app": "supervisor",
+      "arguments": {}
+    }
+  ],
+  "prior_seal_sha256": "a6247759ccdc53341d8dea529382062941ec17bcbcd27db76930279a916bac47",
+  "redistribution": "Protected raw inputs, API results, traces and reference outputs must be encrypted with upstream pack_bundle; public output is aggregates, counts and hashes only.",
+  "reference_controls_rule": "All 12 selected cases must have a successful nonempty reference test suite and failing negative controls before any paid execution.",
+  "scenarios": [
+    "27e1026",
+    "22cc237",
+    "e7a10f8",
+    "229360a",
+    "c901732",
+    "692c77d",
+    "ce359b5",
+    "29caf6f",
+    "b0a8eae",
+    "afc0fce",
+    "3c13f5a",
+    "60d0b5b"
+  ],
+  "schema": "appworld-adaptive-viability-v2",
+  "source_hashes": {
+    "experiments/appworld_adaptive_viability/Dockerfile": "1701b033d1dcdc9f889d1bfbe974aa40accfca428606809849005af90d376539",
+    "experiments/appworld_adaptive_viability/worker.py": "8f0d4643162c6b51ec281f8f62c85dbb27d2ed63c49c37f8f3451f3d92e76712",
+    "paper/scripts/adaptive_campaign_budget.py": "613faeab10f76279dbef9396cac11fbe3465830631b516d5d5aa12ad03006778",
+    "paper/scripts/appworld_adaptive_viability.py": "1f81e24f2438617d084a2779379feb171b4c24e4aa63ad155e8d92288feef04e",
+    "paper/scripts/appworld_reference_study.py": "c01a8ddacd462fdb8f711c5515a5d62b55fcb024784159c171d6d0efe6ea7020"
+  },
+  "source_selection": "Unchanged prior hash ordering: 12 distinct official training scenarios; no task outcome selection.",
+  "stage": "discovery",
+  "tasks": [
+    "27e1026_3",
+    "22cc237_3",
+    "e7a10f8_1",
+    "229360a_1",
+    "c901732_2",
+    "692c77d_1",
+    "ce359b5_1",
+    "29caf6f_3",
+    "b0a8eae_1",
+    "afc0fce_3",
+    "3c13f5a_2",
+    "60d0b5b_1"
+  ],
+  "test_groups": [],
+  "timeout_seconds": 600,
+  "tool": {
+    "function": {
+      "description": "Call a documented public AppWorld API. Use documentation APIs to discover API signatures.",
+      "name": "call_api",
+      "parameters": {
+        "additionalProperties": false,
+        "properties": {
+          "api": {
+            "type": "string"
+          },
+          "app": {
+            "type": "string"
+          },
+          "arguments": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "app",
+          "api",
+          "arguments"
+        ],
+        "type": "object"
+      }
+    },
+    "type": "function"
+  },
+  "upstream": "42b5bcf3cd334fee33f0c37c02070a9f5807add5"
+}
