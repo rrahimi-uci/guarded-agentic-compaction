@@ -29,6 +29,15 @@ They do not close the adaptive-comparison, fresh-calibration, learned-score or
 compiler-value rows above. All task material used there is exposed development data.
 No manuscript result should be replaced by those diagnostics.
 
+The [adaptive quality–cost study protocol](../../supplementary/adaptive-quality-cost-study.md)
+separates execution savings, admission value and workflow-authoring effort. Its
+[development follow-up](../../results/adaptive_comparison_followup/REPORT.md)
+adds a bounded four-template exposure register and a batching interface with
+provider-free controls. Neither is a matched adaptive GAC result. The AppWorld
+rules explicitly disallow hardcoded all-app login in agent logic, so the common
+entry variant remains an adapted study and cannot become a native leaderboard
+claim. Future native compiled-workflow eligibility also needs clarification.
+
 The [completed common-entry preflight](../../results/appworld_entry_preflight/REPORT.md)
 inspects the same fixed development cohort without provider calls. All 60 controls
 pass: 12 known-correct direct-call sequences, 24 negative controls and 24 bounded

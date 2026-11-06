@@ -1,0 +1,200 @@
+{
+  "data_sha256": "d65275660814663375028e9017e1f929e3c38321041b125795e2713b52243d30",
+  "fixtures": [
+    {
+      "answer": {
+        "error_details": null,
+        "retrieved_data": [
+          "https://Bookshop.org"
+        ],
+        "status": "SUCCESS",
+        "task_type": "RETRIEVE"
+      },
+      "commands": [
+        {
+          "action": "click",
+          "name": "Forums",
+          "role": "link"
+        },
+        {
+          "action": "click",
+          "name": "books \u2014 books",
+          "role": "link"
+        },
+        {
+          "action": "click",
+          "name": "Friendly reminder bookshop.org exists.",
+          "role": "link"
+        }
+      ],
+      "task_id": 69
+    },
+    {
+      "answer": {
+        "error_details": null,
+        "retrieved_data": null,
+        "status": "SUCCESS",
+        "task_type": "MUTATE"
+      },
+      "commands": [
+        {
+          "action": "click",
+          "name": "Submit",
+          "role": "link"
+        },
+        {
+          "action": "fill",
+          "name": "Title This field is required.",
+          "role": "textbox",
+          "value": "used iphone recommendations?"
+        },
+        {
+          "action": "fill",
+          "name": "Body",
+          "role": "textbox",
+          "value": "Hey, looking for good used iphone under $1000, any suggestions?"
+        },
+        {
+          "action": "click",
+          "name": "Choose one\u2026",
+          "role": "combobox"
+        },
+        {
+          "action": "click",
+          "name": "iphone",
+          "role": "option"
+        },
+        {
+          "action": "click",
+          "name": "Create submission",
+          "role": "button"
+        }
+      ],
+      "task_id": 634
+    }
+  ],
+  "image": "am1n3e/webarena-verified-reddit@sha256:0594908059a03e5f610005689440a95c05e776e734006197c7b1eba12734cb46",
+  "provider_calls": 0,
+  "runtime_versions": {
+    "Pint": "0.25",
+    "PyYAML": "6.0.3",
+    "Pygments": "2.21.0",
+    "RapidFuzz": "3.14.6",
+    "Unidecode": "1.4.0",
+    "annotated-types": "0.8.0",
+    "anyio": "4.16.0",
+    "attrs": "26.1.0",
+    "beautifulsoup4": "4.14.2",
+    "certifi": "2026.10.23",
+    "charset-normalizer": "3.5.2",
+    "click": "8.5.1",
+    "cloudpickle": "3.1.2",
+    "compact-json": "1.8.1",
+    "decorator": "5.3.1",
+    "flexcache": "0.3",
+    "flexparser": "0.4",
+    "future": "1.0.0",
+    "geocoder": "1.38.1",
+    "geographiclib": "2.1",
+    "geopy": "2.4.1",
+    "greenlet": "3.5.6",
+    "guarded-agentic-compaction": "0.7.0",
+    "h11": "0.16.0",
+    "httpcore2": "2.16.0",
+    "httpx2": "2.16.0",
+    "idna": "3.20",
+    "importlib_resources": "7.1.0",
+    "iniconfig": "2.3.1",
+    "jellyfish": "1.3.0",
+    "jiter": "0.19.0",
+    "joblib": "1.6.0",
+    "jsonpath-ng": "1.7.0",
+    "narwhals": "2.28.0",
+    "numpy": "2.5.4",
+    "openai": "3.46.0",
+    "packaging": "26.3",
+    "platformdirs": "4.14.5",
+    "playwright": "1.61.0",
+    "pluggy": "1.7.0",
+    "ply": "3.11",
+    "price-parser": "0.5.0",
+    "probableparsing": "0.0.1",
+    "pydantic": "2.12.0",
+    "pydantic_core": "2.41.1",
+    "pyee": "13.0.1",
+    "pytest": "9.2.0",
+    "python-crfsuite": "0.9.12",
+    "python-dateutil": "2.9.0.post0",
+    "python-dotenv": "1.2.4",
+    "pytimeparse2": "1.7.1",
+    "ratelim": "0.1.6",
+    "requests": "2.34.2",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1",
+    "setuptools": "84.2.1",
+    "six": "1.17.0",
+    "sniffio": "1.3.1",
+    "soupsieve": "4.0.1",
+    "thefuzz": "0.22.1",
+    "threadpoolctl": "3.8.0",
+    "truststore": "0.10.5",
+    "typing-inspection": "0.4.5",
+    "typing_extensions": "4.16.0",
+    "url-normalize": "2.2.1",
+    "urllib3": "2.8.0",
+    "us": "3.2.0",
+    "usaddress": "0.5.16",
+    "usaddress-scourgify": "0.6.0",
+    "wcwidth": "0.9.4",
+    "webarena-verified": "1.2.3",
+    "word2number": "1.1",
+    "yaml-config": "0.1.5"
+  },
+  "scheduled": [
+    {
+      "mode": "sequential",
+      "task_id": 69
+    },
+    {
+      "mode": "batch",
+      "task_id": 69
+    },
+    {
+      "mode": "empty",
+      "task_id": 69
+    },
+    {
+      "mode": "false_completion",
+      "task_id": 69
+    },
+    {
+      "mode": "sequential",
+      "task_id": 634
+    },
+    {
+      "mode": "batch",
+      "task_id": 634
+    },
+    {
+      "mode": "empty",
+      "task_id": 634
+    },
+    {
+      "mode": "false_completion",
+      "task_id": 634
+    },
+    {
+      "mode": "first_error",
+      "task_id": 634
+    }
+  ],
+  "schema": "gac-batching-controls-v1",
+  "scope": "Trusted control replay only; no adaptive model, compilation, saved-request or quality-cost result.",
+  "source_revision": "6473f72db5dcefc97b5725b59e734504edc28a21",
+  "sources": {
+    "paper/scripts/adaptive_benchmark_screen.py": "fa7de6a096176155e1ebdab5aba9a42ae817d74ae2180f90ef87addf43ef96a5",
+    "paper/scripts/browser_staging_boundary.py": "6e5c755ecd9031b7fcee7c38ec20589f8f298180dbc60a951d77556b9ded8505",
+    "paper/scripts/webarena_batched_control.py": "8afc1ea549c37363056623747f6ed4cefb65ed8b1165bd72daacffeadc83476f",
+    "paper/scripts/webarena_verified_development.py": "d452c42f27210f8314bf8ac3de2d9a1cd1fb33cb8e085f838a64107e0967dafc"
+  }
+}
