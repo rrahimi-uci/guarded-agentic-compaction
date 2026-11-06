@@ -1,0 +1,141 @@
+{
+  "confirmation_blockers": [
+    "No calibrated GAC browser candidate or matched comparator integration",
+    "No completed task-level prior-use and grouping audit",
+    "No independent calibration cohort or power-qualified test cohort",
+    "Official evaluators still require positive and negative runtime controls"
+  ],
+  "decision": "SELECT_WEBARENA_VERIFIED_FOR_DEVELOPMENT_ONLY",
+  "development": {
+    "development_only_templates": [
+      12,
+      15,
+      16,
+      17,
+      23,
+      3765
+    ],
+    "excluded_from_future_confirmation_templates": [
+      6,
+      7,
+      12,
+      15,
+      16,
+      17,
+      22,
+      23,
+      33,
+      322,
+      323,
+      355,
+      361,
+      1510,
+      2100,
+      3765
+    ],
+    "freshness": "Candidate templates only. Prior-use audit is conservative and incomplete; no certified fresh holdout or admission claim.",
+    "prior_exposed_templates": [
+      6,
+      7,
+      22,
+      33,
+      322,
+      323,
+      355,
+      361,
+      1510,
+      2100
+    ],
+    "remaining_uninspected_candidate_templates": 174,
+    "seed": "gac-webarena-verified-development-20261106-v1",
+    "selected": [
+      {
+        "task_id": 634,
+        "template_id": 15
+      },
+      {
+        "task_id": 409,
+        "template_id": 23
+      },
+      {
+        "task_id": 600,
+        "template_id": 3765
+      },
+      {
+        "task_id": 69,
+        "template_id": 17
+      },
+      {
+        "task_id": 622,
+        "template_id": 12
+      },
+      {
+        "task_id": 643,
+        "template_id": 16
+      }
+    ],
+    "selection_basis": "single-site Reddit; one hash-selected instance per template; no outcome selection"
+  },
+  "original_webarena": {
+    "fuzzy_match_tasks": 118,
+    "tasks": 812,
+    "templates": 190,
+    "without_fuzzy_match_tasks": 694,
+    "without_fuzzy_match_templates": 167
+  },
+  "performance_claim": null,
+  "pins": {
+    "tau2-verified": "864350a8971a8f8ee9e7b8472e2edc380a806b0c",
+    "webarena": "dce04686a56253aefba7b18a4fa0937cf1dc987b",
+    "webarena-verified": "6473f72db5dcefc97b5725b59e734504edc28a21"
+  },
+  "prior_tau_revision": "1eceb0453fe2effa1ba26b6a51fc52b966944ec1",
+  "provider_calls": 0,
+  "schema": "gac-adaptive-benchmark-screen-v1",
+  "source_sha256": {
+    "tau2-verified/data/tau2/domains/airline/tasks.json": "202f0cdb1cf4bc20b8a3284f00e212882a8dda8eaab81d1d69a5dd9676911ebe",
+    "tau2-verified/data/tau2/domains/retail/tasks.json": "04cef2fdf59745e1c890d0e722726f103685ce94ba8cd63035d9ff9c2744b157",
+    "tau2-verified/data/tau2/domains/telecom/tasks.json": "37e562e1ae3242577407e1303b1548bc64e7ea68e37d36173e6747990ceaf8a4",
+    "webarena-verified/assets/dataset/webarena-verified.json": "d65275660814663375028e9017e1f929e3c38321041b125795e2713b52243d30",
+    "webarena/config_files/test.raw.json": "7b50386fd69163dbc05d615d834df4c6ed2c35596e97a1b10d17451c02537652"
+  },
+  "tau2_verified": {
+    "airline": {
+      "prior_source_tasks": 50,
+      "reward_basis_counts": {
+        "COMMUNICATE+DB": 50
+      },
+      "same_id_prior_exposure": 50,
+      "tasks": 50,
+      "unmatched_ids_not_certified_fresh": 0
+    },
+    "retail": {
+      "prior_source_tasks": 114,
+      "reward_basis_counts": {
+        "COMMUNICATE+DB": 114
+      },
+      "same_id_prior_exposure": 114,
+      "tasks": 114,
+      "unmatched_ids_not_certified_fresh": 0
+    },
+    "telecom": {
+      "prior_source_tasks": 2285,
+      "reward_basis_counts": {
+        "ACTION+ENV_ASSERTION": 32,
+        "ENV_ASSERTION": 2253
+      },
+      "same_id_prior_exposure": 2285,
+      "tasks": 2285,
+      "unmatched_ids_not_certified_fresh": 0
+    }
+  },
+  "webarena_verified": {
+    "evaluators": {
+      "AgentResponseEvaluator": 812,
+      "NetworkEventEvaluator": 663
+    },
+    "single_site_reddit_tasks": 106,
+    "tasks": 812,
+    "templates": 190
+  }
+}
