@@ -1,0 +1,537 @@
+{
+  "analysis": "descriptive paired outcomes; no p values, selection of winners or noninferiority claim",
+  "campaign_cap_usd": 300.0,
+  "candidate_count": 32,
+  "candidate_generation_concurrency": 4,
+  "candidate_selection": "upstream minimum estimated runtime cost, first tie; no repairs",
+  "candidate_target": "sampled",
+  "database_sha256": {
+    "california_schools": "986817d793479801ed55133e55aa27e335422c0cd3866b54a3d6317b7c5f09c1",
+    "card_games": "c98bdb57fe7474da798b407785544b9af0daaad5d61fd21e2a73309493bc1227",
+    "codebase_community": "92101be6d2a9f6adceea59d38f6d1c556087f9eea1432432a21268cb1348036d",
+    "debit_card_specializing": "b3d149ad05746dbbe5116e229e17e18f09c39db43cf117d9ef3441753608b691",
+    "european_football_2": "e4d361dbeec6591a4b315877c0c481da05c8ff5a3d389b34d6e17b6f15bee4e0",
+    "financial": "d15d89cdb068a202b6f2b99342af44dffc1d52545b39ceaf62efdc0ba570101e",
+    "formula_1": "17185981cd747f6cdc374cb02a6096db3130e6ec2ddc582fe1686a28fb4c4c8a",
+    "superhero": "75e94a2c3236ee3bb2c01fb97a1c4b4c1c269bcefd4eab1d04be323d2d0825b1",
+    "toxicology": "f5fa7f21af1ad878ff8fef1b0582b8cb2d7ed63dbac65ff16d2ba05667650c5b"
+  },
+  "diagnostics": [
+    "row-shape-sensitive set",
+    "duplicate-sensitive bag"
+  ],
+  "docker_image": "python@sha256:09a17cad02668ae61ece136b4fd36ac3849e14f670ebedb637ea3e15580525bc",
+  "episode_timeout_seconds": 600,
+  "failure_rule": "failed, interrupted, unstarted, invalid or timed-out prediction is incorrect; gold unavailable reported separately",
+  "followup_exclusion": "every pilot ID excluded from future calibration and test",
+  "gac": "mine all baseline traces in preassigned train/dev; empty calibration; no deployable artifact",
+  "instructions": "Solve the SQLite question using the supplied database and evidence.\nFirst list tables, then read the schemas of relevant tables before querying.\nTools return an object whose payload field is a JSON string. Parse it to access\ntables, schemas or query rows. Select relevant tables adaptively; do not assume\ndatabase schema from memory. You may refine a query after seeing its results.\nReturn ONLY a JSON object with one string field sql containing the final query.\nThe final query is evaluated separately. Never substitute displayed sample rows\nfor the SQL answer. Do not modify the database.",
+  "max_agent_turns": 12,
+  "max_completion_tokens": 4096,
+  "model": "gpt-5.6-luna",
+  "model_is_mutable_alias": true,
+  "primary_endpoint": "official-style unordered set execution accuracy; all scheduled arms in denominator",
+  "purpose": "exploratory feasibility; no quality or admission certificate",
+  "question_sha256": "ffd8018378ddb1a8794753e0a31cfc81862ff7318a5184c22f3dc4ce03a03feb",
+  "reasoning_effort": "low",
+  "registry": {
+    "tools": [
+      {
+        "description": "List table names. payload is JSON {tables: [names]}.",
+        "input_schema": {
+          "additionalProperties": false,
+          "properties": {},
+          "required": [],
+          "type": "object"
+        },
+        "lang": "js",
+        "name": "list_tables",
+        "output_schema": {
+          "properties": {
+            "payload": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "payload"
+          ],
+          "type": "object"
+        },
+        "post": {
+          "tables_listed": true
+        },
+        "pre": {},
+        "title": "list_tables",
+        "tool_executor_type": "smcp",
+        "type": "listItems"
+      },
+      {
+        "description": "Read CREATE SQL and three sample rows for each requested table. payload is JSON {schemas: [...]}.",
+        "input_schema": {
+          "additionalProperties": false,
+          "properties": {
+            "table_names": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "table_names"
+          ],
+          "type": "object"
+        },
+        "lang": "js",
+        "name": "get_schema",
+        "output_schema": {
+          "properties": {
+            "payload": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "payload"
+          ],
+          "type": "object"
+        },
+        "post": {
+          "schema_read": true
+        },
+        "pre": {
+          "tables_listed": true
+        },
+        "title": "get_schema",
+        "tool_executor_type": "smcp",
+        "type": "getFields"
+      },
+      {
+        "description": "Execute read-only SQLite SQL. payload has status, column_count, up to 20 rows and displayed_rows_truncated.",
+        "input_schema": {
+          "additionalProperties": false,
+          "properties": {
+            "sql": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "sql"
+          ],
+          "type": "object"
+        },
+        "lang": "js",
+        "name": "run_query",
+        "output_schema": {
+          "properties": {
+            "payload": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "payload"
+          ],
+          "type": "object"
+        },
+        "post": {},
+        "pre": {
+          "schema_read": true
+        },
+        "title": "run_query",
+        "tool_executor_type": "smcp",
+        "type": "getFields"
+      }
+    ]
+  },
+  "scheduled_episodes": 108,
+  "schema": "gac-adaptive-pilot-seal-v1",
+  "screen_hashes": {
+    "paper/results/adaptive_comparison_preflight/bird_revision_audit.json": "5f2953924c3f8e381fb1dddebd624a9d62351d8a2e6232341840bfb708e36976",
+    "paper/results/adaptive_comparison_preflight/source_audit.json": "f5039c9aaa33d8ed084c3b779735ed17fb21dd66ec3e80e28ecf439988a2d839",
+    "paper/results/calibration_population_audit/bird_source_screen.json": "cdcb79603542ef5640482387fec5d46702b29dbe1f862ea0666911ff7fecb6a9"
+  },
+  "seed": "gac-adaptive-pilot-2026-11-06-v1",
+  "selection_dispositions": {
+    "eligible": 702,
+    "gold_unavailable": 2,
+    "previously_used": 812,
+    "web_exposed": 18
+  },
+  "source_hashes": {
+    "experiments/adaptive_compiler_pilot/container_worker.py": "f4194cea782a6de87201d9c688b3fa73c10fa85cabf398d65b724501bd643a3f",
+    "paper/scripts/adaptive_campaign_budget.py": "b5a4f700270b6528a3e434416928a0d1965cdb72cab66617e51904181c6ea984",
+    "paper/scripts/adaptive_jit_generate.py": "9b767f2af4705df6b80a407fedecb6d9c9ca429c1fd17c2b9671374bc61a2665",
+    "paper/scripts/adaptive_pilot.py": "2919424de2f32db6c79502a30108bb2bd26c492607e20857f718ba5a8ffa4e87",
+    "paper/scripts/adaptive_pilot_runtime.py": "d2d315d57dca36b8088b487728ee9e15c85424777a6898e1f298af984c0eb69b",
+    "paper/scripts/adaptive_sql_grader.py": "dbf40b529db03150b7572ebe5f6fc50cc5233b5a39218ab9fe9759284d1044c9",
+    "paper/scripts/audit_bird_revision.py": "89d3c24395c0c286c3a524bb04e1f1b98ccdef8160e90b5f7b75d8c5f2fe8cf9",
+    "paper/scripts/probe_agent_jit_sql.py": "30575a7a70eeaaa6e42274d50d894df8c55fafa81bc224cbeef6c44092b8c8ca"
+  },
+  "stage_caps_usd": {
+    "calibration": 60.0,
+    "discovery": 30.0,
+    "pilot": 30.0,
+    "test": 180.0
+  },
+  "tasks": [
+    {
+      "arm_order": [
+        "baseline",
+        "manual_prefetch",
+        "agent_jit"
+      ],
+      "db_id": "california_schools",
+      "discovery_split": "train",
+      "question_id": 36
+    },
+    {
+      "arm_order": [
+        "baseline",
+        "agent_jit",
+        "manual_prefetch"
+      ],
+      "db_id": "california_schools",
+      "discovery_split": "train",
+      "question_id": 42
+    },
+    {
+      "arm_order": [
+        "manual_prefetch",
+        "baseline",
+        "agent_jit"
+      ],
+      "db_id": "california_schools",
+      "discovery_split": "train",
+      "question_id": 38
+    },
+    {
+      "arm_order": [
+        "manual_prefetch",
+        "agent_jit",
+        "baseline"
+      ],
+      "db_id": "california_schools",
+      "discovery_split": "dev",
+      "question_id": 53
+    },
+    {
+      "arm_order": [
+        "agent_jit",
+        "baseline",
+        "manual_prefetch"
+      ],
+      "db_id": "card_games",
+      "discovery_split": "train",
+      "question_id": 478
+    },
+    {
+      "arm_order": [
+        "agent_jit",
+        "manual_prefetch",
+        "baseline"
+      ],
+      "db_id": "card_games",
+      "discovery_split": "train",
+      "question_id": 406
+    },
+    {
+      "arm_order": [
+        "baseline",
+        "manual_prefetch",
+        "agent_jit"
+      ],
+      "db_id": "card_games",
+      "discovery_split": "train",
+      "question_id": 365
+    },
+    {
+      "arm_order": [
+        "baseline",
+        "agent_jit",
+        "manual_prefetch"
+      ],
+      "db_id": "card_games",
+      "discovery_split": "dev",
+      "question_id": 391
+    },
+    {
+      "arm_order": [
+        "manual_prefetch",
+        "baseline",
+        "agent_jit"
+      ],
+      "db_id": "codebase_community",
+      "discovery_split": "train",
+      "question_id": 673
+    },
+    {
+      "arm_order": [
+        "manual_prefetch",
+        "agent_jit",
+        "baseline"
+      ],
+      "db_id": "codebase_community",
+      "discovery_split": "train",
+      "question_id": 553
+    },
+    {
+      "arm_order": [
+        "agent_jit",
+        "baseline",
+        "manual_prefetch"
+      ],
+      "db_id": "codebase_community",
+      "discovery_split": "train",
+      "question_id": 712
+    },
+    {
+      "arm_order": [
+        "agent_jit",
+        "manual_prefetch",
+        "baseline"
+      ],
+      "db_id": "codebase_community",
+      "discovery_split": "dev",
+      "question_id": 598
+    },
+    {
+      "arm_order": [
+        "baseline",
+        "manual_prefetch",
+        "agent_jit"
+      ],
+      "db_id": "debit_card_specializing",
+      "discovery_split": "train",
+      "question_id": 1514
+    },
+    {
+      "arm_order": [
+        "baseline",
+        "agent_jit",
+        "manual_prefetch"
+      ],
+      "db_id": "debit_card_specializing",
+      "discovery_split": "train",
+      "question_id": 1515
+    },
+    {
+      "arm_order": [
+        "manual_prefetch",
+        "baseline",
+        "agent_jit"
+      ],
+      "db_id": "debit_card_specializing",
+      "discovery_split": "train",
+      "question_id": 1483
+    },
+    {
+      "arm_order": [
+        "manual_prefetch",
+        "agent_jit",
+        "baseline"
+      ],
+      "db_id": "debit_card_specializing",
+      "discovery_split": "dev",
+      "question_id": 1530
+    },
+    {
+      "arm_order": [
+        "agent_jit",
+        "baseline",
+        "manual_prefetch"
+      ],
+      "db_id": "european_football_2",
+      "discovery_split": "train",
+      "question_id": 1041
+    },
+    {
+      "arm_order": [
+        "agent_jit",
+        "manual_prefetch",
+        "baseline"
+      ],
+      "db_id": "european_football_2",
+      "discovery_split": "train",
+      "question_id": 1039
+    },
+    {
+      "arm_order": [
+        "baseline",
+        "manual_prefetch",
+        "agent_jit"
+      ],
+      "db_id": "european_football_2",
+      "discovery_split": "train",
+      "question_id": 1076
+    },
+    {
+      "arm_order": [
+        "baseline",
+        "agent_jit",
+        "manual_prefetch"
+      ],
+      "db_id": "european_football_2",
+      "discovery_split": "dev",
+      "question_id": 1022
+    },
+    {
+      "arm_order": [
+        "manual_prefetch",
+        "baseline",
+        "agent_jit"
+      ],
+      "db_id": "financial",
+      "discovery_split": "train",
+      "question_id": 170
+    },
+    {
+      "arm_order": [
+        "manual_prefetch",
+        "agent_jit",
+        "baseline"
+      ],
+      "db_id": "financial",
+      "discovery_split": "train",
+      "question_id": 133
+    },
+    {
+      "arm_order": [
+        "agent_jit",
+        "baseline",
+        "manual_prefetch"
+      ],
+      "db_id": "financial",
+      "discovery_split": "train",
+      "question_id": 160
+    },
+    {
+      "arm_order": [
+        "agent_jit",
+        "manual_prefetch",
+        "baseline"
+      ],
+      "db_id": "financial",
+      "discovery_split": "dev",
+      "question_id": 151
+    },
+    {
+      "arm_order": [
+        "baseline",
+        "manual_prefetch",
+        "agent_jit"
+      ],
+      "db_id": "formula_1",
+      "discovery_split": "train",
+      "question_id": 1006
+    },
+    {
+      "arm_order": [
+        "baseline",
+        "agent_jit",
+        "manual_prefetch"
+      ],
+      "db_id": "formula_1",
+      "discovery_split": "train",
+      "question_id": 946
+    },
+    {
+      "arm_order": [
+        "manual_prefetch",
+        "baseline",
+        "agent_jit"
+      ],
+      "db_id": "formula_1",
+      "discovery_split": "train",
+      "question_id": 900
+    },
+    {
+      "arm_order": [
+        "manual_prefetch",
+        "agent_jit",
+        "baseline"
+      ],
+      "db_id": "formula_1",
+      "discovery_split": "dev",
+      "question_id": 927
+    },
+    {
+      "arm_order": [
+        "agent_jit",
+        "baseline",
+        "manual_prefetch"
+      ],
+      "db_id": "superhero",
+      "discovery_split": "train",
+      "question_id": 730
+    },
+    {
+      "arm_order": [
+        "agent_jit",
+        "manual_prefetch",
+        "baseline"
+      ],
+      "db_id": "superhero",
+      "discovery_split": "train",
+      "question_id": 739
+    },
+    {
+      "arm_order": [
+        "baseline",
+        "manual_prefetch",
+        "agent_jit"
+      ],
+      "db_id": "superhero",
+      "discovery_split": "train",
+      "question_id": 801
+    },
+    {
+      "arm_order": [
+        "baseline",
+        "agent_jit",
+        "manual_prefetch"
+      ],
+      "db_id": "superhero",
+      "discovery_split": "dev",
+      "question_id": 776
+    },
+    {
+      "arm_order": [
+        "manual_prefetch",
+        "baseline",
+        "agent_jit"
+      ],
+      "db_id": "toxicology",
+      "discovery_split": "train",
+      "question_id": 333
+    },
+    {
+      "arm_order": [
+        "manual_prefetch",
+        "agent_jit",
+        "baseline"
+      ],
+      "db_id": "toxicology",
+      "discovery_split": "train",
+      "question_id": 235
+    },
+    {
+      "arm_order": [
+        "agent_jit",
+        "baseline",
+        "manual_prefetch"
+      ],
+      "db_id": "toxicology",
+      "discovery_split": "train",
+      "question_id": 275
+    },
+    {
+      "arm_order": [
+        "agent_jit",
+        "manual_prefetch",
+        "baseline"
+      ],
+      "db_id": "toxicology",
+      "discovery_split": "dev",
+      "question_id": 278
+    }
+  ]
+}

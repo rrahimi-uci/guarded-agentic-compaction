@@ -1,0 +1,137 @@
+{
+  "analysis_source_sha256": "684898b45a179d3b07290dbe2acd069af1bdfb718f771f774474f6fa8e9c95d2",
+  "candidates": [],
+  "config": {
+    "allow_legacy_catalog_version": false,
+    "alpha": 0.05,
+    "b_min": 2,
+    "composite_continuation_key": "",
+    "composite_pre_model": true,
+    "composite_projection": {},
+    "delta": 0.1,
+    "entry_schema": [
+      "database"
+    ],
+    "freeze_one_candidate_before_calibration": true,
+    "kappa": 3,
+    "max_artifacts": 1,
+    "max_calibration_windows": 700,
+    "max_candidates": 8,
+    "max_dev_windows": 400,
+    "max_transform_depth": 2,
+    "min_days": 1,
+    "min_principals": 1,
+    "mode": "replay",
+    "n_permutations": 400,
+    "owner": "exploratory-pilot",
+    "partition_by": [],
+    "phi_min": 0.02,
+    "prefix_only": true,
+    "s_branch": 20,
+    "s_min": 5,
+    "seed": 20261106,
+    "synthesize_composites": false,
+    "w_max": 3,
+    "w_min": 2
+  },
+  "conversion_dispositions": [],
+  "converted": 36,
+  "decoded_payload_diagnostic": {
+    "candidates": [
+      {
+        "artifact": null,
+        "candidate_id": "cand-00-8ce9e93365fb",
+        "notes": {},
+        "rejected": "ungroundable_slot:get_schema.table_names:no_consistent_expression",
+        "removed_requests": 2.0,
+        "stage": "synthesized",
+        "support_days": 1,
+        "support_groups": 17,
+        "tools": [
+          "list_tables",
+          "get_schema"
+        ]
+      }
+    ],
+    "rejection_by_stage": {
+      "mine:low_support": 7,
+      "synthesize:ungroundable_slot": 1
+    },
+    "report": "GRC compile report\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\ncandidates mined        1\nartifacts emitted       0\nrejections by stage     {'mine:low_support': 7, 'synthesize:ungroundable_slot': 1}\nwindows accepted        27\nwindows blocked         {'ambiguous_slot': 47, 'error_event': 6, 'partial_run': 10, 'live_in_not_in_entry_schema': 5}\nblocked by tool         {}\n  [synthesized ] list_tables/get_schema                            supp=17 k=2.0  REJECTED: ungroundable_slot:get_schema.table_names:no_consistent_expression",
+    "scope": "Posthoc representation sensitivity; JSON decoded into typed tool results. No live execution, new arm or admission claim. Deployment would require matching runtime normalization and fresh calibration."
+  },
+  "filter": "no filtering on answer correctness or completed status; compiler qualification reported separately",
+  "limitations": [
+    "Fixed pilot train/dev split; analysis code finalized during operational pilot.",
+    "Tasks pooled across nine databases; no new independence or population guarantee.",
+    "No timing inferred from normalized event indices; raw episode timing is authoritative."
+  ],
+  "opening_sequences": {
+    "list_tables -> get_schema": 2,
+    "list_tables -> get_schema -> get_schema": 3,
+    "list_tables -> get_schema -> run_query": 31
+  },
+  "rejection_by_stage": {},
+  "report": "GRC compile report\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\ncandidates mined        0\nartifacts emitted       0\nrejections by stage     {}\nwindows accepted        0\nwindows blocked         {'ungrounded_slot': 79, 'error_event': 6, 'partial_run': 10}\nblocked by tool         {}",
+  "scheduled_baselines": 36,
+  "schema": "gac-adaptive-pilot-discovery-v1",
+  "seal_sha256": "21bf11ad0255e7fff69502d9b8b9f602a422d20cf20dba123449003d4bbe34be",
+  "splits": {
+    "chronological": false,
+    "digest": "6efb4bfe01c71533",
+    "groups": {
+      "calibration": [],
+      "dev": [
+        "bird-corrected:1022",
+        "bird-corrected:151",
+        "bird-corrected:1530",
+        "bird-corrected:278",
+        "bird-corrected:391",
+        "bird-corrected:53",
+        "bird-corrected:598",
+        "bird-corrected:776",
+        "bird-corrected:927"
+      ],
+      "shadow": [],
+      "test": [],
+      "train": [
+        "bird-corrected:1006",
+        "bird-corrected:1039",
+        "bird-corrected:1041",
+        "bird-corrected:1076",
+        "bird-corrected:133",
+        "bird-corrected:1483",
+        "bird-corrected:1514",
+        "bird-corrected:1515",
+        "bird-corrected:160",
+        "bird-corrected:170",
+        "bird-corrected:235",
+        "bird-corrected:275",
+        "bird-corrected:333",
+        "bird-corrected:36",
+        "bird-corrected:365",
+        "bird-corrected:38",
+        "bird-corrected:406",
+        "bird-corrected:42",
+        "bird-corrected:478",
+        "bird-corrected:553",
+        "bird-corrected:673",
+        "bird-corrected:712",
+        "bird-corrected:730",
+        "bird-corrected:739",
+        "bird-corrected:801",
+        "bird-corrected:900",
+        "bird-corrected:946"
+      ]
+    },
+    "seed": 20261106,
+    "sizes": {
+      "calibration": 0,
+      "dev": 9,
+      "shadow": 0,
+      "test": 0,
+      "train": 27
+    }
+  },
+  "status": "EXPLORATORY_ONLY_NO_CALIBRATION_NO_ADMISSION"
+}

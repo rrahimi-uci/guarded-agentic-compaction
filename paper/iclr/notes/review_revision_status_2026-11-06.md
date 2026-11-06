@@ -10,7 +10,7 @@ retrieved; an OpenReview GET returned 403 and the browser host was unavailable.
 | Reconcile versions | Author confirmation, baseline commit, this ledger | Older upload confirmed by author; uploaded PDF hash remains unverified |
 | Audit calibration population | Executable audit, 396-record JSON, rendered report, regression tests | Completed for three primary cohorts and five calibrated candidates; not an audit of all supplementary cohorts |
 | Align claims | Abstract, formulation, introduction, setup/results, certificate table, conclusion, appendix | Explicit selected-population limitation, replay/continuation separation, lifecycle implementation/proposal separation |
-| Establish comparative value | Focused execution design, initial BIRD source screen, explicit preflight requirements | Unrun; 722 dev / 5,094 train records remain after a conservative screen, not certified fresh cohorts; task feasibility and compiler adapter remain required |
+| Establish comparative value | Source/grader preflight and a separately sealed live SQL compiler pilot | Exploratory adaptation only; see pilot evidence below. Fresh unfiltered calibration and a confirmatory matched comparison remain required |
 | Prepare responses | Reviewer-specific draft | Completed as a draft; not posted; experiment-dependent objections remain open |
 
 ## New evidence and its limits
@@ -58,6 +58,32 @@ sets the next work package. The existing 12-family feasibility report remains a 
 this revision does not silently replace it with an allegedly executed smaller study.
 
 ## Publication and validation
+
+### Separately budgeted adaptive SQL pilot
+
+The author subsequently authorized a $300 total model/API cap. The
+[pilot protocol](../../../experiments/adaptive_compiler_pilot/README.md) and
+[frozen cohort/settings](../../results/adaptive_compiler_pilot/seal.json) define
+36 corrected BIRD questions across nine databases, with 108 scheduled episodes.
+The [retained report](../../results/adaptive_compiler_pilot/report.json) distinguishes
+attempt status, official-style set execution accuracy, stronger shape/bag
+diagnostics, candidate validity, and total generation/execution accounting.
+
+This is a new common-endpoint adaptive agent, manual prefetch, and an Agent JIT
+SQL adaptation. It is neither a native browser reproduction nor the requested
+full-GAC versus simpler-admission experiment. The first operational version failed
+because its endpoint/model combination rejected reasoning-enabled function calls;
+its seal, attempts and spending remain retained separately. The amended version
+uses reasoning `none` for all arms. Both versions are exploratory and all pilot IDs
+remain excluded from future calibration/test.
+
+The experimental gate has not changed: do not spend the remaining campaign budget
+on confirmatory execution until the live comparator semantics, candidate set,
+calibration population, sampling unit, quality margin, multiplicity and fixed test
+size are independently specified. These pilot outcomes do not certify quality,
+learned gating, lifecycle benefit, or acceptance. The current manuscript's
+quantitative claims remain on their original evidence until a separate integration
+explicitly names any completed pilot result and its limitations.
 
 Subsequent provider-free work is retained in the
 [adaptive preflight report](../../results/adaptive_comparison_preflight/REPORT.md).
