@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from adaptive_source_preflight import OUT, verify
 from adaptive_comparison_design import build
 from probe_agent_jit_sql import PIN, PROGRAMS, registry
-from audit_bird_revision import changes
+from audit_bird_revision import changes, read_corrected
 from audit_bird_content_overlap import overlap
 
 
@@ -79,6 +79,13 @@ def test_content_screen_detects_cross_id_overlap_without_cross_database_collisio
             {"question_id": 2, "db_id": "a", "question": "Which item?"},
             {"question_id": 3, "db_id": "b", "question": "Which item?"}]
     assert overlap(rows, {1})["screened_in_ids_matching_prior_question"] == [2]
+
+
+def test_corrected_snapshot_fails_closed_on_modified_download(tmp_path):
+    path = tmp_path / "wrong.json"
+    path.write_text("[]")
+    with pytest.raises(ValueError, match="checksum"):
+        read_corrected(path)
 
 
 def test_report_and_revision_accounting():

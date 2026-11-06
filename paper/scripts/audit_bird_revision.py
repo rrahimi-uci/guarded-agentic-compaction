@@ -14,8 +14,17 @@ from adaptive_source_preflight import digest
 
 ROOT = Path(__file__).resolve().parents[2]
 REVISION = "3c11fb193e5439b338e23677fa0aae11e8b85db9"
+SNAPSHOT_SHA256 = "ffd8018378ddb1a8794753e0a31cfc81862ff7318a5184c22f3dc4ce03a03feb"
 URL = f"https://huggingface.co/datasets/birdsql/bird_sql_dev_20251106/resolve/{REVISION}/data/dev_20251106-00000-of-00001.json"
 FIELDS = ("db_id", "question", "evidence", "SQL", "difficulty")
+
+
+def read_corrected(path):
+    data = path.read_bytes()
+    if hashlib.sha256(data).hexdigest() != SNAPSHOT_SHA256:
+        raise ValueError("corrected release snapshot checksum mismatch")
+    text = data.decode()
+    return json.loads(text) if text.lstrip().startswith("[") else [json.loads(line) for line in text.splitlines() if line.strip()]
 
 
 def changes(old, new, previously_used):
@@ -38,8 +47,7 @@ def build():
     old = ROOT / "benchmarks/.cache/bird/extract/dev_20240627/dev.json"
     new = ROOT / "benchmarks/.cache/bird/dev_20251106.json"
     screen = ROOT / "paper/results/calibration_population_audit/bird_source_screen.json"
-    data = new.read_text()
-    updated = json.loads(data) if data.lstrip().startswith("[") else [json.loads(line) for line in data.splitlines() if line.strip()]
+    updated = read_corrected(new)
     excluded = next(r["screened_ids"] for r in json.loads(screen.read_text())["splits"] if r["split"] == "dev")
     rows = changes(json.loads(old.read_text()), updated, set(excluded))
     source_audit = ROOT / "paper/results/adaptive_comparison_preflight/source_audit.json"
