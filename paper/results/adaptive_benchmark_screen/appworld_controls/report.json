@@ -1,0 +1,50 @@
+{
+  "boundary_validation": {
+    "empty_task_success": false,
+    "private_call": {
+      "error": "unknown_or_private_api"
+    },
+    "reserved_argument": {
+      "error": "reserved_argument"
+    }
+  },
+  "controls": [
+    {
+      "evidence_sha256": "8af71a72ef64e05e54c4491205b64c3422f80992f780b4c3832645747431bd20",
+      "mode": "reference",
+      "passed_tests": 2,
+      "status": "completed",
+      "success": true,
+      "tests": 2
+    },
+    {
+      "evidence_sha256": "dec21f1032f5b15f0e1c830198decd201e4f1bd380edac322eac715d42f4b932",
+      "mode": "empty",
+      "passed_tests": 1,
+      "status": "completed",
+      "success": false,
+      "tests": 2
+    },
+    {
+      "evidence_sha256": "d6e7a181dea391d38c5a2229389dc028d09415179632198ffc173b4d75644054",
+      "mode": "false_completion",
+      "passed_tests": 1,
+      "status": "completed",
+      "success": false,
+      "tests": 2
+    }
+  ],
+  "encrypted_evidence_sha256": "57e8cf4a64e4c12f7af216c102ceafc3de9952bbff20a064afd74ac9fa2b77ef",
+  "failures_retained": "Earlier dependency and 64-call reference-limit failures are retained inside the encrypted bundle; these are setup failures, not task-quality scores.",
+  "image": "sha256:bb24405c0bd685433d8d3110a9f99f019af14696a2437e15d718b28dabdb68c7",
+  "provider_calls": 0,
+  "reproduction_limitation": "The local immutable image is retained; rebuilding the Dockerfile can resolve different transitive dependencies and requires a new image/inventory verification. The image has not been published.",
+  "schema": "gac-appworld-operational-controls-v1",
+  "scope": "One previously exposed training case; no agent quality or heldout claim. AppWorld paid pilot deferred in favor of WebArena-Verified.",
+  "source_hashes": {
+    "experiments/appworld_reference_study/Dockerfile": "c1dc011b24ffab97d26385f2abfa43b00049ea932d5b3b9ed027d4744b1f991f",
+    "experiments/appworld_reference_study/worker.py": "e2bc21f23dc33a02e26e8b86c8e00994a116401fe3db8a1c663d1efefddb84e9",
+    "paper/scripts/appworld_reference_study.py": "c01a8ddacd462fdb8f711c5515a5d62b55fcb024784159c171d6d0efe6ea7020"
+  },
+  "upstream_commit": "42b5bcf3cd334fee33f0c37c02070a9f5807add5"
+}
