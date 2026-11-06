@@ -1,0 +1,26 @@
+{
+  "completed_records": {
+    "v2/episodes/229360a_1/baseline.json": "ae59de9d0de8398ba0ab2491c07532f692ea3467f989c1338a0efaad4bd994a7",
+    "v2/episodes/229360a_1/manual_prefix.json": "8fe1b20c74b230a05c6667ea416a6bde70fb2b88600a46cd23390da9be2f143b",
+    "v2/episodes/22cc237_3/baseline.json": "3996807feee851807c4646413c88d6c5f5ec67984e134e0f9203eff6405658e9",
+    "v2/episodes/22cc237_3/manual_prefix.json": "a6c79d3af4e7da563374d9b171e0e0dc6fb2c8f50fcbc66cc001ad24d4a19862",
+    "v2/episodes/27e1026_3/baseline.json": "4e61572aab739c690a79c15e6553abc6935a1fd837f0ecd384d782a747345352",
+    "v2/episodes/27e1026_3/manual_prefix.json": "355c85e1df948b9aaca67205518ce05459bedfd9aeea1ddf0754804713aa05c2",
+    "v2/episodes/c901732_2/baseline.json": "ac18297627e98c67f1a5e2cdcc990a282fff3530994bfe1471e2c33af4db2260",
+    "v2/episodes/e7a10f8_1/baseline.json": "fb86733931fb7201448b6ad07ae08f66466c16c1cdd0245fee54aabf6bb74b65",
+    "v2/episodes/e7a10f8_1/manual_prefix.json": "c160505091e4c096eceac3cf8218adc3fc141401276bec75a345733ee2cbb569"
+  },
+  "created_unix": 1793999589.11819,
+  "original_seal_sha256": "87f2964649db3c705ddda6c88b8398190acd9f79f583afbc4b1b30fca3110c7d",
+  "policy": "No paid retries or continuation. Validate the corrected actual agent path with a known-correct sequence and empty/false-completion controls. Replay all completed histories once, verify public context and every API result exactly, and grade saved state. Replays are diagnostic only; retain failed/interrupted/unstarted arms and original grades. No comparative quality inference.",
+  "positive_control_task": "c901732_2",
+  "reason": "Confirmed persistence defect: identical known-correct public API calls pass 0/6 before explicit save and 6/6 with save. world.execute saved reference controls; direct Requester calls did not save agent state.",
+  "reference_calls_sha256": "4870da0c33ad3ef5a54c1e22f91b52175f8627e4c475e8cf30414087515a88b4",
+  "schema": "appworld-persistence-repair-v1",
+  "source_hashes": {
+    "experiments/appworld_adaptive_viability/worker.py": "d95918a2ec238dad908439f11f81eecd1a6c4da9cf952a850a357e98c817f387",
+    "paper/scripts/appworld_adaptive_viability.py": "6e2346dcc03c8ceae7e2ea0bf17cadbb7a7cc44065ca08baf90e6e2c4dddc96f",
+    "paper/scripts/repair_appworld_viability.py": "097a911b5dff96e635c087a27fcca423600bf1bace4ad406c51dc29d0123aa68"
+  },
+  "stop_sha256": "ab68c61b3a96220f59e6a341bbe7b98ac696c5bd95e3f91fa1055b7be0c80f97"
+}
