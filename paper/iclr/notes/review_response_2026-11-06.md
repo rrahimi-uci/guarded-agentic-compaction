@@ -7,6 +7,9 @@ and browser access was unavailable. Do not tell reviewers that they overlooked a
 revision they had not received. The supplied reviews are retained with trailing whitespace normalized under
 `paper/reviews/ICLR-{1,2,3}.txt`.
 
+A [concern-by-concern ledger](reviewer_concern_closure.md) records supported answers,
+remaining experiments and explicit completion criteria. It does not claim reviewer agreement.
+
 ## Shared opening
 
 Thank you for identifying the distinction between empirical efficiency, replay
@@ -118,8 +121,16 @@ the largest potential to change the contribution assessment. The execution plan
 separates a matched fixed-prefix mechanism comparison from a whole-compiler comparison
 over a train-frozen candidate list that includes rejected candidates. It requires
 task success, optimization coverage, wrong dispatches, fallback, and total costs.
-The data/adapter/sealing prerequisites are not yet satisfied, so no new experimental
-result is asserted in this response.
+A subsequent provider-free AppWorld common-entry preflight validates all 12 known-correct
+public sequences, 24 negative controls and 24 bounded library-read probes through an
+explicitly saved-state adapter. Initialization is identical and counted across arms;
+authentication remains a write. These reference controls are not model trajectories,
+automatic compiler results or a task-performance comparison. The prior exploratory
+agent attempt was interrupted after a persistence defect; its original grades are
+invalid and retained, with separately labeled deterministic regrades. Baseline
+competence, genuine model-derived candidates, matched comparator execution and fresh
+calibration/testing remain unestablished. We therefore assert no new comparative
+performance result. The complete development disposition is linked from the concern ledger.
 
 ## Reviewer 3
 

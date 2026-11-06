@@ -116,6 +116,7 @@ def included_files() -> list[Path]:
         "live_safeguard_recovery", "live_recovery_completion", "matched_reuse_baseline",
         "appworld_reference_study",
         "appworld_adaptive_viability",
+        "appworld_entry_preflight",
         "generalization_gate", "adaptive_compiler_pilot", "adaptive_prefix_validation",
     ):
         base = ROOT / "experiments" / name

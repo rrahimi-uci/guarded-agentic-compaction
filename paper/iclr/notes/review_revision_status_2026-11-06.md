@@ -140,3 +140,22 @@ study therefore remains a **NO_GO**, does not change manuscript numerical claims
 and closes none of the matched-compiler, fresh-calibration or learned-gate objections.
 The next funded experiment requires meaningful candidate viability, competent
 baseline behavior and positive controls through the exact adapter/grader path first.
+
+
+### Common-entry preflight and complete concern ledger
+
+The [reviewer concern ledger](reviewer_concern_closure.md) now maps every substantive
+weakness/question across the three supplied reviews to evidence and a completion
+criterion. “Answered in text” does not mean empirically resolved or reviewer accepted.
+The [common-entry preflight](../../results/appworld_entry_preflight/REPORT.md) retains
+all 60 passing provider-free controls across the same 12 exposed development tasks.
+It validates known-correct direct calls, negative controls and bounded task-data
+reads under identical explicitly authenticated setup. Login remains a write and its
+11-call setup cost must be included for every future arm.
+
+The 701-call reference inventory and two posthoc read-prefix hypotheses inform a
+new baseline-competence protocol; references do not become agent traces or compiler
+training data. No new model calls, automatic artifacts, calibration groups or final
+tests were produced. This is preparation for the reviewer-requested comparison,
+not closure of its empirical objections. Original failed instrumentation and the
+prior invalid agent measurements remain preserved separately.
