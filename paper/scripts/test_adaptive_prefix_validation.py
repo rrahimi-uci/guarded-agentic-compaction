@@ -1,8 +1,10 @@
 """Evidence lineage and isolated executor regression tests; no provider calls."""
 import asyncio
+import hashlib
 import json
 import os
 from pathlib import Path
+import tarfile
 
 import pytest
 
@@ -39,6 +41,15 @@ def test_retained_program_validation_has_complete_denominator_and_hashes():
     assert all(r["matches"] and r["native"] == r["reference"] and not r["differences"] for r in report["rows"])
     assert report["summary"] == {"scheduled": 36, "matched": 36, "native_statuses": {"ok": 33, "error": 3}, "missing_inference": 0}
     assert sum(c["tool"] == "ai_eval" for r in report["rows"] for c in r["rpc"]) == 1
+    with tarfile.open(PILOT / "raw_evidence.tar.gz", "r:gz") as archive:
+        for row in report["rows"]:
+            base = f"v2/{row['question_id']}-agent_jit"
+            generated = json.load(archive.extractfile(base + "/candidates.json"))
+            original = json.load(archive.extractfile(base + "/result.json"))
+            assert row["selected_index"] == generated["selected_index"]
+            code = generated["candidates"][generated["selected_index"]]["code"]
+            assert row["program_sha256"] == hashlib.sha256(code.encode()).hexdigest()
+            assert row["original_status"] == original["status"]
 
 
 @pytest.mark.parametrize("value,expected", [(' {"x": 1} ', {"x": 1}), ("{'x': 1}", {"x": 1}),
