@@ -3578,7 +3578,35 @@ def validate_primary_population_audit() -> None:
        "primary population: report renders from retained JSON")
 
 
+def validate_adaptive_comparison_preflight() -> None:
+    """Check prospective metadata without optional databases or upstream installs."""
+    import sys
+    if str(PAPER / "scripts") not in sys.path:
+        sys.path.insert(0, str(PAPER / "scripts"))
+    from adaptive_source_preflight import OUT, verify
+    from adaptive_comparison_design import build
+    from render_adaptive_preflight import render
+    from probe_agent_jit_sql import PIN, PROGRAMS, registry
+    try:
+        verify(load(OUT / "source_audit.json"))
+        ok(True, "adaptive preflight: all screened IDs, source hashes and gold dispositions accounted for")
+        ok(evidence_equal(build(), load(OUT / "design_sensitivity.json")),
+           "adaptive preflight: exact planning sensitivities and scheduled historical denominators reproduce")
+        probe = load(OUT / "agent_jit_probe.json")
+        ok(probe["commit"] == PIN and probe["programs"] == PROGRAMS and probe["registry"] == registry()
+           and probe["provider_calls"] == 0
+           and probe["probe_sha256"] == sha256(PAPER / "scripts/probe_agent_jit_sql.py"),
+           "adaptive preflight: static comparator probe stays pinned and separate from live evaluation")
+        revision = load(OUT / "bird_revision_audit.json")
+        ok(revision["gold_execution"]["source_audit_sha256"] == sha256(OUT / "source_audit.json"),
+           "adaptive preflight: corrected gold observations bind verified source databases")
+        ok((OUT / "REPORT.md").read_text() == render(), "adaptive preflight: report renders from retained observations")
+    except (ValueError, KeyError, TypeError, OSError) as error:
+        ok(False, f"adaptive preflight: {error}")
+
+
 FAMILIES: dict[str, Any] = {
+    "adaptive_comparison_preflight": validate_adaptive_comparison_preflight,
     "primary_population_audit": validate_primary_population_audit,
     "sources": validate_sources,
     "live": validate_live,

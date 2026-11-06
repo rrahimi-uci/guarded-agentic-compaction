@@ -1,0 +1,267 @@
+{
+  "assumptions": [
+    "IID paired question groups and specified discordance rates; not established by source counts.",
+    "Superiority is exact favorable two-sided McNemar rejection with Bonferroni planning alpha.",
+    "Noninferiority bounds comparator-only-correct probability, conservatively upper-bounding net quality loss.",
+    "Two percentage points is a sensitivity margin, not an accepted quality tolerance.",
+    "Per-contrast power is not joint-study power. Cost/latency claims require their own allocation and variance pilot.",
+    "A five-percent absolute final-error certificate differs from quality noninferiority or replay agreement.",
+    "Historical quality is descriptive context, not fresh power data or proof of future achievable risk.",
+    "Do not filter future questions by baseline correctness or enlarge calibration after seeing errors."
+  ],
+  "calibration": [
+    {
+      "accepted_zero_error_floor": 92,
+      "candidates": 1,
+      "pool_at_half_coverage_floor": 184,
+      "thresholds": 11
+    },
+    {
+      "accepted_zero_error_floor": 106,
+      "candidates": 2,
+      "pool_at_half_coverage_floor": 212,
+      "thresholds": 11
+    }
+  ],
+  "historical_compiled_quality": {
+    "dev": {
+      "correct": 97,
+      "denominator": "All scheduled questions in historically admitted families; own-arm missing counts as incorrect.",
+      "error_rate": 0.3533333333333334,
+      "n": 150,
+      "source_hashes": {
+        "paper/results/bird/preflight.json": "df622a325a963ce18689c58ed59d3d46457f39002a66c9d324989e419723e076",
+        "paper/results/bird/schema_first/card_games/compile.json": "63999ecadc1a219aab29c75b66ac14db978f725184bb283d627ed1186db937c9",
+        "paper/results/bird/schema_first/card_games/evaluation.json": "7690504008a41bf462a8d5d632fac141f20fad3a8f641e11c91be73118251ded",
+        "paper/results/bird/schema_first/codebase_community/compile.json": "abb9845b63ff928dfc229e321f61c6733cd3853de4bd72b8900056875004f864",
+        "paper/results/bird/schema_first/codebase_community/evaluation.json": "89fad2ff4d5c69f3f543d2e0f83b7eba5b8be02252afd7683da9db2e854cbe22",
+        "paper/results/bird/schema_first/formula_1/compile.json": "04fba96d7e44d2f9f13efeccb3e4ed6fcf63d17be776e6eb8c8ff83254d4e632",
+        "paper/results/bird/schema_first/formula_1/evaluation.json": "09959dc2e7ebf94ddcdc8cf99468d26df5baaa4226c82c20571218001fab0a21",
+        "paper/results/bird/schema_first/student_club/compile.json": "f893097ecb9b957463f1800cd56792061c8dd2cbf5da3f56a155b928e14dd377",
+        "paper/results/bird/schema_first/student_club/evaluation.json": "de286aa3a7fef49933b9d487562e99b46a5669fd44377a0872e9de5d917ec54b",
+        "paper/results/bird/schema_first/thrombosis_prediction/compile.json": "c8f3e4af0a2ac787149f72e72922ceee730d7b770e8b856acbb4653d6fa5fce5",
+        "paper/results/bird/schema_first/thrombosis_prediction/evaluation.json": "05007151cddbc2c0e0b05f3e3c0e799ef91b5c939b865d6654b2fc680ce60b31"
+      }
+    },
+    "train": {
+      "correct": 402,
+      "denominator": "All scheduled questions in historically admitted families; own-arm missing counts as incorrect.",
+      "error_rate": 0.36190476190476195,
+      "n": 630,
+      "source_hashes": {
+        "paper/results/bird/train/preflight.json": "c43bedeba0ed62371f50d9b3694756bc48be711a6934dfceb693d32fda4d43e8",
+        "paper/results/bird/train/schema_first/address/compile.json": "d12168fa02ce5016984dccd34d90668b7412df2580fa7dc8633dfff1ce875e96",
+        "paper/results/bird/train/schema_first/address/evaluation.json": "53e34a71e103d6f7f079ab76cb89f3d0ad7235970ac30c94f5693369fc305f17",
+        "paper/results/bird/train/schema_first/authors/compile.json": "a212b9b41b9eed3692490048a8f85118a7f12485928a3f3a3d522f00b0e8f758",
+        "paper/results/bird/train/schema_first/authors/evaluation.json": "d88201d8ca49886bc9e1a0a684ef9f113f8ea9bfcaf42693ecc2ab3e32781ba0",
+        "paper/results/bird/train/schema_first/books/compile.json": "bb366b0d78d37cf4475b3ecb94ad9f9077c554d994abe0e44fb1d53732732f71",
+        "paper/results/bird/train/schema_first/books/evaluation.json": "75c3bd4c5a90719151286809cfdc9326536711f7cca089ac66d136ea58d397cf",
+        "paper/results/bird/train/schema_first/chicago_crime/compile.json": "7516d70a5246c0e59ee13fdcea1579c71ad619c09e83a1a54b294dec5f2ef442",
+        "paper/results/bird/train/schema_first/chicago_crime/evaluation.json": "2ceccdc63674a4f5b6676ac6b2f662cf75a6427a8c55fee3cf11bb09be96edef",
+        "paper/results/bird/train/schema_first/donor/compile.json": "b4a18ed7c7c3a8d005999ab58ebb4b73dae7a6d46b3b63e021e12772eb77f70a",
+        "paper/results/bird/train/schema_first/donor/evaluation.json": "804649a21c215429f891afcb7a59a0c317ccebc8c62a4393808bb12ae8773b0e",
+        "paper/results/bird/train/schema_first/hockey/compile.json": "3bf6d279b4cf257ab478612c21a1f3b7afa415368e98bfe5b0c39d55ba3afc44",
+        "paper/results/bird/train/schema_first/legislator/compile.json": "381f07f41e14ae0222759f1fb4da846fd44a1d192820bdd3652691c691c410f9",
+        "paper/results/bird/train/schema_first/legislator/evaluation.json": "00d2003fe7bb4ec7f7fc1b458034baa8343b5c239ef6b580c0d3614989d9b73a",
+        "paper/results/bird/train/schema_first/mondial_geo/compile.json": "c5613152de59569d24525ca885034dd6826c8512b552ab9e932d0c560fcd7456",
+        "paper/results/bird/train/schema_first/movie_3/compile.json": "ffe9d2f41f884cf3fa285d49f0d7cf96d43b26257240db032e3cb62da4ab3558",
+        "paper/results/bird/train/schema_first/movie_3/evaluation.json": "33f184d782540a9308004bf9e7e8690cf5cf0d388fc9bfdf0f23af0cd8c20b66",
+        "paper/results/bird/train/schema_first/movie_platform/compile.json": "176b892b462ee95f1d37f5e15f397c8169e7082e4953159d1d7b1aecc8dda1fe",
+        "paper/results/bird/train/schema_first/movie_platform/evaluation.json": "e14ac776b314cf325f5678caf0ed0fe78f1e1b198361be8d954ce79258959db2",
+        "paper/results/bird/train/schema_first/movies_4/compile.json": "cef99c51d2fe1c207693d0ba12af60006dbc35f0e5666a0fc2bb071614d8b382",
+        "paper/results/bird/train/schema_first/olympics/compile.json": "50df27b231a41f2239531c585396fe825a1709b6b9ec01c1415a9aa6a26c4372",
+        "paper/results/bird/train/schema_first/professional_basketball/compile.json": "a3b98a78a1e1d19a33aa893eb68fdfc3267569b572c06fab35fff7d79cc583a3",
+        "paper/results/bird/train/schema_first/professional_basketball/evaluation.json": "daf1441b3417b1bfc17b5ec01c266b71d263fb006a75781595b8c4e1972c42df",
+        "paper/results/bird/train/schema_first/public_review_platform/compile.json": "fe44aa2428897ef8f12dd940044e701e01dac87de72780e7d074b5ae1e0e2906",
+        "paper/results/bird/train/schema_first/public_review_platform/evaluation.json": "d2f43dbc0c42e8e964199a4dd87219b1665cda4358394685aac0c19261e130e1",
+        "paper/results/bird/train/schema_first/regional_sales/compile.json": "1c4e56ce5445ae945b53be7fb98646e7bc37b58db06056be5cf05bf2b900a859",
+        "paper/results/bird/train/schema_first/regional_sales/evaluation.json": "8708f11218ff5817d78029466f525840383c24751e04e9c922dbd1a09f3285e4",
+        "paper/results/bird/train/schema_first/retail_complains/compile.json": "73bd4741c0d770d9fa47ced88e30954aa697a14428752be24b8d15a14a591c99",
+        "paper/results/bird/train/schema_first/retail_complains/evaluation.json": "731bdf23a0d059c95d2bc16c5b078522f83ceee2dddbf8dc8dabb2e8be6149d3",
+        "paper/results/bird/train/schema_first/retails/compile.json": "d9efbf7c2976b287814b652e94172236d73ac7dbcf5f5f1a48eaf57e904be49c",
+        "paper/results/bird/train/schema_first/retails/evaluation.json": "399253cc2a5eebbdf95581e24d37854ef573ab80ca67588de2a88a0a6a9903c4",
+        "paper/results/bird/train/schema_first/simpson_episodes/compile.json": "210ed8295ab3dba722fcc0b7c11022a74fdc9a5529a7bb970181c13d0f4a788d",
+        "paper/results/bird/train/schema_first/simpson_episodes/evaluation.json": "b3822b4e2a4f9e05cdd89e18d2d2438d651d3dba836269b687dc4e89e3988146",
+        "paper/results/bird/train/schema_first/soccer_2016/compile.json": "e1bcf20cf11be15b8062d62c6b6d5e2be3e92ffdf531474b96887dbdb9a007be",
+        "paper/results/bird/train/schema_first/soccer_2016/evaluation.json": "83ead18ee6d774bc36364ce4d0880143c49ec8252fa420c32858840a2fe98990",
+        "paper/results/bird/train/schema_first/student_loan/compile.json": "e5db2e1f531c0c33f3000be26456479fc00097bacbd1b66acc26b8e555f27ac6",
+        "paper/results/bird/train/schema_first/student_loan/evaluation.json": "db71bdcda345c389ca1a4aa91d156e1e021e79f6b9e194718d648e4adb4059fd",
+        "paper/results/bird/train/schema_first/synthea/compile.json": "24989fcd351f39836c1b69f42e3f629f352540bbb88f76d48e771a0441687bad",
+        "paper/results/bird/train/schema_first/synthea/evaluation.json": "27330d60e066d2617ed0242fc867b4c034dfa2a382efda6024a90892d2648832",
+        "paper/results/bird/train/schema_first/talkingdata/compile.json": "62db3a2a11477eebc50002a671f3285cfc723a164c18b5f6fb9356a01ce6611c",
+        "paper/results/bird/train/schema_first/talkingdata/evaluation.json": "4fcc4862ed059aa6a5dd58a1130c3c46530271bf08ff43fce965e228bafc4f95",
+        "paper/results/bird/train/schema_first/university/compile.json": "26f7b537f2f100dd5edc71bf32f93a554de40bf6f5d44c1b5c8c8e69e5205c1a",
+        "paper/results/bird/train/schema_first/university/evaluation.json": "4e5117dae094eb0fe49c1bbcd170ff56767ecd667baacf62b588f39ef2ab5c29",
+        "paper/results/bird/train/schema_first/video_games/compile.json": "963675d42aa73f799f1253bca117c42ef85c99ad60dcaa153f7c9d49b4a75b07",
+        "paper/results/bird/train/schema_first/video_games/evaluation.json": "ab33a81c1f43793498a10bbde2977a93580ee6c41ac19c2d6233f11a710372aa",
+        "paper/results/bird/train/schema_first/works_cycles/compile.json": "8bec61b999b47754331b0cb41740f51c63838965cc8e4639a62357686457bf3a",
+        "paper/results/bird/train/schema_first/world_development_indicators/compile.json": "45fc8e81d7a7c8c94c4f5d48d71087c86c3828b6bfcee0a08845b0a6b8d45d7e",
+        "paper/results/bird/train/schema_first/world_development_indicators/evaluation.json": "2084214b8026e402679117f86abba0cf5899cfe5dad8028f621eb11eeec688ce"
+      }
+    }
+  },
+  "provider_calls": 0,
+  "rows": [
+    {
+      "contrasts": 3,
+      "groups": 100,
+      "per_contrast_alpha": 0.016666666666666666,
+      "six_arm_test_episodes": 600,
+      "superiority_power_gain_03_loss_01": 0.012302432636064774,
+      "superiority_power_gain_04_loss_01": 0.043123700255607,
+      "two_point_conservative_ni_max_losses": -1,
+      "two_point_conservative_ni_power_at_loss_01": 0.0,
+      "zero_loss_upper_bound": 0.040116585977996166
+    },
+    {
+      "contrasts": 3,
+      "groups": 145,
+      "per_contrast_alpha": 0.016666666666666666,
+      "six_arm_test_episodes": 870,
+      "superiority_power_gain_03_loss_01": 0.04024038397740639,
+      "superiority_power_gain_04_loss_01": 0.11304078249856589,
+      "two_point_conservative_ni_max_losses": -1,
+      "two_point_conservative_ni_power_at_loss_01": 0.0,
+      "zero_loss_upper_bound": 0.027841924908943105
+    },
+    {
+      "contrasts": 3,
+      "groups": 312,
+      "per_contrast_alpha": 0.016666666666666666,
+      "six_arm_test_episodes": 1872,
+      "superiority_power_gain_03_loss_01": 0.17693360894118262,
+      "superiority_power_gain_04_loss_01": 0.40872472401723436,
+      "two_point_conservative_ni_max_losses": 1,
+      "two_point_conservative_ni_power_at_loss_01": 0.18046265467364425,
+      "zero_loss_upper_bound": 0.013037169413377181
+    },
+    {
+      "contrasts": 3,
+      "groups": 600,
+      "per_contrast_alpha": 0.016666666666666666,
+      "six_arm_test_episodes": 3600,
+      "superiority_power_gain_03_loss_01": 0.4546036390972362,
+      "superiority_power_gain_04_loss_01": 0.803953155210912,
+      "two_point_conservative_ni_max_losses": 4,
+      "two_point_conservative_ni_power_at_loss_01": 0.28371124034584055,
+      "zero_loss_upper_bound": 0.006800677616008888
+    },
+    {
+      "contrasts": 3,
+      "groups": 900,
+      "per_contrast_alpha": 0.016666666666666666,
+      "six_arm_test_episodes": 5400,
+      "superiority_power_gain_03_loss_01": 0.7001891684574196,
+      "superiority_power_gain_04_loss_01": 0.955096760789433,
+      "two_point_conservative_ni_max_losses": 9,
+      "two_point_conservative_ni_power_at_loss_01": 0.5874093533791143,
+      "zero_loss_upper_bound": 0.004538939473167414
+    },
+    {
+      "contrasts": 3,
+      "groups": 1200,
+      "per_contrast_alpha": 0.016666666666666666,
+      "six_arm_test_episodes": 7200,
+      "superiority_power_gain_03_loss_01": 0.8516948782346805,
+      "superiority_power_gain_04_loss_01": 0.9912804116087568,
+      "two_point_conservative_ni_max_losses": 13,
+      "two_point_conservative_ni_power_at_loss_01": 0.6820683644698793,
+      "zero_loss_upper_bound": 0.003406139701838673
+    },
+    {
+      "contrasts": 3,
+      "groups": 1800,
+      "per_contrast_alpha": 0.016666666666666666,
+      "six_arm_test_episodes": 10800,
+      "superiority_power_gain_03_loss_01": 0.9691171033600328,
+      "superiority_power_gain_04_loss_01": 0.9997738036554596,
+      "two_point_conservative_ni_max_losses": 23,
+      "two_point_conservative_ni_power_at_loss_01": 0.8999900522002426,
+      "zero_loss_upper_bound": 0.0022720508441028686
+    },
+    {
+      "contrasts": 5,
+      "groups": 100,
+      "per_contrast_alpha": 0.01,
+      "six_arm_test_episodes": 600,
+      "superiority_power_gain_03_loss_01": 0.00419324371340387,
+      "superiority_power_gain_04_loss_01": 0.019104507466085004,
+      "two_point_conservative_ni_max_losses": -1,
+      "two_point_conservative_ni_power_at_loss_01": 0.0,
+      "zero_loss_upper_bound": 0.045007413978564004
+    },
+    {
+      "contrasts": 5,
+      "groups": 145,
+      "per_contrast_alpha": 0.01,
+      "six_arm_test_episodes": 870,
+      "superiority_power_gain_03_loss_01": 0.01915858816028532,
+      "superiority_power_gain_04_loss_01": 0.06691418186709938,
+      "two_point_conservative_ni_max_losses": -1,
+      "two_point_conservative_ni_power_at_loss_01": 0.0,
+      "zero_loss_upper_bound": 0.03126074925967126
+    },
+    {
+      "contrasts": 5,
+      "groups": 312,
+      "per_contrast_alpha": 0.01,
+      "six_arm_test_episodes": 1872,
+      "superiority_power_gain_03_loss_01": 0.12593151961146196,
+      "superiority_power_gain_04_loss_01": 0.3317488733248801,
+      "two_point_conservative_ni_max_losses": 0,
+      "two_point_conservative_ni_power_at_loss_01": 0.04346910660022099,
+      "zero_loss_upper_bound": 0.014651763653704353
+    },
+    {
+      "contrasts": 5,
+      "groups": 600,
+      "per_contrast_alpha": 0.01,
+      "six_arm_test_episodes": 3600,
+      "superiority_power_gain_03_loss_01": 0.3826545839363506,
+      "superiority_power_gain_04_loss_01": 0.7473341848199653,
+      "two_point_conservative_ni_max_losses": 4,
+      "two_point_conservative_ni_power_at_loss_01": 0.28371124034584055,
+      "zero_loss_upper_bound": 0.0076459038678995395
+    },
+    {
+      "contrasts": 5,
+      "groups": 900,
+      "per_contrast_alpha": 0.01,
+      "six_arm_test_episodes": 5400,
+      "superiority_power_gain_03_loss_01": 0.6332444036747458,
+      "superiority_power_gain_04_loss_01": 0.9345667818952894,
+      "two_point_conservative_ni_max_losses": 8,
+      "two_point_conservative_ni_power_at_loss_01": 0.45499007664483404,
+      "zero_loss_upper_bound": 0.005103786955664158
+    },
+    {
+      "contrasts": 5,
+      "groups": 1200,
+      "per_contrast_alpha": 0.01,
+      "six_arm_test_episodes": 7200,
+      "superiority_power_gain_03_loss_01": 0.804200883586617,
+      "superiority_power_gain_04_loss_01": 0.9857979471180545,
+      "two_point_conservative_ni_max_losses": 12,
+      "two_point_conservative_ni_power_at_loss_01": 0.575966211259878,
+      "zero_loss_upper_bound": 0.0038302874850588697
+    },
+    {
+      "contrasts": 5,
+      "groups": 1800,
+      "per_contrast_alpha": 0.01,
+      "six_arm_test_episodes": 10800,
+      "superiority_power_gain_03_loss_01": 0.9547278910887,
+      "superiority_power_gain_04_loss_01": 0.9995642696451631,
+      "two_point_conservative_ni_max_losses": 22,
+      "two_point_conservative_ni_power_at_loss_01": 0.8562161219108286,
+      "zero_loss_upper_bound": 0.002555157893763149
+    }
+  ],
+  "schema": "gac-adaptive-design-sensitivity-v1",
+  "source_hashes": {
+    "paper/scripts/adaptive_comparison_design.py": "f404704a6ec27689fe236e41baab28419e988d562cc8a0dee5f46d0e711bca1c",
+    "paper/scripts/audit_bird_denominators.py": "2072c15db90dbc76c64f51ccc16a20c654e0d0c08b0bcd47e400df17537d361f",
+    "paper/scripts/matched_compiler_feasibility.py": "6798ace42ab250c02c7a5484cc15245a44698b9007c6c7b454b729a661d064cc"
+  },
+  "status": "PLANNING_ONLY_NO_FINAL_SAMPLE_SIZE_OR_ERROR_ALLOCATION_SELECTED"
+}

@@ -1,0 +1,226 @@
+{
+  "commit": "ad6df6b8d19573efa4a1155951c6a838f6b1b4d7",
+  "decision": "STATIC_SQL_CONTRACT_MAPPING_FEASIBLE_LIVE_ADAPTER_UNIMPLEMENTED",
+  "probe_sha256": "30575a7a70eeaaa6e42274d50d894df8c55fafa81bc224cbeef6c44092b8c8ca",
+  "programs": {
+    "missing_list": "schema = await get_schema(table_names=[\"t\"])\nresult = schema.schema\n",
+    "missing_schema": "tables = await list_tables()\nanswer = await run_query(sql=\"SELECT 1\")\nresult = answer.answer\n",
+    "redundant_query": "tables = await list_tables()\nschema = await get_schema(table_names=tables.tables)\nunused = await run_query(sql=\"SELECT 1\")\nanswer = await run_query(sql=\"SELECT 1\")\nresult = answer.answer\n",
+    "valid": "tables = await list_tables()\nschema = await get_schema(table_names=tables.tables)\nanswer = await run_query(sql=\"SELECT 1\")\nresult = answer.answer\n",
+    "wrong_answer_valid_contract": "tables = await list_tables()\nschema = await get_schema(table_names=tables.tables)\nanswer = await run_query(sql=\"SELECT 2\")\nresult = answer.answer\n",
+    "wrong_type": "tables = await list_tables()\nschema = await get_schema(table_names=tables.tables)\nanswer = await run_query(sql=123)\nresult = answer.answer\n"
+  },
+  "provider_calls": 0,
+  "python_version": "3.13.15 (main, Aug 14 2026, 15:24:40) [Clang 22.1.3 ]",
+  "registry": {
+    "tools": [
+      {
+        "description": "Synthetic contract fixture; no runtime implementation.",
+        "input_schema": {
+          "properties": {},
+          "required": [],
+          "type": "object"
+        },
+        "lang": "js",
+        "name": "list_tables",
+        "output_schema": {
+          "properties": {
+            "tables": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "tables"
+          ],
+          "type": "object"
+        },
+        "post": {
+          "tables_listed": true
+        },
+        "pre": {},
+        "title": "list_tables",
+        "tool_executor_type": "smcp",
+        "type": "listItems"
+      },
+      {
+        "description": "Synthetic contract fixture; no runtime implementation.",
+        "input_schema": {
+          "properties": {
+            "table_names": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "table_names"
+          ],
+          "type": "object"
+        },
+        "lang": "js",
+        "name": "get_schema",
+        "output_schema": {
+          "properties": {
+            "schema": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "schema"
+          ],
+          "type": "object"
+        },
+        "post": {
+          "schema_read": true
+        },
+        "pre": {
+          "tables_listed": true
+        },
+        "title": "get_schema",
+        "tool_executor_type": "smcp",
+        "type": "getFields"
+      },
+      {
+        "description": "Synthetic contract fixture; no runtime implementation.",
+        "input_schema": {
+          "properties": {
+            "sql": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "sql"
+          ],
+          "type": "object"
+        },
+        "lang": "js",
+        "name": "run_query",
+        "output_schema": {
+          "properties": {
+            "answer": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "answer"
+          ],
+          "type": "object"
+        },
+        "post": {},
+        "pre": {
+          "schema_read": true
+        },
+        "title": "run_query",
+        "tool_executor_type": "smcp",
+        "type": "getFields"
+      }
+    ]
+  },
+  "remaining": [
+    "Implement equal-information SQL tool return types and runtime dispatch.",
+    "Preserve upstream generation, candidate accounting, validation and cost ranking.",
+    "Isolate generated program execution and enforce shared time, tool and provider budgets.",
+    "Verify adaptive inference, fallback, rejected candidates and failures end to end.",
+    "Document SQL adaptation rather than claiming native browser reproduction."
+  ],
+  "result": {
+    "candidates": [
+      {
+        "checks": [
+          "syntax",
+          "types",
+          "tool_state_flow"
+        ],
+        "error": null,
+        "estimated_cost": 0.30000000000000004,
+        "path": "valid",
+        "scope": "Static checks against declared contracts; not a proof of task correctness or a security sandbox.",
+        "valid": true
+      },
+      {
+        "checks": [
+          "syntax",
+          "types",
+          "tool_state_flow"
+        ],
+        "error": "Tool ordering error: get_schema requires tables_listed=True, but state has tables_listed=False. Call sequence: get_schema",
+        "estimated_cost": null,
+        "path": "missing_list",
+        "scope": "Static checks against declared contracts; not a proof of task correctness or a security sandbox.",
+        "valid": false
+      },
+      {
+        "checks": [
+          "syntax",
+          "types",
+          "tool_state_flow"
+        ],
+        "error": "Tool ordering error: run_query requires schema_read=True, but state has schema_read=False. Call sequence: list_tables -> run_query",
+        "estimated_cost": null,
+        "path": "missing_schema",
+        "scope": "Static checks against declared contracts; not a proof of task correctness or a security sandbox.",
+        "valid": false
+      },
+      {
+        "checks": [
+          "syntax",
+          "types",
+          "tool_state_flow"
+        ],
+        "error": "Line 3: error[invalid-argument-type] Argument to function `run_query` is incorrect: Expected `str`, found `Literal[123]`",
+        "estimated_cost": null,
+        "path": "wrong_type",
+        "scope": "Static checks against declared contracts; not a proof of task correctness or a security sandbox.",
+        "valid": false
+      },
+      {
+        "checks": [
+          "syntax",
+          "types",
+          "tool_state_flow"
+        ],
+        "error": null,
+        "estimated_cost": 0.30000000000000004,
+        "path": "wrong_answer_valid_contract",
+        "scope": "Static checks against declared contracts; not a proof of task correctness or a security sandbox.",
+        "valid": true
+      },
+      {
+        "checks": [
+          "syntax",
+          "types",
+          "tool_state_flow"
+        ],
+        "error": null,
+        "estimated_cost": 0.4,
+        "path": "redundant_query",
+        "scope": "Static checks against declared contracts; not a proof of task correctness or a security sandbox.",
+        "valid": true
+      }
+    ],
+    "cost_units": "heuristic ranking score, not measured seconds",
+    "selected": "valid",
+    "tie_break": "first candidate in input order",
+    "tied_candidates": [
+      "valid",
+      "wrong_answer_valid_contract"
+    ]
+  },
+  "schema": "gac-agent-jit-static-probe-v1",
+  "scope": "Six hand-authored synthetic programs checked and ranked by unmodified upstream code; no plan generation or execution.",
+  "upstream_file_hashes": {
+    "agent_jit/adapters/planner.py": "839e86a1de061b33323a44da894b2588a6b3fad83a07b7e2bcb3715d6b7a80d2",
+    "agent_jit/definitions.py": "8980b33a66d35a09dfb187b6d36175f13b13de8b7c1db0a1a0577920d8d5e4c8",
+    "agent_jit/planner.py": "196c0dfe827314da8f9cf8b12618cc2e110cf2edf6e5f222f43ca20daf8533ab",
+    "blastai/agents/codecheck.py": "29208273401e8ee6271a9f2b36fc560fa00296e16ecd10be422b695f8667ae7d",
+    "blastai/agents/codecost.py": "6ad71a4eccb3230a63f8d07d1be5ffc3cadc0c842f3a02ed7816d189757b54bc",
+    "blastai/agents/codegen.py": "9705e4b3aa656126af4c14b1fc3eb4020622bd99270b0070abc494d0dabbab32",
+    "blastai/agents/models.py": "cb34ff1eb1332ab83da7738f7a245c29dfbd4a05e76fb0be8a60df3117aa3e9d",
+    "uv.lock": "16358662d4b4bf8fef9c2ce0d0ec4339f8f7c58bd8be0d9659f1e983c42041de"
+  },
+  "upstream_url": "https://github.com/agent-jit-compilation/agent-jit-compilation"
+}
