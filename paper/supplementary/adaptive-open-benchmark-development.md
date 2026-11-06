@@ -94,6 +94,11 @@ was not performed in this phase; the browser benchmark takes priority.
 
 ## Review and publication boundary
 
+The subsequent [browser boundary development](browser-boundary-development.md)
+implements and checks a research-only fresh-episode handoff/fallback boundary and
+audits typed-prefix discovery from these same six traces. It does not turn this
+development cohort into fresh calibration/test evidence or authorize GAC admission.
+
 All implementation, evidence and documentation belong in a dedicated PR. Leave it open for the
 author's review and merge. A passing development pilot does not close the reviewers' requests for
 matched compiler comparisons, fresh calibration, lifecycle economics or reliable fallback.

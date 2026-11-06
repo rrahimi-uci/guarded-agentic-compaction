@@ -1,0 +1,141 @@
+{
+  "archive_sha256": "f626595691bfbe17326769985f57ad05ca7d79de4770bfc504eb96653a0d3a04",
+  "artifacts_emitted": 0,
+  "candidates": [
+    {
+      "artifact": null,
+      "candidate_id": "cand-00-0fa0e89d43ae",
+      "notes": {
+        "branch": "none",
+        "branch_alternatives": 0,
+        "branch_atoms": 0,
+        "branch_p": null,
+        "n_alternative_bindings": 0,
+        "n_alternative_loop_predicates": 0,
+        "n_steps": 1
+      },
+      "program": {
+        "composite": null,
+        "library_version": "T-v1",
+        "outputs": {
+          "open": {
+            "kind": "expr",
+            "ops": [],
+            "source": "open"
+          }
+        },
+        "removed_requests": 1.0,
+        "steps": [
+          {
+            "args": {
+              "name": {
+                "kind": "const",
+                "value": "Submit"
+              }
+            },
+            "kind": "call",
+            "schema_version": null,
+            "tool": "browser.open_submission_form",
+            "var": "open",
+            "when": null
+          }
+        ],
+        "theta": [],
+        "tools": [
+          "browser.open_submission_form"
+        ]
+      },
+      "rejected": "no_dev_groups",
+      "removed_requests": 1.0,
+      "stage": "contracted",
+      "support_days": 1,
+      "support_groups": 4,
+      "tools": [
+        "browser.open_submission_form"
+      ]
+    }
+  ],
+  "config": {
+    "allow_legacy_catalog_version": false,
+    "alpha": 0.05,
+    "b_min": 1,
+    "composite_continuation_key": "",
+    "composite_pre_model": true,
+    "composite_projection": {},
+    "delta": 0.1,
+    "entry_schema": [
+      "site"
+    ],
+    "freeze_one_candidate_before_calibration": true,
+    "kappa": 3,
+    "max_artifacts": 1,
+    "max_calibration_windows": 700,
+    "max_candidates": 1,
+    "max_dev_windows": 400,
+    "max_transform_depth": 2,
+    "min_days": 1,
+    "min_principals": 1,
+    "mode": "replay",
+    "n_permutations": 400,
+    "owner": "browser-representation-development",
+    "partition_by": [],
+    "phi_min": 0.02,
+    "prefix_only": true,
+    "s_branch": 20,
+    "s_min": 3,
+    "seed": 20261106,
+    "synthesize_composites": false,
+    "w_max": 1,
+    "w_min": 1
+  },
+  "converted": 6,
+  "historical_action_errors_retained": 6,
+  "historical_actions": 36,
+  "historical_requests": 42,
+  "limitations": [
+    "All six development tasks retained, including nonmatching actions and errors; no outcome filtering.",
+    "One template per development task; template distinctions are not evidence of independent workflow families.",
+    "Historical calls lack server-state attestation. Typed mapping is a posthoc hypothesis, not original read-effect evidence.",
+    "Root-page guard alone cannot distinguish posting from retrieval intents; automatic dispatch is not justified.",
+    "No calibration, fresh test set, adaptive GAC continuation, matched compiler comparator, or net efficiency result.",
+    "A handwritten shortcut can implement the same one-call action; no compiler necessity demonstrated."
+  ],
+  "provider_calls": 0,
+  "report": "GRC compile report\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\ncandidates mined        1\nartifacts emitted       0\nrejections by stage     {'challenge:no_dev_groups': 1}\nwindows accepted        4\nwindows blocked         {'effect_unknown': 38}\nblocked by tool         {'browser': 32, 'finish': 6}\n  [contracted  ] open_submission_form                              supp=4 k=1.0  REJECTED: no_dev_groups",
+  "scheduled": 6,
+  "schema": "browser-prefix-discovery-v1",
+  "source_sha256": "d500d75c1ee6586328be97a68ebeb261212aea32cee617331af6a9c0280357ba",
+  "splits": {
+    "chronological": false,
+    "digest": "9ba9aa411fcc1880",
+    "groups": {
+      "calibration": [],
+      "dev": [],
+      "shadow": [],
+      "test": [],
+      "train": [
+        "webarena-template:12",
+        "webarena-template:15",
+        "webarena-template:16",
+        "webarena-template:17",
+        "webarena-template:23",
+        "webarena-template:3765"
+      ]
+    },
+    "seed": 20261106,
+    "sizes": {
+      "calibration": 0,
+      "dev": 0,
+      "shadow": 0,
+      "test": 0,
+      "train": 6
+    }
+  },
+  "status": "RESEARCH_ONLY_NO_ADMISSION",
+  "typed_prefix_tasks": [
+    634,
+    600,
+    622,
+    643
+  ]
+}
