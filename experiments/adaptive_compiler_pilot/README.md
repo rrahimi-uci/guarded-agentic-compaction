@@ -47,6 +47,15 @@ The reasoning model does not use upstream's temperature 0.5 setting. These are
 material adaptation differences; no native Agent JIT browser reproduction or
 faithful reproduction of the original paper's numerical results is claimed.
 
+A provider-free execution-parity probe subsequently found that the frozen pilot
+worker differs from upstream on print output, top-level returns and last-binding
+result selection. `container_worker_native.py` is a prospective replacement using
+the unmodified pinned upstream executor inside the same container boundary. Its
+fixture results are retained in `executor_parity.json`; it was **not** used to
+rerun or relabel the live pilot. Neither fixture parity nor this SQL adaptation
+establishes native browser reproduction. Treat the port's observed score as
+adapter feasibility evidence, not a method-level comparison.
+
 ## Freeze and execute
 
 Requires the repository live/dev dependencies, pinned BIRD cache from the prior

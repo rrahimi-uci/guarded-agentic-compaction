@@ -1,8 +1,8 @@
 """Exploratory GAC discovery from every attempted baseline trace; no calibration."""
 from collections import Counter
+import copy
 from dataclasses import asdict
 import json
-import subprocess
 
 from adaptive_pilot import ROOT, OUT, LOCAL, digest, write
 from adaptive_pilot_runtime import INSTRUCTIONS, registry
@@ -79,12 +79,25 @@ def main():
     result = compile_grc(episodes, catalog, splits, manifest, config, sandbox=None, perturbations=())
     if result.artifacts:
         raise AssertionError("no calibrated artifact permitted with empty calibration")
+    # The SQL port serializes results inside a payload string. Diagnose that
+    # representation boundary separately; this is not an executed new arm.
+    decoded = copy.deepcopy(episodes)
+    for episode in decoded:
+        for event in episode.events:
+            if event.kind == EventKind.TOOL_RESULT:
+                event.output = json.loads(event.output["payload"])
+    normalized = compile_grc(decoded, catalog, splits, manifest, config, sandbox=None, perturbations=())
+    if normalized.artifacts:
+        raise AssertionError("diagnostic must not emit calibrated artifacts")
     record = {"schema": "gac-adaptive-pilot-discovery-v1", "seal_sha256": digest(OUT / "seal.json"),
         "analysis_source_sha256": digest(__file__), "scheduled_baselines": len(seal["tasks"]),
         "converted": len(episodes), "conversion_dispositions": rejected,
         "filter": "no filtering on answer correctness or completed status; compiler qualification reported separately",
         "splits": splits.manifest(), "config": asdict(config), "report": result.report(),
         "candidates": [c.as_dict() for c in result.candidates], "rejection_by_stage": dict(result.rejection_by_stage),
+        "decoded_payload_diagnostic": {"scope": "Posthoc representation sensitivity; JSON decoded into typed tool results. No live execution, new arm or admission claim. Deployment would require matching runtime normalization and fresh calibration.",
+            "report": normalized.report(), "candidates": [c.as_dict() for c in normalized.candidates],
+            "rejection_by_stage": dict(normalized.rejection_by_stage)},
         "opening_sequences": dict(Counter(" -> ".join(e.tool or "" for e in ep.tool_calls()[:3]) for ep in episodes)),
         "status": "EXPLORATORY_ONLY_NO_CALIBRATION_NO_ADMISSION",
         "limitations": ["Fixed pilot train/dev split; analysis code finalized during operational pilot.",

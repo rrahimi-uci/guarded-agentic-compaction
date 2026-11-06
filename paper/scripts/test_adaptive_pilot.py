@@ -156,3 +156,64 @@ def test_worker_in_pinned_container():
         asyncio.run(run_container('open("/app/write", "w").write("x")', dispatch, timeout=20))
     with pytest.raises(asyncio.TimeoutError):
         asyncio.run(run_container('while True: pass', dispatch, timeout=2))
+
+
+def test_stream_failure_retains_reservation(tmp_path, monkeypatch):
+    import sys
+    from types import SimpleNamespace
+    class Stream:
+        def __aiter__(self):
+            return self
+        async def __anext__(self):
+            raise RuntimeError("stream disconnected")
+        async def close(self):
+            pass
+    class FakeClient:
+        def __init__(self, **kwargs):
+            self.base_url = kwargs["base_url"]
+            self.chat = SimpleNamespace(completions=SimpleNamespace(create=self.create))
+        async def create(self, **kwargs):
+            assert kwargs["stream_options"]["include_usage"]
+            return Stream()
+    monkeypatch.setitem(sys.modules, "openai", SimpleNamespace(AsyncOpenAI=FakeClient))
+    ledger = budget.Ledger(tmp_path / "ledger.json")
+    client = budget.BudgetClient(ledger, stage="pilot", task="fixture", arm="agent_jit")
+    async def invoke():
+        stream = await client.create(messages=[], stream=True)
+        async for _ in stream:
+            pass
+    with pytest.raises(RuntimeError):
+        asyncio.run(invoke())
+    row = json.loads(ledger.path.read_text())["requests"][0]
+    assert row["status"] == "stream_interrupted_usage_unknown"
+    assert "accounted_upper_usd" not in row
+
+
+def test_discovery_keeps_incorrect_and_failed_attempts():
+    from adaptive_pilot_discovery import convert
+    from guarded_agentic_compaction.schema.traces import ExecutionManifest
+    manifest = ExecutionManifest("fixture")
+    raw = {"question_id": 1, "db_id": "fixture", "execution_correct": False, "status": "failed"}
+    episode = convert(raw, manifest, "fixture-hash")
+    assert episode.outcome.task_success is False
+    assert episode.attributes["attempt_status"] == "failed"
+    assert episode.events == []  # compiler will report no_events, not silently drop it here
+
+
+def test_retained_executor_parity_records_implementation_difference():
+    from adaptive_pilot import OUT, ROOT, digest
+    report = json.loads((OUT / "executor_parity.json").read_text())
+    assert report["provider_calls"] == 0
+    assert report["all_match"] is False
+    assert report["prospective_all_match"] is True
+    assert len(report["rows"]) == 5
+    assert report["probe_sha256"] == digest(ROOT / "paper/scripts/probe_adaptive_executor_parity.py")
+    assert report["prospective_worker_sha256"] == digest(ROOT / "experiments/adaptive_compiler_pilot/container_worker_native.py")
+
+
+def test_retained_pilot_evidence():
+    from adaptive_pilot import OUT
+    from archive_adaptive_pilot import verify
+    if not (OUT / "retention.json").exists():
+        pytest.skip("live campaign archive not yet frozen")
+    verify()

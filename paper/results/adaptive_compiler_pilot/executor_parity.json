@@ -1,0 +1,130 @@
+{
+  "all_match": false,
+  "image": "python@sha256:09a17cad02668ae61ece136b4fd36ac3849e14f670ebedb637ea3e15580525bc",
+  "probe_sha256": "ddedf635da1476abd6b389a9b2e80afc5f8de9da0df27c0fa233382f97224956",
+  "prospective_all_match": true,
+  "prospective_worker_sha256": "eae3ff3c29fc4bf7618b6fc10fad75640063fb9af853139923ce1a116c0a7e15",
+  "provider_calls": 0,
+  "rows": [
+    {
+      "code": "result = {\"sql\": \"SELECT 1\"}",
+      "fixture": "assigned_result",
+      "pilot_worker": {
+        "error": null,
+        "output": {
+          "sql": "SELECT 1"
+        }
+      },
+      "prospective_matches": true,
+      "prospective_worker": {
+        "error": null,
+        "output": {
+          "sql": "SELECT 1"
+        }
+      },
+      "same_success_and_output": true,
+      "upstream": {
+        "error": null,
+        "output": {
+          "sql": "SELECT 1"
+        }
+      }
+    },
+    {
+      "code": "print(\"diagnostic\")\nresult = {\"sql\": \"SELECT 1\"}",
+      "fixture": "printed_then_assigned",
+      "pilot_worker": {
+        "error": "Expecting value: line 1 column 1 (char 0)",
+        "output": null
+      },
+      "prospective_matches": true,
+      "prospective_worker": {
+        "error": null,
+        "output": {
+          "sql": "SELECT 1"
+        }
+      },
+      "same_success_and_output": false,
+      "upstream": {
+        "error": null,
+        "output": {
+          "sql": "SELECT 1"
+        }
+      }
+    },
+    {
+      "code": "result = {\"sql\": \"SELECT 1\"}\nreturn result",
+      "fixture": "top_level_return",
+      "pilot_worker": {
+        "error": "worker failure: SyntaxError",
+        "output": null
+      },
+      "prospective_matches": true,
+      "prospective_worker": {
+        "error": null,
+        "output": "SELECT 1"
+      },
+      "same_success_and_output": false,
+      "upstream": {
+        "error": null,
+        "output": "SELECT 1"
+      }
+    },
+    {
+      "code": "answer = {\"sql\": \"SELECT 1\"}",
+      "fixture": "last_binding",
+      "pilot_worker": {
+        "error": null,
+        "output": null
+      },
+      "prospective_matches": true,
+      "prospective_worker": {
+        "error": null,
+        "output": {
+          "sql": "SELECT 1"
+        }
+      },
+      "same_success_and_output": false,
+      "upstream": {
+        "error": null,
+        "output": {
+          "sql": "SELECT 1"
+        }
+      }
+    },
+    {
+      "code": "import json\ntables = await list_tables()\nprint(\"diagnostic\")\nresult = {\"tables\": json.loads(tables.payload)[\"tables\"]}",
+      "fixture": "rpc_with_print",
+      "pilot_worker": {
+        "error": "Expecting value: line 1 column 1 (char 0)",
+        "output": null
+      },
+      "prospective_matches": true,
+      "prospective_worker": {
+        "error": null,
+        "output": {
+          "tables": [
+            "t"
+          ]
+        }
+      },
+      "same_success_and_output": false,
+      "upstream": {
+        "error": null,
+        "output": {
+          "tables": [
+            "t"
+          ]
+        }
+      }
+    }
+  ],
+  "schema": "gac-pilot-executor-parity-v1",
+  "scope": "Hand-authored execution-contract fixtures; both executors isolated. Does not establish native browser semantics or relabel any pilot prediction.",
+  "upstream_commit": "ad6df6b8d19573efa4a1155951c6a838f6b1b4d7",
+  "upstream_file_hashes": {
+    "cfg_builder.py": "1a9e08f3fa4ac5f93fc8245315de7575b041ed6d565989ea0fa0cb26dd6e78a8",
+    "codecheck.py": "29208273401e8ee6271a9f2b36fc560fa00296e16ecd10be422b695f8667ae7d",
+    "local_python_executor.py": "47d8532f2d542d4e6049f1209e25f627dad5a58f454b9d337872aa69987db596"
+  }
+}

@@ -1,9 +1,14 @@
 # Focused adaptive-workflow comparison: execution plan
 
-Status: prospective, unrun, unsealed. This is a focused follow-up to the November 6
+Status: the confirmatory comparison remains prospective, unrun and unsealed. A
+separate [exploratory pilot](../../experiments/adaptive_compiler_pilot/README.md)
+now has a frozen cohort, live SQL adapter and a shared $300 campaign spending cap
+authorized by the author ($30 pilot allocation). Pilot execution does not authorize
+promotion of its reused observations into calibration or confirmatory testing.
+This is a focused follow-up to the November 6
 review audit, not a completed experiment or a replacement result for the October 28
-12-family protocol. No provider calls or new end-to-end certificates are authorized
-by this document. Acceptance cannot be guaranteed by its design or its results.
+12-family protocol. This document by itself authorizes neither provider calls nor
+new end-to-end certificates. Acceptance cannot be guaranteed by its design or results.
 
 ## Question and scope
 
