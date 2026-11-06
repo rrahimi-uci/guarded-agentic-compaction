@@ -59,6 +59,13 @@ this revision does not silently replace it with an allegedly executed smaller st
 
 ## Publication and validation
 
+Subsequent provider-free work is retained in the
+[adaptive preflight report](../../results/adaptive_comparison_preflight/REPORT.md).
+It adds full source-byte and gold-execution audits, corrected-release differences,
+explicit grader-contract tests, a pinned upstream static comparator probe and new
+power sensitivities. It does not close the live-comparator or fresh-calibration gaps,
+and the October 28/November 6 manuscript results remain on their original releases.
+
 The revision updates both ICLR PDF copies and prepared OpenReview metadata. The
 long-form article remains a separate historical edition; it is not claimed to include
 this new audit. The publication manifest is regenerated after the build. Local checks

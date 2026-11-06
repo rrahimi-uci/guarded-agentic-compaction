@@ -68,6 +68,32 @@ No model or SQL execution was performed, and no question text or gold outcome wa
 used to choose favorable tasks. The comparator adapter and final statistical design
 remain outstanding even if every remaining record proves usable.
 
+### Follow-up source, grader and comparator audit
+
+The [completed provider-free preflight](../results/adaptive_comparison_preflight/REPORT.md)
+extends the initial count-only screen with full archive/database hash checks, execution
+dispositions for every screened-in gold query, corrected-release comparison, adversarial
+grader fixtures, an unmodified upstream Agent JIT static-planner probe, and focused
+exact power sensitivities. It records zero model calls and does not seal an experiment.
+
+The official corrected dev release changes 619 records, including 319 previously
+screened-in IDs. Pin a release and revalidate task semantics before discovery; do not
+reuse historical scores against new questions. Retain the old ID exclusions even when
+question text changes. The audit also records gold-cache exposure separately from
+agent execution and the corrected-release IDs exposed by the web viewer.
+
+The static SQL contract mapping is feasible; the live Agent JIT runtime, equal-information
+tools, candidate accounting and isolation are not implemented. The old per-database
+sample assumptions remain infeasible. A pooled design requires an explicit population,
+weighting, grouping, and error allocation before selecting its final sample size.
+
+Historical final-answer error in the admitted BIRD cohorts is about 35–36%, so a
+positive-coverage 5% absolute final-error certificate cannot be assumed. If a new study
+instead targets quality loss relative to the unchanged agent, define that paired loss
+prospectively and label its certificate accordingly. It is not an absolute success
+guarantee or a reinterpretation of the old replay certificate. Do not choose the endpoint
+after seeing the new results. The current decision remains no-go for confirmatory execution.
+
 ## Stage B: discovery and fixed candidates
 
 Use fresh training groups to mine candidate prefixes under a declared task/tool
