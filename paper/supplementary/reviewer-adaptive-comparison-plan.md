@@ -1,5 +1,14 @@
 # Focused adaptive-workflow comparison: execution plan
 
+Latest development update: the [prefix/comparator validation](../results/adaptive_prefix_validation/REPORT.md)
+checks all 36 retained selected SQL programs against the unmodified upstream
+executor and records a one-call GAC candidate with no calibration/admission.
+It also updates remaining source capacity to 666 questions after all retained
+exclusions. This advances adapter/candidate feasibility; it does not establish
+comparative value, learned selection, fresh calibration, or a sealed final design.
+The earlier stage descriptions below are retained as the original plan; consult
+the linked report for which feasibility items have since been completed.
+
 Status: the confirmatory comparison remains prospective, unrun and unsealed. A
 separate [exploratory pilot](../../experiments/adaptive_compiler_pilot/README.md)
 now has a frozen cohort, live SQL adapter and a shared $300 campaign spending cap

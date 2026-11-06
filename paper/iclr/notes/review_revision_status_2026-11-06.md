@@ -97,3 +97,21 @@ long-form article remains a separate historical edition; it is not claimed to in
 this new audit. The publication manifest is regenerated after the build. Local checks
 and remote PR checks are recorded in the PR; they validate artifacts/software, not
 statistical assumptions or acceptance prospects. The author performs upload and merge.
+
+### Provider-free follow-up to the SQL pilot
+
+The [prefix/comparator validation report](../../results/adaptive_prefix_validation/REPORT.md)
+now verifies execution parity for all 36 selected SQL programs against the pinned
+upstream executor under identical RPC responses. This is adapter validation, not
+a new answer-quality score or native browser reproduction. The old pilot scores
+remain unchanged.
+
+A separately recorded one-call development setting synthesizes `list_tables()`
+from 27 training traces and passes nine development replays. All 36 baseline
+attempts enter conversion, including ten incorrect answers. There is no fresh
+calibration or admitted artifact. A handwritten wrapper can do the same work;
+automatic-compilation, learned-gate and maintenance benefits remain unestablished.
+The updated source inventory leaves 666 questions, with power and dependence
+limitations documented explicitly. Confirmatory execution remains a no-go pending
+the protocol and evidence conditions in that report. No additional API spending
+or manuscript numerical-claim changes were made by this follow-up.
