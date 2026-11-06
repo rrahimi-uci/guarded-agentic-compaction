@@ -101,7 +101,10 @@ def test_readiness_counts_and_calculations_have_not_been_promoted_to_evidence():
     assert report["provider_calls"] == 0
     n = sum(r["eligible"] for r in report["rows"])
     assert n == report["eligible_question_count"] == sum(report["eligible_by_database"].values())
-    assert report["power_sensitivity"] == power_rows(n)
+    expected = power_rows(n)
+    assert len(report["power_sensitivity"]) == len(expected)
+    for observed, calculated in zip(report["power_sensitivity"], expected):
+        assert observed == pytest.approx(calculated, rel=1e-12, abs=1e-14)
     for path, sha in report["source_hashes"].items():
         if path.startswith("benchmarks/.cache/"):
             continue  # optional local data; read_corrected checks its pinned bytes on rebuild
