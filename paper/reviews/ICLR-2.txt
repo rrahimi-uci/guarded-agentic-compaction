@@ -1,0 +1,30 @@
+Official Reviewby Reviewer 71S819 Oct 2026, 07:28 (modified: 06 Nov 2026, 04:19)EveryoneRevisions
+Paper Summary:
+The paper proposes Guarded Agentic Compaction (GAC), which converts recurrent initial read-only agent workflows into deterministic programs. Compilation requires grounded tool arguments, admissible effects, runtime guards, and finite-sample risk admission. Unsupported candidates are rejected, while runtime checks support fallback to the original agent.
+
+On three GitHub workflows with 90 held-out records, the paper reports 90/90 exact-contract successes versus 89/90 for the baseline, with 66.6% fewer model requests and 63.1% fewer tokens. Additional evaluations examine cross-repository transfer, different models and providers, external trace benchmarks, and refusal behavior.
+
+Presentation: 3: Clear and easy to follow.
+Informativeness: 1: I learned little or nothing new from this paper.
+Soundness: 1: I have significant concerns about the paper’s soundness that do not appear easy to address.
+Critical Strengths:
+A meaningful problem with explicit safety boundaries. The paper recognizes that recurring tool sequences alone do not justify removing model decisions. Argument provenance, effect declarations, execution position, and downstream answer fidelity are relevant concerns. The restricted formulation and conditional finite-sample admission certificate provide a concrete foundation for studying when specialization is admissible. The certificate's dependence on i.i.d. calibration groups and candidate-selection assumptions must remain explicit.
+
+Concrete measurements and transparent reporting of unfavorable results. Paired evaluations on identical records provide credible evidence of resource savings for the tested workflows. Reporting handwritten comparators, unsuccessful admissions, continuation failures, and unfavorable ablations allows readers to assess the method's actual boundaries. This transparency strengthens confidence in the experimental record.
+
+Critical Weaknesses:
+The workloads do not sufficiently establish the practical value of automatic guarded compilation. The primary tasks largely involve metadata-derived classification and verbatim extraction: issue categories follow labels, PR outcomes follow status fields, and backlog routing follows assignee and discussion information. These tasks are readily amenable to predefined deterministic workflows. The handwritten comparator achieves the same correctness and request reduction, with somewhat better aggregate token and cost results (Table 9), while the value of automatically discovering and maintaining such workflows remains unquantified. Cross-repository experiments retain an even simpler PR-outcome task, rather than demonstrating specialization within workflows containing substantial adaptive decision-making. Consequently, the headline savings establish the benefit of programmatic retrieval more strongly than the distinctive value of the proposed system.
+
+The independent contribution of the central guarding and learned-selection mechanisms remains unestablished in the current experiments. In Table 19, barrier-free replay achieves the same 30/30 correctness with fewer requests and tokens than GAC, showing no measured quality benefit from the additional restrictions on that cohort. Disabling multiple barriers simultaneously and changing the compiled region also prevents attribution to individual components. The learned-gate comparison in Table 23 likewise does not establish risk-ranking value: scores are constant within repositories, and the calibration-pool size cannot certify intermediate coverage. The comparison additionally changes the risk budget and threshold grid, limiting component attribution. The proposed drift comparison could address an important part of this gap, but remains unexecuted. These limitations are consequential because evidence-gated admissibility, rather than deterministic execution alone, is the paper's central distinguishing contribution.
+
+Questions For Authors:
+Clarification — task requirements: Could you provide a complete primary-task specification and identify which decisions require semantic interpretation or adaptive branching beyond deterministic metadata processing? This would help assess whether the workloads exercise the intended specialization problem.
+
+Clarification — calibration evidence: How are the calibration violation labels
+ generated? Do they come from executing the frozen compiled prefix followed by the model continuation, or from replaying existing trajectories? Please also clarify how failed or inexact discovery runs are handled before the train/development/calibration split, and whether calibration sampling precedes filtering on baseline success or occurrence of the mined region. These details materially affect the interpretation of the admission guarantees.
+
+Suggested additional validation — requires new experimentation: Could a targeted evaluation compare full GAC, unguarded replay, and a handwritten or composite-tool baseline within one workflow containing both recurrent retrieval and genuinely adaptive decisions? Reporting task success, optimization coverage, fallback costs, and behavior under realistic changes would materially affect my assessment of the method's incremental value.
+
+Flag For Ethics Review: No
+Rating: 1: Clear rejection
+Confidence: 4: I have substantial direct research experience on this topic.

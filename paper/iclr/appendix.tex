@@ -544,6 +544,25 @@ thresholds set $K_s=0$ and reuse observed costs; they are not measurements of
 artifact lifetime or total ownership cost. Human authoring is also unpriced.
 No evolving-snapshot deployment study estimates these missing terms.
 
+\paragraph{Implemented lifecycle controls and proposed renewal policy.}
+The registry implements staged promotion, expiry, explicit retirement,
+rollback, and a kill switch; runtime checks reject incompatible manifests.
+These controls do not estimate distribution drift or prove continued risk
+control when a changed task population passes existing guards. The lifecycle
+question is related to evidence-triggered maintenance in
+SKILL.nb~\citep{elhattami2026skillnb}.
+For deployment we propose, but have not evaluated, suspension on a confirmed
+committed contract violation or invalidated compatibility pin, plus periodic
+audits of task outcomes and fallback rates against a prospectively specified
+monitoring rule. A drift alarm is a reason to stop reuse, not permission to
+relax a guard. Renewal requires a new version, a declared target population,
+frozen candidates and loss, and fresh disjoint calibration including failed
+baseline runs. Reusing old calibration after changing the program, guard,
+score, or target population supplies no new certificate. Regression tests and
+human review supplement, rather than replace, that calibration. No automatic
+failure-rate trigger, sequential confidence guarantee, or measured repair
+benefit is claimed here.
+
 \paragraph{Latency validity.} \Cref{tab:paired-statistics} gives the paired
 differences behind \cref{tab:primary}. Latency is wall-clock provider evidence
 and is secondary to requests and tokens. In the PR-outcome and backlog families each
@@ -1111,7 +1130,8 @@ missing usage; discovery, recompilation, and maintenance remain excluded.
   \caption{Every admitted artifact's certificate. $m$ counts candidates that
   reached calibration; a parenthesized bound uses the candidate-wide budget
   $\gamma=\delta/(m|\Lambda|)$ or, in the last row, the primary grid. All
-  bounds assume i.i.d.\ groups; the replay event has no observed occurrence on
+  bounds assume i.i.d.\ groups from the labeled population, not automatically
+  the deployment population; the replay event has no observed occurrence on
   the GitHub cohorts as labeled (\cref{sec:method}).}
   \label{tab:certificates}
   \footnotesize
@@ -1120,7 +1140,7 @@ missing usage; discovery, recompilation, and maintenance remain excluded.
 \end{table}
 
 Each primary artifact was admitted at 92/92 zero-violation calibration groups
-($U_{\hat\eta}=0.0498\le0.05$, conditional on i.i.d.\ groups), a
+($U_{\hat\eta}=0.0498\le0.05$, conditional on i.i.d.\ selected groups), a
 support-sufficiency certificate (\cref{sec:method}) that is compiler-wide for
 issue-type routing (one candidate at calibration) and per-candidate for
 PR-outcome and backlog routing (two; corrected $U=0.0569$, so compiler-wide
@@ -1147,6 +1167,11 @@ replay-contract violation of the compiled region (\cref{app:config}), so the
 continuation is measured, not certified. The end-to-end certificate bounds
 absolute error, not excess error over $B$ or noninferiority, and does not
 attribute errors causally to compilation.
+Precisely, the primary helper labels a violation only when execution and the
+verifier succeed but a recorded output is missing or inequivalent. Interpreter
+and verifier rejections are marked unproductive, not violations. Runtime
+incidents are handled separately; their frequency is not a measured endpoint
+of these primary replay calibrations.
 
 \paragraph{Certifiable selectivity at the floor.}
 The 92-group floor of \cref{eq:cp} also bounds what selectivity is
@@ -1616,7 +1641,8 @@ runner can restore byte-identical model input after an attempt has been emitted
 incident rather than a fallback, which is why the compiled region is confined to
 the pre-commit prefix.
 
-\paragraph{How the calibration cohort must be sampled.}
+\paragraph{Calibration population audit.}
+\label{app:population-audit}
 The calibration cohort must be sampled before filtering on whether the baseline
 happened to exhibit the mined region, with violation labels defined for every
 dispatch-eligible member; post-selecting only recurrent successes would not
@@ -1627,15 +1653,42 @@ mined family happens to have the deepest support. The GitHub cohorts'
 exact-trace filter is such a selection (\cref{sec:setup}); the BIRD study
 drops it (\cref{app:bird}).
 
+A provider-free reconstruction accounts for all 396 primary discovery records:
+issue-type routing excludes two inexact runs, PR-outcome one, and backlog none;
+14, 15, and 16 eligible records respectively remain unused after the 16/8/92
+train/development/calibration allocation. All five candidates reaching
+calibration have a matching labeled window for every assigned calibration
+group; no missing-window case occurs within those selected splits. However,
+the excluded issues \#539 and \#2781 and PR \#5700 all pass their retained
+artifact's entry guard and score threshold under compatible manifest pins.
+These are baseline excerpt/title failures, not observed failures of a new
+compiled continuation. Thus the excluded population is not necessarily
+rejected at deployment, and the primary numerical replay bounds do not
+certify the unfiltered deployment population. Extra successful traces alone
+would not repair this mismatch. A new deployment claim requires a frozen
+candidate and calibration sampled before outcome/recurrence filtering, with
+labels for every dispatch-eligible member.
+
+The audit retains per-record dispositions and candidate membership in
+\path{paper/results/calibration_population_audit/report.json}; its entry point
+is \path{paper/scripts/audit_calibration_population.py}. Selected programs
+reproduce the saved programs. Current compilation induces an unrestricted
+integer issue-number hull where the historical issue artifact retained an
+interval; the audit therefore uses the saved guard, verifier, and gate for
+selected-artifact checks. Nonselected candidates and replay labels are
+current-code reconstructions from retained checkpoints, not additional
+provider observations. The audit does not establish independence or validate
+every supplementary cohort's sampling frame.
+
 \paragraph{Provider-free challenge and signature audit.}
 The historical live runs and subsequent audit are distinct.
 
 Two operational
 caveats of the reported runs have since been closed provider-free: the three
 primary artifacts were compiled with the perturbation suite disabled and
-registry signature verification off, and a recompilation from the sealed
+registry signature verification off, and the retained earlier recompilation from the sealed
 discovery checkpoints (\path{paper/scripts/recompile_with_challenge.py})
-reproduces the identical programs, splits, artifact identifiers, and 92/0 gates
+reproduced the identical programs, splits, artifact identifiers, and 92/0 gates
 with the suite enabled through a sandbox over the pinned snapshot; all nine
 perturbation families (reordering, duplicates, large and empty collections,
 nulls, schema drift, formatting, tool errors, timeouts) complete on the eight
@@ -1798,3 +1851,20 @@ specific retained files. The statistical assumptions in \cref{app:proof,app:conf
 apply throughout.
 
 \input{tables/claims_evidence_index.tex}
+
+\section{Additional Optimization Context}
+\label{app:additional-related}
+Other systems optimize workflows, compile
+plans, or prune topology
+\citep{abuzakuk2026awo,li2026flowcompile,chen2026agentslimming,wang2026covenant,chundru2026agenticcompilation};
+skill libraries grow reusable procedures from
+experience~\citep{wang2023voyager,zheng2025skillweaver}; semantic caches reuse
+responses~\citep{bang2023gptcache}, and prompt caching and cache-aware
+compression reuse shared prefixes~\citep{lumer2026cache,song2026capc};
+DSPy, GEPA, TextGrad, and Trace optimize prompts and programs against task
+feedback~\citep{khattab2024dspy,opsahlong2024mipro,agrawal2026gepa,yuksekgonul2024textgrad,cheng2024trace};
+RouteLLM changes models~\citep{ong2025routellm}, LLMCompiler parallelizes
+calls~\citep{kim2024llmcompiler}, and \citet{yue2026workflowsurvey} survey the
+space.
+These approaches optimize different units from the initial read-only prefix
+considered here and do not replace a matched compiler comparison.

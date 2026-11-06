@@ -1,0 +1,19 @@
+Official Reviewby Reviewer HJTF04 Oct 2026, 16:14 (modified: 06 Nov 2026, 04:19)EveryoneRevisions
+Paper Summary:
+This study introduces guarded agentic compaction: a repeated, initially read-only sequence of agent actions may be converted into a deterministic program once checks on provenance, side effects, contracts, and calibration evidence have passed. Across three GitHub workflow families, the authors observe exact agreement with all 90 held-out contracts and 66.6% fewer model requests. Experiments on external traces also document cases in which the method declines compilation because the available calibration evidence is inadequate.
+
+Presentation: 2: Generally understandable, but requires substantial effort in places.
+Informativeness: 3: I gained a substantially deeper understanding of the problem or question.
+Soundness: 2: I have minor or fixable concerns about the paper’s soundness.
+Critical Strengths:
+The admission criteria address distinct sources of error, including arguments without supporting evidence, unintended effects, execution beyond the allowed prefix, and disagreement with the output contract. The examples involving issues #4420 and #6602 illustrate why these checks matter (Figures 1–3).
+The empirical account includes both admitted programs and rejected candidates, together with their resource implications. Table 1 relates exact contract agreement to cost, and Table 2 demonstrates that recurring patterns in outside traces may still lack enough observations for admission.
+Critical Weaknesses:
+The broad safety language is stronger than the reported statistical result. According to Section 5.1, calibrating two candidates in each of two main families yields a selection-adjusted upper bound of 0.0569, which misses the 0.05 goal. Section 7 further finds that using creation day or author as the independent unit eliminates every family. The main claims should state these limits directly; additional independent calibration data would also make the evidence more persuasive.
+The evidence does not yet show that the learned gate assigns higher scores to genuinely safer cases. At 92 calibration groups, the analysis in Section 3 and Figure 6 permits certification only at zero or complete coverage under the selected bound; the forward-in-time experiment likewise certifies no intermediate level. Testing a larger cohort that supports several certified coverage levels, and comparing with a gate based only on support at equal coverage, would clarify the contribution of the learned score.
+Questions For Authors:
+Does any main or supplementary cohort contain enough independent units to establish a 5% bound for the entire candidate-selection process? If none does, how will the abstract and conclusion be revised to reflect that limitation?
+Could you compare the learned gate with a support-based gate on one held-out population at two or more positive, certified coverage levels? Such evidence would be important for evaluating the selective component.
+Flag For Ethics Review: No
+Rating: 2: Weak rejection
+Confidence: 3: I am familiar with this topic and its relevant literature.

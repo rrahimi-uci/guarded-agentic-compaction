@@ -17,7 +17,9 @@ read-only tool may hide an effect, and replaying the same outputs may still
 change the answer. The question is when a recurrent model-mediated region may
 be replaced by a deterministic program, and when it must be refused.
 
-Consider held-out issue \#4420. Given only \code{issue\_number=4420}, the
+Consider GitHub issue triage: return a label-based category, title, and exact
+evidence excerpt. For held-out issue \#4420 in the public
+\code{huggingface/datasets} snapshot, the
 observed trace calls \code{record(4420)}, passes the \emph{returned}
 \code{record.issue\_number} to \code{labels} and \code{comments}, and invokes
 the latter with \code{limit=100}. All 132 discovery executions take that
@@ -29,7 +31,7 @@ so one unwitnessed slot blocks the three-read candidate as
 \code{ungroundable\_slot}. What survives is the maximal
 justified prefix \code{record} $\rightarrow$ \code{labels}; the agent still
 chooses the limit and writes the answer. That two-read artifact passes 92/92
-calibration groups at $\alpha=0.05$ (upper bound 0.0498).
+selected calibration groups (replay bound 0.0498; population limits below).
 
 This refusal is a grounding decision, not evidence of improved task quality:
 recurrence-only replay later matches GAC's 30/30 held-out answers with one
