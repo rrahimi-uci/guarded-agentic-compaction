@@ -35,8 +35,10 @@ the `v2` subdirectory and use version-qualified request IDs, sharing the origina
 ledger and unchanged $30/$300 caps. V1 failures are reported separately, not erased
 or pooled as matched v2 observations.
 
-The pinned upstream generator/checker/ranker is unmodified. Its browser runtime is
-replaced with a networkless Docker worker and host-mediated read-only SQL tools.
+The pinned upstream generator/checker/ranker is unmodified. The upstream code is
+used under its [MIT license](Agent-JIT-LICENSE.txt), also included with the retained
+evidence because candidate records contain its runtime prompt. Its browser runtime
+is replaced with a networkless Docker worker and host-mediated read-only SQL tools.
 `list_tables` maps to `listItems` (not the upstream observer), and the starting
 prerequisite state is supplied explicitly. Tool results expose a `payload` string
 containing identical JSON information in each arm. The worker supports field

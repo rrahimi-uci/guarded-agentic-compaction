@@ -40,6 +40,7 @@ def build():
         "runtime_source_identity": "source_hashes in each seal; upstream environment resolved by its pinned uv.lock",
         "measurement_host": sys.platform, "provider_endpoint": "https://api.openai.com/v1/chat/completions"}
     files["environment.json"] = (json.dumps(metadata, indent=2, sort_keys=True) + "\n").encode()
+    files["licenses/Agent-JIT-MIT.txt"] = (ROOT / "experiments/adaptive_compiler_pilot/Agent-JIT-LICENSE.txt").read_bytes()
     seal = json.loads((OUT / "seal.json").read_text())
     write(OUT / "future_exclusions.json", {"schema": "gac-pilot-future-exclusions-v1",
         "split": "dev", "question_sha256": seal["question_sha256"],
@@ -87,7 +88,8 @@ def verify():
             assert member.isfile()
             data = archive.extractfile(member).read()
             assert hashlib.sha256(data).hexdigest() == sha
-            content[name] = json.loads(data)
+            if name.endswith(".json"):
+                content[name] = json.loads(data)
     ledger = content["ledger.json"]
     excluded = json.loads((OUT / "future_exclusions.json").read_text())
     current_seal = json.loads((OUT / "seal.json").read_text())
