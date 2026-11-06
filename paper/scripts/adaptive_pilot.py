@@ -22,6 +22,8 @@ from audit_bird_revision import read_corrected, SNAPSHOT_SHA256
 
 OUT = ROOT / "paper/results/adaptive_compiler_pilot"
 LOCAL = ROOT / "benchmarks/.cache/adaptive_compiler_pilot"
+ATTEMPT = "v2"
+RESULTS = LOCAL / ATTEMPT
 DBROOT = ROOT / "benchmarks/.cache/bird/extract/dev_20240627/dev_databases"
 QUESTIONS = ROOT / "benchmarks/.cache/bird/dev_20251106.json"
 ARMS = ("baseline", "manual_prefetch", "agent_jit")
@@ -88,9 +90,9 @@ def seal():
         if digest(DBROOT / db / f"{db}.sqlite") != sha:
             raise RuntimeError("database drift")
     document = {"schema": "gac-adaptive-pilot-seal-v1", "purpose": "exploratory feasibility; no quality or admission certificate",
-        "seed": SEED, "model": MODEL, "model_is_mutable_alias": True, "reasoning_effort": "low",
+        "seed": SEED, "model": MODEL, "model_is_mutable_alias": True, "reasoning_effort": "none", "attempt_namespace": ATTEMPT,
         "max_completion_tokens": 4096, "episode_timeout_seconds": 600, "max_agent_turns": 12,
-        "candidate_count": 32, "candidate_generation_concurrency": 4, "candidate_target": "sampled",
+        "candidate_count": 32, "candidate_generation_concurrency": 32, "candidate_target": "sampled",
         "candidate_selection": "upstream minimum estimated runtime cost, first tie; no repairs",
         "primary_endpoint": "official-style unordered set execution accuracy; all scheduled arms in denominator",
         "diagnostics": ["row-shape-sensitive set", "duplicate-sensitive bag"],
@@ -151,9 +153,10 @@ async def agent(q, toolset, client, arm, trace):
 
 
 async def jit(q, toolset, client, trace, checkout, directory, sealed):
-    request = {"ledger": str(LOCAL / "ledger.json"), "stage": "pilot", "task_id": str(q["question_id"]),
+    request = {"ledger": str(LOCAL / "ledger.json"), "stage": "pilot", "task_id": f"{ATTEMPT}:{q['question_id']}",
         "instructions": INSTRUCTIONS, "registry": registry(), "task": task_text(q),
-        "state": {"tables_listed": False, "schema_read": False}, "candidates": sealed["candidate_count"]}
+        "state": {"tables_listed": False, "schema_read": False}, "candidates": sealed["candidate_count"],
+        "candidate_generation_concurrency": sealed["candidate_generation_concurrency"]}
     write(directory / "generation_request.json", request)
     with (directory / "generation.log").open("w") as log:
         proc = await asyncio.create_subprocess_exec(str(checkout / ".venv/bin/python"),
@@ -212,7 +215,7 @@ async def run(checkout, limit):
     sealed = json.loads((OUT / "seal.json").read_text())
     questions = verify(sealed)
     LOCAL.mkdir(parents=True, exist_ok=True)
-    if list(LOCAL.glob("*/result.json")) and not (LOCAL / "ledger.json").exists():
+    if list(LOCAL.rglob("result.json")) and not (LOCAL / "ledger.json").exists():
         raise RuntimeError("missing campaign ledger; cannot reset accounting")
     # Enforce a single campaign executor. Child generator only locks the ledger.
     import fcntl
@@ -224,10 +227,11 @@ async def run(checkout, limit):
             db = DBROOT / q["db_id"] / f"{q['db_id']}.sqlite"
             gold = execute(db, q["SQL"])
             for arm in spec["arm_order"]:
-                directory = LOCAL / f"{q['question_id']}-{arm}"
+                directory = RESULTS / f"{q['question_id']}-{arm}"
                 if (directory / "result.json").exists():
                     continue
                 if limit is not None and done >= limit:
+                    verify(sealed)
                     return
                 tools = SQLTools(db)
                 trace = []
@@ -236,7 +240,7 @@ async def run(checkout, limit):
                     "gold_status": gold.status, "sql": None}
                 # Persist the denominator before any request. Interrupted attempts are never replayed.
                 write(directory / "result.json", record)
-                client = BudgetClient(Ledger(LOCAL / "ledger.json"), stage="pilot", task=str(q["question_id"]), arm=arm)
+                client = BudgetClient(Ledger(LOCAL / "ledger.json"), stage="pilot", task=f"{ATTEMPT}:{q['question_id']}", arm=arm)
                 started = time.monotonic()
                 try:
                     if gold.status != "ok":
@@ -257,6 +261,7 @@ async def run(checkout, limit):
                 done += 1
                 print(dumps({k: record[k] for k in ("question_id", "arm", "status", "execution_correct", "wall_seconds")}), flush=True)
                 if record.get("error") == "BudgetExceeded":
+                    verify(sealed)
                     return
     verify(sealed)
 
@@ -268,9 +273,9 @@ def report():
     rows = []
     for spec in sealed["tasks"]:
         for arm in spec["arm_order"]:
-            path = LOCAL / f"{spec['question_id']}-{arm}/result.json"
+            path = RESULTS / f"{spec['question_id']}-{arm}/result.json"
             raw = json.loads(path.read_text()) if path.exists() else {"status": "unstarted", "execution_correct": False}
-            requests = [r for r in ledger["requests"] if r["task"] == str(spec["question_id"]) and r["arm"] == arm]
+            requests = [r for r in ledger["requests"] if r["task"] == f"{ATTEMPT}:{spec['question_id']}" and r["arm"] == arm]
             row = {"question_id": spec["question_id"], "db_id": spec["db_id"], "arm": arm,
                 **{k: raw.get(k) for k in ("status", "execution_correct", "shape_set_correct", "bag_correct", "gold_status", "predicted_status", "error", "wall_seconds")},
                 "provider_requests": len(requests), "tool_calls": len(raw.get("tool_calls", [])),

@@ -112,6 +112,7 @@ def test_budget_client_charges_failure_without_retry(tmp_path, monkeypatch):
         asyncio.run(client.create(messages=[], max_tokens=99999, temperature=.5))
     assert len(calls) == 1
     assert calls[0]["max_completion_tokens"] == 4096
+    assert calls[0]["reasoning_effort"] == "none"
     assert "temperature" not in calls[0]
     row = json.loads(ledger.path.read_text())["requests"][0]
     assert row["status"] == "provider_request_failed_usage_unknown"

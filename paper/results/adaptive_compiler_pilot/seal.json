@@ -1,8 +1,18 @@
 {
+  "amendment": {
+    "cohort_policy": "Identical 36 questions and arm order. Q36 already operationally exposed. Both versions are exploratory, excluded from future calibration/test. V1 failures remain reported separately, never erased or pooled as matched v2 outcomes.",
+    "ledger_policy": "Same durable campaign ledger and total/stage caps. Request limit is per version/task/arm. No spending reset.",
+    "previous_accounted_upper_usd": 0.0877729,
+    "previous_report_sha256": "694471406e749952fd621cf7aac3e6e683fd40bf11612c1e8defdaf5f4de8158",
+    "previous_seal_sha256": "89d96ff69438e23df973a4326957c8a5f8d2f501e3cbd03561a0893a8ad47f80",
+    "reason": "Live API rejected function tools with reasoning low on Chat Completions. Use reasoning none for every arm. Use upstream-style 32 concurrent sampled candidates instead of the adapter semaphore of four.",
+    "retained_attempts": 3
+  },
   "analysis": "descriptive paired outcomes; no p values, selection of winners or noninferiority claim",
+  "attempt_namespace": "v2",
   "campaign_cap_usd": 300.0,
   "candidate_count": 32,
-  "candidate_generation_concurrency": 4,
+  "candidate_generation_concurrency": 32,
   "candidate_selection": "upstream minimum estimated runtime cost, first tie; no repairs",
   "candidate_target": "sampled",
   "database_sha256": {
@@ -33,7 +43,7 @@
   "primary_endpoint": "official-style unordered set execution accuracy; all scheduled arms in denominator",
   "purpose": "exploratory feasibility; no quality or admission certificate",
   "question_sha256": "ffd8018378ddb1a8794753e0a31cfc81862ff7318a5184c22f3dc4ce03a03feb",
-  "reasoning_effort": "low",
+  "reasoning_effort": "none",
   "registry": {
     "tools": [
       {
@@ -158,9 +168,9 @@
   },
   "source_hashes": {
     "experiments/adaptive_compiler_pilot/container_worker.py": "f4194cea782a6de87201d9c688b3fa73c10fa85cabf398d65b724501bd643a3f",
-    "paper/scripts/adaptive_campaign_budget.py": "b5a4f700270b6528a3e434416928a0d1965cdb72cab66617e51904181c6ea984",
-    "paper/scripts/adaptive_jit_generate.py": "9b767f2af4705df6b80a407fedecb6d9c9ca429c1fd17c2b9671374bc61a2665",
-    "paper/scripts/adaptive_pilot.py": "2919424de2f32db6c79502a30108bb2bd26c492607e20857f718ba5a8ffa4e87",
+    "paper/scripts/adaptive_campaign_budget.py": "613faeab10f76279dbef9396cac11fbe3465830631b516d5d5aa12ad03006778",
+    "paper/scripts/adaptive_jit_generate.py": "7887f3f868186a3631014f1ff44ff3afc77c4253ee36c05a121dd7d938c21cef",
+    "paper/scripts/adaptive_pilot.py": "1556ffe45d19466a271bfdcdc634e5b63c963a482c052e764ef60dd1b86f1e62",
     "paper/scripts/adaptive_pilot_runtime.py": "d2d315d57dca36b8088b487728ee9e15c85424777a6898e1f298af984c0eb69b",
     "paper/scripts/adaptive_sql_grader.py": "dbf40b529db03150b7572ebe5f6fc50cc5233b5a39218ab9fe9759284d1044c9",
     "paper/scripts/audit_bird_revision.py": "89d3c24395c0c286c3a524bb04e1f1b98ccdef8160e90b5f7b75d8c5f2fe8cf9",

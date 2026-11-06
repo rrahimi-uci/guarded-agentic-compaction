@@ -131,7 +131,7 @@ class BudgetClient:
     async def create(self, **kwargs):
         kwargs = clean(kwargs)
         kwargs.update(model=MODEL, max_completion_tokens=MAX_OUTPUT,
-                      reasoning_effort="low", store=False, service_tier="default")
+                      reasoning_effort="none", store=False, service_tier="default")
         for key in ("temperature", "top_p", "max_tokens"):
             kwargs.pop(key, None)
         if kwargs.get("stream"):

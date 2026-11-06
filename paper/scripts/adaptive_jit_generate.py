@@ -46,7 +46,7 @@ async def generate(request, checkout):
     agent = Agent.from_dict({"description": request["instructions"], "tools": request["registry"]["tools"]})
     generator = CodeGenerator(agent, llm=Model(), state_aware=True, max_iterations=1,
                               num_candidates=1, timezone="UTC")
-    semaphore = asyncio.Semaphore(4)
+    semaphore = asyncio.Semaphore(request["candidate_generation_concurrency"])
     async def one():
         async with semaphore:
             return await generator.generate_candidate(request["task"], history=[], initial_state=request["state"])

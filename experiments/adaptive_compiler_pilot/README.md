@@ -23,6 +23,18 @@ includes its two internal tool calls. Agent JIT includes all 32 sampled candidat
 static validation/ranking, and runtime model calls in its cost and wall time.
 There is no quality-selected retry, fallback or removal of failed episodes.
 
+Operational amendment v2: the first v1 task produced two API rejections because
+Chat Completions did not support this model's function tools with reasoning `low`.
+Its Agent JIT arm completed but answered incorrectly. The v1 seal/report and all
+three raw attempts are retained; conservative accounting was $0.0877729. V2 uses
+reasoning `none` for every arm, and 32 concurrent candidate generations, matching
+the upstream sampled-batch width instead of the initial adapter's semaphore of
+four. The same 36 IDs and arm order are retained. Q36 is now operationally exposed;
+no v2 result is claimed to be independent of that inspection. V2 attempts live in
+the `v2` subdirectory and use version-qualified request IDs, sharing the original
+ledger and unchanged $30/$300 caps. V1 failures are reported separately, not erased
+or pooled as matched v2 observations.
+
 The pinned upstream generator/checker/ranker is unmodified. Its browser runtime is
 replaced with a networkless Docker worker and host-mediated read-only SQL tools.
 `list_tables` maps to `listItems` (not the upstream observer), and the starting
