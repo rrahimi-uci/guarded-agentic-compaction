@@ -359,13 +359,15 @@ analysis/validator/tables 0.5, write-up 0.5); under $5.
 **Rationale.** R3 asked for it explicitly. The only workload with a nonzero end-to-end error
 rate and an informative entry schema is the graded issue task (≈1.3% errors on 311 groups).
 
-**Scope.** The untouched post-cutoff `huggingface/datasets` issue pool (≈275 issues with at
+**Scope.** The untouched post-cutoff `huggingface/datasets` issue pool (197 issues with at
 least one comment, never used; `paper/results/datasets/github_time_forward/huggingface__datasets/preflight.json`):
 80 issues for candidate re-derivation (the v2 candidate pins the old snapshot and would
 abstain everywhere), ≈195 for a single-look calibration under the frozen v2 score and grid
 (`graded_issue_gate/frozen_gate_v2.json`), with the entry read of six descriptors. Pre-declare:
 one look; primary endpoint = admission at η = 0.50 (needs k ≤ 2 at n ≈ 195 under the
 registered grid); secondary = descriptive frontier and Fisher split at η = 0.02.
+
+> **Correction, 2026-11-07.** The pool holds 197 issues with a comment, not about 275. After 80 for re-derivation at most 117 remain, above the 106 floor for a single candidate only if every one is eligible. Strategy C was screened and recorded as a no-go (`agent/c1-gate`).
 
 **Expected impact.** A clean prospective replication of the extension's admission would
 strengthen R3's confidence in the gate on this workload; a retirement would justify dropping
