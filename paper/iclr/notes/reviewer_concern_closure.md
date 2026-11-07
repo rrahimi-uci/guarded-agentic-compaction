@@ -15,7 +15,7 @@ separate from this local revision.
 | Successful-trace filtering, matching-window filtering and excluded eligible records (R1, R2) | Retrospective accounting completed; population repair still open | Audit accounts for 396 records and identifies three excluded baseline failures that pass saved entry guards/gates | Sample before outcomes and family occurrence; freeze the candidate and label all eligible independently sampled groups without dropping failures or missing outcomes |
 | Candidate-selection-wide 5% guarantee (R3) | Unsupported broad claim withdrawn; new evidence open | 92-group one-candidate bound 0.049809; two-candidate correction 0.056941 | Predeclare candidate/threshold multiplicity and error allocation. Pass the bound on a prospectively fixed cohort or report refusal; do not extend after observing the result |
 | Independent sampling unit (R2, R3) | Limitations stated; design unresolved for the next study | Author/day sensitivity removes primary admissions | Justify a population and grouping unit before data selection. Report dependence sensitivities; variants and observations from one scenario cannot manufacture independent groups |
-| Practical value beyond simple metadata retrieval and handwritten macros (R2) | Open empirical objection | Handwritten arm matches 90 contracts and request savings; BIRD one-call candidate scored 26/36 versus 28/36 baseline and handwritten; AppWorld pilot is interrupted; Reddit task 714 has a passing batched agent and one-batch handwritten reference, but no GAC artifact | A competent baseline on genuinely adaptive tasks, a useful automatically derived recurrent region, complete discovery/rejection costs, and comparison against the same handwritten program/continuation |
+| Practical value beyond simple metadata retrieval and handwritten macros (R2) | Open empirical objection | Handwritten arm matches 90 contracts and request savings; BIRD one-call candidate scored 26/36 versus 28/36 baseline and handwritten; retained AppWorld V1/V2 pilots achieved 1/12 and 2/12, below their 8/12 competence gate; Reddit task 714 has a passing batched agent and one-batch handwritten reference, but no admitted GAC artifact | A competent baseline on genuinely adaptive tasks, a useful automatically derived recurrent region, complete discovery/rejection costs, and comparison against the same handwritten program/continuation |
 | Comparison with EvoC2F / Agent JIT and interpretable external-table outcomes (R1) | External table scope clarified; matched compiler comparison open | SQL adaptation and executor parity are development evidence, not native or general compiler ranking | Pin an executable comparator, document fidelity/adaptation, validate identical tools/outputs, use the same frozen tasks/model/budgets, and report final quality and full costs |
 | Individual safeguard contribution and realistic changes (R2) | Partial evidence; general benefit unestablished | Request-scope recovery works on constructed requests; recurrence-only primary replay is equally accurate and cheaper | Hold the program, compiled region, continuation and budget fixed; change one mechanism at a time. Separate ordinary tasks from prespecified stress; measure wrong dispatch, fallback, quality and recovery cost |
 | Learned score versus support-only gating at two positive certified coverage levels (R2, R3) | Open; no ranking benefit claimed | Current primary cohort supports full coverage or retirement only; extension is exploratory | Freeze scoring and thresholds; use unfiltered independent calibration and a separate final population. Match coverage, risk budget and grid across gates. Report infeasibility or null results without relabeling them as benefit |
@@ -54,6 +54,21 @@ seen in three scenarios, for a separately designed baseline-competence study. Au
 would define a new task-entry contract, not prove login is safe to speculate. Reference
 solutions are isolated control inputs and never become model context, training traces,
 automatically mined candidates or fresh evaluation observations.
+
+The subsequent [batched baseline competence study](../../results/appworld_batched_competence/REPORT.md)
+passed 36/36 provider-free reference/negative checks through the exact agent RPC
+path. Its two sealed paid attempts on the same 12 exposed cases achieved 1/12
+and 2/12 official successes, below the prospective 8/12 engineering gate.
+Both attempts and their protected traces are retained. The stronger-model
+amendment also changed the prompt, so it is not a controlled model comparison.
+No GAC arm ran, no independent test group exists, and the practical-value row
+remains open. The adapted preauthenticated entry also remains outside native
+AppWorld leaderboard claims.
+The posthoc [trace diagnostic](../../results/appworld_batched_competence/trace_diagnostic.json)
+finds only API-name-level two-call prefix repetition in V2 (two groups covering
+four cases); it does not establish argument grounding, read-only effects or a
+compilable family. The bounded model history elided older result views in every
+case, a measured interface constraint rather than a proven failure cause.
 
 ## Ordered decision gates
 
