@@ -81,8 +81,11 @@ def used_records(repo: str | None = None, *, qualified: bool = False, exclude_pa
     if repo is None or (repo == HF_REPO and not qualified):
         used: set[int] = set()
         per_file: dict[str, int] = {}
+        own = OWN_STUDY_DIR.resolve()
         for path in sorted(RESULTS.rglob("*.json")):
             if "datasets/" in str(path.relative_to(RESULTS)) or path.stat().st_size > 60_000_000:
+                continue
+            if _under(path.resolve(), [own]):  # the multi-repository study's own outputs are never prior use
                 continue
             if skip and _under(path.resolve(), skip):
                 continue
