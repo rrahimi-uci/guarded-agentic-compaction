@@ -24,6 +24,16 @@ as a GAC artifact. It demonstrates a working guarded handoff and request
 savings against the unchanged agent, but no quality--cost advantage over the
 simple handwritten program.
 
+A subsequent provider-free posthoc probe of these same baseline traces found
+\code{list\_tables} followed by \code{get\_schema} in all 36 cases, with the
+schema call in the second model request. The agent selected 79 table
+occurrences from 256 listed occurrences. A literal table-name selector using
+the entry question and evidence matched only 10/36 complete schema batches
+and 35/79 selected-table occurrences; one baseline schema request even named
+a table absent from the preceding list. Fetching all listed schemas was not
+executed and would change continuation context. No dependent candidate or
+additional saving follows (\path{paper/results/bird_schema_selection_probe/}).
+
 \paragraph{AppWorld: baseline competence failed.}
 An adapted common-entry worker passed 36/36 known-correct, empty, and
 false-completion controls on each of the direct public-API path and the
@@ -53,6 +63,7 @@ continuation was run, and no GAC arm was compared. All 478 selected source
 questions lie in one full-neighborhood paper-overlap component, so these
 cases do not establish source-independent calibration groups.
 
+\pagebreak
 \paragraph{Decision.}
 These gates improve evaluator validity and identify a competent adaptive
 baseline, while showing that the tested candidate designs do not yet meet

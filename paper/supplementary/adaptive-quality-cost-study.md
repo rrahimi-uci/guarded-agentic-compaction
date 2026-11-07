@@ -174,6 +174,11 @@ This follows the emphasis on cost, holdouts and reproducible evaluation in
    competence or effects. Record every attempt and use the shared ledger at
    `benchmarks/.cache/adaptive_compiler_pilot/ledger.json`; never reset it.
 4. Establish recurrent, useful programs; integrate matched arms; freeze candidates.
+   A provider-free [BIRD schema-selection probe](../results/bird_schema_selection_probe/REPORT.md)
+   found a second read boundary in all 36 exposed baseline cases, but literal
+   table-name selection matched only 10/36 complete schema batches; fetching
+   every listed table was a different, unexecuted context and is equally
+   available to a handwritten arm. No dependent GAC candidate was admitted.
    If the selected extension fails, record that result. Any different environment
    or method extension needs an explicit new protocol, not unbounded task search.
 5. Resolve fresh sampling, calibration, statistical power and affordability. Only

@@ -82,14 +82,25 @@ development cases or to treat unqualified controls as confirmatory evidence.
 The last retained campaign ledger accounts for $12.101101325 in conservative
 upper estimates, leaving $287.898898675; these are not provider invoices.
 
+**Subsequent provider-free BIRD check.** A [schema-selection probe](../results/bird_schema_selection_probe/REPORT.md)
+of the same 36 exposed baseline traces found `list_tables` followed by
+`get_schema` in all 36, with the schema call on the second model request.
+The baseline chose 79 table occurrences from 256 listed occurrences. A
+posthoc literal-name rule matched only 10/36 complete selected sets and
+recovered 35/79 selected occurrences; an all-table prefetch was not executed
+and would change the continuation context. This is an additional no-go for
+the tested BIRD selector, not fresh evidence of GAC superiority. It made no
+provider calls and did not change the campaign ledger.
+
 ## Local verification of this revision
 
 The ICLR PDF was rebuilt from the revised LaTeX source and visually checked
 at the page-10 conclusion, page-11 statements, adaptive-gates appendix and
 evidence-index pages. Its main text ends on page 10; the AI Use Statement
 begins page 11. The PDF still identifies only “Anonymous authors” and has no
-author metadata. The full artifact validator passed **6,868 checks with zero
-failures**, including the new appendix-to-report checks and page-budget gate.
+author metadata. The full artifact validator passed **6,920 checks with zero
+failures**, including the new appendix-to-report checks, BIRD schema-probe
+source checks, and page-budget gate.
 The full pytest suite passed with five expected skips; release checks passed
 with three generated `docs/` checks skipped because that directory is
 untracked; Pages validation passed for nine pages and 32 paths; and the source
