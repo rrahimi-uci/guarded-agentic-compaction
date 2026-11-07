@@ -3919,10 +3919,34 @@ def validate_agenthop_section_lookahead() -> None:
                == report.get("matched_arms") == 0
            and report.get("decision") == "TIMING_OPPORTUNITY_ONLY_NO_DERIVED_SELECTOR_OR_MATCHED_GAC_RUN",
            "AgentHop lookahead: exploratory selectors cannot be relabeled as a GAC result")
+        ranker = load(base / "ranker_probe.json")
+        folds = ranker.get("folds", [])
+        ok(ranker.get("analysis_source_sha256") == sha256(PAPER / "scripts/agenthop_section_ranker_probe.py")
+           and ranker.get("timing_report_sha256") == sha256(base / "report.json")
+           and ranker.get("qa_sha256") == report.get("qa_sha256"),
+           "AgentHop lookahead: grouped ranker probe is source-linked")
+        ok(ranker.get("scheduled_baseline_cases") == 24
+           and ranker.get("eligible_transitions") == len(folds) == 35
+           and ranker.get("case_groups") == len({row.get("case_id") for row in folds}) == 20
+           and ranker.get("target_reads") == sum(row.get("target_count", 0) for row in folds) == 52
+           and ranker.get("target_count_distribution") == {"1": 19, "2": 15, "3": 1}
+           and ranker.get("top1_exact") == sum(row.get("top1_exact") is True for row in folds) == 6
+           and ranker.get("top2_exact") == sum(row.get("top2_exact") is True for row in folds) == 5
+           and ranker.get("oracle_k_exact") == sum(row.get("oracle_k_exact") is True for row in folds) == 11
+           and ranker.get("oracle_k_hits") == sum(row.get("oracle_k_hits", 0) for row in folds) == 24
+           and all(0 <= row.get("oracle_k_hits", -1) <= row.get("target_count", -2)
+                   <= row.get("candidate_headings", -3) for row in folds),
+           "AgentHop lookahead: grouped ranker counts and oracle-k ceiling reconcile")
+        ok(ranker.get("provider_calls") == ranker.get("gac_candidates")
+               == ranker.get("matched_arms") == 0
+           and ranker.get("decision") == "EXPLORATORY_RANKER_TOO_WEAK_NO_PAID_MATCHED_ARM"
+           and "not an independent confirmatory test" in ranker.get("limitations", [""])[0],
+           "AgentHop lookahead: ranker remains posthoc and cannot imply GAC superiority")
         prose = (base / "REPORT.md").read_text()
         ledger = (PAPER / "iclr/notes/reviewer_concern_closure.md").read_text()
-        ok("41/42" in prose and "7/19" in prose and "posthoc" in prose
-           and "No derived selector" in prose and "AgentHop adaptive development disposition" in ledger,
+        ok("41/42" in prose and "7/19" in prose and "11/35" in prose
+           and "posthoc" in prose and "No derived selector" in prose
+           and "AgentHop adaptive development disposition" in ledger,
            "AgentHop lookahead: reviewer prose states the result and its limits")
     except (OSError, TypeError, KeyError, ValueError) as error:
         ok(False, f"AgentHop lookahead: {error}")

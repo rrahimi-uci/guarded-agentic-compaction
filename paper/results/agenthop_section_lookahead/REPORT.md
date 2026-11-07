@@ -6,12 +6,17 @@ Across all 24 cases, **42 adjacent model-turn transitions in 22 cases** had a `l
 
 A narrow posthoc diagnostic fixes the paper already selected by the model and examines **19** transitions with one listed paper, one next `read_section`, and a visible target heading. Four simple choices matched the model-selected heading as follows: first experimental/results heading or first otherwise **7/19**; `Introduction` or first otherwise **6/19**; longest section **5/19**; question–header lexical overlap **5/19**. The rules and subset were inspected after these cases were exposed. They are neither a trained GAC selector nor an independent validation set, and they receive the model-selected paper for free. They do not justify a paid matched GAC arm.
 
+A second [provider-free grouped ranker probe](ranker_probe.json) used the same exposed trajectories. It kept every turn from a held-out case out of that fold's training data, but the feature set, regularization, and eligible subset were chosen posthoc. It evaluated 35 optimistic transitions in 20 cases: the entire next batch was a same-paper section read and every target heading was visible. A fixed top-one choice matched the full batch **6/35** times; top two matched **5/35**. Even when supplied the true number of future reads (an unavailable oracle input), the ranker matched **11/35** full batches and selected 24 of 52 target reads. This is a weak development signal, not evidence that no future selector could work. It does not justify spending on a matched GAC arm with this candidate.
+
 The bottleneck is a grounded *semantic section choice* after the list result and often after earlier paper content. GAC's current closed binder cannot be declared successful from this timing pattern. A new selector would require separate training trajectories, a frozen rule, held-out source-aware evaluation, live-tool and continuation parity, and cost accounting. The same rule must be available to the handwritten and simpler compiler controls. The current AgentHop subtype has one full-neighborhood source component, so a source-independent risk certificate cannot be claimed from this cohort. Repeating these exposed cases or prefetching extra sections until one is useful would not answer the reviewer comparison.
 
 Reproduce the provider-free audit with the pinned QA file and retained protected traces from the baseline pilot:
 
 ```sh
 python paper/scripts/agenthop_section_lookahead.py \
+  --qa /path/to/qa/full.jsonl \
+  --raw-dir /path/to/protected/agenthop_baseline_trace_pilot/raw
+python paper/scripts/agenthop_section_ranker_probe.py \
   --qa /path/to/qa/full.jsonl \
   --raw-dir /path/to/protected/agenthop_baseline_trace_pilot/raw
 python paper/scripts/validate_artifacts.py --families agenthop_section_lookahead

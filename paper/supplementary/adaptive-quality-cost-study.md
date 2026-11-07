@@ -17,7 +17,8 @@ cleared its development competence gate at 19/24, but the tested bridge-binding
 families yielded no derived GAC candidate. The provider-free
 [section-lookahead audit](../results/agenthop_section_lookahead/REPORT.md)
 found next-turn timing opportunities without a verified selector or matched
-intervention. This is a method-design lead, not evidence of quality--cost
+intervention. A grouped posthoc ranker probe remained weak even with an oracle
+read count (11/35 exact batches). This is a method-design lead, not evidence of quality--cost
 superiority. AppWorld's two sealed common-entry attempts missed their 8/12
 competence gate (PR #108).
 

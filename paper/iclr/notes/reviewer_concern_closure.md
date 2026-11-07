@@ -94,7 +94,8 @@ binding families yielded no derived dependent program. The
 [section-lookahead audit](../../results/agenthop_section_lookahead/REPORT.md)
 found 42 next-turn section-read opportunities in 22 cases, but did not derive a
 selector or execute a matched intervention. Its posthoc simple selectors were
-weak even when given the model-selected paper. These results establish a
+weak even when given the model-selected paper; a grouped but still posthoc
+ranker matched only 11/35 exact read batches even with the true read count supplied. These results establish a
 competent comparator and expose a possible timing mechanism; they do not close
 the practical-value, handwritten-control, matched-compiler, population-repair
 or statistical-design objections. No manuscript superiority or acceptance
