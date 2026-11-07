@@ -4,12 +4,22 @@
 Repository & $n$ & $k$ & $U_{\mathrm{grid}}$ & $U_{\mathrm{1}}$ & Decision & b/c & $p_{\mathrm{McN}}$ \\
 \midrule
 psf/requests & \multicolumn{7}{l}{shortfall no run; no certificate} \\
+\multicolumn{8}{@{}l}{\emph{Registered stage, $n=\min(200,\text{available})$}} \\
 pandas-dev/pandas & 200 & 2 & 0.0419 & 0.0264 & admit & 2/3 & 1.000 \\
 huggingface/datasets & 200 & 1 & 0.0333 & 0.0193 & admit & 1/1 & 1.000 \\
 pytorch/pytorch & 200 & 0 & 0.0232 & 0.0114 & admit & 0/0 & 1.000 \\
 streamlit/streamlit & 160 & 0 & 0.0290 & 0.0143 & admit & 0/2 & 0.500 \\
+\multicolumn{8}{@{}l}{\emph{Amendment 3 (added after the registered stage), $n=\min(400,\text{available})$}} \\
+python/cpython & 400 & 17 & 0.0726 & 0.0585 & retire & 12/10 & 0.832 \\
+nodejs/node & 400 & 14 & 0.0632 & 0.0499 & retire & 6/8 & 0.791 \\
+godotengine/godot & 400 & 7 & 0.0399 & 0.0293 & admit & 7/1 & 0.070 \\
+kubernetes/kubernetes & 400 & 3 & 0.0252 & 0.0166 & admit & 3/6 & 0.508 \\
+microsoft/vscode & 400 & 3 & 0.0252 & 0.0166 & admit & 3/2 & 1.000 \\
+django/django & 400 & 2 & 0.0211 & 0.0133 & admit & 2/3 & 1.000 \\
+vercel/next.js & 400 & 1 & 0.0167 & 0.0097 & admit & 1/4 & 0.375 \\
 \midrule
-Pooled (4 run repositories) & 760 & 3 & 0.0133 & 0.0088 & admit & 3/6 & 0.508 \\
+Pooled, registered stage (4) & 760 & 3 & 0.0133 & 0.0088 & admit & 3/6 & 0.508 \\
+Pooled, all run repositories (11) & 3560 & 50 & 0.0194 & 0.0169 & admit & 37/40 & 0.820 \\
 \bottomrule
 \end{tabularx}
 
@@ -23,11 +33,19 @@ Repository & \multicolumn{4}{c}{Compiled vs.\ unchanged (\%)} & \multicolumn{4}{
 \cmidrule(lr){2-5}\cmidrule(lr){6-9}
  & Req. & Tok. & Lat. & Cost & Req. & Tok. & Lat. & Cost \\
 \midrule
+django/django & 75.0 & 79.3 & 70.7 & 73.5 & 75.0 & 79.4 & 70.5 & 73.8 \\
+godotengine/godot & 75.0 & 81.9 & 70.4 & 76.5 & 75.0 & 81.9 & 70.5 & 76.3 \\
 huggingface/datasets & 75.0 & 82.5 & 72.5 & 76.9 & 75.0 & 82.5 & 73.7 & 77.3 \\
+kubernetes/kubernetes & 74.4 & 71.2 & 68.8 & 68.7 & 75.0 & 71.7 & 69.4 & 69.2 \\
+microsoft/vscode & 75.0 & 81.7 & 71.5 & 76.0 & 75.0 & 81.7 & 72.0 & 76.0 \\
+nodejs/node & 75.0 & 78.4 & 71.2 & 73.2 & 75.0 & 78.4 & 71.4 & 73.2 \\
 pandas-dev/pandas & 75.0 & 80.7 & 70.2 & 74.3 & 75.0 & 80.7 & 70.7 & 74.3 \\
+python/cpython & 75.0 & 78.0 & 70.6 & 72.9 & 75.0 & 77.9 & 70.3 & 72.4 \\
 pytorch/pytorch & 75.0 & 74.0 & 68.0 & 69.6 & 75.0 & 74.0 & 67.8 & 69.7 \\
 streamlit/streamlit & 75.0 & 69.0 & 68.8 & 70.7 & 75.0 & 69.0 & 70.5 & 69.7 \\
+vercel/next.js & 75.0 & 82.3 & 72.4 & 77.3 & 75.0 & 82.3 & 72.8 & 77.3 \\
 \midrule
-Pooled & 75.0 & 76.6 & 69.9 & 72.7 & 75.0 & 76.6 & 70.7 & 72.6 \\
+Pooled, registered stage & 75.0 & 76.6 & 69.9 & 72.7 & 75.0 & 76.6 & 70.7 & 72.6 \\
+Pooled, all run repositories & 74.9 & 78.3 & 70.6 & 73.6 & 75.0 & 78.4 & 70.9 & 73.6 \\
 \bottomrule
 \end{tabularx}
