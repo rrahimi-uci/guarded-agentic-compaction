@@ -1,0 +1,77 @@
+{
+  "budget_script_sha256": "0939c91f467bbe54dfdf11730d435bd1f685b98fb1a23d234d7018c2184553b7",
+  "case_ids": [
+    "st_0048",
+    "st_0254",
+    "st_0218",
+    "st_0278",
+    "st_0458",
+    "st_0580",
+    "st_0537",
+    "st_0748",
+    "st_0834",
+    "st_0445",
+    "st_0861",
+    "st_0836",
+    "st_0399",
+    "st_0878",
+    "st_0436",
+    "st_0013",
+    "st_0184",
+    "st_0795",
+    "st_0309",
+    "st_0520",
+    "st_0126",
+    "st_0154",
+    "st_0491",
+    "st_0624"
+  ],
+  "claim_boundary": "No GAC candidate, comparative result, independent calibration or final test is sealed here",
+  "code_revision": "419407e1b06f95f6baa0a6d2c12da43fc53045c2",
+  "competence_gate": {
+    "denominator": 24,
+    "interpretation": "engineering gate only",
+    "minimum_correct": 17
+  },
+  "config": {
+    "backend": "responses",
+    "budget": 30,
+    "max_tokens": 16384,
+    "max_total_tokens": 200000,
+    "max_turns": 20,
+    "reasoning_effort": "medium",
+    "strategy": "direct",
+    "temperature": null
+  },
+  "dataset_revision": "24e7076425ead02de2f858d8963846dc981ef9e3",
+  "decision_stage": "development_baseline_competence_and_recurrence_only",
+  "model": "gpt-5.4-2026-03-05",
+  "model_snapshot": true,
+  "official_harness_sha256": "feca15851e88c444fdc6b235d53e7b6c2759aa6bcd8cc50b4102c95c19e0d9f2",
+  "official_tools_sha256": "99b21367fa7cdd5c7276dd9cdfd56e442778d7fb17934d22de3e552e317dd6b9",
+  "pilot_script_sha256": "adf6b9f26b35e52b1ad52c5a695e7fa7040ada963e1d80537755b5af755b92c6",
+  "price_upper_per_million": {
+    "input": 3.125,
+    "output": 15.0,
+    "source": "https://developers.openai.com/api/docs/models/gpt-5.4"
+  },
+  "scheduled_cases": 24,
+  "schema": "gac-agenthop-baseline-trace-seal-v1",
+  "selection_rule": "24 lowest-hash path-overlap components; one lowest-hash ID per component; IDs, seed, annotated bridge and gold IDs only; no correctness or answer-based selection",
+  "selection_salt": "gac-agenthop-st2-baseline-pilot-v1",
+  "shared_campaign_ledger_before": {
+    "accounted_upper_usd": 6.3006882,
+    "agenthop_accounted_upper_usd": 0.0,
+    "agenthop_requests": 0,
+    "pilot_accounted_upper_usd": 1.752639,
+    "requests": 2370,
+    "sha256": "0c124a5c2914149754b9689cb8de460b9c1bdb7bfeed6ce20954a978e34e3a88"
+  },
+  "source_audit_sha256": "93d43a66d286102af02e043f8c703aad316fc7ad5aa4759d9d8f917d5d6f323c",
+  "stop_rules": [
+    "Do not exceed shared $300 or pilot $30 stage cap",
+    "Retain every scheduled case, provider failure and incomplete outcome",
+    "Do not rerun a case after observing its outcome",
+    "No matched GAC arm unless baseline competence and a dependent grounded region are established"
+  ]
+}

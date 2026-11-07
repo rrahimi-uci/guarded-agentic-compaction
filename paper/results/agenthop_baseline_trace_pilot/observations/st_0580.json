@@ -1,0 +1,106 @@
+{
+  "api_error_count": 0,
+  "budget_used": 27,
+  "case_id": "st_0580",
+  "completion_tokens": 2056,
+  "correct": true,
+  "predicted_index": 1,
+  "prompt_tokens": 19967,
+  "raw_trace_sha256": "bf2835f8188728864661e7274abd8193fe5c23dfb08a449b28211ad599661c11",
+  "status": "completed",
+  "terminated_by": "answer",
+  "tool_calls": [
+    {
+      "arguments": {
+        "paper_id": "9576df54881f73cb74b718705f5b423555f6ee05"
+      },
+      "name": "get_paper_info",
+      "turn": 0
+    },
+    {
+      "arguments": {
+        "paper_id": "9576df54881f73cb74b718705f5b423555f6ee05"
+      },
+      "name": "list_sections",
+      "turn": 0
+    },
+    {
+      "arguments": {
+        "paper_id": "9576df54881f73cb74b718705f5b423555f6ee05"
+      },
+      "name": "get_references",
+      "turn": 0
+    },
+    {
+      "arguments": {
+        "paper_id": "9576df54881f73cb74b718705f5b423555f6ee05",
+        "section": "Experiments"
+      },
+      "name": "read_section",
+      "turn": 1
+    },
+    {
+      "arguments": {
+        "paper_id": "9576df54881f73cb74b718705f5b423555f6ee05",
+        "section": "Introduction"
+      },
+      "name": "read_section",
+      "turn": 1
+    },
+    {
+      "arguments": {
+        "query_sha256": "c532fb854618f36c462395bdf72ee83b631d3404072896ac94858724ed6c0586",
+        "top_k": 5
+      },
+      "name": "search_papers",
+      "turn": 2
+    },
+    {
+      "arguments": {
+        "query_sha256": "5006e63d932c1d7e14d48ccd8dab165439e4d445cb70a8f94ca0f2545c9ea197",
+        "top_k": 5
+      },
+      "name": "search_papers",
+      "turn": 2
+    },
+    {
+      "arguments": {
+        "paper_id": "234f0122e0edccba5c91763e800c2f02fe8ae4fe"
+      },
+      "name": "list_sections",
+      "turn": 3
+    },
+    {
+      "arguments": {
+        "paper_id": "234f0122e0edccba5c91763e800c2f02fe8ae4fe"
+      },
+      "name": "get_paper_info",
+      "turn": 3
+    },
+    {
+      "arguments": {
+        "paper_id": "234f0122e0edccba5c91763e800c2f02fe8ae4fe",
+        "section": "Delving into Depth Prediction in Lift-splat"
+      },
+      "name": "read_section",
+      "turn": 4
+    },
+    {
+      "arguments": {
+        "paper_id": "234f0122e0edccba5c91763e800c2f02fe8ae4fe",
+        "section": "Experiment"
+      },
+      "name": "read_section",
+      "turn": 4
+    },
+    {
+      "arguments": {
+        "answer": "B"
+      },
+      "name": "submit_answer",
+      "turn": 5
+    }
+  ],
+  "transient_retry_count": 0,
+  "turns": 6
+}

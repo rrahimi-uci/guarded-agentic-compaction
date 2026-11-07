@@ -1,0 +1,507 @@
+{
+  "analysis_source_sha256": "96f2585a6c21059d0edf4cd3baffbc049462357a69d34c00e0843b1d15217b13",
+  "analyzed_cases": 24,
+  "baseline_report_sha256": "c4bae4d1fd7c104cbb8774af2d2c8630a9f3c6a82bddcb2e9fcd8f1bb2789b41",
+  "decision": "NO_QUALIFYING_BINDING_IN_TESTED_FAMILIES_NO_MATCHED_GAC_RUN",
+  "exact_text_binding": {
+    "ambiguous_alternatives": 0,
+    "attempted": true,
+    "binding": null,
+    "binding_found": false,
+    "reason": "no_consistent_expression",
+    "search_cache_misses": 12,
+    "support": 21
+  },
+  "first_child_followup": {
+    "later_turn": 4,
+    "same_turn": 20
+  },
+  "first_child_from_seed_references": 21,
+  "first_child_other_route": 3,
+  "first_child_reference_rank_range": [
+    3,
+    25
+  ],
+  "gac_artifacts_admitted": 0,
+  "grade_audit_sha256": "ba762d9fca17e130d571b9a8c59cd0eb72f75ead9fc581a65ebb839516245b50",
+  "initial_three_call_batches": 15,
+  "limitations": [
+    "The first-nonseed reference family and opening-batch subfamilies are a posthoc development diagnostic, not an exhaustive search of all later tool patterns.",
+    "The typed-reference sensitivity changes the official text output representation and is not deployable without a matched runtime port.",
+    "No consistent binding result cannot establish that every possible future selector or compiler will fail.",
+    "The opening seed reads were already batched by the unchanged agent, so their recurrence alone cannot save a provider turn.",
+    "No final-answer GAC arm, handwritten arm, calibration or independent test was run."
+  ],
+  "official_reference_output_prefix_parity": 21,
+  "opening_batch_families": [
+    {
+      "exact_text": {
+        "ambiguous_alternatives": 0,
+        "attempted": true,
+        "binding": null,
+        "binding_found": false,
+        "reason": "no_consistent_expression",
+        "search_cache_misses": 12,
+        "support": 7
+      },
+      "opening_batch": [
+        "get_paper_info",
+        "get_references"
+      ],
+      "support": 7,
+      "typed_sensitivity": {
+        "ambiguous_alternatives": 0,
+        "attempted": true,
+        "binding": null,
+        "binding_found": false,
+        "reason": "no_consistent_expression",
+        "search_cache_misses": 81,
+        "support": 7
+      }
+    },
+    {
+      "exact_text": {
+        "ambiguous_alternatives": 0,
+        "attempted": true,
+        "binding": null,
+        "binding_found": false,
+        "reason": "no_consistent_expression",
+        "search_cache_misses": 12,
+        "support": 9
+      },
+      "opening_batch": [
+        "get_paper_info",
+        "get_references",
+        "list_sections"
+      ],
+      "support": 9,
+      "typed_sensitivity": {
+        "ambiguous_alternatives": 0,
+        "attempted": true,
+        "binding": null,
+        "binding_found": false,
+        "reason": "no_consistent_expression",
+        "search_cache_misses": 116,
+        "support": 9
+      }
+    },
+    {
+      "exact_text": {
+        "ambiguous_alternatives": 0,
+        "attempted": true,
+        "binding": null,
+        "binding_found": false,
+        "reason": "no_consistent_expression",
+        "search_cache_misses": 12,
+        "support": 5
+      },
+      "opening_batch": [
+        "get_paper_info",
+        "list_sections",
+        "get_references"
+      ],
+      "support": 5,
+      "typed_sensitivity": {
+        "ambiguous_alternatives": 0,
+        "attempted": true,
+        "binding": null,
+        "binding_found": false,
+        "reason": "no_consistent_expression",
+        "search_cache_misses": 96,
+        "support": 5
+      }
+    }
+  ],
+  "opening_calls_already_batched": 24,
+  "provider_calls": 0,
+  "rows": [
+    {
+      "case_id": "st_0048",
+      "first_nonseed_followup": "same_turn",
+      "first_nonseed_reference_rank": 24,
+      "first_nonseed_relation": "seed_reference",
+      "first_nonseed_tool": "get_paper_info",
+      "first_nonseed_turn": 3,
+      "official_reference_output_prefix_equal": true,
+      "opening_batch": [
+        "get_paper_info",
+        "get_references"
+      ],
+      "seed_reference_count": 30,
+      "seed_reference_turn": 0
+    },
+    {
+      "case_id": "st_0254",
+      "first_nonseed_followup": "same_turn",
+      "first_nonseed_reference_rank": 11,
+      "first_nonseed_relation": "seed_reference",
+      "first_nonseed_tool": "get_paper_info",
+      "first_nonseed_turn": 1,
+      "official_reference_output_prefix_equal": true,
+      "opening_batch": [
+        "get_paper_info",
+        "get_references"
+      ],
+      "seed_reference_count": 23,
+      "seed_reference_turn": 0
+    },
+    {
+      "case_id": "st_0218",
+      "first_nonseed_followup": "same_turn",
+      "first_nonseed_reference_rank": 4,
+      "first_nonseed_relation": "seed_reference",
+      "first_nonseed_tool": "get_paper_info",
+      "first_nonseed_turn": 2,
+      "official_reference_output_prefix_equal": true,
+      "opening_batch": [
+        "get_paper_info",
+        "get_references",
+        "list_sections"
+      ],
+      "seed_reference_count": 29,
+      "seed_reference_turn": 0
+    },
+    {
+      "case_id": "st_0278",
+      "first_nonseed_followup": "later_turn",
+      "first_nonseed_reference_rank": 14,
+      "first_nonseed_relation": "seed_reference",
+      "first_nonseed_tool": "get_paper_info",
+      "first_nonseed_turn": 1,
+      "official_reference_output_prefix_equal": true,
+      "opening_batch": [
+        "get_paper_info",
+        "get_references"
+      ],
+      "seed_reference_count": 29,
+      "seed_reference_turn": 0
+    },
+    {
+      "case_id": "st_0458",
+      "first_nonseed_followup": "same_turn",
+      "first_nonseed_reference_rank": 3,
+      "first_nonseed_relation": "seed_reference",
+      "first_nonseed_tool": "get_paper_info",
+      "first_nonseed_turn": 1,
+      "official_reference_output_prefix_equal": true,
+      "opening_batch": [
+        "get_paper_info",
+        "get_references"
+      ],
+      "seed_reference_count": 29,
+      "seed_reference_turn": 0
+    },
+    {
+      "case_id": "st_0580",
+      "first_nonseed_followup": "same_turn",
+      "first_nonseed_reference_rank": null,
+      "first_nonseed_relation": "other_route",
+      "first_nonseed_tool": "list_sections",
+      "first_nonseed_turn": 3,
+      "official_reference_output_prefix_equal": null,
+      "opening_batch": [
+        "get_paper_info",
+        "list_sections",
+        "get_references"
+      ],
+      "seed_reference_count": 29,
+      "seed_reference_turn": 0
+    },
+    {
+      "case_id": "st_0537",
+      "first_nonseed_followup": "same_turn",
+      "first_nonseed_reference_rank": 13,
+      "first_nonseed_relation": "seed_reference",
+      "first_nonseed_tool": "get_paper_info",
+      "first_nonseed_turn": 4,
+      "official_reference_output_prefix_equal": true,
+      "opening_batch": [
+        "get_paper_info",
+        "get_references",
+        "list_sections"
+      ],
+      "seed_reference_count": 30,
+      "seed_reference_turn": 0
+    },
+    {
+      "case_id": "st_0748",
+      "first_nonseed_followup": "same_turn",
+      "first_nonseed_reference_rank": 8,
+      "first_nonseed_relation": "seed_reference",
+      "first_nonseed_tool": "get_paper_info",
+      "first_nonseed_turn": 1,
+      "official_reference_output_prefix_equal": true,
+      "opening_batch": [
+        "get_paper_info",
+        "get_references"
+      ],
+      "seed_reference_count": 28,
+      "seed_reference_turn": 0
+    },
+    {
+      "case_id": "st_0834",
+      "first_nonseed_followup": "same_turn",
+      "first_nonseed_reference_rank": 7,
+      "first_nonseed_relation": "seed_reference",
+      "first_nonseed_tool": "get_paper_info",
+      "first_nonseed_turn": 2,
+      "official_reference_output_prefix_equal": true,
+      "opening_batch": [
+        "get_paper_info",
+        "list_sections",
+        "get_references"
+      ],
+      "seed_reference_count": 30,
+      "seed_reference_turn": 0
+    },
+    {
+      "case_id": "st_0445",
+      "first_nonseed_followup": "later_turn",
+      "first_nonseed_reference_rank": 9,
+      "first_nonseed_relation": "seed_reference",
+      "first_nonseed_tool": "get_paper_info",
+      "first_nonseed_turn": 1,
+      "official_reference_output_prefix_equal": true,
+      "opening_batch": [
+        "get_paper_info",
+        "get_references"
+      ],
+      "seed_reference_count": 30,
+      "seed_reference_turn": 0
+    },
+    {
+      "case_id": "st_0861",
+      "first_nonseed_followup": "same_turn",
+      "first_nonseed_reference_rank": 4,
+      "first_nonseed_relation": "seed_reference",
+      "first_nonseed_tool": "get_paper_info",
+      "first_nonseed_turn": 1,
+      "official_reference_output_prefix_equal": true,
+      "opening_batch": [
+        "get_paper_info",
+        "get_references",
+        "list_sections"
+      ],
+      "seed_reference_count": 24,
+      "seed_reference_turn": 0
+    },
+    {
+      "case_id": "st_0836",
+      "first_nonseed_followup": "same_turn",
+      "first_nonseed_reference_rank": 10,
+      "first_nonseed_relation": "seed_reference",
+      "first_nonseed_tool": "get_paper_info",
+      "first_nonseed_turn": 2,
+      "official_reference_output_prefix_equal": true,
+      "opening_batch": [
+        "get_paper_info",
+        "get_references",
+        "list_sections"
+      ],
+      "seed_reference_count": 29,
+      "seed_reference_turn": 0
+    },
+    {
+      "case_id": "st_0399",
+      "first_nonseed_followup": "same_turn",
+      "first_nonseed_reference_rank": 8,
+      "first_nonseed_relation": "seed_reference",
+      "first_nonseed_tool": "get_paper_info",
+      "first_nonseed_turn": 1,
+      "official_reference_output_prefix_equal": true,
+      "opening_batch": [
+        "get_paper_info",
+        "list_sections",
+        "get_references"
+      ],
+      "seed_reference_count": 27,
+      "seed_reference_turn": 0
+    },
+    {
+      "case_id": "st_0878",
+      "first_nonseed_followup": "same_turn",
+      "first_nonseed_reference_rank": 3,
+      "first_nonseed_relation": "seed_reference",
+      "first_nonseed_tool": "get_paper_info",
+      "first_nonseed_turn": 3,
+      "official_reference_output_prefix_equal": true,
+      "opening_batch": [
+        "get_paper_info",
+        "list_sections",
+        "get_references"
+      ],
+      "seed_reference_count": 30,
+      "seed_reference_turn": 0
+    },
+    {
+      "case_id": "st_0436",
+      "first_nonseed_followup": "same_turn",
+      "first_nonseed_reference_rank": null,
+      "first_nonseed_relation": "other_route",
+      "first_nonseed_tool": "get_paper_info",
+      "first_nonseed_turn": 3,
+      "official_reference_output_prefix_equal": null,
+      "opening_batch": [
+        "get_paper_info",
+        "get_references"
+      ],
+      "seed_reference_count": 26,
+      "seed_reference_turn": 0
+    },
+    {
+      "case_id": "st_0013",
+      "first_nonseed_followup": "same_turn",
+      "first_nonseed_reference_rank": 21,
+      "first_nonseed_relation": "seed_reference",
+      "first_nonseed_tool": "get_paper_info",
+      "first_nonseed_turn": 3,
+      "official_reference_output_prefix_equal": true,
+      "opening_batch": [
+        "get_paper_info",
+        "get_references",
+        "list_sections"
+      ],
+      "seed_reference_count": 29,
+      "seed_reference_turn": 0
+    },
+    {
+      "case_id": "st_0184",
+      "first_nonseed_followup": "same_turn",
+      "first_nonseed_reference_rank": 14,
+      "first_nonseed_relation": "seed_reference",
+      "first_nonseed_tool": "get_paper_info",
+      "first_nonseed_turn": 3,
+      "official_reference_output_prefix_equal": true,
+      "opening_batch": [
+        "get_paper_info",
+        "list_sections",
+        "get_references"
+      ],
+      "seed_reference_count": 30,
+      "seed_reference_turn": 0
+    },
+    {
+      "case_id": "st_0795",
+      "first_nonseed_followup": "same_turn",
+      "first_nonseed_reference_rank": 25,
+      "first_nonseed_relation": "seed_reference",
+      "first_nonseed_tool": "get_paper_info",
+      "first_nonseed_turn": 2,
+      "official_reference_output_prefix_equal": true,
+      "opening_batch": [
+        "get_paper_info",
+        "list_sections",
+        "get_references"
+      ],
+      "seed_reference_count": 30,
+      "seed_reference_turn": 0
+    },
+    {
+      "case_id": "st_0309",
+      "first_nonseed_followup": "same_turn",
+      "first_nonseed_reference_rank": 24,
+      "first_nonseed_relation": "seed_reference",
+      "first_nonseed_tool": "get_paper_info",
+      "first_nonseed_turn": 2,
+      "official_reference_output_prefix_equal": true,
+      "opening_batch": [
+        "get_paper_info",
+        "get_references",
+        "list_sections"
+      ],
+      "seed_reference_count": 30,
+      "seed_reference_turn": 0
+    },
+    {
+      "case_id": "st_0520",
+      "first_nonseed_followup": "same_turn",
+      "first_nonseed_reference_rank": 14,
+      "first_nonseed_relation": "seed_reference",
+      "first_nonseed_tool": "get_paper_info",
+      "first_nonseed_turn": 2,
+      "official_reference_output_prefix_equal": true,
+      "opening_batch": [
+        "get_paper_info",
+        "get_references",
+        "list_sections"
+      ],
+      "seed_reference_count": 29,
+      "seed_reference_turn": 0
+    },
+    {
+      "case_id": "st_0126",
+      "first_nonseed_followup": "later_turn",
+      "first_nonseed_reference_rank": 9,
+      "first_nonseed_relation": "seed_reference",
+      "first_nonseed_tool": "get_paper_info",
+      "first_nonseed_turn": 1,
+      "official_reference_output_prefix_equal": true,
+      "opening_batch": [
+        "get_paper_info",
+        "get_references"
+      ],
+      "seed_reference_count": 29,
+      "seed_reference_turn": 0
+    },
+    {
+      "case_id": "st_0154",
+      "first_nonseed_followup": "same_turn",
+      "first_nonseed_reference_rank": 20,
+      "first_nonseed_relation": "seed_reference",
+      "first_nonseed_tool": "get_paper_info",
+      "first_nonseed_turn": 2,
+      "official_reference_output_prefix_equal": true,
+      "opening_batch": [
+        "get_paper_info",
+        "get_references",
+        "list_sections"
+      ],
+      "seed_reference_count": 30,
+      "seed_reference_turn": 0
+    },
+    {
+      "case_id": "st_0491",
+      "first_nonseed_followup": "later_turn",
+      "first_nonseed_reference_rank": 11,
+      "first_nonseed_relation": "seed_reference",
+      "first_nonseed_tool": "get_paper_info",
+      "first_nonseed_turn": 2,
+      "official_reference_output_prefix_equal": true,
+      "opening_batch": [
+        "get_paper_info",
+        "get_references",
+        "list_sections"
+      ],
+      "seed_reference_count": 30,
+      "seed_reference_turn": 0
+    },
+    {
+      "case_id": "st_0624",
+      "first_nonseed_followup": "same_turn",
+      "first_nonseed_reference_rank": null,
+      "first_nonseed_relation": "other_route",
+      "first_nonseed_tool": "get_paper_info",
+      "first_nonseed_turn": 4,
+      "official_reference_output_prefix_equal": null,
+      "opening_batch": [
+        "get_paper_info",
+        "get_references"
+      ],
+      "seed_reference_count": 29,
+      "seed_reference_turn": 0
+    }
+  ],
+  "scheduled_cases": 24,
+  "schema": "gac-agenthop-trace-binding-feasibility-v1",
+  "scope": "posthoc developmental first-nonseed reference-binding diagnostic; not an exhaustive compiler search",
+  "seal_sha256": "7f03903aab4c0820d3094ff82f9ea3a9925342d3acbe418235ee9d28b5068b92",
+  "typed_reference_sensitivity": {
+    "ambiguous_alternatives": 0,
+    "attempted": true,
+    "binding": null,
+    "binding_found": false,
+    "reason": "no_consistent_expression",
+    "search_cache_misses": 81,
+    "support": 21
+  }
+}
