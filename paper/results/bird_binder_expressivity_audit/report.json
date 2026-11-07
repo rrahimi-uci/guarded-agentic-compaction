@@ -1,0 +1,53 @@
+{
+  "cases": 36,
+  "databases": 9,
+  "decision": "NO_EXACT_BINDING_IN_TESTED_T_V1_FAMILY",
+  "full_baseline_selection": {
+    "ambiguous_alternatives": 0,
+    "binding_found": false,
+    "binding_kind": null,
+    "binding_source": null,
+    "operator_names": null,
+    "reason": "no_consistent_expression"
+  },
+  "gac_artifacts_admitted": 0,
+  "independent_test_groups": 0,
+  "library": "T-v1",
+  "limitations": [
+    "The target is the model-selected schema batch, not gold SQL tables or final-answer success.",
+    "The same exposed 36 development cases were inspected before this audit.",
+    "A failed exact T-v1 synthesis does not exclude a new learned or semantic selector.",
+    "This function-level check is not a full compile, live-tool, continuation, or cost experiment."
+  ],
+  "listed_only_cases": 35,
+  "listed_only_sensitivity": {
+    "ambiguous_alternatives": 0,
+    "binding_found": false,
+    "binding_kind": null,
+    "binding_source": null,
+    "operator_names": null,
+    "reason": "no_consistent_expression"
+  },
+  "matched_arms": 0,
+  "max_depth": 3,
+  "max_sources": 200,
+  "positive_control": {
+    "ambiguous_alternatives": 1,
+    "binding_found": true,
+    "binding_kind": "expr",
+    "binding_source": "z0.tables",
+    "operator_names": [],
+    "reason": ""
+  },
+  "provider_calls": 0,
+  "schema": "gac-bird-binder-expressivity-audit-v1",
+  "scope": "posthoc development audit of baseline-selected schema batches",
+  "source": {
+    "dsl_sha256": "15c7af17e476232f881cf8194f2eeaa9469f9844e49969d792469dc9fc438b07",
+    "pilot_report_sha256": "089363d4f6fa785f193c1edada449f95c3cc036de143a997344439b7fa5bd6a2",
+    "probe_report_sha256": "a427d16237b880bea664c8837e4cec97c13a6fcbef13b89739945f8e6df2050d",
+    "question_sha256": "ffd8018378ddb1a8794753e0a31cfc81862ff7318a5184c22f3dc4ce03a03feb",
+    "script_sha256": "f02cc6d6428116bd38a81a4ce55ce9ebe3b05a09f40fa6305519b26604f41c09",
+    "synthesis_sha256": "2ec01adfa6ce29bafdbf87253cb673d3e2598218c9f08e9968f9eb29add8201f"
+  }
+}

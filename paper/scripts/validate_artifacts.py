@@ -3123,6 +3123,12 @@ def validate_iclr_sources() -> None:
        and "bird_schema_selection_probe/report.json" in
            (iclr / "tables/claims_evidence_index.tex").read_text(),
        "iclr: posthoc BIRD schema probe is disclosed with its no-execution boundary")
+    binder_audit = load(PAPER / "results/bird_binder_expressivity_audit/report.json")
+    ok("T-v1" in gates and "35" in gates
+       and binder_audit["decision"] == "NO_EXACT_BINDING_IN_TESTED_T_V1_FAMILY"
+       and "bird_binder_expressivity_audit/report.json" in
+           (iclr / "tables/claims_evidence_index.tex").read_text(),
+       "iclr: exact BIRD binder no-go is disclosed with its development scope")
 
     # (e) editorial defects from the feedback ledger
     ok("behaviour" not in body and "behaviour" not in (iclr / "figures/alg-dispatch.tex").read_text(encoding="utf-8"),
@@ -3997,6 +4003,56 @@ def validate_bird_schema_selection_probe() -> None:
        "BIRD schema probe: prose regenerates and states timing ceiling")
 
 
+def validate_bird_binder_expressivity_audit() -> None:
+    """Check source links, exact binder outcome, and no-claim boundary."""
+    import importlib.util
+
+    base = PAPER / "results/bird_binder_expressivity_audit"
+    script = PAPER / "scripts/bird_binder_expressivity_audit.py"
+    report_path = base / "report.json"
+    prose_path = base / "REPORT.md"
+    if not all(path.is_file() for path in (script, report_path, prose_path)):
+        ok(False, "BIRD binder: source, report and prose exist")
+        return
+    report = load(report_path)
+    source = report["source"]
+    probe_path = PAPER / "results/bird_schema_selection_probe/report.json"
+    pilot_path = PAPER / "results/bird_one_call_matched_pilot/report.json"
+    probe = load(probe_path)
+    ok(source["script_sha256"] == sha256(script)
+       and source["dsl_sha256"] == sha256(ROOT / "src/guarded_agentic_compaction/grc/dsl.py")
+       and source["synthesis_sha256"] == sha256(ROOT / "src/guarded_agentic_compaction/grc/synthesize.py")
+       and source["probe_report_sha256"] == sha256(probe_path)
+       and source["pilot_report_sha256"] == sha256(pilot_path)
+       and source["question_sha256"] == probe["source"]["question_sha256"],
+       "BIRD binder: pinned sources match the retained pilot and schema probe")
+    ok(report["cases"] == 36 and report["databases"] == 9
+       and report["listed_only_cases"] == 35
+       and report["library"] == "T-v1" and report["max_depth"] == 3
+       and report["max_sources"] == 200,
+       "BIRD binder: denominator, grouping and search bounds retained")
+    ok(report["positive_control"]["binding_found"] is True
+       and report["positive_control"]["binding_kind"] == "expr"
+       and report["positive_control"]["binding_source"] == "z0.tables"
+       and report["positive_control"]["operator_names"] == []
+       and report["full_baseline_selection"]["binding_found"] is False
+       and report["listed_only_sensitivity"]["binding_found"] is False
+       and report["full_baseline_selection"]["reason"] == "no_consistent_expression"
+       and report["listed_only_sensitivity"]["reason"] == "no_consistent_expression",
+       "BIRD binder: positive control and both exact-selection failures retained")
+    ok(report["decision"] == "NO_EXACT_BINDING_IN_TESTED_T_V1_FAMILY"
+       and report["provider_calls"] == report["gac_artifacts_admitted"]
+       == report["matched_arms"] == report["independent_test_groups"] == 0,
+       "BIRD binder: no paid arm, admitted artifact or superiority result")
+    spec = importlib.util.spec_from_file_location("bird_binder_expressivity_audit", script)
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(module)
+    ok(prose_path.read_text() == module.render(report)
+       and "not a" in prose_path.read_text(),
+       "BIRD binder: prose regenerates and retains the scope boundary")
+
+
 def validate_agenthop_baseline_trace_pilot() -> None:
     """Reconcile sealed developmental outcomes and costs without external files."""
     base = PAPER / "results/agenthop_baseline_trace_pilot"
@@ -4152,6 +4208,7 @@ FAMILIES: dict[str, Any] = {
     "agenthop_section_lookahead": validate_agenthop_section_lookahead,
     "bird_one_call_development": validate_bird_one_call_development,
     "bird_schema_selection_probe": validate_bird_schema_selection_probe,
+    "bird_binder_expressivity_audit": validate_bird_binder_expressivity_audit,
     "primary_population_audit": validate_primary_population_audit,
     "sources": validate_sources,
     "live": validate_live,
