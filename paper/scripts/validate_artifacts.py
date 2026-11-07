@@ -4200,6 +4200,24 @@ def validate_agenthop_section_lookahead() -> None:
         ok(False, f"AgentHop lookahead: {error}")
 
 
+def validate_compiler_decisions_family() -> None:
+    """Pin the 'What the compiler decided' table to retained evidence."""
+
+    from validate_compiler_decisions import validate_compiler_decisions
+
+    for passed, message in validate_compiler_decisions():
+        ok(passed, message)
+
+
+def validate_multirepo_end_to_end_family() -> None:
+    """Pin the unfiltered multi-repository end-to-end certificate to raw calibration groups."""
+
+    from validate_multirepo_end_to_end import validate_multirepo_end_to_end
+
+    for r in validate_multirepo_end_to_end(PAPER / "results/multirepo_end_to_end"):
+        ok(r.ok, r.message)
+
+
 FAMILIES: dict[str, Any] = {
     "appworld_batched_competence": validate_appworld_batched_competence,
     "adaptive_comparison_preflight": validate_adaptive_comparison_preflight,
@@ -4247,6 +4265,8 @@ FAMILIES: dict[str, Any] = {
     "drift_continuation_graded": validate_drift_continuation_graded,
     "demo_suite_regeneration": validate_demo_suite_regeneration,
     "graded_issue_gate_extension": validate_graded_issue_gate_extension,
+    "compiler_decisions": validate_compiler_decisions_family,
+    "multirepo_end_to_end": validate_multirepo_end_to_end_family,
     "no_secrets": validate_no_secrets,
 }
 
