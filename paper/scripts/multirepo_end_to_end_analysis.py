@@ -26,6 +26,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import sys
 from pathlib import Path
 from typing import Any
@@ -181,7 +182,9 @@ def certificate(k: int, n: int) -> dict[str, Any]:
 
 
 def _mean(values: list[float]) -> float | None:
-    return sum(values) / len(values) if values else None
+    # math.fsum is correctly rounded, so the summary is byte-identical on every Python version
+    # (3.12 changed the built-in sum of floats to compensated summation).
+    return math.fsum(values) / len(values) if values else None
 
 
 def resources(groups: list[dict[str, Any]]) -> dict[str, Any]:
@@ -320,7 +323,7 @@ def build_summary(results_dir: Path) -> dict[str, Any]:
         pooled = summarise_groups(pooled_groups)
         pooled["repos"] = [e["repo"] for _, e in run]
     spent = [e["ledger"]["spent_usd"] for e in repos if e["ledger"]["spent_usd"] is not None]
-    total = round(sum(spent), 6)
+    total = round(math.fsum(spent), 6)
     return {
         "schema": "multirepo_end_to_end/summary/v1",
         "protocol": "paper/supplementary/multirepo-unfiltered-end-to-end-protocol.md",
