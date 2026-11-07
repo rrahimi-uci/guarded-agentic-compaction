@@ -1,0 +1,439 @@
+{
+ "baseline_competence": {
+  "best_forced_tool_model": "Qwen3-32B Thinking",
+  "best_forced_tool_published": 0.5558,
+  "claude_opus_4_6_direct_no_tools": 0.6412,
+  "gpt_4o_paper_mandatory": 0.4904,
+  "gpt_5_4_free": 0.5538,
+  "gpt_5_4_mandatory": 0.5447,
+  "o3_direct_no_tools": 0.6844,
+  "o3_free": 0.7568,
+  "source": "HF Space Junjie-Ye/ToolHop index.html sha bce3797505b1ccc4b5f3f64613ccfba45949aff2 (accessed 2026-11-06); ACL 2025 paper Table 4"
+ },
+ "cost_estimate_per_episode_usd": {
+  "basis": "tool schemas ~5.6k chars; ~4.9 requests; ~9.5k input + ~0.27k visible output tokens; excludes reasoning tokens and caching",
+  "list_price_1.25_10": 0.0145,
+  "list_price_2.5_15": 0.0276,
+  "with_reasoning_3x_to_6x": [
+   0.05,
+   0.15
+  ]
+ },
+ "decision": "NO_GO",
+ "derivability": {
+  "answer_relation_counts": {
+   "case_or_ws_variant": 141,
+   "copy_of_prev_answer": 1939,
+   "reformulation_of_prev_answer": 180
+  },
+  "chain_level": {
+   "chain_complete_n": {
+    "3": 31,
+    "4": 29,
+    "5": 8
+   },
+   "dependent_steps": 2135,
+   "derivable_steps": 1504,
+   "ok_steps": 3147,
+   "other_steps": 1002,
+   "qsum": {
+    "both": 191,
+    "both_and_no_semantic_literals": 68,
+    "dependents_T-v1_derivable": 201,
+    "full": 419,
+    "hop0_entity_in_question": 385,
+    "not_fully_reconstructed": 576
+   }
+  },
+  "dependent_argument_leaves": 2260,
+  "dependent_binder_by_previous_tool_family": {
+   "bound": 0,
+   "families_ge5_groups": 40,
+   "groups_covered": 696
+  },
+  "dependent_steps_reconstructed": 2320,
+  "hop0_bound_family_detail": [
+   {
+    "binding": {
+     "kind": "const",
+     "value": "father"
+    },
+    "binding_found": true,
+    "family": [
+     "historical_genealogy_lookup",
+     "relationship_type"
+    ],
+    "reason": "",
+    "support_groups": 7
+   }
+  ],
+  "hop0_cross_instance_binder_families_bound": 1,
+  "hop0_cross_instance_binder_families_tested": 30,
+  "hop0_instance_level_T_v1_chain_non_baked": 24,
+  "hop0_string_args_substring_of_question": 1087,
+  "manual_sample": {
+   "note": "random sample of dependent-argument leaves; rules in REPORT.md",
+   "rows": 120,
+   "seed": 0
+  },
+  "output_relation_counts": {
+   "absent_from_prev_output": 58,
+   "field_access_copy": 711,
+   "identity_of_whole_output": 777,
+   "overlaps_output_not_substring": 32,
+   "prev_output_unavailable": 240,
+   "string_op_chain_in_T-v1(depth<=2)": 111,
+   "substring_of_output_but_no_T-v1_chain": 331
+  }
+ },
+ "independent_groups": {
+  "components_shared_first_subquestion_or_first_hop_answer": 286,
+  "distinct_first_sub_questions": 298,
+  "entity_sharing_components": 263,
+  "largest_component": 17,
+  "mean_requests_per_baseline_episode_est": 4.93,
+  "prefix1_ceiling_fraction": 0.2028
+ },
+ "provider_calls": 0,
+ "reconstruction_run": {
+  "hop0_status": {
+   "ok": 827,
+   "unreconstructed": 156,
+   "unsafe_screen": 12
+  },
+  "hop_ge1_status": {
+   "build_timeout": 2,
+   "hang": 11,
+   "ok": 2320,
+   "unreconstructed": 530,
+   "unsafe_screen": 53
+  },
+  "method": "sandbox-exec (no network, no writes) execution of AST-screened tool code with candidate kwargs; success = non-error output containing the sub-task answer",
+  "queries_all_steps_reconstructed": 419,
+  "step_status": {
+   "build_timeout": 2,
+   "hang": 11,
+   "ok": 3147,
+   "unreconstructed": 686,
+   "unsafe_screen": 65
+  },
+  "steps": 3911
+ },
+ "recurrence_by_independent_group": {
+  "name+reqsig_k1": {
+   "distinct": 496,
+   "ge30": 0,
+   "ge5": 22,
+   "ge92": 0,
+   "max_group_support": 16
+  },
+  "name+reqsig_k2": {
+   "distinct": 924,
+   "ge30": 0,
+   "ge5": 0,
+   "ge92": 0,
+   "max_group_support": 3
+  },
+  "name+reqsig_k3": {
+   "distinct": 976,
+   "ge30": 0,
+   "ge5": 0,
+   "ge92": 0,
+   "max_group_support": 2
+  },
+  "name_k1": {
+   "distinct": 240,
+   "ge30": 3,
+   "ge5": 19,
+   "ge92": 0,
+   "max_group_support": 44
+  },
+  "name_k2": {
+   "distinct": 616,
+   "ge30": 0,
+   "ge5": 12,
+   "ge92": 0,
+   "max_group_support": 11
+  },
+  "name_k3": {
+   "distinct": 803,
+   "ge30": 0,
+   "ge5": 4,
+   "ge92": 0,
+   "max_group_support": 8
+  },
+  "reqsig_k1": {
+   "distinct": 260,
+   "ge30": 5,
+   "ge5": 18,
+   "ge92": 0,
+   "max_group_support": 33
+  },
+  "reqsig_k2": {
+   "distinct": 648,
+   "ge30": 0,
+   "ge5": 15,
+   "ge92": 0,
+   "max_group_support": 10
+  },
+  "reqsig_k3": {
+   "distinct": 808,
+   "ge30": 0,
+   "ge5": 8,
+   "ge92": 0,
+   "max_group_support": 10
+  }
+ },
+ "recurrence_by_query": {
+  "fam_k1": {
+   "cov30": 438,
+   "cov5": 641,
+   "cov92": 0,
+   "distinct": 263,
+   "ge2": 104,
+   "ge30": 10,
+   "ge5": 29,
+   "ge92": 0
+  },
+  "fam_k2": {
+   "cov30": 0,
+   "cov5": 209,
+   "cov92": 0,
+   "distinct": 648,
+   "ge2": 142,
+   "ge30": 0,
+   "ge5": 29,
+   "ge92": 0
+  },
+  "fam_k3": {
+   "cov30": 0,
+   "cov5": 106,
+   "cov92": 0,
+   "distinct": 809,
+   "ge2": 82,
+   "ge30": 0,
+   "ge5": 15,
+   "ge92": 0
+  },
+  "famonly_k1": {
+   "cov30": 975,
+   "cov5": 995,
+   "cov92": 975,
+   "distinct": 2,
+   "ge2": 2,
+   "ge30": 1,
+   "ge5": 2,
+   "ge92": 1
+  },
+  "famonly_k2": {
+   "cov30": 967,
+   "cov5": 993,
+   "cov92": 967,
+   "distinct": 4,
+   "ge2": 4,
+   "ge30": 1,
+   "ge5": 3,
+   "ge92": 1
+  },
+  "famonly_k3": {
+   "cov30": 967,
+   "cov5": 993,
+   "cov92": 926,
+   "distinct": 5,
+   "ge2": 5,
+   "ge30": 2,
+   "ge5": 4,
+   "ge92": 1
+  },
+  "fullschema_k1": {
+   "cov30": 0,
+   "cov5": 0,
+   "cov92": 0,
+   "distinct": 994,
+   "ge2": 1,
+   "ge30": 0,
+   "ge5": 0,
+   "ge92": 0
+  },
+  "fullschema_k2": {
+   "cov30": 0,
+   "cov5": 0,
+   "cov92": 0,
+   "distinct": 995,
+   "ge2": 0,
+   "ge30": 0,
+   "ge5": 0,
+   "ge92": 0
+  },
+  "name_k1": {
+   "cov30": 324,
+   "cov5": 667,
+   "cov92": 0,
+   "distinct": 240,
+   "ge2": 127,
+   "ge30": 7,
+   "ge5": 43,
+   "ge92": 0
+  },
+  "name_k2": {
+   "cov30": 0,
+   "cov5": 173,
+   "cov92": 0,
+   "distinct": 616,
+   "ge2": 172,
+   "ge30": 0,
+   "ge5": 26,
+   "ge92": 0
+  },
+  "name_k3": {
+   "cov30": 0,
+   "cov5": 42,
+   "cov92": 0,
+   "distinct": 803,
+   "ge2": 110,
+   "ge30": 0,
+   "ge5": 7,
+   "ge92": 0
+  },
+  "namesig_k1": {
+   "cov30": 33,
+   "cov5": 353,
+   "cov92": 0,
+   "distinct": 496,
+   "ge2": 162,
+   "ge30": 1,
+   "ge5": 36,
+   "ge92": 0
+  },
+  "namesig_k2": {
+   "cov30": 0,
+   "cov5": 5,
+   "cov92": 0,
+   "distinct": 924,
+   "ge2": 60,
+   "ge30": 0,
+   "ge5": 1,
+   "ge92": 0
+  },
+  "namesig_k3": {
+   "cov30": 0,
+   "cov5": 0,
+   "cov92": 0,
+   "distinct": 976,
+   "ge2": 19,
+   "ge30": 0,
+   "ge5": 0,
+   "ge92": 0
+  },
+  "sig_k1": {
+   "cov30": 438,
+   "cov5": 641,
+   "cov92": 0,
+   "distinct": 260,
+   "ge2": 106,
+   "ge30": 10,
+   "ge5": 29,
+   "ge92": 0
+  },
+  "sig_k2": {
+   "cov30": 0,
+   "cov5": 209,
+   "cov92": 0,
+   "distinct": 648,
+   "ge2": 142,
+   "ge30": 0,
+   "ge5": 29,
+   "ge92": 0
+  },
+  "sig_k3": {
+   "cov30": 0,
+   "cov5": 106,
+   "cov92": 0,
+   "distinct": 808,
+   "ge2": 83,
+   "ge30": 0,
+   "ge5": 15,
+   "ge92": 0
+  }
+ },
+ "schema": "gac-toolhop-screen-v1",
+ "source": {
+  "answers_numeric_literal": 639,
+  "answers_single_character": 311,
+  "code_licence": "Apache-2.0",
+  "data_file_sha256": "0a51f71a44b7025645e452123af3caf2e348301922af91778e268db0188a7fab",
+  "data_licence": "CC BY 4.0",
+  "distinct_full_parameter_schemas_at_first_hop": 994,
+  "distinct_function_bodies": 3912,
+  "distinct_tool_names": 622,
+  "function_bodies_shared_across_queries": 0,
+  "gold_call_chain_released": false,
+  "gold_sequence_released_as": "ordered sub_task dict (sub-question -> intermediate answer) aligned with tools and functions",
+  "grader": "deterministic Python (eval equality or lowercase substring; final tool message containing the answer also counts); no LLM judge",
+  "hf_dataset": "bytedance-research/ToolHop",
+  "hops": {
+   "3": 428,
+   "4": 353,
+   "5": 136,
+   "6": 10,
+   "7": 68
+  },
+  "mean_hops": 3.9317,
+  "queries": 995,
+  "revision": "b439d7279af359fda46e8117ae4f0245b75f5c6b",
+  "tools": 3912
+ },
+ "tool_static_audit": {
+  "comp": 1884,
+  "comp_hardcoded": 580,
+  "flags": {
+   "builtin_eval": 1,
+   "builtin_exec": 1,
+   "builtin_input": 490,
+   "builtin_open": 2,
+   "mod_urllib": 1
+  },
+  "imports": {
+   "babel": 15,
+   "base64": 2,
+   "binascii": 1,
+   "calendar": 22,
+   "cmath": 3,
+   "collections": 53,
+   "csv": 15,
+   "datetime": 352,
+   "dateutil": 154,
+   "dicttoxml": 23,
+   "fractions": 4,
+   "functools": 1,
+   "holidays": 1,
+   "io": 13,
+   "itertools": 24,
+   "json": 168,
+   "locale": 8,
+   "math": 8,
+   "numbers": 1,
+   "numpy": 1,
+   "pytz": 260,
+   "re": 125,
+   "roman": 1,
+   "statistics": 3,
+   "string": 21,
+   "sympy": 1,
+   "time": 5,
+   "unicodedata": 7,
+   "urllib": 1,
+   "xml": 3
+  },
+  "n": 3912,
+  "parse_fail": 0,
+  "retr": 2028,
+  "retr_hardcoded": 1842
+ },
+ "tool_static_audit_notes": {
+  "eval_or_exec_of_caller_string_tools": 2,
+  "file_write_tools": 2,
+  "network_tools": 0,
+  "retrieval_named_tools_embedding_gold_answer_literal": "1842/2028 (90.8%)"
+ }
+}
