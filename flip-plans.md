@@ -29,7 +29,11 @@ feasible in six days will, and the plan says so.
 
 **Recommendation:** Strategy A (response + revised upload, including two provider-free
 additions) plus Strategy B. Strategy C (learned-gate test) only if B is sealed by Day 3.
-Do not attempt Strategy D (competing compiler / adaptive benchmark) in this window.
+Do not attempt Strategy D (competing compiler / adaptive benchmark) in this window: by the
+estimates in Section 6.4, built from the gates already recorded on `main`, a defensible
+competing-compiler comparison needs 6–10 working days and the adaptive-task comparison 12–16
+working days plus a budget increase. The plan extends what is on `main` (Section 1.4); it
+does not restart the response draft, the concern ledger, or the protocols.
 
 **Honest odds.** On what looks like a four-point scale, acceptance needs two reviewers at 3
 or above. R3 can plausibly move to 3; R1 can move to 2 or 3 if the presentation and
@@ -100,6 +104,28 @@ Studies the reviewers have not seen (dates = first commit to `main`):
   `iclr_page_budget`, `iclr_sources`), `tectonic --outdir build main.tex` in `paper/iclr/`.
 - **Process:** every repository change goes through a PR on its own branch; the author
   merges. Nothing is posted to OpenReview by the agent; the author uploads and posts.
+
+### 1.4 What this plan builds on (main branch inventory)
+
+The plan extends artifacts already on `main`; it does not restart them. Open PR #114 (BIRD
+binder expressivity audit: no exact T-v1 expression for the baseline-selected schema batch on
+36/36 exposed cases; it also edits the adaptive-gates appendix, the concern ledger, and the
+final report) should be merged first and the plan's branches cut from the result.
+
+| Existing artifact on `main` | What it already does | What this plan adds |
+|---|---|---|
+| `paper/iclr/notes/review_response_2026-11-06.md` | Per-reviewer draft covering labels, population, comparators, lifecycle, task difficulty, mechanism attribution, selection-wide bound, certified coverage | WP3 restructures it into the reviewers' order with the four-part pattern, adds the version-gap summary, and inserts Strategy B's numbers; it stays the single response file |
+| `paper/iclr/notes/reviewer_concern_closure.md` | Twelve-row ledger: concern → disposition → evidence → completion criterion | The Section 3 map keys to its rows; WP3 updates the disposition and evidence columns; new rows only for Strategy B and C results |
+| `paper/iclr/notes/review_revision_status_2026-11-06.md` | Revision ledger, open scientific work, upload boundary | WP4 records the upload hash and posting time |
+| `paper/reviews/ICLR_2027_Reviewer_Feedback_Final_Report_2026-11-06.md` | Reviewer-by-reviewer disposition and priority order | One dated paragraph after posting |
+| `paper/iclr/notes/number_registry.md`, `openreview_metadata.md`, `tables/claims_evidence_index.tex` | Number pins, prepared abstract, evidence index | New numbers, regenerated abstract, new rows |
+| `paper/scripts/time_forward_pr_outcome_study.py`, `github_time_forward_acquire.py`, `github_time_forward_preflight.py`; `paper/results/time_forward/pr_outcome/` | Executed single-repository time-forward end-to-end design ($0.2154) | Strategy B adds flags (default behaviour unchanged) and reuses the frozen registry |
+| `paper/supplementary/multiplicity-repair-protocol.md` (NO-GO), `graded-frontier-protocol.md` (design only), `prospective-gate-frontier-protocol.md` | Pre-registered designs for the m = 2 repair and the graded gate | Strategy B supersedes the multiplicity repair with fresh data (m = 1, n = 200); Strategy C is the single-look instance of the graded-frontier design; both are cited, not rewritten |
+| `paper/supplementary/matched-compiler-candidate-protocol.md`, `reviewer-adaptive-comparison-plan.md`, `adaptive-quality-cost-study.md` | Prospective designs and gates for the competing-compiler and adaptive comparisons | Section 6.4 estimates their duration from those gates; the response cites them as committed, dated plans; nothing in them runs in the window |
+| `paper/results/{adaptive_compiler_pilot, adaptive_comparison_preflight, bird_one_call_matched_pilot, bird_schema_selection_probe, bird_binder_expressivity_audit, appworld_entry_preflight, appworld_batched_competence, agenthop_source_feasibility, agenthop_baseline_trace_pilot, agenthop_section_lookahead, reddit_ranked_read_feasibility}` | The attempt record for Strategy D | Quoted in the R2 response; `sections/adaptive_gates_appendix.tex` already summarises it |
+| `experiments/matched_reuse_baseline/COMPATIBILITY.md` | Comparator availability audit (AWM feasible; AWO, EvoC2F, Agent JIT, plan caching not drop-in) | Quoted in the R1 response |
+| `paper/iclr/sections/*.tex`, `appendix.tex`, `tables/*.tex`, `build/main.pdf` (main text ends page 10) | The 2026-11-06 manuscript | Strategy A edits in place; only the abstract and the first page are rewritten |
+| `paper/scripts/validate_artifacts.py` (44 families), `finalize_manifest.py`, `iclr_revision_statistics.py` | Validation and generated tables | New family `multirepo_end_to_end` (and `fresh_issue_gate_single_look` if C runs); new `decisions` subcommand |
 
 ---
 
@@ -349,25 +375,74 @@ agent-days as B.
 
 **Effort.** 1.5 agent-days, under $1. Run only if B is sealed and analysed by end of Day 3.
 
-### Strategy D: competing-compiler or adaptive-task comparison
+### Strategy D: competing-compiler or adaptive-task comparison (what it would take)
 
-**Rationale.** R1 and R2's central empirical requests.
+**Why reviewers want it.** R1: compare against EvoC2F and Agent JIT. R2: full GAC versus
+unguarded replay versus a handwritten program on one workflow with genuinely adaptive
+decisions, reporting task success, coverage, fallback cost, and behaviour under change.
 
-**Scope.** Port Agent JIT's planner to GitHub tasks, or complete one of the BIRD / AppWorld /
-AgentHop / Reddit designs with a derived state-dependent program and competent baseline.
+**What `main` already contains.**
+- Agent JIT: pinned checkout `ad6df6b8`, an unmodified static checker/ranker probe, and a
+  live SQL adaptation (`experiments/adaptive_compiler_pilot/`, `paper/results/adaptive_compiler_pilot/`).
+  In the 36-question pilot the adapted Agent JIT scored 4/36 with 16 failed episodes and
+  1,153 provider requests ($1.25), against 26/36 for the unchanged agent (152 requests) and
+  27/36 for the handwritten prefetch (64 requests). The pilot worker matched upstream on 1/5
+  executor fixtures; a prospective worker using the unmodified upstream executor matched 5/5
+  but was not used live. EvoC2F's anonymous code endpoint returned HTTP 401; AWO is unreleased.
+- BIRD: one-call matched pilot 28/36 (unchanged), 28/36 (handwritten), 26/36 (guarded
+  candidate); schema-selection probe matched 10/36 batches; PR #114's binder audit found no
+  exact T-v1 expression for the schema batch on 36/36 cases.
+- AppWorld: 36/36 exact-path controls; baselines 1/12 and 2/12 against an 8/12 competence
+  gate; only API-name-level recurrence in traces.
+- AgentHop: 1,011 public questions, 478 selected single-target depth-2 cases, 280 path-overlap
+  components (largest 25), one full-neighbourhood component; sealed baseline 19/24 (gate 17/24)
+  at $5.80 for 24 cases (≈ $0.24 per case); closed binder found no expression for the chosen
+  bridge paper on 21/21 reference-derived choices; 42 section-read opportunities in 22 cases;
+  posthoc grouped ranker matched 11/35 full read batches even with the true read count.
+- Reddit / WebArena-Verified: task 714 passes for the batched model (7 requests) and for a
+  one-batch handwritten reference; no GAC artifact.
+- Three prospective protocols with gates and decision rules (Section 1.4).
 
-**Expected impact.** Only a positive, faithful result would move R2. The attempt record shows:
-EvoC2F has no inspectable implementation (401); Agent JIT is a browser planner whose cited
-commit lives in the BLAST tree and whose current main is a different VM; the BIRD one-call
-candidate scored 26/36 against 28/36 for the handwritten wrapper; AppWorld baselines failed
-their competence gate; AgentHop has a competent baseline but no derivable selector.
+**D1. Competing-compiler comparison: duration estimates** (one agent, serial working days;
+provider cost from retained per-episode costs)
 
-**Risks.** Very high: a rushed port invites "mismatched comparator"; an adverse result in the
-rebuttal is worse than a stated gap; the four prior gates each took days. **Do not run.**
-Instead: report the gates, cite the frozen protocol (`paper/supplementary/matched-compiler-candidate-protocol.md`),
-and state what a valid study requires.
+| Variant | Work remaining, from the retained gates | Days | Cost | Likely outcome and value |
+|---|---|---|---|---|
+| D1a Agent JIT on BIRD (adapter exists) | Replace the pilot worker with the prospective native-executor worker and extend fixture parity to the 36 retained SQL programs and the answer contract (1); audit equal-information tools and the candidate-generation policy (1); provider-free controls (0.5); pooled release-pinned cohort, unit, margin, fixed n, seal (1); run (0.5); analysis, validator family, appendix, response (1.5) | 5.5–7 | < $20 | The port scored 4/36 at 1,153 requests; a repeat will show GAC and the handwritten prefetch far cheaper and more accurate than the port, and reviewers will ask whether a browser planner moved to SQL tools is faithful. Low persuasive value; real strawman risk. |
+| D1b Agent JIT on the GitHub families (the paper's primary domain) | D1a plus a GitHub read-tool adapter with observer and prerequisite state (2–3) | 8–10 | < $30 | Same fidelity caveat; the metadata task gives a planner little to plan. |
+| D1c Matched compiler policies over a common candidate list (`matched-compiler-candidate-protocol.md`: full GAC, support-only, recurrence-only, unchanged; rejected candidates included) | Implement compiler-level support-only and recurrence-only policies over the common candidate population (2–3; the current support-only copies an admitted registry); fresh snapshots from three or more repositories with comment bodies and train-only candidate mining (2; reuses Strategy B's acquisition); fixed design and power (1); run (1); analysis and write-up (2) | 8–10 | < $50 | The scientifically right internal comparison. On metadata tasks the expected result is ties with recurrence-only cheaper, as the 30-record ablation already shows. Honest; likely null for the paper's distinctive claim. The protocol's 12-family target is unattainable with three task templates; a 3–4 family version needs a narrower breadth claim. |
+| EvoC2F | No inspectable implementation; a reimplementation from the paper fails the repository's own pre-registered fidelity bar | 10+ (contestable) | — | Not a usable comparator. Say so. |
 
-**Effort.** 4–6 agent-days minimum, outcome uncertain.
+**D2. Adaptive-task quality–cost comparison: duration estimate.** AgentHop is the only
+candidate that passed baseline competence. Remaining phases and their gates:
+
+| Phase | Work | Days | Notes |
+|---|---|---|---|
+| 1 Method extension | Design a versioned, grounded, question-conditioned selector for the bridge-paper or section read (new DSL operators or a typed ranker) derived from separate training trajectories; collect ≈ 100 training traces; grouped held-out evaluation with path-overlap components as folds | 4–5 (+ ≈ $25) | Research, not engineering: the posthoc ranker reached 11/35 with an oracle read count; the closed binder found no bridge expression on 21/21; PR #114 found no schema-batch expression on 36/36. Probability a selector reaches a useful match rate: perhaps 30–40%. The same selector must be given to the handwritten and simpler-compiler arms. |
+| 2 Mid-trajectory dispatch | Add a verified region-position key and staging semantics to the runtime (currently `prefix_only`); tests including the archived suffix-dispatch pilot as a regression; continuation-parity check | 2–3 | Without it the only savable request is the first-turn seed batch, which a handwritten prefetch also saves. |
+| 3 Matched arms and controls | Handwritten wrapper with the same selector, recurrence-only, support-only, unchanged; equal tools and context; provider-free positive and negative controls through the official harness | 2 | Mirrors the AppWorld control discipline already on `main`. |
+| 4 Statistical design | Population and unit (at most 280 path-overlap components; one full-neighbourhood component), margin, multiplicity, fixed calibration and test sizes, power from pilot discordance, budget | 1 | At ≈ $0.24 per baseline case, 300 test groups × 4 arms ≈ $290 before calibration; power for a three-point effect at 300 groups is ≈ 15% (`matched_compiler_feasibility/REPORT.md`); ≈ 900 groups ($900+) are needed for 80%. The $300 cap must rise to roughly $1,000 for a conclusive design, and the single subtype has only 478 cases. |
+| 5 Execution | Calibration and final test, separately sealed | 1 | Wall time, not effort. |
+| 6 Analysis and write-up | Validator family, tables, appendix, response | 2–3 | Adverse results reported first. |
+| **Total** | | **12–16 working days** | Positive, reviewer-grade result ≈ 15–25% likely; an honest, reportable result is certain. |
+
+The BIRD route is shorter (4–5 days: fresh unfiltered calibration and a final test on the
+remaining 666 screened questions with the existing one-call candidate), but the candidate
+already trails the handwritten wrapper (26/36 vs 28/36) and PR #114 shows the dependent
+`get_schema` step has no exact binding, so the expected result is a tie at equal requests to
+the handwritten arm. It does not answer R2.
+
+**What can be done for D inside the six-day window.** Provider-free only, and only if WP1 and
+WP2 are on schedule: (i) freeze and commit a dated AgentHop selector protocol (phase 1 design,
+training and evaluation split by path-overlap component, decision rules) so the response can
+cite a committed next study rather than an intention; (ii) extend the Agent JIT native-worker
+fixture parity to the 36 retained SQL programs (half a day) so gate D1a-1 is closed when the
+time comes. Neither produces a number for the rebuttal.
+
+**Decision.** Decline D for the rebuttal; state the attempt record, the day estimates, and the
+committed protocols in the R1 and R2 responses. Whether to schedule D1c or D2 after the window
+is the author's call; D1a and D1b are not recommended at any time because the fidelity question
+for a browser planner moved to API tasks cannot be closed.
 
 ---
 
@@ -380,7 +455,10 @@ attempt record. Order of value: A1–A5 and B together; then A6–A9; then C.
 Why not B alone with the old framing: the reviewers' presentation and informativeness scores
 are driven by framing, and R2's score will not move on evidence of this kind. Why not C
 first: it is a coin flip with limited upside, and B's upside is certain to be reportable
-(admission or an honest unfiltered rate).
+(admission or an honest unfiltered rate). Why not D: 6–10 working days for a competing-compiler
+comparison and 12–16 for the adaptive-task comparison (Section 6.4), the latter also needing a
+budget increase to roughly $1,000; neither fits before 2026-11-12, and a rushed version carries
+the fidelity and adverse-result risks the attempt record already documents.
 
 ---
 
@@ -397,7 +475,7 @@ protocol file. Do not edit a protocol after a result is observed; append a dated
 
 | Task | Action | Output | Check |
 |---|---|---|---|
-| 0.1 | `git checkout -b paper/iclr-rebuttal-2026-11 main` (writing stream) and `git checkout -b experiment/multirepo-unfiltered-end-to-end main` (experiment stream). Keep both PRs small enough to review. | two branches | `git status` clean |
+| 0.1 | Author merges PR #114 (or the agent rebases onto it). Then `git checkout -b paper/iclr-rebuttal-2026-11 main` (writing stream) and `git checkout -b experiment/multirepo-unfiltered-end-to-end main` (experiment stream). Keep both PRs small enough to review. | two branches | `git log -1` shows #114's merge; `git status` clean |
 | 0.2 | Author: download the uploaded PDF from OpenReview to `paper/reviews/openreview_submitted.pdf`. Agent: run the grep in Appendix A.1 against it and `paper/iclr/build/main.pdf`; write `paper/iclr/notes/version_gap_2026-11.md` with the table from Section 1.2, corrected by what the grep shows. | version gap note | Each row's "unseen" status confirmed |
 | 0.3 | Sanity: `$R/.venv/bin/python -m pytest -q tests/unit -x -q` (should pass); `gh api rate_limit`; confirm `.env` has `OPENAI_API_KEY` and `GITHUB_TOKEN` (do not print). | — | exit 0 |
 | 0.4 | Write `paper/supplementary/multirepo-unfiltered-end-to-end-protocol.md` from the Strategy B design, with the decision rules in Appendix A.3, repository list, cutoffs, n = 200, exclusion rule, pilot size, spend caps, and the sentence "No label is inspected before all repositories' selections are written." Commit. | protocol, commit hash | hash written into the protocol's status line |
@@ -440,13 +518,15 @@ records, which is more than the paper has today.
 
 ### WP3: Rebuttal composition (Days 4–5)
 
-| Task | Output | Rule |
-|---|---|---|
-| 3.1 | `paper/iclr/notes/rebuttal/00_global_summary.md` (≤ 4,500 characters) | Opening: thank; one sentence on what changed and why (version gap); the Section 1.2 table reduced to eight rows (study, what it answers, where in the revised PDF); one paragraph on scope (what is and is not claimed). No new claims beyond the PDF. |
-| 3.2 | `rebuttal/R1.md`, `rebuttal/R2.md`, `rebuttal/R3.md` (each ≤ 4,500 characters per part; split into Part 1/2 if needed) | Answer every weakness and every question, in the reviewer's order, with the four-part pattern: direct answer; what changed (section); evidence (file path or table); what remains open. Templates in Section 11. |
-| 3.3 | Number consistency check | Every number in the responses appears in `number_registry.md` and in the PDF: `grep -o '[0-9][0-9.,/%]*' rebuttal/*.md | sort -u` reviewed by hand against the registry. |
-| 3.4 | Tone pass | No "we believe", no "unfortunately", no apology beyond the opening. State limits once each. Never say a reviewer overlooked something; they did not have it. |
-| 3.5 | Author read-through | 30 minutes; fix anything that reads as defensive. |
+Extend the existing files; do not create a parallel set.
+
+| Task | File | Exact task | Rule |
+|---|---|---|---|
+| 3.1 | `paper/iclr/notes/review_response_2026-11-06.md` | Replace the "Shared opening" with a global summary (≤ 4,500 characters): one sentence on the version gap; the Section 1.2 table reduced to eight rows (study, what it answers, where in the revised PDF); a four-sentence scope statement; one sentence on D with the day estimates and the committed protocols. Keep the file's "Before posting" checklist at the end and tick what is done. | No new claim beyond the PDF. |
+| 3.2 | Same file | Restructure each reviewer section into the reviewer's order of weaknesses and questions, each in the four-part pattern (Section 11.2). Keep every existing sentence that is still true; insert Strategy B's numbers where Section 11.3 says so; delete anything superseded (e.g. "matched compiler experiment remains unrun" stays; "no response has been posted" is updated on Day 6). Split a section into Part 1 / Part 2 where it exceeds 4,500 characters. | Section references use the revised PDF's numbering. |
+| 3.3 | `paper/iclr/notes/reviewer_concern_closure.md` | Update the disposition and evidence columns for the rows Strategy B touches (filtering and excluded records; selection-wide bound; independent sampling unit; replay versus final answer); add one row for C if it ran; leave the practical-value, matched-compiler and learned-gate rows open with the Section 6.4 estimates in the completion column. | "Answered" still means supported, not accepted. |
+| 3.4 | Number consistency | Every number in the response appears in `number_registry.md` and in the PDF: `grep -o '[0-9][0-9.,/%]*' paper/iclr/notes/review_response_2026-11-06.md \| sort -u`, checked by hand. | The PDF wins on conflict. |
+| 3.5 | Tone pass and author read-through (30 minutes) | No "we believe", no "unfortunately", no apology beyond the opening; state each limit once; never say a reviewer overlooked something they did not have. | — |
 
 ### WP4: Upload and posting (Day 6, author)
 
@@ -472,6 +552,8 @@ records, which is more than the paper has today.
 
 ### WP6: PR hygiene (continuous)
 
+- Both branches descend from `main` after PR #114 merges; #114 already edits
+  `sections/adaptive_gates_appendix.tex`, `reviewer_concern_closure.md`, and the final report.
 - Two PRs: `paper/iclr-rebuttal-2026-11` (writing, notes, rebuttal drafts) and
   `experiment/multirepo-unfiltered-end-to-end` (protocol, scripts, results, tables, appendix
   subsection). Merge the experiment PR first, then rebase the writing PR; or keep the
@@ -620,7 +702,7 @@ Still open: <one sentence, or "Nothing further is claimed.">
 ### 11.4 Manuscript change ledger
 
 `paper/iclr/notes/rebuttal_changes_2026-11.md` (task 2.10) is the single source for every
-"Changed:" line. Also update `reviewer_concern_closure.md` (status column),
+"Changed:" line in `review_response_2026-11-06.md`. Also update `reviewer_concern_closure.md` (status column),
 `review_revision_status_2026-11-06.md` (upload hash, posting time),
 `openreview_metadata.md` (abstract), `number_registry.md` (new numbers), and
 `paper/reviews/ICLR_2027_Reviewer_Feedback_Final_Report_2026-11-06.md` (one dated paragraph).
