@@ -1,0 +1,15 @@
+% Design-property comparison with trace-reuse systems. Each non-"not stated" cell is backed
+% by a quote and page in paper/iclr/notes/compiler_comparison_2026-11.md.
+\begin{tabularx}{\linewidth}{@{}l>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
+\toprule
+System & Compiled unit & Admission before deployment & Open arguments at run time & Effects in scope \\
+\midrule
+\method & initial read-only prefix, bounded DSL & exact one-sided binomial bound $\le\alpha$ per fixed candidate ($n\ge 92$) & none; region retired & read-only; writes, handoffs, unknown effects are barriers \\
+TraceCompiler & intent-cluster workflow with branches, loops, fan-out & support floor (5) plus schema and structural validation & runtime LLM node for semantic bindings & writes, incl.\ money requests; under-determined irreversible effects escalate \\
+PreAct & state machine from one successful run & one re-run confirmed by an independent evaluator & screen checks; hand-back on mismatch & UI actions \\
+EvoC2F & per-task Plan IR plus mined macro-skills & test-pass thresholds (95/90/100\%), contracts, held-out regression & planner generates each plan & writes serialized; compensation for reversible writes \\
+Agent JIT & per-task code plan over cached tools & static pre/postcondition check; minimum-cost candidate & LLM-written code; may call LLMs & writes (e.g.\ email deletion) \\
+Plan caching & keyword-indexed plan template & exact keyword match & small LM adapts template & not stated \\
+AWM & natural-language workflow in memory & none (online: LM-judged success) & model fills placeholders & not stated \\
+\bottomrule
+\end{tabularx}

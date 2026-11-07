@@ -1931,3 +1931,37 @@ calls~\citep{kim2024llmcompiler}, and \citet{yue2026workflowsurvey} survey the
 space.
 These approaches optimize different units from the initial read-only prefix
 considered here and do not replace a matched compiler comparison.
+SKILL-DISCO, programmatic skill induction, WorkflowGen, and WISE-Flow also turn
+agent trajectories into reusable procedures or workflows
+\citep{guo2026skilldisco,shao2026nsi,wei2026workflowgen,zhou2026wiseflow}.
+
+\Cref{tab:compiler-comparison} compares the closest trace-reuse systems on the
+properties \method is built around. Each cell paraphrases the cited paper;
+``not stated'' means the paper does not say, not that the property is absent.
+The comparison supports three contrasts and no more. None of these papers states
+a finite-sample bound on the post-admission violation rate; \method's bound is per
+fixed candidate, assumes exchangeable calibration groups, and in most families is
+a replay bound. None requires every compiled argument to be grounded with no model
+decision left in the compiled region; TraceCompiler's argument provenance is the
+closest and keeps semantic bindings as runtime model nodes. TraceCompiler reports
+neither its decline rate nor workflow versioning or invalidation, whereas \method
+reports the stage at which every candidate family is admitted or retired
+(\cref{tab:funnel-all}) and pins artifacts to manifests. Fallback to the agent is
+not distinctive: TraceCompiler, PreAct, EvoC2F, and Agent JIT all hand control
+back; \method's narrower rule is that fallback is taken only when staging proves
+the failed attempt left no effect. The other systems do much that \method does
+not: they compile writes (with compensation in EvoC2F), branches, loops, and
+fan-out, apply beyond the opening of a task, adapt online or learn their planners,
+schedule for latency, work from traces without recorded outputs (TraceCompiler),
+and, for EvoC2F, evaluate a staged deployment lifecycle.
+
+\begin{table}[t]
+  \centering
+  \caption{Design properties of trace-reuse systems as stated in each paper.
+  The comparison is of design, not of measured performance; no matched execution
+  comparison is reported.}
+  \label{tab:compiler-comparison}
+  \scriptsize
+  \setlength{\tabcolsep}{3pt}
+  \input{tables/compiler_comparison.tex}
+\end{table}
