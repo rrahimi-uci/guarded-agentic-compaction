@@ -789,13 +789,16 @@ share the same provider family and the same narrow two-read outcome task.
 \label{app:multirepo-e2e}
 This study answers the objection that the primary calibration population is
 outcome-filtered and replay-labelled. Its protocol was registered before any
-provider call, and its two amendments are dated and precede every label of the
+provider call, and its amendments are dated and precede every label of the
 repositories they affect (\texttt{multirepo-unfiltered-end-to-end-protocol.md}).
+Amendment~3, which adds seven repositories at $n=400$, was registered after the
+first four results were seen; it is reported as a separate stage and leaves the
+registered-stage pool unchanged.
 
-\emph{Adverse results first.} The compiled arm missed the final task contract in 3
+\emph{Adverse results first (registered stage).} The compiled arm missed the final task contract in 3
 of 760 groups (\code{huggingface/datasets} \#7768, \code{pandas-dev/pandas}
-\#64087 and \#65856). The unchanged agent met the contract in each of them, and
-we did not diagnose the cause. \code{pandas-dev/pandas} is admitted with $k=2$ against
+\#64087 and \#65856). The unchanged agent met the contract in each of them; post
+hoc, the first is a wrong title and the other two are mis-copied evidence excerpts. \code{pandas-dev/pandas} is admitted with $k=2$ against
 a limit of 3, so the margin is one violation. \code{psf/requests} was not run: the
 registered selection left 99 author-distinct calibration groups, below the 106
 minimum, and that shortfall is its result. The hand-written program matches the
@@ -816,12 +819,37 @@ group was ineligible, abstained or fell back.
 \begin{table}[t]
   \centering
   \caption{Unfiltered, author-unit end-to-end calibration (grid: $\alpha=0.05$,
-  $\delta=0.10$, $|\Lambda|=11$). Top: certificates. Bottom: resource reductions
-  against the unchanged agent.}
+  $\delta=0.10$, $|\Lambda|=11$), registered stage and Amendment~3. Top:
+  certificates, retirements included. Bottom: resource reductions against the
+  unchanged agent.}
   \label{tab:multirepo-e2e}
   \footnotesize
   \input{tables/multirepo_end_to_end.tex}
 \end{table}
+
+\emph{Amendment 3 (seven repositories, $n=400$).} Repositories were screened
+before acquisition on design features only: at least 800 pull requests in 2026,
+every outcome class at least 10\%, at least 30\% merged through GitHub (so merge
+labels mean merges), created before 2020, and enough distinct authors for
+$n=400$; all seven that passed were run. \code{nodejs/node} ($k=14$, $U=0.063$)
+and \code{python/cpython} ($k=17$, $U=0.073$) are \emph{retired} by the
+registered grid; cpython also fails the single rule. Five are admitted:
+\code{vercel/next.js} ($k=1$), \code{django/django} (2),
+\code{kubernetes/kubernetes} (3, with 3 clean abstentions),
+\code{microsoft/vscode} (3) and \code{godotengine/godot} (7, against a limit of
+9). On godot the compiled arm met 6 fewer contracts than the unchanged agent
+(393 vs.\ 399, McNemar $p=0.070$) and the hand-written program met 395. vscode
+was listed through day-sliced search after the registered endpoint refused deep
+pagination (Amendment~3a, before any vscode label). Over all eleven run
+repositories (3{,}560 groups, $k=50$, $U=0.0194$ assuming exchangeable
+repositories) the compiled, unchanged and hand-written arms met 3{,}510, 3{,}507
+and 3{,}504 contracts, with 73.6\% lower cost for both compiled and hand-written
+arms. \emph{Post hoc and descriptive only:} 47 of the 50 compiled violations fail
+the verbatim-excerpt check (emoji substituted, Markdown stripped, long URLs or
+hashes mis-copied, mostly in bot comments), 3 fail the title check, and none
+returns a wrong merge outcome; the unchanged agent fails the excerpt check at a
+similar rate. No result is re-graded under a looser contract. The retirements are
+the admission rule working: at $n=400$ the bound is tight enough to refuse.
 
 \emph{Limits.} (i) The class mix is skewed: \code{huggingface/datasets} has 2
 closed-unmerged pull requests, \code{streamlit/streamlit} 2 open ones, and
@@ -831,11 +859,12 @@ snapshot label over a 37-day window, not a claim about merge outcomes. Without
 \code{pytorch/pytorch} the pooled result is 3 misses in 560 groups (bound 0.0181 under
 the grid, 0.0119 under the single rule). (ii) Independence is by author. The groups
 span 147, 143, 110 and 37 creation days, and a day-level count would put the last
-repository below the 92-unit floor; we did not run that sensitivity. (iii) Four
+repository below the 92-unit floor; we did not run that sensitivity. (iii) Eleven
 repositories, one task family, one frozen candidate and one model are not a
-random sample of deployments, and the pooled bound assumes exchangeable groups.
-It says nothing about adaptive tasks, a learned gate, or the hand-written
-comparison. Total spend was \$1.23.
+random sample of deployments, and the pooled bounds assume exchangeable groups.
+They say nothing about adaptive tasks or a learned gate, and the hand-written
+program ties the compiled arm throughout. Spend was \$1.23 for the registered
+stage and \$3.85 for Amendment~3.
 
 \subsection{Continuation audit}
 

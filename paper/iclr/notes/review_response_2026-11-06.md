@@ -28,12 +28,12 @@ How to read this file:
 
 ### Post: global summary (top-level official comment, post first)
 
-Thank you for three careful reviews. The reviews cite the September 24 submission; since then we ran the pre-registered studies several of you asked for and revised the paper, and the OpenReview PDF diff against the September 24 version shows every change. The method and the primary results in Table 1 are unchanged.
+Thank you for three careful reviews. The reviews cite the September 24 submission; since then we ran the pre-registered studies several of you asked for and revised the paper, and the OpenReview PDF diff against the September 24 version shows every change. The method and the primary results in Table 1 are unchanged. The revision also states the aim directly: GAC automates the program an engineer would write for a recurrent read-only opening, and refuses where it cannot justify one. Matching the hand-written program is the intended result, not a shortfall; across 3,560 fresh end-to-end groups the compiled, unchanged and hand-written arms meet 3,510, 3,507 and 3,504 contracts, and compiled and hand-written arms both cut cost by 73.6%.
 
 | Study (new since September 24) | Question it answers | Where in the revised PDF |
 |---|---|---|
 | Post-cutoff PR-outcome with final answers graded: 0 misses in 132 fresh groups, one frozen candidate, U = 0.0173 | Do labels include the continuation? Is any bound selection-wide? (R1, R2, R3) | §5.4; App. G; Table 27 |
-| Multi-repository unfiltered end-to-end calibration: one PR per author sampled before any outcome, one frozen candidate per repository; 3 misses in 760 groups across four repositories (1/200, 2/200, 0/160, 0/200; psf/requests not run), each admitted, pooled U = 0.0133 | Outcome-filtered population; independent units (R1, R2, R3) | §5.4; new appendix "Unfiltered end-to-end calibration across repositories" |
+| Multi-repository unfiltered end-to-end calibration: one PR per author sampled before any outcome, one frozen candidate per repository; 3 misses in 760 groups across four repositories (1/200, 2/200, 0/160, 0/200; psf/requests not run), each admitted, pooled U = 0.0133. Seven repositories added later at n = 400 (Amendment 3, chosen by design criteria, every one reported): five admitted, node and cpython retired | Outcome-filtered population; independent units (R1, R2, R3) | §5.4; new appendix "Unfiltered end-to-end calibration across repositories" |
 | Calibration population audit (retrospective, provider-free): 396/396 discovery records accounted for | Every excluded record, and whether the guard rejects it (R1, R2) | §4; App. G "Calibration population audit" |
 | Three drift studies: 144 paired groups, 89 records, 1,080 live cells | Behavior under change (R2) | §5.4 "Mechanism evidence"; App. G |
 | Live recovery, one mechanism removed at a time: 2,304 scheduled episodes | Contribution of individual safeguards (R2) | §5.4; App. I |
@@ -189,9 +189,22 @@ Answer: Yes, for the PR-outcome family. The three primary 92-group cohorts do no
 | pytorch/pytorch | 200 | 0 | 0.0232 | admit (no merged class; see note) |
 | Pooled, admitting repositories | 760 | 3 | 0.0133 | admit |
 
+Amendment 3 added seven repositories at n = 400 (registered grid limit k ≤ 9). It was registered after the four results above were seen, chosen by design features only (pull-request volume, outcome-class balance, GitHub-merge share, project age, author count), and every selected repository is reported. It does not change the pooled row above.
+
+| Repository | n | k | U | Decision |
+|---|---|---|---|---|
+| vercel/next.js | 400 | 1 | 0.0167 | admit |
+| django/django | 400 | 2 | 0.0211 | admit |
+| kubernetes/kubernetes | 400 | 3 | 0.0252 | admit |
+| microsoft/vscode | 400 | 3 | 0.0252 | admit |
+| godotengine/godot | 400 | 7 | 0.0399 | admit |
+| nodejs/node | 400 | 14 | 0.0632 | **retire** |
+| python/cpython | 400 | 17 | 0.0726 | **retire** |
+| All eleven run repositories (assumes exchangeable repositories) | 3,560 | 50 | 0.0194 | admit |
+
 Changed: Section 5.4, Table 27 and the new appendix "Unfiltered end-to-end calibration across repositories".
 Evidence: `paper/results/time_forward/pr_outcome/certificate.json` (0/132); `paper/results/multirepo_end_to_end/summary.json`.
-Adverse: the compiled arm missed 3 of 760 final contracts (hf #7768, pandas #64087 and #65856), each met by the unchanged agent, and pandas is admitted by one violation (k = 2 against a limit of 3). psf/requests was not run because the registered selection left 99 author-distinct groups. pytorch has no merged class (its bot lands PRs without merged_at), so its row is agreement with the snapshot label; without it the pooled result is 3 of 560, U = 0.0181.
+Adverse: node and cpython are retired, which is the admission rule refusing as designed. On godot the compiled arm met 6 fewer contracts than the unchanged agent (393 vs 399, McNemar p = 0.070), and the hand-written program met 395. Post hoc and descriptive only: 47 of all 50 compiled violations are evidence excerpts that are not verbatim (emoji substituted, Markdown stripped, long URLs or hashes mis-copied), 3 are titles, and none is a wrong merge outcome; we do not re-grade under a looser contract. In the registered stage the compiled arm missed 3 of 760 final contracts (hf #7768, pandas #64087 and #65856), each met by the unchanged agent, and pandas is admitted by one violation (k = 2 against a limit of 3). psf/requests was not run because the registered selection left 99 author-distinct groups. pytorch has no merged class (its bot lands PRs without merged_at), so its row is agreement with the snapshot label; without it the pooled result is 3 of 560, U = 0.0181.
 Still open: Each bound is for one family on one repository's fresh PRs, conditional on independent authors; repositories are not exchangeable, so the pooled row is a separate pre-declared estimand. Counting a creation day as the unit would put pytorch (37 days) below the 92-group floor.
 
 **[Q2] Learned versus support-only gate at two certified coverage levels**

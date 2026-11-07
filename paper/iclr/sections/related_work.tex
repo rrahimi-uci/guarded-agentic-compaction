@@ -13,35 +13,30 @@ invariants~\citep{ernst2001daikon}: an observed hull is evidence, not proof.
 TraceCompiler~\citep{elyadouni2026tracecompiler} also mines agent traces into
 mostly deterministic workflows, uses argument-level producer evidence, refuses
 under-determined irreversible effects, and, unlike \method, compiles branches,
-loops, and writes. PreAct~\citep{li2026preact} compiles one successful run into
-a guarded state machine. AWM~\citep{wang2025awm}, plan
-caching~\citep{zhang2025plancache}, EvoC2F~\citep{wei2026evoc2f}, and Agent
-JIT~\citep{winston2026agentjit} reuse workflows, plans, or tested skills. They
+loops, and writes. AWM~\citep{wang2025awm}, plan
+caching~\citep{zhang2025plancache}, EvoC2F~\citep{wei2026evoc2f}, Agent
+JIT~\citep{winston2026agentjit}, and PreAct~\citep{li2026preact} reuse
+workflows, plans, tested skills, or guarded replays. They
 admit artifacts by support floors, test-pass thresholds, condition checks, key
 matches, or one evaluator-confirmed re-run; none states a finite-sample bound on
 the post-admission violation rate, and several leave open arguments to a runtime
 model. \method admits a fixed candidate only when an exact binomial bound on its
 group-level violation rate is at most $\alpha$ (\cref{prop:admission}), leaves no
 model decision inside an admitted prefix, and reports where every candidate
-family is retired (\cref{tab:funnel-all}). The units differ and no matched
-execution comparison is reported; \cref{app:additional-related} compares
-properties. Counterfactual trace auditing~\citep{zhou2026cta}, which
-pairs each trace with a counterfactual run of the same task, is the closest
+family is retired (\cref{tab:funnel-all}); \cref{app:additional-related}
+compares properties, not matched executions. Counterfactual trace auditing~\citep{zhou2026cta} is the closest
 analogue of \method's continuation check.
 
 \paragraph{Selective prediction and finite-sample risk control.}
 Dispatch-or-fall-back is selective prediction with a reject
 option~\citep{chow1970reject,geifman2017selective}. The admission bound is a
 fixed-grid instance of learn-then-test~\citep{angelopoulos2022ltt} using the
-exact binomial interval~\citep{clopper1934binomial}; the risk-controlling
-prediction-set framework gives related high-probability risk guarantees
-\citep{bates2021rcps}; conformal prediction and conformal risk control give
-marginal-coverage and expected-loss guarantees, which
-differ~\citep{vovk2005algorithmic,angelopoulos2024crc}.
+exact binomial interval~\citep{clopper1934binomial}, related to risk-controlling
+prediction sets~\citep{bates2021rcps}; conformal methods give marginal-coverage
+or expected-loss guarantees instead~\citep{vovk2005algorithmic,angelopoulos2024crc}.
 
 \paragraph{Tool-use safety and evaluation.}
 ToolEmu and AgentDojo motivate adversarial tool evaluation
 \citep{ruan2024toolemu,debenedetti2024agentdojo}. Tool-use benchmarks
 \citep{patil2025bfcl,qin2023toolllm,basu2025nestful,li2023apibank,trivedi2024appworld,lu2025toolsandbox,barres2025tau2}
-measure broader capabilities; \method measures live BIRD efficiency and four
-compiler substrates (\cref{app:external}).
+measure broader capabilities (\cref{app:external}).
