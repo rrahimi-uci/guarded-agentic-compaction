@@ -381,6 +381,60 @@ def test_validator_detects_wrong_decision(fx):
     assert any("decision" in m for m in failed(val.validate_multirepo_end_to_end(fx)))
 
 
+
+def _add_amendment_3_repo(fx, source="synthetic-org__alpha-fixture", repo="django/django"):
+    """Copy a run fixture repository under an Amendment 3 name, rewriting each group's repo field."""
+    target = fx / repo.replace("/", "__", 1)
+    shutil.copytree(fx / source, target)
+    path = target / "calibration_groups.json"
+    groups = json.loads(path.read_text())
+    for g in groups:
+        g["repo"] = repo
+    path.write_text(json.dumps(groups))
+    return target
+
+
+def test_amendment_3_repositories_form_their_own_stage_and_pool(fx):
+    base = ana.build_summary(fx)
+    _add_amendment_3_repo(fx)
+    s = ana.build_summary(fx)
+    entry = next(e for e in s["repositories"] if e["repo"] == "django/django")
+    assert entry["stage"] == "amendment_3" and entry["shortfall_vs_target_n"] == 400 - entry["certificate"]["n"]
+    # the registered-stage pool is unchanged; the all-repository pool adds the new repository
+    assert s["pooled_run_repositories"] == base["pooled_run_repositories"]
+    assert base["pooled_all_run_repositories"] is None
+    all_pool = s["pooled_all_run_repositories"]
+    assert all_pool["repos"][-1] == "django/django" or "django/django" in all_pool["repos"]
+    assert all_pool["certificate"]["n"] == base["pooled_run_repositories"]["certificate"]["n"] + entry["certificate"]["n"]
+    t = ana.render_table(s, LABEL)
+    assert "Amendment 3" in t and "Pooled, registered stage" in t and "Pooled, all run repositories" in t
+
+
+def test_validator_passes_with_amendment_3_stage_and_detects_tampered_all_pool(fx):
+    _add_amendment_3_repo(fx)
+    regenerate(fx)
+    assert failed(val.validate_multirepo_end_to_end(fx)) == []
+    path = fx / "summary.json"
+    s = json.loads(path.read_text())
+    s["pooled_all_run_repositories"]["certificate"]["k"] += 1
+    path.write_text(json.dumps(s))
+    assert any("all run repositories" in m for m in failed(val.validate_multirepo_end_to_end(fx)))
+
+
+def test_post_hoc_violation_checks_read_from_checkpoint(fx):
+    src = fx / "synthetic-org__beta-fixture"
+    groups = json.loads((src / "calibration_groups.json").read_text())
+    violations = [g for g in groups if ana.is_violation(g)]
+    assert violations
+    first = violations[0]
+    (src / "calibration_checkpoint.json").write_text(json.dumps({"results": [
+        {"condition": "compiled", "repeat": 0, "issue_number": first["number"],
+         "quality": {"comment_grounded": False, "outcome_correct": True}}]}))
+    entry = next(e for e in ana.build_summary(fx)["repositories"] if e["directory"] == src.name)
+    checks = entry["violation_failed_checks_post_hoc"]
+    assert checks["comment_grounded"] == 1
+    assert checks.get("episode_failed_or_missing", 0) == len(violations) - 1
+
 if __name__ == "__main__":  # rewrite the committed synthetic fixture and its summary/table
     if FIXTURE.exists():
         shutil.rmtree(FIXTURE)

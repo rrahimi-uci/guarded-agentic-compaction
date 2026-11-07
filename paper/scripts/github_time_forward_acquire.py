@@ -100,6 +100,38 @@ def _issues(repo: str, cutoff: str, token: str) -> Iterator[dict[str, Any]]:
         page += 1
 
 
+def _search_pull_requests(repo: str, cutoff: str, token: str, until: str) -> Iterator[dict[str, Any]]:
+    """Same records as ``_issues`` restricted to pull requests, listed one creation day at a time.
+
+    ``/repos/{repo}/issues`` refuses deep pagination (HTTP 422) on very active repositories; the
+    search API returns the same issue-shaped objects (``pull_request.merged_at``, ``comments`` count)
+    and caps each query at 1,000 results, so each UTC day is one query. Newest day first, as ``_issues``.
+    """
+
+    import datetime as dt
+
+    day = dt.date.fromisoformat(until)
+    stop = dt.date.fromisoformat(cutoff)
+    while day > stop:
+        page, seen, items = 1, 0, []
+        while True:
+            q = urllib.parse.urlencode({"q": f"repo:{repo} is:pr created:{day.isoformat()}", "sort": "created",
+                                        "order": "desc", "per_page": 100, "page": page})
+            batch, _ = _get(f"{API}/search/issues?{q}", token)
+            time.sleep(2.2)  # search API: 30 requests per minute
+            total = int(batch.get("total_count", 0))
+            if total > 1000:
+                raise RuntimeError(f"{repo} {day}: {total} pull requests exceed the search cap of 1,000 per query")
+            items.extend(batch.get("items") or [])
+            seen += len(batch.get("items") or [])
+            if seen >= total or not batch.get("items"):
+                break
+            page += 1
+        items.sort(key=lambda it: it["created_at"], reverse=True)
+        yield from (it for it in items if it.get("pull_request"))
+        day -= dt.timedelta(days=1)
+
+
 def _comments(repo: str, number: int, token: str) -> list[str]:
     bodies: list[str] = []
     page = 1
@@ -119,13 +151,25 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--repo", default="huggingface/datasets")
     ap.add_argument("--cutoff", default="2025-06-13", help="records created strictly after this UTC day are kept")
     ap.add_argument("--out", type=Path, default=ROOT / "paper/results/datasets/github_time_forward/huggingface__datasets")
+    ap.add_argument("--list-via-search", default=None, metavar="UNTIL_DAY",
+                    help="list pull requests through the search API one creation day at a time, from UNTIL_DAY back to "
+                         "the cutoff (for repositories where /issues refuses deep pagination); implies --pull-requests-only")
+    ap.add_argument("--pull-requests-only", action="store_true",
+                    help="keep only pull requests (the PR-outcome study never reads plain issues); saves the comment requests for issues")
     args = ap.parse_args(argv)
     import pandas as pd
 
     token = _token()
     started = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     records: list[dict[str, Any]] = []
-    for i, item in enumerate(_issues(args.repo, args.cutoff, token)):
+    if args.list_via_search:
+        args.pull_requests_only = True
+        items = _search_pull_requests(args.repo, args.cutoff, token, args.list_via_search)
+    else:
+        items = _issues(args.repo, args.cutoff, token)
+    if args.pull_requests_only:
+        items = (item for item in items if item.get("pull_request"))
+    for i, item in enumerate(items):
         row = dict(item)
         row["comments"] = _comments(args.repo, int(item["number"]), token) if int(item.get("comments") or 0) else []
         records.append(row)
@@ -151,6 +195,9 @@ def main(argv: list[str] | None = None) -> int:
         "created_at_range": [frame["created_at"].min().isoformat(), frame["created_at"].max().isoformat()],
         "parquet_path": str(parquet.relative_to(ROOT)) if parquet.is_relative_to(ROOT) else str(parquet), "parquet_bytes": parquet.stat().st_size, "parquet_sha256": digest,
         "columns_mirroring_pinned_snapshot": True,
+        "pull_requests_only": bool(args.pull_requests_only),
+        "listing": ("GET /search/issues q='repo:{repo} is:pr created:DAY', one query per UTC day, through "
+                    + args.list_via_search) if args.list_via_search else "GET /repos/{repo}/issues state=all",
         "credential_shaped_strings_redacted": redactions,
         "licence_note": "public GitHub issue and pull-request metadata and comment bodies; same provenance class as the pinned snapshot",
     }
