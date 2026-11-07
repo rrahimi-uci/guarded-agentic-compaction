@@ -187,3 +187,15 @@ manifests, catalog digests, gate floor and byte-identical table regeneration. Sh
 | 1,415; 100 %; 86.6 %; 76 | NESTFUL openings (w_max = 12): traces, RO≥2, groundable≥2, n_max | `corpora[nestful/primary]` | table regenerates |
 | 8,190; 41.0 %; 99.96 / 71.4 / 5.7 / 2.1 %; 45.9 % | AppWorld released: traces, RO≥2, by architecture (full-code, ipfuncall, ReAct, plan-exec), first barrier = API-documentation call (3,758) | `corpora[appworld_released/primary]` `by_architecture`, `first_barrier` | table regenerates |
 | 13; 32,000 | calls ingested per trajectory (w_max + 1); observation cut length | `max_calls_ingested`; `benchmarks/external/trajectories.py` `MAX_OBSERVATION_CHARS` | test_prefix_census |
+
+## November 6 BIRD one-call development result (outside manuscript tables)
+
+This fixed three-arm result reuses candidate source cases. It is a mechanism
+and quality–cost diagnostic, not an admitted artifact or independent test.
+
+| Numbers | Meaning | Retained source | Check |
+|---|---|---|---|
+| 36; 108; 36/36 | Questions, fixed episodes, successful candidate prefix dispatches | `paper/results/bird_one_call_matched_pilot/{seal,report}.json` and raw archive | `validate_bird_one_call_development` |
+| 28/36; 28/36; 26/36 | Shape-sensitive set correctness: baseline, handwritten, candidate | Same report and raw archive | Same validator recomputes all 108 outcomes |
+| 151/111/112; 115/111/112 | Provider requests and tool calls in arm order above | Same report, raw archive and ledger snapshot | Same validator checks requests, tool calls, and ledger charges |
+| $0.0857444/$0.0761187/$0.0769656; $0.2388287; $6.3006882 | Arm costs, new pilot total, cumulative campaign accounted upper USD | `paper/results/bird_one_call_matched_pilot/{report,ledger_snapshot}.json` | Same validator recomputes sums; not provider invoices |

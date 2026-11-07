@@ -129,8 +129,14 @@ automatic compiler results or a task-performance comparison. The prior explorato
 agent attempt was interrupted after a persistence defect; its original grades are
 invalid and retained, with separately labeled deterministic regrades. Baseline
 competence, genuine model-derived candidates, matched comparator execution and fresh
-calibration/testing remain unestablished. We therefore assert no new comparative
-performance result. The complete development disposition is linked from the concern ledger.
+calibration/testing remain unestablished in AppWorld. A separate sealed BIRD
+one-call continuation pilot completed 36 exposed development questions per arm:
+baseline and handwritten scored 28/36, while the guarded research candidate
+scored 26/36. It reduced model requests against baseline (151 to 112) but not
+against the equivalent handwritten prefix (111), and it had no calibration or
+independent test groups. We therefore assert no confirmatory comparative
+performance or GAC-superiority result. The complete development disposition
+is linked from the concern ledger.
 
 ## Reviewer 3
 

@@ -15,7 +15,7 @@ separate from this local revision.
 | Successful-trace filtering, matching-window filtering and excluded eligible records (R1, R2) | Retrospective accounting completed; population repair still open | Audit accounts for 396 records and identifies three excluded baseline failures that pass saved entry guards/gates | Sample before outcomes and family occurrence; freeze the candidate and label all eligible independently sampled groups without dropping failures or missing outcomes |
 | Candidate-selection-wide 5% guarantee (R3) | Unsupported broad claim withdrawn; new evidence open | 92-group one-candidate bound 0.049809; two-candidate correction 0.056941 | Predeclare candidate/threshold multiplicity and error allocation. Pass the bound on a prospectively fixed cohort or report refusal; do not extend after observing the result |
 | Independent sampling unit (R2, R3) | Limitations stated; design unresolved for the next study | Author/day sensitivity removes primary admissions | Justify a population and grouping unit before data selection. Report dependence sensitivities; variants and observations from one scenario cannot manufacture independent groups |
-| Practical value beyond simple metadata retrieval and handwritten macros (R2) | Open empirical objection | Handwritten arm matches 90 contracts and request savings; AppWorld pilot is interrupted; the exposed Reddit task 714 has a passing batched agent and one-batch handwritten reference, but no GAC artifact or comparative estimate | A competent baseline on genuinely adaptive tasks, a useful automatically derived recurrent region, complete discovery/rejection costs, and comparison against the same handwritten program/continuation |
+| Practical value beyond simple metadata retrieval and handwritten macros (R2) | Open empirical objection | Handwritten arm matches 90 contracts and request savings; BIRD one-call candidate scored 26/36 versus 28/36 baseline and handwritten; AppWorld pilot is interrupted; Reddit task 714 has a passing batched agent and one-batch handwritten reference, but no GAC artifact | A competent baseline on genuinely adaptive tasks, a useful automatically derived recurrent region, complete discovery/rejection costs, and comparison against the same handwritten program/continuation |
 | Comparison with EvoC2F / Agent JIT and interpretable external-table outcomes (R1) | External table scope clarified; matched compiler comparison open | SQL adaptation and executor parity are development evidence, not native or general compiler ranking | Pin an executable comparator, document fidelity/adaptation, validate identical tools/outputs, use the same frozen tasks/model/budgets, and report final quality and full costs |
 | Individual safeguard contribution and realistic changes (R2) | Partial evidence; general benefit unestablished | Request-scope recovery works on constructed requests; recurrence-only primary replay is equally accurate and cheaper | Hold the program, compiled region, continuation and budget fixed; change one mechanism at a time. Separate ordinary tasks from prespecified stress; measure wrong dispatch, fallback, quality and recovery cost |
 | Learned score versus support-only gating at two positive certified coverage levels (R2, R3) | Open; no ranking benefit claimed | Current primary cohort supports full coverage or retirement only; extension is exploratory | Freeze scoring and thresholds; use unfiltered independent calibration and a separate final population. Match coverage, risk budget and grid across gates. Report infeasibility or null results without relabeling them as benefit |
@@ -81,3 +81,16 @@ automatically mined candidates or fresh evaluation observations.
 
 The manuscript, reviewer response, and this ledger must agree about which steps were
 executed. Software QA, an open PR, or a passing control is not reviewer acceptance.
+
+## BIRD matched one-call development disposition
+
+The [sealed three-arm result](../../results/bird_one_call_matched_pilot/REPORT.md)
+completed all 108 episodes on 36 exposed questions. All candidate executions
+passed guard/program/verifier and produced the same continuation messages as
+the handwritten one-call arm. Baseline and handwritten each scored 28/36;
+candidate scored 26/36. Candidate model requests fell from 151 to 112,
+while handwritten used 111. The candidate does not outperform the simple
+wrapper and has no calibration or independent test groups. It therefore
+closes the mechanical continuation-feasibility step only. The practical-value,
+learned-gate, matched-compiler, population-repair and statistical-design rows
+remain open. No manuscript numerical claim or acceptance prediction changes.

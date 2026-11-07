@@ -1,0 +1,426 @@
+{
+  "artifacts_emitted": 0,
+  "candidate": {
+    "artifact": null,
+    "candidate_id": "cand-00-83ea07f9ede2",
+    "hard_guard": {
+      "allowed_effects": [
+        "READ_LOCAL"
+      ],
+      "clauses": [],
+      "isolation": {},
+      "manifest_pins": {
+        "effect_catalog_version": "pooled-pinned-readonly-bird@1#64ee349a18d1dde3",
+        "entry_contract_version": "pooled-bird-database-v1",
+        "guardrail_hash": "#701de01c",
+        "model": "gpt-5.6-luna",
+        "policy_hash": "#43d3d060",
+        "prompt_hash": "#60c0940d",
+        "tools_hash": "#3e180683"
+      },
+      "required_capabilities": [
+        "speculatable",
+        "replayable"
+      ]
+    },
+    "notes": {
+      "branch": "none",
+      "branch_alternatives": 0,
+      "branch_atoms": 0,
+      "branch_p": null,
+      "candidate_selection": "frozen_before_calibration",
+      "gate_calibration_reasons": {},
+      "gate_calibration_samples": 0,
+      "gate_calibration_unproductive": 0,
+      "gate_calibration_violations": 0,
+      "gate_dev_reasons": {
+        "perturbation_unproductive": 4
+      },
+      "gate_dev_samples": 18,
+      "gate_dev_unproductive": 4,
+      "gate_dev_violations": 0,
+      "n_alternative_bindings": 0,
+      "n_alternative_loop_predicates": 0,
+      "n_steps": 1
+    },
+    "program": {
+      "composite": null,
+      "library_version": "T-v1",
+      "outputs": {
+        "tabl": {
+          "kind": "expr",
+          "ops": [],
+          "source": "tabl"
+        }
+      },
+      "removed_requests": 1.0,
+      "steps": [
+        {
+          "args": {},
+          "kind": "call",
+          "schema_version": null,
+          "tool": "list_tables",
+          "var": "tabl",
+          "when": null
+        }
+      ],
+      "theta": [],
+      "tools": [
+        "list_tables"
+      ]
+    },
+    "rejected": "no_calibration_groups",
+    "removed_requests": 1.0,
+    "stage": "replay_validated",
+    "support_days": 1,
+    "support_groups": 27,
+    "tools": [
+      "list_tables"
+    ],
+    "training_groups": [
+      "bird-corrected:1006",
+      "bird-corrected:1039",
+      "bird-corrected:1041",
+      "bird-corrected:1076",
+      "bird-corrected:133",
+      "bird-corrected:1483",
+      "bird-corrected:1514",
+      "bird-corrected:1515",
+      "bird-corrected:160",
+      "bird-corrected:170",
+      "bird-corrected:235",
+      "bird-corrected:275",
+      "bird-corrected:333",
+      "bird-corrected:36",
+      "bird-corrected:365",
+      "bird-corrected:38",
+      "bird-corrected:406",
+      "bird-corrected:42",
+      "bird-corrected:478",
+      "bird-corrected:553",
+      "bird-corrected:673",
+      "bird-corrected:712",
+      "bird-corrected:730",
+      "bird-corrected:739",
+      "bird-corrected:801",
+      "bird-corrected:900",
+      "bird-corrected:946"
+    ],
+    "verifier": {
+      "allowed_effects": [
+        "READ_LOCAL"
+      ],
+      "call_counts": [
+        1
+      ],
+      "clauses": [
+        {
+          "hull": {
+            "high": null,
+            "kind": "any",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "max_len": null,
+          "min_len": null,
+          "name": "tabl",
+          "non_null": true,
+          "present_iff": null,
+          "provenance": [
+            "list_tables"
+          ],
+          "type_name": "dict"
+        },
+        {
+          "hull": {
+            "high": null,
+            "kind": "enum",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": [
+              "{\"tables\": [\"Country\", \"League\", \"Match\", \"Player\", \"Player_Attributes\", \"Team\", \"Team_Attributes\"]}",
+              "{\"tables\": [\"account\", \"card\", \"client\", \"disp\", \"district\", \"loan\", \"order\", \"trans\"]}",
+              "{\"tables\": [\"alignment\", \"attribute\", \"colour\", \"gender\", \"hero_attribute\", \"hero_power\", \"publisher\", \"race\", \"superhero\", \"superpower\"]}",
+              "{\"tables\": [\"atom\", \"bond\", \"connected\", \"molecule\"]}",
+              "{\"tables\": [\"badges\", \"comments\", \"postHistory\", \"postLinks\", \"posts\", \"tags\", \"users\", \"votes\"]}",
+              "{\"tables\": [\"cards\", \"foreign_data\", \"legalities\", \"rulings\", \"set_translations\", \"sets\"]}",
+              "{\"tables\": [\"circuits\", \"constructorResults\", \"constructorStandings\", \"constructors\", \"driverStandings\", \"drivers\", \"lapTimes\", \"pitStops\", \"qualifying\", \"races\", \"results\", \"seasons\", \"status\"]}",
+              "{\"tables\": [\"customers\", \"gasstations\", \"products\", \"transactions_1k\", \"yearmonth\"]}",
+              "{\"tables\": [\"frpm\", \"satscores\", \"schools\"]}"
+            ]
+          },
+          "max_len": null,
+          "min_len": null,
+          "name": "tabl.payload",
+          "non_null": true,
+          "present_iff": null,
+          "provenance": [
+            "list_tables"
+          ],
+          "type_name": "str"
+        }
+      ]
+    }
+  },
+  "catalog": {
+    "name": "pooled-pinned-readonly-bird",
+    "tools": {
+      "get_schema": {
+        "approval_required": false,
+        "argument_semantics": {},
+        "capabilities": [
+          "speculatable",
+          "replayable",
+          "cacheable"
+        ],
+        "effect": "READ_LOCAL",
+        "freshness_s": null,
+        "key": [
+          "table_names"
+        ],
+        "literal_only": [],
+        "max_transform_depth": null,
+        "notes": "",
+        "quota_attested": false,
+        "resource": "pinned-bird-database-at-entry",
+        "tool": "get_schema"
+      },
+      "list_tables": {
+        "approval_required": false,
+        "argument_semantics": {},
+        "capabilities": [
+          "speculatable",
+          "replayable",
+          "cacheable"
+        ],
+        "effect": "READ_LOCAL",
+        "freshness_s": null,
+        "key": [],
+        "literal_only": [],
+        "max_transform_depth": null,
+        "notes": "",
+        "quota_attested": false,
+        "resource": "pinned-bird-database-at-entry",
+        "tool": "list_tables"
+      },
+      "run_query": {
+        "approval_required": false,
+        "argument_semantics": {},
+        "capabilities": [
+          "speculatable",
+          "replayable",
+          "cacheable"
+        ],
+        "effect": "READ_LOCAL",
+        "freshness_s": null,
+        "key": [
+          "sql"
+        ],
+        "literal_only": [],
+        "max_transform_depth": null,
+        "notes": "",
+        "quota_attested": false,
+        "resource": "pinned-bird-database-at-entry",
+        "tool": "run_query"
+      }
+    },
+    "version": 1
+  },
+  "config": {
+    "allow_legacy_catalog_version": false,
+    "alpha": 0.05,
+    "b_min": 1,
+    "composite_continuation_key": "",
+    "composite_pre_model": true,
+    "composite_projection": {},
+    "delta": 0.1,
+    "entry_schema": [
+      "database"
+    ],
+    "freeze_one_candidate_before_calibration": true,
+    "kappa": 3,
+    "max_artifacts": 1,
+    "max_calibration_windows": 700,
+    "max_candidates": 1,
+    "max_dev_windows": 400,
+    "max_transform_depth": 2,
+    "min_days": 1,
+    "min_principals": 1,
+    "mode": "replay",
+    "n_permutations": 400,
+    "owner": "bird-one-call-continuation-development",
+    "partition_by": [],
+    "phi_min": 0.02,
+    "prefix_only": true,
+    "s_branch": 20,
+    "s_min": 5,
+    "seed": 20261106,
+    "synthesize_composites": false,
+    "w_max": 1,
+    "w_min": 1
+  },
+  "converted": 36,
+  "historical_candidate_sha256": "260a4a0765bd821d3e2c6d25034c1051d36b89e2ad53d11632c8b83dad24bda6",
+  "limitation": "Same exposed pilot IDs and no calibration. This is a program/continuation development candidate, not deployable GAC or a final-task quality claim.",
+  "manifest": {
+    "commit": "1556ffe45d19466a271bfdcdc634e5b63c963a482c052e764ef60dd1b86f1e62",
+    "effect_catalog_version": "pooled-pinned-readonly-bird@1#64ee349a18d1dde3",
+    "entry_contract_version": "pooled-bird-database-v1",
+    "guardrail_hash": "#701de01c",
+    "manifest_id": "884e365ae02d",
+    "model": "gpt-5.6-luna",
+    "policy_hash": "#43d3d060",
+    "prompt_hash": "#60c0940d",
+    "sdk_version": "unknown",
+    "tools_hash": "#3e180683",
+    "tracer_version": "agent-compaction/0.6.0"
+  },
+  "pilot_archive_sha256": "e46cae3ae5a1676fe5a76cc1da55a7ba837769eb358579581085b3027c59874c",
+  "pilot_seal_sha256": "21bf11ad0255e7fff69502d9b8b9f602a422d20cf20dba123449003d4bbe34be",
+  "policy": "bird-one-call-synthetic-continuation-development-v1",
+  "provider_calls": 0,
+  "report": "GRC compile report\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\ncandidates mined        1\nartifacts emitted       0\nrejections by stage     {'calibrate:no_groups': 1}\nwindows accepted        27\nwindows blocked         {'ungrounded_slot': 51, 'error_event': 2, 'partial_run': 6, 'non_prefix_runtime': 2}\nblocked by tool         {}\n  [replay_validated] list_tables                                   supp=27 k=1.0  REJECTED: no_calibration_groups",
+  "scheduled": 36,
+  "schema": "gac-bird-one-call-matched-candidate-v1",
+  "source_hashes": {
+    "paper/scripts/adaptive_pilot_discovery.py": "684898b45a179d3b07290dbe2acd069af1bdfb718f771f774474f6fa8e9c95d2",
+    "paper/scripts/bird_one_call_matched_candidate.py": "0637702b989095daf5ab4a7c55acd2477cfbef3c8698aa1d2108ee836cd8a45a",
+    "src/guarded_agentic_compaction/__init__.py": "c7815ff0784da59eccce1d770345dff69e31c9fb81f2cf55ab3d7921e66d3842",
+    "src/guarded_agentic_compaction/api.py": "e9710fefe7a8414de21e1188759da8b98b7eb5712c6ed4eae4e52074f10a7616",
+    "src/guarded_agentic_compaction/benchmarking/__init__.py": "1487ae204db3d1d63640da709d7a5fabe489480f2643788e807a501ef0c971ee",
+    "src/guarded_agentic_compaction/benchmarking/actions.py": "43360e8034d2a3831918965d3bf15a6d1b4c371c979fc7b29b19184828aaebaf",
+    "src/guarded_agentic_compaction/benchmarking/budget.py": "eefbca9e834d9d202f14a3d8976e82d87c7185433501425eef9bb602b245c978",
+    "src/guarded_agentic_compaction/benchmarking/commands.py": "6d6d2e4ce48961099df04e544a34fc447dec2339160a6a12675cd86ff01c8b9c",
+    "src/guarded_agentic_compaction/benchmarking/external.py": "89454cfae7eb84edfec3348ae4bf40ea8e7d7543754203d53f3c5737da17d76b",
+    "src/guarded_agentic_compaction/benchmarking/headroom.py": "821050fc2905296a7b660ec4f63681aaada364bf4f9b25c2d64fb594a58c0708",
+    "src/guarded_agentic_compaction/benchmarking/preflight.py": "e4299893be4eee8a2569f307143f326dd439831a037a2713eb813b2cab5ba933",
+    "src/guarded_agentic_compaction/benchmarking/protocol.py": "1b04e47136a0d8d9e7bdfbb1bdb0313a34d134f060d71e57dc0f14e221f20a3a",
+    "src/guarded_agentic_compaction/benchmarking/schedule.py": "47e764ad2a6be80fb5992cf7f6b345db578a00208d8c201b913e6336a3717d25",
+    "src/guarded_agentic_compaction/capture/__init__.py": "097efc9435d246cce1af538d47e3cfc6579fd44daa7fea843706f862d4ba58ca",
+    "src/guarded_agentic_compaction/capture/agents_sdk.py": "6ae74f9d3b981723442c735b6ddc99f5c0dd22f9f714c3a7f2b9242de2c00ff5",
+    "src/guarded_agentic_compaction/capture/anthropic_model.py": "ea9cb13d15e649b6f698a8535ebd27c831e23405118916a243bace43e347e5e9",
+    "src/guarded_agentic_compaction/capture/attributes.py": "275f94149a92889cbef7034198bc9e743e57e78d7813aabc0682ee3aa2f5b820",
+    "src/guarded_agentic_compaction/capture/jsonl.py": "e9e68b7d9a737407af616508856bb65e8a082548b10ae46e43c1a216bcaa745c",
+    "src/guarded_agentic_compaction/capture/manifests.py": "55d1968496ea592aa68fc4a14ef61e1a9859951d9624489cb024565cf52778ae",
+    "src/guarded_agentic_compaction/cli.py": "268e54e02126530ba1fe41bd0fb3e1541977ca7362abe6b9adff3ed6a6943669",
+    "src/guarded_agentic_compaction/estimate/__init__.py": "889ac56e456ff66d941bf5f3842660fb8dfeb84484b0f63676c5f9d058826789",
+    "src/guarded_agentic_compaction/estimate/headroom.py": "2763413ee480403b20d7c4d356fd1a354cfe5d5ed55a0282a3f1c54fbd83a55b",
+    "src/guarded_agentic_compaction/estimate/reports.py": "9a1b9c730094d4a828c6975a0dad950e77f381339b5fb9553cf01e728601e4ff",
+    "src/guarded_agentic_compaction/evaluation/__init__.py": "699471118f47e5ae99adc64b6421b6e6053304b1657831a2b54ab3a2492d3ac5",
+    "src/guarded_agentic_compaction/evaluation/benchmark.py": "82253ae20eb870a096d5f6252f3ad4baf8daeb9d5aec47b6ac520cc9d0e4b3cf",
+    "src/guarded_agentic_compaction/evaluation/domains.py": "548fe6d069e90a551edb178aee8e8e47d52e1671cb3d2371022fc8049b6efe73",
+    "src/guarded_agentic_compaction/evaluation/evidence.py": "89fc862fa57eed639cba55b5fa2dc2e1223db5cca861fb84b1fc46003f80f4c0",
+    "src/guarded_agentic_compaction/evaluation/ledger.py": "393737c907d71670640dee1647695b6b6bf43faa72de00d305e9d4374f03a1ca",
+    "src/guarded_agentic_compaction/evaluation/metrics.py": "c1a6963cf18416135ca45296be541e7b86676338163c04d250a0a578fc183da6",
+    "src/guarded_agentic_compaction/evaluation/paired_exact.py": "12527df1c068c4659446b750dccdeb6199b1ba9415881398f68f6d5734c32fe4",
+    "src/guarded_agentic_compaction/evaluation/perturb.py": "3a2cded644bcdef47bb61a26f40d1a2db33eec4b66d0bc8d7eec367582f2d4d1",
+    "src/guarded_agentic_compaction/evaluation/replay.py": "2be4cceb60178317e49c75810df75393b97e1805a8ee384fbfb9a228b07eda94",
+    "src/guarded_agentic_compaction/evaluation/splits.py": "f80ec17234c6f1e06bbec9e5d42b843553bd69a509bd25caa007085bb1dd8bba",
+    "src/guarded_agentic_compaction/evaluation/statistics.py": "1bbf0a13298b94d692507a416508e051632fac68d5970de669b2f9950e488808",
+    "src/guarded_agentic_compaction/graph/__init__.py": "0c009d1383478fdf57845b9decd6488303a47ca5ac9f1bb6526cc66d81d9ae90",
+    "src/guarded_agentic_compaction/graph/normalize.py": "e2044b4bda89fb5ce9bda333750bf8b521f14b34c9b27fd8d9b45ca6e7737683",
+    "src/guarded_agentic_compaction/graph/provenance.py": "8b383b604cab104501e8f7682222c1bf043b8dc73f52487700bc844db5819e86",
+    "src/guarded_agentic_compaction/graph/windows.py": "12ead7d6d17c5822f85be7e007b0ecc6e943f53c3fd76771a6104b4abd9abdff",
+    "src/guarded_agentic_compaction/grc/__init__.py": "ebc347f9ec94110c16ccbfa82e25b3066a605ced7060ba042566a831cb5c21c2",
+    "src/guarded_agentic_compaction/grc/calibrate.py": "5ec942e7f7e83017e3a66f0bf3f47a4927e747ccf3ac194a86f5f83a3bf914e6",
+    "src/guarded_agentic_compaction/grc/compile.py": "10252d40b79ac667897177eed1bc13d11311a17c259a271e01a95c9c5a76a2cf",
+    "src/guarded_agentic_compaction/grc/composite.py": "bac3340027c89e70432334a81d69faf6aa140aa36993e035f34bef00cafc2110",
+    "src/guarded_agentic_compaction/grc/contracts.py": "43335dce28540c0d28aa0db34c839dc9ce24bffc2594162cc820b3906e5a0e69",
+    "src/guarded_agentic_compaction/grc/dsl.py": "15c7af17e476232f881cf8194f2eeaa9469f9844e49969d792469dc9fc438b07",
+    "src/guarded_agentic_compaction/grc/program.py": "dceb83fc5f2decf0bcedab33299ba6e8bbb96def6d3bfda0716f941b401bdeaf",
+    "src/guarded_agentic_compaction/grc/synthesize.py": "2ec01adfa6ce29bafdbf87253cb673d3e2598218c9f08e9968f9eb29add8201f",
+    "src/guarded_agentic_compaction/optimization/__init__.py": "90db9e58f217d856c56a7153caa701c6c6e9b2a31b75241b02d4252b08496cb6",
+    "src/guarded_agentic_compaction/optimization/gepa.py": "6bd2b4c969d740e963daae619b2ca325320923bcfd820ac7a1f394bc0de10bf5",
+    "src/guarded_agentic_compaction/paths.py": "edd79b7ca18b762bbc203ff4c344c81bbe8128770764d1fd9b4367fd59c6cc63",
+    "src/guarded_agentic_compaction/pipeline.py": "197241a85f9cf71f4a882e5d965f3433de98a54847293ab48c3a686816eeabb5",
+    "src/guarded_agentic_compaction/portfolio/__init__.py": "72cd4677dacb9540243e032e347f861b1a071fad75a1f7f5eb8fc80ef82369ad",
+    "src/guarded_agentic_compaction/portfolio/model.py": "4e930bc57e6f45ad5aefb749eefcf17a86c8a466d41fe5ee9ac81a7f0c21ad8a",
+    "src/guarded_agentic_compaction/portfolio/policy.py": "1658ba947f0e29d5c908867fe867108aad6a296dd2cdb7d00b569e28bbc37230",
+    "src/guarded_agentic_compaction/portfolio/risk.py": "0e21e1a15c5587bd944019f53f3dbeae11704854076148cade89b2db14d593b4",
+    "src/guarded_agentic_compaction/portfolio/select.py": "2d3ff8edebd3e0bb745f7c12a99de5f27fa9ff94e2017745f9622a1d17f0068b",
+    "src/guarded_agentic_compaction/registry/__init__.py": "eb89df7a2f4970d10fe0b2f7be71bf676eb95c506b9ea0c065a90d383034dda5",
+    "src/guarded_agentic_compaction/registry/lifecycle.py": "85ab71c56eb872b006660a6d4eb64f5149fffcee3042b97cac9900fc756411f5",
+    "src/guarded_agentic_compaction/registry/store.py": "22d1400a4ee8e010f1f1861d03b4f41e5b7c05bc0bc8f1e5d7e160e44f1560d3",
+    "src/guarded_agentic_compaction/runtime/__init__.py": "4535ef9166be36fed14f382740c27362f52038846491193ceafd76a2c28fc9c6",
+    "src/guarded_agentic_compaction/runtime/continuation.py": "bdc6e81f3ce8031c4efdd5983e13c44c8d5fd025529178288db15aa6fbfdd869",
+    "src/guarded_agentic_compaction/runtime/dispatch.py": "fba34d1938a3717a38bfe1c3585a9903643109fc49c2a84a7cd52d7200c00d92",
+    "src/guarded_agentic_compaction/runtime/facade.py": "ce2ad9b079c4afebcfecd760e046bd87ceecfd883b8bee1f177358ca9d44749a",
+    "src/guarded_agentic_compaction/runtime/interp.py": "06d781497bbccd2a0d50b4df121a9e4c481fa9a23042f0179b1e17db0bc6b3a6",
+    "src/guarded_agentic_compaction/runtime/manual.py": "640494dc16fca305e8565cd7d710edeaecd43ee10b2bbc418679446ef1f6cd09",
+    "src/guarded_agentic_compaction/runtime/model_provider.py": "599050921f501dd856207a90fe69a02e8ad73820ae5f4be4155480c44de5f603",
+    "src/guarded_agentic_compaction/runtime/prologue.py": "672f84542a914f4f4505e8bb83d7ee2cd1869ee3b1c605a4a3cc883a7998f9f3",
+    "src/guarded_agentic_compaction/runtime/runner.py": "1873c25d1d09b428a9097c091d553415e8255957647c3e0bef5a2216504ceac6",
+    "src/guarded_agentic_compaction/runtime/staging.py": "6599e0a8e353617ebc56f77947967bff22151f97e7e0330e59e1e4409b763c7e",
+    "src/guarded_agentic_compaction/schema/__init__.py": "7eb7b5f450e51fb5e28f031cbc940a7c305f90cd6d3f63659edf12e968d8e4fe",
+    "src/guarded_agentic_compaction/schema/artifacts.py": "7a6d638fdd1c08a6c28e3f6344837c0a66f1c8ba117b1fcb4e7458ccf4cc8664",
+    "src/guarded_agentic_compaction/schema/effects.py": "5a13b6c2cb4ccff3eca76e05cf313bbcd0df4351f812c59557c5cc502d214a2a",
+    "src/guarded_agentic_compaction/schema/traces.py": "92e6a51519516a1197f140728ad49e0c80e8b9fff19cc319e26e7ecc9d801915",
+    "src/guarded_agentic_compaction/tgws/__init__.py": "44fb6b32fa9fed7c1fb5bc2dc568a2a5fd165f15a49755c62273ca4c1bdd9adc",
+    "src/guarded_agentic_compaction/tgws/package.py": "b44424c8df9b3ba9227d91d8f3fc6aa2abafdba5af604e713ba4915184c3ac8b",
+    "src/guarded_agentic_compaction/tgws/prune.py": "466e8548b61c9192624a896179d5fe6e4a16c85f17335c66c0e543222d845d01",
+    "src/guarded_agentic_compaction/tgws/routes.py": "674625c1098b8134e3b091101e08240d6b1f6892af42c0c204d1ba3ef76708dd"
+  },
+  "splits": {
+    "chronological": false,
+    "digest": "6efb4bfe01c71533",
+    "groups": {
+      "calibration": [],
+      "dev": [
+        "bird-corrected:1022",
+        "bird-corrected:151",
+        "bird-corrected:1530",
+        "bird-corrected:278",
+        "bird-corrected:391",
+        "bird-corrected:53",
+        "bird-corrected:598",
+        "bird-corrected:776",
+        "bird-corrected:927"
+      ],
+      "shadow": [],
+      "test": [],
+      "train": [
+        "bird-corrected:1006",
+        "bird-corrected:1039",
+        "bird-corrected:1041",
+        "bird-corrected:1076",
+        "bird-corrected:133",
+        "bird-corrected:1483",
+        "bird-corrected:1514",
+        "bird-corrected:1515",
+        "bird-corrected:160",
+        "bird-corrected:170",
+        "bird-corrected:235",
+        "bird-corrected:275",
+        "bird-corrected:333",
+        "bird-corrected:36",
+        "bird-corrected:365",
+        "bird-corrected:38",
+        "bird-corrected:406",
+        "bird-corrected:42",
+        "bird-corrected:478",
+        "bird-corrected:553",
+        "bird-corrected:673",
+        "bird-corrected:712",
+        "bird-corrected:730",
+        "bird-corrected:739",
+        "bird-corrected:801",
+        "bird-corrected:900",
+        "bird-corrected:946"
+      ]
+    },
+    "seed": 20261106,
+    "sizes": {
+      "calibration": 0,
+      "dev": 9,
+      "shadow": 0,
+      "test": 0,
+      "train": 27
+    }
+  },
+  "status": "RESEARCH_CANDIDATE_ONLY_NO_CALIBRATION_NO_ADMISSION"
+}

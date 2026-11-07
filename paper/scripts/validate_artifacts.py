@@ -9,6 +9,7 @@ import math
 import re
 import shutil
 import subprocess
+import tarfile
 import tomllib
 import zipfile
 from collections import Counter, defaultdict
@@ -3605,8 +3606,160 @@ def validate_adaptive_comparison_preflight() -> None:
         ok(False, f"adaptive preflight: {error}")
 
 
+def validate_bird_one_call_development() -> None:
+    """Recompute the retained developmental denominators and budget without local caches."""
+    preflight_dir = PAPER / "results/bird_one_call_continuation_preflight"
+    pilot_dir = PAPER / "results/bird_one_call_matched_pilot"
+    candidate_path = preflight_dir / "candidate.json"
+    preflight_path = preflight_dir / "report.json"
+    seal_path = pilot_dir / "seal.json"
+    report_path = pilot_dir / "report.json"
+    archive_path = pilot_dir / "raw_evidence.tar.gz"
+    ledger_path = pilot_dir / "ledger_snapshot.json"
+    required = (candidate_path, preflight_path, seal_path, report_path,
+                archive_path, ledger_path)
+    if not all(path.is_file() for path in required):
+        ok(False, "BIRD one-call: candidate, preflight, seal, report, raw archive and ledger snapshot exist")
+        return
+    candidate = load(candidate_path)
+    preflight = load(preflight_path)
+    seal = load(seal_path)
+    report = load(report_path)
+    ledger = load(ledger_path)
+    ok(preflight.get("scheduled") == 36 and preflight.get("completed") == 36
+       and preflight.get("provider_calls") == 0
+       and all(value == 36 for value in preflight.get("totals", {}).values())
+       and len(preflight.get("totals", {})) == 8,
+       "BIRD one-call: every provider-free parity/control gate covers 36 development cases")
+    ok(candidate.get("artifacts_emitted") == 0 and preflight.get("gac_artifacts") == 0
+       and preflight.get("independent_test_groups") == 0
+       and preflight.get("candidate_sha256") == sha256(candidate_path)
+       and seal.get("candidate_sha256") == sha256(candidate_path)
+       and seal.get("preflight_sha256") == sha256(preflight_path),
+       "BIRD one-call: candidate is bound to preflight and has no GAC admission or test")
+    for name, expected in seal.get("source_hashes", {}).items():
+        path = ROOT / name
+        ok(path.is_file() and sha256(path) == expected,
+           f"BIRD one-call: sealed source {name}")
+    for name, expected in candidate.get("source_hashes", {}).items():
+        path = ROOT / name
+        ok(path.is_file() and sha256(path) == expected,
+           f"BIRD one-call: candidate source {name}")
+    ok(report.get("seal_sha256") == sha256(seal_path)
+       and report.get("archive_sha256") == sha256(archive_path)
+       and report.get("ledger_sha256") == sha256(ledger_path),
+       "BIRD one-call: published evidence is byte-bound to seal, archive and ledger")
+    ok(report.get("decision") == "DEVELOPMENT_MECHANISM_ONLY_NO_ADMISSION_OR_CONFIRMATION"
+       and report.get("gac_artifacts") == 0
+       and report.get("independent_test_groups") == 0,
+       "BIRD one-call: result carries the development-only claim boundary")
+    tasks = seal.get("tasks", [])
+    arms = ("baseline", "manual_one_call", "candidate_one_call")
+    expected = {(task["question_id"], arm) for task in tasks for arm in arms}
+    rows = report.get("rows", [])
+    ok(len(tasks) == 36 and len({task["question_id"] for task in tasks}) == 36
+       and all(set(task["arm_order"]) == set(arms) for task in tasks)
+       and seal.get("scheduled_episodes") == report.get("scheduled") == len(expected) == 108
+       and len(rows) == len(expected)
+       and {(row["question_id"], row["arm"]) for row in rows} == expected,
+       "BIRD one-call: 36 paired groups and all 108 fixed arm assignments retained")
+    if not expected or len(rows) != len(expected):
+        return
+    records: dict[tuple[int, str], dict[str, Any]] = {}
+    with tarfile.open(archive_path, "r:gz") as archive:
+        names = set(archive.getnames())
+        ok("seal.json" in names and json.load(archive.extractfile("seal.json")) == seal,
+           "BIRD one-call: archive includes the exact study seal")
+        for row in rows:
+            key = (row["question_id"], row["arm"])
+            name = f"episodes/{key[0]}/{key[1]}/record.json"
+            if row["status"] == "unstarted":
+                ok(name not in names and row.get("raw_sha256") is None,
+                   f"BIRD one-call: unstarted disposition {key}")
+                continue
+            if name not in names:
+                ok(False, f"BIRD one-call: missing raw record {key}")
+                continue
+            raw = archive.extractfile(name).read()
+            record = json.loads(raw)
+            records[key] = record
+            ok(hashlib.sha256(raw).hexdigest() == row.get("raw_sha256")
+               and all(record.get(field) == row.get(field) for field in
+                       ("question_id", "db_id", "arm", "status", "shape_set_correct", "bag_correct"))
+               and record.get("execution_correct") == row.get("historical_set_correct"),
+               f"BIRD one-call: raw outcome and checksum {key}")
+        expected_names = {"seal.json"} | {
+            f"episodes/{row['question_id']}/{row['arm']}/record.json"
+            for row in rows if row["status"] != "unstarted"}
+        ok(names == expected_names, "BIRD one-call: archive has exactly the scheduled attempts")
+    charges = [charge for charge in ledger.get("requests", [])
+               if str(charge.get("task", "")).startswith(seal.get("namespace", "bird-one-call-matched-v1:"))]
+    charge_value = lambda charge: charge.get("accounted_upper_usd", charge["reserved_usd"])
+    ok(ledger.get("cap_usd") == 300
+       and math.isclose(ledger.get("accounted_upper_usd", -1),
+                        math.fsum(charge_value(charge) for charge in ledger.get("requests", [])), abs_tol=1e-9)
+       and math.isclose(report.get("campaign_accounted_upper_usd", -1), ledger.get("accounted_upper_usd", -2), abs_tol=1e-9)
+       and math.isclose(report.get("charged_upper_usd", -1),
+                        math.fsum(charge_value(charge) for charge in charges), abs_tol=1e-9)
+       and report.get("provider_requests") == len(charges)
+       and not any(charge["status"] == "reserved" for charge in charges),
+       "BIRD one-call: published request charges reproduce and stay within campaign ledger")
+    for arm in arms:
+        arm_rows = [row for row in rows if row["arm"] == arm]
+        arm_charges = [charge for charge in charges if charge["arm"] == arm]
+        summary = report.get("summary", {}).get(arm, {})
+        ok(summary.get("scheduled") == 36
+           and summary.get("completed") == sum(row["status"] == "completed" for row in arm_rows)
+           and summary.get("correct") == sum(bool(row["shape_set_correct"]) for row in arm_rows)
+           and summary.get("historical_set_correct") == sum(bool(row["historical_set_correct"]) for row in arm_rows)
+           and summary.get("tool_calls") == sum(len(records.get((row["question_id"], arm), {}).get("tool_calls", [])) for row in arm_rows)
+           and summary.get("provider_requests") == len(arm_charges)
+           and math.isclose(summary.get("accounted_upper_usd", -1),
+                            math.fsum(charge_value(charge) for charge in arm_charges), abs_tol=1e-9),
+           f"BIRD one-call: {arm} summary recomputes from all 36 outcomes")
+    ok(all((records.get((task["question_id"], "baseline"), {}).get("tool_calls") or [{}])[0].get("tool")
+           == "list_tables" for task in tasks),
+       "BIRD one-call: all fresh baseline continuations first called list_tables")
+    ok(all(trace.get("response", {}).get("model") == seal.get("model")
+           for record in records.values() for trace in record.get("provider_trace", [])),
+       "BIRD one-call: every retained response reports the sealed model")
+    ok(report.get("candidate_prefix_count") == sum(
+       record.get("prefix_disposition", {}).get("outcome") == "candidate_prefix"
+       for record in records.values())
+       and report.get("candidate_fallback_count") == sum(
+           str(record.get("prefix_disposition", {}).get("outcome", "")).startswith("fallback")
+           for record in records.values()),
+       "BIRD one-call: candidate dispatch and fallback counts reproduce")
+    by_key = {(row["question_id"], row["arm"]): row for row in rows}
+    for comparator in arms[1:]:
+        expected_pair = {
+            "comparator_only_correct": sum(
+                bool(by_key[question_id, comparator]["shape_set_correct"])
+                and not bool(by_key[question_id, "baseline"]["shape_set_correct"])
+                for question_id in {task["question_id"] for task in tasks}),
+            "baseline_only_correct": sum(
+                bool(by_key[question_id, "baseline"]["shape_set_correct"])
+                and not bool(by_key[question_id, comparator]["shape_set_correct"])
+                for question_id in {task["question_id"] for task in tasks}),
+            "agreements": sum(
+                bool(by_key[question_id, "baseline"]["shape_set_correct"])
+                == bool(by_key[question_id, comparator]["shape_set_correct"])
+                for question_id in {task["question_id"] for task in tasks}),
+        }
+        ok(report.get("paired", {}).get(comparator) == expected_pair,
+           f"BIRD one-call: paired baseline versus {comparator} counts reproduce")
+    for question_id in sorted({question_id for question_id, _ in expected}):
+        manual = records.get((question_id, "manual_one_call"), {})
+        candidate_record = records.get((question_id, "candidate_one_call"), {})
+        if (manual.get("prefix_disposition", {}).get("outcome") == "manual_prefix"
+                and candidate_record.get("prefix_disposition", {}).get("outcome") == "candidate_prefix"):
+            ok(manual.get("synthetic_prefix_messages") == candidate_record.get("synthetic_prefix_messages"),
+               f"BIRD one-call: manual and candidate continuation input parity {question_id}")
+
+
 FAMILIES: dict[str, Any] = {
     "adaptive_comparison_preflight": validate_adaptive_comparison_preflight,
+    "bird_one_call_development": validate_bird_one_call_development,
     "primary_population_audit": validate_primary_population_audit,
     "sources": validate_sources,
     "live": validate_live,
