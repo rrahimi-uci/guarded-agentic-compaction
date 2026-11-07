@@ -1,0 +1,979 @@
+{
+  "compilation": {
+    "artifact": {
+      "approved_by": "paper-family-protocol-lab-only",
+      "artifact_id": "cand-00-a1de3856bb6c",
+      "compatibility_key": "9c2d27abc964b0af",
+      "evidence": {
+        "counterexamples": [],
+        "dataset_digest": "69f8059d7606b442",
+        "fallback_reasons": {},
+        "metrics": {
+          "branch": "none",
+          "branch_alternatives": 0,
+          "branch_permutation_p": null,
+          "calibration_windows_evaluated": 92,
+          "composite": "synthesized",
+          "composite_name": "compiled_pr_get_record_2bd34511a8",
+          "dev_windows_evaluated": 8,
+          "gate_grid": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0",
+          "n_alternative_bindings": 99,
+          "perturbations_claimed": false,
+          "sandbox": {
+            "abstained": 0,
+            "effect_mismatch": 0,
+            "n": 0,
+            "pass_rate": 0.0,
+            "passed": 0,
+            "reasons": {},
+            "state_delta": 0,
+            "wrong": 0
+          },
+          "var_names": [
+            "pr",
+            "pr2",
+            "pr3"
+          ]
+        },
+        "notes": "substrate and evidence are recorded in the run manifest",
+        "perturbation": {},
+        "rejection_reasons": [],
+        "removed_requests": 3.0,
+        "replay": {
+          "abstained": 0,
+          "effect_mismatch": 0,
+          "n": 8,
+          "pass_rate": 1.0,
+          "passed": 8,
+          "reasons": {},
+          "state_delta": 0,
+          "wrong": 0
+        },
+        "split_ids": {
+          "calibration": [
+            "github-pr_outcome:120834",
+            "github-pr_outcome:120875",
+            "github-pr_outcome:121046",
+            "github-pr_outcome:121110",
+            "github-pr_outcome:121197",
+            "github-pr_outcome:121303",
+            "github-pr_outcome:121324",
+            "github-pr_outcome:121341",
+            "github-pr_outcome:121386",
+            "github-pr_outcome:121425",
+            "github-pr_outcome:121572",
+            "github-pr_outcome:121612",
+            "github-pr_outcome:121613",
+            "github-pr_outcome:121621",
+            "github-pr_outcome:121687",
+            "github-pr_outcome:121695",
+            "github-pr_outcome:121740",
+            "github-pr_outcome:121797",
+            "github-pr_outcome:121803",
+            "github-pr_outcome:121827",
+            "github-pr_outcome:121907",
+            "github-pr_outcome:121916",
+            "github-pr_outcome:121997",
+            "github-pr_outcome:122021",
+            "github-pr_outcome:122073",
+            "github-pr_outcome:122089",
+            "github-pr_outcome:122104",
+            "github-pr_outcome:122131",
+            "github-pr_outcome:122173",
+            "github-pr_outcome:122199",
+            "github-pr_outcome:122223",
+            "github-pr_outcome:122298",
+            "github-pr_outcome:122315",
+            "github-pr_outcome:122404",
+            "github-pr_outcome:122491",
+            "github-pr_outcome:122514",
+            "github-pr_outcome:122523",
+            "github-pr_outcome:122574",
+            "github-pr_outcome:122618",
+            "github-pr_outcome:122619",
+            "github-pr_outcome:122650",
+            "github-pr_outcome:122657",
+            "github-pr_outcome:122678",
+            "github-pr_outcome:122685",
+            "github-pr_outcome:122710",
+            "github-pr_outcome:122780",
+            "github-pr_outcome:122814",
+            "github-pr_outcome:122894",
+            "github-pr_outcome:122971",
+            "github-pr_outcome:122989",
+            "github-pr_outcome:123041",
+            "github-pr_outcome:123044",
+            "github-pr_outcome:123047",
+            "github-pr_outcome:123077",
+            "github-pr_outcome:123161",
+            "github-pr_outcome:123192",
+            "github-pr_outcome:123282",
+            "github-pr_outcome:123288",
+            "github-pr_outcome:123299",
+            "github-pr_outcome:123312",
+            "github-pr_outcome:123333",
+            "github-pr_outcome:123453",
+            "github-pr_outcome:123500",
+            "github-pr_outcome:123529",
+            "github-pr_outcome:123545",
+            "github-pr_outcome:123610",
+            "github-pr_outcome:123620",
+            "github-pr_outcome:123729",
+            "github-pr_outcome:123738",
+            "github-pr_outcome:124007",
+            "github-pr_outcome:124023",
+            "github-pr_outcome:124099",
+            "github-pr_outcome:124167",
+            "github-pr_outcome:124235",
+            "github-pr_outcome:124262",
+            "github-pr_outcome:124395",
+            "github-pr_outcome:124446",
+            "github-pr_outcome:124505",
+            "github-pr_outcome:124511",
+            "github-pr_outcome:124546",
+            "github-pr_outcome:124590",
+            "github-pr_outcome:124631",
+            "github-pr_outcome:124665",
+            "github-pr_outcome:124777",
+            "github-pr_outcome:124891",
+            "github-pr_outcome:124914",
+            "github-pr_outcome:125013",
+            "github-pr_outcome:125048",
+            "github-pr_outcome:125050",
+            "github-pr_outcome:125066",
+            "github-pr_outcome:125182",
+            "github-pr_outcome:125199"
+          ],
+          "dev": [
+            "github-pr_outcome:121293",
+            "github-pr_outcome:121748",
+            "github-pr_outcome:122079",
+            "github-pr_outcome:122579",
+            "github-pr_outcome:123171",
+            "github-pr_outcome:123335",
+            "github-pr_outcome:123774",
+            "github-pr_outcome:123985"
+          ],
+          "train": [
+            "github-pr_outcome:120893",
+            "github-pr_outcome:121027",
+            "github-pr_outcome:121552",
+            "github-pr_outcome:121680",
+            "github-pr_outcome:122051",
+            "github-pr_outcome:122557",
+            "github-pr_outcome:122565",
+            "github-pr_outcome:122831",
+            "github-pr_outcome:123321",
+            "github-pr_outcome:123428",
+            "github-pr_outcome:124009",
+            "github-pr_outcome:124098",
+            "github-pr_outcome:124201",
+            "github-pr_outcome:124617",
+            "github-pr_outcome:124719",
+            "github-pr_outcome:124875"
+          ]
+        },
+        "support_days": 15,
+        "support_groups": 16,
+        "support_principals": 1,
+        "total_groups": 16
+      },
+      "expiry_day": null,
+      "gate": {
+        "admissible": [
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "alpha": 0.05,
+        "coverage": 1.0,
+        "delta": 0.1,
+        "features_spec": {
+          "branch_entropy": 0.0,
+          "categories": {},
+          "hull_kinds": {
+            "z.record_number": "any"
+          },
+          "max_day": "2026-10-25",
+          "numeric_ranges": {},
+          "paths": [
+            "z.record_number"
+          ],
+          "patterns": {},
+          "provenance_ambiguity": 1.0
+        },
+        "grid": [
+          0.02,
+          0.05,
+          0.08,
+          0.11,
+          0.14,
+          0.17,
+          0.2,
+          0.25,
+          0.3,
+          0.4,
+          0.5
+        ],
+        "model": {
+          "bias": -0.6060873903367311,
+          "feature_means": [
+            0.0,
+            0.0,
+            0.0,
+            0.25,
+            0.0,
+            1.0,
+            0.0
+          ],
+          "feature_scales": [
+            1.0,
+            1.0,
+            1.0,
+            0.25,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "features": [
+            "unseen_category",
+            "knn_distance",
+            "missing_optional",
+            "hull_margin",
+            "drift_days",
+            "provenance_ambiguity",
+            "branch_entropy"
+          ],
+          "weights": [
+            0.0,
+            0.0,
+            0.0,
+            1.2876427485983468,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "n_accepted": 92,
+        "n_calibration_groups": 92,
+        "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.17, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.2, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.25, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.3, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.4, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.5, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}]",
+        "observed_violations": 0,
+        "retire": false,
+        "risk_upper_bound": 0.049808920112407784,
+        "threshold": 0.5
+      },
+      "guard": {
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "clauses": [
+          {
+            "hull": {
+              "high": null,
+              "kind": "any",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "path": "z.record_number",
+            "required": true,
+            "role": "hull",
+            "type_name": "int"
+          }
+        ],
+        "isolation": {},
+        "manifest_pins": {
+          "effect_catalog_version": "github-pr_outcome-pinned-reads@1#821a5aef76e5ebf1",
+          "entry_contract_version": "github-pr_outcome-record-number-v1",
+          "guardrail_hash": "#a9614876",
+          "model": "gpt-5.6-luna",
+          "policy_hash": "#00e10402",
+          "prompt_hash": "#46773695",
+          "tools_hash": "#77db95dc"
+        },
+        "required_capabilities": [
+          "speculatable",
+          "replayable"
+        ]
+      },
+      "kind": "grc",
+      "lifecycle": "active",
+      "manifest": {
+        "commit": "workspace-without-git-metadata",
+        "effect_catalog_version": "github-pr_outcome-pinned-reads@1#821a5aef76e5ebf1",
+        "entry_contract_version": "github-pr_outcome-record-number-v1",
+        "guardrail_hash": "#a9614876",
+        "manifest_id": "9c2d27abc964",
+        "model": "gpt-5.6-luna",
+        "policy_hash": "#00e10402",
+        "prompt_hash": "#46773695",
+        "sdk_version": "0.19.2",
+        "tools_hash": "#77db95dc",
+        "tracer_version": "agent-compaction/0.6.0"
+      },
+      "monitoring": {
+        "expected_coverage": 1.0,
+        "max_unsafe_dispatch": 0.05,
+        "min_verifier_pass_rate": 0.9
+      },
+      "name": "pr_get_record.pr_get_merge_status.region@a1de3856",
+      "owner": "paper-github-pr_outcome-study",
+      "partition": {},
+      "program": {
+        "composite": {
+          "continuation_compatibility_key": "2b9947513001c59e",
+          "description": "Guarded composite synthesized from a verified recurrent read program.",
+          "inputs": [
+            "record_number"
+          ],
+          "internal_tools": [
+            "pr_get_record",
+            "pr_get_merge_status",
+            "pr_get_discussion"
+          ],
+          "name": "compiled_pr_get_record_2bd34511a8",
+          "pre_model": true,
+          "projection": {
+            "comments": {
+              "kind": "expr",
+              "ops": [],
+              "source": "pr3.comments"
+            },
+            "is_merged": {
+              "kind": "expr",
+              "ops": [],
+              "source": "pr2.is_merged"
+            },
+            "record_number": {
+              "kind": "expr",
+              "ops": [],
+              "source": "pr.record_number"
+            },
+            "source_revision": {
+              "kind": "expr",
+              "ops": [],
+              "source": "pr.source_revision"
+            },
+            "state": {
+              "kind": "expr",
+              "ops": [],
+              "source": "pr.state"
+            },
+            "title": {
+              "kind": "expr",
+              "ops": [],
+              "source": "pr.title"
+            }
+          },
+          "schema_version": 1
+        },
+        "library_version": "T-v1",
+        "outputs": {
+          "pr": {
+            "kind": "expr",
+            "ops": [],
+            "source": "pr"
+          },
+          "pr2": {
+            "kind": "expr",
+            "ops": [],
+            "source": "pr2"
+          },
+          "pr3": {
+            "kind": "expr",
+            "ops": [],
+            "source": "pr3"
+          }
+        },
+        "removed_requests": 3.0,
+        "steps": [
+          {
+            "args": {
+              "record_number": {
+                "kind": "expr",
+                "ops": [],
+                "source": "z.record_number"
+              }
+            },
+            "kind": "call",
+            "schema_version": null,
+            "tool": "pr_get_record",
+            "var": "pr",
+            "when": null
+          },
+          {
+            "args": {
+              "record_number": {
+                "kind": "expr",
+                "ops": [],
+                "source": "pr.record_number"
+              }
+            },
+            "kind": "call",
+            "schema_version": null,
+            "tool": "pr_get_merge_status",
+            "var": "pr2",
+            "when": null
+          },
+          {
+            "args": {
+              "limit": {
+                "kind": "const",
+                "value": 3
+              },
+              "record_number": {
+                "kind": "expr",
+                "ops": [],
+                "source": "pr.record_number"
+              }
+            },
+            "kind": "call",
+            "schema_version": null,
+            "tool": "pr_get_discussion",
+            "var": "pr3",
+            "when": null
+          }
+        ],
+        "theta": [
+          "record_number"
+        ],
+        "tools": [
+          "pr_get_record",
+          "pr_get_merge_status",
+          "pr_get_discussion"
+        ]
+      },
+      "rollback_target": null,
+      "route": null,
+      "signature": "",
+      "verifier": {
+        "allowed_effects": [
+          "READ_LOCAL"
+        ],
+        "call_counts": [
+          3
+        ],
+        "clauses": [
+          {
+            "hull": {
+              "high": null,
+              "kind": "any",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "pr",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "pr_get_record"
+            ],
+            "type_name": "dict"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "any",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "pr.record_number",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "pr_get_record"
+            ],
+            "type_name": "int"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "enum",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": [
+                "73889fd46a633344817f636f86a4547b46a5c0bbf277bd7af50aeb5ba858c1d5"
+              ]
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "pr.source_revision",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "pr_get_record"
+            ],
+            "type_name": "str"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "enum",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": [
+                "closed",
+                "open"
+              ]
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "pr.state",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "pr_get_record"
+            ],
+            "type_name": "str"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "any",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "pr.title",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "pr_get_record"
+            ],
+            "type_name": "str"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "any",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "pr2",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "pr_get_merge_status"
+            ],
+            "type_name": "dict"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "enum",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": [
+                false,
+                true
+              ]
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "pr2.is_merged",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "pr_get_merge_status"
+            ],
+            "type_name": "bool"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "any",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "pr2.record_number",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "pr_get_merge_status"
+            ],
+            "type_name": "int"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "enum",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": [
+                "73889fd46a633344817f636f86a4547b46a5c0bbf277bd7af50aeb5ba858c1d5"
+              ]
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "pr2.source_revision",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "pr_get_merge_status"
+            ],
+            "type_name": "str"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "any",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "pr3",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "pr_get_discussion"
+            ],
+            "type_name": "dict"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "any",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "max_len": 3,
+            "min_len": 0,
+            "name": "pr3.comments",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "pr_get_discussion"
+            ],
+            "type_name": "list"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "any",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": []
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "pr3.record_number",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "pr_get_discussion"
+            ],
+            "type_name": "int"
+          },
+          {
+            "hull": {
+              "high": null,
+              "kind": "enum",
+              "low": null,
+              "max_len": null,
+              "min_len": null,
+              "pattern": null,
+              "values": [
+                "73889fd46a633344817f636f86a4547b46a5c0bbf277bd7af50aeb5ba858c1d5"
+              ]
+            },
+            "max_len": null,
+            "min_len": null,
+            "name": "pr3.source_revision",
+            "non_null": true,
+            "present_iff": null,
+            "provenance": [
+              "pr_get_discussion"
+            ],
+            "type_name": "str"
+          }
+        ]
+      },
+      "version": 1
+    },
+    "artifact_explanation": "artifact  pr_get_record.pr_get_merge_status.region@a1de3856@1   support 16/16 groups   removes k=3.00   [active]\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nguard   effect_catalog_version=github-pr_outcome-pinned-reads@1#821a5aef76e5ebf1  entry_contract_version=github-pr_outcome-record-number-v1  guardrail_hash=#a9614876  model=gpt-5.6-luna  policy_hash=#00e10402  prompt_hash=#46773695  tools_hash=#77db95dc\n        z.record_number : int\n        effects \u2286 {READ_LOCAL}  all speculatable \u2227 replayable\n\nprogram (\u03b8 = {record_number}):\n   pr   = call pr_get_record(record_number = z.record_number)\n   pr2  = call pr_get_merge_status(record_number = pr.record_number)\n   pr3  = call pr_get_discussion(limit = Const(3), record_number = pr.record_number)\n   return  { pr: pr, pr2: pr2, pr3: pr3 }\nexpose   compiled_pr_get_record_2bd34511a8(record_number) -> { comments, is_merged, record_number, source_revision, state, title } [internal=3]\nverify  pr : dict, non-null, provenance \u2208 {pr_get_record}\n        pr.record_number : int, non-null, provenance \u2208 {pr_get_record}\n        pr.source_revision : str, non-null, \u2208 {73889fd46a633344817f636f86a4547b46a5c0bbf277bd7af50aeb5ba858c1d5}, provenance \u2208 {pr_get_record}\n        pr.state : str, non-null, \u2208 {closed, open}, provenance \u2208 {pr_get_record}\n        pr.title : str, non-null, provenance \u2208 {pr_get_record}\n        pr2 : dict, non-null, provenance \u2208 {pr_get_merge_status}\n        pr2.is_merged : bool, non-null, \u2208 {False, True}, provenance \u2208 {pr_get_merge_status}\n        pr2.record_number : int, non-null, provenance \u2208 {pr_get_merge_status}\n        pr2.source_revision : str, non-null, \u2208 {73889fd46a633344817f636f86a4547b46a5c0bbf277bd7af50aeb5ba858c1d5}, provenance \u2208 {pr_get_merge_status}\n        pr3 : dict, non-null, provenance \u2208 {pr_get_discussion}\n        pr3.comments : list, non-null, len \u2264 3, len \u2265 0, provenance \u2208 {pr_get_discussion}\n        pr3.record_number : int, non-null, provenance \u2208 {pr_get_discussion}\n        pr3.source_revision : str, non-null, \u2208 {73889fd46a633344817f636f86a4547b46a5c0bbf277bd7af50aeb5ba858c1d5}, provenance \u2208 {pr_get_discussion}\n        effect_multiset \u2286 {READ_LOCAL},  |calls| \u2208 {3},  no WRITE_*\ngate    q = logistic(entry features)   \u03b7 = 0.50   (cal n=92 groups, \u03b1=0.05, \u03b4=0.1, |\u039b|=11, R\u207a=0.050, \u03c6\u0302=1.00)",
+    "config": {
+      "allow_legacy_catalog_version": false,
+      "alpha": 0.05,
+      "b_min": 2,
+      "composite_continuation_key": "2b9947513001c59e",
+      "composite_pre_model": true,
+      "composite_projection": {
+        "comments": "tool:pr_get_discussion::comments",
+        "is_merged": "tool:pr_get_merge_status::is_merged",
+        "record_number": "tool:pr_get_record::record_number",
+        "source_revision": "tool:pr_get_record::source_revision",
+        "state": "tool:pr_get_record::state",
+        "title": "tool:pr_get_record::title"
+      },
+      "delta": 0.1,
+      "entry_schema": [
+        "record_number"
+      ],
+      "freeze_one_candidate_before_calibration": true,
+      "kappa": 3,
+      "max_artifacts": 4,
+      "max_calibration_windows": 92,
+      "max_candidates": 16,
+      "max_dev_windows": 400,
+      "max_transform_depth": 2,
+      "min_days": 1,
+      "min_principals": 1,
+      "mode": "replay",
+      "n_permutations": 400,
+      "owner": "paper-github-pr_outcome-study",
+      "partition_by": [],
+      "phi_min": 0.02,
+      "prefix_only": true,
+      "s_branch": 20,
+      "s_min": 5,
+      "seed": 20260805,
+      "synthesize_composites": true,
+      "w_max": 3,
+      "w_min": 2
+    },
+    "frozen_single_candidate": true,
+    "lab_promotion": {
+      "not_production_approval": true
+    },
+    "observed_train_sequences": {
+      "pr_get_record -> pr_get_merge_status -> pr_get_discussion": 16
+    },
+    "rejection_by_stage": {},
+    "report": "GRC compile report\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\ncandidates mined        1\nartifacts emitted       1\nrejections by stage     {}\nwindows accepted        32\nwindows blocked         {'non_prefix_runtime': 16}\nblocked by tool         {}\n  [emitted     ] pr_get_record/pr_get_merge_status/pr_get_discussion supp=16 k=3.0",
+    "selection_rule": "exact traces; stable hash split; no tool-order filter",
+    "splits": {
+      "chronological": false,
+      "digest": "69f8059d7606b442",
+      "groups": {
+        "calibration": [
+          "github-pr_outcome:120834",
+          "github-pr_outcome:120875",
+          "github-pr_outcome:121046",
+          "github-pr_outcome:121110",
+          "github-pr_outcome:121197",
+          "github-pr_outcome:121303",
+          "github-pr_outcome:121324",
+          "github-pr_outcome:121341",
+          "github-pr_outcome:121386",
+          "github-pr_outcome:121425",
+          "github-pr_outcome:121572",
+          "github-pr_outcome:121612",
+          "github-pr_outcome:121613",
+          "github-pr_outcome:121621",
+          "github-pr_outcome:121687",
+          "github-pr_outcome:121695",
+          "github-pr_outcome:121740",
+          "github-pr_outcome:121797",
+          "github-pr_outcome:121803",
+          "github-pr_outcome:121827",
+          "github-pr_outcome:121907",
+          "github-pr_outcome:121916",
+          "github-pr_outcome:121997",
+          "github-pr_outcome:122021",
+          "github-pr_outcome:122073",
+          "github-pr_outcome:122089",
+          "github-pr_outcome:122104",
+          "github-pr_outcome:122131",
+          "github-pr_outcome:122173",
+          "github-pr_outcome:122199",
+          "github-pr_outcome:122223",
+          "github-pr_outcome:122298",
+          "github-pr_outcome:122315",
+          "github-pr_outcome:122404",
+          "github-pr_outcome:122491",
+          "github-pr_outcome:122514",
+          "github-pr_outcome:122523",
+          "github-pr_outcome:122574",
+          "github-pr_outcome:122618",
+          "github-pr_outcome:122619",
+          "github-pr_outcome:122650",
+          "github-pr_outcome:122657",
+          "github-pr_outcome:122678",
+          "github-pr_outcome:122685",
+          "github-pr_outcome:122710",
+          "github-pr_outcome:122780",
+          "github-pr_outcome:122814",
+          "github-pr_outcome:122894",
+          "github-pr_outcome:122971",
+          "github-pr_outcome:122989",
+          "github-pr_outcome:123041",
+          "github-pr_outcome:123044",
+          "github-pr_outcome:123047",
+          "github-pr_outcome:123077",
+          "github-pr_outcome:123161",
+          "github-pr_outcome:123192",
+          "github-pr_outcome:123282",
+          "github-pr_outcome:123288",
+          "github-pr_outcome:123299",
+          "github-pr_outcome:123312",
+          "github-pr_outcome:123333",
+          "github-pr_outcome:123453",
+          "github-pr_outcome:123500",
+          "github-pr_outcome:123529",
+          "github-pr_outcome:123545",
+          "github-pr_outcome:123610",
+          "github-pr_outcome:123620",
+          "github-pr_outcome:123729",
+          "github-pr_outcome:123738",
+          "github-pr_outcome:124007",
+          "github-pr_outcome:124023",
+          "github-pr_outcome:124099",
+          "github-pr_outcome:124167",
+          "github-pr_outcome:124235",
+          "github-pr_outcome:124262",
+          "github-pr_outcome:124395",
+          "github-pr_outcome:124446",
+          "github-pr_outcome:124505",
+          "github-pr_outcome:124511",
+          "github-pr_outcome:124546",
+          "github-pr_outcome:124590",
+          "github-pr_outcome:124631",
+          "github-pr_outcome:124665",
+          "github-pr_outcome:124777",
+          "github-pr_outcome:124891",
+          "github-pr_outcome:124914",
+          "github-pr_outcome:125013",
+          "github-pr_outcome:125048",
+          "github-pr_outcome:125050",
+          "github-pr_outcome:125066",
+          "github-pr_outcome:125182",
+          "github-pr_outcome:125199"
+        ],
+        "dev": [
+          "github-pr_outcome:121293",
+          "github-pr_outcome:121748",
+          "github-pr_outcome:122079",
+          "github-pr_outcome:122579",
+          "github-pr_outcome:123171",
+          "github-pr_outcome:123335",
+          "github-pr_outcome:123774",
+          "github-pr_outcome:123985"
+        ],
+        "shadow": [],
+        "test": [],
+        "train": [
+          "github-pr_outcome:120893",
+          "github-pr_outcome:121027",
+          "github-pr_outcome:121552",
+          "github-pr_outcome:121680",
+          "github-pr_outcome:122051",
+          "github-pr_outcome:122557",
+          "github-pr_outcome:122565",
+          "github-pr_outcome:122831",
+          "github-pr_outcome:123321",
+          "github-pr_outcome:123428",
+          "github-pr_outcome:124009",
+          "github-pr_outcome:124098",
+          "github-pr_outcome:124201",
+          "github-pr_outcome:124617",
+          "github-pr_outcome:124719",
+          "github-pr_outcome:124875"
+        ]
+      },
+      "seed": 20260805,
+      "sizes": {
+        "calibration": 92,
+        "dev": 8,
+        "shadow": 0,
+        "test": 0,
+        "train": 16
+      }
+    }
+  },
+  "run": {
+    "arms": [
+      "compiled",
+      "baseline",
+      "manual"
+    ],
+    "family": "pr_outcome",
+    "frozen_registry": null,
+    "model": "gpt-5.6-luna",
+    "openai_api_key_used": true,
+    "protocol": "paper/supplementary/multirepo-unfiltered-end-to-end-protocol.md",
+    "provider_backed": true,
+    "real_public_records": true,
+    "repository": "godotengine/godot",
+    "secrets_serialized": false,
+    "selection_digest": "8272065001387235f33a3fb0640d8fdbc2e61ffbe1a6125d11eb280d05923e71",
+    "simulated": false,
+    "snapshot": {
+      "columns_mirroring_pinned_snapshot": true,
+      "created_after_utc_day": "2026-06-30",
+      "created_at_range": [
+        "2026-07-01T01:38:19+00:00",
+        "2026-11-07T16:47:04+00:00"
+      ],
+      "credential_shaped_strings_redacted": {},
+      "fetch_completed_utc": "2026-11-07T17:42:08Z",
+      "fetch_started_utc": "2026-11-07T17:15:14Z",
+      "issues": 0,
+      "licence_note": "public GitHub issue and pull-request metadata and comment bodies; same provenance class as the pinned snapshot",
+      "parquet_bytes": 3509150,
+      "parquet_path": "benchmarks/.cache/multirepo_e2e/godotengine__godot/snapshot.parquet",
+      "parquet_sha256": "73889fd46a633344817f636f86a4547b46a5c0bbf277bd7af50aeb5ba858c1d5",
+      "pull_requests": 2785,
+      "pull_requests_only": true,
+      "records": 2785,
+      "repository": "godotengine/godot",
+      "schema": "agent-compaction-time-forward-snapshot/v1",
+      "source": "GitHub REST API v2022-11-28, /repos/{repo}/issues (state=all) and /issues/{n}/comments"
+    },
+    "store_audit": {
+      "deduplicated_records": 2784,
+      "duplicate_rows": 1,
+      "parquet_sha256": "73889fd46a633344817f636f86a4547b46a5c0bbf277bd7af50aeb5ba858c1d5",
+      "raw_rows": 2785,
+      "source_revision": "73889fd46a633344817f636f86a4547b46a5c0bbf277bd7af50aeb5ba858c1d5"
+    },
+    "timestamp_utc": "2026-11-07T17:42:24+00:00",
+    "unit": "author"
+  },
+  "status": "admitted"
+}
