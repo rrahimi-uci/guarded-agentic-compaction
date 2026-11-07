@@ -121,22 +121,36 @@ the largest potential to change the contribution assessment. The execution plan
 separates a matched fixed-prefix mechanism comparison from a whole-compiler comparison
 over a train-frozen candidate list that includes rejected candidates. It requires
 task success, optimization coverage, wrong dispatches, fallback, and total costs.
-A subsequent provider-free AppWorld common-entry preflight validates all 12 known-correct
-public sequences, 24 negative controls and 24 bounded library-read probes through an
-explicitly saved-state adapter. Initialization is identical and counted across arms;
-authentication remains a write. These reference controls are not model trajectories,
-automatic compiler results or a task-performance comparison. The prior exploratory
-agent attempt was interrupted after a persistence defect; its original grades are
-invalid and retained, with separately labeled deterministic regrades. Baseline
-competence, genuine model-derived candidates, matched comparator execution and fresh
-calibration/testing remain unestablished in AppWorld. A separate sealed BIRD
-one-call continuation pilot completed 36 exposed development questions per arm:
-baseline and handwritten scored 28/36, while the guarded research candidate
-scored 26/36. It reduced model requests against baseline (151 to 112) but not
-against the equivalent handwritten prefix (111), and it had no calibration or
-independent test groups. We therefore assert no confirmatory comparative
-performance or GAC-superiority result. The complete development disposition
-is linked from the concern ledger.
+A provider-free AppWorld common-entry preflight validates 12 known-correct
+public sequences, 24 negative controls and 24 library-read probes through the
+saved-state adapter. Authentication remains a write and its common setup is
+counted. Two subsequent sealed, adapted-interface baseline attempts on the same
+12 exposed tasks scored 1/12 and 2/12 official successes, below the prespecified
+8/12 engineering competence gate. Their model traces are not a persuasive
+comparator for a GAC cost claim; no matched GAC arm was run. The earlier
+persistence-defective attempt and its invalid original grades remain retained
+separately.
+
+A sealed BIRD one-call continuation pilot completed 36 exposed development
+questions per arm: baseline and handwritten scored 28/36, while the guarded
+research candidate scored 26/36. It reduced model requests against baseline
+(151 to 112) but not against the equivalent handwritten prefix (111), and it
+had no calibration or independent test groups.
+
+AgentHop supplies a competent adaptive baseline and a released exact-answer
+grader: 19/24 correct on the sealed development sample, above its 17/24
+engineering gate. Its public single-target depth-2 subtype has one connected
+full-neighborhood source component. The tested GAC bridge binder found no
+consistent dependent expression; a posthoc section-lookahead audit found 42
+next-turn opportunities but no derived selector. Even an exploratory grouped
+ranker with the true future read count supplied matched only 11/35 exact read
+batches. These are exposed development diagnostics, not a GAC intervention or
+source-independent test. We therefore assert no confirmatory adaptive
+quality--cost or GAC-superiority result. The revised manuscript now discloses
+all three development gates in Appendix “Adaptive-Task Development Gates” and
+points to them from the main discussion. The [concern ledger](reviewer_concern_closure.md)
+links each retained result and its remaining completion gate. These new local
+findings should enter a reviewer response only with a verified revised upload.
 
 ## Reviewer 3
 
@@ -166,7 +180,9 @@ will remain rather than being hidden through a different threshold or population
 ## Before posting
 
 - Replace section references with the final uploaded PDF's numbering.
-- Verify the revised manuscript and supplement were actually uploaded.
+- Verify the revised manuscript and supplement were actually uploaded within
+  the [November 5--18 discussion window](https://iclr.cc/Conferences/2027/AuthorGuidelines);
+  the rebuttal main-text limit is ten pages and OpenReview displays a PDF diff.
 - Keep completed audits, retained experiments, and proposed work separate.
 - Add new experimental findings only after their frozen protocol and retained results
   exist; update this response and manuscript together.

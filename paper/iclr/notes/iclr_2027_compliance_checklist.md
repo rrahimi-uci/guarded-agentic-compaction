@@ -11,6 +11,19 @@ Official sources checked on 2026-10-16:
 The formatting section specifies nine main-text pages initially and ten during
 discussion/camera-ready; statements, references, and appendices are exempt.
 
+## November 6 discussion-window update
+
+The [current author guidelines](https://iclr.cc/Conferences/2027/AuthorGuidelines)
+list the public discussion period as **November 5--18, 2026** and allow authors
+to revise the paper through its end. The ten-page main-text limit applies to
+rebuttal revisions. OpenReview will display a PDF diff, and reviewers or area
+chairs may ignore a revision that is substantially different from the original.
+The author confirmed that an older version is uploaded; the exact uploaded PDF
+and this submission's revision controls have not been retrieved locally. Before
+posting the response, verify the submission-specific upload and the revised
+PDF/metadata on OpenReview, then make the response match the version reviewers
+can actually see. The October 16 timing caveat above is historical.
+
 ## Current checks
 
 - [x] Anonymous review template, line numbers, no author metadata or acknowledgements.

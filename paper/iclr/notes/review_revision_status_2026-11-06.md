@@ -193,3 +193,40 @@ not establish GAC admission, a learned-gate advantage, automatic-compilation
 benefit, or quality–cost superiority over the exact handwritten wrapper.
 The no-go for confirmatory claims remains in force. The ICLR manuscript's
 quantitative tables and PDF are not changed by this developmental follow-up.
+
+## Subsequent adaptive-comparison development gates
+
+The original AppWorld run was interrupted after the persistence defect. The
+[separately sealed common-entry competence study](https://github.com/rrahimi-uci/guarded-agentic-compaction/pull/108)
+then completed two adapted-interface attempts on 12 exposed tasks: 1/12 and
+2/12 official successes versus a prespecified 8/12 engineering floor. It
+blocks an AppWorld matched cost claim with that comparator. The source-audited
+[AgentHop baseline](../../results/agenthop_baseline_trace_pilot/REPORT.md)
+cleared its 17/24 floor at 19/24, but its tested bridge binder did not produce a
+GAC candidate. The [section-lookahead audit](../../results/agenthop_section_lookahead/REPORT.md)
+found 42 observed next-turn opportunities without a deployable selector; a
+posthoc grouped ranker matched 11/35 exact batches even with the true read
+count supplied. This benchmark has one full-neighborhood source component.
+
+These results are development gates and negative feasibility evidence. They do
+not provide matched GAC, handwritten, simpler-compiler and unchanged-agent
+final-answer comparisons, fresh calibration or an independent test. The
+current manuscript's numerical results and the older uploaded OpenReview
+version remain separate. The [official author guidelines](https://iclr.cc/Conferences/2027/AuthorGuidelines)
+allow ten main-text pages and a paper revision during the November 5--18 public
+discussion, with a PDF diff; the submission-specific upload remains unverified
+locally. The draft response must be checked against the actual revised upload
+before posting. The $300 campaign cap remains in force; unused
+budget is not a scientific reason to run an unqualified arm.
+
+## Manuscript integration after the development gates
+
+The ICLR PDF now includes an “Adaptive-Task Development Gates” appendix and a
+main-discussion pointer. It reports the sealed BIRD, AppWorld and AgentHop
+development outcomes and their no-go decisions; the primary tables, abstract
+and empirical superiority boundary are unchanged. The reviewer response draft,
+concern ledger, evidence index and [final feedback report](../../reviews/ICLR_2027_Reviewer_Feedback_Final_Report_2026-11-06.md)
+use the same denominators and limits. Earlier statements above that the
+“manuscript numerical results remain unchanged” describe the state before this
+integration; they do not describe the current PDF. No submission-specific
+OpenReview upload or reviewer response has been verified or made here.

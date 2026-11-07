@@ -17,7 +17,7 @@ for:
   self-contained copies of the generated result PDFs.
 - `tables/`: compact tables written for the ICLR version.
 - `appendix.tex`: proof, additional algorithms, configuration, extended
-  limitations. Included after the references.
+  limitations, and the adaptive-task development gates. Included after the references.
 - `notes/`: reviewer gap analysis and submission compliance checklist.
 - `build/`: compiled PDF and LaTeX auxiliaries.
 - `template/`: downloaded official ICLR 2027 style zip and extracted originals.
