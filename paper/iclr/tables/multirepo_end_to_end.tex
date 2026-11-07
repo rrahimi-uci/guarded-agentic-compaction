@@ -4,9 +4,12 @@
 Repository & $n$ & $k$ & $U_{\mathrm{grid}}$ & $U_{\mathrm{1}}$ & Decision & b/c & $p_{\mathrm{McN}}$ \\
 \midrule
 psf/requests & \multicolumn{7}{l}{shortfall no run; no certificate} \\
+pandas-dev/pandas & 200 & 2 & 0.0419 & 0.0264 & admit & 2/3 & 1.000 \\
 huggingface/datasets & 200 & 1 & 0.0333 & 0.0193 & admit & 1/1 & 1.000 \\
+pytorch/pytorch & 200 & 0 & 0.0232 & 0.0114 & admit & 0/0 & 1.000 \\
+streamlit/streamlit & 160 & 0 & 0.0290 & 0.0143 & admit & 0/2 & 0.500 \\
 \midrule
-Pooled (1 run repositories) & 200 & 1 & 0.0333 & 0.0193 & admit & 1/1 & 1.000 \\
+Pooled (4 run repositories) & 760 & 3 & 0.0133 & 0.0088 & admit & 3/6 & 0.508 \\
 \bottomrule
 \end{tabularx}
 
@@ -21,7 +24,10 @@ Repository & \multicolumn{4}{c}{Compiled vs.\ unchanged (\%)} & \multicolumn{4}{
  & Req. & Tok. & Lat. & Cost & Req. & Tok. & Lat. & Cost \\
 \midrule
 huggingface/datasets & 75.0 & 82.5 & 72.5 & 76.9 & 75.0 & 82.5 & 73.7 & 77.3 \\
+pandas-dev/pandas & 75.0 & 80.7 & 70.2 & 74.3 & 75.0 & 80.7 & 70.7 & 74.3 \\
+pytorch/pytorch & 75.0 & 74.0 & 68.0 & 69.6 & 75.0 & 74.0 & 67.8 & 69.7 \\
+streamlit/streamlit & 75.0 & 69.0 & 68.8 & 70.7 & 75.0 & 69.0 & 70.5 & 69.7 \\
 \midrule
-Pooled & 75.0 & 82.5 & 72.5 & 76.9 & 75.0 & 82.5 & 73.7 & 77.3 \\
+Pooled & 75.0 & 76.6 & 69.9 & 72.7 & 75.0 & 76.6 & 70.7 & 72.6 \\
 \bottomrule
 \end{tabularx}
