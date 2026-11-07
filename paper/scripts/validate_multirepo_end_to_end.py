@@ -108,6 +108,8 @@ def validate_multirepo_end_to_end(results_dir: str | Path) -> list[CheckResult]:
     ok(on_disk == listed, f"summary lists exactly the repository directories on disk ({len(on_disk)})")
 
     run_groups: list[dict[str, Any]] = []
+    stage_groups: dict[str, list[dict[str, Any]]] = {"registered": [], "amendment_3": []}
+    stage_repos: dict[str, list[str]] = {"registered": [], "amendment_3": []}
     spent_total = 0.0
     run_repos: list[str] = []
     for entry in summary.get("repositories", []):
@@ -138,6 +140,10 @@ def validate_multirepo_end_to_end(results_dir: str | Path) -> list[CheckResult]:
             continue
         run_repos.append(repo)
         run_groups.extend(groups)
+        stage = entry.get("stage", "registered")
+        ok(stage in stage_groups, f"{repo}: stage {stage!r} is registered or amendment_3")
+        stage_groups.setdefault(stage, []).extend(groups)
+        stage_repos.setdefault(stage, []).append(repo)
         got = _recompute(groups)
         cert = entry["certificate"]
         ok(cert["n"] == got["n"] and cert["k"] == got["k"], f"{repo}: n = {got['n']}, k = {got['k']} recomputed from raw groups match summary")
@@ -153,18 +159,24 @@ def validate_multirepo_end_to_end(results_dir: str | Path) -> list[CheckResult]:
         decision = "admit" if _upper(got["k"], got["n"], conf["grid"]) <= ALPHA else "retire"
         ok(cert["decision"] == decision, f"{repo}: decision {decision} (primary registered grid, m = 1) matches summary")
 
-    pooled = summary.get("pooled_run_repositories")
-    if run_groups:
-        got = _recompute(run_groups)
+    def check_pool(key: str, groups: list[dict[str, Any]], repos: list[str], label: str) -> None:
+        pooled = summary.get(key)
+        if not groups:
+            ok(pooled is None, f"{label}: absent when no member repository ran")
+            return
+        got = _recompute(groups)
         ok(pooled is not None and pooled["certificate"]["n"] == got["n"] and pooled["certificate"]["k"] == got["k"]
-           and pooled["repos"] == run_repos, f"pooled: n = {got['n']}, k = {got['k']} over {len(run_repos)} run repositories match")
+           and pooled["repos"] == repos, f"{label}: n = {got['n']}, k = {got['k']} over {len(repos)} run repositories match")
         if pooled is not None:
             decision = "admit" if _upper(got["k"], got["n"], conf["grid"]) <= ALPHA else "retire"
             ok(_close(pooled["certificate"]["grid_m1"]["U"], _upper(got["k"], got["n"], conf["grid"]))
                and _close(pooled["certificate"]["single_rule"]["U"], _upper(got["k"], got["n"], conf["single"]))
-               and pooled["certificate"]["decision"] == decision, "pooled: U (both rules) and decision recomputed match")
-    else:
-        ok(pooled is None, "pooled: absent when no repository ran")
+               and pooled["certificate"]["decision"] == decision, f"{label}: U (both rules) and decision recomputed match")
+
+    # (i) registered-stage pool, never changed by Amendment 3; (ii) every run repository, present only
+    # once an Amendment 3 repository has run.
+    check_pool("pooled_run_repositories", stage_groups["registered"], stage_repos["registered"], "pooled (registered stage)")
+    check_pool("pooled_all_run_repositories", run_groups if stage_groups["amendment_3"] else [], run_repos, "pooled (all run repositories)")
 
     ledger = summary.get("ledger", {})
     ok(_close(ledger.get("total_spent_usd"), round(spent_total, 6)) and spent_total <= TOTAL_CAP_USD,
