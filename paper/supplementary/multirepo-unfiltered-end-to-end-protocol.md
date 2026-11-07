@@ -111,3 +111,20 @@ All numbers are from `paper/results/multirepo_end_to_end/summary.json` (regenera
 | Pooled, four run repositories | 760 | 3 | 0.0133 | 0.0088 | admit | 3 / 6 (exact McNemar p = 0.508) | 75.0% / 72.7% |
 
 Adverse findings. Three compiled-arm violations occurred (hf #7768, pandas #64087 and #65856); in each the unchanged agent met the contract. Each of pandas and hf is admitted with k = 2 and k = 1 under limits of 3 and 3 (registered grid), so the margin is small. Class mix is skewed: hf has 2 closed-unmerged pull requests, streamlit 2 open, pytorch no merged class (see Amendment 2), pandas is the only repository with a substantial share of every class. The study covers one family, one frozen candidate, one model, one task contract, and four repositories; independence is by author, not by repository. Hand-written reduction matches compiled reduction in every repository, so no advantage over the hand-written program is claimed. Total spend $1.2286 across four repositories.
+
+## Observed results, Amendment 3 (2026-11-07)
+From `paper/results/multirepo_end_to_end/summary.json` (stage `amendment_3`). One frozen candidate per repository (`cand-00-a1de3856bb6c`, re-derived on each repository's 132 discovery records), n = 400 everywhere, no retries, no ineligible group, no fallback; kubernetes has 3 clean abstentions (loss 0). Registered-grid limit at n = 400: k <= 9.
+
+| Repository | n | k | U (grid, m = 1) | U (single rule) | Decision | Contracts met: compiled / unchanged / hand-written | McNemar p | Cost reduction (compiled / hand-written) |
+|---|---|---|---|---|---|---|---|---|
+| vercel/next.js | 400 | 1 | 0.0167 | 0.0097 | admit | 399 / 396 / 398 | 0.375 | see table |
+| django/django | 400 | 2 | 0.0211 | 0.0133 | admit | 398 / 397 / 399 | 1.000 | |
+| kubernetes/kubernetes | 400 | 3 | 0.0252 | 0.0166 | admit | 397 / 394 / 397 | 0.508 | |
+| microsoft/vscode | 400 | 3 | 0.0252 | 0.0166 | admit | 397 / 398 / 394 | 1.000 | |
+| godotengine/godot | 400 | 7 | 0.0399 | 0.0293 | admit | 393 / 399 / 395 | 0.070 | |
+| nodejs/node | 400 | 14 | 0.0632 | 0.0499 | **retire** | 386 / 384 / 380 | 0.791 | |
+| python/cpython | 400 | 17 | 0.0726 | 0.0585 | **retire** | 383 / 385 / 387 | 0.832 | |
+
+Pools. (i) Registered stage, unchanged: 760 groups, k = 3, U = 0.0133, admit. (ii) All eleven run repositories: 3,560 groups, k = 50, U = 0.0194 (grid) / 0.0169 (single rule), admit under the exchangeability assumption; contracts met 3,510 compiled, 3,507 unchanged, 3,504 hand-written (exact McNemar compiled vs unchanged p = 0.820); cost reduction 73.6% compiled and 73.6% hand-written.
+
+Adverse findings. Two of seven added repositories are retired by the primary rule (node k = 14, cpython k = 17; cpython also fails the single rule). godot is admitted but its compiled arm met 6 fewer contracts than the unchanged agent (393 vs 399, p = 0.070); the hand-written program met 395. Post-hoc and descriptive only (not a registered analysis): of all 50 compiled-arm violations across the eleven repositories, 47 fail `comment_grounded` (the returned evidence excerpt is not a verbatim substring of a source comment: emoji substituted, Markdown stripped, long URLs or hashes mis-copied, concentrated in bot comments) and 3 fail `title_correct`; none fails `outcome_correct`. The unchanged agent fails `comment_grounded` at a similar rate. No re-grading under a relaxed contract is reported as a result. vscode was acquired under Amendment 3a. Total spend for the study, both stages: $5.08.

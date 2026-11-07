@@ -1,21 +1,33 @@
 {
   "admitted_repositories": [
+    "django/django",
+    "godotengine/godot",
     "huggingface/datasets",
+    "kubernetes/kubernetes",
+    "microsoft/vscode",
     "pandas-dev/pandas",
     "pytorch/pytorch",
-    "streamlit/streamlit"
+    "streamlit/streamlit",
+    "vercel/next.js"
   ],
   "appendix_a3_floor_mismatches": [],
   "ledger": {
     "per_repo_spent_usd": {
+      "django/django": 0.550657,
+      "godotengine/godot": 0.507445,
       "huggingface/datasets": 0.203317,
+      "kubernetes/kubernetes": 0.657982,
+      "microsoft/vscode": 0.509517,
+      "nodejs/node": 0.554011,
       "pandas-dev/pandas": 0.30884,
       "psf/requests": null,
+      "python/cpython": 0.565058,
       "pytorch/pytorch": 0.376542,
-      "streamlit/streamlit": 0.339881
+      "streamlit/streamlit": 0.339881,
+      "vercel/next.js": 0.503813
     },
     "total_cap_usd": 25.0,
-    "total_spent_usd": 1.22858,
+    "total_spent_usd": 5.077063,
     "within_total_cap": true
   },
   "not_run": [
@@ -26,6 +38,409 @@
       "status": "shortfall_no_run"
     }
   ],
+  "pooled_all_run_repositories": {
+    "authors_equal_groups": true,
+    "certificate": {
+      "decision": "admit",
+      "grid_m1": {
+        "U": 0.019435023178867278,
+        "admits": true,
+        "confidence": 0.990909090909091,
+        "max_admissible_k": 147
+      },
+      "k": 50,
+      "n": 3560,
+      "single_rule": {
+        "U": 0.016924610267484416,
+        "admits": true,
+        "confidence": 0.9,
+        "max_admissible_k": 160
+      }
+    },
+    "class_counts_in_n": {
+      "closed_unmerged": 1196,
+      "merged": 878,
+      "open": 1486
+    },
+    "dispatched": 3557,
+    "dispatched_contract_met": 3507,
+    "distinct_authors": 3560,
+    "distinct_days": 332,
+    "distinct_logins": 3415,
+    "eligible": 3560,
+    "eligible_but_excluded": 0,
+    "fallback": {
+      "abstained": 3,
+      "fallback_contract_met": 3,
+      "fallback_contract_missed": 0,
+      "fallback_groups": 3
+    },
+    "groups_recorded": 3560,
+    "ineligible": 0,
+    "paired": {
+      "baseline_met": 3507,
+      "baseline_only_met": 37,
+      "both_met": 3470,
+      "compiled_met": 3510,
+      "compiled_only_met": 40,
+      "compiled_only_misses": 37,
+      "compiled_only_misses_upper95": 0.013650437475096984,
+      "mcnemar_exact_p_two_sided": 0.8198929037490488,
+      "n": 3560,
+      "neither_met": 13
+    },
+    "repos": [
+      "django/django",
+      "godotengine/godot",
+      "huggingface/datasets",
+      "kubernetes/kubernetes",
+      "microsoft/vscode",
+      "nodejs/node",
+      "pandas-dev/pandas",
+      "python/cpython",
+      "pytorch/pytorch",
+      "streamlit/streamlit",
+      "vercel/next.js"
+    ],
+    "resources": {
+      "mean_per_arm": {
+        "baseline": {
+          "cost_usd": 0.0007511095926966292,
+          "latency_ms": 4483.062310112359,
+          "requests": 4.0,
+          "tokens": 2939.8988764044943
+        },
+        "compiled": {
+          "cost_usd": 0.00019825544662921348,
+          "latency_ms": 1318.2777132022472,
+          "requests": 1.0025280898876405,
+          "tokens": 637.1033707865168
+        },
+        "manual": {
+          "cost_usd": 0.0001983115646067416,
+          "latency_ms": 1303.8630311797751,
+          "requests": 1.0,
+          "tokens": 635.0382022471911
+        }
+      },
+      "reduction_vs_baseline_pct": {
+        "compiled": {
+          "cost_usd": 73.60499072879125,
+          "latency_ms": 70.59425852215722,
+          "requests": 74.93679775280899,
+          "tokens": 78.32907193169527
+        },
+        "manual": {
+          "cost_usd": 73.59751938531838,
+          "latency_ms": 70.91579503058266,
+          "requests": 75.0,
+          "tokens": 78.3993181757379
+        }
+      }
+    },
+    "violations": [
+      {
+        "author": "Michele0303",
+        "class": "closed_unmerged",
+        "number": 20758,
+        "repo": "django/django"
+      },
+      {
+        "author": "sushmitayadav260723",
+        "class": "closed_unmerged",
+        "number": 20994,
+        "repo": "django/django"
+      },
+      {
+        "author": "iiMidknightii",
+        "class": "open",
+        "number": 123647,
+        "repo": "godotengine/godot"
+      },
+      {
+        "author": "Ehwhat",
+        "class": "merged",
+        "number": 124857,
+        "repo": "godotengine/godot"
+      },
+      {
+        "author": "yoyorm",
+        "class": "open",
+        "number": 124819,
+        "repo": "godotengine/godot"
+      },
+      {
+        "author": "voylin",
+        "class": "closed_unmerged",
+        "number": 122797,
+        "repo": "godotengine/godot"
+      },
+      {
+        "author": "mrjustaguy",
+        "class": "closed_unmerged",
+        "number": 122388,
+        "repo": "godotengine/godot"
+      },
+      {
+        "author": "dhoverb",
+        "class": "merged",
+        "number": 122147,
+        "repo": "godotengine/godot"
+      },
+      {
+        "author": "KevinZonda",
+        "class": "closed_unmerged",
+        "number": 123947,
+        "repo": "godotengine/godot"
+      },
+      {
+        "author": "ain-soph",
+        "class": "open",
+        "number": 7768,
+        "repo": "huggingface/datasets"
+      },
+      {
+        "author": "pink-milk",
+        "class": "closed_unmerged",
+        "number": 143000,
+        "repo": "kubernetes/kubernetes"
+      },
+      {
+        "author": "haircommander",
+        "class": "open",
+        "number": 143241,
+        "repo": "kubernetes/kubernetes"
+      },
+      {
+        "author": "SergeyKanzhelev",
+        "class": "merged",
+        "number": 141209,
+        "repo": "kubernetes/kubernetes"
+      },
+      {
+        "author": "aashna",
+        "class": "merged",
+        "number": 341832,
+        "repo": "microsoft/vscode"
+      },
+      {
+        "author": "Fahad090NP",
+        "class": "closed_unmerged",
+        "number": 329899,
+        "repo": "microsoft/vscode"
+      },
+      {
+        "author": "irontaek",
+        "class": "open",
+        "number": 340771,
+        "repo": "microsoft/vscode"
+      },
+      {
+        "author": "gibson042",
+        "class": "merged",
+        "number": 64839,
+        "repo": "nodejs/node"
+      },
+      {
+        "author": "abhi128nandan",
+        "class": "merged",
+        "number": 65678,
+        "repo": "nodejs/node"
+      },
+      {
+        "author": "hemanth",
+        "class": "closed_unmerged",
+        "number": 64479,
+        "repo": "nodejs/node"
+      },
+      {
+        "author": "YspritanHyzygy",
+        "class": "merged",
+        "number": 64789,
+        "repo": "nodejs/node"
+      },
+      {
+        "author": "zeexzeex",
+        "class": "open",
+        "number": 65253,
+        "repo": "nodejs/node"
+      },
+      {
+        "author": "MarshallOfSound",
+        "class": "open",
+        "number": 65611,
+        "repo": "nodejs/node"
+      },
+      {
+        "author": "bitpshr",
+        "class": "open",
+        "number": 65049,
+        "repo": "nodejs/node"
+      },
+      {
+        "author": "Fifixex",
+        "class": "open",
+        "number": 62983,
+        "repo": "nodejs/node"
+      },
+      {
+        "author": "tniessen",
+        "class": "open",
+        "number": 63667,
+        "repo": "nodejs/node"
+      },
+      {
+        "author": "gengjiawen",
+        "class": "open",
+        "number": 66590,
+        "repo": "nodejs/node"
+      },
+      {
+        "author": "Yeaseen",
+        "class": "merged",
+        "number": 61233,
+        "repo": "nodejs/node"
+      },
+      {
+        "author": "owlstronaut",
+        "class": "open",
+        "number": 63205,
+        "repo": "nodejs/node"
+      },
+      {
+        "author": "themuuln",
+        "class": "open",
+        "number": 65736,
+        "repo": "nodejs/node"
+      },
+      {
+        "author": "awbx",
+        "class": "open",
+        "number": 63573,
+        "repo": "nodejs/node"
+      },
+      {
+        "author": "Tithi234",
+        "class": "closed_unmerged",
+        "number": 64087,
+        "repo": "pandas-dev/pandas"
+      },
+      {
+        "author": "goingforstudying-ctrl",
+        "class": "closed_unmerged",
+        "number": 65856,
+        "repo": "pandas-dev/pandas"
+      },
+      {
+        "author": "andresdelfino",
+        "class": "merged",
+        "number": 161416,
+        "repo": "python/cpython"
+      },
+      {
+        "author": "asvetlov",
+        "class": "merged",
+        "number": 160851,
+        "repo": "python/cpython"
+      },
+      {
+        "author": "jaraco",
+        "class": "merged",
+        "number": 160387,
+        "repo": "python/cpython"
+      },
+      {
+        "author": "zooba",
+        "class": "merged",
+        "number": 153515,
+        "repo": "python/cpython"
+      },
+      {
+        "author": "SomSamantray",
+        "class": "closed_unmerged",
+        "number": 159167,
+        "repo": "python/cpython"
+      },
+      {
+        "author": "orsenthil",
+        "class": "merged",
+        "number": 160528,
+        "repo": "python/cpython"
+      },
+      {
+        "author": "hetaozdh",
+        "class": "merged",
+        "number": 158819,
+        "repo": "python/cpython"
+      },
+      {
+        "author": "caseneuve",
+        "class": "merged",
+        "number": 154009,
+        "repo": "python/cpython"
+      },
+      {
+        "author": "yangbaechu",
+        "class": "merged",
+        "number": 154941,
+        "repo": "python/cpython"
+      },
+      {
+        "author": "DevoidSloth",
+        "class": "open",
+        "number": 154509,
+        "repo": "python/cpython"
+      },
+      {
+        "author": "msullivan",
+        "class": "merged",
+        "number": 159432,
+        "repo": "python/cpython"
+      },
+      {
+        "author": "pteromys",
+        "class": "merged",
+        "number": 155144,
+        "repo": "python/cpython"
+      },
+      {
+        "author": "NikitaMikhailov",
+        "class": "open",
+        "number": 160218,
+        "repo": "python/cpython"
+      },
+      {
+        "author": "iamsaugatpandey",
+        "class": "merged",
+        "number": 160720,
+        "repo": "python/cpython"
+      },
+      {
+        "author": "joshiaradhya",
+        "class": "closed_unmerged",
+        "number": 153666,
+        "repo": "python/cpython"
+      },
+      {
+        "author": "dr-carlos",
+        "class": "merged",
+        "number": 155663,
+        "repo": "python/cpython"
+      },
+      {
+        "author": "DavidCEllis",
+        "class": "closed_unmerged",
+        "number": 154771,
+        "repo": "python/cpython"
+      },
+      {
+        "author": "bouchaala-sabri",
+        "class": "open",
+        "number": 101175,
+        "repo": "vercel/next.js"
+      }
+    ]
+  },
   "pooled_run_repositories": {
     "authors_equal_groups": true,
     "certificate": {
@@ -147,6 +562,293 @@
       "certificate": {
         "decision": "admit",
         "grid_m1": {
+          "U": 0.021142931925566186,
+          "admits": true,
+          "confidence": 0.990909090909091,
+          "max_admissible_k": 9
+        },
+        "k": 2,
+        "n": 400,
+        "single_rule": {
+          "U": 0.013250640764908249,
+          "admits": true,
+          "confidence": 0.9,
+          "max_admissible_k": 14
+        }
+      },
+      "class_counts_in_n": {
+        "closed_unmerged": 242,
+        "merged": 83,
+        "open": 75
+      },
+      "directory": "django__django",
+      "dispatched": 400,
+      "dispatched_contract_met": 398,
+      "distinct_authors": 400,
+      "distinct_days": 205,
+      "distinct_logins": 400,
+      "eligible": 400,
+      "eligible_but_excluded": 0,
+      "fallback": {
+        "abstained": 0,
+        "fallback_contract_met": 0,
+        "fallback_contract_missed": 0,
+        "fallback_groups": 0
+      },
+      "groups_recorded": 400,
+      "ineligible": 0,
+      "input_sha256": {
+        "calibration_checkpoint.json": "682162f1ed50b4caba7a28c1755ee45f450cace0135c06c6db669ce8ee04affc",
+        "calibration_groups.json": "cf5d36306a64e98e3c1627a29de768947411db3e4893c20db6e80136fec132b8",
+        "compile.json": "4e8f2cc95ec2e972a684d4cd49b4cddcf82055610be5a546799b4938c688645d",
+        "ledger.json": "421b237bfcc54f8386001a7b66bed4e5862c54deb58dbabd3e18ed7f9270670c",
+        "selection.json": "1ccd475ef273e40dc87e4d18781609af8b5657fa57e646d4578be6ca8363fd0c"
+      },
+      "ledger": {
+        "cap_usd": 5.0,
+        "present": true,
+        "spent_usd": 0.550657,
+        "within_cap": true
+      },
+      "paired": {
+        "baseline_met": 397,
+        "baseline_only_met": 2,
+        "both_met": 395,
+        "compiled_met": 398,
+        "compiled_only_met": 3,
+        "compiled_only_misses": 2,
+        "compiled_only_misses_upper95": 0.015655179936468217,
+        "mcnemar_exact_p_two_sided": 1.0,
+        "n": 400,
+        "neither_met": 0
+      },
+      "reason": "",
+      "repo": "django/django",
+      "resources": {
+        "mean_per_arm": {
+          "baseline": {
+            "cost_usd": 0.000745840125,
+            "latency_ms": 4558.548785,
+            "requests": 4.0,
+            "tokens": 2932.8575
+          },
+          "compiled": {
+            "cost_usd": 0.00019738200000000002,
+            "latency_ms": 1336.252155,
+            "requests": 1.0,
+            "tokens": 606.03
+          },
+          "manual": {
+            "cost_usd": 0.000195122,
+            "latency_ms": 1344.6300150000002,
+            "requests": 1.0,
+            "tokens": 603.61
+          }
+        },
+        "reduction_vs_baseline_pct": {
+          "compiled": {
+            "cost_usd": 73.53561529020713,
+            "latency_ms": 70.68689580778502,
+            "requests": 75.0,
+            "tokens": 79.33653442078247
+          },
+          "manual": {
+            "cost_usd": 73.83862929069417,
+            "latency_ms": 70.5031123188912,
+            "requests": 75.0,
+            "tokens": 79.41904780576621
+          }
+        }
+      },
+      "selection": {
+        "calibration_n_planned": 400,
+        "disjoint": true
+      },
+      "shortfall_vs_target_n": 0,
+      "stage": "amendment_3",
+      "status": "run",
+      "violation_failed_checks_post_hoc": {
+        "comment_grounded": 2
+      },
+      "violations": [
+        {
+          "author": "Michele0303",
+          "class": "closed_unmerged",
+          "number": 20758,
+          "repo": "django/django"
+        },
+        {
+          "author": "sushmitayadav260723",
+          "class": "closed_unmerged",
+          "number": 20994,
+          "repo": "django/django"
+        }
+      ]
+    },
+    {
+      "authors_equal_groups": true,
+      "certificate": {
+        "decision": "admit",
+        "grid_m1": {
+          "U": 0.03993547041108272,
+          "admits": true,
+          "confidence": 0.990909090909091,
+          "max_admissible_k": 9
+        },
+        "k": 7,
+        "n": 400,
+        "single_rule": {
+          "U": 0.02925182648114716,
+          "admits": true,
+          "confidence": 0.9,
+          "max_admissible_k": 14
+        }
+      },
+      "class_counts_in_n": {
+        "closed_unmerged": 123,
+        "merged": 120,
+        "open": 157
+      },
+      "directory": "godotengine__godot",
+      "dispatched": 400,
+      "dispatched_contract_met": 393,
+      "distinct_authors": 400,
+      "distinct_days": 127,
+      "distinct_logins": 400,
+      "eligible": 400,
+      "eligible_but_excluded": 0,
+      "fallback": {
+        "abstained": 0,
+        "fallback_contract_met": 0,
+        "fallback_contract_missed": 0,
+        "fallback_groups": 0
+      },
+      "groups_recorded": 400,
+      "ineligible": 0,
+      "input_sha256": {
+        "calibration_checkpoint.json": "6ef9fc1d87cb4e62877f6e5e93aea6758a3a55477814707ff2d7441df0f33e37",
+        "calibration_groups.json": "351a7ef4285de6dc97ca5489697111a59de37e6915bbad2731d327db097f9970",
+        "compile.json": "b8f9f6c019b96a33a1f78093d021c0660a6b6069b349a3c4c4ae417b504dab11",
+        "ledger.json": "b7c373410b9d25cde41576cefe903ae4623a42f0dd754c051a459d7d91ab95a9",
+        "selection.json": "37dcc83a600fef9ff97471471a800a9f8c438bdd5c72fe499b3a10a823e360f3"
+      },
+      "ledger": {
+        "cap_usd": 5.0,
+        "present": true,
+        "spent_usd": 0.507445,
+        "within_cap": true
+      },
+      "paired": {
+        "baseline_met": 399,
+        "baseline_only_met": 7,
+        "both_met": 392,
+        "compiled_met": 393,
+        "compiled_only_met": 1,
+        "compiled_only_misses": 7,
+        "compiled_only_misses_upper95": 0.03261797645133051,
+        "mcnemar_exact_p_two_sided": 0.0703125,
+        "n": 400,
+        "neither_met": 0
+      },
+      "reason": "",
+      "repo": "godotengine/godot",
+      "resources": {
+        "mean_per_arm": {
+          "baseline": {
+            "cost_usd": 0.000706399375,
+            "latency_ms": 4376.06438,
+            "requests": 4.0,
+            "tokens": 2819.7925
+          },
+          "compiled": {
+            "cost_usd": 0.00016582050000000002,
+            "latency_ms": 1294.9916825,
+            "requests": 1.0,
+            "tokens": 509.9275
+          },
+          "manual": {
+            "cost_usd": 0.0001670805,
+            "latency_ms": 1290.734805,
+            "requests": 1.0,
+            "tokens": 510.9775
+          }
+        },
+        "reduction_vs_baseline_pct": {
+          "compiled": {
+            "cost_usd": 76.52595601461285,
+            "latency_ms": 70.40738960746276,
+            "requests": 75.0,
+            "tokens": 81.9161338999235
+          },
+          "manual": {
+            "cost_usd": 76.34758666087438,
+            "latency_ms": 70.50466599853816,
+            "requests": 75.0,
+            "tokens": 81.87889711742974
+          }
+        }
+      },
+      "selection": {
+        "calibration_n_planned": 400,
+        "disjoint": true
+      },
+      "shortfall_vs_target_n": 0,
+      "stage": "amendment_3",
+      "status": "run",
+      "violation_failed_checks_post_hoc": {
+        "comment_grounded": 6,
+        "title_correct": 1
+      },
+      "violations": [
+        {
+          "author": "iiMidknightii",
+          "class": "open",
+          "number": 123647,
+          "repo": "godotengine/godot"
+        },
+        {
+          "author": "Ehwhat",
+          "class": "merged",
+          "number": 124857,
+          "repo": "godotengine/godot"
+        },
+        {
+          "author": "yoyorm",
+          "class": "open",
+          "number": 124819,
+          "repo": "godotengine/godot"
+        },
+        {
+          "author": "voylin",
+          "class": "closed_unmerged",
+          "number": 122797,
+          "repo": "godotengine/godot"
+        },
+        {
+          "author": "mrjustaguy",
+          "class": "closed_unmerged",
+          "number": 122388,
+          "repo": "godotengine/godot"
+        },
+        {
+          "author": "dhoverb",
+          "class": "merged",
+          "number": 122147,
+          "repo": "godotengine/godot"
+        },
+        {
+          "author": "KevinZonda",
+          "class": "closed_unmerged",
+          "number": 123947,
+          "repo": "godotengine/godot"
+        }
+      ]
+    },
+    {
+      "authors_equal_groups": true,
+      "certificate": {
+        "decision": "admit",
+        "grid_m1": {
           "U": 0.033258767920456095,
           "admits": true,
           "confidence": 0.990909090909091,
@@ -183,6 +885,7 @@
       "groups_recorded": 200,
       "ineligible": 0,
       "input_sha256": {
+        "calibration_checkpoint.json": "2a746fa30a6cf3a8d4bcb83cac4ab36d5e88c8c65d0d7e44691446ce8ae32cd0",
         "calibration_groups.json": "01e93f808be3afab5acca84e0e9b5e4871818aa82212ae2a489cf8b9ed933cd0",
         "ledger.json": "120bfe1f832f76d598e2a6fc11c8c4d0da27e80730003338eb9ec1dc8382be27",
         "selection.json": "013583dc73f068fc025682a837dd6cb9d07ffc53e67306bbfdabdf8429071c82"
@@ -248,13 +951,486 @@
         "disjoint": true
       },
       "shortfall_vs_target_n": 0,
+      "stage": "registered",
       "status": "run",
+      "violation_failed_checks_post_hoc": {
+        "title_correct": 1
+      },
       "violations": [
         {
           "author": "ain-soph",
           "class": "open",
           "number": 7768,
           "repo": "huggingface/datasets"
+        }
+      ]
+    },
+    {
+      "authors_equal_groups": true,
+      "certificate": {
+        "decision": "admit",
+        "grid_m1": {
+          "U": 0.02520998402263645,
+          "admits": true,
+          "confidence": 0.990909090909091,
+          "max_admissible_k": 9
+        },
+        "k": 3,
+        "n": 400,
+        "single_rule": {
+          "U": 0.016625229696591422,
+          "admits": true,
+          "confidence": 0.9,
+          "max_admissible_k": 14
+        }
+      },
+      "class_counts_in_n": {
+        "closed_unmerged": 63,
+        "merged": 133,
+        "open": 204
+      },
+      "directory": "kubernetes__kubernetes",
+      "dispatched": 397,
+      "dispatched_contract_met": 394,
+      "distinct_authors": 400,
+      "distinct_days": 96,
+      "distinct_logins": 400,
+      "eligible": 400,
+      "eligible_but_excluded": 0,
+      "fallback": {
+        "abstained": 3,
+        "fallback_contract_met": 3,
+        "fallback_contract_missed": 0,
+        "fallback_groups": 3
+      },
+      "groups_recorded": 400,
+      "ineligible": 0,
+      "input_sha256": {
+        "calibration_checkpoint.json": "50ae8090d2777beb0e3d2d525735cbcb79be217bc091831949aee5e3139348dc",
+        "calibration_groups.json": "ee270186ae1b9523b33a8b323bf51168d68b263111c53760edb49cd061f90fa3",
+        "compile.json": "1f3ffe546376d0e5d47acb2c9267513413e9b920ff50b0a8e494949a511a5752",
+        "ledger.json": "afa39943a1103e35c0bed8a8ece0f1f8c78e5500d99228c308bac101dabfe997",
+        "selection.json": "92bd776821fc38042e2139453bcd6bc560affaf91a90303e65d493aec316d87f"
+      },
+      "ledger": {
+        "cap_usd": 5.0,
+        "present": true,
+        "spent_usd": 0.657982,
+        "within_cap": true
+      },
+      "paired": {
+        "baseline_met": 394,
+        "baseline_only_met": 3,
+        "both_met": 391,
+        "compiled_met": 397,
+        "compiled_only_met": 6,
+        "compiled_only_misses": 3,
+        "compiled_only_misses_upper95": 0.019269229283088177,
+        "mcnemar_exact_p_two_sided": 0.5078125,
+        "n": 400,
+        "neither_met": 0
+      },
+      "reason": "",
+      "repo": "kubernetes/kubernetes",
+      "resources": {
+        "mean_per_arm": {
+          "baseline": {
+            "cost_usd": 0.00084785875,
+            "latency_ms": 4477.1013125,
+            "requests": 4.0,
+            "tokens": 3216.72
+          },
+          "compiled": {
+            "cost_usd": 0.00026525805,
+            "latency_ms": 1396.469905,
+            "requests": 1.0225,
+            "tokens": 927.0825
+          },
+          "manual": {
+            "cost_usd": 0.0002608245,
+            "latency_ms": 1368.3991099999998,
+            "requests": 1.0,
+            "tokens": 909.2875
+          }
+        },
+        "reduction_vs_baseline_pct": {
+          "compiled": {
+            "cost_usd": 68.71435837632153,
+            "latency_ms": 68.80861504962871,
+            "requests": 74.4375,
+            "tokens": 71.17926024024473
+          },
+          "manual": {
+            "cost_usd": 69.23726976928646,
+            "latency_ms": 69.4356009729007,
+            "requests": 75.0,
+            "tokens": 71.7324635031958
+          }
+        }
+      },
+      "selection": {
+        "calibration_n_planned": 400,
+        "disjoint": true
+      },
+      "shortfall_vs_target_n": 0,
+      "stage": "amendment_3",
+      "status": "run",
+      "violation_failed_checks_post_hoc": {
+        "comment_grounded": 2,
+        "title_correct": 1
+      },
+      "violations": [
+        {
+          "author": "pink-milk",
+          "class": "closed_unmerged",
+          "number": 143000,
+          "repo": "kubernetes/kubernetes"
+        },
+        {
+          "author": "haircommander",
+          "class": "open",
+          "number": 143241,
+          "repo": "kubernetes/kubernetes"
+        },
+        {
+          "author": "SergeyKanzhelev",
+          "class": "merged",
+          "number": 141209,
+          "repo": "kubernetes/kubernetes"
+        }
+      ]
+    },
+    {
+      "authors_equal_groups": true,
+      "certificate": {
+        "decision": "admit",
+        "grid_m1": {
+          "U": 0.02520998402263645,
+          "admits": true,
+          "confidence": 0.990909090909091,
+          "max_admissible_k": 9
+        },
+        "k": 3,
+        "n": 400,
+        "single_rule": {
+          "U": 0.016625229696591422,
+          "admits": true,
+          "confidence": 0.9,
+          "max_admissible_k": 14
+        }
+      },
+      "class_counts_in_n": {
+        "closed_unmerged": 74,
+        "merged": 62,
+        "open": 264
+      },
+      "directory": "microsoft__vscode",
+      "dispatched": 400,
+      "dispatched_contract_met": 397,
+      "distinct_authors": 400,
+      "distinct_days": 99,
+      "distinct_logins": 400,
+      "eligible": 400,
+      "eligible_but_excluded": 0,
+      "fallback": {
+        "abstained": 0,
+        "fallback_contract_met": 0,
+        "fallback_contract_missed": 0,
+        "fallback_groups": 0
+      },
+      "groups_recorded": 400,
+      "ineligible": 0,
+      "input_sha256": {
+        "calibration_checkpoint.json": "85baed48c9592f6be2250e9b17a76058339141c4b65ec55c2fb26f8d1dfd0fe0",
+        "calibration_groups.json": "ae4cf3878976230ba506d2f20175535942aab4a07451a1ae34fe5c10b9f203f6",
+        "compile.json": "2dcd9ccf0ffb1980bff06ade2ac897c742090b448694f389881e401eb9fa53b4",
+        "ledger.json": "0b8081b16d811a15c81105483e050eb08c330ebb3dae757042c324f4109ab028",
+        "selection.json": "9a6e528a05907e5c749574619334a20e8d169953e78911594b1ab024dbdb56a2"
+      },
+      "ledger": {
+        "cap_usd": 5.0,
+        "present": true,
+        "spent_usd": 0.509517,
+        "within_cap": true
+      },
+      "paired": {
+        "baseline_met": 398,
+        "baseline_only_met": 3,
+        "both_met": 395,
+        "compiled_met": 397,
+        "compiled_only_met": 2,
+        "compiled_only_misses": 3,
+        "compiled_only_misses_upper95": 0.019269229283088177,
+        "mcnemar_exact_p_two_sided": 1.0,
+        "n": 400,
+        "neither_met": 0
+      },
+      "reason": "",
+      "repo": "microsoft/vscode",
+      "resources": {
+        "mean_per_arm": {
+          "baseline": {
+            "cost_usd": 0.0007026175,
+            "latency_ms": 4233.31869,
+            "requests": 4.0,
+            "tokens": 2812.82
+          },
+          "compiled": {
+            "cost_usd": 0.0001685584,
+            "latency_ms": 1208.0292325,
+            "requests": 1.0,
+            "tokens": 513.9975
+          },
+          "manual": {
+            "cost_usd": 0.00016882950000000001,
+            "latency_ms": 1185.9663725,
+            "requests": 1.0,
+            "tokens": 513.6925
+          }
+        },
+        "reduction_vs_baseline_pct": {
+          "compiled": {
+            "cost_usd": 76.0099342814547,
+            "latency_ms": 71.46377768927195,
+            "requests": 75.0,
+            "tokens": 81.72661243876253
+          },
+          "manual": {
+            "cost_usd": 75.97134998772447,
+            "latency_ms": 71.98494941329352,
+            "requests": 75.0,
+            "tokens": 81.73745564949056
+          }
+        }
+      },
+      "selection": {
+        "calibration_n_planned": 400,
+        "disjoint": true
+      },
+      "shortfall_vs_target_n": 0,
+      "stage": "amendment_3",
+      "status": "run",
+      "violation_failed_checks_post_hoc": {
+        "comment_grounded": 3
+      },
+      "violations": [
+        {
+          "author": "aashna",
+          "class": "merged",
+          "number": 341832,
+          "repo": "microsoft/vscode"
+        },
+        {
+          "author": "Fahad090NP",
+          "class": "closed_unmerged",
+          "number": 329899,
+          "repo": "microsoft/vscode"
+        },
+        {
+          "author": "irontaek",
+          "class": "open",
+          "number": 340771,
+          "repo": "microsoft/vscode"
+        }
+      ]
+    },
+    {
+      "authors_equal_groups": true,
+      "certificate": {
+        "decision": "retire",
+        "grid_m1": {
+          "U": 0.06317163252794439,
+          "admits": false,
+          "confidence": 0.990909090909091,
+          "max_admissible_k": 9
+        },
+        "k": 14,
+        "n": 400,
+        "single_rule": {
+          "U": 0.049933508063131085,
+          "admits": true,
+          "confidence": 0.9,
+          "max_admissible_k": 14
+        }
+      },
+      "class_counts_in_n": {
+        "closed_unmerged": 172,
+        "merged": 127,
+        "open": 101
+      },
+      "directory": "nodejs__node",
+      "dispatched": 400,
+      "dispatched_contract_met": 386,
+      "distinct_authors": 400,
+      "distinct_days": 220,
+      "distinct_logins": 400,
+      "eligible": 400,
+      "eligible_but_excluded": 0,
+      "fallback": {
+        "abstained": 0,
+        "fallback_contract_met": 0,
+        "fallback_contract_missed": 0,
+        "fallback_groups": 0
+      },
+      "groups_recorded": 400,
+      "ineligible": 0,
+      "input_sha256": {
+        "calibration_checkpoint.json": "291a371db8bc02f0b246f25a74fce7f189f60d3d5672508e162790843466b1ea",
+        "calibration_groups.json": "bfbe914f3f08a618f43fe49ae91b877aac846ba0656e35206c3299321e5afbc0",
+        "compile.json": "7201e4365e569d9d8d6703146fd514637c031ca58c1537a1ddc9e20ec8311ec9",
+        "ledger.json": "ee76039c70a4ccbf97cf16898fbb93a4e1915fff877beaa03acbd01d58185962",
+        "selection.json": "47c7791b5fb5f2b6602e6159477b3ba8746025b210a6d9c958ec4a0b3d90c3a7"
+      },
+      "ledger": {
+        "cap_usd": 5.0,
+        "present": true,
+        "spent_usd": 0.554011,
+        "within_cap": true
+      },
+      "paired": {
+        "baseline_met": 384,
+        "baseline_only_met": 6,
+        "both_met": 378,
+        "compiled_met": 386,
+        "compiled_only_met": 8,
+        "compiled_only_misses": 6,
+        "compiled_only_misses_upper95": 0.02939010843879898,
+        "mcnemar_exact_p_two_sided": 0.79052734375,
+        "n": 400,
+        "neither_met": 8
+      },
+      "reason": "",
+      "repo": "nodejs/node",
+      "resources": {
+        "mean_per_arm": {
+          "baseline": {
+            "cost_usd": 0.0007428397500000001,
+            "latency_ms": 4526.1583325,
+            "requests": 4.0,
+            "tokens": 2891.3375
+          },
+          "compiled": {
+            "cost_usd": 0.00019913380000000002,
+            "latency_ms": 1304.5181175,
+            "requests": 1.0,
+            "tokens": 624.825
+          },
+          "manual": {
+            "cost_usd": 0.00019909525000000002,
+            "latency_ms": 1293.607045,
+            "requests": 1.0,
+            "tokens": 624.2725
+          }
+        },
+        "reduction_vs_baseline_pct": {
+          "compiled": {
+            "cost_usd": 73.19289927605517,
+            "latency_ms": 71.17824826999686,
+            "requests": 75.0,
+            "tokens": 78.38975906479267
+          },
+          "manual": {
+            "cost_usd": 73.1980888206373,
+            "latency_ms": 71.41931523448312,
+            "requests": 75.0,
+            "tokens": 78.40886786824437
+          }
+        }
+      },
+      "selection": {
+        "calibration_n_planned": 400,
+        "disjoint": true
+      },
+      "shortfall_vs_target_n": 0,
+      "stage": "amendment_3",
+      "status": "run",
+      "violation_failed_checks_post_hoc": {
+        "comment_grounded": 14
+      },
+      "violations": [
+        {
+          "author": "gibson042",
+          "class": "merged",
+          "number": 64839,
+          "repo": "nodejs/node"
+        },
+        {
+          "author": "abhi128nandan",
+          "class": "merged",
+          "number": 65678,
+          "repo": "nodejs/node"
+        },
+        {
+          "author": "hemanth",
+          "class": "closed_unmerged",
+          "number": 64479,
+          "repo": "nodejs/node"
+        },
+        {
+          "author": "YspritanHyzygy",
+          "class": "merged",
+          "number": 64789,
+          "repo": "nodejs/node"
+        },
+        {
+          "author": "zeexzeex",
+          "class": "open",
+          "number": 65253,
+          "repo": "nodejs/node"
+        },
+        {
+          "author": "MarshallOfSound",
+          "class": "open",
+          "number": 65611,
+          "repo": "nodejs/node"
+        },
+        {
+          "author": "bitpshr",
+          "class": "open",
+          "number": 65049,
+          "repo": "nodejs/node"
+        },
+        {
+          "author": "Fifixex",
+          "class": "open",
+          "number": 62983,
+          "repo": "nodejs/node"
+        },
+        {
+          "author": "tniessen",
+          "class": "open",
+          "number": 63667,
+          "repo": "nodejs/node"
+        },
+        {
+          "author": "gengjiawen",
+          "class": "open",
+          "number": 66590,
+          "repo": "nodejs/node"
+        },
+        {
+          "author": "Yeaseen",
+          "class": "merged",
+          "number": 61233,
+          "repo": "nodejs/node"
+        },
+        {
+          "author": "owlstronaut",
+          "class": "open",
+          "number": 63205,
+          "repo": "nodejs/node"
+        },
+        {
+          "author": "themuuln",
+          "class": "open",
+          "number": 65736,
+          "repo": "nodejs/node"
+        },
+        {
+          "author": "awbx",
+          "class": "open",
+          "number": 63573,
+          "repo": "nodejs/node"
         }
       ]
     },
@@ -299,6 +1475,7 @@
       "groups_recorded": 200,
       "ineligible": 0,
       "input_sha256": {
+        "calibration_checkpoint.json": "480edd7ad275d9073390b9e1391c776c5dad5891b5ab47442c12f99d33e92c5b",
         "calibration_groups.json": "fff90cf6706eda21265c7bfdbea413a8f8a1974613289b5533a69f61ad1dd5f8",
         "compile.json": "39e0add39142cdf26483dc5153f931fd15bf5eafe324d666443ce31d9ef7448d",
         "ledger.json": "3a38ef722fea29322e2479453f926a0890a39ed72b1c072af2057c9effb64e39",
@@ -365,7 +1542,11 @@
         "disjoint": true
       },
       "shortfall_vs_target_n": 0,
+      "stage": "registered",
       "status": "run",
+      "violation_failed_checks_post_hoc": {
+        "comment_grounded": 2
+      },
       "violations": [
         {
           "author": "Tithi234",
@@ -398,7 +1579,226 @@
         "calibration_n_planned": 99,
         "disjoint": true
       },
+      "stage": "registered",
       "status": "shortfall_no_run"
+    },
+    {
+      "authors_equal_groups": true,
+      "certificate": {
+        "decision": "retire",
+        "grid_m1": {
+          "U": 0.07264008153277175,
+          "admits": false,
+          "confidence": 0.990909090909091,
+          "max_admissible_k": 9
+        },
+        "k": 17,
+        "n": 400,
+        "single_rule": {
+          "U": 0.05852585691979852,
+          "admits": false,
+          "confidence": 0.9,
+          "max_admissible_k": 14
+        }
+      },
+      "class_counts_in_n": {
+        "closed_unmerged": 106,
+        "merged": 150,
+        "open": 144
+      },
+      "directory": "python__cpython",
+      "dispatched": 400,
+      "dispatched_contract_met": 383,
+      "distinct_authors": 400,
+      "distinct_days": 121,
+      "distinct_logins": 400,
+      "eligible": 400,
+      "eligible_but_excluded": 0,
+      "fallback": {
+        "abstained": 0,
+        "fallback_contract_met": 0,
+        "fallback_contract_missed": 0,
+        "fallback_groups": 0
+      },
+      "groups_recorded": 400,
+      "ineligible": 0,
+      "input_sha256": {
+        "calibration_checkpoint.json": "5621471c48cec5aee1be5ad4c448a9af28251d7463cabf1d82088d69e3ce72a9",
+        "calibration_groups.json": "6e383ddcc18dcedd2835606a4bbcb6aab654ed8b59f6059b5cf52f2677749486",
+        "compile.json": "a5094e8e16cde1e6dfbddc5053f20eacacbadc6b679436f27c550e8260777abc",
+        "ledger.json": "c393390d7b31358792c38d348ac96badcebf5207fe3243e9a4c336b539d8dfa2",
+        "selection.json": "7fbd90ca66af407e2a03da1281e17e2b73303525f5ddff65f8fd71b02d15c4a4"
+      },
+      "ledger": {
+        "cap_usd": 5.0,
+        "present": true,
+        "spent_usd": 0.565058,
+        "within_cap": true
+      },
+      "paired": {
+        "baseline_met": 385,
+        "baseline_only_met": 12,
+        "both_met": 373,
+        "compiled_met": 383,
+        "compiled_only_met": 10,
+        "compiled_only_misses": 12,
+        "compiled_only_misses_upper95": 0.04815392102222603,
+        "mcnemar_exact_p_two_sided": 0.8318119049072266,
+        "n": 400,
+        "neither_met": 5
+      },
+      "reason": "",
+      "repo": "python/cpython",
+      "resources": {
+        "mean_per_arm": {
+          "baseline": {
+            "cost_usd": 0.0007579465000000001,
+            "latency_ms": 4558.6289775000005,
+            "requests": 4.0,
+            "tokens": 2950.6225
+          },
+          "compiled": {
+            "cost_usd": 0.00020530199999999998,
+            "latency_ms": 1340.2776625,
+            "requests": 1.0,
+            "tokens": 648.185
+          },
+          "manual": {
+            "cost_usd": 0.000209295,
+            "latency_ms": 1352.0485325,
+            "requests": 1.0,
+            "tokens": 651.5125
+          }
+        },
+        "reduction_vs_baseline_pct": {
+          "compiled": {
+            "cost_usd": 72.91339164439708,
+            "latency_ms": 70.59910624191615,
+            "requests": 75.0,
+            "tokens": 78.03226268355236
+          },
+          "manual": {
+            "cost_usd": 72.38657345868079,
+            "latency_ms": 70.34089549350698,
+            "requests": 75.0,
+            "tokens": 77.91948987035786
+          }
+        }
+      },
+      "selection": {
+        "calibration_n_planned": 400,
+        "disjoint": true
+      },
+      "shortfall_vs_target_n": 0,
+      "stage": "amendment_3",
+      "status": "run",
+      "violation_failed_checks_post_hoc": {
+        "comment_grounded": 17
+      },
+      "violations": [
+        {
+          "author": "andresdelfino",
+          "class": "merged",
+          "number": 161416,
+          "repo": "python/cpython"
+        },
+        {
+          "author": "asvetlov",
+          "class": "merged",
+          "number": 160851,
+          "repo": "python/cpython"
+        },
+        {
+          "author": "jaraco",
+          "class": "merged",
+          "number": 160387,
+          "repo": "python/cpython"
+        },
+        {
+          "author": "zooba",
+          "class": "merged",
+          "number": 153515,
+          "repo": "python/cpython"
+        },
+        {
+          "author": "SomSamantray",
+          "class": "closed_unmerged",
+          "number": 159167,
+          "repo": "python/cpython"
+        },
+        {
+          "author": "orsenthil",
+          "class": "merged",
+          "number": 160528,
+          "repo": "python/cpython"
+        },
+        {
+          "author": "hetaozdh",
+          "class": "merged",
+          "number": 158819,
+          "repo": "python/cpython"
+        },
+        {
+          "author": "caseneuve",
+          "class": "merged",
+          "number": 154009,
+          "repo": "python/cpython"
+        },
+        {
+          "author": "yangbaechu",
+          "class": "merged",
+          "number": 154941,
+          "repo": "python/cpython"
+        },
+        {
+          "author": "DevoidSloth",
+          "class": "open",
+          "number": 154509,
+          "repo": "python/cpython"
+        },
+        {
+          "author": "msullivan",
+          "class": "merged",
+          "number": 159432,
+          "repo": "python/cpython"
+        },
+        {
+          "author": "pteromys",
+          "class": "merged",
+          "number": 155144,
+          "repo": "python/cpython"
+        },
+        {
+          "author": "NikitaMikhailov",
+          "class": "open",
+          "number": 160218,
+          "repo": "python/cpython"
+        },
+        {
+          "author": "iamsaugatpandey",
+          "class": "merged",
+          "number": 160720,
+          "repo": "python/cpython"
+        },
+        {
+          "author": "joshiaradhya",
+          "class": "closed_unmerged",
+          "number": 153666,
+          "repo": "python/cpython"
+        },
+        {
+          "author": "dr-carlos",
+          "class": "merged",
+          "number": 155663,
+          "repo": "python/cpython"
+        },
+        {
+          "author": "DavidCEllis",
+          "class": "closed_unmerged",
+          "number": 154771,
+          "repo": "python/cpython"
+        }
+      ]
     },
     {
       "authors_equal_groups": true,
@@ -440,6 +1840,7 @@
       "groups_recorded": 200,
       "ineligible": 0,
       "input_sha256": {
+        "calibration_checkpoint.json": "cd80a2de07d3def49289843f961f87847ad72cc435c470a0a008298964764251",
         "calibration_groups.json": "83fd0adae5d17594c8501228e698e5eb6e7422ce45fbe36e0978ae7e42c54a7f",
         "compile.json": "92b799950f82e68b64e471808b3685740c534b5bb5e6189009a0828cab1aef88",
         "ledger.json": "85e43b1f20ed1be00623c1c2932f01cb6d04f01052f8d2cc107fe3ece8841d1a",
@@ -506,7 +1907,9 @@
         "disjoint": true
       },
       "shortfall_vs_target_n": 0,
+      "stage": "registered",
       "status": "run",
+      "violation_failed_checks_post_hoc": {},
       "violations": []
     },
     {
@@ -550,6 +1953,7 @@
       "groups_recorded": 160,
       "ineligible": 0,
       "input_sha256": {
+        "calibration_checkpoint.json": "656dbd92098b65fec3a84cb1cc12f0f363fbbd6fd1ddbc19dd41ae770241b935",
         "calibration_groups.json": "c3e41727ec5e0ce5f3054b07ffc89ae0c54a8407c1ad94a0fa9a44ac92d49ace",
         "compile.json": "cf387b98662eaa8e6e08ffaa499e73f905c65016276014a2f83690772ce7d443",
         "ledger.json": "7b0f7b8ae62bec8bd170d165503711eb92914521b45274103c957728cdd4e821",
@@ -616,8 +2020,132 @@
         "disjoint": true
       },
       "shortfall_vs_target_n": 40,
+      "stage": "registered",
       "status": "run",
+      "violation_failed_checks_post_hoc": {},
       "violations": []
+    },
+    {
+      "authors_equal_groups": true,
+      "certificate": {
+        "decision": "admit",
+        "grid_m1": {
+          "U": 0.016749061222862016,
+          "admits": true,
+          "confidence": 0.990909090909091,
+          "max_admissible_k": 9
+        },
+        "k": 1,
+        "n": 400,
+        "single_rule": {
+          "U": 0.00968924238347421,
+          "admits": true,
+          "confidence": 0.9,
+          "max_admissible_k": 14
+        }
+      },
+      "class_counts_in_n": {
+        "closed_unmerged": 74,
+        "merged": 49,
+        "open": 277
+      },
+      "directory": "vercel__next.js",
+      "dispatched": 400,
+      "dispatched_contract_met": 399,
+      "distinct_authors": 400,
+      "distinct_days": 137,
+      "distinct_logins": 400,
+      "eligible": 400,
+      "eligible_but_excluded": 0,
+      "fallback": {
+        "abstained": 0,
+        "fallback_contract_met": 0,
+        "fallback_contract_missed": 0,
+        "fallback_groups": 0
+      },
+      "groups_recorded": 400,
+      "ineligible": 0,
+      "input_sha256": {
+        "calibration_checkpoint.json": "88a31a5b8a2c7d62b2888c59086b1b02ecee09f7931da93c76485cedf260e690",
+        "calibration_groups.json": "cff0c2ee10320ca102cccadca9e46bf4a2e7a1849ba9b912aa5cdf56a159672d",
+        "compile.json": "7015ecf36591440cbc4f4644d649f9736e571c8986aa58148cfc378be6ad9b98",
+        "ledger.json": "f75da4703bfe38f5e202f9bf6a5f213e3767836a528ca4ca43dbfaf21d05863c",
+        "selection.json": "cc4a88a068be97a7e349eee4cf00db00d2f7e0aa2b616c7be620c40a3142da0f"
+      },
+      "ledger": {
+        "cap_usd": 5.0,
+        "present": true,
+        "spent_usd": 0.503813,
+        "within_cap": true
+      },
+      "paired": {
+        "baseline_met": 396,
+        "baseline_only_met": 1,
+        "both_met": 395,
+        "compiled_met": 399,
+        "compiled_only_met": 4,
+        "compiled_only_misses": 1,
+        "compiled_only_misses_upper95": 0.01180430445398703,
+        "mcnemar_exact_p_two_sided": 0.375,
+        "n": 400,
+        "neither_met": 0
+      },
+      "reason": "",
+      "repo": "vercel/next.js",
+      "resources": {
+        "mean_per_arm": {
+          "baseline": {
+            "cost_usd": 0.0007004321249999999,
+            "latency_ms": 4395.4135175,
+            "requests": 4.0,
+            "tokens": 2813.2275
+          },
+          "compiled": {
+            "cost_usd": 0.000158853625,
+            "latency_ms": 1212.74238,
+            "requests": 1.0,
+            "tokens": 497.3525
+          },
+          "manual": {
+            "cost_usd": 0.000159220875,
+            "latency_ms": 1197.6404825,
+            "requests": 1.0,
+            "tokens": 497.6825
+          }
+        },
+        "reduction_vs_baseline_pct": {
+          "compiled": {
+            "cost_usd": 77.32062546388774,
+            "latency_ms": 72.40891271841524,
+            "requests": 75.0,
+            "tokens": 82.32092854203935
+          },
+          "manual": {
+            "cost_usd": 77.26819354552019,
+            "latency_ms": 72.75249580655638,
+            "requests": 75.0,
+            "tokens": 82.30919824294338
+          }
+        }
+      },
+      "selection": {
+        "calibration_n_planned": 400,
+        "disjoint": true
+      },
+      "shortfall_vs_target_n": 0,
+      "stage": "amendment_3",
+      "status": "run",
+      "violation_failed_checks_post_hoc": {
+        "comment_grounded": 1
+      },
+      "violations": [
+        {
+          "author": "bouchaala-sabri",
+          "class": "open",
+          "number": 101175,
+          "repo": "vercel/next.js"
+        }
+      ]
     }
   ],
   "rules": {
@@ -627,6 +2155,10 @@
     "grid_size": 11,
     "primary": "grid_m1",
     "single_rule_confidence": 0.9,
+    "target_n_by_stage": {
+      "amendment_3": 400,
+      "registered": 200
+    },
     "target_n_per_repo": 200
   },
   "schema": "multirepo_end_to_end/summary/v1"
