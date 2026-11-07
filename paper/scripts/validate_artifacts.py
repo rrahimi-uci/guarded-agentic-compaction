@@ -4033,6 +4033,8 @@ def validate_bird_binder_expressivity_audit() -> None:
        "BIRD binder: denominator, grouping and search bounds retained")
     ok(report["positive_control"]["binding_found"] is True
        and report["positive_control"]["binding_kind"] == "expr"
+       and report["positive_control"]["binding_source"] == "z0.tables"
+       and report["positive_control"]["operator_names"] == []
        and report["full_baseline_selection"]["binding_found"] is False
        and report["listed_only_sensitivity"]["binding_found"] is False
        and report["full_baseline_selection"]["reason"] == "no_consistent_expression"

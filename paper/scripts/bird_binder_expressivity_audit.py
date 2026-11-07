@@ -30,13 +30,16 @@ def _attempt(envs: list[dict], targets: list[list[str]], groups: list[str]) -> d
     result = synthesize_binding(
         "table_names", envs, targets, groups, ctx=context, max_sources=200
     )
+    binding = result.binding.to_dict() if result.binding else None
     return {
         "binding_found": result.ok,
         "reason": result.reason,
         "ambiguous_alternatives": result.ambiguous_alternatives,
-        # Retain only a source-free operator shape. A successful future audit
+        # Retain only a payload-free source/operator shape. A successful future audit
         # needs separate inspection before publishing any fitted constants.
-        "binding_kind": result.binding.to_dict()["kind"] if result.binding else None,
+        "binding_kind": binding["kind"] if binding else None,
+        "binding_source": binding.get("source") if binding else None,
+        "operator_names": [op["name"] for op in binding.get("ops", [])] if binding else None,
     }
 
 
@@ -91,7 +94,9 @@ def build(questions: Path) -> dict:
         [selected[i] for i in listed_only_indices],
         [groups[i] for i in listed_only_indices],
     )
-    if not positive["binding_found"]:
+    if (not positive["binding_found"] or positive["binding_kind"] != "expr"
+            or positive["binding_source"] != "z0.tables"
+            or positive["operator_names"] != []):
         raise ValueError("list-valued identity positive control failed")
     decision = (
         "NO_EXACT_BINDING_IN_TESTED_T_V1_FAMILY"
