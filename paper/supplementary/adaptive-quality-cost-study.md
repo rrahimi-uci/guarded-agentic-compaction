@@ -3,6 +3,11 @@
 Status: development protocol, not a confirmatory seal. The associated
 [follow-up evidence](../results/adaptive_comparison_followup/REPORT.md) records
 what actually ran. No result in this document establishes GAC superiority.
+The later [AppWorld baseline competence study](../results/appworld_batched_competence/REPORT.md)
+retains two failed 12-case development pilots (1/12 and 2/12 official successes)
+after 36/36 exact-path agent-RPC controls. Its 8/12 competence gate failed;
+matched GAC spending is therefore still blocked. The adapted common-entry
+contract prevents a native AppWorld leaderboard interpretation.
 
 ## Separate the claims
 
@@ -140,9 +145,10 @@ This follows the emphasis on cost, holdouts and reproducible evaluation in
    implemented read port or discovered family. It is not enough to rename a
    multi-step handwritten script as automatic compilation.
 3. Seal a bounded strong-baseline development runner, including context/action
-   caps and output persistence. Execute actual adaptive trajectories only after
-   the source/interface gate. Record every failure and use the existing shared
-   ledger at `benchmarks/.cache/adaptive_compiler_pilot/ledger.json`; never reset it.
+   caps and output persistence. The AppWorld runner now has 36/36 exact-path
+   controls and retained V1/V2 paid attempts; both failed the 8/12 competence
+   gate. Record every failure and use the existing shared ledger at
+   `benchmarks/.cache/adaptive_compiler_pilot/ledger.json`; never reset it.
 4. Establish recurrent, useful programs; integrate matched arms; freeze candidates.
    If the selected extension fails, record that result. Any different environment
    or method extension needs an explicit new protocol, not unbounded task search.

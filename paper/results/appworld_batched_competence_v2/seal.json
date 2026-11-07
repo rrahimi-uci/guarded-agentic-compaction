@@ -1,0 +1,121 @@
+{
+  "amendment": "V1 GPT-5.6 Luna got 1/12; V2 changes to GPT-5.6 Sol and explicitly reminds the agent to call and check supervisor.complete_task. Tasks, worker, batch tool, common entry, official grader, 96 model-request and 192 API-call limits are unchanged. Both versions remain in the development denominator; neither is fresh confirmation.",
+  "campaign_cap_usd": 300,
+  "competence_gate": "At least 8/12 official successes, with all failures and unstarted attempts in the denominator. Development engineering gate only; not statistical noninferiority.",
+  "episode_seconds": 1200,
+  "failure_rule": "All 12 fixed scenarios remain scheduled; never retry or replace an attempt.",
+  "grouping": "one variation per fixed exposed training scenario",
+  "image": "sha256:d9e0e53e548439321832c2f3a2b424e2f6ce77436bfae4e5ec22e1f2da8a4718",
+  "input_rate_upper_per_million": 5.0,
+  "ledger_before_sha256": "388311f5a71c5b70b62c0273e51bb2ce2d9932e5c360f7f700f8d3bb1a533501",
+  "local_cap_usd": 20.0,
+  "max_api_calls": 192,
+  "max_batch_calls": 8,
+  "max_model_requests": 96,
+  "model": "gpt-5.6-sol",
+  "output_rate_per_million": 20.0,
+  "pricing_source": "https://developers.openai.com/api/docs/models/gpt-5.6-sol",
+  "prior_report_sha256": "40801d7710c9e1e983f7733c0b67dbca43751ea25bd32e0d5b1973daf13688d3",
+  "reference_hashes": {
+    "229360a_1": "f56e0c908a3af7638b03fdefadafb105501c1e754cc1da16fc9dbfb609871349",
+    "22cc237_3": "7aec4e13dda19b4a236a94a7cc38463e31a27501e156470dbc5e4cd3e0081baf",
+    "27e1026_3": "7d63f55f2dbb717a9a715640e6e5700df3ca40d4828bf68f884f1b7b0fb20bc6",
+    "29caf6f_3": "5e89bb62f76ac0068494be95f10f54a975e87b2453edbafdd434590eb7476643",
+    "3c13f5a_2": "b59d3b2785273e0edf55d149464c0772b8d287e86cb8a5265128ac746ad18da7",
+    "60d0b5b_1": "21020a1c082eba13f0305fef5ab35cabd35b8e07f2d579610a401911fba40953",
+    "692c77d_1": "c737fc910e7cb44443bef67f6e71a4276bee977b7f61c6958c02dc5872528e80",
+    "afc0fce_3": "ab5a70c96103cb6f0b39276d46e6da2393653c40b98454ac3dd06ce4d96683e7",
+    "b0a8eae_1": "ea509cb3d6acce487b6ebc8970059a55a7f909fb48660b28df17f3592afa02fb",
+    "c901732_2": "7bddab0d23ff7e28be900d9cb1ab6990cef0ba9cb7f5f3d6a446d6f110125ddc",
+    "ce359b5_1": "355e60a7f4075c29467d2839df628854dabb75dee4ca4d9a5c6da193d44203f3",
+    "e7a10f8_1": "199c5682ff73e7ffadd63254744f0e4e209e9dbd82022b4bf96708f7ebf81f4c"
+  },
+  "rpc_report_sha256": "32d527c78d133c02c6c6a4a754487ed5c6711d5187a244c906670dbfb5a45b9b",
+  "schema": "gac-appworld-batched-competence-v2",
+  "source_hashes": {
+    "experiments/appworld_batched_competence/worker.py": "491b070664ec47e286cb991e545735c4c08f8426465ae44d27170bf4044f18ed",
+    "paper/scripts/adaptive_campaign_budget.py": "613faeab10f76279dbef9396cac11fbe3465830631b516d5d5aa12ad03006778",
+    "paper/scripts/adaptive_pilot.py": "1556ffe45d19466a271bfdcdc634e5b63c963a482c052e764ef60dd1b86f1e62",
+    "paper/scripts/appworld_batched_competence.py": "514011c80fce045fe62d3435b8156a7c0ccadba26dbd04db31d8f26db1f26f28",
+    "paper/scripts/appworld_batched_competence_v2.py": "276f57ce9f9bb5e2fa651ccd227422e31bc7f40aab70dd79ad0722e9ededcd21",
+    "paper/scripts/export_appworld_viability.py": "7f4e69e3b69846a2d2c53616d9569917903ae398f038c11e3f416a46b1aa75b9",
+    "paper/scripts/sol_campaign_budget.py": "0f780a1f8ab15cf8cb2437ff84cd2e02bc20fddb980ac4ccb22a475a2d3b475f"
+  },
+  "stage": "discovery",
+  "stage_cap_usd": 30,
+  "status": "exposed development amendment; adapted preauthenticated entry; no native leaderboard claim",
+  "system": "Solve the user's task in the isolated AppWorld simulation with public APIs. Every app was authenticated through the same measured 11-call setup. Do not call login, profile or password APIs. Use access_token AUTO where required; the worker binds the token. Inspect unfamiliar API signatures with the api_docs APIs. Use call_api_batch with 1 to 8 fully specified calls when later arguments are already known; otherwise inspect each result before deciding the next call. Do not invent IDs or infer future results. The task is complete only after you call supervisor.complete_task with the appropriate answer when needed and check its result. Do not call finish merely because an earlier API returned successfully. If you cannot complete the task, call finish without claiming success. No reference solution, ground truth, private API, arbitrary code or external service is available. The independent saved-state tests determine success.",
+  "tasks": [
+    "27e1026_3",
+    "22cc237_3",
+    "e7a10f8_1",
+    "229360a_1",
+    "c901732_2",
+    "692c77d_1",
+    "ce359b5_1",
+    "29caf6f_3",
+    "b0a8eae_1",
+    "afc0fce_3",
+    "3c13f5a_2",
+    "60d0b5b_1"
+  ],
+  "tools": [
+    {
+      "function": {
+        "description": "Execute 1 to 8 known public API calls in order. Returns each result; stops on first API error. Use access_token AUTO where required.",
+        "name": "call_api_batch",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "calls": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "api": {
+                    "type": "string"
+                  },
+                  "app": {
+                    "type": "string"
+                  },
+                  "arguments": {
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "app",
+                  "api",
+                  "arguments"
+                ],
+                "type": "object"
+              },
+              "maxItems": 8,
+              "minItems": 1,
+              "type": "array"
+            }
+          },
+          "required": [
+            "calls"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "End the task after making needed API calls; official saved-state grading follows.",
+        "name": "finish",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    }
+  ],
+  "upstream_inventory_sha256": "61afe391e4d1552c27c1ad57119c248f430a7f6068666e71068aeff14457abf7",
+  "v1_bundle_sha256": "2a8bd8837691877c5d126ced09ecb9f68fa4a765415e5eebfedfd369236503f9",
+  "v1_report_sha256": "a93380b611f963085e2149c4fd1da4a9b07e340236a9704bdee79139de6bb544",
+  "v1_seal_sha256": "9749f7e377db48d2978eb9270429ae5b2a49d46d21b75d8c7b25f086300eecb4"
+}

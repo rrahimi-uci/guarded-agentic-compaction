@@ -3605,7 +3605,60 @@ def validate_adaptive_comparison_preflight() -> None:
         ok(False, f"adaptive preflight: {error}")
 
 
+def validate_appworld_batched_competence() -> None:
+    """Validate published development evidence without decrypted task material."""
+    results = PAPER / "results"
+    locations = [results / "appworld_batched_competence",
+                 results / "appworld_batched_competence_v2"]
+    try:
+        versions = []
+        for index, base in enumerate(locations, 1):
+            report = load(base / "report.json")
+            seal = load(base / "seal.json")
+            verification = load(base / "bundle_verification.json")
+            label = f"AppWorld batched competence v{index}"
+            ok(report["scheduled"] == report["completed"] == 12
+               and report["failed"] == report["unstarted"] == 0,
+               f"{label}: complete fixed development denominator")
+            ok(report["official_successes"] == index
+               and report["decision"] == "BASELINE_COMPETENCE_GATE_FAILED"
+               and report["gac_artifacts"] == report["independent_test_groups"] == 0,
+               f"{label}: official outcome and claim boundary")
+            ok(verification["passed"] is True
+               and verification["files_before_notices"] == verification["roundtrip_original_files_verified"]
+               and report["encrypted_evidence_sha256"] == sha256(base / "operational_evidence.bundle"),
+               f"{label}: encrypted operational records round-trip and hash")
+            ok(all(sha256(ROOT / name) == expected
+                   for name, expected in seal["source_hashes"].items()),
+               f"{label}: sealed source hashes")
+            versions.append((report, seal, base))
+        first, second = versions
+        ok(first[0]["control_totals"] == {
+            mode: {"scheduled": 12, "passed": 12}
+            for mode in ("reference", "empty", "false_completion")},
+           "AppWorld batched competence: provider-free control totals")
+        ok(second[1]["v1_seal_sha256"] == sha256(first[2] / "seal.json")
+           and second[1]["v1_report_sha256"] == sha256(first[2] / "report.json")
+           and second[1]["v1_bundle_sha256"] == sha256(first[2] / "operational_evidence.bundle"),
+           "AppWorld batched competence: amendment binds immutable first attempt")
+        ok(first[1]["tasks"] == second[1]["tasks"]
+           and first[1]["image"] == second[1]["image"]
+           and first[1]["max_model_requests"] == second[1]["max_model_requests"] == 96
+           and first[1]["max_api_calls"] == second[1]["max_api_calls"] == 192,
+           "AppWorld batched competence: task, image and resource parity")
+        ok(abs(sum(row[0]["charged_upper_usd"] for row in versions) - 3.799791) < 1e-9
+           and abs(second[0]["campaign_accounted_upper_usd"] - 6.0618595) < 1e-9,
+           "AppWorld batched competence: campaign accounting in public report")
+        prose = (first[2] / "REPORT.md").read_text()
+        ok("1/12" in prose and "2/12" in prose and "8/12" in prose
+           and "No matched GAC run" in prose,
+           "AppWorld batched competence: prose retains negative findings")
+    except (OSError, KeyError, TypeError, ValueError) as error:
+        ok(False, f"AppWorld batched competence: {error}")
+
+
 FAMILIES: dict[str, Any] = {
+    "appworld_batched_competence": validate_appworld_batched_competence,
     "adaptive_comparison_preflight": validate_adaptive_comparison_preflight,
     "primary_population_audit": validate_primary_population_audit,
     "sources": validate_sources,
