@@ -159,3 +159,19 @@ training data. No new model calls, automatic artifacts, calibration groups or fi
 tests were produced. This is preparation for the reviewer-requested comparison,
 not closure of its empirical objections. Original failed instrumentation and the
 prior invalid agent measurements remain preserved separately.
+
+
+### Ranked Reddit read and batched baseline headroom
+
+The [development-only ranked-read report](../../results/reddit_ranked_read_feasibility/REPORT.md)
+retains the failed first positive control, amended official-grader success,
+and a source-audited `GET /f/gadgets/top` stage on selected task 714. A batched
+model pilot failed its first sealed prompt-size bound; its separately sealed
+amendment passed the official grader with seven model requests and six batch
+calls. A provider-free handwritten reference passed the same task with one
+two-action batch. Both paid attempts are charged to the shared $300 ledger.
+
+This is exposed development evidence only. There is no admitted GAC artifact,
+matched GAC execution, fresh task group, or demonstrated quality–cost gain over
+the one-batch reference. The selected Reddit task is a no-go for a positive
+adaptive-value claim, so manuscript numerical results remain unchanged.
