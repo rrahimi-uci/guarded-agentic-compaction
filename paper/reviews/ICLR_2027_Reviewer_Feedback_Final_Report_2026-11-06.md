@@ -92,15 +92,24 @@ and would change the continuation context. This is an additional no-go for
 the tested BIRD selector, not fresh evidence of GAC superiority. It made no
 provider calls and did not change the campaign ledger.
 
+**Current-binder check.** A separate [T-v1 binding audit](../results/bird_binder_expressivity_audit/REPORT.md)
+used the same exposed 36 BIRD traces and the entry question, evidence, and
+prior table list. The current GAC binder found no exact expression for the
+model-selected `get_schema` batches, including a 35-case sensitivity set
+that excluded the one unlisted-table request. A list-identity positive control
+passed. This is a function-level development no-go for this exact target and
+library, not proof that a new semantic selector cannot work. It adds no
+matched final-answer or quality--cost evidence and incurred no API charge.
+
 ## Local verification of this revision
 
 The ICLR PDF was rebuilt from the revised LaTeX source and visually checked
 at the page-10 conclusion, page-11 statements, adaptive-gates appendix and
 evidence-index pages. Its main text ends on page 10; the AI Use Statement
 begins page 11. The PDF still identifies only “Anonymous authors” and has no
-author metadata. The full artifact validator passed **6,920 checks with zero
-failures**, including the new appendix-to-report checks, BIRD schema-probe
-source checks, and page-budget gate.
+author metadata. The full artifact validator passed **6,935 checks with zero
+failures**, including the appendix-to-report checks, BIRD schema-probe and
+binder source checks, and page-budget gate.
 The full pytest suite passed with five expected skips; release checks passed
 with three generated `docs/` checks skipped because that directory is
 untracked; Pages validation passed for nine pages and 32 paths; and the source
@@ -115,9 +124,12 @@ aggregates rather than re-executing raw-trace parity.
    claim today. If the intended claim is superiority on adaptive tasks, it
    requires a method advance, not another presentation edit.
 2. Derive and freeze a state-dependent multi-step candidate from separate
-   training trajectories. For AgentHop, this means a grounded paper/section
-   selector and a verified mid-trajectory continuation contract. The same
-   selector must be available to handwritten and simpler-compiler arms.
+   training trajectories. The current T-v1 binder did not reconstruct the
+   observed BIRD table selection; a question-conditioned selector would be a
+   versioned method extension requiring new leakage and grouped-generalization
+   checks. For AgentHop, this means a grounded paper/section selector and a
+   verified mid-trajectory continuation contract. The same selector must be
+   available to handwritten and simpler-compiler arms.
 3. Before paid matched arms, validate live tool parity, end-to-end grader
    controls, a competent unchanged baseline, a population and independent
    unit, a fixed candidate universe including refusals, full cost accounting,

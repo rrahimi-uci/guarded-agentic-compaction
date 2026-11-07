@@ -12,17 +12,15 @@ section audits are in \path{paper/results/agenthop_source_feasibility/} and
 \path{paper/results/agenthop_section_lookahead/}.
 
 \paragraph{BIRD: exact handwritten control.}
-A sealed three-arm continuation study attempted all 108 scheduled episodes on
-36 corrected BIRD development questions from nine databases. The unchanged
-agent and an exact handwritten \code{list\_tables()} prefetch each answered
-28/36 correctly; a guarded research candidate answered 26/36. Provider
-requests were 151, 111, and 112, respectively. The candidate dispatched
-36/36 times, and its synthetic continuation input matched the handwritten
-arm's input in all cases. It was derived using these exposed databases and
-traces, had no independent calibration or test groups, and was not admitted
-as a GAC artifact. It demonstrates a working guarded handoff and request
-savings against the unchanged agent, but no quality--cost advantage over the
-simple handwritten program.
+A sealed three-arm study completed 108 episodes on 36 corrected development
+questions from nine databases. The unchanged agent and an exact handwritten
+\code{list\_tables()} prefetch each answered 28/36; the guarded candidate
+answered 26/36. Provider requests were 151, 111, and 112, respectively.
+The candidate dispatched 36/36 times with continuation input identical to
+the handwritten arm's. Derived from these exposed databases and traces, it
+had no independent calibration or test groups and was not admitted as a GAC
+artifact. It shows guarded handoff and request savings against the agent,
+but no quality--cost advantage over the simple handwritten program.
 
 A subsequent provider-free posthoc probe of these same baseline traces found
 \code{list\_tables} followed by \code{get\_schema} in all 36 cases, with the
@@ -33,6 +31,12 @@ and 35/79 selected-table occurrences; one baseline schema request even named
 a table absent from the preceding list. Fetching all listed schemas was not
 executed and would change continuation context. No dependent candidate or
 additional saving follows (\path{paper/results/bird_schema_selection_probe/}).
+
+An exact posthoc \code{T-v1} binding check used the entry question/evidence and
+prior table list. It found no expression for the observed schema batch in all
+36 cases or the 35 list-consistent cases; list identity passed as a control.
+This function-level result neither rules out a new selector nor evaluates
+final-answer quality (\path{paper/results/bird_binder_expressivity_audit/}).
 
 \paragraph{AppWorld: baseline competence failed.}
 An adapted common-entry worker passed 36/36 known-correct, empty, and

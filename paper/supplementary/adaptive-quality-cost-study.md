@@ -179,6 +179,11 @@ This follows the emphasis on cost, holdouts and reproducible evaluation in
    table-name selection matched only 10/36 complete schema batches; fetching
    every listed table was a different, unexecuted context and is equally
    available to a handwritten arm. No dependent GAC candidate was admitted.
+   A [T-v1 binder audit](../results/bird_binder_expressivity_audit/REPORT.md)
+   then found no exact expression for the observed second-read table batches,
+   even after excluding the unlisted-table case; the list-identity positive
+   control passed. A semantic selector would be a versioned method extension,
+   not an already tested GAC candidate.
    If the selected extension fails, record that result. Any different environment
    or method extension needs an explicit new protocol, not unbounded task search.
 5. Resolve fresh sampling, calibration, statistical power and affordability. Only

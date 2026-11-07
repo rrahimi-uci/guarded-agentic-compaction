@@ -114,8 +114,9 @@ ranker matched only 11/35 exact read batches even with the true read count suppl
 competent comparator and expose a possible timing mechanism; they do not close
 the practical-value, handwritten-control, matched-compiler, population-repair
 or statistical-design objections. No manuscript superiority or acceptance
-claim changes. PR #110 supplies the source audit, PR #111 the paid baseline and
-binding result, and this branch adds only the provider-free timing diagnostic.
+claim changes. PR #110 supplied the source audit, PR #111 the paid baseline and
+binding result; a later provider-free timing diagnostic retained the additional
+selection limitation.
 
 ## BIRD matched one-call development disposition
 
@@ -130,3 +131,12 @@ closes the mechanical continuation-feasibility step only. The practical-value,
 learned-gate, matched-compiler, population-repair and statistical-design rows
 remain open. The new appendix reports these development numbers without
 changing a primary confirmatory result or implying acceptance.
+
+The later [schema-selection probe](../../results/bird_schema_selection_probe/REPORT.md)
+found the second read boundary in all 36 baseline cases, but a literal rule
+matched only 10/36 complete selected table sets. The
+[T-v1 binder audit](../../results/bird_binder_expressivity_audit/REPORT.md)
+found no exact expression for those selected sets, including the 35 cases with
+only listed tables; a list-identity positive control passed. Both are posthoc
+function-level development results. Neither supplies a derived useful GAC
+candidate, matched final-answer comparison, or independent test.
