@@ -3115,6 +3115,14 @@ def validate_iclr_sources() -> None:
     ok("not independent final tests" in gates and "no GAC arm" in gates
        and "neither" in gates.lower(),
        "iclr: adaptive development is not presented as a superiority test")
+    schema_probe = load(PAPER / "results/bird_schema_selection_probe/report.json")
+    probe_rule = schema_probe["literal_name_probe"]
+    ok(f'{probe_rule["exact_batches"]}/{schema_probe["baseline"]["cases"]}' in gates
+       and f'{probe_rule["target_hits"]}/{probe_rule["target_total"]}' in gates
+       and "was not" in gates
+       and "bird_schema_selection_probe/report.json" in
+           (iclr / "tables/claims_evidence_index.tex").read_text(),
+       "iclr: posthoc BIRD schema probe is disclosed with its no-execution boundary")
 
     # (e) editorial defects from the feedback ledger
     ok("behaviour" not in body and "behaviour" not in (iclr / "figures/alg-dispatch.tex").read_text(encoding="utf-8"),
@@ -3908,6 +3916,87 @@ def validate_bird_one_call_development() -> None:
                f"BIRD one-call: manual and candidate continuation input parity {question_id}")
 
 
+def validate_bird_schema_selection_probe() -> None:
+    """Check public hash links and the no-candidate boundary of the schema probe."""
+    import importlib.util
+
+    base = PAPER / "results/bird_schema_selection_probe"
+    script = PAPER / "scripts/bird_schema_selection_probe.py"
+    report_path = base / "report.json"
+    prose_path = base / "REPORT.md"
+    if not all(path.is_file() for path in (script, report_path, prose_path)):
+        ok(False, "BIRD schema probe: source, report and prose exist")
+        return
+    report = load(report_path)
+    pilot_path = PAPER / "results/bird_one_call_matched_pilot/report.json"
+    seal_path = PAPER / "results/bird_one_call_matched_pilot/seal.json"
+    pilot = load(pilot_path)
+    seal = load(seal_path)
+    source = report.get("source", {})
+    ok(source.get("script_sha256") == sha256(script)
+       and source.get("archive_sha256") == sha256(PAPER / "results/bird_one_call_matched_pilot/raw_evidence.tar.gz")
+       and source.get("pilot_report_sha256") == sha256(pilot_path)
+       and source.get("pilot_seal_sha256") == sha256(seal_path)
+       and source.get("question_sha256") == seal.get("question_sha256"),
+       "BIRD schema probe: public source and question hashes bind the sealed pilot")
+    baseline = report.get("baseline", {})
+    literal = report.get("literal_name_probe", {})
+    all_tables = report.get("all_tables_probe", {})
+    ok(baseline.get("cases") == 36 and baseline.get("correct") == pilot["summary"]["baseline"]["correct"] == 28
+       and baseline.get("first_two_calls_list_then_schema") == 36
+       and baseline.get("schema_in_second_model_request") == 36
+       and baseline.get("listed_table_occurrences") == all_tables.get("prefetch_table_occurrences") == 256
+       and baseline.get("selected_table_occurrences") == all_tables.get("baseline_selected_table_occurrences") == 79
+       and baseline.get("cases_with_unlisted_selected_table") == 1
+       and baseline.get("unlisted_selected_table_occurrences") == 1,
+       "BIRD schema probe: structural denominator and table counts retained")
+    listed_total = selected_total = unlisted_cases = unlisted_total = second_turns = all_exact = 0
+    baseline_rows = [row for row in pilot["rows"] if row["arm"] == "baseline"]
+    with tarfile.open(PAPER / "results/bird_one_call_matched_pilot/raw_evidence.tar.gz", "r:gz") as bundle:
+        for row in baseline_rows:
+            raw = bundle.extractfile(f"episodes/{row['question_id']}/baseline/record.json").read()
+            record = json.loads(raw)
+            calls = record["tool_calls"]
+            available = json.loads(calls[0]["result"]["payload"])["tables"]
+            selected = calls[1]["arguments"]["table_names"]
+            turn = record["provider_trace"][1]["response"]["choices"][0]["message"]
+            second_turns += [c["function"]["name"] for c in turn.get("tool_calls") or []] == ["get_schema"]
+            listed_total += len(available)
+            selected_total += len(selected)
+            missing = set(selected) - set(available)
+            unlisted_cases += bool(missing)
+            unlisted_total += len(missing)
+            all_exact += set(selected) == set(available)
+            ok(hashlib.sha256(raw).hexdigest() == row["raw_sha256"]
+               and [call["tool"] for call in calls[:2]] == ["list_tables", "get_schema"],
+               f"BIRD schema probe: protected baseline trace {row['question_id']} is bound and two-read")
+    ok(len(baseline_rows) == baseline["cases"]
+       and listed_total == baseline["listed_table_occurrences"]
+       and selected_total == baseline["selected_table_occurrences"]
+       and unlisted_cases == baseline["cases_with_unlisted_selected_table"]
+       and unlisted_total == baseline["unlisted_selected_table_occurrences"]
+       and second_turns == baseline["schema_in_second_model_request"]
+       and all_exact == all_tables["exact_baseline_batches"],
+       "BIRD schema probe: structural counts recompute from published raw traces")
+    ok(literal.get("nonempty_cases") == 26
+       and literal.get("exact_batches") == 10
+       and literal.get("target_hits") == 35
+       and literal.get("target_total") == 79
+       and all_tables.get("exact_baseline_batches") == 1,
+       "BIRD schema probe: posthoc selector counts retained without claiming validation")
+    ok(report.get("decision") == "NO_GO_FOR_PAID_DEPENDENT_SCHEMA_CANDIDATE"
+       and report.get("provider_calls") == report.get("new_gac_candidates")
+       == report.get("matched_arms") == report.get("independent_test_groups") == 0,
+       "BIRD schema probe: no candidate, paid arm, test, or superiority claim")
+    spec = importlib.util.spec_from_file_location("bird_schema_selection_probe", script)
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(module)
+    ok(prose_path.read_text() == module.render(report)
+       and "not an executed saving" in prose_path.read_text(),
+       "BIRD schema probe: prose regenerates and states timing ceiling")
+
+
 def validate_agenthop_baseline_trace_pilot() -> None:
     """Reconcile sealed developmental outcomes and costs without external files."""
     base = PAPER / "results/agenthop_baseline_trace_pilot"
@@ -4062,6 +4151,7 @@ FAMILIES: dict[str, Any] = {
     "agenthop_baseline_trace_pilot": validate_agenthop_baseline_trace_pilot,
     "agenthop_section_lookahead": validate_agenthop_section_lookahead,
     "bird_one_call_development": validate_bird_one_call_development,
+    "bird_schema_selection_probe": validate_bird_schema_selection_probe,
     "primary_population_audit": validate_primary_population_audit,
     "sources": validate_sources,
     "live": validate_live,

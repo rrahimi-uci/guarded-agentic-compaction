@@ -1,0 +1,46 @@
+{
+  "all_tables_probe": {
+    "baseline_selected_table_occurrences": 79,
+    "exact_baseline_batches": 1,
+    "prefetch_table_occurrences": 256
+  },
+  "baseline": {
+    "cases": 36,
+    "cases_with_unlisted_selected_table": 1,
+    "correct": 28,
+    "first_two_calls_list_then_schema": 36,
+    "listed_table_occurrences": 256,
+    "median_listed_tables": 7.0,
+    "median_selected_tables": 2.0,
+    "schema_in_second_model_request": 36,
+    "selected_table_occurrences": 79,
+    "unlisted_selected_table_occurrences": 1
+  },
+  "decision": "NO_GO_FOR_PAID_DEPENDENT_SCHEMA_CANDIDATE",
+  "independent_test_groups": 0,
+  "limitations": [
+    "The selector and audit were chosen after exposure to these development traces.",
+    "Matching a baseline table set is a surrogate, not a final-answer or cost test.",
+    "Fetching every table's schema changes the model context and may increase tokens; it was not executed.",
+    "The same selector or all-table prefetch is available to a handwritten control."
+  ],
+  "literal_name_probe": {
+    "definition": "casefolded exact table-name substring in question plus evidence; no fallback",
+    "exact_batches": 10,
+    "nonempty_cases": 26,
+    "target_hits": 35,
+    "target_total": 79
+  },
+  "matched_arms": 0,
+  "new_gac_candidates": 0,
+  "provider_calls": 0,
+  "schema": "gac-bird-schema-selection-probe-v1",
+  "scope": "posthoc provider-free diagnostic on 36 exposed BIRD development cases",
+  "source": {
+    "archive_sha256": "ec87c7dbe4d1b9ecf078c746103128f52ddf75514d076fb602256a57020c5ec4",
+    "pilot_report_sha256": "089363d4f6fa785f193c1edada449f95c3cc036de143a997344439b7fa5bd6a2",
+    "pilot_seal_sha256": "d3f78341a86d3de52ca81e7032466ba0a1a9ec2ba37a9e195ea18b227f39b625",
+    "question_sha256": "ffd8018378ddb1a8794753e0a31cfc81862ff7318a5184c22f3dc4ce03a03feb",
+    "script_sha256": "1b7ca53651161b2d04db6fcc3e071d613d4e44272a4582f1da68ed8a8e214ba4"
+  }
+}
