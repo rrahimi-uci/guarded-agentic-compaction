@@ -3888,10 +3888,51 @@ def validate_agenthop_baseline_trace_pilot() -> None:
         ok(False, f"AgentHop pilot: {error}")
 
 
+def validate_agenthop_section_lookahead() -> None:
+    """Check posthoc timing counts and the no-candidate publication boundary."""
+    base = PAPER / "results/agenthop_section_lookahead"
+    report = load(base / "report.json")
+    rows = report.get("transitions", [])
+    try:
+        ok(report.get("analysis_source_sha256") == sha256(PAPER / "scripts/agenthop_section_lookahead.py")
+           and report.get("seal_sha256") == sha256(PAPER / "results/agenthop_baseline_trace_pilot/seal.json")
+           and report.get("baseline_report_sha256") == sha256(PAPER / "results/agenthop_baseline_trace_pilot/report.json")
+           and report.get("source_audit_sha256") == sha256(PAPER / "results/agenthop_source_feasibility/report.json")
+           and report.get("qa_sha256") == load(PAPER / "results/agenthop_source_feasibility/report.json")
+               .get("source", {}).get("sha256", {}).get("qa/full.jsonl"),
+           "AgentHop lookahead: script, pilot, and pinned QA are hash-linked")
+        ok(report.get("scheduled_cases") == report.get("raw_trace_hashes_verified") == 24
+           and report.get("transition_count") == len(rows) == 42
+           and report.get("cases_with_transition") == len({row.get("case_id") for row in rows}) == 22
+           and report.get("exact_next_batch_count") == sum(row.get("exact_next_batch") is True for row in rows) == 41
+           and report.get("visible_target_count") == sum(row.get("visible_targets", 0) for row in rows) == 61
+           and report.get("target_count") == sum(row.get("next_same_paper_reads", 0) for row in rows) == 65
+           and all(row.get("visible_targets", -1) <= row.get("next_same_paper_reads", -2)
+                   <= row.get("next_calls", -3) for row in rows),
+           "AgentHop lookahead: all 42 observed transitions and timing ceilings reconcile")
+        matches = report.get("simple_selector_matches", {})
+        ok(report.get("simple_selector_subset") == 19
+           and matches == {"experiment_or_first": 7, "introduction": 6,
+                           "longest": 5, "question_header_overlap": 5}
+           and all(0 <= value <= 19 for value in matches.values())
+           and report.get("provider_calls") == report.get("gac_candidates")
+               == report.get("matched_arms") == 0
+           and report.get("decision") == "TIMING_OPPORTUNITY_ONLY_NO_DERIVED_SELECTOR_OR_MATCHED_GAC_RUN",
+           "AgentHop lookahead: exploratory selectors cannot be relabeled as a GAC result")
+        prose = (base / "REPORT.md").read_text()
+        ledger = (PAPER / "iclr/notes/reviewer_concern_closure.md").read_text()
+        ok("41/42" in prose and "7/19" in prose and "posthoc" in prose
+           and "No derived selector" in prose and "AgentHop adaptive development disposition" in ledger,
+           "AgentHop lookahead: reviewer prose states the result and its limits")
+    except (OSError, TypeError, KeyError, ValueError) as error:
+        ok(False, f"AgentHop lookahead: {error}")
+
+
 FAMILIES: dict[str, Any] = {
     "adaptive_comparison_preflight": validate_adaptive_comparison_preflight,
     "agenthop_source_feasibility": validate_agenthop_source_feasibility,
     "agenthop_baseline_trace_pilot": validate_agenthop_baseline_trace_pilot,
+    "agenthop_section_lookahead": validate_agenthop_section_lookahead,
     "bird_one_call_development": validate_bird_one_call_development,
     "primary_population_audit": validate_primary_population_audit,
     "sources": validate_sources,
