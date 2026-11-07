@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import http.client
 import json
 import re
 import subprocess
@@ -80,7 +81,7 @@ def _get(url: str, token: str) -> tuple[Any, dict[str, str]]:
                 time.sleep(2 ** attempt)
                 continue
             raise
-        except (urllib.error.URLError, TimeoutError, ConnectionError):
+        except (urllib.error.URLError, TimeoutError, ConnectionError, http.client.HTTPException):
             # transient network failure (timeout, reset): back off and retry
             time.sleep(min(60, 5 * 2 ** attempt))
     raise RuntimeError(f"gave up on {url}")
@@ -162,6 +163,18 @@ def main(argv: list[str] | None = None) -> int:
     token = _token()
     started = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     records: list[dict[str, Any]] = []
+    # Resumable: comment bodies already fetched are kept on disk next to the snapshot, so an
+    # interrupted acquisition restarts without re-spending its comment requests. The cache is not
+    # part of the snapshot; the parquet and manifest are written only after a complete listing.
+    args.out.mkdir(parents=True, exist_ok=True)
+    cache_path = args.out / ".comments_cache.jsonl"
+    cache: dict[int, list[str]] = {}
+    if cache_path.exists():
+        for line in cache_path.read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                row = json.loads(line)
+                cache[int(row["number"])] = list(row["comments"])
+    cache_handle = cache_path.open("a", encoding="utf-8")
     if args.list_via_search:
         args.pull_requests_only = True
         items = _search_pull_requests(args.repo, args.cutoff, token, args.list_via_search)
@@ -171,7 +184,15 @@ def main(argv: list[str] | None = None) -> int:
         items = (item for item in items if item.get("pull_request"))
     for i, item in enumerate(items):
         row = dict(item)
-        row["comments"] = _comments(args.repo, int(item["number"]), token) if int(item.get("comments") or 0) else []
+        number = int(item["number"])
+        if not int(item.get("comments") or 0):
+            row["comments"] = []
+        elif number in cache:
+            row["comments"] = cache[number]
+        else:
+            row["comments"] = _comments(args.repo, number, token)
+            cache_handle.write(json.dumps({"number": number, "comments": row["comments"]}) + "\n")
+            cache_handle.flush()
         records.append(row)
         if (i + 1) % 100 == 0:
             print(f"[acquire] {i + 1} records, latest created {item['created_at']}", flush=True)
