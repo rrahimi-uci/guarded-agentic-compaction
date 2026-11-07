@@ -1,81 +1,59 @@
 \section{Introduction}
 
 The standard agent loop pays for a model decision at every tool
-boundary~\citep{yao2023react}. That flexibility is valuable while a workflow is
-novel. When an agent repeatedly takes the same read-only evidence path with
-invariant data dependencies, those decisions offer a candidate for
-specialization. Across 157,280 released trajectories, read-only openings of
-two or more calls account for 4--41\% per corpus; in the three corpora with
-tool results, 2--13\% have groundable openings (\cref{app:prefix-census}).
-Prevalence differs across
-scaffolds; these observational comparisons do not isolate architecture from
-model, workload, or tool-catalog effects.
+boundary~\citep{yao2023react}, which is valuable while a workflow is novel but
+redundant when an agent repeats the same opening across runs; read\nobreakdash-only
+openings of two or more calls start 4--41\% of released trajectories per corpus
+(\cref{app:prefix-census}). Removing that decision is not ordinary caching: a
+tool argument may depend on an earlier result, a repeated sequence may cross an
+approval or write, a read\nobreakdash-only tool may hide an effect, and
+replaying the same outputs may still change the final answer. Recurrence
+therefore shows where a deterministic program could save work, not permission
+to substitute one: \emph{guarded agentic compaction} (\method) substitutes a
+program only where it can justify doing so and refuses elsewhere.
 
-Removing that decision is not ordinary caching: a tool argument may depend on
-an earlier observation, a repeated sequence may cross an approval or write, a
-read-only tool may hide an effect, and replaying the same outputs may still
-change the answer. The question is when a recurrent model-mediated region may
-be replaced by a deterministic program, and when it must be refused.
-
-Consider GitHub issue triage: return a label-based category, title, and exact
-evidence excerpt. For held-out issue \#4420 in the public
-\code{huggingface/datasets} snapshot, the
-observed trace calls \code{record(4420)}, passes the \emph{returned}
-\code{record.issue\_number} to \code{labels} and \code{comments}, and invokes
-the latter with \code{limit=100}. All 132 discovery executions take that
-three-read route (130 with \code{limit=100}, two with \code{limit=1}), so a
-recurrence-only optimizer would emit all three reads. \method instead
-retires the \emph{region}: \code{comments.limit} is not an invariant literal
-and is reachable neither from the entry state nor from either earlier result,
-so one unwitnessed slot blocks the three-read candidate as
-\code{ungroundable\_slot}. What survives is the maximal
-justified prefix \code{record} $\rightarrow$ \code{labels}; the agent still
-chooses the limit and writes the answer. That two-read artifact passes 92/92
-selected calibration groups (replay bound 0.0498; population limits below).
-
-This refusal is a grounding decision, not evidence of improved task quality:
-recurrence-only replay later matches GAC's 30/30 held-out answers with one
-fewer request (\cref{sec:res-primary}). Conversely, an earlier admitted
-three-read artifact passes replay but loses a URL in issue \#6602's final
-answer (17/18 exact; \cref{app:limits}). Grounding, replay fidelity, and
-answer quality are distinct obligations.
-
+Consider GitHub issue triage, one of three workflow families we study: given
+an issue number from the public \code{huggingface/datasets} snapshot, the agent
+returns a label-based category, the issue title, and an exact evidence excerpt.
+On held-out issue \#4420 the agent calls \code{record(4420)}, passes the
+\emph{returned} \code{record.issue\_number} to \code{labels} and to
+\code{comments}, and sets the comment \code{limit} to 100. All 132 discovery
+runs (the traces the compiler learns from) take this three-read route, 130
+with \code{limit=100} and two with \code{limit=1}, so a recurrence-only optimizer would compile all three reads.
+\method refuses that region because \code{limit} has no \emph{witness}: it is
+neither a constant across runs nor computable from the issue number or an
+earlier result (\cref{fig:provenance}). The two-read prefix
+\code{record}~$\rightarrow$~\code{labels} survives, and the agent still chooses the limit and writes the answer. The
+refusal is a grounding decision, not a quality gain: recurrence-only replay of
+all three reads matches \method's 30/30 held-out answers with one fewer request
+(\cref{sec:res-primary}). An earlier admitted three-read program passed replay
+yet dropped a URL from issue \#6602's final answer (\cref{app:limits});
+grounding, replay fidelity and answer quality are distinct obligations.
 
 The classical precedent is trace compilation: Dynamo~\citep{bala2000dynamo}
-and tracing JITs~\citep{gal2009tracejit} compile a hot path behind
-\emph{guards} and fall back when one fails, as
-deoptimization~\citep{holzle1992deopt} restores unoptimized execution.
-Agent traces admit the same structure (family mining, an entry contract,
-fallback to the unchanged agent) but compile only \emph{initial} read-only
-prefixes (\cref{eq:prefix}) and add three obligations: tool arguments must be
-shown \emph{grounded} in observable state; declared \emph{effects} must permit
-speculation, since the ``interpreter'' calls the outside world; and the
-residual error rate, being statistical, needs a finite-sample bound.
-
-We study these obligations through \emph{guarded agentic compaction} (\method),
-a system that discovers and executes grounded read-only prefixes with
-explicit admission assumptions and refusal conditions (\cref{fig:pipeline}).
-We ask: \textbf{RQ1}, which recurrent regions admit
-a grounded program? \textbf{RQ2}, how much work does compilation remove at
-a stated quality tolerance? \textbf{RQ3}, which admission safeguards add
-measurable protection? The contributions are:
+and tracing just-in-time compilers~\citep{gal2009tracejit} compile a hot path
+behind \emph{guards} and fall back when one fails, as
+deoptimization~\citep{holzle1992deopt} restores unoptimized execution. Agent
+traces share that structure, but \method compiles only \emph{initial}
+read\nobreakdash-only prefixes (\cref{eq:prefix}), and substitution adds three
+obligations: every tool argument must be \emph{grounded} in observable state;
+declared \emph{effects} must permit speculative execution, because the
+``interpreter'' calls the outside world; and the residual error rate, being
+statistical, needs a finite-sample bound before a program is admitted.
+\Cref{fig:pipeline} shows where \method enforces each. Our contributions are:
 
 \begin{enumerate}[leftmargin=1.2em,itemsep=1pt,topsep=2pt]
-  \item A specialization pipeline combining typed provenance, effect and
-position barriers, bounded synthesis, verification, and compile-or-retire
-admission (\cref{alg:compile,alg:calibrate}). The statistical component is a
-standard exact binomial bound over a fixed grid, not a new inequality; our
-contribution is its composition with trace-derived specialization and explicit
-certificate scope (\cref{prop:admission}).
-  \item Live-provider evidence on public-record workflows and BIRD, with
-model/provider replications and safeguard ablations. Against adapted offline
-AWM, five of six workflow/model cells establish five-point accuracy
-noninferiority, but none establishes one-point noninferiority
-(\cref{sec:res-primary}). The ablations separate useful request-scope
-checks from unresolved completeness benefit and null learned-gate benefit.
-  \item Refusal measurements on public trace benchmarks
-(\cref{sec:res-refusal}): NESTFUL, API-Bank, and BFCL v4 lack calibration
-support; AppWorld admits a program eligible on 2{,}339/2{,}340 full-code
-trajectories but 1/4{,}680 ReAct or plan-and-execute ones. Admission therefore
-does not establish deployment benefit.
+  \item A compile-or-refuse criterion that admits an initial read-only prefix
+only when its arguments are grounded, its effects are declared read-only, and
+it starts at the agent's first step, and only when enough independent
+calibration examples pass to meet a standard exact binomial bound
+(\cref{alg:compile,alg:calibrate,prop:admission}).
+  \item Live-provider measurements on three GitHub workflows and the BIRD
+text-to-SQL benchmark, where the compiled agent uses fewer model requests with
+no detected accuracy loss, plus re-discovery on two further models and
+one-at-a-time safeguard ablations (\cref{sec:res-primary,sec:res-bird,sec:res-more}).
+  \item Measured refusals and scope: NESTFUL, API-Bank and BFCL v4 lack
+calibration support, AppWorld's admitted program is almost never eligible on
+ReAct or plan-and-execute trajectories, and most bounds cover replay rather
+than final answers (\cref{sec:res-refusal,sec:res-more}).
 \end{enumerate}
