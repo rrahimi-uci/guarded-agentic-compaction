@@ -1,0 +1,122 @@
+{
+  "campaign_cap_usd": 300,
+  "claim_scope": "Baseline competence gate only; no GAC artifact, calibration, test or compiler comparison.",
+  "competence_gate": "At least 8/12 official task successes, with all failures and unstarted attempts counted in the denominator, before compiler-value comparison. This is a development engineering gate, not statistical noninferiority.",
+  "episode_seconds": 1200,
+  "failure_rule": "All 12 scenarios remain scheduled; failures and unstarted outcomes remain in denominator. No retry or task replacement.",
+  "grouping": "one variation per fixed exposed training scenario",
+  "image": "sha256:d9e0e53e548439321832c2f3a2b424e2f6ce77436bfae4e5ec22e1f2da8a4718",
+  "image_id": "sha256:d9e0e53e548439321832c2f3a2b424e2f6ce77436bfae4e5ec22e1f2da8a4718",
+  "ledger_before_sha256": "69ada741f9c41717b67de39a889917c910023c0a7e1270893249fb4167d5e77c",
+  "local_cap_usd": 15.0,
+  "max_api_calls": 192,
+  "max_batch_calls": 8,
+  "max_model_requests": 96,
+  "model": "gpt-5.6-luna",
+  "model_view": "Every raw result retained; model-facing result JSON capped at min(16000, 32000/batch_size) characters and only last two tool views retained.",
+  "modes": [
+    "reference",
+    "empty",
+    "false_completion"
+  ],
+  "prior_report_sha256": "40801d7710c9e1e983f7733c0b67dbca43751ea25bd32e0d5b1973daf13688d3",
+  "reference_hashes": {
+    "229360a_1": "f56e0c908a3af7638b03fdefadafb105501c1e754cc1da16fc9dbfb609871349",
+    "22cc237_3": "7aec4e13dda19b4a236a94a7cc38463e31a27501e156470dbc5e4cd3e0081baf",
+    "27e1026_3": "7d63f55f2dbb717a9a715640e6e5700df3ca40d4828bf68f884f1b7b0fb20bc6",
+    "29caf6f_3": "5e89bb62f76ac0068494be95f10f54a975e87b2453edbafdd434590eb7476643",
+    "3c13f5a_2": "b59d3b2785273e0edf55d149464c0772b8d287e86cb8a5265128ac746ad18da7",
+    "60d0b5b_1": "21020a1c082eba13f0305fef5ab35cabd35b8e07f2d579610a401911fba40953",
+    "692c77d_1": "c737fc910e7cb44443bef67f6e71a4276bee977b7f61c6958c02dc5872528e80",
+    "afc0fce_3": "ab5a70c96103cb6f0b39276d46e6da2393653c40b98454ac3dd06ce4d96683e7",
+    "b0a8eae_1": "ea509cb3d6acce487b6ebc8970059a55a7f909fb48660b28df17f3592afa02fb",
+    "c901732_2": "7bddab0d23ff7e28be900d9cb1ab6990cef0ba9cb7f5f3d6a446d6f110125ddc",
+    "ce359b5_1": "355e60a7f4075c29467d2839df628854dabb75dee4ca4d9a5c6da193d44203f3",
+    "e7a10f8_1": "199c5682ff73e7ffadd63254744f0e4e209e9dbd82022b4bf96708f7ebf81f4c"
+  },
+  "schema": "gac-appworld-batched-competence-v1",
+  "setup": "Two actual supervisor reads and login to all nine public apps before every mode; 11 calls counted. Agent receives app list and AUTO token binding, never credentials.",
+  "source_hashes": {
+    "experiments/appworld_batched_competence/worker.py": "491b070664ec47e286cb991e545735c4c08f8426465ae44d27170bf4044f18ed",
+    "paper/scripts/adaptive_campaign_budget.py": "613faeab10f76279dbef9396cac11fbe3465830631b516d5d5aa12ad03006778",
+    "paper/scripts/adaptive_pilot.py": "1556ffe45d19466a271bfdcdc634e5b63c963a482c052e764ef60dd1b86f1e62",
+    "paper/scripts/appworld_adaptive_viability.py": "6e2346dcc03c8ceae7e2ea0bf17cadbb7a7cc44065ca08baf90e6e2c4dddc96f",
+    "paper/scripts/appworld_batched_competence.py": "514011c80fce045fe62d3435b8156a7c0ccadba26dbd04db31d8f26db1f26f28",
+    "paper/scripts/appworld_reference_study.py": "c01a8ddacd462fdb8f711c5515a5d62b55fcb024784159c171d6d0efe6ea7020",
+    "paper/scripts/export_appworld_viability.py": "7f4e69e3b69846a2d2c53616d9569917903ae398f038c11e3f416a46b1aa75b9"
+  },
+  "stage": "discovery",
+  "stage_cap_usd": 30,
+  "status": "exposed development; adapted preauthenticated entry; no native leaderboard claim",
+  "system": "Solve the user's task in the isolated AppWorld simulation with public APIs.\nAll nine apps were authenticated through the same measured 11-call setup. Do not\ncall login, profile or password APIs. When an endpoint requires access_token,\npass the literal string AUTO; the worker binds the token from that setup. The\ntokens and passwords are not available to you. Use api_docs APIs to inspect\nsignatures before unfamiliar calls. Make a call_api_batch of 1 to 8 fully\nspecified ordered calls; each intermediate result is returned and a batch stops\non the first API error. Batch only when later arguments are already known from\nthe task or a prior observation. Never invent IDs or infer future results.\nComplete the task with supervisor.complete_task when appropriate, then call\nfinish. The official saved-state tests determine success. No reference solution,\nground truth, private API, arbitrary code or external service is available.",
+  "tasks": [
+    "27e1026_3",
+    "22cc237_3",
+    "e7a10f8_1",
+    "229360a_1",
+    "c901732_2",
+    "692c77d_1",
+    "ce359b5_1",
+    "29caf6f_3",
+    "b0a8eae_1",
+    "afc0fce_3",
+    "3c13f5a_2",
+    "60d0b5b_1"
+  ],
+  "tools": [
+    {
+      "function": {
+        "description": "Execute 1 to 8 known public API calls in order. Returns each result; stops on first API error. Use access_token AUTO where required.",
+        "name": "call_api_batch",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "calls": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "api": {
+                    "type": "string"
+                  },
+                  "app": {
+                    "type": "string"
+                  },
+                  "arguments": {
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "app",
+                  "api",
+                  "arguments"
+                ],
+                "type": "object"
+              },
+              "maxItems": 8,
+              "minItems": 1,
+              "type": "array"
+            }
+          },
+          "required": [
+            "calls"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "End the task after making needed API calls; official saved-state grading follows.",
+        "name": "finish",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "function"
+    }
+  ],
+  "upstream_inventory_sha256": "61afe391e4d1552c27c1ad57119c248f430a7f6068666e71068aeff14457abf7"
+}
