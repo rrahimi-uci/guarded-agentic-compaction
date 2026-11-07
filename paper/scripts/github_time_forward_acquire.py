@@ -119,13 +119,18 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--repo", default="huggingface/datasets")
     ap.add_argument("--cutoff", default="2025-06-13", help="records created strictly after this UTC day are kept")
     ap.add_argument("--out", type=Path, default=ROOT / "paper/results/datasets/github_time_forward/huggingface__datasets")
+    ap.add_argument("--pull-requests-only", action="store_true",
+                    help="keep only pull requests (the PR-outcome study never reads plain issues); saves the comment requests for issues")
     args = ap.parse_args(argv)
     import pandas as pd
 
     token = _token()
     started = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     records: list[dict[str, Any]] = []
-    for i, item in enumerate(_issues(args.repo, args.cutoff, token)):
+    items = _issues(args.repo, args.cutoff, token)
+    if args.pull_requests_only:
+        items = (item for item in items if item.get("pull_request"))
+    for i, item in enumerate(items):
         row = dict(item)
         row["comments"] = _comments(args.repo, int(item["number"]), token) if int(item.get("comments") or 0) else []
         records.append(row)
@@ -151,6 +156,7 @@ def main(argv: list[str] | None = None) -> int:
         "created_at_range": [frame["created_at"].min().isoformat(), frame["created_at"].max().isoformat()],
         "parquet_path": str(parquet.relative_to(ROOT)) if parquet.is_relative_to(ROOT) else str(parquet), "parquet_bytes": parquet.stat().st_size, "parquet_sha256": digest,
         "columns_mirroring_pinned_snapshot": True,
+        "pull_requests_only": bool(args.pull_requests_only),
         "credential_shaped_strings_redacted": redactions,
         "licence_note": "public GitHub issue and pull-request metadata and comment bodies; same provenance class as the pinned snapshot",
     }
