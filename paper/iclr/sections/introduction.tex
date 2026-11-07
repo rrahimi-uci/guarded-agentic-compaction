@@ -9,8 +9,10 @@ tool argument may depend on an earlier result, a repeated sequence may cross an
 approval or write, a read\nobreakdash-only tool may hide an effect, and
 replaying the same outputs may still change the final answer. Recurrence
 therefore shows where a deterministic program could save work, not permission
-to substitute one: \emph{guarded agentic compaction} (\method) substitutes a
-program only where it can justify doing so and refuses elsewhere.
+to substitute one. An engineer who knows the workflow can write that program;
+\emph{guarded agentic compaction} (\method) automates writing it, substitutes it
+only where it can justify doing so, and refuses elsewhere. Success is recovering
+the hand-written program safely, not beating it.
 
 Consider GitHub issue triage, one of three workflow families we study: given
 an issue number from the public \code{huggingface/datasets} snapshot, the agent
