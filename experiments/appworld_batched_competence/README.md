@@ -44,6 +44,14 @@ python paper/scripts/appworld_batched_competence_v2.py export
 The freeze commands refuse to overwrite an existing version, and each paid
 request reserves against the same fail-closed $300 ledger. These commands are
 the original sequence, **not** an instruction to rerun the sealed attempts.
+The posthoc aggregate trace diagnostic can be recomputed from the retained
+local cache, without a provider call:
+
+```sh
+python paper/scripts/appworld_batched_trace_diagnostic.py
+```
+
+It verifies episode hashes against the published reports and emits counts only.
 Provider-free source and boundary tests can run without the protected cache:
 
 ```sh

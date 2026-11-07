@@ -43,6 +43,19 @@ provide authentic adaptive traces for diagnosing interface and workflow
 requirements. Reference sequence length is not a lower bound on optimal agent
 actions, and action counts are not interchangeable with provider requests.
 
+The [posthoc trace diagnostic](trace_diagnostic.json) verifies the published
+hash of every episode record and emits aggregate counts without task text,
+arguments, results or credentials. Older batch-result views were omitted from
+the model's final request in all 12 cases in each version; large individual
+results were truncated in 9/12 V1 and 3/12 V2 cases. These are observed
+interface constraints, not established causes of task failure. After excluding
+documentation and supervisor calls, V1 had **zero** repeated two-call API-name
+prefix groups; V2 had **two** groups covering four cases. API-name repetition
+does not establish matched arguments, safe read-only effects, an automatically
+derived GAC candidate or savings. The two versions' successful cases did not
+overlap. This exploratory analysis supplies no independent test or causal
+comparison.
+
 ## Budget, provenance and claim boundary
 
 The two attempts charged **$3.799791** to the shared fail-closed campaign ledger.

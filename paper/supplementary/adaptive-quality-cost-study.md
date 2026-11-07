@@ -8,6 +8,8 @@ retains two failed 12-case development pilots (1/12 and 2/12 official successes)
 after 36/36 exact-path agent-RPC controls. Its 8/12 competence gate failed;
 matched GAC spending is therefore still blocked. The adapted common-entry
 contract prevents a native AppWorld leaderboard interpretation.
+Its posthoc trace diagnostic finds only surface API-name recurrence, without
+the argument, effect and continuation evidence needed for a GAC program.
 
 ## Separate the claims
 

@@ -1,10 +1,13 @@
 """Guard adapted common-entry and batched API boundaries."""
 import importlib.util
+import hashlib
+import json
 from pathlib import Path
 
 import pytest
 
 from appworld_batched_competence import bounded_messages, model_view, public_reference_calls
+import appworld_batched_trace_diagnostic as diagnostic
 
 ROOT = Path(__file__).resolve().parents[2]
 SPEC = importlib.util.spec_from_file_location("batched_worker", ROOT / "experiments/appworld_batched_competence/worker.py")
@@ -51,3 +54,35 @@ def test_model_history_cap_preserves_raw_result():
     bounded = bounded_messages(messages)
     assert [row["content"] for row in bounded[-2:]] == ["2", "3"]
     assert all("omitted" in row["content"] for row in bounded[:2])
+
+
+def test_trace_diagnostic_checks_hashes_and_excludes_protected_content(tmp_path, monkeypatch):
+    monkeypatch.setattr(diagnostic, "PUBLIC", tmp_path / "public")
+    cache = tmp_path / "cache"
+    public = diagnostic.PUBLIC / "appworld_batched_competence"
+    public.mkdir(parents=True)
+    source = ROOT / "paper/scripts/appworld_batched_competence.py"
+    seal = {"tasks": [f"case{i}" for i in range(12)],
+            "source_hashes": {"paper/scripts/appworld_batched_competence.py":
+                              hashlib.sha256(source.read_bytes()).hexdigest()}}
+    (public / "seal.json").write_text(json.dumps(seal))
+    hashes = []
+    for task in seal["tasks"]:
+        path = cache / "v1" / "episodes" / task / "record.json"
+        path.parent.mkdir(parents=True)
+        row = {"task_id": task, "status": "completed", "context": "PROTECTED_MARKER",
+               "provider_trace": [], "batches": [], "api_calls": 0,
+               "evaluation": {"success": task == "case0"}}
+        path.write_text(json.dumps(row))
+        hashes.append({"path": str(path.relative_to(cache / "v1")),
+                       "sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
+    (public / "report.json").write_text(json.dumps({"scheduled": 12,
+        "official_successes": 1, "model_requests": 0, "api_calls": 0,
+        "protected_raw_files": hashes}))
+    result, _ = diagnostic.version_summary(cache, "v1", "appworld_batched_competence")
+    assert result["verified_episode_hashes"] == 12
+    assert "PROTECTED_MARKER" not in json.dumps(result)
+    changed = cache / "v1/episodes/case0/record.json"
+    changed.write_text(changed.read_text() + " ")
+    with pytest.raises(ValueError, match="published protected-file hash"):
+        diagnostic.version_summary(cache, "v1", "appworld_batched_competence")

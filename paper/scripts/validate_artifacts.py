@@ -3649,9 +3649,25 @@ def validate_appworld_batched_competence() -> None:
         ok(abs(sum(row[0]["charged_upper_usd"] for row in versions) - 3.799791) < 1e-9
            and abs(second[0]["campaign_accounted_upper_usd"] - 6.0618595) < 1e-9,
            "AppWorld batched competence: campaign accounting in public report")
+        diagnosis = load(first[2] / "trace_diagnostic.json")
+        ok(diagnosis["source_sha256"] == sha256(PAPER / "scripts/appworld_batched_trace_diagnostic.py")
+           and diagnosis["model_calls_made"] == diagnosis["gac_runs"] == 0
+           and diagnosis["reference_calls_read"] is False
+           and diagnosis["cross_version_success_overlap"] == 0,
+           "AppWorld batched competence: posthoc diagnostic source and scope")
+        ok(len(diagnosis["versions"]) == 2
+           and all(row["seal_sha256"] == sha256(base / "seal.json")
+                   and row["report_sha256"] == sha256(base / "report.json")
+                   and row["verified_episode_hashes"] == 12
+                   for row, (_, _, base) in zip(diagnosis["versions"], versions, strict=True)),
+           "AppWorld batched competence: diagnostic binds published records")
+        ok([row["cases_with_truncated_result_view"] for row in diagnosis["versions"]] == [9, 3]
+           and [row["cases_with_older_batch_views_elided"] for row in diagnosis["versions"]] == [12, 12]
+           and [row["two_non_docs_api_name_repeat_groups"] for row in diagnosis["versions"]] == [0, 2],
+           "AppWorld batched competence: exploratory interface and recurrence counts")
         prose = (first[2] / "REPORT.md").read_text()
         ok("1/12" in prose and "2/12" in prose and "8/12" in prose
-           and "No matched GAC run" in prose,
+           and "No matched GAC run" in prose and "posthoc trace diagnostic" in prose,
            "AppWorld batched competence: prose retains negative findings")
     except (OSError, KeyError, TypeError, ValueError) as error:
         ok(False, f"AppWorld batched competence: {error}")

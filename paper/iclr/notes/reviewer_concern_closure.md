@@ -56,6 +56,11 @@ amendment also changed the prompt, so it is not a controlled model comparison.
 No GAC arm ran, no independent test group exists, and the practical-value row
 remains open. The adapted preauthenticated entry also remains outside native
 AppWorld leaderboard claims.
+The posthoc [trace diagnostic](../../results/appworld_batched_competence/trace_diagnostic.json)
+finds only API-name-level two-call prefix repetition in V2 (two groups covering
+four cases); it does not establish argument grounding, read-only effects or a
+compilable family. The bounded model history elided older result views in every
+case, a measured interface constraint rather than a proven failure cause.
 
 ## Ordered decision gates
 
