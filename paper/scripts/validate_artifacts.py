@@ -3081,7 +3081,42 @@ def validate_iclr_sources() -> None:
     ok("0.0569" in body and "0.057" in body, "iclr: the corrected two-candidate bound appears in the manuscript")
     ok("issue-type routing (one candidate at calibration)" in results_tex, "iclr: §5.1 states the certificate level per family")
 
-    # (d) editorial defects from the feedback ledger
+    # (d) Development-only adaptive-task results are disclosed in the built
+    # manuscript with their denominators and no-superiority boundary.
+    gates = sections["adaptive_gates_appendix.tex"]
+    bird = load(PAPER / "results/bird_one_call_matched_pilot/report.json")
+    appworld_v1 = load(PAPER / "results/appworld_batched_competence/report.json")
+    appworld_v2 = load(PAPER / "results/appworld_batched_competence_v2/report.json")
+    agenthop = load(PAPER / "results/agenthop_baseline_trace_pilot/report.json")
+    lookahead = load(PAPER / "results/agenthop_section_lookahead/report.json")
+    ranker = load(PAPER / "results/agenthop_section_lookahead/ranker_probe.json")
+    ok("\\input{sections/adaptive_gates_appendix}" in appendix
+       and "\\cref{app:adaptive-gates}" in sections["discussion.tex"],
+       "iclr: adaptive development gates appear in appendix and main discussion")
+    ok(bird["scheduled"] == 108 and all(
+        f'{bird["summary"][arm]["correct"]}/36' in gates
+        for arm in ("baseline", "manual_one_call", "candidate_one_call"))
+       and all(str(bird["summary"][arm]["provider_requests"]) in gates
+               for arm in ("baseline", "manual_one_call", "candidate_one_call"))
+       and bird["gac_artifacts"] == bird["independent_test_groups"] == 0,
+       "iclr: BIRD development outcomes and no-admission scope match retained report")
+    ok(appworld_v1["official_successes"] == 1
+       and appworld_v2["official_successes"] == 2
+       and "1/12" in gates and "2/12" in gates and "8/12" in gates
+       and appworld_v1["gac_artifacts"] == appworld_v2["gac_artifacts"] == 0,
+       "iclr: AppWorld competence failures and no-GAC scope match retained reports")
+    ok(agenthop["correct"] == 19 and agenthop["scheduled_cases"] == 24
+       and agenthop["competence_gate_minimum"] == 17
+       and lookahead["transition_count"] == 42
+       and ranker["oracle_k_exact"] == 11 and ranker["eligible_transitions"] == 35
+       and all(value in gates for value in ("19/24", "17/24", "42", "11/35"))
+       and agenthop["gac_candidates"] == ranker["gac_candidates"] == 0,
+       "iclr: AgentHop baseline, timing and selector limits match retained reports")
+    ok("not independent final tests" in gates and "no GAC arm" in gates
+       and "neither" in gates.lower(),
+       "iclr: adaptive development is not presented as a superiority test")
+
+    # (e) editorial defects from the feedback ledger
     ok("behaviour" not in body and "behaviour" not in (iclr / "figures/alg-dispatch.tex").read_text(encoding="utf-8"),
        "iclr: American spelling of behavior throughout")
     ok("distribution-free" not in body.lower(), "iclr: no distribution-free claim")
@@ -3873,10 +3908,159 @@ def validate_bird_one_call_development() -> None:
                f"BIRD one-call: manual and candidate continuation input parity {question_id}")
 
 
+def validate_agenthop_baseline_trace_pilot() -> None:
+    """Reconcile sealed developmental outcomes and costs without external files."""
+    base = PAPER / "results/agenthop_baseline_trace_pilot"
+    seal = load(base / "seal.json")
+    report = load(base / "report.json")
+    audit = load(base / "audit.json")
+    binding = load(base / "binding_feasibility.json")
+    ledger = load(base / "ledger_snapshot.json")
+    ids = seal.get("case_ids", [])
+    observations = report.get("observations", [])
+    try:
+        ok(seal.get("pilot_script_sha256") == sha256(PAPER / "scripts/agenthop_baseline_trace_pilot.py")
+           and seal.get("budget_script_sha256") == sha256(PAPER / "scripts/agenthop_campaign_budget.py")
+           and seal.get("source_audit_sha256") == sha256(PAPER / "results/agenthop_source_feasibility/report.json")
+           and report.get("seal_sha256") == sha256(base / "seal.json")
+           and audit.get("report_sha256") == sha256(base / "report.json")
+           and audit.get("ledger_snapshot_sha256") == sha256(base / "ledger_snapshot.json")
+           and binding.get("grade_audit_sha256") == sha256(base / "audit.json")
+           and binding.get("analysis_source_sha256") == sha256(PAPER / "scripts/agenthop_trace_binding_feasibility.py"),
+           "AgentHop pilot: source, seal, observations and audits are hash-linked")
+        ok(len(ids) == len(set(ids)) == 24
+           and report.get("scheduled_cases") == report.get("recorded_cases") == 24
+           and [row.get("case_id") for row in observations] == ids
+           and {path.stem for path in (base / "observations").glob("*.json")} == set(ids)
+           and all(load(base / "observations" / f"{sid}.json") == row
+                   for sid, row in zip(ids, observations)),
+           "AgentHop pilot: all 24 prespecified cases and retained observations accounted for")
+        scored = audit.get("graded_cases", [])
+        ok([row.get("case_id") for row in scored] == ids
+           and all(row.get("correct") == (row.get("status") == "completed"
+               and row.get("predicted_index") == row.get("correct_index"))
+               for row in scored)
+           and all(row.get("correct") == graded.get("correct")
+               and row.get("predicted_index") == graded.get("predicted_index")
+               for row, graded in zip(observations, scored))
+           and sum(row.get("correct") is True for row in scored) == report.get("correct") == 19
+           and audit.get("raw_trace_hashes_verified") == 24
+           and report.get("competence_gate_passed") is True
+           and report.get("competence_gate_minimum") == 17,
+           "AgentHop pilot: exact public-answer grades and 17/24 engineering gate reconcile")
+        requests = ledger.get("study_requests", [])
+        charge = math.fsum(row.get("accounted_upper_usd", row.get("reserved_usd", 0))
+                           for row in requests)
+        ok(len(requests) == report.get("provider_requests") == audit.get("provider_requests") == 180
+           and all(row.get("stage") == "pilot" and row.get("arm") == "baseline"
+                   and row.get("model") == "gpt-5.4-2026-03-05"
+                   and row.get("status") == "complete" for row in requests)
+           and all(math.isclose(row.get("accounted_upper_usd", -1),
+               (row["usage"]["input_tokens"] * row["input_rate_upper_per_million"]
+                + row["usage"]["output_tokens"] * row["output_rate_per_million"]) / 1e6,
+               abs_tol=1e-9) for row in requests)
+           and math.isclose(charge, report.get("pilot_increment_upper_usd", -1), abs_tol=1e-9)
+           and math.isclose(charge, audit.get("study_accounted_upper_usd", -1), abs_tol=1e-9)
+           and math.isclose(ledger.get("campaign_accounted_upper_usd", -1),
+               report.get("campaign_accounted_upper_usd", -2), abs_tol=1e-9)
+           and math.isclose(300 - ledger.get("campaign_accounted_upper_usd", 0),
+               report.get("remaining_campaign_usd", -1), abs_tol=1e-9),
+           "AgentHop pilot: 180 request-level charges and shared $300 campaign balance reconcile")
+        ok(binding.get("scheduled_cases") == binding.get("analyzed_cases") == 24
+           and binding.get("opening_calls_already_batched") == 24
+           and binding.get("initial_three_call_batches") == 15
+           and binding.get("first_child_from_seed_references") == 21
+           and binding.get("first_child_other_route") == 3
+           and binding.get("official_reference_output_prefix_parity") == 21
+           and binding.get("first_child_reference_rank_range") == [3, 25]
+           and binding.get("first_child_followup") == {"later_turn": 4, "same_turn": 20},
+           "AgentHop pilot: every opening batch and dynamic first-paper route is retained")
+        ok(binding.get("exact_text_binding", {}).get("binding_found") is False
+           and binding.get("typed_reference_sensitivity", {}).get("binding_found") is False
+           and all(family.get("exact_text", {}).get("binding_found") is False
+                   for family in binding.get("opening_batch_families", []))
+           and binding.get("decision") == "NO_QUALIFYING_BINDING_IN_TESTED_FAMILIES_NO_MATCHED_GAC_RUN"
+           and report.get("gac_candidates") == report.get("matched_arms")
+               == report.get("calibration_groups") == report.get("independent_test_groups") == 0,
+           "AgentHop pilot: failed binding families cannot be relabeled a GAC superiority result")
+        prose = (base / "REPORT.md").read_text()
+        ok("19/24" in prose and "5.800413125" in prose
+           and "No matched GAC" in prose and "not an exhaustive search" in prose,
+           "AgentHop pilot: reviewer prose states result and scope limits")
+    except (OSError, TypeError, KeyError, ValueError) as error:
+        ok(False, f"AgentHop pilot: {error}")
+
+
+def validate_agenthop_section_lookahead() -> None:
+    """Check posthoc timing counts and the no-candidate publication boundary."""
+    base = PAPER / "results/agenthop_section_lookahead"
+    report = load(base / "report.json")
+    rows = report.get("transitions", [])
+    try:
+        ok(report.get("analysis_source_sha256") == sha256(PAPER / "scripts/agenthop_section_lookahead.py")
+           and report.get("seal_sha256") == sha256(PAPER / "results/agenthop_baseline_trace_pilot/seal.json")
+           and report.get("baseline_report_sha256") == sha256(PAPER / "results/agenthop_baseline_trace_pilot/report.json")
+           and report.get("source_audit_sha256") == sha256(PAPER / "results/agenthop_source_feasibility/report.json")
+           and report.get("qa_sha256") == load(PAPER / "results/agenthop_source_feasibility/report.json")
+               .get("source", {}).get("sha256", {}).get("qa/full.jsonl"),
+           "AgentHop lookahead: script, pilot, and pinned QA are hash-linked")
+        ok(report.get("scheduled_cases") == report.get("raw_trace_hashes_verified") == 24
+           and report.get("transition_count") == len(rows) == 42
+           and report.get("cases_with_transition") == len({row.get("case_id") for row in rows}) == 22
+           and report.get("exact_next_batch_count") == sum(row.get("exact_next_batch") is True for row in rows) == 41
+           and report.get("visible_target_count") == sum(row.get("visible_targets", 0) for row in rows) == 61
+           and report.get("target_count") == sum(row.get("next_same_paper_reads", 0) for row in rows) == 65
+           and all(row.get("visible_targets", -1) <= row.get("next_same_paper_reads", -2)
+                   <= row.get("next_calls", -3) for row in rows),
+           "AgentHop lookahead: all 42 observed transitions and timing ceilings reconcile")
+        matches = report.get("simple_selector_matches", {})
+        ok(report.get("simple_selector_subset") == 19
+           and matches == {"experiment_or_first": 7, "introduction": 6,
+                           "longest": 5, "question_header_overlap": 5}
+           and all(0 <= value <= 19 for value in matches.values())
+           and report.get("provider_calls") == report.get("gac_candidates")
+               == report.get("matched_arms") == 0
+           and report.get("decision") == "TIMING_OPPORTUNITY_ONLY_NO_DERIVED_SELECTOR_OR_MATCHED_GAC_RUN",
+           "AgentHop lookahead: exploratory selectors cannot be relabeled as a GAC result")
+        ranker = load(base / "ranker_probe.json")
+        folds = ranker.get("folds", [])
+        ok(ranker.get("analysis_source_sha256") == sha256(PAPER / "scripts/agenthop_section_ranker_probe.py")
+           and ranker.get("timing_report_sha256") == sha256(base / "report.json")
+           and ranker.get("qa_sha256") == report.get("qa_sha256"),
+           "AgentHop lookahead: grouped ranker probe is source-linked")
+        ok(ranker.get("scheduled_baseline_cases") == 24
+           and ranker.get("eligible_transitions") == len(folds) == 35
+           and ranker.get("case_groups") == len({row.get("case_id") for row in folds}) == 20
+           and ranker.get("target_reads") == sum(row.get("target_count", 0) for row in folds) == 52
+           and ranker.get("target_count_distribution") == {"1": 19, "2": 15, "3": 1}
+           and ranker.get("top1_exact") == sum(row.get("top1_exact") is True for row in folds) == 6
+           and ranker.get("top2_exact") == sum(row.get("top2_exact") is True for row in folds) == 5
+           and ranker.get("oracle_k_exact") == sum(row.get("oracle_k_exact") is True for row in folds) == 11
+           and ranker.get("oracle_k_hits") == sum(row.get("oracle_k_hits", 0) for row in folds) == 24
+           and all(0 <= row.get("oracle_k_hits", -1) <= row.get("target_count", -2)
+                   <= row.get("candidate_headings", -3) for row in folds),
+           "AgentHop lookahead: grouped ranker counts and oracle-k ceiling reconcile")
+        ok(ranker.get("provider_calls") == ranker.get("gac_candidates")
+               == ranker.get("matched_arms") == 0
+           and ranker.get("decision") == "EXPLORATORY_RANKER_TOO_WEAK_NO_PAID_MATCHED_ARM"
+           and "not an independent confirmatory test" in ranker.get("limitations", [""])[0],
+           "AgentHop lookahead: ranker remains posthoc and cannot imply GAC superiority")
+        prose = (base / "REPORT.md").read_text()
+        ledger = (PAPER / "iclr/notes/reviewer_concern_closure.md").read_text()
+        ok("41/42" in prose and "7/19" in prose and "11/35" in prose
+           and "posthoc" in prose and "No derived selector" in prose
+           and "AgentHop adaptive development disposition" in ledger,
+           "AgentHop lookahead: reviewer prose states the result and its limits")
+    except (OSError, TypeError, KeyError, ValueError) as error:
+        ok(False, f"AgentHop lookahead: {error}")
+
+
 FAMILIES: dict[str, Any] = {
     "appworld_batched_competence": validate_appworld_batched_competence,
     "adaptive_comparison_preflight": validate_adaptive_comparison_preflight,
     "agenthop_source_feasibility": validate_agenthop_source_feasibility,
+    "agenthop_baseline_trace_pilot": validate_agenthop_baseline_trace_pilot,
+    "agenthop_section_lookahead": validate_agenthop_section_lookahead,
     "bird_one_call_development": validate_bird_one_call_development,
     "primary_population_audit": validate_primary_population_audit,
     "sources": validate_sources,

@@ -19,6 +19,16 @@ for a positive GAC quality–cost claim: the reference can prewrite the full
 ranked navigation and vote in one call. No GAC artifact or matched comparison
 was produced. The current manuscript's numerical claims remain unchanged.
 
+The [sealed AgentHop baseline](../results/agenthop_baseline_trace_pilot/REPORT.md)
+cleared its development competence gate at 19/24, but the tested bridge-binding
+families yielded no derived GAC candidate. The provider-free
+[section-lookahead audit](../results/agenthop_section_lookahead/REPORT.md)
+found next-turn timing opportunities without a verified selector or matched
+intervention. A grouped posthoc ranker probe remained weak even with an oracle
+read count (11/35 exact batches). This is a method-design lead, not evidence of quality--cost
+superiority. AppWorld's two sealed common-entry attempts missed their 8/12
+competence gate (PR #108).
+
 ## Separate the claims
 
 1. **Execution value:** reduce amortized cost while preserving independently

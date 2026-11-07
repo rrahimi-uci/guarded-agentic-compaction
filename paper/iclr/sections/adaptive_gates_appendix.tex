@@ -1,0 +1,65 @@
+\section{Adaptive-Task Development Gates}
+\label{app:adaptive-gates}
+
+These later studies probe whether an adaptive quality--cost comparison is
+executable. They use exposed development cases, not independent final tests;
+none contributes to the primary calibration certificate or changes the
+results in \cref{tab:primary,tab:awm}. Reports, seals, and validation code are
+in \path{paper/results/bird_one_call_matched_pilot/},
+\path{paper/results/appworld_batched_competence/}, and
+\path{paper/results/agenthop_baseline_trace_pilot/}. The AgentHop source and
+section audits are in \path{paper/results/agenthop_source_feasibility/} and
+\path{paper/results/agenthop_section_lookahead/}.
+
+\paragraph{BIRD: exact handwritten control.}
+A sealed three-arm continuation study attempted all 108 scheduled episodes on
+36 corrected BIRD development questions from nine databases. The unchanged
+agent and an exact handwritten \code{list\_tables()} prefetch each answered
+28/36 correctly; a guarded research candidate answered 26/36. Provider
+requests were 151, 111, and 112, respectively. The candidate dispatched
+36/36 times, and its synthetic continuation input matched the handwritten
+arm's input in all cases. It was derived using these exposed databases and
+traces, had no independent calibration or test groups, and was not admitted
+as a GAC artifact. It demonstrates a working guarded handoff and request
+savings against the unchanged agent, but no quality--cost advantage over the
+simple handwritten program.
+
+\paragraph{AppWorld: baseline competence failed.}
+An adapted common-entry worker passed 36/36 known-correct, empty, and
+false-completion controls on each of the direct public-API path and the
+agent batch RPC. Authentication was a measured common setup, not a compiled
+read. Two separately sealed baseline attempts on the same 12 exposed
+training scenarios scored 1/12 and 2/12 official task successes, below the
+prespecified 8/12 engineering floor. The second attempt changed both model
+and prompt after the first result; their scores do not estimate a model
+effect. Neither is a competent comparator for a GAC savings claim, so no
+matched GAC arm was run. These are adapted-interface results, not native
+AppWorld leaderboard scores~\citep{trivedi2024appworld}.
+
+\paragraph{AgentHop: competent agent, missing selector.}
+The released citation-graph benchmark supplies an exact multiple-choice
+grader and seven-tool sandbox~\citep{park2026agenthop}. A sealed 24-case
+single-target, depth-2 baseline scored 19/24, passing its prespecified 17/24
+engineering gate. However, the closed binder found no consistent expression
+for the model-selected bridge paper from permitted entry state and the
+model-visible reference output. The first-turn seed reads could save at most
+one model request and are equally available to a handwritten prefetch.
+After \code{list\_sections}, a posthoc trace audit found 42 next-turn
+section-read opportunities in 22 cases, but this is an oracle timing ceiling,
+not an executed saving. A grouped, still posthoc ranker matched only 11/35
+exact read batches even when given the true future read count and the
+model-selected paper. No selector was frozen, no synthetic mid-trajectory
+continuation was run, and no GAC arm was compared. All 478 selected source
+questions lie in one full-neighborhood paper-overlap component, so these
+cases do not establish source-independent calibration groups.
+
+\paragraph{Decision.}
+These gates improve evaluator validity and identify a competent adaptive
+baseline, while showing that the tested candidate designs do not yet meet
+the reviewer-requested comparison. A future study must derive a useful
+state-dependent program from separate training trajectories, preserve
+continuation semantics, expose the same selection logic to handwritten and
+simpler-compiler controls, and freeze independent calibration/test populations
+and full costs before outcome inspection. The present paper claims neither
+GAC superiority nor a general quality-preservation guarantee from these
+development cases.

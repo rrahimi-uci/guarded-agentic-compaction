@@ -15,7 +15,7 @@ separate from this local revision.
 | Successful-trace filtering, matching-window filtering and excluded eligible records (R1, R2) | Retrospective accounting completed; population repair still open | Audit accounts for 396 records and identifies three excluded baseline failures that pass saved entry guards/gates | Sample before outcomes and family occurrence; freeze the candidate and label all eligible independently sampled groups without dropping failures or missing outcomes |
 | Candidate-selection-wide 5% guarantee (R3) | Unsupported broad claim withdrawn; new evidence open | 92-group one-candidate bound 0.049809; two-candidate correction 0.056941 | Predeclare candidate/threshold multiplicity and error allocation. Pass the bound on a prospectively fixed cohort or report refusal; do not extend after observing the result |
 | Independent sampling unit (R2, R3) | Limitations stated; design unresolved for the next study | Author/day sensitivity removes primary admissions | Justify a population and grouping unit before data selection. Report dependence sensitivities; variants and observations from one scenario cannot manufacture independent groups |
-| Practical value beyond simple metadata retrieval and handwritten macros (R2) | Open empirical objection | Handwritten arm matches 90 contracts and request savings; BIRD one-call candidate scored 26/36 versus 28/36 baseline and handwritten; retained AppWorld V1/V2 pilots achieved 1/12 and 2/12, below their 8/12 competence gate; Reddit task 714 has a passing batched agent and one-batch handwritten reference, but no admitted GAC artifact | A competent baseline on genuinely adaptive tasks, a useful automatically derived recurrent region, complete discovery/rejection costs, and comparison against the same handwritten program/continuation |
+| Practical value beyond simple metadata retrieval and handwritten macros (R2) | Open empirical objection | Handwritten arm matches 90 contracts and request savings; the new “Adaptive-Task Development Gates” appendix discloses BIRD 26/36 versus 28/36, AppWorld 1/12 and 2/12 below the 8/12 gate, and AgentHop 19/24 without a derived selector; Reddit task 714 has a passing batched agent and one-batch handwritten reference | A competent baseline on genuinely adaptive tasks, a useful automatically derived recurrent region, complete discovery/rejection costs, and comparison against the same handwritten program/continuation |
 | Comparison with EvoC2F / Agent JIT and interpretable external-table outcomes (R1) | External table scope clarified; matched compiler comparison open | SQL adaptation and executor parity are development evidence, not native or general compiler ranking | Pin an executable comparator, document fidelity/adaptation, validate identical tools/outputs, use the same frozen tasks/model/budgets, and report final quality and full costs |
 | Individual safeguard contribution and realistic changes (R2) | Partial evidence; general benefit unestablished | Request-scope recovery works on constructed requests; recurrence-only primary replay is equally accurate and cheaper | Hold the program, compiled region, continuation and budget fixed; change one mechanism at a time. Separate ordinary tasks from prespecified stress; measure wrong dispatch, fallback, quality and recovery cost |
 | Learned score versus support-only gating at two positive certified coverage levels (R2, R3) | Open; no ranking benefit claimed | Current primary cohort supports full coverage or retirement only; extension is exploratory | Freeze scoring and thresholds; use unfiltered independent calibration and a separate final population. Match coverage, risk budget and grid across gates. Report infeasibility or null results without relabeling them as benefit |
@@ -97,6 +97,26 @@ case, a measured interface constraint rather than a proven failure cause.
 The manuscript, reviewer response, and this ledger must agree about which steps were
 executed. Software QA, an open PR, or a passing control is not reviewer acceptance.
 
+## AgentHop adaptive development disposition
+
+The [source audit](../../results/agenthop_source_feasibility/REPORT.md) pins an
+open citation-graph task with independent exact-answer grading, but all 478
+single-target depth-2 cases belong to one full-neighborhood source component.
+The [sealed baseline pilot](../../results/agenthop_baseline_trace_pilot/REPORT.md)
+scored **19/24** on 24 exposed development cases, clearing its prespecified
+17/24 engineering competence gate. The tested exact-text and typed-reference
+binding families yielded no derived dependent program. The
+[section-lookahead audit](../../results/agenthop_section_lookahead/REPORT.md)
+found 42 next-turn section-read opportunities in 22 cases, but did not derive a
+selector or execute a matched intervention. Its posthoc simple selectors were
+weak even when given the model-selected paper; a grouped but still posthoc
+ranker matched only 11/35 exact read batches even with the true read count supplied. These results establish a
+competent comparator and expose a possible timing mechanism; they do not close
+the practical-value, handwritten-control, matched-compiler, population-repair
+or statistical-design objections. No manuscript superiority or acceptance
+claim changes. PR #110 supplies the source audit, PR #111 the paid baseline and
+binding result, and this branch adds only the provider-free timing diagnostic.
+
 ## BIRD matched one-call development disposition
 
 The [sealed three-arm result](../../results/bird_one_call_matched_pilot/REPORT.md)
@@ -108,4 +128,5 @@ while handwritten used 111. The candidate does not outperform the simple
 wrapper and has no calibration or independent test groups. It therefore
 closes the mechanical continuation-feasibility step only. The practical-value,
 learned-gate, matched-compiler, population-repair and statistical-design rows
-remain open. No manuscript numerical claim or acceptance prediction changes.
+remain open. The new appendix reports these development numbers without
+changing a primary confirmatory result or implying acceptance.
