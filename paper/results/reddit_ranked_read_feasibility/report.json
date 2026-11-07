@@ -1,0 +1,139 @@
+{
+  "all_passed": false,
+  "archive_sha256": "ba2a473665810d5bd71e531039ff41ef3a45e228a86ac6faf8c05b6285e4689b",
+  "files": [
+    {
+      "bytes": 34582,
+      "path": "blocked_post/record.json",
+      "sha256": "076e0dfda7872bed1bafe485b5e6bdef88d5f008f4de9f2495612d35c1b0b904"
+    },
+    {
+      "bytes": 1809062,
+      "path": "blocked_post/session/network.har",
+      "sha256": "e728bf2967fce3e67d7add3bd250b23a323057e425b986790c436185a02e34f4"
+    },
+    {
+      "bytes": 6547,
+      "path": "blocked_wrong_forum/record.json",
+      "sha256": "c911bf90faa416013bd5e10e569dd69dcb2a4d638389de9e270349213c8a6e2d"
+    },
+    {
+      "bytes": 818697,
+      "path": "blocked_wrong_forum/session/network.har",
+      "sha256": "90d801bab3acba6f7cad9f9a09e626e29c1d544f08a38b0dacdc298377f8c738"
+    },
+    {
+      "bytes": 6410,
+      "path": "empty_negative/record.json",
+      "sha256": "293e07e85351ca773e6da3bdd775cfdfac29695ccb80a2ae4a658d8239a4a7cb"
+    },
+    {
+      "bytes": 817337,
+      "path": "empty_negative/session/network.har",
+      "sha256": "260b3900406e3375772d9b3366a0590ad034ff4c1efb79775f25e55c1b4cd747"
+    },
+    {
+      "bytes": 34451,
+      "path": "read_only/record.json",
+      "sha256": "de0b8e2b87339ea4ee1918fcce476e1aaef8314415b558233bd800474a7db6ba"
+    },
+    {
+      "bytes": 1807706,
+      "path": "read_only/session/network.har",
+      "sha256": "ebdd82b453799501519244f2b2d4c396029e5dc705b3c3143f46e9af168b3802"
+    },
+    {
+      "bytes": 60814,
+      "path": "read_then_vote/record.json",
+      "sha256": "992683067cef00bfdf3e1f94d6c2c0ce36cb33a74dce6e41a66a9506379a3d09"
+    },
+    {
+      "bytes": 1809693,
+      "path": "read_then_vote/session/network.har",
+      "sha256": "37afe2acd4f479d9b942b664cbab8f65375b5fcd0792f497165d100d658f97da"
+    },
+    {
+      "bytes": 4104,
+      "path": "seal.json",
+      "sha256": "902beab66680b11cce455a91510dc2f7e622bb107b448da26849e1d0a295fd02"
+    },
+    {
+      "bytes": 1632,
+      "path": "source/paper/results/adaptive_comparison_followup/selection.json",
+      "sha256": "2d7b67ae005d9bb5db4681008bc286d8a9ba9936093afe2744d38ffea165dd82"
+    },
+    {
+      "bytes": 15324,
+      "path": "source/paper/scripts/browser_staging_boundary.py",
+      "sha256": "6e5c755ecd9031b7fcee7c38ec20589f8f298180dbc60a951d77556b9ded8505"
+    },
+    {
+      "bytes": 12718,
+      "path": "source/paper/scripts/reddit_ranked_read_feasibility.py",
+      "sha256": "782e7f2a91a093dba2edabca404f5c80e69d5364c74c47ffe57e6c2acfa34d42"
+    },
+    {
+      "bytes": 20551,
+      "path": "source/paper/scripts/webarena_verified_development.py",
+      "sha256": "d452c42f27210f8314bf8ac3de2d9a1cd1fb33cb8e085f838a64107e0967dafc"
+    },
+    {
+      "bytes": 11357,
+      "path": "upstream/LICENSE",
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    }
+  ],
+  "gac_artifacts": 0,
+  "independent_task_groups": 0,
+  "passed": 4,
+  "provider_calls": 0,
+  "rows": [
+    {
+      "effect": "none",
+      "mode": "empty_negative",
+      "navigation_error": null,
+      "navigation_status": null,
+      "passed": true,
+      "seconds_including_cleanup": 30.140725250006653,
+      "status": "completed"
+    },
+    {
+      "effect": "none",
+      "mode": "read_only",
+      "navigation_error": null,
+      "navigation_status": 200,
+      "passed": true,
+      "seconds_including_cleanup": 22.569228500011377,
+      "status": "completed"
+    },
+    {
+      "effect": "none",
+      "mode": "blocked_wrong_forum",
+      "navigation_error": "Error",
+      "navigation_status": null,
+      "passed": true,
+      "seconds_including_cleanup": 21.89928729197709,
+      "status": "completed"
+    },
+    {
+      "effect": "none",
+      "mode": "blocked_post",
+      "navigation_error": null,
+      "navigation_status": 200,
+      "passed": true,
+      "seconds_including_cleanup": 23.49513366597239,
+      "status": "completed"
+    },
+    {
+      "effect": "vote_attempted_after_promotion",
+      "mode": "read_then_vote",
+      "navigation_error": null,
+      "navigation_status": 200,
+      "passed": false,
+      "seconds_including_cleanup": 24.599431707989424,
+      "status": "completed"
+    }
+  ],
+  "scheduled": 5,
+  "schema": "gac-ranked-read-feasibility-report-v1"
+}
