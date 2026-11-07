@@ -108,16 +108,17 @@ provider's agent never ran a fixed opening and was refused
 \begin{table}[t]
   \centering
   \caption{The two trace benchmarks with no measured \method benefit (all four in
-  \cref{tab:funnel-all}). Stage numbers follow \cref{fig:pipeline}; ``slots''
-  is the share of dependency slots with a recovered producer; ``at floor''
-  counts families meeting the stage-2 support minimum ($\ge5$ groups on
-  NESTFUL, $\ge3$ elsewhere); $n_{\max}$ is the largest family support
-  (\cref{eq:cp} requires 92); ``p/a/w'' is pass/abstain/wrong on the
-  \emph{family-level} replay split, not the 11/11 admission test split
-  (\cref{app:external}). AppWorld shows effect arm A.}
+  \cref{tab:funnel-all}); parenthesized numbers are pipeline stages
+  (\cref{fig:pipeline}). Key: \emph{grounded slots} is the share of dependency
+  slots with a recovered producer; \emph{at floor} counts families meeting the
+  stage-2 support minimum ($\ge5$ groups on NESTFUL, $\ge3$ elsewhere);
+  $n_{\max}$ is the largest family support (\cref{eq:cp} requires 92);
+  \emph{pass / abstain / wrong} counts the \emph{family-level} replay split, not
+  the 11/11 admission test split (\cref{app:external}). AppWorld shows effect
+  arm A.}
   \label{tab:funnel}
   \footnotesize
-  \setlength{\tabcolsep}{4pt}
+  \setlength{\tabcolsep}{2.5pt}
   \input{tables/refusal_funnel.tex}
 \end{table}
 
@@ -139,31 +140,25 @@ a prologue recovers only 2 more of 4{,}680 (\cref{app:limits}).
 \subsection{Certificates, replications, and further studies}
 \label{sec:res-more}
 
-\begin{table}[t]
-  \centering
-  \caption{Evidence scope. Statistical statements retain their sampling and
-  selection assumptions; measured savings do not certify answer quality.}
-  \label{tab:evidence-scope}
-  \footnotesize
-  \input{tables/evidence_scope.tex}
-\end{table}
-
 \emph{Admission scope} (\cref{app:certificates}). Each primary artifact was
 admitted at 92/92 zero-violation calibration groups ($U_{\hat\eta}=0.0498$,
 conditional on i.i.d.\ groups from the selected population), a replay bound that is
 compiler-wide for issue-type routing (one candidate at calibration) and
 per-candidate for PR-outcome and backlog routing (two; corrected $U=0.0569$, so
 compiler-wide only at $\alpha\ge0.057$; \cref{cor:frozen}); \cref{tab:certificates}
-lists every admitted artifact, including the one end-to-end certificate, from a
-post-cutoff PR-outcome cohort on which the re-derived artifact dispatched on
-132 fresh groups and missed 0 task contracts (one-sided bound 0.0173 under the
-single pre-registered rule, 0.035 under the primary grid). What the statistical
-stage adds at runtime is measurable, and null on these candidates: full
-statistical admission, support-only admission, and deterministic guards give
-identical routing and evidence on all 2{,}724 record--model cases of the AWM
-comparison. This conditional-on-admission ablation does not test whether
-compilation excluded bad candidates. The sample floor refuses the thin
-benchmarks of \cref{sec:res-refusal} and second-provider backlog routing.
+lists every admitted artifact. The score $q$ is implemented, but every admitted
+operating point on the registered cohorts is full coverage, so the certificate
+is a support-sufficiency floor; graded, learned selection is not claimed.
+The one end-to-end certificate is from a post-cutoff PR-outcome cohort: the
+re-derived artifact dispatched on 132 fresh groups (84 open and 48 merged pull
+requests, no closed-unmerged) and missed 0 task contracts, a one-sided bound of
+0.0173 under the single pre-registered rule and 0.035 under the registered
+grid (\cref{app:limits}); \cref{tab:evidence-scope} states what each kind of
+evidence does and does not establish. Full statistical admission, support-only
+admission, and deterministic guards give identical routing and evidence on all
+2{,}724 record--model cases of the AWM comparison (a conditional-on-admission
+ablation that does not test candidate exclusion). The sample floor refuses the thin benchmarks of
+\cref{sec:res-refusal} and second-provider backlog routing.
 
 \emph{Newer records within a snapshot} (\cref{app:breadth}). On a two-read
 PR-outcome task over five frozen repositories, \method completes 120/120 exact
@@ -173,14 +168,19 @@ the induced \code{pr.state} hull, so requests fall 44.4\% (66.7\% where
 dispatched), and a class-balanced rerun with \code{pytorch/pytorch} reaches
 180/180 at 66.7\% fewer requests.
 
-\emph{Live recovery} (\cref{app:live-recovery}). A four-arm study of a
-three-comment prefetch with equal recovery tools removes request-scope
+\emph{Mechanism evidence} (\cref{app:live-recovery,app:limits}). A live-recovery
+study of a three-comment prefetch with equal recovery tools removes request-scope
 admission (the entry hull on the requested comment limit) or completeness
-checking (the verifier clause that the prefetched page covers that request)
-one at a time over 2{,}304 scheduled episodes. On 72 confirmation issue groups
-with constructed requests the scope guard raises success from 186/216 to
-205/216 ($+8.80$ points, descriptive 95\% interval $[3.70,13.89]$); removing
-the completeness check yields 204/216 versus 205/216 under capped responses
-(the agent repairs 22/27 incomplete prefetches), so its benefit is unresolved;
-and full does not beat baseline: mechanism evidence under hand-specified
-contracts, not a live-answer certificate.
+checking (the verifier's check that the page covers the request) one at a time
+over 2{,}304 scheduled episodes. On 72 confirmation
+issue groups with constructed requests the scope guard raises success from
+186/216 to 205/216 ($+8.80$ points, descriptive 95\% interval $[3.70,13.89]$);
+the completeness check's benefit is unresolved (204/216 versus 205/216 under
+capped responses; the agent repairs 22/27 incomplete prefetches), and full does
+not beat baseline: mechanism evidence under hand-specified contracts, not a
+live-answer certificate. The three drift studies show no verifier protection: a
+provider-free perturbation study (144 paired groups) and a recorded-replay
+study (89 paired records) are null, with zero wrong answers in every arm, and
+the continuation-graded study is adverse, with 39/60 silent wrong answers in
+both arms (40 under the corrected grader), so the verifier bought abstention
+only.
