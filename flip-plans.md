@@ -113,6 +113,16 @@ Studies the reviewers have not seen (dates = first commit to `main`):
 
 ### 1.4 What this plan builds on (main branch inventory)
 
+**Baseline manuscript.** `paper/iclr/build/main.pdf` on `main` at commit `5a84f0d`
+(SHA-256 `7c68caca3c68ffaffc0d09d74e8743a4dc265a64cda3a6d052eff5ecafbf5496`, built
+2026-11-06 20:57 PST, 60 pages, Section 8 ends on page 10, AI Use Statement opens page 11).
+Every section, table and page reference in this plan was read against this file and its
+source in `paper/iclr/sections/` and `appendix.tex`. It contains the November 6 population
+audit and the adaptive-gates appendix, so it is not the version the reviewers read; the
+version-gap check (0.2, Appendix A.1) still requires the OpenReview download. PR #114's
+build (SHA-256 `58394f0fae9e58b08335595bd8e303ad8617abe0026d64c2581ae00621312bf4`, 60 pages)
+adds only the binder expressivity audit paragraph and becomes the baseline once merged.
+
 The plan extends artifacts already on `main`; it does not restart them. Open PR #114 (BIRD
 binder expressivity audit: no exact T-v1 expression for the baseline-selected schema batch on
 36/36 exposed cases; it also edits the adaptive-gates appendix, the concern ledger, and the
