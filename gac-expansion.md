@@ -4,7 +4,7 @@ Status: proposed design and execution plan; no expansion is implemented by this 
 
 Date: 2026-11-07.
 
-Source baseline: `origin/main` at `5250a32ffd7862da9d602326b6497c8b2aa2d97d`.
+Source baseline for the feasibility re-review: `origin/main` at `6c4ec01183b20583d49e6e51dfe80a86384bc5bb`, which includes the original plan from PR #119. The first plan used `5250a32`; the observations and corrections below were rechecked against the newer baseline.
 
 Scope: expand what GAC can optimize while preserving explicit effect, continuation, and evidence boundaries. This is a separate research and engineering track, not a claim that the current paper already supports write-enabled compilation.
 
@@ -25,6 +25,8 @@ The first useful deliverable is an adaptive agent that alternates between admitt
 
 Success has three separate meanings: **mechanism correctness** under a stated backend contract; **empirical task performance** on a fresh population; and **incremental value of automatic guarded compilation** over simpler alternatives. Passing one does not establish the others.
 
+**Feasibility verdict after the deeper review:** proceed with M0 and a bounded application-owned host prototype. Interior read optimization is a credible extension of existing components; compiled transactional writes require substantial new compiler, storage, and recovery work. A local backend probe supports the atomic-receipt approach, but no expanded GAC runtime or new admission certificate exists. Generic transparent installation, arbitrary external writes, and a fixed date for research superiority are not supported commitments. Section 15 records the evidence and unresolved gates; the revised estimates in section 11 supersede the original 5–9-week prototype estimate.
+
 ## 2. Current implementation and evidence
 
 The following observations were checked against the source baseline above. Links identify existing implementation or retained evidence, not promised future capabilities.
@@ -38,12 +40,17 @@ The following observations were checked against the source baseline above. Links
 | Exceptions | [`ToolFacade`](src/guarded_agentic_compaction/runtime/facade.py) wraps executor exceptions as `ToolFailure`, under a pre-commit `FacadeError` contract. | Reusing this contract for writes could replay a successful mutation after a timeout. |
 | Staging | [`Staging`](src/guarded_agentic_compaction/runtime/staging.py) compares explicit snapshots and accepts only read-like effects at commit. | Its `commit` records an accepted read execution; it is not a durable database transaction coordinator. |
 | Admission | Compiler and artifact structures retain guards, verifier checks, evidence, and compatibility versions. | New boundaries, effects, loss definitions, and continuation policies require fresh artifacts and evidence. |
+| Integration ownership | [`CompactingModel`](src/guarded_agentic_compaction/runtime/model_provider.py) emits calls into a host-owned history and explicitly cannot undo post-emission state; it rejects loop/assertion programs. | Use an application-owned outer controller first. Keep the transparent model wrapper on its existing supported scope. |
+| Replay identity | [`Recording`](src/guarded_agentic_compaction/runtime/facade.py) retrieves results by tool and arguments; identical repeated calls overwrite the exact-key lookup. | Mutation replay requires occurrence/state/receipt identity and execution against disposable worlds, not this lookup alone. |
+| Label generation | [`_calibration_samples`](src/guarded_agentic_compaction/grc/compile.py) labels recorded-output agreement after successful interpretation and verification. | It is not the full-workflow, mutation-aware calibration path proposed below; that path must be built explicitly. |
 
 The [browser development boundary](paper/supplementary/browser-boundary-development.md) retains an owned application/browser instance after a checked read and allows subsequent local writes. It explicitly distinguishes this research mechanism from production `Staging` and GAC admission. It does not establish arbitrary browser restoration or admitted compiled writes.
 
 The [AppWorld adaptive pilot](paper/results/appworld_adaptive_viability/REPORT.md) discovered a grading-path persistence defect and retained the interrupted run as development evidence. The [common-entry preflight](paper/results/appworld_entry_preflight/REPORT.md) subsequently validated controls with common authentication setup; authentication remained a write. The [batched competence report](paper/results/appworld_batched_competence/REPORT.md) records 1/12 and 2/12 successes against a prespecified 8/12 development gate. That gate failed. These exposed tasks can support engineering regression checks, not fresh confirmation or a presumption of a competent comparator.
 
 The [three reviewer reports](paper/reviews/ICLR-1.txt), [including the adaptive-workflow objection](paper/reviews/ICLR-2.txt) and [selection/coverage objection](paper/reviews/ICLR-3.txt), motivate measuring continuation outcomes, accounting for the eligible population, and comparing equally capable alternatives. Adding writes alone does not resolve those objections.
+
+The existing [fulfillment demo](demos/fulfillment/__init__.py) and [provider-free integration controls](tests/integration/test_fulfillment_demo.py) are a useful engineering starting point: they already exercise pagination, conditional read calls, and a host-side commitment. Their current scope is a read prefix followed by one commitment. A separately versioned fixture can add post-commit read boundaries without rewriting historical results. Scripted fixture success is not evidence of adaptive model competence or automatically discovered mutation programs.
 
 ## 3. Requirements, assumptions, and exclusions
 
@@ -73,6 +80,8 @@ The core consumes these contracts and a bounded region IR; it must not contain c
 Expose separate support states: `HOST_COMPATIBLE`, `REGION_INELIGIBLE`, `CANDIDATE_UNADMITTED`, and `ARTIFACT_ADMITTED`. These are proposed reporting concepts, not existing enum values. A compatible host may produce no admitted region and still run its ordinary workflow. If the host cannot capture required state, GAC stays off on that surface; if publication becomes uncertain, compatibility does not permit unsafe fallback.
 
 The initial PostgreSQL example is an execution-contract testbed, not the product scope. Before claiming architectural portability, run a shared conformance suite against at least two structurally different host/tool integrations, with one demonstrating interior read reuse and one demonstrating a mutation-capable boundary. Register schemas/adapters without editing core domain logic. This is a portability check, not proof of performance across all workflows. A host may support concurrent agents externally; the first optimized regions must be isolated from their conflicting effects or refuse dispatch.
+
+Generic here means **portable contracts with explicit integration**, not interception of an arbitrary black-box agent. A dynamic host without a trustworthy checkpoint/program point is initially unsupported for interior dispatch. The first supported host must own the complete local tool loop, observations, continuation cursor, and checkpoint storage. The existing model-only wrapper cannot supply these properties by itself. Local reads may be demonstrated in a disposable process before durable host support exists, but that demonstration must not claim restart recovery or permission to execute compiled writes.
 
 ### Nonfunctional requirements and trusted components
 
@@ -135,6 +144,10 @@ Discovery and calibration must use the same boundary representation and host beh
 
 For the first interior implementation, permit only a bounded, serial sequence of host-declared region positions. A write invalidates affected observations and dependent predicates. Unknown aliasing or an unversioned dependency causes conservative invalidation. A newly refreshed value must not inherit an old provenance receipt.
 
+Interior mining needs more than a runtime position token. [`_live_in_out`](src/guarded_agentic_compaction/graph/windows.py) currently rejects a needed producer outside the candidate region unless it is represented in episode entry state. Define a versioned boundary-local entry projection that preserves the original producer event/receipt, original workflow and independence group, resource version, and current history. Refit and validate using that exact projection. Never manufacture independent episodes by splitting one workflow into several regions or relabel past outputs as new user inputs without provenance.
+
+Return an explicit outcome to the host: `BASELINE_AT_CHECKPOINT`, `COMPACTED`, or `RECOVERY_REQUIRED` (proposed names). The current runner's `compacted` boolean plus telemetry record must not become a rule that every false result runs the baseline. A test must inject an incident through the actual host adapter and observe that no downstream tool or model action executes. All actions, including ordinary host writes before and after a region, must participate in the same durable intent/receipt convention if crash-resume correctness is claimed.
+
 ## 6. Branches and loops: preserve the decision boundary
 
 The first control-flow expansion should reuse existing typed predicates and bounded loops where possible. Examples include “fetch the next page while `has_more` is true” and “read additional metadata when a returned field is absent.” A branch such as “this complaint deserves a refund” remains a model or explicit policy decision unless a separately validated observable rule actually represents that decision.
@@ -144,6 +157,8 @@ Require definition-before-use on every path, typed joins, explicit absent output
 For loops, enforce both a static maximum and runtime call/resource budgets. Check target identity and preconditions on every iteration. The first mutation program may make multiple bounded changes within one transaction but has one publication point; partial externally visible loop progress is deferred to a later recovery design. Exceeding the bound aborts unpublished work. A bound failure after publication is a recovery event, never a clean rejection.
 
 Trace support for one branch says nothing about an unobserved branch. Explicitly enumerate reachable branches in the bounded program, challenge each permitted branch, and refuse unsupported paths. Development branch coverage is an engineering check, not an independent-sample risk certificate. New nested branching or loop-body syntax requires a separate expressivity justification and review after the initial milestones.
+
+The initial supported subset is optional call suffixes and existing bounded single-tool repetition. The current synthesizer merges a sequence with a one-step extension; this is not general mutually exclusive branch or multi-tool loop synthesis. For mutation artifacts, require predicate validation to distinguish true, false, and invalid before execution: the existing numeric type-error-to-false behavior cannot select or skip a mutation silently. Do not modify the interpretation of legacy signed read artifacts without a version change. Preserve execution order in the first mutation compiler; defer reordering, parallelization, alias-based batching, and new loop-body syntax. Coarse tool-resource names are not sufficient to prove independence of parameterized writes.
 
 ## 7. Mutation contracts and publication
 
@@ -170,6 +185,8 @@ Pre-publication validation prevents publication of detected invalid private stat
 ### Compiler work required beyond the transaction adapter
 
 M2 must extend trace capture, resource-dependency analysis, region mining, synthesis, contracts, and execution together. A durable executor alone is not a write compiler. Preserve read-after-write, write-after-read, and write-after-write dependencies at resource/alias scope; unknown conflicts keep operations ordered or make the region ineligible. An effect multiset cannot capture ordering, target identity, or transaction boundaries. Add an ordered effect/commit description with branch-specific allowed transitions.
+
+Introduce an occurrence-aware mutation trace: workflow and activation identity, ordered call/iteration ordinal, input state/version, result/receipt, and transaction membership. Two identical calls can intentionally have different effects and results. Outcome equivalence must also state how generated identifiers or timestamps are compared: verify task-relevant relations and effect receipts rather than demand byte-identical newly generated values, or ignore all differences. Any normalization is a reviewed contract, never a posthoc adjustment made to pass evaluation.
 
 Learn argument bindings only from witnessed, properly scoped values and use reviewed operation semantics. Do not infer authorization, compensation, business invariants, or reversibility from recurring successful traces. Existing argument canonicalization must be re-audited for mutations: a transformation safe for retrieval, such as widening a set of results, may change the intended write targets. A generated mutation must pass the semantic state-transition oracle on fresh disposable development worlds before admission is considered. Recorded-response replay cannot validate actual write effects.
 
@@ -201,6 +218,20 @@ Required rules:
 
 Authorization is evaluated before publication using current policy and the actual target. Approval, if required, binds to the intent, payload, resource/version constraints and expiry; changing them invalidates approval. Waiting for approval does not hold a database transaction open. Recovery reads and already-authorized operation reconciliation have explicit privileges; a permission failure must not be misreported as an absent operation.
 
+### Concrete first-backend protocol
+
+Use an application-owned database, typed operations on a fixed schema, and one database transaction per bounded mutation program. A harmless first fixture is adding explicitly identified existing items to an owned collection with an exact membership-delta oracle. No arbitrary SQL, external hooks, email, payment, or shell actions are available to the compiled program.
+
+1. Persist an immutable intent with a unique `(tenant, workflow, activation, intent)` identity, canonical payload digest, and pinned contract. Separate a region's publication identity from its internal step/iteration identities: multiple steps in one atomic region produce one commit receipt.
+2. Open a transaction with the pinned isolation policy. Lock/claim the intent under a consistent ownership protocol, then read the authoritative receipt. A matching committed receipt returns the saved result; a payload mismatch refuses.
+3. Recheck authorization, resource versions, predicate/read dependencies and approval constraints within the publication boundary. The local adapter must coordinate policy changes through the same database consistency/locking contract. An unrelated authorization server would introduce another race and is outside this first fixture.
+4. Execute ordered typed calls and validate the resulting state delta in the transaction. Store the commit receipt, ordered effect summary, result payload/reference and continuation-delivery intent atomically with the business changes. All participating application writers must respect the reviewed invariant/locking protocol.
+5. Commit once. A confirmed serialization/deadlock abort may retry the **entire** transaction within a bounded policy, re-reading and revalidating dependencies. An uncertain connection outcome enters reconciliation instead. Reuse the same intent identity; never retry only the last SQL statement.
+6. Recovery uses a fresh connection and the same ownership/intent protocol to wait out an in-flight transaction and check its receipt. A missing receipt from an old snapshot is not proof of abort. Database unavailability keeps the action unresolved.
+7. Deliver the durable result to an idempotent host checkpoint transition. If checkpoint storage is separate, use the durable delivery intent and retry delivery; do not claim an atomic database-plus-host update. Downstream actions reuse recorded identities after recovery.
+
+Database locking and retry semantics must be tested against the pinned version; PostgreSQL documents transaction-level locks and the need to retry serialization failures. See [transaction isolation](https://www.postgresql.org/docs/14/transaction-iso.html) and [explicit locking](https://www.postgresql.org/docs/14/explicit-locking.html). This protocol is proposed; the local probe in section 15 validates only a subset of its mechanism, not this complete host integration.
+
 Compensation is deferred. If later supported, it must preserve concurrent legitimate changes and expose its own failure outcome. It cannot retract every notification or observation caused by the original action. [Compensating transaction pattern](https://learn.microsoft.com/en-us/azure/architecture/patterns/compensating-transaction).
 
 ## 9. Correctness claims and statistical admission
@@ -215,11 +246,15 @@ Keep the following obligations separate:
 
 Specify the denominator for each claim. Full-workflow quality includes all scheduled members of the sampled population, including fallback. Conditional risk among optimized episodes uses the frozen selection policy and the corresponding selected groups; low coverage cannot establish that conditional risk by diluting failures with baseline-only cases. Infrastructure failures receive a prespecified conservative disposition, never silent exclusion. Report both unconditional workflow outcomes and conditional optimization outcomes with their own uncertainty and coverage.
 
+Selection for the conditional metric is defined at **dispatch attempt**, before knowing whether execution, verification or commitment succeeds. Include failed, unresolved and incident attempts; counting only successfully compacted completions would bias the denominator. At workflow level, record whether any optimized attempt occurred and whether any relevant violation occurred under the frozen policy. This is a different metric from per-call violation rate.
+
 Measure at least these distinct outcomes: absolute final task failure; compiled-only failure against the paired unchanged agent; effect-contract violation; unresolved publication; and complete workflow cost. Both arms failing is not evidence of adequate quality. A clean refusal can be a successful mechanism outcome while the resulting full workflow still fails. Do not label post-commit defects as abstentions or drop them because no final answer was produced.
 
 A fixed-candidate certificate does not automatically cover a selected portfolio, repeated adaptive region activations, or changing routing. Per-region error probabilities cannot simply be added unless their conditional validity over encountered histories and the activation bound are established. The first empirical release should therefore calibrate and evaluate the **whole frozen bounded orchestration policy** on independent task groups. Per-region results remain diagnostic until a composition argument is specified and reviewed.
 
-For a zero-violation fixed-policy calibration sample of size `n`, the one-sided exact binomial upper bound is `1 - alpha^(1/n)` under independent Bernoulli sampling. A prespecified union-bound treatment for `m` tested policies/thresholds replaces `alpha` by `alpha/m`; it does not repair adaptive reuse of holdout data or dependence. Use this only as a feasibility calculation, not a claim that future data will contain zero violations. Choose the target loss margin and confidence level before running; report no-go if the available independent groups cannot support them. Do not copy a historical sample threshold without recomputing its assumptions.
+For a zero-violation fixed-policy calibration sample of size `n`, use `epsilon` for the tolerated violation rate and `delta` for confidence failure probability: the one-sided exact upper bound is `1 - delta^(1/n)` under independent Bernoulli sampling. A prespecified union-bound treatment for `m` tested policies/thresholds replaces `delta` by `delta/m`; it does not repair adaptive reuse of holdout data or dependence. This notation avoids confusing the current `GrcConfig.alpha` risk target with confidence failure probability. Use this only as a feasibility calculation, not a claim that future data will contain zero violations. Choose the target loss margin and confidence level before running; report no-go if the available independent groups cannot support them. Do not copy a historical sample threshold without recomputing its assumptions.
+
+Build an explicit orchestration-level labeling/admission path. It must execute the frozen substituted workflow and continuation, persist final state, invoke the independent oracle, and retain outcome/attempt/incident labels. The current `_calibration_samples` helper cannot be relabeled as this path. Existing narrower evidence remains intact. A runtime need not have a perfect generic semantic oracle: distinguish enforceable runtime effect checks, offline task evaluation, and the scope of a resulting statistical claim. If the task lacks a defensible final-state/answer oracle, make no end-to-end certified quality claim for it.
 
 Task variants, repeated seeds, shared scenario templates, and correlated retries do not create new independent groups. Predeclare a defensible grouping and group-level loss/estimand or a justified dependence-aware analysis. For paired task success comparisons, predeclare the noninferiority margin and paired analysis; absence of a significant difference is not noninferiority. Safety-critical effect constraints remain hard requirements even if average task quality is acceptable.
 
@@ -248,18 +283,26 @@ The reuse break-even calculation is `N > offline_cost / (baseline_per_run_cost -
 
 ## 11. Implementation milestones and stop/go decisions
 
-Each row is a separate reviewable PR or small PR series. Estimates are rough engineering effort for one experienced maintainer with existing infrastructure, not delivery commitments or experimental sample-acquisition estimates. Re-estimate after M0. No PR is merged automatically.
+Each row is a separate reviewable PR or small PR series. These revised estimates include work omitted or understated in the first plan: boundary-local provenance, durable host outcomes, occurrence-aware mutation traces, predicate validity, and a new workflow-level admission path. They are engineering judgments for one experienced maintainer, not measured implementation velocity or delivery commitments. Re-estimate after M0. No PR is merged automatically.
 
 | Milestone | Deliverable and primary code areas | Exit gate | Rough effort |
 |---|---|---|---|
-| M0: feasibility and specification | Inventory actual traces and rejection reasons; define one interior-read use case and one transactional mutation use case; audit adapters; freeze state-machine and oracle specs. Start from `graph/windows.py`, retained reports, and host runners. | Useful recurrence and observable live-ins demonstrated in development; exact execution/grading controls pass; a plausible fresh-data and reuse budget exists. Otherwise narrow or stop the track. | 3–5 person-days |
-| M1: interior read regions | Versioned boundary schema/manifests; matching discovery/dispatch; current-boundary continuation and history delivery; one host adapter. Touch `schema/traces.py`, `schema/artifacts.py`, `grc/compile.py`, `runtime/dispatch.py`, `runtime/runner.py`, and relevant integrations. | Prefix regressions pass; wrong-position, stale-input, prior-write, duplicate-delivery and unsupported-host cases refuse correctly; end-to-end continuation is exercised. | 7–12 person-days |
-| M2: owned transactional writes | Separate mutation artifact/mode; ordered resource/effect dependencies in mining and synthesis; one restricted PostgreSQL adapter; bounded program and state-transition verifier; durable intent/receipt with atomic business publication. Extend `graph/windows.py`, `grc/synthesize.py`, `grc/contracts.py` and schemas; add proposed `runtime/transactions.py`, `runtime/journal.py` and backend-specific code. Keep existing read facade semantics unchanged. | Every publish path has a resolved or explicit unknown outcome; invalid private state never publishes; crash/restart and concurrency controls pass; automatic mutation synthesis works on development traces; no read-only artifact is silently upgraded. | 15–25 person-days |
+| M0: feasibility and specification | Inventory actual traces/rejections; define a versioned fulfillment-based interior-read fixture and a collection-mutation fixture; audit the application-owned host; freeze boundary, state-machine and oracle specs. | Engineering go requires sufficient observable state, a working exact-path fixture and an enforceable backend contract. Scientific go separately requires genuine trace recurrence, competent baseline and a plausible independent-data/reuse budget. A failed scientific gate need not block a clearly labeled engineering prototype. | 3–5 person-days |
+| M1: interior read regions | M1a: boundary-local trace/provenance, mining/dispatch and current-boundary continuation (8–12 days). M1b: durable activation/checkpoint ownership, explicit incident propagation, receipt delivery and crash/restart controls (6–10 days). Touch `schema/traces.py`, `schema/artifacts.py`, `graph/windows.py`, `grc/compile.py`, `runtime/dispatch.py`, `runtime/runner.py` and one host adapter. | Prefix regressions and exact boundary/history controls pass. M1a is a disposable in-process demonstration only. Supported interior reuse requires M1b; the host must prove no action after an unresolved incident and no replay of predecessor writes. | 14–22 person-days |
+| M2: owned transactional writes | M2a: typed adapter, intent/receipt schema, atomic publication, restart/reconciliation and host delivery (8–14 days). M2b: occurrence-aware traces, ordered mutation IR/synthesis, predicate validity and state-transition equivalence (7–12 days). M2c: integrated fault/concurrency, authorization, legacy-compatibility and exact-path oracle controls (5–9 days). Add proposed transaction/journal modules; keep the current read facade unchanged. | M2a alone is an executor demonstration. Complete M2 requires generated bounded programs through the checked path, all failure gates and explicit research-only status until new admission evidence exists. No read-only artifact is silently upgraded. | 20–35 person-days |
 | M3: one external write adapter, conditional | Backend capability audit, request identity, reconciliation, credential handling, revocation, and fencing/deduplication tests. Extend the journal contract through one explicit adapter. | Service actually supplies required semantics under documented failure/retention assumptions. If not, leave its writes with the host agent. | 10–20+ person-days if feasible |
-| M4: portability and fresh adaptive comparison | Validate common contracts on a second structurally different integration; freeze candidate(s), complete orchestration policy, splits, admission loss, comparator parity, sample-size analysis, budget, and analysis scripts. Start empirical work with the smallest relevant M1 or M2 capability; M3 is not a prerequisite. | Portability claims require both integration conformance checks; performance claims separately require competence, discovery and affordable independent samples. Run the frozen design and retain negative results. | 8–15 person-days for integration/harness; acquisition cost and duration assessed separately |
+| M4: portability and fresh adaptive comparison | M4a: second integration and orchestration-level label/admission adapter, reusing a suitable validated runner (8–15 days; re-estimate if unavailable). M4b: frozen actual-agent discovery, competent baseline, independent splits, fixed-policy admission, matched comparison and analysis. | Portability requires both integration conformance checks. Scientific go requires a full-workflow oracle and a computed affordable sample. No paid expansion solely to compensate for a failed competence or recurrence gate. | M4a 8–15 person-days; M4b acquisition, compute and research iteration not bounded yet |
 | M5: limited adoption and maintenance | Read-only shadow selection, isolated mutation trials, then opt-in canary for eligible adapters; telemetry, retirement and recovery runbooks. | Defined operational limits, responsible recovery owner, and evidence for the intended deployment scope. No uncontrolled write shadowing. | 5–10 person-days, scope-dependent |
 
 M0 may approve only M1 if transactional writes offer no useful recurrence. M1 and M2 do not require external services. M4 can begin after the relevant engineering gates pass; completing M3 is not necessary to study adaptive workflows. Cross-service compensation, parallel write branches, broader DSL syntax, and a general durable workflow service require a new plan after demonstrated need.
+
+### Revised schedule and first-week decision package
+
+M0–M2 totals **37–62 person-days**, roughly **8–13 working weeks** for the supported single-backend engineering prototype. Reserving 25% for integration/review failures gives a planning allowance of approximately **10–16 weeks**. A smaller M1a demonstration can appear in about 2–4 weeks; it is not the durable write-capable deliverable. The earlier 5–9-week estimate was optimistic for the full stated recovery scope.
+
+Adding M4a and M5 gives 50–87 person-days before a limited deployment could be considered, **conditional on M4b admission evidence**. Adding optional M3 gives 60–107+ person-days. These sums exclude data acquisition, paid runs, failed scientific gates, review waiting time and an existing durable-host integration that proves unavailable; they are not a production-readiness deadline. Two engineers can divide fixture/oracle work from the core after interfaces stabilize, but the boundary-to-journal critical path does not halve automatically.
+
+The first 3–5 working days must produce: (1) a host capability matrix and observable-state inventory; (2) a minimal boundary-local trace with preserved provenance/group identity; (3) fixture/oracle controls through the exact adapter; (4) a mutation protocol and failure-state table; (5) candidate rejection/headroom counts from retained actual-agent traces, kept separate from synthetic controls; and (6) an updated work breakdown, sample feasibility and explicit go/no-go for each track. Stop expansion if the host cannot own the boundary or the backend cannot enforce commitment semantics. Stop confirmatory research if competent adaptive behavior, useful recurrence, independent groups or affordable inference are unavailable.
 
 ## 12. Required validation matrix
 
@@ -271,10 +314,12 @@ Future implementation PRs must test effects and durable state, not merely return
 | Same core used through two different host/tool adapters | Shared conformance rules pass without task-specific branches in the compiler; unsupported capabilities are explicitly refused |
 | A read region follows an earlier successful write | Rejection resumes at the current checkpoint; the earlier write is not repeated |
 | Skipped branch, malformed predicate input, unsupported path, bound exhaustion | No unintended calls; no publication of invalid staged state |
+| Repeated identical arguments at different occurrences, generated IDs, or stale boundary projection | Correct occurrence/receipt and reviewed state equivalence; no last-result substitution or lost provenance |
 | Permission/approval changes between prepare and publish | Publication denied before effects; stale approval is not silently reused |
 | Concurrent insert/update invalidates a read predicate | Transaction conflict or explicit refusal; no stale-plan publication |
 | Reordered conflicting writes or retrieval-oriented argument widening | Compiler rejects the invalid transformation; state-transition oracle detects incorrect effect order/targets |
 | Mutation succeeds but response is lost | Durable outcome is found; the action is not blindly repeated |
+| Receipt committed but host checkpoint delivery is lost | Same receipt is redelivered; predecessor or downstream writes are not recreated under new identities |
 | Crash before send, during commit, after backend success, before journal acknowledgment, before/after continuation delivery | Exactly the contractually allowed recovery transition; stable action identity and no false clean fallback |
 | Cancelled request completes late | Recovery blocks conflicting continuation and detects/reconciles completion |
 | Two workers recover the same operation, including a stale lease holder | Backend enforcement prevents duplicate effect or stale publication |
@@ -323,4 +368,47 @@ This section records a second-pass adversarial review of the design. It is a sel
 
 M0 must resolve the exact first adaptive workload, competent baseline configuration, host boundary representation, transaction fixture, independent-group supply, and cost/reuse targets. M2 must resolve the concrete journal schema, atomic publication protocol, recovery ownership, and retained-state lifetime. M3 remains conditional on a real service's enforceable API guarantees. These are explicit prerequisites to their implementation phases, not details to guess during rollout.
 
-**Judgment after critique:** the staged architecture is technically coherent under its stated trust and backend assumptions, and M0/M1 are justified investigations. A bounded single-backend mutation prototype is a plausible next step if feasibility survives. Broad external-write compilation is not yet justified, and practical superiority over manual workflows remains an empirical question. The plan should be approved as a gated research/engineering roadmap, not as a completed safety case or permission to deploy write-enabled agents.
+**Judgment after critique:** the narrowed, application-owned architecture is feasible to investigate and has a concrete implementation route. The first plan understated integration, mutation replay and admission work; the revised phases and schedule above address those omissions. The local backend mechanism has been probed, but expanded GAC execution has not been implemented. Broad external-write compilation and practical superiority remain unproven. Proceed with the engineering gates and preserve the scientific stop conditions.
+
+## 15. Deeper feasibility audit: findings and evidence
+
+This additional review was performed after PR #119 merged. It is a source audit, focused regression run and small provider-free backend probe, not an independent review or completed M0–M2 implementation.
+
+| Finding | Evidence | Required correction incorporated above |
+|---|---|---|
+| High: the model-only SDK wrapper cannot own post-emission restoration | `runtime/model_provider.py` documents its ownership limit and restricts supported program steps. | Start with an application-owned host, retain the narrow wrapper, and distinguish a demonstration from durable support. |
+| High: interior inputs are rejected before dispatch can even help | `graph/windows.py::_live_in_out` rejects non-entry producers outside the region. | Add boundary-local trace projection with provenance and original group identity in M1. |
+| High: the existing replay lookup cannot represent stateful repeated calls | A local probe added two results for the same tool/arguments; exact lookup returned the second observation. | Add occurrence/transaction/receipt identity and actual-world execution for mutations. |
+| High: invalid predicates can look like a legitimate false branch | A local probe evaluated a numeric predicate on a string and obtained `False`. | Add explicit validity checks for the versioned mutation mode; do not silently reinterpret legacy artifacts. |
+| High: output-agreement calibration is not workflow-effect calibration | `_calibration_samples` compares recorded outputs only after interpreter/verifier success. | Build M4a's explicit workflow-label path and include attempted failures/incidents in denominators. |
+| High: durable host delivery was specified but insufficiently budgeted | `runtime/runner.py` exposes observations and telemetry; the proposal needs persistent activation, delivery and incident-handling semantics beyond that interface. | Split M1a/M1b, specify a durable delivery intent, and revise the critical-path estimate. |
+| Medium: arbitrary branch/loop and alias analysis would expand scope substantially | Current synthesis handles optional suffixes and repeated single-tool calls; catalog resource conflicts are tool-level. | Preserve order, constrain expressivity and defer speculative reordering/parallel writes. |
+| Medium: research gating could block even a useful engineering investigation | Retained AppWorld runs fail competence; a new mutation runtime is needed before authentic mutation discovery can be evaluated. | Separate fixture-backed engineering go from actual-agent scientific go; do not fabricate model boundaries or claim fixture savings. |
+
+### Checks performed and limits
+
+- **119 existing tests passed:** 86 across prefix boundary, prologue, loops/bounds, effects/schema, continuation and fault injection; 33 across backend and fulfillment integrations. These exercise current behavior and constrain the plan; they do not validate future features.
+- **Three direct source-behavior probes:** occurrence-insensitive exact replay lookup; invalid numeric predicate returning false; and reversible-write refusal before executor invocation. The first two are extension hazards, not a claim that all current read-only use is incorrect.
+- **Four local PostgreSQL controls passed on 14.19:** mutation and receipt roll back together; concurrent deliveries of one intent mutate once; a deliberately discarded reply is recovered through the saved receipt; and a changed payload under an existing identity is rejected. The concurrent duplicate incurred one serialization retry and then returned the original receipt. The isolated Unix-socket-only cluster was stopped afterwards; no existing database service or application data was used.
+- The probe used a counter table and a unique receipt table, a transaction-level advisory lock by operation identity, serializable transactions, and a bounded whole-transaction retry on confirmed serialization/deadlock errors. It tested a cooperative local adapter, not arbitrary writers, authorization revocation, process-kill coverage, remote network partitions, full host checkpoint delivery, or GAC-generated programs. The first probe attempt failed a harness assertion because command-mode output omitted the intermediate result; using script input corrected the observation path. That initial failure is not a backend correctness finding.
+- **Sample arithmetic independently checked** against the repository's `clopper_pearson_upper` helper, including that one fewer group fails the selected zero-event target. The illustrative 95% confidence requirements are below; no empirical risk target is selected by this calculation.
+
+| Violation-rate upper target | One frozen policy, zero violations | Eleven prespecified tests, zero violations |
+|---|---:|---:|
+| 5% | 59 selected independent groups | 106 selected independent groups |
+| 1% | 299 | 537 |
+| 0.1% | 2,995 | 5,391 |
+
+These are **selected** group counts. At 10% dispatch-attempt coverage, the planning expectation is roughly ten times as many sampled groups, with additional uncertainty in realized coverage and any violations increasing requirements. Repeated variants do not make up missing independent groups. A 5% engineering quality target is not an acceptable default for harmful external effects. This is why M4b has no promised duration or automatic go decision.
+
+To rerun the focused source regressions from the audited checkout with an installed project environment:
+
+```sh
+PYTHONPATH=src python -m pytest -o addopts='' -q \
+  tests/unit/test_dispatch_prefix_boundary.py tests/unit/test_dispatch_prologue.py \
+  tests/unit/test_loops_and_bounds.py tests/unit/test_effects_and_schema.py \
+  tests/unit/test_continuation.py tests/fault_injection/test_fault_injection.py \
+  tests/integration/test_backends.py tests/integration/test_fulfillment_demo.py
+```
+
+Review assessment by dimension: **correctness—conditional feasibility after the listed gaps are addressed; security—enforceable only within the stated host/backend trust boundary; performance—unproven pending headroom and full-cost measurement; maintainability—credible with versioned adapters, serial execution and preserved legacy behavior.** No test or design review can establish universal feasibility for arbitrary agentic workflows. The next authorized engineering decision should be M0, with a supported prototype target and a separate evidence budget.
