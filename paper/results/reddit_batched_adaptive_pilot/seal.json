@@ -1,0 +1,209 @@
+{
+  "campaign_cap_usd": 300,
+  "control_archive_sha256": "3f8a9c565af3bad194b794b21275560c2c25745c6afd134f59e65dabab95ccff",
+  "control_report_sha256": "bf3ebd9958a9e8875ae02729b0c83cc9995896cfaf9e282ecce2060330a9f228",
+  "data_sha256": "d65275660814663375028e9017e1f929e3c38321041b125795e2713b52243d30",
+  "episode_seconds": 600,
+  "failure_rule": "The one scheduled attempt remains in the denominator; never retry or replace it.",
+  "image": "am1n3e/webarena-verified-reddit@sha256:0594908059a03e5f610005689440a95c05e776e734006197c7b1eba12734cb46",
+  "max_batch_actions": 8,
+  "max_browser_actions": 64,
+  "max_model_requests": 16,
+  "model": "gpt-5.6-luna",
+  "provider_data": "Public task input and live accessibility observations only; no hidden evaluation fields.",
+  "runtime_versions": {
+    "Pint": "0.25",
+    "PyYAML": "6.0.3",
+    "Pygments": "2.21.0",
+    "RapidFuzz": "3.14.6",
+    "Unidecode": "1.4.0",
+    "annotated-types": "0.8.0",
+    "anyio": "4.16.0",
+    "attrs": "26.1.0",
+    "beautifulsoup4": "4.14.2",
+    "certifi": "2026.10.23",
+    "charset-normalizer": "3.5.2",
+    "click": "8.5.1",
+    "cloudpickle": "3.1.2",
+    "compact-json": "1.8.1",
+    "decorator": "5.3.1",
+    "flexcache": "0.3",
+    "flexparser": "0.4",
+    "future": "1.0.0",
+    "geocoder": "1.38.1",
+    "geographiclib": "2.1",
+    "geopy": "2.4.1",
+    "greenlet": "3.5.6",
+    "guarded-agentic-compaction": "0.7.0",
+    "h11": "0.16.0",
+    "httpcore2": "2.16.0",
+    "httpx2": "2.16.0",
+    "idna": "3.20",
+    "importlib_resources": "7.1.0",
+    "iniconfig": "2.3.1",
+    "jellyfish": "1.3.0",
+    "jiter": "0.19.0",
+    "joblib": "1.6.0",
+    "jsonpath-ng": "1.7.0",
+    "narwhals": "2.28.0",
+    "numpy": "2.5.4",
+    "openai": "3.46.0",
+    "packaging": "26.3",
+    "platformdirs": "4.14.5",
+    "playwright": "1.61.0",
+    "pluggy": "1.7.0",
+    "ply": "3.11",
+    "price-parser": "0.5.0",
+    "probableparsing": "0.0.1",
+    "pydantic": "2.12.0",
+    "pydantic_core": "2.41.1",
+    "pyee": "13.0.1",
+    "pytest": "9.2.0",
+    "python-crfsuite": "0.9.12",
+    "python-dateutil": "2.9.0.post0",
+    "python-dotenv": "1.2.4",
+    "pytimeparse2": "1.7.1",
+    "ratelim": "0.1.6",
+    "requests": "2.34.2",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1",
+    "setuptools": "84.2.1",
+    "six": "1.17.0",
+    "sniffio": "1.3.1",
+    "soupsieve": "4.0.1",
+    "thefuzz": "0.22.1",
+    "threadpoolctl": "3.8.0",
+    "truststore": "0.10.5",
+    "typing-inspection": "0.4.5",
+    "typing_extensions": "4.16.0",
+    "url-normalize": "2.2.1",
+    "urllib3": "2.8.0",
+    "us": "3.2.0",
+    "usaddress": "0.5.16",
+    "usaddress-scourgify": "0.6.0",
+    "wcwidth": "0.9.4",
+    "webarena-verified": "1.2.3",
+    "word2number": "1.1",
+    "yaml-config": "0.1.5"
+  },
+  "schema": "gac-reddit-batched-adaptive-pilot-v1",
+  "source_revision": "6473f72db5dcefc97b5725b59e734504edc28a21",
+  "sources": {
+    "paper/results/adaptive_comparison_followup/selection.json": "2d7b67ae005d9bb5db4681008bc286d8a9ba9936093afe2744d38ffea165dd82",
+    "paper/scripts/adaptive_campaign_budget.py": "613faeab10f76279dbef9396cac11fbe3465830631b516d5d5aa12ad03006778",
+    "paper/scripts/browser_staging_boundary.py": "6e5c755ecd9031b7fcee7c38ec20589f8f298180dbc60a951d77556b9ded8505",
+    "paper/scripts/reddit_batched_adaptive_pilot.py": "b3ab3f3d8e712355c070fc2437dade95f47396909c23748c122efdda4d71ec37",
+    "paper/scripts/reddit_ranked_read_feasibility.py": "782e7f2a91a093dba2edabca404f5c80e69d5364c74c47ffe57e6c2acfa34d42",
+    "paper/scripts/webarena_verified_development.py": "d452c42f27210f8314bf8ac3de2d9a1cd1fb33cb8e085f838a64107e0967dafc"
+  },
+  "stage": "discovery",
+  "stage_cap_usd": 30,
+  "status": "development-only; exposed task; no independent quality-cost estimate",
+  "system": "You are an autonomous browser agent on an isolated Reddit clone. Complete the public task from the current page. You may call browser_batch with 1 to 8 ordered actions when their arguments are already known. You receive each intermediate page observation after the batch. A batch stops on an action error. Use index for repeated controls, starting at zero. You may use a single-action batch when you need to inspect a result. Stay on the provided site. Do not use scripts, shell, hidden task definitions, or reference answers. Finish with the structured response. Only claim SUCCESS after checking the resulting page.",
+  "task_id": 714,
+  "tools": [
+    {
+      "function": {
+        "description": "Execute 1 to 8 already specified browser actions in order; return every intermediate page observation and stop on error. Index selects a repeated control, starting at zero.",
+        "name": "browser_batch",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "actions": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "action": {
+                    "enum": [
+                      "goto",
+                      "click",
+                      "fill",
+                      "select",
+                      "press",
+                      "back",
+                      "observe"
+                    ],
+                    "type": "string"
+                  },
+                  "index": {
+                    "maximum": 99,
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "role": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "action"
+                ],
+                "type": "object"
+              },
+              "maxItems": 8,
+              "minItems": 1,
+              "type": "array"
+            }
+          },
+          "required": [
+            "actions"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    },
+    {
+      "function": {
+        "description": "Finish with the official structured task response.",
+        "name": "finish",
+        "parameters": {
+          "additionalProperties": false,
+          "properties": {
+            "error_details": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "retrieved_data": {
+              "items": {},
+              "type": [
+                "array",
+                "null"
+              ]
+            },
+            "status": {
+              "enum": [
+                "SUCCESS",
+                "UNKNOWN_ERROR"
+              ],
+              "type": "string"
+            },
+            "task_type": {
+              "enum": [
+                "RETRIEVE",
+                "MUTATE",
+                "NAVIGATE"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "task_type",
+            "status",
+            "retrieved_data",
+            "error_details"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "function"
+    }
+  ]
+}

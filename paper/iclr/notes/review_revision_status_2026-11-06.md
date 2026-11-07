@@ -159,3 +159,37 @@ training data. No new model calls, automatic artifacts, calibration groups or fi
 tests were produced. This is preparation for the reviewer-requested comparison,
 not closure of its empirical objections. Original failed instrumentation and the
 prior invalid agent measurements remain preserved separately.
+
+### Ranked Reddit read and batched baseline headroom
+
+The [development-only ranked-read report](../../results/reddit_ranked_read_feasibility/REPORT.md)
+retains the failed first positive control, amended official-grader success,
+and a source-audited `GET /f/gadgets/top` stage on selected task 714. A batched
+model pilot failed its first sealed prompt-size bound; its separately sealed
+amendment passed the official grader with seven model requests and six batch
+calls. A provider-free handwritten reference passed the same task with one
+two-action batch. Both paid attempts are charged to the shared $300 ledger.
+
+This is exposed development evidence only. There is no admitted GAC artifact,
+matched GAC execution, fresh task group, or demonstrated quality–cost gain over
+the one-batch reference. The selected Reddit task is a no-go for a positive
+adaptive-value claim, so manuscript numerical results remain unchanged.
+
+### Matched BIRD one-call continuation development pilot
+
+The [sealed matched pilot](../../results/bird_one_call_matched_pilot/REPORT.md)
+ran all 108 fixed episodes on the same 36 exposed corrected BIRD development
+questions. The guard/program/verifier candidate dispatched 36/36 times with
+no fallback, and matched the handwritten arm's synthetic continuation input.
+Baseline and handwritten scored 28/36 on the shape-sensitive set metric;
+candidate scored 26/36. Provider requests were 151, 111 and 112 respectively.
+The new pilot's accounted upper charge was $0.2388287, bringing the shared
+$300 campaign ledger to $6.3006882. Original baseline-discovery cost remains
+separate.
+
+This is an implemented and auditable mechanism check, but it reuses candidate
+source cases, has zero fresh calibration or independent test groups, and does
+not establish GAC admission, a learned-gate advantage, automatic-compilation
+benefit, or quality–cost superiority over the exact handwritten wrapper.
+The no-go for confirmatory claims remains in force. The ICLR manuscript's
+quantitative tables and PDF are not changed by this developmental follow-up.

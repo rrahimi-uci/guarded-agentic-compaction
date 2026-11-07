@@ -11,6 +11,14 @@ contract prevents a native AppWorld leaderboard interpretation.
 Its posthoc trace diagnostic finds only surface API-name recurrence, without
 the argument, effect and continuation evidence needed for a GAC program.
 
+**November 6 follow-up:** the [ranked Reddit feasibility report](../results/reddit_ranked_read_feasibility/REPORT.md)
+records a source-audited read, official-grader controls, a failed and an amended
+batched-model pilot, and a passing one-batch handwritten reference on the
+exposed task 714. The read boundary is feasible, but this candidate is a no-go
+for a positive GAC quality–cost claim: the reference can prewrite the full
+ranked navigation and vote in one call. No GAC artifact or matched comparison
+was produced. The current manuscript's numerical claims remain unchanged.
+
 ## Separate the claims
 
 1. **Execution value:** reduce amortized cost while preserving independently
@@ -142,14 +150,18 @@ This follows the emphasis on cost, holdouts and reproducible evaluation in
 1. Retain previous evidence and validate the batching/grading interface with
    provider-free positive, negative and failure controls. This PR implements that
    step and a bounded metadata-selected development extension.
-2. Audit a useful second read workflow and its argument grounding. New development
-   task 714 (ranked-post selection followed by a vote) is a **hypothesis**, not an
-   implemented read port or discovered family. It is not enough to rename a
-   multi-step handwritten script as automatic compilation.
+2. Audit a useful second read workflow and its argument grounding. The selected
+   task 714 ranked-read route passed its amended source/runtime controls, but
+   its one-batch handwritten reference also passed. **This particular task is a
+   no-go for a positive value claim.** It is not an admitted port or discovered
+   family. A new task setting requires its own explicit protocol and selection
+   rules; do not mine more exposed cases for a favorable outcome.
 3. Seal a bounded strong-baseline development runner, including context/action
-   caps and output persistence. The AppWorld runner now has 36/36 exact-path
+   caps and output persistence. The AppWorld runner has 36/36 exact-path
    controls and retained V1/V2 paid attempts; both failed the 8/12 competence
-   gate. Record every failure and use the existing shared ledger at
+   gate. Separately, Reddit task 714 has a failed first pilot and a sealed
+   successful amendment; one task does **not** establish distributional
+   competence or effects. Record every attempt and use the shared ledger at
    `benchmarks/.cache/adaptive_compiler_pilot/ledger.json`; never reset it.
 4. Establish recurrent, useful programs; integrate matched arms; freeze candidates.
    If the selected extension fails, record that result. Any different environment
