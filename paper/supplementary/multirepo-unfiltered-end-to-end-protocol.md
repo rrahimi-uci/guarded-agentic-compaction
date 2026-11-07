@@ -75,3 +75,15 @@ hand-written program (a tie is expected), issue-type or backlog families, or rep
 2. A failed, timed-out or missing compiled-arm episode is a violation: it stays in n and counts in k. (The protocol text said it stays in the denominator as a failure; this states how it is counted.) Failed baseline or manual episodes count as contract not met in their own arm.
 3. Calibration authors are disjoint from the 81 distinct discovery authors of the frozen registry's 132 discovery records.
 
+
+**Amendment 2 (2026-11-07, after selection of the three new repositories and before any provider call or label for them).**
+1. Snapshots were acquired with `github_time_forward_acquire.py` (commit e182878 makes it retry network timeouts). Cutoffs strictly after: pandas and streamlit 2025-12-31, pytorch 2026-09-30, requests 2025-06-13. The requests no-run result stands: the registered selection leaves 99 author-distinct calibration groups after the 132 discovery records and the used-record exclusion, below the 106 minimum. It is not re-run on the larger raw snapshot.
+2. Selections (all `repository-qualified`, one pull request per author, authors disjoint from discovery, no test split):
+   | Repository | Discovery | Calibration n | Calibration classes (merged / closed-unmerged / open) | Distinct days | Digest |
+   |---|---|---|---|---|---|
+   | streamlit/streamlit | 132 | 160 | 28 / 130 / 2 | 110 | `ddd1af97...` |
+   | pandas-dev/pandas | 132 | 200 | 71 / 124 / 5 | 143 | `f7487df2...` |
+   | pytorch/pytorch | 132 | 200 | 0 / 86 / 114 | 37 | `17871afd...` |
+3. The grid and single-rule admission limits are recomputed for the realised n. Registered grid, m = 1: k <= 1 at n = 160 and k <= 3 at n = 200. Single rule: k <= 4 at n = 160 and k <= 5 at n = 200.
+4. pytorch/pytorch lands pull requests through a merge bot, so only 55 of 3,674 acquired pull requests carry `merged_at`. The snapshot label `closed_unmerged` therefore mostly denotes landed pull requests, and the calibration contains no merged class. The certificate for this repository is about contract agreement with the snapshot-defined label on open and closed-unmerged pull requests over a 37-day window. It is not a claim about merge outcomes. It is reported separately and is excluded from nothing in the pooled estimate, but its caveat is stated beside any pooled number.
+5. Streamlit's calibration is below the requested 200 (160 available) and its 183 distinct authors include bot logins. Bot logins (streamlit 3, pandas 3, pytorch 1, hf 2) are counted as authors and not filtered, as in huggingface/datasets.
