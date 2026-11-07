@@ -1,0 +1,633 @@
+{
+  "admitted_repositories": [
+    "huggingface/datasets",
+    "pandas-dev/pandas",
+    "pytorch/pytorch",
+    "streamlit/streamlit"
+  ],
+  "appendix_a3_floor_mismatches": [],
+  "ledger": {
+    "per_repo_spent_usd": {
+      "huggingface/datasets": 0.203317,
+      "pandas-dev/pandas": 0.30884,
+      "psf/requests": null,
+      "pytorch/pytorch": 0.376542,
+      "streamlit/streamlit": 0.339881
+    },
+    "total_cap_usd": 25.0,
+    "total_spent_usd": 1.22858,
+    "within_total_cap": true
+  },
+  "not_run": [
+    {
+      "ledger_spent_usd": null,
+      "reason": "",
+      "repo": "psf/requests",
+      "status": "shortfall_no_run"
+    }
+  ],
+  "pooled_run_repositories": {
+    "authors_equal_groups": true,
+    "certificate": {
+      "decision": "admit",
+      "grid_m1": {
+        "U": 0.013324918404100236,
+        "admits": true,
+        "confidence": 0.990909090909091,
+        "max_admissible_k": 24
+      },
+      "k": 3,
+      "n": 760,
+      "single_rule": {
+        "U": 0.008769234372407642,
+        "admits": true,
+        "confidence": 0.9,
+        "max_admissible_k": 29
+      }
+    },
+    "class_counts_in_n": {
+      "closed_unmerged": 342,
+      "merged": 154,
+      "open": 264
+    },
+    "dispatched": 760,
+    "dispatched_contract_met": 757,
+    "distinct_authors": 760,
+    "distinct_days": 291,
+    "distinct_logins": 743,
+    "eligible": 760,
+    "eligible_but_excluded": 0,
+    "fallback": {
+      "abstained": 0,
+      "fallback_contract_met": 0,
+      "fallback_contract_missed": 0,
+      "fallback_groups": 0
+    },
+    "groups_recorded": 760,
+    "ineligible": 0,
+    "paired": {
+      "baseline_met": 754,
+      "baseline_only_met": 3,
+      "both_met": 751,
+      "compiled_met": 757,
+      "compiled_only_met": 6,
+      "compiled_only_misses": 3,
+      "compiled_only_misses_upper95": 0.01017031268637595,
+      "mcnemar_exact_p_two_sided": 0.5078125,
+      "n": 760,
+      "neither_met": 0
+    },
+    "repos": [
+      "huggingface/datasets",
+      "pandas-dev/pandas",
+      "pytorch/pytorch",
+      "streamlit/streamlit"
+    ],
+    "resources": {
+      "mean_per_arm": {
+        "baseline": {
+          "cost_usd": 0.0007794427631578947,
+          "latency_ms": 4617.905560526316,
+          "requests": 4.0,
+          "tokens": 3014.5907894736843
+        },
+        "compiled": {
+          "cost_usd": 0.00021271847368421054,
+          "latency_ms": 1389.1529013157897,
+          "requests": 1.0,
+          "tokens": 706.7473684210527
+        },
+        "manual": {
+          "cost_usd": 0.00021342384210526317,
+          "latency_ms": 1353.3445342105263,
+          "requests": 1.0,
+          "tokens": 705.6868421052632
+        }
+      },
+      "reduction_vs_baseline_pct": {
+        "compiled": {
+          "cost_usd": 72.70890388123094,
+          "latency_ms": 69.91811800591556,
+          "requests": 75.0,
+          "tokens": 76.55577762365408
+        },
+        "manual": {
+          "cost_usd": 72.61840738111657,
+          "latency_ms": 70.69354241934124,
+          "requests": 75.0,
+          "tokens": 76.59095740060731
+        }
+      }
+    },
+    "violations": [
+      {
+        "author": "ain-soph",
+        "class": "open",
+        "number": 7768,
+        "repo": "huggingface/datasets"
+      },
+      {
+        "author": "Tithi234",
+        "class": "closed_unmerged",
+        "number": 64087,
+        "repo": "pandas-dev/pandas"
+      },
+      {
+        "author": "goingforstudying-ctrl",
+        "class": "closed_unmerged",
+        "number": 65856,
+        "repo": "pandas-dev/pandas"
+      }
+    ]
+  },
+  "protocol": "paper/supplementary/multirepo-unfiltered-end-to-end-protocol.md",
+  "repositories": [
+    {
+      "authors_equal_groups": true,
+      "certificate": {
+        "decision": "admit",
+        "grid_m1": {
+          "U": 0.033258767920456095,
+          "admits": true,
+          "confidence": 0.990909090909091,
+          "max_admissible_k": 3
+        },
+        "k": 1,
+        "n": 200,
+        "single_rule": {
+          "U": 0.019308638220221965,
+          "admits": true,
+          "confidence": 0.9,
+          "max_admissible_k": 5
+        }
+      },
+      "class_counts_in_n": {
+        "closed_unmerged": 2,
+        "merged": 55,
+        "open": 143
+      },
+      "directory": "huggingface__datasets",
+      "dispatched": 200,
+      "dispatched_contract_met": 199,
+      "distinct_authors": 200,
+      "distinct_days": 147,
+      "distinct_logins": 200,
+      "eligible": 200,
+      "eligible_but_excluded": 0,
+      "fallback": {
+        "abstained": 0,
+        "fallback_contract_met": 0,
+        "fallback_contract_missed": 0,
+        "fallback_groups": 0
+      },
+      "groups_recorded": 200,
+      "ineligible": 0,
+      "input_sha256": {
+        "calibration_groups.json": "01e93f808be3afab5acca84e0e9b5e4871818aa82212ae2a489cf8b9ed933cd0",
+        "ledger.json": "120bfe1f832f76d598e2a6fc11c8c4d0da27e80730003338eb9ec1dc8382be27",
+        "selection.json": "013583dc73f068fc025682a837dd6cb9d07ffc53e67306bbfdabdf8429071c82"
+      },
+      "ledger": {
+        "cap_usd": 5.0,
+        "present": true,
+        "spent_usd": 0.203317,
+        "within_cap": true
+      },
+      "paired": {
+        "baseline_met": 199,
+        "baseline_only_met": 1,
+        "both_met": 198,
+        "compiled_met": 199,
+        "compiled_only_met": 1,
+        "compiled_only_misses": 1,
+        "compiled_only_misses_upper95": 0.023498470434950704,
+        "mcnemar_exact_p_two_sided": 1.0,
+        "n": 200,
+        "neither_met": 0
+      },
+      "reason": "",
+      "repo": "huggingface/datasets",
+      "resources": {
+        "mean_per_arm": {
+          "baseline": {
+            "cost_usd": 0.0006973117500000001,
+            "latency_ms": 4573.73346,
+            "requests": 4.0,
+            "tokens": 2807.86
+          },
+          "compiled": {
+            "cost_usd": 0.00016124574999999998,
+            "latency_ms": 1256.71481,
+            "requests": 1.0,
+            "tokens": 492.495
+          },
+          "manual": {
+            "cost_usd": 0.0001580307,
+            "latency_ms": 1201.068415,
+            "requests": 1.0,
+            "tokens": 491.375
+          }
+        },
+        "reduction_vs_baseline_pct": {
+          "compiled": {
+            "cost_usd": 76.87608877951648,
+            "latency_ms": 72.52321717059569,
+            "requests": 75.0,
+            "tokens": 82.46012977855021
+          },
+          "manual": {
+            "cost_usd": 77.33715228518665,
+            "latency_ms": 73.7398686323973,
+            "requests": 75.0,
+            "tokens": 82.50001780715563
+          }
+        }
+      },
+      "selection": {
+        "calibration_n_planned": 200,
+        "disjoint": true
+      },
+      "shortfall_vs_target_n": 0,
+      "status": "run",
+      "violations": [
+        {
+          "author": "ain-soph",
+          "class": "open",
+          "number": 7768,
+          "repo": "huggingface/datasets"
+        }
+      ]
+    },
+    {
+      "authors_equal_groups": true,
+      "certificate": {
+        "decision": "admit",
+        "grid_m1": {
+          "U": 0.041942539955908055,
+          "admits": true,
+          "confidence": 0.990909090909091,
+          "max_admissible_k": 3
+        },
+        "k": 2,
+        "n": 200,
+        "single_rule": {
+          "U": 0.02639135021123145,
+          "admits": true,
+          "confidence": 0.9,
+          "max_admissible_k": 5
+        }
+      },
+      "class_counts_in_n": {
+        "closed_unmerged": 124,
+        "merged": 71,
+        "open": 5
+      },
+      "directory": "pandas-dev__pandas",
+      "dispatched": 200,
+      "dispatched_contract_met": 198,
+      "distinct_authors": 200,
+      "distinct_days": 143,
+      "distinct_logins": 200,
+      "eligible": 200,
+      "eligible_but_excluded": 0,
+      "fallback": {
+        "abstained": 0,
+        "fallback_contract_met": 0,
+        "fallback_contract_missed": 0,
+        "fallback_groups": 0
+      },
+      "groups_recorded": 200,
+      "ineligible": 0,
+      "input_sha256": {
+        "calibration_groups.json": "fff90cf6706eda21265c7bfdbea413a8f8a1974613289b5533a69f61ad1dd5f8",
+        "compile.json": "39e0add39142cdf26483dc5153f931fd15bf5eafe324d666443ce31d9ef7448d",
+        "ledger.json": "3a38ef722fea29322e2479453f926a0890a39ed72b1c072af2057c9effb64e39",
+        "selection.json": "f92c66faf25124952721f9c37c53be0dc69cb738a16eff8e7659e98a606e3508"
+      },
+      "ledger": {
+        "cap_usd": 5.0,
+        "present": true,
+        "spent_usd": 0.30884,
+        "within_cap": true
+      },
+      "paired": {
+        "baseline_met": 197,
+        "baseline_only_met": 2,
+        "both_met": 195,
+        "compiled_met": 198,
+        "compiled_only_met": 3,
+        "compiled_only_misses": 2,
+        "compiled_only_misses_upper95": 0.031142599414083726,
+        "mcnemar_exact_p_two_sided": 1.0,
+        "n": 200,
+        "neither_met": 0
+      },
+      "reason": "",
+      "repo": "pandas-dev/pandas",
+      "resources": {
+        "mean_per_arm": {
+          "baseline": {
+            "cost_usd": 0.00071799325,
+            "latency_ms": 4532.37213,
+            "requests": 4.0,
+            "tokens": 2849.195
+          },
+          "compiled": {
+            "cost_usd": 0.00018434700000000002,
+            "latency_ms": 1352.624825,
+            "requests": 1.0,
+            "tokens": 551.06
+          },
+          "manual": {
+            "cost_usd": 0.00018430499999999998,
+            "latency_ms": 1325.9953349999998,
+            "requests": 1.0,
+            "tokens": 551.025
+          }
+        },
+        "reduction_vs_baseline_pct": {
+          "compiled": {
+            "cost_usd": 74.32468898558587,
+            "latency_ms": 70.15635993243123,
+            "requests": 75.0,
+            "tokens": 80.65909844710524
+          },
+          "manual": {
+            "cost_usd": 74.33053862275167,
+            "latency_ms": 70.74389972916897,
+            "requests": 75.0,
+            "tokens": 80.66032686425464
+          }
+        }
+      },
+      "selection": {
+        "calibration_n_planned": 200,
+        "disjoint": true
+      },
+      "shortfall_vs_target_n": 0,
+      "status": "run",
+      "violations": [
+        {
+          "author": "Tithi234",
+          "class": "closed_unmerged",
+          "number": 64087,
+          "repo": "pandas-dev/pandas"
+        },
+        {
+          "author": "goingforstudying-ctrl",
+          "class": "closed_unmerged",
+          "number": 65856,
+          "repo": "pandas-dev/pandas"
+        }
+      ]
+    },
+    {
+      "directory": "psf__requests",
+      "input_sha256": {
+        "selection.json": "65403bb994523b825c30956916c1f3d0d395a5878f9adbc89587af18e4000bd8"
+      },
+      "ledger": {
+        "cap_usd": 5.0,
+        "present": false,
+        "spent_usd": null,
+        "within_cap": true
+      },
+      "reason": "",
+      "repo": "psf/requests",
+      "selection": {
+        "calibration_n_planned": 99,
+        "disjoint": true
+      },
+      "status": "shortfall_no_run"
+    },
+    {
+      "authors_equal_groups": true,
+      "certificate": {
+        "decision": "admit",
+        "grid_m1": {
+          "U": 0.023228371372360557,
+          "admits": true,
+          "confidence": 0.990909090909091,
+          "max_admissible_k": 3
+        },
+        "k": 0,
+        "n": 200,
+        "single_rule": {
+          "U": 0.011446905343061142,
+          "admits": true,
+          "confidence": 0.9,
+          "max_admissible_k": 5
+        }
+      },
+      "class_counts_in_n": {
+        "closed_unmerged": 86,
+        "open": 114
+      },
+      "directory": "pytorch__pytorch",
+      "dispatched": 200,
+      "dispatched_contract_met": 200,
+      "distinct_authors": 200,
+      "distinct_days": 37,
+      "distinct_logins": 200,
+      "eligible": 200,
+      "eligible_but_excluded": 0,
+      "fallback": {
+        "abstained": 0,
+        "fallback_contract_met": 0,
+        "fallback_contract_missed": 0,
+        "fallback_groups": 0
+      },
+      "groups_recorded": 200,
+      "ineligible": 0,
+      "input_sha256": {
+        "calibration_groups.json": "83fd0adae5d17594c8501228e698e5eb6e7422ce45fbe36e0978ae7e42c54a7f",
+        "compile.json": "92b799950f82e68b64e471808b3685740c534b5bb5e6189009a0828cab1aef88",
+        "ledger.json": "85e43b1f20ed1be00623c1c2932f01cb6d04f01052f8d2cc107fe3ece8841d1a",
+        "selection.json": "d8774e181d6030bbda148d0446c316ea2e6d7f5fbc865af60bb39495a526c2ac"
+      },
+      "ledger": {
+        "cap_usd": 5.0,
+        "present": true,
+        "spent_usd": 0.376542,
+        "within_cap": true
+      },
+      "paired": {
+        "baseline_met": 200,
+        "baseline_only_met": 0,
+        "both_met": 200,
+        "compiled_met": 200,
+        "compiled_only_met": 0,
+        "compiled_only_misses": 0,
+        "compiled_only_misses_upper95": 0.014867039231272083,
+        "mcnemar_exact_p_two_sided": 1.0,
+        "n": 200,
+        "neither_met": 0
+      },
+      "reason": "",
+      "repo": "pytorch/pytorch",
+      "resources": {
+        "mean_per_arm": {
+          "baseline": {
+            "cost_usd": 0.0008341557500000001,
+            "latency_ms": 4681.104025000001,
+            "requests": 4.0,
+            "tokens": 3123.78
+          },
+          "compiled": {
+            "cost_usd": 0.00025380199999999997,
+            "latency_ms": 1496.98777,
+            "requests": 1.0,
+            "tokens": 811.985
+          },
+          "manual": {
+            "cost_usd": 0.00025251200000000004,
+            "latency_ms": 1505.6660550000001,
+            "requests": 1.0,
+            "tokens": 810.91
+          }
+        },
+        "reduction_vs_baseline_pct": {
+          "compiled": {
+            "cost_usd": 69.57378762898895,
+            "latency_ms": 68.02062586079786,
+            "requests": 75.0,
+            "tokens": 74.00633207204092
+          },
+          "manual": {
+            "cost_usd": 69.7284350074911,
+            "latency_ms": 67.83523615457361,
+            "requests": 75.0,
+            "tokens": 74.04074550704595
+          }
+        }
+      },
+      "selection": {
+        "calibration_n_planned": 200,
+        "disjoint": true
+      },
+      "shortfall_vs_target_n": 0,
+      "status": "run",
+      "violations": []
+    },
+    {
+      "authors_equal_groups": true,
+      "certificate": {
+        "decision": "admit",
+        "grid_m1": {
+          "U": 0.02895066378578759,
+          "admits": true,
+          "confidence": 0.990909090909091,
+          "max_admissible_k": 1
+        },
+        "k": 0,
+        "n": 160,
+        "single_rule": {
+          "U": 0.014288099099383778,
+          "admits": true,
+          "confidence": 0.9,
+          "max_admissible_k": 4
+        }
+      },
+      "class_counts_in_n": {
+        "closed_unmerged": 130,
+        "merged": 28,
+        "open": 2
+      },
+      "directory": "streamlit__streamlit",
+      "dispatched": 160,
+      "dispatched_contract_met": 160,
+      "distinct_authors": 160,
+      "distinct_days": 110,
+      "distinct_logins": 160,
+      "eligible": 160,
+      "eligible_but_excluded": 0,
+      "fallback": {
+        "abstained": 0,
+        "fallback_contract_met": 0,
+        "fallback_contract_missed": 0,
+        "fallback_groups": 0
+      },
+      "groups_recorded": 160,
+      "ineligible": 0,
+      "input_sha256": {
+        "calibration_groups.json": "c3e41727ec5e0ce5f3054b07ffc89ae0c54a8407c1ad94a0fa9a44ac92d49ace",
+        "compile.json": "cf387b98662eaa8e6e08ffaa499e73f905c65016276014a2f83690772ce7d443",
+        "ledger.json": "7b0f7b8ae62bec8bd170d165503711eb92914521b45274103c957728cdd4e821",
+        "selection.json": "4e421bf807563ca91a1c3a4a8791e97ff219179a6bed08b2d528706d2c58ec7f"
+      },
+      "ledger": {
+        "cap_usd": 5.0,
+        "present": true,
+        "spent_usd": 0.339881,
+        "within_cap": true
+      },
+      "paired": {
+        "baseline_met": 158,
+        "baseline_only_met": 0,
+        "both_met": 158,
+        "compiled_met": 160,
+        "compiled_only_met": 2,
+        "compiled_only_misses": 0,
+        "compiled_only_misses_upper95": 0.018549134077503804,
+        "mcnemar_exact_p_two_sided": 0.5,
+        "n": 160,
+        "neither_met": 0
+      },
+      "reason": "",
+      "repo": "streamlit/streamlit",
+      "resources": {
+        "mean_per_arm": {
+          "baseline": {
+            "cost_usd": 0.0008905271875,
+            "latency_ms": 4701.039393749999,
+            "requests": 4.0,
+            "tokens": 3343.2625
+          },
+          "compiled": {
+            "cost_usd": 0.0002611693125,
+            "latency_ms": 1465.5670249999998,
+            "requests": 1.0,
+            "tokens": 1037.625
+          },
+          "manual": {
+            "cost_usd": 0.000270203625,
+            "latency_ms": 1387.47428125,
+            "requests": 1.0,
+            "tokens": 1035.375
+          }
+        },
+        "reduction_vs_baseline_pct": {
+          "compiled": {
+            "cost_usd": 70.67250543656198,
+            "latency_ms": 68.82461723361727,
+            "requests": 75.0,
+            "tokens": 68.96369938047042
+          },
+          "manual": {
+            "cost_usd": 69.65801507323435,
+            "latency_ms": 70.48579760691565,
+            "requests": 75.0,
+            "tokens": 69.0309989119909
+          }
+        }
+      },
+      "selection": {
+        "calibration_n_planned": 160,
+        "disjoint": true
+      },
+      "shortfall_vs_target_n": 40,
+      "status": "run",
+      "violations": []
+    }
+  ],
+  "rules": {
+    "alpha": 0.05,
+    "delta": 0.1,
+    "grid_m1_confidence": 0.990909090909091,
+    "grid_size": 11,
+    "primary": "grid_m1",
+    "single_rule_confidence": 0.9,
+    "target_n_per_repo": 200
+  },
+  "schema": "multirepo_end_to_end/summary/v1"
+}

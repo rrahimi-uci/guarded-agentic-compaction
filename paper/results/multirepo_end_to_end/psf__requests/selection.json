@@ -1,0 +1,878 @@
+{
+  "schema": "agent-compaction-multirepo-selection/v1",
+  "status": "shortfall_no_run",
+  "family": "pr_outcome",
+  "repository": "psf/requests",
+  "unit": "author",
+  "rank_tag": "multirepo-e2e:psf/requests:pr_outcome:<number>",
+  "rule": "stable sha256 rank; test 20 per class (if any); discovery per-class quota round-robin with rank-order fill (if any); calibration next in rank order, one per distinct author and disjoint in authors from discovery when unit=author",
+  "fresh_pool": 343,
+  "fresh_pool_distinct_authors": 183,
+  "test": [],
+  "discovery": [
+    7068,
+    7237,
+    7147,
+    7543,
+    7365,
+    7488,
+    7194,
+    7306,
+    7530,
+    7130,
+    7220,
+    7410,
+    7133,
+    7272,
+    7507,
+    7640,
+    7497,
+    7110,
+    7520,
+    7390,
+    7279,
+    7471,
+    7441,
+    7105,
+    7619,
+    7596,
+    7302,
+    7128,
+    7437,
+    7262,
+    7388,
+    7562,
+    7336,
+    7148,
+    7428,
+    7398,
+    7407,
+    7492,
+    7097,
+    7135,
+    7419,
+    6998,
+    7201,
+    7591,
+    6987,
+    7297,
+    7371,
+    7193,
+    7127,
+    7429,
+    7349,
+    7579,
+    6996,
+    7225,
+    7102,
+    7539,
+    7240,
+    7151,
+    7026,
+    7382,
+    7217,
+    7636,
+    7173,
+    7096,
+    7092,
+    7396,
+    7289,
+    7073,
+    7246,
+    7044,
+    7561,
+    7367,
+    7083,
+    7590,
+    7106,
+    7499,
+    7312,
+    7447,
+    7439,
+    7421,
+    7081,
+    7184,
+    6994,
+    7094,
+    7348,
+    7236,
+    7536,
+    7379,
+    7308,
+    7556,
+    7395,
+    7546,
+    7376,
+    7385,
+    7609,
+    7589,
+    7290,
+    7030,
+    7101,
+    7144,
+    7199,
+    7015,
+    6993,
+    7043,
+    7603,
+    7527,
+    7205,
+    7361,
+    7227,
+    7136,
+    7598,
+    7064,
+    7238,
+    7054,
+    7515,
+    7552,
+    7125,
+    7286,
+    7080,
+    7104,
+    7381,
+    7263,
+    7145,
+    7397,
+    7550,
+    7368,
+    7486,
+    7129,
+    6984,
+    7557,
+    7181,
+    7363
+  ],
+  "calibration": [
+    7575,
+    7318,
+    7187,
+    7522,
+    7404,
+    7470,
+    7269,
+    7296,
+    7463,
+    7224,
+    7485,
+    7532,
+    7583,
+    7250,
+    7300,
+    7084,
+    7119,
+    7139,
+    7519,
+    7203,
+    7581,
+    7351,
+    7210,
+    6972,
+    7226,
+    7521,
+    7036,
+    7374,
+    7260,
+    7355,
+    7077,
+    7175,
+    7347,
+    7307,
+    7406,
+    7143,
+    7495,
+    7585,
+    7251,
+    7400,
+    7037,
+    7252,
+    7525,
+    7468,
+    7346,
+    7179,
+    7176,
+    7099,
+    7460,
+    7461,
+    7216,
+    7291,
+    7232,
+    6989,
+    7534,
+    7082,
+    7582,
+    7356,
+    7138,
+    7268,
+    7588,
+    7377,
+    7038,
+    7142,
+    7277,
+    7416,
+    7242,
+    7384,
+    7088,
+    7516,
+    7578,
+    7491,
+    7380,
+    7264,
+    7571,
+    7285,
+    7464,
+    7466,
+    7004,
+    7239,
+    7490,
+    7448,
+    7107,
+    7438,
+    7218,
+    7244,
+    7529,
+    7424,
+    7221,
+    7121,
+    6991,
+    7120,
+    7315,
+    7467,
+    7457,
+    7570,
+    7480,
+    7323,
+    7370
+  ],
+  "requested_calibration_n": 200,
+  "calibration_available": 99,
+  "calibration_n": 99,
+  "calibration_shortfall": 101,
+  "min_calibration_n": 106,
+  "test_shortfall": {},
+  "discovery_requested": 132,
+  "discovery_shortfall": 0,
+  "discovery_filled_in_rank_order": 16,
+  "test_class_counts": {},
+  "discovery_class_counts": {
+    "open": 28,
+    "merged": 44,
+    "closed_unmerged": 60
+  },
+  "calibration_class_counts": {
+    "closed_unmerged": 92,
+    "merged": 7
+  },
+  "calibration_distinct_authors": 99,
+  "calibration_distinct_days": 84,
+  "calibration_bot_logins": 0,
+  "records_without_login_skipped": 0,
+  "discovery_authors": 84,
+  "excluded_authors_supplied": 0,
+  "disjoint": true,
+  "author_disjoint_from_discovery": true,
+  "authors_pairwise_distinct": true,
+  "digest": "01746dffe9b82327df5341dced2f3ad2eb5b2b6e2f93f1bb2ec526b1578057f4",
+  "exclusion": "repository-qualified",
+  "used_record_numbers": 2283,
+  "used_record_files": 25,
+  "snapshot_dir": "benchmarks/.cache/multirepo_e2e/psf__requests",
+  "registry": null,
+  "discovery_authors_file": null,
+  "calibration_meta": [
+    {
+      "number": 7575,
+      "author": "yamac-kurtulus",
+      "created_day": "2026-07-09",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7318,
+      "author": "anubhavtiwari2004",
+      "created_day": "2026-04-01",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7187,
+      "author": "codeforge19",
+      "created_day": "2026-01-30",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7522,
+      "author": "Neohu-ceo",
+      "created_day": "2026-06-18",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7404,
+      "author": "Jah-yee",
+      "created_day": "2026-04-30",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7470,
+      "author": "SantiagoAngulo0",
+      "created_day": "2026-05-21",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7269,
+      "author": "yechielb2000",
+      "created_day": "2026-03-15",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7296,
+      "author": "ViceSaber",
+      "created_day": "2026-03-27",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7463,
+      "author": "driphtyio",
+      "created_day": "2026-05-18",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7224,
+      "author": "thakoreh",
+      "created_day": "2026-02-24",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7485,
+      "author": "Warend007",
+      "created_day": "2026-05-25",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7532,
+      "author": "xbrxr03",
+      "created_day": "2026-06-22",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7583,
+      "author": "Hamidkarimi-h",
+      "created_day": "2026-07-15",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7250,
+      "author": "alistaireverett",
+      "created_day": "2026-03-08",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7300,
+      "author": "l3tchupkt",
+      "created_day": "2026-03-28",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7084,
+      "author": "gvengel",
+      "created_day": "2025-11-11",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7119,
+      "author": "adiOrInder",
+      "created_day": "2025-12-11",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7139,
+      "author": "Aman071106",
+      "created_day": "2026-01-01",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7519,
+      "author": "manupareekk",
+      "created_day": "2026-06-16",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7203,
+      "author": "Satvi27-debug",
+      "created_day": "2026-02-11",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7581,
+      "author": "Shinzzyak",
+      "created_day": "2026-07-12",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7351,
+      "author": "Yanhu007",
+      "created_day": "2026-04-10",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7210,
+      "author": "cuiweixie",
+      "created_day": "2026-02-18",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 6972,
+      "author": "kingbuzzman",
+      "created_day": "2025-06-16",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7226,
+      "author": "AbsoluteMSTR",
+      "created_day": "2026-02-25",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7521,
+      "author": "1795771535y-cell",
+      "created_day": "2026-06-17",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7036,
+      "author": "bryanfraschetti",
+      "created_day": "2025-09-22",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7374,
+      "author": "CodeLine9",
+      "created_day": "2026-04-19",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7260,
+      "author": "NiranjanaPatil08",
+      "created_day": "2026-03-09",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7355,
+      "author": "stef41",
+      "created_day": "2026-04-11",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7077,
+      "author": "ARUSHIGULBHILE",
+      "created_day": "2025-10-31",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7175,
+      "author": "Vivansh27",
+      "created_day": "2026-01-17",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7347,
+      "author": "Bahtya",
+      "created_day": "2026-04-08",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7307,
+      "author": "nuglifeleoji",
+      "created_day": "2026-03-30",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7406,
+      "author": "atomadictech",
+      "created_day": "2026-05-01",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7143,
+      "author": "Anusha0710",
+      "created_day": "2026-01-07",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7495,
+      "author": "daviediao-code",
+      "created_day": "2026-06-04",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7585,
+      "author": "agu2347",
+      "created_day": "2026-07-18",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7251,
+      "author": "EthicalCha0s",
+      "created_day": "2026-03-08",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7400,
+      "author": "jaythehardcoder",
+      "created_day": "2026-04-29",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7037,
+      "author": "Soul-19129",
+      "created_day": "2025-09-25",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7252,
+      "author": "ReadingNought",
+      "created_day": "2026-03-09",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7525,
+      "author": "legacy-mod-agent",
+      "created_day": "2026-06-18",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7468,
+      "author": "puneetdixit200",
+      "created_day": "2026-05-21",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7346,
+      "author": "monsonego",
+      "created_day": "2026-04-07",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7179,
+      "author": "neilverma526-alt",
+      "created_day": "2026-01-21",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7176,
+      "author": "Gopesh111",
+      "created_day": "2026-01-19",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7099,
+      "author": "ayushigithub12",
+      "created_day": "2025-11-29",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7460,
+      "author": "aldbr",
+      "created_day": "2026-05-18",
+      "class": "merged"
+    },
+    {
+      "number": 7461,
+      "author": "Mirochill",
+      "created_day": "2026-05-18",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7216,
+      "author": "danielalanbates",
+      "created_day": "2026-02-20",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7291,
+      "author": "Krishnachaitanyakc",
+      "created_day": "2026-03-25",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7232,
+      "author": "Jo2234",
+      "created_day": "2026-03-01",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 6989,
+      "author": "xmo-odoo",
+      "created_day": "2025-07-10",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7534,
+      "author": "aman321766",
+      "created_day": "2026-06-22",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7082,
+      "author": "Tina-1300",
+      "created_day": "2025-11-03",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7582,
+      "author": "Krshs90",
+      "created_day": "2026-07-15",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7356,
+      "author": "DoriAlagem",
+      "created_day": "2026-04-12",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7138,
+      "author": "DanielDerefaka",
+      "created_day": "2026-01-01",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7268,
+      "author": "Ulitz",
+      "created_day": "2026-03-14",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7588,
+      "author": "wanxiankai",
+      "created_day": "2026-07-19",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7377,
+      "author": "adnasal",
+      "created_day": "2026-04-20",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7038,
+      "author": "kalledus13",
+      "created_day": "2025-09-29",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7142,
+      "author": "Nene1506",
+      "created_day": "2026-01-04",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7277,
+      "author": "ferdnyc",
+      "created_day": "2026-03-21",
+      "class": "merged"
+    },
+    {
+      "number": 7416,
+      "author": "joshua-51",
+      "created_day": "2026-05-07",
+      "class": "merged"
+    },
+    {
+      "number": 7242,
+      "author": "Kevin545545",
+      "created_day": "2026-03-04",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7384,
+      "author": "tejas-ae",
+      "created_day": "2026-04-22",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7088,
+      "author": "alexciechonski",
+      "created_day": "2025-11-18",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7516,
+      "author": "ugcoderz",
+      "created_day": "2026-06-15",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7578,
+      "author": "akkhil7",
+      "created_day": "2026-07-10",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7491,
+      "author": "wowo515151",
+      "created_day": "2026-06-02",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7380,
+      "author": "loisccg",
+      "created_day": "2026-04-20",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7264,
+      "author": "SadManFahIm",
+      "created_day": "2026-03-12",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7571,
+      "author": "maxtaran2010",
+      "created_day": "2026-07-08",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7285,
+      "author": "r266-tech",
+      "created_day": "2026-03-22",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7464,
+      "author": "rmotgi1227",
+      "created_day": "2026-05-19",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7466,
+      "author": "junliliu1",
+      "created_day": "2026-05-21",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7004,
+      "author": "mengxunQAQ",
+      "created_day": "2025-08-05",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7239,
+      "author": "dan-blanchard",
+      "created_day": "2026-03-02",
+      "class": "merged"
+    },
+    {
+      "number": 7490,
+      "author": "sigmavirus24",
+      "created_day": "2026-05-31",
+      "class": "merged"
+    },
+    {
+      "number": 7448,
+      "author": "MD-Mushfiqur123",
+      "created_day": "2026-05-16",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7107,
+      "author": "ecrispen4",
+      "created_day": "2025-12-07",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7438,
+      "author": "echo-chamber0",
+      "created_day": "2026-05-13",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7218,
+      "author": "luigiguida000",
+      "created_day": "2026-02-21",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7244,
+      "author": "mitre88",
+      "created_day": "2026-03-05",
+      "class": "merged"
+    },
+    {
+      "number": 7529,
+      "author": "Tejas5405",
+      "created_day": "2026-06-21",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7424,
+      "author": "CatfishGG",
+      "created_day": "2026-05-11",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7221,
+      "author": "elpolini",
+      "created_day": "2026-02-22",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7121,
+      "author": "jhanani14",
+      "created_day": "2025-12-16",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 6991,
+      "author": "Rosana127",
+      "created_day": "2025-07-13",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7120,
+      "author": "IlmaxRehman",
+      "created_day": "2025-12-11",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7315,
+      "author": "typhon8",
+      "created_day": "2026-03-31",
+      "class": "merged"
+    },
+    {
+      "number": 7467,
+      "author": "pintaste",
+      "created_day": "2026-05-21",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7457,
+      "author": "cyphercodes",
+      "created_day": "2026-05-17",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7570,
+      "author": "yashmahamulkar",
+      "created_day": "2026-07-08",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7480,
+      "author": "YousafZahid1",
+      "created_day": "2026-05-25",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7323,
+      "author": "717986230",
+      "created_day": "2026-04-03",
+      "class": "closed_unmerged"
+    },
+    {
+      "number": 7370,
+      "author": "PewterZz",
+      "created_day": "2026-04-17",
+      "class": "closed_unmerged"
+    }
+  ]
+}

@@ -67,7 +67,7 @@ def _token() -> str:
 def _get(url: str, token: str) -> tuple[Any, dict[str, str]]:
     req = urllib.request.Request(url, headers={"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json",
                                                "X-GitHub-Api-Version": "2022-11-28", "User-Agent": "guarded-agentic-compaction-acquire"})
-    for attempt in range(6):
+    for attempt in range(8):
         try:
             with urllib.request.urlopen(req, timeout=60) as resp:
                 return json.loads(resp.read().decode("utf-8")), {k.lower(): v for k, v in resp.headers.items()}
@@ -80,6 +80,9 @@ def _get(url: str, token: str) -> tuple[Any, dict[str, str]]:
                 time.sleep(2 ** attempt)
                 continue
             raise
+        except (urllib.error.URLError, TimeoutError, ConnectionError):
+            # transient network failure (timeout, reset): back off and retry
+            time.sleep(min(60, 5 * 2 ** attempt))
     raise RuntimeError(f"gave up on {url}")
 
 
@@ -146,7 +149,7 @@ def main(argv: list[str] | None = None) -> int:
         "records": len(records), "pull_requests": int(sum(1 for r in records if r.get("pull_request"))),
         "issues": int(sum(1 for r in records if not r.get("pull_request"))),
         "created_at_range": [frame["created_at"].min().isoformat(), frame["created_at"].max().isoformat()],
-        "parquet_path": str(parquet.relative_to(ROOT)), "parquet_bytes": parquet.stat().st_size, "parquet_sha256": digest,
+        "parquet_path": str(parquet.relative_to(ROOT)) if parquet.is_relative_to(ROOT) else str(parquet), "parquet_bytes": parquet.stat().st_size, "parquet_sha256": digest,
         "columns_mirroring_pinned_snapshot": True,
         "credential_shaped_strings_redacted": redactions,
         "licence_note": "public GitHub issue and pull-request metadata and comment bodies; same provenance class as the pinned snapshot",
