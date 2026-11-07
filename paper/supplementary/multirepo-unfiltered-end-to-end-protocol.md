@@ -70,4 +70,8 @@ independent authors. It says nothing about adaptive-task value, learned-gate val
 hand-written program (a tie is expected), issue-type or backlog families, or repositories not run.
 
 ## Amendments
-(none)
+**Amendment 1 (2026-11-07, before any provider call and before any label).**
+1. For huggingface/datasets the exclusion rule is the repository-qualified one (`--qualified-exclusion`): only record numbers used by retained studies of that repository are excluded. The legacy rule also excluded numbers that merely collide with other repositories' record numbers and would leave n = 106. Selection digest `3ef976c2...` (200 author-distinct groups, 200 distinct authors, 147 distinct days; classes 143 open, 55 merged, 2 closed-unmerged; 2 bot logins counted as authors, not filtered). The certificate therefore covers mostly open and merged pull requests; the closed-unmerged class is essentially unrepresented and no claim is made for it.
+2. A failed, timed-out or missing compiled-arm episode is a violation: it stays in n and counts in k. (The protocol text said it stays in the denominator as a failure; this states how it is counted.) Failed baseline or manual episodes count as contract not met in their own arm.
+3. Calibration authors are disjoint from the 81 distinct discovery authors of the frozen registry's 132 discovery records.
+
