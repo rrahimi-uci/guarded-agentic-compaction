@@ -3338,7 +3338,7 @@ def validate_bird_sql_agent() -> None:
        "bird: protocol records results and the condition-order deviation")
     table = (PAPER / "iclr/tables/bird_results.tex").read_text(encoding="utf-8")
     ok("44.9\\%" in table and "\\textbf{97}" in table, "bird: generated table carries the pooled result")
-    results = (PAPER / "iclr/sections/results.tex").read_text(encoding="utf-8")
+    results = " ".join((PAPER / "iclr/sections/results.tex").read_text(encoding="utf-8").split())
     ok("answered 97 correctly against 94" in results and "44.9\\%" in results, "bird: §5.3 quotes the retained result")
     ok("label{app:bird}" in (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8"), "bird: appendix subsection present")
     main_funnel = (PAPER / "iclr/tables/refusal_funnel.tex").read_text(encoding="utf-8")
@@ -3435,7 +3435,7 @@ def validate_bird_extensions() -> None:
     ok("401 / \\textbf{400}" in table and "E3 second provider" in table, "bird ext: generated extensions table carries every run")
     appendix = (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8")
     ok("label{tab:bird-extensions}" in appendix and "\\$43.93" in appendix, "bird ext: appendix paragraph and table present")
-    results = (PAPER / "iclr/sections/results.tex").read_text(encoding="utf-8")
+    results = " ".join((PAPER / "iclr/sections/results.tex").read_text(encoding="utf-8").split())
     train_audit = cohorts["train"]
     counts = f"{train_audit['arms']['compiled']['correct']} against {train_audit['arms']['baseline']['correct']} of {train_audit['scheduled_questions']}"
     interval = sensitivity["cohorts"]["train"]["pointwise_iid_conservative_ci95"]
@@ -4200,6 +4200,24 @@ def validate_agenthop_section_lookahead() -> None:
         ok(False, f"AgentHop lookahead: {error}")
 
 
+def validate_compiler_decisions_family() -> None:
+    """Pin the 'What the compiler decided' table to retained evidence."""
+
+    from validate_compiler_decisions import validate_compiler_decisions
+
+    for passed, message in validate_compiler_decisions():
+        ok(passed, message)
+
+
+def validate_multirepo_end_to_end_family() -> None:
+    """Pin the unfiltered multi-repository end-to-end certificate to raw calibration groups."""
+
+    from validate_multirepo_end_to_end import validate_multirepo_end_to_end
+
+    for r in validate_multirepo_end_to_end(PAPER / "results/multirepo_end_to_end"):
+        ok(r.ok, r.message)
+
+
 FAMILIES: dict[str, Any] = {
     "appworld_batched_competence": validate_appworld_batched_competence,
     "adaptive_comparison_preflight": validate_adaptive_comparison_preflight,
@@ -4247,6 +4265,8 @@ FAMILIES: dict[str, Any] = {
     "drift_continuation_graded": validate_drift_continuation_graded,
     "demo_suite_regeneration": validate_demo_suite_regeneration,
     "graded_issue_gate_extension": validate_graded_issue_gate_extension,
+    "compiler_decisions": validate_compiler_decisions_family,
+    "multirepo_end_to_end": validate_multirepo_end_to_end_family,
     "no_secrets": validate_no_secrets,
 }
 

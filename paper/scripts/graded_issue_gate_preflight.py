@@ -32,7 +32,8 @@ def sha256(path: Path) -> str:
 def prior_record_numbers() -> set[int]:
     """Exclude earlier studies, but never count this study's own checkpoints."""
     used: set[int] = set()
-    excluded_paths = (*prior.EXCLUDED_SUBSTRINGS, "/graded_issue_gate/")
+    # later, unrelated studies (the multi-repository end-to-end study) never change a sealed preflight
+    excluded_paths = (*prior.EXCLUDED_SUBSTRINGS, "/graded_issue_gate/", "/multirepo_end_to_end/")
     for path in prior.RESULTS_ROOT.rglob("*.json"):
         if any(marker in str(path) for marker in excluded_paths):
             continue

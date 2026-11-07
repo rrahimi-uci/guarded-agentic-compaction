@@ -1,0 +1,1803 @@
+{
+ "schema": "tracecompiler_screen/v1",
+ "date": "2026-11-06",
+ "provider_calls": 0,
+ "paper": {
+  "arxiv": "2608.02680",
+  "versions": 1,
+  "pdf_and_tex_read_in_full": true,
+  "official_code_found": false,
+  "huggingface_artifacts_found": 0,
+  "headline_numbers": {
+   "T1_edges": 15775,
+   "T1_mechanized_precision": 0.928,
+   "T1_mechanized_recall": 0.943,
+   "T1_skill_blind_edges": 250,
+   "T1_skill_blind_f": 0.992,
+   "appworld_token_edges": 563,
+   "appworld_precision": 0.993,
+   "venmo_calls_observed": 34,
+   "venmo_calls_runtime": 11,
+   "leave_one_out_pass": "15/21",
+   "instances_per_compiled_intent": 3,
+   "intents_compiled": 2,
+   "intents_executed": 1,
+   "compile_decline_rate_over_56_scenarios": "not reported",
+   "offline_compilation_cost": "not reported",
+   "net_efficiency_claim": "none"
+  }
+ },
+ "T1": {
+  "dialogues": 13500,
+  "train": 3375,
+  "test": 9000,
+  "validation": 1125,
+  "templates_nominal": 540,
+  "templates_distinct_by_plan_hash": 519,
+  "license": "cc-by-4.0 (HF card); code Apache-2.0",
+  "tool_results_in_release": false,
+  "tools": 11,
+  "all_tools_read_only_pure": true,
+  "dialogues_first_tool_call_at_first_user_turn": 4600,
+  "dialogues_with_entry_turn_opening_ge2_calls": 225,
+  "same_turn_first_tool_turn_ge2_calls": 3925,
+  "same_turn_open2_top": {
+   "distinct": 10,
+   "ge5": 10,
+   "ge30": 5,
+   "ge92": 2,
+   "top": [
+    [
+     [
+      "search_flights",
+      "search_flights"
+     ],
+     3425
+    ],
+    [
+     [
+      "search_flights",
+      "adjust_date"
+     ],
+     175
+    ],
+    [
+     [
+      "search_restaurants",
+      "search_restaurants"
+     ],
+     75
+    ],
+    [
+     [
+      "search_restaurants",
+      "sort_results"
+     ],
+     75
+    ],
+    [
+     [
+      "search_hotels",
+      "search_attractions"
+     ],
+     50
+    ],
+    [
+     [
+      "search_flights",
+      "search_hotels"
+     ],
+     25
+    ]
+   ]
+  },
+  "search_flights_pair_family": {
+   "dialogues": 3425,
+   "templates": 137,
+   "user_turn_index": {
+    "2": 2975,
+    "4": 50,
+    "3": 325,
+    "1": 75
+   },
+   "arg_provenance": {
+    "verbatim_earlier_turn": 13723,
+    "verbatim_current_turn": 9102,
+    "not_verbatim": 150
+   }
+  },
+  "first_call_arg_provenance_entry_turn": {
+   "verbatim_in_first_user_utterance": 8852,
+   "expr_or_cache": 100,
+   "boolean_flag_semantic": 525,
+   "not_verbatim": 48
+  },
+  "opening_all": {
+   "open1": {
+    "n_with_k_calls": 13475,
+    "distinct": 5,
+    "support_dialogues_ge5": 5,
+    "ge30": 4,
+    "ge92": 4,
+    "support_templates_ge5": 4,
+    "tge30": 4,
+    "tge92": 3,
+    "top": [
+     [
+      [
+       "search_flights"
+      ],
+      5325,
+      208
+     ],
+     [
+      [
+       "search_restaurants"
+      ],
+      3175,
+      127
+     ],
+     [
+      [
+       "search_hotels"
+      ],
+      2900,
+      116
+     ],
+     [
+      [
+       "search_attractions"
+      ],
+      2050,
+      67
+     ],
+     [
+      [
+       "filter_attractions"
+      ],
+      25,
+      1
+     ]
+    ],
+    "top1_share": 0.3952,
+    "read_only_share": 1.0
+   },
+   "open2": {
+    "n_with_k_calls": 12750,
+    "distinct": 21,
+    "support_dialogues_ge5": 21,
+    "ge30": 14,
+    "ge92": 12,
+    "support_templates_ge5": 11,
+    "tge30": 6,
+    "tge92": 1,
+    "top": [
+     [
+      [
+       "search_flights",
+       "search_flights"
+      ],
+      3575,
+      143
+     ],
+     [
+      [
+       "search_hotels",
+       "filter_hotels"
+      ],
+      2125,
+      85
+     ],
+     [
+      [
+       "search_restaurants",
+       "search_hotels"
+      ],
+      1200,
+      48
+     ],
+     [
+      [
+       "search_restaurants",
+       "filter_restaurants"
+      ],
+      1150,
+      46
+     ],
+     [
+      [
+       "search_attractions",
+       "filter_attractions"
+      ],
+      1100,
+      31
+     ],
+     [
+      [
+       "search_flights",
+       "filter_flights"
+      ],
+      1075,
+      38
+     ],
+     [
+      [
+       "search_hotels",
+       "search_attractions"
+      ],
+      650,
+      26
+     ],
+     [
+      [
+       "search_attractions",
+       "search_hotels"
+      ],
+      525,
+      21
+     ]
+    ],
+    "top1_share": 0.2804,
+    "read_only_share": 1.0
+   },
+   "open3": {
+    "n_with_k_calls": 10225,
+    "distinct": 44,
+    "support_dialogues_ge5": 44,
+    "ge30": 26,
+    "ge92": 17,
+    "support_templates_ge5": 17,
+    "tge30": 4,
+    "tge92": 0,
+    "top": [
+     [
+      [
+       "search_flights",
+       "search_flights",
+       "filter_flights"
+      ],
+      1650,
+      66
+     ],
+     [
+      [
+       "search_flights",
+       "search_flights",
+       "search_hotels"
+      ],
+      1650,
+      66
+     ],
+     [
+      [
+       "search_restaurants",
+       "search_hotels",
+       "filter_hotels"
+      ],
+      1125,
+      45
+     ],
+     [
+      [
+       "search_hotels",
+       "filter_hotels",
+       "filter_hotels"
+      ],
+      800,
+      32
+     ],
+     [
+      [
+       "search_flights",
+       "filter_flights",
+       "filter_flights"
+      ],
+      625,
+      21
+     ],
+     [
+      [
+       "search_restaurants",
+       "filter_restaurants",
+       "filter_restaurants"
+      ],
+      625,
+      25
+     ],
+     [
+      [
+       "search_hotels",
+       "search_attractions",
+       "filter_hotels"
+      ],
+      500,
+      20
+     ],
+     [
+      [
+       "search_flights",
+       "adjust_date",
+       "search_hotels"
+      ],
+      425,
+      17
+     ]
+    ],
+    "top1_share": 0.1614,
+    "read_only_share": 1.0
+   }
+  },
+  "opening_train": {
+   "open1": {
+    "n_with_k_calls": 3350,
+    "distinct": 4,
+    "support_dialogues_ge5": 4,
+    "ge30": 4,
+    "ge92": 4,
+    "support_templates_ge5": 4,
+    "tge30": 2,
+    "tge92": 0,
+    "top": [
+     [
+      [
+       "search_flights"
+      ],
+      1325,
+      53
+     ],
+     [
+      [
+       "search_restaurants"
+      ],
+      825,
+      33
+     ],
+     [
+      [
+       "search_hotels"
+      ],
+      675,
+      27
+     ],
+     [
+      [
+       "search_attractions"
+      ],
+      525,
+      21
+     ]
+    ],
+    "top1_share": 0.3955,
+    "read_only_share": 1.0
+   },
+   "open2": {
+    "n_with_k_calls": 3150,
+    "distinct": 13,
+    "support_dialogues_ge5": 13,
+    "ge30": 11,
+    "ge92": 10,
+    "support_templates_ge5": 9,
+    "tge30": 1,
+    "tge92": 0,
+    "top": [
+     [
+      [
+       "search_flights",
+       "search_flights"
+      ],
+      925,
+      37
+     ],
+     [
+      [
+       "search_hotels",
+       "filter_hotels"
+      ],
+      475,
+      19
+     ],
+     [
+      [
+       "search_restaurants",
+       "search_hotels"
+      ],
+      325,
+      13
+     ],
+     [
+      [
+       "search_restaurants",
+       "filter_restaurants"
+      ],
+      325,
+      13
+     ],
+     [
+      [
+       "search_attractions",
+       "filter_attractions"
+      ],
+      275,
+      11
+     ],
+     [
+      [
+       "search_flights",
+       "filter_flights"
+      ],
+      200,
+      8
+     ],
+     [
+      [
+       "search_hotels",
+       "search_attractions"
+      ],
+      150,
+      6
+     ],
+     [
+      [
+       "search_attractions",
+       "search_hotels"
+      ],
+      150,
+      6
+     ]
+    ],
+    "top1_share": 0.2937,
+    "read_only_share": 1.0
+   },
+   "open3": {
+    "n_with_k_calls": 2475,
+    "distinct": 24,
+    "support_dialogues_ge5": 24,
+    "ge30": 16,
+    "ge92": 9,
+    "support_templates_ge5": 4,
+    "tge30": 0,
+    "tge92": 0,
+    "top": [
+     [
+      [
+       "search_flights",
+       "search_flights",
+       "search_hotels"
+      ],
+      450,
+      18
+     ],
+     [
+      [
+       "search_flights",
+       "search_flights",
+       "filter_flights"
+      ],
+      425,
+      17
+     ],
+     [
+      [
+       "search_restaurants",
+       "search_hotels",
+       "filter_hotels"
+      ],
+      325,
+      13
+     ],
+     [
+      [
+       "search_hotels",
+       "filter_hotels",
+       "filter_hotels"
+      ],
+      175,
+      7
+     ],
+     [
+      [
+       "search_flights",
+       "filter_flights",
+       "filter_flights"
+      ],
+      100,
+      4
+     ],
+     [
+      [
+       "search_flights",
+       "adjust_date",
+       "search_hotels"
+      ],
+      100,
+      4
+     ],
+     [
+      [
+       "search_hotels",
+       "search_attractions",
+       "filter_hotels"
+      ],
+      100,
+      4
+     ],
+     [
+      [
+       "search_attractions",
+       "search_hotels",
+       "search_attractions"
+      ],
+      100,
+      4
+     ]
+    ],
+    "top1_share": 0.1818,
+    "read_only_share": 1.0
+   }
+  },
+  "first_call_user_turn_dist_all": {
+   "1": 4600,
+   "2": 6950,
+   "3": 1525,
+   "4": 375,
+   "5": 25,
+   "null": 25
+  }
+ },
+ "Hermes": {
+  "config_default": "func_calling_singleturn",
+  "examples": {
+   "func-calling-singleturn.json": 1893,
+   "func-calling.json": 1893,
+   "glaive-function-calling-5k.json": 5209
+  },
+  "license": "apache-2.0",
+  "tool_responses": {
+   "func-calling-singleturn.json": 0,
+   "func-calling.json": 1100,
+   "glaive-function-calling-5k.json": 4344
+  },
+  "distinct_tool_vocabularies": {
+   "func-calling-singleturn.json": 1092,
+   "func-calling.json": 1092,
+   "glaive-function-calling-5k.json": 2107
+  },
+  "opening_whole_trajectory": {
+   "func-calling-singleturn.json": {
+    "open1": {
+     "distinct": 1024,
+     "ge5": 2,
+     "ge30": 0,
+     "ge92": 0,
+     "top": [
+      [
+       [
+        "translate_text"
+       ],
+       6
+      ],
+      [
+       [
+        "monitor_stock_levels"
+       ],
+       5
+      ],
+      [
+       [
+        "place_market_order"
+       ],
+       4
+      ],
+      [
+       [
+        "process_sale_transaction"
+       ],
+       4
+      ],
+      [
+       [
+        "analyze_network_traffic"
+       ],
+       3
+      ]
+     ],
+     "top1_share": 0.0055
+    },
+    "open2": {
+     "distinct": 603,
+     "ge5": 1,
+     "ge30": 0,
+     "ge92": 0,
+     "top": [
+      [
+       [
+        "translate_text",
+        "translate_text"
+       ],
+       5
+      ],
+      [
+       [
+        "generate_image_captions",
+        "generate_image_captions"
+       ],
+       2
+      ],
+      [
+       [
+        "place_market_order",
+        "set_stop_loss_order"
+       ],
+       2
+      ],
+      [
+       [
+        "analyze_market_sentiment",
+        "predict_price_movements"
+       ],
+       2
+      ],
+      [
+       [
+        "monitor_stock_levels",
+        "update_inventory_stock"
+       ],
+       2
+      ]
+     ],
+     "top1_share": 0.0082
+    },
+    "open3": {
+     "distinct": 366,
+     "ge5": 0,
+     "ge30": 0,
+     "ge92": 0,
+     "top": [
+      [
+       [
+        "generate_image_captions",
+        "generate_image_captions",
+        "generate_image_captions"
+       ],
+       2
+      ],
+      [
+       [
+        "translate_text",
+        "translate_text",
+        "translate_text"
+       ],
+       2
+      ],
+      [
+       [
+        "get_camera_live_feed",
+        "record_camera_feed",
+        "get_recorded_feed"
+       ],
+       1
+      ],
+      [
+       [
+        "activate_voice_command",
+        "set_thermostat",
+        "activate_voice_command"
+       ],
+       1
+      ],
+      [
+       [
+        "set_thermostat_schedule",
+        "set_door_lock_schedule",
+        "set_sprinkler_schedule"
+       ],
+       1
+      ]
+     ],
+     "top1_share": 0.0054
+    }
+   },
+   "func-calling.json": {
+    "open1": {
+     "distinct": 1024,
+     "ge5": 2,
+     "ge30": 0,
+     "ge92": 0,
+     "top": [
+      [
+       [
+        "translate_text"
+       ],
+       6
+      ],
+      [
+       [
+        "monitor_stock_levels"
+       ],
+       5
+      ],
+      [
+       [
+        "place_market_order"
+       ],
+       4
+      ],
+      [
+       [
+        "process_sale_transaction"
+       ],
+       4
+      ],
+      [
+       [
+        "analyze_network_traffic"
+       ],
+       3
+      ]
+     ],
+     "top1_share": 0.0055
+    },
+    "open2": {
+     "distinct": 603,
+     "ge5": 1,
+     "ge30": 0,
+     "ge92": 0,
+     "top": [
+      [
+       [
+        "translate_text",
+        "translate_text"
+       ],
+       5
+      ],
+      [
+       [
+        "generate_image_captions",
+        "generate_image_captions"
+       ],
+       2
+      ],
+      [
+       [
+        "place_market_order",
+        "set_stop_loss_order"
+       ],
+       2
+      ],
+      [
+       [
+        "analyze_market_sentiment",
+        "predict_price_movements"
+       ],
+       2
+      ],
+      [
+       [
+        "monitor_stock_levels",
+        "update_inventory_stock"
+       ],
+       2
+      ]
+     ],
+     "top1_share": 0.0082
+    },
+    "open3": {
+     "distinct": 366,
+     "ge5": 0,
+     "ge30": 0,
+     "ge92": 0,
+     "top": [
+      [
+       [
+        "generate_image_captions",
+        "generate_image_captions",
+        "generate_image_captions"
+       ],
+       2
+      ],
+      [
+       [
+        "translate_text",
+        "translate_text",
+        "translate_text"
+       ],
+       2
+      ],
+      [
+       [
+        "get_camera_live_feed",
+        "record_camera_feed",
+        "get_recorded_feed"
+       ],
+       1
+      ],
+      [
+       [
+        "activate_voice_command",
+        "set_thermostat",
+        "activate_voice_command"
+       ],
+       1
+      ],
+      [
+       [
+        "set_thermostat_schedule",
+        "set_door_lock_schedule",
+        "set_sprinkler_schedule"
+       ],
+       1
+      ]
+     ],
+     "top1_share": 0.0054
+    }
+   },
+   "glaive-function-calling-5k.json": {
+    "open1": {
+     "distinct": 288,
+     "ge5": 98,
+     "ge30": 28,
+     "ge92": 10,
+     "top": [
+      [
+       [
+        "convert_currency"
+       ],
+       386
+      ],
+      [
+       [
+        "get_stock_price"
+       ],
+       333
+      ],
+      [
+       [
+        "generate_random_number"
+       ],
+       318
+      ],
+      [
+       [
+        "get_movie_details"
+       ],
+       268
+      ],
+      [
+       [
+        "search_recipes"
+       ],
+       199
+      ]
+     ],
+     "top1_share": 0.0889
+    },
+    "open2": {
+     "distinct": 158,
+     "ge5": 53,
+     "ge30": 16,
+     "ge92": 5,
+     "top": [
+      [
+       [
+        "get_stock_price",
+        "get_stock_price"
+       ],
+       328
+      ],
+      [
+       [
+        "generate_random_number",
+        "generate_random_number"
+       ],
+       318
+      ],
+      [
+       [
+        "get_movie_details",
+        "get_movie_details"
+       ],
+       211
+      ],
+      [
+       [
+        "convert_currency",
+        "convert_currency"
+       ],
+       210
+      ],
+      [
+       [
+        "get_news",
+        "get_news"
+       ],
+       111
+      ]
+     ],
+     "top1_share": 0.1402
+    },
+    "open3": {
+     "distinct": 20,
+     "ge5": 3,
+     "ge30": 0,
+     "ge92": 0,
+     "top": [
+      [
+       [
+        "get_movie_details",
+        "get_movie_details",
+        "get_movie_details"
+       ],
+       24
+      ],
+      [
+       [
+        "get_stock_price",
+        "get_stock_price",
+        "get_stock_price"
+       ],
+       18
+      ],
+      [
+       [
+        "search_movies",
+        "search_movies",
+        "search_movies"
+       ],
+       8
+      ],
+      [
+       [
+        "analyze_sentiment",
+        "analyze_sentiment",
+        "analyze_sentiment"
+       ],
+       4
+      ],
+      [
+       [
+        "generate_random_number",
+        "generate_random_number",
+        "generate_random_number"
+       ],
+       3
+      ]
+     ],
+     "top1_share": 0.3158
+    }
+   }
+  },
+  "opening_first_assistant_turn": {
+   "func-calling-singleturn.json": {
+    "n": 1893,
+    "calls_in_first_assistant_turn": {
+     "0": 803,
+     "1": 478,
+     "2": 244,
+     "3": 286,
+     "4": 68,
+     "5": 8,
+     "6": 1,
+     "7": 1,
+     "9": 2,
+     "10": 1,
+     "11": 1
+    },
+    "entry_open1": {
+     "n": 1090,
+     "distinct": 1024,
+     "ge5": 2,
+     "ge30": 0,
+     "ge92": 0,
+     "top": [
+      [
+       [
+        "translate_text"
+       ],
+       6
+      ],
+      [
+       [
+        "monitor_stock_levels"
+       ],
+       5
+      ],
+      [
+       [
+        "place_market_order"
+       ],
+       4
+      ],
+      [
+       [
+        "process_sale_transaction"
+       ],
+       4
+      ]
+     ],
+     "read_share": 0.329
+    },
+    "entry_open2": {
+     "n": 612,
+     "distinct": 603,
+     "ge5": 1,
+     "ge30": 0,
+     "ge92": 0,
+     "top": [
+      [
+       [
+        "translate_text",
+        "translate_text"
+       ],
+       5
+      ],
+      [
+       [
+        "generate_image_captions",
+        "generate_image_captions"
+       ],
+       2
+      ],
+      [
+       [
+        "place_market_order",
+        "set_stop_loss_order"
+       ],
+       2
+      ],
+      [
+       [
+        "analyze_market_sentiment",
+        "predict_price_movements"
+       ],
+       2
+      ]
+     ],
+     "read_share": 0.139
+    }
+   },
+   "func-calling.json": {
+    "n": 1893,
+    "calls_in_first_assistant_turn": {
+     "0": 803,
+     "1": 478,
+     "2": 244,
+     "3": 286,
+     "4": 68,
+     "5": 8,
+     "6": 1,
+     "7": 1,
+     "9": 2,
+     "10": 1,
+     "11": 1
+    },
+    "entry_open1": {
+     "n": 1090,
+     "distinct": 1024,
+     "ge5": 2,
+     "ge30": 0,
+     "ge92": 0,
+     "top": [
+      [
+       [
+        "translate_text"
+       ],
+       6
+      ],
+      [
+       [
+        "monitor_stock_levels"
+       ],
+       5
+      ],
+      [
+       [
+        "place_market_order"
+       ],
+       4
+      ],
+      [
+       [
+        "process_sale_transaction"
+       ],
+       4
+      ]
+     ],
+     "read_share": 0.329
+    },
+    "entry_open2": {
+     "n": 612,
+     "distinct": 603,
+     "ge5": 1,
+     "ge30": 0,
+     "ge92": 0,
+     "top": [
+      [
+       [
+        "translate_text",
+        "translate_text"
+       ],
+       5
+      ],
+      [
+       [
+        "generate_image_captions",
+        "generate_image_captions"
+       ],
+       2
+      ],
+      [
+       [
+        "place_market_order",
+        "set_stop_loss_order"
+       ],
+       2
+      ],
+      [
+       [
+        "analyze_market_sentiment",
+        "predict_price_movements"
+       ],
+       2
+      ]
+     ],
+     "read_share": 0.139
+    }
+   },
+   "glaive-function-calling-5k.json": {
+    "n": 5209,
+    "calls_in_first_assistant_turn": {
+     "0": 1923,
+     "1": 3286
+    },
+    "entry_open1": {
+     "n": 3286,
+     "distinct": 223,
+     "ge5": 71,
+     "ge30": 20,
+     "ge92": 7,
+     "top": [
+      [
+       [
+        "convert_currency"
+       ],
+       386
+      ],
+      [
+       [
+        "get_stock_price"
+       ],
+       329
+      ],
+      [
+       [
+        "generate_random_number"
+       ],
+       318
+      ],
+      [
+       [
+        "get_movie_details"
+       ],
+       268
+      ]
+     ],
+     "read_share": 0.694
+    },
+    "entry_open2": {
+     "n": 0,
+     "distinct": 0,
+     "ge5": 0,
+     "ge30": 0,
+     "ge92": 0,
+     "top": [],
+     "read_share": null
+    }
+   }
+  }
+ },
+ "AppWorld": {
+  "trajectories": 8190,
+  "runs": 28,
+  "tasks": 585,
+  "scenarios": 195,
+  "license": "Apache-2.0 plus encrypted-redistribution requirement",
+  "responses_in_released_logs": false,
+  "opening_pooled_incl_api_docs": {
+   "open1": {
+    "n_with_k": 8027,
+    "distinct": 23,
+    "ge5": 13,
+    "ge30": 6,
+    "ge92": 5,
+    "read_only_share": 0.9933,
+    "top": [
+     [
+      [
+       "get /api_docs/api_descriptions"
+      ],
+      3752,
+      195
+     ],
+     [
+      [
+       "get /supervisor/profile"
+      ],
+      3126,
+      195
+     ],
+     [
+      [
+       "get /supervisor/account_passwords"
+      ],
+      599,
+      141
+     ],
+     [
+      [
+       "get /api_docs/app_descriptions"
+      ],
+      229,
+      85
+     ],
+     [
+      [
+       "get /supervisor/active_task"
+      ],
+      158,
+      76
+     ]
+    ],
+    "scen_ge5": 8,
+    "scen_ge30": 6,
+    "scen_ge92": 3
+   },
+   "open2": {
+    "n_with_k": 8011,
+    "distinct": 87,
+    "ge5": 39,
+    "ge30": 15,
+    "ge92": 7,
+    "read_only_share": 0.9471,
+    "top": [
+     [
+      [
+       "get /api_docs/api_descriptions",
+       "get /api_docs/api_doc"
+      ],
+      3343,
+      195
+     ],
+     [
+      [
+       "get /supervisor/profile",
+       "get /supervisor/account_passwords"
+      ],
+      3102,
+      195
+     ],
+     [
+      [
+       "get /api_docs/app_descriptions",
+       "get /api_docs/api_descriptions"
+      ],
+      211,
+      82
+     ],
+     [
+      [
+       "get /supervisor/account_passwords",
+       "get /supervisor/account_passwords"
+      ],
+      181,
+      58
+     ],
+     [
+      [
+       "get /api_docs/api_descriptions",
+       "get /supervisor/account_passwords"
+      ],
+      149,
+      71
+     ]
+    ],
+    "scen_ge5": 29,
+    "scen_ge30": 8,
+    "scen_ge92": 2
+   }
+  },
+  "opening_pooled_excl_api_docs": {
+   "open1": {
+    "n_with_k": 7995,
+    "distinct": 48,
+    "ge5": 28,
+    "ge30": 13,
+    "ge92": 6,
+    "read_only_share": 0.9345,
+    "top": [
+     [
+      [
+       "get /supervisor/account_passwords"
+      ],
+      3738,
+      195
+     ],
+     [
+      [
+       "get /supervisor/profile"
+      ],
+      3170,
+      195
+     ],
+     [
+      [
+       "post /gmail/auth/token"
+      ],
+      169,
+      51
+     ],
+     [
+      [
+       "get /supervisor/active_task"
+      ],
+      165,
+      79
+     ],
+     [
+      [
+       "post /phone/auth/token"
+      ],
+      127,
+      41
+     ]
+    ],
+    "scen_ge5": 21,
+    "scen_ge30": 6,
+    "scen_ge92": 2
+   },
+   "open2": {
+    "n_with_k": 7969,
+    "distinct": 157,
+    "ge5": 50,
+    "ge30": 22,
+    "ge92": 12,
+    "read_only_share": 0.5337,
+    "top": [
+     [
+      [
+       "get /supervisor/profile",
+       "get /supervisor/account_passwords"
+      ],
+      3114,
+      195
+     ],
+     [
+      [
+       "get /supervisor/account_passwords",
+       "post /amazon/auth/token"
+      ],
+      874,
+      70
+     ],
+     [
+      [
+       "get /supervisor/account_passwords",
+       "post /gmail/auth/token"
+      ],
+      716,
+      55
+     ],
+     [
+      [
+       "get /supervisor/account_passwords",
+       "get /supervisor/account_passwords"
+      ],
+      528,
+      160
+     ],
+     [
+      [
+       "get /supervisor/account_passwords",
+       "post /venmo/auth/token"
+      ],
+      330,
+      31
+     ]
+    ],
+    "scen_ge5": 36,
+    "scen_ge30": 10,
+    "scen_ge92": 2
+   }
+  },
+  "opening_react_gpt4o_test_normal_168_excl_docs": {
+   "open1": {
+    "n_with_k": 168,
+    "distinct": 6,
+    "ge5": 2,
+    "ge30": 1,
+    "ge92": 1,
+    "read_only_share": 0.9702,
+    "top": [
+     [
+      [
+       "get /supervisor/account_passwords"
+      ],
+      155,
+      55
+     ],
+     [
+      [
+       "post /spotify/auth/token"
+      ],
+      5,
+      3
+     ],
+     [
+      [
+       "get /file_system/directory"
+      ],
+      3,
+      2
+     ],
+     [
+      [
+       "get /phone/contacts"
+      ],
+      3,
+      1
+     ],
+     [
+      [
+       "get /phone/date_time"
+      ],
+      1,
+      1
+     ]
+    ],
+    "scen_ge5": 1,
+    "scen_ge30": 1,
+    "scen_ge92": 0
+   },
+   "open2": {
+    "n_with_k": 168,
+    "distinct": 12,
+    "ge5": 7,
+    "ge30": 3,
+    "ge92": 0,
+    "read_only_share": 0.0476,
+    "top": [
+     [
+      [
+       "get /supervisor/account_passwords",
+       "post /venmo/auth/token"
+      ],
+      51,
+      17
+     ],
+     [
+      [
+       "get /supervisor/account_passwords",
+       "post /simple_note/auth/token"
+      ],
+      37,
+      13
+     ],
+     [
+      [
+       "get /supervisor/account_passwords",
+       "post /spotify/auth/token"
+      ],
+      32,
+      13
+     ],
+     [
+      [
+       "get /supervisor/account_passwords",
+       "post /phone/auth/token"
+      ],
+      17,
+      7
+     ],
+     [
+      [
+       "get /supervisor/account_passwords",
+       "post /file_system/auth/token"
+      ],
+      9,
+      5
+     ]
+    ],
+    "scen_ge5": 5,
+    "scen_ge30": 0,
+    "scen_ge92": 0
+   }
+  },
+  "opening_react_gpt4o_test_normal_168_incl_docs": {
+   "open1": {
+    "n_with_k": 168,
+    "distinct": 3,
+    "ge5": 2,
+    "ge30": 1,
+    "ge92": 1,
+    "read_only_share": 1.0,
+    "top": [
+     [
+      [
+       "get /api_docs/api_descriptions"
+      ],
+      152,
+      54
+     ],
+     [
+      [
+       "get /supervisor/account_passwords"
+      ],
+      13,
+      8
+     ],
+     [
+      [
+       "get /api_docs/api_doc"
+      ],
+      3,
+      3
+     ]
+    ],
+    "scen_ge5": 2,
+    "scen_ge30": 1,
+    "scen_ge92": 0
+   },
+   "open2": {
+    "n_with_k": 168,
+    "distinct": 4,
+    "ge5": 2,
+    "ge30": 1,
+    "ge92": 1,
+    "read_only_share": 0.9226,
+    "top": [
+     [
+      [
+       "get /api_docs/api_descriptions",
+       "get /api_docs/api_doc"
+      ],
+      150,
+      54
+     ],
+     [
+      [
+       "get /supervisor/account_passwords",
+       "post /spotify/auth/token"
+      ],
+      13,
+      8
+     ],
+     [
+      [
+       "get /api_docs/api_doc",
+       "get /supervisor/account_passwords"
+      ],
+      3,
+      3
+     ],
+     [
+      [
+       "get /api_docs/api_descriptions",
+       "get /api_docs/api_descriptions"
+      ],
+      2,
+      1
+     ]
+    ],
+    "scen_ge5": 2,
+    "scen_ge30": 1,
+    "scen_ge92": 0
+   }
+  },
+  "per_architecture_open2_excl_docs": {
+   "react": {
+    "n_with_k": 2266,
+    "distinct": 138,
+    "ge5": 40,
+    "ge30": 13,
+    "ge92": 7,
+    "read_only_share": 0.3089,
+    "top": [
+     [
+      [
+       "get /supervisor/account_passwords",
+       "get /supervisor/account_passwords"
+      ],
+      374,
+      139
+     ],
+     [
+      [
+       "get /supervisor/account_passwords",
+       "post /amazon/auth/token"
+      ],
+      341,
+      62
+     ],
+     [
+      [
+       "get /supervisor/account_passwords",
+       "post /gmail/auth/token"
+      ],
+      309,
+      52
+     ],
+     [
+      [
+       "get /supervisor/account_passwords",
+       "post /venmo/auth/token"
+      ],
+      165,
+      31
+     ],
+     [
+      [
+       "get /supervisor/account_passwords",
+       "post /simple_note/auth/token"
+      ],
+      162,
+      21
+     ]
+    ],
+    "scen_ge5": 31,
+    "scen_ge30": 5,
+    "scen_ge92": 1
+   },
+   "full_code_refl": {
+    "n_with_k": 2340,
+    "distinct": 2,
+    "ge5": 1,
+    "ge30": 1,
+    "ge92": 1,
+    "read_only_share": 1.0,
+    "top": [
+     [
+      [
+       "get /supervisor/profile",
+       "get /supervisor/account_passwords"
+      ],
+      2339,
+      195
+     ],
+     [
+      [
+       "get /supervisor/profile",
+       "get /supervisor/addresses"
+      ],
+      1,
+      1
+     ]
+    ],
+    "scen_ge5": 1,
+    "scen_ge30": 1,
+    "scen_ge92": 1
+   },
+   "ipfuncall": {
+    "n_with_k": 1168,
+    "distinct": 37,
+    "ge5": 18,
+    "ge30": 4,
+    "ge92": 2,
+    "read_only_share": 0.875,
+    "top": [
+     [
+      [
+       "get /supervisor/profile",
+       "get /supervisor/account_passwords"
+      ],
+      762,
+      187
+     ],
+     [
+      [
+       "get /supervisor/active_task",
+       "get /supervisor/profile"
+      ],
+      132,
+      71
+     ],
+     [
+      [
+       "get /supervisor/account_passwords",
+       "get /supervisor/profile"
+      ],
+      70,
+      38
+     ],
+     [
+      [
+       "get /supervisor/account_passwords",
+       "post /gmail/auth/token"
+      ],
+      32,
+      16
+     ],
+     [
+      [
+       "get /supervisor/account_passwords",
+       "post /venmo/auth/token"
+      ],
+      29,
+      15
+     ]
+    ],
+    "scen_ge5": 10,
+    "scen_ge30": 3,
+    "scen_ge92": 1
+   },
+   "plan_exec": {
+    "n_with_k": 2195,
+    "distinct": 36,
+    "ge5": 16,
+    "ge30": 12,
+    "ge92": 8,
+    "read_only_share": 0.087,
+    "top": [
+     [
+      [
+       "get /supervisor/account_passwords",
+       "post /amazon/auth/token"
+      ],
+      521,
+      66
+     ],
+     [
+      [
+       "get /supervisor/account_passwords",
+       "post /gmail/auth/token"
+      ],
+      375,
+      51
+     ],
+     [
+      [
+       "get /supervisor/account_passwords",
+       "post /phone/auth/token"
+      ],
+      201,
+      38
+     ],
+     [
+      [
+       "get /supervisor/account_passwords",
+       "post /spotify/auth/token"
+      ],
+      161,
+      23
+     ],
+     [
+      [
+       "get /supervisor/account_passwords",
+       "post /simple_note/auth/token"
+      ],
+      154,
+      18
+     ]
+    ],
+    "scen_ge5": 13,
+    "scen_ge30": 6,
+    "scen_ge92": 0
+   }
+  },
+  "released_baseline_task_goal_completion_test_normal": {
+   "full_code_refl_deepseekcoder_test_normal": 13.1,
+   "full_code_refl_gpt4o_test_normal": 33.9,
+   "full_code_refl_gpt4turbo_test_normal": 25.6,
+   "full_code_refl_llama3_test_normal": 24.4,
+   "ipfuncall_gpt4o_test_normal": 32.1,
+   "ipfuncall_gpt4turbo_test_normal": 30.4,
+   "plan_exec_deepseekcoder_test_normal": 1.8,
+   "plan_exec_gpt4o_test_normal": 44.6,
+   "plan_exec_gpt4turbo_test_normal": 32.7,
+   "plan_exec_llama3_test_normal": 8.9,
+   "react_deepseekcoder_test_normal": 7.1,
+   "react_gpt4o_test_normal": 48.8,
+   "react_gpt4turbo_test_normal": 26.8,
+   "react_llama3_test_normal": 20.8
+  },
+  "released_baseline_best_tgc_test_normal": 48.8
+ }
+}
