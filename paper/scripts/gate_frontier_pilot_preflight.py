@@ -96,6 +96,8 @@ POST_SEALING_STUDIES = (
     "drift_continuation_graded",
     # BIRD SQL-agent study (2026-10-08): public-benchmark question ids, not GitHub records.
     "/results/bird/",
+    # 2026-11 multi-repository end-to-end study: other repositories and newer huggingface/datasets records.
+    "multirepo_end_to_end",
 )
 
 
