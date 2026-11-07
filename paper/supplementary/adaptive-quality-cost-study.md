@@ -3,6 +3,13 @@
 Status: development protocol, not a confirmatory seal. The associated
 [follow-up evidence](../results/adaptive_comparison_followup/REPORT.md) records
 what actually ran. No result in this document establishes GAC superiority.
+The later [AppWorld baseline competence study](../results/appworld_batched_competence/REPORT.md)
+retains two failed 12-case development pilots (1/12 and 2/12 official successes)
+after 36/36 exact-path agent-RPC controls. Its 8/12 competence gate failed;
+matched GAC spending is therefore still blocked. The adapted common-entry
+contract prevents a native AppWorld leaderboard interpretation.
+Its posthoc trace diagnostic finds only surface API-name recurrence, without
+the argument, effect and continuation evidence needed for a GAC program.
 
 **November 6 follow-up:** the [ranked Reddit feasibility report](../results/reddit_ranked_read_feasibility/REPORT.md)
 records a source-audited read, official-grader controls, a failed and an amended
@@ -150,10 +157,11 @@ This follows the emphasis on cost, holdouts and reproducible evaluation in
    family. A new task setting requires its own explicit protocol and selection
    rules; do not mine more exposed cases for a favorable outcome.
 3. Seal a bounded strong-baseline development runner, including context/action
-   caps and output persistence. One exposed task 714 has a failed first pilot
-   and a separately sealed successful amendment. This does **not** establish
-   competence or effects over a task distribution. All future paid trajectories
-   use the existing shared ledger at
+   caps and output persistence. The AppWorld runner has 36/36 exact-path
+   controls and retained V1/V2 paid attempts; both failed the 8/12 competence
+   gate. Separately, Reddit task 714 has a failed first pilot and a sealed
+   successful amendment; one task does **not** establish distributional
+   competence or effects. Record every attempt and use the shared ledger at
    `benchmarks/.cache/adaptive_compiler_pilot/ledger.json`; never reset it.
 4. Establish recurrent, useful programs; integrate matched arms; freeze candidates.
    If the selected extension fails, record that result. Any different environment
