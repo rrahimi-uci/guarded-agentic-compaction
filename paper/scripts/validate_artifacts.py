@@ -3081,7 +3081,42 @@ def validate_iclr_sources() -> None:
     ok("0.0569" in body and "0.057" in body, "iclr: the corrected two-candidate bound appears in the manuscript")
     ok("issue-type routing (one candidate at calibration)" in results_tex, "iclr: §5.1 states the certificate level per family")
 
-    # (d) editorial defects from the feedback ledger
+    # (d) Development-only adaptive-task results are disclosed in the built
+    # manuscript with their denominators and no-superiority boundary.
+    gates = sections["adaptive_gates_appendix.tex"]
+    bird = load(PAPER / "results/bird_one_call_matched_pilot/report.json")
+    appworld_v1 = load(PAPER / "results/appworld_batched_competence/report.json")
+    appworld_v2 = load(PAPER / "results/appworld_batched_competence_v2/report.json")
+    agenthop = load(PAPER / "results/agenthop_baseline_trace_pilot/report.json")
+    lookahead = load(PAPER / "results/agenthop_section_lookahead/report.json")
+    ranker = load(PAPER / "results/agenthop_section_lookahead/ranker_probe.json")
+    ok("\\input{sections/adaptive_gates_appendix}" in appendix
+       and "\\cref{app:adaptive-gates}" in sections["discussion.tex"],
+       "iclr: adaptive development gates appear in appendix and main discussion")
+    ok(bird["scheduled"] == 108 and all(
+        f'{bird["summary"][arm]["correct"]}/36' in gates
+        for arm in ("baseline", "manual_one_call", "candidate_one_call"))
+       and all(str(bird["summary"][arm]["provider_requests"]) in gates
+               for arm in ("baseline", "manual_one_call", "candidate_one_call"))
+       and bird["gac_artifacts"] == bird["independent_test_groups"] == 0,
+       "iclr: BIRD development outcomes and no-admission scope match retained report")
+    ok(appworld_v1["official_successes"] == 1
+       and appworld_v2["official_successes"] == 2
+       and "1/12" in gates and "2/12" in gates and "8/12" in gates
+       and appworld_v1["gac_artifacts"] == appworld_v2["gac_artifacts"] == 0,
+       "iclr: AppWorld competence failures and no-GAC scope match retained reports")
+    ok(agenthop["correct"] == 19 and agenthop["scheduled_cases"] == 24
+       and agenthop["competence_gate_minimum"] == 17
+       and lookahead["transition_count"] == 42
+       and ranker["oracle_k_exact"] == 11 and ranker["eligible_transitions"] == 35
+       and all(value in gates for value in ("19/24", "17/24", "42", "11/35"))
+       and agenthop["gac_candidates"] == ranker["gac_candidates"] == 0,
+       "iclr: AgentHop baseline, timing and selector limits match retained reports")
+    ok("not independent final tests" in gates and "no GAC arm" in gates
+       and "neither" in gates.lower(),
+       "iclr: adaptive development is not presented as a superiority test")
+
+    # (e) editorial defects from the feedback ledger
     ok("behaviour" not in body and "behaviour" not in (iclr / "figures/alg-dispatch.tex").read_text(encoding="utf-8"),
        "iclr: American spelling of behavior throughout")
     ok("distribution-free" not in body.lower(), "iclr: no distribution-free claim")

@@ -146,7 +146,9 @@ next-turn opportunities but no derived selector. Even an exploratory grouped
 ranker with the true future read count supplied matched only 11/35 exact read
 batches. These are exposed development diagnostics, not a GAC intervention or
 source-independent test. We therefore assert no confirmatory adaptive
-quality--cost or GAC-superiority result. The [concern ledger](reviewer_concern_closure.md)
+quality--cost or GAC-superiority result. The revised manuscript now discloses
+all three development gates in Appendix “Adaptive-Task Development Gates” and
+points to them from the main discussion. The [concern ledger](reviewer_concern_closure.md)
 links each retained result and its remaining completion gate. These new local
 findings should enter a reviewer response only with a verified revised upload.
 

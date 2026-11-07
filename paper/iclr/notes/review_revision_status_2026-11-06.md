@@ -218,3 +218,15 @@ discussion, with a PDF diff; the submission-specific upload remains unverified
 locally. The draft response must be checked against the actual revised upload
 before posting. The $300 campaign cap remains in force; unused
 budget is not a scientific reason to run an unqualified arm.
+
+## Manuscript integration after the development gates
+
+The ICLR PDF now includes an “Adaptive-Task Development Gates” appendix and a
+main-discussion pointer. It reports the sealed BIRD, AppWorld and AgentHop
+development outcomes and their no-go decisions; the primary tables, abstract
+and empirical superiority boundary are unchanged. The reviewer response draft,
+concern ledger, evidence index and [final feedback report](../../reviews/ICLR_2027_Reviewer_Feedback_Final_Report_2026-11-06.md)
+use the same denominators and limits. Earlier statements above that the
+“manuscript numerical results remain unchanged” describe the state before this
+integration; they do not describe the current PDF. No submission-specific
+OpenReview upload or reviewer response has been verified or made here.
