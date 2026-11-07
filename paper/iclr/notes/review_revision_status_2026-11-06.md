@@ -212,6 +212,9 @@ These results are development gates and negative feasibility evidence. They do
 not provide matched GAC, handwritten, simpler-compiler and unchanged-agent
 final-answer comparisons, fresh calibration or an independent test. The
 current manuscript's numerical results and the older uploaded OpenReview
-version remain separate. The draft response must be checked against the actual
-revised upload before posting. The $300 campaign cap remains in force; unused
+version remain separate. The [official author guidelines](https://iclr.cc/Conferences/2027/AuthorGuidelines)
+allow ten main-text pages and a paper revision during the November 5--18 public
+discussion, with a PDF diff; the submission-specific upload remains unverified
+locally. The draft response must be checked against the actual revised upload
+before posting. The $300 campaign cap remains in force; unused
 budget is not a scientific reason to run an unqualified arm.

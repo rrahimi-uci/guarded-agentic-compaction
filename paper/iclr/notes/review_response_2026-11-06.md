@@ -178,7 +178,9 @@ will remain rather than being hidden through a different threshold or population
 ## Before posting
 
 - Replace section references with the final uploaded PDF's numbering.
-- Verify the revised manuscript and supplement were actually uploaded.
+- Verify the revised manuscript and supplement were actually uploaded within
+  the [November 5--18 discussion window](https://iclr.cc/Conferences/2027/AuthorGuidelines);
+  the rebuttal main-text limit is ten pages and OpenReview displays a PDF diff.
 - Keep completed audits, retained experiments, and proposed work separate.
 - Add new experimental findings only after their frozen protocol and retained results
   exist; update this response and manuscript together.
