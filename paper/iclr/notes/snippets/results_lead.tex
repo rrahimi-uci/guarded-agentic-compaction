@@ -1,0 +1,5 @@
+% Three-sentence lead for the top of Section 5 (Results), before the first subsection.
+% Cites the generated table paper/iclr/tables/compiler_decisions.tex (label tab:compiler-decisions).
+The hand-written program is the oracle throughout: a person who knows the workflow can write it, and the question is whether the compiler finds it without that knowledge.
+\Cref{tab:compiler-decisions} shows that it recovers the program a person would write wherever the retained traces support one, and refuses, with a stated stage and reason, wherever they do not.
+Savings are scoped to a compatible snapshot: every artifact pins its snapshot and abstains on any other, so a changed snapshot is recompiled rather than reused.

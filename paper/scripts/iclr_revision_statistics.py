@@ -5,7 +5,7 @@ Every sub-command reads retained result files only, writes one JSON file under
 tabular body under ``paper/iclr/tables/``.  No network or provider call is made.
 
 Sub-commands: absolute, paired, multiplicity, order, manifest, catalog-audit, single-rule,
-overlap, frontier, clusters, mechanisms, all.
+overlap, frontier, clusters, mechanisms, decisions, all.
 """
 
 from __future__ import annotations
@@ -14,6 +14,7 @@ import argparse
 import ast
 import json
 import math
+import re
 import statistics
 import sys
 from collections import Counter
@@ -868,11 +869,330 @@ def cmd_mechanisms() -> dict[str, Any]:
     return payload
 
 
+# --------------------------------------------------------------------------- decisions table
+# "What the compiler decided without human input" (flip-plans.md A3 / task 2.3).  Every number is
+# read from a retained result file below; the prose cells are templates over those numbers.
+# The table is generated, not hand-maintained; each row's source files are written into the
+# .tex as comments so a reviewer can trace a cell to a file.
+DECISIONS_MAX_ROWS = 12
+DECISIONS_LABEL = "tab:compiler-decisions"
+EXT = RESULTS / "external_benchmarks"
+TF = RESULTS / "time_forward" / "pr_outcome"
+WF = RESULTS / "github_workflow_families"
+BIRD = RESULTS / "bird"
+
+
+def _rel(path: Path) -> str:
+    return str(path.relative_to(RESULTS))
+
+
+def _num(x: int) -> str:
+    """Integer with a LaTeX-safe thousands separator."""
+    return f"{x:,}".replace(",", "{,}")
+
+
+def _program_tools(artifact: dict[str, Any]) -> list[str]:
+    program = artifact["program"]
+    if "composite" in program:
+        return list(program["composite"]["internal_tools"])
+    return [s["tool"] for s in program["steps"] if s.get("kind") == "call"]
+
+
+def _program_core(artifact: dict[str, Any]) -> str:
+    """Canonical program text without the model-keyed continuation pin (it differs per model)."""
+    program = json.loads(json.dumps(artifact["program"]))
+    if "composite" in program:
+        program["composite"].pop("continuation_compatibility_key", None)
+    return json.dumps(program, sort_keys=True)
+
+
+def _primary_row(fam: str, label: str) -> dict[str, Any]:
+    spec = FAMILIES[fam]
+    data = load(spec["path"])
+    art = data["compiler"]["artifact"]
+    gate = art["gate"]
+    sel = data["selection"]
+    discovery = len(sel["discovery_issue_numbers"] if fam == "issue_type" else sel["discovery"])
+    held = {}
+    for arm in ("baseline", "compiled", "manual"):
+        rows = rows_for(fam, arm)
+        held[arm] = {"exact": sum(exact(fam, r) for r in rows), "n": len(rows),
+                     "requests": sum(float(r["metrics"]["requests"]) for r in rows)}
+    assert (held["compiled"]["exact"], held["compiled"]["n"]) == (held["manual"]["exact"], held["manual"]["n"])  # ties hand-written
+    tools = _program_tools(art)
+    facts = {"discovery_traces": discovery, "gate_n": gate["n_accepted"], "gate_violations": gate["observed_violations"],
+             "gate_upper": gate["risk_upper_bound"], "admitted_reads": tools, "held_out": held,
+             "request_saving": 1.0 - held["compiled"]["requests"] / held["baseline"]["requests"]}
+    tie = f"{held['compiled']['exact']}/{held['compiled']['n']} = hand-written"
+    assert gate["risk_upper_bound"] < 0.0499 and gate["n_accepted"] == gate["n_calibration_groups"]  # bound 0.0498 is in the caption
+    clean = f"Gate {gate['n_accepted']}/{gate['n_calibration_groups']}"
+    if fam == "issue_type":
+        refused = next(c for c in data["compiler"]["candidates"] if c.get("rejected"))
+        slot = refused["rejected"].split(":")[1].split(".")[1]
+        facts.update({"refused_tools": refused["tools"], "refused_reason": refused["rejected"]})
+        decided = f"Admits {len(tools)} of {len(refused['tools'])} reads; {tie}"
+        why = f"{clean}; read {len(refused['tools'])} refused: its \\code{{{slot}}} is not derivable"
+        human = "Which reads are safe"
+    else:
+        facts["shorter_candidate_dominated"] = "dominated_by_longer_region" in data["compiler"]["report"]
+        assert facts["shorter_candidate_dominated"]
+        decided = f"Admits all {len(tools)} reads; {tie}"
+        why = f"{clean}; two-read candidate dominated"
+        human = f"The {len(tools)} reads, their order"
+    return {"id": fam, "saw": f"{label}, {discovery} traces", "decided": decided, "why": why, "human": human,
+            "sources": [_rel(spec["path"])], "facts": facts}
+
+
+def _crossrepo_row() -> dict[str, Any]:
+    data = load(CORE)
+    repos = data["repositories"]
+    admitted = {r: b for r, b in repos.items() if "compiler" in b and b["compiler"].get("artifact")}
+    retired = {r: b for r, b in repos.items() if r not in admitted}
+    gates = {r: (b["compiler"]["artifact"]["gate"]["n_accepted"], b["compiler"]["artifact"]["gate"]["observed_violations"],
+                 b["compiler"]["artifact"]["gate"]["n_calibration_groups"]) for r, b in admitted.items()}
+    assert len(set(gates.values())) == 1
+    n_acc, n_viol, n_cal = next(iter(gates.values()))
+    held_exact = sum(1 for b in admitted.values() for x in b["results"]
+                     if x["condition"] == "compiled" and x["quality"]["overall"])
+    held_n = sum(1 for b in admitted.values() for x in b["results"] if x["condition"] == "compiled")
+    saving = data["comparisons"]["baseline_vs_compiled"]["metrics"]["requests"]["aggregate_reduction"]
+    (name, block), = retired.items()
+    classes = block["selection"]["discovery_class_counts"]
+    cases = data["run"]["resolved_config"]["discovery_cases"]
+    facts = {"repositories": len(repos), "admitted": sorted(admitted), "retired": sorted(retired), "gates": gates,
+             "held_out_exact": held_exact, "held_out_n": held_n, "request_saving": saving, "discovery_cases": cases,
+             "retired_status": block["status"], "retired_discovery_classes": classes}
+    return {
+        "id": "cross_repository",
+        "saw": f"PR outcome, {len(repos)} repositories",
+        "decided": f"{len(admitted)} admit ({held_exact}/{held_n}); \\code{{{name.split('/')[0]}}} retires",
+        "why": (f"Gate {n_acc}/{n_cal} each. pytorch sample "
+                f"{classes['closed_unmerged']} closed, {classes['open']} open, {classes['merged']} merged: bound 1.000"),
+        "human": "That the PR mix is skewed",
+        "sources": [_rel(CORE)], "facts": facts}
+
+
+def _time_forward_row() -> dict[str, Any]:
+    selection, cert = load(TF / "selection.json"), load(TF / "certificate.json")
+    evaluation, compiled = load(TF / "evaluation.json"), load(TF / "compile.json")
+    checkpoint = load(TF / "discovery_checkpoint.json")
+    exact_traces = sum(1 for r in checkpoint["results"] if r["quality"].get("overall"))
+    retained = load(FAMILIES["pr_outcome"]["path"])["compiler"]["artifact"]
+    rederived = compiled["compilation"]["artifact"]
+    identical = _program_core(retained) == _program_core(rederived)
+    assert identical
+    abstained, held_n = evaluation["dispatch"]["compiled_retained"]["abstained"], evaluation["n"]["compiled_retained"]
+    arms = evaluation["exact"]
+    facts = {"fresh_pool": selection["fresh_pool"], "discovery_traces": len(checkpoint["results"]), "exact_traces": exact_traces,
+             "program_identical": identical, "retained_abstained": abstained, "held_out_n": held_n, "held_out_exact": arms,
+             "certificate_attempted": cert["attempted"], "certificate_violations": cert["violations"],
+             "certificate_upper": cert["upper_90"], "admits": cert["admits"]}
+    return {
+        "id": "time_forward",
+        "saw": f"{selection['fresh_pool']} later PRs, {len(checkpoint['results'])} traces",
+        "decided": f"Same program; old artifact abstains {abstained}/{held_n}",
+        "why": (f"Old snapshot pin; new gate {cert['attempted'] - cert['violations']}/{cert['attempted']} "
+                f"end to end, bound {cert['upper_90']:.4f}"),
+        "human": "That the snapshot changed",
+        "sources": [_rel(TF / n) for n in ("selection.json", "discovery_checkpoint.json", "compile.json", "certificate.json", "evaluation.json")],
+        "facts": facts}
+
+
+def _second_model_rows() -> list[dict[str, Any]]:
+    retained = {"issue_type": load(FAMILIES["issue_type"]["path"])["compiler"]["artifact"],
+                "pr_outcome": load(FAMILIES["pr_outcome"]["path"])["compiler"]["artifact"]}
+    rows = []
+    for rid, name, issue_path, pr_path, backlog_path in (
+        ("gpt6_luna", "gpt-6-luna", RESULTS / "second_model_replication/issue_type_rediscovery/results.json",
+         WF / "pr_outcome/gpt6_luna_rediscovery/results.json", WF / "backlog_attention/gpt6_luna_rediscovery/failure.json"),
+        ("claude_sonnet5", "claude-sonnet-5", RESULTS / "second_provider_replication/issue_type/results.json",
+         WF / "pr_outcome/anthropic_sonnet5_rediscovery/results.json", WF / "backlog_attention/anthropic_sonnet5_rediscovery/failure.json"),
+    ):
+        identical = {"issue_type": _program_core(load(issue_path)["compiler"]["artifact"]) == _program_core(retained["issue_type"]),
+                     "pr_outcome": _program_core(load(pr_path)["compiler"]["artifact"]) == _program_core(retained["pr_outcome"])}
+        assert all(identical.values())
+        failure = load(backlog_path)
+        disc = failure["discovery"]
+        two_read = sum(c for seq, c in disc["tool_sequences"].items() if "discussion" not in seq)
+        facts = {"identical": identical, "backlog_stage": failure["stage"], "backlog_exact_traces": disc["exact_traces"],
+                 "backlog_needed": disc["needed"], "backlog_traces": disc["n"], "backlog_two_read_traces": two_read}
+        if failure["stage"] == "compilation":
+            why = f"Backlog, discovery: {disc['exact_traces']}/{disc['n']} traces exact, {disc['needed']} needed"
+            human = "That its reads differ"
+        else:
+            cands = sorted(failure["compiler"]["candidates"], key=lambda c: -c["max_n_accepted"])
+            counts = [c["max_n_accepted"] for c in cands]
+            bounds = [c["tightest_upper"] for c in cands]
+            facts.update({"backlog_accepted_groups": counts, "backlog_bounds": bounds})
+            assert min(bounds) > 0.05 - 5e-4 and all(b >= 0.05 for b in bounds)
+            why = f"Backlog, calibration: {counts[0]} and {counts[1]} of 92 groups, bound above 0.05"
+            human = "That its traces are uneven"
+        rows.append({
+            "id": rid, "saw": f"{name}, own traces",
+            "decided": "Same programs, 2 families; backlog refused",
+            "why": why, "human": human, "sources": [_rel(p) for p in (issue_path, pr_path, backlog_path)], "facts": facts})
+    return rows
+
+
+def _bird_rows() -> list[dict[str, Any]]:
+    dev, train = load(BIRD / "summary.json")["designs"], load(BIRD / "train/summary.json")["designs"]
+    std_dev, std_train = dev["standard"]["families"], train["standard"]["families"]
+    sf_dev, sf_train = dev["schema_first"]["families"], train["schema_first"]["families"]
+    n_dev, n_train = len(std_dev), len(std_train)
+    std_retired_dev = sum(f["status"] == "retired" for f in std_dev.values())
+    std_retired_train = sum(f["status"] == "retired" for f in std_train.values())
+    sf_admitted_dev = sum(f["status"] == "admitted" for f in sf_dev.values())
+    sf_admitted_train = sum(f["status"] == "admitted" for f in sf_train.values())
+    at_synthesis = [db for db in std_dev if db != "card_games"
+                    and "ungroundable_slot" in json.dumps(load(BIRD / f"standard/{db}/compile.json").get("rejection_by_stage", {}))]
+    card = load(BIRD / "standard/card_games/compile.json")
+    card_support = max(int((c.get("gate") or {}).get("n_calibration_groups") or 0) for c in card["candidates"])
+    pooled = dev["schema_first"]["pooled"]["compiled"]
+    warm = pooled["reductions_vs_warm_repeat"]["requests"]["reduction"]
+    sf_gates = {db: (f["gate"]["n_calibration_groups"], f["gate"]["observed_violations"]) for db, f in sf_dev.items()}
+    assert len(set(sf_gates.values())) == 1
+    gate_n = next(iter(sf_gates.values()))[0]
+    all_sf = {**sf_dev, **sf_train}
+    sf_sequences = {json.dumps(f["opening_sequences"], sort_keys=True) for f in all_sf.values() if f["status"] == "admitted"}
+    sf_all_tables = [f["schema_all_tables_share"] for f in all_sf.values() if f["status"] == "admitted"]
+    facts = {"dev_databases": n_dev, "train_databases": n_train, "standard_retired_dev": std_retired_dev,
+             "standard_retired_train": std_retired_train, "standard_retired_at_synthesis": len(at_synthesis),
+             "standard_card_games_support": card_support, "schema_first_admitted_dev": sf_admitted_dev,
+             "schema_first_admitted_train": sf_admitted_train, "schema_first_databases": n_dev + n_train,
+             "dev_correct_baseline": pooled["baseline_correct"], "dev_correct_compiled": pooled["candidate_correct"],
+             "dev_n": pooled["n"], "dev_requests_vs_warm_repeat": warm, "schema_first_gates_dev": sf_gates,
+             "schema_first_min_all_tables_share": min(sf_all_tables), "schema_first_opening_sequences": sorted(sf_sequences)}
+    standard = {
+        "id": "bird_per_question",
+        "saw": "BIRD, per-question tables",
+        "decided": f"Retires on {std_retired_dev}/{n_dev} ({std_retired_train}/{n_train} train)",
+        "why": (f"{len(at_synthesis)} at synthesis (table not derivable); "
+                f"{n_dev - len(at_synthesis)} at support, {card_support}/92"),
+        "human": "Which tables a question needs",
+        "sources": [_rel(BIRD / "summary.json"), _rel(BIRD / "train/summary.json")] + [_rel(BIRD / f"standard/{db}/compile.json") for db in std_dev],
+        "facts": facts}
+    schema = {
+        "id": "bird_schema_first",
+        "saw": "BIRD, schema-first design",
+        "decided": (f"Admits {sf_admitted_dev + sf_admitted_train}/{n_dev + n_train} databases; "
+                    f"{pooled['candidate_correct']} vs {pooled['baseline_correct']}/{pooled['n']} correct"),
+        "why": f"Fixed opening (list tables, read all schemas); gate {gate_n}/92",
+        "human": "The schema-first design",
+        "sources": [_rel(BIRD / "summary.json"), _rel(BIRD / "train/summary.json")], "facts": facts}
+    return [standard, schema]
+
+
+def _trace_benchmarks_row() -> dict[str, Any]:
+    nestful, api, bfcl = load(RESULTS / "nestful/results.json")["compiler"], load(EXT / "api_bank_execution.json")["compiler"], load(EXT / "bfcl_compiler_execution.json")["compiler"]
+    support = (nestful["exact_gate"]["max_observed_family_support"], api["exact_gate"]["max_observed_family_support"],
+               bfcl["exact_gate"]["max_observed_family_support"])
+    traces = (nestful["n_episodes"], api["episodes"], bfcl["episodes"])
+    required = {nestful["exact_gate"]["minimum_zero_violation_groups"], api["exact_gate"]["minimum_zero_violation_groups"],
+                bfcl["exact_gate"]["minimum_zero_violation_groups"]}
+    assert len(required) == 1
+    need = required.pop()
+    wrong = (nestful["held_out_replay"]["test_wrong"], api["held_out_recorded_replay"]["test_wrong"], bfcl["held_out_recorded_replay"]["test_wrong"])
+    synthesized = (nestful["held_out_replay"]["families_synthesized"], api["held_out_recorded_replay"]["families_synthesized"],
+                   bfcl["held_out_recorded_replay"]["families_synthesized"])
+    facts = {"traces": traces, "largest_family": support, "required_groups": need, "replay_wrong": wrong, "programs_synthesized": synthesized,
+             "outcomes": [nestful["exact_gate"]["default_gate_outcome"], api["exact_gate"]["outcome"], bfcl["exact_gate"]["outcome"]]}
+    return {
+        "id": "trace_benchmarks",
+        "saw": "NESTFUL, API-Bank, BFCL v4",
+        "decided": f"All retire ({_num(traces[0])}, {traces[1]}, {traces[2]} traces)",
+        "why": (f"Largest family {support[0]}/{support[1]}/{support[2]} groups, {need} needed; "
+                f"replay: {sum(wrong)} wrong"),
+        "human": "Nothing; no safety bound",
+        "sources": ["nestful/results.json", _rel(EXT / "api_bank_execution.json"), _rel(EXT / "bfcl_compiler_execution.json")], "facts": facts}
+
+
+def _appworld_row() -> dict[str, Any]:
+    arms = load(EXT / "appworld_compiler_execution.json")
+    arm = arms["admission"]["B"]
+    retire_bounds = [float(m.group(1)) for c in arm["candidate_records"] if c["rejected"] and "gate_retire" in c["rejected"]
+                     for m in [re.search(r"upper bound is ([0-9.]+)", c["rejected"])] if m]
+    admitted = [c for c in arm["candidate_records"] if c["stage"] == "emitted"]
+    gate = admitted[0]["gate"]
+    dispatch = load(EXT / "appworld_dispatch_preflight.json")["by_agent_family"]
+    pair = (dispatch["react"], dispatch["plan_exec"])
+    eligible, total = sum(f["eligible_at_position_0"] for f in pair), sum(f["tasks"] for f in pair)
+    facts = {"candidates": arm["candidates"], "admitted": arm["artifacts_admitted"], "retired_at_calibration": arm["rejection_by_stage"]["calibrate:retire"],
+             "retire_bounds": sorted(retire_bounds), "admitted_gate": (gate["accepted_groups"], gate["observed_violations"], gate["risk_upper_bound"]),
+             "gold_tasks": arms["corpus"]["tasks_clean"], "dispatchable_react_plan_exec": eligible, "react_plan_exec_trajectories": total}
+    assert facts["admitted"] == len(admitted) == 1 and len(retire_bounds) == facts["retired_at_calibration"]
+    return {
+        "id": "appworld",
+        "saw": f"AppWorld, {facts['gold_tasks']} tasks",
+        "decided": (f"{arm['artifacts_admitted']} admitted, {facts['retired_at_calibration']} retired; "
+                    f"fires in {eligible} of {_num(total)} runs"),
+        "why": (f"Gate {gate['accepted_groups']}/92; retired bounds "
+                f"{', '.join(f'{b:.3f}' for b in sorted(retire_bounds))}"),
+        "human": "That agents read docs first",
+        "sources": [_rel(EXT / "appworld_compiler_execution.json"), _rel(EXT / "appworld_dispatch_preflight.json")], "facts": facts}
+
+
+def _effect_barrier_row() -> dict[str, Any]:
+    bfcl = load(EXT / "bfcl_compiler_execution.json")
+    tool = "TravelAPI.get_flight_cost"
+    audit = bfcl["execution_audit"]["state_mutation_audit"]["by_tool"][tool]
+    blocked = bfcl["compiler"]["blocked_by_tool"][tool]
+    facts = {"tool": tool, "calls": audit["calls"], "mutating_calls": audit["mutating_calls"], "mutated_fields": audit["mutated_fields"],
+             "declared_effect": audit["declared_effect"], "declared_compilable": audit["declared_compilable"], "blocked_windows": blocked,
+             "executed_calls": bfcl["execution_audit"]["executed_calls"], "tasks": bfcl["dataset"]["tasks"]}
+    assert not audit["declared_compilable"] and audit["mutating_calls"] == audit["calls"]
+    assert audit["mutated_fields"] == ["TravelAPI._flight_cost_lookup"]
+    return {
+        "id": "bfcl_getter_that_writes",
+        "saw": "BFCL v4 getter",
+        "decided": "\\code{get\\_flight\\_cost} blocked as a write",
+        "why": f"Effect barrier: writes state on {audit['mutating_calls']}/{audit['calls']} calls despite its name",
+        "human": "That a \\code{get} writes",
+        "sources": [_rel(EXT / "bfcl_compiler_execution.json")], "facts": facts}
+
+
+def build_decisions() -> list[dict[str, Any]]:
+    """Rows of the decisions table, each with prose cells, source files and the numbers behind them."""
+    rows = [_primary_row("issue_type", "Issue-type"), _primary_row("pr_outcome", "PR outcome"),
+            _primary_row("backlog_attention", "Backlog"), _crossrepo_row(), _time_forward_row(),
+            *_second_model_rows(), *_bird_rows(), _trace_benchmarks_row(), _appworld_row(), _effect_barrier_row()]
+    if len(rows) > DECISIONS_MAX_ROWS:
+        raise ValueError(f"decisions table has {len(rows)} rows; the main-text limit is {DECISIONS_MAX_ROWS}")
+    return rows
+
+
+DECISIONS_CAPTION = (
+    r"What the compiler decided without human input (last column: what the author of a hand-written program must know). "
+    r"\emph{Admits}: replay gate passed (92/92 clean groups, bound 0.0498 $\le$ 0.05; end to end for time-forward). "
+    r"\emph{Retires}: the agent runs unchanged. PR: pull request.")
+DECISIONS_WIDTHS = (0.17, 0.25, 0.34, 0.18)
+
+
+def render_decisions(rows: Sequence[dict[str, Any]]) -> str:
+    cols = "".join(f">{{\\raggedright\\arraybackslash}}p{{{w:.2f}\\linewidth}}" for w in DECISIONS_WIDTHS)
+    lines = [r"\begin{table}[t]", r"  \centering", f"  \\caption{{{DECISIONS_CAPTION}}}", f"  \\label{{{DECISIONS_LABEL}}}",
+             r"  \footnotesize", r"  \setlength{\tabcolsep}{3pt}", f"  \\begin{{tabular}}{{@{{}}{cols}@{{}}}}", r"  \toprule",
+             r"  Compiler saw & Compiler decided & Why (stage, reason) & Hand-written program needs \\", r"  \midrule"]
+    for i, row in enumerate(rows):
+        lines.append(f"  % {row['id']}: " + "; ".join(f"paper/results/{s}" for s in row["sources"]))
+        lines.append(f"  {row['saw']} & {row['decided']} & {row['why']} & {row['human']} \\\\")
+        if i < len(rows) - 1:
+            lines.append(r"  \addlinespace[1pt]")
+    lines += [r"  \bottomrule", r"  \end{tabular}", r"\end{table}"]
+    return "\n".join(lines)
+
+
+def cmd_decisions() -> dict[str, Any]:
+    rows = build_decisions()
+    write_table("compiler_decisions", "decisions", render_decisions(rows))
+    return {"rows": rows}
+
+
 # --------------------------------------------------------------------------- main
 COMMANDS: dict[str, Callable[[], dict[str, Any]]] = {
     "absolute": cmd_absolute, "paired": cmd_paired, "multiplicity": cmd_multiplicity, "order": cmd_order,
     "manifest": cmd_manifest, "catalog-audit": cmd_catalog_audit, "overlap": cmd_overlap, "frontier": cmd_frontier,
     "clusters": cmd_clusters, "mechanisms": cmd_mechanisms, "single-rule": cmd_single_rule,
+    "decisions": cmd_decisions,
 }
 
 
