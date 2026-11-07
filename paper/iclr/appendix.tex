@@ -785,6 +785,58 @@ pools --- the balanced rerun shares 13, 25, and 8 of the 30-record core
 held-out sets --- not independent evidence for an average effect: all runs
 share the same provider family and the same narrow two-read outcome task.
 
+\subsection{Unfiltered end-to-end calibration across repositories}
+\label{app:multirepo-e2e}
+This study answers the objection that the primary calibration population is
+outcome-filtered and replay-labelled. Its protocol was registered before any
+provider call, and its two amendments are dated and precede every label of the
+repositories they affect (\texttt{multirepo-unfiltered-end-to-end-protocol.md}).
+
+\emph{Adverse results first.} The compiled arm missed the final task contract in 3
+of 760 groups (\code{huggingface/datasets} \#7768, \code{pandas-dev/pandas}
+\#64087 and \#65856). The unchanged agent met the contract in each of them, and
+we did not diagnose the cause. \code{pandas-dev/pandas} is admitted with $k=2$ against
+a limit of 3, so the margin is one violation. \code{psf/requests} was not run: the
+registered selection left 99 author-distinct calibration groups, below the 106
+minimum, and that shortfall is its result. The hand-written program matches the
+compiled arm's reductions in every repository (\cref{tab:multirepo-e2e}), so no advantage
+over it is claimed.
+
+\emph{Design.} For each repository, one pull request per distinct author is drawn
+by a stable hash rank before any outcome, class, dispatch or recurrence filter,
+excluding only records used by earlier studies of that repository; calibration
+authors are disjoint from the 132 discovery records (a frozen retained registry for
+\code{huggingface/datasets}). One candidate is frozen before calibration ($m=1$,
+the same artifact identity everywhere). The unchanged agent, the compiled artifact
+(continuation run once and graded on the exact contract) and the hand-written
+program run on every group; a failed or timed-out compiled episode counts as a
+violation, a clean abstention stays in $n$ with loss 0, and nothing is retried. No
+group was ineligible, abstained or fell back.
+
+\begin{table}[t]
+  \centering
+  \caption{Unfiltered, author-unit end-to-end calibration (grid: $\alpha=0.05$,
+  $\delta=0.10$, $|\Lambda|=11$). Top: certificates. Bottom: resource reductions
+  against the unchanged agent.}
+  \label{tab:multirepo-e2e}
+  \footnotesize
+  \input{tables/multirepo_end_to_end.tex}
+\end{table}
+
+\emph{Limits.} (i) The class mix is skewed: \code{huggingface/datasets} has 2
+closed-unmerged pull requests, \code{streamlit/streamlit} 2 open ones, and
+\code{pytorch/pytorch} no merged class, because its merge bot lands pull requests
+without setting \code{merged\_at}; its certificate is contract agreement with the
+snapshot label over a 37-day window, not a claim about merge outcomes. Without
+\code{pytorch/pytorch} the pooled result is 3 misses in 560 groups (bound 0.0181 under
+the grid, 0.0119 under the single rule). (ii) Independence is by author. The groups
+span 147, 143, 110 and 37 creation days, and a day-level count would put the last
+repository below the 92-unit floor; we did not run that sensitivity. (iii) Four
+repositories, one task family, one frozen candidate and one model are not a
+random sample of deployments, and the pooled bound assumes exchangeable groups.
+It says nothing about adaptive tasks, a learned gate, or the hand-written
+comparison. Total spend was \$1.23.
+
 \subsection{Continuation audit}
 
 The earlier natural-order three-read study is excluded from the registered

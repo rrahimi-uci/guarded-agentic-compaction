@@ -13,10 +13,10 @@ How to read this file:
 
 - Text between the `### Post:` headings and the next heading is the text to post.
   Each block is at most 4,500 characters (counts in the "Before posting" list).
-- `{{B.*}}` placeholders stand for the multi-repository unfiltered end-to-end study
-  (Strategy B, `paper/supplementary/multirepo-unfiltered-end-to-end-protocol.md`).
-  Every placeholder, its meaning and the alternative sentence for each outcome are
-  in [`rebuttal_placeholders_2026-11.md`](rebuttal_placeholders_2026-11.md).
+- The multi-repository unfiltered end-to-end study (Strategy B,
+  `paper/supplementary/multirepo-unfiltered-end-to-end-protocol.md`) is filled in from
+  `paper/results/multirepo_end_to_end/summary.json`; the former placeholders and
+  alternative sentences are in [`rebuttal_placeholders_2026-11.md`](rebuttal_placeholders_2026-11.md).
 - Every `Changed:` line has a row in [`rebuttal_changes_2026-11.md`](rebuttal_changes_2026-11.md).
   Table and appendix numbers are those of the 2026-11-06 build of
   `paper/iclr/build/main.pdf`; recheck them against the integrator's final build.
@@ -33,7 +33,7 @@ Thank you for three careful reviews. The reviews cite the September 24 submissio
 | Study (new since September 24) | Question it answers | Where in the revised PDF |
 |---|---|---|
 | Post-cutoff PR-outcome with final answers graded: 0 misses in 132 fresh groups, one frozen candidate, U = 0.0173 | Do labels include the continuation? Is any bound selection-wide? (R1, R2, R3) | §5.4; App. G; Table 27 |
-| Multi-repository unfiltered end-to-end calibration: one PR per author sampled before any outcome, one frozen candidate per repository; pooled k = {{B.pooled.k}} of n = {{B.pooled.n}}, U = {{B.pooled.U}} | Outcome-filtered population; independent units (R1, R2, R3) | §5.4; new appendix "Unfiltered end-to-end calibration across repositories" |
+| Multi-repository unfiltered end-to-end calibration: one PR per author sampled before any outcome, one frozen candidate per repository; 3 misses in 760 groups across four repositories (1/200, 2/200, 0/160, 0/200; psf/requests not run), each admitted, pooled U = 0.0133 | Outcome-filtered population; independent units (R1, R2, R3) | §5.4; new appendix "Unfiltered end-to-end calibration across repositories" |
 | Calibration population audit (retrospective, provider-free): 396/396 discovery records accounted for | Every excluded record, and whether the guard rejects it (R1, R2) | §4; App. G "Calibration population audit" |
 | Three drift studies: 144 paired groups, 89 records, 1,080 live cells | Behavior under change (R2) | §5.4 "Mechanism evidence"; App. G |
 | Live recovery, one mechanism removed at a time: 2,304 scheduled episodes | Contribution of individual safeguards (R2) | §5.4; App. I |
@@ -72,7 +72,7 @@ Still open: Nothing further is claimed.
 **[W4] Certified loss includes answer errors; labels are replay-only**
 Answer: Correct: the reviewed Section 2 counted continuation errors in the loss while the 92-group labels came from replay. We narrowed the claim to the labels: those are replay certificates, and end-to-end statements are made only where final answers were executed and graded.
 Changed: Section 2 fixes the loss as "verifier-passing replay-output mismatch for the primary bound; final task-contract failure for the end-to-end study"; Section 5.4 and Table 27 separate the two.
-Evidence: `paper/results/time_forward/pr_outcome/certificate.json`: 0/132 end-to-end misses on fresh post-cutoff PRs, U = 0.0173; multi-repository study: k = {{B.pooled.k}} of n = {{B.pooled.n}}, U = {{B.pooled.U}}.
+Evidence: `paper/results/time_forward/pr_outcome/certificate.json`: 0/132 end-to-end misses on fresh post-cutoff PRs, U = 0.0173; multi-repository study: k = 3 of n = 760, U = 0.0133.
 Still open: The three primary families have replay certificates only.
 
 **[W5] Calibration population is outcome-filtered**
@@ -148,11 +148,11 @@ Still open: Nothing further is claimed for these families.
 **[Q2] How calibration labels are generated; filtering before the split**
 Answer: Primary families: by replaying existing trajectories. `grc/compile.py::_calibration_samples` runs the frozen program over each calibration group's recorded tool results and, after verifier success, compares outputs with the recorded ones; the continuation never runs. Discovery runs were filtered on exact traces before the 16/8/92 split (two issue-type runs and one PR run excluded), so calibration sampling followed filtering; all three excluded records pass the saved guard and gate, and the unfiltered-population claim is withdrawn. Two later studies execute the frozen prefix followed by the model continuation and grade the final contract: 132 post-cutoff PR groups (0 misses), and the multi-repository study, which samples one PR per author before any outcome or recurrence filter and labels every eligible group.
 Changed: Section 2 loss definition; Appendix C "Calibration labels as computed"; Appendix G "Calibration population audit"; new appendix "Unfiltered end-to-end calibration across repositories".
-Evidence: `paper/results/multirepo_end_to_end/summary.json`: k = {{B.pooled.k}} end-to-end violations in n = {{B.pooled.n}} eligible groups, U = {{B.pooled.U}}.
+Evidence: `paper/results/multirepo_end_to_end/summary.json`: k = 3 end-to-end violations in n = 760 eligible groups, U = 0.0133.
 Still open: The primary replay bounds remain on the filtered population.
 
 **[Q3] GAC vs unguarded vs handwritten on an adaptive workflow**
-Answer: Not completed, and the paper's claim is scoped accordingly. Three attempts after submission stopped at prespecified development gates. BIRD: a guarded one-call candidate answered 26/36 against 28/36 for both the unchanged agent and an exact handwritten prefetch (151, 111 and 112 requests). AppWorld: adapted baselines scored 1/12 and 2/12 against an 8/12 competence gate, so no GAC arm ran. AgentHop: the baseline passed (19/24, gate 17/24), but no grounded selector for the dependent read could be derived; a posthoc ranker given the true read count matched 11/35 read batches. A conclusive study needs that selector, mid-trajectory dispatch and a larger budget; we estimate 12 to 16 working days.
+Answer: Not completed, and the paper's claim is scoped accordingly. Three attempts after submission stopped at prespecified development gates. BIRD: a guarded one-call candidate answered 26/36 against 28/36 for both the unchanged agent and an exact handwritten prefetch (151, 111 and 112 requests). AppWorld: adapted baselines scored 1/12 and 2/12 against an 8/12 competence gate, so no GAC arm ran. AgentHop: the baseline passed (19/24, gate 17/24), but no grounded selector for the dependent read could be derived; a posthoc ranker given the true read count matched 11/35 read batches. Two further provider-free corpus screens were no-go: in ToolHop no opening recurs in 92 queries (best 73) and an initial prefix can remove at most 1 of about 4.93 requests, which a handwritten prefetch matches; in the TraceCompiler corpora 225 of 13,500 dialogues have two calls at the first model boundary and Hermes' best opening recurs in 6 of 1,090 examples. A conclusive study needs that selector, mid-trajectory dispatch and a larger budget; we estimate 12 to 16 working days.
 Changed: Appendix L "Adaptive-Task Development Gates" (new since the reviewed version) and Section 7 "Adaptive comparison and lifecycle cost".
 Evidence: `paper/results/bird_one_call_matched_pilot/REPORT.md` (candidate 26/36, handwritten 28/36); `paper/results/{appworld_batched_competence,agenthop_baseline_trace_pilot,agenthop_section_lookahead}/`.
 Still open: The design is committed in `paper/supplementary/adaptive-quality-cost-study.md`; no adaptive quality-cost or GAC-superiority result is claimed.
@@ -178,26 +178,27 @@ Still open: See Q2.
 ### Post: Reviewer 3, Part 2 of 2 (questions)
 
 **[Q1] Any cohort with independent units and a selection-wide 5% bound?**
-Answer: Yes, for the PR-outcome family. The three primary 92-group cohorts do not, and the revised abstract and conclusion say so. The post-cutoff cohort does: one candidate frozen before calibration (m = 1), 0 end-to-end violations in 132 fresh groups, U = 0.0173 under the single pre-registered rule (0.035 under the registered grid; 0.0267 counting its 85 distinct authors as units). The multi-repository study extends this with one PR per distinct author sampled before any outcome filter, one frozen candidate per repository, and a rule fixed before any provider call (registered grid, m = 1: admit iff U ≤ 0.05, that is k ≤ 3 at n = 200):
+Answer: Yes, for the PR-outcome family. The three primary 92-group cohorts do not, and the revised abstract and conclusion say so. The post-cutoff cohort does: one candidate frozen before calibration (m = 1), 0 end-to-end violations in 132 fresh groups, U = 0.0173 under the single pre-registered rule (0.035 under the registered grid; 0.0267 counting its 85 distinct authors as units). The multi-repository study extends this with one PR per distinct author sampled before any outcome filter, one frozen candidate per repository, and a rule fixed before any provider call (registered grid, m = 1: admit iff U ≤ 0.05, that is k ≤ 3 at n = 200 and k ≤ 1 at n = 160):
 
 | Repository | n | k | U | Decision |
 |---|---|---|---|---|
-| huggingface/datasets | {{B.huggingface__datasets.n}} | {{B.huggingface__datasets.k}} | {{B.huggingface__datasets.U}} | {{B.decision.huggingface__datasets}} |
-| pandas-dev/pandas | {{B.pandas-dev__pandas.n}} | {{B.pandas-dev__pandas.k}} | {{B.pandas-dev__pandas.U}} | {{B.decision.pandas-dev__pandas}} |
-| streamlit/streamlit | {{B.streamlit__streamlit.n}} | {{B.streamlit__streamlit.k}} | {{B.streamlit__streamlit.U}} | {{B.decision.streamlit__streamlit}} |
-| psf/requests | {{B.psf__requests.n}} | {{B.psf__requests.k}} | {{B.psf__requests.U}} | {{B.decision.psf__requests}} |
-| pytorch/pytorch | {{B.pytorch__pytorch.n}} | {{B.pytorch__pytorch.k}} | {{B.pytorch__pytorch.U}} | {{B.decision.pytorch__pytorch}} |
-| Pooled, admitting repositories | {{B.pooled.n}} | {{B.pooled.k}} | {{B.pooled.U}} | {{B.decision.pooled}} |
+| huggingface/datasets | 200 | 1 | 0.0333 | admit |
+| pandas-dev/pandas | 200 | 2 | 0.0419 | admit |
+| streamlit/streamlit | 160 | 0 | 0.0290 | admit |
+| psf/requests | n/a | n/a | n/a | no run: 99 groups < 106 minimum |
+| pytorch/pytorch | 200 | 0 | 0.0232 | admit (no merged class; see note) |
+| Pooled, admitting repositories | 760 | 3 | 0.0133 | admit |
 
 Changed: Section 5.4, Table 27 and the new appendix "Unfiltered end-to-end calibration across repositories".
 Evidence: `paper/results/time_forward/pr_outcome/certificate.json` (0/132); `paper/results/multirepo_end_to_end/summary.json`.
-Still open: Each bound is for one family on one repository's fresh PRs, conditional on independent authors; repositories are not exchangeable, so the pooled row is a separate pre-declared estimand.
+Adverse: the compiled arm missed 3 of 760 final contracts (hf #7768, pandas #64087 and #65856), each met by the unchanged agent, and pandas is admitted by one violation (k = 2 against a limit of 3). psf/requests was not run because the registered selection left 99 author-distinct groups. pytorch has no merged class (its bot lands PRs without merged_at), so its row is agreement with the snapshot label; without it the pooled result is 3 of 560, U = 0.0181.
+Still open: Each bound is for one family on one repository's fresh PRs, conditional on independent authors; repositories are not exchangeable, so the pooled row is a separate pre-declared estimand. Counting a creation day as the unit would put pytorch (37 days) below the 92-group floor.
 
 **[Q2] Learned versus support-only gate at two certified coverage levels**
 Answer: No. No retained cohort certifies two positive coverage levels: certifying coverage c with zero violations needs at least ⌈92/c⌉ groups, so the 92-group cohorts certify only full coverage. The sealed test of the sequential extension compares the two gates at unmatched coverage (learned routing dispatched 76/90, support-only accepts all; errors 3/90 versus 5/90, unchanged agent 2/90), which is suggestive only. The paper now claims no learned selectivity.
 Changed: Section 3 Stage 6 and Section 7; Appendix H holds the prospective gate-frontier protocol that could answer this.
 Evidence: `paper/results/graded_issue_gate/audit_extension.json` (3/90 learned versus 5/90 support-only).
-Still open: The matched-coverage comparison is not run; it needs a larger fresh cohort with an informative entry state and a new task specification, which did not fit the window.
+Still open: The matched-coverage comparison is not run. We screened a single-look replication on the untouched issue pool and recorded a no-go: it holds 197 issues with a comment, which cannot supply 80 for re-derivation plus the 106-group floor. It needs a larger fresh cohort with an informative entry state and a new task specification, which did not fit the window.
 
 ## Supporting detail held in reserve (not for posting)
 
@@ -286,7 +287,7 @@ population.
   (`paper/reviews/openreview_submitted.pdf`, `version_gap_2026-11.md`).
 - [x] Responses restructured into each reviewer's order with the four-part pattern.
 - [x] Completed audits, retained experiments and proposed work kept separate.
-- [ ] Fill every `{{B.*}}` placeholder from `paper/results/multirepo_end_to_end/summary.json`
+- [x] Fill every `{{B.*}}` placeholder (done 2026-11-07) from `paper/results/multirepo_end_to_end/summary.json`
   and apply the outcome sentences in `rebuttal_placeholders_2026-11.md`.
 - [ ] Replace table, figure and appendix numbers with the final uploaded PDF's
   numbering (list in `rebuttal_placeholders_2026-11.md`, section "Numbering to recheck").
