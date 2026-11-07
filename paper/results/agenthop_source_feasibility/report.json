@@ -1,0 +1,88 @@
+{
+  "agent_trajectories_observed": 0,
+  "calibration_groups": 0,
+  "decision": "GO_FOR_BOUNDED_DEVELOPMENT_PILOT_ONLY_NO_CONFIRMATORY_GAC_CLAIM",
+  "gac_candidates": 0,
+  "limitations": [
+    "One full-neighborhood connected component prevents claiming source-disjoint groups.",
+    "Path-overlap components are a sensitivity unit, not proven independent samples.",
+    "A two-read fixed seed prefetch alone does not establish state-dependent compilation benefit.",
+    "The released code has a trajectory writer, but no observed agent trajectories were supplied to this preflight.",
+    "The two path-unreachable cases remain in any fixed denominator; they are not outcome-selected exclusions."
+  ],
+  "paper_pool_rows_with_sections": 7205,
+  "provider_calls": 0,
+  "qa_rows": 1011,
+  "required_next_gate": "Collect train-only baseline trajectories and show a recurring multi-step prefix whose dynamic arguments are uniquely grounded in entry state or prior tool outputs, without gold paper IDs or answer metadata; compare exact handwritten and simpler-compiler implementations before paid matched evaluation.",
+  "schema": "gac-agenthop-source-feasibility-v1",
+  "selected": {
+    "full_graph_components": 1,
+    "full_graph_largest_component_sizes": [
+      478
+    ],
+    "full_graph_max_paper_reuse": 406,
+    "full_graph_paper_memberships": 149769,
+    "full_graph_reused_papers": 14592,
+    "full_graph_unique_papers": 28382,
+    "name": "single-target/depth-2",
+    "paper_content_coverage": {
+      "bridge": 478,
+      "gold": 478,
+      "seed": 478
+    },
+    "path_overlap_components": 280,
+    "path_overlap_largest_component_sizes": [
+      25,
+      13,
+      12,
+      9,
+      8,
+      8,
+      8,
+      7,
+      7,
+      7,
+      7,
+      5,
+      5,
+      5,
+      5,
+      4,
+      4,
+      4,
+      4,
+      4
+    ],
+    "path_overlap_singletons": 209,
+    "path_unreachable_task_ids": [
+      "st_0092",
+      "st_0310"
+    ],
+    "seed_bridge_gold_path_reachable": 476,
+    "source_graphs_present": 478,
+    "tasks": 478,
+    "unique_seed_papers": 478
+  },
+  "source": {
+    "code_repository": "https://github.com/JohnnyNLP/agenthop",
+    "code_revision": "419407e1b06f95f6baa0a6d2c12da43fc53045c2",
+    "dataset_repository": "https://huggingface.co/datasets/nlpai-lab/agenthop",
+    "dataset_revision": "24e7076425ead02de2f858d8963846dc981ef9e3",
+    "sha256": {
+      "data_loader.py": "8b6d18235cb6cefb21284dfd7e8d40d9eceaac6981f01ae15de25a4034889cf7",
+      "graphs/full.jsonl": "48bfc5cc1ac580bcd0a92b7a12752047455b58dbb901ccd864b222ad1ab5b572",
+      "paper_pool/papers.jsonl": "cf86f1ef81dc1d7693ad1412083aa5f45a05f8d539ef45b60b7df2504354f3af",
+      "qa/full.jsonl": "02ae03d17fa6d6d4c813bcea774eee99b768663764f4fe27f71739df9f60e62c",
+      "testbed/harness.py": "feca15851e88c444fdc6b235d53e7b6c2759aa6bcd8cc50b4102c95c19e0d9f2",
+      "testbed/tools.py": "99b21367fa7cdd5c7276dd9cdfd56e442778d7fb17934d22de3e552e317dd6b9"
+    }
+  },
+  "source_script_sha256": "3f5bb0e58976f6ff5dcb91386dc163ed8d31e0823553bea38af8116f22acb570",
+  "subtypes": {
+    "multi-target/depth-1": 396,
+    "multi-target/depth-2": 47,
+    "single-target/depth-1": 90,
+    "single-target/depth-2": 478
+  },
+  "test_groups_scored": 0
+}

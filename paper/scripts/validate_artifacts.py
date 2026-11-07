@@ -3605,8 +3605,57 @@ def validate_adaptive_comparison_preflight() -> None:
         ok(False, f"adaptive preflight: {error}")
 
 
+def validate_agenthop_source_feasibility() -> None:
+    """Pin the provider-free source screen without downloading external data in CI."""
+    import sys
+    if str(PAPER / "scripts") not in sys.path:
+        sys.path.insert(0, str(PAPER / "scripts"))
+    import agenthop_source_feasibility as source
+
+    report = load(PAPER / "results/agenthop_source_feasibility/report.json")
+    selected = report.get("selected", {})
+    origin = report.get("source", {})
+    ok(report.get("source_script_sha256") == sha256(PAPER / "scripts/agenthop_source_feasibility.py")
+       and origin.get("code_revision") == source.CODE_REVISION
+       and origin.get("dataset_revision") == source.DATA_REVISION
+       and origin.get("sha256") == {
+           "qa/full.jsonl": source.QA_SHA256,
+           "graphs/full.jsonl": source.GRAPHS_SHA256,
+           "paper_pool/papers.jsonl": source.PAPERS_SHA256,
+           "data_loader.py": source.LOADER_SHA256,
+           "testbed/tools.py": source.TOOLS_SHA256,
+           "testbed/harness.py": source.HARNESS_SHA256},
+       "AgentHop source screen: report binds the pinned external bytes and audit script")
+    ok(report.get("qa_rows") == 1011
+       and report.get("paper_pool_rows_with_sections") == 7205
+       and report.get("subtypes") == {"multi-target/depth-1": 396,
+           "multi-target/depth-2": 47, "single-target/depth-1": 90,
+           "single-target/depth-2": 478}
+       and selected.get("tasks") == selected.get("unique_seed_papers")
+           == selected.get("source_graphs_present") == 478
+       and selected.get("paper_content_coverage") == {"seed": 478, "bridge": 478, "gold": 478},
+       "AgentHop source screen: all questions, paper content, and fixed two-hop cases accounted for")
+    ok(selected.get("seed_bridge_gold_path_reachable") == 476
+       and selected.get("path_unreachable_task_ids") == ["st_0092", "st_0310"]
+       and selected.get("path_overlap_components") == 280
+       and selected.get("full_graph_components") == 1
+       and selected.get("full_graph_largest_component_sizes") == [478]
+       and selected.get("full_graph_paper_memberships") == 149769,
+       "AgentHop source screen: path defects and both dependence sensitivities retained")
+    ok(report.get("provider_calls") == report.get("agent_trajectories_observed")
+       == report.get("gac_candidates") == report.get("calibration_groups")
+       == report.get("test_groups_scored") == 0
+       and report.get("decision") == "GO_FOR_BOUNDED_DEVELOPMENT_PILOT_ONLY_NO_CONFIRMATORY_GAC_CLAIM",
+       "AgentHop source screen: no pilot, artifact, calibration, test, or superiority is claimed")
+    documentation = (PAPER / "results/agenthop_source_feasibility/REPORT.md").read_text()
+    ok("full-neighborhood" in documentation and "280" in documentation
+       and "476/478" in documentation and "admitted no artifacts" in documentation,
+       "AgentHop source screen: report states source overlap and claim limits")
+
+
 FAMILIES: dict[str, Any] = {
     "adaptive_comparison_preflight": validate_adaptive_comparison_preflight,
+    "agenthop_source_feasibility": validate_agenthop_source_feasibility,
     "primary_population_audit": validate_primary_population_audit,
     "sources": validate_sources,
     "live": validate_live,
