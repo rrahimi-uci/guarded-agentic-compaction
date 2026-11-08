@@ -65,6 +65,33 @@ def _close(a: Any, b: Any) -> bool:
     return a is not None and b is not None and math.isclose(float(a), float(b), rel_tol=1e-12, abs_tol=1e-12)
 
 
+def _differences(a: Any, b: Any, path: str = "") -> list[str]:
+    """Paths where ``a`` and ``b`` differ; floats compare within the same tolerance as ``_close``.
+
+    The Beta quantile can differ in its last bit across platforms (scipy on Linux vs macOS), so an
+    exact equality check on regenerated floats would fail spuriously.
+    """
+
+    if isinstance(a, bool) or isinstance(b, bool) or not (isinstance(a, (int, float)) and isinstance(b, (int, float))):
+        if type(a) is not type(b):
+            return [f"{path or '/'} (type)"]
+    if isinstance(a, dict):
+        out: list[str] = []
+        for key in sorted(set(a) | set(b)):
+            if key not in a or key not in b:
+                out.append(f"{path}/{key} (missing)")
+            else:
+                out.extend(_differences(a[key], b[key], f"{path}/{key}"))
+        return out
+    if isinstance(a, list):
+        if len(a) != len(b):
+            return [f"{path or '/'} (length {len(a)} vs {len(b)})"]
+        return [d for i, (x, y) in enumerate(zip(a, b)) for d in _differences(x, y, f"{path}[{i}]")]
+    if isinstance(a, float) or isinstance(b, float):
+        return [] if _close(a, b) else [path or "/"]
+    return [] if a == b else [path or "/"]
+
+
 def _recompute(groups: list[dict[str, Any]]) -> dict[str, Any]:
     used = [g for g in groups if g["arms"]["compiled"]["eligible"]
             and (g["arms"]["compiled"]["dispatched"] or g["arms"]["compiled"]["verifier_abstained"])]
@@ -191,7 +218,9 @@ def validate_multirepo_end_to_end(results_dir: str | Path) -> list[CheckResult]:
         import multirepo_end_to_end_analysis as ana
 
         regenerated = json.loads(json.dumps(ana.build_summary(results_dir), sort_keys=True))
-        ok(regenerated == summary, "summary.json equals a fresh regeneration from the raw groups")
+        diffs = _differences(regenerated, summary)
+        detail = "" if not diffs else f" (differs at {', '.join(diffs[:5])}{' ...' if len(diffs) > 5 else ''})"
+        ok(not diffs, f"summary.json equals a fresh regeneration from the raw groups (floats within 1e-12){detail}")
     except Exception as exc:  # noqa: BLE001
         ok(False, f"summary regeneration ({exc})")
     return results

@@ -336,6 +336,22 @@ def test_validator_passes_on_fixture(fx):
     assert results and failed(results) == []
 
 
+def test_validator_regeneration_tolerates_last_bit_float_noise(fx):
+    """scipy's Beta quantile can differ in its last bit across platforms; that must not fail."""
+    regenerate(fx)
+    path = fx / "summary.json"
+    summary = json.loads(path.read_text())
+    u = summary["pooled_run_repositories"]["certificate"]["grid_m1"]["U"]
+    summary["pooled_run_repositories"]["certificate"]["grid_m1"]["U"] = u * (1 + 4e-16)
+    path.write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")
+    assert failed(val.validate_multirepo_end_to_end(fx)) == []
+
+    summary["pooled_run_repositories"]["certificate"]["grid_m1"]["U"] = u + 1e-6
+    path.write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")
+    msgs = failed(val.validate_multirepo_end_to_end(fx))
+    assert any("regeneration" in m and "/pooled_run_repositories/certificate/grid_m1/U" in m for m in msgs)
+
+
 def test_validator_missing_summary(fx):
     assert any("summary.json present" in m for m in failed(val.validate_multirepo_end_to_end(fx)))
 
