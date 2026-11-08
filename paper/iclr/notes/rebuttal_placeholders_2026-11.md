@@ -88,6 +88,13 @@ by hand. Do not change the rule, the grid or n after seeing results (plan Sectio
 
 ## Numbering to recheck after the integrator's build
 
+> Rechecked 2026-11-07 against the 64-page build (`paper/iclr/upload/GAC_ICLR2027_revised.pdf`);
+> the posts in `review_response_2026-11-06.md` now use that numbering. The table below keeps the
+> earlier 2026-11-06 numbers for history. Current: `tab:primary` Table 2, `tab:awm` Table 3,
+> `tab:funnel` Table 4, `tab:funnel-all` Table 20, `tab:certificates` Table 28,
+> `tab:effective-units` Table 31, `tab:recurrence-only` Table 33, `tab:gate-frontier-disaggregated`
+> Table 38; App. F.4 external evidence map, F.5 prefix census, F.6 BIRD.
+
 The response uses the numbering of the 2026-11-06 build of `paper/iclr/build/main.pdf`
 (60 pages, SHA-256 `58394f0fae9e58b08335595bd8e303ad8617abe0026d64c2581ae00621312bf4`).
 The compiler-decisions table (W2) and the move of `tab:evidence-scope` to the
