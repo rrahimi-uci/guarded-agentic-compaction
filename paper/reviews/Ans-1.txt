@@ -6,7 +6,7 @@ Weakness 3 and Question 2: Section 2 puts downstream answer errors in the certif
 
 Answer: none of them, and you are right that the reviewed loss and labels did not match. We narrowed the claim to what the labels measure, and we ran two new studies that grade final answers.
 
-- How the labels are made: grc/compile.py::_calibration_samples replays the frozen program over each calibration group's recorded tool results and, after the verifier accepts, compares the outputs with the recorded ones. The model continuation never runs. So the 92-group result (0 violations in 92 groups, one-sided upper bound U = 0.0498) is a replay bound for one fixed candidate on the filtered population, assuming i.i.d. groups.
+- How the labels are made: src/guarded_agentic_compaction/grc/compile.py::_calibration_samples replays the frozen program over each calibration group's recorded tool results and, after the verifier accepts, compares the outputs with the recorded ones. The model continuation never runs. So the 92-group result (0 violations in 92 groups, one-sided upper bound U = 0.0498) is a replay bound for one fixed candidate on the filtered population, assuming i.i.d. groups.
 - Paper change: Section 2 now defines the loss per certificate ("verifier-passing replay-output mismatch for the primary bound; final task-contract failure for the end-to-end study"). Appendix C ("Calibration labels as computed") describes the labeling path, and Table 28 names the event behind every certificate. The three primary families keep replay certificates only.
 - New end-to-end evidence, where the compiled prefix runs, the model continues, and the final contract is graded:
   - Post-cutoff PR-outcome: one candidate frozen before calibration, 0 violations in 132 fresh pull requests, 90% bound U = 0.0173 (Section 5.4; Appendix G; paper/results/time_forward/pr_outcome/certificate.json).
@@ -39,7 +39,7 @@ Weakness 2, second part: the reviewed Table 2 is hard to interpret and does not 
 Answer: that table reports trace benchmarks on which no model runs, so it can only show whether compilation is feasible or refused. Answer quality is measured where a live agent runs.
 
 - The reviewed Table 2 is now Table 4 (all four trace substrates in Table 20), with plain-word column names and a key in the caption. Example: NESTFUL's largest family has 26 of the 92 supporting groups the bound needs, so every family retires.
-- Quality of compiled segments: on GitHub (Table 2), 90/90 held-out contracts for the compiled agent and for hand-written programs, against 89/90 for the unchanged agent. On BIRD text-to-SQL (Section 5.2), 97 against 94 correct on 150 sealed questions, with 44.9% fewer requests; on a second model and on the training split the compiled agent trails warm reruns of the unchanged agent (93 vs 95; 402 vs 412). In the end-to-end studies above, 3,510 against 3,507 contracts.
+- Quality of compiled segments: on GitHub (Table 2), 90/90 held-out contracts for the compiled agent and for hand-written programs, against 89/90 for the unchanged agent. On BIRD text-to-SQL (Section 5.2), 97 against 94 correct on 150 sealed questions, with 44.9% fewer requests than a warm rerun of the unchanged agent; on a second model and on the training split the compiled agent trails warm reruns of the unchanged agent (93 vs 95; 402 vs 412). In the end-to-end studies above, 3,510 against 3,507 contracts.
 
 Weakness 1: the introduction is hard to follow, and issue #4420 appears without context.
 

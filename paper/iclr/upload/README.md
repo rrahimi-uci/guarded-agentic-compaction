@@ -8,11 +8,12 @@ Status: ready for the author to upload. Nothing here has been posted to OpenRevi
   (also copied to `paper/iclr/main-final.pdf`).
 - 63 pages; the main text ends on page 10 (the ICLR limit). Built with `tectonic --outdir build main.tex`
   from `paper/iclr/`.
-- SHA-256: `3d9a93e933fdd39034ae1cc2513585509b5c0a1eedd5660a4ef9e5cbcbaf377f`. Record it next to the
+- SHA-256: `d6cad56b0322cc3c681dbad76e2216f568a6a07feae8d3fd3cbe3037c84d97fe`. Record it next to the
   upload date when you upload.
-- The revised abstract for the OpenReview form is `../snippets/abstract_for_openreview.txt`.
-- This build includes the 2026-11-08 audit corrections listed in `paper/reviews/paper-changes.md`
-  and the decision audit examples in Appendix O.
+- The revised abstract for the OpenReview form is `../notes/snippets/abstract_for_openreview.txt`.
+- This build includes the 2026-11-08 audit corrections (second and third passes) listed in
+  `paper/reviews/paper-changes.md` and the decision audit examples in Appendix O. Table, figure,
+  section and appendix numbers are unchanged from the second-pass build.
 
 ## 2. Post the replies in this order
 
@@ -21,7 +22,7 @@ separated by a line of `==========`. Post each part as its own official comment.
 
 | Order | File | Post as | Parts |
 |---:|---|---|---|
-| 1 | `paper/reviews/Ans-general.txt` | Top-level official comment to all reviewers | 1 |
+| 1 | `paper/reviews/Ans-general.txt` | Top-level official comment to all reviewers (post after the PDF upload; it refers to the PDF diff) | 1 |
 | 2 | `paper/reviews/Ans-1.txt` | Reply to Reviewer 1 | 3 (1/3, 2/3, 3/3) |
 | 3 | `paper/reviews/Ans-2.txt` | Reply to Reviewer 2 | 2 |
 | 4 | `paper/reviews/Ans-3.txt` | Reply to Reviewer 3 | 2 |
@@ -38,8 +39,9 @@ These replies supersede the earlier per-post drafts generated from
 
 ## 4. What to read yourself before uploading
 
-- The first page, the abstract and the conclusion. The conclusion's cost claim is now
-  "58.7–73.6%", not "about 73%".
+- The first page, the abstract and the conclusion. The abstract now says GAC automates the step
+  "under explicit guards" (not "safely") and labels the two bound scales; the conclusion's cost claim is
+  "58.7% (primary families) and 73.6% (eleven repositories)", not a single range.
 - §5.2 (BIRD): on a second model and the training split, the compiled agent trails warm reruns of
   the unchanged agent (93 vs 95; 402 vs 412). This is now stated.
 - Appendix F.2 and Table 19: Amendment 3 was registered after the first four repositories' results

@@ -20,7 +20,7 @@ returns a label-based category, the issue title, and an exact evidence excerpt.
 On held-out issue \#4420 the agent calls \code{record(4420)}, passes the
 \emph{returned} \code{record.issue\_number} to \code{labels} and to
 \code{comments}, and sets the comment \code{limit} to 100. All 132 discovery
-runs (the traces the compiler learns from) take this three-read route, 130
+runs (the source of the compiler's traces) take this three-read route, 130
 with \code{limit=100} and two with \code{limit=1}, so a recurrence-only optimizer would compile all three reads.
 \method refuses that region because \code{limit} has no \emph{witness}: it is
 neither a constant across runs nor computable from the issue number or an

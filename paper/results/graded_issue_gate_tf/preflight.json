@@ -1,0 +1,376 @@
+{
+  "acceptance_if_all_dispatch": {
+    "fixed_pinned_cutoff_age": {
+      "literal_pool_calibration": {
+        "0.02": 20,
+        "0.05": 21,
+        "0.08": 24,
+        "0.11": 26,
+        "0.14": 28,
+        "0.17": 28,
+        "0.20": 29,
+        "0.25": 30,
+        "0.30": 30,
+        "0.40": 30,
+        "0.50": 31
+      },
+      "same_record_space_pool_calibration": {
+        "0.02": 75,
+        "0.05": 85,
+        "0.08": 89,
+        "0.11": 95,
+        "0.14": 101,
+        "0.17": 103,
+        "0.20": 104,
+        "0.25": 105,
+        "0.30": 107,
+        "0.40": 110,
+        "0.50": 111
+      }
+    },
+    "snapshot_relative_age": {
+      "literal_pool_calibration": {
+        "0.02": 20,
+        "0.05": 21,
+        "0.08": 23,
+        "0.11": 24,
+        "0.14": 26,
+        "0.17": 28,
+        "0.20": 28,
+        "0.25": 29,
+        "0.30": 30,
+        "0.40": 30,
+        "0.50": 31
+      },
+      "same_record_space_pool_calibration": {
+        "0.02": 69,
+        "0.05": 82,
+        "0.08": 87,
+        "0.11": 90,
+        "0.14": 97,
+        "0.17": 101,
+        "0.20": 103,
+        "0.25": 104,
+        "0.30": 106,
+        "0.40": 108,
+        "0.50": 111
+      }
+    }
+  },
+  "admission_floors_registered_grid_m1": {
+    "100": 0,
+    "106": 0,
+    "117": 0,
+    "132": 0,
+    "150": 1,
+    "168": 2,
+    "200": 3,
+    "92": 0
+  },
+  "age_convention": {
+    "note": "The frozen v2 age descriptor is days from creation to the pinned snapshot's last day, clipped at zero. Applied literally (fixed cutoff 2025-06-13) every post-cutoff issue has age 0. The replication would use the time-forward snapshot's own last created day, the same quantity for this snapshot.",
+    "primary": "snapshot_relative_age",
+    "snapshot_last_day": "2026-10-07"
+  },
+  "alpha": 0.05,
+  "decision_rule": "go iff calibration groups >= 150 after 80 discovery issues",
+  "delta": 0.1,
+  "descriptor_distribution": {
+    "age_convention": "snapshot_relative_age",
+    "all_issues_with_comments": {
+      "age_years": {
+        "max": 1.3114,
+        "mean": 0.7588,
+        "median": 0.8186,
+        "min": 0.0
+      },
+      "bare_url": 46,
+      "category": {
+        "enhancement": 21,
+        "other": 176
+      },
+      "label_count": {
+        "max": 1.0,
+        "mean": 0.1066,
+        "median": 0.0,
+        "min": 0.0
+      },
+      "log_comments": {
+        "max": 3.7612,
+        "mean": 1.2559,
+        "median": 1.0986,
+        "min": 0.6931
+      },
+      "markdown_link": 18,
+      "n": 197,
+      "plain_text": 133,
+      "state": {
+        "closed": 73,
+        "open": 124
+      },
+      "title_length": {
+        "max": 1.99,
+        "mean": 0.6968,
+        "median": 0.68,
+        "min": 0.15
+      }
+    },
+    "literal_pool": {
+      "age_years": {
+        "max": 1.306,
+        "mean": 0.7534,
+        "median": 0.8268,
+        "min": 0.063
+      },
+      "bare_url": 27,
+      "category": {
+        "enhancement": 13,
+        "other": 98
+      },
+      "label_count": {
+        "max": 1.0,
+        "mean": 0.1171,
+        "median": 0.0,
+        "min": 0.0
+      },
+      "log_comments": {
+        "max": 3.7612,
+        "mean": 1.285,
+        "median": 1.0986,
+        "min": 0.6931
+      },
+      "markdown_link": 11,
+      "n": 111,
+      "plain_text": 73,
+      "state": {
+        "closed": 44,
+        "open": 67
+      },
+      "title_length": {
+        "max": 1.99,
+        "mean": 0.7126,
+        "median": 0.71,
+        "min": 0.15
+      }
+    },
+    "same_record_space_pool": {
+      "age_years": {
+        "max": 1.3114,
+        "mean": 0.7584,
+        "median": 0.8186,
+        "min": 0.0
+      },
+      "bare_url": 43,
+      "category": {
+        "enhancement": 21,
+        "other": 172
+      },
+      "label_count": {
+        "max": 1.0,
+        "mean": 0.1088,
+        "median": 0.0,
+        "min": 0.0
+      },
+      "log_comments": {
+        "max": 2.9444,
+        "mean": 1.2475,
+        "median": 1.0986,
+        "min": 0.6931
+      },
+      "markdown_link": 18,
+      "n": 193,
+      "plain_text": 132,
+      "state": {
+        "closed": 73,
+        "open": 120
+      },
+      "title_length": {
+        "max": 1.99,
+        "mean": 0.6959,
+        "median": 0.68,
+        "min": 0.15
+      }
+    }
+  },
+  "design": {
+    "literal_exclusion": {
+      "accepted_at_eta_0.50_if_all_dispatch": 31,
+      "admission_probability_at_assumed_error_rate": {
+        "0.0153": 0.0,
+        "0.02": 0.0,
+        "0.0443": 0.0
+      },
+      "calibration_groups": 31,
+      "discovery": 80,
+      "label": "every record number under paper/results and experiments (issue_number/record_number fields)",
+      "max_admissible_k_at_eta_0.50": -1,
+      "meets_minimum_calibration": false,
+      "pool": 111
+    },
+    "same_record_space_exclusion": {
+      "accepted_at_eta_0.50_if_all_dispatch": 111,
+      "admission_probability_at_assumed_error_rate": {
+        "0.0153": 0.1806,
+        "0.02": 0.1062,
+        "0.0443": 0.0065
+      },
+      "calibration_groups": 113,
+      "discovery": 80,
+      "label": "upper bound: only same record-space uses excluded",
+      "max_admissible_k_at_eta_0.50": 0,
+      "meets_minimum_calibration": false,
+      "pool": 193
+    }
+  },
+  "discovery_split_seed": 20261107,
+  "frozen_gate_v2_sha256": "c66af83acac0bc883f970140e874560ef35ff9f80144d0115e13e763d918c35a",
+  "grid": [
+    0.02,
+    0.05,
+    0.08,
+    0.11,
+    0.14,
+    0.17,
+    0.2,
+    0.25,
+    0.3,
+    0.4,
+    0.5
+  ],
+  "no_go": true,
+  "no_go_even_under_same_record_space_rule": true,
+  "pool_accounting": {
+    "excluded_by_field_rule": 86,
+    "excluded_numbers_field_rule": [
+      7617,
+      7624,
+      7627,
+      7630,
+      7636,
+      7637,
+      7660,
+      7664,
+      7665,
+      7669,
+      7671,
+      7675,
+      7677,
+      7678,
+      7679,
+      7680,
+      7682,
+      7685,
+      7686,
+      7687,
+      7688,
+      7694,
+      7696,
+      7698,
+      7699,
+      7705,
+      7720,
+      7721,
+      7728,
+      7731,
+      7745,
+      7751,
+      7753,
+      7756,
+      7760,
+      7766,
+      7777,
+      7788,
+      7792,
+      7793,
+      7802,
+      7804,
+      7990,
+      7999,
+      8005,
+      8007,
+      8010,
+      8012,
+      8015,
+      8029,
+      8034,
+      8046,
+      8048,
+      8052,
+      8065,
+      8075,
+      8078,
+      8085,
+      8110,
+      8116,
+      8120,
+      8125,
+      8129,
+      8131,
+      8217,
+      8242,
+      8256,
+      8302,
+      8327,
+      8328,
+      8341,
+      8359,
+      8373,
+      8391,
+      8458,
+      8483,
+      8491,
+      8590,
+      8617,
+      8637,
+      8675,
+      8709,
+      8714,
+      8719,
+      8740,
+      8763
+    ],
+    "excluded_numbers_same_record_space": [
+      7693,
+      7694,
+      8029,
+      8590
+    ],
+    "field_rule_hits_by_file_family": {
+      "paper/results": 1,
+      "paper/results/bird/train/schema_first/chicago_crime": 9,
+      "paper/results/bird/train/schema_first/hockey": 42,
+      "paper/results/bird/train/schema_first/mondial_geo": 13,
+      "paper/results/bird/train/schema_first/university": 22,
+      "paper/results/bird/train/standard/chicago_crime": 9,
+      "paper/results/bird/train/standard/hockey": 42,
+      "paper/results/bird/train/standard/mondial_geo": 13,
+      "paper/results/bird/train/standard/university": 20,
+      "paper/results/github_multirepo_pr_outcome_balanced": 3,
+      "paper/results/github_multirepo_pr_outcome_balanced/repos/pandas-dev__pandas": 4
+    },
+    "flagged_by_broad_key_walk": 197,
+    "flagged_other_record_space_only": 193,
+    "flagged_same_record_space": 4,
+    "issues_in_snapshot": 277,
+    "issues_with_at_least_one_comment": 197,
+    "issues_without_comments": 80,
+    "pool_literal_rule": 111,
+    "pool_same_record_space_rule": 193
+  },
+  "provider_calls_executed": 0,
+  "reading": "The pool cannot supply the planned single look. 111 issues pass the literal exclusion rule and 193 pass the most generous one; after 80 discovery issues that leaves 31 and 113 calibration groups against the floor of 150.",
+  "schema": "gac-graded-issue-gate-tf-preflight/v1",
+  "snapshot": {
+    "created_after_utc_day": "2025-06-13",
+    "duplicate_rows_collapsed": 0,
+    "issues": 277,
+    "last_created_day": "2026-10-07",
+    "path": "paper/results/datasets/github_time_forward/huggingface__datasets/snapshot.parquet",
+    "pull_requests_removed": 818,
+    "records": 1095,
+    "repository": "huggingface/datasets",
+    "sha256": "9b94520fd0902961a07d0f0323c1b8d86ab0db38d863ac9b0cce984296f029b7"
+  },
+  "status": "no_go_pool_too_small",
+  "task": "graded issue task of graded_issue_gate_study.py (final factual contract, six entry descriptors)"
+}
