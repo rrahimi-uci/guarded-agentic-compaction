@@ -143,3 +143,15 @@ includes an initial BIRD source screen and remains unrun/unsealed. It requires f
 unfiltered calibration, source/task validation, a competing-compiler adapter, and a
 prospective design before provider execution. The main text retains the ten-page
 discussion limit; broader optimizer context is moved to the appendix.
+
+## November 8 decision audit examples
+
+Section 5 and Appendix O show three decisions from retained records: the
+admitted issue-type prefix, its refused third read, and the old PR artifact's
+60 runtime abstentions on a later snapshot. The sources are
+`paper/results/github_natural_replication/{artifact_explanation.txt,compile_report.txt}`
+and `paper/results/time_forward/pr_outcome/{evaluation_checkpoint.json,evaluation.json}`.
+The text describes inspectable checks and explicitly leaves comparative
+explainability and human diagnostic benefit unmeasured. The manuscript,
+reviewer response, three PDF copies, upload hash, and publication manifest
+are updated together.

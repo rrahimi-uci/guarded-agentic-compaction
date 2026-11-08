@@ -8,10 +8,11 @@ Status: ready for the author to upload. Nothing here has been posted to OpenRevi
   (also copied to `paper/iclr/main-final.pdf`).
 - 63 pages; the main text ends on page 10 (the ICLR limit). Built with `tectonic --outdir build main.tex`
   from `paper/iclr/`.
-- SHA-256: `9937a8f213bf0f3a10851551855bd9697bff84b15c012a7376741c9c800371cd`. Record it next to the
+- SHA-256: `3d9a93e933fdd39034ae1cc2513585509b5c0a1eedd5660a4ef9e5cbcbaf377f`. Record it next to the
   upload date when you upload.
 - The revised abstract for the OpenReview form is `../snippets/abstract_for_openreview.txt`.
-- This build includes the 2026-11-08 audit corrections listed in `paper/reviews/paper-changes.md`.
+- This build includes the 2026-11-08 audit corrections listed in `paper/reviews/paper-changes.md`
+  and the decision audit examples in Appendix O.
 
 ## 2. Post the replies in this order
 
