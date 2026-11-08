@@ -5,9 +5,8 @@ Compilation reduces model work on recurrent GitHub workflows and schema-first
 BIRD openings; the trace benchmarks expose support and dispatch limits.
 The hand-written program is the oracle throughout: a person who knows the
 workflow can write it, and the question is whether the compiler finds it without
-that knowledge. \Cref{tab:compiler-decisions} shows that it recovers the program
-a person would write wherever the retained traces support one, and refuses, with
-a stated stage and reason, wherever they do not. Savings are scoped to a
+that knowledge. \Cref{tab:compiler-decisions} shows that where it admits, it recovers the program
+a person would write, and where it refuses, it states the stage and reason. Savings are scoped to a
 compatible snapshot: every artifact pins its snapshot and abstains on any other,
 so a changed snapshot is recompiled rather than reused.
 
@@ -97,7 +96,7 @@ questions the compiled agent dispatched every time, answered 97 correctly
 against 94 (McNemar $p=0.45$), and cut requests 44.9\% and latency 29.4\%
 against a warm rerun of the unchanged agent. All-scheduled counts are 93 against
 91 of 150 on a second model and 402 against 403 of 630 on 21 of 26 training
-databases (requests fall 49.6\% and 45.8\%); the conservative paired 95\%
+databases (warm reruns 95 and 412; requests fall 49.6\% and 45.8\% vs.\ first runs); the conservative paired 95\%
 interval for the training difference is $[-3.27,+2.96]$ points under i.i.d.\
 pairs (\cref{tab:bird-quality-sensitivity}). A second provider's agent never ran
 a fixed opening and was refused (\cref{tab:bird-extensions}).
@@ -149,9 +148,9 @@ compiler-wide only at $\alpha\ge0.057$; \cref{cor:frozen}); \cref{tab:certificat
 lists every admitted artifact. The score $q$ is implemented, but every admitted
 operating point on the registered cohorts is full coverage, so the certificate
 is a support-sufficiency floor; graded, learned selection is not claimed.
-Two end-to-end certificates exist. A post-cutoff PR-outcome cohort of 132 fresh
+Two end-to-end studies exist. A post-cutoff PR-outcome cohort of 132 fresh
 groups (84 open, 48 merged, no closed-unmerged) had 0 missed task contracts,
-a bound of 0.0173 under the single pre-registered rule and 0.035 under the
+a 90\% bound of 0.0173 under the single pre-registered rule and 0.035 under the
 registered grid (\cref{app:limits}). A later study draws one pull request per
 author before any outcome filter in four repositories and misses 3 of 760
 contracts, each repository admitted by its own frozen candidate (bounds

@@ -8,44 +8,39 @@ Status: ready for the author to upload. Nothing here has been posted to OpenRevi
   (also copied to `paper/iclr/main-final.pdf`).
 - 64 pages; the main text ends on page 10 (the ICLR limit). Built with `tectonic --outdir build main.tex`
   from `paper/iclr/`.
-- SHA-256: `a2ee5f91b8e2bbffd417997854561d51accd14196ef1cac39b85da818e25e97e`. Record it next to the
+- SHA-256: `1fd43add1212132ece81f55873f4d0c09dd9788f1bcb53de87ccc6d397163641`. Record it next to the
   upload date when you upload.
 - The revised abstract for the OpenReview form is `../snippets/abstract_for_openreview.txt`.
-- OpenReview shows reviewers a diff against the September 24 PDF, so the global summary does not need
-  to list every edit.
+- This build includes the 2026-11-08 audit corrections listed in `paper/reviews/paper-changes.md`.
 
-## 2. Post the responses in this order
+## 2. Post the replies in this order
 
-Each file is one post, at most 4,500 characters (checked by `paper/scripts/build_openreview_posts.py`).
-Post each as an official comment, markdown enabled.
+The replies are plain text in `paper/reviews/`. Each part is under 5,000 characters, and parts are
+separated by a line of `==========`. Post each part as its own official comment.
 
-| Order | File | Post as | Characters |
-|---:|---|---|---:|
-| 1 | [`posts/00_global.md`](posts/00_global.md) | Top-level official comment to all reviewers | 3,785 |
-| 2 | [`posts/01_r1_part1.md`](posts/01_r1_part1.md) | Reply to Reviewer 1 (weaknesses) | 4,459 |
-| 3 | [`posts/02_r1_part2.md`](posts/02_r1_part2.md) | Reply to Reviewer 1 (questions) | 4,466 |
-| 4 | [`posts/03_r2_part1.md`](posts/03_r2_part1.md) | Reply to Reviewer 2 (weaknesses) | 3,452 |
-| 5 | [`posts/04_r2_part2.md`](posts/04_r2_part2.md) | Reply to Reviewer 2 (questions) | 4,086 |
-| 6 | [`posts/05_r3_part1.md`](posts/05_r3_part1.md) | Reply to Reviewer 3 (weaknesses) | 2,172 |
-| 7 | [`posts/06_r3_part2.md`](posts/06_r3_part2.md) | Reply to Reviewer 3 (questions) | 4,399 |
+| Order | File | Post as | Parts |
+|---:|---|---|---|
+| 1 | `paper/reviews/Ans-general.txt` | Top-level official comment to all reviewers | 1 |
+| 2 | `paper/reviews/Ans-1.txt` | Reply to Reviewer 1 | 3 (1/3, 2/3, 3/3) |
+| 3 | `paper/reviews/Ans-2.txt` | Reply to Reviewer 2 | 2 |
+| 4 | `paper/reviews/Ans-3.txt` | Reply to Reviewer 3 | 2 |
 
-The posts are regenerated from `paper/iclr/notes/review_response_2026-11-06.md` with
-`python paper/scripts/build_openreview_posts.py`. Edit that file, not the posts.
+These replies supersede the earlier per-post drafts generated from
+`paper/iclr/notes/review_response_2026-11-06.md`, which is kept as background.
 
 ## 3. Checked before packaging
 
-- Table, figure and appendix numbers in the posts match this build of the PDF (read from its `.aux`).
-- Every number in the posts appears in the PDF text, except two ToolHop and TraceCompiler screen
-  figures (4.93 requests per episode; 225 of 13,500 dialogues) that come from committed provider-free
-  screens (`paper/results/toolhop_screen/`, `paper/results/tracecompiler_screen/`).
-- The end-to-end numbers equal `paper/results/multirepo_end_to_end/summary.json`.
+- Every number in the replies appears in the text of this PDF.
+- The claims in the paper were audited against the raw results: `paper/reviews/audit.md`, with
+  re-derivation scripts in `paper/reviews/audit_scripts/`.
+- Every reviewer point is classified in `paper/reviews/review-map.md`.
 
 ## 4. What to read yourself before uploading
 
-- The first page and the abstract: they now lead with "safe automation of the program an engineer
-  would write". The claim that the compiled program matches the hand-written one is made for GitHub
-  only; on BIRD the guarded candidate trailed the hand-written prefetch (26/36 against 28/36).
-- Sections 2 and 7: six sentences were shortened to hold the ten-page limit.
+- The first page, the abstract and the conclusion. The conclusion's cost claim is now
+  "58.7–73.6%", not "about 73%".
+- §5.2 (BIRD): on a second model and the training split, the compiled agent trails warm reruns of
+  the unchanged agent (93 vs 95; 402 vs 412). This is now stated.
 - Appendix F.2 and Table 19: Amendment 3 was registered after the first four repositories' results
-  were seen. The paper and the global summary say so; do not describe it as pre-registered in
-  advance of all data.
+  were seen. The paper and the replies say so; do not describe it as pre-registered in advance of
+  all data.
