@@ -32,6 +32,19 @@ more favourable:
 | 11 | `sections/evaluation.tex` | "with gate multiplicity controlled by the Bonferroni term" | "with threshold-grid multiplicity controlled by the Bonferroni term" | The term covers thresholds, not candidate selection (10) |
 | 12 | `tables/compiler_decisions.tex` caption | "92/92 clean groups, bound 0.0498 ≤ 0.05" | "92/92 clean groups, per-candidate bound 0.0498 ≤ 0.05" | Per-candidate qualifier missing (14) |
 
+**Second pass (2026-11-08, later the same day).** Three more edits, two to `sections/introduction.tex` and one to
+`sections/results.tex`, all consistency fixes found by re-reading the main text against the abstract,
+the results and the appendix tables:
+
+| # | File | Before | After | Reason |
+|---|---|---|---|---|
+| 13 | `sections/introduction.tex` contribution 1 | "only when enough independent calibration examples pass" | "only when enough calibration examples, assumed independent, pass" | The abstract was changed to "assumed independent" in edit 2; the introduction still asserted independence |
+| 14 | `sections/introduction.tex` contribution 2 | "uses fewer model requests with no detected accuracy loss" | "uses fewer model requests at similar accuracy" | On BIRD the compiled agent trails warm reruns of the unchanged agent (93 vs 95; 402 vs 412, §5.2); "no detected loss" held only against first runs |
+
+| 15 | `sections/results.tex` §5.4 live recovery | "the completeness check's benefit is unresolved (204/216 versus 205/216; the agent repairs 22/27 incomplete prefetches)" | "... unresolved (without it, 210/216 under ordinary responses and 204/216 under capped ones, where the agent repairs 22/27 incomplete prefetches, versus 205/216)" | The 186 -> 205 contrast is the ordinary-response cohort, while 204/216 and 22/27 are the capped-response cohort (Tables 39-40); the sentence mixed them and omitted the ordinary-cohort 210/216, which favours the no-completeness arm (audit, second pass C1) |
+
+None of the three edits changes a number. The build is still 63 pages and §8 still ends on page 10.
+
 **Layout fix (no wording change).** Two appendix pages were mostly empty. `sections/adaptive_gates_appendix.tex`
 had a `\pagebreak` before the Appendix L "Decision" paragraph, which left most of a page blank; it is
 removed. Table 46 (`tab:compiler-comparison`, Appendix N) was a `[t]` float at the end of the file, did not

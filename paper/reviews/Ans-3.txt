@@ -1,30 +1,25 @@
 Response to Reviewer 3 (1/2)
 
-Thank you for the precise statistical reading; your two concerns changed the claims of the paper, and we answer them first.
+Thank you for the precise statistical reading; both of your concerns changed the paper's claims. Section, table and appendix numbers refer to the revised PDF; the September 24 version did not contain the end-to-end studies below.
 
-Section, table and appendix numbers refer to the revised PDF. The September 24 version you reviewed did not contain the end-to-end studies below.
+W1 and Q1: the safety language is stronger than the statistics. Two primary families have a selection-adjusted bound of 0.0569, and creation-day or author units eliminate every family. Does any cohort have enough independent units for a 5% bound over the whole candidate-selection process, and if not, how will the abstract and conclusion change?
 
-1. "The broad safety language is stronger than the reported statistical result" (0.0569 two-candidate bound; creation day or author as unit eliminates every family). Also your Q1: "Does any cohort contain enough independent units to establish a 5% bound for the entire candidate-selection process? If none does, how will the abstract and conclusion be revised?"
+Answer: you are right about the primary families, and the abstract and conclusion now say so. For one family, PR-outcome, two new studies with a single frozen candidate do give selection-wide bounds below 5%, and they grade final answers rather than replay.
 
-Answer: You are right about the three primary families, and the abstract and conclusion now say so. The answer to Q1 is yes for one family, PR-outcome, in two new studies that grade final task contracts, not replay.
+What the primary families support (Table 6; Table 31): zero violations in 92 groups give U = 0.0498 for one fixed candidate. Issue-type routing calibrated one candidate, so its replay bound is selection-wide; PR-outcome and backlog routing calibrated two, so their adjusted bound is 0.0569, and a fixed two-candidate design would need 106 groups. Counting creation days or authors as the unit retires all three families. Source: paper/results/iclr_revision/multiplicity_accounting.json.
 
-Evidence, primary families: zero violations in 92 groups give U = 0.0498 for one fixed candidate. Correcting for the two candidates calibrated in PR-outcome and backlog routing gives 0.0569, so a fixed two-candidate design needs 106 groups. Counting creation days or authors as units retires every primary family. Source: paper/results/iclr_revision/multiplicity_accounting.json; Table 6 and Table 31.
+Post-cutoff PR-outcome (Section 5.4; Table 28; Appendix G): one candidate frozen before calibration (m = 1), so the bound covers the whole selection for that cohort. 0 end-to-end violations in 132 pull requests opened after the snapshot: U = 0.0173 under the single pre-registered 90% rule, 0.035 under the registered grid, and 0.0267 with its 85 distinct authors as the units.
 
-Evidence, post-cutoff PR-outcome: one candidate frozen before calibration (m = 1), so the bound covers the whole selection process for that cohort. 0 end-to-end violations in 132 pull requests opened after the snapshot: U = 0.0173 under the single pre-registered rule, 0.035 under the registered grid, and 0.0267 if its 85 distinct authors are taken as the units. Source: paper/results/time_forward/pr_outcome/certificate.json; §5.4, Table 28.
+Multi-repository study (new Appendix F.2, Table 19): one pull request per distinct author, sampled before any outcome or recurrence filter, every eligible group labelled, failures included. One candidate is frozen per repository, and the admission rule (registered grid, m = 1) was fixed before any provider call.
+- Registered stage, all admitted: huggingface/datasets 1 violation in 200 groups (U = 0.0333), pandas 2/200 (0.0419), streamlit 0/160 (0.0290), pytorch 0/200 (0.0232). Pooled: 3 in 760, U = 0.0133. psf/requests was not run: only 99 author-distinct groups existed, below the 106 minimum.
+- Amendment 3 adds seven repositories at n = 400, where the grid admits at most 9 violations. It was registered after the first four results were seen and before any data for the added repositories, and it selected repositories by design features only. Admitted: next.js (1 violation), django (2), kubernetes (3), vscode (3), godot (7). Retired: node (14; U = 0.0632) and cpython (17; 0.0726). The two retirements are the rule refusing as designed.
+- Over all eleven repositories the compiled, unchanged and hand-written arms meet 3,510, 3,507 and 3,504 of 3,560 contracts. The pooled row (k = 50, U = 0.0194) assumes the repositories are exchangeable; we do not claim they are.
 
-Evidence, multi-repository study (new appendix F.2, Table 19): one pull request per distinct author, sampled before any outcome or recurrence filter, with every eligible group labelled, failures included. One candidate is frozen per repository and the admission rule (registered grid, m = 1) was fixed before any provider call.
-- Registered stage, all admitted: huggingface/datasets 1/200 violations (U = 0.0333), pandas 2/200 (0.0419), streamlit 0/160 (0.0290), pytorch 0/200 (0.0232). Pooled: 3 in 760, U = 0.0133. psf/requests was not run because only 99 author-distinct groups existed (minimum 106).
-- Amendment 3 adds seven repositories at n = 400, where the admission limit is k <= 9. It was registered after the first four results were seen, before any data for the added repositories, and the selection used design features only. Admitted: next.js 1, django 2, kubernetes 3, vscode 3, godot 7. Retired: node 14 (U = 0.0632) and cpython 17 (0.0726). These two retirements are the admission rule refusing as designed.
-- Over all eleven repositories, compiled, unchanged and hand-written arms meet 3,510, 3,507 and 3,504 of 3,560 contracts. The pooled row (k = 50, U = 0.0194) assumes the repositories are exchangeable; we do not claim they are.
+Adverse results: on godot the compiled arm met 6 fewer contracts than the unchanged agent (393 vs 399, McNemar p = 0.070). Post hoc and descriptive only: 47 of the 50 compiled violations are evidence excerpts that are not verbatim (substituted emoji, mis-copied long URLs), 3 are titles, and none is a wrong merge outcome; nothing was re-graded under a looser contract. pytorch has no merged class, because its merge bot lands pull requests without setting merged_at; without pytorch the registered pool is 3 of 560, U = 0.0181.
 
-Adverse results:
-- On godot the compiled arm met 6 fewer contracts than the unchanged agent (393 vs 399, McNemar p = 0.070).
-- A post hoc, descriptive breakdown finds that 47 of the 50 compiled violations are evidence excerpts that are not verbatim, such as substituted emoji or mis-copied long URLs. The other 3 are titles, and none is a wrong merge outcome. We did not re-grade under a looser contract.
-- pytorch has no merged class, because its bot lands pull requests without merged_at. Without pytorch, the registered pool is 3 of 560, U = 0.0181.
+Paper change: the abstract and conclusion state that replay bounds do not cover unfiltered deployment, that two primary families miss the selection-adjusted 5% target, and that end-to-end bounds cover one family. Section 7 states the creation-day and author sensitivity. Section 5.4, Table 28 and Appendix F.2 report the end-to-end studies.
 
-Change to the paper: the abstract and conclusion state that replay bounds do not cover unfiltered deployment and that two primary families miss the selection-adjusted 5% target. §5.4, Table 28 and the new Appendix F.2 report the end-to-end studies.
-
-Limit we keep: each end-to-end bound is for one family on one repository's fresh pull requests and assumes independent authors. Independence is an assumption of the design, not a result.
+Limit we keep: each end-to-end bound is for one family on one repository's fresh pull requests and assumes independent authors. Independence is a design assumption, not a result.
 
 (continued in 2/2)
 
@@ -32,24 +27,21 @@ Limit we keep: each end-to-end bound is for one family on one repository's fresh
 
 Response to Reviewer 3 (2/2)
 
-2. "The evidence does not yet show that the learned gate assigns higher scores to genuinely safer cases." Also your Q2: "Could you compare the learned gate with a support-based gate on one held-out population at two or more positive, certified coverage levels?"
+W2 and Q2: the evidence does not show that the learned gate scores safer cases higher, and at 92 groups only zero or full coverage can be certified. Could you compare the learned gate with a support-based gate on one held-out population at two or more positive, certified coverage levels?
 
-Answer: Agreed. The revised paper no longer claims that the learned gate ranks safer cases higher. We did not run the matched-coverage comparison, because no cohort we hold is large enough. We cannot run it before the discussion closes, so we do not promise it.
+Answer: agreed, and the paper no longer claims that the learned gate ranks safer cases higher. We did not run the matched-coverage comparison, because no cohort we hold is large enough, and we cannot run it before the discussion closes.
 
 Evidence:
 - With zero violations, certifying coverage c needs at least ceil(92/c) groups, so the 92-group cohorts certify only full coverage or retirement (Figure 3).
-- The score is constant within a repository whenever the entry state is a record number. Full statistical, support-only and deterministic routing are identical on all 2,724 record-model cases (Table 38).
-- The one larger cohort, a sequential extension of the issue gate, selects eta = 0.50 on 311 pooled groups (261/311 dispatched, 4 errors, nominal U = 0.0443). The extension was decided after a retirement and mixes sampling frames, so it is not a certificate. At eta = 0.02 its errors split 4/194 versus 0/117 (one-sided Fisher p = 0.150), which is no evidence of graded selectivity.
-- The sealed test of that extension compares the two gates at unmatched coverage: learned routing dispatched 76/90 and the support-only gate accepts all 90. Errors were 3/90 versus 5/90, against 2/90 for the unchanged agent. This is suggestive only.
-- Sources: paper/results/graded_issue_gate/audit_extension.json; Appendix H.1.
+- The gate score is constant within a repository whenever the entry state is a record number. Full statistical, support-only and deterministic routing are identical on all 2,724 record-model cases of the AWM comparison (Section 5.4; Appendix K).
+- The one larger cohort, a sequential extension of the issue gate (Appendix H.1, Table 37), selects eta = 0.50 on 311 pooled groups: 261/311 dispatched, 4 errors, nominal U = 0.0443. The extension was decided after a retirement and mixes sampling frames, so it is not a certificate. At eta = 0.02 its errors split 4/194 above versus 0/117 at or below the threshold (one-sided Fisher p = 0.150): no evidence of graded selectivity.
+- Its sealed test compares the two gates at unmatched coverage: learned routing dispatched 76/90 issues, and the support-only gate accepts all 90. Errors were 3/90 and 5/90, against 2/90 for the unchanged agent. Suggestive only.
+- Source: paper/results/graded_issue_gate/audit_extension.json.
 
-Feasibility: we screened a single-look replication on the untouched issue pool and recorded it as no-go. The pool holds 197 issues with a comment, which cannot supply 80 for re-derivation plus the 106-group floor. A valid test needs a larger fresh cohort with an informative entry state and a new task specification. The prospective protocol is in Appendix H.
+Feasibility: we screened a single-look replication on the untouched post-cutoff issue pool and recorded it as a no-go. The post-cutoff snapshot holds 277 issues, 197 with at least one comment; after 80 for candidate re-derivation at most 117 remain, which cannot support two positive certified coverage levels (each needs at least ceil(92/c) groups). A valid test needs a larger fresh cohort with an informative entry state and a new task specification. The prospective protocol is in Appendix H.
 
-Change to the paper: §3 Stage 6 presents the score as implemented, not claimed, and the admission test as a support floor. The abstract and conclusion state that we claim no benefit from a learned dispatch gate.
+Paper change: Section 3, Stage 6, presents the score as implemented, not claimed, and the admission test as a support floor. The abstract and conclusion state that we claim no benefit from a learned dispatch gate.
 
-What changed in the revised paper, in short:
-(1) The abstract and conclusion state that the primary bounds cover replay on selected populations and that two primary families miss the selection-adjusted 5% target (0.0569). §7 states the creation-day and author sensitivity.
-(2) There are two end-to-end studies with one frozen candidate per population. The post-cutoff study has 0/132 violations, U = 0.0173. The author-unit multi-repository study admits 9 of the 11 repositories run and retires 2.
-(3) The learned-gate claim is withdrawn.
+Summary of the changes: (1) the abstract and conclusion state that the primary bounds cover replay on selected populations and that two primary families miss the selection-adjusted 5% target; Section 7 states the creation-day and author sensitivity; (2) two end-to-end studies with one frozen candidate per population were added: 0/132 (U = 0.0173) and the author-unit multi-repository study, which admits 9 of the 11 repositories run and retires 2; (3) the learned-gate claim is withdrawn.
 
-If these changes address your concerns about the strength of the claims, we would be grateful if you would consider revisiting your assessment. Either way, thank you for a review that made the paper more accurate.
+We are glad to answer anything further during the discussion period.

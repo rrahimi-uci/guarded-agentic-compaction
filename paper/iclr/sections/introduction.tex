@@ -47,12 +47,12 @@ statistical, needs a finite-sample bound before a program is admitted.
 \begin{enumerate}[leftmargin=1.2em,itemsep=1pt,topsep=2pt]
   \item A compile-or-refuse criterion that admits an initial read-only prefix
 only when its arguments are grounded, its effects are declared read-only, and
-it starts at the agent's first step, and only when enough independent
-calibration examples pass to meet a standard exact binomial bound
+it starts at the agent's first step, and only when enough calibration
+examples, assumed independent, pass to meet a standard exact binomial bound
 (\cref{alg:compile,alg:calibrate,prop:admission}).
   \item Live-provider measurements on three GitHub workflows and the BIRD
-text-to-SQL benchmark, where the compiled agent uses fewer model requests with
-no detected accuracy loss, plus re-discovery on two further models and
+text-to-SQL benchmark, where the compiled agent uses fewer model requests at
+similar accuracy, plus re-discovery on two further models and
 one-at-a-time safeguard ablations (\cref{sec:res-primary,sec:res-bird,sec:res-more}).
   \item Measured refusals and scope: NESTFUL, API-Bank and BFCL v4 lack
 calibration support, AppWorld's admitted program is almost never eligible on

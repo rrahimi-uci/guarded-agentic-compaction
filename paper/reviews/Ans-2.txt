@@ -1,35 +1,25 @@
 Response to Reviewer 2 (1/2)
 
-Thank you for an assessment that credits the transparent reporting and names exactly what the paper had not shown; we answer your central point first.
+Thank you for a review that credits the transparent reporting and names exactly what the paper had not shown. We take your two weaknesses first, then the three questions. Section, table and appendix numbers refer to the revised PDF; the September 24 version did not contain the studies cited below.
 
-Section, table and appendix numbers refer to the revised PDF; the September 24 version you reviewed did not contain the studies cited below.
+W1: the workloads do not establish the practical value of automatic guarded compilation. The tasks are metadata classification and extraction, a handwritten workflow matches GAC, and the cross-repository work keeps the simpler PR-outcome task.
 
-1. Practical value (your W1 and Q3). Paraphrase: the primary tasks are metadata classification and extraction, easily handled by predefined workflows, and the handwritten comparator matches GAC. The value of automatic discovery is unquantified, and the cross-repository work keeps the simpler PR-outcome task. Q3 asks for full GAC versus unguarded replay versus a handwritten baseline on a workflow with genuinely adaptive decisions.
+Answer: we agree with each of these facts, and we changed what the paper claims rather than dispute them.
 
-Answer: We agree with the facts and have changed what the paper claims. The primary families are metadata classification and verbatim extraction, and no decision in them needs semantic judgment; §4 now says so. The handwritten program matches them: 90/90 contracts and equal requests (Table 14).
+- The primary tasks are metadata classification and verbatim extraction; Section 4 now says that no decision in them needs semantic judgment. The handwritten program matches GAC: 90/90 contracts and equal requests (Table 14).
+- The paper now states the contribution as safe automation of that program. GAC finds the program an engineer would write, from traces, without being told the workflow, and refuses where it cannot justify one. Matching the handwritten program is therefore the intended result, and the paper no longer presents it as a shortfall. The abstract, Section 1 and the conclusion carry this framing, and a new Table 1 ("What the compiler decided without human input") opens Section 5.
+- Evidence that the automation is safe at scale (new Appendix F.2, Table 19): eleven repositories, 3,560 fresh pull-request groups, one pull request per author, sampled before any outcome filter. The compiled, unchanged and handwritten arms meet 3,510, 3,507 and 3,504 final contracts; compiled and handwritten both cut cost by 73.6%. The guard refuses where evidence is insufficient: node and cpython are retired at n = 400. Adverse: on godot the compiled arm trails the unchanged agent, 393 vs 399 (p = 0.070).
+- Discovery cost breaks even after 411, 183 and 181 episodes for the three families (Section 5.1). PR-outcome is used for the cross-repository and post-cutoff studies because it is the family with enough fresh records; those studies test transfer and certification, not task difficulty.
+- Beyond metadata: BIRD text-to-SQL (Section 5.2), a live SQL agent after a compiled schema-first opening. The opening compiles on 26/31 databases. On 150 sealed questions the compiled agent answers 97 and the unchanged agent 94, with 44.9% fewer requests; on a second model and on the training split it trails warm reruns of the unchanged agent (93 vs 95 of 150; 402 vs 412 of 630). BIRD shows savings at similar accuracy, not an accuracy gain. The "matches handwritten" claim is limited to GitHub: on BIRD a guarded one-call candidate trailed an exact handwritten prefetch (Appendix L).
 
-We now state the contribution as safe automation of that program. GAC recovers the program an engineer would write, from traces, without being told the workflow. It refuses where it cannot justify one. Matching the handwritten program is therefore the intended result, not a shortfall.
+Still open: the engineering value of automation over hand-writing (engineer time) is not quantified, and no advantage on adaptive tasks is claimed (see the third question).
 
-Evidence that the automation is safe at scale (end-to-end study, Appendix F.2, Table 19):
-- Eleven repositories, 3,560 fresh groups, one pull request per author, sampled before any outcome filter.
-- The compiled, unchanged and handwritten arms meet 3,510, 3,507 and 3,504 contracts. The compiled and handwritten arms both cut cost by 73.6%.
-- The guard refuses where evidence is insufficient: node and cpython are retired at n = 400.
-- Adverse: on godot the compiled arm trails the unchanged agent, 393 vs 399 (p = 0.070).
+Suggested additional validation: compare full GAC, unguarded replay and a handwritten or composite-tool baseline within one workflow that has both recurrent retrieval and genuinely adaptive decisions.
 
-Measured discovery cost breaks even after 411, 183 and 181 episodes per family. As you note, PR-outcome is used for the cross-repository and post-cutoff studies because it is the family with enough fresh records. Those studies test transfer and certification, not task difficulty.
+Answer: we did not complete this experiment and cannot before November 18, so the paper claims nothing that depends on it.
 
-What remains open:
-- The engineering value of automation over hand-writing (engineer time) is not quantified.
-- No adaptive-task advantage is claimed. Your Q3 experiment was not completed and cannot be before November 18; we estimate 12 to 16 working days and a budget increase.
-- Three attempts stopped at prespecified development gates (Appendix L):
-  - BIRD: a guarded one-call candidate answered 26/36 against 28/36 for both the unchanged agent and an exact handwritten prefetch.
-  - AppWorld: the adapted baselines scored 1/12 and 2/12, below an 8/12 competence gate, so no GAC arm ran.
-  - AgentHop: the baseline passed (19/24 against a 17/24 gate), but no grounded selector for the dependent read could be derived.
-- The protocol is committed in the supplement (adaptive-quality-cost-study.md).
-
-What the paper does add beyond metadata: BIRD (§5.2), a live SQL agent after a compiled schema-first opening. The opening compiles on 26/31 databases. On 150 sealed questions the compiled agent answers 97 and the unchanged agent 94, with 44.9% fewer requests. On a second model and on the training split the compiled agent trails warm reruns of the unchanged agent (93 vs 95 of 150; 402 vs 412 of 630). BIRD therefore shows savings at similar accuracy, not an accuracy gain.
-
-Change to the paper: the abstract, §1 and the conclusion carry the safe-automation framing. The "matches handwritten" claim is limited to GitHub, because on BIRD the guarded candidate trailed the handwritten prefetch. A new table, "What the compiler decided without human input" (Table 1), opens §5.
+- Three attempts stopped at prespecified development gates (Appendix L). BIRD: a guarded one-call candidate answered 26/36 against 28/36 for both the unchanged agent and an exact handwritten prefetch. AppWorld: the adapted baselines scored 1/12 and 2/12, below the 8/12 competence gate, so no GAC arm ran. AgentHop: the baseline passed (19/24 against a 17/24 gate), but no grounded selector for the dependent read could be derived.
+- The protocol for the full study is in the supplement (paper/supplementary/adaptive-quality-cost-study.md). We estimate 12 to 16 working days and a budget increase, and we are not promising it for this discussion.
 
 (continued in 2/2)
 
@@ -37,44 +27,31 @@ Change to the paper: the abstract, §1 and the conclusion carry the safe-automat
 
 Response to Reviewer 2 (2/2)
 
-2. Contribution of the guards and the learned gate (your W2). Paraphrase: barrier-free replay ties GAC; disabling several barriers at once prevents attribution; the learned gate shows no ranking value; the drift comparison was not executed.
+W2: the contribution of the guards and the learned gate is unestablished. Barrier-free replay ties GAC (reviewed Table 19); disabling several barriers at once prevents attribution; the learned gate (reviewed Table 23) shows no ranking value; the drift comparison was not executed.
 
-Answer: Partly agreed. The missing studies now exist, and the learned-gate claim is withdrawn.
-(a) Recurrence-only replay still ties GAC at 30/30 with one fewer request on that cohort (Table 33). We do not count a refusal as an avoided error.
-(b) A live-recovery study removes one mechanism at a time over 2,304 scheduled episodes (Appendix I). The scope guard raises success from 186/216 to 205/216 (+8.80 points, descriptive 95% interval [3.70, 13.89]). The completeness check's benefit is unresolved (204/216 versus 205/216).
-(c) Drift was run three ways. The provider-free (144 paired groups) and recorded-replay (89 records) studies are null, with zero wrong answers in every arm. Continuation-graded drift is adverse: 39/60 wrong in both arms. The verifier bought abstention only.
-(d) Full statistical, support-only and deterministic routing are identical on all 2,724 record-model cases (Table 38), so we no longer claim learned selectivity.
+Answer: partly agreed. The learned-gate claim is withdrawn, and the missing studies now exist, with mixed results.
 
-Change: §5.4 "Mechanism evidence"; §3 Stage 6 states that the score is implemented, every admitted operating point is full coverage, and graded selection is not claimed; Appendices G and I.
+- Barrier-free replay: recurrence-only replay still ties GAC at 30/30 with one fewer request on that cohort (Table 33). We do not count a refusal as an avoided error; the paper says the refusal is a grounding decision, not a quality gain.
+- One mechanism at a time: a live-recovery study removes request-scope admission or completeness checking one at a time over 2,304 scheduled episodes (Appendix I). The scope guard raises success from 186/216 to 205/216 (+8.80 points, descriptive 95% interval [3.70, 13.89]). The completeness check's benefit is unresolved: without it the agent scores 210/216 under ordinary responses and 204/216 under capped ones, against 205/216 with it.
+- Drift, run three ways (Section 5.4; Appendix G): a provider-free perturbation study (144 paired groups) and a recorded-replay study (89 paired records) are null, with zero wrong answers in every arm; the continuation-graded study is adverse, with 39/60 wrong answers in both arms. The verifier bought abstention only.
+- Learned gate: full statistical admission, support-only admission and deterministic guards route identically on all 2,724 record-model cases of the AWM comparison (Section 5.4; Appendix K), and the gate score is constant within each family. Section 3, Stage 6, now presents the score as implemented, every admitted operating point as full coverage, and graded selection as not claimed.
 
 Still open: the completeness check's benefit and protection under natural drift are not established.
 
-3. How calibration labels are generated, and filtering before the split (your Q2).
+Clarification on calibration evidence: how are the calibration labels generated, and does calibration sampling precede filtering on baseline success or on the mined region?
 
-Answer:
-- Primary families: by replaying existing trajectories. grc/compile.py::_calibration_samples runs the frozen program over each calibration group's recorded tool results. After verifier success it compares outputs with the recorded ones; the continuation never runs.
-- Filtering: discovery runs were filtered on exact traces before the 16/8/92 split, removing two issue-type runs and one PR run, so calibration sampling followed filtering. All three excluded records pass the saved guard and gate, and the unfiltered-population claim is withdrawn (Appendix G "Calibration population audit", 396/396 records).
-- End-to-end studies: two later studies execute the frozen prefix followed by the model continuation and grade the final contract. They are 132 post-cutoff PR groups (0 violations, U = 0.0173) and the multi-repository study, which samples before any outcome or recurrence filter (registered stage: 3 violations in 760 groups, U = 0.0133).
+Answer: for the primary families, by replaying existing trajectories, after filtering. The two newer end-to-end studies execute the continuation and sample before filtering.
 
-Change: the §2 loss definition; Appendix C "Calibration labels as computed"; Appendix G; the new Appendix F.2. The primary replay bounds remain on the filtered population, and the paper says so.
+- Primary labels: grc/compile.py::_calibration_samples runs the frozen program over each calibration group's recorded tool results and, after the verifier accepts, compares the outputs with the recorded ones. The continuation never runs (Appendix C, "Calibration labels as computed").
+- Filtering: discovery runs were filtered on exact traces before the 16/8/92 split, removing two issue-type runs and one PR run, so calibration sampling followed filtering. All three excluded records pass the saved guard and gate, so the primary bounds do not cover the unfiltered deployment population; Section 4 and Appendix G ("Calibration population audit", 396 of 396 records) say so, and the paper withdraws that claim.
+- End-to-end studies: the post-cutoff study (132 PR groups, 0 violations, 90% bound 0.0173; Section 5.4) and the multi-repository study (Appendix F.2; registered stage 3 violations in 760 groups, U = 0.0133) run the frozen prefix, let the model continue, and grade the final contract. The second samples one pull request per author before any outcome or recurrence filter.
 
-4. Primary-task specification (your Q1).
+Clarification on task requirements: a complete primary-task specification, and which decisions need semantic interpretation or adaptive branching.
 
-Answer: each sample is one issue or PR number from the pinned huggingface/datasets snapshot. The agent makes read-only calls and returns exact, source-grounded fields.
-- Issue type: record, labels and comments. It returns the title, state, a label-derived category and a verbatim excerpt.
-- PR outcome: the PR record, merge status and discussion. It returns open, merged or closed_unmerged, plus the title and a comment excerpt.
-- Backlog attention: the open-issue record, assignees and discussion. It returns owned, discussed_unowned or awaiting_first_response, plus the title, owner and an excerpt.
+Answer: none of the decisions does. The specification is in Table 16 and Appendix E.
 
-No decision requires semantic interpretation or adaptive branching. The model's remaining role is reading the returned evidence and writing the contract fields.
+Each sample is one issue or PR number from the pinned huggingface/datasets snapshot. The agent makes read-only calls and returns exact, source-grounded fields. Issue type: record, labels and comments; returns the title, state, a label-derived category and a verbatim excerpt. PR outcome: PR record, merge status and discussion; returns open, merged or closed_unmerged, plus the title and a comment excerpt. Backlog attention: open-issue record, assignees and discussion; returns owned, discussed_unowned or awaiting_first_response, plus the title, owner and an excerpt. The model's remaining role is reading the returned evidence and writing the contract fields.
 
-Change: Table 16 and Appendix E "Primary workflow families".
+Summary of the changes: (1) the contribution is restated as safe automation of the program an engineer would write; (2) an eleven-repository end-to-end study grades final answers; (3) one-mechanism-at-a-time and drift studies were added; (4) the learned-gate claim is withdrawn; (5) the BIRD live-agent study and the adapted AWM comparison were added; (6) the adaptive-task attempts and their gates are disclosed.
 
-What changed in the revised paper, in short:
-(1) The contribution is restated as safe automation of the program an engineer would write, with matching that program as the intended result.
-(2) An eleven-repository end-to-end study grades final answers.
-(3) There are one-mechanism-at-a-time and drift studies.
-(4) The learned-gate claim is withdrawn.
-(5) The BIRD live-agent study and the adapted AWM comparison are added.
-(6) The adaptive-task attempts are disclosed with their gates.
-
-If these changes address your concerns about the incremental value, we would be grateful if you would consider revisiting your score. Thank you again for the careful review.
+We are glad to answer anything further during the discussion period.
