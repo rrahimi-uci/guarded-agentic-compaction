@@ -2,7 +2,8 @@
 
 All changes are on branch `paper/rebuttal-audit-and-answers`; the paper on `main` is untouched until the
 PR is merged. Each change comes from a finding in [`audit.md`](audit.md) (item numbers refer to its
-disposition table). The main text still ends on page 10, and the PDF is still 64 pages.
+disposition table). The main text still ends on page 10. A layout fix (below the table) removed a forced page break and
+a float-only page, so the PDF is now 63 pages; no text changed in that fix.
 
 **Does any change alter a headline result?** No reported number changed value. Two sentences that
 carry headline numbers were corrected, and both changes make the claim narrower or more exact, not
@@ -31,10 +32,16 @@ more favourable:
 | 11 | `sections/evaluation.tex` | "with gate multiplicity controlled by the Bonferroni term" | "with threshold-grid multiplicity controlled by the Bonferroni term" | The term covers thresholds, not candidate selection (10) |
 | 12 | `tables/compiler_decisions.tex` caption | "92/92 clean groups, bound 0.0498 ≤ 0.05" | "92/92 clean groups, per-candidate bound 0.0498 ≤ 0.05" | Per-candidate qualifier missing (14) |
 
+**Layout fix (no wording change).** Two appendix pages were mostly empty. `sections/adaptive_gates_appendix.tex`
+had a `\pagebreak` before the Appendix L "Decision" paragraph, which left most of a page blank; it is
+removed. Table 46 (`tab:compiler-comparison`, Appendix N) was a `[t]` float at the end of the file, did not
+fit on the last text page, and sat alone on its own page above and below a large gap; it now sits between
+the two Appendix N paragraphs with `[!h]` placement. Table, section and appendix numbers are unchanged.
+
 **Left unchanged, with reasons, in `audit.md`:** items 5, 6, 16, 17 and 19. Item 19 is "40 under the
 corrected grader", which rests on a protocol note rather than a retained regraded result; it stays in
 the paper with its citation, but the replies do not use it.
 
-**Build:** `tectonic --outdir build main.tex` from `paper/iclr/`. The output is 64 pages, and §8
+**Build:** `tectonic --outdir build main.tex` from `paper/iclr/`. The output is 63 pages, and §8
 (Conclusion) ends on page 10. `paper/iclr/build/main.pdf`, `paper/iclr/main-final.pdf` and
 `paper/iclr/upload/GAC_ICLR2027_revised.pdf` are refreshed from that build.

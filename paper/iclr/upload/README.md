@@ -6,9 +6,9 @@ Status: ready for the author to upload. Nothing here has been posted to OpenRevi
 
 - File: [`GAC_ICLR2027_revised.pdf`](GAC_ICLR2027_revised.pdf), a copy of `paper/iclr/build/main.pdf`
   (also copied to `paper/iclr/main-final.pdf`).
-- 64 pages; the main text ends on page 10 (the ICLR limit). Built with `tectonic --outdir build main.tex`
+- 63 pages; the main text ends on page 10 (the ICLR limit). Built with `tectonic --outdir build main.tex`
   from `paper/iclr/`.
-- SHA-256: `1fd43add1212132ece81f55873f4d0c09dd9788f1bcb53de87ccc6d397163641`. Record it next to the
+- SHA-256: `a9161ce03f8a5cbaaa817f26f60af7b8212187a6ab0fc9b888e0003772c80eda`. Record it next to the
   upload date when you upload.
 - The revised abstract for the OpenReview form is `../snippets/abstract_for_openreview.txt`.
 - This build includes the 2026-11-08 audit corrections listed in `paper/reviews/paper-changes.md`.

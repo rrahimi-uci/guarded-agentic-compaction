@@ -3,7 +3,7 @@
 Reviews: `ICLR-1.txt` (R1, rating 1, confidence 3), `ICLR-2.txt` (R2, rating 1, confidence 4),
 `ICLR-3.txt` (R3, rating 2, confidence 3). The reviewers read the September 24 submission
 (`openreview_submitted.pdf`, 36 pages); section, table and appendix numbers below are those of the
-revised 64-page build (`paper/iclr/upload/GAC_ICLR2027_revised.pdf`) unless marked "reviewed".
+revised 63-page build (`paper/iclr/upload/GAC_ICLR2027_revised.pdf`) unless marked "reviewed".
 
 Classes:
 
