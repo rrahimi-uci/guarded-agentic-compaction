@@ -1351,6 +1351,40 @@ def validate_compiler_funnel_pilot() -> None:
     ok((base / "README.md").exists(), "funnel pilot: README present")
 
 
+def validate_expansion_synthesis() -> None:
+    """The expansion-plan evidence synthesis: power table regenerates, drafts exist, nothing is input."""
+
+    import importlib.util
+
+    power = PAPER / "results/expansion_synthesis/power.json"
+    ok(power.exists(), "expansion synthesis: power.json exists")
+    data = load(power)
+    if not data:
+        return
+    fl = data.get("admission_floors", {})
+    ok(fl.get("registered_grid", {}).get("0") == 92 and fl.get("single_rule_95", {}).get("0") == 59,
+       "expansion synthesis: admission floors agree with the gate (92) and gac-expansion.md section 15 (59)")
+    table_path = PAPER / "iclr/tables/expansion_power.tex"
+    ok(table_path.exists(), "expansion synthesis: power table exists")
+    if table_path.exists():
+        spec = importlib.util.spec_from_file_location("expansion_power_table", PAPER / "scripts/expansion_power_table.py")
+        module = importlib.util.module_from_spec(spec)
+        assert spec.loader is not None
+        spec.loader.exec_module(module)
+        ok(module.build() == data, "expansion synthesis: power.json regenerates from the script")
+        ok(module.table(data) == table_path.read_text(encoding="utf-8"),
+           "expansion synthesis: power table regenerates byte-identically from power.json")
+    for rel in ("supplementary/expansion-evidence-synthesis.md", "iclr/sections/expansion_evidence_draft.tex"):
+        ok((PAPER / rel).exists(), f"expansion synthesis: {rel} present")
+    main_tex = (PAPER / "iclr/main.tex").read_text(encoding="utf-8") + (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8")
+    ok("expansion_evidence_draft" not in main_tex and r"\input{tables/expansion_power.tex}" not in main_tex,
+       "expansion synthesis: the draft section and its table are not input by the ICLR build")
+    draft = (PAPER / "iclr/sections/expansion_evidence_draft.tex").read_text(encoding="utf-8")
+    for t in ("interior_census", "compiler_funnel", "compiler_funnel_pilot", "expansion_power"):
+        ok(f"tables/{t}.tex" in draft and (PAPER / f"iclr/tables/{t}.tex").exists(),
+           f"expansion synthesis: the draft inputs an existing table {t}")
+
+
 def validate_demo_suite() -> None:
     """Recompute the Tier-3 table from raw results rather than trusting the .tex.
 
@@ -4451,6 +4485,7 @@ FAMILIES: dict[str, Any] = {
     "interior_census": validate_interior_census,
     "compiler_funnel": validate_compiler_funnel,
     "compiler_funnel_pilot": validate_compiler_funnel_pilot,
+    "expansion_synthesis": validate_expansion_synthesis,
     "demo_suite": validate_demo_suite,
     "multidomain_preflight": validate_multidomain_preflight,
     "offline_comparator": validate_offline_comparator,
