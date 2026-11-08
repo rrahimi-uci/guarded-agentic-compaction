@@ -1204,6 +1204,57 @@ def validate_interior_census() -> None:
     ok((PAPER / "results/interior_census/README.md").exists(), "interior census: README present")
 
 
+def validate_compiler_funnel() -> None:
+    """The provider-free same-IR compiler funnel: registered protocol, reproduction of retained decisions, table."""
+
+    import importlib.util
+
+    path = PAPER / "results/compiler_funnel/results.json"
+    ok(path.exists(), "compiler funnel: results.json exists")
+    data = load(path)
+    if not data:
+        return
+    protocol = PAPER / "supplementary/compiler-funnel-protocol.md"
+    ok(protocol.exists() and sha256(protocol) == data.get("protocol", {}).get("sha256"),
+       "compiler funnel: the registered protocol is unchanged since the run")
+    ok(data.get("policies") == {"full": {"grounding": True, "alpha": 0.05}, "support_only": {"grounding": True, "alpha": 1.0},
+                                "recurrence_only": {"grounding": False, "alpha": 1.0}, "stats_only": {"grounding": False, "alpha": 0.05}},
+       "compiler funnel: the four registered policies")
+    rows = [r for r in data.get("cohorts", []) if "policies" in r]
+    ok(len(rows) == 13 and {r["cohort"] for r in rows} >= {"issue_type", "pr_outcome", "backlog_attention"},
+       "compiler funnel: thirteen cohorts ran (three primary families and ten repositories)")
+    for r in rows:
+        ok(r["reproduction"].get("checked") and r["reproduction"].get("ok"),
+           f"compiler funnel: {r['cohort']} full policy reproduces the retained decision")
+        full = r["policies"]["full"]
+        support = r["policies"]["support_only"]
+        ok([a["tools"] for a in full["artifacts"] if not a["gate_retire"]] == [a["tools"] for a in support["artifacts"] if not a["gate_retire"]],
+           f"compiler funnel: {r['cohort']} support-only admits what the full policy admits")
+        for d in r["divergence"]:
+            cr = d["calibration_replay"]
+            ok(cr["gate_calibration_samples"] is not None and
+               cr["gate_calibration_violations"] + cr["gate_calibration_unproductive"] <= cr["gate_calibration_samples"],
+               f"compiler funnel: {r['cohort']} divergence replay counts are consistent")
+    summ = data.get("summary", {})
+    div = [(r["cohort"], d) for r in rows for d in r["divergence"]]
+    ok(summ.get("divergent_candidates") == len(div) and summ.get("cohorts_with_divergence") == len({c for c, _ in div})
+       and summ.get("divergence_replay_violations") == sum(d["calibration_replay"]["gate_calibration_violations"] for _, d in div)
+       and summ.get("cohorts_reproducing_retained_decision") == len(rows),
+       "compiler funnel: summary follows the per-cohort rows")
+    table_path = PAPER / "iclr/tables/compiler_funnel.tex"
+    ok(table_path.exists(), "compiler funnel: table exists")
+    if table_path.exists():
+        spec = importlib.util.spec_from_file_location("compiler_funnel", PAPER / "scripts/compiler_funnel.py")
+        module = importlib.util.module_from_spec(spec)
+        assert spec.loader is not None
+        spec.loader.exec_module(module)
+        ok(module.table(data) == table_path.read_text(encoding="utf-8"),
+           "compiler funnel: table regenerates byte-identically from results.json")
+    ok(r"\input{tables/compiler_funnel.tex}" not in (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8"),
+       "compiler funnel: the table is expansion-plan evidence and is not input by the ICLR appendix")
+    ok((PAPER / "results/compiler_funnel/README.md").exists(), "compiler funnel: README present")
+
+
 
 def validate_demo_suite() -> None:
     """Recompute the Tier-3 table from raw results rather than trusting the .tex.
@@ -4303,6 +4354,7 @@ FAMILIES: dict[str, Any] = {
     "nestful": validate_nestful,
     "prefix_census": validate_prefix_census,
     "interior_census": validate_interior_census,
+    "compiler_funnel": validate_compiler_funnel,
     "demo_suite": validate_demo_suite,
     "multidomain_preflight": validate_multidomain_preflight,
     "offline_comparator": validate_offline_comparator,
