@@ -1,0 +1,3431 @@
+{
+  "corpora": [
+    {
+      "arm": "primary",
+      "boundaries_per_trace": {
+        "max": 30,
+        "mean": 13.291,
+        "median": 13.0,
+        "min": 2,
+        "n": 1980
+      },
+      "calls_ingested_per_trace": {
+        "max": 27,
+        "mean": 7.215,
+        "median": 7.0,
+        "min": 0,
+        "n": 1980
+      },
+      "calls_per_trace": {
+        "max": 27,
+        "mean": 7.215,
+        "median": 7.0,
+        "min": 0,
+        "n": 1980
+      },
+      "catalog": {
+        "path": "benchmarks/contracts/effects/taubench.yaml",
+        "sha256": "c9409dd87dcd18130f6ba70672dcc98333bff88ff66a00c8d52f515c9366eb73"
+      },
+      "catalog_version": "taubench-historical-trajectories@1#e393a2d542d376cd",
+      "corpus": "taubench",
+      "dataset": "sierra-research/tau-bench historical_trajectories",
+      "frontier": {
+        "all_read_only_within_ingested": 0,
+        "frontier_call_index": {
+          "max": 5,
+          "mean": 0.14,
+          "median": 0.0,
+          "min": 0,
+          "n": 1980
+        },
+        "share_all_read_only": 0.0
+      },
+      "groups": 165,
+      "ingestion": {
+        "max_calls": 60,
+        "pass1_episodes": 1980,
+        "stopped_by": {
+          "None": 1980
+        }
+      },
+      "interior_read_only_runs": {
+        "max_run_histogram": {
+          "0": 63,
+          "1": 233,
+          "10": 9,
+          "11": 4,
+          "13": 1,
+          "16": 1,
+          "2": 391,
+          "3": 375,
+          "4": 339,
+          "5": 270,
+          "6": 172,
+          "7": 68,
+          "8": 43,
+          "9": 11
+        },
+        "runs_ge2_per_trace": {
+          "max": 20,
+          "mean": 3.019,
+          "median": 3.0,
+          "min": 0,
+          "n": 1980
+        },
+        "share_any_run_ge2": 0.8505050505050505,
+        "share_beyond_frontier_run_ge2": 0.847979797979798
+      },
+      "label": "tau-bench historical runs",
+      "license": "MIT",
+      "policies": {
+        "projected": {
+          "beyond_frontier_groundable_ge2": {
+            "count": 1306,
+            "histogram": {
+              "0": 674,
+              "10": 1,
+              "11": 3,
+              "2": 461,
+              "3": 347,
+              "4": 236,
+              "5": 143,
+              "6": 61,
+              "7": 41,
+              "8": 5,
+              "9": 8
+            },
+            "length_among_ge2": {
+              "max": 11,
+              "mean": 3.392,
+              "median": 3.0,
+              "min": 2,
+              "n": 1306
+            },
+            "live_in_kinds": {
+              "entry": 68,
+              "prior": 1277
+            },
+            "removed_requests": {
+              "max": 11,
+              "mean": 3.392,
+              "median": 3.0,
+              "min": 2,
+              "n": 1306
+            },
+            "share": 0.6595959595959596,
+            "start_call_index": {
+              "max": 10,
+              "mean": 2.377,
+              "median": 2.0,
+              "min": 0,
+              "n": 1306
+            }
+          },
+          "blocked_window_candidates": {
+            "ambiguous_slot": 307,
+            "barrier_event": 14815,
+            "effect_capability": 576,
+            "effect_write": 1580,
+            "partial_run": 6309,
+            "ungrounded_slot": 3566
+          },
+          "families_any_interior": {
+            "n": 166,
+            "n_max": 96
+          },
+          "families_beyond_frontier": {
+            "at_floor_ge3": 45,
+            "at_or_above_92": 1,
+            "n": 165,
+            "n_max": 96,
+            "top": [
+              {
+                "episodes": 822,
+                "family_hash": "63390559d2bd",
+                "length": 2,
+                "live_in": [
+                  "prior:get_user_details"
+                ],
+                "removed_requests": 2,
+                "run_lengths": [
+                  2
+                ],
+                "support": 96,
+                "tools": [
+                  "get_order_details"
+                ]
+              },
+              {
+                "episodes": 549,
+                "family_hash": "20e2189598ae",
+                "length": 3,
+                "live_in": [
+                  "prior:get_user_details"
+                ],
+                "removed_requests": 3,
+                "run_lengths": [
+                  3
+                ],
+                "support": 76,
+                "tools": [
+                  "get_order_details"
+                ]
+              },
+              {
+                "episodes": 270,
+                "family_hash": "f64b4af34f5c",
+                "length": 4,
+                "live_in": [
+                  "prior:get_user_details"
+                ],
+                "removed_requests": 4,
+                "run_lengths": [
+                  4
+                ],
+                "support": 38,
+                "tools": [
+                  "get_order_details"
+                ]
+              },
+              {
+                "episodes": 127,
+                "family_hash": "caaa62a1c3dc",
+                "length": 2,
+                "live_in": [
+                  "prior:get_user_details"
+                ],
+                "removed_requests": 2,
+                "run_lengths": [
+                  1,
+                  1
+                ],
+                "support": 31,
+                "tools": [
+                  "get_order_details",
+                  "get_product_details"
+                ]
+              },
+              {
+                "episodes": 213,
+                "family_hash": "8fbb3d1e012f",
+                "length": 2,
+                "live_in": [
+                  "prior:get_user_details"
+                ],
+                "removed_requests": 2,
+                "run_lengths": [
+                  2
+                ],
+                "support": 29,
+                "tools": [
+                  "get_reservation_details"
+                ]
+              },
+              {
+                "episodes": 59,
+                "family_hash": "ba9b127376ca",
+                "length": 2,
+                "live_in": [
+                  "prior:get_order_details"
+                ],
+                "removed_requests": 2,
+                "run_lengths": [
+                  1,
+                  1
+                ],
+                "support": 29,
+                "tools": [
+                  "list_all_product_types",
+                  "get_product_details"
+                ]
+              },
+              {
+                "episodes": 151,
+                "family_hash": "f6d2ed1e643b",
+                "length": 2,
+                "live_in": [
+                  "prior:get_order_details"
+                ],
+                "removed_requests": 2,
+                "run_lengths": [
+                  2
+                ],
+                "support": 25,
+                "tools": [
+                  "get_product_details"
+                ]
+              },
+              {
+                "episodes": 179,
+                "family_hash": "15f3b453e855",
+                "length": 3,
+                "live_in": [
+                  "prior:get_user_details"
+                ],
+                "removed_requests": 3,
+                "run_lengths": [
+                  3
+                ],
+                "support": 24,
+                "tools": [
+                  "get_reservation_details"
+                ]
+              }
+            ]
+          },
+          "h1": {
+            "floor": 92,
+            "floor_ok": true,
+            "pass": true,
+            "share_ok": true,
+            "share_threshold": 0.2
+          },
+          "interior_groundable_ge2": {
+            "count": 1306,
+            "histogram": {
+              "0": 674,
+              "10": 1,
+              "11": 3,
+              "2": 461,
+              "3": 347,
+              "4": 236,
+              "5": 143,
+              "6": 61,
+              "7": 41,
+              "8": 5,
+              "9": 8
+            },
+            "share": 0.6595959595959596
+          }
+        },
+        "strict": {
+          "beyond_frontier_groundable_ge2": {
+            "count": 76,
+            "histogram": {
+              "0": 1904,
+              "2": 33,
+              "3": 13,
+              "4": 1,
+              "5": 10,
+              "6": 14,
+              "7": 2,
+              "8": 3
+            },
+            "length_among_ge2": {
+              "max": 8,
+              "mean": 3.697,
+              "median": 3.0,
+              "min": 2,
+              "n": 76
+            },
+            "live_in_kinds": {
+              "entry": 67
+            },
+            "removed_requests": {
+              "max": 8,
+              "mean": 3.697,
+              "median": 3.0,
+              "min": 2,
+              "n": 76
+            },
+            "share": 0.03838383838383838,
+            "start_call_index": {
+              "max": 10,
+              "mean": 1.605,
+              "median": 1.0,
+              "min": 0,
+              "n": 76
+            }
+          },
+          "blocked_window_candidates": {
+            "ambiguous_slot": 307,
+            "barrier_event": 14815,
+            "effect_capability": 576,
+            "effect_write": 1580,
+            "live_in_not_in_entry_schema": 3631,
+            "partial_run": 6309,
+            "ungrounded_slot": 3566
+          },
+          "families_any_interior": {
+            "n": 19,
+            "n_max": 3
+          },
+          "families_beyond_frontier": {
+            "at_floor_ge3": 2,
+            "at_or_above_92": 0,
+            "n": 18,
+            "n_max": 3,
+            "top": [
+              {
+                "episodes": 12,
+                "family_hash": "c222fcc35f89",
+                "length": 2,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 2,
+                "run_lengths": [
+                  1,
+                  1
+                ],
+                "support": 3,
+                "tools": [
+                  "list_all_product_types",
+                  "get_product_details"
+                ]
+              },
+              {
+                "episodes": 4,
+                "family_hash": "d412a5187786",
+                "length": 2,
+                "live_in": [],
+                "removed_requests": 2,
+                "run_lengths": [
+                  1,
+                  1
+                ],
+                "support": 3,
+                "tools": [
+                  "list_all_product_types",
+                  "get_product_details"
+                ]
+              },
+              {
+                "episodes": 15,
+                "family_hash": "d1becf5eea25",
+                "length": 6,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 6,
+                "run_lengths": [
+                  1,
+                  5
+                ],
+                "support": 2,
+                "tools": [
+                  "get_user_details",
+                  "get_order_details"
+                ]
+              },
+              {
+                "episodes": 5,
+                "family_hash": "0d661055e69a",
+                "length": 3,
+                "live_in": [],
+                "removed_requests": 3,
+                "run_lengths": [
+                  1,
+                  2
+                ],
+                "support": 1,
+                "tools": [
+                  "list_all_product_types",
+                  "get_product_details"
+                ]
+              },
+              {
+                "episodes": 4,
+                "family_hash": "2457087b6826",
+                "length": 7,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 7,
+                "run_lengths": [
+                  1,
+                  1,
+                  5
+                ],
+                "support": 1,
+                "tools": [
+                  "get_user_details",
+                  "list_all_product_types",
+                  "get_order_details"
+                ]
+              },
+              {
+                "episodes": 1,
+                "family_hash": "348a43127916",
+                "length": 5,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 5,
+                "run_lengths": [
+                  1,
+                  4
+                ],
+                "support": 1,
+                "tools": [
+                  "get_user_details",
+                  "get_order_details"
+                ]
+              },
+              {
+                "episodes": 3,
+                "family_hash": "5fa5327db897",
+                "length": 8,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 8,
+                "run_lengths": [
+                  1,
+                  1,
+                  5,
+                  1
+                ],
+                "support": 1,
+                "tools": [
+                  "get_user_details",
+                  "list_all_product_types",
+                  "get_order_details",
+                  "get_product_details"
+                ]
+              },
+              {
+                "episodes": 9,
+                "family_hash": "7bc3a70e1df6",
+                "length": 5,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 5,
+                "run_lengths": [
+                  1,
+                  4
+                ],
+                "support": 1,
+                "tools": [
+                  "get_user_details",
+                  "get_reservation_details"
+                ]
+              }
+            ]
+          },
+          "h1": {
+            "floor": 92,
+            "floor_ok": false,
+            "pass": false,
+            "share_ok": false,
+            "share_threshold": 0.2
+          },
+          "interior_groundable_ge2": {
+            "count": 84,
+            "histogram": {
+              "0": 1896,
+              "2": 41,
+              "3": 13,
+              "4": 1,
+              "5": 10,
+              "6": 14,
+              "7": 2,
+              "8": 3
+            },
+            "share": 0.04242424242424243
+          }
+        }
+      },
+      "revision": "59a200c6d575d595120f1cb70fea53cef0632f6b",
+      "runtime_seconds": 25.4,
+      "sample": {
+        "k": 1,
+        "rule": "keep iff sha1(episode_id) mod k == 0",
+        "smoke": {
+          "arms": 2,
+          "budget_seconds": 5400,
+          "corpus": "taubench",
+          "expected_sample": 1980,
+          "k": 1,
+          "seconds_per_trace": 0.0185,
+          "smoke_seconds": 3.7,
+          "smoke_traces": 200,
+          "total_records": 1980
+        }
+      },
+      "scaffold": "tau-bench function-calling ReAct, conversational",
+      "sources": {
+        "files_verified": 5,
+        "revision": "59a200c6d575d595120f1cb70fea53cef0632f6b",
+        "sha256": {
+          "LICENSE": "243d23d45b80122b5ac575586ccef352fdc9c45e6d7d2605449aca8a17478b42",
+          "gpt-4o-airline.json": "e9e6c0297660c537f83d4fd9c476ce7a9a86ecd2784874b7bfc13be598e37bfa",
+          "gpt-4o-retail.json": "df01707894836168ff0ec9616b0bf08f66c7e5afcf313e5fe4f7a2f5c2ec938b",
+          "sonnet-35-new-airline.json": "fe62fcd514b855b36f156dd4c3c7748597b392b006aff739b53337a9f3ba94d1",
+          "sonnet-35-new-retail.json": "0df526398e9d2720c32d340815cffb04fe8c4f8a61b1f4f84bf3bb558f760131"
+        }
+      },
+      "traces": 1980
+    },
+    {
+      "arm": "pre_tool_user_turns_folded",
+      "boundaries_per_trace": {
+        "max": 30,
+        "mean": 12.198,
+        "median": 12.0,
+        "min": 1,
+        "n": 1980
+      },
+      "calls_ingested_per_trace": {
+        "max": 27,
+        "mean": 7.215,
+        "median": 7.0,
+        "min": 0,
+        "n": 1980
+      },
+      "calls_per_trace": {
+        "max": 27,
+        "mean": 7.215,
+        "median": 7.0,
+        "min": 0,
+        "n": 1980
+      },
+      "catalog": {
+        "path": "benchmarks/contracts/effects/taubench.yaml",
+        "sha256": "c9409dd87dcd18130f6ba70672dcc98333bff88ff66a00c8d52f515c9366eb73"
+      },
+      "catalog_version": "taubench-historical-trajectories@1#e393a2d542d376cd",
+      "corpus": "taubench",
+      "dataset": "sierra-research/tau-bench historical_trajectories",
+      "frontier": {
+        "all_read_only_within_ingested": 2,
+        "frontier_call_index": {
+          "max": 10,
+          "mean": 2.382,
+          "median": 2.0,
+          "min": 0,
+          "n": 1978
+        },
+        "share_all_read_only": 0.00101010101010101
+      },
+      "groups": 165,
+      "ingestion": {
+        "max_calls": 60,
+        "pass1_episodes": 1980,
+        "stopped_by": {
+          "None": 1980
+        }
+      },
+      "interior_read_only_runs": {
+        "max_run_histogram": {
+          "0": 113,
+          "1": 292,
+          "10": 2,
+          "11": 4,
+          "13": 1,
+          "16": 1,
+          "2": 383,
+          "3": 423,
+          "4": 315,
+          "5": 256,
+          "6": 88,
+          "7": 78,
+          "8": 11,
+          "9": 13
+        },
+        "runs_ge2_per_trace": {
+          "max": 19,
+          "mean": 2.542,
+          "median": 2.0,
+          "min": 0,
+          "n": 1980
+        },
+        "share_any_run_ge2": 0.7954545454545454,
+        "share_beyond_frontier_run_ge2": 0.5696969696969697
+      },
+      "label": "tau-bench historical runs",
+      "license": "MIT",
+      "policies": {
+        "projected": {
+          "beyond_frontier_groundable_ge2": {
+            "count": 902,
+            "histogram": {
+              "0": 1078,
+              "10": 1,
+              "11": 3,
+              "2": 350,
+              "3": 242,
+              "4": 166,
+              "5": 86,
+              "6": 40,
+              "7": 10,
+              "8": 3,
+              "9": 1
+            },
+            "length_among_ge2": {
+              "max": 11,
+              "mean": 3.222,
+              "median": 3.0,
+              "min": 2,
+              "n": 902
+            },
+            "live_in_kinds": {
+              "entry": 82,
+              "prior": 869
+            },
+            "removed_requests": {
+              "max": 11,
+              "mean": 3.222,
+              "median": 3.0,
+              "min": 2,
+              "n": 902
+            },
+            "share": 0.45555555555555555,
+            "start_call_index": {
+              "max": 10,
+              "mean": 2.962,
+              "median": 3.0,
+              "min": 1,
+              "n": 902
+            }
+          },
+          "blocked_window_candidates": {
+            "ambiguous_slot": 310,
+            "barrier_event": 12805,
+            "effect_capability": 551,
+            "effect_write": 1575,
+            "partial_run": 5175,
+            "ungrounded_slot": 1960
+          },
+          "families_any_interior": {
+            "n": 169,
+            "n_max": 96
+          },
+          "families_beyond_frontier": {
+            "at_floor_ge3": 46,
+            "at_or_above_92": 1,
+            "n": 156,
+            "n_max": 95,
+            "top": [
+              {
+                "episodes": 573,
+                "family_hash": "63390559d2bd",
+                "length": 2,
+                "live_in": [
+                  "prior:get_user_details"
+                ],
+                "removed_requests": 2,
+                "run_lengths": [
+                  2
+                ],
+                "support": 95,
+                "tools": [
+                  "get_order_details"
+                ]
+              },
+              {
+                "episodes": 397,
+                "family_hash": "20e2189598ae",
+                "length": 3,
+                "live_in": [
+                  "prior:get_user_details"
+                ],
+                "removed_requests": 3,
+                "run_lengths": [
+                  3
+                ],
+                "support": 73,
+                "tools": [
+                  "get_order_details"
+                ]
+              },
+              {
+                "episodes": 189,
+                "family_hash": "f64b4af34f5c",
+                "length": 4,
+                "live_in": [
+                  "prior:get_user_details"
+                ],
+                "removed_requests": 4,
+                "run_lengths": [
+                  4
+                ],
+                "support": 37,
+                "tools": [
+                  "get_order_details"
+                ]
+              },
+              {
+                "episodes": 59,
+                "family_hash": "ba9b127376ca",
+                "length": 2,
+                "live_in": [
+                  "prior:get_order_details"
+                ],
+                "removed_requests": 2,
+                "run_lengths": [
+                  1,
+                  1
+                ],
+                "support": 29,
+                "tools": [
+                  "list_all_product_types",
+                  "get_product_details"
+                ]
+              },
+              {
+                "episodes": 68,
+                "family_hash": "caaa62a1c3dc",
+                "length": 2,
+                "live_in": [
+                  "prior:get_user_details"
+                ],
+                "removed_requests": 2,
+                "run_lengths": [
+                  1,
+                  1
+                ],
+                "support": 25,
+                "tools": [
+                  "get_order_details",
+                  "get_product_details"
+                ]
+              },
+              {
+                "episodes": 150,
+                "family_hash": "f6d2ed1e643b",
+                "length": 2,
+                "live_in": [
+                  "prior:get_order_details"
+                ],
+                "removed_requests": 2,
+                "run_lengths": [
+                  2
+                ],
+                "support": 25,
+                "tools": [
+                  "get_product_details"
+                ]
+              },
+              {
+                "episodes": 33,
+                "family_hash": "62a5fecbfe2c",
+                "length": 4,
+                "live_in": [
+                  "prior:get_user_details"
+                ],
+                "removed_requests": 4,
+                "run_lengths": [
+                  3,
+                  1
+                ],
+                "support": 19,
+                "tools": [
+                  "get_order_details",
+                  "get_product_details"
+                ]
+              },
+              {
+                "episodes": 37,
+                "family_hash": "d450f3dc22eb",
+                "length": 3,
+                "live_in": [
+                  "prior:get_user_details"
+                ],
+                "removed_requests": 3,
+                "run_lengths": [
+                  2,
+                  1
+                ],
+                "support": 19,
+                "tools": [
+                  "get_order_details",
+                  "get_product_details"
+                ]
+              }
+            ]
+          },
+          "h1": {
+            "floor": 92,
+            "floor_ok": true,
+            "pass": true,
+            "share_ok": true,
+            "share_threshold": 0.2
+          },
+          "interior_groundable_ge2": {
+            "count": 1333,
+            "histogram": {
+              "0": 647,
+              "10": 1,
+              "11": 3,
+              "2": 482,
+              "3": 320,
+              "4": 275,
+              "5": 135,
+              "6": 63,
+              "7": 41,
+              "8": 5,
+              "9": 8
+            },
+            "share": 0.6732323232323232
+          }
+        },
+        "strict": {
+          "beyond_frontier_groundable_ge2": {
+            "count": 87,
+            "histogram": {
+              "0": 1893,
+              "2": 29,
+              "3": 13,
+              "4": 27,
+              "5": 1,
+              "6": 15,
+              "7": 1,
+              "8": 1
+            },
+            "length_among_ge2": {
+              "max": 8,
+              "mean": 3.621,
+              "median": 4,
+              "min": 2,
+              "n": 87
+            },
+            "live_in_kinds": {
+              "entry": 78
+            },
+            "removed_requests": {
+              "max": 8,
+              "mean": 3.621,
+              "median": 4,
+              "min": 2,
+              "n": 87
+            },
+            "share": 0.04393939393939394,
+            "start_call_index": {
+              "max": 10,
+              "mean": 2.678,
+              "median": 2,
+              "min": 1,
+              "n": 87
+            }
+          },
+          "blocked_window_candidates": {
+            "ambiguous_slot": 310,
+            "barrier_event": 12805,
+            "effect_capability": 551,
+            "effect_write": 1575,
+            "live_in_not_in_entry_schema": 3631,
+            "partial_run": 5175,
+            "ungrounded_slot": 1960
+          },
+          "families_any_interior": {
+            "n": 22,
+            "n_max": 11
+          },
+          "families_beyond_frontier": {
+            "at_floor_ge3": 4,
+            "at_or_above_92": 0,
+            "n": 15,
+            "n_max": 10,
+            "top": [
+              {
+                "episodes": 28,
+                "family_hash": "f2317ca6fe5a",
+                "length": 4,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 4,
+                "run_lengths": [
+                  1,
+                  3
+                ],
+                "support": 10,
+                "tools": [
+                  "get_user_details",
+                  "get_order_details"
+                ]
+              },
+              {
+                "episodes": 22,
+                "family_hash": "bc597cdc643d",
+                "length": 2,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 2,
+                "run_lengths": [
+                  1,
+                  1
+                ],
+                "support": 9,
+                "tools": [
+                  "get_user_details",
+                  "get_order_details"
+                ]
+              },
+              {
+                "episodes": 8,
+                "family_hash": "86ece3b38061",
+                "length": 3,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 3,
+                "run_lengths": [
+                  1,
+                  2
+                ],
+                "support": 3,
+                "tools": [
+                  "get_user_details",
+                  "get_order_details"
+                ]
+              },
+              {
+                "episodes": 4,
+                "family_hash": "d412a5187786",
+                "length": 2,
+                "live_in": [],
+                "removed_requests": 2,
+                "run_lengths": [
+                  1,
+                  1
+                ],
+                "support": 3,
+                "tools": [
+                  "list_all_product_types",
+                  "get_product_details"
+                ]
+              },
+              {
+                "episodes": 2,
+                "family_hash": "3e38eaf162e7",
+                "length": 6,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 6,
+                "run_lengths": [
+                  1,
+                  3,
+                  2
+                ],
+                "support": 2,
+                "tools": [
+                  "get_user_details",
+                  "get_order_details",
+                  "get_product_details"
+                ]
+              },
+              {
+                "episodes": 14,
+                "family_hash": "d1becf5eea25",
+                "length": 6,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 6,
+                "run_lengths": [
+                  1,
+                  5
+                ],
+                "support": 2,
+                "tools": [
+                  "get_user_details",
+                  "get_order_details"
+                ]
+              },
+              {
+                "episodes": 5,
+                "family_hash": "0d661055e69a",
+                "length": 3,
+                "live_in": [],
+                "removed_requests": 3,
+                "run_lengths": [
+                  1,
+                  2
+                ],
+                "support": 1,
+                "tools": [
+                  "list_all_product_types",
+                  "get_product_details"
+                ]
+              },
+              {
+                "episodes": 1,
+                "family_hash": "2457087b6826",
+                "length": 7,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 7,
+                "run_lengths": [
+                  1,
+                  1,
+                  5
+                ],
+                "support": 1,
+                "tools": [
+                  "get_user_details",
+                  "list_all_product_types",
+                  "get_order_details"
+                ]
+              }
+            ]
+          },
+          "h1": {
+            "floor": 92,
+            "floor_ok": false,
+            "pass": false,
+            "share_ok": false,
+            "share_threshold": 0.2
+          },
+          "interior_groundable_ge2": {
+            "count": 145,
+            "histogram": {
+              "0": 1835,
+              "2": 70,
+              "3": 16,
+              "4": 34,
+              "5": 4,
+              "6": 16,
+              "7": 2,
+              "8": 3
+            },
+            "share": 0.07323232323232323
+          }
+        }
+      },
+      "revision": "59a200c6d575d595120f1cb70fea53cef0632f6b",
+      "runtime_seconds": 28.9,
+      "sample": {
+        "k": 1,
+        "rule": "keep iff sha1(episode_id) mod k == 0",
+        "smoke": {
+          "arms": 2,
+          "budget_seconds": 5400,
+          "corpus": "taubench",
+          "expected_sample": 1980,
+          "k": 1,
+          "seconds_per_trace": 0.0185,
+          "smoke_seconds": 3.7,
+          "smoke_traces": 200,
+          "total_records": 1980
+        }
+      },
+      "scaffold": "tau-bench function-calling ReAct, conversational",
+      "sources": {
+        "files_verified": 5,
+        "revision": "59a200c6d575d595120f1cb70fea53cef0632f6b",
+        "sha256": {
+          "LICENSE": "243d23d45b80122b5ac575586ccef352fdc9c45e6d7d2605449aca8a17478b42",
+          "gpt-4o-airline.json": "e9e6c0297660c537f83d4fd9c476ce7a9a86ecd2784874b7bfc13be598e37bfa",
+          "gpt-4o-retail.json": "df01707894836168ff0ec9616b0bf08f66c7e5afcf313e5fe4f7a2f5c2ec938b",
+          "sonnet-35-new-airline.json": "fe62fcd514b855b36f156dd4c3c7748597b392b006aff739b53337a9f3ba94d1",
+          "sonnet-35-new-retail.json": "0df526398e9d2720c32d340815cffb04fe8c4f8a61b1f4f84bf3bb558f760131"
+        }
+      },
+      "traces": 1980
+    },
+    {
+      "arm": "primary",
+      "boundaries_per_trace": {
+        "max": 163,
+        "mean": 23.096,
+        "median": 17.0,
+        "min": 0,
+        "n": 80036
+      },
+      "calls_ingested_per_trace": {
+        "max": 60,
+        "mean": 23.095,
+        "median": 17.0,
+        "min": 0,
+        "n": 80036
+      },
+      "calls_per_trace": {
+        "max": 408,
+        "mean": 26.432,
+        "median": 17.0,
+        "min": 0,
+        "n": 80036
+      },
+      "catalog": {
+        "path": "benchmarks/contracts/effects/sweagent_nebius.yaml",
+        "sha256": "470954cf2b623c8596ad10876b10d005498159867fe2a42307513f497c1f1aa0"
+      },
+      "catalog_version": "sweagent-legacy-released-trajectories@1#8da29ceadf31f586",
+      "corpus": "sweagent",
+      "dataset": "nebius/SWE-agent-trajectories",
+      "frontier": {
+        "all_read_only_within_ingested": 674,
+        "frontier_call_index": {
+          "max": 55,
+          "mean": 1.442,
+          "median": 0.0,
+          "min": 0,
+          "n": 79362
+        },
+        "share_all_read_only": 0.008421210455295118
+      },
+      "groups": 3591,
+      "ingestion": {
+        "max_calls": 60,
+        "pass1_episodes": 80036,
+        "stopped_by": {
+          "None": 74514,
+          "max_calls": 5522
+        }
+      },
+      "interior_read_only_runs": {
+        "max_run_histogram": {
+          "0": 5675,
+          "1": 13405,
+          "10": 1193,
+          "11": 923,
+          "12": 749,
+          "13": 591,
+          "14": 470,
+          "15": 405,
+          "16": 362,
+          "17": 264,
+          "18": 266,
+          "19": 288,
+          "2": 13363,
+          "20": 277,
+          "21": 283,
+          "22": 328,
+          "23": 280,
+          "24": 247,
+          "25": 208,
+          "26": 193,
+          "27": 146,
+          "28": 141,
+          "29": 137,
+          "3": 12013,
+          "30": 122,
+          "31": 107,
+          "32": 102,
+          "33": 106,
+          "34": 86,
+          "35": 97,
+          "36": 88,
+          "37": 70,
+          "38": 62,
+          "39": 77,
+          "4": 9440,
+          "40": 59,
+          "41": 65,
+          "42": 48,
+          "43": 57,
+          "44": 58,
+          "45": 55,
+          "46": 50,
+          "47": 32,
+          "48": 53,
+          "49": 30,
+          "5": 5729,
+          "50": 61,
+          "51": 53,
+          "52": 40,
+          "53": 60,
+          "54": 64,
+          "55": 80,
+          "56": 69,
+          "57": 134,
+          "58": 24,
+          "59": 183,
+          "6": 3951,
+          "7": 2888,
+          "8": 2073,
+          "9": 1556
+        },
+        "runs_ge2_per_trace": {
+          "max": 58,
+          "mean": 5.493,
+          "median": 2.0,
+          "min": 0,
+          "n": 80036
+        },
+        "share_any_run_ge2": 0.7616072767254736,
+        "share_beyond_frontier_run_ge2": 0.6000299865060723
+      },
+      "label": "SWE-agent (nebius)",
+      "license": "CC-BY-4.0",
+      "policies": {
+        "projected": {
+          "beyond_frontier_groundable_ge2": {
+            "count": 9825,
+            "histogram": {
+              "0": 70211,
+              "10": 85,
+              "11": 83,
+              "12": 912,
+              "2": 4887,
+              "3": 1879,
+              "4": 842,
+              "5": 476,
+              "6": 268,
+              "7": 154,
+              "8": 135,
+              "9": 104
+            },
+            "length_among_ge2": {
+              "max": 12,
+              "mean": 3.925,
+              "median": 3,
+              "min": 2,
+              "n": 9825
+            },
+            "live_in_kinds": {
+              "entry": 2730
+            },
+            "removed_requests": {
+              "max": 12,
+              "mean": 3.925,
+              "median": 3,
+              "min": 2,
+              "n": 9825
+            },
+            "share": 0.12275725923334499,
+            "start_call_index": {
+              "max": 58,
+              "mean": 10.525,
+              "median": 8,
+              "min": 1,
+              "n": 9825
+            }
+          },
+          "blocked_window_candidates": {
+            "effect_unknown": 554753,
+            "effect_write": 966859,
+            "partial_run": 887636,
+            "ungrounded_slot": 1396837
+          },
+          "families_any_interior": {
+            "n": 2844,
+            "n_max": 1925
+          },
+          "families_beyond_frontier": {
+            "at_floor_ge3": 663,
+            "at_or_above_92": 54,
+            "n": 2470,
+            "n_max": 1713,
+            "top": [
+              {
+                "episodes": 5365,
+                "family_hash": "8cb8144b80fb",
+                "length": 2,
+                "live_in": [],
+                "removed_requests": 2,
+                "run_lengths": [
+                  2
+                ],
+                "support": 1713,
+                "tools": [
+                  "scroll_down"
+                ]
+              },
+              {
+                "episodes": 2736,
+                "family_hash": "426e57e2c4ef",
+                "length": 3,
+                "live_in": [],
+                "removed_requests": 3,
+                "run_lengths": [
+                  3
+                ],
+                "support": 1165,
+                "tools": [
+                  "scroll_down"
+                ]
+              },
+              {
+                "episodes": 1715,
+                "family_hash": "108a6b078e28",
+                "length": 4,
+                "live_in": [],
+                "removed_requests": 4,
+                "run_lengths": [
+                  4
+                ],
+                "support": 877,
+                "tools": [
+                  "scroll_down"
+                ]
+              },
+              {
+                "episodes": 1371,
+                "family_hash": "ec3581b9dfa7",
+                "length": 2,
+                "live_in": [],
+                "removed_requests": 2,
+                "run_lengths": [
+                  2
+                ],
+                "support": 742,
+                "tools": [
+                  "scroll_up"
+                ]
+              },
+              {
+                "episodes": 1186,
+                "family_hash": "4dc0da6caedf",
+                "length": 2,
+                "live_in": [],
+                "removed_requests": 2,
+                "run_lengths": [
+                  1,
+                  1
+                ],
+                "support": 710,
+                "tools": [
+                  "scroll_down",
+                  "scroll_up"
+                ]
+              },
+              {
+                "episodes": 1266,
+                "family_hash": "ea703c2b064d",
+                "length": 5,
+                "live_in": [],
+                "removed_requests": 5,
+                "run_lengths": [
+                  5
+                ],
+                "support": 704,
+                "tools": [
+                  "scroll_down"
+                ]
+              },
+              {
+                "episodes": 982,
+                "family_hash": "0d4b66aa1837",
+                "length": 6,
+                "live_in": [],
+                "removed_requests": 6,
+                "run_lengths": [
+                  6
+                ],
+                "support": 581,
+                "tools": [
+                  "scroll_down"
+                ]
+              },
+              {
+                "episodes": 843,
+                "family_hash": "fecbfdfc7406",
+                "length": 7,
+                "live_in": [],
+                "removed_requests": 7,
+                "run_lengths": [
+                  7
+                ],
+                "support": 512,
+                "tools": [
+                  "scroll_down"
+                ]
+              }
+            ]
+          },
+          "h1": {
+            "floor": 92,
+            "floor_ok": true,
+            "pass": false,
+            "share_ok": false,
+            "share_threshold": 0.2
+          },
+          "interior_groundable_ge2": {
+            "count": 12614,
+            "histogram": {
+              "0": 67422,
+              "10": 100,
+              "11": 100,
+              "12": 1063,
+              "2": 6375,
+              "3": 2475,
+              "4": 1063,
+              "5": 594,
+              "6": 351,
+              "7": 202,
+              "8": 157,
+              "9": 134
+            },
+            "share": 0.15760407816482583
+          }
+        },
+        "strict": {
+          "beyond_frontier_groundable_ge2": {
+            "count": 9825,
+            "histogram": {
+              "0": 70211,
+              "10": 85,
+              "11": 83,
+              "12": 912,
+              "2": 4887,
+              "3": 1879,
+              "4": 842,
+              "5": 476,
+              "6": 268,
+              "7": 154,
+              "8": 135,
+              "9": 104
+            },
+            "length_among_ge2": {
+              "max": 12,
+              "mean": 3.925,
+              "median": 3,
+              "min": 2,
+              "n": 9825
+            },
+            "live_in_kinds": {
+              "entry": 2730
+            },
+            "removed_requests": {
+              "max": 12,
+              "mean": 3.925,
+              "median": 3,
+              "min": 2,
+              "n": 9825
+            },
+            "share": 0.12275725923334499,
+            "start_call_index": {
+              "max": 58,
+              "mean": 10.525,
+              "median": 8,
+              "min": 1,
+              "n": 9825
+            }
+          },
+          "blocked_window_candidates": {
+            "effect_unknown": 554753,
+            "effect_write": 966859,
+            "partial_run": 887636,
+            "ungrounded_slot": 1396837
+          },
+          "families_any_interior": {
+            "n": 2844,
+            "n_max": 1925
+          },
+          "families_beyond_frontier": {
+            "at_floor_ge3": 663,
+            "at_or_above_92": 54,
+            "n": 2470,
+            "n_max": 1713,
+            "top": [
+              {
+                "episodes": 5365,
+                "family_hash": "8cb8144b80fb",
+                "length": 2,
+                "live_in": [],
+                "removed_requests": 2,
+                "run_lengths": [
+                  2
+                ],
+                "support": 1713,
+                "tools": [
+                  "scroll_down"
+                ]
+              },
+              {
+                "episodes": 2736,
+                "family_hash": "426e57e2c4ef",
+                "length": 3,
+                "live_in": [],
+                "removed_requests": 3,
+                "run_lengths": [
+                  3
+                ],
+                "support": 1165,
+                "tools": [
+                  "scroll_down"
+                ]
+              },
+              {
+                "episodes": 1715,
+                "family_hash": "108a6b078e28",
+                "length": 4,
+                "live_in": [],
+                "removed_requests": 4,
+                "run_lengths": [
+                  4
+                ],
+                "support": 877,
+                "tools": [
+                  "scroll_down"
+                ]
+              },
+              {
+                "episodes": 1371,
+                "family_hash": "ec3581b9dfa7",
+                "length": 2,
+                "live_in": [],
+                "removed_requests": 2,
+                "run_lengths": [
+                  2
+                ],
+                "support": 742,
+                "tools": [
+                  "scroll_up"
+                ]
+              },
+              {
+                "episodes": 1186,
+                "family_hash": "4dc0da6caedf",
+                "length": 2,
+                "live_in": [],
+                "removed_requests": 2,
+                "run_lengths": [
+                  1,
+                  1
+                ],
+                "support": 710,
+                "tools": [
+                  "scroll_down",
+                  "scroll_up"
+                ]
+              },
+              {
+                "episodes": 1266,
+                "family_hash": "ea703c2b064d",
+                "length": 5,
+                "live_in": [],
+                "removed_requests": 5,
+                "run_lengths": [
+                  5
+                ],
+                "support": 704,
+                "tools": [
+                  "scroll_down"
+                ]
+              },
+              {
+                "episodes": 982,
+                "family_hash": "0d4b66aa1837",
+                "length": 6,
+                "live_in": [],
+                "removed_requests": 6,
+                "run_lengths": [
+                  6
+                ],
+                "support": 581,
+                "tools": [
+                  "scroll_down"
+                ]
+              },
+              {
+                "episodes": 843,
+                "family_hash": "fecbfdfc7406",
+                "length": 7,
+                "live_in": [],
+                "removed_requests": 7,
+                "run_lengths": [
+                  7
+                ],
+                "support": 512,
+                "tools": [
+                  "scroll_down"
+                ]
+              }
+            ]
+          },
+          "h1": {
+            "floor": 92,
+            "floor_ok": true,
+            "pass": false,
+            "share_ok": false,
+            "share_threshold": 0.2
+          },
+          "interior_groundable_ge2": {
+            "count": 12614,
+            "histogram": {
+              "0": 67422,
+              "10": 100,
+              "11": 100,
+              "12": 1063,
+              "2": 6375,
+              "3": 2475,
+              "4": 1063,
+              "5": 594,
+              "6": 351,
+              "7": 202,
+              "8": 157,
+              "9": 134
+            },
+            "share": 0.15760407816482583
+          }
+        }
+      },
+      "revision": "68195a1450865274106246d0d0296a1d6807b88e",
+      "runtime_seconds": 2338.2,
+      "sample": {
+        "k": 1,
+        "rule": "keep iff sha1(episode_id) mod k == 0",
+        "smoke": {
+          "arms": 2,
+          "budget_seconds": 5400,
+          "corpus": "sweagent",
+          "expected_sample": 80036,
+          "k": 1,
+          "seconds_per_trace": 0.0111,
+          "smoke_seconds": 2.2,
+          "smoke_traces": 200,
+          "total_records": 80036
+        }
+      },
+      "scaffold": "SWE-agent legacy text-action ReAct",
+      "sources": {
+        "files_verified": 13,
+        "revision": "68195a1450865274106246d0d0296a1d6807b88e",
+        "sha256": {
+          "README.md": "81cbf0ee9f00e45aff9eb90ebe7f59e714ca7135b9b78a90d5227f866021f564",
+          "data/train-00000-of-00012.parquet": "5a395e8c7bb8ddc4b8f4d268506b3a0e2cf9b5ec3922600117322fe788067a13",
+          "data/train-00001-of-00012.parquet": "fca106cce0f09891c2fadc032fb304da9ae5a7c31d2a39eb7ec70a7bdd4a9882",
+          "data/train-00002-of-00012.parquet": "fc28c2ab014c6c90d72026dda9cf8753e37b4b7b128c05c4232980cdcc99f3f7",
+          "data/train-00003-of-00012.parquet": "b6a4e13118de1792b383c077bf6023881a9ff5d4c171a75e767ffb5ad7c037c5",
+          "data/train-00004-of-00012.parquet": "d1a8d8d3bafbfd589d32a42d4b0a321f107d9aab170e3dc2f749b0f252a958c5",
+          "data/train-00005-of-00012.parquet": "c507212cd721512240a1bb87a8554bb7b429a9c03649c1473eb3d9e4673e6aca",
+          "data/train-00006-of-00012.parquet": "fcad81ec5704cb2dc8502a70a1a6cd86a7032227d8de7a613d904636ee53337c",
+          "data/train-00007-of-00012.parquet": "65547ce464ae1bbff550eacfcfec251ee1cb9b439744389a66bb97a8d5aa1cdb",
+          "data/train-00008-of-00012.parquet": "bfbd9a58fc9494b49ebd73d5f5e6836a72ae557cbc7ee59d2b2e3f91e3d44027",
+          "data/train-00009-of-00012.parquet": "8b4c45d8811f0fbbbc5fc46157312ddccb010c439d9e18289ae3ca3e5387ff09",
+          "data/train-00010-of-00012.parquet": "419e02daa099343e73d45d298b64e574ee012398ebbe19e5798526e5f1336b12",
+          "data/train-00011-of-00012.parquet": "7c3ccb843bab5457e29a82d9a36a3d59b8e1778c1d97324643c5f85a0d3f9492"
+        }
+      },
+      "traces": 80036
+    },
+    {
+      "arm": "shell_reads_admitted",
+      "boundaries_per_trace": {
+        "max": 163,
+        "mean": 23.096,
+        "median": 17.0,
+        "min": 0,
+        "n": 80036
+      },
+      "calls_ingested_per_trace": {
+        "max": 60,
+        "mean": 23.095,
+        "median": 17.0,
+        "min": 0,
+        "n": 80036
+      },
+      "calls_per_trace": {
+        "max": 408,
+        "mean": 26.432,
+        "median": 17.0,
+        "min": 0,
+        "n": 80036
+      },
+      "catalog": {
+        "path": "benchmarks/contracts/effects/sweagent_nebius.yaml",
+        "sha256": "470954cf2b623c8596ad10876b10d005498159867fe2a42307513f497c1f1aa0"
+      },
+      "catalog_version": "sweagent-legacy-released-trajectories-arm-shell-reads@1#be3e8b5c12e46c85",
+      "corpus": "sweagent",
+      "dataset": "nebius/SWE-agent-trajectories",
+      "frontier": {
+        "all_read_only_within_ingested": 1469,
+        "frontier_call_index": {
+          "max": 59,
+          "mean": 2.47,
+          "median": 0,
+          "min": 0,
+          "n": 78567
+        },
+        "share_all_read_only": 0.01835424059173372
+      },
+      "groups": 3591,
+      "ingestion": {
+        "max_calls": 60,
+        "pass1_episodes": 80036,
+        "stopped_by": {
+          "None": 74514,
+          "max_calls": 5522
+        }
+      },
+      "interior_read_only_runs": {
+        "max_run_histogram": {
+          "0": 4797,
+          "1": 10040,
+          "10": 1648,
+          "11": 1297,
+          "12": 1031,
+          "13": 831,
+          "14": 672,
+          "15": 541,
+          "16": 496,
+          "17": 386,
+          "18": 321,
+          "19": 337,
+          "2": 9947,
+          "20": 292,
+          "21": 333,
+          "22": 352,
+          "23": 287,
+          "24": 312,
+          "25": 275,
+          "26": 236,
+          "27": 187,
+          "28": 189,
+          "29": 192,
+          "3": 11484,
+          "30": 170,
+          "31": 147,
+          "32": 145,
+          "33": 136,
+          "34": 116,
+          "35": 127,
+          "36": 106,
+          "37": 93,
+          "38": 101,
+          "39": 82,
+          "4": 9706,
+          "40": 75,
+          "41": 89,
+          "42": 85,
+          "43": 79,
+          "44": 82,
+          "45": 71,
+          "46": 74,
+          "47": 48,
+          "48": 65,
+          "49": 55,
+          "5": 6801,
+          "50": 69,
+          "51": 77,
+          "52": 67,
+          "53": 75,
+          "54": 75,
+          "55": 143,
+          "56": 67,
+          "57": 298,
+          "58": 34,
+          "59": 404,
+          "6": 5031,
+          "7": 3810,
+          "8": 2809,
+          "9": 2141
+        },
+        "runs_ge2_per_trace": {
+          "max": 58,
+          "mean": 6.795,
+          "median": 3.0,
+          "min": 0,
+          "n": 80036
+        },
+        "share_any_run_ge2": 0.8146209205857364,
+        "share_beyond_frontier_run_ge2": 0.5403693337997901
+      },
+      "label": "SWE-agent (nebius)",
+      "license": "CC-BY-4.0",
+      "policies": {
+        "projected": {
+          "beyond_frontier_groundable_ge2": {
+            "count": 8445,
+            "histogram": {
+              "0": 71591,
+              "10": 71,
+              "11": 77,
+              "12": 783,
+              "2": 4178,
+              "3": 1618,
+              "4": 746,
+              "5": 407,
+              "6": 230,
+              "7": 132,
+              "8": 115,
+              "9": 88
+            },
+            "length_among_ge2": {
+              "max": 12,
+              "mean": 3.931,
+              "median": 3,
+              "min": 2,
+              "n": 8445
+            },
+            "live_in_kinds": {
+              "entry": 2329
+            },
+            "removed_requests": {
+              "max": 12,
+              "mean": 3.931,
+              "median": 3,
+              "min": 2,
+              "n": 8445
+            },
+            "share": 0.1055150182417912,
+            "start_call_index": {
+              "max": 58,
+              "mean": 11.285,
+              "median": 9,
+              "min": 1,
+              "n": 8445
+            }
+          },
+          "blocked_window_candidates": {
+            "effect_unknown": 429618,
+            "effect_write": 1033647,
+            "partial_run": 1158970,
+            "ungrounded_slot": 1946576
+          },
+          "families_any_interior": {
+            "n": 3054,
+            "n_max": 1925
+          },
+          "families_beyond_frontier": {
+            "at_floor_ge3": 615,
+            "at_or_above_92": 47,
+            "n": 2385,
+            "n_max": 1482,
+            "top": [
+              {
+                "episodes": 4322,
+                "family_hash": "8cb8144b80fb",
+                "length": 2,
+                "live_in": [],
+                "removed_requests": 2,
+                "run_lengths": [
+                  2
+                ],
+                "support": 1482,
+                "tools": [
+                  "scroll_down"
+                ]
+              },
+              {
+                "episodes": 2254,
+                "family_hash": "426e57e2c4ef",
+                "length": 3,
+                "live_in": [],
+                "removed_requests": 3,
+                "run_lengths": [
+                  3
+                ],
+                "support": 1001,
+                "tools": [
+                  "scroll_down"
+                ]
+              },
+              {
+                "episodes": 1420,
+                "family_hash": "108a6b078e28",
+                "length": 4,
+                "live_in": [],
+                "removed_requests": 4,
+                "run_lengths": [
+                  4
+                ],
+                "support": 750,
+                "tools": [
+                  "scroll_down"
+                ]
+              },
+              {
+                "episodes": 1194,
+                "family_hash": "ec3581b9dfa7",
+                "length": 2,
+                "live_in": [],
+                "removed_requests": 2,
+                "run_lengths": [
+                  2
+                ],
+                "support": 647,
+                "tools": [
+                  "scroll_up"
+                ]
+              },
+              {
+                "episodes": 1047,
+                "family_hash": "ea703c2b064d",
+                "length": 5,
+                "live_in": [],
+                "removed_requests": 5,
+                "run_lengths": [
+                  5
+                ],
+                "support": 594,
+                "tools": [
+                  "scroll_down"
+                ]
+              },
+              {
+                "episodes": 989,
+                "family_hash": "4dc0da6caedf",
+                "length": 2,
+                "live_in": [],
+                "removed_requests": 2,
+                "run_lengths": [
+                  1,
+                  1
+                ],
+                "support": 587,
+                "tools": [
+                  "scroll_down",
+                  "scroll_up"
+                ]
+              },
+              {
+                "episodes": 819,
+                "family_hash": "0d4b66aa1837",
+                "length": 6,
+                "live_in": [],
+                "removed_requests": 6,
+                "run_lengths": [
+                  6
+                ],
+                "support": 490,
+                "tools": [
+                  "scroll_down"
+                ]
+              },
+              {
+                "episodes": 708,
+                "family_hash": "fecbfdfc7406",
+                "length": 7,
+                "live_in": [],
+                "removed_requests": 7,
+                "run_lengths": [
+                  7
+                ],
+                "support": 436,
+                "tools": [
+                  "scroll_down"
+                ]
+              }
+            ]
+          },
+          "h1": {
+            "floor": 92,
+            "floor_ok": true,
+            "pass": false,
+            "share_ok": false,
+            "share_threshold": 0.2
+          },
+          "interior_groundable_ge2": {
+            "count": 13095,
+            "histogram": {
+              "0": 66941,
+              "10": 101,
+              "11": 101,
+              "12": 1069,
+              "2": 6591,
+              "3": 2622,
+              "4": 1137,
+              "5": 613,
+              "6": 363,
+              "7": 206,
+              "8": 157,
+              "9": 135
+            },
+            "share": 0.16361387375680944
+          }
+        },
+        "strict": {
+          "beyond_frontier_groundable_ge2": {
+            "count": 8445,
+            "histogram": {
+              "0": 71591,
+              "10": 71,
+              "11": 77,
+              "12": 783,
+              "2": 4178,
+              "3": 1618,
+              "4": 746,
+              "5": 407,
+              "6": 230,
+              "7": 132,
+              "8": 115,
+              "9": 88
+            },
+            "length_among_ge2": {
+              "max": 12,
+              "mean": 3.931,
+              "median": 3,
+              "min": 2,
+              "n": 8445
+            },
+            "live_in_kinds": {
+              "entry": 2329
+            },
+            "removed_requests": {
+              "max": 12,
+              "mean": 3.931,
+              "median": 3,
+              "min": 2,
+              "n": 8445
+            },
+            "share": 0.1055150182417912,
+            "start_call_index": {
+              "max": 58,
+              "mean": 11.285,
+              "median": 9,
+              "min": 1,
+              "n": 8445
+            }
+          },
+          "blocked_window_candidates": {
+            "effect_unknown": 429618,
+            "effect_write": 1033647,
+            "partial_run": 1158970,
+            "ungrounded_slot": 1946576
+          },
+          "families_any_interior": {
+            "n": 3054,
+            "n_max": 1925
+          },
+          "families_beyond_frontier": {
+            "at_floor_ge3": 615,
+            "at_or_above_92": 47,
+            "n": 2385,
+            "n_max": 1482,
+            "top": [
+              {
+                "episodes": 4322,
+                "family_hash": "8cb8144b80fb",
+                "length": 2,
+                "live_in": [],
+                "removed_requests": 2,
+                "run_lengths": [
+                  2
+                ],
+                "support": 1482,
+                "tools": [
+                  "scroll_down"
+                ]
+              },
+              {
+                "episodes": 2254,
+                "family_hash": "426e57e2c4ef",
+                "length": 3,
+                "live_in": [],
+                "removed_requests": 3,
+                "run_lengths": [
+                  3
+                ],
+                "support": 1001,
+                "tools": [
+                  "scroll_down"
+                ]
+              },
+              {
+                "episodes": 1420,
+                "family_hash": "108a6b078e28",
+                "length": 4,
+                "live_in": [],
+                "removed_requests": 4,
+                "run_lengths": [
+                  4
+                ],
+                "support": 750,
+                "tools": [
+                  "scroll_down"
+                ]
+              },
+              {
+                "episodes": 1194,
+                "family_hash": "ec3581b9dfa7",
+                "length": 2,
+                "live_in": [],
+                "removed_requests": 2,
+                "run_lengths": [
+                  2
+                ],
+                "support": 647,
+                "tools": [
+                  "scroll_up"
+                ]
+              },
+              {
+                "episodes": 1047,
+                "family_hash": "ea703c2b064d",
+                "length": 5,
+                "live_in": [],
+                "removed_requests": 5,
+                "run_lengths": [
+                  5
+                ],
+                "support": 594,
+                "tools": [
+                  "scroll_down"
+                ]
+              },
+              {
+                "episodes": 989,
+                "family_hash": "4dc0da6caedf",
+                "length": 2,
+                "live_in": [],
+                "removed_requests": 2,
+                "run_lengths": [
+                  1,
+                  1
+                ],
+                "support": 587,
+                "tools": [
+                  "scroll_down",
+                  "scroll_up"
+                ]
+              },
+              {
+                "episodes": 819,
+                "family_hash": "0d4b66aa1837",
+                "length": 6,
+                "live_in": [],
+                "removed_requests": 6,
+                "run_lengths": [
+                  6
+                ],
+                "support": 490,
+                "tools": [
+                  "scroll_down"
+                ]
+              },
+              {
+                "episodes": 708,
+                "family_hash": "fecbfdfc7406",
+                "length": 7,
+                "live_in": [],
+                "removed_requests": 7,
+                "run_lengths": [
+                  7
+                ],
+                "support": 436,
+                "tools": [
+                  "scroll_down"
+                ]
+              }
+            ]
+          },
+          "h1": {
+            "floor": 92,
+            "floor_ok": true,
+            "pass": false,
+            "share_ok": false,
+            "share_threshold": 0.2
+          },
+          "interior_groundable_ge2": {
+            "count": 13095,
+            "histogram": {
+              "0": 66941,
+              "10": 101,
+              "11": 101,
+              "12": 1069,
+              "2": 6591,
+              "3": 2622,
+              "4": 1137,
+              "5": 613,
+              "6": 363,
+              "7": 206,
+              "8": 157,
+              "9": 135
+            },
+            "share": 0.16361387375680944
+          }
+        }
+      },
+      "revision": "68195a1450865274106246d0d0296a1d6807b88e",
+      "runtime_seconds": 2337.7,
+      "sample": {
+        "k": 1,
+        "rule": "keep iff sha1(episode_id) mod k == 0",
+        "smoke": {
+          "arms": 2,
+          "budget_seconds": 5400,
+          "corpus": "sweagent",
+          "expected_sample": 80036,
+          "k": 1,
+          "seconds_per_trace": 0.0111,
+          "smoke_seconds": 2.2,
+          "smoke_traces": 200,
+          "total_records": 80036
+        }
+      },
+      "scaffold": "SWE-agent legacy text-action ReAct",
+      "sources": {
+        "files_verified": 13,
+        "revision": "68195a1450865274106246d0d0296a1d6807b88e",
+        "sha256": {
+          "README.md": "81cbf0ee9f00e45aff9eb90ebe7f59e714ca7135b9b78a90d5227f866021f564",
+          "data/train-00000-of-00012.parquet": "5a395e8c7bb8ddc4b8f4d268506b3a0e2cf9b5ec3922600117322fe788067a13",
+          "data/train-00001-of-00012.parquet": "fca106cce0f09891c2fadc032fb304da9ae5a7c31d2a39eb7ec70a7bdd4a9882",
+          "data/train-00002-of-00012.parquet": "fc28c2ab014c6c90d72026dda9cf8753e37b4b7b128c05c4232980cdcc99f3f7",
+          "data/train-00003-of-00012.parquet": "b6a4e13118de1792b383c077bf6023881a9ff5d4c171a75e767ffb5ad7c037c5",
+          "data/train-00004-of-00012.parquet": "d1a8d8d3bafbfd589d32a42d4b0a321f107d9aab170e3dc2f749b0f252a958c5",
+          "data/train-00005-of-00012.parquet": "c507212cd721512240a1bb87a8554bb7b429a9c03649c1473eb3d9e4673e6aca",
+          "data/train-00006-of-00012.parquet": "fcad81ec5704cb2dc8502a70a1a6cd86a7032227d8de7a613d904636ee53337c",
+          "data/train-00007-of-00012.parquet": "65547ce464ae1bbff550eacfcfec251ee1cb9b439744389a66bb97a8d5aa1cdb",
+          "data/train-00008-of-00012.parquet": "bfbd9a58fc9494b49ebd73d5f5e6836a72ae557cbc7ee59d2b2e3f91e3d44027",
+          "data/train-00009-of-00012.parquet": "8b4c45d8811f0fbbbc5fc46157312ddccb010c439d9e18289ae3ca3e5387ff09",
+          "data/train-00010-of-00012.parquet": "419e02daa099343e73d45d298b64e574ee012398ebbe19e5798526e5f1336b12",
+          "data/train-00011-of-00012.parquet": "7c3ccb843bab5457e29a82d9a36a3d59b8e1778c1d97324643c5f85a0d3f9492"
+        }
+      },
+      "traces": 80036
+    },
+    {
+      "arm": "primary",
+      "boundaries_per_trace": {
+        "max": 61,
+        "mean": 54.625,
+        "median": 60,
+        "min": 23,
+        "n": 16711
+      },
+      "calls_ingested_per_trace": {
+        "max": 60,
+        "mean": 54.622,
+        "median": 60,
+        "min": 23,
+        "n": 16711
+      },
+      "calls_per_trace": {
+        "max": 100,
+        "mean": 64.241,
+        "median": 61,
+        "min": 23,
+        "n": 16711
+      },
+      "catalog": {
+        "path": "benchmarks/contracts/effects/openhands_swe_rebench.yaml",
+        "sha256": "a0696f45fdc822dabe65eb119a7cad4a48ef6b7c50c1087a8854bc7d6d4de236"
+      },
+      "catalog_version": "openhands-v0-54-0-released-trajectories@1#2ea419b3bbc0ea57",
+      "corpus": "openhands",
+      "dataset": "nebius/SWE-rebench-openhands-trajectories",
+      "frontier": {
+        "all_read_only_within_ingested": 0,
+        "frontier_call_index": {
+          "max": 14,
+          "mean": 0.7,
+          "median": 0,
+          "min": 0,
+          "n": 16711
+        },
+        "share_all_read_only": 0.0
+      },
+      "groups": 5797,
+      "ingestion": {
+        "max_calls": 60,
+        "pass1_episodes": 16711,
+        "stopped_by": {
+          "None": 7901,
+          "max_calls": 8810
+        }
+      },
+      "interior_read_only_runs": {
+        "max_run_histogram": {
+          "1": 87,
+          "10": 98,
+          "11": 38,
+          "12": 31,
+          "13": 16,
+          "14": 7,
+          "15": 5,
+          "16": 1,
+          "17": 2,
+          "19": 1,
+          "2": 1628,
+          "3": 5425,
+          "30": 1,
+          "4": 4635,
+          "5": 2511,
+          "6": 1193,
+          "7": 622,
+          "8": 264,
+          "9": 146
+        },
+        "runs_ge2_per_trace": {
+          "max": 35,
+          "mean": 6.683,
+          "median": 6,
+          "min": 0,
+          "n": 16711
+        },
+        "share_any_run_ge2": 0.9947938483633535,
+        "share_beyond_frontier_run_ge2": 0.9865956555562204
+      },
+      "label": "OpenHands / SWE-rebench",
+      "license": "CC-BY-4.0",
+      "policies": {
+        "projected": {
+          "beyond_frontier_groundable_ge2": {
+            "count": 12150,
+            "histogram": {
+              "0": 4561,
+              "10": 20,
+              "11": 9,
+              "12": 13,
+              "2": 2801,
+              "3": 5122,
+              "4": 2483,
+              "5": 1029,
+              "6": 380,
+              "7": 186,
+              "8": 62,
+              "9": 45
+            },
+            "length_among_ge2": {
+              "max": 12,
+              "mean": 3.373,
+              "median": 3.0,
+              "min": 2,
+              "n": 12150
+            },
+            "live_in_kinds": {
+              "entry": 12150
+            },
+            "removed_requests": {
+              "max": 12,
+              "mean": 3.373,
+              "median": 3.0,
+              "min": 2,
+              "n": 12150
+            },
+            "share": 0.7270660044282209,
+            "start_call_index": {
+              "max": 58,
+              "mean": 4.766,
+              "median": 1.0,
+              "min": 1,
+              "n": 12150
+            }
+          },
+          "blocked_window_candidates": {
+            "barrier_event": 64,
+            "effect_capability": 48344,
+            "effect_unknown": 636037,
+            "effect_write": 194293,
+            "partial_run": 97902,
+            "ungrounded_slot": 69639
+          },
+          "families_any_interior": {
+            "n": 71,
+            "n_max": 4485
+          },
+          "families_beyond_frontier": {
+            "at_floor_ge3": 39,
+            "at_or_above_92": 12,
+            "n": 70,
+            "n_max": 4345,
+            "top": [
+              {
+                "episodes": 9635,
+                "family_hash": "42f401e0049a",
+                "length": 2,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 2,
+                "run_lengths": [
+                  2
+                ],
+                "support": 4345,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 7707,
+                "family_hash": "7b660447f1f3",
+                "length": 3,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 3,
+                "run_lengths": [
+                  3
+                ],
+                "support": 3787,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 4490,
+                "family_hash": "8c18f776efb6",
+                "length": 2,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 2,
+                "run_lengths": [
+                  2
+                ],
+                "support": 2530,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 3503,
+                "family_hash": "eadb1cc0fafe",
+                "length": 4,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 4,
+                "run_lengths": [
+                  4
+                ],
+                "support": 2111,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 2045,
+                "family_hash": "4b91f7746e09",
+                "length": 3,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 3,
+                "run_lengths": [
+                  3
+                ],
+                "support": 1449,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 1474,
+                "family_hash": "f689e55013fc",
+                "length": 5,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 5,
+                "run_lengths": [
+                  5
+                ],
+                "support": 997,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 808,
+                "family_hash": "bc27d8145640",
+                "length": 4,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 4,
+                "run_lengths": [
+                  4
+                ],
+                "support": 641,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 603,
+                "family_hash": "83986ef746f0",
+                "length": 6,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 6,
+                "run_lengths": [
+                  6
+                ],
+                "support": 429,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              }
+            ]
+          },
+          "h1": {
+            "floor": 92,
+            "floor_ok": true,
+            "pass": true,
+            "share_ok": true,
+            "share_threshold": 0.2
+          },
+          "interior_groundable_ge2": {
+            "count": 12968,
+            "histogram": {
+              "0": 3743,
+              "10": 37,
+              "11": 15,
+              "12": 22,
+              "2": 2825,
+              "3": 5340,
+              "4": 2720,
+              "5": 1142,
+              "6": 463,
+              "7": 247,
+              "8": 89,
+              "9": 68
+            },
+            "share": 0.7760157979773802
+          }
+        },
+        "strict": {
+          "beyond_frontier_groundable_ge2": {
+            "count": 12150,
+            "histogram": {
+              "0": 4561,
+              "10": 20,
+              "11": 9,
+              "12": 13,
+              "2": 2801,
+              "3": 5122,
+              "4": 2483,
+              "5": 1029,
+              "6": 380,
+              "7": 186,
+              "8": 62,
+              "9": 45
+            },
+            "length_among_ge2": {
+              "max": 12,
+              "mean": 3.373,
+              "median": 3.0,
+              "min": 2,
+              "n": 12150
+            },
+            "live_in_kinds": {
+              "entry": 12150
+            },
+            "removed_requests": {
+              "max": 12,
+              "mean": 3.373,
+              "median": 3.0,
+              "min": 2,
+              "n": 12150
+            },
+            "share": 0.7270660044282209,
+            "start_call_index": {
+              "max": 58,
+              "mean": 4.766,
+              "median": 1.0,
+              "min": 1,
+              "n": 12150
+            }
+          },
+          "blocked_window_candidates": {
+            "barrier_event": 64,
+            "effect_capability": 48344,
+            "effect_unknown": 636037,
+            "effect_write": 194293,
+            "partial_run": 97902,
+            "ungrounded_slot": 69639
+          },
+          "families_any_interior": {
+            "n": 71,
+            "n_max": 4485
+          },
+          "families_beyond_frontier": {
+            "at_floor_ge3": 39,
+            "at_or_above_92": 12,
+            "n": 70,
+            "n_max": 4345,
+            "top": [
+              {
+                "episodes": 9635,
+                "family_hash": "42f401e0049a",
+                "length": 2,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 2,
+                "run_lengths": [
+                  2
+                ],
+                "support": 4345,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 7707,
+                "family_hash": "7b660447f1f3",
+                "length": 3,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 3,
+                "run_lengths": [
+                  3
+                ],
+                "support": 3787,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 4490,
+                "family_hash": "8c18f776efb6",
+                "length": 2,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 2,
+                "run_lengths": [
+                  2
+                ],
+                "support": 2530,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 3503,
+                "family_hash": "eadb1cc0fafe",
+                "length": 4,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 4,
+                "run_lengths": [
+                  4
+                ],
+                "support": 2111,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 2045,
+                "family_hash": "4b91f7746e09",
+                "length": 3,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 3,
+                "run_lengths": [
+                  3
+                ],
+                "support": 1449,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 1474,
+                "family_hash": "f689e55013fc",
+                "length": 5,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 5,
+                "run_lengths": [
+                  5
+                ],
+                "support": 997,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 808,
+                "family_hash": "bc27d8145640",
+                "length": 4,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 4,
+                "run_lengths": [
+                  4
+                ],
+                "support": 641,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 603,
+                "family_hash": "83986ef746f0",
+                "length": 6,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 6,
+                "run_lengths": [
+                  6
+                ],
+                "support": 429,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              }
+            ]
+          },
+          "h1": {
+            "floor": 92,
+            "floor_ok": true,
+            "pass": true,
+            "share_ok": true,
+            "share_threshold": 0.2
+          },
+          "interior_groundable_ge2": {
+            "count": 12968,
+            "histogram": {
+              "0": 3743,
+              "10": 37,
+              "11": 15,
+              "12": 22,
+              "2": 2825,
+              "3": 5340,
+              "4": 2720,
+              "5": 1142,
+              "6": 463,
+              "7": 247,
+              "8": 89,
+              "9": 68
+            },
+            "share": 0.7760157979773802
+          }
+        }
+      },
+      "revision": "35455389ab51bf5e2306bfd436ef72d0f98bf882",
+      "runtime_seconds": 3275.2,
+      "sample": {
+        "k": 4,
+        "rule": "keep iff sha1(episode_id) mod k == 0",
+        "smoke": {
+          "arms": 2,
+          "budget_seconds": 5400,
+          "corpus": "openhands",
+          "expected_sample": 16768,
+          "k": 4,
+          "seconds_per_trace": 0.0826,
+          "smoke_seconds": 16.5,
+          "smoke_traces": 200,
+          "total_records": 67074
+        }
+      },
+      "scaffold": "OpenHands v0.54.0, CodeAct, native function calling",
+      "sources": {
+        "files_verified": 5,
+        "revision": "35455389ab51bf5e2306bfd436ef72d0f98bf882",
+        "sha256": {
+          "LICENSE": "9e5f1b3c610b9c2da5c313bf81d577a7d1acec686bdb0384edefa6df0f90cd94",
+          "README.md": "90fa586c747d9ed1022c28847439489576049cde7de1fdfb80d24b2a0ae77b32",
+          "config.toml": "d77ab00872c0929474c71ae989fe7cf4046706a7fccf19392e4ddb6953322191",
+          "tools.json": "d13c473da05d5cd18f6d2fb23146015585f4159fb64cb819fdc9dd8948caae9d",
+          "trajectories.parquet": "14048dd1fcd22ce094b6e85f8a38f223a9ef1327031aaaad052804870212efa1"
+        }
+      },
+      "traces": 16711
+    },
+    {
+      "arm": "shell_reads_admitted",
+      "boundaries_per_trace": {
+        "max": 61,
+        "mean": 54.625,
+        "median": 60,
+        "min": 23,
+        "n": 16711
+      },
+      "calls_ingested_per_trace": {
+        "max": 60,
+        "mean": 54.622,
+        "median": 60,
+        "min": 23,
+        "n": 16711
+      },
+      "calls_per_trace": {
+        "max": 100,
+        "mean": 64.241,
+        "median": 61,
+        "min": 23,
+        "n": 16711
+      },
+      "catalog": {
+        "path": "benchmarks/contracts/effects/openhands_swe_rebench.yaml",
+        "sha256": "a0696f45fdc822dabe65eb119a7cad4a48ef6b7c50c1087a8854bc7d6d4de236"
+      },
+      "catalog_version": "openhands-v0-54-0-released-trajectories-arm-shell-reads@1#3cb1105565118024",
+      "corpus": "openhands",
+      "dataset": "nebius/SWE-rebench-openhands-trajectories",
+      "frontier": {
+        "all_read_only_within_ingested": 0,
+        "frontier_call_index": {
+          "max": 19,
+          "mean": 0.733,
+          "median": 0,
+          "min": 0,
+          "n": 16711
+        },
+        "share_all_read_only": 0.0
+      },
+      "groups": 5797,
+      "ingestion": {
+        "max_calls": 60,
+        "pass1_episodes": 16711,
+        "stopped_by": {
+          "None": 7901,
+          "max_calls": 8810
+        }
+      },
+      "interior_read_only_runs": {
+        "max_run_histogram": {
+          "1": 79,
+          "10": 161,
+          "11": 77,
+          "12": 51,
+          "13": 36,
+          "14": 22,
+          "15": 17,
+          "16": 10,
+          "17": 7,
+          "18": 4,
+          "19": 2,
+          "2": 1490,
+          "20": 1,
+          "21": 3,
+          "23": 1,
+          "24": 3,
+          "25": 1,
+          "27": 1,
+          "28": 1,
+          "3": 5177,
+          "30": 2,
+          "4": 4506,
+          "5": 2507,
+          "6": 1265,
+          "7": 716,
+          "8": 341,
+          "9": 230
+        },
+        "runs_ge2_per_trace": {
+          "max": 41,
+          "mean": 7.033,
+          "median": 6,
+          "min": 0,
+          "n": 16711
+        },
+        "share_any_run_ge2": 0.9952725749506314,
+        "share_beyond_frontier_run_ge2": 0.9873735862605469
+      },
+      "label": "OpenHands / SWE-rebench",
+      "license": "CC-BY-4.0",
+      "policies": {
+        "projected": {
+          "beyond_frontier_groundable_ge2": {
+            "count": 12383,
+            "histogram": {
+              "0": 4328,
+              "10": 28,
+              "11": 12,
+              "12": 14,
+              "2": 2794,
+              "3": 5193,
+              "4": 2551,
+              "5": 1058,
+              "6": 411,
+              "7": 202,
+              "8": 68,
+              "9": 52
+            },
+            "length_among_ge2": {
+              "max": 12,
+              "mean": 3.402,
+              "median": 3,
+              "min": 2,
+              "n": 12383
+            },
+            "live_in_kinds": {
+              "entry": 12383
+            },
+            "removed_requests": {
+              "max": 12,
+              "mean": 3.402,
+              "median": 3,
+              "min": 2,
+              "n": 12383
+            },
+            "share": 0.7410089162826881,
+            "start_call_index": {
+              "max": 58,
+              "mean": 4.995,
+              "median": 1,
+              "min": 1,
+              "n": 12383
+            }
+          },
+          "blocked_window_candidates": {
+            "barrier_event": 64,
+            "effect_capability": 49465,
+            "effect_unknown": 632834,
+            "effect_write": 195912,
+            "partial_run": 108331,
+            "ungrounded_slot": 84155
+          },
+          "families_any_interior": {
+            "n": 522,
+            "n_max": 4485
+          },
+          "families_beyond_frontier": {
+            "at_floor_ge3": 146,
+            "at_or_above_92": 18,
+            "n": 476,
+            "n_max": 4343,
+            "top": [
+              {
+                "episodes": 9625,
+                "family_hash": "42f401e0049a",
+                "length": 2,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 2,
+                "run_lengths": [
+                  2
+                ],
+                "support": 4343,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 7700,
+                "family_hash": "7b660447f1f3",
+                "length": 3,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 3,
+                "run_lengths": [
+                  3
+                ],
+                "support": 3785,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 4490,
+                "family_hash": "8c18f776efb6",
+                "length": 2,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 2,
+                "run_lengths": [
+                  2
+                ],
+                "support": 2530,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 3496,
+                "family_hash": "eadb1cc0fafe",
+                "length": 4,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 4,
+                "run_lengths": [
+                  4
+                ],
+                "support": 2109,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 2045,
+                "family_hash": "4b91f7746e09",
+                "length": 3,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 3,
+                "run_lengths": [
+                  3
+                ],
+                "support": 1449,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 1468,
+                "family_hash": "f689e55013fc",
+                "length": 5,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 5,
+                "run_lengths": [
+                  5
+                ],
+                "support": 996,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 808,
+                "family_hash": "bc27d8145640",
+                "length": 4,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 4,
+                "run_lengths": [
+                  4
+                ],
+                "support": 641,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 601,
+                "family_hash": "83986ef746f0",
+                "length": 6,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 6,
+                "run_lengths": [
+                  6
+                ],
+                "support": 429,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              }
+            ]
+          },
+          "h1": {
+            "floor": 92,
+            "floor_ok": true,
+            "pass": true,
+            "share_ok": true,
+            "share_threshold": 0.2
+          },
+          "interior_groundable_ge2": {
+            "count": 13193,
+            "histogram": {
+              "0": 3518,
+              "10": 49,
+              "11": 18,
+              "12": 23,
+              "2": 2792,
+              "3": 5414,
+              "4": 2784,
+              "5": 1178,
+              "6": 492,
+              "7": 266,
+              "8": 100,
+              "9": 77
+            },
+            "share": 0.7894799832445695
+          }
+        },
+        "strict": {
+          "beyond_frontier_groundable_ge2": {
+            "count": 12383,
+            "histogram": {
+              "0": 4328,
+              "10": 28,
+              "11": 12,
+              "12": 14,
+              "2": 2794,
+              "3": 5193,
+              "4": 2551,
+              "5": 1058,
+              "6": 411,
+              "7": 202,
+              "8": 68,
+              "9": 52
+            },
+            "length_among_ge2": {
+              "max": 12,
+              "mean": 3.402,
+              "median": 3,
+              "min": 2,
+              "n": 12383
+            },
+            "live_in_kinds": {
+              "entry": 12383
+            },
+            "removed_requests": {
+              "max": 12,
+              "mean": 3.402,
+              "median": 3,
+              "min": 2,
+              "n": 12383
+            },
+            "share": 0.7410089162826881,
+            "start_call_index": {
+              "max": 58,
+              "mean": 4.995,
+              "median": 1,
+              "min": 1,
+              "n": 12383
+            }
+          },
+          "blocked_window_candidates": {
+            "barrier_event": 64,
+            "effect_capability": 49465,
+            "effect_unknown": 632834,
+            "effect_write": 195912,
+            "partial_run": 108331,
+            "ungrounded_slot": 84155
+          },
+          "families_any_interior": {
+            "n": 522,
+            "n_max": 4485
+          },
+          "families_beyond_frontier": {
+            "at_floor_ge3": 146,
+            "at_or_above_92": 18,
+            "n": 476,
+            "n_max": 4343,
+            "top": [
+              {
+                "episodes": 9625,
+                "family_hash": "42f401e0049a",
+                "length": 2,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 2,
+                "run_lengths": [
+                  2
+                ],
+                "support": 4343,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 7700,
+                "family_hash": "7b660447f1f3",
+                "length": 3,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 3,
+                "run_lengths": [
+                  3
+                ],
+                "support": 3785,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 4490,
+                "family_hash": "8c18f776efb6",
+                "length": 2,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 2,
+                "run_lengths": [
+                  2
+                ],
+                "support": 2530,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 3496,
+                "family_hash": "eadb1cc0fafe",
+                "length": 4,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 4,
+                "run_lengths": [
+                  4
+                ],
+                "support": 2109,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 2045,
+                "family_hash": "4b91f7746e09",
+                "length": 3,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 3,
+                "run_lengths": [
+                  3
+                ],
+                "support": 1449,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 1468,
+                "family_hash": "f689e55013fc",
+                "length": 5,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 5,
+                "run_lengths": [
+                  5
+                ],
+                "support": 996,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 808,
+                "family_hash": "bc27d8145640",
+                "length": 4,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 4,
+                "run_lengths": [
+                  4
+                ],
+                "support": 641,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              },
+              {
+                "episodes": 601,
+                "family_hash": "83986ef746f0",
+                "length": 6,
+                "live_in": [
+                  "z.inputs"
+                ],
+                "removed_requests": 6,
+                "run_lengths": [
+                  6
+                ],
+                "support": 429,
+                "tools": [
+                  "str_replace_editor.view"
+                ]
+              }
+            ]
+          },
+          "h1": {
+            "floor": 92,
+            "floor_ok": true,
+            "pass": true,
+            "share_ok": true,
+            "share_threshold": 0.2
+          },
+          "interior_groundable_ge2": {
+            "count": 13193,
+            "histogram": {
+              "0": 3518,
+              "10": 49,
+              "11": 18,
+              "12": 23,
+              "2": 2792,
+              "3": 5414,
+              "4": 2784,
+              "5": 1178,
+              "6": 492,
+              "7": 266,
+              "8": 100,
+              "9": 77
+            },
+            "share": 0.7894799832445695
+          }
+        }
+      },
+      "revision": "35455389ab51bf5e2306bfd436ef72d0f98bf882",
+      "runtime_seconds": 3318.9,
+      "sample": {
+        "k": 4,
+        "rule": "keep iff sha1(episode_id) mod k == 0",
+        "smoke": {
+          "arms": 2,
+          "budget_seconds": 5400,
+          "corpus": "openhands",
+          "expected_sample": 16768,
+          "k": 4,
+          "seconds_per_trace": 0.0826,
+          "smoke_seconds": 16.5,
+          "smoke_traces": 200,
+          "total_records": 67074
+        }
+      },
+      "scaffold": "OpenHands v0.54.0, CodeAct, native function calling",
+      "sources": {
+        "files_verified": 5,
+        "revision": "35455389ab51bf5e2306bfd436ef72d0f98bf882",
+        "sha256": {
+          "LICENSE": "9e5f1b3c610b9c2da5c313bf81d577a7d1acec686bdb0384edefa6df0f90cd94",
+          "README.md": "90fa586c747d9ed1022c28847439489576049cde7de1fdfb80d24b2a0ae77b32",
+          "config.toml": "d77ab00872c0929474c71ae989fe7cf4046706a7fccf19392e4ddb6953322191",
+          "tools.json": "d13c473da05d5cd18f6d2fb23146015585f4159fb64cb819fdc9dd8948caae9d",
+          "trajectories.parquet": "14048dd1fcd22ce094b6e85f8a38f223a9ef1327031aaaad052804870212efa1"
+        }
+      },
+      "traces": 16711
+    }
+  ],
+  "definitions": {
+    "beyond_frontier": "a window whose boundary comes after the prefix frontier; the population the prefix-only compiler cannot reach",
+    "families": "canonical hashes of interior windows (one per episode and hash, the largest); support in distinct groups",
+    "h1": "pass iff, under the primary catalog and the projected policy, beyond-frontier groundable share >= 0.20 and some beyond-frontier family has support >= 92",
+    "interior_boundary": "a MODEL_REQ that is not the first boundary of the trajectory",
+    "interior_groundable_region": "an Algorithm 2 window starting at an interior boundary with every slot LITERAL, NOT_GROUNDABLE or GROUNDED, under the strict (entry-schema) or projected (entry or prior-result) live-in policy",
+    "interior_read_only_run": "consecutive compilable calls from an interior boundary to the next barrier",
+    "prefix_frontier": "the first event that ends the read-only opening: a non-compilable call, a HANDOFF/APPROVAL/GUARDRAIL, or a failed tool result"
+  },
+  "evidence_class": "provider-free trace analysis of released benchmark trajectories; descriptive, not admission",
+  "h1_verdict": {
+    "any_corpus_passes": true,
+    "per_corpus": {
+      "openhands": {
+        "floor": 92,
+        "floor_ok": true,
+        "pass": true,
+        "share_ok": true,
+        "share_threshold": 0.2
+      },
+      "sweagent": {
+        "floor": 92,
+        "floor_ok": true,
+        "pass": false,
+        "share_ok": false,
+        "share_threshold": 0.2
+      },
+      "taubench": {
+        "floor": 92,
+        "floor_ok": true,
+        "pass": true,
+        "share_ok": true,
+        "share_threshold": 0.2
+      }
+    }
+  },
+  "max_calls_ingested": 60,
+  "mining_parameters": {
+    "b_min": 2,
+    "entry_schema": [
+      "inputs"
+    ],
+    "kappa": 3,
+    "max_depth": 2,
+    "w_max": 12,
+    "w_min": 2
+  },
+  "not_evidence_for": [
+    "prevalence in deployed (non-benchmark) agents",
+    "admission, calibration, or dispatch of any artifact",
+    "unchanged continuation after a compiled interior region",
+    "savings in cost (removed requests are counted, not priced)"
+  ],
+  "protocol": {
+    "path": "paper/supplementary/interior-region-census-protocol.md",
+    "sha256": "d2b1c294489ebd4d3992b45e7f302a630e45a27a0938ae68460a9702845114df"
+  },
+  "runtime_seconds": 11325.8,
+  "schema": "gac-interior-census/v1",
+  "script": "paper/scripts/interior_census.py",
+  "snapshot_date": "2026-11-08"
+}
