@@ -52,8 +52,7 @@ made in this pass:
 
 Facts in the replies that are not in the paper, with their sources: EvoC2F's anonymous code
 endpoint returning HTTP 401 (`flip-plans.md`); the 6-10 and 12-16 working-day estimates (author
-estimates in `paper/iclr/notes/review_response_2026-11-06.md`, stated as estimates); BIRD release
-`dev_20240627` (`paper/results/bird/preflight.json`, `paper/supplementary/bird-sql-agent-protocol.md`);
+estimates in `paper/iclr/notes/review_response_2026-11-06.md`, stated as estimates);
 the task field names `open`/`merged`/`closed_unmerged` and `owned`/`discussed_unowned`/
 `awaiting_first_response` (Table 16 and the per-record results files); the single-look no-go
 (item 7). The supplementary files named in the replies exist:
@@ -66,7 +65,7 @@ Table 6 multiplicity (p. 23); Table 14 manual resources (p. 28); Table 16 benchm
 Table 19 multirepo end-to-end (p. 32); Table 20 funnel-all (p. 33); Table 28 certificates (p. 40);
 Table 31 effective units (p. 42); Table 33 recurrence-only (p. 45); Table 37 gate extension (p. 50);
 Table 46 compiler comparison (p. 62); Figure 3 gate floor (p. 24); Eq. (3) dispatch; App. C
-Configuration (labels paragraph p. 20-21); App. D Paired statistics (lifecycle paragraph); App. E
+Configuration (labels paragraph p. 22); App. D Paired statistics (lifecycle paragraph); App. E
 Additional detail ("Primary workflow families"); App. F.2 multirepo e2e (p. 31); App. F.4 external
 map (p. 32); App. G Extended limitations (population audit p. 48; post-cutoff study); App. H
 prospective protocol (p. 48); App. H.1 gate extension (p. 49); App. I live recovery (p. 51); App. K
@@ -117,7 +116,7 @@ Presentational findings from that pass and their disposition:
 | # | Finding | Disposition |
 |---|---|---|
 | C1 | **Cohort mixing in §5.4 (results.tex live-recovery sentence).** 186 -> 205 is the ordinary-response cohort, but "204/216 versus 205/216" and "22/27" come from the capped-response cohort; under ordinary responses the no-completeness arm scores 210/216, better than full (Tables 39-40). The sentence read as one cohort and understated the result against the completeness check. | **Fixed** (`paper-changes.md`, edit 15): the sentence now gives both cohorts. The R2 reply carries the same two numbers. |
-| C2 | Two request-reduction figures for the same BIRD runs: §5.4 and App. F.6 text give 49.6% and 45.8% (all paired first-run pairs, 150 / 629); Table 25 gives 49.9% and 45.9% (complete cases, 149 / 625). Both correct under their denominators. | Left; the table's denominator convention is stated in its caption. Recorded here. |
+| C2 | Two request-reduction figures for the same BIRD runs: §5.2 and App. F.6 text give 49.6% and 45.8% (all paired first-run pairs, 150 / 629); Table 25 gives 49.9% and 45.9% (complete cases, 149 / 625). Both correct under their denominators. | Left; the table's denominator convention is stated in its caption. Recorded here. |
 | C3 | 1,344 (abstract, Table 3 caption) against 1,362 (results text, "8,172 episodes on 1,362 fresh records"). | Known (first-pass item 18); both correct; left. |
 
 
@@ -336,7 +335,7 @@ Paths are relative to `paper/` unless they start with `experiments/`.
 | 31 | "NESTFUL, the largest trace corpus the compiler ingests here" | results.tex:125-126 | bird/*/schema_first/*/discovery.json | WORDING (low) | True for a single substrate corpus. Across its 31 per-database corpora, BIRD schema-first discovery feeds the compiler 4,047 traces. |
 | 32 | AppWorld 136 traces; 63.2 % grounded; 136 windows; 33 at floor; 1 synthesized; 34/0/0; n_max 136; 1 admitted (arm A) | refusal_funnel.tex:6 | external_benchmarks/appworld_compiler_execution.json `arms.A` | VERIFIED | 9,480/(9,480+2,933+2,309+279) = 63.2 %; `families_support_ge_3`=33. |
 | 33 | API-Bank n_max 8; BFCL v4 n_max 15 (retire) | results.tex:128-129; compiler_decisions.tex:40 | external_benchmarks/{api_bank_execution,bfcl_compiler_execution}.json `compiler.exact_gate.max_observed_family_support` | VERIFIED | refusal_funnel_all rows also match: 212/63.5 %/37/8/2/0-2-0 and 200/68.0 %/86/9/4/3-3-0. |
-| 34 | AppWorld admits one argument-free two-call artifact at 92/92, U=0.0498, compiler-wide under one effect arm and per-candidate under the other | results.tex:131-134 | appworld_compiler_execution.json `admission.{A,B}` | VERIFIED | Arm A: 1 candidate (m=1). Arm B: 6 candidates, 5 calibrated, so the selection-adjusted bound is 0.0663 and the 0.0498 is per-candidate. In arm B the emitted candidate is listed as profile→passwords→phone.login. tables/appworld_admission.tex reports it as a 2-step justified prefix, so "two-call" is consistent with the appendix. |
+| 34 | AppWorld admits one argument-free two-call artifact at 92/92, U=0.0498, compiler-wide under one effect arm and per-candidate under the other | results.tex:131-134 | appworld_compiler_execution.json `admission.{A,B}` | VERIFIED | Arm A: 1 candidate (m=1). Arm B: 6 candidates, all 6 reached calibration (groups 89, 92, 92, 90, 46, 26; one emitted, one dominated at 92/92, four retired), so the selection-adjusted bound is 0.0663 and the 0.0498 is per-candidate. In arm B the emitted candidate is listed as profile→passwords→phone.login. tables/appworld_admission.tex reports it as a 2-step justified prefix, so "two-call" is consistent with the appendix. |
 | 35 | 8,190 released trajectories; entry-eligible 37.9 %; almost always full-code, almost never ReAct/plan-execute | results.tex:134-137 | external_benchmarks/appworld_dispatch_preflight.json `by_agent_family`, `pooled` | VERIFIED | 3,102/8,190 = 37.88 %; full-code 2,339/2,340; ReAct 0/2,340; plan-execute 1/2,340. |
 | 36 | Prologue "recovers only 2 more of 4,680" | results.tex:137-138 | appworld_dispatch_prologue_preflight.json `by_agent_family.react.after_eligible_after_exact_prologue`=2 | VERIFIED | |
 | 37 | AppWorld row: "1 admitted, 4 retired; fires in 1 of 4,680 runs; retired bounds 0.051, 0.051, 1.000, 1.000" | compiler_decisions.tex:43 | appworld_compiler_execution.json `admission.B.candidate_records[].rejected` | VERIFIED | Faithful to the compiler messages. For n=46 and n=26 a zero-violation CP bound would be 0.097 and 0.165. The 1.000 reflects that no group was accepted at any threshold, which a footnote could make clear. |
@@ -385,7 +384,7 @@ The producing script (`paper/scripts/iclr_revision_statistics.py`, `gamma_for(m)
 | n needed for compiler-wide at m=2 | 106 | 106 (registry) |
 | U(0, 91) / U(0, 90) (Sonnet backlog) | 0.05034 / 0.05089 | "bound above 0.05" |
 | U(0, 89) / U(0, 90) (AppWorld retired) | 0.0514 / 0.0509 | 0.051, 0.051 |
-| AppWorld arm B, m=5 selection-adjusted | 0.0663 | "per-candidate under the other" (correct) |
+| AppWorld arm B, m=6 selection-adjusted | 0.0681 | "per-candidate under the other" (correct) |
 | Post-cutoff 0/132, single rule (c=0.90) | 0.017293 | 0.0173 |
 | Post-cutoff 0/132, grid (c=1−0.1/11) | 0.034983 | 0.035 |
 | Primary compiled-only 0/90, one-sided 95 % | 0.03274 | 3.3 % |
@@ -473,7 +472,7 @@ Recomputed from every `multirepo_end_to_end/<repo>/calibration_groups.json`.
 1. **WORDING, moderate (results.tex:98-100)**: BIRD second-model and training accuracy are compared to the first-run baseline. The warm rerun of the unchanged agent scored 95/150 and 412/630, so compiled (93, 402) trails it by 2 and 10 questions (1.6 pt on training). This appears only in tables/bird_denominators.tex. The preceding sentence uses the warm rerun as comparator for resources, so the paragraph switches comparators without saying so. Fix: name the comparator, and report or footnote the warm-rerun counts.
 2. **WORDING, moderate (results.tex:100)**: "requests fall 49.6 % and 45.8 %" are against the first-run baseline, while the 44.9 % just before is against the warm rerun. Against the warm rerun the values are 49.4 % and 45.9 %, so the magnitudes hold. State the comparator.
 3. **WORDING, moderate (results.tex:8-10)**: "recovers the program a person would write wherever the retained traces support one" is a universal claim. The recurrence-only ablation (:63-66) shows the issue-type traces supported a three-read replay with 30/30 and half the requests, and the compiler refused it on grounding. Fix: scope the claim to "on the families in the table", or say "or refuses conservatively".
-4. **WORDING, low (compiler_decisions.tex:4 caption)**: "92/92 clean groups, bound 0.0498 ≤ 0.05" has no per-candidate qualifier. The selection-adjusted bound is 0.0569 for PR and backlog (m=2) and 0.0663 for AppWorld arm B (m=5). The time-forward admission is 132/132 at 0.0173 under a 90 % single rule, not 92/92.
+4. **WORDING, low (compiler_decisions.tex:4 caption)**: "92/92 clean groups, bound 0.0498 ≤ 0.05" has no per-candidate qualifier. The selection-adjusted bound is 0.0569 for PR and backlog (m=2) and 0.0681 for AppWorld arm B (m=6; the paper's 0.068). The time-forward admission is 132/132 at 0.0173 under a 90 % single rule, not 92/92.
 5. **WORDING, low (results.tex:152-155)**: The 0.0173 bound has no confidence level beside it (90 %, δ=0.10, single pre-registered rule), and "Two end-to-end certificates exist" undercounts: the second study gives 9 per-repository admissions plus pooled certificates. Suggested wording: "Two end-to-end studies exist".
 6. **WORDING, low (results.tex:125-126)**: "the largest trace corpus the compiler ingests here (1,415)" holds per substrate. BIRD schema-first feeds the compiler 4,047 discovery traces across 31 per-database corpora.
 7. **Minor clarity (compiler_decisions.tex:43)**: The retired bounds "1.000, 1.000" for AppWorld candidates at n=46 and n=26 faithfully copy the compiler message (no group accepted at any threshold). A zero-violation CP bound at those n would be 0.097 and 0.165, so a reader may misread 1.000 as a CP value.
@@ -481,3 +480,30 @@ Recomputed from every `multirepo_end_to_end/<repo>/calibration_groups.json`.
 9. **Provenance note (results.tex:185)**: "40 under the corrected grader" is supported only by a protocol note (supplementary/drift-continuation-graded-protocol.md:169-172). The retained results.json records 39/39. No regraded artifact is retained.
 
 No MISMATCH was found. Every number in results.tex and its four input tables matches the raw results.
+
+
+## Third pass (2026-11-08, three independent checkers)
+
+Three fresh checkers re-derived everything from the sources with the first two passes treated as untrusted.
+Reports: `verify_replies.md`, `audit_third_pass.md`, `xref_check.md` (session scratch; findings are recorded here).
+
+### A. Paper (about 75 claims in the abstract, §1, §5.1–5.4, §8, Tables 1–6 and Figure 3, recomputed from per-record JSON)
+
+- **MISMATCH: none.** Every headline and table number reproduces (contracts 90/90, 90/90, 89/90; reductions 66.6/44.2/63.1/64.2/58.7; break-even 411/183/181; 0.0498/0.0569/106; 0/132 → 0.0173 and 0.035; 3/760 → 0.0133 with per-repository 0.0232–0.0419; Amendment 3 k = 1, 2, 3, 3, 7 admitted and 14, 17 retired; 3,510/3,507/3,504 of 3,560, k = 50, U = 0.0194, 73.6%; AWM six cells and 8,172/1,362/1,344/2,724; BIRD 26/31, 97 vs 94 (p = 0.453), −44.9%/−29.4% vs the warm rerun, 93 vs 91 (warm 95), 402 vs 403 (warm 412), 49.6%/45.8% on paired first runs; live recovery 2,304, 186 → 205 (+8.80, [3.70, 13.89]), 210/204, 22/27; drift 144/89/39 of 60; Figure 3 U(91) = 0.0503, U(92) = 0.0498).
+- **UNSUPPORTED (1), fixed:** §5.4 "(40 under the corrected grader)": no retained regraded artifact (results.json records 39/39). Removed (paper-changes 21).
+- **Wording fixed:** abstract "safely" (16); abstract bound scales unlabelled and "each admitted" ambiguous (17); Table 1 "no safety bound" (18); Table 1 AppWorld "1 admitted, 4 retired" omits the dominated candidate, six reached calibration (19); §1 "the traces the compiler learns from" (20); §8 "58.7–73.6%" joins two studies (22); App. F.7 two stale "one certificate"/"except the post-cutoff one" sentences (23); Table 28 caption "last row" (24).
+- **Second-pass note corrected:** the B34 note said AppWorld arm B had 5 calibrated candidates (0.0663, m = 5); the file shows all six reached calibration, so the selection-adjusted bound is 0.0681 (m = 6), which is the paper's 0.068. The paper was right; the note is fixed above.
+- **Statistics (quotes checked):** the level and one-sidedness are stated at Eq. (7), Prop. 1, §5.1, §5.4, App. C and App. G; the grid level is given as 1 − 0.1/11, never as a percentage in the main text; the abstract's grid bounds are now labelled "registered-grid". Corrections: Bonferroni over the eleven thresholds (Eq. 7), over m candidates (App. A), over the six AWM cells (Table 3, App. K). Not corrected, and the text says so only for the pooled row: across the eleven multi-repository repositories ("assuming exchangeable repositories"), across the three primary families, and across the six pooled studies in §7; the discordance bounds and McNemar p-values are descriptive. i.i.d. is stated in Prop. 1, App. A, App. C, §5.4, §7, the Table 28 caption, App. G and App. F.2; the doubtful spots the paper names are exact-trace filtering before calibration (§4, App. G) and author-level independence (App. F.2); it does not connect the 47/50 excerpt failures "mostly in bot comments" to content-level clustering across authors, and it pools eleven repositories with k from 0 to 17 under an exchangeability assumption it states but does not test. Overstatement: only "safely" (abstract) and "no safety bound" (Table 1), both fixed.
+- **Open, unchanged:** Table 3's 100U level only in App. K; §5.1 1,362 vs Table 3 1,344 (both correct: 18 pilot episodes, App. J); AppWorld retired "1.000, 1.000" is the compiler message, not a Clopper–Pearson value.
+
+### B. Replies (107 items)
+
+- VERIFIED 95; MISMATCH 1; UNSUPPORTED 3 distinct facts. Every Clopper–Pearson bound, McNemar and Fisher p-value in the replies recomputes exactly; every Section/Table/Figure/Appendix/Eq. pointer resolves to the right object (second checker and the cross-reference checker agree); the two verbatim quotes match the PDF.
+- **Fixed:** Ans-3 cited `multiplicity_accounting.json` for the day/author sensitivity, which it does not contain → now Table 31 and `effective_units.json`. Ans-general said the abstract and conclusion state the day/author retirement; they state the two-family miss, Section 7 and Table 31 state the sensitivity → fixed. Ans-3's 277/197/117 no-go figures had no retained source on `main` → the preflight record is imported from `agent/c1-gate` and cited (`paper/results/graded_issue_gate_tf/preflight.json`; `fresh-issue-gate-single-look-protocol.md`), and the reply now gives the record's own numbers (31 to 113 calibration groups under the two exclusion rules against about 150 needed). The 6–10 and 12–16 working-day figures are author estimates: kept as "we estimate" in Ans-1 and Ans-2, dropped from Ans-general. Ans-2 "90/90 contracts and equal requests (Table 14)" → contracts in Table 2, request tie and the hand-written program's better token and cost reductions (71.1% vs 63.1%; 60.4% vs 58.7%) in Table 14, which also closes R2's partial point. Ans-2 "Evidence that the automation is safe at scale" → "Evidence at larger scale"; flattering opener trimmed; R2's "changes the risk budget and threshold grid" clause now answered. "44.9% fewer requests" now says "than a warm rerun" wherever it appears. `_calibration_samples` cited by full path.
+- **Lengths after edits:** Ans-general 4,948; Ans-1 4,267 / 3,222 / 3,616; Ans-2 4,355 / 4,991; Ans-3 4,201 / 3,244 (limit 5,000).
+- **Coverage:** every concern and question in ICLR-1/2/3 is addressed; the two partial items above are closed.
+
+### C. Cross-references and supporting files
+
+- Upload PDF and README agreed before this pass (63 pages; SHA matched; build PDF byte-identical). After this pass the PDF is rebuilt with an identical label map; README SHA updated.
+- Fixed: `review-map.md` numbered Reviewer 1's weaknesses W1–W6 against the reviewer's five (now W1, W2a, W2b, W3, W4, W5, matching Ans-1); R3-Q1 row said all three primary families lack a selection-wide bound (issue-type routing, one candidate, has one); R1-W2 pointed to §2 for the design comparison (it is §6 and App. N); R3-Q2 arithmetic aligned with the no-go record; this file's App. C page (22), BIRD release note (it is in the paper, App. F.6) and C2 section (§5.2) corrected; upload README path to the abstract snippet corrected.

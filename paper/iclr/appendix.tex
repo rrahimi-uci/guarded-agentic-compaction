@@ -1210,7 +1210,7 @@ missing usage; discovery, recompilation, and maintenance remain excluded.
   \centering
   \caption{Every admitted artifact's certificate. $m$ counts candidates that
   reached calibration; a parenthesized bound uses the candidate-wide budget
-  $\gamma=\delta/(m|\Lambda|)$ or, in the last row, the primary grid. All
+  $\gamma=\delta/(m|\Lambda|)$ or, for the post-cutoff row, the primary grid. All
   bounds assume i.i.d.\ groups from the labeled population, not automatically
   the deployment population; the replay event has no observed occurrence on
   the GitHub cohorts as labeled (\cref{sec:method}).}
@@ -1235,7 +1235,7 @@ support-sufficiency certificate (\cref{sec:method}) that is compiler-wide for
 issue-type routing (one candidate at calibration) and per-candidate for
 PR-outcome and backlog routing (two; corrected $U=0.0569$, so compiler-wide
 only at $\alpha\ge0.057$; \cref{cor:frozen}, \cref{tab:multiplicity-accounting});
-\cref{tab:certificates} lists every admitted artifact. The one certificate
+\cref{tab:certificates} lists every admitted artifact. The first certificate
 whose event includes the continuation comes from a post-cutoff PR-outcome
 cohort (pull requests created after the snapshot's last day;
 \cref{app:limits}): the re-derived artifact dispatched on 132 fresh
@@ -1252,7 +1252,7 @@ In \cref{eq:objective} the denominator counts groups with at least one attempt
 admitted by the hard guard and score; a clean interpreter or verifier failure
 after admission has replay loss zero and remains in that count, and
 pre-dispatch abstention enters neither the denominator nor the savings. Every
-certificate except the post-cutoff one instantiates $L(A,x)=1$ as a
+certificate except the PR-outcome end-to-end ones instantiates $L(A,x)=1$ as a
 replay-contract violation of the compiled region (\cref{app:config}), so the
 continuation is measured, not certified. The end-to-end certificate bounds
 absolute error, not excess error over $B$ or noninferiority, and does not

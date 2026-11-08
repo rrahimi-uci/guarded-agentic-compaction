@@ -1,12 +1,12 @@
 Tool-using agents pay for a model decision at every tool boundary. When a
 workflow recurs, an engineer can hand-write a program for its opening, but must
 write, check, and maintain it, and recurrence alone does not make it safe.
-Guarded agentic compaction (\method) automates that step safely: it compiles an
+Guarded agentic compaction (\method) automates that step under explicit guards: it compiles an
 agent's opening read\nobreakdash-only calls into a
 deterministic program only when every argument is grounded in observed state,
 every effect is declared read\nobreakdash-only, and the program starts at the
 first step; otherwise it refuses, and admits one only when enough calibration examples, assumed independent,
-support a finite-sample error bound. The target is the
+support a finite-sample bound on its violation rate. The target is the
 program an engineer would write, found without being told the workflow. On three
 GitHub workflows the compiled agent satisfies 90/90 held-out task contracts, as
 hand-written programs do, against 89/90 for the unchanged agent, with 66.6\%
@@ -16,12 +16,12 @@ workflow and model cells meet a five-point accuracy noninferiority margin at
 36.9--79.1\% lower estimated cost. On BIRD
 text-to-SQL, a schema-first opening compiles on 26/31 databases; three tool-trace benchmarks are refused for
 insufficient calibration support, and AppWorld's program is rarely eligible. Most
-bounds cover replay on selected populations; pull-request bounds cover final
-answers: no failure on 132 pull requests opened after the snapshot (90\% upper bound
-0.0173).
-A later study samples one pull request per author before any outcome filter and
-grades final task contracts: 3 misses in 760 groups across four repositories, each
-admitted (bounds 0.023--0.042). Of seven repositories added at 400 groups, five
+bounds cover replay on selected populations; two pull-request studies bound final
+answers: no failure on 132 pull requests opened after the snapshot (one-sided 90\%
+bound 0.0173), and, with one pull request per author sampled before any outcome
+filter, 3 misses in 760 groups across four repositories,
+each repository admitted (registered-grid bounds 0.023--0.042). Of seven
+repositories added at 400 groups, five
 are admitted and two retired; over all eleven, compiled, unchanged and hand-written
 arms meet 3,510, 3,507 and 3,504 of 3,560 contracts.
 Replay bounds do not cover unfiltered deployment, two primary families miss the
