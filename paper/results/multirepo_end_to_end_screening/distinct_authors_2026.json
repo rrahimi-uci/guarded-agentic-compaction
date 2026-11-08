@@ -1,0 +1,85 @@
+{
+ "authors": {
+  "bitcoin/bitcoin": {
+   "capped": false,
+   "distinct_authors": 359,
+   "prs_scanned": 2178
+  },
+  "django/django": {
+   "capped": false,
+   "distinct_authors": 575,
+   "prs_scanned": 1772
+  },
+  "godotengine/godot": {
+   "capped": true,
+   "distinct_authors": 815,
+   "prs_scanned": 3300
+  },
+  "kubernetes/kubernetes": {
+   "capped": true,
+   "distinct_authors": 810,
+   "prs_scanned": 3400
+  },
+  "mermaid-js/mermaid": {
+   "capped": false,
+   "distinct_authors": 361,
+   "prs_scanned": 942
+  },
+  "microsoft/TypeScript": {
+   "capped": false,
+   "distinct_authors": 316,
+   "prs_scanned": 1210
+  },
+  "microsoft/vscode": {
+   "capped": true,
+   "distinct_authors": 801,
+   "prs_scanned": 10100
+  },
+  "nodejs/node": {
+   "capped": true,
+   "distinct_authors": 822,
+   "prs_scanned": 4600
+  },
+  "opencv/opencv": {
+   "capped": false,
+   "distinct_authors": 396,
+   "prs_scanned": 1829
+  },
+  "python/cpython": {
+   "capped": true,
+   "distinct_authors": 808,
+   "prs_scanned": 8100
+  },
+  "redis/redis": {
+   "capped": false,
+   "distinct_authors": 263,
+   "prs_scanned": 1207
+  },
+  "sveltejs/svelte": {
+   "capped": false,
+   "distinct_authors": 280,
+   "prs_scanned": 1161
+  },
+  "tauri-apps/tauri": {
+   "capped": false,
+   "distinct_authors": 238,
+   "prs_scanned": 968
+  },
+  "tensorflow/tensorflow": {
+   "capped": false,
+   "distinct_authors": 349,
+   "prs_scanned": 15000
+  },
+  "twbs/bootstrap": {
+   "capped": false,
+   "distinct_authors": 147,
+   "prs_scanned": 929
+  },
+  "vercel/next.js": {
+   "capped": true,
+   "distinct_authors": 809,
+   "prs_scanned": 5900
+  }
+ },
+ "source": "GET /repos/{repo}/pulls state=all sort=created desc, created after 2025-12-31, stop at 800 distinct authors"
+}

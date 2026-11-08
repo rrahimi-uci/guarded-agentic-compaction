@@ -42,6 +42,15 @@ ALPHA = 0.05
 DELTA = 0.10
 GRID_SIZE = len(GRID)  # |Lambda| = 11
 TARGET_N = 200
+# Amendment 3 (protocol, 2026-11-07): repositories added after the registered stage was observed,
+# chosen by design criteria only and run at n = min(400, available). They are reported as their own
+# stage; the registered-stage pool is never changed by them.
+AMENDMENT_3_REPOS = ("django/django", "kubernetes/kubernetes", "godotengine/godot", "vercel/next.js",
+                     "nodejs/node", "python/cpython", "microsoft/vscode")
+STAGE_TARGET_N = {"registered": TARGET_N, "amendment_3": 400}
+# Contract checks recorded per episode by the grader; used only for the post-hoc breakdown of violations.
+QUALITY_CHECKS = ("outcome_correct", "title_correct", "record_number_correct", "comment_grounded",
+                  "tool_contract", "trace_valid")
 REPO_CAP_USD = 5.0
 TOTAL_CAP_USD = 25.0
 ARMS = ("compiled", "baseline", "manual")
@@ -266,6 +275,32 @@ def summarise_groups(groups: list[dict[str, Any]]) -> dict[str, Any]:
 # ----------------------------------------------------------------------------- repositories
 
 
+def stage_of(repo: str) -> str:
+    return "amendment_3" if repo in AMENDMENT_3_REPOS else "registered"
+
+
+def violation_checks(groups: list[dict[str, Any]], checkpoint: Any) -> dict[str, Any] | None:
+    """Post-hoc, descriptive: which grader checks failed on each compiled-arm violation.
+
+    Not part of any registered decision rule. Read from the per-episode checkpoint; a violation with
+    no recorded compiled episode (failed or timed out) is counted as ``episode_failed_or_missing``.
+    """
+
+    if not isinstance(checkpoint, dict) or not isinstance(checkpoint.get("results"), list):
+        return None
+    episodes = {int(e["issue_number"]): e for e in checkpoint["results"]
+                if e.get("condition") == "compiled" and int(e.get("repeat", 0)) == 0}
+    counts: dict[str, int] = {}
+    for g in groups:
+        if not is_violation(g):
+            continue
+        quality = (episodes.get(int(g["number"])) or {}).get("quality") or {}
+        failed = [k for k in QUALITY_CHECKS if quality.get(k) is False]
+        for key in failed or ["episode_failed_or_missing"]:
+            counts[key] = counts.get(key, 0) + 1
+    return dict(sorted(counts.items()))
+
+
 def load_repository(directory: Path) -> dict[str, Any]:
     """Read one repository directory: raw material plus not-run status."""
 
@@ -277,6 +312,10 @@ def load_repository(directory: Path) -> dict[str, Any]:
             files[fname] = sha256_file(path)
             loaded[fname] = _read(path)
     groups = loaded.get("calibration_groups.json") or []
+    checkpoint_path = directory / "calibration_checkpoint.json"
+    checkpoint = _read(checkpoint_path) if checkpoint_path.exists() else None
+    if checkpoint is not None:
+        files["calibration_checkpoint.json"] = sha256_file(checkpoint_path)
     status, reason = None, ""
     for source in (loaded.get("compile.json"), loaded.get("selection.json")):
         if isinstance(source, dict) and source.get("status") in RETIRED_STATUSES:
@@ -287,13 +326,14 @@ def load_repository(directory: Path) -> dict[str, Any]:
         status, reason = "incomplete", "calibration_groups.json missing or empty"
     return {"repo": directory.name.replace("__", "/", 1), "directory": directory.name, "files": files,
             "selection": loaded.get("selection.json"), "ledger": loaded.get("ledger.json"),
-            "groups": groups, "status": status, "reason": reason}
+            "groups": groups, "status": status, "reason": reason, "checkpoint": checkpoint}
 
 
 def summarise_repository(raw: dict[str, Any]) -> dict[str, Any]:
     spent = None if raw["ledger"] is None else float(raw["ledger"]["spent_usd"])
     entry: dict[str, Any] = {
-        "repo": raw["repo"], "directory": raw["directory"], "status": raw["status"] or "run",
+        "repo": raw["repo"], "directory": raw["directory"], "stage": stage_of(raw["repo"]),
+        "status": raw["status"] or "run",
         "reason": raw["reason"], "input_sha256": raw["files"],
         "ledger": {"present": raw["ledger"] is not None, "spent_usd": spent, "cap_usd": REPO_CAP_USD,
                    "within_cap": spent is None or spent <= REPO_CAP_USD},
@@ -307,7 +347,8 @@ def summarise_repository(raw: dict[str, Any]) -> dict[str, Any]:
     for g in raw["groups"]:
         validate_group(g)
     entry.update(summarise_groups(raw["groups"]))
-    entry["shortfall_vs_target_n"] = max(0, TARGET_N - entry["certificate"]["n"])
+    entry["shortfall_vs_target_n"] = max(0, STAGE_TARGET_N[entry["stage"]] - entry["certificate"]["n"])
+    entry["violation_failed_checks_post_hoc"] = violation_checks(raw["groups"], raw["checkpoint"])
     return entry
 
 
@@ -317,11 +358,17 @@ def build_summary(results_dir: Path) -> dict[str, Any]:
     run = [(r, e) for r, e in zip(raws, repos) if e["status"] == "run"]
     not_run = [{"repo": e["repo"], "status": e["status"], "reason": e["reason"],
                 "ledger_spent_usd": e["ledger"]["spent_usd"]} for e in repos if e["status"] != "run"]
-    pooled_groups = [g for r, _ in run for g in r["groups"]]
-    pooled = None
-    if pooled_groups:
-        pooled = summarise_groups(pooled_groups)
-        pooled["repos"] = [e["repo"] for _, e in run]
+    def pool(members: list[tuple[dict[str, Any], dict[str, Any]]]) -> dict[str, Any] | None:
+        groups = [g for r, _ in members for g in r["groups"]]
+        if not groups:
+            return None
+        out = summarise_groups(groups)
+        out["repos"] = [e["repo"] for _, e in members]
+        return out
+
+    # (i) the registered-stage pool, unchanged by Amendment 3; (ii) every run repository, both stages.
+    pooled = pool([(r, e) for r, e in run if e["stage"] == "registered"])
+    pooled_all = pool(run) if any(e["stage"] == "amendment_3" for _, e in run) else None
     spent = [e["ledger"]["spent_usd"] for e in repos if e["ledger"]["spent_usd"] is not None]
     total = round(math.fsum(spent), 6)
     return {
@@ -330,11 +377,12 @@ def build_summary(results_dir: Path) -> dict[str, Any]:
         "rules": {"alpha": ALPHA, "delta": DELTA, "grid_size": GRID_SIZE,
                   "grid_m1_confidence": rule_confidence("grid_m1"),
                   "single_rule_confidence": rule_confidence("single_rule"),
-                  "primary": "grid_m1", "target_n_per_repo": TARGET_N},
+                  "primary": "grid_m1", "target_n_per_repo": TARGET_N, "target_n_by_stage": STAGE_TARGET_N},
         "appendix_a3_floor_mismatches": check_appendix_a3(),
         "not_run": not_run,
         "repositories": repos,
         "pooled_run_repositories": pooled,
+        "pooled_all_run_repositories": pooled_all,
         "admitted_repositories": [e["repo"] for _, e in run if e["certificate"]["decision"] == "admit"],
         "ledger": {"total_spent_usd": total, "total_cap_usd": TOTAL_CAP_USD,
                    "within_total_cap": total <= TOTAL_CAP_USD,
@@ -369,6 +417,8 @@ def render_table(summary: dict[str, Any], label: str = "") -> str:
             r"No repository results recorded yet. \\", r"\bottomrule", r"\end{tabularx}", ""])
     run = [e for e in summary["repositories"] if e["status"] == "run"]
     pooled = summary["pooled_run_repositories"]
+    pooled_all = summary.get("pooled_all_run_repositories")
+    staged = pooled_all is not None
     # Panel A (certificates): not-run repositories first, then repositories by descending k.
     lines += [r"\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X r r r r l r r@{}}", r"\toprule",
               r"Repository & $n$ & $k$ & $U_{\mathrm{grid}}$ & $U_{\mathrm{1}}$ & Decision & b/c & $p_{\mathrm{McN}}$ \\",
@@ -376,10 +426,18 @@ def render_table(summary: dict[str, Any], label: str = "") -> str:
     for item in summary["not_run"]:
         reason = f" ({tex(item['reason'])})" if item["reason"] else ""
         lines.append(rf"{tex(item['repo'])} & \multicolumn{{7}}{{l}}{{{tex(item['status'].replace('_', ' '))}{reason}; no certificate}} \\")
-    for e in sorted(run, key=lambda r: (-r["certificate"]["k"], r["repo"])):
-        lines.append(_cert_row(tex(e["repo"]), e["certificate"], e["paired"]))
+    for stage, heading in (("registered", r"Registered stage, $n=\min(200,\text{available})$"),
+                           ("amendment_3", r"Amendment 3 (added after the registered stage), $n=\min(400,\text{available})$")):
+        members = [e for e in run if e.get("stage", "registered") == stage]
+        if staged and members:
+            lines.append(rf"\multicolumn{{8}}{{@{{}}l}}{{\emph{{{heading}}}}} \\")
+        for e in sorted(members, key=lambda r: (-r["certificate"]["k"], r["repo"])):
+            lines.append(_cert_row(tex(e["repo"]), e["certificate"], e["paired"]))
     if pooled:
-        lines += [r"\midrule", _cert_row(f"Pooled ({len(pooled['repos'])} run repositories)", pooled["certificate"], pooled["paired"])]
+        name = f"Pooled, registered stage ({len(pooled['repos'])})" if staged else f"Pooled ({len(pooled['repos'])} run repositories)"
+        lines += [r"\midrule", _cert_row(name, pooled["certificate"], pooled["paired"])]
+    if pooled_all:
+        lines.append(_cert_row(f"Pooled, all run repositories ({len(pooled_all['repos'])})", pooled_all["certificate"], pooled_all["paired"]))
     lines += [r"\bottomrule", r"\end{tabularx}", "",
               r"\smallskip\noindent{\footnotesize $U_{\mathrm{grid}}$: exact one-sided Clopper--Pearson bound, registered grid, "
               r"$m{=}1$ (level $1-0.1/11$; admit iff $\le 0.05$); $U_{\mathrm{1}}$: single rule $\gamma=\delta=0.10$; "
@@ -398,7 +456,9 @@ def render_table(summary: dict[str, Any], label: str = "") -> str:
     for e in run:
         lines.append(red_row(tex(e["repo"]), e["resources"]["reduction_vs_baseline_pct"]))
     if pooled:
-        lines += [r"\midrule", red_row("Pooled", pooled["resources"]["reduction_vs_baseline_pct"])]
+        lines += [r"\midrule", red_row("Pooled, registered stage" if staged else "Pooled", pooled["resources"]["reduction_vs_baseline_pct"])]
+    if pooled_all:
+        lines.append(red_row("Pooled, all run repositories", pooled_all["resources"]["reduction_vs_baseline_pct"]))
     lines += [r"\bottomrule", r"\end{tabularx}", ""]
     return "\n".join(lines)
 
