@@ -1,38 +1,25 @@
 General response to all reviewers
 
-Thank you for three careful reviews. They cite the September 24 submission. Since then we have run the studies several of you asked for and revised the paper, and the OpenReview PDF diff shows every change. The method and the primary results (now Table 2) are unchanged.
+Thank you for three careful reviews. They cite the September 24 submission. Since then we have run the studies several of you asked for and revised the paper; the OpenReview PDF diff shows every change. The method and the primary results (now Table 2) are unchanged. The reply under each review answers its points; this note covers the shared ones.
 
-What GAC is for. The revision states the aim directly. When a read-only workflow opening recurs, an engineer can hand-write a program for it. GAC automates writing that program and makes the automation safe: it compiles only grounded, read-only, first-step prefixes; it admits a program only under a finite-sample error bound; and it refuses everywhere else. Matching the hand-written program is the intended result, not a shortfall.
+What GAC is for. When a read-only workflow opening recurs, an engineer can hand-write a program for it. GAC automates writing that program and makes the automation safe: it compiles only grounded, read-only, first-step prefixes; it admits a program only under a finite-sample error bound; and it refuses everywhere else. Matching the hand-written program is the intended result, not a shortfall. The abstract, Section 1 and the conclusion now say this.
 
-Shared concerns and how we addressed them
+Shared concerns
 
-1. Replay labels versus end-to-end guarantees (R1, R2). The 92-group labels come from replay, not from executed continuations. The paper now calls them replay certificates (§2, Appendix C). Two new studies grade final task contracts after the compiled prefix and the model continuation. In the post-cutoff PR-outcome study, 0 of 132 groups fail (U = 0.0173). The multi-repository study is below.
+1. Replay labels versus end-to-end guarantees (R1, R2). The 92-group labels come from replaying the compiled program over recorded tool results, not from executed continuations; the paper now calls them replay certificates (Section 2; Appendix C). Two new studies grade the final task contract after the compiled prefix and the model continuation: a post-cutoff PR-outcome cohort (0 of 132 groups failed; 90% upper bound 0.0173) and the multi-repository study in point 3.
 
-2. Outcome-filtered calibration population (R1, R2). An audit accounts for all 396 discovery records. Three excluded records pass the deployed guard (Appendix G), so we withdraw the unfiltered-population claim for the primary bounds. The repair was run for PR-outcome: one pull request per author, sampled before any outcome filter, with every eligible group labelled, failures included (Appendix F.2, Table 19).
+2. Outcome-filtered calibration population (R1, R2). An audit accounts for all 396 discovery records. The three excluded records pass the deployed guard (Appendix G), so we withdraw the unfiltered-population claim for the primary bounds. The repair was run for PR-outcome: one pull request per author, sampled before any outcome filter, every eligible group labelled, failures included (Appendix F.2, Table 19).
 
-3. Independent units and a selection-wide bound (R2, R3). The three primary families have no selection-wide 5% bound; the two-candidate bound is 0.0569, and the abstract and conclusion now say so. One frozen candidate per population with author units gives selection-wide end-to-end bounds for PR-outcome:
-- Registered stage: four repositories, 3 violations in 760 groups, each admitted, pooled U = 0.0133.
-- Amendment 3: seven repositories at n = 400. It was registered after the first four results were seen and selected by design features only. Five were admitted, and node and cpython were retired.
-- Over all eleven repositories, the compiled, unchanged and hand-written arms meet 3,510, 3,507 and 3,504 of 3,560 contracts. The compiled and hand-written arms both cut cost by 73.6%.
-- Adverse: on godot the compiled arm trails the unchanged agent, 393 vs 399 (p = 0.070).
-- Post hoc: 47 of the 50 compiled violations are evidence excerpts that are not verbatim, and none is a wrong merge outcome.
+3. Independent units and a selection-wide bound (R2, R3). Two of the three primary families calibrated two candidates, so their selection-adjusted bound is 0.0569 and misses 5%; counting creation days or authors as the unit retires all three. The abstract and conclusion say so. One frozen candidate per population, with authors as units, gives selection-wide end-to-end bounds for PR-outcome:
+- Registered stage: four repositories, 3 violations in 760 groups, each repository admitted, pooled U = 0.0133.
+- Amendment 3: seven repositories at n = 400, registered after the first four results were seen and selected by design features only. Five admitted; node and cpython retired.
+- All eleven: compiled, unchanged and hand-written arms meet 3,510, 3,507 and 3,504 of 3,560 contracts; compiled and hand-written both cut cost 73.6%.
+- Adverse: on godot the compiled arm trails the unchanged agent, 393 vs 399 (p = 0.070). Post hoc: 47 of the 50 compiled violations are evidence excerpts that are not verbatim; none is a wrong merge outcome.
 
-4. Learned gate (R2, R3). We no longer claim learned selectivity. Full statistical, support-only and deterministic routing are identical on 2,724 record-model cases (Table 38), and 92 groups certify only full coverage.
+4. Learned gate (R2, R3). We no longer claim learned selectivity. Full statistical, support-only and deterministic routing are identical on all 2,724 record-model cases of the AWM comparison (Section 5.4; Appendix K), and the 92-group cohorts can certify only full coverage.
 
-5. Practical value against alternatives (R1, R2).
-- New: a pre-registered comparison with adapted offline Agent Workflow Memory. It has 8,172 episodes on 1,362 fresh records; five of the six cells (1,344 records) are noninferior at 36.9 to 79.1% lower cost (Table 3).
-- New: BIRD text-to-SQL with a live agent. On 150 sealed questions the compiled agent answers 97 and the unchanged agent 94, with 44.9% fewer requests (§5.2). On a second model and the training split it trails warm reruns (93 vs 95; 402 vs 412).
-- New: a design comparison with TraceCompiler, PreAct, EvoC2F, Agent JIT, plan caching and AWM (Appendix N). None states a finite-sample bound on violations after admission.
-- New: a one-mechanism-at-a-time live-recovery study (2,304 episodes) and three drift studies.
+5. Practical value against alternatives (R1, R2). New: a pre-registered comparison with adapted offline Agent Workflow Memory, 8,172 episodes on 1,362 fresh records; five of the six cells (1,344 records) are noninferior at a five-point margin, at 36.9 to 79.1% lower cost (Table 3). New: BIRD text-to-SQL with a live agent; on 150 sealed questions the compiled agent answers 97 and the unchanged agent 94 with 44.9% fewer requests, and on a second model and the training split it trails warm reruns (93 vs 95; 402 vs 412), so BIRD shows savings at similar accuracy (Section 5.2). New: a design comparison with TraceCompiler, PreAct, EvoC2F, Agent JIT, plan caching and AWM (Appendix N, Table 46); none states a finite-sample bound on violations after admission. New: a one-mechanism-at-a-time live-recovery study (2,304 episodes; Appendix I) and three drift studies.
 
-What we did not do. Two requested experiments did not fit before November 18, and we make no claim that depends on them:
-- A matched comparison with an executable competing compiler. EvoC2F has no inspectable code, and we estimate 6 to 10 working days.
-- GAC versus unguarded versus handwritten on an adaptive workflow, estimated at 12 to 16 working days. Three attempts stopped at prespecified development gates (Appendix L).
-A learned-versus-support gate comparison at two certified coverage levels needs a cohort we do not have. We claim no advantage on adaptive tasks, no benefit from the learned gate, and no ranking against other compilers.
+What we did not do. Two requested experiments did not fit before November 18; no claim depends on them: a matched comparison with an executable competing compiler (EvoC2F has no inspectable code; we estimate 6 to 10 working days), and GAC versus unguarded replay versus a handwritten program on an adaptive workflow (we estimate 12 to 16 working days; three attempts stopped at prespecified development gates, Appendix L). A learned-versus-support gate comparison at two certified coverage levels needs a cohort we do not have. We claim no advantage on adaptive tasks, no benefit from the learned gate, and no ranking against other compilers.
 
-Paper changes, in brief:
-- The abstract, introduction and conclusion are rewritten around safe automation and its limits.
-- §2 aligns the loss with the labels.
-- §5.4 and the new Appendix F.2 report the end-to-end studies.
-- Appendix G holds the population audit; Appendices I to L hold the new mechanism, comparison and adaptive-gate studies.
-- Appendix N holds the compiler comparison.
+Paper changes, in brief: the abstract, introduction and conclusion are rewritten around safe automation and its limits; Section 2 aligns the loss with the labels; Section 5.4 and the new Appendix F.2 report the end-to-end studies; Appendix G holds the population audit; Appendices I to L hold the mechanism, comparison and adaptive-gate studies; Appendix N holds the compiler comparison.

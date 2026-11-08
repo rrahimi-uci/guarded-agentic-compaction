@@ -9,6 +9,118 @@ from the repository root (`python paper/reviews/audit_scripts/<name>.py`).
 `python paper/scripts/validate_artifacts.py` passes 7,725 checks with 0 failures; many rows cite one of
 those checks.
 
+## Second pass (2026-11-08, independent re-check)
+
+A second pass re-read the full paper source and re-checked every reply against the reviewer text
+and the revised PDF's numbering (label numbers read from the `.aux` of a fresh `tectonic` build).
+The first pass was treated as untrusted: numbers were recomputed from the raw files, and every
+section, table, figure, equation and appendix pointer in the replies was opened.
+
+### A. Paper
+
+- Independent numeric re-derivation: see part C below (run by a separate agent that did not read
+  this file or the replies).
+- Consistency of abstract, introduction, results and conclusion. Two sentences in the introduction
+  lagged the first-pass edits and were fixed (`paper-changes.md`, edits 13 and 14): contribution 1
+  still said "enough independent calibration examples" after the abstract had been changed to
+  "assumed independent"; contribution 2 said "no detected accuracy loss", which holds against the
+  first-run BIRD baselines but not against the warm reruns reported in §5.2 (93 vs 95; 402 vs 412),
+  and now says "at similar accuracy". Everything else agrees: the abstract, §5.4, Table 6, Table 28
+  and the conclusion all say that two primary families miss the selection-adjusted target, that the
+  primary bounds are replay bounds on a filtered population, and that end-to-end bounds exist for
+  PR-outcome only.
+- Items 5, 6, 16, 17 and 19 of the first-pass disposition table stay as they were.
+
+### B. Replies
+
+Every number in the four replies was matched to the paper text or table it cites, every pointer was
+opened, and every "we added/changed X" statement was located in the revised source. Corrections
+made in this pass:
+
+| # | Reply | Problem found | Fix |
+|---|---|---|---|
+| 1 | general (point 3), R3 (point 1) | "The three primary families have no selection-wide 5% bound" was wrong: issue-type routing calibrated one candidate (m = 1), so its replay bound is compiler-wide (Table 6; Table 28). Only PR-outcome and backlog (m = 2, 0.0569) miss it; day or author units retire all three. | Rewritten to say two of three families, and that author/day units retire all three. `review-map.md` R3-W1 fixed the same way. |
+| 2 | general, R2, R3 | "Table 38" was cited for the 2,724 record-model cases on which the three routings agree. Table 38 is the gate-frontier disaggregation (240 episodes). The 2,724-case result is in §5.4 (results.tex), App. F.7 and App. K (`generalization_gate_appendix.tex`). | Pointer changed to "§5.4; Appendix K". `review-map.md` R2-W2b fixed. |
+| 3 | R1 (point 1) | "Table 6 and Table 28 name each certificate's event": Table 6 (multiplicity accounting) has no event column. | Now "Table 28 names the event behind every certificate". |
+| 4 | R1 (benchmark references) | "§4 cites each one" included AgentHop, which §4 does not cite; it is cited in §7 and App. L. | Now "§4 cites each benchmark it uses; AgentHop ... development gates only (Appendix L)". |
+| 5 | R1 (structure) | Reviewer 1's weaknesses are five unnumbered paragraphs; the first-pass reply split the second into W2 and W3 and numbered to W6, so its labels did not match the review. | Points renumbered in the reviewer's order (Weakness 1-5, Question 1-5) and the reply says so. |
+| 6 | R2 (structure) | Reviewer 2 labels the questions "Clarification - task requirements", "Clarification - calibration evidence" and "Suggested additional validation", not Q1-Q3. | Headings use the reviewer's labels. |
+| 7 | R3 (feasibility) | "The pool holds 197 issues with a comment" had no retained source on `main`; the number comes from the no-go record of the single-look replication on branch `agent/c1-gate` (commits 0ce6c5f, 8e1970a: snapshot 277 issues, 197 with at least one comment, 117 after 80 re-derivation records), also quoted in `flip-plans.md`. | Reply now says "277 issues, 197 with at least one comment" and gives the arithmetic that matters (117 < 2 x 92). Flagged for the author: merge the c1-gate record to `main` or drop the figure. |
+| 8 | all three | Closing sentences asked the reviewer to revisit the score. | Removed; each reply now ends with an offer to answer further questions. |
+| 9 | all four | "Paraphrase: ..." blocks before each answer. | Replaced by a one-line heading quoting the reviewer's point, then the answer sentence, then evidence and pointer. |
+| 10 | R1 (post-cutoff) | Pointer for the post-cutoff study was the raw file only. | Added "Section 5.4; Appendix G" (the study is reported in `app:limits`, which is Appendix G). |
+
+Facts in the replies that are not in the paper, with their sources: EvoC2F's anonymous code
+endpoint returning HTTP 401 (`flip-plans.md`); the 6-10 and 12-16 working-day estimates (author
+estimates in `paper/iclr/notes/review_response_2026-11-06.md`, stated as estimates); BIRD release
+`dev_20240627` (`paper/results/bird/preflight.json`, `paper/supplementary/bird-sql-agent-protocol.md`);
+the task field names `open`/`merged`/`closed_unmerged` and `owned`/`discussed_unowned`/
+`awaiting_first_response` (Table 16 and the per-record results files); the single-look no-go
+(item 7). The supplementary files named in the replies exist:
+`paper/supplementary/matched-compiler-candidate-protocol.md` and
+`paper/supplementary/adaptive-quality-cost-study.md`.
+
+Pointer map used (label, number, page in the 63-page build): Table 1 compiler decisions (p. 7);
+Table 2 primary (p. 7); Table 3 AWM (p. 8); Table 4 funnel (p. 9); Table 5 live manifest (p. 22);
+Table 6 multiplicity (p. 23); Table 14 manual resources (p. 28); Table 16 benchmark glance (p. 29);
+Table 19 multirepo end-to-end (p. 32); Table 20 funnel-all (p. 33); Table 28 certificates (p. 40);
+Table 31 effective units (p. 42); Table 33 recurrence-only (p. 45); Table 37 gate extension (p. 50);
+Table 46 compiler comparison (p. 62); Figure 3 gate floor (p. 24); Eq. (3) dispatch; App. C
+Configuration (labels paragraph p. 20-21); App. D Paired statistics (lifecycle paragraph); App. E
+Additional detail ("Primary workflow families"); App. F.2 multirepo e2e (p. 31); App. F.4 external
+map (p. 32); App. G Extended limitations (population audit p. 48; post-cutoff study); App. H
+prospective protocol (p. 48); App. H.1 gate extension (p. 49); App. I live recovery (p. 51); App. K
+generalization gate (p. 55); App. L adaptive gates (p. 58); App. N additional optimization context
+(p. 62). All as cited in the replies.
+
+Bounds recomputed with `scipy.stats.beta.ppf` (grid level 1 - 0.1/11; single rule 0.90):
+U(1,200) = 0.0333, U(2,200) = 0.0419, U(0,160) = 0.0290, U(0,200) = 0.0232, U(3,760) = 0.0133,
+U(14,400) = 0.0632, U(17,400) = 0.0726, U(50,3560) = 0.0194, U(3,560) = 0.0181, U(0,132) = 0.035
+(grid) and 0.0173 (single rule), U(0,85) = 0.0267 and U(0,100) = 0.0228 (single rule), U(0,92) =
+0.0498 and 0.0569 at m = 2, U(1,270,0.95) = 0.0175; the largest k admitted at n = 400 under the grid
+is 9. All match the replies and the paper.
+
+### C. Independent numeric re-derivation
+
+A separate agent, given only the paper source, the tables, `claims_evidence_index.tex` and
+`paper/results/`, recomputed every headline number from per-record arrays (not summary fields)
+where they exist. Scratch scripts: `scratchpad/indep/claim1.py`, `claim4.py`, `claim6.py` (session
+scratchpad, not retained). **No numeric mismatch.** Verified from raw records: 90/90, 90/90, 89/90
+and the five pooled reductions (66.57 / 44.24 / 63.06 / 64.21 / 58.67) and every Table 2 and Table 14
+cell; n = 92, k = 0 in all three artifacts, U = 0.04981, 0.05691 at m = 2, 106 groups (n = 105 gives
+0.05007); why issue-type has m = 1 (cand-00 rejected at synthesis for the ungroundable
+`comments.limit` slot) and PR-outcome and backlog have m = 2 (both candidates calibrated, then one
+dominated); post-cutoff 132/0 from `certificate.per_record`, 84 open / 48 merged, 0.01729 and 0.0350;
+multi-repository 1/200, 2/200, 0/200, 0/160, pooled 3/760 = 0.01332; node 14/400, cpython 17/400,
+next.js 1, django 2, kubernetes 3, vscode 3, godot 7, max admissible k = 9 at n = 400 and 3 at n = 200;
+3,510 / 3,507 / 3,504 of 3,560 recounted from `calibration_checkpoint.json` with 73.6% cost reduction
+for both compiled and hand-written arms; godot 393 / 399 / 395 with b-only 7, c-only 1, p = 0.0703;
+AWM 8,172 rows, 1,362 records, 1,344 primary, every Table 3 count and loss bound (3.27, 5.86, 3.61,
+4.04, 1.43, 1.43) and cost saving; 2,724 = 1,362 x 2 record-model cases; BIRD 26/31, 94 / 94 / 97 / 94
+of 150 with requests -44.9% and latency -29.4% against the warm rerun and McNemar p = 0.453; second
+model 93 / 91 / 95, train 402 / 403 / 412 / 404, requests -49.6% and -45.8% on paired first runs,
+interval [-3.27, +2.96]; one-call gate 28 / 28 / 26 of 36 with 151 / 111 / 112 requests; live recovery
+2,304 rows, 186 -> 205 with +8.796 and bootstrap [3.70, 13.89]; recurrence-only 30/30 at 1 request;
+drift 144 / 89 paired with zero wrong, continuation 39/39; break-even 410.87, 182.01, 180.60 -> 411,
+183, 181; manual cost -60.43%; 396 records with dispositions 16/8/92 and 14/15/16 unused, 2/1/0
+excluded, #539, #2781, #5700 passing the guard; 810 = 270 + 540 episodes, 354 distinct records,
+U(1,270) = 0.0174; prefix census 3.9-41.0%; gpt-6-luna transfer miss (issue 6532); Sonnet backlog 90
+and 91 of 92; AppWorld 37.88% of 8,190 and +2 of 4,680.
+
+Not independently re-derivable (summary fields or narrative only): the 47 / 3 / 0 post-hoc split of
+the 50 multi-repository violations (`violation_failed_checks_post_hoc` in `summary.json`, no
+per-violation list); the three-routing identity on the 2,724 cases (`gate_equivalent: true` per cell);
+the "40 under the corrected grader" (narrative; `results.json` says 39, first-pass item 19).
+
+Presentational findings from that pass and their disposition:
+
+| # | Finding | Disposition |
+|---|---|---|
+| C1 | **Cohort mixing in §5.4 (results.tex live-recovery sentence).** 186 -> 205 is the ordinary-response cohort, but "204/216 versus 205/216" and "22/27" come from the capped-response cohort; under ordinary responses the no-completeness arm scores 210/216, better than full (Tables 39-40). The sentence read as one cohort and understated the result against the completeness check. | **Fixed** (`paper-changes.md`, edit 15): the sentence now gives both cohorts. The R2 reply carries the same two numbers. |
+| C2 | Two request-reduction figures for the same BIRD runs: §5.4 and App. F.6 text give 49.6% and 45.8% (all paired first-run pairs, 150 / 629); Table 25 gives 49.9% and 45.9% (complete cases, 149 / 625). Both correct under their denominators. | Left; the table's denominator convention is stated in its caption. Recorded here. |
+| C3 | 1,344 (abstract, Table 3 caption) against 1,362 (results text, "8,172 episodes on 1,362 fresh records"). | Known (first-pass item 18); both correct; left. |
+
+
 ## Summary
 
 | Part | Claims | VERIFIED | WORDING (number right, sentence overstates or is unclear) | MISMATCH | UNSUPPORTED |
