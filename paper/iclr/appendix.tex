@@ -1994,3 +1994,54 @@ not: they compile writes (with compensation in EvoC2F), branches, loops, and
 fan-out, apply beyond the opening of a task, adapt online or learn their planners,
 schedule for latency, work from traces without recorded outputs (TraceCompiler),
 and, for EvoC2F, evaluate a staged deployment lifecycle.
+
+\section{Decision Audit Examples}
+\label{app:decision-audit}
+
+TraceCompiler records auditable dependency evidence, EvoC2F exposes annotated
+plans and tested skills, and Agent JIT validates code plans
+\citep{elyadouni2026tracecompiler,wei2026evoc2f,winston2026agentjit}.
+The following retained GAC records show an accepted program in \code{explain()},
+refusals in \code{report()}, and runtime reason codes. This split interface
+and its truncated reasons and counterexamples support inspection of checks,
+not a complete causal diagnosis, model reasoning trace, or measured
+explainability advantage.
+
+\paragraph{Admission: issue-type routing.}
+The retained artifact in
+\path{paper/results/github_natural_replication/artifact_explanation.txt}
+calls \code{issue\_get\_record(z.issue\_number)} and then
+\code{issue\_get\_labels(get.issue\_number)}. Its guard pins the entry
+contract, model, tool and effect catalog, and allows only replayable local
+reads; its verifier lists output types, provenance, and source revision.
+The displayed gate has 92 calibration groups, 11 candidate thresholds,
+$\alpha=0.05$, $\delta=0.1$, and a rounded upper bound of 0.050
+($0.0498$ before rounding; \cref{tab:certificates}). This is a
+per-candidate bound on the registered replay violation event for the selected
+calibration population, conditional on independent groups; it does not
+certify final-answer quality or an unfiltered deployment population.
+
+\paragraph{Refusal: the third issue read.}
+The same run's
+\path{paper/results/github_natural_replication/compile_report.txt}
+reports two mined candidates and one emitted artifact. Its three-read
+candidate stops at synthesis with
+\code{ungroundable\_slot:issue\_get\_comments.limit:no\_consistent\_expression}:
+the comment limit cannot be derived consistently from the permitted inputs.
+The two-read prefix remains available. This is a reported structural reason,
+not evidence that the refused program would have produced worse answers:
+recurrence-only three-read replay also met 30/30 held-out contracts
+(\cref{sec:res-primary}).
+
+\paragraph{Runtime abstention: later snapshot.}
+In the time-forward PR-outcome evaluation,
+\path{paper/results/time_forward/pr_outcome/evaluation_checkpoint.json}
+retains 60 old-artifact decisions with outcome \code{BASELINE}; each lists
+\code{range:pr.source\_revision}, \code{range:pr2.source\_revision}, and
+\code{range:pr3.source\_revision}. The old artifact's output checks pin
+the earlier source revision, so these codes identify the proximate mismatch
+with the later snapshot. The summary in
+\path{paper/results/time_forward/pr_outcome/evaluation.json} counts 60/60
+abstentions for that arm; a newly compiled artifact is evaluated separately.
+This is an observed execution decision, whereas the AppWorld dispatch
+preflight elsewhere estimates structural eligibility only.

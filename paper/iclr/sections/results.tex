@@ -5,8 +5,8 @@ Compilation reduces model work on recurrent GitHub workflows and schema-first
 BIRD openings; the trace benchmarks expose support and dispatch limits.
 The hand-written program is the oracle throughout: a person who knows the
 workflow can write it, and the question is whether the compiler finds it without
-that knowledge. \Cref{tab:compiler-decisions} shows that where it admits, it recovers the program
-a person would write, and where it refuses, it states the stage and reason. Savings are scoped to a
+that knowledge. \Cref{tab:compiler-decisions,app:decision-audit} expose admitted
+programs, refusal reasons, and a runtime abstention from retained records. Savings are scoped to a
 compatible snapshot: every artifact pins its snapshot and abstains on any other,
 so a changed snapshot is recompiled rather than reused.
 
