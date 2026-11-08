@@ -2,11 +2,37 @@
 
 Status: proposed design and execution plan; no expansion is implemented by this document.
 
-Date: 2026-11-07.
+Date: 2026-11-07. Revised 2026-11-08 to add a publication track (section 0), a census gate ahead of every build milestone (section 11), concrete workloads and comparators (section 10), and a venue plan (section 16). The engineering design in sections 3-9 and 12-13 is unchanged.
 
 Source baseline for the feasibility re-review: `origin/main` at `6c4ec01183b20583d49e6e51dfe80a86384bc5bb`, which includes the original plan from PR #119. The first plan used `5250a32`; the observations and corrections below were rechecked against the newer baseline.
 
 Scope: expand what GAC can optimize while preserving explicit effect, continuation, and evidence boundaries. This is a separate research and engineering track, not a claim that the current paper already supports write-enabled compilation.
+
+## 0. Publishable claims and research questions
+
+The first version of this plan was an engineering roadmap: it said what to build and how to keep it safe, but not what a paper would claim or which result would refute it. The ICLR 2027 reviews (`paper/reviews/ICLR-{1,2,3}.txt`) reject the current paper on value, not on mechanism: the compiled program matches a hand-written one on metadata tasks; no comparison with another compiler is run; no adaptive workload is studied. More machinery does not answer that. A publishable extension must show that automatic guarded compilation finds and safely exploits reuse that a person would not write by hand, on a workload where the unchanged agent is competent. Everything below is ordered by how directly it serves that claim.
+
+### Hypotheses, pre-declared thresholds, and what refutes each
+
+| ID | Hypothesis (to be frozen before data) | Measurement | Go threshold (declared here, before the census) | Refuted if |
+|---|---|---|---|---|
+| H1 Headroom | Real adaptive trajectories contain recurring, groundable, read-only regions at non-initial boundaries that the current prefix-only compiler cannot reach. | Provider-free census over retained corpora (AppWorld released runs, SWE-agent, OpenHands, tau-bench, BIRD agent traces, WebArena-Verified pilot), extending `paper/results/prefix_census/` to interior boundaries: share of trajectories with an interior read-only region of at least two calls whose arguments are groundable under the current witness rule, and the number of independent groups supporting each candidate family. | At least one corpus with interior groundable regions in >= 20% of trajectories and at least one family supported by >= 92 independent groups. | No corpus reaches both numbers. Then M1 has no measurable value and only the engineering track (section 11, Track E) remains. |
+| H2 Automation beyond hand-writing | On at least one workload, the compiled interior program differs from the program a person writes first (longer, conditional, or data-dependent), and a hand-written program with the same budget does not match its savings. | Paired runs of unchanged agent, hand-written bounded program, simpler compiler, and GAC on fresh independent groups (section 10). | GAC requests or cost at least 20% below the hand-written arm with task success noninferior at a pre-declared margin. | Hand-written matches or beats GAC, as it does on every GitHub family today. Then the honest claim stays "safe automation of the hand-written program", which the current paper already makes. |
+| H3 Admission value | Statistical admission refuses candidates that simpler compilation would deploy and that go on to fail. | Rejection funnel plus deployment of rejected candidates in a disposable environment; count violations among candidates GAC retired but the simpler compiler admitted. | At least one retired family with a measured violation rate above alpha when forced to run. | All retired families run clean (as recurrence-only replay does on issue-type today). Then the sample floor is the only thing the gate buys, and the paper says so. |
+| H4 Compiler comparison | Against an executable trace-reuse compiler on the same frozen tasks, model and budget, GAC's admitted programs are noninferior in task success at lower or equal cost, and its refusals are explained. | Matched comparison protocol (`paper/supplementary/matched-compiler-candidate-protocol.md`) with TraceCompiler if its code is runnable; otherwise the recurrence-only replay compiler on the same IR. | Noninferiority at the declared margin with the rejection funnel reported for both. | GAC loses on cost without a quality gain. Reported either way; this is the comparison R1 and R2 asked for. |
+
+H1 is the gate for everything else. It costs no provider calls and can be finished in one week from retained traces. If H1 fails, the paper track reduces to H3 and H4 on the existing GitHub families, which is a resubmission of the current paper with the two missing comparisons, not an expansion paper.
+
+### What is publishable and what is not
+
+- **Publishable at an ML venue:** H1 + H2 on one adaptive workload (an "interior reuse" paper), or H3 + H4 on the existing families (a strengthened resubmission). Both need the whole-policy admission of section 9, a competent baseline, and fresh independent groups.
+- **Publishable at a systems or PL venue only:** the interior-boundary contract (section 5), the mutation contract and durable recovery protocol (sections 7-8) with fault-injection evaluation (section 12). This is a mechanism paper; it needs no statistical admission result but does need a workload with real writes and a soundness argument for the ordered mutation IR.
+- **Not publishable on any budget this project has:** a certified compiled-write result. Section 15 shows 59 selected groups for a 5% bound and 299 for 1%; at 10% dispatch coverage that is 600-3,000 sampled adaptive episodes with a competent baseline and a side-effect oracle, and 5% is not an acceptable target for harmful effects. The write track is therefore mechanism-only for publication purposes (Track E below).
+
+### Two tracks
+
+- **Track P (paper):** P0 census (H1), P1 matched compiler comparison on the GitHub families (H4), P2 interior read regions on one adaptive workload (H2, H3; needs M1a and the orchestration-level admission path of section 9). No writes.
+- **Track E (engineering):** M1b durable host ownership, M2 owned transactional writes, M3 external write adapter. Valuable as a product roadmap and as a later systems paper; not on the critical path of any 2027 submission.
 
 ## 1. Decision and intended outcome
 
@@ -21,7 +47,7 @@ The expansion should proceed through independently useful stages:
 
 Do not begin by making `WRITE_REVERSIBLE` compilable. A reversible business operation, a discardable private mutation, and an externally visible operation with compensation have different semantics. An effect name alone cannot justify retry, fallback, or publication.
 
-The first useful deliverable is an adaptive agent that alternates between admitted compiled read regions and ordinary agent decisions/actions. The first compiled-write deliverable is deliberately smaller: one transactional backend, a bounded program, and one publication point. Cross-service transactions, autonomous compensation planning, unrestricted generated Python, and arbitrary concurrent write branches are deferred.
+The first useful deliverable is an adaptive agent that alternates between admitted compiled read regions and ordinary agent decisions/actions, on a workload where section 0's census (H1) shows such regions exist and recur. The first compiled-write deliverable is deliberately smaller: one transactional backend, a bounded program, and one publication point. Cross-service transactions, autonomous compensation planning, unrestricted generated Python, and arbitrary concurrent write branches are deferred.
 
 Success has three separate meanings: **mechanism correctness** under a stated backend contract; **empirical task performance** on a fresh population; and **incremental value of automatic guarded compilation** over simpler alternatives. Passing one does not establish the others.
 
@@ -264,6 +290,24 @@ Use two tracks. A provider-free controlled fixture establishes execution semanti
 
 Select adaptive workloads prospectively using public task metadata and development-only evidence. Require substantial model decisions between recurrent regions, a competent unchanged baseline, useful automatically synthesized candidates, sufficient fresh groups, and an oracle that checks actual side effects. The current AppWorld and browser development tasks remain exposed; neither is automatically approved as the final workload. Common authentication/setup must be identical and charged across arms. Benchmark-specific rules and adapted entry conditions must be disclosed.
 
+### Workload shortlist and competence record
+
+The census (section 0, H1) ranks these; the retained competence evidence is what rules candidates in or out today.
+
+| Workload | Adaptive decisions between reads | Unchanged-agent competence on record | Independent groups available | Side-effect oracle | Status |
+|---|---|---|---|---|---|
+| WebArena-Verified, single-site Reddit (106 tasks, 190 templates overall) | Yes: navigation and form decisions between page reads | 6/6 on the development pilot (`paper/results/adaptive_benchmark_screen/`) | Templates are the unit, not task instances; ~190 templates, fewer per site | Official HAR/network-event graders | Leading candidate; needs the census to show interior read recurrence across templates |
+| BIRD text-to-SQL (dev + train, 31 databases) | Yes: table choice and query repair | Competent (94/150, 403/630) | Questions within a database are correlated; databases are the honest unit (31) | Exact result-set grader | Interior read regions after the schema-first opening are the question; per-question table reads already retire (section 2 of the paper) |
+| AppWorld | Yes | Failed the 8/12 gate twice (1/12, 2/12) | 750 tasks, but variants of a scenario share a supervisor and database (46 scenario and 79 supervisor units in the retained 136-task corpus) | Official state-based grader | Excluded until a competent baseline exists |
+| AgentHop | Yes | 19/24 (passed) | Source-overlap component makes groups non-independent | Exact multiple choice | Excluded: no source-independent groups |
+| GitHub families (existing) | No | Competent | 92-group cohorts, 3,560 end-to-end groups | Exact contracts | Track P1 only (H3, H4) |
+
+### The comparator arms, made concrete
+
+- **Simpler compiler, same IR.** Recurrence-only replay extended to interior boundaries: every region that recurs with identical tool names across the support floor is compiled with literal arguments, no grounding, no verifier, no gate. It runs in a disposable environment only. This is the arm that isolates GAC's grounding and admission from its infrastructure.
+- **Hand-written bounded program.** Written by an author with full workload knowledge before seeing GAC's candidates, frozen by hash, with the same tool budget. If it matches GAC (as on GitHub), H2 is refuted for that workload and the paper says so.
+- **Executable compiler (H4).** TraceCompiler is the only closely related system with a described implementation; EvoC2F's code endpoint returned HTTP 401 (`flip-plans.md`); Agent JIT is a web-task planner whose SQL adaptation scored 4/36 against 26/36 for the unchanged agent (`paper/results/adaptive_compiler_pilot/`). If TraceCompiler's code is not runnable, the simpler-compiler arm is the comparator and the paper says no external compiler was run.
+
 Compare:
 
 | Arm | Purpose |
@@ -287,6 +331,9 @@ Each row is a separate reviewable PR or small PR series. These revised estimates
 
 | Milestone | Deliverable and primary code areas | Exit gate | Rough effort |
 |---|---|---|---|
+| **P0: interior-region census (gate for everything below)** | Extend `paper/scripts/prefix_census*.py` and `paper/results/prefix_census/` to non-initial boundaries: for each retained corpus, the share of trajectories with an interior read-only region of >= 2 calls whose arguments pass the current witness rule, and the independent-group support of each candidate family. Thresholds are the ones in section 0 (H1), declared before the count. Provider-free; $0. | H1 passes on at least one corpus, or the plan drops to P1 only. The result is reported either way, as a census table in the paper. | 3-5 person-days |
+| **P1: matched compiler comparison on the GitHub families** | Run `paper/supplementary/matched-compiler-candidate-protocol.md`: TraceCompiler if runnable, else the same-IR recurrence-only compiler, on the three families and the 3,560-group end-to-end cohort; report both rejection funnels; force-run retired candidates in a disposable environment to measure H3. | Pre-registered margin and funnel reported; no promise of a win. Answers R1-W2 and R2-W2 directly. | 6-10 person-days plus under $50 of provider calls |
+| **P2: interior read regions on one adaptive workload** | Needs M1a and the orchestration-level label/admission path (section 9). Freeze the workload chosen by P0, the competent baseline, the hand-written and simpler-compiler arms, the whole-policy admission rule and the sample size before any provider call. | H2 and H3 measured on fresh independent groups; the whole frozen policy admitted or retired. A retirement is a reportable result. | M1a (8-12 days) + label path (8-15 days) + study; sample cost computed from the census and the baseline's per-episode cost before approval |
 | M0: feasibility and specification | Inventory actual traces/rejections; define a versioned fulfillment-based interior-read fixture and a collection-mutation fixture; audit the application-owned host; freeze boundary, state-machine and oracle specs. | Engineering go requires sufficient observable state, a working exact-path fixture and an enforceable backend contract. Scientific go separately requires genuine trace recurrence, competent baseline and a plausible independent-data/reuse budget. A failed scientific gate need not block a clearly labeled engineering prototype. | 3–5 person-days |
 | M1: interior read regions | M1a: boundary-local trace/provenance, mining/dispatch and current-boundary continuation (8–12 days). M1b: durable activation/checkpoint ownership, explicit incident propagation, receipt delivery and crash/restart controls (6–10 days). Touch `schema/traces.py`, `schema/artifacts.py`, `graph/windows.py`, `grc/compile.py`, `runtime/dispatch.py`, `runtime/runner.py` and one host adapter. | Prefix regressions and exact boundary/history controls pass. M1a is a disposable in-process demonstration only. Supported interior reuse requires M1b; the host must prove no action after an unresolved incident and no replay of predecessor writes. | 14–22 person-days |
 | M2: owned transactional writes | M2a: typed adapter, intent/receipt schema, atomic publication, restart/reconciliation and host delivery (8–14 days). M2b: occurrence-aware traces, ordered mutation IR/synthesis, predicate validity and state-transition equivalence (7–12 days). M2c: integrated fault/concurrency, authorization, legacy-compatibility and exact-path oracle controls (5–9 days). Add proposed transaction/journal modules; keep the current read facade unchanged. | M2a alone is an executor demonstration. Complete M2 requires generated bounded programs through the checked path, all failure gates and explicit research-only status until new admission evidence exists. No read-only artifact is silently upgraded. | 20–35 person-days |
@@ -294,7 +341,7 @@ Each row is a separate reviewable PR or small PR series. These revised estimates
 | M4: portability and fresh adaptive comparison | M4a: second integration and orchestration-level label/admission adapter, reusing a suitable validated runner (8–15 days; re-estimate if unavailable). M4b: frozen actual-agent discovery, competent baseline, independent splits, fixed-policy admission, matched comparison and analysis. | Portability requires both integration conformance checks. Scientific go requires a full-workflow oracle and a computed affordable sample. No paid expansion solely to compensate for a failed competence or recurrence gate. | M4a 8–15 person-days; M4b acquisition, compute and research iteration not bounded yet |
 | M5: limited adoption and maintenance | Read-only shadow selection, isolated mutation trials, then opt-in canary for eligible adapters; telemetry, retirement and recovery runbooks. | Defined operational limits, responsible recovery owner, and evidence for the intended deployment scope. No uncontrolled write shadowing. | 5–10 person-days, scope-dependent |
 
-M0 may approve only M1 if transactional writes offer no useful recurrence. M1 and M2 do not require external services. M4 can begin after the relevant engineering gates pass; completing M3 is not necessary to study adaptive workflows. Cross-service compensation, parallel write branches, broader DSL syntax, and a general durable workflow service require a new plan after demonstrated need.
+P0 gates P2 and M1; a negative census leaves P1 and Track E. M0 may approve only M1 if transactional writes offer no useful recurrence. M1 and M2 do not require external services. M4 can begin after the relevant engineering gates pass; completing M3 is not necessary to study adaptive workflows. Cross-service compensation, parallel write branches, broader DSL syntax, and a general durable workflow service require a new plan after demonstrated need.
 
 ### Revised schedule and first-week decision package
 
@@ -363,6 +410,10 @@ This section records a second-pass adversarial review of the design. It is a sel
 | “A more complex benchmark will necessarily demonstrate value.” | Rejected: baseline competence, actual automatic synthesis, fresh independent groups, matched interfaces, and lifecycle economics are binding gates. | AppWorld's retained competence failures remain unresolved. |
 | “This is a new workflow engine disguised as an optimizer.” | Reduced: the host retains orchestration and approvals; one transactional adapter is the initial mutation scope, and an existing durable executor may supply the journal contract. | Adapter and evidence-maintenance costs may outweigh saved model work. |
 | “More features will answer the reviewers by themselves.” | Rejected: task outcomes, population accounting, matched comparators, and selection-valid evidence are separate deliverables. | No acceptance or superiority claim follows from this plan. |
+| “The plan has no research question; it is a build list.” (2026-11-08 review) | Corrected: section 0 states four hypotheses with thresholds declared before the census, and names which venue each supports. | Thresholds are judgments; a passed threshold is not a result. |
+| “The first write fixture (add items to a collection) is trivially hand-written, which is exactly R2's objection.” | Accepted: the fixture stays as an executor control for Track E; it is excluded from any publication claim. H2 requires a program a person would not write first. | Track E may still produce nothing publishable at an ML venue. |
+| “A certified compiled-write result is unaffordable.” | Accepted: section 0 states it is not publishable on this budget; Track E is mechanism-only. | The systems-venue paper needs a workload with real writes that this project does not yet have. |
+| “Headroom is the real unknown and is deferred.” | Corrected: P0 is now the first milestone and the gate for M1 and P2, with thresholds fixed in section 0. | A positive census does not guarantee a competent baseline on the same workload. |
 
 ### Remaining design decisions and final go/no-go judgment
 
@@ -412,3 +463,15 @@ PYTHONPATH=src python -m pytest -o addopts='' -q \
 ```
 
 Review assessment by dimension: **correctness—conditional feasibility after the listed gaps are addressed; security—enforceable only within the stated host/backend trust boundary; performance—unproven pending headroom and full-cost measurement; maintainability—credible with versioned adapters, serial execution and preserved legacy behavior.** No test or design review can establish universal feasibility for arbitrary agentic workflows. The next authorized engineering decision should be M0, with a supported prototype target and a separate evidence budget.
+
+## 16. Venue plan and timeline
+
+Dates marked (proj.) are third-party projections from the previous cycle; the official calls had not been posted when this was written. Verify before planning around them.
+
+| Path | Submission | Venue and date | What must be true | Risk |
+|---|---|---|---|---|
+| A. Strengthened resubmission | Current paper with P1 (H3, H4) added; learned-gate material removed; safe-automation framing | ICML 2027, ~22 Jan 2027 (proj.); fallback COLM 2027, ~Mar 2027 (proj.) | P1 complete by mid-January; 3,560-group study already in hand | Reviewers may still rate the metadata tasks as low value; the compiler comparison and funnel are the answer |
+| C. Interior reuse paper | A + P2 on one adaptive workload | ICML 2027 only if P0 is positive by late November and P2's sample is affordable; otherwise COLM 2027 or NeurIPS 2027, ~May 2027 (proj.) | H1 passes; a competent baseline (WebArena-Verified is the live candidate); whole-policy admission on fresh groups | Highest upside; dies on a negative census or an incompetent baseline, in which case the census itself goes into A as a scope result |
+| B. Mechanism paper (Track E) | Interior-boundary contract, mutation contract, durable recovery, fault-injection evaluation | OOPSLA 2027 Round 2 (7 Apr 2027) is too close after a 10-16 week build; realistic targets are MLSys 2028 or OOPSLA 2028 Round 1 (~Oct 2027) | A workload with real writes; soundness argument for the ordered mutation IR; concurrency and crash tests of section 12 | Not an ML-venue paper; competes with durable-execution systems on their ground |
+
+Recommended order: P0 this week; P1 in parallel; decide A versus C on the census; Track E continues only as engineering, with no 2027 submission depending on it.
