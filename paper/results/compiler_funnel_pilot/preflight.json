@@ -1,0 +1,633 @@
+{
+  "compile_plan": {
+    "calibration": 92,
+    "dev": 8,
+    "eligibility_rule": "github_live_study.compiler_eligible",
+    "eligible_needed": 116,
+    "funnel_policies": {
+      "full": {
+        "alpha": 0.05,
+        "grounding": true
+      },
+      "recurrence_only": {
+        "alpha": 1.0,
+        "grounding": false
+      },
+      "stats_only": {
+        "alpha": 0.05,
+        "grounding": false
+      },
+      "support_only": {
+        "alpha": 1.0,
+        "grounding": true
+      }
+    },
+    "train": 16
+  },
+  "model": "gpt-5.6-luna",
+  "model_settings": {
+    "concurrency": 8,
+    "max_turns": 8,
+    "parallel_tool_calls": false,
+    "reasoning_effort": "low",
+    "retry_policy": "one retry per timed-out episode; both attempts retained",
+    "store": false,
+    "timeout_s": 120.0,
+    "verbosity": "low"
+  },
+  "pool_accounting": {
+    "body_at_least_80_chars": 193,
+    "category": {
+      "enhancement": 21,
+      "other": 172
+    },
+    "comments_ge3": 77,
+    "day_range": [
+      "2025-06-15",
+      "2026-10-07"
+    ],
+    "excluded": [
+      7693,
+      7694,
+      8029,
+      8590
+    ],
+    "field_rule_hits": {},
+    "issues_in_snapshot": 277,
+    "issues_with_at_least_one_comment": 197,
+    "known_same_record_space_uses": [
+      7693,
+      7694,
+      8029,
+      8590
+    ],
+    "number_range": [
+      7617,
+      8763
+    ],
+    "pool": 193,
+    "state": {
+      "closed": 73,
+      "open": 120
+    }
+  },
+  "protocol": {
+    "path": "paper/supplementary/compiler-funnel-live-pilot-protocol.md",
+    "sha256": "27a6ff28359462ec13b389b2be9af5a04555790dc8ff3e959d4f94788667989e"
+  },
+  "provider_calls": 0,
+  "schema": "gac-compiler-funnel-live-pilot-preflight/v1",
+  "selection": {
+    "discovery": [
+      7679,
+      8149,
+      7739,
+      7894,
+      7958,
+      7905,
+      7970,
+      8341,
+      8012,
+      7760,
+      7902,
+      7931,
+      7871,
+      8007,
+      7758,
+      7821,
+      8330,
+      7678,
+      8159,
+      8375,
+      8373,
+      7617,
+      7818,
+      7687,
+      7686,
+      7727,
+      8719,
+      8253,
+      7816,
+      7777,
+      8242,
+      7868,
+      7680,
+      8256,
+      8675,
+      7917,
+      8241,
+      7753,
+      8145,
+      7915,
+      7798,
+      8618,
+      8116,
+      7720,
+      7872,
+      7731,
+      7665,
+      8637,
+      7877,
+      7682,
+      7696,
+      7811,
+      7793,
+      8359,
+      7867,
+      8522,
+      8015,
+      8110,
+      8391,
+      7864,
+      7772,
+      8169,
+      7765,
+      7738,
+      8390,
+      7802,
+      7863,
+      7852,
+      8171,
+      8537,
+      8199,
+      8296,
+      7688,
+      7669,
+      7900,
+      8481,
+      8458,
+      8381,
+      7946,
+      7632,
+      7733,
+      7742,
+      7729,
+      8005,
+      7829,
+      7685,
+      7647,
+      7676,
+      7834,
+      7675,
+      7922,
+      8217,
+      7636,
+      7813,
+      8327,
+      8617,
+      8125,
+      8499,
+      8010,
+      7709,
+      7893,
+      8246,
+      7869,
+      8472,
+      7904,
+      8507,
+      7999,
+      8308,
+      7968,
+      7662,
+      7819,
+      7699,
+      8331,
+      7918,
+      7837,
+      7746,
+      8197,
+      7630,
+      8328,
+      8052,
+      8164,
+      8596,
+      7619,
+      7756,
+      8075,
+      7901,
+      7882,
+      7660
+    ],
+    "discovery_sha256": "37be1a6d92dc4b11e9c42e742b78cf1f131e7ddd9d08b2a582aa0ab911e8fe3f",
+    "latin_order": {
+      "7624": [
+        "compiled",
+        "recurrence_only_three_read",
+        "baseline"
+      ],
+      "7627": [
+        "recurrence_only_three_read",
+        "baseline",
+        "compiled"
+      ],
+      "7637": [
+        "baseline",
+        "compiled",
+        "recurrence_only_three_read"
+      ],
+      "7664": [
+        "compiled",
+        "baseline",
+        "recurrence_only_three_read"
+      ],
+      "7668": [
+        "recurrence_only_three_read",
+        "baseline",
+        "compiled"
+      ],
+      "7671": [
+        "baseline",
+        "recurrence_only_three_read",
+        "compiled"
+      ],
+      "7677": [
+        "baseline",
+        "compiled",
+        "recurrence_only_three_read"
+      ],
+      "7689": [
+        "compiled",
+        "baseline",
+        "recurrence_only_three_read"
+      ],
+      "7691": [
+        "compiled",
+        "baseline",
+        "recurrence_only_three_read"
+      ],
+      "7692": [
+        "baseline",
+        "recurrence_only_three_read",
+        "compiled"
+      ],
+      "7698": [
+        "recurrence_only_three_read",
+        "baseline",
+        "compiled"
+      ],
+      "7703": [
+        "compiled",
+        "recurrence_only_three_read",
+        "baseline"
+      ],
+      "7705": [
+        "recurrence_only_three_read",
+        "baseline",
+        "compiled"
+      ],
+      "7707": [
+        "baseline",
+        "compiled",
+        "recurrence_only_three_read"
+      ],
+      "7717": [
+        "compiled",
+        "recurrence_only_three_read",
+        "baseline"
+      ],
+      "7721": [
+        "baseline",
+        "recurrence_only_three_read",
+        "compiled"
+      ],
+      "7728": [
+        "compiled",
+        "baseline",
+        "recurrence_only_three_read"
+      ],
+      "7744": [
+        "recurrence_only_three_read",
+        "compiled",
+        "baseline"
+      ],
+      "7745": [
+        "recurrence_only_three_read",
+        "compiled",
+        "baseline"
+      ],
+      "7751": [
+        "recurrence_only_three_read",
+        "baseline",
+        "compiled"
+      ],
+      "7757": [
+        "compiled",
+        "recurrence_only_three_read",
+        "baseline"
+      ],
+      "7766": [
+        "baseline",
+        "recurrence_only_three_read",
+        "compiled"
+      ],
+      "7767": [
+        "baseline",
+        "recurrence_only_three_read",
+        "compiled"
+      ],
+      "7780": [
+        "compiled",
+        "recurrence_only_three_read",
+        "baseline"
+      ],
+      "7788": [
+        "compiled",
+        "recurrence_only_three_read",
+        "baseline"
+      ],
+      "7792": [
+        "recurrence_only_three_read",
+        "baseline",
+        "compiled"
+      ],
+      "7804": [
+        "compiled",
+        "baseline",
+        "recurrence_only_three_read"
+      ],
+      "7839": [
+        "baseline",
+        "recurrence_only_three_read",
+        "compiled"
+      ],
+      "7841": [
+        "compiled",
+        "baseline",
+        "recurrence_only_three_read"
+      ],
+      "7856": [
+        "compiled",
+        "baseline",
+        "recurrence_only_three_read"
+      ],
+      "7870": [
+        "baseline",
+        "recurrence_only_three_read",
+        "compiled"
+      ],
+      "7879": [
+        "recurrence_only_three_read",
+        "compiled",
+        "baseline"
+      ],
+      "7914": [
+        "recurrence_only_three_read",
+        "compiled",
+        "baseline"
+      ],
+      "7927": [
+        "recurrence_only_three_read",
+        "baseline",
+        "compiled"
+      ],
+      "7928": [
+        "recurrence_only_three_read",
+        "compiled",
+        "baseline"
+      ],
+      "7936": [
+        "compiled",
+        "recurrence_only_three_read",
+        "baseline"
+      ],
+      "7954": [
+        "baseline",
+        "compiled",
+        "recurrence_only_three_read"
+      ],
+      "7956": [
+        "recurrence_only_three_read",
+        "compiled",
+        "baseline"
+      ],
+      "7965": [
+        "recurrence_only_three_read",
+        "baseline",
+        "compiled"
+      ],
+      "7986": [
+        "compiled",
+        "baseline",
+        "recurrence_only_three_read"
+      ],
+      "7990": [
+        "baseline",
+        "compiled",
+        "recurrence_only_three_read"
+      ],
+      "8034": [
+        "compiled",
+        "recurrence_only_three_read",
+        "baseline"
+      ],
+      "8046": [
+        "compiled",
+        "recurrence_only_three_read",
+        "baseline"
+      ],
+      "8048": [
+        "compiled",
+        "recurrence_only_three_read",
+        "baseline"
+      ],
+      "8065": [
+        "recurrence_only_three_read",
+        "baseline",
+        "compiled"
+      ],
+      "8078": [
+        "compiled",
+        "baseline",
+        "recurrence_only_three_read"
+      ],
+      "8085": [
+        "baseline",
+        "compiled",
+        "recurrence_only_three_read"
+      ],
+      "8120": [
+        "baseline",
+        "compiled",
+        "recurrence_only_three_read"
+      ],
+      "8129": [
+        "baseline",
+        "compiled",
+        "recurrence_only_three_read"
+      ],
+      "8131": [
+        "baseline",
+        "compiled",
+        "recurrence_only_three_read"
+      ],
+      "8165": [
+        "baseline",
+        "recurrence_only_three_read",
+        "compiled"
+      ],
+      "8167": [
+        "baseline",
+        "recurrence_only_three_read",
+        "compiled"
+      ],
+      "8178": [
+        "recurrence_only_three_read",
+        "compiled",
+        "baseline"
+      ],
+      "8201": [
+        "recurrence_only_three_read",
+        "compiled",
+        "baseline"
+      ],
+      "8293": [
+        "recurrence_only_three_read",
+        "compiled",
+        "baseline"
+      ],
+      "8302": [
+        "recurrence_only_three_read",
+        "compiled",
+        "baseline"
+      ],
+      "8324": [
+        "recurrence_only_three_read",
+        "baseline",
+        "compiled"
+      ],
+      "8386": [
+        "baseline",
+        "compiled",
+        "recurrence_only_three_read"
+      ],
+      "8483": [
+        "baseline",
+        "recurrence_only_three_read",
+        "compiled"
+      ],
+      "8491": [
+        "recurrence_only_three_read",
+        "compiled",
+        "baseline"
+      ],
+      "8543": [
+        "recurrence_only_three_read",
+        "baseline",
+        "compiled"
+      ],
+      "8709": [
+        "compiled",
+        "baseline",
+        "recurrence_only_three_read"
+      ],
+      "8714": [
+        "baseline",
+        "compiled",
+        "recurrence_only_three_read"
+      ],
+      "8740": [
+        "compiled",
+        "baseline",
+        "recurrence_only_three_read"
+      ],
+      "8763": [
+        "compiled",
+        "recurrence_only_three_read",
+        "baseline"
+      ]
+    },
+    "namespace": "tf-issue-pilot",
+    "rule": "stable SHA-256 rank; first 128 discovery, rest test",
+    "seed": 20261108,
+    "test": [
+      7671,
+      7664,
+      7627,
+      7691,
+      7744,
+      7717,
+      7624,
+      7745,
+      7839,
+      7986,
+      7705,
+      7927,
+      7780,
+      8178,
+      8048,
+      7928,
+      8120,
+      8167,
+      8302,
+      7856,
+      7767,
+      8324,
+      7698,
+      7990,
+      8543,
+      8078,
+      7766,
+      8293,
+      7689,
+      7879,
+      8085,
+      8129,
+      7721,
+      8709,
+      7707,
+      7954,
+      8763,
+      7677,
+      8740,
+      7637,
+      7870,
+      7965,
+      7936,
+      7751,
+      7668,
+      8491,
+      8046,
+      8714,
+      8165,
+      7841,
+      8034,
+      7692,
+      8131,
+      7703,
+      7757,
+      7792,
+      8201,
+      7956,
+      8483,
+      7804,
+      7914,
+      8065,
+      8386,
+      7788,
+      7728
+    ],
+    "test_category": {
+      "enhancement": 9,
+      "other": 56
+    },
+    "test_comments_ge3": 30,
+    "test_sha256": "3753af0d989f07067c18b519ab99da01e0191d3c504870829adf00fc3b7b1bd1"
+  },
+  "source": {
+    "created_after_utc_day": "2025-06-13",
+    "dataset": "github-api:huggingface/datasets:created-after-2025-06-13",
+    "deduplicated_non_pr_issues": 277,
+    "fetch_completed_utc": "2026-10-07T13:43:30Z",
+    "parquet_sha256": "9b94520fd0902961a07d0f0323c1b8d86ab0db38d863ac9b0cce984296f029b7",
+    "repository": "huggingface/datasets",
+    "revision": "9b94520fd0902961a07d0f0323c1b8d86ab0db38d863ac9b0cce984296f029b7",
+    "snapshot_dir": "paper/results/datasets/github_time_forward/huggingface__datasets"
+  },
+  "spend": {
+    "approved_cap_usd": 5.0,
+    "episodes_planned": 323,
+    "expected_usd": 0.2387,
+    "reserve_per_episode_usd": 0.002
+  },
+  "timestamp_utc": "2026-11-08T22:18:17+00:00"
+}

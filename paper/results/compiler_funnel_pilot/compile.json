@@ -1,0 +1,1520 @@
+{
+  "discovery_checkpoint_sha256": "ac70eabe117432cea62227759ac0bbde365fe687a8d77869c94fe76eefe51359",
+  "discovery_completed": 128,
+  "funnel": {
+    "divergence": [],
+    "policies": {
+      "full": {
+        "alpha": 0.05,
+        "artifacts": [
+          {
+            "artifact_id": "cand-00-9704d2d4a908",
+            "gate_n_calibration_groups": 92,
+            "gate_observed_violations": 0,
+            "gate_retire": false,
+            "gate_risk_upper_bound": 0.049808920112407784,
+            "name": "issue_get_record.issue_get_labels.region@9704d2d4",
+            "removed_requests": 3.0,
+            "support_groups": 16,
+            "tools": [
+              "issue_get_record",
+              "issue_get_labels",
+              "issue_get_comments"
+            ]
+          }
+        ],
+        "candidates": [
+          {
+            "artifact": "issue_get_record.issue_get_labels.region@9704d2d4",
+            "candidate_id": "cand-00-9704d2d4a908",
+            "challenge": {
+              "hard_rejects": [],
+              "ok": true,
+              "recorded_ok": true
+            },
+            "gate": {
+              "alpha": 0.05,
+              "coverage": 1.0,
+              "delta": 0.1,
+              "n_accepted": 92,
+              "n_calibration_groups": 92,
+              "observed_violations": 0,
+              "retire": false,
+              "risk_upper_bound": 0.049808920112407784,
+              "threshold": 0.5
+            },
+            "notes": {
+              "branch": "none",
+              "branch_alternatives": 0,
+              "branch_atoms": 0,
+              "branch_p": null,
+              "composite": "ineligible:tools lack batchable capability: issue_get_record, issue_get_labels, issue_get_comments",
+              "gate_calibration_reasons": {
+                "RecordingMiss": 3
+              },
+              "gate_calibration_samples": 92,
+              "gate_calibration_unproductive": 3,
+              "gate_calibration_violations": 0,
+              "gate_dev_reasons": {
+                "RecordingMiss": 1,
+                "perturbation_unproductive": 4
+              },
+              "gate_dev_samples": 16,
+              "gate_dev_unproductive": 5,
+              "gate_dev_violations": 0,
+              "n_alternative_bindings": 82,
+              "n_alternative_loop_predicates": 0,
+              "n_steps": 3
+            },
+            "program": [
+              {
+                "args": {
+                  "issue_number": "Expr(source='z.issue_number', ops=())"
+                },
+                "tool": "issue_get_record",
+                "var": "get"
+              },
+              {
+                "args": {
+                  "issue_number": "Expr(source='get.issue_number', ops=())"
+                },
+                "tool": "issue_get_labels",
+                "var": "get2"
+              },
+              {
+                "args": {
+                  "issue_number": "Expr(source='get.issue_number', ops=())",
+                  "limit": "Const(value=100)"
+                },
+                "tool": "issue_get_comments",
+                "var": "get3"
+              }
+            ],
+            "rejected": null,
+            "removed_requests": 3.0,
+            "slot_reasons": {},
+            "stage": "emitted",
+            "support_days": 16,
+            "support_groups": 16,
+            "synthesis_reason": "",
+            "tools": [
+              "issue_get_record",
+              "issue_get_labels",
+              "issue_get_comments"
+            ]
+          },
+          {
+            "artifact": null,
+            "candidate_id": "cand-01-1ebb8b2849c7",
+            "challenge": {
+              "hard_rejects": [],
+              "ok": true,
+              "recorded_ok": true
+            },
+            "gate": {
+              "alpha": 0.05,
+              "coverage": 1.0,
+              "delta": 0.1,
+              "n_accepted": 92,
+              "n_calibration_groups": 92,
+              "observed_violations": 0,
+              "retire": false,
+              "risk_upper_bound": 0.049808920112407784,
+              "threshold": 0.5
+            },
+            "notes": {
+              "branch": "none",
+              "branch_alternatives": 0,
+              "branch_atoms": 0,
+              "branch_p": null,
+              "composite": "ineligible:tools lack batchable capability: issue_get_record, issue_get_labels",
+              "gate_calibration_reasons": {},
+              "gate_calibration_samples": 92,
+              "gate_calibration_unproductive": 0,
+              "gate_calibration_violations": 0,
+              "gate_dev_reasons": {
+                "perturbation_unproductive": 3
+              },
+              "gate_dev_samples": 16,
+              "gate_dev_unproductive": 3,
+              "gate_dev_violations": 0,
+              "n_alternative_bindings": 49,
+              "n_alternative_loop_predicates": 0,
+              "n_steps": 2
+            },
+            "program": [
+              {
+                "args": {
+                  "issue_number": "Expr(source='z.issue_number', ops=())"
+                },
+                "tool": "issue_get_record",
+                "var": "get"
+              },
+              {
+                "args": {
+                  "issue_number": "Expr(source='get.issue_number', ops=())"
+                },
+                "tool": "issue_get_labels",
+                "var": "get2"
+              }
+            ],
+            "rejected": "dominated_by_longer_region",
+            "removed_requests": 2.0,
+            "slot_reasons": {},
+            "stage": "dominated",
+            "support_days": 16,
+            "support_groups": 16,
+            "synthesis_reason": "",
+            "tools": [
+              "issue_get_record",
+              "issue_get_labels"
+            ]
+          }
+        ],
+        "config": {
+          "allow_legacy_catalog_version": false,
+          "alpha": 0.05,
+          "b_min": 2,
+          "composite_continuation_key": "",
+          "composite_pre_model": true,
+          "composite_projection": {},
+          "delta": 0.1,
+          "entry_schema": [
+            "issue_number"
+          ],
+          "freeze_one_candidate_before_calibration": false,
+          "kappa": 3,
+          "max_artifacts": 2,
+          "max_calibration_windows": 92,
+          "max_candidates": 8,
+          "max_dev_windows": 400,
+          "max_transform_depth": 2,
+          "min_days": 1,
+          "min_principals": 1,
+          "mode": "replay",
+          "n_permutations": 400,
+          "owner": "paper-reproducibility-study",
+          "partition_by": [],
+          "phi_min": 0.02,
+          "prefix_only": true,
+          "s_branch": 20,
+          "s_min": 5,
+          "seed": 20260802,
+          "synthesize_composites": true,
+          "w_max": 3,
+          "w_min": 2
+        },
+        "error": null,
+        "grounding": true,
+        "majority_bindings": [],
+        "mining": {
+          "blocked": {
+            "non_prefix_runtime": 16
+          },
+          "blocked_by_tool": {},
+          "families": [
+            {
+              "support": 16,
+              "tools": [
+                "issue_get_record",
+                "issue_get_labels",
+                "issue_get_comments"
+              ]
+            },
+            {
+              "support": 16,
+              "tools": [
+                "issue_get_record",
+                "issue_get_labels"
+              ]
+            }
+          ],
+          "n_episodes": 16,
+          "n_windows": 32,
+          "rejected_families": []
+        },
+        "policy": "full",
+        "rejection_by_stage": {
+          "select:dominated": 1
+        },
+        "runtime_seconds": 0.08
+      },
+      "recurrence_only": {
+        "alpha": 1.0,
+        "artifacts": [
+          {
+            "artifact_id": "cand-00-9704d2d4a908",
+            "gate_n_calibration_groups": 92,
+            "gate_observed_violations": 0,
+            "gate_retire": false,
+            "gate_risk_upper_bound": 0.05070716304096534,
+            "name": "issue_get_record.issue_get_labels.region@9704d2d4",
+            "removed_requests": 3.0,
+            "support_groups": 16,
+            "tools": [
+              "issue_get_record",
+              "issue_get_labels",
+              "issue_get_comments"
+            ]
+          }
+        ],
+        "candidates": [
+          {
+            "artifact": "issue_get_record.issue_get_labels.region@9704d2d4",
+            "candidate_id": "cand-00-9704d2d4a908",
+            "challenge": {
+              "hard_rejects": [],
+              "ok": true,
+              "recorded_ok": true
+            },
+            "gate": {
+              "alpha": 1.0,
+              "coverage": 1.0,
+              "delta": 0.1,
+              "n_accepted": 92,
+              "n_calibration_groups": 92,
+              "observed_violations": 0,
+              "retire": false,
+              "risk_upper_bound": 0.05070716304096534,
+              "threshold": 1.0
+            },
+            "notes": {
+              "branch": "none",
+              "branch_alternatives": 0,
+              "branch_atoms": 0,
+              "branch_p": null,
+              "composite": "ineligible:tools lack batchable capability: issue_get_record, issue_get_labels, issue_get_comments",
+              "gate_calibration_reasons": {
+                "RecordingMiss": 3
+              },
+              "gate_calibration_samples": 92,
+              "gate_calibration_unproductive": 3,
+              "gate_calibration_violations": 0,
+              "gate_dev_reasons": {
+                "RecordingMiss": 1,
+                "perturbation_unproductive": 4
+              },
+              "gate_dev_samples": 16,
+              "gate_dev_unproductive": 5,
+              "gate_dev_violations": 0,
+              "n_alternative_bindings": 82,
+              "n_alternative_loop_predicates": 0,
+              "n_steps": 3
+            },
+            "program": [
+              {
+                "args": {
+                  "issue_number": "Expr(source='z.issue_number', ops=())"
+                },
+                "tool": "issue_get_record",
+                "var": "get"
+              },
+              {
+                "args": {
+                  "issue_number": "Expr(source='get.issue_number', ops=())"
+                },
+                "tool": "issue_get_labels",
+                "var": "get2"
+              },
+              {
+                "args": {
+                  "issue_number": "Expr(source='get.issue_number', ops=())",
+                  "limit": "Const(value=100)"
+                },
+                "tool": "issue_get_comments",
+                "var": "get3"
+              }
+            ],
+            "rejected": null,
+            "removed_requests": 3.0,
+            "slot_reasons": {},
+            "stage": "emitted",
+            "support_days": 16,
+            "support_groups": 16,
+            "synthesis_reason": "",
+            "tools": [
+              "issue_get_record",
+              "issue_get_labels",
+              "issue_get_comments"
+            ]
+          },
+          {
+            "artifact": null,
+            "candidate_id": "cand-01-1ebb8b2849c7",
+            "challenge": {
+              "hard_rejects": [],
+              "ok": true,
+              "recorded_ok": true
+            },
+            "gate": {
+              "alpha": 1.0,
+              "coverage": 1.0,
+              "delta": 0.1,
+              "n_accepted": 92,
+              "n_calibration_groups": 92,
+              "observed_violations": 0,
+              "retire": false,
+              "risk_upper_bound": 0.05070716304096534,
+              "threshold": 1.0
+            },
+            "notes": {
+              "branch": "none",
+              "branch_alternatives": 0,
+              "branch_atoms": 0,
+              "branch_p": null,
+              "composite": "ineligible:tools lack batchable capability: issue_get_record, issue_get_labels",
+              "gate_calibration_reasons": {},
+              "gate_calibration_samples": 92,
+              "gate_calibration_unproductive": 0,
+              "gate_calibration_violations": 0,
+              "gate_dev_reasons": {
+                "perturbation_unproductive": 3
+              },
+              "gate_dev_samples": 16,
+              "gate_dev_unproductive": 3,
+              "gate_dev_violations": 0,
+              "n_alternative_bindings": 49,
+              "n_alternative_loop_predicates": 0,
+              "n_steps": 2
+            },
+            "program": [
+              {
+                "args": {
+                  "issue_number": "Expr(source='z.issue_number', ops=())"
+                },
+                "tool": "issue_get_record",
+                "var": "get"
+              },
+              {
+                "args": {
+                  "issue_number": "Expr(source='get.issue_number', ops=())"
+                },
+                "tool": "issue_get_labels",
+                "var": "get2"
+              }
+            ],
+            "rejected": "dominated_by_longer_region",
+            "removed_requests": 2.0,
+            "slot_reasons": {},
+            "stage": "dominated",
+            "support_days": 16,
+            "support_groups": 16,
+            "synthesis_reason": "",
+            "tools": [
+              "issue_get_record",
+              "issue_get_labels"
+            ]
+          }
+        ],
+        "config": {
+          "allow_legacy_catalog_version": false,
+          "alpha": 1.0,
+          "b_min": 2,
+          "composite_continuation_key": "",
+          "composite_pre_model": true,
+          "composite_projection": {},
+          "delta": 0.1,
+          "entry_schema": [
+            "issue_number"
+          ],
+          "freeze_one_candidate_before_calibration": false,
+          "kappa": 3,
+          "max_artifacts": 2,
+          "max_calibration_windows": 92,
+          "max_candidates": 8,
+          "max_dev_windows": 400,
+          "max_transform_depth": 2,
+          "min_days": 1,
+          "min_principals": 1,
+          "mode": "replay",
+          "n_permutations": 400,
+          "owner": "paper-reproducibility-study",
+          "partition_by": [],
+          "phi_min": 0.02,
+          "prefix_only": true,
+          "s_branch": 20,
+          "s_min": 5,
+          "seed": 20260802,
+          "synthesize_composites": true,
+          "w_max": 3,
+          "w_min": 2
+        },
+        "error": null,
+        "grounding": false,
+        "majority_bindings": [],
+        "mining": {
+          "blocked": {
+            "non_prefix_runtime": 16
+          },
+          "blocked_by_tool": {},
+          "families": [
+            {
+              "support": 16,
+              "tools": [
+                "issue_get_record",
+                "issue_get_labels",
+                "issue_get_comments"
+              ]
+            },
+            {
+              "support": 16,
+              "tools": [
+                "issue_get_record",
+                "issue_get_labels"
+              ]
+            }
+          ],
+          "n_episodes": 16,
+          "n_windows": 32,
+          "rejected_families": []
+        },
+        "policy": "recurrence_only",
+        "rejection_by_stage": {
+          "select:dominated": 1
+        },
+        "runtime_seconds": 0.06
+      },
+      "stats_only": {
+        "alpha": 0.05,
+        "artifacts": [
+          {
+            "artifact_id": "cand-00-9704d2d4a908",
+            "gate_n_calibration_groups": 92,
+            "gate_observed_violations": 0,
+            "gate_retire": false,
+            "gate_risk_upper_bound": 0.049808920112407784,
+            "name": "issue_get_record.issue_get_labels.region@9704d2d4",
+            "removed_requests": 3.0,
+            "support_groups": 16,
+            "tools": [
+              "issue_get_record",
+              "issue_get_labels",
+              "issue_get_comments"
+            ]
+          }
+        ],
+        "candidates": [
+          {
+            "artifact": "issue_get_record.issue_get_labels.region@9704d2d4",
+            "candidate_id": "cand-00-9704d2d4a908",
+            "challenge": {
+              "hard_rejects": [],
+              "ok": true,
+              "recorded_ok": true
+            },
+            "gate": {
+              "alpha": 0.05,
+              "coverage": 1.0,
+              "delta": 0.1,
+              "n_accepted": 92,
+              "n_calibration_groups": 92,
+              "observed_violations": 0,
+              "retire": false,
+              "risk_upper_bound": 0.049808920112407784,
+              "threshold": 0.5
+            },
+            "notes": {
+              "branch": "none",
+              "branch_alternatives": 0,
+              "branch_atoms": 0,
+              "branch_p": null,
+              "composite": "ineligible:tools lack batchable capability: issue_get_record, issue_get_labels, issue_get_comments",
+              "gate_calibration_reasons": {
+                "RecordingMiss": 3
+              },
+              "gate_calibration_samples": 92,
+              "gate_calibration_unproductive": 3,
+              "gate_calibration_violations": 0,
+              "gate_dev_reasons": {
+                "RecordingMiss": 1,
+                "perturbation_unproductive": 4
+              },
+              "gate_dev_samples": 16,
+              "gate_dev_unproductive": 5,
+              "gate_dev_violations": 0,
+              "n_alternative_bindings": 82,
+              "n_alternative_loop_predicates": 0,
+              "n_steps": 3
+            },
+            "program": [
+              {
+                "args": {
+                  "issue_number": "Expr(source='z.issue_number', ops=())"
+                },
+                "tool": "issue_get_record",
+                "var": "get"
+              },
+              {
+                "args": {
+                  "issue_number": "Expr(source='get.issue_number', ops=())"
+                },
+                "tool": "issue_get_labels",
+                "var": "get2"
+              },
+              {
+                "args": {
+                  "issue_number": "Expr(source='get.issue_number', ops=())",
+                  "limit": "Const(value=100)"
+                },
+                "tool": "issue_get_comments",
+                "var": "get3"
+              }
+            ],
+            "rejected": null,
+            "removed_requests": 3.0,
+            "slot_reasons": {},
+            "stage": "emitted",
+            "support_days": 16,
+            "support_groups": 16,
+            "synthesis_reason": "",
+            "tools": [
+              "issue_get_record",
+              "issue_get_labels",
+              "issue_get_comments"
+            ]
+          },
+          {
+            "artifact": null,
+            "candidate_id": "cand-01-1ebb8b2849c7",
+            "challenge": {
+              "hard_rejects": [],
+              "ok": true,
+              "recorded_ok": true
+            },
+            "gate": {
+              "alpha": 0.05,
+              "coverage": 1.0,
+              "delta": 0.1,
+              "n_accepted": 92,
+              "n_calibration_groups": 92,
+              "observed_violations": 0,
+              "retire": false,
+              "risk_upper_bound": 0.049808920112407784,
+              "threshold": 0.5
+            },
+            "notes": {
+              "branch": "none",
+              "branch_alternatives": 0,
+              "branch_atoms": 0,
+              "branch_p": null,
+              "composite": "ineligible:tools lack batchable capability: issue_get_record, issue_get_labels",
+              "gate_calibration_reasons": {},
+              "gate_calibration_samples": 92,
+              "gate_calibration_unproductive": 0,
+              "gate_calibration_violations": 0,
+              "gate_dev_reasons": {
+                "perturbation_unproductive": 3
+              },
+              "gate_dev_samples": 16,
+              "gate_dev_unproductive": 3,
+              "gate_dev_violations": 0,
+              "n_alternative_bindings": 49,
+              "n_alternative_loop_predicates": 0,
+              "n_steps": 2
+            },
+            "program": [
+              {
+                "args": {
+                  "issue_number": "Expr(source='z.issue_number', ops=())"
+                },
+                "tool": "issue_get_record",
+                "var": "get"
+              },
+              {
+                "args": {
+                  "issue_number": "Expr(source='get.issue_number', ops=())"
+                },
+                "tool": "issue_get_labels",
+                "var": "get2"
+              }
+            ],
+            "rejected": "dominated_by_longer_region",
+            "removed_requests": 2.0,
+            "slot_reasons": {},
+            "stage": "dominated",
+            "support_days": 16,
+            "support_groups": 16,
+            "synthesis_reason": "",
+            "tools": [
+              "issue_get_record",
+              "issue_get_labels"
+            ]
+          }
+        ],
+        "config": {
+          "allow_legacy_catalog_version": false,
+          "alpha": 0.05,
+          "b_min": 2,
+          "composite_continuation_key": "",
+          "composite_pre_model": true,
+          "composite_projection": {},
+          "delta": 0.1,
+          "entry_schema": [
+            "issue_number"
+          ],
+          "freeze_one_candidate_before_calibration": false,
+          "kappa": 3,
+          "max_artifacts": 2,
+          "max_calibration_windows": 92,
+          "max_candidates": 8,
+          "max_dev_windows": 400,
+          "max_transform_depth": 2,
+          "min_days": 1,
+          "min_principals": 1,
+          "mode": "replay",
+          "n_permutations": 400,
+          "owner": "paper-reproducibility-study",
+          "partition_by": [],
+          "phi_min": 0.02,
+          "prefix_only": true,
+          "s_branch": 20,
+          "s_min": 5,
+          "seed": 20260802,
+          "synthesize_composites": true,
+          "w_max": 3,
+          "w_min": 2
+        },
+        "error": null,
+        "grounding": false,
+        "majority_bindings": [],
+        "mining": {
+          "blocked": {
+            "non_prefix_runtime": 16
+          },
+          "blocked_by_tool": {},
+          "families": [
+            {
+              "support": 16,
+              "tools": [
+                "issue_get_record",
+                "issue_get_labels",
+                "issue_get_comments"
+              ]
+            },
+            {
+              "support": 16,
+              "tools": [
+                "issue_get_record",
+                "issue_get_labels"
+              ]
+            }
+          ],
+          "n_episodes": 16,
+          "n_windows": 32,
+          "rejected_families": []
+        },
+        "policy": "stats_only",
+        "rejection_by_stage": {
+          "select:dominated": 1
+        },
+        "runtime_seconds": 0.06
+      },
+      "support_only": {
+        "alpha": 1.0,
+        "artifacts": [
+          {
+            "artifact_id": "cand-00-9704d2d4a908",
+            "gate_n_calibration_groups": 92,
+            "gate_observed_violations": 0,
+            "gate_retire": false,
+            "gate_risk_upper_bound": 0.05070716304096534,
+            "name": "issue_get_record.issue_get_labels.region@9704d2d4",
+            "removed_requests": 3.0,
+            "support_groups": 16,
+            "tools": [
+              "issue_get_record",
+              "issue_get_labels",
+              "issue_get_comments"
+            ]
+          }
+        ],
+        "candidates": [
+          {
+            "artifact": "issue_get_record.issue_get_labels.region@9704d2d4",
+            "candidate_id": "cand-00-9704d2d4a908",
+            "challenge": {
+              "hard_rejects": [],
+              "ok": true,
+              "recorded_ok": true
+            },
+            "gate": {
+              "alpha": 1.0,
+              "coverage": 1.0,
+              "delta": 0.1,
+              "n_accepted": 92,
+              "n_calibration_groups": 92,
+              "observed_violations": 0,
+              "retire": false,
+              "risk_upper_bound": 0.05070716304096534,
+              "threshold": 1.0
+            },
+            "notes": {
+              "branch": "none",
+              "branch_alternatives": 0,
+              "branch_atoms": 0,
+              "branch_p": null,
+              "composite": "ineligible:tools lack batchable capability: issue_get_record, issue_get_labels, issue_get_comments",
+              "gate_calibration_reasons": {
+                "RecordingMiss": 3
+              },
+              "gate_calibration_samples": 92,
+              "gate_calibration_unproductive": 3,
+              "gate_calibration_violations": 0,
+              "gate_dev_reasons": {
+                "RecordingMiss": 1,
+                "perturbation_unproductive": 4
+              },
+              "gate_dev_samples": 16,
+              "gate_dev_unproductive": 5,
+              "gate_dev_violations": 0,
+              "n_alternative_bindings": 82,
+              "n_alternative_loop_predicates": 0,
+              "n_steps": 3
+            },
+            "program": [
+              {
+                "args": {
+                  "issue_number": "Expr(source='z.issue_number', ops=())"
+                },
+                "tool": "issue_get_record",
+                "var": "get"
+              },
+              {
+                "args": {
+                  "issue_number": "Expr(source='get.issue_number', ops=())"
+                },
+                "tool": "issue_get_labels",
+                "var": "get2"
+              },
+              {
+                "args": {
+                  "issue_number": "Expr(source='get.issue_number', ops=())",
+                  "limit": "Const(value=100)"
+                },
+                "tool": "issue_get_comments",
+                "var": "get3"
+              }
+            ],
+            "rejected": null,
+            "removed_requests": 3.0,
+            "slot_reasons": {},
+            "stage": "emitted",
+            "support_days": 16,
+            "support_groups": 16,
+            "synthesis_reason": "",
+            "tools": [
+              "issue_get_record",
+              "issue_get_labels",
+              "issue_get_comments"
+            ]
+          },
+          {
+            "artifact": null,
+            "candidate_id": "cand-01-1ebb8b2849c7",
+            "challenge": {
+              "hard_rejects": [],
+              "ok": true,
+              "recorded_ok": true
+            },
+            "gate": {
+              "alpha": 1.0,
+              "coverage": 1.0,
+              "delta": 0.1,
+              "n_accepted": 92,
+              "n_calibration_groups": 92,
+              "observed_violations": 0,
+              "retire": false,
+              "risk_upper_bound": 0.05070716304096534,
+              "threshold": 1.0
+            },
+            "notes": {
+              "branch": "none",
+              "branch_alternatives": 0,
+              "branch_atoms": 0,
+              "branch_p": null,
+              "composite": "ineligible:tools lack batchable capability: issue_get_record, issue_get_labels",
+              "gate_calibration_reasons": {},
+              "gate_calibration_samples": 92,
+              "gate_calibration_unproductive": 0,
+              "gate_calibration_violations": 0,
+              "gate_dev_reasons": {
+                "perturbation_unproductive": 3
+              },
+              "gate_dev_samples": 16,
+              "gate_dev_unproductive": 3,
+              "gate_dev_violations": 0,
+              "n_alternative_bindings": 49,
+              "n_alternative_loop_predicates": 0,
+              "n_steps": 2
+            },
+            "program": [
+              {
+                "args": {
+                  "issue_number": "Expr(source='z.issue_number', ops=())"
+                },
+                "tool": "issue_get_record",
+                "var": "get"
+              },
+              {
+                "args": {
+                  "issue_number": "Expr(source='get.issue_number', ops=())"
+                },
+                "tool": "issue_get_labels",
+                "var": "get2"
+              }
+            ],
+            "rejected": "dominated_by_longer_region",
+            "removed_requests": 2.0,
+            "slot_reasons": {},
+            "stage": "dominated",
+            "support_days": 16,
+            "support_groups": 16,
+            "synthesis_reason": "",
+            "tools": [
+              "issue_get_record",
+              "issue_get_labels"
+            ]
+          }
+        ],
+        "config": {
+          "allow_legacy_catalog_version": false,
+          "alpha": 1.0,
+          "b_min": 2,
+          "composite_continuation_key": "",
+          "composite_pre_model": true,
+          "composite_projection": {},
+          "delta": 0.1,
+          "entry_schema": [
+            "issue_number"
+          ],
+          "freeze_one_candidate_before_calibration": false,
+          "kappa": 3,
+          "max_artifacts": 2,
+          "max_calibration_windows": 92,
+          "max_candidates": 8,
+          "max_dev_windows": 400,
+          "max_transform_depth": 2,
+          "min_days": 1,
+          "min_principals": 1,
+          "mode": "replay",
+          "n_permutations": 400,
+          "owner": "paper-reproducibility-study",
+          "partition_by": [],
+          "phi_min": 0.02,
+          "prefix_only": true,
+          "s_branch": 20,
+          "s_min": 5,
+          "seed": 20260802,
+          "synthesize_composites": true,
+          "w_max": 3,
+          "w_min": 2
+        },
+        "error": null,
+        "grounding": true,
+        "majority_bindings": [],
+        "mining": {
+          "blocked": {
+            "non_prefix_runtime": 16
+          },
+          "blocked_by_tool": {},
+          "families": [
+            {
+              "support": 16,
+              "tools": [
+                "issue_get_record",
+                "issue_get_labels",
+                "issue_get_comments"
+              ]
+            },
+            {
+              "support": 16,
+              "tools": [
+                "issue_get_record",
+                "issue_get_labels"
+              ]
+            }
+          ],
+          "n_episodes": 16,
+          "n_windows": 32,
+          "rejected_families": []
+        },
+        "policy": "support_only",
+        "rejection_by_stage": {
+          "select:dominated": 1
+        },
+        "runtime_seconds": 0.06
+      }
+    }
+  },
+  "gac": {
+    "artifact_explanation": "artifact  issue_get_record.issue_get_labels.region@9704d2d4@1   support 16/16 groups   removes k=3.00   [active]\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\nguard   effect_catalog_version=github-issues-pinned-local-reads@1#1ddef0e3bd00c962  entry_contract_version=github-issue-number-v1  guardrail_hash=#0797e6a6  model=gpt-5.6-luna  policy_hash=#734c5054  prompt_hash=#aa9f6b96  tools_hash=#a6fe0682\n        z.issue_number : int\n        effects \u2286 {READ_LOCAL}  all speculatable \u2227 replayable\n\nprogram (\u03b8 = {issue_number}):\n   get  = call issue_get_record(issue_number = z.issue_number)\n   get2 = call issue_get_labels(issue_number = get.issue_number)\n   get3 = call issue_get_comments(issue_number = get.issue_number, limit = Const(100))\n   return  { get: get, get2: get2, get3: get3 }\nverify  get : dict, non-null, provenance \u2208 {issue_get_record}\n        get.issue_number : int, non-null, provenance \u2208 {issue_get_record}\n        get.source_revision : str, non-null, \u2208 {9b94520fd0902961a07d0f0323c1b8d86ab0db38d863ac9b0cce984296f029b7}, provenance \u2208 {issue_get_record}\n        get.state : str, non-null, \u2208 {closed, open}, provenance \u2208 {issue_get_record}\n        get2 : dict, non-null, provenance \u2208 {issue_get_labels}\n        get2.names : list, non-null, len \u2264 1, len \u2265 0, provenance \u2208 {issue_get_labels}\n        get2.source_revision : str, non-null, \u2208 {9b94520fd0902961a07d0f0323c1b8d86ab0db38d863ac9b0cce984296f029b7}, provenance \u2208 {issue_get_labels}\n        get3 : dict, non-null, provenance \u2208 {issue_get_comments}\n        get3.source_revision : str, non-null, \u2208 {9b94520fd0902961a07d0f0323c1b8d86ab0db38d863ac9b0cce984296f029b7}, provenance \u2208 {issue_get_comments}\n        effect_multiset \u2286 {READ_LOCAL},  |calls| \u2208 {3},  no WRITE_*\ngate    q = logistic(entry features)   \u03b7 = 0.50   (cal n=92 groups, \u03b1=0.05, \u03b4=0.1, |\u039b|=11, R\u207a=0.050, \u03c6\u0302=1.00)",
+    "artifact_id": "cand-00-9704d2d4a908",
+    "artifact_tools": [
+      "issue_get_record",
+      "issue_get_labels",
+      "issue_get_comments"
+    ],
+    "candidates": [
+      {
+        "artifact": "issue_get_record.issue_get_labels.region@9704d2d4",
+        "candidate_id": "cand-00-9704d2d4a908",
+        "challenge": {
+          "hard_rejects": [],
+          "perturbation": {},
+          "perturbations_claimed": false,
+          "recorded": {
+            "abstained": 1,
+            "effect_mismatch": 0,
+            "n": 8,
+            "pass_rate": 0.875,
+            "passed": 7,
+            "reasons": {
+              "RecordingMiss": 1
+            },
+            "state_delta": 0,
+            "wrong": 0
+          },
+          "sandbox": {
+            "abstained": 0,
+            "effect_mismatch": 0,
+            "n": 0,
+            "pass_rate": 0.0,
+            "passed": 0,
+            "reasons": {},
+            "state_delta": 0,
+            "wrong": 0
+          }
+        },
+        "gate": {
+          "admissible": [
+            0.3,
+            0.4,
+            0.5
+          ],
+          "alpha": 0.05,
+          "coverage": 1.0,
+          "delta": 0.1,
+          "features_spec": {
+            "branch_entropy": 0.0,
+            "categories": {},
+            "hull_kinds": {
+              "z.issue_number": "any"
+            },
+            "max_day": "2026-09-23",
+            "numeric_ranges": {},
+            "paths": [
+              "z.issue_number"
+            ],
+            "patterns": {},
+            "provenance_ambiguity": 1.0
+          },
+          "grid": [
+            0.02,
+            0.05,
+            0.08,
+            0.11,
+            0.14,
+            0.17,
+            0.2,
+            0.25,
+            0.3,
+            0.4,
+            0.5
+          ],
+          "model": {
+            "bias": -0.13231434182668805,
+            "feature_means": [
+              0.0,
+              0.0,
+              0.0,
+              0.25,
+              0.0,
+              1.0,
+              0.0
+            ],
+            "feature_scales": [
+              1.0,
+              1.0,
+              1.0,
+              0.25,
+              1.0,
+              1.0,
+              1.0
+            ],
+            "features": [
+              "unseen_category",
+              "knn_distance",
+              "missing_optional",
+              "hull_margin",
+              "drift_days",
+              "provenance_ambiguity",
+              "branch_entropy"
+            ],
+            "weights": [
+              0.0,
+              0.0,
+              0.0,
+              0.7412141305470764,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "n_accepted": 92,
+          "n_calibration_groups": 92,
+          "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.17, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.2, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.25, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.3, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.4, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.5, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}]",
+          "observed_violations": 0,
+          "retire": false,
+          "risk_upper_bound": 0.049808920112407784,
+          "threshold": 0.5
+        },
+        "notes": {
+          "branch": "none",
+          "branch_alternatives": 0,
+          "branch_atoms": 0,
+          "branch_p": null,
+          "composite": "ineligible:tools lack batchable capability: issue_get_record, issue_get_labels, issue_get_comments",
+          "gate_calibration_reasons": {
+            "RecordingMiss": 3
+          },
+          "gate_calibration_samples": 92,
+          "gate_calibration_unproductive": 3,
+          "gate_calibration_violations": 0,
+          "gate_dev_reasons": {
+            "RecordingMiss": 1,
+            "perturbation_unproductive": 4
+          },
+          "gate_dev_samples": 16,
+          "gate_dev_unproductive": 5,
+          "gate_dev_violations": 0,
+          "n_alternative_bindings": 82,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 3
+        },
+        "rejected": null,
+        "removed_requests": 3.0,
+        "stage": "emitted",
+        "support_days": 16,
+        "support_groups": 16,
+        "tools": [
+          "issue_get_record",
+          "issue_get_labels",
+          "issue_get_comments"
+        ]
+      },
+      {
+        "artifact": null,
+        "candidate_id": "cand-01-1ebb8b2849c7",
+        "challenge": {
+          "hard_rejects": [],
+          "perturbation": {},
+          "perturbations_claimed": false,
+          "recorded": {
+            "abstained": 0,
+            "effect_mismatch": 0,
+            "n": 8,
+            "pass_rate": 1.0,
+            "passed": 8,
+            "reasons": {},
+            "state_delta": 0,
+            "wrong": 0
+          },
+          "sandbox": {
+            "abstained": 0,
+            "effect_mismatch": 0,
+            "n": 0,
+            "pass_rate": 0.0,
+            "passed": 0,
+            "reasons": {},
+            "state_delta": 0,
+            "wrong": 0
+          }
+        },
+        "gate": {
+          "admissible": [
+            0.11,
+            0.14,
+            0.17,
+            0.2,
+            0.25,
+            0.3,
+            0.4,
+            0.5
+          ],
+          "alpha": 0.05,
+          "coverage": 1.0,
+          "delta": 0.1,
+          "features_spec": {
+            "branch_entropy": 0.0,
+            "categories": {},
+            "hull_kinds": {
+              "z.issue_number": "any"
+            },
+            "max_day": "2026-09-23",
+            "numeric_ranges": {},
+            "paths": [
+              "z.issue_number"
+            ],
+            "patterns": {},
+            "provenance_ambiguity": 0.98
+          },
+          "grid": [
+            0.02,
+            0.05,
+            0.08,
+            0.11,
+            0.14,
+            0.17,
+            0.2,
+            0.25,
+            0.3,
+            0.4,
+            0.5
+          ],
+          "model": {
+            "bias": -0.8200142710821297,
+            "feature_means": [
+              0.0,
+              0.0,
+              0.0,
+              0.25,
+              0.0,
+              0.9900000000000001,
+              0.0
+            ],
+            "feature_scales": [
+              1.0,
+              1.0,
+              1.0,
+              0.25,
+              1.0,
+              0.010000000000000009,
+              1.0
+            ],
+            "features": [
+              "unseen_category",
+              "knn_distance",
+              "missing_optional",
+              "hull_margin",
+              "drift_days",
+              "provenance_ambiguity",
+              "branch_entropy"
+            ],
+            "weights": [
+              0.0,
+              0.0,
+              0.0,
+              0.8009320658459648,
+              0.0,
+              0.8009320658459673,
+              0.0
+            ]
+          },
+          "n_accepted": 92,
+          "n_calibration_groups": 92,
+          "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.14, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.17, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.2, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.25, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.3, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.4, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.5, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}]",
+          "observed_violations": 0,
+          "retire": false,
+          "risk_upper_bound": 0.049808920112407784,
+          "threshold": 0.5
+        },
+        "notes": {
+          "branch": "none",
+          "branch_alternatives": 0,
+          "branch_atoms": 0,
+          "branch_p": null,
+          "composite": "ineligible:tools lack batchable capability: issue_get_record, issue_get_labels",
+          "gate_calibration_reasons": {},
+          "gate_calibration_samples": 92,
+          "gate_calibration_unproductive": 0,
+          "gate_calibration_violations": 0,
+          "gate_dev_reasons": {
+            "perturbation_unproductive": 3
+          },
+          "gate_dev_samples": 16,
+          "gate_dev_unproductive": 3,
+          "gate_dev_violations": 0,
+          "n_alternative_bindings": 49,
+          "n_alternative_loop_predicates": 0,
+          "n_steps": 2
+        },
+        "rejected": "dominated_by_longer_region",
+        "removed_requests": 2.0,
+        "stage": "dominated",
+        "support_days": 16,
+        "support_groups": 16,
+        "tools": [
+          "issue_get_record",
+          "issue_get_labels"
+        ]
+      }
+    ],
+    "derivable": true,
+    "eligible": 127,
+    "gate": {
+      "admissible": [
+        0.3,
+        0.4,
+        0.5
+      ],
+      "alpha": 0.05,
+      "coverage": 1.0,
+      "delta": 0.1,
+      "features_spec": {
+        "branch_entropy": 0.0,
+        "categories": {},
+        "hull_kinds": {
+          "z.issue_number": "any"
+        },
+        "max_day": "2026-09-23",
+        "numeric_ranges": {},
+        "paths": [
+          "z.issue_number"
+        ],
+        "patterns": {},
+        "provenance_ambiguity": 1.0
+      },
+      "grid": [
+        0.02,
+        0.05,
+        0.08,
+        0.11,
+        0.14,
+        0.17,
+        0.2,
+        0.25,
+        0.3,
+        0.4,
+        0.5
+      ],
+      "model": {
+        "bias": -0.13231434182668805,
+        "feature_means": [
+          0.0,
+          0.0,
+          0.0,
+          0.25,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "feature_scales": [
+          1.0,
+          1.0,
+          1.0,
+          0.25,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "features": [
+          "unseen_category",
+          "knn_distance",
+          "missing_optional",
+          "hull_margin",
+          "drift_days",
+          "provenance_ambiguity",
+          "branch_entropy"
+        ],
+        "weights": [
+          0.0,
+          0.0,
+          0.0,
+          0.7412141305470764,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "n_accepted": 92,
+      "n_calibration_groups": 92,
+      "notes": "protocol=frozen_external_model; grid rows: [{'eta': 0.02, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.05, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.08, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.11, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.14, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.17, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.2, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.25, 'n': 0, 'violations': 0, 'upper': 1.0, 'coverage': 0.0}, {'eta': 0.3, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.4, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}, {'eta': 0.5, 'n': 92, 'violations': 0, 'upper': 0.0498, 'coverage': 1.0}]",
+      "observed_violations": 0,
+      "retire": false,
+      "risk_upper_bound": 0.049808920112407784,
+      "threshold": 0.5
+    },
+    "guard": {
+      "allowed_effects": [
+        "READ_LOCAL"
+      ],
+      "clauses": [
+        {
+          "hull": {
+            "high": null,
+            "kind": "any",
+            "low": null,
+            "max_len": null,
+            "min_len": null,
+            "pattern": null,
+            "values": []
+          },
+          "path": "z.issue_number",
+          "required": true,
+          "role": "hull",
+          "type_name": "int"
+        }
+      ],
+      "isolation": {},
+      "manifest_pins": {
+        "effect_catalog_version": "github-issues-pinned-local-reads@1#1ddef0e3bd00c962",
+        "entry_contract_version": "github-issue-number-v1",
+        "guardrail_hash": "#0797e6a6",
+        "model": "gpt-5.6-luna",
+        "policy_hash": "#734c5054",
+        "prompt_hash": "#aa9f6b96",
+        "tools_hash": "#a6fe0682"
+      },
+      "required_capabilities": [
+        "speculatable",
+        "replayable"
+      ]
+    },
+    "needed": 116,
+    "rejection_by_stage": {
+      "select:dominated": 1
+    },
+    "report": "GRC compile report\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\ncandidates mined        2\nartifacts emitted       1\nrejections by stage     {'select:dominated': 1}\nwindows accepted        32\nwindows blocked         {'non_prefix_runtime': 16}\nblocked by tool         {}\n  [emitted     ] issue_get_record/issue_get_labels/issue_get_comments supp=16 k=3.0\n  [dominated   ] issue_get_record/issue_get_labels                 supp=16 k=2.0  REJECTED: dominated_by_longer_region",
+    "splits": {
+      "chronological": false,
+      "digest": "30608703e9305dbe",
+      "groups": {
+        "calibration": [
+          "github-issue:7619",
+          "github-issue:7630",
+          "github-issue:7636",
+          "github-issue:7647",
+          "github-issue:7660",
+          "github-issue:7662",
+          "github-issue:7665",
+          "github-issue:7675",
+          "github-issue:7678",
+          "github-issue:7680",
+          "github-issue:7685",
+          "github-issue:7686",
+          "github-issue:7687",
+          "github-issue:7688",
+          "github-issue:7696",
+          "github-issue:7699",
+          "github-issue:7709",
+          "github-issue:7729",
+          "github-issue:7731",
+          "github-issue:7733",
+          "github-issue:7738",
+          "github-issue:7739",
+          "github-issue:7742",
+          "github-issue:7753",
+          "github-issue:7756",
+          "github-issue:7758",
+          "github-issue:7765",
+          "github-issue:7772",
+          "github-issue:7777",
+          "github-issue:7798",
+          "github-issue:7802",
+          "github-issue:7811",
+          "github-issue:7813",
+          "github-issue:7818",
+          "github-issue:7819",
+          "github-issue:7821",
+          "github-issue:7829",
+          "github-issue:7834",
+          "github-issue:7837",
+          "github-issue:7863",
+          "github-issue:7864",
+          "github-issue:7867",
+          "github-issue:7868",
+          "github-issue:7869",
+          "github-issue:7871",
+          "github-issue:7872",
+          "github-issue:7877",
+          "github-issue:7882",
+          "github-issue:7893",
+          "github-issue:7901",
+          "github-issue:7902",
+          "github-issue:7905",
+          "github-issue:7915",
+          "github-issue:7917",
+          "github-issue:7918",
+          "github-issue:7922",
+          "github-issue:7931",
+          "github-issue:7946",
+          "github-issue:7958",
+          "github-issue:7968",
+          "github-issue:7970",
+          "github-issue:8005",
+          "github-issue:8012",
+          "github-issue:8116",
+          "github-issue:8125",
+          "github-issue:8164",
+          "github-issue:8169",
+          "github-issue:8197",
+          "github-issue:8217",
+          "github-issue:8241",
+          "github-issue:8242",
+          "github-issue:8246",
+          "github-issue:8253",
+          "github-issue:8256",
+          "github-issue:8327",
+          "github-issue:8328",
+          "github-issue:8330",
+          "github-issue:8341",
+          "github-issue:8359",
+          "github-issue:8373",
+          "github-issue:8375",
+          "github-issue:8381",
+          "github-issue:8391",
+          "github-issue:8458",
+          "github-issue:8481",
+          "github-issue:8499",
+          "github-issue:8507",
+          "github-issue:8522",
+          "github-issue:8537",
+          "github-issue:8596",
+          "github-issue:8617",
+          "github-issue:8637"
+        ],
+        "dev": [
+          "github-issue:7676",
+          "github-issue:7760",
+          "github-issue:7904",
+          "github-issue:8110",
+          "github-issue:8145",
+          "github-issue:8171",
+          "github-issue:8308",
+          "github-issue:8472"
+        ],
+        "shadow": [],
+        "test": [],
+        "train": [
+          "github-issue:7617",
+          "github-issue:7632",
+          "github-issue:7679",
+          "github-issue:7727",
+          "github-issue:7746",
+          "github-issue:7816",
+          "github-issue:7900",
+          "github-issue:7999",
+          "github-issue:8007",
+          "github-issue:8075",
+          "github-issue:8149",
+          "github-issue:8159",
+          "github-issue:8199",
+          "github-issue:8390",
+          "github-issue:8618",
+          "github-issue:8675"
+        ]
+      },
+      "seed": 20260802,
+      "sizes": {
+        "calibration": 92,
+        "dev": 8,
+        "shadow": 0,
+        "test": 0,
+        "train": 16
+      }
+    }
+  },
+  "provider_calls": 0,
+  "schema": "gac-compiler-funnel-live-pilot-compile/v1",
+  "timestamp_utc": "2026-11-08T22:20:23+00:00"
+}

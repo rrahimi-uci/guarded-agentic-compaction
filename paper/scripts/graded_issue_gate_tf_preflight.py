@@ -45,6 +45,9 @@ FROZEN_GATE_SHA256 = "c66af83acac0bc883f970140e874560ef35ff9f80144d0115e13e763d9
 SCAN_ROOTS = (ROOT / "paper/results", ROOT / "experiments")
 OWN_DIR_MARKER = "/graded_issue_gate_tf/"
 SKIP_DIR_MARKER = "/datasets/"  # raw snapshots and their manifests are data, not studies
+# Studies sealed after this preflight (2026-11-07) whose records never changed its count:
+# the compiler-funnel live pilot (2026-11-08) runs on the same post-cutoff issues by design.
+POST_SEALING_MARKERS = ("/compiler_funnel_pilot/",)
 ALPHA = 0.05
 DELTA = 0.10
 SEED = 20261107
@@ -110,7 +113,7 @@ def used_records(wanted: set[int], roots: tuple[Path, ...] = SCAN_ROOTS, base: P
             continue
         for path in sorted(root.rglob("*.json")):
             text_path = "/" + path.relative_to(base).as_posix()
-            if OWN_DIR_MARKER in text_path or SKIP_DIR_MARKER in text_path:
+            if OWN_DIR_MARKER in text_path or SKIP_DIR_MARKER in text_path or any(m in text_path for m in POST_SEALING_MARKERS):
                 continue
             try:
                 text = path.read_text(errors="ignore")

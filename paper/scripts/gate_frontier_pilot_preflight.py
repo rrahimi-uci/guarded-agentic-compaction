@@ -98,6 +98,8 @@ POST_SEALING_STUDIES = (
     "/results/bird/",
     # 2026-11 multi-repository end-to-end study: other repositories and newer huggingface/datasets records.
     "multirepo_end_to_end",
+    # 2026-11-08 compiler-funnel live pilot: post-cutoff huggingface/datasets issues only.
+    "compiler_funnel_pilot",
 )
 
 

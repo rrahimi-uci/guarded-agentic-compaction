@@ -1,8 +1,10 @@
-# Live pilot for the compiler funnel's one divergence (DRAFT, not sealed)
+# Live pilot for the compiler funnel's one divergence (sealed)
 
-**Status: draft 2026-11-08; no provider call is authorized by this document.** It becomes a sealed
-protocol only when the cohort count, the arms' frozen programs and the spending cap are filled in
-from a provider-free preflight and the author approves the spend.
+**Status: sealed 2026-11-08 before any provider call.** Draft of the same day revised after the
+provider-free preflight (`paper/results/compiler_funnel_pilot/preflight.json`), which fixed the
+cohort, the split and the spending cap. The author approved the spend ("seal and run the
+issue-type pilot"). The script is `paper/scripts/compiler_funnel_live_pilot.py`; every phase
+below is one of its commands and writes its own checkpoint.
 
 ## Why issue-type, not PR-outcome
 
@@ -12,46 +14,73 @@ comparison there would execute identical compiled arms. The only cohort where th
 is issue-type routing: GAC admits the two-read prefix and refuses the three-read candidate whose
 `issue_get_comments.limit` has no witness; a recurrence-based compiler admits the three-read program
 with `limit = 100`. The retained live measurement of that divergence is the 30-record recurrence-only
-ablation (30/30 for both, one fewer request for the replay; Table 33). This pilot extends it to a
-fresh, larger cohort.
+ablation (30/30 for both, one fewer request for the replay; Table 33). This pilot repeats the
+divergence on a fresh, larger, post-cutoff cohort.
 
-## Cohort
+## Change from the draft: GAC is re-derived on fresh discovery traces
+
+The draft proposed dispatching the retained two-read artifact. Its guard pins
+`z.issue_number in [148, 7561]` and `source_revision = e344be7b...`; every post-cutoff issue
+(numbers 7617 to 8763, a different snapshot digest) would therefore be ineligible and the "GAC" arm
+would silently be the unchanged agent. The pilot instead follows the time-forward PR-outcome design:
+the unchanged agent runs once on a discovery split of the fresh pool, GAC compiles from those traces
+with the retained configuration (16 train / 8 dev / 92 calibration groups, registered grid,
+alpha 0.05, delta 0.10), and the three arms are run on the disjoint test split. The same discovery
+traces are also pushed through the four same-IR policies of the funnel, so the pilot reports
+whether the grounding divergence recurs on fresh data before any test arm runs.
+
+## Cohort (fixed by the preflight, no provider call)
 
 Post-cutoff `huggingface/datasets` issues (not pull requests) from the time-forward snapshot
-(`paper/results/datasets/github_time_forward/huggingface__datasets/snapshot.parquet`), with at least
-one comment, whose number appears in no retained record. The no-go preflight for the single-look gate
-study counted 277 issues, 197 with a comment, 111 to 193 after exclusion depending on the rule
-(`paper/results/graded_issue_gate_tf/preflight.json`). This pilot needs no candidate re-derivation
-(the programs are fixed below), so the whole eligible pool is the cohort; n is fixed by the preflight
-before any call and never extended.
+(`paper/results/datasets/github_time_forward/huggingface__datasets/snapshot.parquet`, created
+after 2025-06-13, fetched 2026-10-07), with at least one comment, excluding the four numbers that
+appear in retained result files of the same record space (7693, 7694, 8029, 8590; the
+field-rule scan of the preflight is recorded alongside). Counts: 277 issues, 197 with a comment,
+193 in the pool. The pool is split by a stable SHA-256 rank (seed 20261108, namespace
+`tf-issue-pilot`): the first 128 are **discovery**, the remaining 65 are **test**. Neither split is
+extended, re-drawn or filtered on outcome. No stratification by label: the pool is 172 `other` and
+21 `enhancement` by the retained routing rule.
 
-## Arms (paired on every issue)
+## Phases
 
-1. **GAC as shipped**: the retained two-read artifact re-derived on the time-forward snapshot's
-   manifest (the v2 candidate pins the old snapshot and would abstain), dispatched pre-model.
-2. **Recurrence-only**: the three-read program the funnel's grounding-off policy emits
-   (`issue_get_record(z.issue_number)`, `issue_get_labels(get.issue_number)`,
-   `issue_get_comments(get.issue_number, limit = 100)`), as a `ManualPreModelPlan` with no gate,
-   exactly the ablation arm of `paper/scripts/recurrence_only_ablation.py`.
-3. **Unchanged agent**.
-
-Same model, prompts, `max_turns`, timeout and retry rule as the retained issue-type study; the
-exact source-grounded oracle of that study grades the final contract.
+1. **discovery** (live): unchanged agent, snapshot tools, retained prompt and settings
+   (`gpt-5.6-luna`, reasoning low, `max_turns` 8, 120 s timeout, concurrency 8), one episode per
+   discovery issue, one retry per timeout. Graded by the retained exact source-grounded oracle.
+2. **compile** (provider-free): compiler eligibility by the retained rule
+   (`github_live_study.compiler_eligible`); GAC compiled via `compile_artifact` with the retained
+   configuration. If fewer than 116 traces are eligible, or the compiler admits nothing, the GAC arm
+   is reported as not derivable and the remaining two arms still run. The four funnel policies run on
+   the same discovery traces (`compiler_funnel.compile_with`); the divergence list is recorded.
+3. **test** (live), paired on every test issue, balanced six-permutation Latin order by stable rank:
+   - **compiled**: GAC's admitted artifact dispatched pre-model through `CompactingModel` (live mode);
+     an issue the guard or gate declines falls back to the unchanged agent and is counted as such.
+   - **recurrence_only_three_read**: the three-read replay with `limit = 100` and every barrier
+     disabled, exactly the arm of `recurrence_only_ablation.py`, bound to the fresh snapshot.
+   - **baseline**: unchanged agent.
+   Same model, prompts, timeout, retry and oracle as phase 1.
 
 ## Endpoints and decision rule
 
-Primary: paired exact-contract success, arm 1 vs arm 2 (McNemar, two-sided, 0.05) and each vs arm 3.
-Secondary: provider requests, tokens, estimated cost, latency per episode. The pilot is descriptive:
-with n in the low hundreds it can detect only large differences, and it is reported as a pilot whatever
-it shows. No arm is dropped or re-run on outcome.
+Primary: paired exact factual contract (`factuality_exact`), compiled vs recurrence-only, and each
+vs baseline (exact McNemar on discordant pairs, two-sided, 0.05, as in `paired_analysis`).
+Secondary: provider requests, tokens, estimated cost and latency per episode; the compiled arm's
+dispatch classes (attempted / abstained / ineligible). The pilot is descriptive: with 65 pairs it can
+detect only large differences and is reported as a pilot whatever it shows. No arm is dropped or
+re-run on outcome; an episode that fails after one retry counts against its arm.
+
+Pre-stated expectation (from the funnel's replay and Table 33): both compiled programs meet the
+contract on nearly every test issue; the recurrence-only arm uses one fewer request per issue than
+GAC; the baseline uses about four. A recurrence-only miss that GAC does not share would be the first
+live price of the missing guard and is reported ahead of every other reading.
 
 ## Spend
 
-Three arms on at most 197 issues: at most 591 episodes plus one retry per timeout. Reference cost
-from the retained issue-type runs is about $0.0003–0.0009 per episode per arm; cap to be set at the
-preflight, expected under $5, hard cap $25 within the $300 campaign.
+Discovery 128 episodes plus test 3 x 65 = 195 episodes, plus retries: about 323 to 350 provider
+requests of the retained cost class (0.0004 to 0.0009 USD per episode). Expected spend about 0.25
+USD; **approved cap 5.00 USD** (within the author's 25 USD hard cap and the 300 USD campaign).
+The ledger (`ledger.json`) refuses a phase whose reservation would cross the cap.
 
 ## What it cannot show
 
-Anything about PR-outcome or backlog (identical arms); anything about external compilers; a
-population effect size (pilot power).
+Anything about PR-outcome or backlog (identical arms there); anything about external compilers;
+a population effect size (pilot power); anything about the pre-cutoff snapshot.
