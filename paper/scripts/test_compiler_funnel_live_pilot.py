@@ -59,6 +59,7 @@ def test_table_renders_three_arms_from_minimal_results():
     mean = lambda req, tok, cost: {"requests": req, "total_tokens": tok, "wall_latency_ms": 3000.0, "estimated_cost_usd": cost}  # noqa: E731
     results = {
         "selection": {"test": list(range(65))},
+        "compile": {"gac": {"artifact_tools": ["issue_get_record", "issue_get_labels"]}},
         "test": {"aggregate": {
             "compiled": {"factuality_exact": 64, "mean": mean(2.0, 1500, 0.0006)},
             lp.issue.CONDITION: {"factuality_exact": 63, "mean": mean(1.0, 900, 0.0004)},
@@ -66,7 +67,9 @@ def test_table_renders_three_arms_from_minimal_results():
         }},
     }
     text = lp.table(results)
-    assert r"Compiled two-read prefix (\method, fresh compile) & 64/65 & 2.00 & 1,500 & 3.00 & 0.060 \\" in text
+    assert r"Compiled 2-read program (\method, fresh compile) & 64/65 & 2.00 & 1,500 & 3.00 & 0.060 \\" in text
+    results["compile"]["gac"]["artifact_tools"] = None
+    assert r"Compiled program (\method, fresh compile) & 64/65" in lp.table(results)
     assert r"Recurrence-only three-read replay & 63/65 & 1.00 & 900 & 3.00 & 0.040 \\" in text
     assert r"Unchanged agent & 65/65 & 4.00 & 2,600 & 3.00 & 0.090 \\" in text
 

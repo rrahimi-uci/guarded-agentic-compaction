@@ -1256,6 +1256,63 @@ def validate_compiler_funnel() -> None:
 
 
 
+def validate_compiler_funnel_pilot() -> None:
+    """The sealed live pilot of the funnel's divergence on fresh issues: protocol, split, arms, table."""
+
+    import importlib.util
+
+    base = PAPER / "results/compiler_funnel_pilot"
+    path = base / "results.json"
+    ok(path.exists(), "funnel pilot: results.json exists")
+    data = load(path)
+    if not data:
+        return
+    protocol = PAPER / "supplementary/compiler-funnel-live-pilot-protocol.md"
+    ok(protocol.exists() and sha256(protocol) == data.get("run", {}).get("protocol", {}).get("sha256"),
+       "funnel pilot: the sealed protocol is unchanged since the run")
+    pre = load(base / "preflight.json") if (base / "preflight.json").exists() else {}
+    ok(bool(pre) and pre.get("protocol", {}).get("sha256") == data["run"]["protocol"]["sha256"],
+       "funnel pilot: the preflight was taken under the same sealed protocol")
+    sel = data.get("selection", {})
+    pool = data.get("pool_accounting", {})
+    ok(pool.get("pool") == len(sel.get("discovery", [])) + len(sel.get("test", [])) and len(sel.get("discovery", [])) == 128
+       and not set(sel.get("discovery", [])) & set(sel.get("test", [])),
+       "funnel pilot: discovery and test partition the pool with 128 discovery issues")
+    ok(bool(pre) and pre.get("selection", {}).get("test_sha256") == sel.get("test_sha256")
+       and pre.get("selection", {}).get("discovery_sha256") == sel.get("discovery_sha256"),
+       "funnel pilot: the split is the preflight's split")
+    test = data.get("test", {})
+    rows = data.get("results", [])
+    n_test = len(sel.get("test", []))
+    for arm in test.get("arms", []):
+        agg = test["aggregate"][arm]
+        arm_rows = [r for r in rows if r["condition"] == arm]
+        ok(agg["attempted"] == n_test and agg["completed"] == len(arm_rows) <= n_test
+           and agg["factuality_exact"] == sum(bool(r["quality"].get("factuality_exact")) for r in arm_rows),
+           f"funnel pilot: {arm} aggregate follows its rows")
+        ok(set(r["issue_number"] for r in arm_rows) <= set(sel.get("test", [])), f"funnel pilot: {arm} ran only on test issues")
+    ok(float(data["run"].get("estimated_spend_usd", 1e9)) <= float(data["run"].get("approved_cap_usd", 0)),
+       "funnel pilot: spend stayed under the approved cap")
+    comp = data.get("compile", {})
+    gac = comp.get("gac", {})
+    ok((not gac.get("derivable")) or bool(gac.get("artifact_tools")), "funnel pilot: a derivable GAC arm names its program")
+    funnel = comp.get("funnel", {})
+    ok(set(funnel.get("admitted", {})) == {"full", "support_only", "recurrence_only", "stats_only"},
+       "funnel pilot: the four funnel policies ran on the fresh discovery traces")
+    table_path = PAPER / "iclr/tables/compiler_funnel_pilot.tex"
+    ok(table_path.exists(), "funnel pilot: table exists")
+    if table_path.exists():
+        spec = importlib.util.spec_from_file_location("compiler_funnel_live_pilot", PAPER / "scripts/compiler_funnel_live_pilot.py")
+        module = importlib.util.module_from_spec(spec)
+        assert spec.loader is not None
+        spec.loader.exec_module(module)
+        ok(module.table(data) == table_path.read_text(encoding="utf-8"),
+           "funnel pilot: table regenerates byte-identically from results.json")
+    ok(r"\input{tables/compiler_funnel_pilot.tex}" not in (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8"),
+       "funnel pilot: the table is expansion-plan evidence and is not input by the ICLR appendix")
+    ok((base / "README.md").exists(), "funnel pilot: README present")
+
+
 def validate_demo_suite() -> None:
     """Recompute the Tier-3 table from raw results rather than trusting the .tex.
 
@@ -4355,6 +4412,7 @@ FAMILIES: dict[str, Any] = {
     "prefix_census": validate_prefix_census,
     "interior_census": validate_interior_census,
     "compiler_funnel": validate_compiler_funnel,
+    "compiler_funnel_pilot": validate_compiler_funnel_pilot,
     "demo_suite": validate_demo_suite,
     "multidomain_preflight": validate_multidomain_preflight,
     "offline_comparator": validate_offline_comparator,

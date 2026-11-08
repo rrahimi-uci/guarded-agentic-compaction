@@ -77,3 +77,11 @@ retained decision), `paper/iclr/tables/compiler_funnel.tex` (generated; not inpu
 Reproduce with `python paper/scripts/compiler_funnel.py run` (needs the pinned snapshots on disk; the
 multi-repository snapshots are read from `benchmarks/.cache/multirepo_e2e/<owner>__<repo>/`) and
 `python -m pytest paper/scripts/test_compiler_funnel.py -q`.
+
+## Follow-up: live pilot on fresh issues
+
+`../compiler_funnel_pilot/` re-ran the issue-type cohort on 193 post-cutoff issues (sealed protocol,
+0.23 USD). On fresh discovery traces GAC itself admitted the three-read program (`limit = Const(100)`,
+16/16 training agreement) and all four policies agreed, so the one divergence above did not recur;
+live, the guarded program met the contract on 65/65 held-out issues, the unguarded replay on 63/65,
+the unchanged agent on 64/65.
