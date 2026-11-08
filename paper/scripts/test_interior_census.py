@@ -38,11 +38,12 @@ CATALOG = EffectCatalog.from_dict({
         "read_b": READ,
         "read_c": READ,
         "write_x": {"effect": "WRITE_REVERSIBLE", "capabilities": [], "resource": "db", "notes": "test"},
+        "note": {"effect": "PURE", "capabilities": [], "resource": "model_context", "notes": "test"},
     },
 })
 MANIFEST = traj.census_manifest("test", revision="0", catalog_version=CATALOG.catalog_version,
-                                tools=("read_a", "read_b", "read_c", "write_x"), scaffold="test", entry_contract="t")
-TOOLS = ("read_a", "read_b", "read_c", "write_x")
+                                tools=("read_a", "read_b", "read_c", "write_x", "note"), scaffold="test", entry_contract="t")
+TOOLS = ("read_a", "read_b", "read_c", "write_x", "note")
 
 
 def _episode(turns, *, episode_id="e1", group="g1"):
@@ -145,6 +146,25 @@ def test_user_turn_is_a_barrier_for_interior_runs():
     wins, blocked = _windows(graph, "projected")
     assert not [w for w in wins if w.tools() == ("read_a", "read_b")]
     assert blocked[BlockReason.BARRIER_EVENT] >= 1
+
+
+def test_pure_call_ends_the_registered_frontier_but_not_the_pass_through_one():
+    episode = _episode([
+        traj.Turn(calls=[_call("note", {"text": "plan"}, {"ok": True}, "c0")]),
+        traj.Turn(calls=[_call("read_a", {"ticket": "TK-77881"}, {"owner_id": "USR-4412"}, "c1")]),
+        traj.Turn(calls=[_call("read_b", {"owner": "USR-4412"}, {"name": "Ada"}, "c2")]),
+        traj.Turn(calls=[_call("write_x", {"ticket": "TK-77881", "note": "x"}, {"ok": True}, "c3")]),
+    ])
+    graph = _graph(episode)
+    registered = ic.frontier_position(graph, CATALOG)
+    assert registered is not None and graph.order[registered].tool == "note"
+    assert ic._frontier_label(graph, registered) == "note"
+    passed = ic.frontier_position(graph, CATALOG, pass_through_pure=True)
+    assert passed is not None and graph.order[passed].tool == "write_x"
+    wins, _ = _windows(graph, "projected")
+    region = [w for w in wins if w.tools() == ("read_a", "read_b")]
+    assert region and region[0].a > registered and region[0].a < passed
+    assert ic._capped_histogram([0, 1, 1, 25, 40], cap=20) == {"0": 1, "1": 2, "20+": 2}
 
 
 def test_table_renders_from_minimal_results(tmp_path):

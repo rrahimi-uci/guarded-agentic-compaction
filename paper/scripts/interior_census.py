@@ -50,7 +50,7 @@ from guarded_agentic_compaction.graph.provenance import (  # noqa: E402
 )
 from guarded_agentic_compaction.graph import windows as win  # noqa: E402
 from guarded_agentic_compaction.grc.dsl import SynthContext  # noqa: E402
-from guarded_agentic_compaction.schema.effects import EffectCatalog  # noqa: E402
+from guarded_agentic_compaction.schema.effects import EffectCatalog, EffectClass  # noqa: E402
 from guarded_agentic_compaction.schema.traces import Episode, EventKind  # noqa: E402
 
 
@@ -68,6 +68,10 @@ OUT_DIR = ROOT / "paper" / "results" / "interior_census"
 RESULTS_PATH = OUT_DIR / "results.json"
 TABLE_PATH = ROOT / "paper" / "iclr" / "tables" / "interior_census.tex"
 PROTOCOL_PATH = ROOT / "paper" / "supplementary" / "interior-region-census-protocol.md"
+DECOMPOSITION_PATH = OUT_DIR / "decomposition.json"
+DECOMPOSITION_NOTE_PATH = ROOT / "paper" / "supplementary" / "interior-region-census-decomposition.md"
+#: Post-hoc decomposition sample divisors (descriptive; see the decomposition note).
+DECOMPOSE_K = {"taubench": 1, "openhands": 16, "sweagent": 64}
 
 MINING = dict(pc.MINING)
 MAX_CALLS_INTERIOR = 60
@@ -115,21 +119,37 @@ def verify_sources(name: str, source_root: Path) -> dict[str, Any]:
 # ---------------------------------------------------------------------------
 
 
-def frontier_position(patg: PATG, catalog: EffectCatalog) -> int | None:
+def frontier_position(patg: PATG, catalog: EffectCatalog, *, pass_through_pure: bool = False) -> int | None:
     """Index in canonical order of the first event that ends the read-only opening.
 
     A non-compilable call, a HANDOFF/APPROVAL/GUARDRAIL, or a failed result.  ``None`` when
-    the whole ingested trajectory is read-only.
+    the whole ingested trajectory is read-only.  With ``pass_through_pure`` (the post-hoc
+    decomposition only), a call whose catalogued effect is ``PURE`` and its result do not end
+    the opening; the registered census never sets it.
     """
 
     for pos, ev in enumerate(patg.order):
         if ev.kind in (EventKind.HANDOFF, EventKind.APPROVAL, EventKind.GUARDRAIL):
             return pos
+        if ev.kind in (EventKind.TOOL_CALL, EventKind.TOOL_RESULT) and pass_through_pure \
+                and catalog.effect_of(ev.tool) is EffectClass.PURE:
+            continue
         if ev.kind is EventKind.TOOL_CALL and not catalog.compilable(ev.tool):
             return pos
         if ev.kind is EventKind.TOOL_RESULT and ev.status != "ok":
             return pos
     return None
+
+
+def _frontier_label(patg: PATG, frontier: int | None) -> str:
+    if frontier is None:
+        return "none"
+    ev = patg.order[frontier]
+    if ev.kind is EventKind.TOOL_CALL:
+        return ev.tool or "?"
+    if ev.kind is EventKind.TOOL_RESULT:
+        return f"failed:{ev.tool or '?'}"
+    return ev.kind.name
 
 
 def interior_read_only_runs(patg: PATG, catalog: EffectCatalog) -> list[tuple[int, int]]:
@@ -443,6 +463,132 @@ def census(
 
 
 # ---------------------------------------------------------------------------
+# post-hoc frontier decomposition (descriptive; does not decide H1)
+# ---------------------------------------------------------------------------
+
+
+def _capped_histogram(values: list[int], cap: int = 20) -> dict[str, int]:
+    counts: Counter = Counter()
+    for v in values:
+        counts[str(v) if v < cap else f"{cap}+"] += 1
+    return {k: counts[k] for k in sorted(counts, key=lambda x: (x.endswith("+"), int(x.rstrip("+"))))}
+
+
+def decompose(
+    episodes: Callable[[], Iterator[Episode]],
+    catalog: EffectCatalog,
+    *,
+    corpus: str,
+    sample: dict[str, Any],
+) -> dict[str, Any]:
+    """Frontier decomposition under the projected policy: which event ends the opening, how far
+    beyond it the best groundable region starts, and the share/family support when ``PURE``
+    model-side calls do not end the opening."""
+
+    started = time.perf_counter()
+    stats = pc.HashedFieldStats()
+    for episode in episodes():
+        pc.observe_episode(stats, episode)
+    policy = GroundabilityPolicy.from_catalog(catalog, stats=stats)
+    ctx = SynthContext(max_depth=MINING["max_depth"])
+
+    traces = 0
+    groups: set[str] = set()
+    frontier_events: Counter = Counter()
+    frontier_events_pt: Counter = Counter()
+    frontier_call_std: list[int] = []
+    frontier_call_pt: list[int] = []
+    distance: list[int] = []
+    start_std: list[int] = []
+    start_pt: list[int] = []
+    beyond_std: list[int] = []
+    beyond_pt: list[int] = []
+    fam_std: dict[str, set[str]] = defaultdict(set)
+    fam_pt: dict[str, set[str]] = defaultdict(set)
+    blocked: Counter = Counter()
+    for episode in episodes():
+        traces += 1
+        groups.add(episode.group_id)
+        graph = build_patg(episode, catalog, policy, max_depth=MINING["max_depth"], kappa=MINING["kappa"], ctx=ctx)
+        call_index_of = {pos: i for i, pos in enumerate(p for p, e in enumerate(graph.order) if e.kind is EventKind.TOOL_CALL)}
+        wins = enumerate_interior_windows(
+            graph, catalog, entry_schema=MINING["entry_schema"], policy="projected",
+            w_min=MINING["w_min"], w_max=MINING["w_max"], b_min=MINING["b_min"], blocked=blocked,
+        )
+
+        def first_call(w: win.Window) -> int:
+            return call_index_of[next(p for p in range(w.a, w.b + 1) if graph.order[p].kind is EventKind.TOOL_CALL)]
+
+        def calls_before(pos: int) -> int:
+            return sum(1 for e in graph.order[:pos] if e.kind is EventKind.TOOL_CALL)
+
+        for pt, events, fcalls, starts, beyond_len, fams in (
+            (False, frontier_events, frontier_call_std, start_std, beyond_std, fam_std),
+            (True, frontier_events_pt, frontier_call_pt, start_pt, beyond_pt, fam_pt),
+        ):
+            frontier = frontier_position(graph, catalog, pass_through_pure=pt)
+            events[_frontier_label(graph, frontier)] += 1
+            beyond = [w for w in wins if frontier is not None and w.a > frontier]
+            beyond_len.append(max((w.n_tool_events for w in beyond), default=0))
+            if frontier is not None:
+                fcalls.append(calls_before(frontier))
+            if beyond:
+                best = max(beyond, key=lambda w: (w.n_tool_events, w.interior_boundaries))
+                starts.append(first_call(best))
+                if not pt:
+                    # calls strictly between the frontier call and the region's first call, plus one
+                    distance.append(first_call(best) - calls_before(frontier))
+            best_by_hash: dict[str, win.Window] = {}
+            for w in beyond:
+                cur = best_by_hash.get(w.canon_hash)
+                if cur is None or w.n_tool_events > cur.n_tool_events:
+                    best_by_hash[w.canon_hash] = w
+            for canon, w in best_by_hash.items():
+                fams[canon].add(w.group_id)
+
+    def summary(beyond_len: list[int], fams: dict[str, set[str]], starts: list[int]) -> dict[str, Any]:
+        count = sum(1 for v in beyond_len if v >= 2)
+        sup = {c: len(g) for c, g in fams.items()}
+        n_max = max(sup.values(), default=0)
+        share = count / traces if traces else None
+        return {
+            "beyond_frontier_groundable_ge2": {"count": count, "share": share},
+            "families_beyond_frontier": {"n": len(sup), "n_max": n_max,
+                                         "at_or_above_92": sum(1 for v in sup.values() if v >= H1_FLOOR)},
+            "start_call_index_histogram": _capped_histogram(starts),
+            "h1_flags_descriptive": {"share_ok": (share or 0.0) >= H1_SHARE, "floor_ok": n_max >= H1_FLOOR},
+        }
+
+    std = summary(beyond_std, fam_std, start_std)
+    pt = summary(beyond_pt, fam_pt, start_pt)
+    n_std = std["beyond_frontier_groundable_ge2"]["count"]
+    n_pt = pt["beyond_frontier_groundable_ge2"]["count"]
+    return {
+        "corpus": corpus,
+        "policy": "projected",
+        "catalog_version": catalog.catalog_version,
+        "sample": sample,
+        "traces": traces,
+        "groups": len(groups),
+        "frontier_event": pc._sorted_counter(frontier_events),
+        "frontier_call_index_histogram": _capped_histogram(frontier_call_std),
+        "registered_frontier": std,
+        "distance_from_frontier_histogram": _capped_histogram(distance),
+        "distance_from_frontier_le1_share_among_ge2": (sum(1 for d in distance if d <= 1) / n_std) if n_std else None,
+        "pass_through_pure_frontier": {
+            **pt,
+            "frontier_event": pc._sorted_counter(frontier_events_pt),
+            "frontier_call_index_histogram": _capped_histogram(frontier_call_pt),
+        },
+        "attributable_to_pure_calls": {
+            "traces": n_std - n_pt,
+            "share_points": ((n_std - n_pt) / traces) if traces else None,
+        },
+        "runtime_seconds": round(time.perf_counter() - started, 1),
+    }
+
+
+# ---------------------------------------------------------------------------
 # corpus wiring
 # ---------------------------------------------------------------------------
 
@@ -565,7 +711,7 @@ def table(results: dict[str, Any] | None = None) -> str:
 
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("command", choices=("smoke", "run", "table"))
+    parser.add_argument("command", choices=("smoke", "run", "table", "decompose"))
     parser.add_argument("--source-root", type=Path)
     parser.add_argument("--corpora", default=",".join(pc.CORPORA))
     parser.add_argument("--k", type=int, default=None, help="override the sampling divisor (recorded)")
@@ -594,6 +740,44 @@ def main(argv: list[str] | None = None) -> None:
                    "budget_seconds": RUNTIME_BUDGET_SECONDS, "rows": rows}
         args.smoke_file.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
         print(f"wrote {pc._display(args.smoke_file)}")
+        return
+
+    if args.command == "decompose":
+        rows = []
+        for name in names:
+            sources = verify_sources(name, args.source_root)
+            k = args.k if args.k is not None else DECOMPOSE_K[name]
+            spec = pc.CORPORA[name]
+            catalog = pc.load_catalog(spec["catalog"])
+            print(f"decompose: {name} (k={k}) ...", flush=True)
+            row = decompose(_episode_factory(name, args.source_root, catalog, k=k, limit=None), catalog,
+                            corpus=name, sample={"rule": "keep iff sha1(episode_id) mod k == 0", "k": k})
+            catalog_path = pc.CATALOG_DIR / f"{spec['catalog']}.yaml"
+            row.update({"revision": spec["revision"], "sources": sources,
+                        "catalog": {"path": pc._display(catalog_path), "sha256": pc._sha256(catalog_path)}})
+            rows.append(row)
+            print(f"  done ({row['runtime_seconds']} s): frontier={list(row['frontier_event'].items())[:3]} "
+                  f"share std={row['registered_frontier']['beyond_frontier_groundable_ge2']['share']} "
+                  f"pt={row['pass_through_pure_frontier']['beyond_frontier_groundable_ge2']['share']} "
+                  f"n_max pt={row['pass_through_pure_frontier']['families_beyond_frontier']['n_max']}", flush=True)
+        payload = {
+            "schema": "gac-interior-census-decomposition/v1",
+            "script": "paper/scripts/interior_census.py decompose",
+            "status": "post hoc, descriptive; does not decide H1",
+            "note": {"path": pc._display(DECOMPOSITION_NOTE_PATH), "sha256": pc._sha256(DECOMPOSITION_NOTE_PATH)},
+            "registered_results": {"path": pc._display(RESULTS_PATH), "sha256": pc._sha256(RESULTS_PATH)},
+            "snapshot_date": SNAPSHOT_DATE,
+            "definitions": {
+                "frontier_event": "the tool (or event kind) at the registered prefix frontier; 'none' when the ingested trajectory is all read-only",
+                "distance_from_frontier": "calls from the frontier call to the first call of the best beyond-frontier groundable region (1 = the call right after the frontier)",
+                "pass_through_pure_frontier": "the registered frontier recomputed so that a PURE-effect tool call and its result do not end the opening; windows are unchanged",
+                "attributable_to_pure_calls": "traces with a beyond-frontier groundable region under the registered frontier but not under the pass-through frontier",
+            },
+            "mining_parameters": MINING,
+            "corpora": rows,
+        }
+        DECOMPOSITION_PATH.write_text(json.dumps(payload, indent=2, sort_keys=True, default=str) + "\n", encoding="utf-8")
+        print(f"wrote {pc._display(DECOMPOSITION_PATH)}")
         return
 
     smoke_rows: dict[str, Any] = {}
