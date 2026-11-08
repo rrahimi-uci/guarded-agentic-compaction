@@ -1162,7 +1162,7 @@ def build_decisions() -> list[dict[str, Any]]:
 
 DECISIONS_CAPTION = (
     r"What the compiler decided without human input (last column: what the author of a hand-written program must know). "
-    r"\emph{Admits}: replay gate passed (92/92 clean groups, bound 0.0498 $\le$ 0.05; end to end for time-forward). "
+    r"\emph{Admits}: replay gate passed (92/92 clean groups, per-candidate bound 0.0498 $\le$ 0.05; end to end for time-forward). "
     r"\emph{Retires}: the agent runs unchanged. PR: pull request.")
 DECISIONS_WIDTHS = (0.17, 0.25, 0.34, 0.18)
 

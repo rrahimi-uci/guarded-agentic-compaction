@@ -1,5 +1,10 @@
 # Response draft for the three ICLR reviews
 
+> **Superseded on 2026-11-08** by the plain-text replies `paper/reviews/Ans-general.txt` and
+> `paper/reviews/Ans-{1,2,3}.txt`, which follow the 2026-11-08 audit (`paper/reviews/audit.md`).
+> Post those, not the blocks below.
+
+
 Status: author-review draft, not posted. Restructured on 2026-11-06 (plan
 `flip-plans.md`, WP3 tasks 3.1 to 3.3). The reviewed PDF is retained as
 `paper/reviews/openreview_submitted.pdf` (36 pages, created 2026-09-24; see
