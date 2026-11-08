@@ -58,3 +58,40 @@ the paper with its citation, but the replies do not use it.
 **Build:** `tectonic --outdir build main.tex` from `paper/iclr/`. The output is 63 pages, and §8
 (Conclusion) ends on page 10. `paper/iclr/build/main.pdf`, `paper/iclr/main-final.pdf` and
 `paper/iclr/upload/GAC_ICLR2027_revised.pdf` are refreshed from that build.
+
+
+## Third pass (2026-11-08, after three independent re-checks)
+
+Three fresh checks were run from the sources with the earlier work treated as untrusted: every number and
+pointer in the replies (107 items), a from-scratch claims audit of the abstract, §1, §5, the conclusion and
+the main-text captions (about 75 claims), and every cross-reference against the built PDF. No numeric
+mismatch was found in the paper. The edits below are wording and scoping corrections; none changes a
+headline number. Table, figure, section and appendix numbers are unchanged (label map identical to the
+second-pass build; 63 pages; §8 ends on page 10).
+
+| # | Location | Old | New | Evidence | Headline? |
+|---|---|---|---|---|---|
+| 16 | Abstract | "automates that step safely" | "automates that step under explicit guards" | No measured quantity is a safety quantity: the bounds are replay-contract violation rates on selected populations and final-answer failure rates on one family (Table 28). The only unqualified safety claim is removed. | No |
+| 17 | Abstract | "admits one only when ... support a finite-sample error bound"; "pull-request bounds cover final answers: no failure on 132 ... (90% upper bound 0.0173). A later study ... each admitted (bounds 0.023–0.042)" | "support a finite-sample bound on its violation rate"; "two pull-request studies bound final answers: no failure on 132 ... (one-sided 90% bound 0.0173), and, with one pull request per author sampled before any outcome filter, 3 misses in 760 groups across four repositories, each repository admitted (registered-grid bounds 0.023–0.042)" | The 0.0173 is the single-rule 90% bound and 0.023–0.042 are registered-grid bounds (per-threshold level 1−0.1/11); the two scales were unlabelled and "each admitted" was ambiguous. Numbers unchanged (time_forward certificate.json; multirepo summary.json). `paper/iclr/notes/snippets/abstract_for_openreview.txt` updated to match. | No |
+| 18 | Table 1, NESTFUL/API-Bank/BFCL row | "Nothing; no safety bound" | "Nothing; no admissible bound" | Same reason as 16. | No |
+| 19 | Table 1, AppWorld row | "1 admitted, 4 retired" | "1 of 6 admitted" | `appworld_compiler_execution.json` admission.B: six candidates reached calibration (groups 89, 92, 92, 90, 46, 26): one emitted, one dominated at 92/92, four retired; App. F.4 and Table 28 already say six. | No |
+| 20 | §1 | "(the traces the compiler learns from)" | "(the source of the compiler's traces)" | The compiler uses 116 exact traces of the 132 discovery runs (16/8/92 split; 2 excluded, 14 unused; compile report and the population audit), so the old parenthetical overstated what "all 132" are. | No |
+| 21 | §5.4 | "39/60 silent wrong answers in both arms (40 under the corrected grader)" | "39/60 silent wrong answers in both arms" | The retained `drift_continuation_graded/results.json` records 39/39; the 40 exists only in a protocol note, with no retained regraded artifact. The unsupported parenthetical is removed; 39 stays. | No |
+| 22 | §8 Conclusion | "cutting model cost 58.7–73.6%" | "cutting cost 58.7% (primary families) and 73.6% (eleven repositories)" | 58.7% is the three-family primary pool (90 records, Table 2); 73.6% is the eleven-repository PR-outcome end-to-end pool (3,560 groups, Table 19). A range joined two studies. | Wording of a headline sentence; numbers unchanged |
+| 23 | App. F.7 | "The one certificate whose event includes the continuation comes from a post-cutoff PR-outcome cohort"; "Every certificate except the post-cutoff one instantiates L(A,x)=1 as a replay-contract violation" | "The first certificate whose event ..."; "Every certificate except the PR-outcome end-to-end ones instantiates ..." | Table 28 lists three end-to-end rows (post-cutoff and the two multi-repository stages); §2 and §5.4 were already corrected in the second pass and these two sentences were stale. | No |
+| 24 | Table 28 caption | "or, in the last row, the primary grid" | "or, for the post-cutoff row, the primary grid" | The row with the parenthesized grid bound (0.0173 (0.035)) is the sixth of eight, not the last. | No |
+
+**Also in this pass (not paper changes):** the no-go record for the fresh-issue single-look gate replication
+(`paper/supplementary/fresh-issue-gate-single-look-protocol.md`, `paper/results/graded_issue_gate_tf/preflight.json`,
+`audit_tf.json`, scripts and tests) is brought onto the branch from `agent/c1-gate`, so the 277/197/117 figures used in
+Ans-3 now have a retained source; the upload README path to the abstract snippet is corrected; the replies and
+`review-map.md` corrections are listed in `audit.md` ("Third pass").
+
+**Left unchanged, with reasons:** §5.1 "1,362 fresh records" vs Table 3 "1,344": both correct (18 pilot episodes,
+App. J) and already noted in `audit.md`; adding the relation would risk the page budget for no change in meaning.
+Table 3's 100U level (0.05/6) is stated in App. K, not in the caption. The AppWorld retired bounds "1.000, 1.000" copy
+the compiler's no-threshold message (App. F.4 explains it).
+
+**Build:** `tectonic --outdir build main.tex` from `paper/iclr/`; 63 pages; §8 ends on page 10; label map identical to
+the second-pass build. `paper/iclr/build/main.pdf`, `paper/iclr/main-final.pdf` and `paper/iclr/upload/GAC_ICLR2027_revised.pdf`
+are refreshed (SHA-256 `d6cad56b0322cc3c681dbad76e2216f568a6a07feae8d3fd3cbe3037c84d97fe`).
