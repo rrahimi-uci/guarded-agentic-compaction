@@ -1141,6 +1141,69 @@ def validate_prefix_census() -> None:
             ok(fraction in text and percentage in text,
                f"prefix census: OpenHands {field} think count and share match the retained denominator")
 
+def validate_interior_census() -> None:
+    """The provider-free interior-region census (P0 of the expansion plan): registered protocol, regenerated table."""
+
+    import importlib.util
+
+    path = PAPER / "results/interior_census/results.json"
+    ok(path.exists(), "interior census: results.json exists")
+    data = load(path)
+    if not data:
+        return
+    protocol = PAPER / "supplementary/interior-region-census-protocol.md"
+    ok(protocol.exists() and sha256(protocol) == data.get("protocol", {}).get("sha256"),
+       "interior census: the registered protocol is unchanged since the run")
+    ok(data.get("mining_parameters") == {"max_depth": 2, "kappa": 3, "w_min": 2, "w_max": 12, "b_min": 2,
+                                          "entry_schema": ["inputs"]},
+       "interior census: mining parameters are the registered ones")
+    ok(data.get("max_calls_ingested") == 60, "interior census: 60 calls ingested per trajectory")
+    smoke_path = PAPER / "results/interior_census/smoke.json"
+    smoke = {r["corpus"]: r for r in (load(smoke_path) or {}).get("rows", [])} if smoke_path.exists() else {}
+    rows = {(row["corpus"], row["arm"]): row for row in data.get("corpora", [])}
+    for corpus in ("openhands", "sweagent", "taubench"):
+        ok((corpus, "primary") in rows, f"interior census: {corpus} primary row present")
+        row = rows.get((corpus, "primary"))
+        manifest = PAPER / f"results/datasets/{corpus}/source_manifest.json"
+        if row and manifest.exists():
+            pinned = load(manifest)
+            ok(pinned.get("revision") == row.get("revision"),
+               f"interior census: {corpus} result revision matches the pinned manifest")
+            catalog = ROOT / row["catalog"]["path"]
+            ok(catalog.exists() and sha256(catalog) == row["catalog"]["sha256"],
+               f"interior census: {corpus} signed catalog digest matches the result")
+            ok(corpus in smoke and smoke[corpus]["k"] == row["sample"]["k"],
+               f"interior census: {corpus} sampling divisor is the one fixed by the smoke run")
+    verdict = data.get("h1_verdict", {})
+    for key, row in rows.items():
+        for pol in ("strict", "projected"):
+            bf = row["policies"][pol]["beyond_frontier_groundable_ge2"]
+            ok(bf["count"] <= row["traces"] and abs(bf["share"] - bf["count"] / row["traces"]) < 1e-12,
+               f"interior census: {key[0]}/{key[1]}/{pol} beyond-frontier share is count/traces")
+            fam = row["policies"][pol]["families_beyond_frontier"]
+            h1 = row["policies"][pol]["h1"]
+            ok(h1 == {"share_threshold": 0.2, "floor": 92, "share_ok": bf["share"] >= 0.2,
+                      "floor_ok": fam["n_max"] >= 92, "pass": bf["share"] >= 0.2 and fam["n_max"] >= 92},
+               f"interior census: {key[0]}/{key[1]}/{pol} H1 flags follow the registered thresholds")
+        if key[1] == "primary":
+            ok(verdict.get("per_corpus", {}).get(key[0]) == row["policies"]["projected"]["h1"],
+               f"interior census: {key[0]} verdict is the primary arm's projected-policy H1")
+    ok(verdict.get("any_corpus_passes") == any(v["pass"] for v in verdict.get("per_corpus", {}).values()),
+       "interior census: any_corpus_passes follows the per-corpus verdicts")
+    table_path = PAPER / "iclr/tables/interior_census.tex"
+    ok(table_path.exists(), "interior census: table exists")
+    if table_path.exists():
+        spec = importlib.util.spec_from_file_location("interior_census", PAPER / "scripts/interior_census.py")
+        module = importlib.util.module_from_spec(spec)
+        assert spec.loader is not None
+        spec.loader.exec_module(module)
+        ok(module.table(data) == table_path.read_text(encoding="utf-8"),
+           "interior census: table regenerates byte-identically from results.json")
+    ok(r"\input{tables/interior_census.tex}" not in (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8"),
+       "interior census: the table is expansion-plan evidence and is not input by the ICLR appendix")
+    ok((PAPER / "results/interior_census/README.md").exists(), "interior census: README present")
+
+
 
 def validate_demo_suite() -> None:
     """Recompute the Tier-3 table from raw results rather than trusting the .tex.
@@ -4239,6 +4302,7 @@ FAMILIES: dict[str, Any] = {
     "continuation_replay": validate_continuation_replay,
     "nestful": validate_nestful,
     "prefix_census": validate_prefix_census,
+    "interior_census": validate_interior_census,
     "demo_suite": validate_demo_suite,
     "multidomain_preflight": validate_multidomain_preflight,
     "offline_comparator": validate_offline_comparator,
