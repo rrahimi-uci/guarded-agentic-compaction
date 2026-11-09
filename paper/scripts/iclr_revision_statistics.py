@@ -1102,7 +1102,7 @@ def _trace_benchmarks_row() -> dict[str, Any]:
         "decided": f"All retire ({_num(traces[0])}, {traces[1]}, {traces[2]} traces)",
         "why": (f"Largest family {support[0]}/{support[1]}/{support[2]} groups, {need} needed; "
                 f"replay: {sum(wrong)} wrong"),
-        "human": "Nothing; no safety bound",
+        "human": "Nothing; no admissible bound",
         "sources": ["nestful/results.json", _rel(EXT / "api_bank_execution.json"), _rel(EXT / "bfcl_compiler_execution.json")], "facts": facts}
 
 
@@ -1123,7 +1123,7 @@ def _appworld_row() -> dict[str, Any]:
     return {
         "id": "appworld",
         "saw": f"AppWorld, {facts['gold_tasks']} tasks",
-        "decided": (f"{arm['artifacts_admitted']} admitted, {facts['retired_at_calibration']} retired; "
+        "decided": (f"{arm['artifacts_admitted']} of {arm['candidates']} admitted; "
                     f"fires in {eligible} of {_num(total)} runs"),
         "why": (f"Gate {gate['accepted_groups']}/92; retired bounds "
                 f"{', '.join(f'{b:.3f}' for b in sorted(retire_bounds))}"),
