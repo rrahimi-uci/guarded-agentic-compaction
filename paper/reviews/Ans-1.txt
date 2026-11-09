@@ -1,74 +1,21 @@
-Response to Reviewer 1 (1/3)
+Response to Reviewer 1
 
-Thank you for the careful review. Your soundness points about the loss, the labels and the calibration population were correct, and we start with them. Weaknesses and questions are numbered in the order they appear in your review. Section, table and appendix numbers refer to the revised PDF; the September 24 version did not contain the studies cited below.
+Thank you for the careful review. Your soundness points were correct. Numbers refer to the revised PDF.
 
-Weakness 3 and Question 2: Section 2 puts downstream answer errors in the certified loss, but the calibration helper labels replay agreement only. Which 92-group labels include downstream answer errors?
+W3 and Q2 (loss includes downstream errors, labels measure replay agreement; which 92-group labels include answer errors?). None of them, and the reviewed loss and labels did not match. The labels come from grc/compile.py::_calibration_samples, which replays the frozen program over recorded tool results and compares outputs after the verifier accepts; the continuation never runs. So 0/92 (U = 0.0498) is a replay bound for one fixed candidate on the filtered population. Section 2 defines the loss per certificate; Table 28 names the event behind each. Two new studies grade final answers after the continuation: post-cutoff PR-outcome, one frozen candidate, 0 violations in 132 fresh pull requests, 90% bound 0.0173 (Section 5.4); and the multi-repository study below.
 
-Answer: none of them, and you are right that the reviewed loss and labels did not match. We narrowed the claim to what the labels measure, and we ran two new studies that grade final answers.
+W4 and Q3 (outcome-filtered calibration population; could excluded records pass the guard?). Yes. Appendix G accounts for all 396 discovery records (2, 1 and 0 excluded as inexact per family; 14, 15 and 16 eligible records unused after the 16/8/92 split). The three excluded records pass the saved guard and gate, so we withdraw the claim that the primary bounds cover the unfiltered population. The repair you suggest was run for PR-outcome (Appendix F.2, Table 19): one pull request per author, sampled before any outcome filter, every eligible group labelled, failures included, one candidate frozen per repository. Registered stage: four repositories all admitted, 3 violations in 760 groups (pooled U = 0.0133); Amendment 3, registered after those results were seen, added seven at n = 400: five admitted, node and cpython retired. Over eleven repositories the compiled, unchanged and hand-written arms meet 3,510, 3,507 and 3,504 of 3,560 contracts. Adverse: on godot the compiled arm trails the unchanged agent, 393 vs 399 (McNemar p = 0.070).
 
-- How the labels are made: src/guarded_agentic_compaction/grc/compile.py::_calibration_samples replays the frozen program over each calibration group's recorded tool results and, after the verifier accepts, compares the outputs with the recorded ones. The model continuation never runs. So the 92-group result (0 violations in 92 groups, one-sided upper bound U = 0.0498) is a replay bound for one fixed candidate on the filtered population, assuming i.i.d. groups.
-- Paper change: Section 2 now defines the loss per certificate ("verifier-passing replay-output mismatch for the primary bound; final task-contract failure for the end-to-end study"). Appendix C ("Calibration labels as computed") describes the labeling path, and Table 28 names the event behind every certificate. The three primary families keep replay certificates only.
-- New end-to-end evidence, where the compiled prefix runs, the model continues, and the final contract is graded:
-  - Post-cutoff PR-outcome: one candidate frozen before calibration, 0 violations in 132 fresh pull requests, 90% bound U = 0.0173 (Section 5.4; Appendix G; paper/results/time_forward/pr_outcome/certificate.json).
-  - Multi-repository study (new Appendix F.2, Table 19): 3 violations in 760 groups across four repositories, each admitted; pooled U = 0.0133. Details under Weakness 4.
+W2a (no comparison with EvoC2F or Agent JIT). No external compiler could be run: EvoC2F has no inspectable implementation (HTTP 401) and Agent JIT plans web tasks. We ran the matched comparison inside our pipeline instead (new Appendix N subsection): the shipped compiler four times over all 13 retained cohorts with statistical admission on/off and grounding on/off. Admission never changed a decision; grounding changed one (the issue-type third read, refused for an unwitnessed literal; replayed, 0 violations in 92 groups). A sealed pilot on 193 fresh issues (GAC recompiled from 128 fresh traces; three arms paired on 65) found the refusal did not recur, and the GAC, unguarded-replay and unchanged arms met the contract on 65/65, 63/65 and 64/65 at 1, 1 and 4 requests. No measured quality benefit of the guards on this workload, and no cost. Also new: an adapted Agent Workflow Memory comparison, 8,172 episodes on 1,362 fresh records, noninferior at a five-point margin in 5 of 6 cells at 36.9 to 79.1% lower cost (Table 3), and a design comparison (Table 46): none of the cited systems states a finite-sample bound after admission. We make no ranking claim against them.
 
-Weakness 4 and Question 3: the calibration population is filtered on successful traces. Could excluded records pass the deployed guard? Can the retained records account for every exclusion?
+W2b (reviewed Table 2 hard to interpret). It reports trace benchmarks on which no model runs, so it shows only whether compilation is feasible or refused; now Table 4 with a caption key. Quality where a live agent runs: GitHub 90/90 vs 89/90 (Table 2); BIRD 97 vs 94 on 150 sealed questions with 44.9% fewer requests, trailing on a second model and the training split (Section 5.2); end-to-end 3,510 vs 3,507.
 
-Answer: yes to both. The three excluded records pass the saved guard, so we withdraw the claim that the primary bounds cover the unfiltered deployment population, and we ran the repair you suggest for one family.
+W1 (introduction; issue #4420 without context). Agreed. Section 1 now defines the triage task before the example and says #4420 is one of 30 held-out records; the abstract and Section 1 are rewritten around automating the program an engineer would write.
 
-- Accounting (Appendix G, "Calibration population audit"; paper/results/calibration_population_audit/report.json, 396 of 396 records): each family has 132 discovery records. Issue-type routing excludes 2 inexact runs and leaves 14 eligible records unused after the 16/8/92 train/development/calibration allocation; PR-outcome excludes 1 and leaves 15 unused; backlog routing excludes none and leaves 16 unused. Every assigned calibration group has a matching labelled window. The excluded records, issues #539 and #2781 and PR #5700, pass the retained entry guard and gate under compatible manifest pins.
-- Repair, run for PR-outcome (Appendix F.2, Table 19): one pull request per distinct author, drawn before any outcome, class or recurrence filter; every eligible group labelled, failures included; one candidate frozen per repository before calibration. Registered stage: huggingface/datasets 1 violation in 200 groups, pandas 2/200, streamlit 0/160, pytorch 0/200, all admitted. Amendment 3 added seven repositories at n = 400; it was registered after the first four results were seen, and it selected repositories by design features only. Five were admitted (next.js, django, kubernetes, vscode, godot) and two retired (node, 14 violations in 400; cpython, 17 in 400). Over all eleven repositories the compiled, unchanged and hand-written arms meet 3,510, 3,507 and 3,504 of 3,560 final contracts.
-- Adverse result: on godot the compiled arm trails the unchanged agent, 393 vs 399 (McNemar p = 0.070).
-- Paper change: Section 4 states the filter and its consequence; Appendix G holds the audit; Appendix F.2 holds the new study. Issue-type and backlog routing keep the filtered population, and the paper says so.
+W5 and Q4 (lifecycle policy). Implemented: manifest checks at dispatch, expiry, retirement, rollback, kill switch, staged promotion. Not implemented: any failure-rate trigger or sequential guarantee. Proposed, not evaluated: suspension on a confirmed violation or invalidated pin; reactivation only after fresh disjoint calibration. Measured case: the retained PR-outcome artifact abstained on all 60 fresh pull requests of a new snapshot; a re-derived version was admitted after calibration on 132 groups. Appendix D separates implemented from proposed and cites SKILL.nb.
 
-(continued in 2/3)
+Q1 (references). Section 4 cites each benchmark with its release; Table 16 specifies the GitHub tasks; Appendix F.4 maps each external benchmark to its use .
 
-==========
+Q5 (content-addressed manifest). The record of prompt, model, tools, policies and effect catalog, each by version or digest; dispatch requires equality on every pinned field (Eq. 3), so a certificate does not transfer across a changed pin. The 60/60 abstentions above are this rule working.
 
-Response to Reviewer 1 (2/3)
-
-Weakness 2, first part: no comparison with other workflow compilers (EvoC2F, Agent JIT) on the cost-quality trade-off.
-
-Answer: no external compiler could be run, and the paper makes no ranking claim against them. We ran the matched comparison inside our own pipeline instead.
-
-- EvoC2F has no inspectable implementation (its anonymous code endpoint returned HTTP 401), and Agent JIT plans web tasks; our SQL adaptation of it is only a development probe. No external system has a runnable artifact, so we ran the matched comparison the protocol specifies within our pipeline: the shipped compiler four times over all 13 retained cohorts with statistical admission on/off and grounding on/off, same splits, manifests and mining (new Appendix N subsection). Admission never changed a decision; grounding changed one (the issue-type third read, refused for an unwitnessed literal; the grounding-off policies admit it, and its replay shows 0 violations in 92 groups). A sealed live pilot on 193 fresh post-cutoff issues then recompiled from 128 fresh traces and ran GAC, the unguarded replay of the same program and the unchanged agent paired on 65 issues: the refusal did not recur (all 16 training traces agreed), and the arms met the contract on 65/65, 63/65 and 64/65 at 1, 1 and 4 requests ($0.23). No measured quality benefit of the guards on this workload, and no cost.
-- What we did instead. (a) A pre-registered comparison with adapted offline Agent Workflow Memory: 8,172 episodes on 1,362 fresh records with two models, the six comparison cells using 1,344 records. GAC meets a five-point accuracy noninferiority margin in 5 of 6 workflow-model cells, at 36.9 to 79.1% lower estimated cost (Section 5.1, Table 3; Appendix K). (b) A comparison of design properties as each paper states them (Section 6; Appendix N, Table 46). TraceCompiler, PreAct, EvoC2F, Agent JIT, plan caching and AWM admit artifacts by support floors, test-pass thresholds, condition checks, key matches or one re-run; none states a finite-sample bound on the violation rate after admission. We also list what those systems do that GAC does not: writes, branches and loops, steps beyond the opening, online adaptation and latency scheduling.
-
-Weakness 2, second part: the reviewed Table 2 is hard to interpret and does not show the quality of the compiled segments.
-
-Answer: that table reports trace benchmarks on which no model runs, so it can only show whether compilation is feasible or refused. Answer quality is measured where a live agent runs.
-
-- The reviewed Table 2 is now Table 4 (all four trace substrates in Table 20), with plain-word column names and a key in the caption. Example: NESTFUL's largest family has 26 of the 92 supporting groups the bound needs, so every family retires.
-- Quality of compiled segments: on GitHub (Table 2), 90/90 held-out contracts for the compiled agent and for hand-written programs, against 89/90 for the unchanged agent. On BIRD text-to-SQL (Section 5.2), 97 against 94 correct on 150 sealed questions, with 44.9% fewer requests than a warm rerun of the unchanged agent; on a second model and on the training split the compiled agent trails warm reruns of the unchanged agent (93 vs 95; 402 vs 412). In the end-to-end studies above, 3,510 against 3,507 contracts.
-
-Weakness 1: the introduction is hard to follow, and issue #4420 appears without context.
-
-Answer: agreed. The first page now defines the task before the example. Section 1 reads: "Consider GitHub issue triage, one of three workflow families we study: given an issue number from the public huggingface/datasets snapshot, the agent returns a label-based category, the issue title, and an exact evidence excerpt." Issue #4420 is one of the 30 held-out issue-type records, used as a worked example. The abstract and Section 1 were rewritten around what GAC is for (automating the program an engineer would write, and refusing elsewhere), with three one-sentence contributions.
-
-(continued in 3/3)
-
-==========
-
-Response to Reviewer 1 (3/3)
-
-Weakness 5 and Question 4: the lifecycle policy is underspecified. What evidence triggers recompilation or retirement, what calibration is needed before reactivation, and which parts are implemented?
-
-Answer: the implemented controls are manifest checks, expiry, retirement, rollback, a kill switch and staged promotion. No trigger reacts to accumulating failures or to a distribution change that passes the guards, and the paper now says so.
-
-- Implemented: any incompatible manifest (a change to a pinned model, prompt, tool, policy, effect catalog or snapshot) is rejected at dispatch; presets expire; artifacts can be retired, rolled back or switched off.
-- Not implemented: no failure-rate trigger, no sequential confidence guarantee, no measured repair benefit.
-- Proposed, not evaluated: suspend on a confirmed committed contract violation or an invalidated pin; audit task outcomes and fallback rates against a prospectively specified monitoring rule; reactivate only as a new version with a declared target population, a frozen candidate and loss, and fresh disjoint calibration that includes failed baseline runs.
-- Measured case: on a new snapshot the retained PR-outcome artifact abstained on all 60 fresh test pull requests; a re-derived version was admitted only after fresh calibration on 132 groups (post-cutoff study, Appendix G).
-- Paper change: Appendix D, "Implemented lifecycle controls and proposed renewal policy", which cites SKILL.nb; one sentence in Section 7.
-
-Question 1: complete references for the benchmarks.
-
-Answer: the GitHub families use the pinned public snapshot helmo/github-issues, revision e344be7b (Table 5); BIRD, Li et al. 2023, release dev_20240627; NESTFUL, Basu et al. 2025; AppWorld gold solutions and released agent runs, Trivedi et al. 2024; API-Bank, Li et al. 2023; BFCL v4, Patil et al. 2025. AgentHop (Park et al. 2026) is used only for development gates (Appendix L). Section 4 cites each benchmark it uses; Table 16 specifies the three GitHub tasks, and Appendix F.4 maps each external benchmark to its use. In the main results no model runs on NESTFUL, AppWorld, API-Bank or BFCL v4; they are compiler substrates.
-
-Question 5: what is a "content-addressed execution manifest", and why does it matter for the episode definition?
-
-Answer: it is the record of which prompt, model, tools, policies and effect catalog an episode ran under, each identified by version or content digest. Section 2 now says: "The manifest identifies the prompt, model, tools, policies, and effect catalog by version or content digest; its compatibility pins define which execution environment an artifact may replace." It matters because an episode counts as evidence for an artifact only under a compatible manifest, and dispatch requires equality on every pinned field (Eq. 3), so a certificate does not transfer to a changed model, prompt, tool or snapshot. The 60/60 abstentions above are this rule working.
-
-Summary of the changes: (1) loss, labels and claims are aligned, with replay certificates for the primary families and end-to-end certificates from two new studies; (2) a calibration-population audit was added and the unfiltered-population claim withdrawn; (3) an unfiltered, author-unit end-to-end study ran across eleven repositories; (4) an adapted AWM comparison and a design comparison with other compilers were added, with no ranking claim against EvoC2F or Agent JIT; (5) the introduction, task definitions, manifest definition and lifecycle policy were rewritten.
-
-We are glad to answer anything further during the discussion period.
+We are glad to answer anything further.
