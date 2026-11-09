@@ -528,3 +528,15 @@ OpenReview's 5,000-character limit may count a line break as two characters. Eve
 stays under 4,900 even under that count (characters, then with each newline counted twice): general 4,846 /
 4,870; R1 4,267 / 4,012 / 3,616 and 4,290 / 4,032 / 3,638; R2 4,866 / 4,866 and 4,891 / 4,895; R3 4,201 / 3,397 and 4,224 / 3,416.
 Wording only; no number or pointer changed.
+
+## Single-post replies (2026-11-09)
+
+Each reviewer reply is now one official comment, not a multi-part thread, so the whole file must fit the
+5,000-character limit. Ans-1, Ans-2 and Ans-3 were condensed from 11,924 / 9,883 / 7,613 characters by removing
+restated reviewer text, the per-reply change summaries, repeated pointers and connective sentences. Every
+reviewer point keeps its answer and every number is one already verified in the passes above; no new number
+was introduced. Lengths (characters / with line breaks counted twice): general 4,846 / 4,870;
+R1 4,868 / 4,888; R2 4,825 / 4,839; R3 4,847 / 4,857.
+Dropped from the replies and left to the paper: the excluded record numbers (#539, #2781, PR #5700; App. G),
+the per-repository registered-stage counts in Ans-1 (kept in Ans-3 and Table 19), BIRD's second-model figures in
+Ans-1 (kept in Ans-2), the AgentHop detail, and the "Summary of the changes" paragraphs (covered by Ans-general).
