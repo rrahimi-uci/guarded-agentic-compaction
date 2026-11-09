@@ -19,8 +19,8 @@ Status: ready for the author to upload. Nothing here has been posted to OpenRevi
 
 ## 2. Post the replies in this order
 
-The replies are plain text in `paper/reviews/`. Each part is under 5,000 characters, and parts are
-separated by a line of `==========`. Post each part as its own official comment.
+The replies are plain text in `paper/reviews/`. Each part is under 4,900 characters even if line breaks
+are counted twice, and parts are separated by a line of `==========`. Post each part as its own official comment.
 
 | Order | File | Post as | Parts |
 |---:|---|---|---|

@@ -521,3 +521,10 @@ requests 1.00/1.00/4.00, dispatched 65, McNemar p = 0.50 and 1.0, misses 7624 / 
 `expansion_synthesis/power.json`. The "15 of 16 training windows used 100" figure is the funnel's majority log
 (`modal_share` 15/16). No mismatch. Reply part lengths after the edits: general 4,998; R1 4,267 / 4,012 / 3,616;
 R2 4,875 / 4,993; R3 4,201 / 3,397; all under 5,000.
+
+## Length margin (2026-11-09)
+
+OpenReview's 5,000-character limit may count a line break as two characters. Every part was re-trimmed so that it
+stays under 4,900 even under that count (characters, then with each newline counted twice): general 4,846 /
+4,870; R1 4,267 / 4,012 / 3,616 and 4,290 / 4,032 / 3,638; R2 4,866 / 4,866 and 4,891 / 4,895; R3 4,201 / 3,397 and 4,224 / 3,416.
+Wording only; no number or pointer changed.
