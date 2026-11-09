@@ -14,7 +14,7 @@ W1 (introduction; issue #4420 without context). Agreed. Section 1 now defines th
 
 W5 and Q4 (lifecycle policy). Implemented: manifest checks at dispatch, expiry, retirement, rollback, kill switch, staged promotion. Not implemented: any failure-rate trigger or sequential guarantee. Proposed, not evaluated: suspension on a confirmed violation or invalidated pin; reactivation only after fresh disjoint calibration. Measured case: the retained PR-outcome artifact abstained on all 60 fresh pull requests of a new snapshot; a re-derived version was admitted after calibration on 132 groups. Appendix D separates implemented from proposed and cites SKILL.nb.
 
-Q1 (references). Section 4 cites each benchmark with its release; Table 16 specifies the GitHub tasks; Appendix F.4 maps each external benchmark to its use .
+Q1 (references). Section 4 cites each benchmark with its release; Table 16 specifies the GitHub tasks; Appendix F.4 maps each external benchmark to its use.
 
 Q5 (content-addressed manifest). The record of prompt, model, tools, policies and effect catalog, each by version or digest; dispatch requires equality on every pinned field (Eq. 3), so a certificate does not transfer across a changed pin. The 60/60 abstentions above are this rule working.
 
