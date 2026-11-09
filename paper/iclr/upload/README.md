@@ -6,14 +6,16 @@ Status: ready for the author to upload. Nothing here has been posted to OpenRevi
 
 - File: [`GAC_ICLR2027_revised.pdf`](GAC_ICLR2027_revised.pdf), a copy of `paper/iclr/build/main.pdf`
   (also copied to `paper/iclr/main-final.pdf`).
-- 63 pages; the main text ends on page 10 (the ICLR limit). Built with `tectonic --outdir build main.tex`
+- 64 pages; the main text ends on page 10 (the ICLR limit). Built with `tectonic --outdir build main.tex`
   from `paper/iclr/`.
-- SHA-256: `d6cad56b0322cc3c681dbad76e2216f568a6a07feae8d3fd3cbe3037c84d97fe`. Record it next to the
+- SHA-256: `a351a1890e58cd2103db6e5e51c297805d5f294d9ef6340b5f2d52ccb9710b83`. Record it next to the
   upload date when you upload.
 - The revised abstract for the OpenReview form is `../notes/snippets/abstract_for_openreview.txt`.
 - This build includes the 2026-11-08 audit corrections (second and third passes) listed in
-  `paper/reviews/paper-changes.md` and the decision audit examples in Appendix O. Table, figure,
-  section and appendix numbers are unchanged from the second-pass build.
+  `paper/reviews/paper-changes.md`, the decision audit examples in Appendix O, and the 2026-11-09
+  fourth-pass addition: an Appendix N subsection with the same-IR compiler funnel and the fresh-issue
+  live pilot (Tables 47 and 48, placed after Table 46). Every other table, figure, section and
+  appendix number is unchanged from the second-pass build.
 
 ## 2. Post the replies in this order
 
@@ -32,7 +34,7 @@ These replies supersede the earlier per-post drafts generated from
 
 ## 3. Checked before packaging
 
-- Every number in the replies appears in the text of this PDF.
+- Every number in the replies appears in the text of this PDF (re-checked after the fourth pass).
 - The claims in the paper were audited against the raw results: `paper/reviews/audit.md`, with
   re-derivation scripts in `paper/reviews/audit_scripts/`.
 - Every reviewer point is classified in `paper/reviews/review-map.md`.

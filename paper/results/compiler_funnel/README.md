@@ -73,7 +73,7 @@ blocked for every policy).
 
 `results.json` (per cohort and policy: artifacts, every candidate with stage, reason, gate, challenge
 and calibration-replay counts, mining blocks, config; divergence set; reproduction check against the
-retained decision), `paper/iclr/tables/compiler_funnel.tex` (generated; not input by the paper).
+retained decision), `paper/iclr/tables/compiler_funnel.tex` (generated; input by Appendix N of the revised paper since the 2026-11-09 rebuttal pass).
 Reproduce with `python paper/scripts/compiler_funnel.py run` (needs the pinned snapshots on disk; the
 multi-repository snapshots are read from `benchmarks/.cache/multirepo_e2e/<owner>__<repo>/`) and
 `python -m pytest paper/scripts/test_compiler_funnel.py -q`.

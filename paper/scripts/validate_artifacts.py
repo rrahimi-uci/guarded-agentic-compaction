@@ -1288,8 +1288,8 @@ def validate_compiler_funnel() -> None:
         spec.loader.exec_module(module)
         ok(module.table(data) == table_path.read_text(encoding="utf-8"),
            "compiler funnel: table regenerates byte-identically from results.json")
-    ok(r"\input{tables/compiler_funnel.tex}" not in (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8"),
-       "compiler funnel: the table is expansion-plan evidence and is not input by the ICLR appendix")
+    ok(r"\input{tables/compiler_funnel.tex}" in (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8"),
+       "compiler funnel: the table is input by Appendix N (rebuttal fourth pass, 2026-11-09)")
     ok((PAPER / "results/compiler_funnel/README.md").exists(), "compiler funnel: README present")
 
 
@@ -1346,8 +1346,8 @@ def validate_compiler_funnel_pilot() -> None:
         spec.loader.exec_module(module)
         ok(module.table(data) == table_path.read_text(encoding="utf-8"),
            "funnel pilot: table regenerates byte-identically from results.json")
-    ok(r"\input{tables/compiler_funnel_pilot.tex}" not in (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8"),
-       "funnel pilot: the table is expansion-plan evidence and is not input by the ICLR appendix")
+    ok(r"\input{tables/compiler_funnel_pilot.tex}" in (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8"),
+       "funnel pilot: the table is input by Appendix N (rebuttal fourth pass, 2026-11-09)")
     ok((base / "README.md").exists(), "funnel pilot: README present")
 
 

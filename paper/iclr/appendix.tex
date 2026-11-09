@@ -1968,7 +1968,8 @@ agent trajectories into reusable procedures or workflows
   \centering
   \caption{Design properties of trace-reuse systems as stated in each paper.
   The comparison is of design, not of measured performance; no matched execution
-  comparison is reported.}
+  comparison with an external system is reported (\cref{app:compiler-funnel} runs
+  the matched comparison within \method's own pipeline).}
   \label{tab:compiler-comparison}
   \scriptsize
   \setlength{\tabcolsep}{3pt}
@@ -1994,6 +1995,70 @@ not: they compile writes (with compensation in EvoC2F), branches, loops, and
 fan-out, apply beyond the opening of a task, adapt online or learn their planners,
 schedule for latency, work from traces without recorded outputs (TraceCompiler),
 and, for EvoC2F, evaluate a staged deployment lifecycle.
+
+\subsection{Same-IR compiler funnel and a live pilot on fresh issues}
+\label{app:compiler-funnel}
+No external trace-reuse compiler has a runnable artifact (TraceCompiler releases no
+executable; EvoC2F's code endpoint returned HTTP 401), so the matched comparison was run
+inside \method's own pipeline. The shipped compiler was run four times over every retained
+GitHub discovery cohort with two switches: statistical admission on or off ($\alpha=0.05$ or
+$\alpha=1$, every supported candidate admitted) and grounding on or off (an ungroundable slot
+is refused, or bound to its modal training literal). Splits, manifests, catalogs and mining are
+identical; the protocol was registered before any policy other than the shipped one ran; and
+the full policy reproduces every retained decision (same artifact, same rejection stages) on
+all thirteen cohorts (\cref{tab:compiler-funnel}). Support-only admission admits exactly what
+full admission admits on every cohort, the compile-time counterpart of the runtime null of
+\cref{app:generalization-gate}: with 92 clean calibration groups the gate admits at full
+coverage and the support floor already decides. Grounding changed one decision in thirteen.
+It refused the issue-type three-read candidate whose \texttt{limit} argument has no witness
+(15 of 16 training windows used 100, one used 1); the grounding-off policies admit it with
+\texttt{limit = 100}, and replayed on the 92 calibration groups that program has zero
+violations and one unproductive sample. On this cohort the refusal therefore cost one request
+per episode and prevented no replay-visible error, consistent with
+\cref{tab:recurrence-only}. PR-outcome, backlog attention and the ten repositories are equal
+by construction: every slot of their mined window is grounded, so no policy can differ.
+
+\begin{table}[!h]
+  \centering
+  \caption{Same-IR compiler funnel over the thirteen retained GitHub discovery cohorts: the
+  program each policy admits. ``2-read'' is the record-and-labels prefix, ``3-read'' adds the
+  comments read. Replay counts are violations and unproductive samples among the 92 calibration
+  groups of the divergent candidate.}
+  \label{tab:compiler-funnel}
+  \scriptsize
+  \setlength{\tabcolsep}{3pt}
+  \resizebox{\linewidth}{!}{\input{tables/compiler_funnel.tex}}
+\end{table}
+
+\paragraph{Live pilot on fresh issues.}
+Under a protocol sealed before any provider call, the issue-type family was re-run on 193
+post-cutoff \texttt{huggingface/datasets} issues (created after the pinned snapshot, each with
+at least one comment, none used by any retained study). The unchanged agent produced 128
+discovery episodes; \method{} recompiled from them with the retained configuration
+(16/8/92 split, registered grid); the four policies were re-run on the same traces; and three
+arms ran paired on the disjoint 65 test issues in a balanced Latin order
+(\cref{tab:compiler-funnel-pilot}). All sixteen training traces used \texttt{limit = 100}, so
+\method{} itself admitted the three-read program (92 calibration groups, zero violations, bound
+0.0498) and the four policies agreed: the retained refusal depended on which traces fell in the
+16-trace training split, not on a property of the workload. Live, the guarded program met the
+exact contract on 65/65 test issues at one provider request each and dispatched on every
+issue; the unguarded replay of the identical program met it on 63/65; the unchanged agent on
+64/65 at four requests. Every miss is a non-verbatim evidence excerpt with all other fields
+exact; none is a wrong or missing read, and the two compiled arms differ in how the evidence
+reaches the model (tool results in the transcript versus a JSON block in the user turn), so the
+difference (exact McNemar $p=0.50$) is not attributable to the guards. Sixty-five pairs detect a
+comparator miss rate of about 12\% at 80\% power. Provider spend was \$0.23. On this workload
+the funnel and the pilot show no measured quality benefit of grounding or statistical admission
+over recurrence-only compilation, and no cost beyond the one refused read.
+
+\begin{table}[!h]
+  \centering
+  \caption{Live pilot on 65 fresh post-cutoff issues, three arms paired per issue; per-issue
+  means. ``Exact'' is the exact source-grounded contract.}
+  \label{tab:compiler-funnel-pilot}
+  \small
+  \input{tables/compiler_funnel_pilot.tex}
+\end{table}
 
 \section{Decision Audit Examples}
 \label{app:decision-audit}
