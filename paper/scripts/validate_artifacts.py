@@ -1202,6 +1202,44 @@ def validate_interior_census() -> None:
     ok(r"\input{tables/interior_census.tex}" not in (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8"),
        "interior census: the table is expansion-plan evidence and is not input by the ICLR appendix")
     ok((PAPER / "results/interior_census/README.md").exists(), "interior census: README present")
+    # post-hoc frontier decomposition: descriptive, pinned to the registered results and its own note
+    dpath = PAPER / "results/interior_census/decomposition.json"
+    ok(dpath.exists(), "interior census: decomposition.json exists")
+    dec = load(dpath) if dpath.exists() else None
+    if not dec:
+        return
+    note = PAPER / "supplementary/interior-region-census-decomposition.md"
+    ok(note.exists() and sha256(note) == dec.get("note", {}).get("sha256"),
+       "interior census: decomposition note digest matches")
+    ok(dec.get("registered_results", {}).get("sha256") == sha256(path),
+       "interior census: decomposition was computed against the committed results.json")
+    ok(dec.get("status", "").startswith("post hoc"), "interior census: decomposition labelled post hoc")
+    drows = {row["corpus"]: row for row in dec.get("corpora", [])}
+    for corpus in ("openhands", "sweagent", "taubench"):
+        drow = drows.get(corpus)
+        ok(drow is not None, f"interior census: decomposition row for {corpus}")
+        if drow is None:
+            continue
+        for key in ("registered_frontier", "pass_through_pure_frontier"):
+            bf = drow[key]["beyond_frontier_groundable_ge2"]
+            ok(abs(bf["share"] - bf["count"] / drow["traces"]) < 1e-12 and
+               sum(drow[key]["start_call_index_histogram"].values()) == bf["count"],
+               f"interior census: {corpus} decomposition {key} share and histogram are consistent")
+        ok(sum(drow["frontier_event"].values()) == drow["traces"],
+           f"interior census: {corpus} frontier events sum to traces")
+        att = drow["attributable_to_pure_calls"]
+        ok(att["traces"] == drow["registered_frontier"]["beyond_frontier_groundable_ge2"]["count"]
+           - drow["pass_through_pure_frontier"]["beyond_frontier_groundable_ge2"]["count"],
+           f"interior census: {corpus} attributable count is the difference of the two frontiers")
+        ok(drow["pass_through_pure_frontier"]["beyond_frontier_groundable_ge2"]["count"]
+           <= drow["registered_frontier"]["beyond_frontier_groundable_ge2"]["count"],
+           f"interior census: {corpus} pass-through frontier never adds beyond-frontier regions")
+    trow, drow = rows.get(("taubench", "primary")), drows.get("taubench")
+    if trow and drow:
+        ok(drow["sample"]["k"] == 1 and drow["traces"] == trow["traces"] and
+           drow["registered_frontier"]["beyond_frontier_groundable_ge2"]["count"]
+           == trow["policies"]["projected"]["beyond_frontier_groundable_ge2"]["count"],
+           "interior census: decomposition reproduces the registered tau-bench projected count exactly")
 
 
 def validate_compiler_funnel() -> None:
@@ -1311,6 +1349,40 @@ def validate_compiler_funnel_pilot() -> None:
     ok(r"\input{tables/compiler_funnel_pilot.tex}" not in (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8"),
        "funnel pilot: the table is expansion-plan evidence and is not input by the ICLR appendix")
     ok((base / "README.md").exists(), "funnel pilot: README present")
+
+
+def validate_expansion_synthesis() -> None:
+    """The expansion-plan evidence synthesis: power table regenerates, drafts exist, nothing is input."""
+
+    import importlib.util
+
+    power = PAPER / "results/expansion_synthesis/power.json"
+    ok(power.exists(), "expansion synthesis: power.json exists")
+    data = load(power)
+    if not data:
+        return
+    fl = data.get("admission_floors", {})
+    ok(fl.get("registered_grid", {}).get("0") == 92 and fl.get("single_rule_95", {}).get("0") == 59,
+       "expansion synthesis: admission floors agree with the gate (92) and gac-expansion.md section 15 (59)")
+    table_path = PAPER / "iclr/tables/expansion_power.tex"
+    ok(table_path.exists(), "expansion synthesis: power table exists")
+    if table_path.exists():
+        spec = importlib.util.spec_from_file_location("expansion_power_table", PAPER / "scripts/expansion_power_table.py")
+        module = importlib.util.module_from_spec(spec)
+        assert spec.loader is not None
+        spec.loader.exec_module(module)
+        ok(module.build() == data, "expansion synthesis: power.json regenerates from the script")
+        ok(module.table(data) == table_path.read_text(encoding="utf-8"),
+           "expansion synthesis: power table regenerates byte-identically from power.json")
+    for rel in ("supplementary/expansion-evidence-synthesis.md", "iclr/sections/expansion_evidence_draft.tex"):
+        ok((PAPER / rel).exists(), f"expansion synthesis: {rel} present")
+    main_tex = (PAPER / "iclr/main.tex").read_text(encoding="utf-8") + (PAPER / "iclr/appendix.tex").read_text(encoding="utf-8")
+    ok("expansion_evidence_draft" not in main_tex and r"\input{tables/expansion_power.tex}" not in main_tex,
+       "expansion synthesis: the draft section and its table are not input by the ICLR build")
+    draft = (PAPER / "iclr/sections/expansion_evidence_draft.tex").read_text(encoding="utf-8")
+    for t in ("interior_census", "compiler_funnel", "compiler_funnel_pilot", "expansion_power"):
+        ok(f"tables/{t}.tex" in draft and (PAPER / f"iclr/tables/{t}.tex").exists(),
+           f"expansion synthesis: the draft inputs an existing table {t}")
 
 
 def validate_demo_suite() -> None:
@@ -4413,6 +4485,7 @@ FAMILIES: dict[str, Any] = {
     "interior_census": validate_interior_census,
     "compiler_funnel": validate_compiler_funnel,
     "compiler_funnel_pilot": validate_compiler_funnel_pilot,
+    "expansion_synthesis": validate_expansion_synthesis,
     "demo_suite": validate_demo_suite,
     "multidomain_preflight": validate_multidomain_preflight,
     "offline_comparator": validate_offline_comparator,

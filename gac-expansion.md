@@ -475,3 +475,15 @@ Dates marked (proj.) are third-party projections from the previous cycle; the of
 | B. Mechanism paper (Track E) | Interior-boundary contract, mutation contract, durable recovery, fault-injection evaluation | OOPSLA 2027 Round 2 (7 Apr 2027) is too close after a 10-16 week build; realistic targets are MLSys 2028 or OOPSLA 2028 Round 1 (~Oct 2027) | A workload with real writes; soundness argument for the ordered mutation IR; concurrency and crash tests of section 12 | Not an ML-venue paper; competes with durable-execution systems on their ground |
 
 Recommended order: P0 this week; P1 in parallel; decide A versus C on the census; Track E continues only as engineering, with no 2027 submission depending on it.
+
+### Status, 2026-11-08
+
+P0 (census), P1-lite (same-IR funnel) and the funnel's live pilot have run; the evidence and its
+limits are synthesized for path A in `paper/supplementary/expansion-evidence-synthesis.md`
+(LaTeX draft `paper/iclr/sections/expansion_evidence_draft.tex`, not input by the ICLR build).
+In one line each: H1 passes on tau-bench (one pattern, support 96 against a floor of 92) and on
+OpenHands (37.5% of it a `think`-frontier artifact), fails on SWE-agent; statistical admission
+changed no compile-time decision on 13 cohorts and grounding changed one, which did not recur on
+fresh issues and cost nothing measurable live (65/65 vs 63/65 vs 64/65); H2 and H4 remain
+unmeasured. The decision between A and C stays open on the census alone; A is fully supported
+by what is in hand.

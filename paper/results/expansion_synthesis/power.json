@@ -1,0 +1,85 @@
+{
+  "admission_floors": {
+    "registered_grid": {
+      "0": 92,
+      "1": 133,
+      "2": 168,
+      "3": 200,
+      "4": 231
+    },
+    "single_rule_90": {
+      "0": 45,
+      "1": 77,
+      "2": 105,
+      "3": 132,
+      "4": 158
+    },
+    "single_rule_95": {
+      "0": 59,
+      "1": 93,
+      "2": 124,
+      "3": 153,
+      "4": 181
+    }
+  },
+  "alpha": 0.05,
+  "delta": 0.1,
+  "grid_points": 11,
+  "h3_forced_runs_for_one_violation_95pct": {
+    "0.01": 299,
+    "0.02": 149,
+    "0.05": 59,
+    "0.1": 29
+  },
+  "min_discordant_for_significance": 6,
+  "notes": [
+    "Floors are accepted-group counts at the gate's threshold; realized coverage below 1.0 needs proportionally more sampled groups.",
+    "Pilot sensitivity assumes every miss is in the comparator arm; two-sided misses lower power further.",
+    "Forced-run counts are for one candidate at a stated true rate; they do not certify a rate, they detect one."
+  ],
+  "paired_pilot_sensitivity": [
+    {
+      "detectable_miss_rate_80pct_power": 0.2507,
+      "expected_misses_at_that_rate": 7.5,
+      "pairs": 30,
+      "power_at_observed_pilot_rate_2_of_65": 0.0
+    },
+    {
+      "detectable_miss_rate_80pct_power": 0.1189,
+      "expected_misses_at_that_rate": 7.7,
+      "pairs": 65,
+      "power_at_observed_pilot_rate_2_of_65": 0.015
+    },
+    {
+      "detectable_miss_rate_80pct_power": 0.0779,
+      "expected_misses_at_that_rate": 7.8,
+      "pairs": 100,
+      "power_at_observed_pilot_rate_2_of_65": 0.089
+    },
+    {
+      "detectable_miss_rate_80pct_power": 0.0522,
+      "expected_misses_at_that_rate": 7.8,
+      "pairs": 150,
+      "power_at_observed_pilot_rate_2_of_65": 0.316
+    },
+    {
+      "detectable_miss_rate_80pct_power": 0.0392,
+      "expected_misses_at_that_rate": 7.8,
+      "pairs": 200,
+      "power_at_observed_pilot_rate_2_of_65": 0.582
+    },
+    {
+      "detectable_miss_rate_80pct_power": 0.0262,
+      "expected_misses_at_that_rate": 7.9,
+      "pairs": 300,
+      "power_at_observed_pilot_rate_2_of_65": 0.901
+    },
+    {
+      "detectable_miss_rate_80pct_power": 0.0158,
+      "expected_misses_at_that_rate": 7.9,
+      "pairs": 500,
+      "power_at_observed_pilot_rate_2_of_65": 0.998
+    }
+  ],
+  "schema": "gac-expansion-power-table/v1"
+}

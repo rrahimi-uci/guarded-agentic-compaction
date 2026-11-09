@@ -1,0 +1,93 @@
+% DRAFT appendix section for a path-A resubmission (gac-expansion.md, section 16).
+% Not input by main.tex or appendix.tex; not part of the ICLR 2027 submission or rebuttal.
+% Source of every number: paper/supplementary/expansion-evidence-synthesis.md, section 6.
+\section{Where the Compiler's Decisions Come From: Census, Funnel and a Live Pilot}
+\label{app:expansion-evidence}
+
+This appendix reports three pre-registered studies run after the ICLR 2027 reviews. None adds a
+claim to the paper; together they say where the prefix compiler's scope ends, which of its two
+admission mechanisms decide anything on the retained workloads, and what one such decision costs
+when measured live.
+
+\paragraph{Interior headroom (census).}
+Over released trajectories of three agents we counted read-only regions of at least two calls
+that start \emph{after} the prefix frontier and whose arguments ground to the entry state or, at
+the region's boundary, to a prior result (Table~\ref{tab:interior-census}). The registered
+criterion (share $\ge 20\%$ and one family supported by $\ge 92$ independent groups) passes on
+OpenHands and $\tau$-bench and fails on SWE-agent. The $\tau$-bench pass is one pattern
+(``fetch every record the previous lookup listed'', support 96 tasks against a floor of 92) that
+needs boundary-local projection of a prior result; the OpenHands pass is 37.5\% attributable to
+a model-side \texttt{think} call that ends the registered prefix at call~0, and the remainder is
+the opening the prefix census already described. Interior reuse therefore has a target on
+structured-API agents and not, with the current grounding rule, on coding agents whose
+observations are text.
+
+\begin{table}[t]
+  \centering\small
+  \caption{Interior-region census (projected live-in policy; primary catalog). Families are
+  canonical window hashes and bound a compiled program's support from above.}
+  \label{tab:interior-census}
+  \input{tables/interior_census.tex}
+\end{table}
+
+\paragraph{Which mechanism decides (funnel).}
+We ran the shipped compiler four times over every retained GitHub discovery cohort with two
+switches: statistical admission on or off ($\alpha = 0.05$ or $1$) and grounding on or off (an
+ungroundable slot refused, or bound to its modal training literal). Splits, manifests and
+catalogs are identical; the full policy reproduces every retained decision
+(Table~\ref{tab:compiler-funnel}). Support-only admits exactly what \method{} admits on all
+thirteen cohorts, the compile-time counterpart of the runtime null of
+Appendix~\ref{app:generalization-gate}. Grounding changed one decision: it refused the issue-type
+three-read candidate whose \texttt{limit} had no witness (15 of 16 training windows used 100).
+The grounding-off policies admit it with \texttt{limit = 100}; replayed on the 92 calibration
+groups it has zero violations and one unproductive sample. On this cohort the refusal cost one
+request per episode and prevented no replay-visible error (compare Table~\ref{tab:recurrence-only}).
+
+\begin{table}[t]
+  \centering\small
+  \caption{Same-IR compiler funnel: the program each policy admits per cohort.}
+  \label{tab:compiler-funnel}
+  \resizebox{\linewidth}{!}{\input{tables/compiler_funnel.tex}}
+\end{table}
+
+\paragraph{The divergence, live, on fresh issues (pilot).}
+Under a sealed protocol we re-ran the issue-type family on 193 post-cutoff issues: 128 discovery
+episodes by the unchanged agent, a fresh compile with the retained configuration, and three arms
+paired on the disjoint 65 test issues (Table~\ref{tab:compiler-funnel-pilot}). All 16 training
+traces used \texttt{limit = 100}, so \method{} itself admitted the three-read program and all
+four policies agreed: the retained refusal was split-dependent, not a property of the workload.
+Live, the guarded program met the contract on 65/65 issues at one request each; the unguarded
+replay of the identical program on 63/65; the unchanged agent on 64/65 at four requests. Every
+miss is an excerpt paraphrase with all other fields exact; none is a wrong read, and the two
+compiled arms differ in how evidence reaches the model, so the 0 versus 2 contrast (exact
+McNemar $p = 0.50$) is not attributable to the guards. Provider spend was \$0.23.
+
+\begin{table}[t]
+  \centering\small
+  \caption{Live pilot on 65 fresh issues, paired arms; per-issue means.}
+  \label{tab:compiler-funnel-pilot}
+  \input{tables/compiler_funnel_pilot.tex}
+\end{table}
+
+\paragraph{What these sample sizes can see.}
+Table~\ref{tab:expansion-power} gives the accepted-group floors that admit $k$ violations under
+the registered grid and under the single rule of the end-to-end certificates, the comparator
+miss rate a paired pilot of $n$ issues detects at 80\% power when \method{}'s arm is clean, and
+the forced runs of a retired candidate needed to observe one violation. The 30-record ablation
+could see only a comparator missing a quarter of the time; the 65-pair pilot, about one in eight;
+about 150 pairs would be needed to see 5\%. On these workloads the binding constraint is fresh
+independent groups, not provider cost.
+
+\begin{table}[t]
+  \centering\small
+  \caption{Design arithmetic for admission and comparison at $\alpha = 0.05$.}
+  \label{tab:expansion-power}
+  \input{tables/expansion_power.tex}
+\end{table}
+
+\paragraph{What is not shown.}
+No external compiler was run (none has a runnable artifact); no adaptive workload was compiled;
+no candidate that \method{} retires and a simpler compiler deploys was force-run live, because the
+only such candidate in the retained cohorts ran clean under replay and was admitted by \method{}
+on fresh data. The paper's claim stays what it was: safe automation, under explicit guards and a
+finite-sample bound, of the read-only program a person would write by hand.
