@@ -507,3 +507,17 @@ Reports: `verify_replies.md`, `audit_third_pass.md`, `xref_check.md` (session sc
 
 - Upload PDF and README agreed before this pass (63 pages; SHA matched; build PDF byte-identical). After this pass the PDF is rebuilt with an identical label map; README SHA updated.
 - Fixed: `review-map.md` numbered Reviewer 1's weaknesses W1–W6 against the reviewer's five (now W1, W2a, W2b, W3, W4, W5, matching Ans-1); R3-Q1 row said all three primary families lack a selection-wide bound (issue-type routing, one candidate, has one); R1-W2 pointed to §2 for the design comparison (it is §6 and App. N); R3-Q2 arithmetic aligned with the no-go record; this file's App. C page (22), BIRD release note (it is in the paper, App. F.6) and C2 section (§5.2) corrected; upload README path to the abstract snippet corrected.
+
+## Fourth pass (2026-11-09, funnel and pilot folded into Appendix N and the replies)
+
+Scope: the new App. N subsection and every reply sentence that cites it. Each number was traced to the raw file:
+13 cohorts / 13 reproductions, support-only == full on all 13, one divergence with 0 violations and 1 unproductive
+of 92 (`compiler_funnel/results.json: summary, cohorts[issue_type]`); 277/197/193 pool, 128/65 split, 124 vs 4
+comment limits, 127 eligible (`compiler_funnel_pilot/preflight.json`, `discovery_checkpoint.json`); 16/16
+training agreement, dev 1 and calibration 3 `limit = 1`, gate 92/0/0.0498 (`compile.json`); 65/65, 63/65, 64/65,
+requests 1.00/1.00/4.00, dispatched 65, McNemar p = 0.50 and 1.0, misses 7624 / 7990, 8048 all
+`evidence_excerpt_exact` false with every other field true (`results.json: test`); spend 0.230647 USD
+(`ledger.json`). "65 pairs detect a comparator miss rate of about 12% at 80% power" is 11.9% from
+`expansion_synthesis/power.json`. The "15 of 16 training windows used 100" figure is the funnel's majority log
+(`modal_share` 15/16). No mismatch. Reply part lengths after the edits: general 4,998; R1 4,267 / 4,012 / 3,616;
+R2 4,875 / 4,993; R3 4,201 / 3,397; all under 5,000.

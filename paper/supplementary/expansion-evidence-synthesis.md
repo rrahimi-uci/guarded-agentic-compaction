@@ -1,7 +1,8 @@
 # Expansion-plan evidence, synthesized for a path-A resubmission
 
-**Status: draft written 2026-11-08 from retained results only. Nothing here is in the ICLR 2027
-submission or its rebuttal; nothing here is to be posted during the discussion window.** It
+**Status: draft written 2026-11-08 from retained results only. Update 2026-11-09: the funnel and
+the pilot (sections 3.2 and 3.3) are now reported in Appendix N of the revised ICLR PDF and cited in the
+replies; the census and the power arithmetic are not in the submission.** It
 assembles the three studies run against `gac-expansion.md` (P0 census, P1-lite funnel, the
 funnel's live pilot) into the section a strengthened resubmission (path A of §16) would carry,
 states what each result does and does not support, and fixes the design arithmetic for the

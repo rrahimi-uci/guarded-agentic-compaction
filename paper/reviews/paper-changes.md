@@ -95,3 +95,27 @@ the compiler's no-threshold message (App. F.4 explains it).
 **Build:** `tectonic --outdir build main.tex` from `paper/iclr/`; 63 pages; §8 ends on page 10; label map identical to
 the second-pass build. `paper/iclr/build/main.pdf`, `paper/iclr/main-final.pdf` and `paper/iclr/upload/GAC_ICLR2027_revised.pdf`
 are refreshed (SHA-256 `d6cad56b0322cc3c681dbad76e2216f568a6a07feae8d3fd3cbe3037c84d97fe`).
+
+## Fourth pass (2026-11-09, compiler funnel and live pilot folded in)
+
+After the third pass, two further pre-registered studies were run and merged (`paper/results/compiler_funnel/`,
+`paper/results/compiler_funnel_pilot/`). They are the same-IR form of the matched compiler comparison R1 and R2
+asked for, so the reply text that called that comparison "designed but not run" was out of date. Both are
+now reported in the paper and cited in the replies. Nothing in the main text changes; the main text still ends
+on page 10.
+
+| # | Location | Old | New | Evidence | Headline? |
+|---|---|---|---|---|---|
+| 25 | App. N, new subsection "Same-IR compiler funnel and a live pilot on fresh issues" (Tables 47, 48) | (absent) | Four-policy funnel over the 13 retained cohorts: support-only admits what full admission admits everywhere; grounding changed one decision (issue-type third read; replay 0 violations, 1 unproductive of 92). Sealed pilot on 193 fresh issues: GAC admitted the three-read program (16/16 training agreement; 92 groups, 0 violations, bound 0.0498); arms 65/65, 63/65, 64/65 at 1, 1, 4 requests; every miss a non-verbatim excerpt; McNemar p = 0.50; $0.23. | `compiler_funnel/results.json`, `compiler_funnel_pilot/results.json`, `compile.json`; both tables regenerate from JSON (validator). | No new headline claim; the subsection states no measured guard benefit. |
+| 26 | Table 46 caption | "no matched execution comparison is reported" | "no matched execution comparison with an external system is reported (App. N runs the matched comparison within GAC's own pipeline)" | Same studies. | No |
+
+**Replies:** Ans-general (opening sentence; point 5; "Not done" paragraph), Ans-1 part 2 (W2a now reports the funnel
+and pilot instead of "designed, not run"), Ans-2 part 1 (W1b: what the automatic decisions are worth) and part 2
+(W2a; summary item 7), Ans-3 part 2 (compile-time support-only equals full admission on 13 cohorts). All parts
+re-measured under 5,000 characters. `review-map.md` rows R1-W2a, R2-W1b, R2-W2a and R3-Q2 and the NEEDS EXPERIMENT
+table are updated; the external-compiler, adaptive-workload and two-coverage-level items stay "not run".
+
+**Build:** `tectonic --outdir build main.tex` from `paper/iclr/`; 64 pages; §8 ends on page 10; label map identical to
+the third-pass build except the two new tables (47, 48) appended after Table 46. `paper/iclr/build/main.pdf`,
+`paper/iclr/main-final.pdf` and `paper/iclr/upload/GAC_ICLR2027_revised.pdf` are refreshed
+(SHA-256 `a351a1890e58cd2103db6e5e51c297805d5f294d9ef6340b5f2d52ccb9710b83`).
