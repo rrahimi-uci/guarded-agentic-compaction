@@ -8,7 +8,7 @@ Status: ready for the author to upload. Nothing here has been posted to OpenRevi
   (also copied to `paper/iclr/main-final.pdf`).
 - 64 pages; the main text ends on page 10 (the ICLR limit). Built with `tectonic --outdir build main.tex`
   from `paper/iclr/`.
-- SHA-256: `a351a1890e58cd2103db6e5e51c297805d5f294d9ef6340b5f2d52ccb9710b83`. Record it next to the
+- SHA-256: `154d1a72fc761a4e12842f446ed5e16ac42ff59f0304a49f8b0c0de8f736878e`. Record it next to the
   upload date when you upload.
 - The revised abstract for the OpenReview form is `../notes/snippets/abstract_for_openreview.txt`.
 - This build includes the 2026-11-08 audit corrections (second and third passes) listed in
@@ -16,6 +16,10 @@ Status: ready for the author to upload. Nothing here has been posted to OpenRevi
   fourth-pass addition: an Appendix N subsection with the same-IR compiler funnel and the fresh-issue
   live pilot (Tables 47 and 48, placed after Table 46). Every other table, figure, section and
   appendix number is unchanged from the second-pass build.
+- 2026-11-09 fifth pass: Table 1 now reads "no admissible bound" and "1 of 6 admitted" (the two cells
+  the third-pass log recorded but had not applied), and Section 7 points to Appendices G and N.1 for the unrun
+  comparisons. No table, figure, section or appendix number changed. If you already uploaded the previous
+  PDF, replace it with this one.
 
 ## 2. Post the replies in this order
 
@@ -29,6 +33,7 @@ general 4,846 / 4,870; R1 4,868 / 4,888; R2 4,825 / 4,839; R3 4,847 / 4,857).
 | 2 | `paper/reviews/Ans-1.txt` | Reply to Reviewer 1 |
 | 3 | `paper/reviews/Ans-2.txt` | Reply to Reviewer 2 |
 | 4 | `paper/reviews/Ans-3.txt` | Reply to Reviewer 3 |
+| 5 (optional) | `paper/reviews/Ans-LLM.txt` | Official comment under the PAT "LLM Feedback by Program Chairs" thread, if you want the disposition on record; under 4,900 characters |
 
 These replies supersede the earlier per-post drafts generated from
 `paper/iclr/notes/review_response_2026-11-06.md`, which is kept as background.

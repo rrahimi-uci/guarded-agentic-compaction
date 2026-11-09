@@ -137,3 +137,18 @@ validation results. The current checklist distinguishes the ten-page revision
 format from the nine-page initial-submission requirement. Editorial closure is
 not empirical closure: missing comparators, dependence assumptions, and null
 gate results remain explicit limitations.
+
+## Re-audit, 2026-11-09 (64-page build after the ICLR discussion revision)
+
+An independent pass re-checked every row above against the current sources and PDF. All dispositions hold.
+Residuals:
+
+- **Applied now:** Table 1 cells "no admissible bound" and "1 of 6 admitted" (change-log items 18–19 had not reached
+  the generator); §7 now points to Appendix G (why no external compiler drops in) and Appendix N.1 (the same-IR
+  funnel and the fresh-issue pilot).
+- **Still open, deferred for the page budget:** "per-candidate" in the abstract and §1 (stated in §5.4 and the
+  Table 1 caption); a §7 sentence on the unexercised `min_days` and cluster-unit controls (stated in Appendix G);
+  appendix pointers after six main-text table references (cleveref gives the table number; the captions of the
+  manual-resources and Table 4 entries already name their appendix).
+- **New since this ledger:** Appendix N.1 (same-IR compiler funnel; sealed live pilot on 193 fresh issues) answers
+  W1/6 more directly than the design table alone; the reviewer replies cite it.

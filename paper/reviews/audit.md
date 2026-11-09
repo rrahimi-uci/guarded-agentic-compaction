@@ -540,3 +540,12 @@ R1 4,868 / 4,888; R2 4,825 / 4,839; R3 4,847 / 4,857.
 Dropped from the replies and left to the paper: the excluded record numbers (#539, #2781, PR #5700; App. G),
 the per-repository registered-stage counts in Ans-1 (kept in Ans-3 and Table 19), BIRD's second-model figures in
 Ans-1 (kept in Ans-2), the AgentHop detail, and the "Summary of the changes" paragraphs (covered by Ans-general).
+
+## Fifth pass (2026-11-09, PAT re-audit and Table 1)
+
+Found: change-log entries 18–19 (Table 1 cells) were never applied to the generated table; the uploaded PDF carried
+"no safety bound" and "1 admitted, 4 retired" (page 7). Fixed in `iclr_revision_statistics.py` and regenerated; the
+AppWorld cell derives "6" from `arm['candidates']`, matching App. F.4 and Table 28. §7 gains one pointer. Every
+number in `Ans-LLM.txt` is one already verified above (8,172 / 1,362; 0.0498 / 0.0569 / 106; 0.0503 at 91; 184 for
+c = 0.5; 2 of 2,340; 8,190; 84/30/2; 240/240/239). Ans-LLM length (characters / with line breaks counted twice):
+4,408 / 4,420. PDF SHA-256 `154d1a72fc761a4e12842f446ed5e16ac42ff59f0304a49f8b0c0de8f736878e`.

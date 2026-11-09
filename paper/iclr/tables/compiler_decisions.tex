@@ -37,10 +37,10 @@
   BIRD, schema-first design & Admits 26/31 databases; 97 vs 94/150 correct & Fixed opening (list tables, read all schemas); gate 92/92 & The schema-first design \\
   \addlinespace[1pt]
   % trace_benchmarks: paper/results/nestful/results.json; paper/results/external_benchmarks/api_bank_execution.json; paper/results/external_benchmarks/bfcl_compiler_execution.json
-  NESTFUL, API-Bank, BFCL v4 & All retire (1{,}415, 212, 200 traces) & Largest family 26/8/15 groups, 92 needed; replay: 0 wrong & Nothing; no safety bound \\
+  NESTFUL, API-Bank, BFCL v4 & All retire (1{,}415, 212, 200 traces) & Largest family 26/8/15 groups, 92 needed; replay: 0 wrong & Nothing; no admissible bound \\
   \addlinespace[1pt]
   % appworld: paper/results/external_benchmarks/appworld_compiler_execution.json; paper/results/external_benchmarks/appworld_dispatch_preflight.json
-  AppWorld, 136 tasks & 1 admitted, 4 retired; fires in 1 of 4{,}680 runs & Gate 92/92; retired bounds 0.051, 0.051, 1.000, 1.000 & That agents read docs first \\
+  AppWorld, 136 tasks & 1 of 6 admitted; fires in 1 of 4{,}680 runs & Gate 92/92; retired bounds 0.051, 0.051, 1.000, 1.000 & That agents read docs first \\
   \addlinespace[1pt]
   % bfcl_getter_that_writes: paper/results/external_benchmarks/bfcl_compiler_execution.json
   BFCL v4 getter & \code{get\_flight\_cost} blocked as a write & Effect barrier: writes state on 36/36 calls despite its name & That a \code{get} writes \\
